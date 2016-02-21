@@ -1,0 +1,47 @@
+{
+  "name": "express-router-decorator",
+  "version": "1.0.0",
+  "description": "Express Router decorator",
+  "main": "lib/index.js",
+  "scripts": {
+    "beforeinstall":"typings install",
+    "afterinstall":"tsc",
+    "beforetest":"tsc",
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/romakita/express-router-decorator.git"
+  },
+  "keywords": [
+    "Express",
+    "MVC",
+    "Typescript",
+    "Mongo"
+  ],
+  "author": "Romain Lenzotti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/romakita/express-router-decorator/issues"
+  },
+  "homepage": "https://github.com/romakita/express-router-decorator#readme",
+  "dependencies": {
+    "bluebird": "^3.3.1",
+    "httpexceptions": "^1.2.1",
+    "lodash": "^4.5.0",
+    "log-debug": "^1.1.4",
+    "source-map-support": "^0.4.0",
+    "typescript": "^1.7.5"
+  },
+  "direcories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5"
+  }
+}

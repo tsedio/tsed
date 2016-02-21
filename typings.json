@@ -1,0 +1,17 @@
+{
+  "name": "events-rest",
+  "ambientDependencies": {
+    "bluebird": "github:DefinitelyTyped/DefinitelyTyped/bluebird/bluebird.d.ts#e5a27ea95e47b95333784f1f0d590127b4e39a89",
+    "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#1914a00b3c740348dae407ee0d2be89b0b58ad7f",
+    "cookie-parser": "github:DefinitelyTyped/DefinitelyTyped/cookie-parser/cookie-parser.d.ts#fc341765ebbb04b7109981a25dced01f488f4d94",
+    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#e5a27ea95e47b95333784f1f0d590127b4e39a89",
+    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#7b7aa2027a8fb6219a8bcf1b6bb12bcd0ff9539d",
+    "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#e5a27ea95e47b95333784f1f0d590127b4e39a89",
+    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#d6dd320291705694ba8e1a79497a908e9f5e6617",
+    "mongoose": "github:DefinitelyTyped/DefinitelyTyped/mongoose/mongoose.d.ts#409dbd18a805aac7c2801e78472d46c544b0c8a9",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#366b936e62a6244a15f011e0ee0559b903d1dd65",
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#e5a27ea95e47b95333784f1f0d590127b4e39a89",
+    "superagent": "github:DefinitelyTyped/DefinitelyTyped/superagent/superagent.d.ts#b30dbc4dd32b3237cd78e9139c3fc270caaacacb",
+    "supertest": "github:DefinitelyTyped/DefinitelyTyped/supertest/supertest.d.ts#15852a714521bb27a8b4e129c7f48e7e1046cfdb"
+  }
+}
