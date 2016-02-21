@@ -4,12 +4,8 @@ node_js:
   - '0.12'
   - '4'
   - '5'
-
-install:
-  - npm install
-  - typings install
-  - tsc --version
-  - tsc
+before_install:
+  - npm install -g typings
 
 script:
   - "npm test"
