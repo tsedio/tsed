@@ -5,12 +5,10 @@ node_js:
   - '4'
   - '5'
 
-before_install:
-  - npm install -g typings typescript
-  - tsc --version
+install:
+  - npm install
   - typings install
-
-after_install:
+  - tsc --version
   - tsc
 
 script:

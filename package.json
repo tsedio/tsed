@@ -4,6 +4,7 @@
   "description": "Express Router decorator",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish":"typings"
     "beforeinstall":"typings install",
     "afterinstall":"tsc",
     "beforetest":"tsc",
