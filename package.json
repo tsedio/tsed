@@ -4,9 +4,8 @@
   "description": "Express Router decorator",
   "main": "lib/index.js",
   "scripts": {
-    "beforeinstall":"typings install",
-    "afterinstall":"tsc",
-    "beforetest":"tsc",
+    "preinstall":"typings install",
+    "postinstall":"tsc",
     "test": "mocha --reporter spec --check-leaks --bail test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
