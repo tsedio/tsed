@@ -1,2 +1,6 @@
-Express-router-decorator [![Build Status](https://travis-ci.org/Romakita/express-router-decorator.svg?branch=master)](https://travis-ci.org/Romakita/express-router-decorator) [![Coverage Status](https://coveralls.io/repos/Romakita/express-router-decorator/badge.svg?branch=master&service=github)](https://coveralls.io/github/Romakita/express-router-decorator?branch=master)
-===
+# Express-router-decorator 
+
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
