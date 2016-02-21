@@ -4,8 +4,8 @@
   "description": "Express Router decorator",
   "main": "lib/index.js",
   "scripts": {
-    "preinstall":"typings install",
-    "postinstall":"tsc",
+    "preinstall": "typings install",
+    "postinstall": "tsc",
     "test": "mocha --reporter spec --check-leaks --bail test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
@@ -41,6 +41,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "typings": "^0.6.8"
   }
 }
