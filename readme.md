@@ -1,0 +1,2 @@
+Express-router-decorator [![Build Status](https://travis-ci.org/Romakita/express-router-decorator.svg?branch=master)](https://travis-ci.org/Romakita/express-router-decorator) [![Coverage Status](https://coveralls.io/repos/Romakita/express-router-decorator/badge.svg?branch=master&service=github)](https://coveralls.io/github/Romakita/express-router-decorator?branch=master)
+===
