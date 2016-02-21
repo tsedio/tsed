@@ -6,8 +6,12 @@ node_js:
   - '5'
 
 before_install:
-  - npm install -g mocha typings typescript
+  - npm install -g typings typescript
   - tsc --version
+  - typings install
+
+after_install:
+  - tsc
 
 script:
   - "npm test"
