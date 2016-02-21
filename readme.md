@@ -1,8 +1,7 @@
 # Express-router-decorator 
 
 [![Build Status][travis-image]][travis-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
-
+[![Coverage Status][coveralls-image]][coveralls-url]
 
 
 
