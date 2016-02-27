@@ -3,11 +3,11 @@ import {MiddlewareFactory} from "./../lib/middleware-factory.ts";
 /**
  * Method decorator
  * @param method
- * @param path
+ * @param route
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Use(method, path?){
+export function Use(method, route?){
 
     return function (targetClass, methodClassName, descriptor){
         var originalMethod = descriptor.value;
@@ -25,7 +25,7 @@ export function Use(method, path?){
         }
 
         MiddlewareFactory(targetClass, methodClassName, {
-            path:       path,
+            path:       route,
             handlers:   handlers
         });
 

@@ -1,18 +1,20 @@
+import {parse} from "./parse";
 /**
  *
- * @param params
- * @param requiredParams
+ * @param expressionList
+ * @param scope
  * @returns {Array}
  */
-export function checkParamsRequired(params:any, requiredParams:string[]):string[]{
+export function checkParamsRequired(expressionList:string[], scope:any):string[]{
     var a = [];
 
-    for (var i = 0; i < requiredParams.length; i++) {
+    for (var i = 0; i < expressionList.length; i++) {
 
-        var key = requiredParams[i];
+        var expression = expressionList[i];
+        var value = parse(expression, scope);
 
-        if (params[key] === undefined) {
-            a.push(key);
+        if (value === undefined) {
+            a.push(expression);
         }
     }
 

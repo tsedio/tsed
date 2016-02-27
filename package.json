@@ -31,13 +31,13 @@
     "httpexceptions": "^1.2.1",
     "lodash": "^4.5.0",
     "log-debug": "^1.1.4",
-    "source-map-support": "^0.4.0",
-    "typescript": "^1.7.5"
+    "source-map-support": "^0.4.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "typescript": "^1.7.5"
   },
   "direcories": {
     "lib": "lib",

@@ -13,24 +13,20 @@ export function PromisifyFactory(targetClass, originalMethod){
             response.resolve = resolve;
             response.reject = reject;
 
-            try{
-                var returnedValue = originalMethod.call(targetClass, request, response, next);
-            }catch(er){
-                reject(er);
-            }
+            var returnedValue = originalMethod.call(targetClass, request, response, next);
 
-            if(returnedValue){
-                if(returnedValue.then){
-                    returnedValue.then(resolve, reject);
-                }else{
-                    resolve(returnedValue);
-                }
+            if(returnedValue && returnedValue.then){
+                returnedValue.then(resolve, reject);
+            }else{
+                resolve(returnedValue);
             }
 
         })
             .then(function(data){
 
                 if(data){
+                    response.setHeader('Content-Type', 'text/json');
+
                     switch(request.method){
                         case 'POST':
 
@@ -41,17 +37,17 @@ export function PromisifyFactory(targetClass, originalMethod){
                             break;
 
                         default:
-                            response.setHeader('Content-Type', 'text/json');
                             response.status(200);
                             response.json(data);
                             break;
                     }
                 }
 
-            })
+                return data;
 
-            .catch(function(err){
+            }, function(err){
                 next(err);
+                return Promise.reject(err);
             });
     }
 }

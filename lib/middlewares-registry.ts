@@ -7,7 +7,7 @@ const METHODS = ['all', 'get', 'put', 'post', 'delete', 'head'];
 
 export class MiddlewaresRegistry{
     protected handlers:iHandlerMiddleware[] = [];
-    protected path:string;
+    protected path:string = '';
     protected defaultMethod:string;
 
     constructor(){
@@ -33,6 +33,8 @@ export class MiddlewaresRegistry{
 
                 if(handler.method == 'auth' || handler.method == "required"){
                     this.handlers.unshift(handler);
+                }else{
+                    this.handlers.push(handler);
                 }
             }
 

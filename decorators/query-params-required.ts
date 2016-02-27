@@ -6,5 +6,5 @@ import {ParamsRequiredFactory} from "./../lib/params-required-factory";
  * @constructor
  */
 export function QueryParamsRequired(...paramsRequired){
-    return ParamsRequiredFactory('query', paramsRequired);
+    return ParamsRequiredFactory(paramsRequired, 'query');
 }

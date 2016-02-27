@@ -1,9 +1,9 @@
 
 import {checkParamsRequired} from "./check-params-required";
 import {MiddlewareFactory} from "./middleware-factory";
-import {BadRequest} from "httpexceptions";
+import {BadRequest} from "httpexceptions/lib/badrequest";
 
-export function ParamsRequiredFactory(type, paramsRequired){
+export function ParamsRequiredFactory(paramsRequired:any[], requestAttributes:string){
 
     return function(targetClass, methodClassName, descriptor) {
 
@@ -12,7 +12,7 @@ export function ParamsRequiredFactory(type, paramsRequired){
                 method: 'required',
                 callback: function (request, response, next) {
 
-                    var result = checkParamsRequired(request[type], paramsRequired);
+                    var result = checkParamsRequired(paramsRequired, request[requestAttributes]);
 
                     if (result.length) {
                         next(new BadRequest('Parameters required ' + result.join(', ') + '.'));
