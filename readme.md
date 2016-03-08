@@ -5,3 +5,21 @@
 
 
 > Build your Typescript Application with Express route decorators !
+
+## Prerequisites
+
+Express-route-decorator require Typescript 1.8, but it will work with Typescript 1.5 or higher.
+
+## Installation
+
+Run `npm install -g typescript typings` and `npm install express-router-decorator`.
+
+## Features
+
+* Define classes as Controllers
+* Define root path for an entire controller
+* Define routes for a method
+* Define routes on GET, POST, PUT and DELETE verbs
+* Define middlewares on routes
+* Define required parameters
+* 

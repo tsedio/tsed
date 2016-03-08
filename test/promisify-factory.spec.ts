@@ -2,6 +2,7 @@ import Chai = require('chai');
 import {PromisifyFactory} from "../lib/promisify-factory";
 import Promise = require('bluebird');
 import {BadRequest} from "httpexceptions/lib/badrequest";
+import {BodyParams} from "../decorators/body-params";
 
 var expect:Chai.ExpectStatic = Chai.expect;
 
@@ -182,7 +183,7 @@ describe('PromisifyFactory()', function() {
 
         });
 
-        it('should run a method wich throw error', function (done) {
+        it('should run a method witch throw error', function (done) {
 
             var request = {};
             var response = new Response();
@@ -206,7 +207,6 @@ describe('PromisifyFactory()', function() {
                     done();
                 },
                 function(err){
-                    console.log(err);
                     expect(err).to.be.an.instanceOf(BadRequest);
                     done();
                 });

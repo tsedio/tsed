@@ -1,5 +1,6 @@
 import {PromisifyFactory} from "./../lib/promisify-factory.ts";
 import {MiddlewareFactory} from "./../lib/middleware-factory.ts";
+import {iHandlerMiddleware} from "../lib/models/handler-middleware";
 /**
  * Method decorator
  * @param method
@@ -7,20 +8,25 @@ import {MiddlewareFactory} from "./../lib/middleware-factory.ts";
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Use(method, route?){
+export function Use(method: string | Function, route?: string): Function {
 
-    return function (targetClass, methodClassName, descriptor){
+    return <T> (
+        targetClass: any,
+        methodClassName: string | symbol,
+        descriptor: TypedPropertyDescriptor<T>
+    ) : TypedPropertyDescriptor<T> => {
+
         var originalMethod = descriptor.value;
 
-        var handlers = [{
-            method:     typeof method == 'string' ? method : null,
-            callback:   PromisifyFactory(targetClass, originalMethod)
+        var handlers:iHandlerMiddleware[] = [{
+            method:     typeof method == 'string' ? <string>method : null,
+            callback:   <Function> PromisifyFactory(targetClass, originalMethod)
         }];
 
         if(typeof method == 'function'){
             handlers.unshift({
                 method:     'use',
-                callback:   targetClass[method] ? method.bind(targetClass) : method
+                callback:   targetClass[<string>method] ? (<Function>method).bind(targetClass) : method
             });
         }
 

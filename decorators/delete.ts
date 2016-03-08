@@ -6,6 +6,6 @@ import {Use} from "./use";
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Delete(path:string, ...args){
-    return Use.apply(null, ['delete', path].concat(args));
+export function Delete(path:string){
+    return Use('delete', path);
 }

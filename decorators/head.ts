@@ -6,6 +6,6 @@ import {Use} from "./use";
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Head(path:string, ...args){
-    return Use.apply(null, ['head', path].concat(args));
+export function Head(path:string){
+    return Use('head', path);
 }

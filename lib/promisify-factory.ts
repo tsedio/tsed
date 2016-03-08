@@ -1,19 +1,25 @@
 import Promise = require('bluebird');
+import {iPromise} from "../icrud";
+import {invoke} from "./injector";
+
 /**
  *
  * @param targetClass
  * @param originalMethod
  * @returns {function(Express.Request, Express.Response, Function): Promise<U>|Promise<U|U>}
  */
-export function PromisifyFactory(targetClass, originalMethod){
 
-    return function (request:any, response:any, next:Function) {
+export function PromisifyFactory(targetClass: any, originalMethod: any){
 
-        return new Promise<any>((resolve, reject) =>{
-            response.resolve = resolve;
-            response.reject = reject;
+    return (request:any, response:any, next:Function): Promise<any> => {
 
-            var returnedValue = originalMethod.call(targetClass, request, response, next);
+        return new Promise<any>((resolve, reject) => {
+
+            let returnedValue: any = invoke(targetClass, originalMethod, {
+                request:    request,
+                response:   response,
+                next:       next
+            });
 
             if(returnedValue && returnedValue.then){
                 returnedValue.then(resolve, reject);

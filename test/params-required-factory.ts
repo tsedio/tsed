@@ -3,6 +3,7 @@ import {ParamsRequiredFactory} from "../lib/params-required-factory";
 import {PathParamsRequired} from "../decorators/path-params-required";
 import {MiddlewaresRegistry} from "../lib/middlewares-registry";
 import {BadRequest} from 'httpexceptions/lib/badrequest';
+import {BodyParams} from "../decorators/body-params";
 
 var expect:Chai.ExpectStatic = Chai.expect;
 
@@ -11,7 +12,7 @@ class Foo{
     middlewares:any;
     called:boolean = false;
 
-    myMethod(request, response, next){
+    myMethod(@BodyParams('test') request, response, next){
         this.called = true;
     }
 }

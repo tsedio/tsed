@@ -8,16 +8,14 @@ import {MiddlewaresRegistry} from "./middlewares-registry";
  * @param methodClassName
  * @param middlewares
  */
-export function MiddlewareFactory(targetClass:iMiddlewareClass, methodClassName:string, middlewares:iMiddlewares){
+export function MiddlewareFactory(
+    targetClass: iMiddlewareClass,
+    methodClassName: string | symbol,
+    middlewares: iMiddlewares
+) : void {
 
-    if(targetClass.middlewares == undefined){
-        targetClass.middlewares = {};
-    }
-
-
-    if(!targetClass.middlewares[methodClassName]){
-        targetClass.middlewares[methodClassName] = new MiddlewaresRegistry();
-    }
+    targetClass.middlewares = targetClass.middlewares || {};
+    targetClass.middlewares[methodClassName] = targetClass.middlewares[methodClassName] || new MiddlewaresRegistry();
 
     targetClass.middlewares[methodClassName].push(middlewares);
 }

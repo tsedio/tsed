@@ -13,36 +13,43 @@ import {Post as _Post} from './decorators/post';
 import {Put as _Put} from './decorators/put';
 import {Delete as _Delete} from './decorators/delete';
 import {Head as _Head} from './decorators/head';
+import {Patch as _Patch} from './decorators/patch';
+import {PathParams as _PathParams} from './decorators/path-params';
 import {PathParamsRequired as _PathParamsRequired} from './decorators/path-params-required';
+import {QueryParams as _QueryParams} from './decorators/query-params';
 import {QueryParamsRequired as _QueryParamsRequired} from './decorators/query-params-required';
+import {BodyParams as _BodyParams} from './decorators/body-params';
 import {BodyParamsRequired as _BodyParamsRequired} from './decorators/body-params-required';
+import {CookiesParams as _CookiesParams} from './decorators/cookies-params';
+
 /**
- * Class decorator
+ *
  * @param endpointUrl
- * @returns {function(Function): undefined}
+ * @param ctrls
+ * @returns {function(Function): void}
  * @constructor
  */
-export function Controller(endpointUrl:string, ...ctrls){
-    return _Controller.apply(this, arguments);
+export function Controller(endpointUrl:string, ...ctrls): any {
+    return _Controller(endpointUrl, ...ctrls);
 }
 
 /**
- * Method decorator
+ *
  * @param method
  * @param path
- * @returns {function(any, any, any): *}
+ * @returns {Function}
  * @constructor
  */
-export function Use(method, path?){
-    return _Use.apply(this, arguments);
+export function Use(method: string | Function, path?: string): Function {
+    return _Use(method, path);
 }
 /**
  * Method decorator
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Authenticated(targetClass, methodClassName, descriptor){
-    return _Authenticated.apply(this, arguments);
+export function Authenticated(targetClass: any, methodClassName: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
+    return _Authenticated(targetClass, methodClassName, descriptor);
 }
 
 /**
@@ -51,8 +58,8 @@ export function Authenticated(targetClass, methodClassName, descriptor){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function PathParamsRequired(...paramsRequired){
-    return _PathParamsRequired.apply(this, arguments);
+export function PathParamsRequired(...paramsRequired): Function {
+    return _PathParamsRequired(...paramsRequired);
 }
 /**
  *
@@ -60,17 +67,57 @@ export function PathParamsRequired(...paramsRequired){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function BodyParamsRequired(...paramsRequired){
-    return _BodyParamsRequired.apply(this, arguments);
+export function BodyParamsRequired(...paramsRequired): Function {
+    return _BodyParamsRequired(...paramsRequired);
 }
+
 /**
  *
  * @param paramsRequired
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function QueryParamsRequired(...paramsRequired){
-    return _QueryParamsRequired.apply(this, arguments);
+export function QueryParamsRequired(...paramsRequired): Function {
+    return _QueryParamsRequired(...paramsRequired);
+}
+
+/**
+ *
+ * @param expression
+ * @returns {Function}
+ * @constructor
+ */
+export function QueryParams(expression?:string): Function {
+    return _QueryParams(expression);
+}
+
+/**
+ *
+ * @param expression
+ * @returns {Function}
+ * @constructor
+ */
+export function PathParams(expression?:string): Function {
+    return _PathParams(expression);
+}
+/**
+ *
+ * @param expression
+ * @returns {Function}
+ * @constructor
+ */
+export function CookiesParams(expression?:string): Function {
+    return _CookiesParams(expression);
+}
+
+/**
+ *
+ * @param expression
+ * @returns {Function}
+ * @constructor
+ */
+export function BodyParams(expression?:string): Function {
+    return _BodyParams(expression);
 }
 /**
  *
@@ -79,8 +126,8 @@ export function QueryParamsRequired(...paramsRequired){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function All(path:string, ...args){
-    return _All.apply(this, arguments);
+export function All(path: string): Function {
+    return _All(path);
 }
 /**
  *
@@ -89,17 +136,8 @@ export function All(path:string, ...args){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Get(path:string, ...args){
-    return _Get.apply(this, arguments);}
-/**
- *
- * @param path
- * @param args
- * @returns {function(any, any, any): *}
- * @constructor
- */
-export function Post(path:string, ...args){
-    return _Post.apply(this, arguments);
+export function Get(path: string): Function {
+    return _Get(path);
 }
 /**
  *
@@ -108,8 +146,8 @@ export function Post(path:string, ...args){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Put(path:string, ...args){
-    return _Put.apply(this, arguments);
+export function Post(path: string): Function {
+    return _Post(path);
 }
 /**
  *
@@ -118,8 +156,8 @@ export function Put(path:string, ...args){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Delete(path:string, ...args){
-    return _Delete.apply(this, arguments);
+export function Put(path: string): Function {
+    return _Put(path);
 }
 /**
  *
@@ -128,6 +166,26 @@ export function Delete(path:string, ...args){
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Head(path:string, ...args){
-    return _Head.apply(this, arguments);
+export function Delete(path: string): Function {
+    return _Delete(path);
+}
+
+/**
+ *
+ * @param path
+ * @returns {Function}
+ * @constructor
+ */
+export function Head(path: string): Function {
+    return _Head(path);
+}
+
+/**
+ *
+ * @param path
+ * @returns {any}
+ * @constructor
+ */
+export function Patch(path: string): Function {
+    return _Patch(path);
 }

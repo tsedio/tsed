@@ -1,5 +1,5 @@
 
 export interface iHandlerMiddleware{
-    method:string,
-    callback:Function
+    method: string,
+    callback: Function
 }

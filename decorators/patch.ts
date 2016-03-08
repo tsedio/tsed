@@ -6,6 +6,6 @@ import {Use} from "./use";
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Post(path:string): any {
-    return Use('post', path);
+export function Patch(path:string): any {
+    return Use('patch', path);
 }

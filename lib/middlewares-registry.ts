@@ -6,9 +6,9 @@ import * as _ from "lodash";
 const METHODS = ['all', 'get', 'put', 'post', 'delete', 'head'];
 
 export class MiddlewaresRegistry{
-    protected handlers:iHandlerMiddleware[] = [];
-    protected path:string = '';
-    protected defaultMethod:string;
+    protected handlers: iHandlerMiddleware[] = [];
+    protected path: string = '';
+    protected defaultMethod: string;
 
     constructor(){
 
@@ -18,13 +18,13 @@ export class MiddlewaresRegistry{
      * Add new middleware
      * @param middlewares
      */
-    public push(middlewares:iMiddlewares){
+    public push(middlewares: iMiddlewares){
 
         if(middlewares.path){
             this.path = middlewares.path;
         }
 
-        _.each<iHandlerMiddleware>(middlewares.handlers, (handler:iHandlerMiddleware) =>{
+        _.each<iHandlerMiddleware>(middlewares.handlers, (handler: iHandlerMiddleware) => {
 
             if(METHODS.indexOf(handler.method) > -1){
                 this.defaultMethod = handler.method;
@@ -51,7 +51,7 @@ export class MiddlewaresRegistry{
 
         var route = endpointUrl + this.path;
 
-        _.each<iHandlerMiddleware>(this.handlers, (handler:iHandlerMiddleware) =>{
+        _.each<iHandlerMiddleware>(this.handlers, (handler: iHandlerMiddleware) => {
 
             switch(handler.method){
                 case 'required':
@@ -64,7 +64,6 @@ export class MiddlewaresRegistry{
                     break;
 
                 default:
-
                     router[handler.method](route, handler.callback);
 
                     break;

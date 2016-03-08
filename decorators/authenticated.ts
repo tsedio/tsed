@@ -5,12 +5,12 @@ import {Forbidden} from "httpexceptions";
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Authenticated(targetClass, methodClassName, descriptor){
+export function Authenticated<T>(targetClass: any, methodClassName: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> {
 
     MiddlewareFactory(targetClass, methodClassName, {
         handlers:   [{
             method:     'auth',
-            callback:   function(request, response, next){
+            callback:   function(request: any, response: any, next: Function){
 
                 if (request.isAuthenticated()) {
                     return next();
