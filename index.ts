@@ -1,26 +1,10 @@
 
-require('source-map-support').install();
+require("source-map-support").install();
 
-import Promise = require('bluebird');
-import * as Express from "express";
-import * as $log from "log-debug";
-import {Authenticated as _Authenticated} from './decorators/authenticated';
-import {Controller as _Controller} from './decorators/controller';
-import {Use as _Use} from './decorators/use';
-import {All as _All} from './decorators/all';
-import {Get as _Get} from './decorators/get';
-import {Post as _Post} from './decorators/post';
-import {Put as _Put} from './decorators/put';
-import {Delete as _Delete} from './decorators/delete';
-import {Head as _Head} from './decorators/head';
-import {Patch as _Patch} from './decorators/patch';
-import {PathParams as _PathParams} from './decorators/path-params';
-import {PathParamsRequired as _PathParamsRequired} from './decorators/path-params-required';
-import {QueryParams as _QueryParams} from './decorators/query-params';
-import {QueryParamsRequired as _QueryParamsRequired} from './decorators/query-params-required';
-import {BodyParams as _BodyParams} from './decorators/body-params';
-import {BodyParamsRequired as _BodyParamsRequired} from './decorators/body-params-required';
-import {CookiesParams as _CookiesParams} from './decorators/cookies-params';
+import {Controller as _Controller} from "./lib/controller";
+import {Use as _Use} from "./lib/use";
+import * as _Params from "./lib/params";
+import {Forbidden} from "httpexceptions";
 
 /**
  *
@@ -29,27 +13,46 @@ import {CookiesParams as _CookiesParams} from './decorators/cookies-params';
  * @returns {function(Function): void}
  * @constructor
  */
-export function Controller(endpointUrl:string, ...ctrls): any {
+export function Controller(endpointUrl: string, ...ctrls): any {
     return _Controller(endpointUrl, ...ctrls);
 }
 
 /**
  *
- * @param method
- * @param path
+ * @param args
  * @returns {Function}
  * @constructor
  */
-export function Use(method: string | Function, path?: string): Function {
-    return _Use(method, path);
+export function Use(...args): Function {
+    return _Use(...args);
 }
+
 /**
  * Method decorator
  * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Authenticated(targetClass: any, methodClassName: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
-    return _Authenticated(targetClass, methodClassName, descriptor);
+export function Authenticated(): Function {
+    return _Use(function(request: any, response: any, next: Function) {
+
+        if (request.isAuthenticated()) {
+            return next();
+        }
+
+        next(new Forbidden("Forbidden"));
+
+    });
+}
+
+/**
+ *
+ * @param type
+ * @param paramsRequired
+ * @returns {any}
+ * @constructor
+ */
+export function ParamsRequired(type: string, ...paramsRequired): Function {
+    return _Params.ParamsRequired(type, ...paramsRequired);
 }
 
 /**
@@ -59,7 +62,7 @@ export function Authenticated(targetClass: any, methodClassName: string | symbol
  * @constructor
  */
 export function PathParamsRequired(...paramsRequired): Function {
-    return _PathParamsRequired(...paramsRequired);
+    return _Params.PathParamsRequired(...paramsRequired);
 }
 /**
  *
@@ -68,9 +71,17 @@ export function PathParamsRequired(...paramsRequired): Function {
  * @constructor
  */
 export function BodyParamsRequired(...paramsRequired): Function {
-    return _BodyParamsRequired(...paramsRequired);
+    return _Params.BodyParamsRequired(...paramsRequired);
 }
-
+/**
+ *
+ * @param paramsRequired
+ * @returns {function(any, any, any): *}
+ * @constructor
+ */
+export function CookiesParamsRequired(...paramsRequired): Function {
+    return _Params.CookiesParamsRequired(...paramsRequired);
+}
 /**
  *
  * @param paramsRequired
@@ -78,7 +89,18 @@ export function BodyParamsRequired(...paramsRequired): Function {
  * @constructor
  */
 export function QueryParamsRequired(...paramsRequired): Function {
-    return _QueryParamsRequired(...paramsRequired);
+    return _Params.QueryParamsRequired(...paramsRequired);
+}
+
+/**
+ *
+ * @param type
+ * @param expression
+ * @returns {Function}
+ * @constructor
+ */
+export function Params(type: string, expression?: string): Function {
+    return _Params.Params(type, expression);
 }
 
 /**
@@ -87,8 +109,8 @@ export function QueryParamsRequired(...paramsRequired): Function {
  * @returns {Function}
  * @constructor
  */
-export function QueryParams(expression?:string): Function {
-    return _QueryParams(expression);
+export function QueryParams(expression?: string): Function {
+    return _Params.QueryParams(expression);
 }
 
 /**
@@ -97,8 +119,8 @@ export function QueryParams(expression?:string): Function {
  * @returns {Function}
  * @constructor
  */
-export function PathParams(expression?:string): Function {
-    return _PathParams(expression);
+export function PathParams(expression?: string): Function {
+    return _Params.PathParams(expression);
 }
 /**
  *
@@ -106,8 +128,8 @@ export function PathParams(expression?:string): Function {
  * @returns {Function}
  * @constructor
  */
-export function CookiesParams(expression?:string): Function {
-    return _CookiesParams(expression);
+export function CookiesParams(expression?: string): Function {
+    return _Params.CookiesParams(expression);
 }
 
 /**
@@ -116,76 +138,108 @@ export function CookiesParams(expression?:string): Function {
  * @returns {Function}
  * @constructor
  */
-export function BodyParams(expression?:string): Function {
-    return _BodyParams(expression);
-}
-/**
- *
- * @param path
- * @param args
- * @returns {function(any, any, any): *}
- * @constructor
- */
-export function All(path: string): Function {
-    return _All(path);
-}
-/**
- *
- * @param path
- * @param args
- * @returns {function(any, any, any): *}
- * @constructor
- */
-export function Get(path: string): Function {
-    return _Get(path);
-}
-/**
- *
- * @param path
- * @param args
- * @returns {function(any, any, any): *}
- * @constructor
- */
-export function Post(path: string): Function {
-    return _Post(path);
-}
-/**
- *
- * @param path
- * @param args
- * @returns {function(any, any, any): *}
- * @constructor
- */
-export function Put(path: string): Function {
-    return _Put(path);
-}
-/**
- *
- * @param path
- * @param args
- * @returns {function(any, any, any): *}
- * @constructor
- */
-export function Delete(path: string): Function {
-    return _Delete(path);
+export function BodyParams(expression?: string): Function {
+    return _Params.BodyParams(expression);
 }
 
 /**
  *
- * @param path
  * @returns {Function}
  * @constructor
  */
-export function Head(path: string): Function {
-    return _Head(path);
+export function Response(): Function {
+    return _Params.Response();
+}
+
+/**
+ *
+ * @returns {Function}
+ * @constructor
+ */
+export function Request(): Function {
+    return _Params.Request();
+}
+
+/**
+ *
+ * @returns {Function}
+ * @constructor
+ */
+export function Next(): Function {
+    return _Params.Next();
 }
 
 /**
  *
  * @param path
- * @returns {any}
+ * @param args
+ * @returns {function(any, any, any): *}
  * @constructor
  */
-export function Patch(path: string): Function {
-    return _Patch(path);
+export function All(path: string, ...args: any[]): Function {
+    return Use(...["all", path].concat(args));
+}
+
+/**
+ *
+ * @param path
+ * @param args
+ * @returns {function(any, any, any): *}
+ * @constructor
+ */
+export function Get(path: string, ...args: any[]): Function {
+    return Use(...["get", path].concat(args));
+}
+/**
+ *
+ * @param path
+ * @param args
+ * @returns {Function}
+ * @constructor
+ */
+export function Post(path: string, ...args: any[]): Function {
+    return Use(...["post", path].concat(args));
+}
+/**
+ *
+ * @param path
+ * @param args
+ * @returns {Function}
+ * @constructor
+ */
+export function Put(path: string, ...args: any[]): Function {
+    return Use(...["put", path].concat(args));
+}
+
+/**
+ *
+ * @param path
+ * @param args
+ * @returns {Function}
+ * @constructor
+ */
+export function Delete(path: string, ...args: any[]): Function {
+    return Use(...["delete", path].concat(args));
+}
+
+/**
+ *
+ * @param path
+ * @param args
+ * @returns {Function}
+ * @constructor
+ */
+export function Head(path: string, ...args: any[]): Function {
+    return Use(...["head", path].concat(args));
+}
+
+/**
+ *
+ * @param path
+ * @param args
+ * @returns {Function}
+ * @constructor
+ */
+export function Patch(path: string, ...args: any[]): Function {
+    return Use(...["patch", path].concat(args));
 }

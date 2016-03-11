@@ -1,23 +1,30 @@
 
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-export interface iInvokedFunction extends Function{
-    $inject: (Function|string)[]
+export interface IInvokedFunction extends Function {
+    $inject: (Function|string)[];
 }
 
-export interface iLocalScope{
-    request:any,
-    response:any,
-    next:Function
+export interface ILocalScope {
+    request: any;
+    response: any;
+    next: Function;
 }
 
-export function invoke(targetClass: any, method: iInvokedFunction, localScope: iLocalScope){
+/**
+ *
+ * @param targetClass
+ * @param method
+ * @param localScope
+ * @returns {any}
+ */
+export function invoke(targetClass: any, method: IInvokedFunction, localScope: ILocalScope): any {
 
-    let $inject:(Function|string)[] = method.$inject || ['request', 'response', 'next'];
+    let $inject: (Function|string)[] = method.$inject || ["request", "response", "next"];
 
     let injected = _.map($inject,
         (item) => (
-            typeof item == 'function'
+            typeof item === "function"
                 ? (<Function>item)(localScope.request)
                 : localScope[<string>item]
         )
@@ -26,7 +33,13 @@ export function invoke(targetClass: any, method: iInvokedFunction, localScope: i
     return method.apply(targetClass, injected);
 }
 
-export function attachInject(method: iInvokedFunction, index:number, service: string|Function): void{
+/**
+ *
+ * @param method
+ * @param index
+ * @param service
+ */
+export function attachInject(method: IInvokedFunction, index: number, service: string|Function): void {
     method.$inject = method.$inject || [];
     method.$inject[index] = service;
 }

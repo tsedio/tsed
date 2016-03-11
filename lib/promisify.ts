@@ -1,5 +1,4 @@
-import Promise = require('bluebird');
-import {iPromise} from "../icrud";
+import Promise = require("bluebird");
 import {invoke} from "./injector";
 
 /**
@@ -9,9 +8,9 @@ import {invoke} from "./injector";
  * @returns {function(Express.Request, Express.Response, Function): Promise<U>|Promise<U|U>}
  */
 
-export function PromisifyFactory(targetClass: any, originalMethod: any){
+export function Promisify(targetClass: any, originalMethod: any): Function {
 
-    return (request:any, response:any, next:Function): Promise<any> => {
+    return (request: any, response: any, next: Function): Promise<any> => {
 
         return new Promise<any>((resolve, reject) => {
 
@@ -21,23 +20,23 @@ export function PromisifyFactory(targetClass: any, originalMethod: any){
                 next:       next
             });
 
-            if(returnedValue && returnedValue.then){
+            if (returnedValue && returnedValue.then) {
                 returnedValue.then(resolve, reject);
-            }else{
+            } else {
                 resolve(returnedValue);
             }
 
         })
             .then(function(data){
 
-                if(data){
-                    response.setHeader('Content-Type', 'text/json');
+                if (data) {
+                    response.setHeader("Content-Type", "text/json");
 
-                    switch(request.method){
-                        case 'POST':
+                    switch (request.method) {
+                        case "POST":
 
                             response.status(201);
-                            response.location(request.path + '/' + data._id);
+                            response.location(request.path + "/" + data._id);
                             response.json(data);
 
                             break;
@@ -55,5 +54,5 @@ export function PromisifyFactory(targetClass: any, originalMethod: any){
                 next(err);
                 return Promise.reject(err);
             });
-    }
+    };
 }

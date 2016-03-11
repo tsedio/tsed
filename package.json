@@ -6,6 +6,7 @@
   "scripts": {
     "preinstall": "typings install",
     "postinstall": "tsc",
+    "lint": "tslint ./*.ts ./lib/*.ts",
     "test": "mocha --reporter spec --check-leaks --bail test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
@@ -28,15 +29,18 @@
   "homepage": "https://github.com/romakita/express-router-decorator#readme",
   "dependencies": {
     "bluebird": "^3.3.1",
+    "express": "^4.13.4",
     "httpexceptions": "^1.2.1",
     "lodash": "^4.5.0",
     "log-debug": "^1.1.4",
-    "source-map-support": "^0.4.0"
+    "source-map-support": "^0.4.0",
+    "weakmap": "0.0.6"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
+    "tslint": "^3.5.0",
     "typescript": "^1.7.5"
   },
   "direcories": {
