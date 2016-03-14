@@ -1,5 +1,7 @@
 import {EndpointHandler} from "./endpoint-handler";
 
+require('es6-map/implement');
+
 const weakMap = new Map<string, Map<string, EndpointHandler>>();
 
 function getName(targetClass): string {
