@@ -1,21 +1,13 @@
-
-declare module "weakmap" {
-
-    interface WeakMap<K, V> {
-        delete(key: K): boolean;
-        get(key: K): V;
-        has(key: K): boolean;
-        set(key: K, value?: V): WeakMap<K, V>;
-
-    }
-
-    interface WeakMapConstructor {
-        new (): WeakMap<any, any>;
-        new <K, V>(): WeakMap<K, V>;
-        new <K, V>(iterable: Iterable<[K, V]>): WeakMap<K, V>;
-        prototype: WeakMap<any, any>;
-    }
-    declare var WeakMap: WeakMapConstructor;
-
-    export = WeakMap;
+interface Map<K, V> {
+    clear(): void;
+    delete(key: K): boolean;
+    forEach(callbackfn: (value: V, index: K, map: Map<K, V>) => void, thisArg?: any): void;
+    get(key: K): V;
+    has(key: K): boolean;
+    set(key: K, value: V): Map<K, V>;
+    size: number;
+}
+declare var Map: {
+    new <K, V>(): Map<K, V>;
+    prototype: Map<any, any>;
 }

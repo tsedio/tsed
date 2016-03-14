@@ -1,7 +1,6 @@
 import {EndpointHandler} from "./endpoint-handler";
-import WeakMap = require("weakmap");
 
-const weakMap = new Map<string, Map>();
+const weakMap = new Map<string, Map<string, EndpointHandler>>();
 
 function getName(targetClass): string {
     return typeof targetClass === "function"
@@ -42,7 +41,7 @@ export function get(targetClass: any): Map<string, EndpointHandler> {
  * @param methodClassName
  * @param args
  */
-export function setHandler(targetClass: Function, methodClassName: symbol | string, args: any[]): void {
+export function setHandler(targetClass: Function, methodClassName: string, args: any[]): void {
 
     let endpoints: Map<string, EndpointHandler> = get(targetClass);
     let endpointHandler: EndpointHandler;

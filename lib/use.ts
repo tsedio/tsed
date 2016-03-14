@@ -11,7 +11,7 @@ export function Use(...args: any[]): Function {
 
     return <T> (
         targetClass: Function,
-        methodClassName: string | symbol,
+        methodClassName: string,
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
