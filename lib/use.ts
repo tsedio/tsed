@@ -1,5 +1,5 @@
-import {EndpointHandler} from "./endpoint-handler";
-import * as Endpoints from "./endpoints";
+import {Endpoint} from "./endpoint";
+import * as Controllers from "./controllers";
 /**
  * Method decorator
  * @param method
@@ -15,7 +15,7 @@ export function Use(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        Endpoints.setHandler(targetClass, methodClassName, args);
+        Controllers.setEndpoint(targetClass, methodClassName, args);
 
         return descriptor;
     };

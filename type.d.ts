@@ -5,9 +5,11 @@ interface Map<K, V> {
     get(key: K): V;
     has(key: K): boolean;
     set(key: K, value: V): Map<K, V>;
+    keys(): K[];
     size: number;
 }
+
 declare var Map: {
     new <K, V>(): Map<K, V>;
     prototype: Map<any, any>;
-}
+};

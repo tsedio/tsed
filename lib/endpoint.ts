@@ -1,6 +1,6 @@
 import {Promisify} from "./promisify";
 
-const METHODS = [
+export const METHODS = [
     "all", "checkout", "connect",
     "copy", "delete", "get",
     "head", "lock", "merge",
@@ -13,17 +13,33 @@ const METHODS = [
     "unsuscribe"
 ];
 
-export class EndpointHandler {
-
+export class Endpoint {
+    /**
+     * 
+     */
     private handler: Function;
+    /**
+     * 
+     * @type {Array}
+     */
     private args: any[] = [];
+    /**
+     * 
+     */
     private method: string;
+    /**
+     * 
+     */
     private route: string | RegExp;
 
     constructor(targetClass: Function, methodClassName: string) {
         this.handler = <Function> Promisify(targetClass, methodClassName);
     }
 
+    /**
+     * 
+     * @param args
+     */
     public push(args: any[]): void {
 
         let filteredArg = args
@@ -53,14 +69,26 @@ export class EndpointHandler {
         this.args = this.args.concat(filteredArg);
     }
 
+    /**
+     * 
+     * @returns {boolean}
+     */
     public hasMethod(): boolean {
         return !!this.method;
     }
 
+    /**
+     * 
+     * @returns {string}
+     */
     public getMethod(): string {
         return this.method;
     }
 
+    /**
+     * 
+     * @returns {T[]}
+     */
     public toArray(): any[]{
 
         return [this.method, this.route]

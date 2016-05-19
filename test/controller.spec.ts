@@ -1,21 +1,65 @@
-import * as Endpoints from "../lib/endpoints";
 import * as Chai from "chai";
-import * as Express from "express";
-import * as Helper from "./helper/helper";
+import * as Controllers from "./../lib/controllers";
+import {FakeApplication} from "./helper/FakeApplication";
+import {ICtrlRoute} from "../lib/controllers";
 
 let expect: Chai.ExpectStatic = Chai.expect;
+FakeApplication.getInstance();
 
 describe("Controller", function(){
 
-    let testController, endpoints;
+    it("load route in app", () => {
+        let routes: ICtrlRoute[]  = Controllers.getRoutes();
 
-    beforeEach(function(){
+        expect(routes).to.be.an('array');
+        expect(routes.length).to.equal(12);
+        
+    });
 
-        testController = new Helper.TestController();
-        endpoints = Endpoints.get(Helper.TestController);
+    describe("GET /rest/calendars/:id", () => {
+
+        it("should return an object", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/1')
+                .expect(200)
+                .end((err, response: any) => {
+                    
+                    if (err){
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.id).to.equal('1');
+                    
+                    done();
+                });
+
+        });
 
     });
 
+/*
+    describe('GET annotation/method/get', function(){
+
+        it('should respond status 403', function(done){
+            let app = new FakeApplication();
+
+            Controllers.load(app);
+            
+            app
+                .request()
+                .get('/annotation/method/get')
+                .expect(200, done);
+        });
+
+    });
+    
+    /*
     it("should create an endpoints Map", function(){
 
         expect(endpoints).to.be.an.instanceOf(Map);
@@ -138,5 +182,5 @@ describe("Controller", function(){
 
 
     });
-
+*/
 });

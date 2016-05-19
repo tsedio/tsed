@@ -1,6 +1,5 @@
 import {parse} from "./parse";
 import {attachInject} from "./injector";
-import * as _ from "lodash";
 import {BadRequest} from "httpexceptions/lib/badrequest";
 import {Use} from "./use";
 
@@ -8,10 +7,10 @@ import {Use} from "./use";
  *
  * @param expressionList
  * @param scope
- * @returns {T[]}
+ * @returns {string[]}
  */
 export function checkParamsRequired(expressionList: string[], scope: any): string[] {
-    return _.filter(expressionList, (expression) => (
+    return expressionList.filter((expression: string) => (
         parse(expression, scope) === undefined
     ));
 }
@@ -153,7 +152,6 @@ export function PathParamsRequired(...paramsRequired): Function {
     return Use(function(request: any, response: any, next: Function): void {
 
         tryParams(paramsRequired, request.params, next);
-
 
     });
 }

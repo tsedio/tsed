@@ -1,17 +1,26 @@
 import Chai = require("chai");
 import {Promisify} from "../lib/promisify";
-import {BodyParams} from "../index";
-import * as Helper from "./helper/helper";
+import {TestPromisify} from "./helper/TestPromisify";
 import Promise = require("bluebird");
 import {BadRequest} from "httpexceptions/lib/badrequest";
+import {FakeRequest} from "./helper/FakeRequest";
+import {FakeResponse} from "./helper/FakeResponse";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
 describe("Promisify()", function() {
 
+    let response: FakeResponse, request: FakeRequest, next: Function;
+
+    beforeEach(function () {
+        request =   new FakeRequest();
+        response =  new FakeResponse();
+        next =      () => {};
+    });
+
     it("should do create a function", function () {
 
-        let foo = new Helper.TestPromisify();
+        let foo = new TestPromisify();
         let fn = Promisify(foo, "myMethod");
 
         expect(fn).to.be.instanceOf(Function);
@@ -19,19 +28,14 @@ describe("Promisify()", function() {
 
     });
 
-    describe("Promisify().decorator", function() {
 
-        it("should return promise ", function (done) {
+    describe("Promisify().decorator", () => {
 
-            let request = {};
-            let response = {};
-            let next =  function(){
+        it("should return promise ", (done) => {
 
-            };
-
-            let foo = new Helper.TestPromisify();
-            let fn = Promisify(foo, foo.myMethod);
-            let promise = fn(request, response, next);
+            let foo: TestPromisify =    new TestPromisify();
+            let fn: Function =          Promisify(foo, 'myMethod');
+            let promise: Promise<any> = fn(request, response, next);
 
             expect(fn).to.be.instanceOf(Function, "Isn't instance of function");
             expect(fn).to.not.equal(foo.myMethod, "Not equal to method");
@@ -48,17 +52,11 @@ describe("Promisify()", function() {
 
         });
 
-        it("should run a method wich return value", function (done) {
+        it("should run a method wich return value", (done) => {
 
-            let request = {};
-            let response = new Helper.TestResponse();
-            let next =  function(){
-
-            };
-
-            let foo = new Helper.TestPromisify();
-            let fn = Promisify(foo, foo.myMethodReturnValue);
-            let promise = fn(request, response, next);
+            let foo: TestPromisify =    new TestPromisify();
+            let fn: Function =          Promisify(foo, foo.myMethodReturnValue);
+            let promise: Promise<any> = fn(request, response, next);
 
             expect(fn).to.be.instanceOf(Function);
             expect(fn).to.not.equal(foo.myMethod);
@@ -84,19 +82,14 @@ describe("Promisify()", function() {
 
         });
 
-        it("should run a method wich return promise", function (done) {
+        it("should run a method wich return promise", (done) => {
 
-            let request = {
-                method: "POST",
-                path: "rest/test"
-            };
+            request.method = 'POST';
+            request.path = "rest/test";
 
-            let response = new Helper.TestResponse();
-            let next = () => {};
-
-            let foo = new Helper.TestPromisify();
-            let fn = Promisify(foo, foo.myMethodPromised);
-            let promise = fn(request, response, next);
+            let foo: TestPromisify =    new TestPromisify();
+            let fn: Function =          Promisify(foo, 'myMethodPromised');
+            let promise: Promise<any> = fn(request, response, next);
 
             expect(fn).to.be.instanceOf(Function);
             expect(fn).to.not.equal(foo.myMethod);
@@ -105,7 +98,7 @@ describe("Promisify()", function() {
             expect(foo.called).to.be.true;
 
 
-            promise.then(function(data){
+            promise.then((data) => {
 
                 expect(data).to.be.an("object");
                 expect(data.data).to.equal("yes");
@@ -124,16 +117,11 @@ describe("Promisify()", function() {
 
         });
 
-        it("should run a method witch throw error", function (done) {
+        it("should run a method witch throw error", (done) => {
 
-            let request =   {};
-            let response =  new Helper.TestResponse();
-            let next =      function(){};
-
-            let foo = new Helper.TestPromisify();
-            let fn = Promisify(foo, foo.myMethodThrowException);
-
-            let promise = fn(request, response, next);
+            let foo: TestPromisify = new TestPromisify();
+            let fn: Function = Promisify(foo, 'myMethodThrowException');
+            let promise: Promise<any> = fn(request, response, next);
 
             expect(fn).to.be.instanceOf(Function);
             expect(fn).to.not.equal(foo.myMethod);

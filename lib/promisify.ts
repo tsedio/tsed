@@ -1,5 +1,5 @@
 import Promise = require("bluebird");
-import {invoke} from "./injector";
+import {invoke, IInvokedFNResult, IInvokedFunction} from "./injector";
 
 /**
  *
@@ -12,24 +12,31 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
 
     return (request: any, response: any, next: Function): Promise<any> => {
 
+        let fnInvResult: IInvokedFNResult;
+
         return new Promise<any>((resolve, reject) => {
 
-            let returnedValue: any = invoke(targetClass, originalMethod, {
+            let method: IInvokedFunction = typeof originalMethod == 'string' ? targetClass[originalMethod] : originalMethod;
+
+            fnInvResult = invoke(targetClass, method, {
                 request:    request,
                 response:   response,
                 next:       next
             });
 
-            if (returnedValue && returnedValue.then) {
-                returnedValue.then(resolve, reject);
+            if (fnInvResult.result && fnInvResult.result.then) {
+                fnInvResult.result.then(resolve, reject);
             } else {
-                resolve(returnedValue);
+                resolve(fnInvResult.result);
             }
 
         })
             .then(function(data){
 
+                response.setHeader("X-Managed-By", "Express-router-decorator");
+
                 if (data) {
+
                     response.setHeader("Content-Type", "text/json");
 
                     switch (request.method) {
@@ -46,6 +53,10 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
                             response.json(data);
                             break;
                     }
+                }
+
+                if(fnInvResult.impliciteNext){
+                    next();
                 }
 
                 return data;

@@ -2,17 +2,26 @@
 import {checkParamsRequired} from "../lib/params";
 import Chai = require("chai");
 import * as Helper from "./helper/helper";
-import {BadRequest} from "httpexceptions/lib/badrequest";
 import {invoke} from "../lib/injector";
 import {BodyParamsRequired} from "../index";
 import {QueryParamsRequired} from "../index";
 import {PathParamsRequired} from "../index";
 import {ParamsRequired} from "../index";
 import {CookiesParamsRequired} from "../index";
+import {FakeResponse} from "./helper/FakeResponse";
+import {FakeRequest} from "./helper/FakeRequest";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
 describe("Params", function(){
+
+    let response: FakeResponse, request: FakeRequest, next: Function;
+
+    beforeEach(function () {
+        request =   new FakeRequest();
+        response =  new FakeResponse();
+        next =      () => {};
+    });
 
     describe("checkParamsRequired()", function(){
         it("should return required params", function(){
@@ -31,15 +40,9 @@ describe("Params", function(){
         it("ParamsRequired should do create a function", function(){
 
             let fn = ParamsRequired("body", "test", "test2");
-            let request = new Helper.TestRequest();
-            let response = new Helper.TestResponse();
-            let next = (value) => {
-                console.log(value);
-            };
 
             expect(fn).to.be.instanceOf(Function);
-
-
+            
             fn(request, response, next);
 
         });
@@ -124,22 +127,22 @@ describe("Params", function(){
             expect(testParams.getParams.$inject).to.be.an("array");
             expect(testParams.getParams.$inject.length).to.equal(5);
         });
-
+/*
         it("should invoke function", function(){
 
             let returnedValue: any = invoke(testParams, testParams.getParams, {
-                request:    new Helper.TestRequest(),
-                response:   new Helper.TestResponse(),
+                request:    new FakeRequest(),
+                response:   new FakeResponse(),
                 next:       () => {}
             });
 
             expect(returnedValue).to.be.undefined;
             expect(testParams.name).to.be.equal("testValue");
             expect(testParams.value).to.be.equal("testValue");
-            expect(testParams.request).to.an.instanceOf(Helper.TestRequest);
-            expect(testParams.response).to.an.instanceOf(Helper.TestResponse);
+            expect(testParams.request).to.an.instanceOf(FakeRequest);
+            expect(testParams.response).to.an.instanceOf(FakeResponse);
             expect(testParams.next).to.be.a("function");
-        });
+        });*/
     });
 
     describe("BodyParams", function(){
@@ -158,16 +161,16 @@ describe("Params", function(){
         it("should invoke function", function(){
 
             let returnedValue: any = invoke(testParams, testParams.getBodyParams, {
-                request:    new Helper.TestRequest(),
-                response:   new Helper.TestResponse(),
+                request:    new FakeRequest(),
+                response:   new FakeResponse(),
                 next:       () => {}
             });
 
             expect(returnedValue).to.be.undefined;
             expect(testParams.name).to.be.equal("testValue");
             expect(testParams.value).to.be.equal("testValue");
-            expect(testParams.request).to.an.instanceOf(Helper.TestRequest);
-            expect(testParams.response).to.an.instanceOf(Helper.TestResponse);
+            expect(testParams.request).to.an.instanceOf(FakeRequest);
+            expect(testParams.response).to.an.instanceOf(FakeResponse);
             expect(testParams.next).to.be.a("function");
         });
     });
@@ -188,16 +191,16 @@ describe("Params", function(){
         it("should invoke function", function(){
 
             let returnedValue: any = invoke(testParams, testParams.getCookies, {
-                request:    new Helper.TestRequest(),
-                response:   new Helper.TestResponse(),
+                request:    new FakeRequest(),
+                response:   new FakeResponse(),
                 next:       () => {}
             });
 
             expect(returnedValue).to.be.undefined;
             expect(testParams.name).to.be.equal("testValue");
             expect(testParams.value).to.be.equal("testValue");
-            expect(testParams.request).to.an.instanceOf(Helper.TestRequest);
-            expect(testParams.response).to.an.instanceOf(Helper.TestResponse);
+            expect(testParams.request).to.an.instanceOf(FakeRequest);
+            expect(testParams.response).to.an.instanceOf(FakeResponse);
             expect(testParams.next).to.be.a("function");
         });
     });
@@ -218,16 +221,16 @@ describe("Params", function(){
         it("should invoke function", function(){
 
             let returnedValue: any = invoke(testParams, testParams.getPathParams, {
-                request:    new Helper.TestRequest(),
-                response:   new Helper.TestResponse(),
+                request:    new FakeRequest(),
+                response:   new FakeResponse(),
                 next:       () => {}
             });
 
             expect(returnedValue).to.be.undefined;
             expect(testParams.name).to.be.equal("testValue");
             expect(testParams.value).to.be.equal("testValue");
-            expect(testParams.request).to.an.instanceOf(Helper.TestRequest);
-            expect(testParams.response).to.an.instanceOf(Helper.TestResponse);
+            expect(testParams.request).to.an.instanceOf(FakeRequest);
+            expect(testParams.response).to.an.instanceOf(FakeResponse);
             expect(testParams.next).to.be.a("function");
         });
     });
@@ -248,16 +251,16 @@ describe("Params", function(){
         it("should invoke function", function(){
 
             let returnedValue: any = invoke(testParams, testParams.getQueryParams, {
-                request:    new Helper.TestRequest(),
-                response:   new Helper.TestResponse(),
+                request:    new FakeRequest(),
+                response:   new FakeResponse(),
                 next:       () => {}
             });
 
             expect(returnedValue).to.be.undefined;
             expect(testParams.name).to.be.equal("testValue");
             expect(testParams.value).to.be.equal("testValue");
-            expect(testParams.request).to.an.instanceOf(Helper.TestRequest);
-            expect(testParams.response).to.an.instanceOf(Helper.TestResponse);
+            expect(testParams.request).to.an.instanceOf(FakeRequest);
+            expect(testParams.response).to.an.instanceOf(FakeResponse);
             expect(testParams.next).to.be.a("function");
         });
     });

@@ -1,7 +1,7 @@
 
 require("source-map-support").install();
 
-import {Controller as _Controller} from "./lib/controller";
+import * as Controllers from "./lib/controllers";
 import {Use as _Use} from "./lib/use";
 import * as _Params from "./lib/params";
 import {Forbidden} from "httpexceptions";
@@ -13,8 +13,21 @@ import {Forbidden} from "httpexceptions";
  * @returns {function(Function): void}
  * @constructor
  */
-export function Controller(endpointUrl: string, ...ctrls): any {
-    return _Controller(endpointUrl, ...ctrls);
+export function Controller(endpointUrl: string, ...ctrls: string[]): Function {
+
+    return (targetClass: Function): void => {
+
+        Controllers.setUrl(targetClass, endpointUrl);
+        Controllers.setDepedencies(targetClass, ctrls);
+
+        /* targetClass.prototype.register = function(app: any): any {
+
+            app.use(endpointUrl, Controllers.register(targetClass));
+
+            return router;
+        }; */
+
+    };
 }
 
 /**
@@ -34,12 +47,14 @@ export function Use(...args): Function {
  */
 export function Authenticated(): Function {
     return _Use(function(request: any, response: any, next: Function) {
+        
+        if(request.isAuthenticated) {
+            if (request.isAuthenticated()) {
+                return next();
+            }
 
-        if (request.isAuthenticated()) {
-            return next();
+            next(new Forbidden("Forbidden"));
         }
-
-        next(new Forbidden("Forbidden"));
 
     });
 }
