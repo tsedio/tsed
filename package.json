@@ -9,7 +9,9 @@
     "postinstall": "tsc",
     "lint": "tslint ./*.ts ./lib/*.ts",
     "test": "mocha --reporter spec --check-leaks --bail test/",
+    "coverage": "npm run test-cov && npm run test-remap",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
   },
   "repository": {
@@ -53,11 +55,12 @@
     "method-override": "^2.3.5",
     "mocha": "^2.4.5",
     "morgan": "^1.7.0",
+    "remap-istanbul": "^0.6.4",
     "supertest": "^1.2.0",
     "tslint": "^3.5.0",
     "typescript": "^1.8.10"
   },
-  "direcories": {
+  "directories": {
     "lib": "lib",
     "test": "test"
   }
