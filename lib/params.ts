@@ -21,7 +21,7 @@ export function checkParamsRequired(expressionList: string[], scope: any): strin
  * @param scope
  * @param next
  */
-export function tryParams(required: string[], scope: any, next: Function){
+export function tryParams(required: string[], scope: any, next: Function): void {
 
     let result = checkParamsRequired(required, scope);
 
@@ -47,7 +47,7 @@ export function ParamsRequired(attr: string, ...paramsRequired): any {
  * @returns {function(Function, (string|symbol), number): void}
  * @constructor
  */
-export function Params(attr:string, expression: string): Function {
+export function Params(attr: string, expression: string): Function {
 
     return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
 

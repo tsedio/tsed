@@ -10,8 +10,8 @@ export interface ILocalScope {
 }
 
 export interface IInvokedFNResult {
-    result: Promise<any> | any | void,
-    impliciteNext: boolean
+    result: Promise<any> | any | void;
+    impliciteNext: boolean;
 }
 
 /**
@@ -28,7 +28,7 @@ export function invoke(targetClass: any, method: IInvokedFunction, localScope: I
 
     if (method.$inject) {
         $inject = method.$inject;
-        impliciteNext = $inject.indexOf('next') == -1;
+        impliciteNext = $inject.indexOf("next") === -1;
     } else {
         impliciteNext = method.length < 3;
         $inject = ["request", "response", "next"];

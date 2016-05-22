@@ -16,7 +16,7 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
 
         return new Promise<any>((resolve, reject) => {
 
-            let method: IInvokedFunction = typeof originalMethod == 'string' ? targetClass[originalMethod] : originalMethod;
+            let method: IInvokedFunction = typeof originalMethod === "string" ? targetClass[originalMethod] : originalMethod;
 
             fnInvResult = invoke(targetClass, method, {
                 request:    request,
@@ -55,7 +55,7 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
                     }
                 }
 
-                if(fnInvResult.impliciteNext){
+                if (fnInvResult.impliciteNext) {
                     next();
                 }
 

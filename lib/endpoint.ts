@@ -47,7 +47,7 @@ export class Endpoint {
 
                 if (typeof arg === "string") {
 
-                    if (METHODS.indexOf(arg) > -1){
+                    if (METHODS.indexOf(arg) > -1) {
                         this.method = arg;
                     } else {
                         this.route = arg;
@@ -89,7 +89,7 @@ export class Endpoint {
      * 
      * @returns {T[]}
      */
-    public toArray(): any[]{
+    public toArray(): any[] {
 
         return [this.method, this.route]
             .concat(this.args, [this.handler])

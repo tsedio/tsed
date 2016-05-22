@@ -2,7 +2,7 @@ import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import * as Logger from "log-debug";
 
-require('es6-map/implement');
+require("es6-map/implement");
 
 export interface IController {
     targetClass: any;
@@ -134,11 +134,11 @@ export function instanciate(targetClass: string | Function): IController {
 
                 let args = endpoint.toArray();
 
-                if (endpoint.hasMethod() && router[endpoint.getMethod()]){
+                if (endpoint.hasMethod() && router[endpoint.getMethod()]) {
 
                     args.shift();
 
-                    if (args.length == 1){
+                    if (args.length === 1) {
                         router[endpoint.getMethod()]("/", args[0]);
                     } else {
                         router[endpoint.getMethod()](...args);
@@ -200,7 +200,7 @@ export function setEndpoint(targetClass: Function, methodClassName: string, args
     let endpoints: Map<string, Endpoint> = get(targetClass).endpoints;
     let endpointHandler: Endpoint;
 
-    if(!endpoints.has(methodClassName)){
+    if (!endpoints.has(methodClassName)) {
 
         endpointHandler = new Endpoint(targetClass, <string>methodClassName);
         endpoints.set(methodClassName, endpointHandler);
@@ -252,12 +252,12 @@ export function load(app: {use: Function}, endpointBase?: string): void {
             let ctrlParent: IController = ctrl;
 
             // build final endpoint to trace it
-            while(ctrlParent){
+            while (ctrlParent) {
                 endpoint.unshift(ctrlParent.finalEndpointUrl || ctrlParent.endpointUrl);
                 ctrlParent = ctrlParent.parent;
             }
 
-            ctrl.finalEndpointUrl = endpoint.join('');
+            ctrl.finalEndpointUrl = endpoint.join("");
         });
 }
 
@@ -272,11 +272,11 @@ export function getRoutes(): ICtrlRoute[] {
     getCtrls()
         .sort((ctrlA: any, ctrlB: any) => {
 
-            if(ctrlA.finalEndpointUrl > ctrlB.finalEndpointUrl) {
+            if (ctrlA.finalEndpointUrl > ctrlB.finalEndpointUrl) {
                 return 1;
             }
 
-            if(ctrlA.finalEndpointUrl < ctrlB.finalEndpointUrl) {
+            if (ctrlA.finalEndpointUrl < ctrlB.finalEndpointUrl) {
                 return -1;
             }
 
@@ -292,7 +292,7 @@ export function getRoutes(): ICtrlRoute[] {
 
                         routes.push({
                             method: endpoint.method,
-                            url: ctrl.finalEndpointUrl + (endpoint.route || '')
+                            url: ctrl.finalEndpointUrl + (endpoint.route || "")
                         });
                     }
                 });
@@ -308,12 +308,12 @@ export function printRoutes(): void {
 
     const space = (x) => {
         let res = "";
-        while(x--) res += " ";
+        while (x--) res += " ";
         return res;
     };
 
     getRoutes().forEach((route: ICtrlRoute) => {
-        Logger.info('[ERD] ' + route.method + space(15 - route.method.length) + route.url);
+        Logger.info("[ERD] " + route.method + space(15 - route.method.length) + route.url);
     });
 
 }

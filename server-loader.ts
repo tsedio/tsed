@@ -6,8 +6,8 @@ import * as Controllers from "./lib/controllers";
 import * as Promise from "bluebird";
 import * as Glob from "glob";
 
-export interface IHTTPSServerOptions extends Https.ServerOptions{
-    port: string | number
+export interface IHTTPSServerOptions extends Https.ServerOptions {
+    port: string | number;
 }
 
 export abstract class ServerLoader {
@@ -61,10 +61,10 @@ export abstract class ServerLoader {
      */
     public importControllers(): ServerLoader {
 
-        Logger.debug('[ERD] Import controllers');
+        Logger.debug("[ERD] Import controllers");
         Controllers.load(this.expressApp, this.endpoint);
 
-        Logger.info('[ERD] Routes mounted :');
+        Logger.info("[ERD] Routes mounted :");
         Controllers.printRoutes();
 
         return this;
@@ -83,9 +83,9 @@ export abstract class ServerLoader {
      * @returns {ServerLoader}
      */
     public importGlobalErrorsHanlder(): ServerLoader {
-        Logger.debug('[ERD] Add global errors handler');
+        Logger.debug("[ERD] Add global errors handler");
 
-        this.use((error: any, request:Express.Request, response: Express.Response, next: Function) => {
+        this.use((error: any, request: Express.Request, response: Express.Response, next: Function) => {
             try {
                 this.onError(error, request, response, next);
             } catch (err) {
@@ -93,7 +93,7 @@ export abstract class ServerLoader {
 
                 response
                     .status(500)
-                    .send('Internal Server error');
+                    .send("Internal Server error");
 
                 next();
             }
@@ -115,40 +115,40 @@ export abstract class ServerLoader {
 
         let promises: Promise<any>[] = [];
 
-        if(this.httpServer){
+        if (this.httpServer) {
 
-            Logger.debug('[ERD] Start HTTP server on port : ' + this.httpPort);
+            Logger.debug("[ERD] Start HTTP server on port : " + this.httpPort);
 
             this.httpServer.listen(this.httpPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this.httpServer
-                    .on('listening', () => {
-                        Logger.info('[ERD] HTTP Server listen port : ' + this.httpPort);
+                    .on("listening", () => {
+                        Logger.info("[ERD] HTTP Server listen port : " + this.httpPort);
                         resolve();
                     })
-                    .on('error', function(err){
-                        Logger.error('[ERD] HTTP Server error', err);
+                    .on("error", function(err){
+                        Logger.error("[ERD] HTTP Server error", err);
                         reject(err);
                     });
             }));
         }
 
 
-        if(this.httpsServer){
+        if (this.httpsServer) {
 
-            Logger.debug('[ERD] Start HTTPs server on port : '+ this.httpsPort);
+            Logger.debug("[ERD] Start HTTPs server on port : " + this.httpsPort);
 
             this.httpsServer.listen(this.httpsPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this.httpsServer
-                    .on('listening', () => {
-                        Logger.info('[ERD] HTTPs Server listen port : ' + this.httpsPort);
+                    .on("listening", () => {
+                        Logger.info("[ERD] HTTPs Server listen port : " + this.httpsPort);
                         resolve();
                     })
-                    .on('error', function(err){
-                        Logger.error('[ERD] HTTPs Server error', err);
+                    .on("error", function(err){
+                        Logger.error("[ERD] HTTPs Server error", err);
                         reject(err);
                     });
             }));
@@ -203,19 +203,19 @@ export abstract class ServerLoader {
         let files: string[] = Glob.sync(path);
         let nbFiles = 0;
 
-        Logger.info('[ERD] Scan files : ' + path);
+        Logger.info("[ERD] Scan files : " + path);
 
         files.forEach((file: string) => {
-            try{
-                Logger.debug('[ERD] Import file :', file);
+            try {
+                Logger.debug("[ERD] Import file :", file);
                 require(file);
                 nbFiles++;
-            } catch(err){
-                Logger.warn('[ERD] Scan error', err);
+            } catch (err) {
+                Logger.warn("[ERD] Scan error", err);
             }
         });
 
-        Logger.info('[ERD] ' + nbFiles + ' file(s) found and imported');
+        Logger.info(`[ERD] ${nbFiles} file(s) found and imported`);
 
         return this;
     }
@@ -232,6 +232,6 @@ export abstract class ServerLoader {
      * @param response
      * @param next
      */
-    public abstract onError(error: any, request:Express.Request, response:Express.Response, next: Function): void;
+    public abstract onError(error: any, request: Express.Request, response: Express.Response, next: Function): void;
 
 }
