@@ -1,6 +1,6 @@
 
 export class FakeResponse {
-    _status: number;
+    _status: number = 200;
     _location: string;
     _json: any;
     _headers: string = "";
@@ -44,5 +44,9 @@ export class FakeResponse {
     public setHeader(key, value): FakeResponse {
         this._headers += `${key}:${value}\n`;
         return this;
+    }
+
+    public get(key) {
+        return this['_'+key];
     }
 }

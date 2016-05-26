@@ -12,18 +12,18 @@ describe("Controller", function(){
         let routes: ICtrlRoute[]  = Controllers.getRoutes();
 
         expect(routes).to.be.an('array');
-        expect(routes.length).to.equal(12);
+        expect(routes.length > 0).to.be.true;
         
     });
 
-    describe("GET /rest/calendars/:id", () => {
+    describe("GET /rest/calendars", () => {
 
-        it("should return an object", (done: Function) => {
+        it("should return an object (without annotation)", (done: Function) => {
 
             FakeApplication
                 .getInstance()
                 .request()
-                .get('/rest/calendars/1')
+                .get('/rest/calendars/classic/1')
                 .expect(200)
                 .end((err, response: any) => {
                     
@@ -35,11 +35,91 @@ describe("Controller", function(){
 
                     expect(obj).to.be.an('object');
                     expect(obj.id).to.equal('1');
-                    
+                    expect(obj.name).to.equal('test');
+
                     done();
                 });
 
         });
+
+        it("should return an object (PathParams annotation)", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/annotation/test/1')
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err){
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.id).to.equal('1');
+                    expect(obj.name).to.equal('test');
+
+                    done();
+                });
+
+        });
+
+        it("should return an object (Via promised response)", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/annotation/promised/1')
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err){
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.id).to.equal('1');
+                    expect(obj.name).to.equal('test');
+
+                    done();
+                });
+
+        });
+
+        it("should return an object (Via promised response)", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/annotation/status/1')
+                .expect(202)
+                .end((err, response: any) => {
+
+                    if (err){
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.id).to.equal('1');
+                    expect(obj.name).to.equal('test');
+
+                    done();
+                });
+
+        });
+
+    });
+
+
+    describe("PUT /rest/calendars", () => {
+
+
 
     });
 

@@ -13,19 +13,12 @@ import {Forbidden} from "httpexceptions";
  * @returns {function(Function): void}
  * @constructor
  */
-export function Controller(endpointUrl: string, ...ctrls: string[]): Function {
+export function Controller(endpointUrl: string, ...ctlrDepedencies: string[]): Function {
 
     return (targetClass: Function): void => {
 
         Controllers.setUrl(targetClass, endpointUrl);
-        Controllers.setDepedencies(targetClass, ctrls);
-
-        /* targetClass.prototype.register = function(app: any): any {
-
-            app.use(endpointUrl, Controllers.register(targetClass));
-
-            return router;
-        }; */
+        Controllers.setDepedencies(targetClass, ctlrDepedencies);
 
     };
 }

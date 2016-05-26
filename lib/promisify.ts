@@ -1,4 +1,5 @@
 import Promise = require("bluebird");
+import * as Express from "express";
 import {invoke, IInvokedFNResult, IInvokedFunction} from "./injector";
 
 /**
@@ -10,9 +11,23 @@ import {invoke, IInvokedFNResult, IInvokedFunction} from "./injector";
 
 export function Promisify(targetClass: any, originalMethod: any): Function {
 
-    return (request: any, response: any, next: Function): Promise<any> => {
+    return (request: Express.Request, response: Express.Response, next: Function): Promise<any> => {
 
         let fnInvResult: IInvokedFNResult;
+
+        response.setHeader("X-Managed-By", "Express-router-decorator");
+        response.setHeader("Content-Type", "text/json");
+
+        // preset status code
+        switch (request.method) {
+            case "POST":
+                response.status(201);
+                break;
+
+            default:
+                //response.status(200);
+                break;
+        }
 
         return new Promise<any>((resolve, reject) => {
 
@@ -33,26 +48,15 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
         })
             .then(function(data){
 
-                response.setHeader("X-Managed-By", "Express-router-decorator");
-
                 if (data) {
 
-                    response.setHeader("Content-Type", "text/json");
-
-                    switch (request.method) {
-                        case "POST":
-
-                            response.status(201);
-                            response.location(request.path + "/" + data._id);
-                            response.json(data);
-
-                            break;
-
-                        default:
-                            response.status(200);
-                            response.json(data);
-                            break;
+                    if (request.method === "POST") {
+                        // NOT STANDARD
+                        
+                        //response.location(request.path + "/" + data._id);
                     }
+                    
+                    response.json(data);
                 }
 
                 if (fnInvResult.impliciteNext) {

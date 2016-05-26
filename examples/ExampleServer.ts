@@ -13,7 +13,10 @@ export class ExampleServer extends ServerLoader {
         
         this.setEndpoint('/rest')
             .scan(appPath + "/controllers/**/**.js")
-            .createHttpServer(8000);
+            .createHttpServer(8000)
+            .createHttpsServer({
+                port: 8080
+            });
 
     }
 
