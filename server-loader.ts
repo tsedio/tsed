@@ -5,6 +5,7 @@ import * as Logger from "log-debug";
 import * as Controllers from "./lib/controllers";
 import * as Promise from "bluebird";
 import * as Glob from "glob";
+import * as Httpexceptions from "httpexceptions";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -13,13 +14,26 @@ export interface IHTTPSServerOptions extends Https.ServerOptions {
 export abstract class ServerLoader {
 
     protected expressApp = Express();
-    private endpoint: string;
+    private endpoint: string = "/";
     private httpServer: Http.Server;
     private httpPort: string | number;
     private httpsServer: Https.Server;
     private httpsPort: string | number;
 
-    constructor() {}
+    constructor() {
+
+        let http  = require("http");
+
+        http.IncomingMessage.prototype.$isAuthenticated = (request, response, next) => {
+
+            if (this.isAuthenticated(request, response, next)) {
+                return next();
+            }
+
+            Logger.warn("[TED] Authentification error");
+            next(new Httpexceptions.Forbidden('Forbidden'));
+        };
+    }
 
     /**
      * Create a new HTTP server.
@@ -158,7 +172,7 @@ export abstract class ServerLoader {
     }
 
     /**
-     *
+     * Set the port for http server.
      * @param port
      * @returns {ServerLoader}
      */
@@ -170,7 +184,7 @@ export abstract class ServerLoader {
     }
 
     /**
-     *
+     * Set the port for https server.
      * @param port
      * @returns {ServerLoader}
      */
@@ -182,7 +196,7 @@ export abstract class ServerLoader {
     }
 
     /**
-     *
+     * Change the global endpoint path.
      * @param endpoint
      * @returns {ServerLoader}
      */
@@ -194,7 +208,7 @@ export abstract class ServerLoader {
     }
 
     /**
-     *
+     * Configure and the directory to find controllers. All controller are mounted on the global endpoint.
      * @param path
      * @returns {ServerLoader}
      */
@@ -232,6 +246,38 @@ export abstract class ServerLoader {
      * @param response
      * @param next
      */
-    public abstract onError(error: any, request: Express.Request, response: Express.Response, next: Function): void;
+    public abstract onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
 
+    /**
+     * Override this method to set your check authentification strategy (Passport.js for example).
+     * This method is binded with `Express.Request` object and used by the @Authenticated decorator.
+     * @param request
+     * @param response
+     * @param next
+     * @returns {boolean}
+     */
+    public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
+        return true;
+    };
+
+    /**
+     * Set the mime acceptable to all request. Return a middleware.
+     * @param mimes
+     * @returns {function(Express.Request, Express.Response, Express.NextFunction): any}
+     * @constructor
+     */
+    static AcceptMime(...mimes: string[]): Function {
+
+        return function(req: Express.Request, res: Express.Response, next: Express.NextFunction): any {
+
+            for(var i = 0; i < mimes.length; i++){
+                if (!req.accepts(mimes[0])){
+                    throw new Httpexceptions.NotAcceptable(mimes[0]);
+                }
+            }
+
+            next();
+        }
+
+    }
 }

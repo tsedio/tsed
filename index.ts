@@ -40,7 +40,7 @@ export function Use(...args): Function {
  */
 export function Authenticated(): Function {
     return _Use(function(request: any, response: any, next: Function) {
-        if (request.isAuthenticated) {
+        if (request.$authenticated) {
             if (request.isAuthenticated()) {
                 return next();
             }
