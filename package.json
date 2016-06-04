@@ -28,7 +28,7 @@
     "express",
     "Controller",
     "Inject",
-    "ioc"
+    "ioc",
     "ES2015",
     "ES6"
   ],
