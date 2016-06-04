@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Express Router decorators",
   "main": "lib/index.js",
   "scripts": {
