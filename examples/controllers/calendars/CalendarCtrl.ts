@@ -115,6 +115,13 @@ export class CalendarCtrl {
         });
     }
 
+    /**
+     * 
+     * @param request
+     * @param name
+     * @returns {{id: number, name: string}}
+     */
+    
     @Put('/')
     public save(
         @Request() request,
@@ -124,6 +131,10 @@ export class CalendarCtrl {
         return {id: 2, name: name};
     }
 
+    /**
+     * 
+     * @returns {null}
+     */
     @Post('/:id')
     public update(
 
@@ -133,6 +144,10 @@ export class CalendarCtrl {
         return null;
     }
 
+    /**
+     * 
+     * @returns {null}
+     */
     @Delete('/:id')
     public remove(
 
@@ -140,6 +155,10 @@ export class CalendarCtrl {
         return null;
     }
 
+    /**
+     * 
+     * @returns {null}
+     */
     @Get('/')
     public query(
 

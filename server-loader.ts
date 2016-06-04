@@ -99,7 +99,7 @@ export abstract class ServerLoader {
     public importGlobalErrorsHanlder(): ServerLoader {
         Logger.debug("[ERD] Add global errors handler");
 
-        this.use((error: any, request: Express.Request, response: Express.Response, next: Function) => {
+        this.use((error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
             try {
                 this.onError(error, request, response, next);
             } catch (err) {
