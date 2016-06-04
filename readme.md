@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Romakita/ts-express-decorators.svg?branch=master)](https://travis-ci.org/Romakita/ts-express-decorators)
 [![Coverage Status](https://coveralls.io/repos/github/Romakita/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/Romakita/ts-express-decorators?branch=master)
-[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.png?v=100)](https://github.com/ellerbrock/typescript-badges/)
+[![TypeScript](https://badges.frapsoft.com/typescript/love/typescript.svg?v=100)](https://github.com/ellerbrock/typescript-badges/) 
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-v18.svg?v=100)](https://github.com/ellerbrock/typescript-badges/)
 
 > Build your Typescript Application with Express route decorators !
@@ -19,14 +19,14 @@ Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
 
 ## Features
 
-* Define classes as Controllers
-* Define root path for an entire controller
-* Define routes for a method
-* Define routes on GET, POST, PUT and DELETE verbs
-* Define middlewares on routes
-* Define required parameters
-* Inject data from query string, path parameters, entire body or cookies
-* Inject Request, Response, Next object from Express request
+* Define classes as Controller,
+* Define root path for an entire controller,
+* Define as sub-route path for a method,
+* Define routes on GET, POST, PUT and DELETE verbs,
+* Define middlewares on routes,
+* Define required parameters,
+* Inject data from query string, path parameters, entire body or cookies,
+* Inject Request, Response, Next object from Express request.
 
 ## Example
 
@@ -64,7 +64,7 @@ export class Server extends ServerLoader {
      * This method let you configure the middleware required by your application to works.
      * @returns {Server}
      */
-    public importMiddlewares(): ExampleServer {
+    public importMiddlewares(): Server {
         let morgan = require("morgan"),
             cookieParser = require("cookie-parser"),
             bodyParser = require("body-parser"),
@@ -124,7 +124,7 @@ export class Server extends ServerLoader {
 
         log.debug("Initialize server");
 
-        return new ExampleServer()
+        return new Server()
             .start()
             .then(() => {
                 log.debug("Server started...");
@@ -293,4 +293,38 @@ export class CalendarCtrl {
 }
 
 ```
+
+## Decorators
+### Class decorators
+
+* @Controller(route: string, ...ctrlsNamesDepedencies?: string[]) : Declare a new controller with his Rest path. 
+
+### Method decorators
+
+* @All(route)
+* @Get(route)
+* @Post(route)
+* @Put(route)
+* @Delete(route)
+* @Head(route)
+* @Patch(route)
+* @Authenticated() : Call the Server.isAuthenticated method to check if the user is authenticated. (see setting How to configure authentification Strategy)
+* @Use(...middlewares: any[])
+
+### Parameter Decorators
+
+* @Response() : Express.Response service.
+* @Request() : Express.Request service.
+* @Next() : Express.NextFunction service.
+* @Params(requestAttribut: string, expression: string): Get a parameters on a attribut of Express.Request service.
+* @PathParams(expression: string): Get a parameters on Express.Request.params attribut.
+* @BodyParams(expression: string): Get a parameters on Express.Request.body attribut.
+* @CookiesParams(expression: string): Get a parameters on Express.Request.cookies attribut.
+* @QueryParams(expression: string): Get a parameters on Express.Request.query attribut.
+* @PathParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
+* @BodyParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
+* @CookiesParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
+* @QueryParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
+
+## Configure authentification strategy
 

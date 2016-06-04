@@ -7,7 +7,7 @@ import * as _Params from "./lib/params";
 import {Forbidden} from "httpexceptions";
 
 /**
- *
+ * Class decorator
  * @param endpointUrl
  * @param ctrls
  * @returns {function(Function): void}
@@ -24,7 +24,7 @@ export function Controller(endpointUrl: string, ...ctlrDepedencies: string[]): F
 }
 
 /**
- *
+ * Method decorator.
  * @param args
  * @returns {Function}
  * @constructor

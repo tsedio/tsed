@@ -22,8 +22,13 @@
     "Express",
     "TypeScript",
     "Decorator",
+    "decorators",
+    "decorator",
+    "typescript",
+    "express",
     "Controller",
     "Inject",
+    "ioc"
     "ES2015",
     "ES6"
   ],
