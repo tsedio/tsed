@@ -5,21 +5,17 @@
 [![TypeScript](https://badges.frapsoft.com/typescript/love/typescript.svg?v=100)](https://github.com/ellerbrock/typescript-badges/) 
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-v18.svg?v=100)](https://github.com/ellerbrock/typescript-badges/)
 
-> Build your Typescript Application with Express route decorators !
+> Build your Typescript application with Express route decorators !
 
 Actually this npm package are flagged in beta !
 
 ## Prerequisites
 
-Express-route-decorator require Typescript 1.8, but it will work with Typescript 1.5 or higher.
-
-## Installation
-
-Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
+ts-route-decorator require Typescript 1.8 and "experimentalDecorators" must be to set at true.
 
 ## Features
 
-* Define classes as Controller,
+* Define classe as Controller,
 * Define root path for an entire controller,
 * Define as sub-route path for a method,
 * Define routes on GET, POST, PUT and DELETE verbs,
@@ -28,19 +24,59 @@ Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
 * Inject data from query string, path parameters, entire body or cookies,
 * Inject Request, Response, Next object from Express request.
 
+## Installation
+
+Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
+
 ## Example
 
-In first place, you must create your server.ts :
+```typescript
+import {Controller, Get, Authenticated, BodyParamsRequired, Post} from "ts-express-decorators";
+import * as Express from "express";
+
+interface ICalendar{
+    id: string;
+    name: string;
+}
+
+@Controller("/test")
+export class CalendarCtrl {
+
+    @Get("/:id")
+    public get(request: Express.Request, response: Express.Response): ICalendar {
+
+        return <ICalendar> {id: request.params.id, name: "test"};
+    }
+    
+    
+    @Authenticated()
+    @BodyParamsRequired("calendar.name")  // Throw Bad Request (400) if the req.request.calendar.name isn't provided 
+    @Post("/")
+    public post(
+        @BodyParams("calendar") calendar: ICalendar
+    ): Promise<ICalendar> {
+    
+        return new Promise((resolve: Function, reject: Function) => {
+        
+            calendar.id = 1;
+            
+            resolve(calendar);
+            
+        });
+    }
+}
+```
+
+## Configuration
+### Create your express server
+
+`ts-express-decorators` provide a `ServerLoad` class to configure your express quickly. Just create a `server.ts` in your root project, declare a new `Server` class that extends `ServerLoader`.
 
 ```typescript
-
 import * as Express from "express";
 import {ServerLoader} from "ts-express-decorators/server-loader";
 import Path = require("path");
 
-/**
- * Create a new Server that extends ServerLoader.
- */
 export class Server extends ServerLoader {
     /**
      * In your constructor set the global endpoint and configure the folder to scan the controllers.
@@ -49,7 +85,7 @@ export class Server extends ServerLoader {
     constructor() {
         super();
 
-        let appPath = Path.resolve(__dirname);
+        let appPath: string = Path.resolve(__dirname);
         
         this.setEndpoint("/rest")                       // Declare your endpoint
             .scan(appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
@@ -136,10 +172,12 @@ export class Server extends ServerLoader {
 Server.Initialize();
 ```
 
-And in second, create your first controller `calendarCtrl.ts` in your controllers directory. Here an example of controller :
+### Create your first controller
+
+Create a new `calendarCtrl.ts` in your controllers directory configured previously with `ServerLoader.scan()`. All controllers declared with `@Controller` decorators is considered as an Express router. An Express router require a path (here path is `/calendars`) to expose an url on your server. 
+More precisely, it is a part of path, and entire exposed url depend on the Server configuration (see ServerLoader.setEndpoint()) and the controllers dependencies. In this case, we haven't a dependencies and the root endpoint is set `/rest`. So the url of this controller will be `http://host/rest/calendars`.
 
 ```typescript
-
 import {Controller, Get} from "ts-express-decorators";
 import * as Express from "express";
 
@@ -147,19 +185,13 @@ interface ICalendar{
     id: string;
     name: string;
 }
-/**
- * Add @Controller annotation to declare your class as Router controller. The first param is the global path for your controller.
- * The others params is the controller depedencies. 
- *
- * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the /calendars path.
- */
+
 @Controller("/calendars")
 export class CalendarCtrl {
 
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.
-     * In this case, this route "/calendars/:id" are mounted on the "rest/" path (call /rest/calendars/:id
-     * to test your service).
+     * In this case, this route "/calendars/:id" are mounted on the "rest/" path.
      *
      * By default, the response is sent with status 200 and is serialized in JSON.
      *
@@ -173,10 +205,11 @@ export class CalendarCtrl {
         return <ICalendar> {id: request.params.id, name: "test"};
     }
 }
-
 ```
 
-Finally run your `server.ts` and send a http request on `/rest/calendar/1`
+To test your method, just run your `server.ts` and send a http request on `/rest/calendars/1`.
+
+**Note** : Decorators Get support dynamic pathParams (see `/:id`) and RegExp like Express API. 
 
 ## Injection
 ### Inject Response and Request services
