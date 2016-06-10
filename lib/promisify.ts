@@ -1,7 +1,6 @@
 import Promise = require("bluebird");
 import * as Express from "express";
-import {invoke, IInvokedFNResult, IInvokedFunction} from "./injector";
-
+import {invoke} from "./invoke";
 /**
  *
  * @param targetClass
@@ -11,7 +10,7 @@ import {invoke, IInvokedFNResult, IInvokedFunction} from "./injector";
 
 export function Promisify(targetClass: any, originalMethod: any): Function {
 
-    return (request: Express.Request, response: Express.Response, next: Function): Promise<any> => {
+    return (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
 
         let fnInvResult: IInvokedFNResult;
 
@@ -19,14 +18,8 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
         response.setHeader("Content-Type", "text/json");
 
         // preset status code
-        switch (request.method) {
-            case "POST":
-                response.status(201);
-                break;
-
-            default:
-                //response.status(200);
-                break;
+        if (request.method === "POST") {
+            response.status(201);
         }
 
         return new Promise<any>((resolve, reject) => {
@@ -46,15 +39,15 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
             }
 
         })
-            .then(function(data){
+            .then((data) => {
 
                 if (data) {
 
-                    if (request.method === "POST") {
+                    //if (request.method === "POST") {
                         // NOT STANDARD
                         
                         //response.location(request.path + "/" + data._id);
-                    }
+                    //}
                     
                     response.json(data);
                 }
@@ -65,9 +58,9 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
 
                 return data;
 
-            }, function(err){
+            }, (err) => {
                 next(err);
-                return Promise.reject(err);
+                //return Promise.reject(err);
             });
     };
 }

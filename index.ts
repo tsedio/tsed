@@ -1,26 +1,25 @@
-
 require("source-map-support").install();
 
-import * as Controllers from "./lib/controllers";
-import {Use as _Use} from "./lib/use";
-import * as _Params from "./lib/params";
-import {Forbidden} from "httpexceptions";
+import {Authenticated as _Authenticated} from "./decorators/authenticated";
+import * as Route from "./decorators/route";
+import * as _Required from "./decorators/required";
+import * as _Params from "./decorators/params";
+import {Response as _Response} from "./decorators/response";
+import {Request as _Request} from "./decorators/request";
+import {Next as _Next} from "./decorators/next";
+import {Header as _Header} from "./decorators/header";
+import {Use as _Use} from "./decorators/use";
+import {Controller as _Controller} from "./decorators/controller";
 
 /**
  * Class decorator
  * @param endpointUrl
- * @param ctrls
+ * @param ctlrDepedencies
  * @returns {function(Function): void}
  * @constructor
  */
 export function Controller(endpointUrl: string, ...ctlrDepedencies: string[]): Function {
-
-    return (targetClass: Function): void => {
-
-        Controllers.setUrl(targetClass, endpointUrl);
-        Controllers.setDepedencies(targetClass, ctlrDepedencies);
-
-    };
+    return _Controller(endpointUrl, ...ctlrDepedencies);
 }
 
 /**
@@ -39,17 +38,17 @@ export function Use(...args): Function {
  * @constructor
  */
 export function Authenticated(): Function {
-    return _Use(function(request: any, response: any, next: Function) {
-        if (request.$authenticated) {
-            if (request.isAuthenticated()) {
-                return next();
-            }
-
-            next(new Forbidden("Forbidden"));
-        }
-    });
+    return _Authenticated();
 }
 
+/**
+ *
+ * @returns {any}
+ * @constructor
+ */
+export function Required() {
+    return _Required.Required();
+}
 /**
  *
  * @param type
@@ -58,7 +57,7 @@ export function Authenticated(): Function {
  * @constructor
  */
 export function ParamsRequired(type: string, ...paramsRequired): Function {
-    return _Params.ParamsRequired(type, ...paramsRequired);
+    return _Required.ParamsRequired(type, ...paramsRequired);
 }
 
 /**
@@ -68,7 +67,7 @@ export function ParamsRequired(type: string, ...paramsRequired): Function {
  * @constructor
  */
 export function PathParamsRequired(...paramsRequired): Function {
-    return _Params.PathParamsRequired(...paramsRequired);
+    return _Required.PathParamsRequired(...paramsRequired);
 }
 /**
  *
@@ -77,7 +76,7 @@ export function PathParamsRequired(...paramsRequired): Function {
  * @constructor
  */
 export function BodyParamsRequired(...paramsRequired): Function {
-    return _Params.BodyParamsRequired(...paramsRequired);
+    return _Required.BodyParamsRequired(...paramsRequired);
 }
 /**
  *
@@ -86,7 +85,7 @@ export function BodyParamsRequired(...paramsRequired): Function {
  * @constructor
  */
 export function CookiesParamsRequired(...paramsRequired): Function {
-    return _Params.CookiesParamsRequired(...paramsRequired);
+    return _Required.CookiesParamsRequired(...paramsRequired);
 }
 /**
  *
@@ -95,18 +94,7 @@ export function CookiesParamsRequired(...paramsRequired): Function {
  * @constructor
  */
 export function QueryParamsRequired(...paramsRequired): Function {
-    return _Params.QueryParamsRequired(...paramsRequired);
-}
-
-/**
- *
- * @param type
- * @param expression
- * @returns {Function}
- * @constructor
- */
-export function Params(type: string, expression?: string): Function {
-    return _Params.Params(type, expression);
+    return _Required.QueryParamsRequired(...paramsRequired);
 }
 
 /**
@@ -154,7 +142,7 @@ export function BodyParams(expression?: string): Function {
  * @constructor
  */
 export function Response(): Function {
-    return _Params.Response();
+    return _Response();
 }
 
 /**
@@ -163,7 +151,7 @@ export function Response(): Function {
  * @constructor
  */
 export function Request(): Function {
-    return _Params.Request();
+    return _Request();
 }
 
 /**
@@ -172,7 +160,11 @@ export function Request(): Function {
  * @constructor
  */
 export function Next(): Function {
-    return _Params.Next();
+    return _Next();
+}
+
+export function Header(expression: string){
+    return _Header(expression);
 }
 
 /**
@@ -183,7 +175,7 @@ export function Next(): Function {
  * @constructor
  */
 export function All(path: string, ...args: any[]): Function {
-    return Use(...["all", path].concat(args));
+    return Route.All(path, ...args);
 }
 
 /**
@@ -194,7 +186,7 @@ export function All(path: string, ...args: any[]): Function {
  * @constructor
  */
 export function Get(path: string, ...args: any[]): Function {
-    return Use(...["get", path].concat(args));
+    return Route.Get(path, ...args);
 }
 /**
  *
@@ -204,7 +196,7 @@ export function Get(path: string, ...args: any[]): Function {
  * @constructor
  */
 export function Post(path: string, ...args: any[]): Function {
-    return Use(...["post", path].concat(args));
+    return Route.Post(path, ...args);
 }
 /**
  *
@@ -214,7 +206,7 @@ export function Post(path: string, ...args: any[]): Function {
  * @constructor
  */
 export function Put(path: string, ...args: any[]): Function {
-    return Use(...["put", path].concat(args));
+    return Route.Put(path, ...args);
 }
 
 /**
@@ -225,7 +217,7 @@ export function Put(path: string, ...args: any[]): Function {
  * @constructor
  */
 export function Delete(path: string, ...args: any[]): Function {
-    return Use(...["delete", path].concat(args));
+    return Route.Delete(path, ...args);
 }
 
 /**
@@ -236,7 +228,7 @@ export function Delete(path: string, ...args: any[]): Function {
  * @constructor
  */
 export function Head(path: string, ...args: any[]): Function {
-    return Use(...["head", path].concat(args));
+    return Route.Head(path, ...args);
 }
 
 /**
@@ -247,5 +239,5 @@ export function Head(path: string, ...args: any[]): Function {
  * @constructor
  */
 export function Patch(path: string, ...args: any[]): Function {
-    return Use(...["patch", path].concat(args));
+    return Route.Patch(path, ...args);
 }

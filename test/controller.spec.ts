@@ -6,7 +6,7 @@ import {ICtrlRoute} from "../lib/controllers";
 let expect: Chai.ExpectStatic = Chai.expect;
 FakeApplication.getInstance();
 
-describe("Controller", function(){
+describe("Controller", () => {
 
     it("load route in app", () => {
         let routes: ICtrlRoute[]  = Controllers.getRoutes();
@@ -120,7 +120,29 @@ describe("Controller", function(){
     describe("PUT /rest/calendars", () => {
 
 
+        it("should throw a BadRequest", (done: Function) => {
 
+            FakeApplication
+                .getInstance()
+                .request()
+                .put('/rest/calendars')
+                .expect(400)
+                .end((err, response: any) => {
+
+                   /* if (err){
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.id).to.equal('1');
+                    expect(obj.name).to.equal('test');*/
+
+                    done();
+                });
+
+        });
     });
 
 /*

@@ -5,17 +5,19 @@ import Promise = require("bluebird");
 import {BadRequest} from "httpexceptions/lib/badrequest";
 import {FakeRequest} from "./helper/FakeRequest";
 import {FakeResponse} from "./helper/FakeResponse";
+import {FakeNextFn} from "./helper/FakeNextFn";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
 describe("Promisify()", function() {
 
-    let response: FakeResponse, request: FakeRequest, next: Function;
+    let nextResult: any;
+    let response: FakeResponse, request: FakeRequest, next = FakeNextFn;
 
     beforeEach(function () {
         request =   new FakeRequest();
         response =  new FakeResponse();
-        next =      () => {};
+        next.reset();
     });
 
     it("should do create a function", function () {
@@ -52,7 +54,7 @@ describe("Promisify()", function() {
 
         });
 
-        it("should run a method wich return value", (done) => {
+        it("should run a method witch return value", (done) => {
 
             let foo: TestPromisify =    new TestPromisify();
             let fn: Function =          Promisify(foo, foo.myMethodReturnValue);
@@ -82,7 +84,7 @@ describe("Promisify()", function() {
 
         });
 
-        it("should run a method wich return promise", (done) => {
+        it("should run a method witch return promise", (done) => {
 
             request.method = 'POST';
             request.path = "rest/test";
@@ -112,12 +114,10 @@ describe("Promisify()", function() {
                 done();
             });
 
-
-            //
-
         });
 
         it("should run a method witch throw error", (done) => {
+
 
             let foo: TestPromisify = new TestPromisify();
             let fn: Function = Promisify(foo, 'myMethodThrowException');
@@ -129,12 +129,8 @@ describe("Promisify()", function() {
             expect(promise).to.be.an.instanceOf(Promise);
 
             promise.then(
-                function(data){
-                    expect(true).to.be.false;
-                    done();
-                },
-                function(err){
-                    expect(err).to.be.an.instanceOf(BadRequest);
+                function(){
+                    expect(next.get()).to.be.an.instanceOf(BadRequest);
                     done();
                 });
 

@@ -59,15 +59,8 @@ export class ExampleServer extends ServerLoader {
      * @param response
      * @param next
      */
-    public onError(error: any, request: Express.Request, response: Express.Response, next: Function): void {
-
-        Logger.error(error);
-
-        response
-            .status(500)
-            .send('Internal Server error');
-        
-        next();
+    public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+        return super.onError(error, request, response, next);
     }
 
     /**
@@ -77,7 +70,7 @@ export class ExampleServer extends ServerLoader {
      * @param next
      * @returns {boolean}
      */
-    public isAuthenticated(request: Express.Request, response: Express.Response, next: Function): boolean {
+    public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
 
 
         return true;

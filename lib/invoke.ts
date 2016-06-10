@@ -1,19 +1,5 @@
 
-export interface IInvokedFunction extends Function {
-    $inject?: (Function|string)[];
-}
-
-export interface ILocalScope {
-    request: any;
-    response: any;
-    next: Function;
-}
-
-export interface IInvokedFNResult {
-    result: Promise<any> | any | void;
-    impliciteNext: boolean;
-}
-
+import {BadRequest} from "httpexceptions/lib/badrequest";
 /**
  * Invoke a method of a controller and inject service requested (Request, Response, Next, etc...).
  * Note : The result return by the invoked method can be a promise or a value.
@@ -22,7 +8,7 @@ export interface IInvokedFNResult {
  * @param localScope
  * @returns {any}
  */
-export function invoke(targetClass: any, method: IInvokedFunction, localScope: ILocalScope): IInvokedFNResult {
+export function invoke(targetClass: any, method: IInvokedFunction, localScope: IExpressParameters): IInvokedFNResult {
     let $inject: (Function|string)[];
     let impliciteNext: boolean = false;
 
@@ -40,19 +26,18 @@ export function invoke(targetClass: any, method: IInvokedFunction, localScope: I
             : localScope[<string>item]
     ));
 
+    if (method.$required) {
+        method.$required.forEach((index: number) => {
+            /* istanbul ignore else */
+            if (injected[index] === undefined) {
+                let param: string = method.$metadata[index];
+                throw new BadRequest(`Bad request, parameter ${param} is required.`);
+            }
+        });
+    }
+
     return {
         result: method.apply(targetClass, injected),
         impliciteNext: impliciteNext
     };
-}
-
-/**
- * Create metadata to set a list of service. This service will be injected when the method is invoked with the function invoke.
- * @param method
- * @param index
- * @param service
- */
-export function attachInject(method: IInvokedFunction, index: number, service: string|Function): void {
-    method.$inject = method.$inject || [];
-    method.$inject[index] = service;
 }

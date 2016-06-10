@@ -1,9 +1,9 @@
-import {Controller, Get, Post, Put, Delete, PathParams, Request, Response} from "../../../index";
+import {Controller, Get, Post, Put, Delete, PathParams, Request, Response, BodyParams, Required} from "../../../index";
+
 import * as Logger from "log-debug";
-import {IPromise} from "../../../icrud";
-import {BodyParams} from "../../../lib/params";
 import * as Promise from "bluebird";
 import * as Express from "express";
+import {IPromise} from "../../../models/promise";
 
 interface ICalendar{
     id: string;
@@ -49,7 +49,7 @@ export class CalendarCtrl {
     @Get('/annotation/test/:id')
     public findWithAnnotation(
         @Request() request,
-        @PathParams('id') id
+        @PathParams('id') @Required() id
     ): ICalendar {
 
         Logger.debug('ID =>', id, request.params.id);
@@ -125,7 +125,7 @@ export class CalendarCtrl {
     @Put('/')
     public save(
         @Request() request,
-        @BodyParams('name') name: string
+        @BodyParams('name') @Required() name: string
     ): any {
 
         return {id: 2, name: name};

@@ -1,11 +1,9 @@
-import {Endpoint} from "./endpoint";
-import * as Controllers from "./controllers";
+import * as Controllers from "../lib/controllers";
 /**
- * Method decorator
- * @param method
- * @param route
+ * Use decorator.
  * @returns {function(any, any, any): *}
  * @constructor
+ * @param args
  */
 export function Use(...args: any[]): Function {
 

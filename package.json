@@ -10,7 +10,7 @@
     "lint": "tslint ./*.ts ./lib/*.ts",
     "test": "mocha --reporter spec --check-leaks --bail test/",
     "coverage": "npm run test-cov && npm run test-remap",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-cov": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test-remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
   },

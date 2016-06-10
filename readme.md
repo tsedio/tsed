@@ -327,7 +327,7 @@ export class CalendarCtrl {
 
 ```
 
-## Decorators
+## Decorators references
 ### Class decorators
 
 * @Controller(route: string, ...ctrlsNamesDepedencies?: string[]) : Declare a new controller with his Rest path. 
@@ -349,7 +349,6 @@ export class CalendarCtrl {
 * @Response() : Express.Response service.
 * @Request() : Express.Request service.
 * @Next() : Express.NextFunction service.
-* @Params(requestAttribut: string, expression: string): Get a parameters on a attribut of Express.Request service.
 * @PathParams(expression: string): Get a parameters on Express.Request.params attribut.
 * @BodyParams(expression: string): Get a parameters on Express.Request.body attribut.
 * @CookiesParams(expression: string): Get a parameters on Express.Request.cookies attribut.

@@ -2,7 +2,7 @@
 
 import Chai = require("chai");
 import * as Helper from "./helper/helper";
-import {invoke} from "../../lib/injector";
+import {invoke} from "../../lib/attach-inject";
 import {BodyParamsRequired} from "../index";
 import {QueryParamsRequired} from "../index";
 import {PathParamsRequired} from "../index";
@@ -10,7 +10,7 @@ import {ParamsRequired} from "../index";
 import {CookiesParamsRequired} from "../index";
 import {FakeResponse} from "./helper/FakeResponse";
 import {FakeRequest} from "./helper/FakeRequest";
-import {checkParamsRequired} from "../../lib/params";
+import {checkParamsRequired} from "../../decorators/request";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 

@@ -100,16 +100,11 @@ export abstract class ServerLoader {
         Logger.debug("[ERD] Add global errors handler");
 
         this.use((error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
-            try {
-                this.onError(error, request, response, next);
-            } catch (err) {
-                Logger.error("[ERD] Error not catched", err);
 
-                response
-                    .status(500)
-                    .send("Internal Server error");
-
-                next();
+            try{
+                return this.onError(error, request, response, next);
+            } catch(err) {
+                //console.error(err);
             }
         });
 
@@ -246,7 +241,30 @@ export abstract class ServerLoader {
      * @param response
      * @param next
      */
-    public abstract onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
+    public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+
+        if (response.headersSent) {
+            return next(error);
+        }
+
+        if (typeof error === 'string') {
+            response.status(404).send(error);
+            return next();
+        }
+
+        if(error instanceof Httpexceptions.HTTPException){
+            response.status(error.status).send(error.message);
+            return next();
+        }
+
+        if (error.name === 'CastError' || error.name === "ObjectID" || error.name == "ValidationError") {
+            response.status(400).send('Bad Request');
+            return next();
+        }
+
+        response.status(error.status || 500).send('500');
+        return next();
+    }
 
     /**
      * Override this method to set your check authentification strategy (Passport.js for example).
