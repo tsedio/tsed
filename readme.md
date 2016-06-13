@@ -9,9 +9,15 @@
 
 Actually this npm package are flagged in beta !
 
-## Prerequisites
+## Table of contents
 
-ts-route-decorator require Typescript 1.8 and "experimentalDecorators" must be to set at true.
+* [Features](#features)
+* [Quick start](#quick-start)
+* [Injection](#injection)
+* [Authentification](#authentification)
+* [Global errors handler](#global-errors-handler)
+* [Decorators references](#decorators-references)
+* [License](#license)
 
 ## Features
 
@@ -21,54 +27,20 @@ ts-route-decorator require Typescript 1.8 and "experimentalDecorators" must be t
 * Define routes on GET, POST, PUT and DELETE verbs,
 * Define middlewares on routes,
 * Define required parameters,
-* Inject data from query string, path parameters, entire body or cookies,
+* Inject data from query string, path parameters, entire body, cookies or header,
 * Inject Request, Response, Next object from Express request.
 
-## Installation
+## Quick start
+### Prerequisites
+
+ts-route-decorator require Typescript 1.8 and `experimentalDecorators` must be to set at true.
+
+### Installation
 
 Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
 
-## Example
-
-```typescript
-import {Controller, Get, Authenticated, BodyParamsRequired, Post} from "ts-express-decorators";
-import * as Express from "express";
-
-interface ICalendar{
-    id: string;
-    name: string;
-}
-
-@Controller("/test")
-export class CalendarCtrl {
-
-    @Get("/:id")
-    public get(request: Express.Request, response: Express.Response): ICalendar {
-
-        return <ICalendar> {id: request.params.id, name: "test"};
-    }
-    
-    
-    @Authenticated()
-    @BodyParamsRequired("calendar.name")  // Throw Bad Request (400) if the req.request.calendar.name isn't provided 
-    @Post("/")
-    public post(
-        @BodyParams("calendar") calendar: ICalendar
-    ): Promise<ICalendar> {
-    
-        return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = 1;
-            
-            resolve(calendar);
-            
-        });
-    }
-}
-```
-
-## Configuration
-### Create your express server
+### Configuration
+#### Create your express server
 
 `ts-express-decorators` provide a `ServerLoad` class to configure your express quickly. Just create a `server.ts` in your root project, declare a new `Server` class that extends `ServerLoader`.
 
@@ -123,36 +95,6 @@ export class Server extends ServerLoader {
     }
 
     /**
-     * Customize this method to manage all errors emitted by the server and controllers.
-     * @param error
-     * @param request
-     * @param response
-     * @param next
-     */
-    public onError(error: any, request: Express.Request, response: Express.Response, next: Function): void {
-
-        console.error(error);
-
-        response
-            .status(500)
-            .send("Internal Server error");
-        
-        next();
-    }
-
-    /**
-     * Set here your check authentification strategy.
-     * @param request
-     * @param response
-     * @param next
-     * @returns {boolean}
-     */
-    public isAuthenticated(request: Express.Request, response: Express.Response, next: Function): boolean {
-
-
-        return true;
-    }
-    /**
      * Start your server. Enjoy it !
      * @returns {Promise<U>|Promise<TResult>}
      */
@@ -172,7 +114,7 @@ export class Server extends ServerLoader {
 Server.Initialize();
 ```
 
-### Create your first controller
+#### Create your first controller
 
 Create a new `calendarCtrl.ts` in your controllers directory configured previously with `ServerLoader.scan()`. All controllers declared with `@Controller` decorators is considered as an Express router. An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
 More precisely, it is a part of path, and entire exposed url depend on the Server configuration (see ServerLoader.setEndpoint()) and the controllers dependencies. In this case, we haven't a dependencies and the root endpoint is set `/rest`. So the url of this controller will be `http://host/rest/calendars`.
@@ -204,6 +146,37 @@ export class CalendarCtrl {
 
         return <ICalendar> {id: request.params.id, name: "test"};
     }
+    
+    @Authenticated()
+    @BodyParamsRequired("calendar.name")  // Throw Bad Request (400) if the request.body.calendar.name isn't provided 
+    @Post("/")
+    public post(
+        @BodyParams("calendar") calendar: ICalendar
+    ): Promise<ICalendar> {
+    
+        return new Promise((resolve: Function, reject: Function) => {
+        
+            calendar.id = 1;
+            
+            resolve(calendar);
+            
+        });
+    }
+    
+    @Authenticated()
+    @Delete("/")
+    public post(
+        @BodyParams("calendar.id") @Required() id: string 
+    ): Promise<ICalendar> {
+    
+        return new Promise((resolve: Function, reject: Function) => {
+        
+            calendar.id = id;
+            
+            resolve(calendar);
+            
+        });
+    }
 }
 ```
 
@@ -211,8 +184,8 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 **Note** : Decorators Get support dynamic pathParams (see `/:id`) and RegExp like Express API. 
 
-## Injection
-### Inject Response and Request services
+### Injection
+#### Response and Request services
 
 You can use decorator to inject `Express.Request`, `Express.Response` and 
 `Express.NextFunction` services instead of the classic call provided by Express API.
@@ -248,7 +221,7 @@ export class CalendarCtrl {
 
 ```
 
-### Inject PathParams service
+#### PathParams service
 
 PathParams decorator provide you a quick access to an attribute `Express.response.params`.
 
@@ -285,7 +258,7 @@ Same decorator are available to get other params. Use `BodyParams`
 (with the right HTTP verb @Post, @PUT, etc...), `QueryParams` or `CookiesParams` 
 to get parameters send by the client. 
 
-## Use promise to send response
+### Send response with promise
 
 `ts-express-decorators` support Promise API to send a response. Just return a promise
 in your method and the controller will be waiting your promised response before 
@@ -327,6 +300,73 @@ export class CalendarCtrl {
 
 ```
 
+## Custom middleware
+
+## Authentification
+
+The `@Authentification` use a `ServerLoader.isAuthenticated()` method to check the authentification strategy.
+You can configure this method by adding an isAuthenticated() method on your `Server` class.
+
+```typescript
+
+import * as Express from "express";
+import {ServerLoader} from "ts-express-decorators/server-loader";
+import Path = require("path");
+
+export class Server extends ServerLoader {
+
+    /**
+     * Set here your authentification strategy.
+     * @param request
+     * @param response
+     * @param next
+     * @returns {boolean}
+     */
+    public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
+
+
+        return true;
+    }
+}
+```
+
+## Throw HTTP Exceptions
+
+
+
+## Global Errors Handler
+
+All errors are intercepted by the ServerLoader class. By default, all 
+HTTP Exceptions are automatically sent to the client, and technical error are
+sent as Internal Server Error. 
+
+You can override the default method by adding `onError` method your `Server` class.
+
+```typescript
+
+import * as Express from "express";
+import {ServerLoader} from "ts-express-decorators/server-loader";
+import Path = require("path");
+
+export class Server extends ServerLoader {
+
+    
+    /**
+     * Customize this method to manage all errors emitted by the server and controllers.
+     * @param error
+     * @param request
+     * @param response
+     * @param next
+     */
+    public onError(error: any, request: Express.Request, response: Express.Response, next: Function): void {
+
+        console.error(error);
+
+        return super.onError(error, request, response, next);
+    }
+}
+```
+
 ## Decorators references
 ### Class decorators
 
@@ -334,29 +374,30 @@ export class CalendarCtrl {
 
 ### Method decorators
 
-* @All(route)
-* @Get(route)
-* @Post(route)
-* @Put(route)
-* @Delete(route)
-* @Head(route)
-* @Patch(route)
-* @Authenticated() : Call the Server.isAuthenticated method to check if the user is authenticated. (see setting How to configure authentification Strategy)
-* @Use(...middlewares: any[])
+* `@All(route)`: Intercept all request for a given route.
+* `@Get(route)`: Intercept request with GET http verb for a given route.
+* `@Post(route)`: Intercept request with POST http verb for a given route.
+* `@Put(route)`: Intercept request with PUT http verb for a given route.
+* `@Delete(route)`: Intercept request with DELETE http verb for a given route.
+* `@Head(route)`: Intercept request with HEAD http verb for a given route.
+* `@Patch(route)`: Intercept request with PATCH http verb for a given route.
+* `@Authenticated()`: Call the `Server.isAuthenticated` method to check if the user is authenticated.
+* `@Use(...middlewares: any[])`: Set a custom middleware.
 
 ### Parameter Decorators
 
-* @Response() : Express.Response service.
-* @Request() : Express.Request service.
-* @Next() : Express.NextFunction service.
-* @PathParams(expression: string): Get a parameters on Express.Request.params attribut.
-* @BodyParams(expression: string): Get a parameters on Express.Request.body attribut.
-* @CookiesParams(expression: string): Get a parameters on Express.Request.cookies attribut.
-* @QueryParams(expression: string): Get a parameters on Express.Request.query attribut.
-* @PathParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
-* @BodyParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
-* @CookiesParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
-* @QueryParamsRequired(...expression: string[]): Throw bad request if the parameter(s) isn't provided.
+* `@Response()`: Express.Response service.
+* `@Request()`: Express.Request service.
+* `@Next()`: Express.NextFunction service.
+* `@PathParams(expression: string)`: Get a parameters on Express.Request.params attribut.
+* `@BodyParams(expression: string)`: Get a parameters on Express.Request.body attribut.
+* `@CookiesParams(expression: string)`: Get a parameters on Express.Request.cookies attribut.
+* `@QueryParams(expression: string)`: Get a parameters on Express.Request.query attribut.
+* `@Required()`: Set a required flag on parameters.
+* `@PathParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
+* `@BodyParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
+* `@CookiesParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
+* `@QueryParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
 
 ## License
 
