@@ -114,11 +114,36 @@ describe("Controller", () => {
 
         });
 
+        it("should use middleware to provide user info", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/middleware')
+                .set({
+                    Authorization: 'tokenauth'
+                })
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err){
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.user).to.equal(1);
+                    expect(obj.token).to.equal("tokenauth");
+
+                    done();
+                });
+
+        });
+
     });
 
-
     describe("PUT /rest/calendars", () => {
-
 
         it("should throw a BadRequest", (done: Function) => {
 
@@ -129,160 +154,84 @@ describe("Controller", () => {
                 .expect(400)
                 .end((err, response: any) => {
 
-                   /* if (err){
-                        throw (err);
-                    }
+                    expect(response.error.text).to.equal("Bad request, parameter request.body.name is required.");
+                    done();
+                });
+
+        });
+
+        it("should return an object", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .put('/rest/calendars')
+                .send({name: "test"})
+                .expect(200)
+                .end((err, response: any) => {
 
                     let obj = JSON.parse(response.text);
 
-                    expect(obj).to.be.an('object');
-                    expect(obj.id).to.equal('1');
-                    expect(obj.name).to.equal('test');*/
-
+                    expect(obj).to.be.an("object");
+                    expect(obj.name).to.equal("test");
                     done();
                 });
 
         });
     });
 
-/*
-    describe('GET annotation/method/get', function(){
+    describe("DELETE /rest/calendars", () => {
 
-        it('should respond status 403', function(done){
-            let app = new FakeApplication();
+        it("should throw a Forbidden", (done: Function) => {
 
-            Controllers.load(app);
-            
-            app
+            FakeApplication
+                .getInstance()
                 .request()
-                .get('/annotation/method/get')
-                .expect(200, done);
+                .delete('/rest/calendars')
+                .expect(403)
+                .end((err, response: any) => {
+
+                    expect(response.error.text).to.equal("Forbidden");
+                    done();
+                });
+
         });
 
+        it("should throw a BadRequest", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .delete('/rest/calendars')
+                .set({authorization: "token"})
+                .expect(400)
+                .end((err, response: any) => {
+
+                    expect(response.error.text).to.equal("Bad request, parameter request.body.id is required.");
+                    done();
+                });
+
+        });
+
+        it("should return an object", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .delete('/rest/calendars')
+                .send({id: 1})
+                .set({authorization: "token"})
+                .expect(200)
+                .end((err, response: any) => {
+
+                    //console.log(response);
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an("object");
+                    expect(obj.id).to.equal(1);
+                    done();
+                });
+
+        });
     });
-    
-    /*
-    it("should create an endpoints Map", function(){
-
-        expect(endpoints).to.be.an.instanceOf(Map);
-        expect(endpoints.size).to.equal(6);
-
-    });
-
-    it("endpoint (global) should have an item without route", function(){
-
-        let endpointHandler:any = endpoints.get("useGlobal");
-
-        expect(endpointHandler.route).to.be.undefined;
-        expect(endpointHandler.handler).to.be.an.instanceOf(Function);
-
-        let args = endpointHandler.toArray();
-
-        expect(args).to.be.an("array");
-        expect(args.length).to.equal(1);
-        expect(args[0]).to.be.a("function");
-
-    });
-
-    it("endpoint (get global) should have an item without route", function(){
-
-        let endpointHandler:any = endpoints.get("useGetGlobal");
-
-        expect(endpointHandler.route).to.be.undefined;
-        expect(endpointHandler.method).to.equal("get");
-        expect(endpointHandler.handler).to.be.an.instanceOf(Function);
-
-        let args = endpointHandler.toArray();
-
-        expect(args).to.be.an("array");
-        expect(args.length).to.equal(2);
-        expect(args[0]).to.equal("get");
-        expect(args[1]).to.be.a("function");
-
-    });
-
-    it("endpoint (middleware) should have an item with route", function(){
-
-        let endpointHandler:any = endpoints.get("useAsMiddleware");
-
-        expect(endpointHandler.route).to.equal('/test');
-        expect(endpointHandler.method).to.be.undefined;
-        expect(endpointHandler.handler).to.be.an.instanceOf(Function);
-
-        let args = endpointHandler.toArray();
-
-        expect(args).to.be.an("array");
-        expect(args.length).to.equal(2);
-        expect(args[0]).to.equal("/test");
-        expect(args[1]).to.be.a("function");
-
-    });
-
-    it("endpoint (middleware + regExp) should have an item with route", function(){
-
-        let endpointHandler:any = endpoints.get("useAsMiddleware2");
-
-        expect(endpointHandler.route).to.be.an.instanceOf(RegExp);
-        expect(endpointHandler.method).to.be.undefined;
-        expect(endpointHandler.handler).to.be.an.instanceOf(Function);
-
-        let args = endpointHandler.toArray();
-
-        expect(args).to.be.an("array");
-        expect(args.length).to.equal(2);
-        expect(args[0]).to.be.an.instanceOf(RegExp);
-        expect(args[1]).to.be.a("function");
-
-    });
-
-    it("endpoint (routing) should have an item with route", function(){
-
-        let endpointHandler:any = endpoints.get("useGet");
-
-        expect(endpointHandler.route).to.equal("/test");
-        expect(endpointHandler.method).to.equal("get");
-        expect(endpointHandler.handler).to.be.an.instanceOf(Function);
-
-        let args = endpointHandler.toArray();
-
-        expect(args).to.be.an("array");
-        expect(args.length).to.equal(3);
-        expect(args[0]).to.equal("get");
-        expect(args[1]).to.equal("/test");
-        expect(args[2]).to.be.an.instanceOf(Function);
-
-    });
-
-    it("endpoint (routing + middleware) should have an item with route", function(){
-
-        let endpointHandler:any = endpoints.get("useGetAndMdl");
-
-        expect(endpointHandler.route).to.equal("/test");
-        expect(endpointHandler.method).to.equal("get");
-        expect(endpointHandler.handler).to.be.an.instanceOf(Function);
-
-        let args = endpointHandler.toArray();
-
-        expect(args).to.be.an("array");
-        expect(args.length).to.equal(4);
-        expect(args[0]).to.equal("get");
-        expect(args[1]).to.equal("/test");
-        expect(args[2]).to.equal(Helper.Middleware);
-        expect(args[3]).to.be.an.instanceOf(Function);
-
-    });
-
-    it("register all routes", function() {
-
-        let router = Express.Router();
-
-        //console.log(Endpoints)
-
-        testController.register(router);
-
-        //console.log("Router", router);
-
-
-    });
-*/
 });

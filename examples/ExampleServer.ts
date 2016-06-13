@@ -39,7 +39,7 @@ export class ExampleServer extends ServerLoader {
             session = require('express-session');
 
         this
-            .use(morgan('dev'))
+            //.use(morgan('dev'))
             .use(ServerLoader.AcceptMime("application/json"))
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
@@ -72,8 +72,7 @@ export class ExampleServer extends ServerLoader {
      */
     public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
 
-
-        return true;
+        return request.get("authorization") === "token";
     }
     /**
      * Start your server. Enjoy it !

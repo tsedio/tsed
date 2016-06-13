@@ -1,5 +1,6 @@
 import {Use} from "./use";
 import {Forbidden} from "httpexceptions";
+import * as Express from "express";
 
 /**
  * Method decorator
@@ -7,11 +8,9 @@ import {Forbidden} from "httpexceptions";
  * @constructor
  */
 export function Authenticated(): Function {
-    return Use(function(request: any, response: any, next: Function) {
-        if (typeof request.$isAuthenticated === 'function') {
-            if(request.$isAuthenticated())
-            return next();
-            next(new Forbidden("Forbidden"));
+    return Use((request: Express.Request, response: Express.Response, next: Express.NextFunction): void => {
+        if (typeof request.$tryAuth === 'function') {
+            request.$tryAuth(request, response, next);
         }
     });
 }

@@ -24,14 +24,15 @@ export abstract class ServerLoader {
 
         let http  = require("http");
 
-        http.IncomingMessage.prototype.$isAuthenticated = (request, response, next) => {
+        http.IncomingMessage.prototype.$tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
-            if (this.isAuthenticated(request, response, next)) {
-                return next();
+            if (!this.isAuthenticated(request, response, next)) {
+                //Logger.warn("[TED] Authentification error");
+                next(new Httpexceptions.Forbidden('Forbidden'));
+                return;
             }
 
-            Logger.warn("[TED] Authentification error");
-            next(new Httpexceptions.Forbidden('Forbidden'));
+            next();
         };
     }
 

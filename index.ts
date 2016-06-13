@@ -40,7 +40,6 @@ export function Use(...args): Function {
 export function Authenticated(): Function {
     return _Authenticated();
 }
-
 /**
  *
  * @returns {any}
@@ -163,7 +162,7 @@ export function Next(): Function {
     return _Next();
 }
 
-export function Header(expression: string){
+export function Header(expression: string): Function {
     return _Header(expression);
 }
 

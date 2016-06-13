@@ -127,7 +127,7 @@ describe("Controllers", () => {
                 Controllers.instanciate(myClass);
 
             }catch(er){
-                console.log(er);
+                expect(er.toString()).to.equal('Error: Unable to instanciate controller myClassTest2.');
             }
 
 

@@ -40,7 +40,7 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
 
         })
             .then((data) => {
-
+                
                 if (data) {
 
                     //if (request.method === "POST") {
@@ -60,7 +60,6 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
 
             }, (err) => {
                 next(err);
-                //return Promise.reject(err);
             });
     };
 }

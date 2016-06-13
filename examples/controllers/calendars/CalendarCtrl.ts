@@ -1,17 +1,21 @@
-import {Controller, Get, Post, Put, Delete, PathParams, Request, Response, BodyParams, Required} from "../../../index";
+import {
+    Controller, Get, Post, Put, Delete,
+    PathParams, Request, Response,
+    BodyParams, Required, Use, Header, Next, Authenticated
+} from "../../../index";
 
 import * as Logger from "log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
 import {IPromise} from "../../../models/promise";
 
-interface ICalendar{
+interface ICalendar {
     id: string;
     name: string;
 }
 /**
  * Add @Controller annotation to declare your class as Router controller. The first param is the global path for your controller.
- * The others params is the controller depedencies. 
+ * The others params is the controller depedencies.
  *
  * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the `/calendars` path.
  */
@@ -29,7 +33,7 @@ export class CalendarCtrl {
      * @param response
      * @returns {{id: any, name: string}}
      */
-    @Get('/classic/:id')
+    @Get("/classic/:id")
     public findClassic(request: any, response: any): ICalendar {
 
         return {id: request.params.id, name: "test"};
@@ -44,17 +48,22 @@ export class CalendarCtrl {
      *
      * @param request
      * @param id
+     * @param next
+     * @param response
      * @returns {{id: any, name: string}}
      */
-    @Get('/annotation/test/:id')
+
+    @Get("/annotation/test/:id")
     public findWithAnnotation(
-        @Request() request,
-        @PathParams('id') @Required() id
-    ): ICalendar {
+        @Request() request: Express.Request,
+        @Response() response: Express.Response,
+        @PathParams("id") @Required() id: string,
+        @Next() next: Express.NextFunction
+    ): void {
 
-        Logger.debug('ID =>', id, request.params.id);
+        response.status(200).json({id: id, name: "test"});
 
-        return {id: id, name: "test"};
+        next();
     }
 
     /**
@@ -66,13 +75,13 @@ export class CalendarCtrl {
      * @param id
      * @returns {Promise<ICalendar>}
      */
-    @Get('/annotation/promised/:id')
+    @Get("/annotation/promised/:id")
     public findWithPromise(
         @Request() request,
-        @PathParams('id') id
+        @PathParams("id") id
     ): IPromise<ICalendar> {
 
-        Logger.debug('ID =>', id, request.params.id);
+        Logger.debug("ID =>", id, request.params.id);
 
         //
         return new Promise<ICalendar>((resolve, reject) => {
@@ -95,14 +104,14 @@ export class CalendarCtrl {
      * @param id
      * @returns {Promise<ICalendar>}
      */
-    @Get('/annotation/status/:id')
+    @Get("/annotation/status/:id")
     public findAndChangeStatusCode(
         @Request() request: Express.Request,
         @Response() response: Express.Response,
-        @PathParams('id') id: string
+        @PathParams("id") id: string
     ): IPromise<ICalendar> {
 
-        Logger.debug('ID =>', id, request.params.id);
+        Logger.debug("ID =>", id, request.params.id);
         //
         return new Promise<ICalendar>((resolve, reject) => {
 
@@ -116,54 +125,51 @@ export class CalendarCtrl {
     }
 
     /**
-     * 
+     *
      * @param request
+     * @returns {{user: (number|any|string)}}
+     */
+    @Get("/middleware")
+    @Use(CalendarCtrl.middleware)
+    public getWithMiddleware(
+        @Request() request,
+        @Header("authorization") auth: string
+    ): any {
+
+        return {
+            user: request.user,
+            token: auth
+        };
+    }
+
+    /**
+     *
+     * @param auth
      * @param name
      * @returns {{id: number, name: string}}
      */
-    
-    @Put('/')
+    @Put("/")
     public save(
-        @Request() request,
-        @BodyParams('name') @Required() name: string
+        @BodyParams("name") @Required() name: string
     ): any {
 
         return {id: 2, name: name};
     }
 
-    /**
-     * 
-     * @returns {null}
-     */
-    @Post('/:id')
-    public update(
 
-    ): IPromise<any> | void {
-
-
-        return null;
-    }
-
-    /**
-     * 
-     * @returns {null}
-     */
-    @Delete('/:id')
+    @Delete("/")
+    @Authenticated()
     public remove(
-
-    ): IPromise<any> | void {
-        return null;
+        @BodyParams("id") @Required() id: string
+    ): any {
+        return {id: id, name: "test"};
     }
 
-    /**
-     * 
-     * @returns {null}
-     */
-    @Get('/')
-    public query(
+    static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction){
 
-    ): IPromise<any[]> | void {
+        request.user = 1;
 
-        return null;
+        //console.log(request.headers)
+        next();
     }
 }

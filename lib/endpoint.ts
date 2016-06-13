@@ -32,19 +32,25 @@ export class Endpoint {
      */
     private route: string | RegExp;
 
+    /**
+     * Create new Endpoint manager for a class + method
+     * @param targetClass
+     * @param methodClassName
+     */
     constructor(targetClass: Function, methodClassName: string) {
         this.handler = <Function> Promisify(targetClass, methodClassName);
     }
 
     /**
-     * 
+     * add new endpoints
      * @param args
      */
     public push(args: any[]): void {
 
         let filteredArg = args
-            .filter((arg) => {
+            .filter((arg: any) => {
 
+                /* istanbul ignore else */
                 if (typeof arg === "string") {
 
                     if (METHODS.indexOf(arg) > -1) {
@@ -56,14 +62,14 @@ export class Endpoint {
                     return false;
                 }
 
-                if (arg instanceof RegExp) {
+               /* if (arg instanceof RegExp) {
 
                     this.route = arg;
 
                     return false;
-                }
+                }*/
 
-                return arg;
+                return !!arg;
             });
 
         this.args = this.args.concat(filteredArg);

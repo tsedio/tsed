@@ -31,7 +31,7 @@ export function invoke(targetClass: any, method: IInvokedFunction, localScope: I
             /* istanbul ignore else */
             if (injected[index] === undefined) {
                 let param: string = method.$metadata[index];
-                throw new BadRequest(`Bad request, parameter ${param} is required.`);
+                throw new BadRequest(`Bad request, parameter request.${param} is required.`);
             }
         });
     }
