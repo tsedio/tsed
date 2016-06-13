@@ -13,7 +13,6 @@ Actually this npm package are flagged in beta !
 
 * [Features](#features)
 * [Quick start](#quick-start)
-* [Controller dependencies](#controller-dependencies)
 * [Injection](#injection)
 * [Use promise](#use-promise)
 * [Custom middleware](#custom-middleware)
@@ -188,8 +187,8 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 **Note** : Decorators Get support dynamic pathParams (see `/:id`) and RegExp like Express API. 
 
-### Injection
-#### Response and Request services
+## Injection
+### Response and Request services
 
 You can use decorator to inject `Express.Request`, `Express.Response` and 
 `Express.NextFunction` services instead of the classic call provided by Express API.
@@ -225,7 +224,7 @@ export class CalendarCtrl {
 
 ```
 
-#### PathParams, BodyParams, QueryParams services
+### PathParams, BodyParams, QueryParams services
 
 `@PathParams` decorator provide you a quick access to an attribute `Express.request.params`.
 
