@@ -13,8 +13,12 @@ Actually this npm package are flagged in beta !
 
 * [Features](#features)
 * [Quick start](#quick-start)
+* [Controller dependencies](#controller-dependencies)
 * [Injection](#injection)
+* [Use promise](#use-promise)
+* [Custom middleware](#custom-middleware)
 * [Authentification](#authentification)
+* [Throw HTTP exceptions](#throw-http-exceptions)
 * [Global errors handler](#global-errors-handler)
 * [Decorators references](#decorators-references)
 * [License](#license)
@@ -221,19 +225,14 @@ export class CalendarCtrl {
 
 ```
 
-#### PathParams service
+#### PathParams, BodyParams, QueryParams services
 
-PathParams decorator provide you a quick access to an attribute `Express.response.params`.
+`@PathParams` decorator provide you a quick access to an attribute `Express.request.params`.
 
 ```typescript
 
 import {Controller, Get, Response, PathParams} from "ts-express-decorators";
 import * as Express from "express";
-
-interface ICalendar{
-    id: string;
-    name: string;
-}
 
 @Controller("/calendars")
 export class CalendarCtrl {
@@ -255,10 +254,35 @@ export class CalendarCtrl {
 ```
 
 Same decorator are available to get other params. Use `BodyParams` 
-(with the right HTTP verb @Post, @PUT, etc...), `QueryParams` or `CookiesParams` 
+(with the right HTTP verb @Post, @Put, etc...), `QueryParams` or `CookiesParams` 
 to get parameters send by the client. 
 
-### Send response with promise
+
+### Header Service
+
+`@Header` decorator provide you a quick access to the `Express.request.get()`
+
+```typescript
+
+import {Controller, Get, Response, PathParams} from "ts-express-decorators";
+import * as Express from "express";
+
+@Controller("/calendars")
+export class CalendarCtrl {
+
+    @Get("/:id")
+    public get(
+        @Header("x-token") token: string,
+        @PathParams("id") id: number
+    ): any {
+    
+        console.log("token", token);
+        return {id: id};
+    }
+}
+```
+
+## Use promise
 
 `ts-express-decorators` support Promise API to send a response. Just return a promise
 in your method and the controller will be waiting your promised response before 
@@ -302,6 +326,37 @@ export class CalendarCtrl {
 
 ## Custom middleware
 
+`@Use()` decoratore let you to add custom middleware on a method. 
+
+```typescript
+
+import {Controller, Get, PathParams} from "ts-express-decorators";
+import {BadRequest} from "httpexceptions";
+import * as Express from "express";
+
+@Controller("/calendars")
+export class CalendarCtrl {
+
+    @Get("/:id")
+    @Use(CalendarCtrl.middleware)
+    public get(
+        @PathParams("id") id: number
+    ): any {
+      
+       
+       return {id: id};
+    }
+    
+    static middleware(request, response, next) {
+    
+        console.log(request.params.id); 
+        next();
+    }
+}
+```
+
+**Note** : Middle can't use injectable service like the `CalendarCtrl.get()` method actually. 
+
 ## Authentification
 
 The `@Authentification` use a `ServerLoader.isAuthenticated()` method to check the authentification strategy.
@@ -332,7 +387,30 @@ export class Server extends ServerLoader {
 
 ## Throw HTTP Exceptions
 
+You can use (httpexceptions)[https://github.com/Romakita/httpexceptions] or similar module to throw an http exception.
 
+```typescript
+
+import {Controller, Get, PathParams} from "ts-express-decorators";
+import {BadRequest} from "httpexceptions";
+import * as Express from "express";
+
+@Controller("/calendars")
+export class CalendarCtrl {
+
+    @Get("/:id")
+    public get(
+        @PathParams("id") id: number
+    ): any {
+    
+        if (!IsNaN(+id)) {
+            throw(new BadRequest("Not a number"));
+        }
+       
+       return {id: id};
+    }
+}
+```
 
 ## Global Errors Handler
 
@@ -370,7 +448,7 @@ export class Server extends ServerLoader {
 ## Decorators references
 ### Class decorators
 
-* @Controller(route: string, ...ctrlsNamesDepedencies?: string[]) : Declare a new controller with his Rest path. 
+* `@Controller(route: string, ...ctrlsNamesDepedencies?: string[])` : Declare a new controller with his Rest path. 
 
 ### Method decorators
 
