@@ -1,3 +1,5 @@
+///<reference path="../models/Map.d.ts"/>
+
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import * as Logger from "log-debug";

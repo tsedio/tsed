@@ -1,3 +1,6 @@
+///<reference path="../models/InvokedFunction.d.ts"/>
+///<reference path="../models/ExpressParameters.d.ts"/>
+///<reference path="../models/InvokedFnResult.d.ts"/>
 
 import {BadRequest} from "httpexceptions/lib/badrequest";
 /**
