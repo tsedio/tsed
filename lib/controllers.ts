@@ -1,13 +1,14 @@
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import * as Logger from "log-debug";
+import HashMap = require("hashmap");
 
-require("es6-map/implement");
+//require("es6-map/implement");
 
 export interface IController {
     targetClass: any;
     instance: any;
-    endpoints: Map<string, Endpoint>;
+    endpoints: HashMap<string, Endpoint>;
     depedencies: string[];
     depend: boolean;
     router: any;
@@ -21,7 +22,7 @@ export interface ICtrlRoute {
     url: string;
 }
 
-const controllers = new Map<string, IController>();
+const controllers = new HashMap<string, IController>();
 
 /**
  * Return the function's name.
@@ -47,7 +48,7 @@ function create(targetClass: any): void {
     if (!controllers.has(name)) {
         controllers.set(name, <IController> {
             targetClass:    targetClass,
-            endpoints:      new Map<string, Endpoint>(),
+            endpoints:      new HashMap<string, Endpoint>(),
             depend:         false
         });
     }
@@ -197,7 +198,7 @@ export function setEndpoint(targetClass: Function, methodClassName: string, args
 
     create(targetClass);
 
-    let endpoints: Map<string, Endpoint> = get(targetClass).endpoints;
+    let endpoints: HashMap<string, Endpoint> = get(targetClass).endpoints;
     let endpointHandler: Endpoint;
 
     if (!endpoints.has(methodClassName)) {
