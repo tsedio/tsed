@@ -5,7 +5,12 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "declaration":false,
-    "experimentalDecorators":true
+    "experimentalDecorators":true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "noLib": false,
+    "suppressImplicitAnyIndexErrors": false
   },
 
   "exclude": [

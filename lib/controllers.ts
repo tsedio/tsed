@@ -1,9 +1,9 @@
+/// <reference path="./../typings/globals/hashmap/index.d.ts" />
+
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import * as Logger from "log-debug";
 import HashMap = require("hashmap");
-
-//require("es6-map/implement");
 
 export interface IController {
     targetClass: any;

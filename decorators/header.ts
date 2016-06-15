@@ -7,7 +7,7 @@ import {attachInject} from "../lib/attach-inject";
  * @constructor
  */
 export function Header(expression: string){
-    return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
+    return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
