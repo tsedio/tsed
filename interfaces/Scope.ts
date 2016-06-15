@@ -1,4 +1,3 @@
-
-declare interface IScope {
+export interface IScope {
     [key: string]: any;
 }

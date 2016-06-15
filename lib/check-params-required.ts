@@ -1,4 +1,6 @@
 import {parse} from "./parse";
+import {IScope} from "../interfaces/Scope";
+
 /**
  *
  * @param expressionList
