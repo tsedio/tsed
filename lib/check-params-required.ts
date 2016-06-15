@@ -1,4 +1,3 @@
-///<reference path="../models/Scope.d.ts"/>
 import {parse} from "./parse";
 /**
  *

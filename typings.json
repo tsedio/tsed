@@ -10,7 +10,6 @@
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
-    "mongoose": "registry:dt/mongoose#3.8.5+20160517033907",
     "node": "registry:dt/node#6.0.0+20160514165920",
     "serve-static": "registry:dt/serve-static#0.0.0+20160501131543",
     "superagent": "registry:dt/superagent#1.4.0+20160317120654",

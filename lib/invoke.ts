@@ -1,8 +1,5 @@
-///<reference path="../models/InvokedFunction.d.ts"/>
-///<reference path="../models/ExpressParameters.d.ts"/>
-///<reference path="../models/InvokedFnResult.d.ts"/>
-
 import {BadRequest} from "httpexceptions/lib/badrequest";
+
 /**
  * Invoke a method of a controller and inject service requested (Request, Response, Next, etc...).
  * Note : The result return by the invoked method can be a promise or a value.
