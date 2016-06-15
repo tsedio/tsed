@@ -1,4 +1,6 @@
 import {BadRequest} from "httpexceptions/lib/badrequest";
+import {IInvokedFunction} from "../interfaces/InvokedFunction";
+import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
 
 /**
  * Invoke a method of a controller and inject service requested (Request, Response, Next, etc...).

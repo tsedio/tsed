@@ -1,4 +1,5 @@
 
+import {IInvokedFunction} from "../interfaces/InvokedFunction";
 /**
  * Create metadata to set required parameters.
  * @param method

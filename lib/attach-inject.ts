@@ -1,3 +1,4 @@
+import {IInvokedFunction} from "../interfaces/InvokedFunction";
 /**
  * Create metadata to set a list of service. This service will be injected when the method is invoked with the invoke method.
  * @param method

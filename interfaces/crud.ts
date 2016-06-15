@@ -1,5 +1,5 @@
 
-import {IPromise} from "./promise";
+import {IPromise} from "./Promise";
 
 export interface ICrud<T> {
     /**

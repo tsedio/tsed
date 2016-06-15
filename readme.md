@@ -42,10 +42,6 @@ ts-route-decorator require Typescript 1.8 and `experimentalDecorators` must be t
 
 Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
 
-````
-$ typings install --save --global dt~bluebird
-$ typings install --save --global dt~bluebird
-``
 
 ### Configuration
 #### Create your express server

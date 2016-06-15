@@ -7,7 +7,7 @@ import {
 import * as Logger from "log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
-import {IPromise} from "../../../models/promise";
+import {IPromise} from "../../../interfaces/promise";
 
 interface ICalendar {
     id: string;

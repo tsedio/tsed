@@ -1,6 +1,8 @@
 import Promise = require("bluebird");
 import * as Express from "express";
 import {invoke} from "./invoke";
+import {IInvokedFunction} from "../interfaces/InvokedFunction";
+import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
 /**
  *
  * @param targetClass

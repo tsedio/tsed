@@ -1,6 +1,6 @@
 import {Controller, Get, Post, Put, Delete, Response} from "../../../index";
-import {ICrud} from "../../../models/crud";
-import {IPromise} from "../../../models/promise";
+import {ICrud} from "../../../interfaces/crud";
+import {IPromise} from "../../../interfaces/promise";
 
 
 interface IEvent{
