@@ -76,7 +76,7 @@ Then configure your `tsconfig.json, to compile the typescript file :
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",  //or es2015
+    "target": "es5",
     "noImplicitAny": false,
     "sourceMap": true,
     "declaration":false,
@@ -94,10 +94,13 @@ Then configure your `tsconfig.json, to compile the typescript file :
 
 ```
 
+**Note** : target can be set to es2015.
+
 Finally run command this command to install `ts-express-decorators` in your project :
 
 ```batch
 $ npm install --save ts-express-decorators
+$ typings install
 ```
 
 ### Configuration
