@@ -6,7 +6,7 @@ node_js:
   - '6'
 
 before_install:
-  - npm install -g typings
+  - npm install -g typings@1.0.4
 
 script:
   - "npm test"
