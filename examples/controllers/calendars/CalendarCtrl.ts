@@ -2,12 +2,12 @@ import {
     Controller, Get, Post, Put, Delete,
     PathParams, Request, Response,
     BodyParams, Required, Use, Header, Next, Authenticated
-} from "../../../index";
+} from "./../../../index";
 
 import * as Logger from "log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
-import {IPromise} from "../../../interfaces/promise";
+import {IPromise} from "./../../../interfaces/Promise";
 
 interface ICalendar {
     id: string;
