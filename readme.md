@@ -40,8 +40,65 @@ ts-route-decorator require Typescript 1.8 and `experimentalDecorators` must be t
 
 ### Installation
 
-Run `npm install -g typescript typings` and `npm install ts-express-decorators`.
+You need to install the typescript compiler and typings tools to developp your app in TypeScript. 
+So run : 
 
+```batch
+$ npm install -g typescript typings
+```
+
+Then, create your `typings.json` file and paste :
+
+```json
+{
+  "name": "yourproject",
+  "globalDependencies": {
+    "node": "registry:dt/node#6.0.0+20160514165920",
+    "bluebird": "registry:dt/bluebird#2.0.0+20160319051630",
+    "cookie-parser": "registry:dt/cookie-parser#1.3.4+20160316155526",
+    "express": "registry:dt/express#4.0.0+20160317120654",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
+    "hashmap": "registry:dt/hashmap#2.0.3+20160316155526",
+    "mime": "registry:dt/mime#0.0.0+20160316155526",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160501131543"
+  },
+  "dependencies": {
+    "glob": "registry:npm/glob#6.0.0+20160211003958",
+    "minimatch": "registry:npm/minimatch#3.0.0+20160211003958"
+  }
+}
+
+```
+
+Then configure your `tsconfig.json, to compile the typescript file :
+
+```json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",  //or es2015
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "declaration":false,
+    "experimentalDecorators":true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "noLib": false,
+    "suppressImplicitAnyIndexErrors": false
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
+
+```
+
+Finally run command this command to install `ts-express-decorators` in your project :
+
+```batch
+$ npm install --save ts-express-decorators
+```
 
 ### Configuration
 #### Create your express server
