@@ -42,15 +42,12 @@ export function Promisify(targetClass: any, originalMethod: any): Function {
 
         })
             .then((data) => {
-                
                 if (data) {
 
-                    //if (request.method === "POST") {
+                    // if (request.method === "POST") {
                         // NOT STANDARD
-                        
-                        //response.location(request.path + "/" + data._id);
-                    //}
-                    
+                    // response.location(request.path + "/" + data._id);
+                    // }
                     response.json(data);
                 }
 

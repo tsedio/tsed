@@ -27,8 +27,8 @@ export abstract class ServerLoader {
         http.IncomingMessage.prototype.$tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
             if (!this.isAuthenticated(request, response, next)) {
-                //Logger.warn("[TED] Authentification error");
-                next(new Httpexceptions.Forbidden('Forbidden'));
+                // Logger.warn("[TED] Authentification error");
+                next(new Httpexceptions.Forbidden("Forbidden"));
                 return;
             }
 
@@ -102,10 +102,10 @@ export abstract class ServerLoader {
 
         this.use((error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
-            try{
+            try {
                 return this.onError(error, request, response, next);
-            } catch(err) {
-                //console.error(err);
+            } catch (err) {
+                // console.error(err);
             }
         });
 
@@ -248,22 +248,22 @@ export abstract class ServerLoader {
             return next(error);
         }
 
-        if (typeof error === 'string') {
+        if (typeof error === "string") {
             response.status(404).send(error);
             return next();
         }
 
-        if(error instanceof Httpexceptions.HTTPException){
+        if (error instanceof Httpexceptions.HTTPException) {
             response.status(error.status).send(error.message);
             return next();
         }
 
-        if (error.name === 'CastError' || error.name === "ObjectID" || error.name == "ValidationError") {
-            response.status(400).send('Bad Request');
+        if (error.name === "CastError" || error.name === "ObjectID" || error.name === "ValidationError") {
+            response.status(400).send("Bad Request");
             return next();
         }
 
-        response.status(error.status || 500).send('500');
+        response.status(error.status || 500).send("500");
         return next();
     }
 
@@ -289,14 +289,14 @@ export abstract class ServerLoader {
 
         return function(req: Express.Request, res: Express.Response, next: Express.NextFunction): any {
 
-            for(var i = 0; i < mimes.length; i++){
-                if (!req.accepts(mimes[0])){
+            for (let i = 0; i < mimes.length; i++) {
+                if (!req.accepts(mimes[0])) {
                     throw new Httpexceptions.NotAcceptable(mimes[0]);
                 }
             }
 
             next();
-        }
+        };
 
     }
 }
