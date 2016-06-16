@@ -1,7 +1,7 @@
 {
   "name": "ts-express-decorators",
   "version": "0.3.0",
-  "description": "Express Router decorators",
+  "description": "Use TypeScript decorators to create your Express application and Rest API",
   "main": "lib/index.js",
   "scripts": {
     "preinstall": "typings install",

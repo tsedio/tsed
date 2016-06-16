@@ -67,10 +67,9 @@ Then, create your `typings.json` file and paste :
     "minimatch": "registry:npm/minimatch#3.0.0+20160211003958"
   }
 }
-
 ```
 
-Then configure your `tsconfig.json, to compile the typescript file :
+Then configure your `tsconfig.json`, to compile the typescript file :
 
 ```json
 {
@@ -91,7 +90,6 @@ Then configure your `tsconfig.json, to compile the typescript file :
     "node_modules"
   ]
 }
-
 ```
 
 **Note** : target can be set to es2015.
@@ -256,7 +254,6 @@ You can use decorator to inject `Express.Request`, `Express.Response` and
 Just use decorator `Request`, `Response` and `Next` on your method parameters like this :
 
 ```typescript
-
 import {Controller, Get, Response, Request, Next} from "ts-express-decorators";
 import * as Express from "express";
 
@@ -282,7 +279,6 @@ export class CalendarCtrl {
 
     }
 }
-
 ```
 
 ### PathParams, BodyParams, QueryParams services
@@ -290,7 +286,6 @@ export class CalendarCtrl {
 `@PathParams` decorator provide you a quick access to an attribute `Express.request.params`.
 
 ```typescript
-
 import {Controller, Get, Response, PathParams} from "ts-express-decorators";
 import * as Express from "express";
 
@@ -323,7 +318,6 @@ to get parameters send by the client.
 `@Header` decorator provide you a quick access to the `Express.request.get()`
 
 ```typescript
-
 import {Controller, Get, Response, PathParams} from "ts-express-decorators";
 import * as Express from "express";
 
@@ -350,7 +344,6 @@ send a response to the client.
 
 
 ```typescript
-
 import {Controller, Get, Response, Request} from "ts-express-decorators";
 import * as Promise from "bluebird";
 import * as Express from "express";
@@ -389,7 +382,6 @@ export class CalendarCtrl {
 `@Use()` decoratore let you to add custom middleware on a method. 
 
 ```typescript
-
 import {Controller, Get, PathParams} from "ts-express-decorators";
 import {BadRequest} from "httpexceptions";
 import * as Express from "express";
@@ -423,7 +415,6 @@ The `@Authentification` use a `ServerLoader.isAuthenticated()` method to check t
 You can configure this method by adding an isAuthenticated() method on your `Server` class.
 
 ```typescript
-
 import * as Express from "express";
 import {ServerLoader} from "ts-express-decorators/server-loader";
 import Path = require("path");
@@ -450,7 +441,6 @@ export class Server extends ServerLoader {
 You can use (httpexceptions)[https://github.com/Romakita/httpexceptions] or similar module to throw an http exception.
 
 ```typescript
-
 import {Controller, Get, PathParams} from "ts-express-decorators";
 import {BadRequest} from "httpexceptions";
 import * as Express from "express";
@@ -481,7 +471,6 @@ sent as Internal Server Error.
 You can override the default method by adding `onError` method your `Server` class.
 
 ```typescript
-
 import * as Express from "express";
 import {ServerLoader} from "ts-express-decorators/server-loader";
 import Path = require("path");
