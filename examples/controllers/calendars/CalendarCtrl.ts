@@ -4,7 +4,7 @@ import {
     BodyParams, Required, Use, Header, Next, Authenticated
 } from "./../../../index";
 
-import * as Logger from "log-debug";
+import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
 import {IPromise} from "./../../../interfaces/Promise";
@@ -81,7 +81,7 @@ export class CalendarCtrl {
         @PathParams("id") id
     ): IPromise<ICalendar> {
 
-        Logger.debug("ID =>", id, request.params.id);
+        $log.debug("ID =>", id, request.params.id);
 
         //
         return new Promise<ICalendar>((resolve, reject) => {
@@ -111,7 +111,7 @@ export class CalendarCtrl {
         @PathParams("id") id: string
     ): IPromise<ICalendar> {
 
-        Logger.debug("ID =>", id, request.params.id);
+        $log.debug("ID =>", id, request.params.id);
         //
         return new Promise<ICalendar>((resolve, reject) => {
 

@@ -1,6 +1,6 @@
 
 import * as Express from "express";
-import * as Logger from "log-debug";
+import {$log} from "ts-log-debug";
 import {ServerLoader} from "./../server-loader"; //"ts-express-decorators/server-loader"
 import Path = require("path");
 
@@ -80,12 +80,12 @@ export class ExampleServer extends ServerLoader {
      */
     static Initialize(): Promise<any> {
 
-        Logger.info('Initialize server');
+        $log.info('Initialize server');
 
         return new ExampleServer()
             .start()
             .then(() => {
-                Logger.info('Server started...');
+                $log.info('Server started...');
             });
     }
     

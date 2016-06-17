@@ -1,6 +1,6 @@
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
-import * as Logger from "log-debug";
+import {$log} from "ts-log-debug";
 import HashMap = require("hashmap");
 
 export interface IController {
@@ -312,7 +312,7 @@ export function printRoutes(): void {
     };
 
     getRoutes().forEach((route: ICtrlRoute) => {
-        Logger.info("[ERD] " + route.method + space(15 - route.method.length) + route.url);
+        $log.info("[ERD] " + route.method + space(15 - route.method.length) + route.url);
     });
 
 }

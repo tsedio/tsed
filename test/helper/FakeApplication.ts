@@ -1,6 +1,6 @@
 import * as SuperTest from "supertest";
 import {ExampleServer} from  "./../../examples/ExampleServer";
-import * as Logger from "log-debug";
+import {$log} from "ts-log-debug";
 
 export class FakeApplication extends ExampleServer {
 
@@ -27,7 +27,7 @@ export class FakeApplication extends ExampleServer {
 
     static getInstance(): FakeApplication {
 
-        Logger.setRepporting({
+        $log.setRepporting({
             debug: false,
             info: false
         });

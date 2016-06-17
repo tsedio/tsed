@@ -1,11 +1,11 @@
 import {Controller, All, Next, Get, Response} from "../../index";
-import * as Logger from "log-debug";
+import {$log} from "ts-log-debug";
 
 @Controller("/rest")
 export class RestCtrl {
     
     @All('/')
     public all() {
-        Logger.debug("Route ALL /rest");
+        $log.debug("Route ALL /rest");
     }
 }

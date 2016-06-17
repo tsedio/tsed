@@ -43,7 +43,7 @@
     "glob": "^7.0.3",
     "hashmap": "^2.0.6",
     "ts-httpexceptions": "^1.3.0",
-    "log-debug": "^1.1.6",
+    "ts-log-debug": "^1.2.0",
     "source-map-support": "^0.4.0"
   },
   "peerDependencies": {
