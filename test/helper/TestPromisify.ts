@@ -1,4 +1,4 @@
-import {BadRequest} from "httpexceptions";
+import {BadRequest} from "ts-httpexceptions";
 
 export class TestPromisify {
     middlewares: any;

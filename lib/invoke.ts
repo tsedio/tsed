@@ -1,4 +1,4 @@
-import {BadRequest} from "httpexceptions/lib/badrequest";
+import {BadRequest} from "ts-httpexceptions";
 import {IInvokedFunction} from "../interfaces/InvokedFunction";
 import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
 import {IExpressParameters} from "../interfaces/ExpressParameters";

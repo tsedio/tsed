@@ -2,7 +2,7 @@ import Chai = require("chai");
 import {Promisify} from "../lib/promisify";
 import {TestPromisify} from "./helper/TestPromisify";
 import Promise = require("bluebird");
-import {BadRequest} from "httpexceptions/lib/badrequest";
+import {BadRequest} from "ts-httpexceptions";
 import {FakeRequest} from "./helper/FakeRequest";
 import {FakeResponse} from "./helper/FakeResponse";
 import {FakeNextFn} from "./helper/FakeNextFn";

@@ -5,7 +5,7 @@ import * as Logger from "log-debug";
 import * as Controllers from "./lib/controllers";
 import * as Promise from "bluebird";
 import * as Glob from "glob";
-import * as Httpexceptions from "httpexceptions";
+import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -28,7 +28,7 @@ export abstract class ServerLoader {
 
             if (!this.isAuthenticated(request, response, next)) {
                 // Logger.warn("[TED] Authentification error");
-                next(new Httpexceptions.Forbidden("Forbidden"));
+                next(new Forbidden("Forbidden"));
                 return;
             }
 
@@ -253,7 +253,7 @@ export abstract class ServerLoader {
             return next();
         }
 
-        if (error instanceof Httpexceptions.HTTPException) {
+        if (error instanceof Exception) {
             response.status(error.status).send(error.message);
             return next();
         }
@@ -291,7 +291,7 @@ export abstract class ServerLoader {
 
             for (let i = 0; i < mimes.length; i++) {
                 if (!req.accepts(mimes[0])) {
-                    throw new Httpexceptions.NotAcceptable(mimes[0]);
+                    throw new NotAcceptable(mimes[0]);
                 }
             }
 

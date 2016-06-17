@@ -1,7 +1,6 @@
 /// <reference path="./../interfaces/Express.d.ts" />
 
 import {Use} from "./use";
-import {Forbidden} from "httpexceptions";
 import * as Express from "express";
 
 /**

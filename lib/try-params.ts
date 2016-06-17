@@ -1,5 +1,5 @@
 import {checkParamsRequired} from "./check-params-required";
-import {BadRequest} from "httpexceptions/lib/badrequest";
+import {BadRequest} from "ts-httpexceptions";
 /**
  *
  * @param required
