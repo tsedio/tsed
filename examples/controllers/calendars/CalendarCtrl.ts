@@ -167,7 +167,7 @@ export class CalendarCtrl {
 
     static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction){
 
-        request.user = 1;
+        (<any>request).user = 1;
 
         //console.log(request.headers)
         next();

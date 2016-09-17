@@ -10,12 +10,14 @@
     "moduleResolution": "node",
     "isolatedModules": false,
     "noLib": false,
-    "suppressImplicitAnyIndexErrors": false
+    "suppressImplicitAnyIndexErrors": false,
+    "lib": ["es6"]
   },
 
   "exclude": [
     "node_modules",
     "models",
-    "test/old"
+    "test/old",
+    "typings"
   ]
 }

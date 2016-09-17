@@ -97,8 +97,8 @@ export class Endpoint {
      */
     public toArray(): any[] {
 
-        return [this.method, this.route]
-            .concat(this.args, [this.handler])
+        return <any[]>[this.method, this.route]
+            .concat(<any>this.args, [<any>this.handler])
             .filter((item) => (!!item));
     }
 }

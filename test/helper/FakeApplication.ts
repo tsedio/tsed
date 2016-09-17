@@ -21,7 +21,7 @@ export class FakeApplication extends ExampleServer {
         this.app.use(endpoint, router);
     }*/
 
-    public request(): SuperTest.SuperTest {
+    public request(): SuperTest.SuperTest<any> {
         return SuperTest(this.getExpressApp());
     }
 
