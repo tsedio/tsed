@@ -4,15 +4,20 @@
   "description": "Use TypeScript decorators to create your Express application and Rest API",
   "main": "lib/index.js",
   "scripts": {
-    "preinstall": "typings install",
-    "tsc": "tsc",
-    "postinstall": "tsc",
-    "lint": "tslint ./*.ts ./lib/*.ts",
-    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "build": "npm run tsc:es5",
     "coverage": "npm run test-cov && npm run test-remap",
-    "test-cov": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "test-remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+    "postinstall": "npm run build",
+    "tslint": "tslint ./*.ts ./lib/*.ts",
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "release:major": "npm version major && npm publish && git push --follow-tags",
+    "release:minor": "npm version minor && npm publish && git push --follow-tags",
+    "release:patch": "npm version patch && npm publish && git push --follow-tags",
+    "test:cov": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test:remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
+    "test:travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "tsc": "tsc",
+    "tsc:es5": "tsc --project tsconfig.json",
+    "tsc:es6": "tsc --project tsconfig.es6.json"
   },
   "repository": {
     "type": "git",
@@ -39,12 +44,20 @@
   },
   "homepage": "https://github.com/romakita/ts-express-decorators#readme",
   "dependencies": {
+    "@types/express": "^4.0.32",
+    "@types/bluebird": "^3.0.33",
+    "@types/glob": "^5.0.29",
+    "@types/hashmap": "^2.0.28",
+    "@types/chai": "^3.4.32",
+    "@types/mocha": "^2.2.31",
+    "@types/supertest": "^1.1.30",
+    "@types/cookie-parser": "^1.3.29",
     "bluebird": "^3.3.1",
     "glob": "^7.0.3",
     "hashmap": "^2.0.6",
+    "source-map-support": "^0.4.0",
     "ts-httpexceptions": "^2.0.3",
-    "ts-log-debug": "^2.0.1",
-    "source-map-support": "^0.4.0"
+    "ts-log-debug": "^2.0.1"
   },
   "peerDependencies": {
     "express": "^4"

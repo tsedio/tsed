@@ -11,13 +11,28 @@
     "isolatedModules": false,
     "noLib": false,
     "suppressImplicitAnyIndexErrors": false,
-    "lib": ["es6"]
-  },
+    "strictNullChecks": false,
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "es6"
+    ],
+    "types": [
+      "bluebird",
+      "chai",
+      "mocha",
+      "cookie-parser",
+      "express",
+      "express-serve-static-core",
+      "glob",
+      "hashmap",
+      "supertest"
+    ]
 
+  },
   "exclude": [
     "node_modules",
     "models",
     "test/old",
-    "typings"
+    "es6"
   ]
 }
