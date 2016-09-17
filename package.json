@@ -4,7 +4,7 @@
   "description": "Use TypeScript decorators to create your Express application and Rest API",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run tsc:es5",
+    "build": "npm run tsc:es5 && npm run tsc:es6",
     "coverage": "npm run test-cov && npm run test-remap",
     "postinstall": "npm run build",
     "tslint": "tslint ./*.ts ./lib/*.ts",

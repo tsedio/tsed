@@ -44,3 +44,4 @@ test/spec/*.js.map
 # Test
 /stdout
 /stderr
+/es6/

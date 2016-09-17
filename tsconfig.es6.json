@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "declaration":false,
+    "experimentalDecorators":true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "noLib": false,
+    "suppressImplicitAnyIndexErrors": false,
+    "strictNullChecks": false,
+    "allowSyntheticDefaultImports": true,
+    "outDir":"es6",
+    "lib": [
+      "es6"
+    ],
+    "types": [
+      "bluebird",
+      "chai",
+      "mocha",
+      "cookie-parser",
+      "express",
+      "express-serve-static-core",
+      "glob",
+      "hashmap",
+      "supertest"
+    ]
+
+  },
+  "exclude": [
+    "node_modules",
+    "models",
+    "test/old",
+    "es6"
+  ]
+}
