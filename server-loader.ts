@@ -4,7 +4,6 @@ import * as Https from "https";
 import {$log} from "ts-log-debug";
 import * as Controllers from "./lib/controllers";
 import * as Promise from "bluebird";
-import * as Glob from "glob";
 import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
@@ -210,7 +209,7 @@ export abstract class ServerLoader {
      */
     public scan(path: string): ServerLoader {
 
-        let files: string[] = Glob.sync(path);
+        let files: string[] = require('glob').sync(path);
         let nbFiles = 0;
 
         $log.info("[ERD] Scan files : " + path);

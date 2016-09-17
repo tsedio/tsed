@@ -24,7 +24,6 @@
       "cookie-parser",
       "express",
       "express-serve-static-core",
-      "glob",
       "hashmap",
       "supertest"
     ]

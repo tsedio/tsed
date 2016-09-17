@@ -5,9 +5,7 @@
 [![TypeScript](https://badges.frapsoft.com/typescript/love/typescript.svg?v=100)](https://github.com/ellerbrock/typescript-badges/) 
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-v18.svg?v=100)](https://github.com/ellerbrock/typescript-badges/)
 
-> Build your Typescript application with Express route decorators !
-
-Actually this npm package are flagged in beta !
+> Build your TypeScript v2 application with Express decorators ! Support ES5 and ES6.
 
 ## Table of contents
 
@@ -36,7 +34,10 @@ Actually this npm package are flagged in beta !
 ## Quick start
 ### Prerequisites
 
-ts-route-decorator require Typescript 1.8 and `experimentalDecorators` must be to set at true.
+ts-route-decorator require :
+ - TypeScript 2.0.2 and `experimentalDecorators` must be to set at true,
+ - Node v4 or higher,
+ - NPM v2 or higher.
 
 ### Installation
 
@@ -44,29 +45,7 @@ You need to install the typescript compiler and typings tools to developp your a
 So run : 
 
 ```batch
-$ npm install -g typescript typings
-```
-
-Then, create your `typings.json` file and paste :
-
-```json
-{
-  "name": "yourproject",
-  "globalDependencies": {
-    "node": "registry:dt/node#6.0.0+20160514165920",
-    "bluebird": "registry:dt/bluebird#2.0.0+20160319051630",
-    "cookie-parser": "registry:dt/cookie-parser#1.3.4+20160316155526",
-    "express": "registry:dt/express#4.0.0+20160317120654",
-    "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
-    "hashmap": "registry:dt/hashmap#2.0.3+20160316155526",
-    "mime": "registry:dt/mime#0.0.0+20160316155526",
-    "serve-static": "registry:dt/serve-static#0.0.0+20160501131543"
-  },
-  "dependencies": {
-    "glob": "registry:npm/glob#6.0.0+20160211003958",
-    "minimatch": "registry:npm/minimatch#3.0.0+20160211003958"
-  }
-}
+$ npm install -g typescript@2.0.2
 ```
 
 Then configure your `tsconfig.json`, to compile the typescript file :
@@ -84,7 +63,8 @@ Then configure your `tsconfig.json`, to compile the typescript file :
     "moduleResolution": "node",
     "isolatedModules": false,
     "noLib": false,
-    "suppressImplicitAnyIndexErrors": false
+    "suppressImplicitAnyIndexErrors": false,
+    "lib": ["es6"]
   },
   "exclude": [
     "node_modules"
@@ -92,13 +72,12 @@ Then configure your `tsconfig.json`, to compile the typescript file :
 }
 ```
 
-**Note** : target can be set to es2015.
+**Note** : Target can be set to es2015/ES6. You can use pure es6 API with `ts-express-decorators/es6`.
 
 Finally run command this command to install `ts-express-decorators` in your project :
 
 ```batch
 $ npm install --save ts-express-decorators
-$ typings install
 ```
 
 ### Configuration
