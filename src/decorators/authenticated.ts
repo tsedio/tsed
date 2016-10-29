@@ -1,4 +1,3 @@
-/// <reference path="../src/interfaces/Express.d.ts" />
 
 import {Use} from "./use";
 import * as Express from "express";

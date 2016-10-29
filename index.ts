@@ -13,3 +13,4 @@ export * from "./src/decorators/use";
 export * from "./src/decorators/controller";
 export * from "./src/server/server-loader";
 export * from "./src/interfaces/Promise";
+export * from "./src/interfaces/Crud";
