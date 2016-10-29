@@ -1,7 +1,8 @@
 import {
     Controller, Get, Post, Put, Delete,
     PathParams, Request, Response,
-    BodyParams, Required, Use, Header, Next, Authenticated
+    BodyParams, Required, Use, Header, Next, Authenticated,
+    CookiesParams, QueryParams
 } from "./../../../index";
 
 import {$log} from "ts-log-debug";
@@ -39,6 +40,23 @@ export class CalendarCtrl {
         return {id: request.params.id, name: "test"};
     }
 
+    @Get("/token")
+    public getToken(
+        @CookiesParams("authorization") authorization: string
+    ): string {
+
+        return authorization || "EMPTY";
+    }
+
+    @Get("/query")
+    public getQuery(
+        @QueryParams("search") search: string,
+        @Request() request
+    ): string {
+
+        console.log(request);
+        return search || "EMPTY";
+    }
     /**
      * Example of customised call. You can use decorators to inject express object like `response` as `@Response`,
      * `request` as `@Request` and `next` as `@Next`.
@@ -164,6 +182,8 @@ export class CalendarCtrl {
     ): any {
         return {id: id, name: "test"};
     }
+
+
 
     static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction){
 

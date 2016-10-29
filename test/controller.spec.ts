@@ -141,6 +141,45 @@ describe("Controller", () => {
 
         });
 
+        it("should return token", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/token')
+                //.send({id: 1})
+                .set({authorization: "token"})
+                .set("Cookie", "authorization=token")
+                .expect(200)
+                .end((err, response: any) => {
+
+                    let token = JSON.parse(response.text);
+
+                    expect(token).to.be.an("string");
+                    expect(token).to.equal("token");
+                    done();
+                });
+
+        });
+
+        it("should return query", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/query?search=ts-express-decorators')
+                .expect(200)
+                .end((err, response: any) => {
+
+                    let token = JSON.parse(response.text);
+
+                    expect(token).to.be.an("string");
+                    expect(token).to.equal("ts-express-decorators");
+                    done();
+                });
+
+        });
+
     });
 
     describe("PUT /rest/calendars", () => {
@@ -213,25 +252,6 @@ describe("Controller", () => {
 
         });
 
-        it("should return an object", (done: Function) => {
 
-            FakeApplication
-                .getInstance()
-                .request()
-                .delete('/rest/calendars')
-                .send({id: 1})
-                .set({authorization: "token"})
-                .expect(200)
-                .end((err, response: any) => {
-
-                    //console.log(response);
-                    let obj = JSON.parse(response.text);
-
-                    expect(obj).to.be.an("object");
-                    expect(obj.id).to.equal(1);
-                    done();
-                });
-
-        });
     });
 });

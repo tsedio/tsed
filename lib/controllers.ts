@@ -129,7 +129,7 @@ export function instanciate(targetClass: string | Function): IController {
 
         controller
             .endpoints
-            .forEach(function(endpoint: Endpoint){
+            .forEach((endpoint: Endpoint) => {
 
                 let args = endpoint.toArray();
 
@@ -152,7 +152,7 @@ export function instanciate(targetClass: string | Function): IController {
         controller.router = router;
 
         depedencies
-            .forEach(function(ctrl: IController){
+            .forEach((ctrl: IController) => {
                 router.use(ctrl.endpointUrl, ctrl.router);
             });
 
