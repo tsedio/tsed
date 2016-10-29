@@ -1,4 +1,4 @@
-import * as Controllers from "./../lib/controllers";
+import * as Controllers from "../controllers/controllers";
 
 export function Controller(endpointUrl: string, ...ctlrDepedencies: string[]): Function {
 

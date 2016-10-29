@@ -2,6 +2,7 @@
 export class FakeRequest {
     method: string;
     path: string;
+    mime: string;
     /**
      * 
      * @type {{test: string, obj: {test: string}}}
@@ -42,4 +43,6 @@ export class FakeRequest {
             test: "testValue"
         }
     };
+
+    public accepts = (mime) => this.mime === mime;
 }

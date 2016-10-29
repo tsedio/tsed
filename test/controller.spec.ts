@@ -1,7 +1,7 @@
 import * as Chai from "chai";
-import * as Controllers from "./../lib/controllers";
+import * as Controllers from "../src/controllers/controllers";
 import {FakeApplication} from "./helper/FakeApplication";
-import {ICtrlRoute} from "../lib/controllers";
+import {ICtrlRoute} from "../src/controllers/controllers";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 FakeApplication.getInstance();

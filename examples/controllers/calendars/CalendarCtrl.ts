@@ -2,13 +2,13 @@ import {
     Controller, Get, Post, Put, Delete,
     PathParams, Request, Response,
     BodyParams, Required, Use, Header, Next, Authenticated,
-    CookiesParams, QueryParams
+    CookiesParams, QueryParams,
+    IPromise
 } from "./../../../index";
 
 import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
-import {IPromise} from "./../../../interfaces/Promise";
 
 interface ICalendar {
     id: string;
@@ -53,8 +53,6 @@ export class CalendarCtrl {
         @QueryParams("search") search: string,
         @Request() request
     ): string {
-
-        console.log(request);
         return search || "EMPTY";
     }
     /**

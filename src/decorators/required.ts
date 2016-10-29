@@ -1,7 +1,7 @@
 import {Use} from "./use";
-import {tryParams} from "../lib/try-params";
 import * as Express from "express";
-import {attachRequired} from "./../lib/attach-required";
+import {attachRequired} from "../metadata/attach-required";
+import {tryParams} from "../utils/try-params";
 
 /**
  * Add required annotation for a function argument .

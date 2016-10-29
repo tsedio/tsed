@@ -3,6 +3,7 @@ export class FakeResponse {
     _status: number = 200;
     _location: string;
     _json: any;
+    _body: any;
     _headers: string = "";
 
     /**
@@ -15,6 +16,9 @@ export class FakeResponse {
         return this;
     }
 
+    public send(value: any) {
+        this._body = value;
+    }
     /**
      * 
      * @param value

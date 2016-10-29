@@ -1,5 +1,5 @@
 import * as Chai from "chai";
-import {checkParamsRequired} from "../lib/check-params-required";
+import {checkParamsRequired} from "../src/utils/check-params-required";
 let expect: Chai.ExpectStatic = Chai.expect;
 
 describe("checkParamsRequired", () => {

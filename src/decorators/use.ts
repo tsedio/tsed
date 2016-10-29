@@ -1,4 +1,4 @@
-import * as Controllers from "../lib/controllers";
+import * as Controllers from "../controllers/controllers";
 /**
  * Use decorator.
  * @returns {function(any, any, any): *}

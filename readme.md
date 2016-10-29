@@ -1,4 +1,4 @@
-# TS-express-decorators
+# TsExpressDecorators
 
 [![Build Status](https://travis-ci.org/Romakita/ts-express-decorators.svg?branch=master)](https://travis-ci.org/Romakita/ts-express-decorators)
 [![Coverage Status](https://coveralls.io/repos/github/Romakita/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/Romakita/ts-express-decorators?branch=master)
@@ -33,7 +33,7 @@
 ## Quick start
 ### Prerequisites
 
-ts-route-decorator require :
+ts-route-decorators require :
  - TypeScript 2.0.2 and `experimentalDecorators` must be to set at true,
  - Node v4 or higher,
  - NPM v2 or higher.

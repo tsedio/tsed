@@ -1,5 +1,5 @@
 import Chai = require("chai");
-import {parse} from "../lib/parse";
+import {parse} from "../src/utils/parse";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 

@@ -1,5 +1,5 @@
 import Chai = require("chai");
-import {Promisify} from "../lib/promisify";
+import {Promisify} from "../src/controllers/promisify";
 import {TestPromisify} from "./helper/TestPromisify";
 import Promise = require("bluebird");
 import {BadRequest} from "ts-httpexceptions";

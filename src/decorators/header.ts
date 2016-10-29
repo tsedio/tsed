@@ -1,4 +1,4 @@
-import {attachInject} from "../lib/attach-inject";
+import {attachInject} from "../metadata/attach-inject";
 
 /**
  * 

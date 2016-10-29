@@ -1,7 +1,7 @@
 
 import * as Chai from "chai";
-import * as Controllers from "../lib/controllers";
-import {IController} from "../lib/controllers";
+import * as Controllers from "../src/controllers/controllers";
+import {IController} from "../src/controllers/controllers";
 import {CalendarCtrl} from "../examples/controllers/calendars/CalendarCtrl";
 
 let expect: Chai.ExpectStatic = Chai.expect;
