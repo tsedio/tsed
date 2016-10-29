@@ -6,7 +6,6 @@ import {attachRequired} from "./../lib/attach-required";
 /**
  * Add required annotation for a function argument .
  * @returns {Function}
- * @constructor
  */
 export function Required(): any {
 
