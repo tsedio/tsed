@@ -499,10 +499,10 @@ export class Server extends ServerLoader {
 * `@CookiesParams(expression: string)`: Get a parameters on Express.Request.cookies attribut.
 * `@QueryParams(expression: string)`: Get a parameters on Express.Request.query attribut.
 * `@Required()`: Set a required flag on parameters.
-* `@PathParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
 
 Deprecated :
 
+* `@PathParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
 * `@BodyParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
 * `@CookiesParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
 * `@QueryParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
