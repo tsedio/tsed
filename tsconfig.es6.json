@@ -15,7 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "outDir":"es6",
     "lib": [
-      "es6"
+      "es6",
+      "dom"
     ],
     "types": [
       "bluebird",

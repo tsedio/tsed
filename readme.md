@@ -76,7 +76,7 @@ Then configure your `tsconfig.json`, to compile the typescript file :
 Finally run command this command to install `ts-express-decorators` in your project :
 
 ```batch
-$ npm install --save ts-express-decorators
+$ npm install --save ts-express-decorators express@4
 ```
 
 ### Configuration

@@ -51,6 +51,7 @@
     "@types/express-serve-static-core": "^4.0.33",
     "@types/hashmap": "^2.0.28",
     "@types/mocha": "^2.2.31",
+    "@types/superagent": "^2.0.34",
     "@types/supertest": "^1.1.30",
     "bluebird": "^3.3.1",
     "glob": "^7.0.3",
@@ -74,8 +75,8 @@
     "mocha": "^2.4.5",
     "morgan": "^1.7.0",
     "remap-istanbul": "^0.6.4",
-    "supertest": "^1.2.0",
-    "tslint": "^3.5.0",
+    "supertest": "1.2.0",
+    "tslint": "3.5.0",
     "typescript": "^2.0.2"
   },
   "directories": {
