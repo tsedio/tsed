@@ -1,4 +1,7 @@
 import Controller from "../controllers/controller";
+import {ENDPOINT_ARGS} from '../constants/metadata-keys';
+import Metadata from '../metadata/metadata';
+import {Endpoint} from '../controllers/endpoint';
 /**
  * Use decorator.
  * @returns {function(any, any, any): *}
@@ -8,14 +11,17 @@ import Controller from "../controllers/controller";
 export function Use(...args: any[]): Function {
 
     return <T> (
-        targetClass: Function,
-        methodClassName: string,
+        target: Function,
+        targetKey: string,
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
+        const endpointArgs = Metadata.has(ENDPOINT_ARGS, target, targetKey)
+            ? Metadata.get(ENDPOINT_ARGS, target, targetKey) : [];
 
+        endpointArgs.concat(args);
 
-        //Controller.setEndpoint(targetClass, methodClassName, args);
+        Metadata.set(ENDPOINT_ARGS, endpointArgs, target, targetKey);
 
         return descriptor;
     };

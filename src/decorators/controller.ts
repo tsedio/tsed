@@ -1,18 +1,18 @@
-import Ctrl from "../controllers/controller";
-import * as METADATA_KEYS from "../constants/metadata-keys";
+
 import * as ERRORS_MSGS from "../constants/errors-msgs";
 import {getClassName} from '../utils/class';
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from '../constants/metadata-keys';
+import Metadata from '../metadata/metadata';
 
-export function Controller(endpointUrl: string, ...ctlrDepedencies: any[]): Function {
+export function Controller(ctrlUrl: string, ...ctlrDepedencies: any[]): Function {
 
-    return (targetClass: any): void => {
+    return (target: any): void => {
 
-        if (Ctrl.getController(targetClass).hasUrl() === true) {
-            throw new Error(ERRORS_MSGS.DUPLICATED_CONTROLLER_DECORATOR(getClassName(targetClass)));
+        if (Metadata.has(CONTROLLER_URL, target) === true) {
+            throw new Error(ERRORS_MSGS.DUPLICATED_CONTROLLER_DECORATOR(getClassName(target)));
         }
 
-        Ctrl.setUrl(targetClass, endpointUrl);
-        Ctrl.setDepedencies(targetClass, ctlrDepedencies);
-
+        Metadata.set(CONTROLLER_URL, ctrlUrl, target);
+        Metadata.set(CONTROLLER_DEPEDENCIES, ctlrDepedencies, target);
     };
 }

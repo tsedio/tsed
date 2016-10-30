@@ -193,7 +193,7 @@ export default class Controller {
             const ctrl = new Controller(targetClass);
             Controller.controllers.push(ctrl);
 
-            Reflect.defineMetadata(METADATA_KEYS.CONTROLLER, ctrl, getContructor(targetClass));
+            Reflect.defineMetadata(METADATA_KEYS.CONTROLLER_URL, ctrl, getContructor(targetClass));
         }
 
     }
@@ -219,7 +219,7 @@ export default class Controller {
             throw new Error(ERRORS_MSGS.UNKNOW_CONTROLLER(getClassName(targetClass)));
         }
 
-        return <Controller> Reflect.getMetadata(METADATA_KEYS.CONTROLLER, getContructor(targetClass));
+        return <Controller> Reflect.getMetadata(METADATA_KEYS.CONTROLLER_URL, getContructor(targetClass));
     }
 
     /**
@@ -236,7 +236,7 @@ export default class Controller {
      * @param targetClass
      */
     static hasController = (targetClass: any) =>
-        Reflect.hasMetadata(METADATA_KEYS.CONTROLLER, getContructor(targetClass)) === true;
+        Reflect.hasMetadata(METADATA_KEYS.CONTROLLER_URL, getContructor(targetClass)) === true;
 
     /**
      * Add new Endpoint
