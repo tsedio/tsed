@@ -13,7 +13,9 @@ export function Use(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        Controller.setEndpoint(targetClass, methodClassName, args);
+
+
+        //Controller.setEndpoint(targetClass, methodClassName, args);
 
         return descriptor;
     };

@@ -1,139 +1,141 @@
 import Chai = require("chai");
-import {endpoint} from "../src/controllers/endpoint;
-import {TestPromisify} from "./helper/TestPromisify";
+import {TestInstance} from "./helper/TestInstance";
 import Promise = require("bluebird");
 import {BadRequest} from "ts-httpexceptions";
 import {FakeRequest} from "./helper/FakeRequest";
 import {FakeResponse} from "./helper/FakeResponse";
 import {FakeNextFn} from "./helper/FakeNextFn";
+import {Endpoint} from '../src/controllers/endpoint';
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-xdescribe("Endpoint", function() {
+describe("Endpoint", () => {
 
     let nextResult: any;
     let response: FakeResponse, request: FakeRequest, next = FakeNextFn;
 
-    beforeEach(function () {
+    const fakeController = {
+        instance: new TestInstance(),
+        getInstance: function() {return this.instance}
+    };
+
+    beforeEach(() => {
         request =   new FakeRequest();
         response =  new FakeResponse();
         next.reset();
     });
 
-    it("should do create a function", function () {
+    describe("Create new Endpoint", () => {
 
-        let foo = new TestPromisify();
-        let fn = Promisify(foo, "myMethod");
+        it("should do create a function", () => {
 
-        expect(fn).to.be.instanceOf(Function);
-        expect(fn).to.not.equal(foo.myMethod);
+            const endpoint = new Endpoint(fakeController, 'myMethod');
+            const middleware = endpoint.middleware;
 
-    });
+            expect(middleware).to.be.instanceOf(Function);
+            expect(middleware).to.not.equal(TestInstance.prototype.myMethod);
 
+        });
 
-    describe("Promisify().decorator", () => {
+        it("should push information", () => {
 
-        it("should return promise ", (done) => {
+            const endpoint = new Endpoint(fakeController, 'myMethod');
+            const middleware = endpoint.middleware;
 
-            let foo: TestPromisify =    new TestPromisify();
-            let fn: Function =          Promisify(foo, 'myMethod');
-            let promise: Promise<any> = fn(request, response, next);
+            expect(middleware).to.be.instanceOf(Function);
+            expect(middleware).to.not.equal(TestInstance.prototype.myMethod);
 
-            expect(fn).to.be.instanceOf(Function, "Isn't instance of function");
-            expect(fn).to.not.equal(foo.myMethod, "Not equal to method");
+            endpoint.push(['get', '/', undefined]);
 
-            expect(promise).to.be.an.instanceOf(Promise, "Isn't instance of Promise");
-            expect(foo.called).to.be.true;
+            expect(endpoint.hasMethod()).to.be.true;
+            expect(endpoint.getMethod()).to.equal('get');
+            expect(endpoint.getRoute()).to.equal('/');
 
-            promise.then(function(data){
+            expect(endpoint.toArray()).to.be.an('array');
+            expect(endpoint.toArray()[0]).to.equal('get');
+            expect(endpoint.toArray()[1]).to.equal('/');
+        });
 
-                expect(data).to.equal(undefined);
+        it('should invoke', (done) => {
+            const endpoint = new Endpoint(fakeController, 'myMethod');
+            const middleware = endpoint.middleware;
 
+            expect(middleware).to.be.instanceOf(Function);
+            expect(middleware).to.not.equal(TestInstance.prototype.myMethod);
+
+            endpoint.push(['get', '/', undefined]);
+
+            const promise = middleware(<any>request, <any>response, <any>next);
+
+            expect(promise.then).to.be.a('function');
+
+            promise.then((result) => {
+                expect(result).to.equal(undefined);
                 done();
             });
 
         });
 
-        it("should run a method witch return value", (done) => {
 
-            let foo: TestPromisify =    new TestPromisify();
-            let fn: Function =          Promisify(foo, foo.myMethodReturnValue);
-            let promise: Promise<any> = fn(request, response, next);
+        it('should call method with promise', (done) => {
+            const endpoint = new Endpoint(fakeController, 'myMethodPromised');
+            const middleware = endpoint.middleware;
 
-            expect(fn).to.be.instanceOf(Function);
-            expect(fn).to.not.equal(foo.myMethod);
+            expect(middleware).to.be.instanceOf(Function);
+            expect(middleware).to.not.equal(TestInstance.prototype.myMethodPromised);
 
-            expect(promise).to.be.an.instanceOf(Promise);
-            expect(foo.called).to.be.true;
+            endpoint.push(['get', '/', undefined]);
 
-            promise.then(function(data){
+            const promise = middleware(<any>request, <any>response, <any>next);
 
-                expect(data).to.be.an("object");
-                expect(data.data).to.equal("yes");
+            expect(promise.then).to.be.a('function');
 
-
-                // Response value
-                expect(response._status).to.equal(200);
-                expect(response._headers).to.contain("Content-Type:text/json");
-                expect(JSON.stringify(response._json)).to.equal("{\"data\":\"yes\",\"_id\":1}");
-
-                done();
-            });
-
-            //
-
-        });
-
-        it("should run a method witch return promise", (done) => {
-
-            request.method = 'POST';
-            request.path = "rest/test";
-
-            let foo: TestPromisify =    new TestPromisify();
-            let fn: Function =          Promisify(foo, 'myMethodPromised');
-            let promise: Promise<any> = fn(request, response, next);
-
-            expect(fn).to.be.instanceOf(Function);
-            expect(fn).to.not.equal(foo.myMethod);
-
-            expect(promise).to.be.an.instanceOf(Promise);
-            expect(foo.called).to.be.true;
-
-
-            promise.then((data) => {
-
-                expect(data).to.be.an("object");
-                expect(data.data).to.equal("yes");
-
-                // Response value
-                expect(response._status).to.equal(201);
-                //expect(response._location).to.equal("rest/test/1");
-                expect(response._headers).to.contain("Content-Type:text/json");
-                expect(JSON.stringify(response._json)).to.equal("{\"data\":\"yes\",\"_id\":1}");
-
+            promise.then((result) => {
+                expect(result).to.be.an('object');
+                expect(result.data).to.equal('yes');
                 done();
             });
 
         });
 
-        it("should run a method witch throw error", (done) => {
+        it('should call method with explicite next calling', (done) => {
+            const endpoint = new Endpoint(fakeController, 'expliciteNext');
+            const middleware = endpoint.middleware;
+
+            expect(middleware).to.be.instanceOf(Function);
+            expect(middleware).to.not.equal(TestInstance.prototype.expliciteNext);
+
+            endpoint.push(['get', '/', undefined]);
+
+            const promise = middleware(<any>request, <any>response, <any>next);
+
+            expect(promise.then).to.be.a('function');
+
+            promise.then((result) => {
+                expect(result).to.equal(undefined);
+                done();
+            });
+
+        });
 
 
-            let foo: TestPromisify = new TestPromisify();
-            let fn: Function = Promisify(foo, 'myMethodThrowException');
-            let promise: Promise<any> = fn(request, response, next);
+        it('should call method end catch exception', (done) => {
+            const endpoint = new Endpoint(fakeController, 'myMethodThrowException');
+            const middleware = endpoint.middleware;
 
-            expect(fn).to.be.instanceOf(Function);
-            expect(fn).to.not.equal(foo.myMethod);
+            expect(middleware).to.be.instanceOf(Function);
+            expect(middleware).to.not.equal(TestInstance.prototype.myMethodThrowException);
 
-            expect(promise).to.be.an.instanceOf(Promise);
+            endpoint.push(['get', '/', undefined]);
 
-            promise.then(
-                function(){
-                    expect(next.get()).to.be.an.instanceOf(BadRequest);
-                    done();
-                });
+            const promise = middleware(<any>request, <any>response, <any>next);
 
+            expect(promise.then).to.be.a('function');
+
+            promise.then(() => {
+                expect(next.get()).to.be.an.instanceOf(BadRequest);
+                done();
+            });
 
         });
     });

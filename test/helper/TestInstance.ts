@@ -1,6 +1,6 @@
 import {BadRequest} from "ts-httpexceptions";
 
-export class TestPromisify {
+export class TestInstance {
     middlewares: any;
     called: boolean = false;
 
@@ -21,10 +21,12 @@ export class TestPromisify {
      * @param next
      * @returns {{data: string, _id: number}}
      */
-    myMethodReturnValue(request, response, next): any {
+    expliciteNext(request, response, next): any {
         this.called = true;
 
-        return {data: "yes", _id: 1};
+        response.send({data: "yes", _id: 1});
+
+        next();
     }
 
     /**
@@ -34,7 +36,7 @@ export class TestPromisify {
      * @param next
      * @returns {Promise<T>|Promise<R>|Promise}
      */
-    myMethodPromised(request, response, next): Promise<any> {
+    myMethodPromised(request, response): Promise<any> {
         this.called = true;
 
         return new Promise(function(resolve, reject){

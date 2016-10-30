@@ -13,7 +13,7 @@ export function CookiesParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, (request) => (parse(expression, request.cookies)), `cookies.${expression}`);
+            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.cookies), `cookies.${expression}`);
         }
 
     };
@@ -31,7 +31,7 @@ export function BodyParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, (request) => (parse(expression, request.body)), `body.${expression}`);
+            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.body), `body.${expression}`);
         }
 
     };
@@ -49,7 +49,7 @@ export function PathParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, (request) => (parse(expression, request.params)), `params.${expression}`);
+            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.params), `params.${expression}`);
         }
 
     };
@@ -69,7 +69,7 @@ export function QueryParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, (request) => (parse(expression, request.query)), `query.${expression}`);
+            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.query), `query.${expression}`);
         }
 
     };

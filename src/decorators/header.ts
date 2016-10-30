@@ -11,7 +11,7 @@ export function Header(expression: string){
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, (request) => (request.get(expression)));
+            attachInject(target, propertyKey, parameterIndex, request => request.get(expression));
         }
 
     };

@@ -5,6 +5,7 @@ import HashMap = require("hashmap");
 import * as METADATA_KEYS from "../constants/metadata-keys";
 import * as ERRORS_MSGS from "../constants/errors-msgs";
 import {IControllerRoute} from '../interfaces/ControllerRoute';
+import {getClassName, getContructor} from "../utils/class";
 
 export default class Controller {
     /**
@@ -68,7 +69,6 @@ export default class Controller {
                         .instanciate();
 
                     childrenCtrl.parent = this;
-                    console.log(childrenCtrl.getName(), "has parent", this.getName());
 
                     return childrenCtrl;
                 }
@@ -137,7 +137,7 @@ export default class Controller {
     /**
      * Return the class name.
      */
-    public getName = () => Controller.getClassName(this.targetClass);
+    public getName = () => getClassName(this.targetClass);
 
     /**
      * Add a new Endpoint if doesn't exists in endpoints registry.
@@ -151,7 +151,7 @@ export default class Controller {
 
         if (!this.endpoints.has(methodClassName)) {
 
-            endpointHandler = new Endpoint(this.targetClass, methodClassName);
+            endpointHandler = new Endpoint(this, methodClassName);
             this.endpoints.set(methodClassName, endpointHandler);
 
         } else {
@@ -177,6 +177,10 @@ export default class Controller {
     public setDepedencies(depedencies: any[]) {
         this.depedencies = depedencies;
     }
+
+    public getInstance() {
+        return this.instance;
+    }
     /**
      * Create a new Controller in controllers registry.
      * @param targetClass
@@ -189,7 +193,7 @@ export default class Controller {
             const ctrl = new Controller(targetClass);
             Controller.controllers.push(ctrl);
 
-            Reflect.defineMetadata(METADATA_KEYS.CONTROLLER, ctrl, Controller.getContructor(targetClass));
+            Reflect.defineMetadata(METADATA_KEYS.CONTROLLER, ctrl, getContructor(targetClass));
         }
 
     }
@@ -212,10 +216,10 @@ export default class Controller {
         }
 
         if (!Controller.hasController(targetClass)) {
-            throw new Error(ERRORS_MSGS.UNKNOW_CONTROLLER(Controller.getClassName(targetClass)));
+            throw new Error(ERRORS_MSGS.UNKNOW_CONTROLLER(getClassName(targetClass)));
         }
 
-        return <Controller> Reflect.getMetadata(METADATA_KEYS.CONTROLLER, Controller.getContructor(targetClass));
+        return <Controller> Reflect.getMetadata(METADATA_KEYS.CONTROLLER, getContructor(targetClass));
     }
 
     /**
@@ -232,7 +236,7 @@ export default class Controller {
      * @param targetClass
      */
     static hasController = (targetClass: any) =>
-        Reflect.hasMetadata(METADATA_KEYS.CONTROLLER, Controller.getContructor(targetClass)) === true;
+        Reflect.hasMetadata(METADATA_KEYS.CONTROLLER, getContructor(targetClass)) === true;
 
     /**
      * Add new Endpoint
@@ -376,15 +380,6 @@ export default class Controller {
             });
 
     }
-
-    static getClassName = (target) => typeof target === "function"
-        ? target.name
-        : target.constructor.name;
-
-    static getContructor = (targetClass): Function =>
-        typeof targetClass === "function"
-            ? targetClass
-            : targetClass.constructor
 
 }
 

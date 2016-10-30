@@ -11,7 +11,7 @@ export function Request(): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, "request");
+            attachInject(target, propertyKey, parameterIndex, "request");
         }
     };
 }

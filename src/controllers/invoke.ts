@@ -1,46 +1,42 @@
 import {BadRequest} from "ts-httpexceptions";
-import {IInvokableFunction} from "../interfaces/InvokableFunction";
-import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
-import {IExpressParameters} from "../interfaces/ExpressParameters";
+import {IInvokableScope} from "../interfaces/InvokableScope";
+import Metadata from '../metadata/metadata';
+import {INJECT_SERV, INJECT_META, PARAMS_REQUIRED} from '../constants/metadata-keys';
 
 /**
  * Invoke a method of a controller and inject service requested (Request, Response, Next, etc...).
  * Note : The result return by the invoked method can be a promise or a value.
- * @param targetClass
- * @param method
+ * @param instance
+ * @param targetKey
  * @param localScope
  * @returns {any}
  */
-export function invoke(targetClass: any, method: IInvokableFunction, localScope: IExpressParameters): IInvokedFNResult {
-    let $inject: (Function|string)[];
-    let impliciteNext: boolean = false;
+export function invoke(instance: any, targetKey: string, localScope: IInvokableScope): any {
 
-    if (method.$inject) {
-        $inject = method.$inject;
-        impliciteNext = $inject.indexOf("next") === -1;
-    } else {
-        impliciteNext = method.length < 3;
-        $inject = ["request", "response", "next"];
+    let services = Metadata.get(INJECT_SERV, instance, targetKey);
+    const metas = Metadata.get(INJECT_META, instance, targetKey);
+    const paramsRequired = Metadata.get(PARAMS_REQUIRED, instance, targetKey);
+
+    if(!services) {
+        services = ["request", "response", "next"];
     }
 
-    let injected = $inject.map((item) => (
+    // eval all service, inject service
+    services = services.map(item =>
         typeof item === "function"
             ? (<Function>item)(localScope.request)
             : localScope[<string>item]
-    ));
+    );
 
-    if (method.$required) {
-        method.$required.forEach((index: number) => {
+    if (paramsRequired) {
+        paramsRequired.forEach((index: number) => {
             /* istanbul ignore else */
-            if (injected[index] === undefined) {
-                let param: string = method.$metadata[index];
+            if (services[index] === undefined) {
+                const param: string = metas[index];
                 throw new BadRequest(`Bad request, parameter request.${param} is required.`);
             }
         });
     }
 
-    return {
-        result: method.apply(targetClass, injected),
-        impliciteNext: impliciteNext
-    };
+    return Reflect.apply(instance[targetKey], instance, services);
 }

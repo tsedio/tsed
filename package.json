@@ -2,7 +2,7 @@
   "name": "ts-express-decorators",
   "version": "1.0.1",
   "description": "Use TypeScript decorators to create your Express application and Rest API",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "npm run tsc:es5 && npm run tsc:es6",
     "coverage": "npm run test-cov && npm run test-remap",

@@ -11,7 +11,7 @@ export function Next(): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target[propertyKey], parameterIndex, "next");
+            attachInject(target, propertyKey, parameterIndex, "next");
         }
     };
 }

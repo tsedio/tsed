@@ -25,7 +25,7 @@
       "cookie-parser",
       "express",
       "express-serve-static-core",
-      "reflect-metadata"
+      "reflect-metadata",
       "hashmap",
       "supertest"
     ]

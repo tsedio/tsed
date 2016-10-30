@@ -1,8 +1,8 @@
 import Promise = require("bluebird");
 import * as Express from "express";
 import {invoke} from "./invoke";
-import {IInvokableFunction} from "../interfaces/InvokableFunction";
-import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
+import {INJECT_SERV} from '../constants/metadata-keys';
+import Metadata from '../metadata/metadata';
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -16,37 +16,50 @@ export const METHODS = [
     "subscribe", "trace", "unlock",
     "unsuscribe"
 ];
-
+/**
+ * Endpoint class contains metadata about a targetClass and his method.
+ * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
+ * Endpoint convert this metadata to an array wich contain arguments to call an Express method.
+ *
+ * Example :
+ *
+ *    @Controller('/my-path')
+ *    class MyClass {
+ *
+ *        @Get('/')
+ *        @Authenticated()
+ *        public myMethod(){}
+ *    }
+ *
+ * Annotation on MyClass.myMethod create a new Endpoint with his route '/',
+ * the HTTP method GET and require granted connection to be accessible.
+ */
 export class Endpoint {
     /**
-     * 
-     */
-    private handler: Function;
-    /**
-     * 
+     *
      * @type {Array}
      */
     private args: any[] = [];
     /**
-     * 
+     * HTTP method required.
      */
-    private method: string;
+    private httpMethod: string;
     /**
-     * 
+     * Route strategy.
      */
     private route: string | RegExp;
 
     /**
-     * Create new Endpoint manager for a class + method
-     * @param targetClass
+     * Create an unique Endpoint manager for a targetClass and method.
+     * @param controller
      * @param methodClassName
      */
-    constructor(private targetClass: Function, private methodClassName: string) {
-        this.promisify();
+    constructor(private controller: {getInstance:() => any}, private methodClassName: string) {
+
     }
 
     /**
-     * add new endpoints
+     * Store all arguments collection via Annotation.
      * @param args
      */
     public push(args: any[]): void {
@@ -58,7 +71,7 @@ export class Endpoint {
                 if (typeof arg === "string") {
 
                     if (METHODS.indexOf(arg) > -1) {
-                        this.method = arg;
+                        this.httpMethod = arg;
                     } else {
                         this.route = arg;
                     }
@@ -66,12 +79,12 @@ export class Endpoint {
                     return false;
                 }
 
-               /* if (arg instanceof RegExp) {
+                /* if (arg instanceof RegExp) {
 
-                    this.route = arg;
+                 this.route = arg;
 
-                    return false;
-                }*/
+                 return false;
+                 }*/
 
                 return !!arg;
             });
@@ -80,88 +93,124 @@ export class Endpoint {
     }
 
     /**
-     * 
+     * Endpoint has a HTTP method configured.
      * @returns {boolean}
      */
     public hasMethod(): boolean {
-        return !!this.method;
+        return !!this.httpMethod;
     }
 
     /**
-     * 
+     * Return the http METHOD choosen for this endpoint.
      * @returns {string}
      */
     public getMethod(): string {
-        return this.method;
+        return this.httpMethod;
     }
 
     /**
-     * 
+     *
+     * @returns {string|RegExp}
+     */
+    public getRoute(): string | RegExp {
+        return this.route;
+    }
+
+    /**
+     * Transform endpoint to an array arguments for express router.
      * @returns {T[]}
      */
     public toArray(): any[] {
 
-        return <any[]>[this.method, this.route]
-            .concat(<any>this.args, [<any>this.handler])
+        return <any[]>[this.httpMethod, this.route]
+            .concat(<any>this.args, [<any>this.middleware])
             .filter((item) => (!!item));
     }
 
     /**
-     *
+     * Return invokable function from targetClass.
      */
-    private getInvokable = (): IInvokableFunction =>
+    /*private getInvokable = (): IInvokableFunction =>
         typeof this.methodClassName === "string"
             ? <IInvokableFunction>this.targetClass[this.methodClassName]
-            : <IInvokableFunction>this.methodClassName;
+            : <IInvokableFunction>this.methodClassName;*/
+
+    /**
+     * Return middleware to express.
+     * @param request
+     * @param response
+     * @param next
+     * @returns {PromiseLike<TResult>|Promise<TResult>|IPromise<T>}
+     */
+    public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
+
+        let result: any;
+        response.setHeader("X-Managed-By", "Express-router-decorator");
+
+        return new Promise<any>((resolve, reject) => {
+
+            //const method: IInvokableFunction = this.getInvokable();
+
+            result = invoke(this.controller.getInstance(), this.methodClassName, {
+                request:    request,
+                response:   response,
+                next:       next
+            });
+
+            if (result && result.then) {
+                result.then(resolve, reject);
+            } else {
+                resolve(result);
+            }
+
+        })
+            .then(
+                data => this.send(data, request, response, next),
+                err => next(err)
+            );
+    };
 
     /**
      *
+     * @param data
+     * @returns {any}
      */
-    private promisify() {
+    private send = (data, request, response, next) => {
 
-        this.handler = <Function> (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
+        // preset status code
+        if (request.method === "POST") {
+            response.status(201);
+        }
 
-            let fnInvResult: IInvokedFNResult;
-
-            response.setHeader("X-Managed-By", "Express-router-decorator");
+        // TODO ADD New ANNOTATION TO SPECIFY RESPONSE FORMAT
+        if (data) {
             response.setHeader("Content-Type", "text/json");
+            response.json(data);
+        }
 
-            // preset status code
-            if (request.method === "POST") {
-                response.status(201);
-            }
+        if (this.hasImpliciteNextFunction()) {
+            next();
+        }
 
-            return new Promise<any>((resolve, reject) => {
+        return data;
+    };
 
-                const method: IInvokableFunction = this.getInvokable();
+    /**
+     *
+     * @param targetKey
+     * @returns {boolean}
+     */
+    private hasImpliciteNextFunction() {
+        const instance = this.controller.getInstance();
+        let impliciteNext: boolean = false;
+        const services = Metadata.get(INJECT_SERV, instance, this.methodClassName);
 
-                fnInvResult = invoke(this.targetClass, method, {
-                    request:    request,
-                    response:   response,
-                    next:       next
-                });
+        if(services) {
+            impliciteNext = services.indexOf("next") === -1;
+        } else {
+            impliciteNext = instance[this.methodClassName].length < 3;
+        }
 
-                if (fnInvResult.result && fnInvResult.result.then) {
-                    fnInvResult.result.then(resolve, reject);
-                } else {
-                    resolve(fnInvResult.result);
-                }
-
-            })
-                .then((data) => {
-                    if (data) {
-                        response.json(data);
-                    }
-
-                    if (fnInvResult.impliciteNext) {
-                        next();
-                    }
-
-                    return data;
-
-                }, (err) => {
-                    next(err);
-                });
-        };
+        return impliciteNext;
     }
 }
