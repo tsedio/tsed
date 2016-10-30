@@ -57,6 +57,7 @@
     "bluebird": "^3.3.1",
     "glob": "^7.0.3",
     "hashmap": "^2.0.6",
+    "reflect-metadata": "^0.1.8",
     "source-map-support": "^0.4.0",
     "ts-httpexceptions": "^2.0.3",
     "ts-log-debug": "^2.0.1"

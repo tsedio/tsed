@@ -1,5 +1,5 @@
 import Chai = require("chai");
-import {Promisify} from "../src/controllers/promisify";
+import {endpoint} from "../src/controllers/endpoint;
 import {TestPromisify} from "./helper/TestPromisify";
 import Promise = require("bluebird");
 import {BadRequest} from "ts-httpexceptions";
@@ -9,7 +9,7 @@ import {FakeNextFn} from "./helper/FakeNextFn";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-describe("Promisify()", function() {
+xdescribe("Endpoint", function() {
 
     let nextResult: any;
     let response: FakeResponse, request: FakeRequest, next = FakeNextFn;

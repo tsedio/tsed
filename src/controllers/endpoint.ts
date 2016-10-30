@@ -1,4 +1,8 @@
-import {Promisify} from "./promisify";
+import Promise = require("bluebird");
+import * as Express from "express";
+import {invoke} from "./invoke";
+import {IInvokableFunction} from "../interfaces/InvokableFunction";
+import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -37,8 +41,8 @@ export class Endpoint {
      * @param targetClass
      * @param methodClassName
      */
-    constructor(targetClass: Function, methodClassName: string) {
-        this.handler = <Function> Promisify(targetClass, methodClassName);
+    constructor(private targetClass: Function, private methodClassName: string) {
+        this.promisify();
     }
 
     /**
@@ -100,5 +104,64 @@ export class Endpoint {
         return <any[]>[this.method, this.route]
             .concat(<any>this.args, [<any>this.handler])
             .filter((item) => (!!item));
+    }
+
+    /**
+     *
+     */
+    private getInvokable = (): IInvokableFunction =>
+        typeof this.methodClassName === "string"
+            ? <IInvokableFunction>this.targetClass[this.methodClassName]
+            : <IInvokableFunction>this.methodClassName;
+
+    /**
+     *
+     */
+    private promisify() {
+
+        this.handler = <Function> (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
+
+            let fnInvResult: IInvokedFNResult;
+
+            response.setHeader("X-Managed-By", "Express-router-decorator");
+            response.setHeader("Content-Type", "text/json");
+
+            // preset status code
+            if (request.method === "POST") {
+                response.status(201);
+            }
+
+            return new Promise<any>((resolve, reject) => {
+
+                const method: IInvokableFunction = this.getInvokable();
+
+                fnInvResult = invoke(this.targetClass, method, {
+                    request:    request,
+                    response:   response,
+                    next:       next
+                });
+
+                if (fnInvResult.result && fnInvResult.result.then) {
+                    fnInvResult.result.then(resolve, reject);
+                } else {
+                    resolve(fnInvResult.result);
+                }
+
+            })
+                .then((data) => {
+                    if (data) {
+                        response.json(data);
+                    }
+
+                    if (fnInvResult.impliciteNext) {
+                        next();
+                    }
+
+                    return data;
+
+                }, (err) => {
+                    next(err);
+                });
+        };
     }
 }

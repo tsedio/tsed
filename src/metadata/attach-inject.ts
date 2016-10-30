@@ -1,4 +1,4 @@
-import {IInvokedFunction} from "../interfaces/InvokedFunction";
+import {IInvokableFunction} from "../interfaces/InvokedFunction";
 /**
  * Create metadata to set a list of service. This service will be injected when the method is invoked with the invoke method.
  * @param method
@@ -6,7 +6,7 @@ import {IInvokedFunction} from "../interfaces/InvokedFunction";
  * @param service
  * @param metadata
  */
-export function attachInject(method: IInvokedFunction, index: number, service: string | Function, metadata?: string): void {
+export function attachInject(method: IInvokableFunction, index: number, service: string | Function, metadata?: string): void {
     method.$inject = method.$inject || [];
     method.$inject[index] = service;
 

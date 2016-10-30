@@ -1,5 +1,5 @@
 import {BadRequest} from "ts-httpexceptions";
-import {IInvokedFunction} from "../interfaces/InvokedFunction";
+import {IInvokableFunction} from "../interfaces/InvokableFunction";
 import {IInvokedFNResult} from "../interfaces/InvokedFnResult";
 import {IExpressParameters} from "../interfaces/ExpressParameters";
 
@@ -11,7 +11,7 @@ import {IExpressParameters} from "../interfaces/ExpressParameters";
  * @param localScope
  * @returns {any}
  */
-export function invoke(targetClass: any, method: IInvokedFunction, localScope: IExpressParameters): IInvokedFNResult {
+export function invoke(targetClass: any, method: IInvokableFunction, localScope: IExpressParameters): IInvokedFNResult {
     let $inject: (Function|string)[];
     let impliciteNext: boolean = false;
 

@@ -1,75 +1,76 @@
 
 import * as Chai from "chai";
-import * as Controllers from "../src/controllers/controllers";
-import {IController} from "../src/controllers/controllers";
+import Controller from "../src/controllers/controller";
 import {CalendarCtrl} from "../examples/controllers/calendars/CalendarCtrl";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
 describe("Controllers", () => {
 
-    describe("Controllers.getCtrls()", function () {
+    describe("Controller.getCtrls()", function () {
 
         it("should return a metadata controllers list", function () {
-            let ctrls: IController[] = Controllers.getCtrls();
+            let ctrls: Controller[] = Controller.controllers;
 
             expect(ctrls).to.be.an("array");
             expect(ctrls.length > 0).to.be.true;
 
             expect(ctrls[0]).to.be.an('object');
-            expect(ctrls[0].targetClass !== undefined).to.be.true;
+            expect((<any>ctrls[0]).targetClass !== undefined).to.be.true;
 
         });
 
     });
 
-    describe("Controllers.get()", function () {
+    describe("Controller.get()", function () {
 
         it("should return the metadata controller by his name", function () {
 
-            let ctrl: IController = Controllers.get('CalendarCtrl');
+            let ctrl: Controller = Controller.getController('CalendarCtrl');
 
             expect(ctrl != undefined).to.be.true;
             expect(ctrl).to.be.an('object');
-            expect(ctrl.targetClass !== undefined).to.be.true;
+            expect((<any>ctrl).targetClass !== undefined).to.be.true;
 
         });
 
         it("should return the metadata controller by his class", function () {
 
-            let ctrl: IController = Controllers.get(CalendarCtrl);
+            let ctrl: Controller = Controller.getController(CalendarCtrl);
 
             expect(ctrl != undefined).to.be.true;
             expect(ctrl).to.be.an('object');
-            expect(ctrl.targetClass !== undefined).to.be.true;
+            expect((<any>ctrl).targetClass !== undefined).to.be.true;
 
         });
 
         it("should return the metadata controller by his instance", function () {
 
-            let ctrl: IController = Controllers.get(<any> new CalendarCtrl());
+            let ctrl: Controller = Controller.getController(<any> new CalendarCtrl());
 
             expect(ctrl != undefined).to.be.true;
             expect(ctrl).to.be.an('object');
-            expect(ctrl.targetClass !== undefined).to.be.true;
+            expect((<any>ctrl).targetClass !== undefined).to.be.true;
 
         });
 
         it("should not return the controller", function () {
 
-            let ctrl: IController = Controllers.get('CalendarCtrl2');
-
-            expect(ctrl).to.be.undefined;
+            try{
+                Controller.getController('CalendarCtrl2');
+            }catch(er){
+                expect(er.message).to.contains("Controller CalendarCtrl2 not found.");
+            }
 
         });
 
     });
 
-    describe("Controllers.has()", function () {
+    describe("Controller.has()", function () {
 
-        it("should return true, when it's called with controller name", function () {
+        xit("should return true, when it's called with controller name", function () {
 
-            let has: boolean = Controllers.has('CalendarCtrl');
+            let has: boolean = Controller.hasController('CalendarCtrl');
 
             expect(has).to.be.true;
 
@@ -77,7 +78,7 @@ describe("Controllers", () => {
 
         it("should return true, when it's called with class", function () {
 
-            let has: boolean = Controllers.has(CalendarCtrl);
+            let has: boolean = Controller.hasController(CalendarCtrl);
 
             expect(has).to.be.true;
 
@@ -85,15 +86,16 @@ describe("Controllers", () => {
 
         it("should return true, when it's called with instance", function () {
 
-            let has: boolean = Controllers.has(<any> new CalendarCtrl());
+            let has: boolean = Controller.hasController(<any> new CalendarCtrl());
 
             expect(has).to.be.true;
 
         });
 
-        it("should return false when wrong name is given", function () {
+        it("should return false when wrong class is given", function () {
+            let CalendarCtrl2 = function myClassTest(){};
 
-            let has: boolean = Controllers.has('CalendarCtrl2');
+            let has: boolean = Controller.hasController(CalendarCtrl2);
 
             expect(has).to.be.false;
 
@@ -101,20 +103,20 @@ describe("Controllers", () => {
 
     });
 
-    describe("Controllers.instanciate()", function () {
+    describe("Controller.instanciate()", function () {
 
         it("should instanciate new controller", function () {
 
             let myClass = function myClassTest(){};
 
-            Controllers.setUrl(myClass, '/test/myclass');
-            Controllers.setDepedencies(myClass, []);
+            Controller.setUrl(myClass, '/test/myclass');
+            Controller.setDepedencies(myClass, []);
 
-            let ctrl: IController = Controllers.instanciate(myClass);
+            let ctrl: Controller = Controller.getController(new myClass).instanciate();
 
             expect(ctrl).to.be.an('object');
-            expect(ctrl.targetClass !== undefined).to.be.true;
-            expect(ctrl.instance instanceof myClass).to.be.true;
+            expect((<any>ctrl).targetClass !== undefined).to.be.true;
+            expect((<any>ctrl).instance instanceof myClass).to.be.true;
 
         });
 
@@ -124,10 +126,10 @@ describe("Controllers", () => {
 
             try {
                 
-                Controllers.instanciate(myClass);
+                Controller.getController(myClass).instanciate();
 
             }catch(er){
-                expect(er.toString()).to.equal('Error: Unable to instanciate controller myClassTest2.');
+                expect(er.toString()).to.equal('Error: Controller myClassTest2 not found.');
             }
 
 

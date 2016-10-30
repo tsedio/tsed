@@ -9,6 +9,7 @@ import {
 import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
+import {EventCtrl} from "./EventCtrl";
 
 interface ICalendar {
     id: string;
@@ -20,7 +21,7 @@ interface ICalendar {
  *
  * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the `/calendars` path.
  */
-@Controller("/calendars", "EventCtrl")
+@Controller("/calendars", EventCtrl)
 export class CalendarCtrl {
 
     /**

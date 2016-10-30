@@ -2,7 +2,7 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import * as Controllers from "./../controllers/controllers";
+import Controller from "./../controllers/controller";
 import * as Promise from "bluebird";
 import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
 
@@ -76,10 +76,10 @@ export abstract class ServerLoader {
     public importControllers(): ServerLoader {
 
         $log.debug("[ERD] Import controllers");
-        Controllers.load(this.expressApp, this.endpoint);
+        Controller.load(this.expressApp, this.endpoint);
 
         $log.info("[ERD] Routes mounted :");
-        Controllers.printRoutes();
+        Controller.printRoutes();
 
         return this;
     }

@@ -1,5 +1,5 @@
 
-export interface IInvokedFunction extends Function {
+export interface IInvokableFunction extends Function {
     $inject?: (Function|string)[];
     $required?: number[];
     $metadata?: string[];

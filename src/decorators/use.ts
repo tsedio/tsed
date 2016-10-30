@@ -1,4 +1,4 @@
-import * as Controllers from "../controllers/controllers";
+import Controller from "../controllers/controller";
 /**
  * Use decorator.
  * @returns {function(any, any, any): *}
@@ -13,7 +13,7 @@ export function Use(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        Controllers.setEndpoint(targetClass, methodClassName, args);
+        Controller.setEndpoint(targetClass, methodClassName, args);
 
         return descriptor;
     };
