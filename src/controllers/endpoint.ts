@@ -145,16 +145,17 @@ export class Endpoint {
     public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
 
         let result: any;
+        const instance = this.controller.getInstance();
+
         response.setHeader("X-Managed-By", "Express-router-decorator");
+
 
         return new Promise<any>((resolve, reject) => {
 
-            //const method: IInvokableFunction = this.getInvokable();
-
-            result = invoke(this.controller.getInstance(), this.methodClassName, {
-                request:    request,
-                response:   response,
-                next:       next
+            result = invoke(instance, this.methodClassName, {
+                request,
+                response,
+                next
             });
 
             if (result && result.then) {
@@ -165,7 +166,7 @@ export class Endpoint {
 
         })
             .then(
-                data => this.send(data, request, response, next),
+                data => this.send(data, request, response, next, this.hasImpliciteNextFunction(instance)),
                 err => next(err)
             );
     };
@@ -175,7 +176,7 @@ export class Endpoint {
      * @param data
      * @returns {any}
      */
-    private send = (data, request, response, next) => {
+    private send = (data, request, response, next, impliciteNext) => {
 
         // preset status code
         if (request.method === "POST") {
@@ -188,7 +189,7 @@ export class Endpoint {
             response.json(data);
         }
 
-        if (this.hasImpliciteNextFunction()) {
+        if (impliciteNext) {
             next();
         }
 
@@ -200,8 +201,8 @@ export class Endpoint {
      * @param targetKey
      * @returns {boolean}
      */
-    private hasImpliciteNextFunction() {
-        const instance = this.controller.getInstance();
+    private hasImpliciteNextFunction(instance) {
+
         let impliciteNext: boolean = false;
         const services = Metadata.get(INJECT_SERV, instance, this.methodClassName);
 
