@@ -2,14 +2,16 @@ import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import HashMap = require("hashmap");
-import * as METADATA_KEYS from "../constants/metadata-keys";
 import * as ERRORS_MSGS from "../constants/errors-msgs";
 import {IControllerRoute} from '../interfaces/ControllerRoute';
-import {getClassName, getContructor} from "../utils/class";
+import {getClassName} from "../utils/class";
 import Metadata from '../metadata/metadata';
-import {CONTROLLER_URL} from '../constants/metadata-keys';
-import {CONTROLLER_DEPEDENCIES} from '../constants/metadata-keys';
-import {ENDPOINT_ARGS} from '../constants/metadata-keys';
+import {
+    CONTROLLER_URL,
+    CONTROLLER_DEPEDENCIES,
+    ENDPOINT_ARGS
+} from '../constants/metadata-keys';
+
 
 export default class Controller {
     /**
@@ -118,29 +120,30 @@ export default class Controller {
      */
     private resolveDepedencies(){
 
-        this.depedencies =
-            (Metadata.get(CONTROLLER_DEPEDENCIES, this.targetClass)||[])
-                .map((dep: string | Function) => {
+        this.depedencies = this
+            .depedencies
+            .map((dep: string | Function) => {
 
-                    const ctrl = Controller.getController(dep);
+                const ctrl = Controller.getController(<string | Function>dep);
 
-                    if(ctrl === undefined){
-                        throw new Error(ERRORS_MSGS.UNKNOW_CONTROLLER(
-                            typeof dep === "string" ? dep : getClassName(dep)
-                        ));
-                    }
+                if(ctrl === undefined){
+                    throw new Error(ERRORS_MSGS.UNKNOW_CONTROLLER(
+                        typeof dep === "string" ? dep : getClassName(dep)
+                    ));
+                }
 
-                    ctrl.parent = this;
+                ctrl.parent = this;
 
-                    // PREVENT CYCLIC REFERENCES
-                    if (ctrl.parent === this && this.parent === ctrl) {
-                        throw new Error(ERRORS_MSGS.CYCLIC_REF(
-                            ctrl.getName(),
-                            this.getName()
-                        ));
-                    }
+                // PREVENT CYCLIC REFERENCES
+                if (ctrl.parent === this && this.parent === ctrl) {
+                    throw new Error(ERRORS_MSGS.CYCLIC_REF(
+                        ctrl.getName(),
+                        this.getName()
+                    ));
+                }
 
-                });
+                return ctrl;
+            });
 
         return this;
     }
@@ -217,7 +220,7 @@ export default class Controller {
      */
     public getAbsoluteUrl = (): string => this.finalEndpointUrl;
 
-    public hasUrl() {
+    public hasEndpointUrl() {
         return !!this.endpointUrl;
     }
 
@@ -240,7 +243,7 @@ export default class Controller {
         let ctrl;
 
         if (typeof target === 'string') {
-            ctrl = this.controllers.find(ctrl => ctrl.getName() === name);
+            ctrl = this.controllers.find(ctrl => ctrl.getName() === target);
         } else {
             ctrl = this.controllers.find(ctrl => ctrl.targetClass === target)
         }
@@ -439,10 +442,10 @@ export default class Controller {
      */
     /*static setEndpoint(targetClass: any, methodClassName: string, args: any[]): void {
 
-        Controller.createController(targetClass);
-        Controller.getController(targetClass).setEndpoint(methodClassName, args);
+     Controller.createController(targetClass);
+     Controller.getController(targetClass).setEndpoint(methodClassName, args);
 
-    }*/
+     }*/
 
     /**
      *
