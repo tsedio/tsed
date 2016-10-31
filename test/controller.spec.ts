@@ -5,6 +5,7 @@ import {IControllerRoute} from '../src/interfaces/ControllerRoute';
 import {FakeClass, FakeClassChildren} from './helper/FakeClass';
 import Metadata from '../src/metadata/metadata';
 import {CONTROLLER_URL, ENDPOINT_ARGS, CONTROLLER_DEPEDENCIES} from '../src/constants/metadata-keys';
+import assert = require('assert');
 
 let expect: Chai.ExpectStatic = Chai.expect;
 //FakeApplication.getInstance();
@@ -13,102 +14,143 @@ describe("Controller", () => {
 
     describe("new Controller()", () => {
 
-        //Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
-        Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-        Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+        it('should build controller', () => {
+            //Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
-        const ctrl: Controller = new (<any>Controller)(
-            FakeClass,
-            '/fake-class'
-        );
+            const ctrl: Controller = new (<any>Controller)(
+                FakeClass,
+                '/fake-class'
+            );
 
-        expect(ctrl.getName()).to.equal('FakeClass');
-        expect(ctrl.hasEndpointUrl()).to.equal(true);
-        expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
+            expect(ctrl.getName()).to.equal('FakeClass');
+            expect(ctrl.hasEndpointUrl()).to.equal(true);
+            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
 
-        expect(ctrl.getInstance()).to.not.equal(FakeClass);
-        expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+            expect(ctrl.getInstance()).to.not.equal(FakeClass);
+            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+        });
 
-    });
+        it('should build controller with depedencies', () => {
+            Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
-    describe("new Controller() with depedencies", () => {
+            Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
 
-        Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
-        Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-        Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            const ctrl: Controller = new (<any>Controller)(
+                FakeClass,
+                '/fake-class',
+                [FakeClassChildren]
+            );
 
-        Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
-        Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-        Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            const children: Controller =  new (<any>Controller)(
+                FakeClassChildren,
+                '/children',
+                []
+            );
 
-        const ctrl: Controller = new (<any>Controller)(
-            FakeClass,
-            '/fake-class',
-            [FakeClassChildren]
-        );
+            Controller.controllers = [ctrl, children];
 
-        const children: Controller =  new (<any>Controller)(
-            FakeClassChildren,
-            '/children',
-            []
-        );
+            expect(ctrl.getName()).to.equal('FakeClass');
+            expect(ctrl.hasEndpointUrl()).to.equal(true);
+            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
 
-        Controller.controllers = [ctrl, children];
+            expect(ctrl.getInstance()).to.not.equal(FakeClass);
+            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
 
-        expect(ctrl.getName()).to.equal('FakeClass');
-        expect(ctrl.hasEndpointUrl()).to.equal(true);
-        expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
+            //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
 
-        expect(ctrl.getInstance()).to.not.equal(FakeClass);
-        expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+            (<any>ctrl).resolveDepedencies();
 
-        //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
+            expect((<any>children).parent).to.equal(ctrl);
+            expect((<any>ctrl).parent).to.equal(undefined);
 
-        (<any>ctrl).resolveDepedencies();
+        });
 
-        expect((<any>children).parent).to.equal(ctrl);
-        expect((<any>ctrl).parent).to.equal(undefined);
+        it('should build controller with string depedencies', () => {
+            Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
-    });
+            Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
 
-    describe("new Controller() with depedencies (string)", () => {
+            const ctrl: Controller = new (<any>Controller)(
+                FakeClass,
+                '/fake-class',
+                ["FakeClassChildren"]
+            );
 
-        Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
-        Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-        Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            const children: Controller =  new (<any>Controller)(
+                FakeClassChildren,
+                '/children',
+                []
+            );
 
-        Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
-        Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-        Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            Controller.controllers = [ctrl, children];
 
-        const ctrl: Controller = new (<any>Controller)(
-            FakeClass,
-            '/fake-class',
-            ["FakeClassChildren"]
-        );
+            expect(ctrl.getName()).to.equal('FakeClass');
+            expect(ctrl.hasEndpointUrl()).to.equal(true);
+            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
 
-        const children: Controller =  new (<any>Controller)(
-            FakeClassChildren,
-            '/children',
-            []
-        );
+            expect(ctrl.getInstance()).to.not.equal(FakeClass);
+            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
 
-        Controller.controllers = [ctrl, children];
+            //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
 
-        expect(ctrl.getName()).to.equal('FakeClass');
-        expect(ctrl.hasEndpointUrl()).to.equal(true);
-        expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
+            (<any>ctrl).resolveDepedencies();
 
-        expect(ctrl.getInstance()).to.not.equal(FakeClass);
-        expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+            expect((<any>children).parent).to.equal(ctrl);
+            expect((<any>ctrl).parent).to.equal(undefined);
 
-        //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
+        });
 
-        (<any>ctrl).resolveDepedencies();
 
-        expect((<any>children).parent).to.equal(ctrl);
-        expect((<any>ctrl).parent).to.equal(undefined);
+        it('should throw error when depedencies is unknow', () =>{
+            Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
+            Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+
+            const ctrl: Controller = new (<any>Controller)(
+                FakeClass,
+                '/fake-class',
+                ["FakeClassChildrenError"]
+            );
+
+            const children: Controller =  new (<any>Controller)(
+                FakeClassChildren,
+                '/children',
+                []
+            );
+
+            Controller.controllers = [ctrl, children];
+
+            expect(ctrl.getName()).to.equal('FakeClass');
+            expect(ctrl.hasEndpointUrl()).to.equal(true);
+            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
+
+            expect(ctrl.getInstance()).to.not.equal(FakeClass);
+            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+
+            //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
+
+            try{
+                (<any>ctrl).resolveDepedencies();
+                assert.ok(false);
+            }catch(er){
+                expect(er.message).to.equal('Controller FakeClassChildrenError not found.');
+            }
+
+        });
     });
 
 
