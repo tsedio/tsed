@@ -75,7 +75,7 @@ export default class Metadata<T>{
         Reflect.hasMetadata(propertyKey, Metadata.getClass(target), targetKey);
 
     static delete = (target: any, propertyKey: string) =>
-        Reflect.deleteProperty(Metadata.getClass(target), propertyKey);
+        Reflect.deleteMetadata(propertyKey, Metadata.getClass(target));
     /**
      *
      * @param propertyKey

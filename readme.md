@@ -35,7 +35,7 @@
 
 ts-route-decorators require :
  - TypeScript 2.0.2 and `experimentalDecorators` must be to set at true,
- - Node v4 or higher,
+ - Node v6 or higher. For Node v4 support, use [TsExpressDecorators v1.x](https://github.com/Romakita/ts-express-decorators/tree/v1.0.1)
  - NPM v2 or higher.
 
 ### Installation
@@ -387,6 +387,10 @@ export class CalendarCtrl {
 
 **Note** : Middle can't use injectable service like the `CalendarCtrl.get()` method actually. 
 
+## Depedencies
+
+AA controller can depend to 
+
 ## Authentification
 
 The `@Authentification` use a `ServerLoader.isAuthenticated()` method to check the authentification strategy.
@@ -499,13 +503,6 @@ export class Server extends ServerLoader {
 * `@CookiesParams(expression: string)`: Get a parameters on Express.Request.cookies attribut.
 * `@QueryParams(expression: string)`: Get a parameters on Express.Request.query attribut.
 * `@Required()`: Set a required flag on parameters.
-
-Deprecated :
-
-* `@PathParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
-* `@BodyParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
-* `@CookiesParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
-* `@QueryParamsRequired(...expression: string[])`: Throw bad request if the parameter(s) isn't provided.
 
 Use @Required instead.
 

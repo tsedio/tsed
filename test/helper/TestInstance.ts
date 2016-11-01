@@ -41,7 +41,6 @@ export class TestInstance {
 
         return new Promise(function(resolve, reject){
 
-            console.log('oco')
             resolve({data: "yes", _id: 1});
 
         });
