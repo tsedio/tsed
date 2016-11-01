@@ -15,6 +15,7 @@ export function invoke(instance: any, targetKey: string, localScope: IInvokableS
 
     let services = Metadata.get(INJECT_SERV, instance, targetKey);
     const metas = Metadata.get(INJECT_META, instance, targetKey);
+    console.log(metas);
     const paramsRequired = Metadata.get(PARAMS_REQUIRED, instance, targetKey);
 
     if(!services) {

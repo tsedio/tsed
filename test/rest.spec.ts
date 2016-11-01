@@ -176,7 +176,9 @@ describe('Rest', () => {
 
     });
 
-    xdescribe("PUT /rest/calendars", () => {
+    describe("PUT /rest/calendars", () => {
+
+        const {FakeApplication} = require("./helper/FakeApplication");
 
         it("should throw a BadRequest", (done: Function) => {
 
@@ -213,7 +215,8 @@ describe('Rest', () => {
         });
     });
 
-    xdescribe("DELETE /rest/calendars", () => {
+    describe("DELETE /rest/calendars", () => {
+        const {FakeApplication} = require("./helper/FakeApplication");
 
         it("should throw a Forbidden", (done: Function) => {
 

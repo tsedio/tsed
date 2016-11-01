@@ -18,7 +18,7 @@ export function Required(): any {
             const requiredParams = Metadata.has(PARAMS_REQUIRED, target, targetKey)
                 ? Metadata.get(PARAMS_REQUIRED, target, targetKey) : [];
 
-            requiredParams[parameterIndex] = true;
+            requiredParams[parameterIndex] = parameterIndex;
 
             Metadata.set(PARAMS_REQUIRED, requiredParams, target, targetKey);
 
