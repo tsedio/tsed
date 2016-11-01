@@ -2,7 +2,7 @@ import * as Chai from "chai";
 import {checkParamsRequired} from "../src/utils/check-params-required";
 let expect: Chai.ExpectStatic = Chai.expect;
 
-xdescribe("checkParamsRequired", () => {
+describe("checkParamsRequired", () => {
    
     it("should check if expression is defined in scope", () => {
 

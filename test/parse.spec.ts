@@ -3,7 +3,7 @@ import {parse} from "../src/utils/parse";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-xdescribe("parse()", function(){
+describe("parse()", function(){
 
     it("should eval expression with a scope and return value", function() {
         expect(parse("test", {

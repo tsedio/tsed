@@ -16,10 +16,10 @@ export function Use(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        const endpointArgs = Metadata.has(ENDPOINT_ARGS, target, targetKey)
+        let endpointArgs = Metadata.has(ENDPOINT_ARGS, target, targetKey)
             ? Metadata.get(ENDPOINT_ARGS, target, targetKey) : [];
 
-        endpointArgs.concat(args);
+        endpointArgs = endpointArgs.concat(args);
 
         Metadata.set(ENDPOINT_ARGS, endpointArgs, target, targetKey);
 

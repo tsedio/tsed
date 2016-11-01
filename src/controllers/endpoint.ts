@@ -123,7 +123,9 @@ export class Endpoint {
     public toArray(): any[] {
 
         return <any[]>[this.httpMethod, this.route]
-            .concat(<any>this.args, [<any>this.middleware])
+            .concat(<any>this.args, [
+                <any>this.middleware
+            ])
             .filter((item) => (!!item));
     }
 
@@ -167,7 +169,9 @@ export class Endpoint {
         })
             .then(
                 data => this.send(data, request, response, next, this.hasImpliciteNextFunction(instance)),
-                err => next(err)
+                err => {
+                    next(err)
+                }
             );
     };
 
@@ -178,13 +182,14 @@ export class Endpoint {
      */
     private send = (data, request, response, next, impliciteNext) => {
 
+        //console.log('send data =>', data);
         // preset status code
         if (request.method === "POST") {
             response.status(201);
         }
 
         // TODO ADD New ANNOTATION TO SPECIFY RESPONSE FORMAT
-        if (data) {
+        if (data !== undefined) {
             response.setHeader("Content-Type", "text/json");
             response.json(data);
         }

@@ -1,9 +1,8 @@
 import * as Chai from "chai";
-import {checkParamsRequired} from "../src/utils/check-params-required";
 import {tryParams} from "../src/utils/try-params";
 let expect: Chai.ExpectStatic = Chai.expect;
 
-xdescribe("tryParams", () => {
+describe("tryParams", () => {
 
    
     it("should check if expression is defined in scope", () => {

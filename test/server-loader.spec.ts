@@ -4,12 +4,12 @@ import {NotAcceptable} from "ts-httpexceptions";
 import {ServerLoader} from '../server-loader';
 import {FakeRequest} from './helper/FakeRequest';
 import {FakeResponse} from './helper/FakeResponse';
-import {FakeApplication, FakeServer} from './helper/FakeApplication';
+import {FakeServer} from './helper/FakeApplication';
 import assert = require('assert');
 
 //const expect: Chai.ExpectStatic = Chai.expect;
 
-xdescribe("ServerLoader()", () => {
+describe("ServerLoader()", () => {
 
     describe('ServerLoader.AcceptMime', () => {
 

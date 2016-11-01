@@ -33,19 +33,6 @@ class Test2{
     }
 }
 
-/*
-const getClass = (target) => target.prototype ? target : target.constructor;
-
-console.log("Test =>", Test);
-console.log("new Test =>", new Test);
-console.log("constructor =>", Test.constructor);
-
-Reflect.defineMetadata("ted:controller", "THE METADATA", getClass(Test));
-
-console.log(Reflect.getMetadata("ted:controller", getClass(Test)));
-console.log(Reflect.getOwnMetadata("ted:controller", getClass(Test)));
-console.log(Reflect.getMetadata("ted:controller", getClass(new Test)));
-console.log(Reflect.getOwnMetadata("ted:controller", getClass(new Test)));*/
 
 
 describe('Metadata', () => {

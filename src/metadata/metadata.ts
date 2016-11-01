@@ -74,7 +74,8 @@ export default class Metadata<T>{
     static has = (propertyKey: string, target: any, targetKey?: string | symbol): boolean =>
         Reflect.hasMetadata(propertyKey, Metadata.getClass(target), targetKey);
 
-
+    static delete = (target: any, propertyKey: string) =>
+        Reflect.deleteProperty(Metadata.getClass(target), propertyKey);
     /**
      *
      * @param propertyKey
@@ -87,4 +88,13 @@ export default class Metadata<T>{
      * @param target
      */
     static getClass = (target: any): any => target.prototype ? target : target.constructor;
+
+    static clear(){
+
+        PROPERTIES.forEach((targets, key) =>
+            targets.forEach(target => Metadata.delete(target, key))
+        );
+
+        PROPERTIES.clear();
+    }
 }

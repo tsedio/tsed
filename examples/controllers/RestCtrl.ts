@@ -7,5 +7,6 @@ export class RestCtrl {
     @All('/')
     public all() {
         $log.debug("Route ALL /rest");
+        return "REST";
     }
 }

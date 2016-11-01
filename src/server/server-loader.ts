@@ -79,7 +79,7 @@ export abstract class ServerLoader {
         Controller.load(this.expressApp, this.endpoint);
 
         $log.info("[ERD] Routes mounted :");
-        Controller.printRoutes();
+        Controller.printRoutes($log);
 
         return this;
     }
