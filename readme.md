@@ -35,7 +35,7 @@
 
 ts-route-decorators require :
  - TypeScript 2.0.2 and `experimentalDecorators` must be to set at true,
- - Node v6 or higher. For Node v4 support, use [TsExpressDecorators v1.x](https://github.com/Romakita/ts-express-decorators/tree/v1.0.1)
+ - Node v4 or higher.
  - NPM v2 or higher.
 
 ### Installation

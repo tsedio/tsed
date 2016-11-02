@@ -39,6 +39,7 @@ export function invoke(instance: any, targetKey: string, localScope: IInvokableS
     }
 
     /* instanbul ignore next */
+    // TODO SUPPORT OLD node version
     return Reflect.apply
         ? Reflect.apply(instance[targetKey], instance, services)
         : instance[targetKey].apply(instance, services);

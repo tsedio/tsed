@@ -5,6 +5,7 @@ import {$log} from "ts-log-debug";
 import Controller from "./../controllers/controller";
 import * as Promise from "bluebird";
 import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
+import Service from '../services/service';
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -26,7 +27,7 @@ export abstract class ServerLoader {
         http.IncomingMessage.prototype.$tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
             if (!this.isAuthenticated(request, response, next)) {
-                // $log.warn("[TED] Authentification error");
+                // $log.warn("[TSED] Authentification error");
                 next(new Forbidden("Forbidden"));
                 return;
             }
@@ -75,10 +76,12 @@ export abstract class ServerLoader {
      */
     public importControllers(): ServerLoader {
 
-        $log.debug("[ERD] Import controllers");
+        $log.debug("[TSED] Import services");
+        Service.load();
+        $log.debug("[TSED] Import controllers");
         Controller.load(this.expressApp, this.endpoint);
 
-        $log.info("[ERD] Routes mounted :");
+        $log.info("[TSED] Routes mounted :");
         Controller.printRoutes($log);
 
         return this;
@@ -97,7 +100,7 @@ export abstract class ServerLoader {
      * @returns {ServerLoader}
      */
     public importGlobalErrorsHanlder(): ServerLoader {
-        $log.debug("[ERD] Add global errors handler");
+        $log.debug("[TSED] Add global errors handler");
 
         this.use((error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
@@ -126,18 +129,18 @@ export abstract class ServerLoader {
 
         if (this.httpServer) {
 
-            $log.debug("[ERD] Start HTTP server on port : " + this.httpPort);
+            $log.debug("[TSED] Start HTTP server on port : " + this.httpPort);
 
             this.httpServer.listen(this.httpPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this.httpServer
                     .on("listening", () => {
-                        $log.info("[ERD] HTTP Server listen port : " + this.httpPort);
+                        $log.info("[TSED] HTTP Server listen port : " + this.httpPort);
                         resolve();
                     })
                     .on("error", function(err){
-                        $log.error("[ERD] HTTP Server error", err);
+                        $log.error("[TSED] HTTP Server error", err);
                         reject(err);
                     });
             }));
@@ -146,18 +149,18 @@ export abstract class ServerLoader {
 
         if (this.httpsServer) {
 
-            $log.debug("[ERD] Start HTTPs server on port : " + this.httpsPort);
+            $log.debug("[TSED] Start HTTPs server on port : " + this.httpsPort);
 
             this.httpsServer.listen(this.httpsPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this.httpsServer
                     .on("listening", () => {
-                        $log.info("[ERD] HTTPs Server listen port : " + this.httpsPort);
+                        $log.info("[TSED] HTTPs Server listen port : " + this.httpsPort);
                         resolve();
                     })
                     .on("error", function(err){
-                        $log.error("[ERD] HTTPs Server error", err);
+                        $log.error("[TSED] HTTPs Server error", err);
                         reject(err);
                     });
             }));
@@ -212,20 +215,20 @@ export abstract class ServerLoader {
         let files: string[] = require('glob').sync(path);
         let nbFiles = 0;
 
-        $log.info("[ERD] Scan files : " + path);
+        $log.info("[TSED] Scan files : " + path);
 
         files.forEach((file: string) => {
             try {
-                $log.debug("[ERD] Import file :", file);
+                $log.debug("[TSED] Import file :", file);
                 require(file);
                 nbFiles++;
             } catch (err) {
                 /* istanbul ignore next */
-                $log.warn("[ERD] Scan error", err);
+                $log.warn("[TSED] Scan error", err);
             }
         });
 
-        $log.info(`[ERD] ${nbFiles} file(s) found and imported`);
+        $log.info(`[TSED] ${nbFiles} file(s) found and imported`);
 
         return this;
     }

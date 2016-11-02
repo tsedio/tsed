@@ -10,6 +10,7 @@ import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";
 import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
+import {MongooseService} from "../../services/MongooseService"
 
 interface ICalendar {
     id: string;
@@ -24,6 +25,11 @@ interface ICalendar {
 @Controller("/calendars", EventCtrl)
 export class CalendarCtrl {
 
+    constructor(
+        private mongooseService: MongooseService
+    ) {
+        console.log('mongoose', mongooseService);
+    }
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.
      * In this case, this route "/calendar/classic/:id" are mounted on the "rest/" path (call /rest/calendar/classic/:id
@@ -45,9 +51,19 @@ export class CalendarCtrl {
     public getToken(
         @CookiesParams("authorization") authorization: string
     ): string {
-
-        return authorization || "EMPTY";
+        const token = this.mongooseService.token();
+        console.log('TOKEN', this.mongooseService, token);
+        return token;
     }
+
+    @Get("/token/:token")
+    public updateToken(
+        @PathParams("token") token: string
+    ): string {
+        this.mongooseService.token(token);
+        return 'token updated';
+    }
+
 
     @Get("/query")
     public getQuery(

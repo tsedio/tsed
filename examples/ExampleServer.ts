@@ -20,6 +20,7 @@ export class ExampleServer extends ServerLoader {
         
         this.setEndpoint('/rest')
             .scan(appPath + "/controllers/**/**.js")
+            .scan(appPath + "/services/**/**.js")
             .createHttpServer(8000)
             .createHttpsServer({
                 port: 8080
@@ -61,6 +62,9 @@ export class ExampleServer extends ServerLoader {
      * @param next
      */
     public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+
+        console.error(error);
+
         return super.onError(error, request, response, next);
     }
 

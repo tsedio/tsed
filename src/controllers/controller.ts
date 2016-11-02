@@ -6,12 +6,13 @@ import * as ERRORS_MSGS from "../constants/errors-msgs";
 import {IControllerRoute} from '../interfaces/ControllerRoute';
 import {getClassName} from "../utils/class";
 import Metadata from '../metadata/metadata';
+
 import {
     CONTROLLER_URL,
     CONTROLLER_DEPEDENCIES,
     ENDPOINT_ARGS
 } from '../constants/metadata-keys';
-
+import Service from '../services/service';
 
 export default class Controller {
     /**
@@ -175,7 +176,10 @@ export default class Controller {
     public getInstance(): any {
         // TODO ADD INJECT DEPEDENCIES
         // TODO Test if SINGLETON ANNOTATION is used to instanciate controller class.
-        return new this.targetClass();
+
+        return Service.invoke(this.targetClass);
+
+       // return new this.targetClass();
     }
 
     /**
@@ -345,7 +349,7 @@ export default class Controller {
         Controller
             .getRoutes()
             .forEach((route: IControllerRoute) => {
-                logger.info("[TED] " + route.method + space(15 - route.method.length) + route.url);
+                logger.info("[TSED] " + route.method + space(15 - route.method.length) + route.url);
             });
 
     }
