@@ -1,13 +1,8 @@
-
-
-
 import * as Chai from "chai";
 
 const expect: Chai.ExpectStatic = Chai.expect;
 
-
-
-xdescribe('Rest', () => {
+xdescribe('Rest :', () => {
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
         //FakeApplication.getInstance();

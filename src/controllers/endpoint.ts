@@ -6,6 +6,7 @@ import {IInvokableScope} from '../interfaces/InvokableScope';
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from '../services';
 import InjectParams from '../metadata/inject-params';
+import {BAD_REQUEST_REQUIRED} from '../constants/errors-msgs';
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -210,7 +211,7 @@ export class Endpoint {
                 }
 
                 if(param.required && (paramValue === undefined || paramValue === null)) {
-                    throw new BadRequest(`Bad request, parameter request.${param.name}.${param.expression} is required.`);
+                    throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
                 return paramValue;

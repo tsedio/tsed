@@ -4,10 +4,11 @@ import {Next} from '../../src/decorators/next';
 import {Response} from '../../src/decorators/response';
 import {BodyParams, PathParams, CookiesParams, QueryParams} from '../../src/decorators/params';
 import {Required} from '../../src/decorators/required';
-import {Get} from '../../src/decorators/route';
 
 export class TestInstance {
+
     middlewares: any;
+
     called: boolean = false;
 
     /**
