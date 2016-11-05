@@ -1,8 +1,11 @@
 import Promise = require("bluebird");
 import * as Express from "express";
-import {invoke} from "./invoke";
-import {INJECT_SERV} from '../constants/metadata-keys';
+import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN} from '../constants/metadata-keys';
 import Metadata from '../metadata/metadata';
+import {IInvokableScope} from '../interfaces/InvokableScope';
+import {BadRequest} from "ts-httpexceptions";
+import {InjectorService, RequestService} from '../services';
+import InjectParams from '../metadata/inject-params';
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -130,14 +133,6 @@ export class Endpoint {
     }
 
     /**
-     * Return invokable function from targetClass.
-     */
-    /*private getInvokable = (): IInvokableFunction =>
-        typeof this.methodClassName === "string"
-            ? <IInvokableFunction>this.targetClass[this.methodClassName]
-            : <IInvokableFunction>this.methodClassName;*/
-
-    /**
      * Return middleware to express.
      * @param request
      * @param response
@@ -151,10 +146,9 @@ export class Endpoint {
 
         response.setHeader("X-Managed-By", "Express-router-decorator");
 
-
         return new Promise<any>((resolve, reject) => {
 
-            result = invoke(instance, this.methodClassName, {
+            result = this.invokeMethod(instance, {
                 request,
                 response,
                 next
@@ -174,6 +168,73 @@ export class Endpoint {
                 }
             );
     };
+
+    /**
+     * Try to get all parameters from Annotation.
+     * @param instance
+     * @param localScope
+     * @returns {(any|any)[]}
+     */
+    private getParameters(instance, localScope): any[] {
+
+        const requestService = InjectorService.get(RequestService);
+        const targetKey = this.methodClassName;
+
+        let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, targetKey);
+
+        if(!services){
+            services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
+                .map((key: symbol) => {
+                    let params = new InjectParams();
+
+                    params.service = key;
+
+                    return params;
+                });
+        }
+
+
+        return services
+            .map((param: InjectParams) => {
+
+                if (param.name in localScope){
+                    return localScope[param.name];
+                }
+
+                let paramValue;
+
+                /* istanbul ignore else */
+                if (param.name in requestService){
+                    paramValue = requestService[param.name].call(requestService, localScope.request, param.expression);
+
+                }
+
+                if(param.required && (paramValue === undefined || paramValue === null)) {
+                    throw new BadRequest(`Bad request, parameter request.${param.name}.${param.expression} is required.`);
+                }
+
+                return paramValue;
+            });
+    }
+
+    /**
+     *
+     * @param instance
+     * @param targetKey
+     * @param localScope
+     * @returns {any}
+     */
+    private invokeMethod(instance, localScope: IInvokableScope): any {
+
+        const targetKey = this.methodClassName;
+        const parameters = this.getParameters(instance, localScope);
+
+        /* instanbul ignore next */
+        // TODO SUPPORT OLD node version
+        return Reflect.apply
+            ? Reflect.apply(instance[targetKey], instance, parameters)
+            : instance[targetKey].apply(instance, parameters);
+    }
 
     /**
      *
@@ -209,7 +270,7 @@ export class Endpoint {
     private hasImpliciteNextFunction(instance) {
 
         let impliciteNext: boolean = false;
-        const services = Metadata.get(INJECT_SERV, instance, this.methodClassName);
+        const services = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
 
         if(services) {
             impliciteNext = services.indexOf("next") === -1;

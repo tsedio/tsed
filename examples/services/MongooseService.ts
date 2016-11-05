@@ -10,7 +10,7 @@ export class MongooseService{
     constructor(
         private sanitize: SanitizeService
     ) {
-        console.log('Service Mongoose', sanitize);
+
     }
 
     token(token?) {

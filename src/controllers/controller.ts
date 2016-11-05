@@ -1,7 +1,6 @@
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
-import HashMap = require("hashmap");
 import * as ERRORS_MSGS from "../constants/errors-msgs";
 import {IControllerRoute} from '../interfaces/ControllerRoute';
 import {getClassName} from "../utils/class";
@@ -12,7 +11,8 @@ import {
     CONTROLLER_DEPEDENCIES,
     ENDPOINT_ARGS
 } from '../constants/metadata-keys';
-import Service from '../services/service';
+
+import {InjectorService} from '../services';
 
 export default class Controller {
     /**
@@ -20,14 +20,9 @@ export default class Controller {
      * @type {Array}
      */
     static controllers: Controller[] = [];
-    static rootControllers: Controller[];
     /**
      *
-     */
-    // protected instance: any;
-    /**
-     *
-     * @type {HashMap<string, Endpoint>}
+     * @type {Array}
      */
     protected endpoints: Endpoint[] = [];
     /**
@@ -177,7 +172,7 @@ export default class Controller {
         // TODO ADD INJECT DEPEDENCIES
         // TODO Test if SINGLETON ANNOTATION is used to instanciate controller class.
 
-        return Service.invoke(this.targetClass);
+        return InjectorService.invoke(this.targetClass);
 
        // return new this.targetClass();
     }

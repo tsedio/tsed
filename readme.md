@@ -227,9 +227,9 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 ## Injection
 ### Response and Request services
 
-You can use decorator to inject `Express.Request`, `Express.Response` and 
+You can use decorator to inject `Express.RequestService`, `Express.Response` and 
 `Express.NextFunction` services instead of the classic call provided by Express API.
-Just use decorator `Request`, `Response` and `Next` on your method parameters like this :
+Just use decorator `RequestService`, `Response` and `Next` on your method parameters like this :
 
 ```typescript
 import {Controller, Get, Response, Request, Next} from "ts-express-decorators";
@@ -496,7 +496,7 @@ export class Server extends ServerLoader {
 ### Parameter Decorators
 
 * `@Response()`: Express.Response service.
-* `@Request()`: Express.Request service.
+* `@RequestService()`: Express.Request service.
 * `@Next()`: Express.NextFunction service.
 * `@PathParams(expression: string)`: Get a parameters on Express.Request.params attribut.
 * `@BodyParams(expression: string)`: Get a parameters on Express.Request.body attribut.

@@ -5,7 +5,7 @@ import {getClassName} from '../utils/class';
 import {UNKNOW_SERVICE} from '../constants/errors-msgs';
 import {$log} from "ts-log-debug";
 
-export default class Service {
+export default class InjectorService {
 
     /**
      *
@@ -14,8 +14,7 @@ export default class Service {
      */
     static invoke(target, locals: {[key: string]: any} = {}): any {
 
-        const services = Metadata
-            .get(PARAM_TYPES, target)
+        const services = (Metadata.get(PARAM_TYPES, target) || [])
             .map((type: any) => {
 
                 const serviceName = typeof type === 'function' ? getClassName(type) : type;
@@ -24,14 +23,13 @@ export default class Service {
                     return locals[serviceName];
                 }
 
-                if (!this.hasService(type)) {
+                if (!this.has(type)) {
                     throw Error(UNKNOW_SERVICE(serviceName))
                 }
 
-                return this.getService(type);
+                return this.get(type);
             });
 
-        console.log(services);
         return new target(...services);
     }
 
@@ -45,7 +43,7 @@ export default class Service {
             .get(PARAM_TYPES, target)
             .forEach((type: any) => {
 
-                if (!this.hasService(type)) {
+                if (!this.has(type)) {
                     this.construct(type);
                 }
 
@@ -53,12 +51,12 @@ export default class Service {
 
         const instance = this.invoke(target);
 
-        this.setService(
+        this.set(
             target,
             instance
         );
 
-        $log.debug('[TSED]', getClassName(target), this.getService(target), 'instancied');
+        $log.debug('[TSED]', getClassName(target), 'instancied');
 
         return this;
     }
@@ -68,9 +66,9 @@ export default class Service {
      *
      * @param target
      * @param instance
-     * @returns {Service}
+     * @returns {InjectorService}
      */
-    static setService(target, instance) {
+    static set(target, instance) {
         Metadata.set(SERVICE_INSTANCE, instance, target);
         return this;
     }
@@ -80,14 +78,14 @@ export default class Service {
      * @param target
      * @returns {boolean}
      */
-    static getService = (target) => Metadata.get(SERVICE_INSTANCE, target);
+    static get = (target) => Metadata.get(SERVICE_INSTANCE, target);
 
     /**
      *
      * @param target
      * @returns {boolean}
      */
-    static hasService = (target) => Metadata.has(SERVICE_INSTANCE, target);
+    static has = (target) => Metadata.has(SERVICE_INSTANCE, target);
 
     /**
      *
@@ -98,8 +96,8 @@ export default class Service {
             .getTargetsFromPropertyKey(SERVICE)
             .forEach((target) => {
 
-                if(!this.hasService(target)){
-                    Service.construct(target);
+                if(!this.has(target)){
+                    InjectorService.construct(target);
                 }
 
             });

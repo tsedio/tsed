@@ -3,6 +3,10 @@ export class FakeRequest {
     method: string;
     path: string;
     mime: string;
+
+    public get(expression) {
+        return "headerValue";
+    }
     /**
      * 
      * @type {{test: string, obj: {test: string}}}

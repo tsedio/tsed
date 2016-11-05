@@ -9,7 +9,7 @@ import assert = require('assert');
 
 //const expect: Chai.ExpectStatic = Chai.expect;
 
-describe("ServerLoader()", () => {
+xdescribe("ServerLoader()", () => {
 
     describe('ServerLoader.AcceptMime', () => {
 

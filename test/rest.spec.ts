@@ -7,7 +7,7 @@ const expect: Chai.ExpectStatic = Chai.expect;
 
 
 
-describe('Rest', () => {
+xdescribe('Rest', () => {
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
         //FakeApplication.getInstance();
@@ -36,7 +36,7 @@ describe('Rest', () => {
 
         });
 
-        xit("should return an object (PathParams annotation)", (done: Function) => {
+        it("should return an object (PathParams annotation)", (done: Function) => {
 
             FakeApplication
                 .getInstance()
@@ -60,7 +60,7 @@ describe('Rest', () => {
 
         });
 
-        xit("should return an object (Via promised response)", (done: Function) => {
+        it("should return an object (Via promised response)", (done: Function) => {
 
             FakeApplication
                 .getInstance()
@@ -84,7 +84,7 @@ describe('Rest', () => {
 
         });
 
-        xit("should return an object (Via promised response)", (done: Function) => {
+        it("should return an object (Via promised response)", (done: Function) => {
 
             FakeApplication
                 .getInstance()
@@ -108,7 +108,7 @@ describe('Rest', () => {
 
         });
 
-        xit("should use middleware to provide user info", (done: Function) => {
+        it("should use middleware to provide user info", (done: Function) => {
 
             FakeApplication
                 .getInstance()
@@ -135,28 +135,47 @@ describe('Rest', () => {
 
         });
 
-        it("should return token", (done: Function) => {
+        it("should set token", (done: Function) => {
 
             FakeApplication
                 .getInstance()
                 .request()
-                .get('/rest/calendars/token')
+                .get('/rest/calendars/token/newTOKENXD')
                 //.send({id: 1})
-                .set({authorization: "token"})
-                .set("Cookie", "authorization=token")
+                .set("Cookie", "authorization=auth")
                 .expect(200)
                 .end((err, response: any) => {
 
                     let token = JSON.parse(response.text);
 
                     expect(token).to.be.an("string");
-                    expect(token).to.equal("token");
+                    expect(token).to.equal("token updated");
                     done();
                 });
 
         });
 
-        xit("should return query", (done: Function) => {
+        it("should return get updated token", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/token')
+                //.send({id: 1})
+                .set("Cookie", "authorization=auth")
+                .expect(200)
+                .end((err, response: any) => {
+
+                    let token = JSON.parse(response.text);
+
+                    expect(token).to.be.an("string");
+                    expect(token).to.equal("newTOKENXD");
+                    done();
+                });
+
+        });
+
+        it("should return query", (done: Function) => {
 
             FakeApplication
                 .getInstance()

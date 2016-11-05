@@ -1,4 +1,6 @@
-import {attachInject} from "../metadata/attach-inject";
+
+import {EXPRESS_RESPONSE} from '../constants/metadata-keys';
+import InjectParams from '../metadata/inject-params';
 
 /**
  * Response service.
@@ -11,7 +13,14 @@ export function Response(): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, "response");
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = EXPRESS_RESPONSE;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
+
+            //attachInject(target, propertyKey, parameterIndex, "response");
         }
     };
 }

@@ -16,6 +16,5 @@ export function Service(): Function {
         Metadata.set(SERVICE, types, target);
 
         return target;
-
     };
 }

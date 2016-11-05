@@ -35,7 +35,7 @@ class Test2{
 
 
 
-describe('Metadata', () => {
+describe('Metadata :', () => {
 
     describe('getClass', () => {
 

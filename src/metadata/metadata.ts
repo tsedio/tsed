@@ -81,7 +81,7 @@ export default class Metadata<T>{
      * @param propertyKey
      */
     static getTargetsFromPropertyKey = (propertyKey: string) =>
-        PROPERTIES.has(propertyKey) ? PROPERTIES.get(propertyKey) : undefined;
+        PROPERTIES.has(propertyKey) ? PROPERTIES.get(propertyKey) : [];
 
     /**
      *
@@ -89,12 +89,4 @@ export default class Metadata<T>{
      */
     static getClass = (target: any): any => target.prototype ? target : target.constructor;
 
-    static clear(){
-
-        PROPERTIES.forEach((targets, key) =>
-            targets.forEach(target => Metadata.delete(target, key))
-        );
-
-        PROPERTIES.clear();
-    }
 }

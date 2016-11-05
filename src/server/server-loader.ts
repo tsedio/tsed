@@ -2,10 +2,10 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import Controller from "./../controllers/controller";
 import * as Promise from "bluebird";
 import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
-import Service from '../services/service';
+import InjectorService from '../services/injector';
+import Controller from "./../controllers/controller";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -77,7 +77,7 @@ export abstract class ServerLoader {
     public importControllers(): ServerLoader {
 
         $log.debug("[TSED] Import services");
-        Service.load();
+        InjectorService.load();
         $log.debug("[TSED] Import controllers");
         Controller.load(this.expressApp, this.endpoint);
 

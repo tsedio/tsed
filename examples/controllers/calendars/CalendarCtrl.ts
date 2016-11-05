@@ -28,7 +28,7 @@ export class CalendarCtrl {
     constructor(
         private mongooseService: MongooseService
     ) {
-        console.log('mongoose', mongooseService);
+
     }
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.
@@ -51,9 +51,14 @@ export class CalendarCtrl {
     public getToken(
         @CookiesParams("authorization") authorization: string
     ): string {
-        const token = this.mongooseService.token();
-        console.log('TOKEN', this.mongooseService, token);
-        return token;
+
+        if (authorization){
+            const token = this.mongooseService.token();
+            return token;
+            //console.log('TOKEN', this.mongooseService, token);
+        }
+
+        return "";
     }
 
     @Get("/token/:token")
@@ -70,6 +75,7 @@ export class CalendarCtrl {
         @QueryParams("search") search: string,
         @Request() request
     ): string {
+        console.log('QueryParams', search)
         return search || "EMPTY";
     }
     /**

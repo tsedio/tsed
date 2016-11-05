@@ -1,4 +1,5 @@
-import {attachInject} from "../metadata/attach-inject";
+import {EXPRESS_REQUEST} from '../constants/metadata-keys';
+import InjectParams from '../metadata/inject-params';
 
 /**
  *
@@ -11,7 +12,13 @@ export function Request(): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, "request");
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = EXPRESS_REQUEST;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
+
         }
     };
 }

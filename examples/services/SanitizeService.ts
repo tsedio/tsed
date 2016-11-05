@@ -5,6 +5,6 @@ import {Service} from '../../index';
 export class SanitizeService{
 
     constructor() {
-        console.log('Service SanitizeService');
+
     }
 }

@@ -1,4 +1,5 @@
-import {attachInject} from "../metadata/attach-inject";
+import InjectParams from '../metadata/inject-params';
+import {EXPRESS_NEXT_FN} from '../constants/metadata-keys';
 
 /**
  *
@@ -11,7 +12,12 @@ export function Next(): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, "next");
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = EXPRESS_NEXT_FN;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
         }
     };
 }

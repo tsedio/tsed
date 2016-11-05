@@ -1,5 +1,5 @@
-import {attachInject} from "../metadata/attach-inject";
-import {parse} from "../utils/parse";
+import InjectParams from '../metadata/inject-params';
+import {PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY} from '../constants/metadata-keys';
 
 /**
  *
@@ -13,7 +13,13 @@ export function CookiesParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.cookies), `cookies.${expression}`);
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = PARSE_COOKIES;
+            injectParams.expression = expression;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
         }
 
     };
@@ -31,7 +37,13 @@ export function BodyParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.body), `body.${expression}`);
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = PARSE_BODY;
+            injectParams.expression = expression;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
         }
 
     };
@@ -49,7 +61,13 @@ export function PathParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.params), `params.${expression}`);
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = PARSE_PARAMS;
+            injectParams.expression = expression;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
         }
 
     };
@@ -69,7 +87,13 @@ export function QueryParams(expression: string): Function {
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, request => parse(expression, request.query), `query.${expression}`);
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = PARSE_QUERY;
+            injectParams.expression = expression;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
         }
 
     };

@@ -6,10 +6,13 @@ import {FakeRequest} from "./helper/FakeRequest";
 import {FakeResponse} from "./helper/FakeResponse";
 import {FakeNextFn} from "./helper/FakeNextFn";
 import {Endpoint} from '../src/controllers/endpoint';
+import {InjectorService} from '../src/services';
+import assert = require('assert');
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-describe("Endpoint", () => {
+
+describe("Endpoint :", () => {
 
     let nextResult: any;
     let response: FakeResponse, request: FakeRequest, next = FakeNextFn;
@@ -24,6 +27,8 @@ describe("Endpoint", () => {
         response =  new FakeResponse();
         next.reset();
     });
+
+    beforeEach(() => InjectorService.load());
 
     describe("Create new Endpoint", () => {
 
@@ -56,7 +61,72 @@ describe("Endpoint", () => {
             expect(endpoint.toArray()[1]).to.equal('/');
         });
 
-        it('should invoke', (done) => {
+        it('should get parameters (without annotation)', () => {
+            const instance = fakeController.getInstance();
+            const endpoint: any = new Endpoint(instance, 'myMethod');
+
+            const parameters = endpoint.getParameters(instance, {
+                request: new FakeRequest,
+                response: new FakeResponse,
+                next: new FakeNextFn
+            });
+
+            expect(parameters[0]).to.be.an.instanceOf(FakeRequest);
+            expect(parameters[1]).to.be.an.instanceOf(FakeResponse);
+            expect(parameters[2]).to.be.an.instanceOf(FakeNextFn);
+        });
+
+        it('should get parameters (with annotation)', () => {
+            const instance = fakeController.getInstance();
+            const endpoint: any = new Endpoint(instance, 'myMethodAnnotated');
+
+            const parameters = endpoint.getParameters(instance, {
+                request: new FakeRequest,
+                response: new FakeResponse,
+                next: new FakeNextFn
+            });
+
+            expect(parameters[0]).to.be.an.instanceOf(FakeRequest);
+            expect(parameters[1]).to.be.an.instanceOf(FakeResponse);
+            expect(parameters[2]).to.be.an.instanceOf(FakeNextFn);
+        });
+
+
+        it('should get parameters (with annotation 2)', () => {
+            const instance = fakeController.getInstance();
+            const endpoint: any = new Endpoint(instance, 'myMethodAnnotated2');
+
+            const parameters = endpoint.getParameters(instance, {
+                request: new FakeRequest,
+                response: new FakeResponse,
+                next: new FakeNextFn
+            });
+
+            expect(parameters).to.be.an('array');
+            expect(parameters.length).to.be.equal(4);
+            expect(parameters[0]).to.be.equal('testValue');
+        });
+
+        it('should get parameters (with annotation 2)', () => {
+            const instance = fakeController.getInstance();
+            const endpoint: any = new Endpoint(instance, 'myMethodAnnotated3');
+
+            try{
+                const parameters = endpoint.getParameters(instance, {
+                    request: new FakeRequest,
+                    response: new FakeResponse,
+                    next: new FakeNextFn
+                });
+
+                assert.ok(false);
+            }catch(er){
+                expect(er).to.be.instanceOf(BadRequest);
+                expect(er.message).to.equal('Bad request, parameter request.parseBody.testUnknow is required.');
+            }
+
+        });
+
+        it('should invokeMethod', (done) => {
             const endpoint = new Endpoint(fakeController, 'myMethod');
             const middleware = endpoint.middleware;
 

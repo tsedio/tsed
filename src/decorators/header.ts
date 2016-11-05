@@ -1,4 +1,5 @@
-import {attachInject} from "../metadata/attach-inject";
+import InjectParams from '../metadata/inject-params';
+import {GET_HEADER} from '../constants/metadata-keys';
 
 /**
  * 
@@ -11,7 +12,14 @@ export function Header(expression: string){
 
         /* istanbul ignore else */
         if (parameterIndex !== undefined) {
-            attachInject(target, propertyKey, parameterIndex, request => request.get(expression));
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = GET_HEADER;//request => request.get(expression);
+            injectParams.expression = expression;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
+
         }
 
     };
