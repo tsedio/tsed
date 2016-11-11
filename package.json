@@ -62,9 +62,7 @@
     "ts-httpexceptions": "^2.0.3",
     "ts-log-debug": "^2.0.1"
   },
-  "peerDependencies": {
-    "express": "^4"
-  },
+
   "devDependencies": {
     "body-parser": "^1.15.1",
     "chai": "^3.5.0",
