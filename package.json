@@ -72,11 +72,11 @@
     "express-session": "^1.13.0",
     "istanbul": "^0.4.2",
     "method-override": "^2.3.5",
-    "mocha": "^2.4.5",
+    "mocha": "^3.1.2",
     "morgan": "^1.7.0",
-    "remap-istanbul": "^0.6.4",
-    "supertest": "1.2.0",
-    "tslint": "3.5.0",
+    "remap-istanbul": "^0.7.0",
+    "supertest": "^2.0.1",
+    "tslint": "3.15.1",
     "typescript": "^2.0.2"
   },
   "directories": {
