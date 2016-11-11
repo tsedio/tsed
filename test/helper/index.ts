@@ -4,5 +4,4 @@ export * from "./FakeNextFn";
 export * from "./FakeRequest";
 export * from "./FakeResponse";
 export * from "./FakeServer";
-export * from "./Middleware";
 export * from "./TestInstance";

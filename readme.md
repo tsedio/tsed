@@ -50,7 +50,8 @@ So run :
 $ npm install -g typescript@2.0.2
 ```
 
-Then configure your `tsconfig.json`, to compile the typescript file :
+> **Important!** TsExpressDecorators requires TypeScript >= 2.0 and the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` 
+compilation options in your `tsconfig.json` file.
 
 ```json
 {
@@ -413,7 +414,9 @@ export class RestCtrl{
 }
 ```
 
-In this example, CalendarCtrl has EventCtrl as depedencies. When all Controllers will be loaded, the routes 
+In this example, CalendarCtrl has EventCtrl as depedencies. When all Controllers are built, the recorded routes will be as follows :
+
+* 
 
 
 ## Authentification
