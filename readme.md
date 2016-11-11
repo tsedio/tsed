@@ -19,9 +19,8 @@
 
 * [Features](#features)
 * [Quick start](#quick-start)
-* [Injection](#injection)
-* [Use promise](#use-promise)
-* [Custom middleware](#custom-middleware)
+* [Controller](#controller)
+* [Services](#service)
 * [Authentification](#authentification)
 * [Throw HTTP exceptions](#throw-http-exceptions)
 * [Global errors handler](#global-errors-handler)
@@ -39,7 +38,7 @@
 * Define required parameters,
 * Inject data from query string, path parameters, entire body, cookies or header,
 * Inject Request, Response, Next object from Express request,
-* IoC services.
+* [IoC services].
 
 ## Quick start
 ### Prerequisites
@@ -87,6 +86,13 @@ Finally run command this command to install `ts-express-decorators` in your proj
 ```batch
 $ npm install --save ts-express-decorators express@4
 ```
+
+### Examples
+
+Some examples are provided :
+
+* [Basic example](https://github.com/Romakita/example-ts-express-decorator/tree/master/basic)
+* [Services declaration](https://github.com/Romakita/example-ts-express-decorator/tree/master/example-services)
 
 ### Configuration
 #### Create your express server
@@ -233,8 +239,11 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 **Note** : Decorators Get support dynamic pathParams (see `/:id`) and RegExp like Express API. 
 
-## Injection
-### Response and Request services
+## Controller
+
+> Since v1.1.0 a controller are instanciated for each incoming request.
+
+### Response and Request
 
 You can use decorator to inject `Express.RequestService`, `Express.Response` and 
 `Express.NextFunction` services instead of the classic call provided by Express API.
@@ -268,7 +277,7 @@ export class CalendarCtrl {
 }
 ```
 
-### PathParams, BodyParams, QueryParams services
+### PathParams, BodyParams, QueryParams
 
 `@PathParams` decorator provide you a quick access to an attribute `Express.request.params`.
 
@@ -300,7 +309,7 @@ Same decorator are available to get other params. Use `BodyParams`
 to get parameters send by the client. 
 
 
-### Header Service
+### Header
 
 `@Header` decorator provide you a quick access to the `Express.request.get()`
 
@@ -323,7 +332,7 @@ export class CalendarCtrl {
 }
 ```
 
-## Use promise
+### Use promise
 
 `ts-express-decorators` support Promise API to send a response. Just return a promise
 in your method and the controller will be waiting your promised response before 
@@ -364,7 +373,7 @@ export class CalendarCtrl {
 
 ```
 
-## Custom middleware
+### Custom middleware
 
 `@Use()` decoratore let you to add custom middleware on a method. 
 
@@ -396,7 +405,7 @@ export class CalendarCtrl {
 
 **Note** : Middle can't use injectable service like the `CalendarCtrl.get()` method actually. 
 
-## Depedencies
+### Controller depedencies
 
 A controller can depend to other controllers. Depedencies let you manage each Controller as Express Router module.
 
@@ -404,12 +413,12 @@ A controller can depend to other controllers. Depedencies let you manage each Co
 
 @Controller("/events")
 export class EventCtrl {
-
+ ...
 }
 
 @Controller("/calendars", EventCtrl)
 export class CalendarCtrl {
-
+ ...
 }
 
 @Controller("/rest")
@@ -424,7 +433,75 @@ export class RestCtrl{
 
 In this example, CalendarCtrl has EventCtrl as depedencies. When all Controllers are built, the recorded routes will be as follows :
 
-* 
+* /rest
+* /rest/calendars
+* /rest/calendars/events
+
+## Services
+
+> Since v1.1.0, TsExpessDecorators support the service injection (IOC). 
+
+The decorator `@Service()` declare a new service can be injected in other service or controller on there `constructor()`.
+All services annotated with `@Service()` are constructed one time.
+
+`@Service()` use the `reflect-metadata` to collect and inject service on controller or other service. 
+
+### Settings Server
+
+In first place, you must adding the `services` folder in your server settings.
+ 
+```typescript
+import * as Express from "express";
+import {ServerLoader} from "ts-express-decorators";
+import Path = require("path");
+
+export class Server extends ServerLoader {
+    /**
+     * In your constructor set the global endpoint and configure the folder to scan the controllers.
+     * You can start the http and https server.
+     */
+    constructor() {
+        super();
+
+        let appPath: string = Path.resolve(__dirname);
+        
+        this.setEndpoint("/rest")                       // Declare your endpoint
+            .scan(appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
+            .scan(appPath + "/services/**/**.js")    // Declare the directory that contains your services
+            .createHttpServer(8000)
+            .createHttpsServer({
+                port: 8080
+            });
+
+    }
+}       
+```
+
+### Declare a service and inject it to another class
+
+```typescript
+
+@Service()
+export default class FooService {
+    constructor() {
+    
+    }
+}
+
+@Service()
+export default class MyService {
+    constructor(private fooService: FooService) {
+    
+    }
+}
+
+@Controller('/rest') 
+class MyController {
+    constructor(private myService: MyService){
+    
+    }
+}  
+```
 
 
 ## Authentification
@@ -516,6 +593,7 @@ export class Server extends ServerLoader {
 ### Class decorators
 
 * `@Controller(route: string, ...ctrlsNamesDepedencies?: string[])` : Declare a new controller with his Rest path. 
+* `@Service()` : Declare a new Service that can be injected in other Service or Controller.
 
 ### Method decorators
 
@@ -539,8 +617,6 @@ export class Server extends ServerLoader {
 * `@CookiesParams(expression: string)`: Get a parameters on Express.Request.cookies attribut.
 * `@QueryParams(expression: string)`: Get a parameters on Express.Request.query attribut.
 * `@Required()`: Set a required flag on parameters.
-
-Use @Required instead.
 
 ## License
 

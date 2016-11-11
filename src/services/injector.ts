@@ -56,7 +56,7 @@ export default class InjectorService {
             instance
         );
 
-        $log.debug('[TSED]', getClassName(target), 'instancied');
+        $log.debug('[TSED]', getClassName(target), 'instantiated');
 
         return this;
     }
