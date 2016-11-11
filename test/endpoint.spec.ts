@@ -11,7 +11,6 @@ import assert = require('assert');
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-
 describe("Endpoint :", () => {
 
     let nextResult: any;
@@ -121,7 +120,7 @@ describe("Endpoint :", () => {
                 assert.ok(false);
             }catch(er){
                 expect(er).to.be.instanceOf(BadRequest);
-                expect(er.message).to.equal('Bad request, parameter request.parseBody.testUnknow is required.');
+                expect(er.message).to.equal('Bad request, parameter request.body.testUnknow is required.');
             }
 
         });

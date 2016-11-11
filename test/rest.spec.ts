@@ -1,8 +1,6 @@
-import * as Chai from "chai";
+import {expect} from "chai";
 
-const expect: Chai.ExpectStatic = Chai.expect;
-
-xdescribe('Rest :', () => {
+describe('Rest :', () => {
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
         //FakeApplication.getInstance();
@@ -202,7 +200,6 @@ xdescribe('Rest :', () => {
                 .put('/rest/calendars')
                 .expect(400)
                 .end((err, response: any) => {
-
                     expect(response.error.text).to.equal("Bad request, parameter request.body.name is required.");
                     done();
                 });

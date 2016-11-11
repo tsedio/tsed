@@ -4,7 +4,7 @@ import {
     BodyParams, Required, Use, Header, Next, Authenticated,
     CookiesParams, QueryParams,
     IPromise
-} from "./../../../index";
+} from "./../../../../index";
 
 import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";
@@ -75,7 +75,7 @@ export class CalendarCtrl {
         @QueryParams("search") search: string,
         @Request() request
     ): string {
-        console.log('QueryParams', search)
+
         return search || "EMPTY";
     }
     /**
@@ -150,7 +150,7 @@ export class CalendarCtrl {
         @PathParams("id") id: string
     ): IPromise<ICalendar> {
 
-        $log.debug("ID =>", id, request.params.id);
+        //$log.debug("ID =>", id, request.params.id);
         //
         return new Promise<ICalendar>((resolve, reject) => {
 

@@ -2,7 +2,7 @@
 import * as Express from "express";
 import * as Bluebird from "bluebird";
 import {$log} from "ts-log-debug";
-import {ServerLoader} from "./../server-loader"; //"ts-express-decorators/server-loader"
+import {ServerLoader} from "./../index"; //"ts-express-decorators/server-loader"
 import Path = require("path");
 
 /**
@@ -63,7 +63,7 @@ export class ExampleServer extends ServerLoader {
      */
     public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
 
-        console.error(error);
+
 
         return super.onError(error, request, response, next);
     }

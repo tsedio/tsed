@@ -8,7 +8,7 @@ import * as Express from "express";
  * @constructor
  */
 export function Authenticated(): Function {
-    return Use((request: Express.Request, response: Express.Response, next: Express.NextFunction): void => {
+    return Use((request, response, next: Express.NextFunction): void => {
         if (typeof request.$tryAuth === 'function') {
             request.$tryAuth(request, response, next);
         }

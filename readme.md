@@ -3,7 +3,10 @@
 [![Build Status](https://travis-ci.org/Romakita/ts-express-decorators.svg?branch=master)](https://travis-ci.org/Romakita/ts-express-decorators)
 [![Coverage Status](https://coveralls.io/repos/github/Romakita/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/Romakita/ts-express-decorators?branch=master)
 [![TypeScript](https://badges.frapsoft.com/typescript/love/typescript.svg?v=100)](https://github.com/ellerbrock/typescript-badges/) 
-
+[![Package Quality](http://npm.packagequality.com/shield/ts-express-decorators.png)](http://packagequality.com/#?package=ts-express-decorators)
+[![npm version](https://badge.fury.io/js/ts-express-decorators.svg)](https://badge.fury.io/js/ts-express-decorators)
+[![Dependencies](https://david-dm.org/romakita/ts-express-decorators.svg)](https://david-dm.org/romakita/ts-express-decorators#info=dependencies)
+[![Known Vulnerabilities](https://snyk.io/test/github/romakita/ts-express-decorators/badge.svg)](https://snyk.io/test/github/romakita/ts-express-decorators)
 > Build your TypeScript v2 application with Express decorators ! Support ES5 and ES6.
 
 ## Table of contents
@@ -52,18 +55,15 @@ Then configure your `tsconfig.json`, to compile the typescript file :
 ```json
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "es5",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "declaration":false,
+    "lib": ["es6", "dom"],
+    "types": ["reflect-metadata"],
+    "module": "commonjs",
+    "moduleResolution": "node",
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
-    "isolatedModules": false,
-    "noLib": false,
-    "suppressImplicitAnyIndexErrors": false,
-    "lib": ["es6"]
+    "sourceMap": true,
+    "declaration": false
   },
   "exclude": [
     "node_modules"
@@ -86,7 +86,7 @@ $ npm install --save ts-express-decorators express@4
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader} from "ts-express-decorators/server-loader";
+import {ServerLoader} from "ts-express-decorators";
 import Path = require("path");
 
 export class Server extends ServerLoader {
@@ -389,7 +389,32 @@ export class CalendarCtrl {
 
 ## Depedencies
 
-AA controller can depend to 
+A controller can depend to other controllers. Depedencies let you manage each Controller as Express Router module.
+
+```typescript
+
+@Controller("/events")
+export class EventCtrl {
+
+}
+
+@Controller("/calendars", EventCtrl)
+export class CalendarCtrl {
+
+}
+
+@Controller("/rest")
+export class RestCtrl{
+    constructor(
+        routeService: RouteService
+    ){
+        routeService.printRoutes();
+    }
+}
+```
+
+In this example, CalendarCtrl has EventCtrl as depedencies. When all Controllers will be loaded, the routes 
+
 
 ## Authentification
 

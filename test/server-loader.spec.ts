@@ -1,18 +1,13 @@
 import {expect} from "chai";
 import Promise = require("bluebird");
 import {NotAcceptable} from "ts-httpexceptions";
-import {ServerLoader} from '../server-loader';
-import {FakeRequest} from './helper/FakeRequest';
-import {FakeResponse} from './helper/FakeResponse';
-import {FakeServer} from './helper/FakeApplication';
+import {ServerLoader} from '../index';
+import {FakeRequest, FakeResponse, FakeServer} from './helper';
 import assert = require('assert');
-
-//const expect: Chai.ExpectStatic = Chai.expect;
 
 describe("ServerLoader()", () => {
 
     describe('ServerLoader.AcceptMime', () => {
-
 
         it('Should throw exception', () =>{
             const middleware = ServerLoader.AcceptMime("application/json");
@@ -25,9 +20,7 @@ describe("ServerLoader()", () => {
                 expect(er instanceof NotAcceptable).to.be.true;
 
             }
-        })
-
-
+        });
 
     });
 

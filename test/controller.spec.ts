@@ -1,9 +1,11 @@
 import * as Chai from "chai";
+import assert = require('assert');
+
 import Controller from "../src/controllers/controller";
-import {FakeClass, FakeClassChildren} from './helper/FakeClass';
+import {FakeClass, FakeClassChildren} from './helper';
 import Metadata from '../src/metadata/metadata';
 import {CONTROLLER_URL, ENDPOINT_ARGS, CONTROLLER_DEPEDENCIES} from '../src/constants/metadata-keys';
-import assert = require('assert');
+
 import {Endpoint} from '../src/controllers/endpoint';
 
 let expect: Chai.ExpectStatic = Chai.expect;
@@ -214,8 +216,5 @@ describe("Controller :", () => {
 
         });
     });
-
-
-
 
 });

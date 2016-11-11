@@ -1,20 +1,19 @@
 import * as Chai from "chai";
 import {getClassName, getContructor} from '../src/utils/class';
+import {FakeClass} from './helper';
 
 const expect: Chai.ExpectStatic = Chai.expect;
-
-class TestClass{}
 
 describe('Class utils : ', () => {
 
     it('should return class name', () => {
-        expect(getClassName(TestClass)).to.equal('TestClass');
-        expect(getClassName(new TestClass)).to.equal('TestClass');
+        expect(getClassName(FakeClass)).to.equal('FakeClass');
+        expect(getClassName(new FakeClass())).to.equal('FakeClass');
     });
 
     it('should return contructor', () => {
-        expect(getContructor(TestClass)).to.equal(TestClass);
-        expect(getContructor(new TestClass)).to.equal(TestClass);
+        expect(getContructor(FakeClass)).to.equal(FakeClass);
+        expect(getContructor(new FakeClass())).to.equal(FakeClass);
     })
 
 });

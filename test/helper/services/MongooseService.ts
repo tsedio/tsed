@@ -1,5 +1,5 @@
 
-import {Service} from '../../index';
+import {Service} from '../../../index';
 import {SanitizeService} from "./SanitizeService";
 
 @Service()

@@ -1,15 +1,11 @@
 
-import Chai = require("chai");
-import {inject} from '../testing';
+import {expect} from "chai";
+import {inject, Done} from '../testing';
 import ParseService from '../src/services/parse';
-
-
-const expect: Chai.ExpectStatic = Chai.expect;
-
 
 describe('ParseService :', () => {
 
-    it('should clone object', () =>{
+    it('should clone object', () => {
 
         const source = {};
 
@@ -17,13 +13,13 @@ describe('ParseService :', () => {
 
     });
 
-    it('should eval expression with a scope and return value', inject([ParseService], (parserService: ParseService) => {
-
+    it('should eval expression with a scope and return value', inject([ParseService, Done], (parserService: ParseService, done) => {
 
         expect(parserService.eval("test", {
             test: "yes"
         })).to.equal("yes");
 
+        done();
 
     }));
 
@@ -53,6 +49,5 @@ describe('ParseService :', () => {
 
         expect(value.foo).to.not.equal(scope.test.foo); // New instance
     }));
-
 
 });

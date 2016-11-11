@@ -10,24 +10,59 @@ import Controller from "./../controllers/controller";
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
 }
-
+/**
+ * ServerLoader provider all method to instanciate an ExpressServer.
+ *
+ * It provide some features :
+ *
+ * * Middleware importation,
+ * * Scan directory. You can specify controllers and services directory in your project,
+ * * Error management (GlobalErrorHandler),
+ * * Authentification strategy.
+ *
+ */
 export abstract class ServerLoader {
-
+    /**
+     * Application express.
+     * @type {core.Express}
+     */
     protected expressApp = Express();
+    /**
+     * Endpoint base.
+     * @type {string}
+     */
     private endpoint: string = "/";
+    /**
+     * Instance of httpServer.
+     */
     private httpServer: Http.Server;
     private httpPort: string | number;
+    /**
+     * Instance of HttpsServer.
+     */
     private httpsServer: Https.Server;
     private httpsPort: string | number;
 
+    /**
+     *
+     * @constructor
+     */
     constructor() {
+        this.patchHttp();
+    }
 
+    /**
+     * Add a new method $tryAuth to the HTTP module.
+     * This method is necessary to attach ServerLoader to each incoming message (express request).
+     * This method test if the user is authenticated (see ServerLoader.isAuthenticated())
+     * when an Endpoint require authentification before running his method.
+     */
+    private patchHttp(){
         let http  = require("http");
 
         http.IncomingMessage.prototype.$tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
             if (!this.isAuthenticated(request, response, next)) {
-                // $log.warn("[TSED] Authentification error");
                 next(new Forbidden("Forbidden"));
                 return;
             }
@@ -76,9 +111,9 @@ export abstract class ServerLoader {
      */
     public importControllers(): ServerLoader {
 
-        $log.debug("[TSED] Import services");
+        $log.info("[TSED] Import services");
         InjectorService.load();
-        $log.debug("[TSED] Import controllers");
+        $log.info("[TSED] Import controllers");
         Controller.load(this.expressApp, this.endpoint);
 
         $log.info("[TSED] Routes mounted :");
@@ -100,6 +135,7 @@ export abstract class ServerLoader {
      * @returns {ServerLoader}
      */
     public importGlobalErrorsHanlder(): ServerLoader {
+
         $log.debug("[TSED] Add global errors handler");
 
         this.use((error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction) => {

@@ -1,7 +1,4 @@
-import {Controller, Get, Post, Put, Delete, Response} from "../../../index";
-import {ICrud} from "../../../index";
-import {IPromise} from "../../../index";
-
+import {Controller, Get, Post, Put, Delete, Response, IPromise, ICrud} from "../../../../index";
 
 interface IEvent{
     id: string;

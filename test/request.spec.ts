@@ -1,11 +1,9 @@
-import * as Chai from "chai";
+import {expect} from "chai";
 import RequestService from '../src/services/request';
-import {FakeRequest} from './helper/FakeRequest';
-import {inject} from '../testing/index';
+import {FakeRequest} from './helper';
+import {inject} from '../testing';
 
-const expect: Chai.ExpectStatic = Chai.expect;
-
-describe('RequestService :', () => {
+describe('RequestService :', function() {
 
     it('should return header info', inject([RequestService], (requestService: RequestService) => {
 

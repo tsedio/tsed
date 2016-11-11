@@ -1,5 +1,5 @@
 
-import {Service} from '../../index';
+import {Service} from '../../../index';
 
 @Service()
 export class SanitizeService{
