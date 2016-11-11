@@ -7,7 +7,11 @@
 [![npm version](https://badge.fury.io/js/ts-express-decorators.svg)](https://badge.fury.io/js/ts-express-decorators)
 [![Dependencies](https://david-dm.org/romakita/ts-express-decorators.svg)](https://david-dm.org/romakita/ts-express-decorators#info=dependencies)
 [![Known Vulnerabilities](https://snyk.io/test/github/romakita/ts-express-decorators/badge.svg)](https://snyk.io/test/github/romakita/ts-express-decorators)
+
 > Build your TypeScript v2 application with Express decorators ! Support ES5 and ES6.
+
+[![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true)](https://nodei.co/npm/ts-express-decorators/)
+[![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=9&height=3)](https://nodei.co/npm/ts-express-decorators/)
 
 ## Table of contents
 
@@ -25,13 +29,15 @@
 ## Features
 
 * Define classe as Controller,
+* Define classe as Service,
 * Define root path for an entire controller,
 * Define as sub-route path for a method,
-* Define routes on GET, POST, PUT and DELETE verbs,
+* Define routes on GET, POST, PUT, DELETE and HEAD verbs,
 * Define middlewares on routes,
 * Define required parameters,
 * Inject data from query string, path parameters, entire body, cookies or header,
-* Inject Request, Response, Next object from Express request.
+* Inject Request, Response, Next object from Express request,
+* IoC services.
 
 ## Quick start
 ### Prerequisites
