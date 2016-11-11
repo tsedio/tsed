@@ -15,7 +15,7 @@ addons:
       - g++-4.8
 
 before_install:
-  - npm install -g typings@1.0.4 typescript@2.0.2
+  - npm install -g typescript@2.0.2
 
 script:
   - "npm test"
