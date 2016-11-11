@@ -62,8 +62,8 @@
   "devDependencies": {
     "@types/chai": "^3.4.32",
     "@types/mocha": "^2.2.31",
-    "@types/superagent": "2.0.34",
-    "@types/supertest": "1.1.30",
+    "@types/superagent": "^2.0.34",
+    "@types/supertest": "^1.1.30",
     "body-parser": "^1.15.1",
     "chai": "^3.5.0",
     "compression": "^1.6.1",
