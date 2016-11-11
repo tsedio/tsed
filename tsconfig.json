@@ -25,6 +25,7 @@
       "express",
       "express-serve-static-core",
       "reflect-metadata",
+      "hashmap",
       "supertest"
     ]
 
