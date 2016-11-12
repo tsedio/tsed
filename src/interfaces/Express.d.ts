@@ -1,3 +1,6 @@
+/// <reference types="express-serve-static-core" />
+
+import * as core from "express-serve-static-core";
 
 declare module Express {
 
@@ -6,6 +9,8 @@ declare module Express {
     }
 
     interface Request {
-        $tryAuth: (request: Express.Request, response: Express.Response, next: Express.NextFunction) => boolean;
+        $tryAuth: (request: core.Request, response: core.Response, next: Express.NextFunction) => boolean;
     }
 }
+
+

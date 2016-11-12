@@ -1,4 +1,4 @@
-import {Controller, All, Next, Get, Response} from "../../../index";
+import {Controller, All, Next, Get, Response, RouterController} from "../../../index";
 import {$log} from "ts-log-debug";
 import {MongooseService} from "../services/MongooseService";
 

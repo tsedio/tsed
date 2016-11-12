@@ -12,15 +12,19 @@ export default class InjectorService {
      * @param target
      * @param locals
      */
-    static invoke(target, locals: {[key: string]: any} = {}): any {
+    static invoke(target, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): any {
 
         const services = (Metadata.get(PARAM_TYPES, target) || [])
             .map((type: any) => {
 
                 const serviceName = typeof type === 'function' ? getClassName(type) : type;
 
-                if(serviceName in locals) {
-                    return locals[serviceName];
+                if(locals.has(serviceName)) {
+                    return locals.get(serviceName);
+                }
+
+                if(locals.has(type)){
+                    return locals.get(type);
                 }
 
                 if (!this.has(type)) {

@@ -1,4 +1,3 @@
-
 require("source-map-support").install();
 require("reflect-metadata");
 

@@ -1,8 +1,6 @@
-
-import HashMap = require("hashmap");
 require('reflect-metadata');
 
-const PROPERTIES: HashMap<string, any[]> = new HashMap<string, any[]>();
+const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();
 /**
  *
  */

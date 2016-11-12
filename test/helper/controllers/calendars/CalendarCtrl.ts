@@ -3,6 +3,7 @@ import {
     PathParams, Request, Response,
     BodyParams, Required, Use, Header, Next, Authenticated,
     CookiesParams, QueryParams,
+    RouterController,
     IPromise
 } from "./../../../../index";
 
@@ -26,9 +27,11 @@ interface ICalendar {
 export class CalendarCtrl {
 
     constructor(
-        private mongooseService: MongooseService
+        private mongooseService: MongooseService,
+        private routerController: RouterController
     ) {
 
+        //
     }
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.

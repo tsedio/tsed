@@ -12,7 +12,7 @@ import {
     ENDPOINT_ARGS
 } from '../constants/metadata-keys';
 
-import {InjectorService} from '../services';
+import {InjectorService, RouterController} from '../services';
 
 export default class Controller {
     /**
@@ -172,7 +172,11 @@ export default class Controller {
         // TODO ADD INJECT DEPEDENCIES
         // TODO Test if SINGLETON ANNOTATION is used to instanciate controller class.
 
-        return InjectorService.invoke(this.targetClass);
+        const locals = new WeakMap<string|Function, any>();
+
+        locals.set(RouterController, new RouterController(this.router));
+
+        return InjectorService.invoke(this.targetClass, locals);
 
        // return new this.targetClass();
     }

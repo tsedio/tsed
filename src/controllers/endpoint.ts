@@ -179,9 +179,8 @@ export class Endpoint {
     private getParameters(instance, localScope): any[] {
 
         const requestService = InjectorService.get(RequestService);
-        const targetKey = this.methodClassName;
 
-        let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, targetKey);
+        let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
 
         if(!services){
             services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
