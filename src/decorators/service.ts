@@ -7,6 +7,7 @@ export function Service(): Function {
 
     return (target: any): void => {
 
+        /* istanbul ignore next */
         if (Metadata.has(PARAM_TYPES, target) === true) {
             throw new Error(DUPLICATED_SERVICE_DECORATOR(getClassName(target)));
         }

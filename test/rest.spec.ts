@@ -14,7 +14,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    if (err){
+                    if (err) {
                         throw (err);
                     }
 
@@ -38,7 +38,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    if (err){
+                    if (err) {
                         throw (err);
                     }
 
@@ -62,7 +62,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    if (err){
+                    if (err) {
                         throw (err);
                     }
 
@@ -86,7 +86,7 @@ describe('Rest :', () => {
                 .expect(202)
                 .end((err, response: any) => {
 
-                    if (err){
+                    if (err) {
                         throw (err);
                     }
 
@@ -113,7 +113,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    if (err){
+                    if (err) {
                         throw (err);
                     }
 
@@ -262,4 +262,44 @@ describe('Rest :', () => {
 
 
     });
+
+    describe("HEAD /rest/calendars/events", () => {
+        const {FakeApplication} = require("./helper/FakeApplication");
+
+        it("should return headers", (done) => {
+            FakeApplication
+                .getInstance()
+                .request()
+                .head('/rest/calendars/events')
+                .expect(200)
+                .end((err, response: any) => {
+
+
+
+                    done();
+                });
+        });
+
+    });
+
+
+    describe("PATCH /rest/calendars/events/:id", () => {
+        const {FakeApplication} = require("./helper/FakeApplication");
+
+        it("should return headers", (done) => {
+            FakeApplication
+                .getInstance()
+                .request()
+                .patch('/rest/calendars/events/1')
+                .expect(200)
+                .end((err, response: any) => {
+
+
+
+                    done();
+                });
+        });
+
+    });
+
 });

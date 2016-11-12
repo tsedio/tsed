@@ -74,6 +74,7 @@ export default class Controller {
                 ctrl.parent = this;
 
                 // PREVENT CYCLIC REFERENCES
+                /* istanbul ignore next */
                 if (ctrl.parent === this && this.parent === ctrl) {
                     throw new Error(ERRORS_MSGS.CYCLIC_REF(
                         ctrl.getName(),

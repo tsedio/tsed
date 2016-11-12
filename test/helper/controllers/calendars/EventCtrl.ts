@@ -1,4 +1,5 @@
-import {Controller, Get, Post, Put, Delete, Response, IPromise, ICrud} from "../../../../index";
+import {Controller, Get, Post, Put, Delete, Response, IPromise, ICrud, Head,Patch} from "../../../../index";
+
 
 interface IEvent{
     id: string;
@@ -6,6 +7,16 @@ interface IEvent{
 
 @Controller("/events")
 export class EventCtrl implements ICrud<IEvent> {
+
+    @Head('/')
+    head(){
+
+    }
+
+    @Patch('/:id')
+    patch(){
+        return "";
+    }
 
     @Get('/:id')
     find(

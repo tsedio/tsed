@@ -2,7 +2,7 @@
 import * as Express from "express";
 import * as Bluebird from "bluebird";
 import {$log} from "ts-log-debug";
-import {ServerLoader} from "./../index"; //"ts-express-decorators/server-loader"
+import {ServerLoader} from "./../../index";
 import Path = require("path");
 
 /**
@@ -17,7 +17,7 @@ export class ExampleServer extends ServerLoader {
         super();
 
         let appPath = Path.resolve(__dirname);
-        
+
         this.setEndpoint('/rest')
             .scan(appPath + "/controllers/**/**.js")
             .scan(appPath + "/services/**/**.js")
@@ -41,7 +41,7 @@ export class ExampleServer extends ServerLoader {
             session = require('express-session');
 
         this
-            //.use(morgan('dev'))
+        //.use(morgan('dev'))
             .use(ServerLoader.AcceptMime("application/json"))
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
@@ -93,5 +93,7 @@ export class ExampleServer extends ServerLoader {
                 $log.info('Server started...');
             });
     }
-    
+
 }
+
+ExampleServer.Initialize();
