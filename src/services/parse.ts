@@ -1,5 +1,5 @@
 
-import {Service} from '../decorators/service';
+import {Service} from "../decorators/service";
 
 @Service()
 export default class ParseService {

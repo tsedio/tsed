@@ -1,9 +1,7 @@
-import {INJECT_PARAMS} from '../constants/metadata-keys';
-import Metadata from './metadata';
+import {INJECT_PARAMS} from "../constants/metadata-keys";
+import Metadata from "./metadata";
 
 export default class InjectParams {
-
-
     /**
      *
      */
@@ -37,7 +35,7 @@ export default class InjectParams {
     set service(value: symbol) {
 
         this._service = value;
-        this._name = this._service.toString().replace('Symbol(', '').replace(')', '');
+        this._name = this._service.toString().replace("Symbol(", "").replace(")", "");
     }
 
     /**
@@ -72,7 +70,7 @@ export default class InjectParams {
      * @param target
      * @param targetKey
      * @param index
-     * @param value
+     * @param injectParams
      */
     static set(target: any, targetKey: string | symbol, index: number, injectParams: InjectParams): void {
 

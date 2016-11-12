@@ -4,7 +4,7 @@ import * as Https from "https";
 import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";
 import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
-import InjectorService from '../services/injector';
+import InjectorService from "../services/injector";
 import Controller from "./../controllers/controller";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
@@ -57,7 +57,7 @@ export abstract class ServerLoader {
      * This method test if the user is authenticated (see ServerLoader.isAuthenticated())
      * when an Endpoint require authentification before running his method.
      */
-    private patchHttp(){
+    private patchHttp() {
         let http  = require("http");
 
         http.IncomingMessage.prototype.$tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
@@ -248,7 +248,7 @@ export abstract class ServerLoader {
      */
     public scan(path: string): ServerLoader {
 
-        let files: string[] = require('glob').sync(path);
+        let files: string[] = require("glob").sync(path);
         let nbFiles = 0;
 
         $log.info("[TSED] Scan files : " + path);

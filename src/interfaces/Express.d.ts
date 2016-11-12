@@ -2,7 +2,7 @@
 
 import * as core from "express-serve-static-core";
 
-declare module Express {
+declare namespace Express {
 
     interface NextFunction extends Function {
 

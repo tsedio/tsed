@@ -1,6 +1,6 @@
 
-import {EXPRESS_RESPONSE} from '../constants/metadata-keys';
-import InjectParams from '../metadata/inject-params';
+import {EXPRESS_RESPONSE} from "../constants/metadata-keys";
+import InjectParams from "../metadata/inject-params";
 
 /**
  * Response service.
@@ -20,7 +20,6 @@ export function Response(): Function {
 
             InjectParams.set(target, propertyKey, parameterIndex, injectParams);
 
-            //attachInject(target, propertyKey, parameterIndex, "response");
         }
     };
 }

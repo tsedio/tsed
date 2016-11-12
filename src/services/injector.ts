@@ -1,8 +1,8 @@
 
-import Metadata from '../metadata/metadata';
-import {PARAM_TYPES, SERVICE, SERVICE_INSTANCE} from '../constants/metadata-keys';
-import {getClassName} from '../utils/class';
-import {UNKNOW_SERVICE} from '../constants/errors-msgs';
+import Metadata from "../metadata/metadata";
+import {PARAM_TYPES, SERVICE, SERVICE_INSTANCE} from "../constants/metadata-keys";
+import {getClassName} from "../utils/class";
+import {UNKNOW_SERVICE} from "../constants/errors-msgs";
 import {$log} from "ts-log-debug";
 
 export default class InjectorService {
@@ -17,18 +17,18 @@ export default class InjectorService {
         const services = (Metadata.get(PARAM_TYPES, target) || [])
             .map((type: any) => {
 
-                const serviceName = typeof type === 'function' ? getClassName(type) : type;
+                const serviceName = typeof type === "function" ? getClassName(type) : type;
 
-                if(locals.has(serviceName)) {
+                if (locals.has(serviceName)) {
                     return locals.get(serviceName);
                 }
 
-                if(locals.has(type)){
+                if (locals.has(type)) {
                     return locals.get(type);
                 }
 
                 if (!this.has(type)) {
-                    throw Error(UNKNOW_SERVICE(serviceName))
+                    throw Error(UNKNOW_SERVICE(serviceName));
                 }
 
                 return this.get(type);
@@ -41,7 +41,7 @@ export default class InjectorService {
      *
      * @param target
      */
-    static construct(target){
+    static construct(target) {
 
         Metadata
             .get(PARAM_TYPES, target)
@@ -60,7 +60,7 @@ export default class InjectorService {
             instance
         );
 
-        $log.debug('[TSED]', getClassName(target), 'instantiated');
+        $log.debug("[TSED]", getClassName(target), "instantiated");
 
         return this;
     }
@@ -94,13 +94,13 @@ export default class InjectorService {
     /**
      *
      */
-    static load(){
+    static load() {
 
         Metadata
             .getTargetsFromPropertyKey(SERVICE)
             .forEach((target) => {
 
-                if(!this.has(target)){
+                if (!this.has(target)) {
                     InjectorService.construct(target);
                 }
 

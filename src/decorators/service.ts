@@ -1,7 +1,7 @@
-import Metadata from '../metadata/metadata';
-import {PARAM_TYPES, DESIGN_PARAM_TYPES, SERVICE} from '../constants/metadata-keys';
-import {DUPLICATED_SERVICE_DECORATOR} from '../constants/errors-msgs';
-import {getClassName} from '../utils/class';
+import Metadata from "../metadata/metadata";
+import {PARAM_TYPES, DESIGN_PARAM_TYPES, SERVICE} from "../constants/metadata-keys";
+import {DUPLICATED_SERVICE_DECORATOR} from "../constants/errors-msgs";
+import {getClassName} from "../utils/class";
 
 export function Service(): Function {
 

@@ -1,6 +1,6 @@
 
-import {Service} from '../decorators/service';
-import ParseService from './parse';
+import {Service} from "../decorators/service";
+import ParseService from "./parse";
 
 @Service()
 export default class RequestService {
@@ -19,24 +19,24 @@ export default class RequestService {
      * @param request
      * @param expression
      */
-    parseBody = (request, expression) => this.parse.eval(expression, request['body']);
+    parseBody = (request, expression) => this.parse.eval(expression, request["body"]);
     /**
      *
      * @param request
      * @param expression
      */
-    parseCookies = (request, expression) => this.parse.eval(expression, request['cookies']);
+    parseCookies = (request, expression) => this.parse.eval(expression, request["cookies"]);
     /**
      *
      * @param request
      * @param expression
      */
-    parseParams = (request, expression) => this.parse.eval(expression, request['params']);
+    parseParams = (request, expression) => this.parse.eval(expression, request["params"]);
     /**
      *
      * @param request
      * @param expression
      */
-    parseQuery = (request, expression) => this.parse.eval(expression, request['query']);
+    parseQuery = (request, expression) => this.parse.eval(expression, request["query"]);
 }
 

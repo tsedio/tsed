@@ -1,5 +1,5 @@
-import InjectParams from '../metadata/inject-params';
-import {PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY} from '../constants/metadata-keys';
+import InjectParams from "../metadata/inject-params";
+import {PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY} from "../constants/metadata-keys";
 
 /**
  *

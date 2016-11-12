@@ -1,8 +1,8 @@
 
 import * as ERRORS_MSGS from "../constants/errors-msgs";
-import {getClassName} from '../utils/class';
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, PARAM_TYPES, DESIGN_PARAM_TYPES} from '../constants/metadata-keys';
-import Metadata from '../metadata/metadata';
+import {getClassName} from "../utils/class";
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, PARAM_TYPES, DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
+import Metadata from "../metadata/metadata";
 
 export function Controller(ctrlUrl: string, ...ctlrDepedencies: any[]): Function {
 

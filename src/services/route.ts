@@ -1,7 +1,7 @@
 
-import {Service} from '../decorators/service';
-import Controller from '../controllers/controller';
-import {IControllerRoute} from '../interfaces/ControllerRoute';
+import {Service} from "../decorators/service";
+import Controller from "../controllers/controller";
+import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {$log} from "ts-log-debug";
 
 /**
@@ -25,7 +25,7 @@ export default class RouteService {
     /**
      * Print routes in console.
      */
-    printRoutes(logger: {info: (s) => void} = $log){
+    printRoutes(logger: {info: (s) => void} = $log) {
         return Controller.printRoutes(logger);
     }
 }

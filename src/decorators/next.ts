@@ -1,5 +1,5 @@
-import InjectParams from '../metadata/inject-params';
-import {EXPRESS_NEXT_FN} from '../constants/metadata-keys';
+import InjectParams from "../metadata/inject-params";
+import {EXPRESS_NEXT_FN} from "../constants/metadata-keys";
 
 /**
  *

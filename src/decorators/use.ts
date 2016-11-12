@@ -1,7 +1,5 @@
-import Controller from "../controllers/controller";
-import {ENDPOINT_ARGS} from '../constants/metadata-keys';
-import Metadata from '../metadata/metadata';
-import {Endpoint} from '../controllers/endpoint';
+import {ENDPOINT_ARGS} from "../constants/metadata-keys";
+import Metadata from "../metadata/metadata";
 /**
  * Use decorator.
  * @returns {function(any, any, any): *}

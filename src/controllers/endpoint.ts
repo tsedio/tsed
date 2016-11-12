@@ -1,12 +1,12 @@
 import Promise = require("bluebird");
 import * as Express from "express";
-import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN} from '../constants/metadata-keys';
-import Metadata from '../metadata/metadata';
-import {IInvokableScope} from '../interfaces/InvokableScope';
+import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN} from "../constants/metadata-keys";
+import Metadata from "../metadata/metadata";
+import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
-import {InjectorService, RequestService} from '../services';
-import InjectParams from '../metadata/inject-params';
-import {BAD_REQUEST_REQUIRED} from '../constants/errors-msgs';
+import {InjectorService, RequestService} from "../services";
+import InjectParams from "../metadata/inject-params";
+import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -27,15 +27,15 @@ export const METHODS = [
  *
  * Example :
  *
- *    @Controller('/my-path')
+ *    @Controller("/my-path")
  *    class MyClass {
  *
- *        @Get('/')
+ *        @Get("/")
  *        @Authenticated()
  *        public myMethod(){}
  *    }
  *
- * Annotation on MyClass.myMethod create a new Endpoint with his route '/',
+ * Annotation on MyClass.myMethod create a new Endpoint with his route "/",
  * the HTTP method GET and require granted connection to be accessible.
  */
 export class Endpoint {
@@ -58,7 +58,7 @@ export class Endpoint {
      * @param controller
      * @param methodClassName
      */
-    constructor(private controller: {getInstance:() => any}, private methodClassName: string) {
+    constructor(private controller: {getInstance: () => any}, private methodClassName: string) {
 
     }
 
@@ -165,7 +165,7 @@ export class Endpoint {
             .then(
                 data => this.send(data, request, response, next, this.hasImpliciteNextFunction(instance)),
                 err => {
-                    next(err)
+                    next(err);
                 }
             );
     };
@@ -182,7 +182,7 @@ export class Endpoint {
 
         let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
 
-        if(!services){
+        if (!services) {
             services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
                 .map((key: symbol) => {
                     let params = new InjectParams();
@@ -197,19 +197,19 @@ export class Endpoint {
         return services
             .map((param: InjectParams) => {
 
-                if (param.name in localScope){
+                if (param.name in localScope) {
                     return localScope[param.name];
                 }
 
                 let paramValue;
 
                 /* istanbul ignore else */
-                if (param.name in requestService){
+                if (param.name in requestService) {
                     paramValue = requestService[param.name].call(requestService, localScope.request, param.expression);
 
                 }
 
-                if(param.required && (paramValue === undefined || paramValue === null)) {
+                if (param.required && (paramValue === undefined || paramValue === null)) {
                     throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
@@ -243,7 +243,6 @@ export class Endpoint {
      */
     private send = (data, request, response, next, impliciteNext) => {
 
-        //console.log('send data =>', data);
         // preset status code
         if (request.method === "POST") {
             response.status(201);
@@ -272,7 +271,7 @@ export class Endpoint {
         let impliciteNext: boolean = false;
         const services = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
 
-        if(services) {
+        if (services) {
             impliciteNext = services.indexOf("next") === -1;
         } else {
             impliciteNext = instance[this.methodClassName].length < 3;

@@ -2,17 +2,17 @@ import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import * as ERRORS_MSGS from "../constants/errors-msgs";
-import {IControllerRoute} from '../interfaces/ControllerRoute';
+import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {getClassName} from "../utils/class";
-import Metadata from '../metadata/metadata';
+import Metadata from "../metadata/metadata";
 
 import {
     CONTROLLER_URL,
     CONTROLLER_DEPEDENCIES,
     ENDPOINT_ARGS
-} from '../constants/metadata-keys';
+} from "../constants/metadata-keys";
 
-import {InjectorService, RouterController} from '../services';
+import {InjectorService, RouterController} from "../services";
 
 export default class Controller {
     /**
@@ -57,7 +57,7 @@ export default class Controller {
     /**
      *
      */
-    private resolveDepedencies(){
+    private resolveDepedencies() {
 
         this.depedencies = this
             .depedencies
@@ -65,7 +65,7 @@ export default class Controller {
 
                 const ctrl = Controller.getController(<string | Function>dep);
 
-                if(ctrl === undefined){
+                if (ctrl === undefined) {
                     throw new Error(ERRORS_MSGS.UNKNOW_CONTROLLER(
                         typeof dep === "string" ? dep : getClassName(dep)
                     ));
@@ -97,7 +97,7 @@ export default class Controller {
             .keys(this.targetClass.prototype)
             .map<Endpoint | boolean>((targetKey: string) => {
 
-                if(!Metadata.has(ENDPOINT_ARGS, this.targetClass, targetKey)) {
+                if (!Metadata.has(ENDPOINT_ARGS, this.targetClass, targetKey)) {
                     return false;
                 }
 
@@ -154,7 +154,7 @@ export default class Controller {
     /**
      *
      */
-    public getEndpointUrl = (base: string = ''): string =>
+    public getEndpointUrl = (base: string = ""): string =>
         base === this.endpointUrl ? this.endpointUrl : base + this.endpointUrl;
 
     /**
@@ -187,7 +187,7 @@ export default class Controller {
      * @param app
      * @param endpointBase
      */
-    static load(app: {use: Function}, endpointBase: string = '') {
+    static load(app: {use: Function}, endpointBase: string = "") {
 
         this.controllersFromMetadatas()
             .resolveControllersUrls(endpointBase)
@@ -228,7 +228,7 @@ export default class Controller {
 
         this.controllers
             .forEach((ctrl) => {
-                if (!ctrl.parent){
+                if (!ctrl.parent) {
                     app.use(ctrl.getAbsoluteUrl(), ctrl.router);
                 }
             });
@@ -239,18 +239,18 @@ export default class Controller {
     /**
      * Resolve all absolute url for each controllers created.
      */
-    private static resolveControllersUrls(endpointBase: string = ''){
+    private static resolveControllersUrls(endpointBase: string = "") {
 
         this.controllers
             .filter(ctrl => {
-                if(!ctrl.parent){
+                if (!ctrl.parent) {
                     ctrl.absoluteUrl = ctrl.getEndpointUrl(endpointBase);
                 }
                 return !!ctrl.parent;
             })
             .forEach((ctrl: Controller)  => { // children controller
 
-                if(ctrl.parent) {
+                if (ctrl.parent) {
                     let ctrlParent = ctrl;
                     let endpointUrls: string[] = [];
 
@@ -276,14 +276,14 @@ export default class Controller {
      * @param target
      * @returns {any}
      */
-    static getController(target: string | Function){
+    static getController(target: string | Function): Controller {
 
-        let ctrl;
+        let ctrl: Controller;
 
-        if (typeof target === 'string') {
+        if (typeof target === "string") {
             ctrl = this.controllers.find(ctrl => ctrl.getName() === target);
         } else {
-            ctrl = this.controllers.find(ctrl => ctrl.targetClass === target)
+            ctrl = this.controllers.find(ctrl => ctrl.targetClass === target);
         }
 
         return ctrl;
@@ -315,7 +315,6 @@ export default class Controller {
 
         Controller
             .controllers
-            //.map(targetClass => Controller.getController(targetClass))
             .sort((ctrlA: any, ctrlB: any) => {
 
                 /* istanbul ignore next */

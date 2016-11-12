@@ -1,4 +1,4 @@
-require('reflect-metadata');
+require("reflect-metadata");
 
 const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();
 /**
@@ -10,7 +10,7 @@ export default class Metadata<T>{
         private propertyKey: string,
         private target: any,
         private targetKey?: string | symbol
-    ){
+    ) {
 
     }
 
@@ -45,7 +45,7 @@ export default class Metadata<T>{
         const targets = PROPERTIES.has(propertyKey) ? PROPERTIES.get(propertyKey) : [];
         const classConstructor = Metadata.getClass(target);
 
-        if(targets.indexOf(classConstructor) === -1) {
+        if (targets.indexOf(classConstructor) === -1) {
             targets.push(classConstructor);
             PROPERTIES.set(propertyKey, targets);
         }
