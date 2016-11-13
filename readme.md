@@ -43,13 +43,13 @@
 
 ## Installation
 
-You can get the latest release and the type definitions using npm:
+You can get the latest release using npm:
 
 ```batch
 $ npm install --save ts-express-decorators express@4
 ```
 
-> **Important!** TsExpressDecorators requires Node >= 4, TypeScript >= 2.0 and 
+> **Important!** TsExpressDecorators requires Node >= 4, Express >= 4, TypeScript >= 2.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 
@@ -84,7 +84,9 @@ Some examples are provided :
 ## Quick start
 #### Create your express server
 
-`ts-express-decorators` provide a `ServerLoad` class to configure your express quickly. Just create a `server.ts` in your root project, declare a new `Server` class that extends `ServerLoader`.
+TsExpressDecorators provide a `ServerLoad` class to configure your 
+express quickly. Just create a `server.ts` in your root project, declare 
+a new `Server` class that extends `ServerLoader`.
 
 ```typescript
 import * as Express from "express";
@@ -158,8 +160,14 @@ Server.Initialize();
 
 #### Create your first controller
 
-Create a new `calendarCtrl.ts` in your controllers directory configured previously with `ServerLoader.scan()`. All controllers declared with `@Controller` decorators is considered as an Express router. An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it is a part of path, and entire exposed url depend on the Server configuration (see ServerLoader.setEndpoint()) and the controllers dependencies. In this case, we haven't a dependencies and the root endpoint is set `/rest`. So the url of this controller will be `http://host/rest/calendars`.
+Create a new `calendarCtrl.ts` in your controllers directory configured 
+previously with `ServerLoader.scan()`. All controllers declared with `@Controller` 
+decorators is considered as an Express router. An Express router require a path 
+(here, the path is `/calendars`) to expose an url on your server. 
+More precisely, it is a part of path, and entire exposed url depend on 
+the Server configuration (see `ServerLoader.setEndpoint()`) and the controllers 
+dependencies. In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
+So the controller's url will be `http://host/rest/calendars`.
 
 ```typescript
 import {Controller, Get} from "ts-express-decorators";
@@ -224,7 +232,7 @@ export class CalendarCtrl {
 
 To test your method, just run your `server.ts` and send a http request on `/rest/calendars/1`.
 
-**Note** : Decorators Get support dynamic pathParams (see `/:id`) and RegExp like Express API. 
+> **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
 ## Controllers
 
@@ -292,9 +300,8 @@ export class CalendarCtrl {
 ```
 
 Same decorator are available to get other params. Use `BodyParams` 
-(with the right HTTP verb @Post, @Put, etc...), `QueryParams` or `CookiesParams` 
+(with the right HTTP verb `@Post`, `@Put`, etc...), `QueryParams` or `CookiesParams` 
 to get parameters send by the client. 
-
 
 ### Header
 
@@ -321,10 +328,9 @@ export class CalendarCtrl {
 
 ### Use promise
 
-`ts-express-decorators` support Promise API to send a response. Just return a promise
+TsExpressDecorators support Promise API to send a response. Just return a promise
 in your method and the controller will be waiting your promised response before 
 send a response to the client.
-
 
 ```typescript
 import {Controller, Get, Response, Request} from "ts-express-decorators";
