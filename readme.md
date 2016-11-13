@@ -18,9 +18,10 @@
 ## Table of contents
 
 * [Features](#features)
+* [Installation](#installation)
 * [Quick start](#quick-start)
-* [Controller](#controller)
-* [Services](#service)
+* [Controllers](#controllers)
+* [Services](#user-content-services)
 * [Authentification](#authentification)
 * [Throw HTTP exceptions](#throw-http-exceptions)
 * [Global errors handler](#global-errors-handler)
@@ -38,27 +39,19 @@
 * Define required parameters,
 * Inject data from query string, path parameters, entire body, cookies or header,
 * Inject Request, Response, Next object from Express request,
-* [IoC services].
+* IoC services.
 
-## Quick start
-### Prerequisites
+## Installation
 
-ts-route-decorators require :
- - TypeScript 2.0.2 and `experimentalDecorators` must be to set at true,
- - Node v4 or higher.
- - NPM v2 or higher.
-
-### Installation
-
-You need to install the typescript compiler and typings tools to developp your app in TypeScript. 
-So run : 
+You can get the latest release and the type definitions using npm:
 
 ```batch
-$ npm install -g typescript@2.0.2
+$ npm install --save ts-express-decorators express@4
 ```
 
-> **Important!** TsExpressDecorators requires TypeScript >= 2.0 and the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` 
-compilation options in your `tsconfig.json` file.
+> **Important!** TsExpressDecorators requires Node >= 4, TypeScript >= 2.0 and 
+the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
+options in your `tsconfig.json` file.
 
 ```json
 {
@@ -79,13 +72,7 @@ compilation options in your `tsconfig.json` file.
 }
 ```
 
-**Note** : Target can be set to es2015/ES6. You can use pure es6 API with `ts-express-decorators/es6`.
-
-Finally run command this command to install `ts-express-decorators` in your project :
-
-```batch
-$ npm install --save ts-express-decorators express@4
-```
+> **Note** : target can be set to es2015/ES6. You can use pure es6 API with `ts-express-decorators/es6`.
 
 ### Examples
 
@@ -94,7 +81,7 @@ Some examples are provided :
 * [Basic example](https://github.com/Romakita/example-ts-express-decorator/tree/master/basic)
 * [Services declaration](https://github.com/Romakita/example-ts-express-decorator/tree/master/example-services)
 
-### Configuration
+## Quick start
 #### Create your express server
 
 `ts-express-decorators` provide a `ServerLoad` class to configure your express quickly. Just create a `server.ts` in your root project, declare a new `Server` class that extends `ServerLoader`.
@@ -239,7 +226,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 **Note** : Decorators Get support dynamic pathParams (see `/:id`) and RegExp like Express API. 
 
-## Controller
+## Controllers
 
 > Since v1.1.0 a controller are instanciated for each incoming request.
 
@@ -511,7 +498,7 @@ You can configure this method by adding an isAuthenticated() method on your `Ser
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader} from "ts-express-decorators/server-loader";
+import {ServerLoader} from "ts-express-decorators";
 import Path = require("path");
 
 export class Server extends ServerLoader {
@@ -567,7 +554,7 @@ You can override the default method by adding `onError` method your `Server` cla
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader} from "ts-express-decorators/server-loader";
+import {ServerLoader} from "ts-express-decorators";
 import Path = require("path");
 
 export class Server extends ServerLoader {
