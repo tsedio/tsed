@@ -10,6 +10,7 @@ import Controller from "./../controllers/controller";
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
 }
+
 /**
  * ServerLoader provider all method to instanciate an ExpressServer.
  *
@@ -60,16 +61,25 @@ export abstract class ServerLoader {
     private patchHttp() {
         let http  = require("http");
 
-        http.IncomingMessage.prototype.$tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
+        http.IncomingMessage.prototype.$tryAuth = this.$tryAuth;
+    }
 
-            if (!this.isAuthenticated(request, response, next)) {
+    private $tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
+
+        const callback = (result: boolean) => {
+            if (result === false) {
                 next(new Forbidden("Forbidden"));
                 return;
             }
-
             next();
         };
-    }
+
+        const result = this.isAuthenticated(request, response, <Express.NextFunction>callback);
+
+        if (result !== undefined) {
+            callback(result);
+        }
+    };
 
     /**
      * Create a new HTTP server.
@@ -315,7 +325,7 @@ export abstract class ServerLoader {
      * @returns {boolean}
      */
     /* istanbul ignore next */
-    public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
+    public isAuthenticated(request: Express.Request, response: Express.Response, next?: Express.NextFunction): boolean {
         return true;
     };
 
