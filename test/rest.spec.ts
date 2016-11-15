@@ -139,7 +139,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    let token = JSON.parse(response.text);
+                    let token = response.text;
 
                     expect(token).to.be.an("string");
                     expect(token).to.equal("token updated");
@@ -159,7 +159,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    let token = JSON.parse(response.text);
+                    let token = response.text;
 
                     expect(token).to.be.an("string");
                     expect(token).to.equal("newTOKENXD");
@@ -177,7 +177,7 @@ describe('Rest :', () => {
                 .expect(200)
                 .end((err, response: any) => {
 
-                    let token = JSON.parse(response.text);
+                    let token = response.text;
 
                     expect(token).to.be.an("string");
                     expect(token).to.equal("ts-express-decorators");

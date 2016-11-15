@@ -249,9 +249,22 @@ export class Endpoint {
         }
 
         // TODO ADD New ANNOTATION TO SPECIFY RESPONSE FORMAT
-        if (data !== undefined) {
-            response.setHeader("Content-Type", "text/json");
-            response.json(data);
+
+        switch(typeof data) {
+            case "number":
+            case "boolean":
+            case "string":
+                response.send(data);
+                break;
+
+            default:
+
+                if (data !== undefined) {
+                    response.setHeader("Content-Type", "text/json");
+                    response.json(data);
+                }
+
+                break;
         }
 
         if (impliciteNext) {
