@@ -32,6 +32,8 @@ export class CalendarCtrl {
     ) {
 
         //
+        const router = this.routerController.getRouter();
+        
     }
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.

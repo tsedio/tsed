@@ -144,6 +144,22 @@ describe('Metadata :', () => {
         });
     });
 
+    describe('delete Metadata with class', () => {
+
+        it('should set, has end get a metadata', () => {
+
+            expect(Metadata.has('metadatakey8', Test)).to.be.false;
+            Metadata.set('metadatakey8', 'test1', Test);
+
+            expect(Metadata.get('metadatakey8', Test)).to.equal('test1');
+
+            Metadata.delete(Test, 'metadatakey8');
+
+            expect(Metadata.get('metadatakey8', Test)).to.equal(undefined);
+        });
+
+    });
+
     describe('list', () => {
         it('should return unique targetClass from property key', () => {
 
@@ -157,6 +173,11 @@ describe('Metadata :', () => {
             expect(result.length).to.equal(2);
             expect(result.indexOf(Test) > -1).to.be.true;
             expect(result.indexOf(Test2) > -1).to.be.true;
+
+            const result2 = Metadata.getTargetsFromPropertyKey('controller2');
+
+            expect(result2).to.be.an('array');
+            expect(result2.length).to.equal(0);
 
         });
     });
