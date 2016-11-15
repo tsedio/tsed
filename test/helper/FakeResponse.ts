@@ -3,7 +3,7 @@ export class FakeResponse {
     _status: number = 200;
     _location: string;
     _json: any;
-    _body: any;
+    _body: any = "";
     _headers: string = "";
 
     /**
@@ -17,7 +17,7 @@ export class FakeResponse {
     }
 
     public send(value: any) {
-        this._body = value;
+        this._body = '' + value;
     }
     /**
      * 
@@ -36,6 +36,7 @@ export class FakeResponse {
      */
     public json(value: any) {
         this._json = value;
+        this._body = JSON.stringify(value);
         return this;
     }
 

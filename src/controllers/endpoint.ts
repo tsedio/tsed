@@ -237,8 +237,12 @@ export class Endpoint {
     }
 
     /**
-     *
+     * Format data and send it to the client.
      * @param data
+     * @param request
+     * @param response
+     * @param next
+     * @param impliciteNext
      * @returns {any}
      */
     private send = (data, request, response, next, impliciteNext) => {
