@@ -26,7 +26,8 @@
 * Define required parameters,
 * Inject data from query string, path parameters, entire body, cookies or header,
 * Inject Request, Response, Next object from Express request,
-* IoC services.
+* IoC services,
+* Testing (alpha).
 
 ## Installation
 
@@ -60,13 +61,6 @@ options in your `tsconfig.json` file.
 ```
 
 > **Note** : target can be set to es2015/ES6. You can use pure es6 API with `ts-express-decorators/es6`.
-
-### Examples
-
-Some examples are provided :
-
-* [Basic example](https://github.com/Romakita/example-ts-express-decorator/tree/master/basic)
-* [Services declaration](https://github.com/Romakita/example-ts-express-decorator/tree/master/example-services)
 
 ## Quick start
 #### Create your express server
@@ -221,15 +215,20 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 > **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
-## Wiki
+## [Wiki](https://github.com/Romakita/ts-express-decorators/wiki/home)
 
 * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Installation)
 * [Quick start](https://github.com/Romakita/ts-express-decorators/wiki/Quick-start)
+* [Examples](https://github.com/Romakita/ts-express-decorators/wiki/Examples)
 * [Controllers](https://github.com/Romakita/ts-express-decorators/wiki/Controllers)
 * [Services](https://github.com/Romakita/ts-express-decorators/wiki/Services)
-* [Authentification](https://github.com/Romakita/ts-express-decorators/wiki/Authentification-strategy)
-* [Throw HTTP exceptions](https://github.com/Romakita/ts-express-decorators/wiki/Throw-HTTP-Exceptions)
-* [Global errors handler](https://github.com/Romakita/ts-express-decorators/wiki/Global-errors-handler)
+* ServerLoader
+   * [Authentification](https://github.com/Romakita/ts-express-decorators/wiki/Authentification-strategy)
+   * [Throw HTTP exceptions](https://github.com/Romakita/ts-express-decorators/wiki/Throw-HTTP-Exceptions)
+   * [Global errors handler](https://github.com/Romakita/ts-express-decorators/wiki/Global-errors-handler)
+* [Testing](https://github.com/Romakita/ts-express-decorators/wiki/Testing)
+* [Decorators references](https://github.com/Romakita/ts-express-decorators/wiki/Decorators-references)
+
 
 ## Decorators references
 ### Class decorators
