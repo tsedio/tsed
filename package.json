@@ -3,6 +3,7 @@
   "version": "1.2.0-1",
   "description": "Use TypeScript decorators to create your Express application and Rest API",
   "main": "lib/index.js",
+  "typings": "dts/index.d.ts",
   "scripts": {
     "prepublish": "npm run tsc:es5 && npm run tsc:es6 && npm run tsc:dec",
     "coverage": "npm run test-cov && npm run test-remap",
