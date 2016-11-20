@@ -24,6 +24,7 @@
 
   "exclude": [
     "node_modules",
-    "test"
+    "test",
+    "dts"
   ]
 }
