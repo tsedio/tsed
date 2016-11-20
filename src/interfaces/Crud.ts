@@ -8,15 +8,15 @@ export interface ICrud<T> {
      * @param response
      * @param next
      */
-    find(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | void;
-    find(...args): IPromise<T> | void;
+    find(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | T | void;
+    find(...args): IPromise<T> | T | void;
     /**
      *
      * @param request
      * @param response
      * @param next
      */
-    save(request: Express.Request, response: Express.Response, next?: Function): IPromise<T>|void;
+    save(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | T | void;
     save(...args): IPromise<T>|void;
     /**
      *
@@ -24,7 +24,7 @@ export interface ICrud<T> {
      * @param response
      * @param next
      */
-    update(request: Express.Request, response: Express.Response, next?: Function): IPromise<T>|void;
+    update(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | T | void;
     update(...args): IPromise<T>|void;
     /**
      *
@@ -32,7 +32,7 @@ export interface ICrud<T> {
      * @param response
      * @param next
      */
-    query(request: Express.Request, response: Express.Response, next?: Function): IPromise<T[]>|void;
+    query(request: Express.Request, response: Express.Response, next?: Function): IPromise<T[]> | T[] | void;
     query(...args): IPromise<T[]>|void;
     /**
      *
@@ -40,6 +40,6 @@ export interface ICrud<T> {
      * @param response
      * @param next
      */
-    remove(request: Express.Request, response: Express.Response, next?: Function): IPromise<any>|void;
-    remove(...args): IPromise<any>|void;
+    remove(request: Express.Request, response: Express.Response, next?: Function): IPromise<any> | any | void;
+    remove(...args): IPromise<any>| any | void;
 }

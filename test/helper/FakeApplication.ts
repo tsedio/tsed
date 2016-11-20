@@ -1,12 +1,12 @@
 import * as SuperTest from "supertest";
 import {$log} from "ts-log-debug";
-import {ServerLoader} from '../../index';
+import {ServerLoader, IServerLifecycle} from '../../index';
 import * as Express from "express";
 import * as Bluebird from "bluebird";
 import Path = require("path");
 
 
-export class FakeApplication extends ServerLoader {
+export class FakeApplication extends ServerLoader implements IServerLifecycle {
 
     static Server: FakeApplication;
     /**
@@ -27,17 +27,15 @@ export class FakeApplication extends ServerLoader {
                 port: 8080
             });
         
-        this
-            .importMiddlewares()
-            .importControllers()
-            .importGlobalErrorsHanlder();
+        this.initializeSettings();
     }
 
     /**
      * This method let you configure the middleware required by your application to works.
      * @returns {Server}
      */
-    public importMiddlewares(): ServerLoader {
+    public $onMountingMiddlewares(): void {
+
         let morgan = require('morgan'),
             cookieParser = require('cookie-parser'),
             bodyParser = require('body-parser'),
@@ -56,19 +54,6 @@ export class FakeApplication extends ServerLoader {
             .use(compress({}))
             .use(methodOverride());
 
-        return this;
-    }
-
-    /**
-     * Customize this method to manage all errors emitted by the server and controllers.
-     * @param error
-     * @param request
-     * @param response
-     * @param next
-     */
-    public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
-
-        return super.onError(error, request, response, next);
     }
 
     /**
@@ -78,32 +63,13 @@ export class FakeApplication extends ServerLoader {
      * @param next
      * @returns {boolean}
      */
-    public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
+    public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
 
         return request.get("authorization") === "token";
     }
-    /**
-     * Start your server. Enjoy it !
-     * @returns {Promise<U>|Promise<TResult>}
-     */
-    /*static Initialize(): Bluebird<any> {
-
-        $log.info('Initialize server');
-
-        return new FakeApplication()
-            .start()
-            .then(() => {
-                $log.info('Server started...');
-            });
-    }*/
-
-    /*public use(endpoint, router) {
-        this.list.push({endpoint: endpoint, router:router});
-        this.app.use(endpoint, router);
-    }*/
 
     public request(): SuperTest.SuperTest<any> {
-        return SuperTest(this.getExpressApp());
+        return SuperTest(this.expressApp);
     }
 
     static getInstance(): FakeApplication {

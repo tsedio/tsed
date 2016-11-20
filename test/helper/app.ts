@@ -2,13 +2,13 @@
 import * as Express from "express";
 import * as Bluebird from "bluebird";
 import {$log} from "ts-log-debug";
-import {ServerLoader} from "./../../index";
+import {ServerLoader, IServerLifecycle} from "./../../index";
 import Path = require("path");
 
 /**
  * Create a new Server that extends ServerLoader.
  */
-export class ExampleServer extends ServerLoader {
+export class ExampleServer extends ServerLoader implements IServerLifecycle {
     /**
      * In your constructor set the global endpoint and configure the folder to scan the controllers.
      * You can start the http and https server.
@@ -32,7 +32,7 @@ export class ExampleServer extends ServerLoader {
      * This method let you configure the middleware required by your application to works.
      * @returns {Server}
      */
-    public importMiddlewares(): ExampleServer {
+    public $onMountingMiddlewares(): void {
         let morgan = require('morgan'),
             cookieParser = require('cookie-parser'),
             bodyParser = require('body-parser'),
@@ -51,7 +51,6 @@ export class ExampleServer extends ServerLoader {
             .use(compress({}))
             .use(methodOverride());
 
-        return this;
     }
 
     /**
@@ -61,11 +60,9 @@ export class ExampleServer extends ServerLoader {
      * @param response
      * @param next
      */
-    public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+    public $onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
 
-
-
-        return super.onError(error, request, response, next);
+        next();
     }
 
     /**
@@ -75,10 +72,18 @@ export class ExampleServer extends ServerLoader {
      * @param next
      * @returns {boolean}
      */
-    public isAuthenticated(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
+    public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
 
-        return request.get("authorization") === "token";
+        next(request.get("authorization") === "token");
     }
+
+    /**
+     *
+     */
+    public $onReady() {
+        $log.info('Server started...');
+    }
+
     /**
      * Start your server. Enjoy it !
      * @returns {Promise<U>|Promise<TResult>}
@@ -87,11 +92,7 @@ export class ExampleServer extends ServerLoader {
 
         $log.info('Initialize server');
 
-        return new ExampleServer()
-            .start()
-            .then(() => {
-                $log.info('Server started...');
-            });
+        return new ExampleServer().start();
     }
 
 }

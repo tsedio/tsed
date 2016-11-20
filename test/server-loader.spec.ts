@@ -27,7 +27,7 @@ describe("ServerLoader()", () => {
     describe('ServerLoader.onError', () => {
         it('should do nothing if response is sent', () => {
 
-            const server = new FakeServer();
+            const server:any = new FakeServer();
             const response: any = new FakeResponse();
             let error;
             response.headersSent = true;
@@ -45,7 +45,7 @@ describe("ServerLoader()", () => {
 
         it('should respond error 404 with his message', () => {
 
-            const server = new FakeServer();
+            const server:any = new FakeServer();
             const response: any = new FakeResponse();
             let error;
 
@@ -63,7 +63,7 @@ describe("ServerLoader()", () => {
 
         it('should respond error 400 and BadRequest (CastError)', () => {
 
-            const server = new FakeServer();
+            const server:any = new FakeServer();
             const response: any = new FakeResponse();
             let error = new Error();
             error.name = "CastError";
@@ -83,7 +83,7 @@ describe("ServerLoader()", () => {
 
         it('should respond error 400 and BadRequest (ObjectID)', () => {
 
-            const server = new FakeServer();
+            const server:any = new FakeServer();
             const response: any = new FakeResponse();
             let error = new Error();
             error.name = "ObjectID";
@@ -102,7 +102,7 @@ describe("ServerLoader()", () => {
 
         it('should respond error 400 and BadRequest (ValidationError)', () => {
 
-            const server = new FakeServer();
+            const server:any = new FakeServer();
             const response: any = new FakeResponse();
             let error = new Error();
             error.name = "ValidationError";
@@ -121,7 +121,7 @@ describe("ServerLoader()", () => {
 
         it('should respond error 500 and Internal Error', () => {
 
-            const server = new FakeServer();
+            const server:any = new FakeServer();
             const response: any = new FakeResponse();
             let error = new Error();
 

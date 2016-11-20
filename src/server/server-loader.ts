@@ -10,6 +10,20 @@ import Controller from "./../controllers/controller";
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
 }
+/**
+ * ServerLoader lifecycle let you intercept a phase.
+ */
+export interface IServerLifecycle {
+    /**
+     * This method is called when the server starting his lifecycle.
+     */
+    $onInit?(): void | Promise<any>;
+    $onMountingMiddleware?(): void | Promise<any>;
+
+    $onReady?(): void;
+    $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
+    $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction): boolean | void;
+}
 
 /**
  * ServerLoader provider all method to instanciate an ExpressServer.
@@ -23,25 +37,26 @@ export interface IHTTPSServerOptions extends Https.ServerOptions {
  *
  */
 export abstract class ServerLoader {
+
     /**
      * Application express.
      * @type {core.Express}
      */
-    protected expressApp = Express();
+    private _expressApp;
     /**
      * Endpoint base.
      * @type {string}
      */
-    private endpoint: string = "/";
+    private endpoint: string = "/rest";
     /**
      * Instance of httpServer.
      */
-    private httpServer: Http.Server;
-    private httpPort: string | number;
+    private _httpServer: Http.Server;
+    public httpPort: string | number;
     /**
      * Instance of HttpsServer.
      */
-    private httpsServer: Https.Server;
+    private _httpsServer: Https.Server;
     private httpsPort: string | number;
 
     /**
@@ -49,13 +64,13 @@ export abstract class ServerLoader {
      * @constructor
      */
     constructor() {
-        this.patchHttp();
+
     }
 
     /**
      * Add a new method $tryAuth to the HTTP module.
      * This method is necessary to attach ServerLoader to each incoming message (express request).
-     * This method test if the user is authenticated (see ServerLoader.isAuthenticated())
+     * This method test if the user is authenticated (see ServerLoader.$onAuth())
      * when an Endpoint require authentification before running his method.
      */
     private patchHttp() {
@@ -64,6 +79,12 @@ export abstract class ServerLoader {
         http.IncomingMessage.prototype.$tryAuth = this.$tryAuth;
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @param next
+     */
     private $tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
 
         const callback = (result: boolean) => {
@@ -74,11 +95,19 @@ export abstract class ServerLoader {
             next();
         };
 
-        const result = this.isAuthenticated(request, response, <Express.NextFunction>callback);
+        // TODO Fallback
+        const fn = (<any>this).isAuthenticated || (<any>this).$onAuth;
 
-        if (result !== undefined) {
-            callback(result);
+        if(fn){
+            const result = fn.call(this, request, response, <Express.NextFunction>callback);
+
+            if (result !== undefined) {
+                callback(result);
+            }
+        } else {
+            next();
         }
+
     };
 
     /**
@@ -86,7 +115,7 @@ export abstract class ServerLoader {
      * @returns {ServerLoader}
      */
     public createHttpServer(port: string | number): ServerLoader {
-        this.httpServer = Http.createServer(<any> this.expressApp);
+        this._httpServer = Http.createServer(<any> this._expressApp);
         this.httpPort = port;
         return this;
     }
@@ -98,7 +127,7 @@ export abstract class ServerLoader {
      */
     public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
 
-        this.httpsServer = Https.createServer(options, this.expressApp);
+        this._httpsServer = Https.createServer(options, this._expressApp);
         this.httpsPort = options.port;
         return this;
     }
@@ -116,48 +145,43 @@ export abstract class ServerLoader {
     }
 
     /**
-     *
-     * @returns {ServerLoader}
+     * Initialize configuration of the express app.
      */
-    public importControllers(): ServerLoader {
+    public initializeSettings(): Promise<any> {
 
-        $log.info("[TSED] Import services");
-        InjectorService.load();
-        $log.info("[TSED] Import controllers");
-        Controller.load(this.expressApp, this.endpoint);
+        this._expressApp = Express();
 
-        $log.info("[TSED] Routes mounted :");
-        Controller.printRoutes($log);
+        const fn = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
 
-        return this;
-    }
+        return Promise
+            .resolve()
+            .then(() => fn.call(this, this.expressApp))
+            .then(() => {
 
-    /**
-     * Return express application instance.
-     * @returns {e.Express}
-     */
-    public getExpressApp(): Express.Application {
-        return this.expressApp;
-    }
+                $log.info("[TSED] Import services");
+                InjectorService.load();
 
-    /**
-     * Import the global errors handler middleware to prevent crash server.
-     * @returns {ServerLoader}
-     */
-    public importGlobalErrorsHanlder(): ServerLoader {
+                $log.info("[TSED] Import controllers");
+                Controller.load(this.expressApp, this.endpoint);
 
-        $log.debug("[TSED] Add global errors handler");
+                $log.info("[TSED] Routes mounted :");
+                Controller.printRoutes($log);
 
-        this.use((error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
+                // Import the globalErrorHandler
 
-            try {
-                return this.onError(error, request, response, next);
-            } catch (err) {
-                // console.error(err);
-            }
-        });
+                const fnError = (<any>this).$onError || (<any>this).onError;
 
-        return this;
+                this.use((error, request, response, next) => {
+
+                    if(fnError){
+                        fnError.call(this, error, request, response, next);
+                    } else {
+                        next();
+                    }
+
+                });
+
+            });
     }
 
     /**
@@ -166,11 +190,33 @@ export abstract class ServerLoader {
      */
     public start(): Promise<any> {
 
-        this
-            .importMiddlewares()
-            .importControllers()
-            .importGlobalErrorsHanlder();
+        this.patchHttp();
 
+        return Promise
+            .resolve()
+            .then(() => "$onInit" in this ? (<any>this).$onInit() : null)
+            .then(() => this.initializeSettings())
+            .then(() => this.startServers())
+            .then(() => {
+                if ("$onReady" in this){
+                    (<any>this).$onReady.call(this);
+                }
+            })
+            .catch((err) => {
+                if("$onServerInitError" in this) {
+                    return (<any>this).$onServerInitError(err);
+                } else {
+                    $log.error("[TSED] HTTP Server error", err);
+                }
+            });
+
+    }
+
+    /**
+     * Initiliaze all servers.
+     * @returns {Bluebird<U>}
+     */
+    private startServers(): Promise<any> {
         let promises: Promise<any>[] = [];
 
         if (this.httpServer) {
@@ -185,13 +231,9 @@ export abstract class ServerLoader {
                         $log.info("[TSED] HTTP Server listen port : " + this.httpPort);
                         resolve();
                     })
-                    .on("error", function(err){
-                        $log.error("[TSED] HTTP Server error", err);
-                        reject(err);
-                    });
+                    .on("error", reject);
             }));
         }
-
 
         if (this.httpsServer) {
 
@@ -205,14 +247,13 @@ export abstract class ServerLoader {
                         $log.info("[TSED] HTTPs Server listen port : " + this.httpsPort);
                         resolve();
                     })
-                    .on("error", function(err){
-                        $log.error("[TSED] HTTPs Server error", err);
-                        reject(err);
-                    });
+                    .on("error", reject);
             }));
         }
 
+
         return Promise.all<any>(promises);
+
     }
 
     /**
@@ -280,18 +321,41 @@ export abstract class ServerLoader {
     }
 
     /**
-     * Register all middlewares used by your express application.
+     * Return Express Application instance.
+     * @returns {core.Express}
      */
-    public abstract importMiddlewares(): ServerLoader;
+    get expressApp(): Express.Application {
+        return this._expressApp;
+    }
 
     /**
-     * Catch all exceptions triggered by your express applicaton.
+     * Return Http.Server instance.
+     * @returns {Http.Server}
+     */
+    get httpServer(): Http.Server {
+        return this._httpServer;
+    }
+
+    /**
+     * Return Https.Server instance.
+     * @returns {Https.Server}
+     */
+    get httpsServer(): Https.Server {
+        return this._httpsServer;
+    }
+
+    // TODO deprecated
+    /** istanbul ignore next */
+    getExpressApp = () => this.expressApp;
+
+    /**
+     * Default global handler
      * @param error
      * @param request
      * @param response
      * @param next
      */
-    public onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+    protected onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
 
         if (response.headersSent) {
             return next(error);
@@ -307,27 +371,16 @@ export abstract class ServerLoader {
             return next();
         }
 
+        // MONGOOSE ERROR MANAGEMENT ... maybe not to be here...
         if (error.name === "CastError" || error.name === "ObjectID" || error.name === "ValidationError") {
             response.status(400).send("Bad Request");
             return next();
         }
 
         response.status(error.status || 500).send("Internal Error");
+
         return next();
     }
-
-    /**
-     * Override this method to set your check authentification strategy (Passport.js for example).
-     * This method is binded with `Express.Request` object and used by the @Authenticated decorator.
-     * @param request
-     * @param response
-     * @param next
-     * @returns {boolean}
-     */
-    /* istanbul ignore next */
-    public isAuthenticated(request: Express.Request, response: Express.Response, next?: Express.NextFunction): boolean {
-        return true;
-    };
 
     /**
      * Set the mime acceptable to all request. Return a middleware for express.
