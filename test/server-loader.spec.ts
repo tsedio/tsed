@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import Promise = require("bluebird");
 import {NotAcceptable} from "ts-httpexceptions";
-import {ServerLoader} from '../index';
+import {ServerLoader} from '../src/index';
 import {FakeRequest, FakeResponse, FakeServer} from './helper';
 import assert = require('assert');
 

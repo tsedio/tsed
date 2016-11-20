@@ -1,6 +1,6 @@
 import * as SuperTest from "supertest";
 import {$log} from "ts-log-debug";
-import {ServerLoader, IServerLifecycle} from '../../index';
+import {ServerLoader, IServerLifecycle} from '../../src/index';
 import * as Express from "express";
 import * as Bluebird from "bluebird";
 import Path = require("path");

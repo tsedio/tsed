@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Put, Delete, Response, IPromise, ICrud, Head,Patch} from "../../../../index";
+import {Controller, Get, Post, Put, Delete, Response, IPromise, ICrud, Head,Patch} from "../../../../src/index";
 
 
 interface IEvent{

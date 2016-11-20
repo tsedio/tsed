@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {inject} from '../testing';
-import {RouteService} from '../';
+import {inject} from '../src/testing';
+import {RouteService} from '../src';
 
 describe('RouteService :', function() {
 

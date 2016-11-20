@@ -2,22 +2,23 @@
   "name": "ts-express-decorators",
   "version": "1.2.0-0",
   "description": "Use TypeScript decorators to create your Express application and Rest API",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "build": "npm run tsc:es5 && npm run tsc:es6",
-    "postinstall": "npm run build",
-    "tslint": "tslint ./*.ts ./src/**/*.ts",
+    "prepublish": "npm run tsc:es5 && npm run tsc:es6 && npm run tsc:dec",
+    "coverage": "npm run test-cov && npm run test-remap",
+    "tslint": "tslint ./src/*.ts",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "test": "mocha --reporter spec --check-leaks --bail test/",
-    "test:cov": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/ && npm run test:remap",
+    "test": "npm run tsc:test && mocha --reporter spec --check-leaks --bail test/",
+    "test:cov": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test:remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
-    "test:travis": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "tsc:es5": "tsc --project tsconfig.json",
-    "tsc:es6": "tsc --project tsconfig.es6.json"
+    "test:travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "tsc": "tsc --project tsconfig.json --rootDir src/",
+    "tsc:test": "tsc --project tsconfig.test.json",
+    "tsc:es5": "tsc --project tsconfig.json --rootDir src/ --outDir lib/",
+    "tsc:es6": "tsc --project tsconfig.json --rootDir src/ --outDir es6/ --target es2015",
+    "tsc:dec": "rm -rf dts/ && tsc --project tsconfig.declaration.json"
   },
   "repository": {
     "type": "git",
@@ -56,8 +57,8 @@
     "glob": "^7.0.3",
     "reflect-metadata": "^0.1.8",
     "source-map-support": "^0.4.0",
-    "ts-httpexceptions": "^2.0.3",
-    "ts-log-debug": "^2.0.1"
+    "ts-httpexceptions": "^2.1.1",
+    "ts-log-debug": "^2.1.1"
   },
   "devDependencies": {
     "body-parser": "^1.15.1",

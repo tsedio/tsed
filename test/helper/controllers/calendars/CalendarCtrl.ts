@@ -5,7 +5,7 @@ import {
     CookiesParams, QueryParams,
     RouterController,
     IPromise
-} from "./../../../../index";
+} from "../../../../src/index";
 
 import {$log} from "ts-log-debug";
 import * as Promise from "bluebird";

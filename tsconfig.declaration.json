@@ -1,24 +1,19 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
+    "target": "es5",
     "noImplicitAny": false,
     "sourceMap": true,
-    "declaration":false,
+    "declaration":true,
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
-    "isolatedModules": false,
-    "noLib": false,
     "suppressImplicitAnyIndexErrors": false,
-    "strictNullChecks": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir":"es6",
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "types": [
+    "declarationDir":"dts",
+    "noResolve": false,
+    "lib": ["es6", "dom"],
+    "rootDir":"src",
+    "types":[
       "bluebird",
       "chai",
       "mocha",
@@ -27,12 +22,9 @@
       "reflect-metadata",
       "supertest"
     ]
-
   },
   "exclude": [
-    "node_modules",
-    "models",
-    "test/old",
-    "es6"
+    "test",
+    "node_modules"
   ]
 }

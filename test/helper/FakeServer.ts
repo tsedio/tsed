@@ -1,4 +1,4 @@
-import {ServerLoader} from '../../server-loader';
+import {ServerLoader} from '../../src';
 
 export class FakeServer extends ServerLoader {
 

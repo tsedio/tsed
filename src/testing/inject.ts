@@ -1,4 +1,4 @@
-import InjectorService from '../src/services/injector';
+import InjectorService from '../services/injector';
 import {Done} from './done';
 
 /**
