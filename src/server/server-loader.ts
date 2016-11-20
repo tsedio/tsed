@@ -64,7 +64,7 @@ export abstract class ServerLoader {
      * @constructor
      */
     constructor() {
-
+        this.patchHttp();
     }
 
     /**
@@ -98,12 +98,15 @@ export abstract class ServerLoader {
         // TODO Fallback
         const fn = (<any>this).isAuthenticated || (<any>this).$onAuth;
 
+        /* istanbul ignore else */
         if(fn){
             const result = fn.call(this, request, response, <Express.NextFunction>callback);
 
+            /* istanbul ignore else */
             if (result !== undefined) {
                 callback(result);
             }
+
         } else {
             next();
         }
@@ -173,6 +176,7 @@ export abstract class ServerLoader {
 
                 this.use((error, request, response, next) => {
 
+                    /* istanbul ignore else */
                     if(fnError){
                         fnError.call(this, error, request, response, next);
                     } else {
@@ -189,8 +193,6 @@ export abstract class ServerLoader {
      * @returns {Promise<any>|Promise}
      */
     public start(): Promise<any> {
-
-        this.patchHttp();
 
         return Promise
             .resolve()
@@ -226,7 +228,7 @@ export abstract class ServerLoader {
             this.httpServer.listen(this.httpPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
-                this.httpServer
+                this._httpServer
                     .on("listening", () => {
                         $log.info("[TSED] HTTP Server listen port : " + this.httpPort);
                         resolve();
@@ -242,7 +244,7 @@ export abstract class ServerLoader {
             this.httpsServer.listen(this.httpsPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
-                this.httpsServer
+                this._httpsServer
                     .on("listening", () => {
                         $log.info("[TSED] HTTPs Server listen port : " + this.httpsPort);
                         resolve();

@@ -141,6 +141,67 @@ describe("ServerLoader()", () => {
 
     describe('ServerLoader.start', () => {
 
+        it('should start', (done) => {
+
+            const server:any = new FakeServer();
+
+            server.createHttpServer(8000);
+            server.setHttpPort(8000);
+            server.startServers = function(){};
+            server.$onReady = function(){
+                expect(this.getExpressApp()).to.be.an('object');
+            };
+            server.$onInit = function(){
+            };
+            const promise = server.start();
+
+            expect(promise).to.be.an('object');
+            expect(promise.then).to.be.an('function');
+
+            promise.then(() => {
+                done();
+            });
+
+        });
+
+        it('should errored', (done) => {
+
+            const server:any = new FakeServer();
+
+            server.createHttpServer(8000);
+            server.setHttpPort(8000);
+            server.startServers = function(){throw new Error()};
+            const promise = server.start();
+
+            expect(promise).to.be.an('object');
+            expect(promise.then).to.be.an('function');
+
+            promise.then(() => {
+                done();
+            });
+
+        });
+
+        it('should errored (2)', (done) => {
+
+            const server:any = new FakeServer();
+
+            server.createHttpServer(8000);
+            server.setHttpPort(8000);
+            server.startServers = function(){throw new Error()};
+            server.$onServerInitError = function(){};
+            const promise = server.start();
+
+            expect(promise).to.be.an('object');
+            expect(promise.then).to.be.an('function');
+
+            promise.then(() => {
+                done();
+            });
+
+        });
+
+
         it('should start httpServer', (done) => {
 
             const server:any = new FakeServer();
@@ -149,7 +210,7 @@ describe("ServerLoader()", () => {
 
             server.setHttpPort(8000);
 
-            const promise = server.start();
+            const promise = server.startServers();
 
             expect(promise).to.be.an('object');
             expect(promise.then).to.be.an('function');
@@ -170,7 +231,7 @@ describe("ServerLoader()", () => {
 
             server.setHttpPort(8000);
 
-            const promise = server.start();
+            const promise = server.startServers();
 
             expect(promise).to.be.an('object');
             expect(promise.then).to.be.an('function');
@@ -193,7 +254,7 @@ describe("ServerLoader()", () => {
 
             server.setHttpsPort(8000);
 
-            const promise = server.start();
+            const promise = server.startServers();
 
             expect(promise).to.be.an('object');
             expect(promise.then).to.be.an('function');
@@ -214,7 +275,7 @@ describe("ServerLoader()", () => {
 
             server.setHttpsPort(8000);
 
-            const promise = server.start();
+            const promise = server.startServers();
 
             expect(promise).to.be.an('object');
             expect(promise.then).to.be.an('function');

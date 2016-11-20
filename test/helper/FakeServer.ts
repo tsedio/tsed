@@ -6,9 +6,10 @@ export class FakeServer extends ServerLoader {
         return this;
     }
 
+
     public createHttpServer(port): ServerLoader {
 
-        (<any>this).httpServer = {
+        (<any>this)._httpServer = {
             port: undefined,
             events: {},
             listen: function(port) {this.port = port; return this},
@@ -22,7 +23,7 @@ export class FakeServer extends ServerLoader {
 
     public createHttpsServer(options: any): ServerLoader {
 
-        (<any>this).httpsServer = {
+        (<any>this)._httpsServer = {
             port: undefined,
             events: {},
             listen: function(port) {this.port = port; return this},
