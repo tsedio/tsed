@@ -12,6 +12,7 @@
     "suppressImplicitAnyIndexErrors": false,
     "lib": ["es6", "dom"],
     "types":[
+      "node",
       "bluebird",
       "chai",
       "mocha",
@@ -23,6 +24,7 @@
   },
 
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dts"
   ]
 }

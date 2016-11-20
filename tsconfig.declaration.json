@@ -14,6 +14,7 @@
     "lib": ["es6", "dom"],
     "rootDir":"src",
     "types":[
+      "node",
       "bluebird",
       "chai",
       "mocha",
@@ -25,6 +26,7 @@
   },
   "exclude": [
     "test",
-    "node_modules"
+    "node_modules",
+    "dts"
   ]
 }
