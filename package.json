@@ -5,20 +5,18 @@
   "main": "lib/index.js",
   "typings": "dts/index.d.ts",
   "scripts": {
-    "prepublish": "npm run tsc:es5 && npm run tsc:dec",
+    "prepublish": "npm run tsc:compile",
     "coverage": "npm run test-cov && npm run test-remap",
     "tslint": "tslint ./src/*.ts",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "test": "npm run tsc:test && mocha --reporter spec --check-leaks --bail test/",
+    "test": "npm run tsc && mocha --reporter spec --check-leaks --bail test/",
     "test:cov": "istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test:remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
     "test:travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
-    "tsc": "tsc --project tsconfig.json --rootDir src/",
-    "tsc:test": "tsc --project tsconfig.test.json",
-    "tsc:es5": "tsc --project tsconfig.json --rootDir src/ --outDir lib/ --target es2015",
-    "tsc:dec": "rm -rf dts/ && tsc --project tsconfig.declaration.json"
+    "tsc": "tsc",
+    "tsc:compile": "tsc --project tsconfig.compile.json"
   },
   "repository": {
     "type": "git",
@@ -78,8 +76,7 @@
     "typescript": "^2.0.2"
   },
   "directories": {
-    "src": "src",
-    "testing": "testing",
+    "lib": "lib",
     "test": "test"
   }
 }
