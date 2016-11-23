@@ -4,15 +4,20 @@
     "target": "es5",
     "noImplicitAny": false,
     "sourceMap": true,
-    "declaration":true,
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
+    "isolatedModules": false,
     "suppressImplicitAnyIndexErrors": false,
-    "declarationDir":"dts",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "rootDir": "src/",
+    "outDir": "lib/",
+    "declaration": true,
+    "declarationDir":"dts/",
     "noResolve": false,
-    "lib": ["es6", "dom"],
-    "rootDir":"src",
     "types":[
       "node",
       "bluebird",
@@ -24,9 +29,10 @@
       "supertest"
     ]
   },
+
   "exclude": [
-    "test",
     "node_modules",
+    "test",
     "dts"
   ]
 }

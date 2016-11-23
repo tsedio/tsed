@@ -8,6 +8,7 @@ docs
 wiki
 karma.conf.js
 tsconfig.json
+tsconfig.compile.json
 typings.json
 CONTRIBUTING.md
 ISSUE_TEMPLATE.md
