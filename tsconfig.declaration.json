@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "module": "commonjs",
     "target": "es5",
     "noImplicitAny": false,
@@ -11,7 +12,11 @@
     "suppressImplicitAnyIndexErrors": false,
     "declarationDir":"dts",
     "noResolve": false,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom",
+      "es2015.promise"
+    ],
     "rootDir":"src",
     "types":[
       "node",

@@ -60,8 +60,6 @@ options in your `tsconfig.json` file.
 }
 ```
 
-> **Note** : target can be set to es2015/ES6. You can use pure es6 API with `ts-express-decorators/es6`.
-
 ## Quick start
 #### Create your express server
 
