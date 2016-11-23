@@ -1,6 +1,5 @@
 
 import * as Express from "express";
-import * as Bluebird from "bluebird";
 import {$log} from "ts-log-debug";
 import {ServerLoader, IServerLifecycle} from "../../src/index";
 import Path = require("path");
@@ -88,7 +87,7 @@ export class ExampleServer extends ServerLoader implements IServerLifecycle {
      * Start your server. Enjoy it !
      * @returns {Promise<U>|Promise<TResult>}
      */
-    static Initialize(): Bluebird<any> {
+    static Initialize(): Promise<any> {
 
         $log.info('Initialize server');
 

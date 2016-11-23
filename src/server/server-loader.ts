@@ -2,7 +2,6 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import * as Promise from "bluebird";
 import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
 import InjectorService from "../services/injector";
 import Controller from "./../controllers/controller";

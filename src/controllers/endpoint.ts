@@ -1,4 +1,3 @@
-import Promise = require("bluebird");
 import * as Express from "express";
 import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN} from "../constants/metadata-keys";
 import Metadata from "../metadata/metadata";

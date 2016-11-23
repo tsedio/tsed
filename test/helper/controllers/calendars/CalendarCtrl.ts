@@ -8,7 +8,6 @@ import {
 } from "../../../../src/index";
 
 import {$log} from "ts-log-debug";
-import * as Promise from "bluebird";
 import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
 import {MongooseService} from "../../services/MongooseService"

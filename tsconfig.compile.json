@@ -20,7 +20,6 @@
     "noResolve": false,
     "types":[
       "node",
-      "bluebird",
       "chai",
       "mocha",
       "cookie-parser",

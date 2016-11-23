@@ -1,6 +1,5 @@
 import Chai = require("chai");
 import {TestInstance} from "./helper/TestInstance";
-import Promise = require("bluebird");
 import {BadRequest} from "ts-httpexceptions";
 import {FakeRequest} from "./helper/FakeRequest";
 import {FakeResponse} from "./helper/FakeResponse";

@@ -1,5 +1,4 @@
 import {expect} from "chai";
-import Promise = require("bluebird");
 import {NotAcceptable} from "ts-httpexceptions";
 import {ServerLoader} from '../src/index';
 import {FakeRequest, FakeResponse, FakeServer} from './helper';
@@ -155,7 +154,8 @@ describe("ServerLoader()", () => {
             };
             const promise = server.start();
 
-            expect(promise).to.be.an('object');
+            console.log('Promise', typeof promise);
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
@@ -173,7 +173,7 @@ describe("ServerLoader()", () => {
             server.startServers = function(){throw new Error()};
             const promise = server.start();
 
-            expect(promise).to.be.an('object');
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
@@ -192,7 +192,7 @@ describe("ServerLoader()", () => {
             server.$onServerInitError = function(){};
             const promise = server.start();
 
-            expect(promise).to.be.an('object');
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
@@ -212,7 +212,7 @@ describe("ServerLoader()", () => {
 
             const promise = server.startServers();
 
-            expect(promise).to.be.an('object');
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
@@ -233,7 +233,7 @@ describe("ServerLoader()", () => {
 
             const promise = server.startServers();
 
-            expect(promise).to.be.an('object');
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
@@ -256,7 +256,7 @@ describe("ServerLoader()", () => {
 
             const promise = server.startServers();
 
-            expect(promise).to.be.an('object');
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
@@ -277,7 +277,7 @@ describe("ServerLoader()", () => {
 
             const promise = server.startServers();
 
-            expect(promise).to.be.an('object');
+            expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
