@@ -17,7 +17,7 @@
     "test:travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "tsc": "tsc --project tsconfig.json --rootDir src/",
     "tsc:test": "tsc --project tsconfig.test.json",
-    "tsc:es5": "tsc --project tsconfig.json --rootDir src/ --outDir lib/",
+    "tsc:es5": "tsc --project tsconfig.json --rootDir src/ --outDir lib/ --target es2015",
     "tsc:es6": "tsc --project tsconfig.json --rootDir src/ --outDir es6/ --target es2015",
     "tsc:dec": "rm -rf dts/ && tsc --project tsconfig.declaration.json"
   },
@@ -79,7 +79,8 @@
     "typescript": "^2.0.2"
   },
   "directories": {
-    "lib": "lib",
+    "src": "src",
+    "testing": "testing",
     "test": "test"
   }
 }
