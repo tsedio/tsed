@@ -20,6 +20,7 @@ export interface IServerLifecycle {
     $onMountingMiddlewares?(): void | Promise<any>;
 
     $onReady?(): void;
+    $onServerInitError?(error): void;
     $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
     $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction): boolean | void;
 }
