@@ -60,64 +60,6 @@ describe("ServerLoader()", () => {
 
         });
 
-        it('should respond error 400 and BadRequest (CastError)', () => {
-
-            const server:any = new FakeServer();
-            const response: any = new FakeResponse();
-            let error = new Error();
-            error.name = "CastError";
-
-            server.onError(
-                error,
-                <any>new FakeRequest(),
-                <any>response,
-                (err) => undefined
-            );
-
-            expect(response._body).is.equal('Bad Request');
-            expect(response._status).is.equal(400);
-
-        });
-
-
-        it('should respond error 400 and BadRequest (ObjectID)', () => {
-
-            const server:any = new FakeServer();
-            const response: any = new FakeResponse();
-            let error = new Error();
-            error.name = "ObjectID";
-
-            server.onError(
-                error,
-                <any>new FakeRequest(),
-                <any>response,
-                (err) => undefined
-            );
-
-            expect(response._body).is.equal('Bad Request');
-            expect(response._status).is.equal(400);
-
-        });
-
-        it('should respond error 400 and BadRequest (ValidationError)', () => {
-
-            const server:any = new FakeServer();
-            const response: any = new FakeResponse();
-            let error = new Error();
-            error.name = "ValidationError";
-
-            server.onError(
-                error,
-                <any>new FakeRequest(),
-                <any>response,
-                (err) => undefined
-            );
-
-            expect(response._body).is.equal('Bad Request');
-            expect(response._status).is.equal(400);
-
-        });
-
         it('should respond error 500 and Internal Error', () => {
 
             const server:any = new FakeServer();

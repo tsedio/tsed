@@ -171,18 +171,13 @@ export abstract class ServerLoader {
 
                 // Import the globalErrorHandler
 
-                const fnError = (<any>this).$onError || (<any>this).onError;
+                const fnError = (<any>this).$onError;
 
-                this.use((error, request, response, next) => {
+                if (fnError){
+                    this.use(fnError.bind(this));
+                }
 
-                    /* istanbul ignore else */
-                    if(fnError){
-                        fnError.call(this, error, request, response, next);
-                    } else {
-                        next();
-                    }
-
-                });
+                this.use(this.onError.bind(this));
 
             });
     }
@@ -357,14 +352,8 @@ export abstract class ServerLoader {
      * @param next
      */
     protected onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
-
         if (response.headersSent) {
             return next(error);
-        }
-
-        if (typeof error === "string") {
-            response.status(404).send(error);
-            return next();
         }
 
         if (error instanceof Exception) {
@@ -372,9 +361,8 @@ export abstract class ServerLoader {
             return next();
         }
 
-        // MONGOOSE ERROR MANAGEMENT ... maybe not to be here...
-        if (error.name === "CastError" || error.name === "ObjectID" || error.name === "ValidationError") {
-            response.status(400).send("Bad Request");
+        if (typeof error === "string") {
+            response.status(404).send(error);
             return next();
         }
 
