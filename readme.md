@@ -256,6 +256,16 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * `@QueryParams(expression: string)`: Get a parameters on Express.Request.query attribut.
 * `@Required()`: Set a required flag on parameters.
 
+
+## CHANGELOG
+
+#### v1.2.0
+
+* Remove Bluebird and use native Promise. Breaking change are possible if you use v1.1.0 of ts-express-decorators. Just, replace Bluebird reference in your `Server.ts` or install Bluebird and @types/bluebird depedencies.
+* Improve `package.json` configuration. Now, IDE like webstorm can auto discovered the exposed decorators.
+* Implement [Lifecycle hooks](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#lifecycle-hooks).
+* Change testing module. See documentation (https://github.com/Romakita/ts-express-decorators/wiki/Testing).
+
 ## License
 
 The MIT License (MIT)
