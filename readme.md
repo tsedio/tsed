@@ -69,10 +69,10 @@ a new `Server` class that extends `ServerLoader`.
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader} from "ts-express-decorators";
+import {ServerLoader, IServerLifecycle} from "ts-express-decorators";
 import Path = require("path");
 
-export class Server extends ServerLoader {
+export class Server extends ServerLoader implements IServerLifecycle {
     /**
      * In your constructor set the global endpoint and configure the folder to scan the controllers.
      * You can start the http and https server.
@@ -80,7 +80,7 @@ export class Server extends ServerLoader {
     constructor() {
         super();
 
-        let appPath: string = Path.resolve(__dirname);
+        const appPath: string = Path.resolve(__dirname);
         
         this.setEndpoint("/rest")                       // Declare your endpoint
             .scan(appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
@@ -95,42 +95,39 @@ export class Server extends ServerLoader {
      * This method let you configure the middleware required by your application to works.
      * @returns {Server}
      */
-    public $onMountingMiddlewares(): Server {
-        let morgan = require("morgan"),
-            cookieParser = require("cookie-parser"),
-            bodyParser = require("body-parser"),
-            compress = require("compression"),
-            methodOverride = require("method-override"),
-            session = require("express-session");
+    $onMountingMiddlewares(): void|Promise<any> {
+    
+        const morgan = require('morgan'),
+            cookieParser = require('cookie-parser'),
+            bodyParser = require('body-parser'),
+            compress = require('compression'),
+            methodOverride = require('method-override');
+
 
         this
-            .use(morgan("dev"))
+            .use(morgan('dev'))
             .use(ServerLoader.AcceptMime("application/json"))
+
+            .use(cookieParser())
+            .use(compress({}))
+            .use(methodOverride())
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
                 extended: true
-            }))
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride());
+            }));
 
-        return this;
+        return null;
     }
 
-    /**
-     * Start your server. Enjoy it !
-     * @returns {Promise<U>|Promise<TResult>}
-     */
-    static Initialize(): Promise<any> {
-
-        log.debug("Initialize server");
-
-        return new Server()
-            .start()
-            .then(() => {
-                log.debug("Server started...");
-            });
+    public $onReady(){
+        console.log('Server started...');
     }
+   
+    public $onServerInitError(err){
+        console.error(err);
+    }
+
+    static Initialize = (): Promise<any> => new Server().start();
     
 }
 
@@ -220,10 +217,12 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * [Examples](https://github.com/Romakita/ts-express-decorators/wiki/Examples)
 * [Controllers](https://github.com/Romakita/ts-express-decorators/wiki/Controllers)
 * [Services](https://github.com/Romakita/ts-express-decorators/wiki/Services)
-* ServerLoader
-   * [Authentification](https://github.com/Romakita/ts-express-decorators/wiki/Authentification-strategy)
-   * [Throw HTTP exceptions](https://github.com/Romakita/ts-express-decorators/wiki/Throw-HTTP-Exceptions)
-   * [Global errors handler](https://github.com/Romakita/ts-express-decorators/wiki/Global-errors-handler)
+* [ServerLoader](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader)
+   * [API](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#api)
+   * [Lifecycle hooks](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#lifecycle-hooks)
+   * [Authentification](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#serverloaderonauthrequest-response-next-void)
+   * [Global errors handlers](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#serverloaderonerrorerror-request-response-next-void)
+* [Throw HTTP exceptions](https://github.com/Romakita/ts-express-decorators/wiki/Throw-HTTP-Exceptions)
 * [Testing](https://github.com/Romakita/ts-express-decorators/wiki/Testing)
 * [Decorators references](https://github.com/Romakita/ts-express-decorators/wiki/Decorators-references)
 
