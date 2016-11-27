@@ -17,7 +17,7 @@ export interface IServerLifecycle {
      * This method is called when the server starting his lifecycle.
      */
     $onInit?(): void | Promise<any>;
-    $onMountingMiddleware?(): void | Promise<any>;
+    $onMountingMiddlewares?(): void | Promise<any>;
 
     $onReady?(): void;
     $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
