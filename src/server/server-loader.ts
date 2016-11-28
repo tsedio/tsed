@@ -42,7 +42,7 @@ export abstract class ServerLoader {
      * Application express.
      * @type {core.Express}
      */
-    private _expressApp;
+    private _expressApp = Express();
     /**
      * Endpoint base.
      * @type {string}
@@ -151,8 +151,6 @@ export abstract class ServerLoader {
      * Initialize configuration of the express app.
      */
     public initializeSettings(): Promise<any> {
-
-        this._expressApp = Express();
 
         const fn = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
 

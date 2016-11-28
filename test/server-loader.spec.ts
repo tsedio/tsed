@@ -28,7 +28,7 @@ describe("ServerLoader()", () => {
 
             const server:any = new FakeServer();
             const response: any = new FakeResponse();
-            let error;
+            let error: any;
             response.headersSent = true;
 
             server.onError(
