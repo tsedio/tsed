@@ -94,7 +94,7 @@ export default class Controller {
     private metadataToEndpoints(): Controller {
 
         this.endpoints = <Endpoint[]> Object
-            .keys(this.targetClass.prototype)
+            .getOwnPropertyNames(this.targetClass.prototype)
             .map<Endpoint | boolean>((targetKey: string) => {
 
                 if (!Metadata.has(ENDPOINT_ARGS, this.targetClass, targetKey)) {
