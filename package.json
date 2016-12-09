@@ -6,7 +6,6 @@
   "typings": "dts/index.d.ts",
   "scripts": {
     "prepublish": "npm run tsc:compile",
-    "coverage": "npm run test-cov && npm run test-remap",
     "tslint": "tslint ./src/*.ts",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
