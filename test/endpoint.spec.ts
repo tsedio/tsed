@@ -3,7 +3,6 @@ import {TestInstance} from "./helper/TestInstance";
 import {BadRequest} from "ts-httpexceptions";
 import {FakeRequest} from "./helper/FakeRequest";
 import {FakeResponse} from "./helper/FakeResponse";
-import {FakeNextFn} from "./helper/FakeNextFn";
 import {Endpoint} from '../src/controllers/endpoint';
 import {InjectorService} from '../src/services';
 import assert = require('assert');
@@ -12,8 +11,7 @@ let expect: Chai.ExpectStatic = Chai.expect;
 
 describe("Endpoint :", () => {
 
-    let nextResult: any;
-    let response: FakeResponse, request: FakeRequest, next = FakeNextFn;
+    let response: FakeResponse, request: FakeRequest;
 
     const fakeController = {
         instance: new TestInstance(),
@@ -23,7 +21,7 @@ describe("Endpoint :", () => {
     beforeEach(() => {
         request =   new FakeRequest();
         response =  new FakeResponse();
-        next.reset();
+        //next.reset();
     });
 
     beforeEach(() => InjectorService.load());
@@ -66,12 +64,12 @@ describe("Endpoint :", () => {
             const parameters = endpoint.getParameters(instance, {
                 request: new FakeRequest,
                 response: new FakeResponse,
-                next: FakeNextFn
+                next: () => {}
             });
 
             expect(parameters[0]).to.be.an.instanceOf(FakeRequest);
             expect(parameters[1]).to.be.an.instanceOf(FakeResponse);
-            expect(parameters[2]).to.be.an.instanceOf(FakeNextFn);
+            expect(typeof parameters[2]).to.be.equals("function");
         });
 
         it('should get parameters (with annotation)', () => {
@@ -81,12 +79,12 @@ describe("Endpoint :", () => {
             const parameters = endpoint.getParameters(instance, {
                 request: new FakeRequest,
                 response: new FakeResponse,
-                next: FakeNextFn
+                next: () => {}
             });
 
             expect(parameters[0]).to.be.an.instanceOf(FakeRequest);
             expect(parameters[1]).to.be.an.instanceOf(FakeResponse);
-            expect(parameters[2]).to.be.an.instanceOf(FakeNextFn);
+            expect(typeof parameters[2]).to.be.equals("function");
         });
 
 
@@ -97,7 +95,7 @@ describe("Endpoint :", () => {
             const parameters = endpoint.getParameters(instance, {
                 request: new FakeRequest,
                 response: new FakeResponse,
-                next: FakeNextFn
+                next: () => {}
             });
 
             expect(parameters).to.be.an('array');
@@ -113,7 +111,7 @@ describe("Endpoint :", () => {
                 const parameters = endpoint.getParameters(instance, {
                     request: new FakeRequest,
                     response: new FakeResponse,
-                    next: FakeNextFn
+                    next: () => {}
                 });
 
                 assert.ok(false);
@@ -133,7 +131,7 @@ describe("Endpoint :", () => {
 
             endpoint.push(['get', '/', undefined]);
 
-            const promise = middleware(<any>request, <any>response, <any>next);
+            const promise = middleware(<any>request, <any>response, () => {});
 
             expect(promise.then).to.be.a('function');
 
@@ -154,7 +152,7 @@ describe("Endpoint :", () => {
 
             endpoint.push(['get', '/', undefined]);
 
-            const promise = middleware(<any>request, <any>response, <any>next);
+            const promise = middleware(<any>request, <any>response, () => {});
 
             expect(promise.then).to.be.a('function');
 
@@ -175,7 +173,7 @@ describe("Endpoint :", () => {
 
             endpoint.push(['get', '/', undefined]);
 
-            const promise = middleware(<any>request, <any>response, <any>next);
+            const promise = middleware(<any>request, <any>response, () => {});
 
             expect(promise.then).to.be.a('function');
 
@@ -190,18 +188,19 @@ describe("Endpoint :", () => {
         it('should call method end catch exception', (done) => {
             const endpoint = new Endpoint(fakeController, 'myMethodThrowException');
             const middleware = endpoint.middleware;
+            let nextValue;
 
             expect(middleware).to.be.instanceOf(Function);
             expect(middleware).to.not.equal(TestInstance.prototype.myMethodThrowException);
 
             endpoint.push(['get', '/', undefined]);
 
-            const promise = middleware(<any>request, <any>response, <any>next);
+            const promise = middleware(<any>request, <any>response, (e) => nextValue = e);
 
             expect(promise.then).to.be.a('function');
 
             promise.then(() => {
-                expect(next.get()).to.be.an.instanceOf(BadRequest);
+                expect(nextValue).to.be.an.instanceOf(BadRequest);
                 done();
             });
 
