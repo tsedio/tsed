@@ -66,7 +66,7 @@ describe("Endpoint :", () => {
             const parameters = endpoint.getParameters(instance, {
                 request: new FakeRequest,
                 response: new FakeResponse,
-                next: new FakeNextFn
+                next: FakeNextFn
             });
 
             expect(parameters[0]).to.be.an.instanceOf(FakeRequest);
@@ -81,7 +81,7 @@ describe("Endpoint :", () => {
             const parameters = endpoint.getParameters(instance, {
                 request: new FakeRequest,
                 response: new FakeResponse,
-                next: new FakeNextFn
+                next: FakeNextFn
             });
 
             expect(parameters[0]).to.be.an.instanceOf(FakeRequest);
@@ -97,7 +97,7 @@ describe("Endpoint :", () => {
             const parameters = endpoint.getParameters(instance, {
                 request: new FakeRequest,
                 response: new FakeResponse,
-                next: new FakeNextFn
+                next: FakeNextFn
             });
 
             expect(parameters).to.be.an('array');
@@ -113,7 +113,7 @@ describe("Endpoint :", () => {
                 const parameters = endpoint.getParameters(instance, {
                     request: new FakeRequest,
                     response: new FakeResponse,
-                    next: new FakeNextFn
+                    next: FakeNextFn
                 });
 
                 assert.ok(false);
