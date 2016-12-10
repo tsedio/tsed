@@ -22,7 +22,7 @@ export interface IServerLifecycle {
     $onReady?(): void;
     $onServerInitError?(error): any;
     $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
-    $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction): boolean | void;
+    $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction, authorization?: any): boolean | void;
 }
 
 /**
@@ -85,7 +85,7 @@ export abstract class ServerLoader {
      * @param response
      * @param next
      */
-    private $tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
+    private $tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction, authorization?: any) => {
 
         const callback = (result: boolean) => {
             if (result === false) {
@@ -100,7 +100,7 @@ export abstract class ServerLoader {
 
         /* istanbul ignore else */
         if(fn){
-            const result = fn.call(this, request, response, <Express.NextFunction>callback);
+            const result = fn.call(this, request, response, <Express.NextFunction>callback, authorization);
 
             /* istanbul ignore else */
             if (result !== undefined) {
