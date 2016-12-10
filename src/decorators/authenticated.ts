@@ -2,11 +2,11 @@
 import {Use} from "./use";
 import * as Express from "express";
 
-export function Authenticated(): Function {
+export function Authenticated(autorisation?): Function {
     return Use((request, response, next: Express.NextFunction): void => {
         /* istanbul ignore else */
         if (typeof request.$tryAuth === "function") {
-            request.$tryAuth(request, response, next);
+            request.$tryAuth(request, response, next, autorisation);
         }
     });
 }

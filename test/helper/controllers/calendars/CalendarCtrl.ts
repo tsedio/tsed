@@ -201,7 +201,7 @@ export class CalendarCtrl {
 
 
     @Delete("/")
-    @Authenticated()
+    @Authenticated({role: "admin"})
     public remove(
         @BodyParams("id") @Required() id: string
     ): any {

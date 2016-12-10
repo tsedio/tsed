@@ -9,7 +9,7 @@ declare namespace Express {
     }
 
     interface Request {
-        $tryAuth: (request: core.Request, response: core.Response, next: Express.NextFunction) => boolean;
+        $tryAuth: (request: core.Request, response: core.Response, next: Express.NextFunction, autorisation?) => boolean;
     }
 }
 
