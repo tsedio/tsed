@@ -1,7 +1,10 @@
-
+// controllers
 export const CONTROLLER_URL = "tsed:controller:url";
 export const CONTROLLER_DEPEDENCIES = "ted:controller:depedencies";
 export const ENDPOINT_ARGS = "tsed:endpoint";
+
+// converters
+export const JSON_CONVERTERS = "tsed:json:converter";
 
 // INJECTION META TO CONTROLLER METHOD
 export const INJECT_PARAMS = "tsed:inject:params";
