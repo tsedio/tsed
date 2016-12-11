@@ -2,6 +2,7 @@
 import Metadata from '../../dts/metadata/metadata';
 import Converters from '../converters/converters';
 import {JSON_CONVERTERS} from '../constants/metadata-keys';
+import {IStaticJsonConverter} from '../interfaces/JsonConverter';
 
 export function JsonConverter(...classes: any[]): Function {
 
