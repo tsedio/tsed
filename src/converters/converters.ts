@@ -7,13 +7,13 @@ import {IStaticJsonConverter} from '../interfaces/JsonConverter';
 
 export default class Converters<Map> {
 
-    private static defaultConverter: IStaticJsonConverter<any>;
+    private static defaultConverter: IStaticJsonConverter;
 
     /**
      *
      * @param customConvert
      */
-    static setDefaultConverter(customConvert: IStaticJsonConverter<any>): void {
+    static setDefaultConverter(customConvert: IStaticJsonConverter): void {
         this.defaultConverter = customConvert;
     }
     /**
@@ -22,7 +22,7 @@ export default class Converters<Map> {
      * @param targetType
      * @returns {any}
      */
-    static deserialize<T extends IStaticJsonConverter<T>>(obj: any, targetType: T): T {
+    static deserialize<T extends IStaticJsonConverter>(obj: any, targetType: T): T {
 
         try {
             if (!this.isEmpty(obj)
@@ -34,7 +34,7 @@ export default class Converters<Map> {
 
                 if (converter){
                     // deserialize from a custom JsonConverter
-                    obj = <T>converter.deserialize(obj, targetType);
+                    obj = converter.deserialize<T>(obj, targetType);
 
                 } else if(typeof targetType.deserialize === "function") { // static
                     // deserialize from static method
@@ -45,7 +45,9 @@ export default class Converters<Map> {
                     obj = new (<any>targetType)().deserialize(obj);
 
                 }
-
+                else if (this.defaultConverter) {
+                    obj = this.defaultConverter.deserialize<T>(obj, targetType);
+                }
                 else {
                     // last chance to deserialize object from his object
                     obj = new (<any>targetType)(obj);
@@ -107,8 +109,8 @@ export default class Converters<Map> {
      * @param targetType
      * @returns {any}
      */
-    static getConverter<T>(targetType: any): IStaticJsonConverter<T> {
-        return Metadata.has(JSON_CONVERTERS, targetType) ? Metadata.get(JSON_CONVERTERS, targetType) :  this.defaultConverter;
+    static getConverter<T>(targetType: any): IStaticJsonConverter {
+        return Metadata.get(JSON_CONVERTERS, targetType);
     }
 
     static isEmpty = (value: any): boolean =>

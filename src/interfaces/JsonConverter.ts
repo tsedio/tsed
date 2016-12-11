@@ -1,15 +1,15 @@
-export interface IStaticJsonConverter<T> {
-    new(): IJsonConverter;
+export interface IStaticJsonConverter {
+    new?(): IJsonConverter;
     /**
      *
      * @param data
      */
-    deserialize?(data: any, targetType?: T): T;
+    deserialize?<T>(data: any, targetType?: T): T;
     /**
      *
      * @param object
      */
-    serialize?(object: T): string;
+    serialize?(object: any): string;
 }
 
 export interface IJsonConverter {
