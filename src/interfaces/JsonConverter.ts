@@ -1,4 +1,4 @@
-interface IStaticJsonConverter<T> {
+export interface IStaticJsonConverter<T> {
     new(): IJsonConverter;
     /**
      *
@@ -12,7 +12,7 @@ interface IStaticJsonConverter<T> {
     serialize?(object: T): string;
 }
 
-interface IJsonConverter {
+export interface IJsonConverter {
     deserialize?(data: any): void;
     serialize?();
     toJson?();

@@ -6,3 +6,4 @@ export * from "./services";
 export * from "./server/server-loader";
 export * from "./interfaces/Promise";
 export * from "./interfaces/Crud";
+export * from "./interfaces/JsonConverter";
