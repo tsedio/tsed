@@ -5,7 +5,7 @@ import {JSON_DESERIALIZE_CONVERTER, JSON_SERIALIZE_CONVERTER} from '../constants
 import {getClassName} from '../utils/class';
 import {IStaticJsonConverter} from '../interfaces/JsonConverter';
 
-export default class Converters<Map> {
+export class Converters {
 
     private static defaultConverter: IStaticJsonConverter;
 

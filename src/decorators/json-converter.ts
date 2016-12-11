@@ -1,6 +1,6 @@
 
 import Metadata from '../metadata/metadata';
-import Converters from '../converters/converters';
+import {Converters} from '../converters/converters';
 import {JSON_CONVERTERS} from '../constants/metadata-keys';
 import {IStaticJsonConverter} from '../interfaces/JsonConverter';
 

@@ -1,11 +1,11 @@
-export interface IStaticJsonConverter extends FunctionConstructor {
+export interface IStaticJsonConverter {
     new (): IJsonConverter;
     (): IJsonConverter;
     /**
      *
      * @param data
      */
-    deserialize?<T extends FunctionConstructor>(data: any, targetType?: IStaticJsonConverter): T;
+    deserialize?<T extends IStaticJsonConverter>(data: any, targetType?: IStaticJsonConverter): T;
     /**
      *
      * @param object

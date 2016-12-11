@@ -9,8 +9,7 @@ import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
-import {isPrimitiveOrPrimitiveClass} from '../utils/utils';
-import Converters from '../converters/converters';
+import {Converters} from '../converters/converters';
 
 export const METHODS = [
     "all", "checkout", "connect",
