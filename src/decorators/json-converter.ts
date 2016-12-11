@@ -16,7 +16,7 @@ export function JsonConverter(...classes: any[]): Function {
 }
 
 export function DefaultJsonConverter(): Function {
-    return (customConverter: IStaticJsonConverter<any>): void => {
+    return (customConverter: IStaticJsonConverter): void => {
         Converters.setDefaultConverter(customConverter);
     }
 }
