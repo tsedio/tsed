@@ -1,4 +1,4 @@
-
+import * as Express from 'express';
 import {IPromise} from "./Promise";
 
 export interface ICrud<T> {

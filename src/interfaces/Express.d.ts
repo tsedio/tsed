@@ -1,6 +1,4 @@
-/// <reference types="express-serve-static-core" />
-
-import * as core from "express-serve-static-core";
+import * as Express from 'express';
 
 declare namespace Express {
 
@@ -9,7 +7,7 @@ declare namespace Express {
     }
 
     interface Request {
-        $tryAuth: (request: core.Request, response: core.Response, next: Express.NextFunction, authorization?) => boolean;
+        $tryAuth: (request: Express.Request, response: Express.Response, next: Express.NextFunction, authorization?) => boolean;
     }
 }
 
