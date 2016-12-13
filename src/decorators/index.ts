@@ -11,3 +11,4 @@ export * from "./use";
 export * from "./controller";
 export * from "./service";
 export * from "./json-converter";
+export * from "./json-property";

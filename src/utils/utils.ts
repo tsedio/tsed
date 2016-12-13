@@ -32,7 +32,7 @@ export function isPrimitiveOrPrimitiveClass(obj: any): boolean {
  * @param clazz
  * @returns {boolean}
  */
-export function isArrayOrArrayClass(clazz:Function): boolean {
+export function isArrayOrArrayClass(clazz: Function): boolean {
     if (clazz === Array) {
         return true;
     }

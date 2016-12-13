@@ -5,6 +5,7 @@ export const ENDPOINT_ARGS = "tsed:endpoint";
 
 // converters
 export const JSON_CONVERTERS = "tsed:json:converter";
+export const JSON_METADATA = "tsed:json:property";
 
 // INJECTION META TO CONTROLLER METHOD
 export const INJECT_PARAMS = "tsed:inject:params";
@@ -14,6 +15,7 @@ export const PARAM_TYPES = "tsed:paramtypes";
 
 // used to access design time types
 export const DESIGN_PARAM_TYPES = "design:paramtypes";
+export const DESIGN_TYPE = "design:type";
 
 export const SERVICE = "tsed:service:type";
 export const SERVICE_INSTANCE = "tsed:service:instance";

@@ -1,6 +1,6 @@
-import {isPrimitiveOrPrimitiveClass} from '../utils/utils';
+import {isPrimitiveOrPrimitiveClass, isArrayOrArrayClass} from '../utils/utils';
 import Metadata from '../metadata/metadata';
-import {JSON_CONVERTERS} from '../constants/metadata-keys';
+import {JSON_CONVERTERS, DESIGN_PARAM_TYPES} from '../constants/metadata-keys';
 import {JSON_DESERIALIZE_CONVERTER, JSON_SERIALIZE_CONVERTER} from '../constants/errors-msgs';
 import {getClassName} from '../utils/class';
 import {IStaticJsonConverter} from '../interfaces/JsonConverter';
@@ -17,7 +17,7 @@ export class Converters {
         this.defaultConverter = customConvert;
     }
     /**
-     * Deserialize any type to his class.
+     * Deserialize any type or array type to his class or array class.
      * @param obj
      * @param targetType
      * @returns {any}
@@ -25,33 +25,14 @@ export class Converters {
     static deserialize<T extends IStaticJsonConverter>(obj: any, targetType: IStaticJsonConverter): T {
 
         try {
-            if (!this.isEmpty(obj)
-                && targetType !== undefined
-                && !isPrimitiveOrPrimitiveClass(obj)
-                && !isPrimitiveOrPrimitiveClass(targetType)) {
 
-                const converter = this.getConverter<T>(targetType);
+            if (isArrayOrArrayClass(obj)) {
 
-                if (converter){
-                    // deserialize from a custom JsonConverter
-                    obj = converter.deserialize<T>(obj, targetType);
+                obj = (<Array<T>>obj).map((item) => this.jsonObjectMapper(item, targetType));
 
-                } else if(typeof targetType.deserialize === "function") { // static
-                    // deserialize from static method
-                    obj = targetType.deserialize(obj, targetType);
+            } else {
 
-                } else if((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
-                    // deserialize from static method
-                    obj = new targetType().deserialize(obj);
-
-                }
-                else if (this.defaultConverter) {
-                    obj = this.defaultConverter.deserialize<T>(obj, targetType);
-                }
-                else {
-                    // last chance to deserialize object from his object
-                    obj = new (<any>targetType)(obj);
-                }
+                obj = this.jsonObjectMapper(obj, targetType);
 
             }
 
@@ -65,6 +46,44 @@ export class Converters {
         return obj;
     }
 
+    /**
+     * Map an object to Class.
+     * @param obj
+     * @param targetType
+     * @param converter
+     */
+    static jsonObjectMapper<T extends IStaticJsonConverter>(obj, targetType: IStaticJsonConverter): T {
+
+        if (!this.isEmpty(obj)
+            && targetType !== undefined
+            && !isPrimitiveOrPrimitiveClass(obj)
+            && !isPrimitiveOrPrimitiveClass(targetType)) {
+
+            const converter = this.getConverter<T>(targetType);
+
+            if (converter) {
+                // deserialize from a custom JsonConverter
+                obj = converter.deserialize<T>(obj, targetType);
+
+            } else if (typeof targetType.deserialize === "function") { // static
+                // deserialize from static method
+                obj = targetType.deserialize(obj, targetType);
+
+            } else if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
+                // deserialize from static method
+                obj = new targetType().deserialize(obj);
+
+            } else if (this.defaultConverter) {
+                obj = this.defaultConverter.deserialize<T>(obj, targetType);
+            }
+            else {
+                // last chance to deserialize object from his object
+                obj = new (<any>targetType)(obj);
+            }
+        }
+
+        return obj;
+    }
     /**
      *
      * @param obj
@@ -111,6 +130,16 @@ export class Converters {
      */
     static getConverter<T>(targetType: any): IStaticJsonConverter {
         return Metadata.get(JSON_CONVERTERS, targetType);
+    }
+
+    /**
+     *
+     * @param targetClass
+     * @param attributs
+     * @returns {any}
+     */
+    static getTargetType(targetClass, attributs: string): any {
+        return Metadata.get(DESIGN_PARAM_TYPES, targetClass, attributs);
     }
 
     static isEmpty = (value: any): boolean =>
