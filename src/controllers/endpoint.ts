@@ -1,11 +1,12 @@
 import * as Express from "express";
-import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW} from "../constants/metadata-keys";
+import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW,DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
 import Metadata from "../metadata/metadata";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
+import {Converters} from '../converters/converters';
 import {$log} from "ts-log-debug";
 
 export const METHODS = [
@@ -177,6 +178,7 @@ export class Endpoint {
         const requestService = InjectorService.get(RequestService);
 
         let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
+        let paramsTypes: any[] = Metadata.get(DESIGN_PARAM_TYPES, instance, this.methodClassName) || [];
 
         if (!services) {
             services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
@@ -189,15 +191,15 @@ export class Endpoint {
                 });
         }
 
-
         return services
-            .map((param: InjectParams) => {
+            .map((param: InjectParams, index: number) => {
 
                 if (param.name in localScope) {
                     return localScope[param.name];
                 }
 
                 let paramValue;
+                let paramType = paramsTypes[index];
 
                 /* istanbul ignore else */
                 if (param.name in requestService) {
@@ -209,7 +211,7 @@ export class Endpoint {
                     throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
-                return paramValue;
+                return Converters.deserialize(paramValue, paramType);
             });
     }
 
@@ -272,7 +274,7 @@ export class Endpoint {
 
                 if (data !== undefined) {
                     response.setHeader("Content-Type", "text/json");
-                    response.json(data);
+                    response.send(Converters.serialize(data));
                 }
 
                 break;

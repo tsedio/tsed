@@ -36,3 +36,10 @@ export const UNKNOW_SERVICE =  (name) => `Service ${name} not found.`;
  * @constructor
  */
 export const CYCLIC_REF = (ctrl1, ctrl2) => `Cyclic reference between ${ctrl1} and ${ctrl2}.`;
+/**
+ *
+ * @param name
+ * @constructor
+ */
+export const JSON_DESERIALIZE_CONVERTER = (name, value) => `Deserialization failed for class "${name}" with object => ${JSON.stringify(value)}.`;
+export const JSON_SERIALIZE_CONVERTER = (name, value) => `Serialization failed for class "${name}" with object => ${JSON.stringify(value)}.`;

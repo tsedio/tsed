@@ -1,4 +1,6 @@
-import {Controller, Get, Post, Put, Delete, Response, IPromise, ICrud, Head,Patch} from "../../../../src/index";
+import {Controller, Get, Post, Put, Delete, Response, IPromise, Head,Patch} from "../../../../src/index";
+import {BodyParams} from '../../../../src/decorators/params';
+import {EventModel} from '../../models/Event';
 
 
 interface IEvent{
@@ -6,18 +8,29 @@ interface IEvent{
 }
 
 @Controller("/events")
-export class EventCtrl implements ICrud<IEvent> {
-
+export class EventCtrl {
+    /**
+     *
+     */
     @Head('/')
     head(){
 
     }
 
+    /**
+     *
+     * @returns {string}
+     */
     @Patch('/:id')
     patch(){
         return "";
     }
 
+    /**
+     *
+     * @param response
+     * @returns {null}
+     */
     @Get('/:id')
     find(
         @Response() response: any
@@ -28,6 +41,10 @@ export class EventCtrl implements ICrud<IEvent> {
         return null;
     }
 
+    /**
+     *
+     * @returns {null}
+     */
     @Put('/')
     save(
 
@@ -38,15 +55,21 @@ export class EventCtrl implements ICrud<IEvent> {
         return null;
     }
 
+    /**
+     *
+     * @param event
+     * @returns {null}
+     */
     @Post('/:id')
-    update(
+    update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
 
-    ): IPromise<any> | void {
-
-
-        return null;
+        return event;
     }
 
+    /**
+     *
+     * @returns {null}
+     */
     @Delete('/:id')
     remove(
 
@@ -54,6 +77,10 @@ export class EventCtrl implements ICrud<IEvent> {
         return null;
     }
 
+    /**
+     *
+     * @returns {null}
+     */
     @Get('/')
     query(
 

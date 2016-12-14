@@ -1,5 +1,6 @@
 import InjectParams from "../metadata/inject-params";
-import {PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY} from "../constants/metadata-keys";
+import {PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY, DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
+import Metadata from '../metadata/metadata';
 
 /**
  *
@@ -28,10 +29,11 @@ export function CookiesParams(expression: string): Function {
 /**
  *
  * @param expression
+ * @param useClass
  * @returns {function(Function, (string|symbol), number): void}
  * @constructor
  */
-export function BodyParams(expression: string): Function {
+export function BodyParams(expression: string, useClass?: any): Function {
 
     return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
 
@@ -44,6 +46,13 @@ export function BodyParams(expression: string): Function {
             injectParams.expression = expression;
 
             InjectParams.set(target, propertyKey, parameterIndex, injectParams);
+
+            if(useClass){
+                const paramsTypes = Metadata.get(DESIGN_PARAM_TYPES, target, propertyKey) || [];
+                paramsTypes[parameterIndex] = useClass;
+
+                Metadata.set(DESIGN_PARAM_TYPES, paramsTypes, target, propertyKey);
+            }
         }
 
     };
