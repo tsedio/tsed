@@ -10,7 +10,7 @@ describe("Converters :", () => {
 
         it("should deserialize an object", () => {
 
-            Converters.deserialize({}, );
+            //Converters.deserialize({}, );
 
         });
 
