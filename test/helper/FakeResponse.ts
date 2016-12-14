@@ -19,6 +19,11 @@ export class FakeResponse {
     public send(value: any) {
         this._body = '' + value;
     }
+
+    public render(viewPath: string, data: Object) {
+        this._body = viewPath + data;
+    }
+
     /**
      * 
      * @param value

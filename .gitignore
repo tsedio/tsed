@@ -48,3 +48,6 @@ test/spec/*.js.map
 /es6/
 /lib/
 /dts/
+
+.vscode
+
