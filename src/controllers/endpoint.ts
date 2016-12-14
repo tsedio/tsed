@@ -6,6 +6,7 @@ import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
+import {$log} from "ts-log-debug";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -248,6 +249,7 @@ export class Endpoint {
         const viewPath = Metadata.get(ENDPOINT_VIEW, instance, this.methodClassName);
 
         if (viewPath !== undefined) {
+            $log.info(`[TSED] @ResponseView render ${viewPath}`);
             response.render(viewPath, data);
             return data;
         }
