@@ -19,6 +19,9 @@ export interface IServerLifecycle {
     $onInit?(): void | Promise<any>;
     $onMountingMiddlewares?(): void | Promise<any>;
 
+    // New lifecycle hooks to configure serveStatic when all routes are initialized
+    $afterRoutesInit?(): void | Promise<any>;
+
     $onReady?(): void;
     $onServerInitError?(error): any;
     $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
@@ -152,11 +155,12 @@ export abstract class ServerLoader {
      */
     public initializeSettings(): Promise<any> {
 
-        const fn = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
+        const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
+        const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
 
         return Promise
             .resolve()
-            .then(() => fn.call(this, this.expressApp))
+            .then(() => $onMountingMiddlewares.call(this, this.expressApp))
             .then(() => {
 
                 $log.info("[TSED] Import services");
@@ -167,6 +171,12 @@ export abstract class ServerLoader {
 
                 $log.info("[TSED] Routes mounted :");
                 Controller.printRoutes($log);
+
+                // TODO Alex place your serve-static builder here
+
+            })
+            .then(() => $afterRoutesInit.call(this, this.expressApp))
+            .then(() => {
 
                 // Import the globalErrorHandler
 
