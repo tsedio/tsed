@@ -256,8 +256,18 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * `@QueryParams(expression: string)`: Get a parameters on Express.Request.query attribut.
 * `@Required()`: Set a required flag on parameters.
 
+## Contributors
+
+* [Romain Lenzotti](https://github.com/romakita)
+* [AlexProca](https://github.com/alexproca)
+* [Vincent178](https://github.com/vincent178)
 
 ## CHANGELOG
+
+### v1.3.0-3
+
+* Add @ResponseView() decorators,
+* Add Converters class to serialize and deserialize JSON (alpha feature)
 
 #### v1.2.0
 
