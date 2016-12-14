@@ -210,42 +210,58 @@ describe("Endpoint :", () => {
     describe('Endpoint.send()', () => {
 
         it('should send response (boolean)', () => {
+            const instance = fakeController.getInstance();
             const endpoint: any = new Endpoint(fakeController, 'myMethodThrowException');
             const fakeRequest = new FakeRequest();
             const fakeResponse = new FakeResponse();
             const next = () => {};
 
-            const result = endpoint.send(true, fakeRequest, fakeResponse, next);
+            endpoint.send(instance, true, {
+                request: fakeRequest,
+                response: fakeResponse,
+                next
+            });
 
             expect(fakeResponse._body).to.be.a('string');
             expect(fakeResponse._body).to.equal('true');
         });
 
         it('should send response (number)', () => {
+            const instance = fakeController.getInstance();
             const endpoint: any = new Endpoint(fakeController, 'myMethodThrowException');
             const fakeRequest = new FakeRequest();
             const fakeResponse = new FakeResponse();
             const next = () => {};
 
-            const result = endpoint.send(1, fakeRequest, fakeResponse, next);
+            endpoint.send(instance, 1, {
+                request: fakeRequest,
+                response: fakeResponse,
+                next
+            });
 
             expect(fakeResponse._body).to.be.a('string');
             expect(fakeResponse._body).to.equal('1');
         });
 
         it('should send response (null)', () => {
+            const instance = fakeController.getInstance();
             const endpoint: any = new Endpoint(fakeController, 'myMethodThrowException');
             const fakeRequest = new FakeRequest();
             const fakeResponse = new FakeResponse();
             const next = () => {};
 
-            const result = endpoint.send(null, fakeRequest, fakeResponse, next);
+            endpoint.send(instance, null, {
+                request: fakeRequest,
+                response: fakeResponse,
+                next
+            });
 
             expect(fakeResponse._body).to.be.a('string');
             expect(fakeResponse._body).to.equal('null');
         });
 
         it('should send response (date)', () => {
+            const instance = fakeController.getInstance();
             const endpoint: any = new Endpoint(fakeController, 'myMethodThrowException');
             const fakeRequest = new FakeRequest();
             const fakeResponse = new FakeResponse();
@@ -253,7 +269,11 @@ describe("Endpoint :", () => {
 
             const date = new Date();
 
-            const result = endpoint.send(date, fakeRequest, fakeResponse, next);
+            endpoint.send(instance, date, {
+                request: fakeRequest,
+                response: fakeResponse,
+                next
+            });
 
             expect(fakeResponse._body).to.be.a('string');
             expect(fakeResponse._headers).to.contains('Content-Type:text/json');
@@ -262,6 +282,7 @@ describe("Endpoint :", () => {
         });
 
         it('should send response (object)', () => {
+            const instance = fakeController.getInstance();
             const endpoint: any = new Endpoint(fakeController, 'myMethodThrowException');
             const fakeRequest = new FakeRequest();
             fakeRequest.method = 'POST';
@@ -271,12 +292,34 @@ describe("Endpoint :", () => {
 
             const obj = {test:'1', test2: new Date()};
 
-            const result = endpoint.send(obj, fakeRequest, fakeResponse, next);
+            endpoint.send(instance, obj, {
+                request: fakeRequest,
+                response: fakeResponse,
+                next
+            });
 
             expect(fakeResponse._body).to.be.a('string');
             expect(fakeResponse._headers).to.contains('Content-Type:text/json');
             expect(fakeResponse._body).to.equal(JSON.stringify(obj));
 
+        });
+
+        it('should render response (html)', () => {
+            const instance = fakeController.getInstance();
+            const endpoint: any = new Endpoint(fakeController, 'myMethodAnnotated4');
+            const fakeRequest = new FakeRequest();
+            const fakeResponse = new FakeResponse();
+            const next = () => {};
+            const obj = {test: "test"};
+
+            endpoint.send(instance, {test: "test"}, {
+                request: fakeRequest,
+                response: fakeResponse,
+                next
+            });
+
+            expect(fakeResponse._body).to.be.a('string');
+            expect(fakeResponse._body).to.equal("home" + obj.toString());
         });
     })
 

@@ -1,11 +1,12 @@
 import * as Express from "express";
-import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN} from "../constants/metadata-keys";
+import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW} from "../constants/metadata-keys";
 import Metadata from "../metadata/metadata";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
+import {$log} from "ts-log-debug";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -161,12 +162,8 @@ export class Endpoint {
             }
 
         })
-            .then(
-                data => this.send(data, request, response, next, this.hasImpliciteNextFunction(instance)),
-                err => {
-                    next(err);
-                }
-            );
+        .then(data => this.send(instance, data, {request, response, next}))
+        .catch(err => next(err));
     };
 
     /**
@@ -175,7 +172,7 @@ export class Endpoint {
      * @param localScope
      * @returns {(any|any)[]}
      */
-    private getParameters(instance, localScope): any[] {
+    private getParameters(instance, localScope: IInvokableScope): any[] {
 
         const requestService = InjectorService.get(RequestService);
 
@@ -237,14 +234,25 @@ export class Endpoint {
 
     /**
      * Format data and send it to the client.
+     * @param instance
      * @param data
-     * @param request
-     * @param response
-     * @param next
-     * @param impliciteNext
+     * @param localScope
      * @returns {any}
      */
-    private send = (data, request, response, next, impliciteNext) => {
+    private send = (instance, data, localScope: IInvokableScope) => {
+
+        const impliciteNext = this.hasImpliciteNextFunction(instance);
+        const request = localScope.request;
+        const response = localScope.response;
+        const next = localScope.next;
+
+        const viewPath = Metadata.get(ENDPOINT_VIEW, instance, this.methodClassName);
+
+        if (viewPath !== undefined) {
+            $log.info(`[TSED] @ResponseView render ${viewPath}`);
+            response.render(viewPath, data);
+            return data;
+        }
 
         // preset status code
         if (request.method === "POST") {

@@ -4,6 +4,7 @@ import {Next} from '../../src/decorators/next';
 import {Response} from '../../src/decorators/response';
 import {BodyParams, PathParams, CookiesParams, QueryParams} from '../../src/decorators/params';
 import {Required} from '../../src/decorators/required';
+import {ResponseView} from "../../src/decorators/response-view";
 
 export class TestInstance {
 
@@ -58,6 +59,10 @@ export class TestInstance {
         @Required() @BodyParams('testUnknow') test: string
     ){
 
+    }
+
+    @ResponseView("home")
+    myMethodAnnotated4() {
     }
 
     /**
