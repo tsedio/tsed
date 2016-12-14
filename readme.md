@@ -172,6 +172,13 @@ export class CalendarCtrl {
 
         return <ICalendar> {id: request.params.id, name: "test"};
     }
+
+    @Get("")
+    @ResponseView("calendars/index") // Render "calendars/index" file using Express.Response.render internal
+    public get(request: Express.Request, response: Express.Response): Array<ICalendar> {
+
+        return [<ICalendar> {id: '1', name: "test"}];
+    }
     
     @Authenticated()
     @BodyParamsRequired("calendar.name")  // Throw Bad Request (400) if the request.body.calendar.name isn't provided 
@@ -244,6 +251,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * `@Patch(route)`: Intercept request with PATCH http verb for a given route.
 * `@Authenticated()`: Call the `Server.isAuthenticated` method to check if the user is authenticated.
 * `@Use(...middlewares: any[])`: Set a custom middleware.
+* `@ResponseView(viewPath: string)`: Render viewPath file using the method return data
 
 ### Parameter Decorators
 
