@@ -38,5 +38,11 @@ export default class RequestService {
      * @param expression
      */
     parseQuery = (request, expression) => this.parse.eval(expression, request["query"]);
+    /**
+     *
+     * @param request
+     * @param expression
+     */
+    parseSession = (request, expression) => this.parse.eval(expression, request["session"]);
 }
 

@@ -179,7 +179,6 @@ export class Endpoint {
         const converterService = InjectorService.get(ConverterService);
 
         let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
-        let paramsTypes: any[] = Metadata.get(DESIGN_PARAM_TYPES, instance, this.methodClassName) || [];
 
         if (!services) {
             services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
@@ -200,7 +199,6 @@ export class Endpoint {
                 }
 
                 let paramValue;
-                let paramType = paramsTypes[index];
 
                 /* istanbul ignore else */
                 if (param.name in requestService) {
@@ -229,7 +227,7 @@ export class Endpoint {
         const parameters = this.getParameters(instance, localScope);
 
         /* instanbul ignore next */
-        // TODO SUPPORT OLD node version
+        // SUPPORT OLD node version
         return Reflect.apply
             ? Reflect.apply(instance[targetKey], instance, parameters)
             : instance[targetKey].apply(instance, parameters);

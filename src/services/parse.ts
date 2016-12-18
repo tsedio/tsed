@@ -1,5 +1,6 @@
 
 import {Service} from "../decorators/service";
+import {isEmpty} from '../utils/utils';
 
 @Service()
 export default class ParseService {
@@ -18,7 +19,12 @@ export default class ParseService {
      * @param scope
      * @returns {any}
      */
-    eval(expression: string, scope: any) {
+    eval(expression: string, scope: any): any {
+
+        if (isEmpty(expression)){
+            return typeof scope === "object" ? ParseService.clone(scope) : scope;
+        }
+
         let keys: string[] = expression.split(".");
 
         while ((scope = scope[keys.shift()]) && keys.length) {}

@@ -31,3 +31,4 @@ export const PARSE_COOKIES = Symbol("parseCookies");
 export const PARSE_BODY = Symbol("parseBody");
 export const PARSE_QUERY = Symbol("parseQuery");
 export const PARSE_PARAMS = Symbol("parseParams");
+export const PARSE_SESSION = Symbol("parseSession");

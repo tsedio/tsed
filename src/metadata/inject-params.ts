@@ -13,7 +13,15 @@ export default class InjectParams {
     /**
      *
      */
-    private _service: symbol;
+    public use: any;
+    /**
+     *
+     */
+    public baseType: any;
+    /**
+     *
+     */
+    private _service: string | symbol;
     /**
      *
      */
@@ -25,7 +33,7 @@ export default class InjectParams {
      */
     get service(): symbol {
 
-        return this._service;
+        return <any>this._service;
     }
 
     /**
@@ -81,5 +89,36 @@ export default class InjectParams {
         params[index] = injectParams;
 
         Metadata.set(INJECT_PARAMS, params, target, targetKey);
+    }
+
+    /**
+     *
+     * @param service
+     * @param options
+     */
+    static build(service: symbol, options){
+
+        let {
+            propertyKey,
+            parameterIndex,
+            expression,
+            target,
+            useClass
+        } = options;
+
+        const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+        const baseType = Metadata.getParamTypes(target, propertyKey)[parameterIndex];
+
+        if (typeof expression !== 'string') {
+            useClass = <any>expression;
+            expression = undefined;
+        }
+
+        injectParams.service = service;
+        injectParams.expression = expression;
+        injectParams.baseType = baseType;
+        injectParams.use = useClass || baseType;
+
+        InjectParams.set(target, propertyKey, parameterIndex, injectParams);
     }
 }
