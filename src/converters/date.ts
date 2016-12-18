@@ -8,7 +8,7 @@ export class DateConverter implements IConverter {
         return new Date(data);
     }
 
-    /* serialize(object: Date): any {
-     return JSON.stringify(object);
-     }*/
+    serialize(object: Date): any {
+        return object.toISOString();
+    }
 }

@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import {inject} from '../src/testing';
 import {RouteService} from '../src';
+import {$log} from "ts-log-debug";
 
 describe('RouteService :', function() {
 
@@ -20,6 +21,17 @@ describe('RouteService :', function() {
         });
 
         expect(!!str).to.be.true;
+
+    }));
+
+    it('should inject RouteService and print routes', inject([RouteService], (routeService: RouteService) =>{
+
+        $log.setRepporting({
+            debug: false,
+            info: false
+        });
+
+        routeService.printRoutes();
 
     }));
 });

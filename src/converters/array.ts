@@ -20,4 +20,15 @@ export class ArrayConverter implements IConverter {
             this.converterService.deserialize(item, baseType)
         );
     }
+
+    /**
+     *
+     * @param data
+     * @returns {any[]}
+     */
+    serialize(data: any[]) {
+        return (data as Array<any>).map(item =>
+            this.converterService.serialize(item)
+        );
+    }
 }

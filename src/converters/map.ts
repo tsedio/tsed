@@ -25,4 +25,18 @@ export class MapConverter implements IConverter {
 
         return obj;
     }
+
+    /**
+     *
+     * @param data
+     */
+    serialize<T>(data: Map<string, T>): any {
+        const obj = {};
+
+        data.forEach((value, key) =>
+            obj[key] = this.converterService.serialize(value)
+        );
+
+        return obj;
+    }
 }

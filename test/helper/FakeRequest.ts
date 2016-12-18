@@ -48,5 +48,12 @@ export class FakeRequest {
         }
     };
 
+    public session: any = {
+        test: "testValue",
+        obj: {
+            test: "testValue"
+        }
+    };
+
     public accepts = (mime) => this.mime === mime;
 }

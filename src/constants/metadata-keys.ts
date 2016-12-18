@@ -12,9 +12,6 @@ export const JSON_PROPERTIES = "tsed:json:properties";
 // INJECTION META TO CONTROLLER METHOD
 export const INJECT_PARAMS = "tsed:inject:params";
 
-// stored params types for services or controllers
-export const PARAM_TYPES = "tsed:paramtypes";
-
 // used to access design time types
 export const DESIGN_PARAM_TYPES = "design:paramtypes";
 export const DESIGN_TYPE = "design:type";

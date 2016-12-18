@@ -3,12 +3,15 @@ import {isTargetType, isCollection, isEmpty} from '../utils/utils';
 import {IJsonMetadata} from '../interfaces/JsonMetadata';
 import Metadata from '../metadata/metadata';
 import {JSON_PROPERTIES} from '../constants/metadata-keys';
+import InjectorService from '../services/injector';
+import ConverterService from '../services/converter';
 
 
 export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
 
     return (target: any, propertyKey: string) => {
 
+        /* istanbul ignore else */
         if (propertyKey) {
             const baseType = Metadata.getType(target, propertyKey);
 
@@ -41,6 +44,16 @@ export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
             properties.set(decoratorMetaData.name, decoratorMetaData);
 
             Metadata.set(JSON_PROPERTIES, properties, target);
+
+            if (!target.constructor.prototype.toJSON) {
+
+                target.constructor.prototype.toJSON = function(){
+                    return InjectorService
+                        .invoke<ConverterService>(ConverterService)
+                        .serialize(this);
+                };
+
+            }
         }
 
     };

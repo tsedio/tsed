@@ -16,12 +16,6 @@ export const DUPLICATED_CONTROLLER_DECORATOR = (name) => `Cannot apply @Controll
  * @param name
  * @constructor
  */
-export const DUPLICATED_SERVICE_DECORATOR = (name) => `Cannot apply @Service decorator multiple times (${name}).`;
-/**
- *
- * @param name
- * @constructor
- */
 export const UNKNOW_CONTROLLER =  (name) => `Controller ${name} not found.`;
 /**
  *
@@ -39,7 +33,15 @@ export const CYCLIC_REF = (ctrl1, ctrl2) => `Cyclic reference between ${ctrl1} a
 /**
  *
  * @param name
+ * @param value
  * @constructor
  */
-export const JSON_DESERIALIZE_CONVERTER = (name, value) => `Deserialization failed for class "${name}" with object => ${JSON.stringify(value)}.`;
-export const JSON_SERIALIZE_CONVERTER = (name, value) => `Serialization failed for class "${name}" with object => ${JSON.stringify(value)}.`;
+export const CONVERTER_DESERIALIZE = (name, value) => `Convertion failed for class "${name}" with object => ${JSON.stringify(value)}.`;
+/**
+ *
+ * @param name
+ * @param value
+ * @constructor
+ */
+export const CONVERTER_SERIALIZE = (name, value) => `Convertion failed for class "${name}" with object => ${JSON.stringify(value)}.`;
+

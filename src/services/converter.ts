@@ -1,7 +1,7 @@
 
 import {Service} from '../decorators/service';
-import {isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from '../utils/utils';
-import {JSON_DESERIALIZE_CONVERTER, JSON_SERIALIZE_CONVERTER} from '../constants/errors-msgs';
+import {isEmpty, isPrimitiveOrPrimitiveClass} from '../utils/utils';
+import {CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE} from '../constants/errors-msgs';
 import {getClassName} from '../utils/class';
 import Metadata from '../metadata/metadata';
 import {CONVERTER, JSON_PROPERTIES} from '../constants/metadata-keys';
@@ -20,7 +20,7 @@ export default class ConverterService {
      * Convert instance to plainObject.
      * @param obj
      */
-    serialize(obj: any): any {
+    public serialize(obj: any): any {
 
         try {
 
@@ -30,9 +30,9 @@ export default class ConverterService {
 
             const converter = this.getConverter(obj);
 
-            if (converter) {
+            if (converter && converter.serialize) {
                 // deserialize from a custom JsonConverter
-                return converter.deserialize(obj);
+                return converter.serialize(obj);
             }
 
             if (typeof obj.serialize === "function") {
@@ -41,75 +41,32 @@ export default class ConverterService {
             }
 
             // Default converter
-            /*if (!isPrimitiveOrPrimitiveClass(obj) && !isPrimitiveOrPrimitiveClass(targetType)) {
+            if (!isPrimitiveOrPrimitiveClass(obj)) {
 
-                const instance = new targetType();
+                const plainObject = {};
 
-                Object.keys(obj).forEach((propertyName: string) => {
+                Object.getOwnPropertyNames(obj).forEach(propertyKey => {
 
-                    const jsonMetadata = ConverterService.getJsonMetadata(targetType, propertyName) || {};
-                    const propertyValue = obj[jsonMetadata.name] || obj[propertyName];
+                    const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {};
 
-                    if (typeof instance[propertyName] !== 'function') {
-
-                        instance[propertyName] = this.deserialize(
-                            propertyValue,
-                            jsonMetadata.use,
-                            jsonMetadata.baseType
-                        );
-                    }
+                    plainObject[jsonMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
 
                 });
 
-                return instance;
-
-            }*/
-
+                return plainObject;
+            }
 
         } catch(err) {
-            const castedError = new Error(JSON_SERIALIZE_CONVERTER(getClassName(obj), obj));
-            castedError.stack = err.stack;
-            throw castedError;
+            /* istanbul ignore next */
+            (() => {
+                const castedError = new Error(CONVERTER_SERIALIZE(getClassName(obj), obj));
+                castedError.stack = err.stack;
+                throw castedError
+            })();
         }
 
         return obj;
     }
-
-    /**
-     *
-     * @param instance
-     * @returns {any}
-     */
-    /*private toPlainObject(instance: any) {
-
-        if (!isEmpty(instance) && !isPrimitiveOrPrimitiveClass(instance)) {
-
-            const converter: IConverter = this.getConverter(instance);
-
-            if (converter && converter.serialize){
-                // deserialize from a custom JsonConverter
-                return converter.serialize(instance);
-
-            }
-
-            if(typeof instance.serialize === "function") {
-                // deserialize from serialize method
-                return instance.serialize(instance);
-            }
-
-            const plainObject = {};
-
-            Object.getOwnPropertyNames(instance).forEach((propertyName) => {
-                const jsonMetadata = ConverterService.getJsonMetadata(instance, propertyName);
-
-                plainObject[jsonMetadata.name] = this.serialize(instance[propertyName]);
-            });
-
-            return plainObject;
-        }
-
-        return instance;
-    }*/
 
     /**
      * Convert a plainObject to targetType.
@@ -169,9 +126,12 @@ export default class ConverterService {
             }
 
         } catch(err) {
-            const castedError = new Error(JSON_DESERIALIZE_CONVERTER(getClassName(targetType), obj));
-            castedError.stack = err.stack;
-            throw castedError;
+            /* istanbul ignore next */
+            (() => {
+                const castedError = new Error(CONVERTER_DESERIALIZE(getClassName(targetType), obj));
+                castedError.stack = err.stack;
+                throw castedError;
+            })();
         }
 
 
@@ -183,7 +143,7 @@ export default class ConverterService {
      * @param targetType
      * @returns {any}
      */
-    getConverter(targetType: any): IConverter {
+    public getConverter(targetType: any): IConverter {
 
         const converter = Metadata.get(CONVERTER, targetType);
 

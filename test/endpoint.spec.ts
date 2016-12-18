@@ -99,7 +99,7 @@ describe("Endpoint :", () => {
             });
 
             expect(parameters).to.be.an('array');
-            expect(parameters.length).to.be.equal(4);
+            expect(parameters.length).to.be.equal(5);
             expect(parameters[0]).to.be.equal('testValue');
         });
 

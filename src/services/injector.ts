@@ -1,6 +1,6 @@
 
 import Metadata from "../metadata/metadata";
-import {PARAM_TYPES, SERVICE, SERVICE_INSTANCE} from "../constants/metadata-keys";
+import {SERVICE, SERVICE_INSTANCE, DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
 import {getClassName} from "../utils/class";
 import {UNKNOW_SERVICE} from "../constants/errors-msgs";
 import {$log} from "ts-log-debug";
@@ -12,13 +12,14 @@ export default class InjectorService {
      * @param target
      * @param locals
      */
-    static invoke(target, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): any {
+    static invoke<T>(target, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): T {
 
-        const services = (Metadata.get(PARAM_TYPES, target) || [])
+        const services = (Metadata.get(DESIGN_PARAM_TYPES, target) || [])
             .map((type: any) => {
 
                 const serviceName = typeof type === "function" ? getClassName(type) : type;
 
+                /* istanbul ignore next */
                 if (locals.has(serviceName)) {
                     return locals.get(serviceName);
                 }
@@ -27,6 +28,7 @@ export default class InjectorService {
                     return locals.get(type);
                 }
 
+                /* istanbul ignore next */
                 if (!this.has(type)) {
                     throw Error(UNKNOW_SERVICE(serviceName));
                 }
@@ -43,10 +45,12 @@ export default class InjectorService {
      */
     static construct(target) {
 
+        // TODO ... not necessary ?
         Metadata
-            .get(PARAM_TYPES, target)
+            .get(DESIGN_PARAM_TYPES, target)
             .forEach((type: any) => {
 
+                /* istanbul ignore next */
                 if (!this.has(type)) {
                     this.construct(type);
                 }

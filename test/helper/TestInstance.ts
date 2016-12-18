@@ -2,7 +2,7 @@ import {BadRequest} from "ts-httpexceptions";
 import {Request} from '../../src/decorators/request';
 import {Next} from '../../src/decorators/next';
 import {Response} from '../../src/decorators/response';
-import {BodyParams, PathParams, CookiesParams, QueryParams} from '../../src/decorators/params';
+import {BodyParams, PathParams, CookiesParams, QueryParams, Session} from '../../src/decorators/params';
 import {Required} from '../../src/decorators/required';
 import {ResponseView} from "../../src/decorators/response-view";
 
@@ -36,6 +36,7 @@ export class TestInstance {
      * @param test1
      * @param test2
      * @param test3
+     * @param test4
      * @returns {{test: string, test1: string, test2: string, test3: string}}
      */
     myMethodAnnotated2(
@@ -43,8 +44,9 @@ export class TestInstance {
         @Required() @PathParams('test') test1: string,
         @Required() @CookiesParams('test') test2: string,
         @Required() @QueryParams('test') test3: string,
+        @Required() @Session() test4: any
     ) {
-        return {test, test1, test2, test3}
+        return {test, test1, test2, test3, test4};
     }
 
     /**

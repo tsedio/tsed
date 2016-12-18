@@ -274,7 +274,7 @@ export class Endpoint {
                     const converterService = InjectorService.get(ConverterService);
 
                     response.setHeader("Content-Type", "text/json");
-                    response.json(data);//converterService.serialize(data));
+                    response.json(converterService.serialize(data));
                 }
 
                 break;

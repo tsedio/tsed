@@ -16,10 +16,17 @@ class Foo {
 
         Object.getOwnPropertyNames(obj).forEach((key) => {
             if(typeof this[key] !== 'function') {
-                this[key] = obj[key];//ConverterService.deserialize(obj[key], obj[key].constructor);
+                this[key] = obj[key];
             }
         });
 
+    }
+
+    serialize() {
+        return {
+            test: this.test,
+            foo: this.foo
+        }
     }
 
 }
@@ -48,12 +55,6 @@ class Foo2 {
     @JsonProperty({use: Foo})
     theSet: Set<Foo>;
 
-    @JsonProperty({use: Foo})
-    theWeakMap: WeakMap<string, Foo>;
-
-    @JsonProperty({use: Foo})
-    theWeakSet: WeakSet<Foo>;
-
     method(){
 
     }
@@ -68,8 +69,7 @@ describe("ConverterService :", () => {
             expect(converterService.deserialize({}, Object)).to.be.an('object');
             expect(converterService.deserialize(true, Boolean)).to.be.a('boolean');
             expect(converterService.deserialize(1, Number)).to.be.a('number');
-            //expect(converterService.deserialize(new Date(), Date)).to.be.instanceof(Date);
-
+            expect(converterService.deserialize("1", String)).to.be.a('string');
         }));
 
         it("should do deserialize a date", inject([ConverterService], (converterService: ConverterService) => {
@@ -93,8 +93,6 @@ describe("ConverterService :", () => {
 
         }));
 
-
-
         it("should do deserialize an object to a class", inject([ConverterService], (converterService: ConverterService) => {
 
             const result: Foo2 = converterService.deserialize({
@@ -116,21 +114,10 @@ describe("ConverterService :", () => {
                 theMap: {
                     f1: {test: "1"}
                 },
-
-                /*theWeakMap: {
-                    f1: {test: "1"}
-                },*/
-
                 theSet: [
                     {test:"13"},
                     {test:"1re"}
                 ],
-
-                /*theWeakSet: [
-                    {test:"13"},
-                    {test:"1re"}
-                ],*/
-
                 method: {}
             }, Foo2);
 
@@ -166,6 +153,113 @@ describe("ConverterService :", () => {
 
     });
 
+    describe("ConverterService.serialize", () => {
 
 
+        it("should do nothing when type is not serializable", inject([ConverterService], (converterService: ConverterService) => {
+
+            expect(converterService.serialize("")).to.be.an('string');
+            expect(converterService.serialize(undefined)).to.equals(undefined);
+
+            expect(converterService.serialize({})).to.be.an('object');
+            expect(converterService.serialize(true)).to.be.a('boolean');
+            expect(converterService.serialize(1)).to.be.a('number');
+            expect(converterService.serialize("1")).to.be.a('string');
+
+        }));
+
+        it("should do serialize a date", inject([ConverterService], (converterService: ConverterService) => {
+
+            const result = converterService.serialize(new Date());
+            expect(result).to.be.a("string");
+
+        }));
+
+        it("should do serialize a class to object", inject([ConverterService], (converterService: ConverterService) => {
+
+            const foo2 = new Foo2();
+            foo2.dateStart = new Date();
+            foo2.name = "Test";
+
+            const foo = new Foo();
+            foo.test = "test";
+
+            foo2.foos = [foo];
+
+            foo2.theMap = new Map<string, Foo>();
+            foo2.theMap.set("newKey", foo);
+
+            foo2.theSet = new Set<Foo>();
+            foo2.theSet.add(foo);
+
+            const result = converterService.serialize(foo2);
+
+            expect(result.dateStart).to.be.a('string');
+            expect(result.dateStart).to.equals(foo2.dateStart.toISOString());
+
+            expect(result.Name).to.be.a('string');
+            expect(result.name).to.equals(undefined);
+            expect(result.Name).to.equals("Test");
+
+            expect(result.foos).to.be.an('array');
+            expect(result.foos[0]).to.be.an('object');
+            expect(result.foos[0].test).to.equals('test');
+
+            expect(result.theMap).to.be.an('object');
+            expect(result.theMap.newKey).to.be.an('object');
+            expect(result.theMap.newKey.test).to.equals('test');
+
+            expect(result.theSet).to.be.an('array');
+            expect(result.theSet[0]).to.be.an('object');
+            expect(result.theSet[0].test).to.equals('test');
+
+
+        }));
+    });
+
+
+    describe('toJson', () => {
+
+        it('should convert class to json with the right attribut', () => {
+            const foo2 = new Foo2();
+            foo2.dateStart = new Date();
+            foo2.name = "Test";
+
+            const foo = new Foo();
+            foo.test = "test";
+
+            foo2.foos = [foo];
+
+            foo2.theMap = new Map<string, Foo>();
+            foo2.theMap.set("newKey", foo);
+
+            foo2.theSet = new Set<Foo>();
+            foo2.theSet.add(foo);
+
+
+            const result = JSON.parse(JSON.stringify(foo2));
+
+            expect(result.dateStart).to.be.a('string');
+            expect(result.dateStart).to.equals(foo2.dateStart.toISOString());
+
+            expect(result.Name).to.be.a('string');
+            expect(result.name).to.equals(undefined);
+            expect(result.Name).to.equals("Test");
+
+            expect(result.foos).to.be.an('array');
+            expect(result.foos[0]).to.be.an('object');
+            expect(result.foos[0].test).to.equals('test');
+
+            expect(result.theMap).to.be.an('object');
+            expect(result.theMap.newKey).to.be.an('object');
+            expect(result.theMap.newKey.test).to.equals('test');
+
+            expect(result.theSet).to.be.an('array');
+            expect(result.theSet[0]).to.be.an('object');
+            expect(result.theSet[0].test).to.equals('test');
+
+
+        });
+
+    })
 });
