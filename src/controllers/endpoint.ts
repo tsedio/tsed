@@ -210,7 +210,7 @@ export class Endpoint {
                     throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
-                return converterService.deserialize(paramValue, paramType);
+                return converterService.deserialize(paramValue, param.baseType || param.use, param.use);
             });
     }
 
