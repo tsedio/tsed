@@ -1,5 +1,7 @@
 export interface IJsonMetadata<T> {
     name?: string,
-    use?: {new(): T},
-    isArray?: boolean
+    propertyKey?: string;
+    use?: {new(): T};
+    isCollection?: boolean;
+    baseType?: any;
 }

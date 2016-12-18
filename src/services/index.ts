@@ -4,6 +4,7 @@ import ParseService from "./parse";
 import RequestService from "./request";
 import InjectorService from "./injector";
 import RouteService from "./route";
+import ConverterService from "./converter";
 
 class RouterController {
     constructor(private router: Express.Router) {
@@ -20,5 +21,6 @@ export {
     RequestService,
     InjectorService,
     RouteService,
-    RouterController
+    RouterController,
+    ConverterService
 };

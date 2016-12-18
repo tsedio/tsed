@@ -1,3 +1,4 @@
+import {DESIGN_TYPE, DESIGN_PARAM_TYPES} from '../constants/metadata-keys';
 require("reflect-metadata");
 
 const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();
@@ -63,6 +64,23 @@ export default class Metadata<T>{
     static get = (propertyKey: string, target: any, targetKey?: string | symbol): any =>
         Reflect.getMetadata(propertyKey, Metadata.getClass(target), targetKey);
 
+    /**
+     *
+     * @param target
+     * @param targetKey
+     */
+    static getType = (target: any, targetKey: string | symbol): any =>
+        Reflect.getMetadata(DESIGN_TYPE, target, targetKey);
+
+    /**
+     *
+     * @param target
+     * @param propertyKey
+     * @returns {any}
+     */
+    static getParamTypes(target: any, propertyKey: string): any[] {
+        return Reflect.getMetadata(DESIGN_PARAM_TYPES, target, propertyKey);
+    }
     /**
      *
      * @param propertyKey

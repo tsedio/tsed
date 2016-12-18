@@ -1,0 +1,28 @@
+import {IConverter} from '../interfaces/Converter';
+import {Converter} from '../decorators/converter';
+import ConverterService from '../services/converter';
+
+@Converter(Set)
+export class SetConverter implements IConverter {
+    constructor(private converterService: ConverterService) {}
+
+    /**
+     *
+     * @param data
+     * @param target
+     * @param baseType
+     * @returns {Map<string, T>}
+     */
+    deserialize<T>(data: any, target: any, baseType: T): Set<T> {
+        const obj = new Set<T>();
+
+        Object.keys(data).forEach(key => {
+
+            obj.add(<T>this.converterService.deserialize(data[key], baseType));
+
+        });
+
+        return obj;
+
+    }
+}

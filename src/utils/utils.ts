@@ -38,3 +38,11 @@ export function isArrayOrArrayClass(clazz: Function): boolean {
     }
     return Object.prototype.toString.call(clazz) === '[object Array]';
 }
+
+export function isCollection(target): boolean {
+    return isArrayOrArrayClass(target) || target === Map || target === Set || target === WeakMap || target === WeakSet;
+}
+
+export function isEmpty(value: any): boolean {
+    return value === "" || value === null || value === undefined;
+}

@@ -5,8 +5,9 @@ export const ENDPOINT_ARGS = "tsed:endpoint";
 export const ENDPOINT_VIEW = "tsed:endpoint:view";
 
 // converters
-export const JSON_CONVERTERS = "tsed:json:converter";
+export const CONVERTER = "tsed:converter";
 export const JSON_METADATA = "tsed:json:property";
+export const JSON_PROPERTIES = "tsed:json:properties";
 
 // INJECTION META TO CONTROLLER METHOD
 export const INJECT_PARAMS = "tsed:inject:params";

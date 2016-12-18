@@ -6,8 +6,8 @@ import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
-import {Converters} from '../converters/converters';
 import {$log} from "ts-log-debug";
+import ConverterService from '../services/converter';
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -176,6 +176,7 @@ export class Endpoint {
     private getParameters(instance, localScope: IInvokableScope): any[] {
 
         const requestService = InjectorService.get(RequestService);
+        const converterService = InjectorService.get(ConverterService);
 
         let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
         let paramsTypes: any[] = Metadata.get(DESIGN_PARAM_TYPES, instance, this.methodClassName) || [];
@@ -211,7 +212,7 @@ export class Endpoint {
                     throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
-                return Converters.deserialize(paramValue, paramType);
+                return converterService.deserialize(paramValue, paramType);
             });
     }
 
@@ -251,7 +252,6 @@ export class Endpoint {
         const viewPath = Metadata.get(ENDPOINT_VIEW, instance, this.methodClassName);
 
         if (viewPath !== undefined) {
-            $log.info(`[TSED] @ResponseView render ${viewPath}`);
             response.render(viewPath, data);
             return data;
         }
@@ -273,8 +273,10 @@ export class Endpoint {
             default:
 
                 if (data !== undefined) {
+                    const converterService = InjectorService.get(ConverterService);
+
                     response.setHeader("Content-Type", "text/json");
-                    response.send(Converters.serialize(data));
+                    response.json(data);//converterService.serialize(data));
                 }
 
                 break;
