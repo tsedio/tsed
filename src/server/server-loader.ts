@@ -29,14 +29,14 @@ export interface IServerLifecycle {
 }
 
 /**
- * ServerLoader provider all method to instanciate an ExpressServer.
+ * ServerLoader provider all method to instantiate an ExpressServer.
  *
  * It provide some features :
  *
  * * Middleware importation,
  * * Scan directory. You can specify controllers and services directory in your project,
  * * Error management (GlobalErrorHandler),
- * * Authentification strategy.
+ * * Authentication strategy.
  *
  */
 export abstract class ServerLoader {
@@ -146,6 +146,32 @@ export abstract class ServerLoader {
     public use(...args: any[]): ServerLoader {
 
         this.expressApp.use(...args);
+
+        return this;
+    }
+
+    /**
+     * Proxy to express set
+     * @param setting
+     * @param val
+     * @returns {ServerLoader}
+     */
+    public set(setting: string, val: any): ServerLoader {
+
+        this.expressApp.set(setting, val);
+
+        return this;
+    }
+
+    /**
+     * Proxy to express engine
+     * @param ext
+     * @param fn
+     * @returns {ServerLoader}
+     */
+    public engine(ext: string, fn: Function): ServerLoader {
+
+        this.expressApp.engine(ext, fn);
 
         return this;
     }
