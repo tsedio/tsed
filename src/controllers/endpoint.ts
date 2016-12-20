@@ -24,7 +24,7 @@ export const METHODS = [
 /**
  * Endpoint class contains metadata about a targetClass and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
- * Endpoint convert this metadata to an array wich contain arguments to call an Express method.
+ * Endpoint convert this metadata to an array which contain arguments to call an Express method.
  *
  * Example :
  *
