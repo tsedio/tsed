@@ -17,8 +17,8 @@
 
 ## Features
 
-* Define classe as Controller,
-* Define classe as Service,
+* Define class as Controller,
+* Define class as Service,
 * Define root path for an entire controller,
 * Define as sub-route path for a method,
 * Define routes on GET, POST, PUT, DELETE and HEAD verbs,
@@ -237,7 +237,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 ## Decorators references
 ### Class decorators
 
-* `@Controller(route: string, ...ctrlsNamesDepedencies?: string[])` : Declare a new controller with his Rest path. 
+* `@Controller(route: string, ...ctrlsNamesDependencies?: string[])` : Declare a new controller with his Rest path.
 * `@Service()` : Declare a new Service that can be injected in other Service or Controller.
 
 ### Method decorators
