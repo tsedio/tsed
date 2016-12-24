@@ -48,7 +48,7 @@
     "@types/mocha": "^2.2.31",
     "@types/node": "^6.0.48",
     "@types/superagent": "^2.0.34",
-    "@types/supertest": "^1.1.30",
+    "@types/supertest": "^2.0.0",
     "colors": "^1.1.2",
     "glob": "^7.0.3",
     "reflect-metadata": "^0.1.8",
