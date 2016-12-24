@@ -15,4 +15,8 @@ export class RestCtrl {
     public all() {
         return "REST";
     }
+
+    public test() {
+
+    }
 }

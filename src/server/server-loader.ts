@@ -1,10 +1,12 @@
-import * as Express from "express";
-import * as Http from "http";
-import * as Https from "https";
-import {$log} from "ts-log-debug";
-import {Exception, Forbidden, NotAcceptable} from "ts-httpexceptions";
-import InjectorService from "../services/injector";
-import Controller from "./../controllers/controller";
+import * as Express from 'express';
+import * as Http from 'http';
+import * as Https from 'https';
+import {$log} from 'ts-log-debug';
+import {Forbidden, NotAcceptable, Exception} from 'ts-httpexceptions';
+import InjectorService from '../services/injector';
+import Controller from './../controllers/controller';
+import Metadata from '../metadata/metadata';
+import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from '../constants/metadata-keys';
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -45,12 +47,17 @@ export abstract class ServerLoader {
      * Application express.
      * @type {core.Express}
      */
-    private _expressApp = Express();
+    private _expressApp: Express.Application = Express();
     /**
      * Endpoint base.
      * @type {string}
      */
     private endpoint: string = "/rest";
+    /**
+     *
+     * @type {Map<string, string>}
+     */
+    // private endpointsRules: Map<string, string> = new Map<string, string>();
     /**
      * Instance of httpServer.
      */
@@ -184,6 +191,8 @@ export abstract class ServerLoader {
         const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
         const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
 
+        // this.endpointsRules.set('*', this.endpoint);
+
         return Promise
             .resolve()
             .then(() => $onMountingMiddlewares.call(this, this.expressApp))
@@ -193,7 +202,7 @@ export abstract class ServerLoader {
                 InjectorService.load();
 
                 $log.info("[TSED] Import controllers");
-                Controller.load(this.expressApp, this.endpoint);
+                Controller.load(this.expressApp)//, this.endpointsRules);
 
                 $log.info("[TSED] Routes mounted :");
                 Controller.printRoutes($log);
@@ -326,27 +335,57 @@ export abstract class ServerLoader {
     /**
      * Configure and the directory to find controllers. All controller are mounted on the global endpoint.
      * @param path
+     * @param endpoint
      * @returns {ServerLoader}
      */
-    public scan(path: string): ServerLoader {
+    public scan(path: string, endpoint: string = this.endpoint): ServerLoader {
 
         let files: string[] = require("glob").sync(path);
         let nbFiles = 0;
 
         $log.info("[TSED] Scan files : " + path);
 
-        files.forEach((file: string) => {
-            try {
-                $log.debug("[TSED] Import file :", file);
-                require(file);
-                nbFiles++;
-            } catch (err) {
-                /* istanbul ignore next */
-                $log.warn("[TSED] Scan error", err);
-            }
-        });
 
-        $log.info(`[TSED] ${nbFiles} file(s) found and imported`);
+        files
+            .forEach(file => {
+
+                try{
+                    const exportedClasses = require(file);
+                    $log.debug("[TSED] Import file :", file);
+                    nbFiles++;
+
+                    Object
+                        .keys(exportedClasses)
+                        .map(clazzName => exportedClasses[clazzName])
+                        .filter(clazz => Metadata.has(CONTROLLER_URL, clazz))
+                        .forEach(clazz => {
+                            let endpoints = Metadata.get(CONTROLLER_MOUNT_ENDPOINTS, clazz) || [];
+
+                            endpoints.push(endpoint);
+
+                            Metadata.set(CONTROLLER_MOUNT_ENDPOINTS, endpoints, clazz)
+                        });
+
+                }catch(er){
+                    $log.error(er);
+                }
+
+            });
+
+
+        return this;
+    }
+
+    /**
+     * Mount all controllers under the `path` parameters to the specified `endpoint`.
+     * @param endpoint
+     * @param path
+     * @returns {ServerLoader}
+     */
+    public mount(endpoint: string, path: string): ServerLoader {
+
+       // this.endpointsRules.set(path, endpoint);
+        this.scan(path, endpoint);
 
         return this;
     }

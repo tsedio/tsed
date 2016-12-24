@@ -8,6 +8,7 @@ import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
 import {$log} from "ts-log-debug";
 import ConverterService from '../services/converter';
+import {getClassName} from '../utils/class';
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -305,4 +306,7 @@ export class Endpoint {
 
         return impliciteNext;
     }
+
+    public getMethodClassName = (): string => this.methodClassName;
+
 }

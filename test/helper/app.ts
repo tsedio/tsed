@@ -4,6 +4,8 @@ import {$log} from "ts-log-debug";
 import {ServerLoader, IServerLifecycle} from "../../src/index";
 import Path = require("path");
 
+$log.setPrintDate(true);
+
 /**
  * Create a new Server that extends ServerLoader.
  */
@@ -18,8 +20,8 @@ export class ExampleServer extends ServerLoader implements IServerLifecycle {
         let appPath = Path.resolve(__dirname);
 
         this.setEndpoint('/rest')
-            .scan(appPath + "/controllers/**/**.js")
-            .scan(appPath + "/services/**/**.js")
+            .mount("/rest", appPath + "/controllers/**/**.js")
+            .mount("/rest/v1", appPath + "/controllers/**/**.js")
             .createHttpServer(8000)
             .createHttpsServer({
                 port: 8080

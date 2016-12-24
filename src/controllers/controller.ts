@@ -9,12 +9,15 @@ import Metadata from "../metadata/metadata";
 import {
     CONTROLLER_URL,
     CONTROLLER_DEPEDENCIES,
-    ENDPOINT_ARGS
+    ENDPOINT_ARGS, CONTROLLER_MOUNT_ENDPOINTS
 } from "../constants/metadata-keys";
 
 import {InjectorService, RouterController} from "../services";
 
+const colors = require('colors');
+
 export default class Controller {
+
     /**
      *
      * @type {Array}
@@ -36,18 +39,18 @@ export default class Controller {
     /**
      *
      */
-    protected absoluteUrl: string;
+    //protected absoluteUrl: string;
 
     /**
      *
      * @param targetClass
      * @param endpointUrl
-     * @param depedencies
+     * @param dependencies
      */
     private constructor(
-        private targetClass: any,
+        private _targetClass: any,
         private endpointUrl: string,
-        private depedencies: (string | Function | Controller)[] = []
+        private dependencies: (string | Function | Controller)[] = []
     ) {
 
         this.router = Express.Router();
@@ -59,8 +62,8 @@ export default class Controller {
      */
     private resolveDepedencies() {
 
-        this.depedencies = this
-            .depedencies
+        this.dependencies = this
+            .dependencies
             .map((dep: string | Function) => {
 
                 const ctrl = Controller.getController(<string | Function>dep);
@@ -94,14 +97,14 @@ export default class Controller {
     private metadataToEndpoints(): Controller {
 
         this.endpoints = <Endpoint[]> Object
-            .getOwnPropertyNames(this.targetClass.prototype)
+            .getOwnPropertyNames(this._targetClass.prototype)
             .map<Endpoint | boolean>((targetKey: string) => {
 
-                if (!Metadata.has(ENDPOINT_ARGS, this.targetClass, targetKey)) {
+                if (!Metadata.has(ENDPOINT_ARGS, this._targetClass, targetKey)) {
                     return false;
                 }
 
-                const args = Metadata.get(ENDPOINT_ARGS, this.targetClass, targetKey);
+                const args = Metadata.get(ENDPOINT_ARGS, this._targetClass, targetKey);
                 const endpoint: Endpoint = new Endpoint(this, targetKey);
                 endpoint.push(args);
 
@@ -138,7 +141,7 @@ export default class Controller {
 
             });
 
-        this.depedencies
+        this.dependencies
             .forEach((ctrl: Controller) => {
                 this.router.use(ctrl.endpointUrl, ctrl.router);
             });
@@ -149,18 +152,18 @@ export default class Controller {
     /**
      * Return the class name.
      */
-    public getName = () => getClassName(this.targetClass);
+    public getName = () => getClassName(this._targetClass);
+
+    /**
+     * Resolve final endpoint url.
+     */
+    public getEndpointUrl = (endpoint: string = ""): string =>
+        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl;
 
     /**
      *
      */
-    public getEndpointUrl = (base: string = ""): string =>
-        base === this.endpointUrl ? this.endpointUrl : base + this.endpointUrl;
-
-    /**
-     *
-     */
-    public getAbsoluteUrl = (): string => this.absoluteUrl;
+    // public getAbsoluteUrl = (): string => this.absoluteUrl;
 
     public hasEndpointUrl() {
         return !!this.endpointUrl;
@@ -177,21 +180,21 @@ export default class Controller {
 
         locals.set(RouterController, new RouterController(this.router));
 
-        return InjectorService.invoke(this.targetClass, locals);
+        return InjectorService.invoke(this._targetClass, locals);
 
-       // return new this.targetClass();
+        // return new this.targetClass();
     }
 
     /**
      *
      * @param app
-     * @param endpointBase
+     * @param endpointsRules
      */
-    static load(app: {use: Function}, endpointBase: string = "") {
+    static load(app: {use: Function}/*, endpointsRules: Map<string, string>*/) {
 
         this.controllersFromMetadatas()
-            .resolveControllersUrls(endpointBase)
-            .mapRoutersToApp(app);
+        //.resolveControllersUrls()
+            .mountControllers(app);
 
         return this;
     }
@@ -224,52 +227,73 @@ export default class Controller {
     /**
      * Bind all root router Controller to express Application instance.
      */
-    private static mapRoutersToApp(app: {use: Function}) {
+    private static mountControllers(app: {use: Function}) {
 
         this.controllers
-            .forEach((ctrl) => {
-                if (!ctrl.parent) {
-                    app.use(ctrl.getAbsoluteUrl(), ctrl.router);
-                }
+            .filter(ctrl => !ctrl.parent)
+            .forEach(finalCtrl => {
+
+                finalCtrl
+                    .getMountEndpoints()
+                    .forEach(endpoint => {
+
+                        app.use(finalCtrl.getEndpointUrl(endpoint), finalCtrl.router);
+
+                    });
+
+
             });
+
 
         return this;
     }
 
     /**
+     *
+     */
+    private getMountEndpoints = () => Metadata.get(CONTROLLER_MOUNT_ENDPOINTS, this._targetClass) || [];
+
+    /**
+     *
+     * @returns {any}
+     */
+    get targetClass(): any {
+        return this._targetClass;
+    }
+    /**
      * Resolve all absolute url for each controllers created.
      */
-    private static resolveControllersUrls(endpointBase: string = "") {
+    // private static resolveControllersUrls() {
 
-        this.controllers
-            .filter(ctrl => {
-                if (!ctrl.parent) {
-                    ctrl.absoluteUrl = ctrl.getEndpointUrl(endpointBase);
-                }
-                return !!ctrl.parent;
-            })
-            .forEach((ctrl: Controller)  => { // children controller
+    // this.controllers
+    /*.filter(ctrl => {
+     /*if (!ctrl.parent) {
+     ctrl.absoluteUrl = ctrl.getEndpointUrls();
+     }
+     return !!ctrl.parent;
+     })*/
+    /*.forEach((ctrl: Controller)  => { // children controller
 
-                if (ctrl.parent) {
-                    let ctrlParent = ctrl;
-                    let endpointUrls: string[] = [];
+     if (ctrl.parent) {
+     let ctrlParent = ctrl;
+     let endpointUrls: string[] = [];
 
-                    // build final endpoint to trace it
-                    while (ctrlParent) {
-                        endpointUrls.unshift(ctrlParent.absoluteUrl || ctrlParent.endpointUrl);
-                        ctrlParent = ctrlParent.parent;
-                    }
+     // build final endpoint to trace it
+     while (ctrlParent) {
+     endpointUrls.unshift(ctrlParent.absoluteUrl || ctrlParent.endpointUrl);
+     ctrlParent = ctrlParent.parent;
+     }
 
-                    ctrl.absoluteUrl = endpointUrls.join("");
+     ctrl.absoluteUrl = endpointUrls.join("");
 
-                    return ctrl;
-                }
+     return ctrl;
+     }
 
-            });
+     });*/
 
-        return this;
+    // return this;
 
-    }
+    // }
 
     /**
      * Return a controller from his string name or his class declaration.
@@ -283,7 +307,7 @@ export default class Controller {
         if (typeof target === "string") {
             ctrl = this.controllers.find(ctrl => ctrl.getName() === target);
         } else {
-            ctrl = this.controllers.find(ctrl => ctrl.targetClass === target);
+            ctrl = this.controllers.find(ctrl => ctrl._targetClass === target);
         }
 
         return ctrl;
@@ -295,41 +319,53 @@ export default class Controller {
      */
     static getRoutes(): IControllerRoute[] {
 
-        const routes: IControllerRoute[] = [];
+        let routes: IControllerRoute[] = [];
 
-        const mapRoutes = (ctrl) => {
-            ctrl
-                .endpoints
-                .forEach((endpoint: any) => {
+        const buildRoutes = (ctrl: Controller, endpointUrl: string) => {
 
-                    if (endpoint.hasMethod()) {
+            ctrl.dependencies.forEach((ctrl: Controller) => buildRoutes(ctrl, `${endpointUrl}${ctrl.endpointUrl}`));
 
-                        routes.push({
-                            method: endpoint.getMethod(),
-                            url: ctrl.getAbsoluteUrl() + (endpoint.getRoute() || "")
-                        });
+            ctrl.endpoints.forEach((endpoint: Endpoint) => {
 
-                    }
-                });
+                if (endpoint.hasMethod()) {
+
+                    routes.push({
+                        method: endpoint.getMethod(),
+                        name: `${getClassName(ctrl.targetClass)}.${endpoint.getMethodClassName()}()`,
+                        url: `${endpointUrl}${endpoint.getRoute() || ""}`
+                    });
+
+                }
+            });
+
         };
 
-        Controller
-            .controllers
-            .sort((ctrlA: any, ctrlB: any) => {
+        Controller.controllers
+            .filter(ctrl => !ctrl.parent)
+            .forEach((finalCtrl: Controller) => {
 
-                /* istanbul ignore next */
-                if (ctrlA.absoluteUrl > ctrlB.absoluteUrl) {
-                    return 1;
-                }
+                finalCtrl
+                    .getMountEndpoints()
+                    .map(endpoint => finalCtrl.getEndpointUrl(endpoint))
+                    .forEach(endpoint => buildRoutes(finalCtrl, endpoint));
 
-                /* istanbul ignore next */
-                if (ctrlA.absoluteUrl < ctrlB.absoluteUrl) {
-                    return -1;
-                }
-                /* istanbul ignore next */
-                return 0;
-            })
-            .forEach((ctrl: Controller) => mapRoutes(ctrl));
+            });
+
+
+        routes = routes.sort((routeA: IControllerRoute, routeB: IControllerRoute) => {
+
+            /* istanbul ignore next */
+            if (routeA.url > routeB.url) {
+                return 1;
+            }
+
+            /* istanbul ignore next */
+            if (routeA.url < routeB.url) {
+                return -1;
+            }
+            /* istanbul ignore next */
+            return 0;
+        });
 
         return routes;
     }
@@ -339,17 +375,35 @@ export default class Controller {
      */
     static printRoutes(logger: {info: (s) => void} = $log): void {
 
-        const space = (x) => {
-            let res = "";
-            while (x--) res += " ";
-            return res;
+        const mapColor = {
+            GET: (<any>'GET').green,
+            POST: (<any>'POST').yellow,
+            PUT: (<any>'PUT').blue,
+            DELETE: (<any>'DELETE').red,
+            PATCH: (<any>'PATCH').magenta,
+            ALL: (<any>'ALL').cyan
         };
 
-        Controller
-            .getRoutes()
-            .forEach((route: IControllerRoute) => {
-                logger.info("[TSED] " + route.method + space(15 - route.method.length) + route.url);
+        const routes = Controller.getRoutes()
+            .map(route => {
+
+                const method = route.method.toUpperCase();
+
+                route.method = <any>{length: method.length, toString: () => mapColor[method] || method};
+
+                return route;
             });
+
+        let str = $log.drawTable(routes, {
+            padding: 1,
+            header: {
+                method: "Method",
+                url: "Endpoint",
+                name: "Class method"
+            }
+        });
+
+        logger.info("\n" + str.trim());
 
     }
 

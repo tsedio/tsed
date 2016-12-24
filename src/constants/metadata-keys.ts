@@ -1,6 +1,7 @@
 // controllers
 export const CONTROLLER_URL = "tsed:controller:url";
 export const CONTROLLER_DEPEDENCIES = "ted:controller:depedencies";
+export const CONTROLLER_MOUNT_ENDPOINTS = "ted:controller:endpoints";
 export const ENDPOINT_ARGS = "tsed:endpoint";
 export const ENDPOINT_VIEW = "tsed:endpoint:view";
 
