@@ -82,8 +82,7 @@ export class Server extends ServerLoader implements IServerLifecycle {
 
         const appPath: string = Path.resolve(__dirname);
         
-        this.setEndpoint("/rest")                       // Declare your endpoint
-            .scan(appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
+        this.mount("/rest", appPath + "/controllers/**/**.js")                       // Declare your endpoint
             .createHttpServer(8000)
             .createHttpsServer({
                 port: 8080
@@ -137,7 +136,7 @@ Server.Initialize();
 #### Create your first controller
 
 Create a new `calendarCtrl.ts` in your controllers directory configured 
-previously with `ServerLoader.scan()`. All controllers declared with `@Controller` 
+previously with `ServerLoader.mount()`. All controllers declared with `@Controller` 
 decorators is considered as an Express router. An Express router require a path 
 (here, the path is `/calendars`) to expose an url on your server. 
 More precisely, it is a part of path, and entire exposed url depend on 
@@ -271,6 +270,12 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * [Vincent178](https://github.com/vincent178)
 
 ## CHANGELOG
+
+### v1.3.0-7
+
+* Add @Session() decorators.
+* Add ServerLoader.mount(). This method can mount controller to one or more endpoints.
+* Add Proxy method : ServerLoader.set() and ServerLoader.engine().
 
 ### v1.3.0-3
 
