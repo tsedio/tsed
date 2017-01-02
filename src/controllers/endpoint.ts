@@ -1,5 +1,8 @@
 import * as Express from "express";
-import {INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW,DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
+import {
+    INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW, DESIGN_PARAM_TYPES,
+    ENDPOINT_VIEW_OPTIONS
+} from "../constants/metadata-keys";
 import Metadata from "../metadata/metadata";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
@@ -249,8 +252,13 @@ export class Endpoint {
         const next = localScope.next;
 
         const viewPath = Metadata.get(ENDPOINT_VIEW, instance, this.methodClassName);
+        const viewOptions = Metadata.get(ENDPOINT_VIEW_OPTIONS, instance, this.methodClassName);
 
         if (viewPath !== undefined) {
+
+            if (viewOptions !== undefined ) {
+                data = Object.assign({}, data, viewOptions);
+            }
             response.render(viewPath, data);
             return data;
         }
