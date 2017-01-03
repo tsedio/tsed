@@ -4,6 +4,7 @@ export const CONTROLLER_DEPEDENCIES = "ted:controller:depedencies";
 export const CONTROLLER_MOUNT_ENDPOINTS = "ted:controller:endpoints";
 export const ENDPOINT_ARGS = "tsed:endpoint";
 export const ENDPOINT_VIEW = "tsed:endpoint:view";
+export const ENDPOINT_VIEW_OPTIONS = "tsed:endpoint:view-options";
 
 // converters
 export const CONVERTER = "tsed:converter";
