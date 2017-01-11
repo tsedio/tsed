@@ -14,19 +14,19 @@ export function Column(columnName?: string): Function {
 
     return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
-        let columns: any;
+        let mappings: any;
 
         const klass = target.constructor;
 
         if (Metadata.has(COLUMN, klass)) {
-            columns = Metadata.get(COLUMN, klass);
+            mappings = Metadata.get(COLUMN, klass);
         } else {
-            columns = {};
+            mappings = {};
         }
 
-        columns[targetKey] = columnName ? columnName : targetKey;
+        mappings[targetKey] = columnName ? columnName : targetKey;
 
-        Metadata.set(COLUMN, columns, klass);
+        Metadata.set(COLUMN, mappings, klass);
 
         return descriptor;
     };

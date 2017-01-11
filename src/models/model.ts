@@ -9,8 +9,22 @@ export abstract class Model {
 
     static columns(): string[] {
 
-        const columns = Metadata.get(COLUMN, this);
-        return Object.getOwnPropertyNames(columns).map(name => `${this.table()}.${columns[name]}`);
+        return Object
+            .getOwnPropertyNames(this.mappings())
+            .map(name => `${this.table()}.${this.mappings()[name]}`);
+    }
+
+    static mappings(): any {
+
+        return Metadata.get(COLUMN, this);
+    }
+
+    static mappingsReverse(): any {
+
+        return Object.getOwnPropertyNames(this.mappings()).reduce((ret: any, key: string) => {
+            ret[this.mappings()[key]] = key;
+            return ret;
+        }, {});
     }
 
 }
