@@ -1,7 +1,4 @@
-
-import * as ERRORS_MSGS from "../constants/errors-msgs";
-import {getClassName} from "../utils/class";
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";
 import Metadata from "../metadata/metadata";
 
 export function Controller(ctrlUrl: string, ...ctlrDepedencies: any[]): Function {
