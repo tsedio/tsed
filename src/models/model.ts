@@ -11,7 +11,7 @@ export class Model {
 
         return Object
             .getOwnPropertyNames(this.mappings())
-            .map(name => `${this.table()}.${this.mappings()[name]}`);
+            .map(name => `${this.table()}.${this.mappings()[name]} AS '${this.table()}.${name}'`);
     }
 
     static mappings(): any {
@@ -31,9 +31,15 @@ export class Model {
         const instance = new this();
         for (let property in data) {
             if (data.hasOwnProperty(property)) {
+
                 const value = data[property];
-                const key = this.mappingsReverse()[property];
-                instance[key] = value;
+                const key = property.split(`${this.table()}.`)[1];
+
+                if (typeof key !== 'undefined') {
+                    console.log(key);
+                    instance[key] = value;
+                }
+
             }
         }
 

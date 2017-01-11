@@ -18,12 +18,12 @@ describe('Table/Column decorators and Model class: ', () => {
     });
 
     it('Comment should have columns() static method', () => {
-        expect(Comment.columns()).to.deep.equal(['comments.id', 'comments._content']);
+        expect(Comment.columns()).to.deep.equal(["comments.id AS 'comments.id'", "comments._content AS 'comments.content'"]);
     });
 
     it('Comment should have fromDB() static method', () => {
-        const data = {_content: "<h1>Helle world</h1>", id: 1};
-        expect(Comment.fromDB(data)).to.have.property('content', data._content);
-        expect(Comment.fromDB(data)).to.have.property('id', data.id);
+        const data = {"comments.content": "<h1>Hello world</h1>", "comments.id": 1};
+        expect(Comment.fromDB(data)).to.have.property('content', data['comments.content']);
+        expect(Comment.fromDB(data)).to.have.property('id', data['comments.id']);
     });
 });
