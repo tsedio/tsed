@@ -11,7 +11,11 @@ export class Model {
 
         return Object
             .getOwnPropertyNames(this.mappings())
-            .map(name => `${this.table()}.${this.mappings()[name]} AS '${this.table()}.${name}'`);
+            .map(name => `${this.table()}.${this.mappings()[name]} AS '${this.column(name)}'`);
+    }
+
+    static column(property: string): string {
+        return `${this.table()}.${property}`;
     }
 
     static mappings(): any {

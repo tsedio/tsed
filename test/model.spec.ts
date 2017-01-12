@@ -21,6 +21,11 @@ describe('Table/Column decorators and Model class: ', () => {
         expect(Comment.columns()).to.deep.equal(["comments.id AS 'comments.id'", "comments._content AS 'comments.content'"]);
     });
 
+    it('Comment should have column() static method', () => {
+        expect(Comment.column('content')).to.deep.equal('comments.content');
+    });
+
+
     it('Comment should have fromDB() static method', () => {
         const data = {"comments.content": "<h1>Hello world</h1>", "comments.id": 1};
         expect(Comment.fromDB(data)).to.have.property('content', data['comments.content']);
