@@ -17,6 +17,7 @@ describe('Table/Column decorators and Model class: ', () => {
 
         it('should return mappings', () => {
             expect(Comment.mappings()).to.deep.equal({id: 'id', content: '_content'});
+            expect(Comment.mappings()).to.not.have.property('otherThing');
         });
 
     });
@@ -25,6 +26,7 @@ describe('Table/Column decorators and Model class: ', () => {
 
         it('should return reversed mappings', () => {
             expect(Comment.mappingsReverse()).to.deep.equal({id: 'id', _content: 'content'});
+            expect(Comment.mappings()).to.not.have.property('otherThing');
         });
 
     });
@@ -51,11 +53,18 @@ describe('Table/Column decorators and Model class: ', () => {
             expect(Comment.column('content', {prefix: true})).to.deep.equal('comments._content');
         });
 
+        it('should return null with invalid property', () => {
+            expect(Comment.column('invalid')).to.be.undefined;
+        });
+
+        it('should return null with invalid property and option prefix', () => {
+            expect(Comment.column('invalid', {prefix: true})).to.be.undefined;
+        });
     });
 
     describe("fromDB() static method", () => {
 
-        it('should handle without prefix data and return instance', () => {
+        it('should handle data without prefix and return instance', () => {
 
             const data = {_content: "<h1>Hello world</h1>", id: 1};
             expect(Comment.fromDB(data)).to.have.property('content', data._content);
@@ -63,7 +72,7 @@ describe('Table/Column decorators and Model class: ', () => {
 
         });
 
-        it('should return column name with prefix', () => {
+        it('should handle data with prefix and return instance', () => {
 
             const data = {"comments._content": "<h1>Hello world</h1>", "comments.id": 1};
             expect(Comment.fromDB(data, {prefix: true})).to.have.property('content', data['comments._content']);
@@ -71,5 +80,13 @@ describe('Table/Column decorators and Model class: ', () => {
 
         });
 
+        it('should handle other table data and return that instance', () => {
+
+            const data = {"comments._content": "<h1>Hello world</h1>", "comments.id": 1, "users.other1": 1, "other2": 1};
+            expect(Comment.fromDB(data, {prefix: true})).to.have.property('content', data['comments._content']);
+            expect(Comment.fromDB(data, {prefix: true})).to.have.property('id', data['comments.id']);
+            expect(Comment.fromDB(data, {prefix: true})).to.not.have.property('other1');
+            expect(Comment.fromDB(data, {prefix: true})).to.not.have.property('other2');
+        });
     });
 });

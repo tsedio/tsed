@@ -30,5 +30,7 @@ export class Comment extends Model {
     private id: number;
 
     @Column("_content")
-    private content: string
+    private content: string;
+
+    private otherThing: number;
 }
