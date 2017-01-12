@@ -17,7 +17,7 @@ export class Model {
 
         return Object
             .getOwnPropertyNames(this.mappings())
-            .map(name => `${this.table()}.${this.mappings()[name]} AS '${this.column(name, _options)}'`);
+            .map(name => `${this.table()}.${this.mappings()[name]} AS ${this.column(name, _options)}`);
     }
 
     static column(property: string, options?: any): string {

@@ -34,11 +34,11 @@ describe('Table/Column decorators and Model class: ', () => {
     describe('columns() static method', () => {
 
         it('should return columns without prefix', () => {
-            expect(Comment.columns()).to.deep.equal(["comments.id AS 'id'", "comments._content AS '_content'"]);
+            expect(Comment.columns()).to.deep.equal(["comments.id AS id", "comments._content AS _content"]);
         });
 
         it('should return columns with prefix', () => {
-            expect(Comment.columns({prefix: true})).to.deep.equal(["comments.id AS 'comments.id'", "comments._content AS 'comments._content'"]);
+            expect(Comment.columns({prefix: true})).to.deep.equal(["comments.id AS comments.id", "comments._content AS comments._content"]);
         });
     });
 
