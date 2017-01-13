@@ -261,20 +261,21 @@ export abstract class ServerLoader {
 
         if (this.httpServer) {
 
-            let hostname = "0.0.0.0";
+            let address = "0.0.0.0";
             let port = this.httpPort;
 
             if (typeof this.httpPort === "string" && this.httpPort.indexOf(":") > -1) {
-                [hostname, port] = this.httpPort.split(":");
+                [address, port] = this.httpPort.split(":");
             }
 
-            $log.debug(`[TSED] Start HTTP server on ${hostname}:${port}`);
-            this.httpServer.listen(+port, hostname);
+            $log.debug(`[TSED] Start HTTP server on ${address}:${port}`);
+            this.httpServer.listen(+port, address);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this._httpServer
                     .on("listening", () => {
-                        let { address, port } = this._httpServer.address();
+                        // The address should be read from server instance but it seems like mocha is failing with this
+                        // let { address, port } = this._httpServer.address();
                         $log.info(`[TSED] HTTP Server listen on ${address}:${port}`);
                         resolve();
                     })
@@ -284,20 +285,21 @@ export abstract class ServerLoader {
 
         if (this.httpsServer) {
 
-            let hostname = "0.0.0.0";
+            let address = "0.0.0.0";
             let port = this.httpPort;
 
             if (typeof this.httpPort === "string" && this.httpPort.indexOf(":") > -1) {
-                [hostname, port] = this.httpPort.split(":");
+                [address, port] = this.httpPort.split(":");
             }
 
-            $log.debug(`[TSED] Start HTTPs server on ${hostname}:${port}`);
+            $log.debug(`[TSED] Start HTTPs server on ${address}:${port}`);
             this.httpsServer.listen(this.httpsPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this._httpsServer
                     .on("listening", () => {
-                        let { address, port } = this._httpsServer.address();
+                        // The address should be read from server instance but it seems like mocha is failing with this
+                        // let { address, port } = this._httpsServer.address();
                         $log.info(`[TSED] HTTPs Server listen port ${address}:${port}`);
                         resolve();
                     })
