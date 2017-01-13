@@ -261,14 +261,21 @@ export abstract class ServerLoader {
 
         if (this.httpServer) {
 
-            $log.debug("[TSED] Start HTTP server on port : " + this.httpPort);
+            let hostname = "0.0.0.0";
+            let port = this.httpPort;
 
-            this.httpServer.listen(this.httpPort);
+            if (typeof this.httpPort === "string" && this.httpPort.indexOf(":") > -1) {
+                [hostname, port] = this.httpPort.split(":");
+            }
+
+            $log.debug(`[TSED] Start HTTP server on ${hostname}:${port}`);
+            this.httpServer.listen(+port, hostname);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this._httpServer
                     .on("listening", () => {
-                        $log.info("[TSED] HTTP Server listen port : " + this.httpPort);
+                        let { address, port } = this._httpServer.address();
+                        $log.info(`[TSED] HTTP Server listen on ${address}:${port}`);
                         resolve();
                     })
                     .on("error", reject);
@@ -277,14 +284,21 @@ export abstract class ServerLoader {
 
         if (this.httpsServer) {
 
-            $log.debug("[TSED] Start HTTPs server on port : " + this.httpsPort);
+            let hostname = "0.0.0.0";
+            let port = this.httpPort;
 
+            if (typeof this.httpPort === "string" && this.httpPort.indexOf(":") > -1) {
+                [hostname, port] = this.httpPort.split(":");
+            }
+
+            $log.debug(`[TSED] Start HTTPs server on ${hostname}:${port}`);
             this.httpsServer.listen(this.httpsPort);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this._httpsServer
                     .on("listening", () => {
-                        $log.info("[TSED] HTTPs Server listen port : " + this.httpsPort);
+                        let { address, port } = this._httpsServer.address();
+                        $log.info(`[TSED] HTTPs Server listen port ${address}:${port}`);
                         resolve();
                     })
                     .on("error", reject);
