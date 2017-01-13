@@ -83,7 +83,7 @@ export class Server extends ServerLoader implements IServerLifecycle {
         const appPath: string = Path.resolve(__dirname);
         
         this.mount("/rest", appPath + "/controllers/**/**.js")                       // Declare your endpoint
-            .createHttpServer(8000)
+            .createHttpServer(8000)  // You can add your interface too:  .createHttpServer('127.0.0.1:8000')
             .createHttpsServer({
                 port: 8080
             });
