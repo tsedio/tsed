@@ -20,6 +20,7 @@ before_install:
 script:
   - "npm test"
   - "npm run test:travis"
+  - "npm run tslint"
 
 after_script:
   - "test -e ./coverage/lcov.info && npm install coveralls@2 remap-istanbul@0.6.4 && ./node_modules/.bin/remap-istanbul -i ./coverage/coverage.json -t lcovonly | coveralls"

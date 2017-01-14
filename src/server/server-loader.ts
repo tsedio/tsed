@@ -202,7 +202,7 @@ export abstract class ServerLoader {
                 InjectorService.load();
 
                 $log.info("[TSED] Import controllers");
-                Controller.load(this.expressApp)//, this.endpointsRules);
+                Controller.load(this.expressApp); //, this.endpointsRules);
 
                 $log.info("[TSED] Routes mounted :");
                 Controller.printRoutes($log);
@@ -261,12 +261,7 @@ export abstract class ServerLoader {
 
         if (this.httpServer) {
 
-            let address = "0.0.0.0";
-            let port = this.httpPort;
-
-            if (typeof this.httpPort === "string" && this.httpPort.indexOf(":") > -1) {
-                [address, port] = this.httpPort.split(":");
-            }
+            const {address, port} = ServerLoader.buildAddressAndPort(this.httpPort);
 
             $log.debug(`[TSED] Start HTTP server on ${address}:${port}`);
             this.httpServer.listen(+port, address);
@@ -285,15 +280,10 @@ export abstract class ServerLoader {
 
         if (this.httpsServer) {
 
-            let address = "0.0.0.0";
-            let port = this.httpPort;
-
-            if (typeof this.httpPort === "string" && this.httpPort.indexOf(":") > -1) {
-                [address, port] = this.httpPort.split(":");
-            }
+            const {address, port} = ServerLoader.buildAddressAndPort(this.httpsPort);
 
             $log.debug(`[TSED] Start HTTPs server on ${address}:${port}`);
-            this.httpsServer.listen(this.httpsPort);
+            this.httpsServer.listen(+port, address);
 
             promises.push(new Promise<any>((resolve, reject) => {
                 this._httpsServer
@@ -459,6 +449,22 @@ export abstract class ServerLoader {
         response.status(error.status || 500).send("Internal Error");
 
         return next();
+    }
+
+    /**
+     *
+     * @param addressPort
+     * @returns {{address: string, port: (string|number)}}
+     */
+    private static buildAddressAndPort(addressPort: string | number) {
+        let address = "0.0.0.0";
+        let port = addressPort;
+
+        if (typeof addressPort === "string" && addressPort.indexOf(":") > -1) {
+            [address, port] = addressPort.split(":");
+        }
+
+        return {address, port};
     }
 
     /**
