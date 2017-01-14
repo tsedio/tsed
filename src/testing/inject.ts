@@ -1,5 +1,5 @@
-import InjectorService from '../services/injector';
-import {Done} from './done';
+import InjectorService from "../services/injector";
+import {Done} from "./done";
 
 /**
  * The inject function is one of the TsExpressDecorator testing utilities.
@@ -21,13 +21,13 @@ export function inject(targets: any[], func: Function) {
         let isDoneInjected = false;
         const args = targets.map((target) => {
 
-            if (target === Done){
+            if (target === Done) {
                 isDoneInjected = true;
                 return done;
             }
 
             /* istanbul ignore next */
-            if(!InjectorService.has(target)){
+            if (!InjectorService.has(target)) {
                 InjectorService.construct(target);
             }
 

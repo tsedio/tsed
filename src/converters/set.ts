@@ -1,6 +1,6 @@
-import {IConverter} from '../interfaces/Converter';
-import {Converter} from '../decorators/converter';
-import ConverterService from '../services/converter';
+import {IConverter} from "../interfaces/Converter";
+import {Converter} from "../decorators/converter";
+import ConverterService from "../services/converter";
 
 @Converter(Set)
 export class SetConverter implements IConverter {

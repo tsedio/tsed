@@ -14,7 +14,7 @@ import {
 
 import {InjectorService, RouterController} from "../services";
 
-const colors = require('colors');
+const colors = require("colors");
 
 export default class Controller {
 
@@ -36,10 +36,6 @@ export default class Controller {
      *
      */
     protected router: any;
-    /**
-     *
-     */
-    //protected absoluteUrl: string;
 
     /**
      *
@@ -190,10 +186,9 @@ export default class Controller {
      * @param app
      * @param endpointsRules
      */
-    static load(app: {use: Function}/*, endpointsRules: Map<string, string>*/) {
+    static load(app: {use: Function}) {
 
         this.controllersFromMetadatas()
-        //.resolveControllersUrls()
             .mountControllers(app);
 
         return this;
@@ -376,12 +371,12 @@ export default class Controller {
     static printRoutes(logger: {info: (s) => void} = $log): void {
 
         const mapColor = {
-            GET: (<any>'GET').green,
-            POST: (<any>'POST').yellow,
-            PUT: (<any>'PUT').blue,
-            DELETE: (<any>'DELETE').red,
-            PATCH: (<any>'PATCH').magenta,
-            ALL: (<any>'ALL').cyan
+            GET: (<any>"GET").green,
+            POST: (<any>"POST").yellow,
+            PUT: (<any>"PUT").blue,
+            DELETE: (<any>"DELETE").red,
+            PATCH: (<any>"PATCH").magenta,
+            ALL: (<any>"ALL").cyan
         };
 
         const routes = Controller.getRoutes()

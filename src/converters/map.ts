@@ -1,6 +1,6 @@
-import ConverterService from '../services/converter';
-import {IConverter} from '../interfaces/Converter';
-import {Converter} from '../decorators/converter';
+import ConverterService from "../services/converter";
+import {IConverter} from "../interfaces/Converter";
+import {Converter} from "../decorators/converter";
 
 @Converter(Map)
 export class MapConverter implements IConverter {

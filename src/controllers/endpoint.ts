@@ -9,9 +9,7 @@ import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
-import {$log} from "ts-log-debug";
-import ConverterService from '../services/converter';
-import {getClassName} from '../utils/class';
+import ConverterService from "../services/converter";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -274,7 +272,7 @@ export class Endpoint {
 
         // TODO ADD New ANNOTATION TO SPECIFY RESPONSE FORMAT
 
-        switch(typeof data) {
+        switch (typeof data) {
             case "number":
             case "boolean":
             case "string":

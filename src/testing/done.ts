@@ -1,2 +1,2 @@
-export const Done = Symbol('mocha:done');
+export const Done = Symbol("mocha:done");
 

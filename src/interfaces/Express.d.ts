@@ -1,4 +1,4 @@
-import * as Express from 'express';
+import * as Express from "express";
 
 declare namespace Express {
 

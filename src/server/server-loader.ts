@@ -1,12 +1,12 @@
-import * as Express from 'express';
-import * as Http from 'http';
-import * as Https from 'https';
-import {$log} from 'ts-log-debug';
-import {Forbidden, NotAcceptable, Exception} from 'ts-httpexceptions';
-import InjectorService from '../services/injector';
-import Controller from './../controllers/controller';
-import Metadata from '../metadata/metadata';
-import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from '../constants/metadata-keys';
+import * as Express from "express";
+import * as Http from "http";
+import * as Https from "https";
+import {$log} from "ts-log-debug";
+import {Forbidden, NotAcceptable, Exception} from "ts-httpexceptions";
+import InjectorService from "../services/injector";
+import Controller from "./../controllers/controller";
+import Metadata from "../metadata/metadata";
+import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -109,7 +109,7 @@ export abstract class ServerLoader {
         const fn = (<any>this).isAuthenticated || (<any>this).$onAuth;
 
         /* istanbul ignore else */
-        if(fn){
+        if (fn) {
             const result = fn.call(this, request, response, <Express.NextFunction>callback, authorization);
 
             /* istanbul ignore else */
@@ -191,7 +191,7 @@ export abstract class ServerLoader {
         const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
         const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
 
-        // this.endpointsRules.set('*', this.endpoint);
+        // this.endpointsRules.set("*", this.endpoint);
 
         return Promise
             .resolve()
@@ -202,7 +202,7 @@ export abstract class ServerLoader {
                 InjectorService.load();
 
                 $log.info("[TSED] Import controllers");
-                Controller.load(this.expressApp); //, this.endpointsRules);
+                Controller.load(this.expressApp);
 
                 $log.info("[TSED] Routes mounted :");
                 Controller.printRoutes($log);
@@ -217,7 +217,7 @@ export abstract class ServerLoader {
 
                 const fnError = (<any>this).$onError;
 
-                if (fnError){
+                if (fnError) {
                     this.use(fnError.bind(this));
                 }
 
@@ -238,12 +238,12 @@ export abstract class ServerLoader {
             .then(() => this.initializeSettings())
             .then(() => this.startServers())
             .then(() => {
-                if ("$onReady" in this){
+                if ("$onReady" in this) {
                     (<any>this).$onReady.call(this);
                 }
             })
             .catch((err) => {
-                if("$onServerInitError" in this) {
+                if ("$onServerInitError" in this) {
                     return (<any>this).$onServerInitError(err);
                 } else {
                     $log.error("[TSED] HTTP Server error", err);
@@ -355,7 +355,7 @@ export abstract class ServerLoader {
         files
             .forEach(file => {
 
-                try{
+                try {
                     const exportedClasses = require(file);
                     $log.debug("[TSED] Import file :", file);
                     nbFiles++;
@@ -369,10 +369,11 @@ export abstract class ServerLoader {
 
                             endpoints.push(endpoint);
 
-                            Metadata.set(CONTROLLER_MOUNT_ENDPOINTS, endpoints, clazz)
+                            Metadata.set(CONTROLLER_MOUNT_ENDPOINTS, endpoints, clazz);
                         });
 
-                }catch(er){
+                } catch (er) {
+                    /* istanbul ignore next */
                     $log.error(er);
                 }
 
@@ -456,7 +457,7 @@ export abstract class ServerLoader {
      * @param addressPort
      * @returns {{address: string, port: (string|number)}}
      */
-    private static buildAddressAndPort(addressPort: string | number) {
+    private static buildAddressAndPort(addressPort: string | number): {address: string, port: number} {
         let address = "0.0.0.0";
         let port = addressPort;
 
@@ -464,7 +465,7 @@ export abstract class ServerLoader {
             [address, port] = addressPort.split(":");
         }
 
-        return {address, port};
+        return {address, port: +port};
     }
 
     /**

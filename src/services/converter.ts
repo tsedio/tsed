@@ -1,12 +1,12 @@
 
-import {Service} from '../decorators/service';
-import {isEmpty, isPrimitiveOrPrimitiveClass} from '../utils/utils';
-import {CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE} from '../constants/errors-msgs';
-import {getClassName} from '../utils/class';
-import Metadata from '../metadata/metadata';
-import {CONVERTER, JSON_PROPERTIES} from '../constants/metadata-keys';
-import {IJsonMetadata} from '../interfaces/JsonMetadata';
-import {IConverter} from '../interfaces/Converter';
+import {Service} from "../decorators/service";
+import {isEmpty, isPrimitiveOrPrimitiveClass} from "../utils/utils";
+import {CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE} from "../constants/errors-msgs";
+import {getClassName} from "../utils/class";
+import Metadata from "../metadata/metadata";
+import {CONVERTER, JSON_PROPERTIES} from "../constants/metadata-keys";
+import {IJsonMetadata} from "../interfaces/JsonMetadata";
+import {IConverter} from "../interfaces/Converter";
 
 
 @Service()
@@ -56,12 +56,12 @@ export default class ConverterService {
                 return plainObject;
             }
 
-        } catch(err) {
+        } catch (err) {
             /* istanbul ignore next */
             (() => {
                 const castedError = new Error(CONVERTER_SERIALIZE(getClassName(obj), obj));
                 castedError.stack = err.stack;
-                throw castedError
+                throw castedError;
             })();
         }
 
@@ -110,7 +110,7 @@ export default class ConverterService {
                     const propertyValue = obj[jsonMetadata.name] || obj[propertyName];
                     const propertyKey = jsonMetadata.propertyKey || propertyName;
 
-                    if (typeof instance[propertyKey] !== 'function') {
+                    if (typeof instance[propertyKey] !== "function") {
 
                         instance[propertyKey] = this.deserialize(
                             propertyValue,
@@ -125,7 +125,7 @@ export default class ConverterService {
 
             }
 
-        } catch(err) {
+        } catch (err) {
             /* istanbul ignore next */
             (() => {
                 const castedError = new Error(CONVERTER_DESERIALIZE(getClassName(targetType), obj));

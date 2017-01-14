@@ -1,10 +1,10 @@
 
-import {isTargetType, isCollection, isEmpty} from '../utils/utils';
-import {IJsonMetadata} from '../interfaces/JsonMetadata';
-import Metadata from '../metadata/metadata';
-import {JSON_PROPERTIES} from '../constants/metadata-keys';
-import InjectorService from '../services/injector';
-import ConverterService from '../services/converter';
+import {isTargetType, isCollection, isEmpty} from "../utils/utils";
+import {IJsonMetadata} from "../interfaces/JsonMetadata";
+import Metadata from "../metadata/metadata";
+import {JSON_PROPERTIES} from "../constants/metadata-keys";
+import InjectorService from "../services/injector";
+import ConverterService from "../services/converter";
 
 
 export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
@@ -21,10 +21,10 @@ export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
                 baseType: baseType
             };
 
-            if (isTargetType(metadata, 'string')) {
+            if (isTargetType(metadata, "string")) {
                 decoratorMetaData.name = metadata as string;
             }
-            else if (isTargetType(metadata, 'object')) {
+            else if (isTargetType(metadata, "object")) {
 
                 decoratorMetaData = Object.assign(decoratorMetaData, metadata as IJsonMetadata<T>);
 

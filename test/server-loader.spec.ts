@@ -234,5 +234,56 @@ describe("ServerLoader()", () => {
 
     });
 
+    describe('ServerLoader.set()', () => {
+        it('should set a value', () => {
+            const settings = {};
+            const serverLoader = new FakeServer();
+
+            (serverLoader as any)._expressApp = {
+                set: (k, v) => {settings[k] = v}
+            };
+
+            serverLoader.set('view engine', "html");
+
+            expect(settings['view engine']).to.equal("html");
+        });
+    });
+
+    describe('ServerLoader.engine()', () => {
+        it('should set a value', () => {
+            const settings = {};
+            const serverLoader = new FakeServer();
+
+            (serverLoader as any)._expressApp = {
+                engine: (k, v) => {settings[k] = v}
+            };
+
+            serverLoader.engine('view engine', () => {});
+
+            expect(settings['view engine']).to.be.a("function");
+        });
+    });
+
+    describe('ServerLoader.buildAddressAndPort()', () => {
+
+        it('should build default address and use port given as parameters', () => {
+
+            const {address, port} = (ServerLoader as any).buildAddressAndPort(8080);
+
+            expect(address).to.equal('0.0.0.0');
+            expect(port).to.equal(8080);
+
+        });
+
+        it('should build address and port', () => {
+
+            const {address, port} = (ServerLoader as any).buildAddressAndPort('127.0.0.1:8080');
+
+            expect(address).to.equal('127.0.0.1');
+            expect(port).to.equal(8080);
+
+        });
+
+    });
 
 });

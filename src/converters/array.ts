@@ -1,7 +1,7 @@
 
-import ConverterService from '../services/converter';
-import {Converter} from '../decorators/converter';
-import {IConverter} from '../interfaces/Converter';
+import ConverterService from "../services/converter";
+import {Converter} from "../decorators/converter";
+import {IConverter} from "../interfaces/Converter";
 
 @Converter(Array)
 export class ArrayConverter implements IConverter {

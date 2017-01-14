@@ -19,7 +19,7 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
         let appPath = Path.resolve(__dirname);
 
         this.setEndpoint('/rest')
-            .scan(appPath + "/controllers/**/**.js")
+            .mount('/rest', appPath + "/controllers/**/**.js")
             .scan(appPath + "/services/**/**.js")
             .createHttpServer(8000)
             .createHttpsServer({

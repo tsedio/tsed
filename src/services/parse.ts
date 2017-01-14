@@ -1,6 +1,6 @@
 
 import {Service} from "../decorators/service";
-import {isEmpty} from '../utils/utils';
+import {isEmpty} from "../utils/utils";
 
 @Service()
 export default class ParseService {
@@ -21,7 +21,7 @@ export default class ParseService {
      */
     eval(expression: string, scope: any): any {
 
-        if (isEmpty(expression)){
+        if (isEmpty(expression)) {
             return typeof scope === "object" ? ParseService.clone(scope) : scope;
         }
 

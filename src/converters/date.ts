@@ -1,5 +1,5 @@
-import {IConverter} from '../interfaces/Converter';
-import {Converter} from '../decorators/converter';
+import {IConverter} from "../interfaces/Converter";
+import {Converter} from "../decorators/converter";
 
 @Converter(Date)
 export class DateConverter implements IConverter {

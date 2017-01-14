@@ -1,4 +1,4 @@
-import {DESIGN_TYPE, DESIGN_PARAM_TYPES} from '../constants/metadata-keys';
+import {DESIGN_TYPE, DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
 require("reflect-metadata");
 
 const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();

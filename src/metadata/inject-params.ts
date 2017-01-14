@@ -96,7 +96,7 @@ export default class InjectParams {
      * @param service
      * @param options
      */
-    static build(service: symbol, options){
+    static build(service: symbol, options) {
 
         let {
             propertyKey,
@@ -109,7 +109,7 @@ export default class InjectParams {
         const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
         const baseType = Metadata.getParamTypes(target, propertyKey)[parameterIndex];
 
-        if (typeof expression !== 'string') {
+        if (typeof expression !== "string") {
             useClass = <any>expression;
             expression = undefined;
         }

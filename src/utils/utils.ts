@@ -4,7 +4,7 @@
  * @param type
  * @returns {boolean}
  */
-export function isTargetType(val:any, type:"object" | "string"):boolean {
+export function isTargetType(val: any, type: "object" | "string"): boolean {
     return typeof val === type;
 }
 /**
@@ -14,9 +14,9 @@ export function isTargetType(val:any, type:"object" | "string"):boolean {
  */
 export function isPrimitiveOrPrimitiveClass(obj: any): boolean {
 
-    const isPrimitive = ['string', 'boolean', 'number'].indexOf(typeof obj);
+    const isPrimitive = ["string", "boolean", "number"].indexOf(typeof obj);
 
-    if(isPrimitive > -1){
+    if (isPrimitive > -1) {
         return true;
     }
 
@@ -36,7 +36,7 @@ export function isArrayOrArrayClass(clazz: Function): boolean {
     if (clazz === Array) {
         return true;
     }
-    return Object.prototype.toString.call(clazz) === '[object Array]';
+    return Object.prototype.toString.call(clazz) === "[object Array]";
 }
 
 export function isCollection(target): boolean {
