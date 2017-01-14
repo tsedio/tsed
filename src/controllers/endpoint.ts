@@ -254,6 +254,10 @@ export class Endpoint {
         const viewPath = Metadata.get(ENDPOINT_VIEW, instance, this.methodClassName);
         const viewOptions = Metadata.get(ENDPOINT_VIEW_OPTIONS, instance, this.methodClassName);
 
+        if (response.headersSent) {
+            return data;
+        }
+
         if (viewPath !== undefined) {
 
             if (viewOptions !== undefined ) {
