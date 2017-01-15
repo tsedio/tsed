@@ -238,6 +238,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 * `@Controller(route: string, ...ctrlsNamesDependencies?: string[])` : Declare a new controller with his Rest path.
 * `@Service()` : Declare a new Service that can be injected in other Service or Controller.
+* `@Converter` : Declare a new serializer/deserializer when a class/type is deserialized from JSON and vice versa.
 
 ### Method decorators
 
