@@ -273,14 +273,14 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 ### v1.3.0
 
-* [[#11]] Add `@Session()` decorators.
-* [[#9], [#16], [#22]] Add `@ResponseView()` decorators,
-* [[#3]] Add model deserialization and add decorator `@JsonProperty`,
-* [[#18]] Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()`,
-* [[#21]] Add `yarn` support,
-* [[#27]] Pass bind interface to http server,
-* [[#28]] Prevent sending data if header is already sent,
-* [[#13]] Add ServerLoader.mount(). This method can mount controller to one or more endpoints.
+* Add `@Session()` decorators [#11],
+* Add `@ResponseView()` decorators [#9], [#16], [#22] , 
+* Add model deserialization and add decorator `@JsonProperty` [#3],
+* Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()` [#18],
+* Add `yarn` support [#21],
+* Pass bind interface to http server [#27],
+* Prevent sending data if header is already sent [#28],
+* Add ServerLoader.mount(). This method can mount controller to one or more endpoints [#13].
 
 ### v1.2.0
 
