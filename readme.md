@@ -271,18 +271,18 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 ## CHANGELOG
 
-### v1.3.0-7
+### v1.3.0
 
-* Add @Session() decorators.
-* Add ServerLoader.mount(). This method can mount controller to one or more endpoints.
-* Add Proxy method : ServerLoader.set() and ServerLoader.engine().
+* [[#11](#11)] Add `@Session()` decorators.
+* [[#9](#9), [#16](#16), [#22](#22)] Add `@ResponseView()` decorators,
+* [[#3](#3)] Add model deserialization and add decorator `@JsonProperty`,
+* [[#18](#18)] Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()`,
+* [[#21](#21)] Add `yarn` support,
+* [[#27](#27)] Pass bind interface to http server,
+* [[#28](#28)] Prevent sending data if header is already sent,
+* [[#13](#13)] Add ServerLoader.mount(). This method can mount controller to one or more endpoints.
 
-### v1.3.0-3
-
-* Add @ResponseView() decorators,
-* Add Converters class to serialize and deserialize JSON (alpha feature)
-
-#### v1.2.0
+### v1.2.0
 
 * Remove Bluebird and use native Promise. Breaking change are possible if you use v1.1.0 of ts-express-decorators. Just, replace Bluebird reference in your `Server.ts` or install Bluebird and @types/bluebird depedencies.
 * Improve `package.json` configuration. Now, IDE like webstorm can auto discovered the exposed decorators.
