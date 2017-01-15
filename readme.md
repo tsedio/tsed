@@ -273,14 +273,14 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 ### v1.3.0
 
-* Add `@Session()` decorators #11,
-* Add `@ResponseView()` decorators #9, #16, #22, 
-* Add model deserialization and add decorator `@JsonProperty` #3,
-* Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()` #18,
-* Add `yarn` support #21,
-* Pass bind interface to http server #27,
-* Prevent sending data if header is already sent #28,
-* Add ServerLoader.mount(). This method can mount controller to one or more endpoints #13.
+* Add `@Session()` decorators [#11](https://github.com/Romakita/ts-express-decorators/issues/#11),
+* Add `@ResponseView()` decorators [#9](https://github.com/Romakita/ts-express-decorators/issues/#9), [#16](https://github.com/Romakita/ts-express-decorators/issues/#16), [#22](https://github.com/Romakita/ts-express-decorators/issues/#22), 
+* Add model deserialization and add decorator `@JsonProperty` [#3](https://github.com/Romakita/ts-express-decorators/issues/#3),
+* Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()` [#18](https://github.com/Romakita/ts-express-decorators/issues/#18),
+* Add `yarn` support [#21](https://github.com/Romakita/ts-express-decorators/issues/#21),
+* Pass bind interface to http server [#27](https://github.com/Romakita/ts-express-decorators/issues/#27),
+* Prevent sending data if header is already sent [#28](https://github.com/Romakita/ts-express-decorators/issues/#28),
+* Add ServerLoader.mount(). This method can mount controller to one or more endpoints [#13](https://github.com/Romakita/ts-express-decorators/issues/#13).
 
 ### v1.2.0
 
