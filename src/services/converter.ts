@@ -91,7 +91,7 @@ export default class ConverterService {
             }
 
             if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
-                // deserialize from static method
+                // deserialize from method
 
                 const instance = new targetType();
                 instance.deserialize(obj);
