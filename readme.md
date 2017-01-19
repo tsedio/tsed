@@ -24,9 +24,11 @@
 * Define routes on GET, POST, PUT, DELETE and HEAD verbs,
 * Define middlewares on routes,
 * Define required parameters,
-* Inject data from query string, path parameters, entire body, cookies or header,
+* Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
-* IoC services,
+* IoC Services,
+* Templating (View),
+* Converters (JSON to Model and Model to JSON),
 * Testing (alpha).
 
 ## Installation
@@ -63,9 +65,9 @@ options in your `tsconfig.json` file.
 ## Quick start
 #### Create your express server
 
-TsExpressDecorators provide a `ServerLoad` class to configure your 
+TsExpressDecorators provide a [`ServerLoader`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader) class to configure your 
 express quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends `ServerLoader`.
+a new `Server` class that extends [`ServerLoader`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader).
 
 ```typescript
 import * as Express from "express";
