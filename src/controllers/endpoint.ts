@@ -148,7 +148,9 @@ export class Endpoint {
         let result: any;
         const instance = this.controller.getInstance();
 
-        response.setHeader("X-Managed-By", "Express-router-decorator");
+        if (!response.headersSent) {
+            response.setHeader("X-Managed-By", "Express-router-decorator");
+        }
 
         return new Promise<any>((resolve, reject) => {
 

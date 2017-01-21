@@ -255,40 +255,6 @@ export default class Controller {
     get targetClass(): any {
         return this._targetClass;
     }
-    /**
-     * Resolve all absolute url for each controllers created.
-     */
-    // private static resolveControllersUrls() {
-
-    // this.controllers
-    /*.filter(ctrl => {
-     /*if (!ctrl.parent) {
-     ctrl.absoluteUrl = ctrl.getEndpointUrls();
-     }
-     return !!ctrl.parent;
-     })*/
-    /*.forEach((ctrl: Controller)  => { // children controller
-
-     if (ctrl.parent) {
-     let ctrlParent = ctrl;
-     let endpointUrls: string[] = [];
-
-     // build final endpoint to trace it
-     while (ctrlParent) {
-     endpointUrls.unshift(ctrlParent.absoluteUrl || ctrlParent.endpointUrl);
-     ctrlParent = ctrlParent.parent;
-     }
-
-     ctrl.absoluteUrl = endpointUrls.join("");
-
-     return ctrl;
-     }
-
-     });*/
-
-    // return this;
-
-    // }
 
     /**
      * Return a controller from his string name or his class declaration.
