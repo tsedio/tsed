@@ -15,13 +15,46 @@ export default class InjectorService {
     private static providers: Map<string|Function, any> = new Map<string|Function, any>();
 
     /**
-     * Invoke
+     *
      * @param target
      * @param locals
+     * @returns {T}
      */
-    static invoke<T>(target, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): T {
+    public invoke<T>(target: any, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): T {
+        return InjectorService.invoke<T>(target, locals);
+    }
 
-        const services = (Metadata.get(DESIGN_PARAM_TYPES, target) || [])
+    /**
+     * Return the instance service/factory.
+     * @param target
+     * @returns {boolean}
+     */
+    public get(target) {
+        return InjectorService.get(target);
+    }
+
+    /**
+     * Return true if the target provider exists and has an instance.
+     * @param target
+     * @returns {boolean}
+     */
+    public has(target) {
+        return InjectorService.has(target);
+    }
+
+    /**
+     * Invoke the target class or function.
+     * @param target
+     * @param locals
+     * @param designParamTypes
+     */
+    static invoke<T>(target: any, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>(), designParamTypes?: any[]): T {
+
+        if (!designParamTypes) {
+            designParamTypes = Metadata.get(DESIGN_PARAM_TYPES, target) || [];
+        }
+
+        const services = designParamTypes
             .map((serviceType: any) => {
 
                 const serviceName = typeof serviceType === "function" ? getClassName(serviceType) : serviceType;
@@ -40,13 +73,7 @@ export default class InjectorService {
                     throw Error(UNKNOW_SERVICE(serviceName));
                 }
 
-                const provider = this.providers.get(serviceType);
-
-                if (provider.type === 'constant') {
-                    return JSON.parse(JSON.stringify(provider.instance));
-                }
-
-                return provider.instance;
+                return this.get(serviceType);
             });
 
         return new target(...services);
@@ -63,91 +90,66 @@ export default class InjectorService {
         /* istanbul ignore else */
         if (provider.instance === undefined) {
 
-            provider.instance = this.invoke<any>(target);
+            provider.instance = this.invoke<any>(provider.useClass);
 
             $log.debug("[TSED]", getClassName(target), "instantiated");
         }
 
-        // TODO ... not necessary ?
-        /*Metadata
-         .get(DESIGN_PARAM_TYPES, target)
-         .forEach((type: any) => {
-
-
-         if (!this.has(type)) {
-         this.construct(type);
-         }
-
-         });*/
-
-
-
-
-
-
 
         return this;
     }
 
     /**
-     *
-     * @param providerSetting
+     * Set a new provider from providerSetting.
+     * @param provider
      */
-    static set(providerSetting: IProvider): InjectorService {
+    static set(provider: IProvider): InjectorService {
 
-        const target = providerSetting.provide;
+        const target = provider.provide;
 
-        providerSetting = this.has(target) ? InjectorService.providers.get(getClass(target)) : providerSetting;
+        provider = this.has(target) ? InjectorService.providers.get(getClass(target)) : provider;
 
-        InjectorService.providers.set(getClass(target), providerSetting);
+        InjectorService.providers.set(getClass(target), provider);
 
-        return this;
+        return InjectorService;
     }
 
     /**
-     *
+     * Return the instance service/factory.
      * @param target
      * @returns {boolean}
      */
     static get = (target) => InjectorService.providers.get(getClass(target)).instance;
 
     /**
-     *
+     * Return true if the target provider exists and has an instance.
      * @param target
      * @returns {boolean}
      */
     static has = (target) => InjectorService.providers.has(getClass(target)) && InjectorService.get(target);
 
     /**
-     *
+     * Initialize injectorService and load all services/factories.
      */
     static load() {
 
+        this.factory(InjectorService, new InjectorService());
+
         this.providers
-            .forEach((providerSettings: IProvider) => {
-                InjectorService.construct(providerSettings.provide);
+            .forEach((provider: IProvider) => {
+                InjectorService.construct(provider.provide);
             });
 
     }
 
     /**
-     *
+     * Add a new service that will built when InjectorService will be loaded.
      */
     static service = (target: any) => InjectorService.set({provide: target, useClass: target, type: 'service'});
 
     /**
-     *
+     * Add a new factory.
      */
-    static factory = (target: any) => InjectorService.set({provide: target, useClass: target, instance: target, type: 'factory'});
-
-    /**
-     *
-     */
-    static value = (target: any) => InjectorService.set({provide: target, useClass: target, instance: target, type: 'value'});
-
-    /**
-     *
-     */
-    static constant = (target: any) => InjectorService.set({provide: target, useClass: target, instance: target, type: 'constant'});
+    static factory = (target: any, instance: any) => InjectorService.set({provide: target, useClass: target, instance: instance, type: 'factory'});
 
 }
