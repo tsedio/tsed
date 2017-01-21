@@ -1,12 +1,10 @@
-import Metadata from "../metadata/metadata";
-import {DESIGN_PARAM_TYPES, SERVICE} from "../constants/metadata-keys";
+import InjectorService from '../services/injector';
 
 export function Service(): Function {
 
     return (target: any): void => {
 
-        const types = Metadata.get(DESIGN_PARAM_TYPES, target) || [];
-        Metadata.set(SERVICE, types, target);
+        InjectorService.service(target);
 
         return target;
     };

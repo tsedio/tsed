@@ -18,8 +18,8 @@ export const INJECT_PARAMS = "tsed:inject:params";
 export const DESIGN_PARAM_TYPES = "design:paramtypes";
 export const DESIGN_TYPE = "design:type";
 
-export const SERVICE = "tsed:service:type";
-export const SERVICE_INSTANCE = "tsed:service:instance";
+// export const SERVICE = "tsed:service:type";
+// export const SERVICE_INSTANCE = "tsed:service:instance";
 
 // SYMBOLS
 export const EXPRESS_NEXT_FN = Symbol("next");

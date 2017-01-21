@@ -37,17 +37,6 @@ class Test2{
 
 describe('Metadata :', () => {
 
-    describe('getClass', () => {
-
-        it('should return class constructor', () => {
-
-            expect(Metadata.getClass(Test)).to.equals(Test);
-            expect(Metadata.getClass(new Test)).to.equals(Test);
-            expect(Metadata.getClass(Test.prototype)).to.equals(Test);
-
-        });
-
-    });
 
     describe('static with class', () => {
 

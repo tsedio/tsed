@@ -1,4 +1,5 @@
 import {DESIGN_TYPE, DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
+import {getClass} from '../utils/utils';
 require("reflect-metadata");
 
 const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();
@@ -44,14 +45,14 @@ export default class Metadata<T>{
     static set(propertyKey: string, value: any, target: any, targetKey?: string | symbol): void {
 
         const targets = PROPERTIES.has(propertyKey) ? PROPERTIES.get(propertyKey) : [];
-        const classConstructor = Metadata.getClass(target);
+        const classConstructor = getClass(target);
 
         if (targets.indexOf(classConstructor) === -1) {
             targets.push(classConstructor);
             PROPERTIES.set(propertyKey, targets);
         }
 
-        Reflect.defineMetadata(propertyKey, value, Metadata.getClass(target), targetKey);
+        Reflect.defineMetadata(propertyKey, value, getClass(target), targetKey);
     };
 
 
@@ -62,7 +63,7 @@ export default class Metadata<T>{
      * @param targetKey
      */
     static get = (propertyKey: string, target: any, targetKey?: string | symbol): any =>
-        Reflect.getMetadata(propertyKey, Metadata.getClass(target), targetKey);
+        Reflect.getMetadata(propertyKey, getClass(target), targetKey);
 
     /**
      *
@@ -88,21 +89,15 @@ export default class Metadata<T>{
      * @param targetKey
      */
     static has = (propertyKey: string, target: any, targetKey?: string | symbol): boolean =>
-        Reflect.hasMetadata(propertyKey, Metadata.getClass(target), targetKey);
+        Reflect.hasMetadata(propertyKey, getClass(target), targetKey);
 
     static delete = (target: any, propertyKey: string) =>
-        Reflect.deleteMetadata(propertyKey, Metadata.getClass(target));
+        Reflect.deleteMetadata(propertyKey, getClass(target));
     /**
      *
      * @param propertyKey
      */
     static getTargetsFromPropertyKey = (propertyKey: string) =>
         PROPERTIES.has(propertyKey) ? PROPERTIES.get(propertyKey) : [];
-
-    /**
-     *
-     * @param target
-     */
-    static getClass = (target: any): any => target.prototype ? target : target.constructor;
 
 }
