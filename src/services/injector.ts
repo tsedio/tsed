@@ -15,13 +15,13 @@ export default class InjectorService {
     private static providers: Map<string|Function, any> = new Map<string|Function, any>();
 
     /**
-     *
+     * Invoke the target class or function.
      * @param target
      * @param locals
-     * @returns {T}
+     * @param designParamTypes
      */
-    public invoke<T>(target: any, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): T {
-        return InjectorService.invoke<T>(target, locals);
+    public invoke<T>(target: any, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>(), designParamTypes?: any[]): T {
+        return InjectorService.invoke<T>(target, locals, designParamTypes);
     }
 
     /**
@@ -29,8 +29,8 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    public get(target) {
-        return InjectorService.get(target);
+    public get<T>(target: any): T {
+        return <T>InjectorService.get(target);
     }
 
     /**
@@ -38,7 +38,7 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    public has(target) {
+    public has(target): boolean {
         return InjectorService.has(target);
     }
 
@@ -83,7 +83,7 @@ export default class InjectorService {
      * Construct the service with his dependencies.
      * @param target The service to be built.
      */
-    static construct(target) {
+    static construct(target): InjectorService {
 
         const provider: IProvider = this.providers.get(getClass(target));
 
@@ -101,13 +101,32 @@ export default class InjectorService {
 
     /**
      * Set a new provider from providerSetting.
-     * @param provider
+     * @param provider class token.
+     * @param instance Instance
      */
-    static set(provider: IProvider): InjectorService {
+    static set(provider: IProvider | any, instance?: any): InjectorService {
 
-        const target = provider.provide;
+        let target;
 
-        provider = this.has(target) ? InjectorService.providers.get(getClass(target)) : provider;
+        if (provider['provide'] === undefined) {
+
+            target = provider;
+
+            provider = <IProvider>{
+                provide: target,
+                useClass: target,
+                instance: instance || target,
+                type: "factory"
+            };
+
+        } else {
+            target = provider.provide;
+        }
+
+        provider = Object.assign(
+            InjectorService.providers.get(getClass(target)) || {},
+            provider
+        );
 
         InjectorService.providers.set(getClass(target), provider);
 
@@ -119,21 +138,19 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    static get = (target) => InjectorService.providers.get(getClass(target)).instance;
+    static get = (target): any => InjectorService.providers.get(getClass(target)).instance;
 
     /**
      * Return true if the target provider exists and has an instance.
      * @param target
      * @returns {boolean}
      */
-    static has = (target) => InjectorService.providers.has(getClass(target)) && InjectorService.get(target);
+    static has = (target): boolean => InjectorService.providers.has(getClass(target)) && !!InjectorService.get(target);
 
     /**
      * Initialize injectorService and load all services/factories.
      */
     static load() {
-
-        this.factory(InjectorService, new InjectorService());
 
         this.providers
             .forEach((provider: IProvider) => {
@@ -153,3 +170,8 @@ export default class InjectorService {
     static factory = (target: any, instance: any) => InjectorService.set({provide: target, useClass: target, instance: instance, type: 'factory'});
 
 }
+
+/**
+ * Create the first service InjectorService
+ */
+InjectorService.factory(InjectorService, new InjectorService());
