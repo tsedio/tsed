@@ -1,7 +1,7 @@
 
-import {Service} from '../decorators/service';
-import InjectorService from './injector';
-import {IMiddleware} from '../interfaces/Middleware';
+import {Service} from "../decorators/service";
+import InjectorService from "./injector";
+import {IMiddleware} from "../interfaces/Middleware";
 
 @Service()
 export default class MiddlewareService {

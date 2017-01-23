@@ -1,16 +1,16 @@
 
-import {Service} from '../decorators/service';
-import {ExpressApplication} from '../interfaces/ExpressApplication';
-import Controller from '../controllers/controller';
-import Metadata from '../metadata/metadata';
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from '../constants/metadata-keys';
+import {Service} from "../decorators/service";
+import {ExpressApplication} from "../interfaces/ExpressApplication";
+import Controller from "../controllers/controller";
+import Metadata from "../metadata/metadata";
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
-import {IControllerRoute} from '../interfaces/ControllerRoute';
-import {Endpoint} from '../controllers/endpoint';
-import {getClassName} from '../utils/class';
-import {RouterController} from './index';
-import InjectorService from './injector';
-import {UNKNOW_CONTROLLER, CYCLIC_REF} from '../constants/errors-msgs';
+import {IControllerRoute} from "../interfaces/ControllerRoute";
+import {Endpoint} from "../controllers/endpoint";
+import {getClassName} from "../utils/class";
+import {RouterController} from "./index";
+import InjectorService from "./injector";
+import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
 
 const colors = require("colors");
 
@@ -247,7 +247,7 @@ export default class ControllerService {
             .controllers
             .forEach((finalCtrl: Controller) => {
 
-                if(!finalCtrl.parent){
+                if (!finalCtrl.parent) {
                     finalCtrl
                         .getMountEndpoints()
                         .map(endpoint => finalCtrl.getEndpointUrl(endpoint))

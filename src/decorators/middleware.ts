@@ -1,4 +1,4 @@
-import MiddlewareService from '../services/middleware';
+import MiddlewareService from "../services/middleware";
 
 export function Service(): Function {
 

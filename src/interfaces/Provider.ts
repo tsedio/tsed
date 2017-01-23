@@ -1,4 +1,4 @@
-import {Type} from './Type';
+import {Type} from "./Type";
 
 export interface IProvider {
     /**
@@ -18,5 +18,5 @@ export interface IProvider {
     /**
      *
      */
-    type?: 'service'|'factory'|'value'|'constant';
+    type?: "service"|"factory";
 }

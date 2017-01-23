@@ -1,9 +1,8 @@
 
 import {Service} from "../decorators/service";
-import Controller from "../controllers/controller";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {$log} from "ts-log-debug";
-import ControllerService from './controller';
+import ControllerService from "./controller";
 
 /**
  * `RouteService` is used to provide all routes collected by annotation `@Controller`.

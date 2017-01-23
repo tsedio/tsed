@@ -7,7 +7,7 @@ import Metadata from "../metadata/metadata";
 import {CONVERTER, JSON_PROPERTIES} from "../constants/metadata-keys";
 import {IJsonMetadata} from "../interfaces/JsonMetadata";
 import {IConverter} from "../interfaces/Converter";
-import InjectorService from './injector';
+import InjectorService from "./injector";
 
 
 @Service()

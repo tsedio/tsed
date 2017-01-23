@@ -1,5 +1,5 @@
 
-import {Express} from '@types/express';
+import {Express} from "@types/express";
 
 export interface IMiddleware {
     use?(request: Express.Request, response: Express.Response, next?: (err?: any) => any): any;

@@ -1,4 +1,4 @@
-import InjectorService from '../services/injector';
+import InjectorService from "../services/injector";
 
 export function Service(): Function {
 
