@@ -1,11 +1,13 @@
 import {expect} from "chai";
+import {ExpressApplication} from '../src/interfaces/ExpressApplication';
+import {Done} from '../src/testing/done';
+import {inject} from '../src/testing/inject';
 
 describe('Rest :', () => {
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
-        //FakeApplication.getInstance();
 
-        it("should return an object (without annotation)", (done: Function) => {
+        it("should return an object (without annotation)", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
 
             FakeApplication
                 .getInstance()
@@ -27,7 +29,7 @@ describe('Rest :', () => {
                     done();
                 });
 
-        });
+        }));
 
         it("should return an object (PathParams annotation)", (done: Function) => {
 

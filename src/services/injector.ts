@@ -6,13 +6,15 @@ import {UNKNOW_SERVICE} from "../constants/errors-msgs";
 import {$log} from "ts-log-debug";
 import {IProvider} from '../interfaces/Provider';
 import {getClass} from '../utils/utils';
+import * as Express from 'express';
+import {ExpressApplication} from '../interfaces/ExpressApplication';
 
 /**
  * InjectorService manage all service collected by `@Service()` decorator.
  */
 export default class InjectorService {
 
-    private static providers: Map<string|Function, any> = new Map<string|Function, any>();
+    private static providers: Map<string|Function, any> = new Map<Function, any>();
 
     /**
      * Invoke the target class or function.
@@ -20,7 +22,7 @@ export default class InjectorService {
      * @param locals
      * @param designParamTypes
      */
-    public invoke<T>(target: any, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>(), designParamTypes?: any[]): T {
+    public invoke<T>(target: any, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
         return InjectorService.invoke<T>(target, locals, designParamTypes);
     }
 
@@ -48,7 +50,7 @@ export default class InjectorService {
      * @param locals
      * @param designParamTypes
      */
-    static invoke<T>(target: any, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>(), designParamTypes?: any[]): T {
+    static invoke<T>(target: any, locals: Map<string|Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
 
         if (!designParamTypes) {
             designParamTypes = Metadata.get(DESIGN_PARAM_TYPES, target) || [];
@@ -88,11 +90,11 @@ export default class InjectorService {
         const provider: IProvider = this.providers.get(getClass(target));
 
         /* istanbul ignore else */
-        if (provider.instance === undefined) {
+        if (provider.instance === undefined || provider.type === 'service') {
 
             provider.instance = this.invoke<any>(provider.useClass);
 
-            $log.debug("[TSED]", getClassName(target), "instantiated");
+            // $log.debug("[TSED]", getClassName(target), "instantiated");
         }
 
 

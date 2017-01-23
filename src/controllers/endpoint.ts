@@ -10,6 +10,7 @@ import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
 import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
 import ConverterService from "../services/converter";
+import ControllerService from '../services/controller';
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -58,10 +59,10 @@ export class Endpoint {
 
     /**
      * Create an unique Endpoint manager for a targetClass and method.
-     * @param controller
+     * @param targetClass
      * @param methodClassName
      */
-    constructor(private controller: {getInstance: () => any}, private methodClassName: string) {
+    constructor(private targetClass: any, private methodClassName: string) {
 
     }
 
@@ -146,7 +147,8 @@ export class Endpoint {
     public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
 
         let result: any;
-        const instance = this.controller.getInstance();
+        const controllerService = InjectorService.get(ControllerService);
+        const instance = controllerService.invoke(this.targetClass);
 
         response.setHeader("X-Managed-By", "Express-router-decorator");
 
@@ -219,7 +221,6 @@ export class Endpoint {
     /**
      *
      * @param instance
-     * @param targetKey
      * @param localScope
      * @returns {any}
      */
@@ -300,8 +301,8 @@ export class Endpoint {
 
     /**
      *
-     * @param targetKey
      * @returns {boolean}
+     * @param instance
      */
     private hasImpliciteNextFunction(instance) {
 
@@ -317,6 +318,9 @@ export class Endpoint {
         return impliciteNext;
     }
 
+    /**
+     *
+     */
     public getMethodClassName = (): string => this.methodClassName;
 
 }

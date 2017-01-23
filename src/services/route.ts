@@ -3,6 +3,7 @@ import {Service} from "../decorators/service";
 import Controller from "../controllers/controller";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {$log} from "ts-log-debug";
+import ControllerService from './controller';
 
 /**
  * `RouteService` is used to provide all routes collected by annotation `@Controller`.
@@ -10,7 +11,7 @@ import {$log} from "ts-log-debug";
 @Service()
 export default class RouteService {
 
-    constructor() {
+    constructor(private controllerService: ControllerService) {
 
     }
 
@@ -19,13 +20,13 @@ export default class RouteService {
      * @returns {IControllerRoute[]}
      */
     getAll(): IControllerRoute[] {
-        return Controller.getRoutes();
+        return this.controllerService.getRoutes();
     }
 
     /**
      * Print routes in console.
      */
     printRoutes(logger: {info: (s) => void} = $log) {
-        return Controller.printRoutes(logger);
+        return this.controllerService.printRoutes(logger);
     }
 }

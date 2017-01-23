@@ -7,12 +7,13 @@ import Metadata from "../metadata/metadata";
 import {CONVERTER, JSON_PROPERTIES} from "../constants/metadata-keys";
 import {IJsonMetadata} from "../interfaces/JsonMetadata";
 import {IConverter} from "../interfaces/Converter";
+import InjectorService from './injector';
 
 
 @Service()
 export default class ConverterService {
 
-    constructor() {
+    constructor(private injectorService: InjectorService) {
 
     }
 
@@ -148,7 +149,7 @@ export default class ConverterService {
         const converter = Metadata.get(CONVERTER, targetType);
 
         if (converter) {
-            return new converter(this);
+            return this.injectorService.invoke(converter);
         }
 
     }

@@ -10,111 +10,116 @@ import {
 } from '../src/constants/metadata-keys';
 
 import {Endpoint} from '../src/controllers/endpoint';
+import ControllerService from '../src/services/controller';
+import {inject} from '../src/testing/inject';
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-describe("Controller :", () => {
+describe("Controller & ControllerService :", () => {
 
     describe("new Controller()", () => {
 
-        it('should build controller', () => {
-            //Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+        it('should build controller', inject([ControllerService], (controllerService: ControllerService) => {
 
-            const ctrl: Controller = new (<any>Controller)(
-                FakeClass,
-                '/fake-class'
-            );
-
-            expect(ctrl.getName()).to.equal('FakeClass');
-            expect(ctrl.hasEndpointUrl()).to.equal(true);
-            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
-
-            expect(ctrl.getInstance()).to.not.equal(FakeClass);
-            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
-        });
-
-        it('should build controller with depedencies', () => {
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
             Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
-            Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            controllerService.load();
 
-            const ctrl: Controller = new (<any>Controller)(
-                FakeClass,
-                '/fake-class',
-                [FakeClassChildren]
-            );
-
-            const children: Controller =  new (<any>Controller)(
-                FakeClassChildren,
-                '/children',
-                []
-            );
-
-            Controller.controllers = [ctrl, children];
+            const ctrl = controllerService.get(FakeClass);
 
             expect(ctrl.getName()).to.equal('FakeClass');
             expect(ctrl.hasEndpointUrl()).to.equal(true);
             expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
 
-            expect(ctrl.getInstance()).to.not.equal(FakeClass);
-            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+            const instance = controllerService.invoke(ctrl);
+
+            expect(instance).to.not.equal(FakeClass);
+            expect(instance).to.be.instanceof(FakeClass);
+        }));
+
+        it('should build controller with dependencies', inject([ControllerService], (controllerService: ControllerService) => {
+
+            Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(CONTROLLER_DEPEDENCIES, [FakeClassChildren], FakeClass);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+
+            Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
+            Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClassChildren);
+            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+
+            ControllerService.controllers = new Map<any,any>();
+            controllerService.load();
+
+            const ctrl = controllerService.get(FakeClass);
+            const children = controllerService.get(FakeClassChildren);
+
+            expect(ctrl.getName()).to.equal('FakeClass');
+            expect(ctrl.hasEndpointUrl()).to.equal(true);
+            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
+
+            const instance = controllerService.invoke(ctrl);
+
+            expect(instance).to.not.equal(FakeClass);
+            expect(instance).to.be.instanceof(FakeClass);
 
             //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
 
-            (<any>ctrl).resolveDepedencies();
+            // (<any>ctrl).resolveDependencies();
 
             expect((<any>children).parent).to.equal(ctrl);
             expect((<any>ctrl).parent).to.equal(undefined);
 
-        });
+        }));
 
-        it('should build controller with string depedencies', () => {
+        it('should build controller with string dependencies', inject([ControllerService], (controllerService: ControllerService) => {
+
+            ControllerService.controllers = new Map<any,any>();
+
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(CONTROLLER_DEPEDENCIES, [FakeClassChildren], FakeClass);
             Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
             Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
+            Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClassChildren);
             Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
 
-            const ctrl: Controller = new (<any>Controller)(
-                FakeClass,
-                '/fake-class',
-                ["FakeClassChildren"]
-            );
 
-            const children: Controller =  new (<any>Controller)(
-                FakeClassChildren,
-                '/children',
-                []
-            );
+            controllerService.load();
 
-            Controller.controllers = [ctrl, children];
+            const ctrl = controllerService.get(FakeClass);
+            const children = controllerService.get(FakeClassChildren);
+
 
             expect(ctrl.getName()).to.equal('FakeClass');
             expect(ctrl.hasEndpointUrl()).to.equal(true);
             expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
 
-            expect(ctrl.getInstance()).to.not.equal(FakeClass);
-            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
+            const instance = controllerService.invoke(ctrl);
+
+            expect(instance).to.not.equal(FakeClass);
+            expect(instance).to.be.instanceof(FakeClass);
 
             //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
 
-            (<any>ctrl).resolveDepedencies();
+            // (<any>ctrl).resolveDependencies();
 
             expect((<any>children).parent).to.equal(ctrl);
             expect((<any>ctrl).parent).to.equal(undefined);
 
-        });
+        }));
 
-        it('should throw error when depedencies is unknow', () =>{
+        it('should throw error when dependencies is unknow', inject([ControllerService], (controllerService: ControllerService) => {
+
+            ControllerService.controllers = new Map<any,any>();
+
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
+            Metadata.set(CONTROLLER_DEPEDENCIES, ["FakeClassChildrenError"], FakeClass);
             Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
 
@@ -122,40 +127,21 @@ describe("Controller :", () => {
             Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
 
-            const ctrl: Controller = new (<any>Controller)(
-                FakeClass,
-                '/fake-class',
-                ["FakeClassChildrenError"]
-            );
-
-            const children: Controller =  new (<any>Controller)(
-                FakeClassChildren,
-                '/children',
-                []
-            );
-
-            Controller.controllers = [ctrl, children];
-
-            expect(ctrl.getName()).to.equal('FakeClass');
-            expect(ctrl.hasEndpointUrl()).to.equal(true);
-            expect(ctrl.getEndpointUrl()).to.equal('/fake-class');
-
-            expect(ctrl.getInstance()).to.not.equal(FakeClass);
-            expect(ctrl.getInstance()).to.be.instanceof(FakeClass);
 
             //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
 
             try{
-                (<any>ctrl).resolveDepedencies();
+                controllerService.load();
                 assert.ok(false);
             }catch(er){
                 expect(er.message).to.equal('Controller FakeClassChildrenError not found.');
             }
 
-        });
+        }));
 
-        it('should load controllers from metadata', () => {
-            Controller.controllers =[];
+        it('should load controllers from metadata', inject([ControllerService], (controllerService: ControllerService) => {
+
+            ControllerService.controllers = new Map<any,any>();
 
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
             Metadata.set(CONTROLLER_DEPEDENCIES, [FakeClassChildren], FakeClass);
@@ -169,26 +155,27 @@ describe("Controller :", () => {
             Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
 
-            Controller.load({use:() => (undefined)});
+            controllerService.load();
 
             expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
             expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass).length).to.equal(1);
 
-            expect(Controller.controllers).to.be.an('array');
-            expect(Controller.controllers[0].getEndpointUrl()).to.equal('/fake-class');
-            //expect(Controller.controllers[0].getAbsoluteUrl()).to.equal('/rest/fake-class');
+            expect(ControllerService.controllers).to.be.instanceof(Map);
 
-            expect(Controller.controllers[1].getEndpointUrl()).to.equal('/children');
-            //expect(Controller.controllers[1].getAbsoluteUrl()).to.equal('/rest/fake-class/children');
+            // Test
+            const fakeClass = controllerService.get(FakeClass);
+            const fakeClassEndpoints: Endpoint[]= (fakeClass as any).endpoints;
+            const fakeChildrenClass = controllerService.get(FakeClassChildren);
+            const routes = controllerService.getRoutes();
 
-            const endpoints: Endpoint[]= (<any>Controller.controllers[0]).endpoints;
 
-            expect(endpoints[0].getMethod()).to.equal('get');
-            expect(endpoints[0].getRoute()).to.equal('/');
-            expect(endpoints[1].getMethod()).to.equal('post');
-            expect(endpoints[1].getRoute()).to.equal('/');
+            expect(fakeClass.getEndpointUrl()).to.equal('/fake-class');
+            expect(fakeChildrenClass.getEndpointUrl()).to.equal('/children');
 
-            const routes = Controller.getRoutes();
+            expect(fakeClassEndpoints[0].getMethod()).to.equal('get');
+            expect(fakeClassEndpoints[0].getRoute()).to.equal('/');
+            expect(fakeClassEndpoints[1].getMethod()).to.equal('post');
+            expect(fakeClassEndpoints[1].getRoute()).to.equal('/');
 
             expect(routes).to.be.an('array');
             expect(routes.length).to.equal(4);
@@ -197,14 +184,12 @@ describe("Controller :", () => {
             expect(routes[1].method).to.equal('post');
 
             let str = '';
-            Controller.printRoutes({info: (p) => (str += p)});
-        });
+            controllerService.printRoutes({info: (p) => (str += p)});
+        }));
 
-        it('should load middlewares', () => {
+        it('should load middlewares', inject([ControllerService], (controllerService: ControllerService) => {
 
-            //Metadata.clear();
-
-            Controller.controllers = [];
+            ControllerService.controllers = new Map<any,any>();
 
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
             Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClass);
@@ -213,14 +198,13 @@ describe("Controller :", () => {
             Metadata.set(ENDPOINT_ARGS, ['head'], FakeClass, "testMethod1");
             Metadata.set(ENDPOINT_ARGS, [new Function], FakeClass, "testMethod2");
 
+            controllerService.load();
 
-            Controller.load({use:() => (undefined)});
-
-            const routes = Controller.getRoutes();
+            const routes = controllerService.getRoutes();
 
             expect(routes).to.be.an('array');
 
-        });
+        }));
     });
 
 });

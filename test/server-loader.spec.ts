@@ -96,7 +96,7 @@ describe("ServerLoader()", () => {
             };
             const promise = server.start();
 
-            console.log('Promise', typeof promise);
+            // console.log('Promise', typeof promise);
             expect(typeof promise).to.equal('object');
             expect(promise.then).to.be.an('function');
 

@@ -7,6 +7,8 @@ import InjectorService from "../services/injector";
 import Controller from "./../controllers/controller";
 import Metadata from "../metadata/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
+import {ExpressApplication} from '../interfaces/ExpressApplication';
+import ControllerService from '../services/controller';
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -75,6 +77,10 @@ export abstract class ServerLoader {
      */
     constructor() {
         this.patchHttp();
+
+        // Configure the ExpressApplication factory.
+        InjectorService.factory(ExpressApplication, this.expressApp);
+        InjectorService.factory(ServerLoader, this);
     }
 
     /**
@@ -94,6 +100,7 @@ export abstract class ServerLoader {
      * @param request
      * @param response
      * @param next
+     * @param authorization
      */
     private $tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction, authorization?: any) => {
 
@@ -198,14 +205,14 @@ export abstract class ServerLoader {
             .then(() => $onMountingMiddlewares.call(this, this.expressApp))
             .then(() => {
 
-                $log.info("[TSED] Import services");
+                $log.info("[TSED] Import services & controllers");
                 InjectorService.load();
 
-                $log.info("[TSED] Import controllers");
-                Controller.load(this.expressApp);
+                const controllerService = InjectorService.get(ControllerService);
 
                 $log.info("[TSED] Routes mounted :");
-                Controller.printRoutes($log);
+                controllerService.printRoutes($log);
+
 
                 // TODO Alex place your serve-static builder here
 

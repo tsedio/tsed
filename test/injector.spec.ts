@@ -74,7 +74,6 @@ describe('InjectorService :', () => {
 
                 const fnInvokable = function(injectorService: InjectorService) {
 
-                    console.log(injectorService, 'test');
                     expect(injectorService).to.be.an.instanceof(InjectorService);
 
                 };
