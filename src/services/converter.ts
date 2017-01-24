@@ -7,6 +7,7 @@ import Metadata from "../metadata/metadata";
 import {CONVERTER, JSON_PROPERTIES} from "../constants/metadata-keys";
 import {IJsonMetadata} from "../interfaces/JsonMetadata";
 import {IConverter} from "../interfaces/Converter";
+import {BadRequest} from "ts-httpexceptions";
 import InjectorService from "./injector";
 
 @Service()
@@ -79,7 +80,7 @@ export default class ConverterService {
 
         try {
 
-            if (isEmpty(obj) || isEmpty(targetType)) {
+            if (targetType !== Boolean && (isEmpty(obj) || isEmpty(targetType))) {
                 return obj;
             }
 
@@ -126,12 +127,19 @@ export default class ConverterService {
             }
 
         } catch (err) {
+
             /* istanbul ignore next */
-            (() => {
-                const castedError = new Error(CONVERTER_DESERIALIZE(getClassName(targetType), obj));
-                castedError.stack = err.stack;
-                throw castedError;
-            })();
+            if (err.name === "BAD_REQUEST") {
+                throw new BadRequest(err.message);
+            } else {
+                /* istanbul ignore next */
+                (() => {
+                    const castedError = new Error(CONVERTER_DESERIALIZE(getClassName(targetType), obj));
+                    castedError.stack = err.stack;
+                    throw castedError;
+                })();
+            }
+
         }
 
 
