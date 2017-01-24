@@ -80,7 +80,7 @@ export default class ConverterService {
 
         try {
 
-            if (isEmpty(obj) || isEmpty(targetType)) {
+            if (targetType !== Boolean && (isEmpty(obj) || isEmpty(targetType))) {
                 return obj;
             }
 

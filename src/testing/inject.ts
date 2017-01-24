@@ -1,6 +1,5 @@
 import {Done} from "./done";
-import {ExpressApplication} from "../services/express-application";
-import InjectorService from "../services/injector";
+import {ExpressApplication, InjectorService} from "../services";
 
 /**
  * The inject function is one of the TsExpressDecorator testing utilities.
@@ -15,8 +14,6 @@ import InjectorService from "../services/injector";
  * @param func
  * @returns {any}
  */
-
-
 export function inject(targets: any[], func: Function) {
 
     if (!InjectorService.has(ExpressApplication)) {
