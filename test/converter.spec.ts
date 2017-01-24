@@ -1,4 +1,5 @@
 import * as Chai from "chai";
+import {BadRequest} from "ts-httpexceptions";
 import assert = require('assert');
 import {inject} from '../src/testing/inject';
 import {JsonProperty, ConverterService} from "../src";
@@ -41,6 +42,9 @@ class Foo2 {
     @JsonProperty()
     dateStart: Date;
 
+    @JsonProperty()
+    uint: number;
+
     object: any;
 
     @JsonProperty()
@@ -64,12 +68,38 @@ describe("ConverterService :", () => {
 
     describe("ConverterService.deserialize", () => {
 
-        it("should do nothing when type is not deserializable", inject([ConverterService], (converterService: ConverterService) => {
+        it("should convert primitive type correctly", inject([ConverterService], (converterService: ConverterService) => {
 
             expect(converterService.deserialize({}, Object)).to.be.an('object');
-            expect(converterService.deserialize(true, Boolean)).to.be.a('boolean');
+
+            expect(converterService.deserialize(true, Boolean)).to.be.equal(true);
+            expect(converterService.deserialize(false, Boolean)).to.be.equal(false);
+            expect(converterService.deserialize("true", Boolean)).to.be.equal(true);
+            expect(converterService.deserialize("false", Boolean)).to.be.equal(false);
+
+            expect(converterService.deserialize("", Boolean)).to.be.equal(false);
+            expect(converterService.deserialize(0, Boolean)).to.be.equal(false);
+            expect(converterService.deserialize(null, Boolean)).to.be.equal(false);
+            expect(converterService.deserialize(undefined, Boolean)).to.be.equal(false);
+            expect(converterService.deserialize("test", Boolean)).to.be.equal(true);
+
+            expect(converterService.deserialize("1", Number)).to.be.a('number');
             expect(converterService.deserialize(1, Number)).to.be.a('number');
+
             expect(converterService.deserialize("1", String)).to.be.a('string');
+            expect(converterService.deserialize(1, String)).to.be.a('string');
+        }));
+
+
+        it("should throw a BadRequest when parsing a number failed", inject([ConverterService], (converterService: ConverterService) => {
+
+            try {
+                converterService.deserialize("NK1", Number);
+                assert.ok(false);
+            } catch(er){
+                expect(er instanceof BadRequest).to.be.true;
+            }
+
         }));
 
         it("should do deserialize a date", inject([ConverterService], (converterService: ConverterService) => {

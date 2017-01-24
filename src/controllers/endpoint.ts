@@ -8,7 +8,7 @@ import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
-import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
+import {BAD_REQUEST_REQUIRED, BAD_REQUEST} from "../constants/errors-msgs";
 import ConverterService from "../services/converter";
 
 export const METHODS = [
@@ -167,8 +167,8 @@ export class Endpoint {
             }
 
         })
-        .then(data => this.send(instance, data, {request, response, next}))
-        .catch(err => next(err));
+            .then(data => this.send(instance, data, {request, response, next}))
+            .catch(err => next(err));
     };
 
     /**
@@ -207,21 +207,37 @@ export class Endpoint {
                 /* istanbul ignore else */
                 if (param.name in requestService) {
                     paramValue = requestService[param.name].call(requestService, localScope.request, param.expression);
-
                 }
 
                 if (param.required && (paramValue === undefined || paramValue === null)) {
                     throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
-                return converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+                try {
+
+                    return converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+
+                } catch (err) {
+
+                    /* istanbul ignore next */
+                    if (err.name === "BAD_REQUEST") {
+                        throw new BadRequest(BAD_REQUEST(param.name, param.expression) + " " + err.message);
+                    } else {
+                        /* istanbul ignore next */
+                        (() => {
+                            const castedError = new Error(err.message);
+                            castedError.stack = err.stack;
+                            throw castedError;
+                        })();
+                    }
+                }
+
             });
     }
 
     /**
      *
      * @param instance
-     * @param targetKey
      * @param localScope
      * @returns {any}
      */
