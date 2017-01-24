@@ -13,3 +13,5 @@ export * from "./service";
 export * from "./response-view";
 export * from "./converter";
 export * from "./json-property";
+export * from "./middleware";
+export * from "./middleware-error";

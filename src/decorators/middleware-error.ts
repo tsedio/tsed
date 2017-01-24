@@ -1,10 +1,10 @@
 import MiddlewareService from "../services/middleware";
 
-export function Middleware(): Function {
+export function MiddlewareError(): Function {
 
     return (target: any): void => {
 
-        MiddlewareService.set(target, 'middleware');
+        MiddlewareService.set(target, 'error');
 
         return target;
     };
