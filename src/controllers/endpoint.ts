@@ -126,9 +126,9 @@ export class Endpoint {
      */
     public toArray(): any[] {
 
-        const middlewareService = InjectorService.get(MiddlewareService);
-        const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this.targetClass, this.methodClassName);
-        const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this.targetClass, this.methodClassName);
+        const middlewareService = InjectorService.get<MiddlewareService>(MiddlewareService);
+        const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this.targetClass, this.methodClassName) || [];
+        const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this.targetClass, this.methodClassName) || [];
 
         const middlewares = []
             .concat(
@@ -153,7 +153,7 @@ export class Endpoint {
      */
     public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
 
-        const controllerService = InjectorService.get(ControllerService);
+        const controllerService = InjectorService.get<ControllerService>(ControllerService);
         const instance = controllerService.invoke(this.targetClass);
 
         const fn = () =>

@@ -60,7 +60,7 @@ describe("Endpoint :", () => {
             const endpoint: any = new Endpoint(TestInstance, 'myMethod');
             const testInstance = ControllerService.invoke(TestInstance);
 
-            const parameters = endpoint.getParameters(testInstance, {
+            const parameters = endpoint.getParameters({
                 request: new FakeRequest,
                 response: new FakeResponse,
                 next: () => {}
@@ -72,10 +72,10 @@ describe("Endpoint :", () => {
         });
 
         it('should get parameters (with annotation)', () => {
-            const testInstance = ControllerService.invoke(TestInstance);
+            //const testInstance = ControllerService.invoke(TestInstance);
             const endpoint: any = new Endpoint(TestInstance, 'myMethodAnnotated');
 
-            const parameters = endpoint.getParameters(testInstance, {
+            const parameters = endpoint.getParameters({
                 request: new FakeRequest,
                 response: new FakeResponse,
                 next: () => {}
@@ -88,10 +88,10 @@ describe("Endpoint :", () => {
 
 
         it('should get parameters (with annotation 2)', () => {
-            const testInstance = ControllerService.invoke(TestInstance);
+            // const testInstance = ControllerService.invoke(TestInstance);
             const endpoint: any = new Endpoint(TestInstance, 'myMethodAnnotated2');
 
-            const parameters = endpoint.getParameters(testInstance, {
+            const parameters = endpoint.getParameters({
                 request: new FakeRequest,
                 response: new FakeResponse,
                 next: () => {}
@@ -103,11 +103,11 @@ describe("Endpoint :", () => {
         });
 
         it('should get parameters (with annotation 2)', () => {
-            const testInstance = ControllerService.invoke(TestInstance);
+            // const testInstance = ControllerService.invoke(TestInstance);
             const endpoint: any = new Endpoint(TestInstance, 'myMethodAnnotated3');
 
             try{
-                const parameters = endpoint.getParameters(testInstance, {
+                const parameters = endpoint.getParameters({
                     request: new FakeRequest,
                     response: new FakeResponse,
                     next: () => {}

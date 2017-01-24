@@ -137,7 +137,7 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    static get = (target): any => InjectorService.providers.get(getClass(target)).instance;
+    static get = <T>(target): T | any => InjectorService.providers.get(getClass(target)).instance;
 
     /**
      * Return true if the target provider exists and has an instance.
