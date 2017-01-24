@@ -1,6 +1,6 @@
 
 import {Service} from "../decorators/service";
-import {ExpressApplication} from "../interfaces/ExpressApplication";
+import {ExpressApplication} from ".";
 import Controller from "../controllers/controller";
 import Metadata from "../metadata/metadata";
 import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";

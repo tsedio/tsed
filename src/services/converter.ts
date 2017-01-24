@@ -9,7 +9,6 @@ import {IJsonMetadata} from "../interfaces/JsonMetadata";
 import {IConverter} from "../interfaces/Converter";
 import InjectorService from "./injector";
 
-
 @Service()
 export default class ConverterService {
 

@@ -3,6 +3,8 @@ export const CONTROLLER_URL = "tsed:controller:url";
 export const CONTROLLER_DEPEDENCIES = "ted:controller:depedencies";
 export const CONTROLLER_MOUNT_ENDPOINTS = "ted:controller:endpoints";
 export const ENDPOINT_ARGS = "tsed:endpoint";
+export const ENDPOINT_USE_BEFORE = "tsed:endpoint:before";
+export const ENDPOINT_USE_AFTER = "tsed:endpoint:after";
 export const ENDPOINT_VIEW = "tsed:endpoint:view";
 export const ENDPOINT_VIEW_OPTIONS = "tsed:endpoint:view-options";
 

@@ -3,11 +3,9 @@ import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {Forbidden, NotAcceptable, Exception} from "ts-httpexceptions";
-import InjectorService from "../services/injector";
 import Metadata from "../metadata/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
-import {ExpressApplication} from "../interfaces/ExpressApplication";
-import ControllerService from "../services/controller";
+import {ExpressApplication, ControllerService, InjectorService} from "../services";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
