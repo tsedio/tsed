@@ -6,7 +6,7 @@ import {Forbidden, NotAcceptable, Exception} from "ts-httpexceptions";
 import InjectorService from "../services/injector";
 import Metadata from "../metadata/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
-import {ExpressApplication} from "../interfaces/ExpressApplication";
+import {ExpressApplication} from "../services/express-application";
 import ControllerService from "../services/controller";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {

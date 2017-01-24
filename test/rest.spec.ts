@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ExpressApplication} from '../src/interfaces/ExpressApplication';
+import {ExpressApplication} from '../src/services';
 import {Done} from '../src/testing/done';
 import {inject} from '../src/testing/inject';
 

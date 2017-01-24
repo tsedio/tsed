@@ -1,5 +1,5 @@
 import {Done} from "./done";
-import {ExpressApplication} from "../interfaces/ExpressApplication";
+import {ExpressApplication} from "../services/express-application";
 import InjectorService from "../services/injector";
 
 /**

@@ -1,16 +1,18 @@
 import * as Express from "express";
 import {
     INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW, DESIGN_PARAM_TYPES,
-    ENDPOINT_VIEW_OPTIONS
+    ENDPOINT_VIEW_OPTIONS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER
 } from "../constants/metadata-keys";
 import Metadata from "../metadata/metadata";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
 import InjectParams from "../metadata/inject-params";
-import {BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
+import {BAD_REQUEST_REQUIRED, BAD_REQUEST} from "../constants/errors-msgs";
 import ConverterService from "../services/converter";
 import ControllerService from "../services/controller";
+import {waiter} from "../utils/waiter";
+import MiddlewareService from "../services/middleware";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -43,6 +45,7 @@ export const METHODS = [
  * the HTTP method GET and require granted connection to be accessible.
  */
 export class Endpoint {
+
     /**
      *
      * @type {Array}
@@ -86,13 +89,6 @@ export class Endpoint {
 
                     return false;
                 }
-
-                /* if (arg instanceof RegExp) {
-
-                 this.route = arg;
-
-                 return false;
-                 }*/
 
                 return !!arg;
             });
@@ -150,39 +146,29 @@ export class Endpoint {
         const controllerService = InjectorService.get(ControllerService);
         const instance = controllerService.invoke(this.targetClass);
 
-        response.setHeader("X-Managed-By", "Express-router-decorator");
-
-        return new Promise<any>((resolve, reject) => {
-
-            result = this.invokeMethod(instance, {
+        const fn = () =>
+            this.invokeMethod(instance, {
                 request,
                 response,
                 next
             });
 
-            if (result && result.then) {
-                result.then(resolve, reject);
-            } else {
-                resolve(result);
-            }
-
-        })
-        .then(data => this.send(instance, data, {request, response, next}))
-        .catch(err => next(err));
+        return waiter(fn)
+            .then(data => this.send(instance, data, {request, response, next}))
+            .catch(err => next(err));
     };
 
     /**
      * Try to get all parameters from Annotation.
-     * @param instance
      * @param localScope
      * @returns {(any|any)[]}
      */
-    private getParameters(instance, localScope: IInvokableScope): any[] {
+    private getParameters(localScope: IInvokableScope): any[] {
 
         const requestService = InjectorService.get(RequestService);
         const converterService = InjectorService.get(ConverterService);
 
-        let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
+        let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, this.targetClass, this.methodClassName);
 
         if (!services) {
             services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
@@ -207,14 +193,31 @@ export class Endpoint {
                 /* istanbul ignore else */
                 if (param.name in requestService) {
                     paramValue = requestService[param.name].call(requestService, localScope.request, param.expression);
-
                 }
 
                 if (param.required && (paramValue === undefined || paramValue === null)) {
                     throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
                 }
 
-                return converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+                try {
+
+                    return converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+
+                } catch (err) {
+
+                    /* istanbul ignore next */
+                    if (err.name === "BAD_REQUEST") {
+                        throw new BadRequest(BAD_REQUEST(param.name, param.expression) + " " + err.message);
+                    } else {
+                        /* istanbul ignore next */
+                        (() => {
+                            const castedError = new Error(err.message);
+                            castedError.stack = err.stack;
+                            throw castedError;
+                        })();
+                    }
+                }
+
             });
     }
 
@@ -226,8 +229,12 @@ export class Endpoint {
      */
     private invokeMethod(instance, localScope: IInvokableScope): any {
 
+        if (localScope.response.headersSent){
+            localScope.response.setHeader("X-Managed-By", "Express-router-decorator");
+        }
+
         const targetKey = this.methodClassName;
-        const parameters = this.getParameters(instance, localScope);
+        const parameters = this.getParameters(localScope);
 
         /* instanbul ignore next */
         // SUPPORT OLD node version
