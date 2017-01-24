@@ -126,10 +126,21 @@ export class Endpoint {
      */
     public toArray(): any[] {
 
+        const middlewareService = InjectorService.get(MiddlewareService);
+        const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this.targetClass, this.methodClassName) || [];
+        const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this.targetClass, this.methodClassName) || [];
+
+        const middlewares = []
+            .concat(
+                middlewaresBefore.map(middleware => middlewareService.bindMiddleware(middleware)),
+
+                [this.middleware],
+
+                middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware))
+            );
+
         return <any[]>[this.httpMethod, this.route]
-            .concat(<any>this.args, [
-                <any>this.middleware
-            ])
+            .concat(<any>this.args, middlewares)
             .filter((item) => (!!item));
     }
 
@@ -142,7 +153,6 @@ export class Endpoint {
      */
     public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
 
-        let result: any;
         const controllerService = InjectorService.get(ControllerService);
         const instance = controllerService.invoke(this.targetClass);
 
