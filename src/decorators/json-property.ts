@@ -1,7 +1,7 @@
 
 import {isTargetType, isCollection, isEmpty} from "../utils/utils";
 import {IJsonMetadata} from "../interfaces/JsonMetadata";
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 import {JSON_PROPERTIES} from "../constants/metadata-keys";
 import InjectorService from "../services/injector";
 import ConverterService from "../services/converter";

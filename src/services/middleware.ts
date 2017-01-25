@@ -1,10 +1,7 @@
-
 import {Service} from "../decorators/service";
 import InjectorService from "./injector";
 import {IMiddleware, IMiddlewareSettings} from "../interfaces/Middleware";
 import {waiter} from "../utils/waiter";
-
-
 
 @Service()
 export default class MiddlewareService {

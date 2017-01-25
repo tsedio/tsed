@@ -3,7 +3,7 @@ import assert = require('assert');
 
 import Controller from "../src/controllers/controller";
 import {FakeClass, FakeClassChildren} from './helper';
-import Metadata from '../src/metadata/metadata';
+import Metadata from '../src/services/metadata';
 import {
     CONTROLLER_URL, ENDPOINT_ARGS, CONTROLLER_DEPEDENCIES,
     CONTROLLER_MOUNT_ENDPOINTS

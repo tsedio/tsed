@@ -1,6 +1,6 @@
 
 import {EXPRESS_RESPONSE} from "../constants/metadata-keys";
-import InjectParams from "../metadata/inject-params";
+import InjectParams from "../services/inject-params";
 
 /**
  * Response service.

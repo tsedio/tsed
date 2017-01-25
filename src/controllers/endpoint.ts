@@ -1,18 +1,19 @@
 import * as Express from "express";
 import {
     INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW, DESIGN_PARAM_TYPES,
-    ENDPOINT_VIEW_OPTIONS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER
+    ENDPOINT_VIEW_OPTIONS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_ARGS
 } from "../constants/metadata-keys";
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService, RequestService} from "../services";
-import InjectParams from "../metadata/inject-params";
+import InjectParams from "../services/inject-params";
 import {BAD_REQUEST_REQUIRED, BAD_REQUEST} from "../constants/errors-msgs";
 import ConverterService from "../services/converter";
 import ControllerService from "../services/controller";
 import {waiter} from "../utils/waiter";
 import MiddlewareService from "../services/middleware";
+import {getClassName} from "../utils/class";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -50,7 +51,7 @@ export class Endpoint {
      *
      * @type {Array}
      */
-    private args: any[] = [];
+    private middlewares: any[] = [];
     /**
      * HTTP method required.
      */
@@ -66,6 +67,9 @@ export class Endpoint {
      * @param methodClassName
      */
     constructor(private targetClass: any, private methodClassName: string) {
+
+        const args = Metadata.get(ENDPOINT_ARGS, targetClass, methodClassName) || [];
+        this.push(args);
 
     }
 
@@ -93,7 +97,7 @@ export class Endpoint {
                 return !!arg;
             });
 
-        this.args = this.args.concat(filteredArg);
+        this.middlewares = this.middlewares.concat(filteredArg);
     }
 
     /**
@@ -130,18 +134,20 @@ export class Endpoint {
         const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this.targetClass, this.methodClassName) || [];
         const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this.targetClass, this.methodClassName) || [];
 
-        const middlewares = []
+        let middlewares: any[] = [this.httpMethod, this.route];
+
+        middlewares = middlewares
             .concat(
                 middlewaresBefore.map(middleware => middlewareService.bindMiddleware(middleware)),
+                this.middlewares.map(middleware => middlewareService.bindMiddleware(middleware)),
 
-                [this.middleware],
+                [this.middleware as any],
 
                 middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware))
-            );
-
-        return <any[]>[this.httpMethod, this.route]
-            .concat(<any>this.args, middlewares)
+            )
             .filter((item) => (!!item));
+
+        return middlewares;
     }
 
     /**
@@ -339,5 +345,12 @@ export class Endpoint {
      *
      */
     public getMethodClassName = (): string => this.methodClassName;
+
+    /**
+     *
+     * @param target
+     * @param method
+     */
+    static has = (target: any, method: string): boolean => Metadata.has(ENDPOINT_ARGS, target, method);
 
 }

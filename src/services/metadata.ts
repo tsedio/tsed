@@ -6,7 +6,7 @@ const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();
 /**
  *
  */
-export default class Metadata<T>{
+export default class Metadata<T> {
 
     constructor (
         private propertyKey: string,

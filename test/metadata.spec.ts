@@ -1,5 +1,5 @@
 import * as Chai from "chai";
-import Metadata from '../src/metadata/metadata';
+import Metadata from '../src/services/metadata';
 
 const expect: Chai.ExpectStatic = Chai.expect;
 

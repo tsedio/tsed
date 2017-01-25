@@ -1,4 +1,4 @@
-import InjectParams from "../metadata/inject-params";
+import InjectParams from "../services/inject-params";
 import {GET_HEADER} from "../constants/metadata-keys";
 
 /**

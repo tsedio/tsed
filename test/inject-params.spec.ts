@@ -1,5 +1,5 @@
 import Chai = require("chai");
-import InjectParams from '../src/metadata/inject-params';
+import InjectParams from '../src/services/inject-params';
 import {EXPRESS_REQUEST} from '../src/constants/metadata-keys';
 const expect: Chai.ExpectStatic = Chai.expect;
 

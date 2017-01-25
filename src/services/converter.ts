@@ -3,7 +3,7 @@ import {Service} from "../decorators/service";
 import {isEmpty, isPrimitiveOrPrimitiveClass} from "../utils/utils";
 import {CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE} from "../constants/errors-msgs";
 import {getClassName} from "../utils/class";
-import Metadata from "../metadata/metadata";
+import Metadata from "./metadata";
 import {CONVERTER, JSON_PROPERTIES} from "../constants/metadata-keys";
 import {IJsonMetadata} from "../interfaces/JsonMetadata";
 import {IConverter} from "../interfaces/Converter";

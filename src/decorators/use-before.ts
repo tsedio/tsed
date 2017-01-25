@@ -1,5 +1,5 @@
 import {ENDPOINT_USE_BEFORE} from "../constants/metadata-keys";
-import Metadata from "../metadata/metadata";
+import {Metadata} from "../services";
 
 /**
  * Use decorator.

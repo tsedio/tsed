@@ -1,5 +1,5 @@
 
-import Metadata from "../metadata/metadata";
+import Metadata from "./metadata";
 import {DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
 import {getClassName} from "../utils/class";
 import {UNKNOW_SERVICE} from "../constants/errors-msgs";
@@ -69,7 +69,7 @@ export default class InjectorService {
 
                 /* istanbul ignore next */
                 if (!this.has(serviceType)) {
-                    throw Error(UNKNOW_SERVICE(serviceName));
+                    throw Error(UNKNOW_SERVICE(getClassName(target) + ' > ' + serviceName));
                 }
 
                 return this.get(serviceType);

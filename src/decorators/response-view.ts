@@ -1,5 +1,5 @@
 import {ENDPOINT_VIEW, ENDPOINT_VIEW_OPTIONS} from "../constants/metadata-keys";
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
 

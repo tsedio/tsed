@@ -1,7 +1,7 @@
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
 import {getClassName} from "../utils/class";
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 
 import {
     ENDPOINT_ARGS, CONTROLLER_MOUNT_ENDPOINTS
@@ -48,15 +48,11 @@ export default class Controller {
             .getOwnPropertyNames(this._targetClass.prototype)
             .map<Endpoint | boolean>((targetKey: string) => {
 
-                if (!Metadata.has(ENDPOINT_ARGS, this._targetClass, targetKey)) {
+                if (!Endpoint.has(this._targetClass, targetKey)) {
                     return false;
                 }
 
-                const args = Metadata.get(ENDPOINT_ARGS, this._targetClass, targetKey);
-                const endpoint: Endpoint = new Endpoint(this._targetClass, targetKey);
-                endpoint.push(args);
-
-                return endpoint;
+                return new Endpoint(this._targetClass, targetKey);
             })
             .filter(e => !!e);
 

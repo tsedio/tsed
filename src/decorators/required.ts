@@ -1,5 +1,5 @@
 
-import InjectParams from "../metadata/inject-params";
+import InjectParams from "../services/inject-params";
 
 /**
  * Add required annotation for a function argument .

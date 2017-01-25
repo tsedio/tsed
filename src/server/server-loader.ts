@@ -3,7 +3,7 @@ import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {Forbidden, NotAcceptable, Exception} from "ts-httpexceptions";
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
 import {ExpressApplication, ControllerService, InjectorService} from "../services";
 
@@ -206,6 +206,8 @@ export abstract class ServerLoader {
                 InjectorService.load();
 
                 const controllerService = InjectorService.get(ControllerService);
+
+                // controllerService.load();
 
                 $log.info("[TSED] Routes mounted :");
                 controllerService.printRoutes($log);

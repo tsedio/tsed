@@ -2,7 +2,7 @@
 import {Service} from "../decorators/service";
 import {ExpressApplication} from "./express-application";
 import Controller from "../controllers/controller";
-import Metadata from "../metadata/metadata";
+import Metadata from "./metadata";
 import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
@@ -11,6 +11,7 @@ import {getClassName} from "../utils/class";
 import {RouterController} from "./index";
 import InjectorService from "./injector";
 import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
+import MiddlewareService from "./middleware";
 
 const colors = require("colors");
 
@@ -30,9 +31,11 @@ export default class ControllerService {
     /**
      *
      * @param expressApplication
+     * @param middlewareService
      */
     constructor (
-        private expressApplication: ExpressApplication
+        private expressApplication: ExpressApplication,
+        private middlewareService: MiddlewareService
     ) {
         this.load();
     }

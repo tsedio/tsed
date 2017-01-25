@@ -22,6 +22,8 @@ export function inject(targets: any[], func: Function) {
        });
     }
 
+    InjectorService.load();
+
     return (done) => {
 
         let isDoneInjected = false;

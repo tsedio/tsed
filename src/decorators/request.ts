@@ -1,5 +1,5 @@
 import {EXPRESS_REQUEST} from "../constants/metadata-keys";
-import InjectParams from "../metadata/inject-params";
+import InjectParams from "../services/inject-params";
 
 /**
  *

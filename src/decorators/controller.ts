@@ -1,6 +1,6 @@
 
 import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 
 export function Controller(ctrlUrl: string, ...ctlrDepedencies: any[]): Function {
 

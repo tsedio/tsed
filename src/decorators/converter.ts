@@ -1,5 +1,5 @@
 
-import Metadata from "../metadata/metadata";
+import Metadata from "../services/metadata";
 import {CONVERTER} from "../constants/metadata-keys";
 
 export function Converter(...classes: any[]): Function {
