@@ -44,5 +44,12 @@ export default class RequestService {
      * @param expression
      */
     parseSession = (request, expression) => this.parse.eval(expression, request["session"]);
+    /**
+     *
+     * @param request
+     * @param expression
+     */
+    responseData = (request): any => request["responseData"];
+    endpointInfo = (request): any => request["endpointInfo"];
 }
 

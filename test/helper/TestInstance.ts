@@ -65,6 +65,7 @@ export class TestInstance {
 
     @ResponseView("home")
     myMethodAnnotated4() {
+
     }
 
     /**

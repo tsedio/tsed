@@ -1,17 +1,16 @@
 
 import Metadata from "./metadata";
 import {DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
-import {getClassName} from "../utils/class";
 import {UNKNOW_SERVICE} from "../constants/errors-msgs";
 import {IProvider} from "../interfaces/Provider";
-import {getClass} from "../utils/utils";
+import {getClass, getClassName} from "../utils";
 
 /**
  * InjectorService manage all service collected by `@Service()` decorator.
  */
 export default class InjectorService {
 
-    private static providers: Map<string|Function, any> = new Map<Function, any>();
+    private static providers: Map<Function, any> = new Map<Function, any>();
 
     /**
      * Invoke the target class or function.
@@ -29,7 +28,7 @@ export default class InjectorService {
      * @returns {boolean}
      */
     public get<T>(target: any): T {
-        return <T>InjectorService.get(target);
+        return InjectorService.get<T>(target);
     }
 
     /**
@@ -137,7 +136,7 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    static get = <T>(target): T | any => InjectorService.providers.get(getClass(target)).instance;
+    static get = <T>(target): T => InjectorService.providers.get(getClass(target)).instance;
 
     /**
      * Return true if the target provider exists and has an instance.

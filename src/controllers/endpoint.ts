@@ -1,7 +1,7 @@
 import * as Express from "express";
 import {
-    INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, ENDPOINT_VIEW, DESIGN_PARAM_TYPES,
-    ENDPOINT_VIEW_OPTIONS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_ARGS
+    INJECT_PARAMS, EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN, RESPONSE_VIEW, DESIGN_PARAM_TYPES,
+    RESPONSE_VIEW_OPTIONS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_ARGS
 } from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 import {IInvokableScope} from "../interfaces/InvokableScope";
@@ -63,12 +63,12 @@ export class Endpoint {
 
     /**
      * Create an unique Endpoint manager for a targetClass and method.
-     * @param targetClass
-     * @param methodClassName
+     * @param _targetClass
+     * @param _methodClassName
      */
-    constructor(private targetClass: any, private methodClassName: string) {
+    constructor(private _targetClass: any, private _methodClassName: string) {
 
-        const args = Metadata.get(ENDPOINT_ARGS, targetClass, methodClassName) || [];
+        const args = Metadata.get(ENDPOINT_ARGS, _targetClass, _methodClassName) || [];
         this.push(args);
 
     }
@@ -82,7 +82,6 @@ export class Endpoint {
         let filteredArg = args
             .filter((arg: any) => {
 
-                /* istanbul ignore else */
                 if (typeof arg === "string") {
 
                     if (METHODS.indexOf(arg) > -1) {
@@ -131,19 +130,37 @@ export class Endpoint {
     public toArray(): any[] {
 
         const middlewareService = InjectorService.get<MiddlewareService>(MiddlewareService);
-        const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this.targetClass, this.methodClassName) || [];
-        const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this.targetClass, this.methodClassName) || [];
+        const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this._targetClass, this._methodClassName) || [];
+        const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this._targetClass, this._methodClassName) || [];
 
         let middlewares: any[] = [this.httpMethod, this.route];
 
         middlewares = middlewares
             .concat(
+
+                [
+                    (request, response, next) => {
+                        if (response.headersSent){
+                           response.setHeader("X-Managed-By", "Express-router-decorators");
+                        }
+
+                        request['endpointInfo'] = this;
+                    }
+                ],
+
                 middlewaresBefore.map(middleware => middlewareService.bindMiddleware(middleware)),
+
                 this.middlewares.map(middleware => middlewareService.bindMiddleware(middleware)),
 
-                [this.middleware as any],
+                [
+                    middlewareService.bindMiddleware(this._targetClass, this._methodClassName)
+                ],
 
-                middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware))
+                middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware)),
+
+                [
+                    (request, response, next) => this.send(request, response, next)
+                ]
             )
             .filter((item) => (!!item));
 
@@ -157,85 +174,69 @@ export class Endpoint {
      * @param next
      * @returns {PromiseLike<TResult>|Promise<TResult>|IPromise<T>}
      */
-    public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
-
-        const controllerService = InjectorService.get<ControllerService>(ControllerService);
-        const instance = controllerService.invoke(this.targetClass);
-
-        const fn = () =>
-            this.invokeMethod(instance, {
-                request,
-                response,
-                next
-            });
-
-        return waiter(fn)
-            .then(data => this.send(instance, data, {request, response, next}))
-            .catch(err => next(err));
-    };
+    // public middleware = (request: Express.Request, response: Express.Response, next: Express.NextFunction): Promise<any> => {
+    //
+    //     const controllerService = InjectorService.get<ControllerService>(ControllerService);
+    //     const middlewareService = InjectorService.get<MiddlewareService>(MiddlewareService);
+    //     const instance = controllerService.invokeMethod(this.targetClass);
+    //
+    //
+    //
+    //
+    //
+    //     const fn = () =>
+    //         this.invokeMethod(instance, {
+    //             request,
+    //             response,
+    //             next
+    //         });
+    //
+    //     return waiter(fn)
+    //         .then(data => this.send(instance, data, {request, response, next}))
+    //         .catch(err => next(err));
+    // };
 
     /**
      * Try to get all parameters from Annotation.
      * @param localScope
      * @returns {(any|any)[]}
      */
-    private getParameters(localScope: IInvokableScope): any[] {
-
-        const requestService = InjectorService.get(RequestService);
-        const converterService = InjectorService.get(ConverterService);
-
-        let services:  InjectParams[] = Metadata.get(INJECT_PARAMS, this.targetClass, this.methodClassName);
-
-        if (!services) {
-            services = [EXPRESS_REQUEST, EXPRESS_RESPONSE, EXPRESS_NEXT_FN]
-                .map((key: symbol) => {
-                    let params = new InjectParams();
-
-                    params.service = key;
-
-                    return params;
-                });
-        }
-
-        return services
-            .map((param: InjectParams, index: number) => {
-
-                if (param.name in localScope) {
-                    return localScope[param.name];
-                }
-
-                let paramValue;
-
-                /* istanbul ignore else */
-                if (param.name in requestService) {
-                    paramValue = requestService[param.name].call(requestService, localScope.request, param.expression);
-                }
-
-                if (param.required && (paramValue === undefined || paramValue === null)) {
-                    throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
-                }
-
-                try {
-
-                    return converterService.deserialize(paramValue, param.baseType || param.use, param.use);
-
-                } catch (err) {
-
-                    /* istanbul ignore next */
-                    if (err.name === "BAD_REQUEST") {
-                        throw new BadRequest(BAD_REQUEST(param.name, param.expression) + " " + err.message);
-                    } else {
-                        /* istanbul ignore next */
-                        (() => {
-                            const castedError = new Error(err.message);
-                            castedError.stack = err.stack;
-                            throw castedError;
-                        })();
-                    }
-                }
-
-            });
-    }
+    // private getParameters(localScope: IInvokableScope): any[] {
+    //
+    //     const converterService = InjectorService.get<ConverterService>(ConverterService);
+    //
+    //     return InjectorService
+    //         .getMethodParameters(this.targetClass, this.methodClassName, localScope)
+    //         .map((settings) => {
+    //
+    //             let {param, index, paramValue} = settings;
+    //
+    //             if (param.required && (paramValue === undefined || paramValue === null)) {
+    //                 throw new BadRequest(BAD_REQUEST_REQUIRED(param.name, param.expression));
+    //             }
+    //
+    //             try {
+    //
+    //                 paramValue = converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+    //
+    //             } catch (err) {
+    //
+    //                 /* istanbul ignore next */
+    //                 if (err.name === "BAD_REQUEST") {
+    //                     throw new BadRequest(BAD_REQUEST(param.name, param.expression) + " " + err.message);
+    //                 } else {
+    //                     /* istanbul ignore next */
+    //                     (() => {
+    //                         const castedError = new Error(err.message);
+    //                         castedError.stack = err.stack;
+    //                         throw castedError;
+    //                     })();
+    //                 }
+    //             }
+    //
+    //             return {param, index, paramValue};
+    //         })
+    // }
 
     /**
      *
@@ -243,49 +244,34 @@ export class Endpoint {
      * @param localScope
      * @returns {any}
      */
-    private invokeMethod(instance, localScope: IInvokableScope): any {
-
-        if (localScope.response.headersSent){
-            localScope.response.setHeader("X-Managed-By", "Express-router-decorator");
-        }
-
-        const targetKey = this.methodClassName;
-        const parameters = this.getParameters(localScope);
-
-        /* instanbul ignore next */
-        // SUPPORT OLD node version
-        return Reflect.apply
-            ? Reflect.apply(instance[targetKey], instance, parameters)
-            : instance[targetKey].apply(instance, parameters);
-    }
+    // private invokeMethod(instance, localScope: IInvokableScope): any {
+    //
+    //     if (localScope.response.headersSent){
+    //         localScope.response.setHeader("X-Managed-By", "Express-router-decorator");
+    //     }
+    //
+    //     const targetKey = this.methodClassName;
+    //     const parameters = this.getParameters(localScope);
+    //
+    //     /* instanbul ignore next */
+    //     // SUPPORT OLD node version
+    //     return Reflect.apply
+    //         ? Reflect.apply(instance[targetKey], instance, parameters)
+    //         : instance[targetKey].apply(instance, parameters);
+    // }
 
     /**
      * Format data and send it to the client.
-     * @param instance
-     * @param data
-     * @param localScope
      * @returns {any}
+     * @param request
+     * @param response
+     * @param next
      */
-    private send = (instance, data, localScope: IInvokableScope) => {
+    private send = (request, response, next) => {
 
-        const impliciteNext = this.hasImpliciteNextFunction(instance);
-        const request = localScope.request;
-        const response = localScope.response;
-        const next = localScope.next;
-
-        const viewPath = Metadata.get(ENDPOINT_VIEW, instance, this.methodClassName);
-        const viewOptions = Metadata.get(ENDPOINT_VIEW_OPTIONS, instance, this.methodClassName);
+        const data = request["responseData"];
 
         if (response.headersSent) {
-            return data;
-        }
-
-        if (viewPath !== undefined) {
-
-            if (viewOptions !== undefined ) {
-                data = Object.assign({}, data, viewOptions);
-            }
-            response.render(viewPath, data);
             return data;
         }
 
@@ -293,8 +279,6 @@ export class Endpoint {
         if (request.method === "POST") {
             response.status(201);
         }
-
-        // TODO ADD New ANNOTATION TO SPECIFY RESPONSE FORMAT
 
         switch (typeof data) {
             case "number":
@@ -306,7 +290,7 @@ export class Endpoint {
             default:
 
                 if (data !== undefined) {
-                    const converterService = InjectorService.get(ConverterService);
+                    const converterService = InjectorService.get<ConverterService>(ConverterService);
 
                     response.setHeader("Content-Type", "text/json");
                     response.json(converterService.serialize(data));
@@ -315,11 +299,8 @@ export class Endpoint {
                 break;
         }
 
-        if (impliciteNext) {
-            next();
-        }
+        next();
 
-        return data;
     };
 
     /**
@@ -327,24 +308,30 @@ export class Endpoint {
      * @returns {boolean}
      * @param instance
      */
-    private hasImpliciteNextFunction(instance) {
-
-        let impliciteNext: boolean = false;
-        const services = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
-
-        if (services) {
-            impliciteNext = services.indexOf("next") === -1;
-        } else {
-            impliciteNext = instance[this.methodClassName].length < 3;
-        }
-
-        return impliciteNext;
-    }
+    // private hasImpliciteNextFunction(instance) {
+    //
+    //     let impliciteNext: boolean = false;
+    //     const services = Metadata.get(INJECT_PARAMS, instance, this.methodClassName);
+    //
+    //     if (services) {
+    //         impliciteNext = services.indexOf("next") === -1;
+    //     } else {
+    //         impliciteNext = instance[this.methodClassName].length < 3;
+    //     }
+    //
+    //     return impliciteNext;
+    // }
 
     /**
      *
      */
-    public getMethodClassName = (): string => this.methodClassName;
+    public get methodClassName(): string {
+        return this._methodClassName;
+    }
+
+    public get targetClass(): string {
+        return this._targetClass;
+    }
 
     /**
      *
@@ -352,5 +339,10 @@ export class Endpoint {
      * @param method
      */
     static has = (target: any, method: string): boolean => Metadata.has(ENDPOINT_ARGS, target, method);
+    /**
+     *
+     * @param key
+     */
+    public getMetadata = (key) => Metadata.get(key, this.targetClass, this.methodClassName)
 
 }

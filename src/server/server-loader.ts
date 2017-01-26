@@ -205,7 +205,7 @@ export abstract class ServerLoader {
                 $log.info("[TSED] Import services & controllers");
                 InjectorService.load();
 
-                const controllerService = InjectorService.get(ControllerService);
+                const controllerService = InjectorService.get<ControllerService>(ControllerService);
 
                 // controllerService.load();
 

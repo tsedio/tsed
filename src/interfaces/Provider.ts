@@ -14,7 +14,7 @@ export interface IProvider {
     /**
      *
      */
-    instance?: boolean;
+    instance?: any;
     /**
      *
      */

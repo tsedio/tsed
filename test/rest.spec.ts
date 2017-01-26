@@ -3,7 +3,7 @@ import {ExpressApplication} from '../src/services';
 import {Done} from '../src/testing/done';
 import {inject} from '../src/testing/inject';
 
-describe('Rest :', () => {
+xdescribe('Rest :', () => {
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
 

@@ -25,7 +25,6 @@ export default class ControllerService {
      * Controllers registry.
      * @type {Array}
      */
-        // static controllers: Controller[] = [];
     static controllers: Map<any, Controller> = new Map<any, Controller>();
 
     /**
@@ -237,7 +236,7 @@ export default class ControllerService {
 
                     routes.push({
                         method: endpoint.getMethod(),
-                        name: `${getClassName(ctrl.targetClass)}.${endpoint.getMethodClassName()}()`,
+                        name: `${getClassName(ctrl.targetClass)}.${endpoint.methodClassName}()`,
                         url: `${endpointUrl}${endpoint.getRoute() || ""}`
                     });
 

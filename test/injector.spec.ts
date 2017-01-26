@@ -67,9 +67,9 @@ describe('InjectorService :', () => {
         });
 
 
-        describe('injectorService.invoke()', () => {
+        describe('injectorService.invokeMethod()', () => {
 
-            it('should invoke a function', inject([InjectorService], (injectorService: InjectorService) => {
+            it('should invokeMethod a function', inject([InjectorService], (injectorService: InjectorService) => {
 
 
                 const fnInvokable = function(injectorService: InjectorService) {
