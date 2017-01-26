@@ -17,7 +17,7 @@ export function Use(...args: any[]): Function {
         let endpointArgs = Metadata.has(ENDPOINT_ARGS, target, targetKey)
             ? Metadata.get(ENDPOINT_ARGS, target, targetKey) : [];
 
-        endpointArgs = endpointArgs.concat(args);
+        endpointArgs = args.concat(endpointArgs);
 
         Metadata.set(ENDPOINT_ARGS, endpointArgs, target, targetKey);
 

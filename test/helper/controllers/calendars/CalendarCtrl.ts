@@ -1,16 +1,11 @@
 import {
-    Controller, Get, Post, Put, Delete,
-    PathParams, Request, Response,
-    BodyParams, Required, Use, Header, Next, Authenticated,
-    CookiesParams, QueryParams,
-    RouterController,
-    IPromise
+    Controller, Get, Put, Delete, PathParams, Request, Response, BodyParams, Required, Use, Header, Next, Authenticated,
+    CookiesParams, QueryParams, RouterController, IPromise
 } from "../../../../src/index";
-
 import {$log} from "ts-log-debug";
 import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
-import {MongooseService} from "../../services/MongooseService"
+import {MongooseService} from "../../services/MongooseService";
 
 interface ICalendar {
     id: string;
@@ -32,7 +27,7 @@ export class CalendarCtrl {
 
         //
         const router = this.routerController.getRouter();
-        
+
     }
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.
@@ -208,11 +203,18 @@ export class CalendarCtrl {
         return {id: id, name: "test"};
     }
 
-
+    @Get('/middlewares')
+    @Authenticated()
+    @Use(CalendarCtrl.middleware)
+    public stackMiddlewares (
+        @Request() request: Express.Request
+    ) {
+        return {id: request['user'], name: "test"};
+    }
 
     static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction){
 
-        (<any>request).user = 1;
+        request['user'] = 1;
 
         //console.log(request.headers)
         next();

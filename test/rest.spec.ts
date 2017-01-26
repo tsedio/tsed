@@ -186,6 +186,29 @@ describe('Rest :', () => {
 
         });
 
+        it("should use middlewares to provide info", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/middlewares')
+                .set({authorization: "token"})
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err) {
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.id).to.equal(1);
+
+                    done();
+                });
+
+        });
     });
 
     describe("PUT /rest/calendars", () => {
