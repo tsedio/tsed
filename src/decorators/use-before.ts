@@ -15,10 +15,9 @@ export function UseBefore(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        let middlewares = Metadata.has(ENDPOINT_USE_BEFORE, target, targetKey)
-            ? Metadata.get(ENDPOINT_USE_BEFORE, target, targetKey) : [];
+        const middlewares = Metadata.get(ENDPOINT_USE_BEFORE, target, targetKey) || [];
 
-        Metadata.set(ENDPOINT_USE_BEFORE, middlewares.concat(args), target, targetKey);
+        Metadata.set(ENDPOINT_USE_BEFORE, args.concat(middlewares), target, targetKey);
 
         return descriptor;
     };

@@ -15,10 +15,9 @@ export function UseAfter(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        let middlewares = Metadata.has(ENDPOINT_USE_AFTER, target, targetKey)
-            ? Metadata.get(ENDPOINT_USE_AFTER, target, targetKey) : [];
+        const middlewares = Metadata.get(ENDPOINT_USE_AFTER, target, targetKey) || [];
 
-        Metadata.set(ENDPOINT_USE_AFTER, middlewares.concat(args), target, targetKey);
+        Metadata.set(ENDPOINT_USE_AFTER, args.concat(middlewares), target, targetKey);
 
         return descriptor;
     };

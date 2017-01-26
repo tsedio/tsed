@@ -208,11 +208,18 @@ export class CalendarCtrl {
         return {id: id, name: "test"};
     }
 
-
+    @Get('/middlewares')
+    @Authenticated()
+    @Use(CalendarCtrl.middleware)
+    public stackMiddlewares (
+        @Request() request: Express.Request
+    ) {
+        return {id: request['user'], name: "test"};
+    }
 
     static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction){
 
-        (<any>request).user = 1;
+        request['user'] = 1;
 
         //console.log(request.headers)
         next();
