@@ -1,0 +1,1 @@
+export {default as ResponseViewMiddleware} from "./response-view";
