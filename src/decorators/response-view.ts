@@ -9,7 +9,6 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
 
         Metadata.set(RESPONSE_VIEW, viewPath, target, targetKey);
         Metadata.set(RESPONSE_VIEW_OPTIONS, viewOptions, target, targetKey);
-        
         return UseAfter(ResponseViewMiddleware)(target, targetKey, descriptor);
     };
 }

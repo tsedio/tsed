@@ -58,13 +58,11 @@ class EndpointCtrl implements IMiddlewareError {
 
     @Get('/')
     get(@Request() request) {
-        console.log("Endpoint called");
         request.test = "test";
     }
     
     @Get('/test')
     getByExpr(@BodyParams('test') test: string) {
-        
         return Promise.resolve("test");
     }
 }

@@ -68,7 +68,7 @@ export default class InjectorService {
 
                 /* istanbul ignore next */
                 if (!this.has(serviceType)) {
-                    throw Error(UNKNOW_SERVICE(getClassName(target) + ' > ' + serviceName));
+                    throw Error(UNKNOW_SERVICE(getClassName(target) + " > " + serviceName));
                 }
 
                 return this.get(serviceType);

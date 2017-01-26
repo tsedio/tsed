@@ -11,13 +11,9 @@ import {Endpoint} from "../controllers/endpoint";
 @Middleware()
 export default class ResponseViewMiddleware implements IMiddleware {
 
-    use(
-        @ResponseData() data: any, 
-        @EndpointInfo() endpoint: Endpoint,
-        @Response() response: Express.Response
-    ) {
+    public use(@ResponseData() data: any, @EndpointInfo() endpoint: Endpoint, @Response() response: Express.Response) {
 
-        if(!response.headersSent){
+        if (!response.headersSent) {
            return;
         }
 

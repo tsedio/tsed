@@ -13,7 +13,7 @@ import {inject} from '../src/testing/inject';
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-xdescribe("Controller & ControllerService :", () => {
+describe("Controller & ControllerService :", () => {
 
     describe("new Controller()", () => {
 
@@ -35,6 +35,7 @@ xdescribe("Controller & ControllerService :", () => {
 
             expect(instance).to.not.equal(FakeClass);
             expect(instance).to.be.instanceof(FakeClass);
+
         }));
 
         it('should build controller with dependencies', inject([ControllerService], (controllerService: ControllerService) => {
@@ -134,6 +135,8 @@ xdescribe("Controller & ControllerService :", () => {
             }catch(er){
                 expect(er.message).to.equal('Controller FakeClassChildrenError not found.');
             }
+
+            Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClass);
 
         }));
 

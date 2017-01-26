@@ -11,6 +11,7 @@ import InjectorService from "./injector";
 import {Service} from "../decorators/service";
 import RequestService from "./request";
 import ControllerService from "./controller";
+import {getClassName} from "../utils/class";
 
 @Service()
 export default class MiddlewareService {
@@ -92,23 +93,23 @@ export default class MiddlewareService {
             const middleware = this.get(target);
 
             type = this.get(target).type;
-            injectable = this.isInjectable(target, 'use');
-            method = 'use';
+            injectable = this.isInjectable(target, "use");
+            method = "use";
 
-            handler = () => middleware.instance['use'].bind(middleware.instance);
-            length = middleware.instance['use'].length;
+            handler = () => middleware.instance["use"].bind(middleware.instance);
+            length = middleware.instance["use"].length;
 
         } else {
 
             if (target && target.prototype && target.prototype[method]) { // endpoint
                 type = MiddlewareType.ENDPOINT;
-
                 injectable = this.isInjectable(target, method);
 
                 handler = () => {
                     const instance = this.injectorService.get<ControllerService>(ControllerService).invoke(target);
                     return instance[method].bind(instance);
                 };
+                length = target.prototype[method].length;
 
             } else {
                 handler = () => target;
@@ -120,9 +121,9 @@ export default class MiddlewareService {
 
         if (!injectable) {
 
-            if (length === 4){
+            if (length === 4) {
                 hasNextFn = true;
-            }else if(length === 3) {
+            } else if (length === 3) {
                 hasNextFn = type !== MiddlewareType.ERROR;
             }
         } else {
@@ -168,12 +169,12 @@ export default class MiddlewareService {
 
             return (err, request, response, next) => {
                 return this.invokeMethod(settings, {err, request, response, next});
-            }
+            };
 
         } else {
             return (request, response, next) => {
                 return this.invokeMethod(settings, {request, response, next});
-            }
+            };
         }
 
     }
@@ -219,7 +220,7 @@ export default class MiddlewareService {
                 .then((data) => {
 
                     if (type === MiddlewareType.ENDPOINT) {
-                        localScope.request['responseData'] = data;
+                        localScope.request["responseData"] = data;
                     }
 
                     if (!hasNextFn) {
@@ -231,7 +232,7 @@ export default class MiddlewareService {
         })
             .then(
                 () => {
-                    next()
+                    next();
                 },
                 (err) => {
                     next(err);

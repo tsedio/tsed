@@ -67,20 +67,14 @@ export default class Controller {
         this.endpoints
             .forEach((endpoint: Endpoint) => {
 
-                let args = endpoint.toArray();
+                const middlewares = endpoint.getMiddlewares();
 
                 if (endpoint.hasMethod() && this.router[endpoint.getMethod()]) {
 
-                    args.shift();
-
-                    if (args.length === 1) {
-                        this.router[endpoint.getMethod()]("/", args[0]);
-                    } else {
-                        this.router[endpoint.getMethod()](...args);
-                    }
+                   this.router[endpoint.getMethod()](endpoint.getRoute(), ...middlewares);
 
                 } else {
-                    this.router.use(...args);
+                    this.router.use(...middlewares);
                 }
 
             });

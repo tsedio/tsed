@@ -90,7 +90,7 @@ describe("ServerLoader()", () => {
             server.setHttpPort(8000);
             server.startServers = function(){};
             server.$onReady = function(){
-                expect(this.getExpressApp()).to.be.an('object');
+                expect(this.expressApp).to.be.an('object');
             };
             server.$onInit = function(){
             };
@@ -113,6 +113,7 @@ describe("ServerLoader()", () => {
             server.createHttpServer(8000);
             server.setHttpPort(8000);
             server.startServers = function(){throw new Error()};
+
             const promise = server.start();
 
             expect(typeof promise).to.equal('object');
