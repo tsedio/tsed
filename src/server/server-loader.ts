@@ -195,6 +195,8 @@ export abstract class ServerLoader {
         const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
         const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
 
+        $log.info("[TSED] Import services");
+        InjectorService.load();
         // this.endpointsRules.set("*", this.endpoint);
 
         return Promise
@@ -202,12 +204,10 @@ export abstract class ServerLoader {
             .then(() => $onMountingMiddlewares.call(this, this.expressApp))
             .then(() => {
 
-                $log.info("[TSED] Import services & controllers");
-                InjectorService.load();
-
                 const controllerService = InjectorService.get<ControllerService>(ControllerService);
 
-                // controllerService.load();
+                $log.info("[TSED] Import controllers");
+                controllerService.load();
 
                 $log.info("[TSED] Routes mounted :");
                 controllerService.printRoutes($log);

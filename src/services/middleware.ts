@@ -23,12 +23,14 @@ export default class MiddlewareService {
         private converterService: ConverterService
     ) {
 
+    }
+
+    load() {
         MiddlewareService.middlewares.forEach((settings, target) => {
-            settings.instance = injectorService.invoke(target);
+            settings.instance = this.injectorService.invoke(target);
 
             MiddlewareService.middlewares.set(target, settings);
         });
-
     }
 
     /**
