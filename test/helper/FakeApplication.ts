@@ -25,8 +25,7 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
             .createHttpsServer({
                 port: 8080
             });
-        
-        this.initializeSettings();
+
     }
 
     /**
@@ -71,7 +70,7 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
         return SuperTest(this.expressApp);
     }
 
-    static getInstance(): FakeApplication {
+    static getInstance(done?: Function): FakeApplication {
 
         $log.setRepporting({
             debug: false,
@@ -81,6 +80,7 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
 
         if (FakeApplication.Server === undefined){
             FakeApplication.Server = new FakeApplication();
+            (FakeApplication.Server as any).initializeSettings().then(done);
         }
 
         return FakeApplication.Server;

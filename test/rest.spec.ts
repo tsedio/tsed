@@ -7,6 +7,10 @@ describe('Rest :', () => {
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
 
+        it("should create a fake application for test", (done) => {
+           expect(FakeApplication.getInstance(done) !== undefined).to.equal(true);
+        });
+
         it("should return an object (without annotation)", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
 
             FakeApplication

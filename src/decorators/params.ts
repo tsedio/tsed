@@ -1,5 +1,7 @@
 import InjectParams from "../services/inject-params";
-import {PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY, PARSE_SESSION} from "../constants/metadata-keys";
+import {
+    PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY, PARSE_SESSION, GET_HEADER
+} from "../constants/metadata-keys";
 
 /**
  *
@@ -130,3 +132,20 @@ export function Session(expression?: string | any, useClass?: any) {
     };
 }
 
+export function HeaderParams(expression) {
+    return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
+
+        /* istanbul ignore else */
+        if (parameterIndex !== undefined) {
+
+            const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
+
+            injectParams.service = GET_HEADER;
+            injectParams.expression = expression;
+
+            InjectParams.set(target, propertyKey, parameterIndex, injectParams);
+
+        }
+
+    };
+}
