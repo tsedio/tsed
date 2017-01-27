@@ -52,6 +52,10 @@ export default class MiddlewareService {
         return this.middlewares.get(target);
     }
 
+    static invoke<T extends IMiddleware>(target: any): IMiddlewareSettings<T> {
+        return this.middlewares.get(target).instance;
+    }
+
     /**
      *
      * @param target
@@ -70,6 +74,9 @@ export default class MiddlewareService {
         return MiddlewareService.get<T>(getClass(target));
     }
 
+    invoke<T extends IMiddleware>(target: any): T {
+        return this.get<T>(target).instance;
+    }
     /**
      *
      * @param target
