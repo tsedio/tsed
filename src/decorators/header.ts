@@ -13,7 +13,7 @@ export function Header(expression: string | {[key: string]: string}, expressionV
 
     return <T>(target: any, propertyKey: string | symbol, descriptor: number | TypedPropertyDescriptor<T>): void => {
 
-        if (typeof descriptor === 'number') {
+        if (typeof descriptor === "number") {
             return HeaderParams(expression)(target, propertyKey, descriptor as number);
         }
 

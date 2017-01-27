@@ -6,7 +6,7 @@ export function ContentType(type: string): Function {
 
         return UseBefore((request, response, next) => {
 
-            response.set('Content-Type', type);
+            response.set("Content-Type", type);
 
             next();
 
