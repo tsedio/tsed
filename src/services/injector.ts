@@ -7,6 +7,8 @@ import {$log} from "ts-log-debug";
 
 export default class InjectorService {
 
+    private static loaded: boolean = false;
+
     /**
      *
      * @param target
@@ -14,7 +16,8 @@ export default class InjectorService {
      */
     static invoke<T>(target, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): T {
 
-        const services = (Metadata.get(DESIGN_PARAM_TYPES, target) || [])
+
+        const services = this.getParams(target)
             .map((type: any) => {
 
                 const serviceName = typeof type === "function" ? getClassName(type) : type;
@@ -46,8 +49,7 @@ export default class InjectorService {
     static construct(target) {
 
         // TODO ... not necessary ?
-        Metadata
-            .get(DESIGN_PARAM_TYPES, target)
+        this.getParams(target)
             .forEach((type: any) => {
 
                 /* istanbul ignore next */
@@ -111,5 +113,9 @@ export default class InjectorService {
             });
 
 
+    }
+
+    static getParams(target): any[]{
+        return Metadata.get(DESIGN_PARAM_TYPES, target) || [];
     }
 }
