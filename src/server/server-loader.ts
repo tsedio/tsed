@@ -193,13 +193,13 @@ export abstract class ServerLoader {
 
         // this.endpointsRules.set("*", this.endpoint);
 
+        $log.info("[TSED] Import services");
+        InjectorService.load();
+
         return Promise
             .resolve()
             .then(() => $onMountingMiddlewares.call(this, this.expressApp))
             .then(() => {
-
-                $log.info("[TSED] Import services");
-                InjectorService.load();
 
                 $log.info("[TSED] Import controllers");
                 Controller.load(this.expressApp);
