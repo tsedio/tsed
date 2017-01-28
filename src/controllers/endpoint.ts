@@ -155,7 +155,7 @@ export class Endpoint {
     private onRequest = (request, response, next) => {
 
         if (!response.headersSent) {
-            response.setHeader("X-Managed-By", "Express-router-decorators");
+            response.setHeader("X-Managed-By", "TS-Express-Decorators");
         }
 
         request["endpointInfo"] = this;

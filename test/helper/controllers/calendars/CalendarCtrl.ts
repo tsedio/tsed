@@ -11,6 +11,7 @@ import {$log} from "ts-log-debug";
 import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
 import {MongooseService} from "../../services/MongooseService"
+import {ContentType} from "../../../../src/decorators/content-type";
 
 interface ICalendar {
     id: string;
@@ -211,7 +212,7 @@ export class CalendarCtrl {
     @Get('/middlewares')
     @Authenticated()
     @Use(CalendarCtrl.middleware)
-    public stackMiddlewares (
+    public testStackMiddlewares (
         @Request() request: Express.Request
     ) {
         return {id: request['user'], name: "test"};
@@ -223,5 +224,20 @@ export class CalendarCtrl {
 
         //console.log(request.headers)
         next();
+    }
+
+    /**
+     * Test the Header decorator.
+     * @param request
+     * @returns {{id: any, name: string}}
+     */
+    @Get('/headers')
+    @Header('x-token-test', 'test')
+    @Header('x-token-test-2', 'test2')
+    @ContentType('application/xml')
+    testResponseHeader (
+        @Request() request: Express.Request
+    ) {
+        return "<xml></xml>";
     }
 }

@@ -215,6 +215,29 @@ describe('Rest :', () => {
                 });
 
         });
+
+        it("should set all headers", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/headers')
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err) {
+                        throw (err);
+                    }
+
+                    expect(response.headers['x-token-test']).to.equal('test');
+                    expect(response.headers['x-token-test-2']).to.equal('test2');
+                    expect(response.headers['x-managed-by']).to.equal('TS-Express-Decorators');
+                    expect(response.headers['content-type']).to.equal('application/xml; charset=utf-8');
+
+                    done();
+                });
+
+        });
     });
 
     describe("PUT /rest/calendars", () => {
