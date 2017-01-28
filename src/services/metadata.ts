@@ -9,9 +9,9 @@ const PROPERTIES: Map<string, any[]> = new Map<string, any[]>();
 export default class Metadata<T> {
 
     constructor (
-        private propertyKey: string,
+        private key: string,
         private target: any,
-        private targetKey?: string | symbol
+        private propertyKey?: string | symbol
     ) {
 
     }
@@ -22,56 +22,56 @@ export default class Metadata<T> {
      * @returns {Metadata}
      */
     set = (value: T) =>
-        Metadata.set(this.propertyKey, value, this.target, this.targetKey);
+        Metadata.set(this.key, value, this.target, this.propertyKey);
 
     /**
      *
      */
     get = (): T =>
-        Metadata.get(this.propertyKey, this.target, this.targetKey);
+        Metadata.get(this.key, this.target, this.propertyKey);
     /**
      *
      */
     has = (): boolean =>
-        Metadata.has(this.propertyKey, this.target, this.targetKey);
+        Metadata.has(this.key, this.target, this.propertyKey);
 
     /**
      *
-     * @param propertyKey
+     * @param key
      * @param value
      * @param target
-     * @param targetKey
+     * @param propertyKey
      */
-    static set(propertyKey: string, value: any, target: any, targetKey?: string | symbol): void {
+    static set(key: string, value: any, target: any, propertyKey?: string | symbol): void {
 
-        const targets = PROPERTIES.has(propertyKey) ? PROPERTIES.get(propertyKey) : [];
+        const targets = PROPERTIES.has(key) ? PROPERTIES.get(key) : [];
         const classConstructor = getClass(target);
 
         if (targets.indexOf(classConstructor) === -1) {
             targets.push(classConstructor);
-            PROPERTIES.set(propertyKey, targets);
+            PROPERTIES.set(key, targets);
         }
 
-        Reflect.defineMetadata(propertyKey, value, getClass(target), targetKey);
+        Reflect.defineMetadata(key, value, getClass(target), propertyKey);
     };
 
 
     /**
      *
-     * @param propertyKey
+     * @param key
      * @param target
-     * @param targetKey
+     * @param propertyKey
      */
-    static get = (propertyKey: string, target: any, targetKey?: string | symbol): any =>
-        Reflect.getMetadata(propertyKey, getClass(target), targetKey);
+    static get = (key: string, target: any, propertyKey?: string | symbol): any =>
+        Reflect.getMetadata(key, getClass(target), propertyKey);
 
     /**
      *
      * @param target
-     * @param targetKey
+     * @param propertyKey
      */
-    static getType = (target: any, targetKey: string | symbol): any =>
-        Reflect.getMetadata(DESIGN_TYPE, target, targetKey);
+    static getType = (target: any, propertyKey: string | symbol): any =>
+        Reflect.getMetadata(DESIGN_TYPE, target, propertyKey) || [];
 
     /**
      *
@@ -79,20 +79,24 @@ export default class Metadata<T> {
      * @param propertyKey
      * @returns {any}
      */
-    static getParamTypes(target: any, propertyKey: string): any[] {
-        return Reflect.getMetadata(DESIGN_PARAM_TYPES, target, propertyKey);
+    static getParamTypes(target: any, propertyKey?: string): any[] {
+        return Reflect.getMetadata(DESIGN_PARAM_TYPES, target, propertyKey) || [];
     }
     /**
      *
-     * @param propertyKey
+     * @param key
      * @param target
      * @param targetKey
      */
-    static has = (propertyKey: string, target: any, targetKey?: string | symbol): boolean =>
-        Reflect.hasMetadata(propertyKey, getClass(target), targetKey);
-
-    static delete = (target: any, propertyKey: string) =>
-        Reflect.deleteMetadata(propertyKey, getClass(target));
+    static has = (key: string, target: any, propertyKey?: string | symbol): boolean =>
+        Reflect.hasMetadata(key, getClass(target), propertyKey);
+    /**
+     *
+     * @param target
+     * @param key
+     */
+    static delete = (target: any, key: string) =>
+        Reflect.deleteMetadata(key, getClass(target));
     /**
      *
      * @param propertyKey

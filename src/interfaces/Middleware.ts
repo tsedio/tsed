@@ -18,9 +18,9 @@ export enum MiddlewareType {
     ENDPOINT
 }
 
-export interface IInjectableMethod {
+export interface IInjectableMiddlewareMethod {
     target: any;
-    method: string;
+    methodName: string;
     length: number;
     type: MiddlewareType;
     handler: () => Function;

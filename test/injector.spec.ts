@@ -1,6 +1,7 @@
 import * as Chai from "chai";
 import InjectorService from '../src/services/injector';
 import {inject} from '../src/testing/inject';
+import {Inject} from "../src/decorators/inject";
 
 const expect: Chai.ExpectStatic = Chai.expect;
 
@@ -13,6 +14,14 @@ const myFactory = function() {
         return "test";
     }
 };
+
+class InvokeMethodTest {
+    @Inject()
+    method(injectorService: InjectorService) {
+        console.log('Test', injectorService);
+        return injectorService;
+    }
+}
 
 describe('InjectorService :', () => {
 
@@ -67,19 +76,30 @@ describe('InjectorService :', () => {
         });
 
 
-        describe('injectorService.invokeMethod()', () => {
+        describe('injectorService.invoke()', () => {
 
-            it('should invokeMethod a function', inject([InjectorService], (injectorService: InjectorService) => {
-
+            it('should invoke a function constructor', inject([InjectorService], (injectorService: InjectorService) => {
 
                 const fnInvokable = function(injectorService: InjectorService) {
-
                     expect(injectorService).to.be.an.instanceof(InjectorService);
-
                 };
 
-
                 injectorService.invoke(fnInvokable, undefined, [InjectorService]);
+            }));
+
+        });
+
+        describe('injectorService.invokeMethod()', () => {
+
+            it('should invoke a method of class', inject([InjectorService], (injectorService: InjectorService) => {
+
+                const instance = new InvokeMethodTest();
+
+                const result = instance.method(injectorService);
+
+
+
+                expect(result).to.be.an.instanceof(InjectorService);
             }));
 
         });

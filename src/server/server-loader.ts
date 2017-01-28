@@ -6,6 +6,7 @@ import {Forbidden, NotAcceptable, Exception} from "ts-httpexceptions";
 import Metadata from "../services/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
 import {ExpressApplication, ControllerService, InjectorService} from "../services";
+import MiddlewareService from "../services/middleware";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -67,7 +68,10 @@ export abstract class ServerLoader {
      */
     private _httpsServer: Https.Server;
     private httpsPort: string | number;
-
+    /**
+     *
+     */
+    private _injectorService: InjectorService;
     /**
      *
      * @constructor
@@ -156,6 +160,20 @@ export abstract class ServerLoader {
      */
     public use(...args: any[]): ServerLoader {
 
+        if (this.injectorService) { // Needed to use middlewareInjector
+
+            const middlewareService = this.injectorService.get<MiddlewareService>(MiddlewareService);
+
+            args = args.map((arg) => {
+
+                if (typeof arg === "function") {
+                    middlewareService.bindMiddleware(arg);
+                }
+
+                return arg;
+            });
+        }
+
         this.expressApp.use(...args);
 
         return this;
@@ -192,19 +210,19 @@ export abstract class ServerLoader {
      */
     public initializeSettings(): Promise<any> {
 
-        const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
-        const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
-
         $log.info("[TSED] Import services");
         InjectorService.load();
-        // this.endpointsRules.set("*", this.endpoint);
+        this._injectorService = InjectorService.get<InjectorService>(InjectorService);
+
+        const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
+        const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
 
         return Promise
             .resolve()
             .then(() => $onMountingMiddlewares.call(this, this.expressApp))
             .then(() => {
 
-                const controllerService = InjectorService.get<ControllerService>(ControllerService);
+                const controllerService = this.injectorService.get<ControllerService>(ControllerService);
 
                 $log.info("[TSED] Import controllers");
                 controllerService.load();
@@ -240,12 +258,12 @@ export abstract class ServerLoader {
 
         return Promise
             .resolve()
-            .then(() => "$onInit" in this ? (<any>this).$onInit() : null)
+            .then(() => "$onInit" in this ? (this as any).$onInit() : null)
             .then(() => this.initializeSettings())
             .then(() => this.startServers())
             .then(() => {
                 if ("$onReady" in this) {
-                    (<any>this).$onReady.call(this);
+                    (this as any).$onReady();
                 }
             })
             .catch((err) => {
@@ -411,6 +429,9 @@ export abstract class ServerLoader {
         return this._expressApp;
     }
 
+    get injectorService(): InjectorService {
+        return this._injectorService;
+    }
     /**
      * Return Http.Server instance.
      * @returns {Http.Server}

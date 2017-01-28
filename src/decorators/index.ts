@@ -9,6 +9,7 @@ export * from "./response-data";
 export * from "./json-property";
 export * from "./location";
 export * from "./redirect";
+export * from "./inject";
 
 // Parameters
 export * from "./authenticated";

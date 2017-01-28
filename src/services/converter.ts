@@ -65,7 +65,7 @@ export default class ConverterService {
                 throw castedError;
             })();
         }
-        
+
         /* istanbul ignore next */
         return obj;
     }
@@ -143,7 +143,6 @@ export default class ConverterService {
 
         }
 
-        
         return obj;
     }
 

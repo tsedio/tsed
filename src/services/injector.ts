@@ -1,9 +1,9 @@
 
 import Metadata from "./metadata";
-import {DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
 import {UNKNOW_SERVICE} from "../constants/errors-msgs";
 import {IProvider} from "../interfaces/Provider";
 import {getClass, getClassName} from "../utils";
+import {IInjectableMethod} from "../interfaces/InjectableMethod";
 
 /**
  * InjectorService manage all service collected by `@Service()` decorator.
@@ -20,6 +20,16 @@ export default class InjectorService {
      */
     public invoke<T>(target: any, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
         return InjectorService.invoke<T>(target, locals, designParamTypes);
+    }
+
+    /**
+     * Invoke a method and try to inject services.
+     * @returns {any}
+     * @param handler
+     * @param options
+     */
+    public invokeMethod(handler: any, options?: IInjectableMethod | any[]): any {
+        return InjectorService.invokeMethod(handler, options);
     }
 
     /**
@@ -49,7 +59,7 @@ export default class InjectorService {
     static invoke<T>(target: any, locals: Map<string|Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
 
         if (!designParamTypes) {
-            designParamTypes = Metadata.get(DESIGN_PARAM_TYPES, target) || [];
+            designParamTypes = Metadata.getParamTypes(target);
         }
 
         const services = designParamTypes
@@ -75,6 +85,55 @@ export default class InjectorService {
             });
 
         return new target(...services);
+    }
+
+    /**
+     * Invoke a method and try inject to inject service.
+     * @returns {any}
+     * @param handler
+     * @param options
+     */
+    static invokeMethod(handler: any, options?: IInjectableMethod | any[]) {
+
+        let designParamTypes, target, methodName, locals = new Map<Function, any>();
+
+        if (options instanceof Array) {
+            designParamTypes = options as Array<any>;
+        } else {
+            designParamTypes = options.designParamTypes;
+            target = options.target;
+            methodName = options.methodName;
+            locals = options.locals || locals;
+        }
+
+        if (!designParamTypes) {
+            designParamTypes = Metadata.getParamTypes(target, methodName);
+        }
+
+        const services = designParamTypes
+            .map((serviceType: any) => {
+
+                const serviceName = typeof serviceType === "function" ? getClassName(serviceType) : serviceType;
+
+                /* istanbul ignore next */
+                if (locals.has(serviceName)) {
+                    return locals.get(serviceName);
+                }
+
+                if (locals.has(serviceType)) {
+                    return locals.get(serviceType);
+                }
+
+                /* istanbul ignore next */
+                if (!this.has(serviceType)) {
+                    return undefined;
+                }
+
+                return this.get(serviceType);
+
+            });
+
+        return handler(...services);
     }
 
     /**

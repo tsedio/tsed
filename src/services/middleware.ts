@@ -1,4 +1,4 @@
-import {IMiddleware, IMiddlewareSettings, IInjectableMethod, MiddlewareType} from "../interfaces/Middleware";
+import {IMiddleware, IMiddlewareSettings, IInjectableMiddlewareMethod, MiddlewareType} from "../interfaces/Middleware";
 import {BadRequest} from "ts-httpexceptions";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BAD_REQUEST_REQUIRED, BAD_REQUEST} from "../constants/errors-msgs";
@@ -87,10 +87,10 @@ export default class MiddlewareService {
     /**
      * Create a configuration to call the target middleware.
      * @param target
-     * @param method
-     * @returns {IInjectableMethod}
+     * @param methodName
+     * @returns {IInjectableMiddlewareMethod}
      */
-    createSettings(target: any, method?: string): IInjectableMethod {
+    createSettings(target: any, methodName?: string): IInjectableMiddlewareMethod {
 
         let handler: () => Function,
             injectable: boolean = false,
@@ -103,22 +103,22 @@ export default class MiddlewareService {
 
             type = this.get(target).type;
             injectable = this.isInjectable(target, "use");
-            method = "use";
+            methodName = "use";
 
             handler = () => middleware.instance["use"].bind(middleware.instance);
             length = middleware.instance["use"].length;
 
         } else {
 
-            if (target && target.prototype && target.prototype[method]) { // endpoint
+            if (target && target.prototype && target.prototype[methodName]) { // endpoint
                 type = MiddlewareType.ENDPOINT;
-                injectable = this.isInjectable(target, method);
+                injectable = this.isInjectable(target, methodName);
 
                 handler = () => {
                     const instance = this.injectorService.get<ControllerService>(ControllerService).invoke(target);
-                    return instance[method].bind(instance);
+                    return instance[methodName].bind(instance);
                 };
-                length = target.prototype[method].length;
+                length = target.prototype[methodName].length;
 
             } else {
                 handler = () => target;
@@ -137,14 +137,14 @@ export default class MiddlewareService {
             }
         } else {
             hasNextFn = MiddlewareService
-                .getParams(target, method)
+                .getParams(target, methodName)
                 .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
         }
 
         return {
             length,
             target,
-            method,
+            methodName,
             handler,
             type,
             injectable,
@@ -154,9 +154,9 @@ export default class MiddlewareService {
     /**
      *
      * @param target
-     * @param method
+     * @param methodName
      */
-    bindMiddleware(target: any, method?: string): Function {
+    bindMiddleware(target: any, methodName?: string): Function {
 
         // middleware(req, res, next, err);
         // middleware(req, res, next);
@@ -171,7 +171,7 @@ export default class MiddlewareService {
         // Middleware.use(request, response, next);
         // Middleware.use(...);
 
-        const settings = this.createSettings(target, method);
+        const settings = this.createSettings(target, methodName);
 
         // Create Settings
         if (settings.type === MiddlewareType.ERROR) {
@@ -194,10 +194,10 @@ export default class MiddlewareService {
      * @param localScope
      * @returns {any}
      */
-    public invokeMethod(settings: IInjectableMethod, localScope: IInvokableScope): any {
+    public invokeMethod(settings: IInjectableMiddlewareMethod, localScope: IInvokableScope): any {
 
         let {
-            target, method, injectable,
+            target, methodName, injectable,
             type, handler, hasNextFn
         } = settings;
 
@@ -210,7 +210,7 @@ export default class MiddlewareService {
             localScope.next = reject;
 
             if (injectable) {
-                parameters = this.getInjectableParameters(target, method, localScope);
+                parameters = this.getInjectableParameters(target, methodName, localScope);
             } else {
                 parameters = [localScope.request, localScope.response];
 
@@ -253,11 +253,11 @@ export default class MiddlewareService {
     /**
      *
      * @param target
-     * @param method
+     * @param methodName
      * @param localScope
      */
-    getInjectableParameters = (target, method, localScope?: IInvokableScope): any[] => {
-        const services = MiddlewareService.getParams(target, method);
+    getInjectableParameters = (target: any, methodName: string, localScope?: IInvokableScope): any[] => {
+        const services = MiddlewareService.getParams(target, methodName);
         const requestService = this.injectorService.get<RequestService>(RequestService);
 
         return services
@@ -306,7 +306,7 @@ export default class MiddlewareService {
     /**
      *
      * @param target
-     * @param method
+     * @param methodName
      */
-    static getParams = (target: any, method: string): InjectParams[] => Metadata.get(INJECT_PARAMS, target, method);
+    static getParams = (target: any, methodName: string): InjectParams[] => Metadata.get(INJECT_PARAMS, target, methodName);
 }
