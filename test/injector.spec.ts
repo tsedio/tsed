@@ -16,9 +16,12 @@ const myFactory = function() {
 };
 
 class InvokeMethodTest {
+    constructor(private t) {
+
+    }
     @Inject()
     method(injectorService: InjectorService) {
-        console.log('Test', injectorService);
+        expect(this.t).not.to.be.undefined;
         return injectorService;
     }
 }
@@ -91,13 +94,53 @@ describe('InjectorService :', () => {
 
         describe('injectorService.invokeMethod()', () => {
 
-            it('should invoke a method of class', inject([InjectorService], (injectorService: InjectorService) => {
+            it('should invoke a method of class (decorator)', inject([InjectorService], (injectorService: InjectorService) => {
 
-                const instance = new InvokeMethodTest();
+                const instance = new InvokeMethodTest("1");
 
-                const result = instance.method(injectorService);
+                const result = (instance as any).method();
+
+                expect(result).to.be.an.instanceof(InjectorService);
+            }));
 
 
+            it('should invoke a method of class (decorator via Injector)', inject([InjectorService], (injectorService: InjectorService) => {
+
+                const instance = new InvokeMethodTest("2");
+
+                const result =  injectorService.invokeMethod(instance.method, {target: instance});
+
+                expect(result).to.be.an.instanceof(InjectorService);
+            }));
+
+
+
+            it('should invoke a method of class (injector)', inject([InjectorService], (injectorService: InjectorService) => {
+
+                const result = injectorService.invokeMethod((injector) => injector, {
+                    designParamTypes: [InjectorService]
+                });
+
+                expect(result).to.be.an.instanceof(InjectorService);
+            }));
+
+            it('should invoke a method of class (injector)', inject([InjectorService], (injectorService: InjectorService) => {
+
+                const result = injectorService.invokeMethod((injector) => injector, [InjectorService]);
+
+                expect(result).to.be.an.instanceof(InjectorService);
+            }));
+
+
+            it('should invoke a method of class (injector +  locals)', inject([InjectorService], (injectorService: InjectorService) => {
+                
+                const locals = new Map<Function, any>();
+                locals.set(InjectorService, injectorService);
+
+                const result = injectorService.invokeMethod((injector) => injector, {
+                    designParamTypes: [InjectorService],
+                    locals
+                });
 
                 expect(result).to.be.an.instanceof(InjectorService);
             }));

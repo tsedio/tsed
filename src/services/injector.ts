@@ -28,7 +28,7 @@ export default class InjectorService {
      * @param handler
      * @param options
      */
-    public invokeMethod(handler: any, options?: IInjectableMethod | any[]): any {
+    public invokeMethod(handler: any, options: IInjectableMethod | any[]): any {
         return InjectorService.invokeMethod(handler, options);
     }
 
@@ -93,7 +93,7 @@ export default class InjectorService {
      * @param handler
      * @param options
      */
-    static invokeMethod(handler: any, options?: IInjectableMethod | any[]) {
+    static invokeMethod(handler: any, options: IInjectableMethod | any[]) {
 
         let designParamTypes, target, methodName, locals = new Map<Function, any>();
 
@@ -104,6 +104,10 @@ export default class InjectorService {
             target = options.target;
             methodName = options.methodName;
             locals = options.locals || locals;
+        }
+
+        if (handler.$injected) {
+            return handler.call(target, locals);
         }
 
         if (!designParamTypes) {

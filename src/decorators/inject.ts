@@ -14,13 +14,16 @@ export function Inject(): Function {
 
         const originalMethod = descriptor.value;
 
-        descriptor.value = function() {
+        descriptor.value = function(locals?: Map<Function, string>) {
 
             return InjectorService.invokeMethod(originalMethod.bind(this), {
                 target,
-                methodName: targetKey
+                methodName: targetKey,
+                locals
             });
         };
+
+        (descriptor.value as any).$injected = true;
 
         return descriptor;
     };
