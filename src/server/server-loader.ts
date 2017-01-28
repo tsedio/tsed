@@ -125,7 +125,7 @@ export abstract class ServerLoader {
             next();
         }
 
-    };
+    }
 
     /**
      * Create a new HTTP server.

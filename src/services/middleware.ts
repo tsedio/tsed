@@ -301,7 +301,7 @@ export default class MiddlewareService {
 
             });
 
-    };
+    }
 
     /**
      *

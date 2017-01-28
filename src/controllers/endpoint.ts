@@ -160,7 +160,7 @@ export class Endpoint {
 
         request["endpointInfo"] = this;
         next();
-    };
+    }
 
     /**
      * Format data and send it to the client.
@@ -203,7 +203,7 @@ export class Endpoint {
 
         next();
 
-    };
+    }
 
     /**
      *
@@ -226,6 +226,6 @@ export class Endpoint {
      *
      * @param key
      */
-    public getMetadata = (key) => Metadata.get(key, this.targetClass, this.methodClassName)
+    public getMetadata = (key) => Metadata.get(key, this.targetClass, this.methodClassName);
 
 }

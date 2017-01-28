@@ -3,7 +3,7 @@ import {HeaderParams} from "./params";
 import {UseBefore} from "./use-before";
 
 /**
- * 
+ *
  * @param expression
  * @param expressionValue
  * @returns {function(Function, (string|symbol), number): void}
