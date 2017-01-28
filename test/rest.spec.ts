@@ -192,7 +192,7 @@ describe('Rest :', () => {
 
         });
 
-        it("should use middlewares to provide info", (done: Function) => {
+        it("should use middlewares to provide info (Use)", (done: Function) => {
 
             FakeApplication
                 .getInstance()
@@ -210,6 +210,30 @@ describe('Rest :', () => {
 
                     expect(obj).to.be.an('object');
                     expect(obj.id).to.equal(1);
+
+                    done();
+                });
+
+        });
+
+        it("should use middlewares to provide info (UseAfter)", (done: Function) => {
+
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/calendars/middlewares2')
+                .set({authorization: "token"})
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err) {
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('object');
+                    expect(obj.uuid).to.equal(10909);
 
                     done();
                 });

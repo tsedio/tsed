@@ -12,6 +12,7 @@ import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
 import {MongooseService} from "../../services/MongooseService"
 import {ContentType} from "../../../../src/decorators/content-type";
+import {UseAfter} from "../../../../src/decorators/use-after";
 
 interface ICalendar {
     id: string;
@@ -218,9 +219,38 @@ export class CalendarCtrl {
         return {id: request['user'], name: "test"};
     }
 
-    static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction){
+    /**
+     *
+     * @param request
+     * @param response
+     * @param next
+     */
+    static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
 
         request['user'] = 1;
+
+        //console.log(request.headers)
+        next();
+    }
+
+    @Get('/middlewares2')
+    @Authenticated()
+    @UseAfter(CalendarCtrl.middleware2)
+    public testUseAfter (
+        @Request() request: Express.Request
+    ) {
+        return {id: 1, name: "test"};
+    }
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @param next
+     */
+    static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
+
+        request['responseData'].uuid = 10909;
 
         //console.log(request.headers)
         next();

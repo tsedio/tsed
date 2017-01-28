@@ -7,6 +7,7 @@ import {Endpoint} from '../src/controllers/endpoint';
 import {InjectorService} from '../src/services';
 import assert = require('assert');
 import ControllerService from '../src/services/controller';
+import Metadata from "../src/services/metadata";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
@@ -79,162 +80,18 @@ describe("Endpoint :", () => {
             expect(middlewares.length).to.equal(4);
         });
 
+        it('should get metadata stored on endpoint method', () => {
+
+            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
+
+            Metadata.set('TEST', 'value', endpoint.targetClass, endpoint.methodClassName);
+
+            expect(endpoint.getMetadata('TEST')).to.equal('value');
+
+        });
+
     });
 
-    describe('Endpoint.send()', () => {
 
-        it('should send response (boolean)', () => {
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = true;
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-            expect(fakeResponse._body).to.be.a('string');
-            expect(fakeResponse._body).to.equal('true');
-        });
-
-        it('should send response (number)', () => {
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = 1;
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-            expect(fakeResponse._body).to.be.a('string');
-            expect(fakeResponse._body).to.equal('1');
-        });
-
-        it('should send response (null)', () => {
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = null;
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-            expect(fakeResponse._body).to.be.a('string');
-            expect(fakeResponse._body).to.equal('null');
-        });
-
-        it('should send response (date)', () => {
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = new Date();
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-            expect(fakeResponse._body).to.be.a('string');
-            expect(fakeResponse._headers).to.contains('Content-Type:text/json');
-            expect(fakeResponse._body).to.equal(JSON.stringify(fakeRequest['responseData']));
-
-        });
-
-        it('should send nothing (undefined)', () => {
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = undefined;
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-            expect(fakeResponse._body).to.equal('');
-
-        });
-
-        it('should send nothing (headersSent)', () => {
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = {};
-            fakeResponse['headersSent'] = true;
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-            expect(fakeResponse._body).to.equal('');
-
-        });
-
-        it('should send response (object)', () => {
-
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-
-            fakeRequest['responseData'] = {};
-            fakeResponse['headersSent'] = false;
-
-            endpoint.send(
-                fakeRequest,
-                fakeResponse,
-                next
-            );
-
-
-            expect(fakeResponse._body).to.be.a('string');
-            expect(fakeResponse._headers).to.contains('Content-Type:text/json');
-            expect(fakeResponse._body).to.equal(JSON.stringify(fakeRequest['responseData']));
-
-        });
-
-        /*xit('should render response (html)', () => {
-            const testInstance = ControllerService.invoke(TestInstance);
-
-            const endpoint: any = new Endpoint(TestInstance, 'myMethodAnnotated4');
-            const fakeRequest = new FakeRequest();
-            const fakeResponse = new FakeResponse();
-            const next = () => {};
-            const obj = {test: "test"};
-
-            endpoint.send(testInstance, {test: "test"}, {
-                request: fakeRequest,
-                response: fakeResponse,
-                next
-            });
-
-            expect(fakeResponse._body).to.be.a('string');
-            expect(fakeResponse._body).to.equal("home" + obj.toString());
-        });*/
-    })
 
 });

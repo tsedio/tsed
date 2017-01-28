@@ -34,4 +34,22 @@ describe('RequestService :', function() {
         expect(requestService.parseParams(new FakeRequest, 'test')).to.equal('testValue');
 
     }));
+
+    it('should return session info', inject([RequestService], (requestService: RequestService) => {
+
+        expect(requestService.parseSession(new FakeRequest, 'test')).to.equal('testValue');
+
+    }));
+
+    it('should return responseData info', inject([RequestService], (requestService: RequestService) => {
+
+        expect(requestService.responseData({responseData: 'test'})).to.equal('test');
+
+    }));
+
+    it('should return endpoint info', inject([RequestService], (requestService: RequestService) => {
+
+        expect(requestService.endpointInfo({endpointInfo: 'test'})).to.equal('test');
+
+    }));
 });

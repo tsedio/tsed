@@ -12,6 +12,7 @@ import {Controller} from "../src/decorators/controller";
 import {Get} from "../src/decorators/route";
 import {FakeRequest} from "./helper/FakeRequest";
 import {BodyParams} from "../src/decorators/params";
+import SendResponseMiddleware from "../src/middlewares/send-response";
 
 const expect: Chai.ExpectStatic = Chai.expect;
 
@@ -296,6 +297,7 @@ describe('MiddlewareService : ', () => {
 
             }));
 
+
         });
 
 
@@ -365,10 +367,16 @@ describe('MiddlewareService : ', () => {
 
             }));
 
+
+
         });
 
 
+        it('should invoke middleware',() => {
 
+            expect(MiddlewareService.invoke<any>(SendResponseMiddleware)).not.to.be.undefined;
+
+        });
     });
 
 });

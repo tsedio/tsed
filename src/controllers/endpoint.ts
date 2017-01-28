@@ -3,8 +3,8 @@ import {
 } from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 import {InjectorService} from "../services";
-import ConverterService from "../services/converter";
 import MiddlewareService from "../services/middleware";
+import SendResponseMiddleware from "../middlewares/send-response";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -141,7 +141,7 @@ export class Endpoint {
             .concat(middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware)));
 
         /* SEND */
-        middlewares.push((request, response, next) => this.send(request, response, next));
+        middlewares.push(middlewareService.bindMiddleware(SendResponseMiddleware));
 
         return middlewares.filter((item) => (!!item));
     }
@@ -158,51 +158,13 @@ export class Endpoint {
             response.setHeader("X-Managed-By", "TS-Express-Decorators");
         }
 
-        request["endpointInfo"] = this;
-        next();
-    }
-
-    /**
-     * Format data and send it to the client.
-     * @returns {any}
-     * @param request
-     * @param response
-     * @param next
-     */
-    private send = (request, response, next) => {
-
-        const data = request["responseData"];
-
-        if (response.headersSent) {
-            return data;
-        }
-
-        // preset status code
-        if (request.method === "POST") {
+        /* istanbul ignore next */
+        if (request.method === "POST") { // TODO remove that in future version
             response.status(201);
         }
 
-        switch (typeof data) {
-            case "number":
-            case "boolean":
-            case "string":
-                response.send(data);
-                break;
-
-            default:
-
-                if (data !== undefined) {
-                    const converterService = InjectorService.get<ConverterService>(ConverterService);
-
-                    response.setHeader("Content-Type", "text/json");
-                    response.json(converterService.serialize(data));
-                }
-
-                break;
-        }
-
+        request["endpointInfo"] = this;
         next();
-
     }
 
     /**

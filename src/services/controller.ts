@@ -187,7 +187,6 @@ export default class ControllerService {
      * @param target
      * @returns {Controller}
      */
-    public getController = (target: string | Function): Controller => ControllerService.get(target);
     public get = (target: string | Function): Controller => ControllerService.get(target);
 
 
