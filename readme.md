@@ -12,8 +12,8 @@
 
 > Build your TypeScript v2 application with Express decorators ! Support ES5 and ES6.
 
-[![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true)](https://nodei.co/npm/ts-express-decorators/)
-[![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=9&height=3)](https://nodei.co/npm/ts-express-decorators/)
+[![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-express-decorators/)
+[![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=6&height=3)](https://nodei.co/npm/ts-express-decorators/)
 
 ## Features
 
