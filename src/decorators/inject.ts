@@ -16,6 +16,10 @@ export function Inject(): Function {
 
         descriptor.value = function(locals: Map<Function, string> = new Map<Function, string>()) {
 
+            if (locals instanceof Map === false) {
+                locals = new Map();
+            }
+
             return InjectorService.invokeMethod(originalMethod.bind(this), {
                 target,
                 methodName: targetKey,

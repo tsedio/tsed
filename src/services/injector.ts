@@ -106,8 +106,8 @@ export default class InjectorService {
             locals = options.locals;
         }
 
-        if (locals === undefined) {
-            locals = new Map<Function, any>();
+        if (locals instanceof Map === false) {
+            locals = new Map();
         }
 
         if (handler.$injected) {
