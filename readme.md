@@ -62,6 +62,16 @@ options in your `tsconfig.json` file.
 }
 ```
 
+## Migrate from 1.3 or under to 1.4
+
+The `@types/express` modules dependency has move to devDependencies. So we can have a compilation error with TypeScript.
+To resolve it, just run `npm install --save @types/express`.
+
+If we used the InjectorService. Make you sure we have this in your code:
+
+* `InjectorService.invoke(target)` has changed to `InjectorService.invoke<T>(target): T`.
+* `InjectorService.get(target)` has changed to `InjectorService.get<T>(target): T`.
+
 ## Quick start
 #### Create your express server
 
@@ -263,7 +273,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 #### Breaking Change 
 
-We can encounter typescript compilation issue if we use these methods:
+We can encounter typescript compilation issues:
 
 * `InjectorService.invoke(target)` has changed to `InjectorService.invoke<T>(target): T`.
 * `InjectorService.get(target)` has changed to `InjectorService.get<T>(target): T`.
