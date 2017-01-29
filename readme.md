@@ -18,17 +18,17 @@
 ## Features
 
 * Define class as Controller,
-* Define class as Service,
-* Define root path for an entire controller,
+* Define class as Service (IoC),
+* Define class as Middleware and MiddlewareError,
+* Define class as Converter (POJ to Model and Model to POJ),
+* Define root path for an entire controller and versioning your Rest API,
 * Define as sub-route path for a method,
 * Define routes on GET, POST, PUT, DELETE and HEAD verbs,
 * Define middlewares on routes,
 * Define required parameters,
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
-* IoC Services,
 * Templating (View),
-* Converters (JSON to Model and Model to JSON),
 * Testing (alpha).
 
 ## Installation
