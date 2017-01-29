@@ -36,7 +36,7 @@
 You can get the latest release using npm:
 
 ```batch
-$ npm install --save ts-express-decorators express@4
+$ npm install --save ts-express-decorators express@4 @types/express
 ```
 
 > **Important!** TsExpressDecorators requires Node >= 4, Express >= 4, TypeScript >= 2.0 and 
@@ -267,6 +267,8 @@ We can encounter typescript compilation issue if we use these methods:
 
 * `InjectorService.invoke(target)` has changed to `InjectorService.invoke<T>(target): T`.
 * `InjectorService.get(target)` has changed to `InjectorService.get<T>(target): T`.
+* `@types/express` isn't install as dependencies now. Just make `npm install --save @types/express`.
+
 
 ### v1.3.0
 
