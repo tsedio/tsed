@@ -95,7 +95,7 @@ export default class InjectorService {
      */
     static invokeMethod(handler: any, options: IInjectableMethod | any[]) {
 
-        let designParamTypes, target, methodName, locals = new Map<Function, any>();
+        let designParamTypes, target, methodName, locals;
 
         if (options instanceof Array) {
             designParamTypes = options as Array<any>;
@@ -103,7 +103,11 @@ export default class InjectorService {
             designParamTypes = options.designParamTypes;
             target = options.target;
             methodName = options.methodName;
-            locals = options.locals || locals;
+            locals = options.locals;
+        }
+
+        if (locals === undefined) {
+            locals = new Map<Function, any>();
         }
 
         if (handler.$injected) {
@@ -113,6 +117,8 @@ export default class InjectorService {
         if (!designParamTypes) {
             designParamTypes = Metadata.getParamTypes(target, methodName);
         }
+
+
 
         const services = designParamTypes
             .map((serviceType: any) => {

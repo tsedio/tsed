@@ -14,7 +14,7 @@ export function Inject(): Function {
 
         const originalMethod = descriptor.value;
 
-        descriptor.value = function(locals?: Map<Function, string>) {
+        descriptor.value = function(locals: Map<Function, string> = new Map<Function, string>()) {
 
             return InjectorService.invokeMethod(originalMethod.bind(this), {
                 target,
