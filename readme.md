@@ -247,7 +247,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 ## CHANGELOG
 
-### v1.4.0-0
+### v1.4.0-x (beta)
 
 * Add `@Inject()` decorator [#42](https://github.com/Romakita/ts-express-decorators/issues/#42),
 * Add `@Middleware()` decorator [#40](https://github.com/Romakita/ts-express-decorators/issues/#40),
