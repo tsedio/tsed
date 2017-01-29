@@ -267,7 +267,7 @@ We can encounter typescript compilation issue if we use these methods:
 
 * `InjectorService.invoke(target)` has changed to `InjectorService.invoke<T>(target): T`.
 * `InjectorService.get(target)` has changed to `InjectorService.get<T>(target): T`.
-* `@types/express` isn't install as dependencies now. Just make `npm install --save @types/express`.
+* `@types/express` isn't installed as dependencies now. Just make `npm install --save @types/express`.
 
 
 ### v1.3.0
