@@ -118,8 +118,6 @@ export default class InjectorService {
             designParamTypes = Metadata.getParamTypes(target, methodName);
         }
 
-
-
         const services = designParamTypes
             .map((serviceType: any) => {
 

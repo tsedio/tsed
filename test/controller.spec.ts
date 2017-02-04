@@ -9,7 +9,7 @@ import {
 
 import {Endpoint} from '../src/controllers/endpoint';
 import ControllerService from '../src/services/controller';
-import {inject} from '../src/testing/inject';
+import {inject} from './testing/inject';
 
 let expect: Chai.ExpectStatic = Chai.expect;
 

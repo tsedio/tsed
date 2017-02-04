@@ -1,6 +1,6 @@
 import * as Chai from "chai";
 import InjectorService from '../src/services/injector';
-import {inject} from '../src/testing/inject';
+import {inject} from './testing/inject';
 import {Inject} from "../src/decorators/inject";
 
 const expect: Chai.ExpectStatic = Chai.expect;
