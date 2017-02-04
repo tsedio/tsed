@@ -33,6 +33,7 @@
     "node_modules",
     "test",
     "dts",
-    "lib"
+    "lib",
+    "testing"
   ]
 }
