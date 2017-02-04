@@ -26,7 +26,7 @@ export function bootstrap(server: any, ...args) {
             done();
         }
 
-    }
+    };
 }
 
 
