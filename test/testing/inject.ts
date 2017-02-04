@@ -1,5 +1,5 @@
 import {Done} from "./done";
-import {ExpressApplication, InjectorService} from "../services";
+import {ExpressApplication, InjectorService} from "../../src/services";
 
 /**
  * The inject function is one of the TsExpressDecorator testing utilities.

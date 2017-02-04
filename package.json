@@ -3,7 +3,7 @@
   "version": "1.4.0-3",
   "description": "Use TypeScript decorators to create your Express application and Rest API",
   "main": "lib/index.js",
-  "typings": "dts/index.d.ts",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "prepublish": "npm run tsc:compile",
     "tslint": "tslint ./src/**/*.ts",

@@ -16,7 +16,7 @@
     "rootDir": "src/",
     "outDir": "lib/",
     "declaration": true,
-    "declarationDir":"dts/",
+    "declarationDir":"lib/",
     "noResolve": false,
     "types":[
       "node",
