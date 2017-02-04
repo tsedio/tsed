@@ -1,7 +1,7 @@
 import MiddlewareService from "../src/services/middleware";
-import {inject} from "./testing/inject";
+import {inject} from "../src/testing/inject";
 import Chai = require("chai");
-import {Done} from "./testing/done";
+import {Done} from "../src/testing/done";
 import {MiddlewareType, IMiddleware, IMiddlewareError} from "../src/interfaces/Middleware";
 import {Middleware} from "../src/decorators/middleware";
 import {MiddlewareError} from "../src/decorators/middleware-error";

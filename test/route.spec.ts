@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {inject} from './testing';
+import {inject} from './.';
 import {RouteService} from '../src';
 import {$log} from "ts-log-debug";
 

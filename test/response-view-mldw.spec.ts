@@ -1,6 +1,6 @@
 import Chai = require("chai");
 import MiddlewareService from "../src/services/middleware";
-import {inject} from './testing/inject';
+import {inject} from '../src/testing/inject';
 import ResponseViewMiddleware from "../src/middlewares/response-view";
 let expect: Chai.ExpectStatic = Chai.expect;
 

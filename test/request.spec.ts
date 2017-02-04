@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import RequestService from '../src/services/request';
 import {FakeRequest} from './helper';
-import {inject} from './testing';
+import {inject} from './.';
 
 describe('RequestService :', function() {
 

@@ -1,7 +1,7 @@
 import * as Chai from "chai";
 import {BadRequest} from "ts-httpexceptions";
 import assert = require('assert');
-import {inject} from './testing/inject';
+import {inject} from '../src/testing/inject';
 import {JsonProperty, ConverterService} from "../src";
 
 let expect: Chai.ExpectStatic = Chai.expect;
