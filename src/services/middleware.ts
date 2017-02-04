@@ -11,7 +11,6 @@ import InjectorService from "./injector";
 import {Service} from "../decorators/service";
 import RequestService from "./request";
 import ControllerService from "./controller";
-import {getClassName} from "../utils/class";
 
 @Service()
 export default class MiddlewareService {
@@ -280,7 +279,9 @@ export default class MiddlewareService {
 
                 try {
 
-                    paramValue = this.converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+                    if (param.useConverter) {
+                        paramValue = this.converterService.deserialize(paramValue, param.baseType || param.use, param.use);
+                    }
 
                 } catch (err) {
 

@@ -18,7 +18,8 @@ export function ResponseData(): Function {
             InjectParams.build(RESPONSE_DATA, {
                 propertyKey,
                 parameterIndex,
-                target
+                target,
+                useConverter: false
             });
 
         }

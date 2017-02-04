@@ -17,7 +17,8 @@ export function EndpointInfo(): Function {
             InjectParams.build(ENDPOINT_INFO, {
                 propertyKey,
                 parameterIndex,
-                target
+                target,
+                useConverter: false
             });
 
         }

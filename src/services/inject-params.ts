@@ -16,6 +16,11 @@ export default class InjectParams {
     public use: any;
     /**
      *
+     * @type {boolean}
+     */
+    public useConverter: boolean = true;
+    /**
+     *
      */
     public baseType: any;
     /**
@@ -103,7 +108,8 @@ export default class InjectParams {
             parameterIndex,
             expression,
             target,
-            useClass
+            useClass,
+            useConverter
         } = options;
 
         const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
@@ -118,6 +124,10 @@ export default class InjectParams {
         injectParams.expression = expression;
         injectParams.baseType = baseType;
         injectParams.use = useClass || baseType;
+
+        if (useConverter !== undefined) {
+            injectParams.useConverter = useConverter;
+        }
 
         InjectParams.set(target, propertyKey, parameterIndex, injectParams);
     }

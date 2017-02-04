@@ -1,6 +1,6 @@
 
 import {Service} from "../decorators/service";
-import {isEmpty, isPrimitiveOrPrimitiveClass} from "../utils/utils";
+import {isEmpty, isPrimitiveOrPrimitiveClass, isArrayOrArrayClass} from "../utils/utils";
 import {CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE} from "../constants/errors-msgs";
 import {getClassName} from "../utils/class";
 import Metadata from "./metadata";
@@ -32,6 +32,7 @@ export default class ConverterService {
             const converter = this.getConverter(obj);
 
             if (converter && converter.serialize) {
+
                 // deserialize from a custom JsonConverter
                 return converter.serialize(obj);
             }
@@ -44,7 +45,7 @@ export default class ConverterService {
             // Default converter
             if (!isPrimitiveOrPrimitiveClass(obj)) {
 
-                const plainObject = {};
+                const plainObject = isArrayOrArrayClass(obj) ? [] : {};
 
                 Object.getOwnPropertyNames(obj).forEach(propertyKey => {
 
@@ -92,6 +93,12 @@ export default class ConverterService {
                 return converter.deserialize(obj, targetType, baseType);
             }
 
+            /* istanbul ignore next */
+            if (isArrayOrArrayClass(obj)) {
+                const converter = this.getConverter(Array);
+                return converter.deserialize(obj, Array, baseType);
+            }
+
             if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
                 // deserialize from method
 
@@ -100,6 +107,8 @@ export default class ConverterService {
 
                 return instance;
             }
+
+
 
             // Default converter
             if (!isPrimitiveOrPrimitiveClass(obj) && !isPrimitiveOrPrimitiveClass(targetType)) {

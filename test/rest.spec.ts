@@ -11,6 +11,27 @@ describe('Rest :', () => {
            expect(FakeApplication.getInstance(done) !== undefined).to.equal(true);
         });
 
+        it('should return all routes', inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/')
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err) {
+                        throw (err);
+                    }
+
+                    let obj = JSON.parse(response.text);
+
+                    expect(obj).to.be.an('array');
+
+                    done();
+                });
+
+        }));
+
         it("should return an object (without annotation)", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
 
             FakeApplication

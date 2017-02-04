@@ -1,2 +1,3 @@
-export const Done = Symbol("mocha:done");
 
+export type Done = Function;
+export const Done = Symbol("mocha:done");

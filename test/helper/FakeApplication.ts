@@ -66,7 +66,7 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
         return request.get("authorization") === "token";
     }
 
-    public request(): SuperTest.SuperTest<any> {
+    public request(): SuperTest.SuperTest<SuperTest.Test> {
         return SuperTest(this.expressApp);
     }
 

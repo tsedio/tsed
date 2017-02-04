@@ -8,6 +8,7 @@ export function Inject(): Function {
 
         // save a reference to the original method this way we keep the values currently in the
         // descriptor and don't overwrite what another decorator might have done to the descriptor.
+        /* istanbul ignore next */
         if (descriptor === undefined) {
             descriptor = Object.getOwnPropertyDescriptor(target, targetKey);
         }
@@ -16,6 +17,7 @@ export function Inject(): Function {
 
         descriptor.value = function(locals: Map<Function, string> = new Map<Function, string>()) {
 
+            /* istanbul ignore next */
             if (locals instanceof Map === false) {
                 locals = new Map();
             }
