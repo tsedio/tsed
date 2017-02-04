@@ -16,7 +16,6 @@
     "rootDir": "src/",
     "outDir": "lib/",
     "declaration": true,
-    "declarationDir":"lib/",
     "noResolve": false,
     "types":[
       "node",
@@ -32,6 +31,7 @@
   "exclude": [
     "node_modules",
     "test",
-    "dts"
+    "dts",
+    "lib"
   ]
 }
