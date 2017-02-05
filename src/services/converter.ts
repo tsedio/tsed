@@ -42,6 +42,11 @@ export default class ConverterService {
                 return obj.serialize();
             }
 
+            if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
+                // deserialize from serialize method
+                return obj.toJSON();
+            }
+
             // Default converter
             if (!isPrimitiveOrPrimitiveClass(obj)) {
 
@@ -49,9 +54,11 @@ export default class ConverterService {
 
                 Object.getOwnPropertyNames(obj).forEach(propertyKey => {
 
-                    const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {};
+                    if(typeof obj[propertyKey] !== 'function') {
+                        const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {};
 
-                    plainObject[jsonMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
+                        plainObject[jsonMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
+                    }
 
                 });
 
@@ -61,10 +68,12 @@ export default class ConverterService {
         } catch (err) {
             /* istanbul ignore next */
             (() => {
-                const castedError = new Error(CONVERTER_SERIALIZE(getClassName(obj), obj));
-                castedError.stack = err.stack;
-                throw castedError;
+
             })();
+            console.error(err);
+            const castedError = new Error(CONVERTER_SERIALIZE(getClassName(obj), obj));
+            castedError.stack = err.stack;
+            throw castedError;
         }
 
         /* istanbul ignore next */

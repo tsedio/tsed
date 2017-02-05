@@ -43,13 +43,16 @@ describe('RequestService :', function() {
 
     it('should return responseData info', inject([RequestService], (requestService: RequestService) => {
 
-        expect(requestService.responseData({responseData: 'test'})).to.equal('test');
+        const request = new FakeRequest();
+        request.storeData('test');
+
+        expect(requestService.responseData(request)).to.equal('test');
 
     }));
 
     it('should return endpoint info', inject([RequestService], (requestService: RequestService) => {
 
-        expect(requestService.endpointInfo({endpointInfo: 'test'})).to.equal('test');
+        expect(requestService.endpointInfo({getEndpoint: () => 'test'})).to.equal('test');
 
     }));
 });

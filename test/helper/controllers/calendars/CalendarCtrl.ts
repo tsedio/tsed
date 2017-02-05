@@ -250,7 +250,7 @@ export class CalendarCtrl {
      */
     static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
 
-        request['responseData'].uuid = 10909;
+        request.getStoredData().uuid = 10909;
 
         //console.log(request.headers)
         next();

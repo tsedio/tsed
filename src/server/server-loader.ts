@@ -459,6 +459,8 @@ export abstract class ServerLoader {
      * @param next
      */
     protected onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+
+
         if (response.headersSent) {
             return next(error);
         }
@@ -473,6 +475,7 @@ export abstract class ServerLoader {
             return next();
         }
 
+        $log.error(error);
         response.status(error.status || 500).send("Internal Error");
 
         return next();

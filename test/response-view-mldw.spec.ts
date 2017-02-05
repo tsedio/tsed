@@ -2,6 +2,7 @@ import Chai = require("chai");
 import MiddlewareService from "../src/services/middleware";
 import {inject} from '../src/testing/inject';
 import ResponseViewMiddleware from "../src/middlewares/response-view";
+import {FakeRequest} from "./helper/FakeRequest";
 let expect: Chai.ExpectStatic = Chai.expect;
 
 describe('ResponseViewMiddleware :', () => {
@@ -27,7 +28,15 @@ describe('ResponseViewMiddleware :', () => {
 
         expect(middleware).not.to.be.undefined;
 
-        middleware.use({}, endpoint as any, response as any);
+        middleware.use(
+            {},
+            endpoint as any,
+            response as any,
+            new FakeRequest() as any,
+            () => {
+
+            }
+        );
 
         expect(view).to.equal('page.html');
         expect(data.test).to.equal('test');
@@ -55,7 +64,15 @@ describe('ResponseViewMiddleware :', () => {
 
         expect(middleware).not.to.be.undefined;
 
-        middleware.use({}, endpoint as any, response as any);
+        middleware.use(
+            {},
+            endpoint as any,
+            response as any,
+            new FakeRequest() as any,
+            () => {
+
+            }
+        );
 
         expect(view).to.equal('page.html');
 
@@ -83,7 +100,15 @@ describe('ResponseViewMiddleware :', () => {
 
         expect(middleware).not.to.be.undefined;
 
-        middleware.use({}, endpoint as any, response as any);
+        middleware.use(
+            {},
+            endpoint as any,
+            response as any,
+            new FakeRequest() as any,
+            () => {
+
+            }
+        );
 
         expect(view).to.equal(undefined);
         expect(data).to.equal(undefined);
@@ -112,7 +137,15 @@ describe('ResponseViewMiddleware :', () => {
 
         expect(middleware).not.to.be.undefined;
 
-        middleware.use({}, endpoint as any, response as any);
+        middleware.use(
+            {},
+            endpoint as any,
+            response as any,
+            new FakeRequest() as any,
+            () => {
+
+            }
+        );
 
         expect(view).to.equal(undefined);
         expect(data).to.equal(undefined);

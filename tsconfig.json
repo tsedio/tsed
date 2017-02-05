@@ -26,6 +26,7 @@
   "exclude": [
     "node_modules",
     "dts",
-    "testing"
+    "testing",
+    "lib"
   ]
 }

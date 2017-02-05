@@ -16,7 +16,7 @@ export default class SendResponseMiddleware implements IMiddleware {
     public use(@ResponseData() data: any, @Response() response: Express.Response) {
 
         if (response.headersSent) {
-            return data;
+            return;
         }
 
         const type = typeof data;

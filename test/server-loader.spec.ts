@@ -3,6 +3,7 @@ import {NotAcceptable} from "ts-httpexceptions";
 import {ServerLoader} from '../src/index';
 import {FakeRequest, FakeResponse, FakeServer} from './helper';
 import assert = require('assert');
+import {$log} from "ts-log-debug";
 
 describe("ServerLoader()", () => {
 
@@ -66,6 +67,10 @@ describe("ServerLoader()", () => {
             const response: any = new FakeResponse();
             let error = new Error();
 
+            $log.setRepporting({
+                error: false
+            });
+
             server.onError(
                 error,
                 <any>new FakeRequest(),
@@ -75,6 +80,10 @@ describe("ServerLoader()", () => {
 
             expect(response._body).is.equal('Internal Error');
             expect(response._status).is.equal(500);
+
+            $log.setRepporting({
+                error: true
+            });
 
         });
 
@@ -90,7 +99,7 @@ describe("ServerLoader()", () => {
             server.setHttpPort(8000);
             server.startServers = function(){};
             server.$onReady = function(){
-                expect(this.expressApp).to.be.an('object');
+                expect(this.expressApp).to.be.an('function');
             };
             server.$onInit = function(){
             };
@@ -112,6 +121,11 @@ describe("ServerLoader()", () => {
 
             server.createHttpServer(8000);
             server.setHttpPort(8000);
+
+            $log.setRepporting({
+                error: false
+            });
+
             server.startServers = function(){throw new Error()};
 
             const promise = server.start();
@@ -120,6 +134,9 @@ describe("ServerLoader()", () => {
             expect(promise.then).to.be.an('function');
 
             promise.then(() => {
+                $log.setRepporting({
+                    error: true
+                });
                 done();
             });
 

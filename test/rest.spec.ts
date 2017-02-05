@@ -4,12 +4,16 @@ import {Done} from '../src/testing/done';
 import {inject} from '../src/testing/inject';
 
 describe('Rest :', () => {
-    describe("GET /rest/calendars", () => {
+    describe("init", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
 
         it("should create a fake application for test", (done) => {
-           expect(FakeApplication.getInstance(done) !== undefined).to.equal(true);
+            expect(FakeApplication.getInstance(done) !== undefined).to.equal(true);
         });
+    });
+
+    describe("GET /rest", () => {
+        const {FakeApplication} = require("./helper/FakeApplication");
 
         it('should return all routes', inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
             FakeApplication
@@ -31,6 +35,31 @@ describe('Rest :', () => {
                 });
 
         }));
+
+        it('should return all routes', inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
+            FakeApplication
+                .getInstance()
+                .request()
+                .get('/rest/html')
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err) {
+                        throw (err);
+                    }
+
+                    expect(response.text).to.be.an('string');
+
+                    done();
+                });
+
+        }));
+    });
+
+    describe("GET /rest/calendars", () => {
+        const {FakeApplication} = require("./helper/FakeApplication");
+
+
 
         it("should return an object (without annotation)", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
 

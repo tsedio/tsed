@@ -52,6 +52,9 @@ export class ExampleServer extends ServerLoader implements IServerLifecycle {
             .use(compress({}))
             .use(methodOverride());
 
+        this.engine('.html', require('ejs').__express)
+            .set('views', './views')
+            .set('view engine', 'html');
     }
 
     /**

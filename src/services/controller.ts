@@ -12,6 +12,7 @@ import {RouterController} from "./index";
 import InjectorService from "./injector";
 import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
 import MiddlewareService from "./middleware";
+import InjectParams from "./inject-params";
 
 const colors = require("colors");
 
@@ -234,10 +235,17 @@ export default class ControllerService {
 
                 if (endpoint.hasMethod()) {
 
+                    const className = getClassName(ctrl.targetClass),
+                        methodClassName = endpoint.methodClassName,
+                        parameters = InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName);
+
                     routes.push({
                         method: endpoint.getMethod(),
-                        name: `${getClassName(ctrl.targetClass)}.${endpoint.methodClassName}()`,
-                        url: `${endpointUrl}${endpoint.getRoute() || ""}`
+                        name: `${className}.${methodClassName}()`,
+                        url: `${endpointUrl}${endpoint.getRoute() || ""}`,
+                        className,
+                        methodClassName,
+                        parameters
                     });
 
                 }

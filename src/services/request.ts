@@ -49,7 +49,7 @@ export default class RequestService {
      * @param request
      * @param expression
      */
-    responseData = (request): any => request["responseData"];
-    endpointInfo = (request): any => request["endpointInfo"];
+    responseData = (request): any => request.getStoredData();
+    endpointInfo = (request): any => request.getEndpoint();
 }
 

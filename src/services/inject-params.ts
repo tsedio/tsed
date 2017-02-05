@@ -1,5 +1,6 @@
 import {INJECT_PARAMS} from "../constants/metadata-keys";
 import Metadata from "./metadata";
+import {getClassName} from "../utils/class";
 
 export default class InjectParams {
     /**
@@ -61,6 +62,25 @@ export default class InjectParams {
 
     /**
      *
+     * @returns {{service: (string|symbol), name: string, expression: string, required: boolean, use: undefined, baseType: undefined}}
+     */
+    toJSON() {
+
+        const use = this.use ? getClassName(this.use) : undefined;
+        const baseType = this.baseType && use != getClassName(this.baseType) ? getClassName(this.baseType) : undefined;
+
+        return {
+            service: this._service,
+            name: this._name,
+            expression: this.expression,
+            required: this.required,
+            use: use,
+            baseType: baseType
+        };
+    }
+
+    /**
+     *
      * @param target
      * @param targetKey
      * @param index
@@ -68,14 +88,19 @@ export default class InjectParams {
      */
     static get(target: any, targetKey: string | symbol, index: number): InjectParams {
 
-        const params = Metadata.has(INJECT_PARAMS, target, targetKey)
-            ? Metadata.get(INJECT_PARAMS, target, targetKey)
-            : [];
+        const params = this.getParams(target, targetKey);
 
         params[index] = params[index] || new InjectParams();
 
         return params[index];
 
+    }
+
+    static getParams(target: any, targetKey: string | symbol): InjectParams {
+
+        return Metadata.has(INJECT_PARAMS, target, targetKey)
+            ? Metadata.get(INJECT_PARAMS, target, targetKey)
+            : [];
     }
 
     /**

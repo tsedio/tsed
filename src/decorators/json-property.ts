@@ -52,6 +52,7 @@ export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
                         .invoke<ConverterService>(ConverterService)
                         .serialize(this);
                 };
+                target.constructor.prototype.toJSON.$ignore = true;
 
             }
         }

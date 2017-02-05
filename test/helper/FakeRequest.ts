@@ -3,6 +3,7 @@ export class FakeRequest {
     method: string;
     path: string;
     mime: string;
+    _responseData;
 
     public get(expression) {
         return "headerValue";
@@ -54,6 +55,15 @@ export class FakeRequest {
             test: "testValue"
         }
     };
+
+    public storeData(data) {
+        this._responseData = data;
+        return this;
+    }
+
+    public getStoredData() {
+        return this._responseData;
+    }
 
     public accepts = (mime) => this.mime === mime;
 }

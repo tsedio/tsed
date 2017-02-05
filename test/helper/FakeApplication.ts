@@ -52,6 +52,12 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
             .use(compress({}))
             .use(methodOverride());
 
+        let appPath = Path.resolve(__dirname);
+
+        this.engine('.html', require('ejs').__express)
+            .set('views', appPath + '/views')
+            .set('view engine', 'html');
+
     }
 
     /**
@@ -75,7 +81,8 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
         $log.setRepporting({
             debug: false,
             info: false,
-            error: false
+            error: true
+
         });
 
         if (FakeApplication.Server === undefined){

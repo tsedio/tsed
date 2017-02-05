@@ -7,11 +7,20 @@ import * as Express from "express";
 import {RESPONSE_VIEW, RESPONSE_VIEW_OPTIONS} from "../constants/metadata-keys";
 import {EndpointInfo} from "../decorators/endpoint-info";
 import {Endpoint} from "../controllers/endpoint";
+import {$log} from "ts-log-debug";
+import {Next} from "../decorators/next";
+import {Request} from "../decorators/request";
 
 @Middleware()
 export default class ResponseViewMiddleware implements IMiddleware {
 
-    public use(@ResponseData() data: any, @EndpointInfo() endpoint: Endpoint, @Response() response: Express.Response) {
+    public use(
+        @ResponseData() data: any,
+        @EndpointInfo() endpoint: Endpoint,
+        @Response() response: Express.Response,
+        @Request() request: Express.Request,
+        @Next() next: Express.NextFunction
+    ) {
 
         if (response.headersSent) {
            return;
@@ -26,7 +35,20 @@ export default class ResponseViewMiddleware implements IMiddleware {
                 data = Object.assign({}, data, viewOptions);
             }
 
-            response.render(viewPath, data);
+            response.render(viewPath, data, (err, html) => {
+
+                if (err) {
+                    $log.error(err);
+                    response.status(500).send(''+err);
+                    next(err);
+                } else {
+                    request.storeData(html);
+                    next();
+                }
+
+            });
+        } else {
+            next();
         }
 
     }

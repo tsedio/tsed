@@ -163,7 +163,17 @@ export class Endpoint {
             response.status(201);
         }
 
-        request["endpointInfo"] = this;
+        request.getEndpoint = () => this;
+
+        request.storeData = function(data) {
+            this._responseData = data;
+            return this;
+        };
+
+        request.getStoredData = function(data) {
+            return this._responseData;
+        };
+
         next();
     }
 

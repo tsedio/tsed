@@ -228,7 +228,7 @@ export default class MiddlewareService {
                 .then((data) => {
 
                     if (type === MiddlewareType.ENDPOINT) {
-                        localScope.request["responseData"] = data;
+                        localScope.request.storeData(data);
                     }
 
                     if (!hasNextFn) {
