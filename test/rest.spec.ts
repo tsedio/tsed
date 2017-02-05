@@ -4,16 +4,15 @@ import {Done} from '../src/testing/done';
 import {inject} from '../src/testing/inject';
 
 describe('Rest :', () => {
-    describe("init", () => {
-        const {FakeApplication} = require("./helper/FakeApplication");
-
-        it("should create a fake application for test", (done) => {
-            expect(FakeApplication.getInstance(done) !== undefined).to.equal(true);
-        });
-    });
 
     describe("GET /rest", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
+
+        it("should create a fake application for test", (done) => {
+            let result = FakeApplication.getInstance(done);
+
+            expect(result !== undefined).to.equal(true);
+        });
 
         it('should return all routes', inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
             FakeApplication
@@ -36,7 +35,7 @@ describe('Rest :', () => {
 
         }));
 
-        it('should return all routes', inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
+        it('should return html content', inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
             FakeApplication
                 .getInstance()
                 .request()
@@ -58,8 +57,6 @@ describe('Rest :', () => {
 
     describe("GET /rest/calendars", () => {
         const {FakeApplication} = require("./helper/FakeApplication");
-
-
 
         it("should return an object (without annotation)", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
 

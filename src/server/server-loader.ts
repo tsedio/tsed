@@ -465,17 +465,20 @@ export abstract class ServerLoader {
             return next(error);
         }
 
+        const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
+
         if (error instanceof Exception) {
-            response.status(error.status).send(error.message);
+            $log.error("" + error);
+            response.status(error.status).send(toHTML(error.message));
             return next();
         }
 
         if (typeof error === "string") {
-            response.status(404).send(error);
+            response.status(404).send(toHTML(error));
             return next();
         }
 
-        $log.error(error);
+        $log.error("" + error);
         response.status(error.status || 500).send("Internal Error");
 
         return next();

@@ -7,9 +7,12 @@ import * as Express from "express";
 import {RESPONSE_VIEW, RESPONSE_VIEW_OPTIONS} from "../constants/metadata-keys";
 import {EndpointInfo} from "../decorators/endpoint-info";
 import {Endpoint} from "../controllers/endpoint";
-import {$log} from "ts-log-debug";
-import {Next} from "../decorators/next";
 import {Request} from "../decorators/request";
+import {InternalServerError} from "ts-httpexceptions";
+import {getClass} from "../utils/utils";
+import {getClassName} from "../utils/class";
+import {TEMPLATE_RENDERING_ERROR} from "../constants/errors-msgs";
+
 
 @Middleware()
 export default class ResponseViewMiddleware implements IMiddleware {
@@ -18,38 +21,47 @@ export default class ResponseViewMiddleware implements IMiddleware {
         @ResponseData() data: any,
         @EndpointInfo() endpoint: Endpoint,
         @Response() response: Express.Response,
-        @Request() request: Express.Request,
-        @Next() next: Express.NextFunction
+        @Request() request: Express.Request
     ) {
 
         if (response.headersSent) {
            return;
         }
 
-        const viewPath = endpoint.getMetadata(RESPONSE_VIEW);
-        const viewOptions = endpoint.getMetadata(RESPONSE_VIEW_OPTIONS);
+        return new Promise((resolve, reject) => {
 
-        if (viewPath !== undefined) {
+            const viewPath = endpoint.getMetadata(RESPONSE_VIEW);
+            const viewOptions = endpoint.getMetadata(RESPONSE_VIEW_OPTIONS);
 
-            if (viewOptions !== undefined ) {
-                data = Object.assign({}, data, viewOptions);
-            }
+            if (viewPath !== undefined) {
 
-            response.render(viewPath, data, (err, html) => {
-
-                if (err) {
-                    $log.error(err);
-                    response.status(500).send(''+err);
-                    next(err);
-                } else {
-                    request.storeData(html);
-                    next();
+                if (viewOptions !== undefined ) {
+                    data = Object.assign({}, data, viewOptions);
                 }
 
-            });
-        } else {
-            next();
-        }
+                response.render(viewPath, data, (err, html) => {
+
+                    if (err) {
+                        // $log.error(err);
+                        // response.status(500).send("" + err);
+
+
+                        reject(new InternalServerError(TEMPLATE_RENDERING_ERROR(
+                            getClassName(endpoint.targetClass),
+                            endpoint.methodClassName,
+                            err
+                        )));
+
+                    } else {
+                        // request.storeData(html);
+                        resolve(html);
+                    }
+
+                });
+            } else {
+                resolve();
+            }
+        });
 
     }
 }

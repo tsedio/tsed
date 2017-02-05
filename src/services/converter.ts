@@ -54,7 +54,7 @@ export default class ConverterService {
 
                 Object.getOwnPropertyNames(obj).forEach(propertyKey => {
 
-                    if(typeof obj[propertyKey] !== 'function') {
+                    if (typeof obj[propertyKey] !== "function") {
                         const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {};
 
                         plainObject[jsonMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);

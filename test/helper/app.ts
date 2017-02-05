@@ -58,18 +58,6 @@ export class ExampleServer extends ServerLoader implements IServerLifecycle {
     }
 
     /**
-     * Customize this method to manage all errors emitted by the server and controllers.
-     * @param error
-     * @param request
-     * @param response
-     * @param next
-     */
-    public $onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
-
-        next();
-    }
-
-    /**
      * Set here your check authentification strategy.
      * @param request
      * @param response

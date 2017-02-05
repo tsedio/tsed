@@ -45,4 +45,13 @@ export const CONVERTER_DESERIALIZE = (name, value) => `Convertion failed for cla
  * @constructor
  */
 export const CONVERTER_SERIALIZE = (name, value) => `Convertion failed for class "${name}" with object => ${JSON.stringify(value)}.`;
+/**
+ *
+ * @param className
+ * @param methodName
+ * @param stack
+ * @constructor
+ */
+export const TEMPLATE_RENDERING_ERROR = (className, methodName, stack) => `Template rendering error : ${className}.${methodName}()\n` + stack;
+
 

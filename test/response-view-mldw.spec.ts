@@ -32,10 +32,7 @@ describe('ResponseViewMiddleware :', () => {
             {},
             endpoint as any,
             response as any,
-            new FakeRequest() as any,
-            () => {
-
-            }
+            new FakeRequest() as any
         );
 
         expect(view).to.equal('page.html');
@@ -68,10 +65,7 @@ describe('ResponseViewMiddleware :', () => {
             {},
             endpoint as any,
             response as any,
-            new FakeRequest() as any,
-            () => {
-
-            }
+            new FakeRequest() as any
         );
 
         expect(view).to.equal('page.html');
@@ -104,10 +98,7 @@ describe('ResponseViewMiddleware :', () => {
             {},
             endpoint as any,
             response as any,
-            new FakeRequest() as any,
-            () => {
-
-            }
+            new FakeRequest() as any
         );
 
         expect(view).to.equal(undefined);
@@ -141,10 +132,7 @@ describe('ResponseViewMiddleware :', () => {
             {},
             endpoint as any,
             response as any,
-            new FakeRequest() as any,
-            () => {
-
-            }
+            new FakeRequest() as any
         );
 
         expect(view).to.equal(undefined);

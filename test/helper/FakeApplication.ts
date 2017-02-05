@@ -81,8 +81,7 @@ export class FakeApplication extends ServerLoader implements IServerLifecycle {
         $log.setRepporting({
             debug: false,
             info: false,
-            error: true
-
+            error: false
         });
 
         if (FakeApplication.Server === undefined){

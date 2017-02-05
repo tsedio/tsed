@@ -67,7 +67,7 @@ export default class InjectParams {
     toJSON() {
 
         const use = this.use ? getClassName(this.use) : undefined;
-        const baseType = this.baseType && use != getClassName(this.baseType) ? getClassName(this.baseType) : undefined;
+        const baseType = this.baseType && use !== getClassName(this.baseType) ? getClassName(this.baseType) : undefined;
 
         return {
             service: this._service,

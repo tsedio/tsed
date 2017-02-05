@@ -227,7 +227,7 @@ export default class MiddlewareService {
                 .then(() => handler()(...parameters))
                 .then((data) => {
 
-                    if (type === MiddlewareType.ENDPOINT) {
+                    if (data !== undefined) {
                         localScope.request.storeData(data);
                     }
 
