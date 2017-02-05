@@ -19,6 +19,7 @@ export const INJECT_PARAMS = "tsed:inject:params";
 // used to access design time types
 export const DESIGN_PARAM_TYPES = "design:paramtypes";
 export const DESIGN_TYPE = "design:type";
+export const DESIGN_RETURN_TYPE = "design:returntype";
 
 // export const SERVICE = "tsed:service:type";
 // export const SERVICE_INSTANCE = "tsed:service:instance";

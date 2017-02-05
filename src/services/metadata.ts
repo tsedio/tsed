@@ -1,4 +1,4 @@
-import {DESIGN_TYPE, DESIGN_PARAM_TYPES} from "../constants/metadata-keys";
+import {DESIGN_TYPE, DESIGN_PARAM_TYPES, DESIGN_RETURN_TYPE} from "../constants/metadata-keys";
 import {getClass} from "../utils/utils";
 require("reflect-metadata");
 
@@ -77,6 +77,14 @@ export default class Metadata<T> {
      *
      * @param target
      * @param propertyKey
+     */
+    static getReturnType = (target: any, propertyKey: string | symbol): any =>
+        Reflect.getMetadata(DESIGN_RETURN_TYPE, target, propertyKey);
+
+    /**
+     *
+     * @param target
+     * @param propertyKey
      * @returns {any}
      */
     static getParamTypes(target: any, propertyKey?: string): any[] {
@@ -86,7 +94,7 @@ export default class Metadata<T> {
      *
      * @param key
      * @param target
-     * @param targetKey
+     * @param propertyKey
      */
     static has = (key: string, target: any, propertyKey?: string | symbol): boolean =>
         Reflect.hasMetadata(key, getClass(target), propertyKey);

@@ -238,7 +238,7 @@ export class CalendarCtrl {
     @UseAfter(CalendarCtrl.middleware2)
     public testUseAfter (
         @Request() request: Express.Request
-    ) {
+    ): Object {
         return {id: 1, name: "test"};
     }
 

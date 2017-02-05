@@ -3,7 +3,7 @@ import {Service} from "../decorators/service";
 import {ExpressApplication} from "./express-application";
 import Controller from "../controllers/controller";
 import Metadata from "./metadata";
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, DESIGN_RETURN_TYPE} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {Endpoint} from "../controllers/endpoint";
@@ -237,7 +237,8 @@ export default class ControllerService {
 
                     const className = getClassName(ctrl.targetClass),
                         methodClassName = endpoint.methodClassName,
-                        parameters = InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName);
+                        parameters = InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName),
+                        returnType = Metadata.getReturnType(ctrl.targetClass, endpoint.methodClassName);
 
                     routes.push({
                         method: endpoint.getMethod(),
@@ -245,7 +246,8 @@ export default class ControllerService {
                         url: `${endpointUrl}${endpoint.getRoute() || ""}`,
                         className,
                         methodClassName,
-                        parameters
+                        parameters,
+                        returnType
                     });
 
                 }

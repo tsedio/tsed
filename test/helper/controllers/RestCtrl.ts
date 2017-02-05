@@ -13,7 +13,7 @@ export class RestCtrl {
     }
 
     @All('/')
-    public test() {
+    public test(): Object {
         return this.routeService.getAll();
     }
 
