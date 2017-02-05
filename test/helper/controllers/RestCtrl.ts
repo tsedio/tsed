@@ -20,6 +20,6 @@ export class RestCtrl {
     @Get('/html')
     @ResponseView("rest")
     public render() {
-        return {endpoints: this.routeService.getAll()};
+        return {endpoints: JSON.parse(JSON.stringify(this.routeService.getAll()))};
     }
 }
