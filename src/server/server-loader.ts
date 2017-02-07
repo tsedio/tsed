@@ -214,7 +214,7 @@ export abstract class ServerLoader {
         this._injectorService = InjectorService.get<InjectorService>(InjectorService);
 
         const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
-        const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
+        const $afterRoutesInit = (<any>this).$afterRoutesInit || new Function; // TODO Fallback
 
         return Promise
             .resolve()
