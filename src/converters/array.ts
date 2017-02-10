@@ -2,6 +2,7 @@
 import ConverterService from "../services/converter";
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/Converter";
+import {isArrayOrArrayClass} from "../utils/utils";
 
 @Converter(Array)
 export class ArrayConverter implements IConverter {
@@ -15,10 +16,15 @@ export class ArrayConverter implements IConverter {
      * @param baseType
      * @returns {any[]}
      */
-    deserialize<T>(data: any[], target: any, baseType?: T): T[] {
-        return (data as Array<any>).map(item =>
-            this.converterService.deserialize(item, baseType)
-        );
+    deserialize<T>(data: any, target: any, baseType?: T): T[] {
+
+        if (isArrayOrArrayClass(data)) {
+            return (data as Array<any>).map(item =>
+                this.converterService.deserialize(item, baseType)
+            );
+        }
+
+        return [data];
     }
 
     /**
