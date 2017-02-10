@@ -1,10 +1,10 @@
-import {Use} from "./use";
+import {UseAfter} from "./use-after";
 
 export function Redirect(location: string): Function {
 
     return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
-        return Use((request, response, next) => {
+        return UseAfter((request, response, next) => {
 
             response.redirect(location);
 
