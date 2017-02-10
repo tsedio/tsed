@@ -129,7 +129,7 @@ export default class ConverterService {
                     const propertyValue = obj[jsonMetadata.name] || obj[propertyName];
                     const propertyKey = jsonMetadata.propertyKey || propertyName;
 
-                    try{
+                    try {
 
                         if (typeof instance[propertyKey] !== "function") {
 
@@ -140,7 +140,7 @@ export default class ConverterService {
                             );
                         }
 
-                    } catch(err) {
+                    } catch (err) {
                         /* istanbul ignore next */
                         (() => {
                             const castedError = new Error("For " + propertyKey + " with value " + propertyValue +  " \n" + err.message);
