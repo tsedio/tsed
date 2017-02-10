@@ -125,19 +125,30 @@ export default class ConverterService {
                 const instance = new targetType();
 
                 Object.keys(obj).forEach((propertyName: string) => {
-
                     const jsonMetadata = ConverterService.getJsonMetadata(targetType, propertyName) || {};
                     const propertyValue = obj[jsonMetadata.name] || obj[propertyName];
                     const propertyKey = jsonMetadata.propertyKey || propertyName;
 
-                    if (typeof instance[propertyKey] !== "function") {
+                    try{
 
-                        instance[propertyKey] = this.deserialize(
-                            propertyValue,
-                            jsonMetadata.use,
-                            jsonMetadata.baseType
-                        );
+                        if (typeof instance[propertyKey] !== "function") {
+
+                            instance[propertyKey] = this.deserialize(
+                                propertyValue,
+                                jsonMetadata.use,
+                                jsonMetadata.baseType
+                            );
+                        }
+
+                    } catch(err) {
+                        /* istanbul ignore next */
+                        (() => {
+                            const castedError = new Error("For " + propertyKey + " with value " + propertyValue +  " \n" + err.message);
+                            castedError.stack = err.stack;
+                            throw castedError;
+                        })();
                     }
+
 
                 });
 
@@ -153,7 +164,7 @@ export default class ConverterService {
             } else {
                 /* istanbul ignore next */
                 (() => {
-                    const castedError = new Error(CONVERTER_DESERIALIZE(getClassName(targetType), obj));
+                    const castedError = new Error(CONVERTER_DESERIALIZE(getClassName(targetType), obj) + "\n" + err.message);
                     castedError.stack = err.stack;
                     throw castedError;
                 })();
