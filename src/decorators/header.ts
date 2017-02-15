@@ -1,6 +1,6 @@
 
 import {HeaderParams} from "./params";
-import {UseBefore} from "./use-before";
+import {UseAfter} from "./use-after";
 
 /**
  *
@@ -17,7 +17,7 @@ export function Header(expression: string | {[key: string]: string}, expressionV
             return HeaderParams(expression)(target, propertyKey, descriptor as number);
         }
 
-        return UseBefore((request, response, next) => {
+        return UseAfter((request, response, next) => {
 
             if (expressionValue !== undefined) {
                 response.set(expression, expressionValue);
