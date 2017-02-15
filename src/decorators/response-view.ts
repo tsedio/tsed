@@ -13,3 +13,6 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
     };
 }
 
+export function Render(viewPath: string, viewOptions?: Object): Function {
+    return ResponseView(viewPath, viewOptions);
+}

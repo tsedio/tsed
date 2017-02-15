@@ -10,6 +10,7 @@ export * from "./json-property";
 export * from "./location";
 export * from "./redirect";
 export * from "./inject";
+export * from "./status";
 
 // Parameters
 export * from "./authenticated";

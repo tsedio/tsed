@@ -2,7 +2,7 @@ import {Err} from "../src/decorators/error";
 import {Location} from "../src/decorators/location";
 import Chai = require("chai");
 import InjectParams from "../src/services/inject-params";
-import {EXPRESS_ERR, ENDPOINT_ARGS, ENDPOINT_USE_BEFORE} from "../src/constants/metadata-keys";
+import {EXPRESS_ERR, ENDPOINT_ARGS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER} from "../src/constants/metadata-keys";
 import Metadata from "../src/services/metadata";
 import {Redirect} from "../src/decorators/redirect";
 import {Header} from "../src/decorators/header";
@@ -37,7 +37,7 @@ describe('Decorators :', () => {
                 }
             };
 
-            const middlewares = Metadata.get(ENDPOINT_ARGS, TestDecorator, 'method');
+            const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
 
             expect(middlewares.length).to.equal(1);
 
@@ -47,7 +47,7 @@ describe('Decorators :', () => {
 
             expect(response.l).to.equal('http://test');
 
-            Metadata.set(ENDPOINT_ARGS, [], TestDecorator, 'method');
+            Metadata.set(ENDPOINT_USE_AFTER, [], TestDecorator, 'method');
         });
 
 
@@ -66,7 +66,7 @@ describe('Decorators :', () => {
                 }
             };
 
-            const middlewares = Metadata.get(ENDPOINT_ARGS, TestDecorator, 'method');
+            const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
 
             expect(middlewares.length).to.equal(1);
 
@@ -93,9 +93,9 @@ describe('Decorators :', () => {
                 }
             };
 
-            const middlewares = Metadata.get(ENDPOINT_USE_BEFORE, TestDecorator, 'method');
+            const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
 
-            expect(middlewares.length).to.equal(1);
+            expect(middlewares.length).to.equal(2);
 
             const middleware = middlewares[0];
 
@@ -103,7 +103,7 @@ describe('Decorators :', () => {
 
             expect(JSON.stringify(response.l)).to.equal('{"Content-Type":"application/json"}');
 
-            Metadata.set(ENDPOINT_USE_BEFORE, [], TestDecorator, 'method');
+            Metadata.set(ENDPOINT_USE_AFTER, [], TestDecorator, 'method');
         });
 
         it('should add metadata (params)', () => {
@@ -116,7 +116,7 @@ describe('Decorators :', () => {
                 }
             };
 
-            const middlewares = Metadata.get(ENDPOINT_USE_BEFORE, TestDecorator, 'method');
+            const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
 
             expect(middlewares.length).to.equal(1);
 
@@ -126,7 +126,7 @@ describe('Decorators :', () => {
 
             expect(JSON.stringify(response.l)).to.equal('{"Content-Type":"application/json"}');
 
-            Metadata.set(ENDPOINT_USE_BEFORE, [], TestDecorator, 'method');
+            Metadata.set(ENDPOINT_USE_AFTER, [], TestDecorator, 'method');
         });
 
     });
