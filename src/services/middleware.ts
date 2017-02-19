@@ -30,7 +30,7 @@ export default class MiddlewareService {
      */
     $afterServicesInit() {
 
-        $log.debug('[TSED] Import middlewares');
+        $log.debug("[TSED] Import middlewares");
 
         MiddlewareService.middlewares.forEach((settings, target) => {
             settings.instance = this.injectorService.invoke(target);
