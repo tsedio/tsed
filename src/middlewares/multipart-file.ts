@@ -27,8 +27,8 @@ export default class MultipartFileMiddleware  implements IMiddleware  {
     use(
         @EndpointInfo() endpoint: Endpoint,
         @Request() request: Express.Request,
-        @Response() response: Express.Request,
-        @Next() next: Express.NextFunction
+        @Response() response: Express.Response,
+        @Next() next
     ) {
 
         const middleware = require("multer")(Object.assign({
