@@ -2,7 +2,7 @@ import {Err} from "../src/decorators/error";
 import {Location} from "../src/decorators/location";
 import Chai = require("chai");
 import InjectParams from "../src/services/inject-params";
-import {EXPRESS_ERR, ENDPOINT_ARGS, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER} from "../src/constants/metadata-keys";
+import {EXPRESS_ERR, ENDPOINT_USE, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER} from "../src/constants/metadata-keys";
 import Metadata from "../src/services/metadata";
 import {Redirect} from "../src/decorators/redirect";
 import {Header} from "../src/decorators/header";
@@ -76,7 +76,7 @@ describe('Decorators :', () => {
 
             expect(response.l).to.equal('http://test');
 
-            Metadata.set(ENDPOINT_ARGS, [], TestDecorator, 'method');
+            Metadata.set(ENDPOINT_USE, [], TestDecorator, 'method');
         });
 
     });

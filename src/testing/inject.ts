@@ -1,5 +1,6 @@
 import {Done} from "./done";
 import {ExpressApplication, InjectorService} from "../services";
+import {ServerSettingsService, ServerSettingsProvider} from "../services/server-setting";
 
 /**
  * The inject function is one of the TsExpressDecorator testing utilities.
@@ -18,8 +19,18 @@ export function inject(targets: any[], func: Function) {
 
     if (!InjectorService.has(ExpressApplication)) {
        InjectorService.set(ExpressApplication, {
-           use: () => (undefined)
+           use: () => (undefined),
+           get: () => {return ""}
        });
+
+        if (!InjectorService.has(ServerSettingsService)) {
+
+            const settingsProvider = new ServerSettingsProvider(InjectorService.get<ExpressApplication>(ExpressApplication));
+
+            settingsProvider.env = "test";
+
+            InjectorService.set(ServerSettingsService, (settingsProvider as any).$get());
+        }
     }
 
     InjectorService.load();

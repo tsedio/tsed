@@ -20,7 +20,7 @@ describe('ResponseViewMiddleware :', () => {
 
         const endpoint = {
             getMetadata: function(type) {
-                return type === 'tsed:endpoint:view' ? "page.html" : {test: 'test'};
+                return type === ResponseViewMiddleware ? {viewPath: "page.html", viewOptions: {test: 'test'}} : {test: 'test'};
             }
         };
 
@@ -53,7 +53,7 @@ describe('ResponseViewMiddleware :', () => {
 
         const endpoint = {
             getMetadata: function(type) {
-                return type === 'tsed:endpoint:view' ? "page.html" : undefined;
+                return type === ResponseViewMiddleware ? {viewPath: "page.html", viewOptions: {test: 'test'}} : {test: 'test'};
             }
         };
 
@@ -86,7 +86,7 @@ describe('ResponseViewMiddleware :', () => {
 
         const endpoint = {
             getMetadata: function(type) {
-                return type === 'tsed:endpoint:view' ? "page.html" : {test: 'test'};
+                return type === ResponseViewMiddleware ? {viewPath: "page.html", viewOptions: {test: 'test'}} : {test: 'test'};
             }
         };
 
@@ -120,7 +120,7 @@ describe('ResponseViewMiddleware :', () => {
 
         const endpoint = {
             getMetadata: function(type) {
-                return type === 'tsed:endpoint:view' ? undefined : {test: 'test'};
+                return type === ResponseViewMiddleware ? {viewPath: undefined, viewOptions: undefined} : {test: 'test'};
             }
         };
 

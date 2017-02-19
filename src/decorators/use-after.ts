@@ -1,5 +1,4 @@
-import {ENDPOINT_USE_AFTER} from "../constants/metadata-keys";
-import Metadata from "../services/metadata";
+import {Endpoint} from "../controllers/endpoint";
 
 /**
  * Use decorator.
@@ -15,9 +14,7 @@ export function UseAfter(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        const middlewares = Metadata.get(ENDPOINT_USE_AFTER, target, targetKey) || [];
-
-        Metadata.set(ENDPOINT_USE_AFTER, args.concat(middlewares), target, targetKey);
+        Endpoint.useAfter(target, targetKey, args);
 
         return descriptor;
     };

@@ -1,10 +1,11 @@
 import {
-    ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_ARGS
+    ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_USE
 } from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 import {InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
 import SendResponseMiddleware from "../middlewares/send-response";
+import {getClassName} from "../utils/class";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -59,7 +60,7 @@ export class Endpoint {
      */
     constructor(private _targetClass: any, private _methodClassName: string) {
 
-        const args = Metadata.get(ENDPOINT_ARGS, _targetClass, _methodClassName) || [];
+        const args = Metadata.get(ENDPOINT_USE, _targetClass, _methodClassName) || [];
         this.push(args);
 
     }
@@ -121,8 +122,8 @@ export class Endpoint {
     public getMiddlewares(): any[] {
 
         const middlewareService = InjectorService.get<MiddlewareService>(MiddlewareService);
-        const middlewaresBefore = Metadata.get(ENDPOINT_USE_BEFORE, this._targetClass, this._methodClassName) || [];
-        const middlewaresAfter = Metadata.get(ENDPOINT_USE_AFTER, this._targetClass, this._methodClassName) || [];
+        const middlewaresBefore = this.getBeforeMiddlewares();
+        const middlewaresAfter = this.getAfterMiddlewares();
 
         let middlewares: any[] = [];
 
@@ -184,6 +185,10 @@ export class Endpoint {
         return this._methodClassName;
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     public get targetClass(): string {
         return this._targetClass;
     }
@@ -193,11 +198,79 @@ export class Endpoint {
      * @param target
      * @param method
      */
-    static has = (target: any, method: string): boolean => Metadata.has(ENDPOINT_ARGS, target, method);
+    static has = (target: any, method: string): boolean => Metadata.has(ENDPOINT_USE, target, method);
+
     /**
-     *
+     * Append middlewares in the pool (before).
+     * @param target
+     * @param targetKey
+     * @param args
+     */
+    static useBefore(target: any, targetKey: string, args: any[]) {
+        const middlewares = Metadata.get(ENDPOINT_USE_BEFORE, target, targetKey) || [];
+
+        Metadata.set(ENDPOINT_USE_BEFORE, args.concat(middlewares), target, targetKey);
+        return this;
+    };
+
+    /**
+     * Add middleware and configuration for the endpoint.
+     * @param target
+     * @param targetKey
+     * @param args
+     * @returns {Endpoint}
+     */
+    static use(target: any, targetKey: string, args: any[]) {
+        const middlewares = Metadata.get(ENDPOINT_USE, target, targetKey) || [];
+
+        Metadata.set(ENDPOINT_USE, args.concat(middlewares), target, targetKey);
+        return this;
+    }
+
+    /**
+     * Append middlewares in the pool (after).
+     * @param target
+     * @param targetKey
+     * @param args
+     */
+    static useAfter(target: any, targetKey: string, args: any[]) {
+        const middlewares = Metadata.get(ENDPOINT_USE_AFTER, target, targetKey) || [];
+
+        Metadata.set(ENDPOINT_USE_AFTER, args.concat(middlewares), target, targetKey);
+        return this;
+    };
+
+    /**
+     * Return the list of middlewares that will be applied before all middlewares.
+     */
+    public getBeforeMiddlewares = () => Metadata.get(ENDPOINT_USE_BEFORE, this._targetClass, this._methodClassName) || [];
+
+    /**
+     * Return the list of middlewares that will be applied after all middlewares.
+     */
+    public getAfterMiddlewares = () => Metadata.get(ENDPOINT_USE_AFTER, this._targetClass, this._methodClassName) || [];
+
+    /**
+     * Get value for an endpoint method.
      * @param key
      */
-    public getMetadata = (key) => Metadata.get(key, this.targetClass, this.methodClassName);
+    public getMetadata = (key: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), this.targetClass, this.methodClassName);
+
+    /**
+     * Store value for an endpoint method.
+     * @param key
+     * @param value
+     * @param targetClass
+     * @param methodClassName
+     */
+    static setMetadata = (key: any, value: any, targetClass: any, methodClassName: any) => Metadata.set(typeof key === "string" ? key : getClassName(key), value, targetClass, methodClassName);
+
+    /**
+     * Return the stored value for an endpoint method.
+     * @param key
+     * @param targetClass
+     * @param methodClassName
+     */
+    static getMetadata = (key: any, targetClass: any, methodClassName: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), targetClass, methodClassName);
 
 }

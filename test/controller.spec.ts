@@ -3,7 +3,7 @@ import assert = require('assert');
 import {FakeClass, FakeClassChildren} from './helper';
 import Metadata from '../src/services/metadata';
 import {
-    CONTROLLER_URL, ENDPOINT_ARGS, CONTROLLER_DEPEDENCIES,
+    CONTROLLER_URL, ENDPOINT_USE, CONTROLLER_DEPEDENCIES,
     CONTROLLER_MOUNT_ENDPOINTS
 } from '../src/constants/metadata-keys';
 
@@ -20,8 +20,8 @@ describe("Controller & ControllerService :", () => {
         it('should build controller', inject([ControllerService], (controllerService: ControllerService) => {
 
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClass, "testMethod2");
 
             controllerService.load();
 
@@ -42,13 +42,13 @@ describe("Controller & ControllerService :", () => {
 
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
             Metadata.set(CONTROLLER_DEPEDENCIES, [FakeClassChildren], FakeClass);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClass, "testMethod2");
 
             Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
             Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClassChildren);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClassChildren, "testMethod2");
 
             ControllerService.controllers = new Map<any,any>();
             controllerService.load();
@@ -80,13 +80,13 @@ describe("Controller & ControllerService :", () => {
 
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
             Metadata.set(CONTROLLER_DEPEDENCIES, [FakeClassChildren], FakeClass);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClass, "testMethod2");
 
             Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
             Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClassChildren);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClassChildren, "testMethod2");
 
 
             controllerService.load();
@@ -119,12 +119,12 @@ describe("Controller & ControllerService :", () => {
 
             Metadata.set(CONTROLLER_URL, '/fake-class', FakeClass);
             Metadata.set(CONTROLLER_DEPEDENCIES, ["FakeClassChildrenError"], FakeClass);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClass, "testMethod2");
 
             Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClassChildren, "testMethod2");
 
 
             //expect(Metadata.get(CONTROLLER_DEPEDENCIES, FakeClass)).to.be.an('array');
@@ -148,13 +148,13 @@ describe("Controller & ControllerService :", () => {
             Metadata.set(CONTROLLER_DEPEDENCIES, [FakeClassChildren], FakeClass);
             Metadata.set(CONTROLLER_MOUNT_ENDPOINTS, ["/rest"], FakeClass);
 
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClass, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClass, "testMethod2");
 
             Metadata.set(CONTROLLER_URL, '/children', FakeClassChildren);
             Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClassChildren);
-            Metadata.set(ENDPOINT_ARGS, ['get', '/'], FakeClassChildren, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, ['post', '/'], FakeClassChildren, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['get', '/'], FakeClassChildren, "testMethod1");
+            Metadata.set(ENDPOINT_USE, ['post', '/'], FakeClassChildren, "testMethod2");
 
             controllerService.load();
 
@@ -196,8 +196,8 @@ describe("Controller & ControllerService :", () => {
             Metadata.set(CONTROLLER_DEPEDENCIES, [], FakeClass);
             Metadata.set(CONTROLLER_MOUNT_ENDPOINTS, ["/rest"], FakeClass);
 
-            Metadata.set(ENDPOINT_ARGS, ['head'], FakeClass, "testMethod1");
-            Metadata.set(ENDPOINT_ARGS, [new Function], FakeClass, "testMethod2");
+            Metadata.set(ENDPOINT_USE, ['head'], FakeClass, "testMethod1");
+            Metadata.set(ENDPOINT_USE, [new Function], FakeClass, "testMethod2");
 
             controllerService.load();
 

@@ -1,5 +1,4 @@
-import {ENDPOINT_ARGS} from "../constants/metadata-keys";
-import {Metadata} from "../services";
+import {Endpoint} from "../controllers/endpoint";
 /**
  * Use decorator.
  * @returns {function(any, any, any): *}
@@ -14,9 +13,7 @@ export function Use(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        const middlewares = Metadata.get(ENDPOINT_ARGS, target, targetKey) || [];
-
-        Metadata.set(ENDPOINT_ARGS, args.concat(middlewares), target, targetKey);
+        Endpoint.use(target, targetKey, args);
 
         return descriptor;
     };

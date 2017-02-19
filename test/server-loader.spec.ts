@@ -4,6 +4,7 @@ import {ServerLoader} from '../src/index';
 import {FakeRequest, FakeResponse, FakeServer} from './helper';
 import assert = require('assert');
 import {$log} from "ts-log-debug";
+import {ServerSettingsService} from "../src/services/server-setting";
 
 describe("ServerLoader()", () => {
 
@@ -282,11 +283,11 @@ describe("ServerLoader()", () => {
         });
     });
 
-    describe('ServerLoader.buildAddressAndPort()', () => {
+    describe('ServerSettingsService.buildAddressAndPort()', () => {
 
         it('should build default address and use port given as parameters', () => {
 
-            const {address, port} = (ServerLoader as any).buildAddressAndPort(8080);
+            const {address, port} = (ServerSettingsService as any).buildAddressAndPort(8080);
 
             expect(address).to.equal('0.0.0.0');
             expect(port).to.equal(8080);
@@ -295,7 +296,7 @@ describe("ServerLoader()", () => {
 
         it('should build address and port', () => {
 
-            const {address, port} = (ServerLoader as any).buildAddressAndPort('127.0.0.1:8080');
+            const {address, port} = (ServerSettingsService as any).buildAddressAndPort('127.0.0.1:8080');
 
             expect(address).to.equal('127.0.0.1');
             expect(port).to.equal(8080);

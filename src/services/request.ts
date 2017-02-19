@@ -47,9 +47,22 @@ export default class RequestService {
     /**
      *
      * @param request
-     * @param expression
+     */
+    multipartFile = (request) => request["files"][0];
+    /**
+     *
+     * @param request
+     */
+    multipartFiles = (request) => request["files"];
+    /**
+     *
+     * @param request
      */
     responseData = (request): any => request.getStoredData();
+    /**
+     *
+     * @param request
+     */
     endpointInfo = (request): any => request.getEndpoint();
 }
 

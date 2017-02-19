@@ -4,12 +4,10 @@ import {Middleware} from "../decorators/middleware";
 import {ResponseData} from "../decorators/response-data";
 import {Response} from "../decorators/response";
 import * as Express from "express";
-import {RESPONSE_VIEW, RESPONSE_VIEW_OPTIONS} from "../constants/metadata-keys";
 import {EndpointInfo} from "../decorators/endpoint-info";
 import {Endpoint} from "../controllers/endpoint";
 import {Request} from "../decorators/request";
 import {InternalServerError} from "ts-httpexceptions";
-import {getClass} from "../utils/utils";
 import {getClassName} from "../utils/class";
 import {TEMPLATE_RENDERING_ERROR} from "../constants/errors-msgs";
 
@@ -30,8 +28,7 @@ export default class ResponseViewMiddleware implements IMiddleware {
 
         return new Promise((resolve, reject) => {
 
-            const viewPath = endpoint.getMetadata(RESPONSE_VIEW);
-            const viewOptions = endpoint.getMetadata(RESPONSE_VIEW_OPTIONS);
+            const {viewPath, viewOptions} = endpoint.getMetadata(ResponseViewMiddleware);
 
             if (viewPath !== undefined) {
 

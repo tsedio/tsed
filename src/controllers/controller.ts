@@ -4,7 +4,7 @@ import {getClassName} from "../utils/class";
 import Metadata from "../services/metadata";
 
 import {
-    ENDPOINT_ARGS, CONTROLLER_MOUNT_ENDPOINTS
+    CONTROLLER_MOUNT_ENDPOINTS
 } from "../constants/metadata-keys";
 
 export default class Controller {

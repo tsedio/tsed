@@ -22,6 +22,7 @@ export * from "./next";
 export * from "./error";
 export * from "./header";
 export * from "./endpoint-info";
+export * from "./multipart-file";
 
 // CLASS
 export * from "./controller";

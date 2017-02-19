@@ -1,5 +1,6 @@
 import {ENDPOINT_USE_BEFORE} from "../constants/metadata-keys";
 import {Metadata} from "../services";
+import {Endpoint} from "../controllers/endpoint";
 
 /**
  * Use decorator.
@@ -15,9 +16,7 @@ export function UseBefore(...args: any[]): Function {
         descriptor: TypedPropertyDescriptor<T>
     ) : TypedPropertyDescriptor<T> => {
 
-        const middlewares = Metadata.get(ENDPOINT_USE_BEFORE, target, targetKey) || [];
-
-        Metadata.set(ENDPOINT_USE_BEFORE, args.concat(middlewares), target, targetKey);
+        Endpoint.useBefore(target, targetKey, args);
 
         return descriptor;
     };

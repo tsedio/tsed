@@ -7,6 +7,10 @@ import Metadata from "../services/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
 import {ExpressApplication, ControllerService, InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
+import {Deprecated} from "../decorators/deprecated";
+import {ServerSettingsService, ServerSettingsProvider} from "../services/server-setting";
+
+
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -42,31 +46,20 @@ export interface IServerLifecycle {
  */
 export abstract class ServerLoader {
 
+    protected settings: ServerSettingsProvider;
     /**
      * Application express.
      * @type {core.Express}
      */
     private _expressApp: Express.Application = Express();
     /**
-     * Endpoint base.
-     * @type {string}
-     */
-    private endpoint: string = "/rest";
-    /**
-     *
-     * @type {Map<string, string>}
-     */
-    // private endpointsRules: Map<string, string> = new Map<string, string>();
-    /**
      * Instance of httpServer.
      */
     private _httpServer: Http.Server;
-    public httpPort: string | number;
     /**
      * Instance of HttpsServer.
      */
     private _httpsServer: Https.Server;
-    private httpsPort: string | number;
     /**
      *
      */
@@ -78,9 +71,11 @@ export abstract class ServerLoader {
     constructor() {
         this.patchHttp();
 
+        this.settings = new ServerSettingsProvider(this.expressApp);
+
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
-        InjectorService.factory(ServerLoader, this);
+
     }
 
     /**
@@ -136,7 +131,7 @@ export abstract class ServerLoader {
      */
     public createHttpServer(port: string | number): ServerLoader {
         this._httpServer = Http.createServer(<any> this._expressApp);
-        this.httpPort = port;
+        this.settings.httpPort = port;
         return this;
     }
 
@@ -146,9 +141,8 @@ export abstract class ServerLoader {
      * @returns {ServerLoader}
      */
     public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
-
         this._httpsServer = Https.createServer(options, this._expressApp);
-        this.httpsPort = options.port;
+        this.settings.httpsPort = options.port;
         return this;
     }
 
@@ -208,6 +202,8 @@ export abstract class ServerLoader {
      * Initialize configuration of the express app.
      */
     public initializeSettings(): Promise<any> {
+
+        InjectorService.factory(ServerSettingsService, (this.settings as any).$get());
 
         $log.info("[TSED] Import services");
         InjectorService.load();
@@ -284,7 +280,7 @@ export abstract class ServerLoader {
 
         if (this.httpServer) {
 
-            const {address, port} = ServerLoader.buildAddressAndPort(this.httpPort);
+            const {address, port} = this.settings.getHttpPort();
 
             $log.debug(`[TSED] Start HTTP server on ${address}:${port}`);
             this.httpServer.listen(+port, address);
@@ -303,7 +299,7 @@ export abstract class ServerLoader {
 
         if (this.httpsServer) {
 
-            const {address, port} = ServerLoader.buildAddressAndPort(this.httpsPort);
+            const {address, port} = this.settings.getHttpsPort();
 
             $log.debug(`[TSED] Start HTTPs server on ${address}:${port}`);
             this.httpsServer.listen(+port, address);
@@ -332,7 +328,7 @@ export abstract class ServerLoader {
      */
     public setHttpPort(port: number | string): ServerLoader {
 
-        this.httpPort = port;
+        this.settings.httpPort = port;
 
         return this;
     }
@@ -344,7 +340,7 @@ export abstract class ServerLoader {
      */
     public setHttpsPort(port: number | string): ServerLoader {
 
-        this.httpsPort = port;
+        this.settings.httpsPort = port;
 
         return this;
     }
@@ -354,9 +350,10 @@ export abstract class ServerLoader {
      * @param endpoint
      * @returns {ServerLoader}
      */
+    @Deprecated('ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of.')
     public setEndpoint(endpoint: string): ServerLoader {
 
-        this.endpoint = endpoint;
+        this.settings.endpoint = endpoint;
 
         return this;
     }
@@ -367,7 +364,7 @@ export abstract class ServerLoader {
      * @param endpoint
      * @returns {ServerLoader}
      */
-    public scan(path: string, endpoint: string = this.endpoint): ServerLoader {
+    public scan(path: string, endpoint: string = this.settings.endpoint): ServerLoader {
 
         let files: string[] = require("glob").sync(path);
         let nbFiles = 0;
@@ -428,9 +425,14 @@ export abstract class ServerLoader {
         return this._expressApp;
     }
 
+    /**
+     * Return the injectorService initialized by the server.
+     * @returns {InjectorService}
+     */
     get injectorService(): InjectorService {
         return this._injectorService;
     }
+
     /**
      * Return Http.Server instance.
      * @returns {Http.Server}
@@ -447,9 +449,11 @@ export abstract class ServerLoader {
         return this._httpsServer;
     }
 
-    // TODO deprecated
     /** istanbul ignore next */
-    getExpressApp = () => this.expressApp;
+    @Deprecated("ServerLoader.getExpressApp is deprecated. Use ServerLoader.expressApp instead of.")
+    getExpressApp() {
+        return this.expressApp;
+    }
 
     /**
      * Default global handler
@@ -485,27 +489,12 @@ export abstract class ServerLoader {
     }
 
     /**
-     *
-     * @param addressPort
-     * @returns {{address: string, port: (string|number)}}
-     */
-    private static buildAddressAndPort(addressPort: string | number): {address: string, port: number} {
-        let address = "0.0.0.0";
-        let port = addressPort;
-
-        if (typeof addressPort === "string" && addressPort.indexOf(":") > -1) {
-            [address, port] = addressPort.split(":");
-        }
-
-        return {address, port: +port};
-    }
-
-    /**
      * Set the mime acceptable to all request. Return a middleware for express.
      * @param mimes
      * @returns {function(Express.Request, Express.Response, Express.NextFunction): any}
      * @constructor
      */
+    @Deprecated("ServerLoader.AcceptMime() is deprecated. Use your own middleware instead of.")
     static AcceptMime(...mimes: string[]): Function {
 
         return function(req: Express.Request, res: Express.Response, next: Express.NextFunction): any {
