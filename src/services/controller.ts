@@ -83,7 +83,6 @@ export default class ControllerService {
      */
     public load() {
 
-        this.middlewareService.load();
         this.controllersFromMetadatas();
 
         ControllerService

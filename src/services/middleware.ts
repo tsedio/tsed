@@ -21,7 +21,7 @@ export default class MiddlewareService {
         private injectorService: InjectorService,
         private converterService: ConverterService
     ) {
-
+        this.load();
     }
 
     load() {
