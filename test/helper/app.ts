@@ -3,6 +3,7 @@ import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerLoader, IServerLifecycle} from "../../src/index";
 import Path = require("path");
+import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 
 $log.setPrintDate(true);
 
@@ -19,7 +20,8 @@ export class ExampleServer extends ServerLoader implements IServerLifecycle {
 
         let appPath = Path.resolve(__dirname);
 
-        this.mount("/rest", appPath + "/controllers/**/**.js")
+        this
+            .mount("/rest", appPath + "/controllers/**/**.js")
             .mount("/rest/v1", appPath + "/controllers/**/**.js")
             .createHttpServer(8000)
             .createHttpsServer({
@@ -41,8 +43,8 @@ export class ExampleServer extends ServerLoader implements IServerLifecycle {
             session = require('express-session');
 
         this
-        //.use(morgan('dev'))
-            .use(ServerLoader.AcceptMime("application/json"))
+            .use(morgan('dev'))
+            .use(TestAcceptMimeMiddleware)
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
                 extended: true

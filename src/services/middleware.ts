@@ -11,6 +11,7 @@ import InjectorService from "./injector";
 import {Service} from "../decorators/service";
 import RequestService from "./request";
 import ControllerService from "./controller";
+import {$log} from "ts-log-debug";
 
 @Service()
 export default class MiddlewareService {
@@ -28,6 +29,9 @@ export default class MiddlewareService {
      *
      */
     $afterServicesInit() {
+
+        $log.debug('[TSED] Import middlewares');
+
         MiddlewareService.middlewares.forEach((settings, target) => {
             settings.instance = this.injectorService.invoke(target);
 

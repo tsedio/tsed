@@ -114,7 +114,7 @@ export abstract class ServerLoader {
             args = args.map((arg) => {
 
                 if (typeof arg === "function") {
-                    this.expressApp.use(middlewareService.bindMiddleware(arg) as any);
+                    arg = middlewareService.bindMiddleware(arg);
                 }
 
                 return arg;
