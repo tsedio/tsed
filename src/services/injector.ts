@@ -222,6 +222,16 @@ export default class InjectorService {
                 InjectorService.construct(provider.provide);
             });
 
+
+        this.providers.forEach((provider: IProvider) => {
+
+            const service = InjectorService.get<{$afterServicesInit: Function}>(provider.provide);
+
+            if (service.$afterServicesInit) {
+                service.$afterServicesInit();
+            }
+
+        });
     }
 
     /**

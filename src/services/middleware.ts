@@ -21,10 +21,13 @@ export default class MiddlewareService {
         private injectorService: InjectorService,
         private converterService: ConverterService
     ) {
-        this.load();
+
     }
 
-    load() {
+    /**
+     *
+     */
+    $afterServicesInit() {
         MiddlewareService.middlewares.forEach((settings, target) => {
             settings.instance = this.injectorService.invoke(target);
 
@@ -51,6 +54,11 @@ export default class MiddlewareService {
         return this.middlewares.get(target);
     }
 
+    /**
+     *
+     * @param target
+     * @returns {T}
+     */
     static invoke<T extends IMiddleware>(target: any): IMiddlewareSettings<T> {
         return this.middlewares.get(target).instance;
     }
