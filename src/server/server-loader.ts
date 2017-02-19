@@ -189,7 +189,7 @@ export abstract class ServerLoader {
     public initializeSettings(): Promise<any> {
 
         const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
-        const $afterRoutesInit = (<any>this).$afterCtrlsInit || new Function; // TODO Fallback
+        const $afterRoutesInit = (<any>this).$afterCtrlsInit || (this as any).$afterRoutesInit || new Function; // TODO Fallback
 
         // this.endpointsRules.set("*", this.endpoint);
 
