@@ -1,7 +1,4 @@
-import {Controller, All, Get} from "../../../src/index";
-import {MongooseService} from "../services/MongooseService";
-import RouteService from "../../../src/services/route";
-import {ResponseView} from "../../../src/decorators/response-view";
+import {Render, Controller, All, Get, RouteService} from "../../../src";
 
 @Controller("/rest")
 export class RestCtrl {
@@ -18,7 +15,7 @@ export class RestCtrl {
     }
 
     @Get('/html')
-    @ResponseView("rest")
+    @Render("rest")
     public render() {
         return {endpoints: JSON.parse(JSON.stringify(this.routeService.getAll()))};
     }

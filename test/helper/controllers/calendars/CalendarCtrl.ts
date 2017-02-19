@@ -13,6 +13,7 @@ import {EventCtrl} from "./EventCtrl";
 import {MongooseService} from "../../services/MongooseService"
 import {ContentType} from "../../../../src/decorators/content-type";
 import {UseAfter} from "../../../../src/decorators/use-after";
+import {Status} from "../../../../src/decorators/status";
 
 interface ICalendar {
     id: string;
@@ -264,6 +265,7 @@ export class CalendarCtrl {
     @Get('/headers')
     @Header('x-token-test', 'test')
     @Header('x-token-test-2', 'test2')
+    @Status(200)
     @ContentType('application/xml')
     testResponseHeader (
         @Request() request: Express.Request

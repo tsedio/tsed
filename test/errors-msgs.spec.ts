@@ -1,7 +1,8 @@
 import Chai = require("chai");
 import {
     BAD_REQUEST_REQUIRED, DUPLICATED_CONTROLLER_DECORATOR,
-    UNKNOW_CONTROLLER, UNKNOW_SERVICE, CYCLIC_REF, CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE, BAD_REQUEST
+    UNKNOW_CONTROLLER, UNKNOW_SERVICE, CYCLIC_REF, CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE, BAD_REQUEST,
+    TEMPLATE_RENDERING_ERROR
 } from '../src/constants/errors-msgs';
 const expect: Chai.ExpectStatic = Chai.expect;
 
@@ -17,6 +18,7 @@ describe('Errors Messages : ', () => {
         expect(CYCLIC_REF('ctrl1', 'ctrl2')).to.equal('Cyclic reference between ctrl1 and ctrl2.');
         expect(CONVERTER_DESERIALIZE('class', {})).to.equal('Convertion failed for class "class" with object => {}.');
         expect(CONVERTER_SERIALIZE('class', {})).to.equal('Convertion failed for class "class" with object => {}.');
+        expect(TEMPLATE_RENDERING_ERROR('className', 'methodName', 'stack')).to.equal('Template rendering error : className.methodName()\nstack');
 
     });
 
