@@ -3,6 +3,8 @@ import {ExpressApplication} from '../src/services';
 import {Done} from '../src/testing/done';
 import {inject} from '../src/testing/inject';
 
+import {$log} from "ts-log-debug";
+
 describe('Rest :', () => {
 
     describe("GET /rest", () => {
@@ -317,13 +319,17 @@ describe('Rest :', () => {
 
         it("should throw a BadRequest", (done: Function) => {
 
+            $log.setRepporting({
+                error: false
+            });
+
             FakeApplication
                 .getInstance()
                 .request()
                 .put('/rest/calendars')
                 .expect(400)
                 .end((err, response: any) => {
-                    expect(response.error.text).to.equal("Bad request, parameter request.body.name is required.");
+                    expect(response.error.text).to.contains("Bad request, parameter request.body.name is required.");
                     done();
                 });
 
@@ -354,6 +360,10 @@ describe('Rest :', () => {
 
         it("should throw a Forbidden", (done: Function) => {
 
+            $log.setRepporting({
+                error: false
+            });
+
             FakeApplication
                 .getInstance()
                 .request()
@@ -361,13 +371,17 @@ describe('Rest :', () => {
                 .expect(403)
                 .end((err, response: any) => {
 
-                    expect(response.error.text).to.equal("Forbidden");
+                    expect(response.error.text).to.contains("Forbidden");
                     done();
                 });
 
         });
 
         it("should throw a BadRequest", (done: Function) => {
+
+            $log.setRepporting({
+                error: false
+            });
 
             FakeApplication
                 .getInstance()
@@ -377,7 +391,11 @@ describe('Rest :', () => {
                 .expect(400)
                 .end((err, response: any) => {
 
-                    expect(response.error.text).to.equal("Bad request, parameter request.body.id is required.");
+                    expect(response.error.text).to.contains("Bad request, parameter request.body.id is required.");
+
+                    $log.setRepporting({
+                        error: true
+                    });
                     done();
                 });
 

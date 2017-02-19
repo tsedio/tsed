@@ -9,6 +9,7 @@ import {ExpressApplication, ControllerService, InjectorService} from "../service
 import MiddlewareService from "../services/middleware";
 import {Deprecated} from "../decorators/deprecated";
 import {ServerSettingsService, ServerSettingsProvider} from "../services/server-setting";
+import ErrorHandlerMiddleware from "../middlewares/error-handler";
 
 
 
@@ -69,60 +70,13 @@ export abstract class ServerLoader {
      * @constructor
      */
     constructor() {
-        this.patchHttp();
 
         this.settings = new ServerSettingsProvider(this.expressApp);
 
+        this.settings.authentification = ((<any>this).isAuthenticated || (<any>this).$onAuth || new Function()).bind(this);
+
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
-
-    }
-
-    /**
-     * Add a new method $tryAuth to the HTTP module.
-     * This method is necessary to attach ServerLoader to each incoming message (express request).
-     * This method test if the user is authenticated (see ServerLoader.$onAuth())
-     * when an Endpoint require authentification before running his method.
-     */
-    private patchHttp() {
-        let http  = require("http");
-
-        http.IncomingMessage.prototype.$tryAuth = this.$tryAuth;
-    }
-
-    /**
-     *
-     * @param request
-     * @param response
-     * @param next
-     * @param authorization
-     */
-    private $tryAuth = (request: Express.Request, response: Express.Response, next: Express.NextFunction, authorization?: any) => {
-
-        const callback = (result: boolean) => {
-            if (result === false) {
-                next(new Forbidden("Forbidden"));
-                return;
-            }
-            next();
-        };
-
-        // TODO Fallback
-        const fn = (<any>this).isAuthenticated || (<any>this).$onAuth;
-
-        /* istanbul ignore else */
-        if (fn) {
-            const result = fn.call(this, request, response, <Express.NextFunction>callback, authorization);
-
-            /* istanbul ignore else */
-            if (result !== undefined) {
-                callback(result);
-            }
-
-        } else {
-            next();
-        }
-
     }
 
     /**
@@ -160,7 +114,7 @@ export abstract class ServerLoader {
             args = args.map((arg) => {
 
                 if (typeof arg === "function") {
-                    middlewareService.bindMiddleware(arg);
+                    this.expressApp.use(middlewareService.bindMiddleware(arg) as any);
                 }
 
                 return arg;
@@ -203,6 +157,7 @@ export abstract class ServerLoader {
      */
     public initializeSettings(): Promise<any> {
 
+
         InjectorService.factory(ServerSettingsService, (this.settings as any).$get());
 
         $log.info("[TSED] Import services");
@@ -225,22 +180,18 @@ export abstract class ServerLoader {
                 $log.info("[TSED] Routes mounted :");
                 controllerService.printRoutes($log);
 
-
-                // TODO Alex place your serve-static builder here
-
             })
             .then(() => $afterRoutesInit.call(this, this.expressApp))
             .then(() => {
 
                 // Import the globalErrorHandler
-
                 const fnError = (<any>this).$onError;
 
                 if (fnError) {
                     this.use(fnError.bind(this));
                 }
 
-                this.use(this.onError.bind(this));
+                this.use(ErrorHandlerMiddleware);
 
             });
     }
@@ -350,7 +301,7 @@ export abstract class ServerLoader {
      * @param endpoint
      * @returns {ServerLoader}
      */
-    @Deprecated('ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of.')
+    @Deprecated("ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of.")
     public setEndpoint(endpoint: string): ServerLoader {
 
         this.settings.endpoint = endpoint;
@@ -453,39 +404,6 @@ export abstract class ServerLoader {
     @Deprecated("ServerLoader.getExpressApp is deprecated. Use ServerLoader.expressApp instead of.")
     getExpressApp() {
         return this.expressApp;
-    }
-
-    /**
-     * Default global handler
-     * @param error
-     * @param request
-     * @param response
-     * @param next
-     */
-    protected onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
-
-
-        if (response.headersSent) {
-            return next(error);
-        }
-
-        const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
-
-        if (error instanceof Exception) {
-            $log.error("" + error);
-            response.status(error.status).send(toHTML(error.message));
-            return next();
-        }
-
-        if (typeof error === "string") {
-            response.status(404).send(toHTML(error));
-            return next();
-        }
-
-        $log.error("" + error);
-        response.status(error.status || 500).send("Internal Error");
-
-        return next();
     }
 
     /**

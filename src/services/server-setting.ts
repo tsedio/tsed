@@ -34,6 +34,10 @@ export class ServerSettingsService {
      * @type {string}
      */
     protected _uploadDir: string = `${rootDir}/uploads`;
+    /**
+     *
+     */
+    protected _authentification: Function = () => (true);
     /***
      *
      * @type {Map<string, any>}
@@ -48,6 +52,7 @@ export class ServerSettingsService {
             this._httpPort = settings._httpPort;
             this._httpsPort = settings._httpsPort;
             this._uploadDir = settings._uploadDir;
+            this._authentification = settings._authentification;
         }
     }
 
@@ -100,6 +105,10 @@ export class ServerSettingsService {
         return this.map.get(propertyKey);
     }
 
+    get authentification(): Function {
+        return this._authentification;
+    }
+
     private static buildAddressAndPort(addressPort: string | number): {address: string, port: number} {
         let address = "0.0.0.0";
         let port = addressPort;
@@ -117,7 +126,7 @@ export class ServerSettingsProvider extends ServerSettingsService {
     constructor(private expressApp: ExpressApplication) {
         super();
 
-        this._env = process.env.NODE_ENV || this.expressApp.get('_env') || "development"
+        this._env = process.env.NODE_ENV || this.expressApp.get("_env") || "development";
     }
 
     set httpPort(value: string | number) {
@@ -138,6 +147,10 @@ export class ServerSettingsProvider extends ServerSettingsService {
 
     set env(value: Env) {
         this._env = value as Env;
+    }
+
+    set authentification(fn: Function) {
+        this._authentification = fn;
     }
 
     set(propertyKey: string, value: any) {

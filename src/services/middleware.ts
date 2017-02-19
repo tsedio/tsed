@@ -174,7 +174,6 @@ export default class MiddlewareService {
 
         // Create Settings
         if (settings.type === MiddlewareType.ERROR) {
-
             return (err, request, response, next) => {
                 return this.invokeMethod(settings, {err, request, response, next});
             };

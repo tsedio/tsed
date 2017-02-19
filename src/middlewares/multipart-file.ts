@@ -31,7 +31,7 @@ export default class MultipartFileMiddleware  implements IMiddleware  {
         @Next() next: Express.NextFunction
     ) {
 
-        const middleware = require('multer')(Object.assign({
+        const middleware = require("multer")(Object.assign({
             dest: this.serverSettingsService.uploadDir,
         }, endpoint.getMetadata(MultipartFileMiddleware) || {}));
 

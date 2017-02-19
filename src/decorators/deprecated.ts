@@ -5,9 +5,9 @@ export function Deprecated(message: string) {
 
         const originalMethod = descriptor.value;
 
-        descriptor.value = require('util').deprecate(originalMethod, message);
+        descriptor.value = require("util").deprecate(originalMethod, message);
 
         return descriptor;
-    }
+    };
 
 }

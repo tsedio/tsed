@@ -68,12 +68,10 @@ export default class ConverterService {
         } catch (err) {
             /* istanbul ignore next */
             (() => {
-
+                const castedError = new Error(CONVERTER_SERIALIZE(getClassName(obj), obj));
+                castedError.stack = err.stack;
+                throw castedError;
             })();
-            console.error(err);
-            const castedError = new Error(CONVERTER_SERIALIZE(getClassName(obj), obj));
-            castedError.stack = err.stack;
-            throw castedError;
         }
 
         /* istanbul ignore next */

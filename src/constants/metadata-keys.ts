@@ -20,7 +20,7 @@ export const DESIGN_RETURN_TYPE = "design:returntype";
 
 // SYMBOLS
 export const EXPRESS_NEXT_FN = Symbol("next");
-export const EXPRESS_ERR = Symbol("express:err");
+export const EXPRESS_ERR = Symbol("err");
 export const EXPRESS_REQUEST = Symbol("request");
 export const EXPRESS_RESPONSE = Symbol("response");
 export const GET_HEADER = Symbol("getHeader");
