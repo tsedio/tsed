@@ -268,8 +268,23 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * Add `@UseAfter()` decorator [#19](https://github.com/Romakita/ts-express-decorators/issues/#19),
 * Add  alias `@HeaderParams()` decorator [#30](https://github.com/Romakita/ts-express-decorators/issues/#30),
 * Extends `@Header()` decorator. Now @Header can be used on method [#30](https://github.com/Romakita/ts-express-decorators/issues/#30),
-* Refactoring InjectorService. You can add a no class based service (factory)  [#36](https://github.com/Romakita/ts-express-decorators/issues/#36),
-* InjectorService can be use in `ServerLoader.$onMountingMiddleware()` [#39](https://github.com/Romakita/ts-express-decorators/issues/#39).
+* Add `@Middleware()` decorator [#40](https://github.com/Romakita/ts-express-decorators/issues/#40),
+* Add `@MultipartFile()` decorator [#31](https://github.com/Romakita/ts-express-decorators/issues/#31),
+* Refactoring `InjectorService`. You can add a no class based service (factory)  [#36](https://github.com/Romakita/ts-express-decorators/issues/#36),
+* `InjectorService` can be use in `ServerLoader.$onMountingMiddleware()` [#39](https://github.com/Romakita/ts-express-decorators/issues/#39).
+* Add `@AcceptMime` decorator,
+* Add `@Deprecated` decorator,
+* Add some services : ControllerService, ExpressApplication, MiddlewareService and ServerSettingsService
+* Add `boostrap()` function to test your server application with Mocha and SuperTest. 
+* Improve testing module.
+* Add Symbol serialization/deserialization support.
+* Fix Array deserialization when input data isn't an array.
+
+#### Method deprecated
+
+* `ServerLoader.onError()` is deprecated. Use your own middleware instead of.
+* `ServerLoader.getExpressApp` is deprecated. Use ServerLoader.expressApp instead of.
+* `ServerLoader.AcceptMime()` is deprecated. Use your own middleware instead of.
 
 #### Breaking Change 
 
@@ -293,7 +308,7 @@ We can encounter typescript compilation issues:
 
 ### v1.2.0
 
-* Remove Bluebird and use native Promise. Breaking change are possible if you use v1.1.0 of ts-express-decorators. Just, replace Bluebird reference in your `Server.ts` or install Bluebird and @types/bluebird depedencies.
+* Remove Bluebird and use native Promise. Breaking change are possible if you use v1.1.0 of ts-express-decorators. Just, replace Bluebird reference in your `Server.ts` or install Bluebird and @types/bluebird dependencies.
 * Improve `package.json` configuration. Now, IDE like webstorm can auto discovered the exposed decorators.
 * Implement [Lifecycle hooks](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#lifecycle-hooks).
 * Change testing module. See documentation (https://github.com/Romakita/ts-express-decorators/wiki/Testing).
