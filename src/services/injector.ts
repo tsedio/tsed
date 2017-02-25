@@ -14,7 +14,7 @@ export default class InjectorService {
      * @param target
      * @param locals
      */
-    static invoke<T>(target, locals: WeakMap<string|Function, any> = new WeakMap<string|Function, any>()): T {
+    static invoke<T>(target, locals: Map<string|Function, any> = new Map<string|Function, any>()): T {
 
 
         const services = this.getParams(target)
@@ -115,7 +115,7 @@ export default class InjectorService {
 
     }
 
-    static getParams(target): any[]{
+    static getParams(target): any[] {
         return Metadata.get(DESIGN_PARAM_TYPES, target) || [];
     }
 }

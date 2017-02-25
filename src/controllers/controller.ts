@@ -172,7 +172,7 @@ export default class Controller {
         // TODO ADD INJECT DEPEDENCIES
         // TODO Test if SINGLETON ANNOTATION is used to instanciate controller class.
 
-        const locals = new WeakMap<string|Function, any>();
+        const locals = new Map<string|Function, any>();
 
         locals.set(RouterController, new RouterController(this.router));
 
