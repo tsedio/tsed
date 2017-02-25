@@ -10,7 +10,7 @@ export default class InjectParams {
     /**
      *
      */
-    public expression: string;
+    public expression: string | RegExp;
     /**
      *
      */
