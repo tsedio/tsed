@@ -17,7 +17,7 @@ import InjectParams from "./inject-params";
 const colors = require("colors");
 
 /**
- *
+ * ControllerService manage all controllers declared with `@Controller` decorator.
  */
 @Service()
 export default class ControllerService {
@@ -31,11 +31,9 @@ export default class ControllerService {
     /**
      *
      * @param expressApplication
-     * @param middlewareService
      */
     constructor (
-        private expressApplication: ExpressApplication,
-        private middlewareService: MiddlewareService
+        private expressApplication: ExpressApplication
     ) {
 
     }

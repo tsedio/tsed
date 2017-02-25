@@ -10,7 +10,9 @@ export class EnvTypes {
     static DEV = "development";
     static TEST = "test";
 }
-
+/**
+ * `ServerSettingsService` contains all informations about ServerLoader configuration.
+ */
 export class ServerSettingsService {
     /**
      *
