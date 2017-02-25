@@ -354,6 +354,11 @@ export abstract class ServerLoader {
         return this;
     }
 
+    @Deprecated("ServerLoader.onError() is deprecated. Use your own middleware instead of.")
+    public onError() {
+
+    }
+
     /**
      * Mount all controllers under the `path` parameters to the specified `endpoint`.
      * @param endpoint
