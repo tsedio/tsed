@@ -10,11 +10,11 @@ import {UseAfter} from "./use-after";
  *
  * }
  * ```
- * 
- * A path value of “back” has a special meaning, it refers to the URL specified in the `Referer header of the request. If the `Referer` header was not specified, it refers to “/”.
+ *
+ * A path value of “back” has a special meaning, it refers to the URL specified in the `Referer` header of the request. If the `Referer` header was not specified, it refers to “/”.
  *
  * @param location
- * @returns {(target:Function, targetKey:string, descriptor:TypedPropertyDescriptor<T>)=>TypedPropertyDescriptor<T>}
+ * @returns {Function}
  * @constructor
  */
 export function Location(location: string): Function {

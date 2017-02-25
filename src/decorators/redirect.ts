@@ -43,7 +43,7 @@ import {UseAfter} from "./use-after";
  *
  * @param status
  * @param location
- * @returns {(target:Function, targetKey:string, descriptor:TypedPropertyDescriptor<T>)=>TypedPropertyDescriptor<T>}
+ * @returns {Function}
  * @constructor
  */
 export function Redirect(location: string): Function;
