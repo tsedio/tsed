@@ -3,7 +3,7 @@ import {EXPRESS_ERR} from "../constants/metadata-keys";
 
 /**
  *
- * @returns {function(Function, (string|symbol), number): void}
+ * @returns {Function}
  * @constructor
  */
 export function Err(): Function {

@@ -6,7 +6,7 @@ import {UseAfter} from "./use-after";
  *
  * @param expression
  * @param expressionValue
- * @returns {function(Function, (string|symbol), number): void}
+ * @returns {Function}
  * @constructor
  */
 export function Header(expression: string | {[key: string]: string}, expressionValue?: string) {

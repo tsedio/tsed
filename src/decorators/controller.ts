@@ -25,7 +25,6 @@ import Metadata from "../services/metadata";
  * @returns {Function}
  * @constructor
  */
-export function Controller(ctrlUrl: string): Function;
 export function Controller(ctrlUrl: string, ...ctlrDepedencies: any[]): Function {
 
     return (target: any): void => {

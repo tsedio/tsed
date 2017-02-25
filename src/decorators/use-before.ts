@@ -1,5 +1,3 @@
-import {ENDPOINT_USE_BEFORE} from "../constants/metadata-keys";
-import {Metadata} from "../services";
 import {Endpoint} from "../controllers/endpoint";
 
 /**

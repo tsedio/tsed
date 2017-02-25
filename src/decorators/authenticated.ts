@@ -19,7 +19,6 @@ import AuthenticatedMiddleware from "../middlewares/authenticated";
  * @returns {Function}
  * @constructor
  */
-export function Authenticated(): Function;
 export function Authenticated(options?: any): Function {
 
 

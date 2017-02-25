@@ -6,7 +6,42 @@ import {JSON_PROPERTIES} from "../constants/metadata-keys";
 import InjectorService from "../services/injector";
 import ConverterService from "../services/converter";
 
-
+/**
+ * `@JsonProperty()` let you decorate an attribut. By default, no parameters are required to use it.
+ * But in some cases, we need to configure explicitly the JSON attribut name mapped to the class attribut.
+ * Here an example of different use cases with `@JsonProperty()`:
+ *
+ * ```typescript
+ * class EventModel {
+ *
+ *    \@JsonProperty()
+ *    name: string;
+ *
+ *    \@JsonProperty('startDate')
+ *    startDate: Date;
+ *
+ *    \@JsonProperty({name: 'end-date'})
+ *    endDate: Date;
+ *
+ *    \@JsonProperty({use: Task})
+ *    tasks: TaskModel[];
+ * }
+ *
+ * class TaskModel {
+ *     subject: string;
+ *     rate: number;
+ * }
+ *
+ * > Theses ES6 collections can be used : Map and Set. Map will be serialized as an object and Set as an array.
+ * By default Date, Array, Map and Set have a default custom Converter allready embded. But you can override theses (see next part).
+ *
+ * For the Array, you must add the `{use: baseType}` option to the decorator.
+ * `TypeClass` will be used to deserialize each item in the collection stored on the attribut source.
+ *
+ * @param metadata
+ * @returns {Function}
+ * @constructor
+ */
 export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
 
     return (target: any, propertyKey: string) => {

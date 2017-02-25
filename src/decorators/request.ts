@@ -2,7 +2,7 @@ import {EXPRESS_REQUEST} from "../constants/metadata-keys";
 import InjectParams from "../services/inject-params";
 
 /**
- *
+ * Request service.
  * @returns {function(Function, (string|symbol), number): void}
  * @constructor
  */

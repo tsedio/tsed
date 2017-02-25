@@ -2,9 +2,7 @@ import InjectParams from "../services/inject-params";
 import {ENDPOINT_INFO} from "../constants/metadata-keys";
 /**
  *
- * @param expression
- * @param useClass
- * @returns {function(Function, (string|symbol), number): void}
+ * @returns {Function}
  * @constructor
  */
 export function EndpointInfo(): Function {
