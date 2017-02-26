@@ -136,7 +136,7 @@ export class ServerSettingsService implements IServerSettings {
            finalObj[k] = obj[k].replace('${rootDir}', this.rootDir);
         });
 
-        return obj;
+        return finalObj;
     }
 
     /**
@@ -152,7 +152,7 @@ export class ServerSettingsService implements IServerSettings {
             finalObj.push(obj[k].replace('${rootDir}', this.rootDir));
         });
 
-        return obj;
+        return finalObj;
     }
 
     /**
@@ -167,7 +167,7 @@ export class ServerSettingsService implements IServerSettings {
             finalObj[k] = obj[k].replace('${rootDir}', this.rootDir);
         });
 
-        return obj;
+        return finalObj;
     }
 
     /**
