@@ -84,6 +84,9 @@ import * as Express from "express";
 import {ServerLoader, IServerLifecycle} from "ts-express-decorators";
 import Path = require("path");
 
+@ServerSettings({
+    
+})
 export class Server extends ServerLoader implements IServerLifecycle {
     /**
      * In your constructor set the global endpoint and configure the folder to scan the controllers.

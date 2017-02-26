@@ -230,11 +230,11 @@ export abstract class ServerLoader implements IServerLifecycle {
 
             switch (property) {
                 case "mount":
-                    Object.keys(value).forEach((key) => this.mount(key, value[key]));
+                    Object.keys(settingsService.mount).forEach((key) => this.mount(key, value[key]));
                     break;
 
                 case "componentsScan":
-                    value.forEach(componentDir => this.scan(componentDir));
+                    settingsService.componentsScan.forEach(componentDir => this.scan(componentDir));
                     break;
 
                 case "httpPort":

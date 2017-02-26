@@ -48,6 +48,9 @@ export class ServerSettingsService implements IServerSettings {
         }
     }
 
+    get rootDir() {
+        return this.map.get("rootDir");
+    }
     /**
      *
      * @returns {string}
@@ -117,7 +120,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {string}
      */
     get uploadDir(): string {
-        return this.map.get("uploadDir") as string;
+        return this.map.get("uploadDir").replace('${rootDir}', this.rootDir);
     }
 
     /**
@@ -125,7 +128,15 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get mount(): IServerMountDirectories {
-        return this.map.get("mount");
+
+        const obj = this.map.get("mount");
+        const finalObj = {};
+
+        Object.keys(obj).forEach(k => {
+           finalObj[k] = obj[k].replace('${rootDir}', this.rootDir);
+        });
+
+        return obj;
     }
 
     /**
@@ -133,7 +144,15 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get componentsScan(): string[] {
-        return this.map.get("componentsScan");
+
+        const obj: string[] = this.map.get("componentsScan");
+        const finalObj = [];
+
+        Object.keys(obj).forEach(k => {
+            finalObj.push(obj[k].replace('${rootDir}', this.rootDir));
+        });
+
+        return obj;
     }
 
     /**
@@ -141,7 +160,14 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get serveStatic(): IServerMountDirectories {
-        return this.map.get("serveStatic");
+        const obj = this.map.get("serveStatic");
+        const finalObj = {};
+
+        Object.keys(obj).forEach(k => {
+            finalObj[k] = obj[k].replace('${rootDir}', this.rootDir);
+        });
+
+        return obj;
     }
 
     /**
@@ -199,19 +225,19 @@ export class ServerSettingsProvider implements IServerSettings {
         this.port = 8080;
         this.httpsPort = 8000;
         this.endpointUrl = "/rest";
-        this.uploadDir = `${rootDir}/uploads`;
+        this.uploadDir = '${rootDir}/uploads';
 
         /* istanbul ignore next */
         this.authentification = () => (true);
 
         this.mount = {
-            "/rest": `${rootDir}/controllers/**/*.js`
+            "/rest": '${rootDir}/controllers/**/*.js'
         };
 
         this.componentsScan = [
-            `${rootDir}/middlewares/**/*.js`,
-            `${rootDir}/services/**/*.js`,
-            `${rootDir}/converters/**/*.js`
+            '${rootDir}/middlewares/**/*.js',
+            '${rootDir}/services/**/*.js',
+            '${rootDir}/converters/**/*.js'
         ];
 
     }
