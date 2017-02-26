@@ -14,6 +14,7 @@ import {MongooseService} from "../../services/MongooseService"
 import {ContentType} from "../../../../src/decorators/content-type";
 import {UseAfter} from "../../../../src/decorators/use-after";
 import {Status} from "../../../../src/decorators/status";
+import {MultipartFile} from "../../../../src/decorators/multipart-file";
 
 interface ICalendar {
     id: string;
@@ -271,5 +272,13 @@ export class CalendarCtrl {
         @Request() request: Express.Request
     ) {
         return "<xml></xml>";
+    }
+
+    @Post('/documents')
+    testMultipart(
+        @MultipartFile() files: any[]
+    ){
+        console.log(files);
+        return files;
     }
 }

@@ -1,32 +1,29 @@
 import * as SuperTest from "supertest";
 import {$log} from "ts-log-debug";
-import {ServerLoader, IServerLifecycle} from '../../src/index';
+import {ServerLoader, ServerSettings} from '../../src/index';
 import * as Express from "express";
 import Path = require("path");
+import {} from "../../src/decorators/server-settings";
 
+const rootDir = Path.resolve(__dirname);
 
-export class FakeApplication extends ServerLoader implements IServerLifecycle {
+@ServerSettings({
+    rootDir,
+    port: 8000,
+    httpsPort: 8080,
+    mount: {
+        '/rest': `${rootDir}/controllers/**/**.js`
+    },
+    componentsScan: [
+        `${rootDir}/controllers/**/**.js`
+    ],
+    serveStatic: {
+        '/': `${rootDir}/views`
+    }
+})
+export class FakeApplication extends ServerLoader {
 
     static Server: FakeApplication;
-    /**
-     * In your constructor set the global endpoint and configure the folder to scan the controllers.
-     * You can start the http and https server.
-     */
-    constructor() {
-        
-        super();
-
-        let appPath = Path.resolve(__dirname);
-
-        this.setEndpoint('/rest')
-            .mount('/rest', appPath + "/controllers/**/**.js")
-            .scan(appPath + "/services/**/**.js")
-            .createHttpServer(8000)
-            .createHttpsServer({
-                port: 8080
-            });
-
-    }
 
     /**
      * This method let you configure the middleware required by your application to works.

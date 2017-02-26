@@ -1,7 +1,7 @@
 
 import * as Express from "express";
 import {Forbidden} from "ts-httpexceptions";
-import {ServerSettingsService} from "../services/server-setting";
+import {ServerSettingsService} from "../services/server-settings";
 import {EndpointInfo} from "../decorators/endpoint-info";
 import {Request} from "../decorators/request";
 import {Response} from "../decorators/response";

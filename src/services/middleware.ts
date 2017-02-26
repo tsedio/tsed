@@ -12,7 +12,7 @@ import {Service} from "../decorators/service";
 import RequestService from "./request";
 import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
-import {ServerSettingsService, EnvTypes} from "./server-setting";
+import {ServerSettingsService, EnvTypes} from "./server-settings";
 
 @Service()
 export default class MiddlewareService {
@@ -33,7 +33,7 @@ export default class MiddlewareService {
     $afterServicesInit() {
 
         if (this.serverSettings.env !== EnvTypes.TEST) {
-            $log.debug("[TSED] Import middlewares");
+            $log.info("[TSED] Import middlewares");
         }
 
         MiddlewareService.middlewares.forEach((settings, target) => {

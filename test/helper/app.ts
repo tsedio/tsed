@@ -1,34 +1,35 @@
 
 import * as Express from "express";
 import {$log} from "ts-log-debug";
-import {ServerLoader, IServerLifecycle} from "../../src/index";
+import {ServerLoader} from "../../src/index";
 import Path = require("path");
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
+import {ServerSettings} from "../../src/decorators/server-settings";
 
 $log.setPrintDate(true);
 
-/**
- * Create a new Server that extends ServerLoader.
- */
-export class ExampleServer extends ServerLoader implements IServerLifecycle {
-    /**
-     * In your constructor set the global endpoint and configure the folder to scan the controllers.
-     * You can start the http and https server.
-     */
-    constructor() {
-        super();
+const rootDir = Path.resolve(__dirname);
 
-        let appPath = Path.resolve(__dirname);
+@ServerSettings({
+    rootDir,
+    port: 8000,
+    httpsPort: 8080,
+    mount: {
+        '/rest': `${rootDir}/controllers/**/**.js`,
+        '/rest/v1': `${rootDir}/controllers/**/**.js`
+    },
 
-        this
-            .mount("/rest", appPath + "/controllers/**/**.js")
-            .mount("/rest/v1", appPath + "/controllers/**/**.js")
-            .createHttpServer(8000)
-            .createHttpsServer({
-                port: 8080
-            });
+    componentsScan: [
+        `${rootDir}/controllers/**/**.js`
+    ],
 
+    uploadDir: `${rootDir}/uploads`,
+
+    serveStatic: {
+        '/': `${rootDir}/views`
     }
+})
+export class ExampleServer extends ServerLoader {
 
     /**
      * This method let you configure the middleware required by your application to works.

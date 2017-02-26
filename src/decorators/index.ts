@@ -27,6 +27,7 @@ export * from "./multipart-file";
 // CLASS
 export * from "./controller";
 export * from "./service";
+export * from "./server-settings";
 export * from "./converter";
 export * from "./middleware";
 export * from "./middleware-error";

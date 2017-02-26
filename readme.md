@@ -274,11 +274,13 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * `InjectorService` can be use in `ServerLoader.$onMountingMiddleware()` [#39](https://github.com/Romakita/ts-express-decorators/issues/#39).
 * Add `@AcceptMime` decorator,
 * Add `@Deprecated` decorator,
+* Add `@ServerSettings` decorator to configure ServerLoader,
 * Add some services : ControllerService, ExpressApplication, MiddlewareService and ServerSettingsService
 * Add `boostrap()` function to test your server application with Mocha and SuperTest. 
 * Improve testing module.
 * Add Symbol serialization/deserialization support.
 * Fix Array deserialization when input data isn't an array.
+* Support of Typescript 2.2.x.
 
 #### Method deprecated
 

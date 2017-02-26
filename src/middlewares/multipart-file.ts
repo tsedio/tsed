@@ -7,7 +7,7 @@ import {Response} from "../decorators/response";
 import {EndpointInfo} from "../decorators/endpoint-info";
 import {Endpoint} from "../controllers/endpoint";
 import {Next} from "../decorators/next";
-import {ServerSettingsService} from "../services/server-setting";
+import {ServerSettingsService} from "../services/server-settings";
 
 @Middleware()
 export default class MultipartFileMiddleware  implements IMiddleware  {

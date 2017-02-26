@@ -2,16 +2,16 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import {Forbidden, NotAcceptable, Exception} from "ts-httpexceptions";
+import {NotAcceptable} from "ts-httpexceptions";
 import Metadata from "../services/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
 import {ExpressApplication, ControllerService, InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
 import {Deprecated} from "../decorators/deprecated";
-import {ServerSettingsService, ServerSettingsProvider} from "../services/server-setting";
+import {
+    ServerSettingsService, ServerSettingsProvider, IServerMountDirectories, IServerSettings
+} from "../services/server-settings";
 import ErrorHandlerMiddleware from "../middlewares/error-handler";
-
-
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -45,14 +45,17 @@ export interface IServerLifecycle {
  * * Authentication strategy.
  *
  */
-export abstract class ServerLoader {
+export abstract class ServerLoader implements IServerLifecycle {
 
-    protected settings: ServerSettingsProvider;
     /**
      * Application express.
      * @type {core.Express}
      */
     private _expressApp: Express.Application = Express();
+    /**
+     *
+     */
+    private _settings: ServerSettingsProvider;
     /**
      * Instance of httpServer.
      */
@@ -71,12 +74,16 @@ export abstract class ServerLoader {
      */
     constructor() {
 
-        this.settings = new ServerSettingsProvider(this.expressApp);
-
-        this.settings.authentification = ((<any>this).isAuthenticated || (<any>this).$onAuth || new Function()).bind(this);
-
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
+        this._settings = new ServerSettingsProvider(this.expressApp);
+        this._settings.authentification = ((<any>this).isAuthenticated || (<any>this).$onAuth || new Function()).bind(this);
+
+        const settings =  Metadata.get("server:settings", this);
+
+        if (settings) {
+            this.autoload(settings);
+        }
     }
 
     /**
@@ -85,7 +92,7 @@ export abstract class ServerLoader {
      */
     public createHttpServer(port: string | number): ServerLoader {
         this._httpServer = Http.createServer(<any> this._expressApp);
-        this.settings.httpPort = port;
+        this._settings.httpPort = port;
         return this;
     }
 
@@ -96,7 +103,7 @@ export abstract class ServerLoader {
      */
     public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
         this._httpsServer = Https.createServer(options, this._expressApp);
-        this.settings.httpsPort = options.port;
+        this._settings.httpsPort = options.port;
         return this;
     }
 
@@ -157,9 +164,6 @@ export abstract class ServerLoader {
      */
     public initializeSettings(): Promise<any> {
 
-
-        InjectorService.factory(ServerSettingsService, (this.settings as any).$get());
-
         $log.info("[TSED] Import services");
         InjectorService.load();
         this._injectorService = InjectorService.get<InjectorService>(InjectorService);
@@ -181,7 +185,12 @@ export abstract class ServerLoader {
                 controllerService.printRoutes($log);
 
             })
-            .then(() => $afterRoutesInit.call(this, this.expressApp))
+            .then(() => {
+
+                this.mountStaticDirectories(this.settings.serveStatic);
+
+                return $afterRoutesInit.call(this, this.expressApp);
+            })
             .then(() => {
 
                 // Import the globalErrorHandler
@@ -197,10 +206,74 @@ export abstract class ServerLoader {
     }
 
     /**
+     *
+     */
+    private getSettingsService(): ServerSettingsService {
+        InjectorService.factory(ServerSettingsService, this.settings.$get());
+        return InjectorService.get<ServerSettingsService>(ServerSettingsService);
+    }
+    /**
+     *
+     */
+    private autoload(settings: IServerSettings) {
+
+        $log.info("[TSED] Autoload configuration :");
+
+        this._settings.set(settings);
+
+        const settingsService = this.getSettingsService();
+
+        const bind = (property, value, map) => {
+
+            switch (property) {
+                case "mount":
+                    Object.keys(value).forEach((key) => this.scan(value[key], key));
+                    break;
+
+                case "componentsScan":
+                    value.forEach(componentDir => this.scan(componentDir));
+                    break;
+
+                case "httpPort":
+
+                    if (this._httpServer === undefined) {
+                        this.createHttpServer(value);
+                    }
+
+                    break;
+
+                case "httpsPort":
+
+                    if (this._httpServer === undefined) {
+                        this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
+                    }
+
+                    break;
+            }
+        };
+
+        settingsService
+            .forEach((value, key, map) => {
+                $log.info(`[TSED] settings.${key} =>`, value);
+            });
+
+        settingsService
+            .forEach((value, key, map) => {
+                if (value) {
+                    bind(key, value, map);
+                }
+            });
+
+
+    }
+
+    /**
      * Binds and listen all ports (Http and/or Https). Run server.
      * @returns {Promise<any>|Promise}
      */
     public start(): Promise<any> {
+
+        this.getSettingsService();
 
         return Promise
             .resolve()
@@ -228,10 +301,11 @@ export abstract class ServerLoader {
      */
     private startServers(): Promise<any> {
         let promises: Promise<any>[] = [];
+        const settingsService = this.getSettingsService();
 
         if (this.httpServer) {
 
-            const {address, port} = this.settings.getHttpPort();
+            const {address, port} = settingsService.getHttpPort();
 
             $log.debug(`[TSED] Start HTTP server on ${address}:${port}`);
             this.httpServer.listen(+port, address);
@@ -250,7 +324,7 @@ export abstract class ServerLoader {
 
         if (this.httpsServer) {
 
-            const {address, port} = this.settings.getHttpsPort();
+            const {address, port} = settingsService.getHttpsPort();
 
             $log.debug(`[TSED] Start HTTPs server on ${address}:${port}`);
             this.httpsServer.listen(+port, address);
@@ -277,9 +351,10 @@ export abstract class ServerLoader {
      * @param port
      * @returns {ServerLoader}
      */
+    @Deprecated("ServerLoader.setHttpPort() is deprecated. Use ServerLoader.settings.port instead of.")
     public setHttpPort(port: number | string): ServerLoader {
 
-        this.settings.httpPort = port;
+        this._settings.httpPort = port;
 
         return this;
     }
@@ -289,9 +364,10 @@ export abstract class ServerLoader {
      * @param port
      * @returns {ServerLoader}
      */
+    @Deprecated("ServerLoader.setHttpsPort() is deprecated. Use ServerLoader.settings.httpsPort instead of.")
     public setHttpsPort(port: number | string): ServerLoader {
 
-        this.settings.httpsPort = port;
+        this._settings.httpsPort = port;
 
         return this;
     }
@@ -304,7 +380,7 @@ export abstract class ServerLoader {
     @Deprecated("ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of.")
     public setEndpoint(endpoint: string): ServerLoader {
 
-        this.settings.endpoint = endpoint;
+        this._settings.endpoint = endpoint;
 
         return this;
     }
@@ -315,7 +391,7 @@ export abstract class ServerLoader {
      * @param endpoint
      * @returns {ServerLoader}
      */
-    public scan(path: string, endpoint: string = this.settings.endpoint): ServerLoader {
+    public scan(path: string, endpoint: string = this._settings.endpoint): ServerLoader {
 
         let files: string[] = require("glob").sync(path);
         let nbFiles = 0;
@@ -367,12 +443,44 @@ export abstract class ServerLoader {
      */
     public mount(endpoint: string, path: string): ServerLoader {
 
-       // this.endpointsRules.set(path, endpoint);
+        this.settings.mount = undefined;
         this.scan(path, endpoint);
 
         return this;
     }
 
+    /**
+     * Mount statics files in a directories.
+     * @param mountDirectories
+     * @returns {ServerLoader}
+     */
+    public mountStaticDirectories(mountDirectories: IServerMountDirectories): ServerLoader {
+
+        if (require.resolve("serve-static") && mountDirectories) {
+            const serveStatic = require("serve-static");
+
+            Object.keys(mountDirectories).forEach(key => {
+                this.use(key, (request, response, next) => {
+                    if (!response.headersSent) {
+                        serveStatic(mountDirectories[key])(request , response, next);
+                    } else {
+                        next();
+                    }
+                });
+            });
+
+        }
+
+        return this;
+    }
+
+    /**
+     * Return the settings provider.
+     * @returns {ServerSettingsProvider}
+     */
+    get settings(): ServerSettingsProvider {
+        return this._settings;
+    }
     /**
      * Return Express Application instance.
      * @returns {core.Express}

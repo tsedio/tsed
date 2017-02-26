@@ -4,7 +4,7 @@ import {ServerLoader} from '../src/index';
 import {FakeRequest, FakeResponse, FakeServer} from './helper';
 import assert = require('assert');
 import {$log} from "ts-log-debug";
-import {ServerSettingsService} from "../src/services/server-setting";
+import {ServerSettingsService} from "../src/services/server-settings";
 
 describe("ServerLoader()", () => {
 

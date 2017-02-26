@@ -442,4 +442,17 @@ describe('Rest :', () => {
 
     });
 
+
+    describe("MultipartFile /rest/calendars/documents", () => {
+
+        const {FakeApplication} = require("./helper/FakeApplication");
+
+        /*FakeApplication
+            .getInstance()
+            .request()
+            .field('Content-Type', 'multipart/form-data')
+            .attach('photo1', '/home/monica/Desktop/pic/1.jpeg')*/
+
+    });
+
 });
