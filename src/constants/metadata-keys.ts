@@ -1,3 +1,6 @@
+// ServerSettings
+export const SERVER_SETTINGS = "tsed:server:settings";
+
 // controllers
 export const CONTROLLER_URL = "tsed:controller:url";
 export const CONTROLLER_DEPEDENCIES = "ted:controller:depedencies";

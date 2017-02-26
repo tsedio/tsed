@@ -19,6 +19,10 @@ export function Header(expression: string | {[key: string]: string}, expressionV
 
         return UseAfter((request, response, next) => {
 
+            if (response.headersSent) {
+                next();
+                return;
+            }
             if (expressionValue !== undefined) {
                 response.set(expression, expressionValue);
             } else {

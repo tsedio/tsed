@@ -7,9 +7,9 @@ const rootDir = Path.dirname(require.main.filename);
 export type Env = "production" | "development" | "test";
 
 export class EnvTypes {
-    static PROD = "production";
-    static DEV = "development";
-    static TEST = "test";
+    static PROD: Env = "production";
+    static DEV: Env = "development";
+    static TEST: Env = "test";
 }
 
 export interface IServerMountDirectories {
@@ -192,12 +192,18 @@ export class ServerSettingsProvider implements IServerSettings {
 
     protected map = new Map<string, any>();
 
-    constructor(private expressApp: ExpressApplication) {
+    constructor() {
 
         this.rootDir = rootDir;
+        this.env = EnvTypes.DEV as Env;
+        this.port = 8080;
+        this.httpsPort = 8000;
         this.endpointUrl = "/rest";
-        this.authentification = () => (true);
         this.uploadDir = `${rootDir}/uploads`;
+
+        /* istanbul ignore next */
+        this.authentification = () => (true);
+
         this.mount = {
             "/rest": `${rootDir}/controllers/**/*.js`
         };
@@ -208,7 +214,6 @@ export class ServerSettingsProvider implements IServerSettings {
             `${rootDir}/converters/**/*.js`
         ];
 
-        this.env = process.env.NODE_ENV || this.expressApp.get("_env") || "development";
     }
 
     /**
@@ -273,6 +278,10 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     set endpointUrl(value: string) {
         this.map.set("endpointUrl", value);
+    }
+
+    get endpoint(): string {
+        return this.map.get("endpointUrl");
     }
 
     /**

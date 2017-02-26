@@ -20,7 +20,7 @@ const rootDir = Path.resolve(__dirname);
     },
 
     componentsScan: [
-        `${rootDir}/controllers/**/**.js`
+        `${rootDir}/services/**/**.js`
     ],
 
     uploadDir: `${rootDir}/uploads`,

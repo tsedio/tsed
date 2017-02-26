@@ -1,5 +1,6 @@
 import {IServerSettings} from "../services/server-settings";
 import Metadata from "../services/metadata";
+import {SERVER_SETTINGS} from "../constants/metadata-keys";
 /**
  *
  * @param settings
@@ -10,7 +11,7 @@ export function ServerSettings(settings: IServerSettings): Function {
 
     return (target: any) => {
 
-        Metadata.set("server:settings", settings, target);
+        Metadata.set(SERVER_SETTINGS, settings, target);
 
     };
 

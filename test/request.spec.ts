@@ -55,4 +55,11 @@ describe('RequestService :', function() {
         expect(requestService.endpointInfo({getEndpoint: () => 'test'})).to.equal('test');
 
     }));
+
+    it('should return multipart info', inject([RequestService], (requestService: RequestService) => {
+
+        expect(requestService.multipartFile({"files": ['test']})).to.equal('test');
+        expect(requestService.multipartFiles({"files": ['test']})).to.be.an('array');
+
+    }));
 });

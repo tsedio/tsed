@@ -22,7 +22,9 @@ export function ContentType(type: string): Function {
 
         return UseAfter((request, response, next) => {
 
-            response.type(type);
+            if (!response.headersSent) {
+                response.type(type);
+            }
 
             next();
 

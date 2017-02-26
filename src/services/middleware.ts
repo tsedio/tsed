@@ -13,6 +13,7 @@ import RequestService from "./request";
 import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService, EnvTypes} from "./server-settings";
+import {getClassName} from "../utils/class";
 
 @Service()
 export default class MiddlewareService {
@@ -258,6 +259,11 @@ export default class MiddlewareService {
                     next();
                 },
                 (err) => {
+
+                    /*if (err) {
+                        err.message = `\tat ${getClassName(target)}.${methodName}()` + `\n` + err.message;
+                    }*/
+
                     next(err);
                 }
             );

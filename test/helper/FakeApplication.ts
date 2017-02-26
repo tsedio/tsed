@@ -15,7 +15,7 @@ const rootDir = Path.resolve(__dirname);
         '/rest': `${rootDir}/controllers/**/**.js`
     },
     componentsScan: [
-        `${rootDir}/controllers/**/**.js`
+        `${rootDir}/services/**/**.js`
     ],
     serveStatic: {
         '/': `${rootDir}/views`

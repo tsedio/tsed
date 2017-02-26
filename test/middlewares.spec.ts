@@ -6,6 +6,7 @@ import {FakeResponse} from "./helper/FakeResponse";
 import {$log} from "ts-log-debug";
 import {FakeRequest} from "./helper/FakeRequest";
 import AcceptMimeMiddleware from "../src/middlewares/accept-mime";
+import MultipartFileMiddleware from "../src/middlewares/multipart-file";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 

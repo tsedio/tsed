@@ -4,7 +4,7 @@ import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {NotAcceptable} from "ts-httpexceptions";
 import Metadata from "../services/metadata";
-import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS} from "../constants/metadata-keys";
+import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS, SERVER_SETTINGS} from "../constants/metadata-keys";
 import {ExpressApplication, ControllerService, InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
 import {Deprecated} from "../decorators/deprecated";
@@ -76,10 +76,11 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
-        this._settings = new ServerSettingsProvider(this.expressApp);
+        this._settings = new ServerSettingsProvider();
+        this._settings.env = process.env.NODE_ENV || this.expressApp.get("env") || "development";
         this._settings.authentification = ((<any>this).isAuthenticated || (<any>this).$onAuth || new Function()).bind(this);
 
-        const settings =  Metadata.get("server:settings", this);
+        const settings =  Metadata.get(SERVER_SETTINGS, this);
 
         if (settings) {
             this.autoload(settings);
@@ -164,6 +165,8 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public initializeSettings(): Promise<any> {
 
+        const settingsService = this.getSettingsService();
+
         $log.info("[TSED] Import services");
         InjectorService.load();
         this._injectorService = InjectorService.get<InjectorService>(InjectorService);
@@ -187,7 +190,7 @@ export abstract class ServerLoader implements IServerLifecycle {
             })
             .then(() => {
 
-                this.mountStaticDirectories(this.settings.serveStatic);
+                this.mountStaticDirectories(settingsService.serveStatic);
 
                 return $afterRoutesInit.call(this, this.expressApp);
             })
@@ -227,7 +230,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
             switch (property) {
                 case "mount":
-                    Object.keys(value).forEach((key) => this.scan(value[key], key));
+                    Object.keys(value).forEach((key) => this.mount(key, value[key]));
                     break;
 
                 case "componentsScan":
@@ -244,7 +247,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 case "httpsPort":
 
-                    if (this._httpServer === undefined) {
+                    if (this._httpsServer === undefined) {
                         this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
                     }
 
@@ -404,7 +407,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 try {
                     const exportedClasses = require(file);
-                    $log.debug("[TSED] Import file :", file);
+                    $log.debug(`[TSED] Import file ${endpoint}:`, file);
                     nbFiles++;
 
                     Object
@@ -443,7 +446,6 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public mount(endpoint: string, path: string): ServerLoader {
 
-        this.settings.mount = undefined;
         this.scan(path, endpoint);
 
         return this;
