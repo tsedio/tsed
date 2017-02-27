@@ -53,7 +53,13 @@ export function Redirect(status: string | number, location?: string): Function {
 
         return UseAfter((request, response, next) => {
 
-            response.redirect(status, location);
+            if (!response.headersSent) {
+                if (typeof status === "string") {
+                    response.redirect(location);
+                } else {
+                    response.redirect(status, location);
+                }
+            }
 
             next();
 
