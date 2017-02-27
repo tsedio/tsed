@@ -81,29 +81,13 @@ a new `Server` class that extends [`ServerLoader`](https://github.com/Romakita/t
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader, IServerLifecycle} from "ts-express-decorators";
+import {ServerLoader, IServerLifecycle, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
-    
+    rootDir: Path.resolve(__dirname)
 })
-export class Server extends ServerLoader implements IServerLifecycle {
-    /**
-     * In your constructor set the global endpoint and configure the folder to scan the controllers.
-     * You can start the http and https server.
-     */
-    constructor() {
-        super();
-
-        const appPath: string = Path.resolve(__dirname);
-        
-        this.mount("/rest", appPath + "/controllers/**/**.js")                       // Declare your endpoint
-            .createHttpServer(8000)  // You can add your interface too:  .createHttpServer('127.0.0.1:8000')
-            .createHttpsServer({
-                port: 8080
-            });
-
-    }
+export class Server extends ServerLoader {
 
     /**
      * This method let you configure the middleware required by your application to works.
@@ -147,6 +131,9 @@ export class Server extends ServerLoader implements IServerLifecycle {
 
 Server.Initialize();
 ```
+> By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
+
+To customize the server settings see [Configure server with decorator](https://github.com/Romakita/ts-express-decorators/wiki/Configure-server-with-decorator)
 
 #### Create your first controller
 
@@ -233,13 +220,17 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 ## [Wiki](https://github.com/Romakita/ts-express-decorators/wiki/home)
 
+Welcome to the TsExpressDecorators project wiki! 
+
 * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Installation)
 * [Quick start](https://github.com/Romakita/ts-express-decorators/wiki/Quick-start)
 * [Examples](https://github.com/Romakita/ts-express-decorators/wiki/Examples)
 * [Controllers](https://github.com/Romakita/ts-express-decorators/wiki/Controllers)
 * [Services](https://github.com/Romakita/ts-express-decorators/wiki/Services)
 * [Converters](https://github.com/Romakita/ts-express-decorators/wiki/Converters)
+* [Middlewares](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares)
 * [ServerLoader](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader)
+  * [Configure server with decorator](https://github.com/Romakita/ts-express-decorators/wiki/Configure-server-with-decorator)
   * [API](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader----API)
   * [Versioning Rest API](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader-Versioning-Rest-API)
   * [Lifecycle hooks](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks)
@@ -248,6 +239,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
   * [Authentification](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks#serverloaderonauthrequest-response-next-void)
   * [Global errors handlers](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks#serverloaderonerrorerror-request-response-next-void)
 * [Templating](https://github.com/Romakita/ts-express-decorators/wiki/Templating)
+* [Upload files with Multer](https://github.com/Romakita/ts-express-decorators/wiki/Upload-files-with-multer)
 * [Throw HTTP exceptions](https://github.com/Romakita/ts-express-decorators/wiki/Throw-HTTP-Exceptions)
 * [Testing](https://github.com/Romakita/ts-express-decorators/wiki/Testing)
 * [API references](https://github.com/Romakita/ts-express-decorators/wiki/API-references)
@@ -262,22 +254,22 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 ### v1.4.0-x (beta)
 
-* Add `@Inject()` decorator [#42](https://github.com/Romakita/ts-express-decorators/issues/#42),
-* Add `@Middleware()` decorator [#40](https://github.com/Romakita/ts-express-decorators/issues/#40),
-* Add `@ContentType()` decorator [#34](https://github.com/Romakita/ts-express-decorators/issues/#34),
-* Add `@Redirect()` decorator [#33](https://github.com/Romakita/ts-express-decorators/issues/#33),
-* Add `@Location()` decorator [#32](https://github.com/Romakita/ts-express-decorators/issues/#32),
-* Add `@UseBefore()` decorator [#19](https://github.com/Romakita/ts-express-decorators/issues/#19),
-* Add `@UseAfter()` decorator [#19](https://github.com/Romakita/ts-express-decorators/issues/#19),
-* Add  alias `@HeaderParams()` decorator [#30](https://github.com/Romakita/ts-express-decorators/issues/#30),
-* Extends `@Header()` decorator. Now @Header can be used on method [#30](https://github.com/Romakita/ts-express-decorators/issues/#30),
-* Add `@Middleware()` decorator [#40](https://github.com/Romakita/ts-express-decorators/issues/#40),
-* Add `@MultipartFile()` decorator [#31](https://github.com/Romakita/ts-express-decorators/issues/#31),
-* Refactoring `InjectorService`. You can add a no class based service (factory)  [#36](https://github.com/Romakita/ts-express-decorators/issues/#36),
-* `InjectorService` can be use in `ServerLoader.$onMountingMiddleware()` [#39](https://github.com/Romakita/ts-express-decorators/issues/#39).
-* Add `@AcceptMime` decorator,
-* Add `@Deprecated` decorator,
-* Add `@ServerSettings` decorator to configure ServerLoader,
+* Add `@Inject()` decorator [#42](https://github.com/Romakita/ts-express-decorators/issues/42),
+* Add `@Middleware()` decorator [#40](https://github.com/Romakita/ts-express-decorators/issues/40),
+* Add `@ContentType()` decorator [#34](https://github.com/Romakita/ts-express-decorators/issues/34),
+* Add `@Redirect()` decorator [#33](https://github.com/Romakita/ts-express-decorators/issues/33),
+* Add `@Location()` decorator [#32](https://github.com/Romakita/ts-express-decorators/issues/32),
+* Add `@UseBefore()` decorator [#19](https://github.com/Romakita/ts-express-decorators/issues/19),
+* Add `@UseAfter()` decorator [#19](https://github.com/Romakita/ts-express-decorators/issues/19),
+* Add  alias `@HeaderParams()` decorator [#30](https://github.com/Romakita/ts-express-decorators/issues/30),
+* Extends `@Header()` decorator. Now @Header can be used on method [#30](https://github.com/Romakita/ts-express-decorators/issues/30),
+* Add `@MultipartFile()` decorator [#31](https://github.com/Romakita/ts-express-decorators/issues/31),
+* Refactoring `InjectorService`. You can add a no class based service (factory)  [#36](https://github.com/Romakita/ts-express-decorators/issues/36),
+* `InjectorService` can be use in `ServerLoader.$onMountingMiddleware()` [#39](https://github.com/Romakita/ts-express-decorators/issues/39).
+* Add `@AcceptMime()` decorator,
+* Add `@Status()` decorator,
+* Add `@Deprecated()` decorator,
+* Add `@ServerSettings()` decorator to configure ServerLoader,
 * Add some services : ControllerService, ExpressApplication, MiddlewareService and ServerSettingsService
 * Add `boostrap()` function to test your server application with Mocha and SuperTest. 
 * Improve testing module.
@@ -302,14 +294,14 @@ We can encounter typescript compilation issues:
 
 ### v1.3.0
 
-* Add `@Session()` decorator [#11](https://github.com/Romakita/ts-express-decorators/issues/#11),
-* Add `@ResponseView()` decorator [#9](https://github.com/Romakita/ts-express-decorators/issues/#9), [#16](https://github.com/Romakita/ts-express-decorators/issues/#16), [#22](https://github.com/Romakita/ts-express-decorators/issues/#22), 
-* Add model deserialization and add decorator `@JsonProperty` [#3](https://github.com/Romakita/ts-express-decorators/issues/#3),
-* Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()` [#18](https://github.com/Romakita/ts-express-decorators/issues/#18),
-* Add `yarn` support [#21](https://github.com/Romakita/ts-express-decorators/issues/#21),
-* Pass bind interface to http server [#27](https://github.com/Romakita/ts-express-decorators/issues/#27),
-* Prevent sending data if header is already sent [#28](https://github.com/Romakita/ts-express-decorators/issues/#28),
-* Add ServerLoader.mount(). This method can mount controller to one or more endpoints [#13](https://github.com/Romakita/ts-express-decorators/issues/#13).
+* Add `@Session()` decorator [#11](https://github.com/Romakita/ts-express-decorators/issues/11),
+* Add `@ResponseView()` decorator [#9](https://github.com/Romakita/ts-express-decorators/issues/9), [#16](https://github.com/Romakita/ts-express-decorators/issues/16), [#22](https://github.com/Romakita/ts-express-decorators/issues/22), 
+* Add model deserialization and add decorator `@JsonProperty` [#3](https://github.com/Romakita/ts-express-decorators/issues/3),
+* Add two proxy methods : `ServerLoader.set()` and `ServerLoader.engine()` [#18](https://github.com/Romakita/ts-express-decorators/issues/18),
+* Add `yarn` support [#21](https://github.com/Romakita/ts-express-decorators/issues/21),
+* Pass bind interface to http server [#27](https://github.com/Romakita/ts-express-decorators/issues/27),
+* Prevent sending data if header is already sent [#28](https://github.com/Romakita/ts-express-decorators/issues/28),
+* Add ServerLoader.mount(). This method can mount controller to one or more endpoints [#13](https://github.com/Romakita/ts-express-decorators/issues/13).
 
 ### v1.2.0
 

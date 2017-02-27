@@ -120,7 +120,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {string}
      */
     get uploadDir(): string {
-        return this.map.get("uploadDir").replace('${rootDir}', this.rootDir);
+        return this.map.get("uploadDir").replace("${rootDir}", this.rootDir);
     }
 
     /**
@@ -133,7 +133,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-           finalObj[k] = obj[k].replace('${rootDir}', this.rootDir);
+           finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
         });
 
         return finalObj;
@@ -149,7 +149,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = [];
 
         Object.keys(obj).forEach(k => {
-            finalObj.push(obj[k].replace('${rootDir}', this.rootDir));
+            finalObj.push(obj[k].replace("${rootDir}", this.rootDir));
         });
 
         return finalObj;
@@ -164,7 +164,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-            finalObj[k] = obj[k].replace('${rootDir}', this.rootDir);
+            finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
         });
 
         return finalObj;
@@ -225,19 +225,19 @@ export class ServerSettingsProvider implements IServerSettings {
         this.port = 8080;
         this.httpsPort = 8000;
         this.endpointUrl = "/rest";
-        this.uploadDir = '${rootDir}/uploads';
+        this.uploadDir = "${rootDir}/uploads";
 
         /* istanbul ignore next */
         this.authentification = () => (true);
 
         this.mount = {
-            "/rest": '${rootDir}/controllers/**/*.js'
+            "/rest": "${rootDir}/controllers/**/*.js"
         };
 
         this.componentsScan = [
-            '${rootDir}/middlewares/**/*.js',
-            '${rootDir}/services/**/*.js',
-            '${rootDir}/converters/**/*.js'
+            "${rootDir}/middlewares/**/*.js",
+            "${rootDir}/services/**/*.js",
+            "${rootDir}/converters/**/*.js"
         ];
 
     }
