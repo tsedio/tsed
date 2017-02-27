@@ -8,7 +8,6 @@ import {UseAfter} from "./use-after";
  * ```typescript
  * \@Header('Content-Type', 'text/plain');
  * private myMethod() {}
- *  
  * \@Header({
  *   'Content-Type': 'text/plain',
  *   'Content-Length': '123',
@@ -16,7 +15,6 @@ import {UseAfter} from "./use-after";
  * })
  * private myMethod() {}
  * ```
- * 
  * @param expression
  * @param expressionValue
  * @returns {Function}
