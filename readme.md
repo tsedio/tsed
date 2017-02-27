@@ -81,7 +81,7 @@ a new `Server` class that extends [`ServerLoader`](https://github.com/Romakita/t
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader, IServerLifecycle, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
