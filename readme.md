@@ -93,7 +93,7 @@ export class Server extends ServerLoader {
      * This method let you configure the middleware required by your application to works.
      * @returns {Server}
      */
-    $onMountingMiddlewares(): void|Promise<any> {
+    public $onMountingMiddlewares(): void|Promise<any> {
     
         const morgan = require('morgan'),
             cookieParser = require('cookie-parser'),
