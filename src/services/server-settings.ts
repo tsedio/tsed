@@ -129,7 +129,7 @@ export class ServerSettingsService implements IServerSettings {
      */
     get mount(): IServerMountDirectories {
 
-        const obj = this.map.get("mount");
+        const obj = this.map.get("mount") || [];
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
@@ -145,7 +145,7 @@ export class ServerSettingsService implements IServerSettings {
      */
     get componentsScan(): string[] {
 
-        const obj: string[] = this.map.get("componentsScan");
+        const obj: string[] = this.map.get("componentsScan") || [];
         const finalObj = [];
 
         Object.keys(obj).forEach(k => {
@@ -160,7 +160,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get serveStatic(): IServerMountDirectories {
-        const obj = this.map.get("serveStatic");
+        const obj = this.map.get("serveStatic") || {};
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
