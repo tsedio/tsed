@@ -7,7 +7,7 @@ import InjectorService from "../services/injector";
 import ConverterService from "../services/converter";
 
 /**
- * `@JsonProperty()` let you decorate an attribut. By default, no parameters are required to use it.
+ * `@JsonProperty()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
  * But in some cases, we need to configure explicitly the JSON attribut name mapped to the class attribut.
  * Here an example of different use cases with `@JsonProperty()`:
  *

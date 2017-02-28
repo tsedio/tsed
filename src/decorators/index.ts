@@ -5,14 +5,15 @@ export * from "./use-before";
 export * from "./use-after";
 export * from "./route";
 export * from "./response-view";
-export * from "./response-data";
 export * from "./json-property";
 export * from "./location";
 export * from "./redirect";
 export * from "./inject";
 export * from "./status";
+export * from "./deprecated";
 
 // Parameters
+export * from "./response-data";
 export * from "./authenticated";
 export * from "./required";
 export * from "./params";
