@@ -1,5 +1,6 @@
 test
-src
+src/**/*.js
+src/**/*.js.map
 coverage
 tsconfig.json
 tsconfig.compile.json

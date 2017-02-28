@@ -2,35 +2,47 @@
 import InjectorService from "../services/injector";
 import Metadata from "../services/metadata";
 
-export function Inject(): Function {
+export function Inject(symbol?: any): Function {
 
-    return (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<Function>): TypedPropertyDescriptor<Function> => {
+    return (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): TypedPropertyDescriptor<Function> => {
 
-        // save a reference to the original method this way we keep the values currently in the
-        // descriptor and don't overwrite what another decorator might have done to the descriptor.
-        /* istanbul ignore next */
-        if (descriptor === undefined) {
-            descriptor = Object.getOwnPropertyDescriptor(target, targetKey);
-        }
+        if (typeof descriptor === "number") {
+            if (symbol) {
+                const paramTypes = Metadata.getParamTypes(target, targetKey);
 
-        const originalMethod = descriptor.value;
+                paramTypes[descriptor] = symbol;
 
-        descriptor.value = function(locals: Map<Function, string> = new Map<Function, string>()) {
-
+                Metadata.setParamTypes(target, targetKey, paramTypes);
+            }
+        } else {
+            // save a reference to the original method this way we keep the values currently in the
+            // descriptor and don't overwrite what another decorator might have done to the descriptor.
             /* istanbul ignore next */
-            if (locals instanceof Map === false) {
-                locals = new Map();
+            if (descriptor === undefined) {
+                descriptor = Object.getOwnPropertyDescriptor(target, targetKey);
             }
 
-            return InjectorService.invokeMethod(originalMethod.bind(this), {
-                target,
-                methodName: targetKey,
-                locals
-            });
-        };
+            const originalMethod = descriptor.value;
 
-        (descriptor.value as any).$injected = true;
+            descriptor.value = function(locals: Map<Function, string> = new Map<Function, string>()) {
 
-        return descriptor;
+                /* istanbul ignore next */
+                if (locals instanceof Map === false) {
+                    locals = new Map();
+                }
+
+                return InjectorService.invokeMethod(originalMethod.bind(this), {
+                    target,
+                    methodName: targetKey,
+                    locals
+                });
+            };
+
+            (descriptor.value as any).$injected = true;
+
+            return descriptor;
+        }
+
+
     };
 }

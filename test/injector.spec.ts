@@ -19,6 +19,7 @@ class InvokeMethodTest {
     constructor(private t) {
 
     }
+
     @Inject()
     method(injectorService: InjectorService) {
         expect(this.t).not.to.be.undefined;

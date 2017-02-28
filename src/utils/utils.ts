@@ -1,3 +1,4 @@
+import {getClassName} from "./class";
 /**
  * Get the class constructor if target is an instance.
  * @param target
@@ -6,6 +7,11 @@
 export function getClass(target: any): any {
    return target.prototype ? target : target.constructor;
 }
+
+export function getClassOrSymbol(target: any): any {
+    return typeof target === "symbol" ? target : getClass(target);
+}
+
 
 /**
  * Give the type of val.

@@ -1,6 +1,8 @@
 
 import {Service} from '../../../src/index';
 import {SanitizeService} from "./SanitizeService";
+import {CustomFactory} from "./CustomFactory";
+import {Inject} from "../../../src/decorators/inject";
 
 @Service()
 export class MongooseService{
@@ -8,7 +10,8 @@ export class MongooseService{
     private _token: string = "EMPTY";
 
     constructor(
-        private sanitize: SanitizeService
+        private sanitize: SanitizeService,
+        @Inject(CustomFactory) private customFactory: CustomFactory
     ) {
 
     }

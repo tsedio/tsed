@@ -90,6 +90,16 @@ export default class Metadata<T> {
     static getParamTypes(target: any, propertyKey?: string): any[] {
         return Reflect.getMetadata(DESIGN_PARAM_TYPES, target, propertyKey) || [];
     }
+
+    /**
+     *
+     * @param target
+     * @param propertyKey
+     * @param value
+     */
+    static setParamTypes(target: any, propertyKey: string, value): void {
+        return this.set(DESIGN_PARAM_TYPES, value, target, propertyKey);
+    }
     /**
      *
      * @param key

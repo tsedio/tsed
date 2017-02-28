@@ -4,6 +4,7 @@ import {UNKNOW_SERVICE} from "../constants/errors-msgs";
 import {IProvider} from "../interfaces/Provider";
 import {getClass, getClassName} from "../utils";
 import {IInjectableMethod} from "../interfaces/InjectableMethod";
+import {getClassOrSymbol} from "../utils/utils";
 
 /**
  * InjectorService manage all service collected by `@Service()` decorator.
@@ -78,7 +79,8 @@ export default class InjectorService {
 
                 /* istanbul ignore next */
                 if (!this.has(serviceType)) {
-                    throw Error(UNKNOW_SERVICE(getClassName(target) + " > " + serviceName));
+                    console.log(serviceType, target, serviceName);
+                    throw Error(UNKNOW_SERVICE(getClassName(target) + " > " + serviceName.toString()));
                 }
 
                 return this.get(serviceType);
@@ -150,7 +152,7 @@ export default class InjectorService {
      */
     static construct(target): InjectorService {
 
-        const provider: IProvider = this.providers.get(getClass(target));
+        const provider: IProvider = this.providers.get(getClassOrSymbol(target));
 
         /* istanbul ignore else */
         if (provider.instance === undefined || provider.type === "service") {
@@ -189,11 +191,11 @@ export default class InjectorService {
         }
 
         provider = Object.assign(
-            InjectorService.providers.get(getClass(target)) || {},
+            InjectorService.providers.get(getClassOrSymbol(target)) || {},
             provider
         );
 
-        InjectorService.providers.set(getClass(target), provider);
+        InjectorService.providers.set(getClassOrSymbol(target), provider);
 
         return InjectorService;
     }
@@ -203,14 +205,14 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    static get = <T>(target): T => InjectorService.providers.get(getClass(target)).instance;
+    static get = <T>(target): T => InjectorService.providers.get(getClassOrSymbol(target)).instance;
 
     /**
      * Return true if the target provider exists and has an instance.
      * @param target
      * @returns {boolean}
      */
-    static has = (target): boolean => InjectorService.providers.has(getClass(target)) && !!InjectorService.get(target);
+    static has = (target): boolean => InjectorService.providers.has(getClassOrSymbol(target)) && !!InjectorService.get(target);
 
     /**
      * Initialize injectorService and load all services/factories.

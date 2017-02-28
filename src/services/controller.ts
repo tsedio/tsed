@@ -13,6 +13,7 @@ import InjectorService from "./injector";
 import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
 import MiddlewareService from "./middleware";
 import InjectParams from "./inject-params";
+import {Inject} from "../decorators/inject";
 
 const colors = require("colors");
 
@@ -33,7 +34,7 @@ export default class ControllerService {
      * @param expressApplication
      */
     constructor (
-        private expressApplication: ExpressApplication
+        @Inject(ExpressApplication) private expressApplication: ExpressApplication
     ) {
 
     }
