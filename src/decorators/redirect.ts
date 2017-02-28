@@ -46,7 +46,6 @@ import {UseAfter} from "./use-after";
  * @returns {Function}
  * @constructor
  */
-export function Redirect(location: string): Function;
 export function Redirect(status: string | number, location?: string): Function {
 
     return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
@@ -55,7 +54,7 @@ export function Redirect(status: string | number, location?: string): Function {
 
             if (!response.headersSent) {
                 if (typeof status === "string") {
-                    response.redirect(location);
+                    response.redirect(status);
                 } else {
                     response.redirect(status, location);
                 }

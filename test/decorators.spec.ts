@@ -74,6 +74,7 @@ describe('Decorators :', () => {
 
             middleware({}, response, () => {});
 
+            console.log(response);
             expect(response.l).to.equal('http://test');
 
             Metadata.set(ENDPOINT_USE, [], TestDecorator, 'method');
