@@ -1,5 +1,5 @@
 
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES} from "../constants/metadata-keys";
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE} from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
@@ -36,4 +36,10 @@ export function Controller(ctrlUrl: string, ...ctlrDepedencies: any[]): Function
         }
 
     };
+}
+
+export function Scope(target: any): void {
+
+    /* istanbul ignore next */
+    Metadata.set(CONTROLLER_SCOPE, true, target);
 }

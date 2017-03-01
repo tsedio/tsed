@@ -3,7 +3,7 @@ import {Service} from "../decorators/service";
 import {ExpressApplication} from "./express-application";
 import Controller from "../controllers/controller";
 import Metadata from "./metadata";
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, DESIGN_RETURN_TYPE} from "../constants/metadata-keys";
+import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {Endpoint} from "../controllers/endpoint";
@@ -11,11 +11,8 @@ import {getClassName} from "../utils/class";
 import {RouterController} from "./index";
 import InjectorService from "./injector";
 import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
-import MiddlewareService from "./middleware";
 import InjectParams from "./inject-params";
 import {Inject} from "../decorators/inject";
-
-const colors = require("colors");
 
 /**
  * ControllerService manage all controllers declared with `@Controller` decorator.
@@ -49,29 +46,26 @@ export default class ControllerService {
     }
 
     /**
-     *
+     * Add new controller.
      * @param target
      * @param endpoint
      * @param dependencies
+     * @param createInstancePerRequest
      * @returns {ControllerService}
      */
-    static set(target: any, endpoint: string, dependencies: any[]) {
+    static set(target: any, endpoint: string, dependencies: any[], createInstancePerRequest: boolean = false) {
 
         const ctrl = new Controller(
             target,
             endpoint,
-            dependencies
+            dependencies,
+            createInstancePerRequest
         );
 
         this.controllers.set(
             target,
             ctrl
         );
-
-        /*this.controllers.set(
-            getClassName(target),
-            ctrl
-        );*/
 
         return this;
     }
@@ -109,13 +103,12 @@ export default class ControllerService {
                 ControllerService.set(
                     target,
                     Metadata.get(CONTROLLER_URL, target),
-                    Metadata.get(CONTROLLER_DEPEDENCIES, target)
+                    Metadata.get(CONTROLLER_DEPEDENCIES, target),
+                    Metadata.get(CONTROLLER_SCOPE, target)
                 );
 
 
             });
-
-        // ControllerService.controllers.forEach((c, k) => console.log(getClassName(c), k));
 
         return this;
     }
@@ -211,10 +204,13 @@ export default class ControllerService {
 
         const controller: Controller = this.get(target);
 
-        // TODO Test if SINGLETON ANNOTATION is used to instanciate controller class.
-        locals.set(RouterController, new RouterController(controller.router));
+        if (controller.createInstancePerRequest || controller.instance === undefined) {
+            locals.set(RouterController, new RouterController(controller.router));
 
-        return InjectorService.invoke<T>(target, locals);
+            controller.instance = InjectorService.invoke<T>(target, locals);
+        }
+
+        return controller.instance;
     }
 
     /**

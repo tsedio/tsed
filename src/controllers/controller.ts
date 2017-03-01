@@ -24,7 +24,10 @@ export default class Controller {
      * The express router instance for the controller.
      */
     private _router: Express.Router = Express.Router();
-
+    /**
+     *
+     */
+    public instance: any;
     /**
      * Build a new Controller metadata.
      * @param _targetClass
@@ -34,7 +37,8 @@ export default class Controller {
     constructor (
         private _targetClass: any,
         private _endpointUrl: string,
-        private _dependencies: (string | Function | Controller)[] = []
+        private _dependencies: (string | Function | Controller)[] = [],
+        private _createInstancePerRequest: boolean = false
     ) {
         this.metadataToEndpoints();
     }
@@ -172,5 +176,13 @@ export default class Controller {
      */
     get router(): Express.Router {
         return this._router;
+    }
+
+    /**
+     * Create a new controler for each per incoming request.
+     * @returns {boolean}
+     */
+    get createInstancePerRequest() {
+        return this._createInstancePerRequest;
     }
 }
