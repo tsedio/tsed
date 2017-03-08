@@ -1,7 +1,7 @@
 
 import {Endpoint} from "../controllers/endpoint";
 import {UseBefore} from "./use-before";
-import AcceptMimeMiddleware from "../middlewares/accept-mime";
+import AcceptMimeMiddleware from "../middlewares/accept-mimes";
 /**
  * Set a mime list as acceptable for a request on a specific endpoint.
  *

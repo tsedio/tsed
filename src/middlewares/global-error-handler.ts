@@ -10,7 +10,7 @@ import {Exception} from "ts-httpexceptions";
 import {Request} from "../decorators/request";
 
 @MiddlewareError()
-export default class ErrorHandlerMiddleware implements IMiddlewareError {
+export default class GlobalErrorHandlerMiddleware implements IMiddlewareError {
 
     use(
         @Err() error: any,

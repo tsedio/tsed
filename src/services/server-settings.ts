@@ -28,6 +28,7 @@ export interface IServerSettings {
     mount?: IServerMountDirectories;
     componentsScan?: string[];
     serveStatic?: IServerMountDirectories;
+    acceptMimes?: string[];
     [key: string]: any;
 }
 /**
@@ -168,6 +169,14 @@ export class ServerSettingsService implements IServerSettings {
         });
 
         return finalObj;
+    }
+
+    /**
+     *
+     * @returns {undefined|any}
+     */
+    get acceptMimes(): string[] {
+        return this.map.get("acceptMimes");
     }
 
     /**
@@ -350,6 +359,15 @@ export class ServerSettingsProvider implements IServerSettings {
     set serveStatic(value: IServerMountDirectories) {
         this.map.set("serveStatic", value);
     }
+
+    /**
+     *
+     * @param value
+     */
+    set acceptMimes(value: string[]) {
+        this.map.set("acceptMimes", value) || [];
+    }
+
 
     /**
      *

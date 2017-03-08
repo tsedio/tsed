@@ -11,7 +11,7 @@ import {Deprecated} from "../decorators/deprecated";
 import {
     ServerSettingsService, ServerSettingsProvider, IServerMountDirectories, IServerSettings
 } from "../services/server-settings";
-import ErrorHandlerMiddleware from "../middlewares/error-handler";
+import GlobalErrorHandlerMiddleware from "../middlewares/global-error-handler";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -203,7 +203,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                     this.use(fnError.bind(this));
                 }
 
-                this.use(ErrorHandlerMiddleware);
+                this.use(GlobalErrorHandlerMiddleware);
 
             });
     }

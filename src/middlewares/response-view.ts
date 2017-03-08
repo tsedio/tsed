@@ -18,8 +18,7 @@ export default class ResponseViewMiddleware implements IMiddleware {
     public use(
         @ResponseData() data: any,
         @EndpointInfo() endpoint: Endpoint,
-        @Response() response: Express.Response,
-        @Request() request: Express.Request
+        @Response() response: Express.Response
     ) {
 
         if (response.headersSent) {

@@ -1,20 +1,20 @@
 import Chai = require("chai");
 import MiddlewareService from "../src/services/middleware";
 import {inject} from '../src/testing/inject';
-import ErrorHandlerMiddleware from "../src/middlewares/error-handler";
+import DefaultErrorHandlerMiddleware from "../src/middlewares/global-error-handler";
 import {FakeResponse} from "./helper/FakeResponse";
 import {$log} from "ts-log-debug";
 import {FakeRequest} from "./helper/FakeRequest";
-import AcceptMimeMiddleware from "../src/middlewares/accept-mime";
-import MultipartFileMiddleware from "../src/middlewares/multipart-file";
+import AcceptMimeMiddleware from "../src/middlewares/accept-mimes";
+// import MultipartFileMiddleware from "../src/middlewares/multipart-file";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
-describe('ErrorHandlerMiddleware :', () => {
+describe('GlobalErrorHandlerMiddleware :', () => {
 
     it('should do nothing if response is sent', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
 
-        const middleware = middlewareService.invoke<ErrorHandlerMiddleware>(ErrorHandlerMiddleware);
+        const middleware = middlewareService.invoke<DefaultErrorHandlerMiddleware>(DefaultErrorHandlerMiddleware);
 
         const response = new FakeResponse();
         response['headersSent'] = true;
@@ -32,7 +32,7 @@ describe('ErrorHandlerMiddleware :', () => {
 
     it('should respond error 404 with his message', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
 
-        const middleware = middlewareService.invoke<ErrorHandlerMiddleware>(ErrorHandlerMiddleware);
+        const middleware = middlewareService.invoke<DefaultErrorHandlerMiddleware>(DefaultErrorHandlerMiddleware);
         const response = new FakeResponse();
         response['headersSent'] = false;
 
@@ -54,7 +54,7 @@ describe('ErrorHandlerMiddleware :', () => {
             error: false
         });
 
-        const middleware = middlewareService.invoke<ErrorHandlerMiddleware>(ErrorHandlerMiddleware);
+        const middleware = middlewareService.invoke<DefaultErrorHandlerMiddleware>(DefaultErrorHandlerMiddleware);
 
         const response = new FakeResponse();
         response['headersSent'] = false;
@@ -76,7 +76,7 @@ describe('ErrorHandlerMiddleware :', () => {
     }));
 });
 
-describe('AcceptMimeMiddleware :', () => {
+describe('AcceptMimesMiddleware :', () => {
 
     it('should accept mime', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
 
