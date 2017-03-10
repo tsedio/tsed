@@ -1,7 +1,7 @@
 import Chai = require("chai");
 import MiddlewareService from "../src/services/middleware";
 import {inject} from '../src/testing/inject';
-import DefaultErrorHandlerMiddleware from "../src/middlewares/global-error-handler";
+import GlobalErrorHandlerMiddleware from "../src/middlewares/global-error-handler";
 import {FakeResponse} from "./helper/FakeResponse";
 import {$log} from "ts-log-debug";
 import {FakeRequest} from "./helper/FakeRequest";
@@ -14,7 +14,7 @@ describe('GlobalErrorHandlerMiddleware :', () => {
 
     it('should do nothing if response is sent', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
 
-        const middleware = middlewareService.invoke<DefaultErrorHandlerMiddleware>(DefaultErrorHandlerMiddleware);
+        const middleware = middlewareService.invoke<GlobalErrorHandlerMiddleware>(GlobalErrorHandlerMiddleware);
 
         const response = new FakeResponse();
         response['headersSent'] = true;
@@ -32,7 +32,7 @@ describe('GlobalErrorHandlerMiddleware :', () => {
 
     it('should respond error 404 with his message', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
 
-        const middleware = middlewareService.invoke<DefaultErrorHandlerMiddleware>(DefaultErrorHandlerMiddleware);
+        const middleware = middlewareService.invoke<GlobalErrorHandlerMiddleware>(GlobalErrorHandlerMiddleware);
         const response = new FakeResponse();
         response['headersSent'] = false;
 
@@ -54,7 +54,7 @@ describe('GlobalErrorHandlerMiddleware :', () => {
             error: false
         });
 
-        const middleware = middlewareService.invoke<DefaultErrorHandlerMiddleware>(DefaultErrorHandlerMiddleware);
+        const middleware = middlewareService.invoke<GlobalErrorHandlerMiddleware>(GlobalErrorHandlerMiddleware);
 
         const response = new FakeResponse();
         response['headersSent'] = false;
