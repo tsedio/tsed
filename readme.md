@@ -29,7 +29,7 @@
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
 * Templating (View),
-* Testing (alpha).
+* Testing.
 
 ## Installation
 
