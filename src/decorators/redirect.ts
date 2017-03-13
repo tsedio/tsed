@@ -52,6 +52,7 @@ export function Redirect(status: string | number, location?: string): Function {
 
         return UseAfter((request, response, next) => {
 
+            /* istanbul ignore else */
             if (!response.headersSent) {
                 if (typeof status === "string") {
                     response.redirect(status);

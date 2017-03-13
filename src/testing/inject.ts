@@ -23,6 +23,7 @@ export function inject(targets: any[], func: Function) {
            get: () => ""
        });
 
+        /* istanbul ignore else */
         if (!InjectorService.has(ServerSettingsService)) {
 
             const settingsProvider = new ServerSettingsProvider();

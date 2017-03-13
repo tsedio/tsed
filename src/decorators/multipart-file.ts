@@ -9,6 +9,7 @@ export function MultipartFile(options?: any): Function {
 
     return <T> (target: Function, propertyKey: string, parameterIndex: number): void => {
 
+        /* istanbul ignore else */
         if (!Endpoint.getMetadata(MultipartFileMiddleware, target, propertyKey)) {
 
             Endpoint.setMetadata(MultipartFileMiddleware, options, target, propertyKey);

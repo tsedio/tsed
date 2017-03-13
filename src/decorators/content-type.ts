@@ -22,6 +22,7 @@ export function ContentType(type: string): Function {
 
         return UseAfter((request, response, next) => {
 
+            /* istanbul ignore next */
             if (!response.headersSent) {
                 response.type(type);
             }

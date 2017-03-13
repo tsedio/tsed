@@ -37,10 +37,8 @@ export default class ResponseViewMiddleware implements IMiddleware {
 
                 response.render(viewPath, data, (err, html) => {
 
+                    /* istanbul ignore next */
                     if (err) {
-                        // $log.error(err);
-                        // response.status(500).send("" + err);
-
 
                         reject(new InternalServerError(TEMPLATE_RENDERING_ERROR(
                             getClassName(endpoint.targetClass),

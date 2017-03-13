@@ -2,15 +2,19 @@ import {Err} from "../src/decorators/error";
 import {Location} from "../src/decorators/location";
 import Chai = require("chai");
 import InjectParams from "../src/services/inject-params";
-import {EXPRESS_ERR, ENDPOINT_USE, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER} from "../src/constants/metadata-keys";
+import {
+    EXPRESS_ERR, ENDPOINT_USE, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, CONTROLLER_SCOPE
+} from "../src/constants/metadata-keys";
 import Metadata from "../src/services/metadata";
 import {Redirect} from "../src/decorators/redirect";
 import {Header} from "../src/decorators/header";
+import {Scope} from "../src/decorators/controller";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
 class TestDecorator{
     method(){}
+    methodNothing(){}
 }
 
 describe('Decorators :', () => {
@@ -108,6 +112,25 @@ describe('Decorators :', () => {
 
     describe('@Header()', () => {
 
+        it('should do nothing', () => {
+            Header({'Content-Type': 'application/json'})(TestDecorator, 'methodNothing', {});
+
+            const response = {
+                headersSent: true
+            };
+
+            const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'methodNothing');
+            const middleware = middlewares[0];
+
+            let called = false;
+
+            middleware({}, response, () => {called = true});
+
+            expect(called).to.be.true;
+
+            Metadata.set(ENDPOINT_USE_AFTER, [], TestDecorator, 'methodNothing');
+        });
+
         it('should add metadata (object)', () => {
             Header({'Content-Type': 'application/json'})(TestDecorator, 'method', {});
 
@@ -154,5 +177,14 @@ describe('Decorators :', () => {
             Metadata.set(ENDPOINT_USE_AFTER, [], TestDecorator, 'method');
         });
 
+    });
+
+    describe('@Scope()', () => {
+        it('should add metadata', () => {
+
+            Scope(TestDecorator);
+            expect(Metadata.get(CONTROLLER_SCOPE, TestDecorator)).to.be.true;
+
+        });
     });
 });
