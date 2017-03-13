@@ -6,6 +6,8 @@ import {FakeResponse} from "./helper/FakeResponse";
 import {$log} from "ts-log-debug";
 import {FakeRequest} from "./helper/FakeRequest";
 import AcceptMimeMiddleware from "../src/middlewares/accept-mimes";
+import GlobalAcceptMimesMiddleware from "../src/middlewares/global-accept-mimes";
+import {ServerSettingsService} from "../src/services/server-settings";
 // import MultipartFileMiddleware from "../src/middlewares/multipart-file";
 
 let expect: Chai.ExpectStatic = Chai.expect;
@@ -75,6 +77,61 @@ describe('GlobalErrorHandlerMiddleware :', () => {
 
     }));
 });
+
+describe('GlobalAcceptMimesMiddleware :', () => {
+
+    it('should accept mime', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+
+        const map = new Map<string, any>();
+        map.set('acceptMimes', ['application/json']);
+
+        const middleware = new GlobalAcceptMimesMiddleware(new ServerSettingsService(map));
+        const request = new FakeRequest();
+
+        request.mime = "application/json";
+
+        middleware.use(request);
+
+    }));
+
+    /*it('should accept mime', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+
+        const middleware = middlewareService.invoke<AcceptMimeMiddleware>(AcceptMimeMiddleware);
+        const request = new FakeRequest();
+
+        request.mime = "application/json";
+
+        middleware.use({
+            getMetadata: () => {
+                return undefined
+            }
+        } as any, request as any);
+
+    }));*/
+
+    it('should not accept mime', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+
+        try {
+
+            const map = new Map<string, any>();
+            map.set('acceptMimes', ['application/xml']);
+
+            const middleware = new GlobalAcceptMimesMiddleware(new ServerSettingsService(map));
+            const request = new FakeRequest();
+
+            request.mime = "text/html";
+
+            middleware.use(request);
+
+        } catch (er) {
+            expect(er.message).contains("You must accept content-type application/xml");
+        }
+
+
+    }));
+
+});
+
 
 describe('AcceptMimesMiddleware :', () => {
 

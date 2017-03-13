@@ -9,6 +9,7 @@ describe('Class utils : ', () => {
     it('should return class name', () => {
         expect(getClassName(FakeClass)).to.equal('FakeClass');
         expect(getClassName(new FakeClass())).to.equal('FakeClass');
+        expect(getClassName(Symbol('test:fakeClass'))).to.equal('Symbol(test:fakeClass)');
     });
 
     it('should return contructor', () => {

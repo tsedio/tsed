@@ -80,6 +80,30 @@ describe('Decorators :', () => {
             Metadata.set(ENDPOINT_USE, [], TestDecorator, 'method');
         });
 
+        it('should add metadata', () => {
+            Redirect(200, 'http://test')(TestDecorator, 'method', {});
+
+            const response = {
+                l: '',
+                redirect: (e) => {
+                    response.l = e;
+                }
+            };
+
+            const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
+
+            expect(middlewares.length).to.equal(2);
+
+            const middleware = middlewares[0];
+
+            middleware({}, response, () => {});
+
+            console.log(response);
+            expect(response.l).to.equal(200);
+
+            Metadata.set(ENDPOINT_USE, [], TestDecorator, 'method');
+        });
+
     });
 
     describe('@Header()', () => {
@@ -96,7 +120,7 @@ describe('Decorators :', () => {
 
             const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
 
-            expect(middlewares.length).to.equal(2);
+            expect(middlewares.length).to.equal(3);
 
             const middleware = middlewares[0];
 
@@ -119,7 +143,7 @@ describe('Decorators :', () => {
 
             const middlewares = Metadata.get(ENDPOINT_USE_AFTER, TestDecorator, 'method');
 
-            expect(middlewares.length).to.equal(1);
+            expect(!!middlewares.length).to.equal(true);
 
             const middleware = middlewares[0];
 

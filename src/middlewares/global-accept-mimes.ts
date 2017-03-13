@@ -13,7 +13,8 @@ export default class GlobalAcceptMimesMiddleware implements IMiddleware {
 
     use(@Request() request) {
 
-        this.serverSettingsService.acceptMimes
+        this.serverSettingsService
+            .acceptMimes
             .forEach((mime) => {
                 if (!request.accepts(mime)) {
                     throw new NotAcceptable(mime);
