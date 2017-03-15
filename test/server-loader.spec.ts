@@ -10,13 +10,13 @@ describe("ServerLoader()", () => {
 
     describe('ServerLoader.AcceptMime', () => {
 
-        it('Should throw exception', () =>{
+        it('Should throw exception', () => {
             const middleware = ServerLoader.AcceptMime("application/json");
-            const fakeRequest =  new FakeRequest();
+            const fakeRequest = new FakeRequest();
 
-            try{
+            try {
                 middleware(fakeRequest, new FakeResponse(), () => (undefined));
-            }catch(er){
+            } catch (er) {
 
                 expect(er instanceof NotAcceptable).to.be.true;
 
@@ -29,15 +29,16 @@ describe("ServerLoader()", () => {
 
         it('should start', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpServer(8000);
             server.setHttpPort(8000);
-            server.startServers = function(){};
-            server.$onReady = function(){
+            server.startServers = function () {
+            };
+            server.$onReady = function () {
                 expect(this.expressApp).to.be.an('function');
             };
-            server.$onInit = function(){
+            server.$onInit = function () {
             };
             const promise = server.start();
 
@@ -53,7 +54,7 @@ describe("ServerLoader()", () => {
 
         it('should errored', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpServer(8000);
             server.setHttpPort(8000);
@@ -62,7 +63,9 @@ describe("ServerLoader()", () => {
                 error: false
             });
 
-            server.startServers = function(){throw new Error()};
+            server.startServers = function () {
+                throw new Error()
+            };
 
             const promise = server.start();
 
@@ -80,12 +83,15 @@ describe("ServerLoader()", () => {
 
         it('should errored (2)', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpServer(8000);
             server.setHttpPort(8000);
-            server.startServers = function(){throw new Error()};
-            server.$onServerInitError = function(){};
+            server.startServers = function () {
+                throw new Error()
+            };
+            server.$onServerInitError = function () {
+            };
             const promise = server.start();
 
             expect(typeof promise).to.equal('object');
@@ -100,7 +106,7 @@ describe("ServerLoader()", () => {
 
         it('should start httpServer', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpServer(8000);
 
@@ -121,7 +127,7 @@ describe("ServerLoader()", () => {
 
         it('should start and catch error', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpServer(8000);
 
@@ -144,7 +150,7 @@ describe("ServerLoader()", () => {
 
         it('should start httpsServer', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpsServer(8000);
 
@@ -165,7 +171,7 @@ describe("ServerLoader()", () => {
 
         it('should start and catch error', (done) => {
 
-            const server:any = new FakeServer();
+            const server: any = new FakeServer();
 
             server.createHttpsServer(8000);
 
@@ -194,7 +200,9 @@ describe("ServerLoader()", () => {
             const serverLoader = new FakeServer();
 
             (serverLoader as any)._expressApp = {
-                set: (k, v) => {settings[k] = v}
+                set: (k, v) => {
+                    settings[k] = v
+                }
             };
 
             serverLoader.set('view engine', "html");
@@ -209,10 +217,13 @@ describe("ServerLoader()", () => {
             const serverLoader = new FakeServer();
 
             (serverLoader as any)._expressApp = {
-                engine: (k, v) => {settings[k] = v}
+                engine: (k, v) => {
+                    settings[k] = v
+                }
             };
 
-            serverLoader.engine('view engine', () => {});
+            serverLoader.engine('view engine', () => {
+            });
 
             expect(settings['view engine']).to.be.a("function");
         });
@@ -240,4 +251,14 @@ describe("ServerLoader()", () => {
 
     });
 
+    describe('ServerSettingsService.setEndpoint()', () => {
+        it('should set the default endpoint', () => {
+
+            const serverLoader = new FakeServer();
+            serverLoader.setEndpoint("/rest");
+
+            expect((serverLoader as any)._settings.map.get("endpointUrl")).to.equals('/rest');
+
+        });
+    });
 });

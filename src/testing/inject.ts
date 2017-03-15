@@ -19,8 +19,7 @@ export function inject(targets: any[], func: Function) {
 
     if (!InjectorService.has(ExpressApplication)) {
        InjectorService.set(ExpressApplication, {
-           use: () => (undefined),
-           get: () => ""
+           use: () => (undefined)
        });
 
         /* istanbul ignore else */

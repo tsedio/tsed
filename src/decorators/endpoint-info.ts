@@ -9,8 +9,7 @@ export function EndpointInfo(): Function {
 
     return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             InjectParams.build(ENDPOINT_INFO, {
                 propertyKey,

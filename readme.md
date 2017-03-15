@@ -282,7 +282,7 @@ Welcome to the TsExpressDecorators project wiki!
 
 ## CHANGELOG
 
-### v1.4.0-x (beta)
+### v1.4.0
 
 * Add `@Inject()` decorator [#42](https://github.com/Romakita/ts-express-decorators/issues/42),
 * Add `@Middleware()` decorator [#40](https://github.com/Romakita/ts-express-decorators/issues/40),

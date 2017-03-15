@@ -10,8 +10,7 @@ export function Next(): Function {
 
     return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
 

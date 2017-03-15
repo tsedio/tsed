@@ -14,6 +14,7 @@ describe("ServerSettingsProvider()", () => {
 
         serverSettingsProvider.endpoint = "/rest";
         serverSettingsProvider.httpsOptions = {test: "/rest"} as any;
+        serverSettingsProvider.acceptMimes = ['application/json'];
 
         const serverSettingsService = serverSettingsProvider.$get();
 
@@ -27,6 +28,8 @@ describe("ServerSettingsProvider()", () => {
         expect(serverSettingsService.uploadDir).to.contains("uploads");
         expect(serverSettingsService.mount['/rest']).to.be.a("string");
         expect((serverSettingsService.httpsOptions as any).test).to.equal('/rest');
+        expect(serverSettingsService.acceptMimes[0]).to.equal('application/json');
+
     });
 
 

@@ -26,6 +26,13 @@ describe("Endpoint :", () => {
     describe("new Endpoint", () => {
         beforeEach(() => ControllerService.set(TestInstance, "/", []));
 
+        it("should return nothing at first", () => {
+
+            const endpoint = new Endpoint(TestInstance, 'myMethodNothing');
+
+            expect(endpoint.getRoute()).to.equals(undefined);
+        });
+
         it("should push information", () => {
 
             const endpoint = new Endpoint(TestInstance, 'myMethod');
@@ -84,9 +91,22 @@ describe("Endpoint :", () => {
 
             const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
 
-            Metadata.set('TEST', 'value', endpoint.targetClass, endpoint.methodClassName);
+            Endpoint.setMetadata('TEST', 'value', endpoint.targetClass, endpoint.methodClassName);
 
             expect(endpoint.getMetadata('TEST')).to.equal('value');
+            expect(Endpoint.getMetadata('TEST', endpoint.targetClass, endpoint.methodClassName)).to.equal('value');
+
+        });
+
+        it('should get metadata stored on endpoint method', () => {
+
+            const endpoint: any = new Endpoint(TestInstance, 'myMethodThrowException');
+            const symb = Symbol('Test:Endpoint');
+
+            Endpoint.setMetadata(symb, 'value', endpoint.targetClass, endpoint.methodClassName);
+
+            expect(endpoint.getMetadata(symb)).to.equal('value');
+            expect(Endpoint.getMetadata(symb, endpoint.targetClass, endpoint.methodClassName)).to.equal('value');
 
         });
 

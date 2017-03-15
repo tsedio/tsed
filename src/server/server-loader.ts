@@ -115,6 +115,8 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public use(...args: any[]): ServerLoader {
 
+
+        /* istanbul ignore else */
         if (this.injectorService) { // Needed to use middlewareInjector
 
             const middlewareService = this.injectorService.get<MiddlewareService>(MiddlewareService);
@@ -199,6 +201,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 // Import the globalErrorHandler
                 const fnError = (<any>this).$onError;
 
+                /* istanbul ignore next */
                 if (fnError) {
                     this.use(fnError.bind(this));
                 }
@@ -238,7 +241,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                     break;
 
                 case "httpPort":
-
+                    /* istanbul ignore else */
                     if (this._httpServer === undefined) {
                         this.createHttpServer(value);
                     }
@@ -247,6 +250,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 case "httpsPort":
 
+                    /* istanbul ignore else */
                     if (this._httpsServer === undefined) {
                         this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
                     }
@@ -262,6 +266,8 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         settingsService
             .forEach((value, key, map) => {
+
+                /* istanbul ignore else */
                 if (value) {
                     bind(key, value, map);
                 }
@@ -355,6 +361,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     @Deprecated("ServerLoader.setHttpPort() is deprecated. Use ServerLoader.settings.port instead of.")
+    /* istanbul ignore next */
     public setHttpPort(port: number | string): ServerLoader {
 
         this._settings.httpPort = port;
@@ -368,6 +375,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     @Deprecated("ServerLoader.setHttpsPort() is deprecated. Use ServerLoader.settings.httpsPort instead of.")
+    /* istanbul ignore next */
     public setHttpsPort(port: number | string): ServerLoader {
 
         this._settings.httpsPort = port;
@@ -381,6 +389,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     @Deprecated("ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of.")
+    /* istanbul ignore next */
     public setEndpoint(endpoint: string): ServerLoader {
 
         this._settings.endpoint = endpoint;
@@ -434,6 +443,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     @Deprecated("ServerLoader.onError() is deprecated. Use your own middleware instead of.")
+    /* istanbul ignore next */
     public onError() {
 
     }
@@ -458,11 +468,13 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public mountStaticDirectories(mountDirectories: IServerMountDirectories): ServerLoader {
 
+        /* istanbul ignore else */
         if (require.resolve("serve-static") && mountDirectories) {
             const serveStatic = require("serve-static");
 
             Object.keys(mountDirectories).forEach(key => {
                 this.use(key, (request, response, next) => {
+                    /* istanbul ignore next */
                     if (!response.headersSent) {
                         serveStatic(mountDirectories[key])(request , response, next);
                     } else {
@@ -515,8 +527,8 @@ export abstract class ServerLoader implements IServerLifecycle {
         return this._httpsServer;
     }
 
-    /** istanbul ignore next */
     @Deprecated("ServerLoader.getExpressApp is deprecated. Use ServerLoader.expressApp instead of.")
+    /* istanbul ignore next */
     getExpressApp() {
         return this.expressApp;
     }
@@ -528,6 +540,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @constructor
      */
     @Deprecated("ServerLoader.AcceptMime() is deprecated. Use your own middleware instead of.")
+    /* istanbul ignore next */
     static AcceptMime(...mimes: string[]): Function {
 
         return function(req: Express.Request, res: Express.Response, next: Express.NextFunction): any {

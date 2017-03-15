@@ -14,8 +14,7 @@ export function CookiesParams(expression?: string | any, useClass?: any): Functi
 
     return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             InjectParams.build(PARSE_COOKIES, {
                 propertyKey,
@@ -41,8 +40,7 @@ export function BodyParams(expression?: string | any, useClass?: any): Function 
 
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             InjectParams.build(PARSE_BODY, {
                 propertyKey,
@@ -67,8 +65,7 @@ export function PathParams(expression?: string | any, useClass?: any): Function 
 
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             InjectParams.build(PARSE_PARAMS, {
                 propertyKey,
@@ -96,8 +93,7 @@ export function QueryParams(expression?: string | any, useClass?: any): Function
 
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             InjectParams.build(PARSE_QUERY, {
                 propertyKey,
@@ -116,8 +112,7 @@ export function Session(expression?: string | any, useClass?: any) {
 
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             InjectParams.build(PARSE_SESSION, {
                 propertyKey,
@@ -135,8 +130,7 @@ export function Session(expression?: string | any, useClass?: any) {
 export function HeaderParams(expression) {
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
-        /* istanbul ignore else */
-        if (parameterIndex !== undefined) {
+        if (typeof parameterIndex === "number") {
 
             const injectParams = InjectParams.get(target, propertyKey, parameterIndex);
 

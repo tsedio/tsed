@@ -9,12 +9,20 @@ import Metadata from "../src/services/metadata";
 import {Redirect} from "../src/decorators/redirect";
 import {Header} from "../src/decorators/header";
 import {Scope} from "../src/decorators/controller";
+import {CookiesParams, BodyParams, QueryParams, PathParams, Session, HeaderParams} from "../src/decorators/params";
+import {Next} from "../src/decorators/next";
+import {Request} from "../src/decorators/request";
+import {Response} from "../src/decorators/response";
+import {Required} from "../src/decorators/required";
+import {MultipartFile} from "../src/decorators/multipart-file";
+import {EndpointInfo} from "../src/decorators/endpoint-info";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
 class TestDecorator{
     method(){}
     methodNothing(){}
+    methodNotNumber(){}
 }
 
 describe('Decorators :', () => {
@@ -78,7 +86,6 @@ describe('Decorators :', () => {
 
             middleware({}, response, () => {});
 
-            console.log(response);
             expect(response.l).to.equal('http://test');
 
             Metadata.set(ENDPOINT_USE, [], TestDecorator, 'method');
@@ -102,7 +109,6 @@ describe('Decorators :', () => {
 
             middleware({}, response, () => {});
 
-            console.log(response);
             expect(response.l).to.equal(200);
 
             Metadata.set(ENDPOINT_USE, [], TestDecorator, 'method');
@@ -184,6 +190,27 @@ describe('Decorators :', () => {
 
             Scope(TestDecorator);
             expect(Metadata.get(CONTROLLER_SCOPE, TestDecorator)).to.be.true;
+
+        });
+    });
+
+
+    describe('all decorators', () => {
+        it('should nothing when index parameters not a number', () => {
+
+            CookiesParams()(TestDecorator, 'methodNotNumber', undefined);
+            BodyParams()(TestDecorator, 'methodNotNumber', undefined);
+            QueryParams()(TestDecorator, 'methodNotNumber', undefined);
+            PathParams()(TestDecorator, 'methodNotNumber', undefined);
+            Session()(TestDecorator, 'methodNotNumber', undefined);
+            HeaderParams('test')(TestDecorator, 'methodNotNumber', undefined);
+            Next()(TestDecorator, 'methodNotNumber', undefined);
+            Request()(TestDecorator, 'methodNotNumber', undefined);
+            Response()(TestDecorator, 'methodNotNumber', undefined);
+            Required()(TestDecorator, 'methodNotNumber', undefined);
+            Err()(TestDecorator, 'methodNotNumber', undefined);
+            MultipartFile()(TestDecorator, 'methodNotNumber', undefined);
+            EndpointInfo()(TestDecorator, 'methodNotNumber', undefined);
 
         });
     });

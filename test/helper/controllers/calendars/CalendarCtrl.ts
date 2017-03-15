@@ -281,4 +281,13 @@ export class CalendarCtrl {
         console.log(files);
         return files;
     }
+
+
+    @Post('/documents/1')
+    testMultipart2(
+        @MultipartFile() file: any
+    ){
+        console.log(file);
+        return file;
+    }
 }
