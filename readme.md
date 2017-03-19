@@ -315,7 +315,7 @@ Welcome to the TsExpressDecorators project wiki!
 
 #### Breaking Change 
 
-We can encounter typescript compilation issues:
+You can encounter typescript compilation issues:
 
 * `InjectorService.invoke(target)` has changed to `InjectorService.invoke<T>(target): T`.
 * `InjectorService.get(target)` has changed to `InjectorService.get<T>(target): T`.
