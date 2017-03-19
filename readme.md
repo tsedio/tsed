@@ -64,7 +64,7 @@ options in your `tsconfig.json` file.
 
 ## Migrate from 1.3 or under to 1.4
 
-The `@types/express` modules dependency has move to devDependencies. So we can have a compilation error with TypeScript.
+The `@types/express` modules dependency has move to devDependencies. So you can have a compilation error with TypeScript.
 To resolve it, just run `npm install --save @types/express`.
 
 If we used the InjectorService. Make you sure we have this in your code:
