@@ -220,7 +220,7 @@ export default class MiddlewareService {
 
         return new Promise((resolve, reject) => {
 
-            let parameters;
+            let parameters, isPromise: boolean;
 
             localScope.next = reject;
 
@@ -240,14 +240,20 @@ export default class MiddlewareService {
 
             Promise
                 .resolve()
-                .then(() => handler()(...parameters))
+                .then(() => {
+                     const result = handler()(...parameters);
+
+                     isPromise = result && result.then;
+
+                     return result;
+                })
                 .then((data) => {
 
                     if (data !== undefined) {
                         localScope.request.storeData(data);
                     }
 
-                    if (!hasNextFn) {
+                    if (!hasNextFn || isPromise) {
                         resolve();
                     }
                 })
@@ -259,11 +265,6 @@ export default class MiddlewareService {
                     next();
                 },
                 (err) => {
-
-                    /*if (err) {
-                        err.message = `\tat ${getClassName(target)}.${methodName}()` + `\n` + err.message;
-                    }*/
-
                     next(err);
                 }
             );

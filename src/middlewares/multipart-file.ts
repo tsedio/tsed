@@ -16,8 +16,13 @@ export default class MultipartFileMiddleware  implements IMiddleware  {
 
     constructor(private serverSettingsService: ServerSettingsService) {
         /* istanbul ignore else */
-        if (require.resolve("multer")) {
-            this.multer = require("multer");
+
+        try {
+            if (require.resolve("multer")) {
+                this.multer = require("multer");
+            }
+        } catch (er) {
+
         }
     }
 

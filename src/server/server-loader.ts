@@ -469,21 +469,25 @@ export abstract class ServerLoader implements IServerLifecycle {
     public mountStaticDirectories(mountDirectories: IServerMountDirectories): ServerLoader {
 
         /* istanbul ignore else */
-        if (require.resolve("serve-static") && mountDirectories) {
-            const serveStatic = require("serve-static");
 
-            Object.keys(mountDirectories).forEach(key => {
-                this.use(key, (request, response, next) => {
-                    /* istanbul ignore next */
-                    if (!response.headersSent) {
-                        serveStatic(mountDirectories[key])(request , response, next);
-                    } else {
-                        next();
-                    }
+        if (mountDirectories) {
+            if (require.resolve("serve-static") ) {
+                const serveStatic = require("serve-static");
+
+                Object.keys(mountDirectories).forEach(key => {
+                    this.use(key, (request, response, next) => {
+                        /* istanbul ignore next */
+                        if (!response.headersSent) {
+                            serveStatic(mountDirectories[key])(request , response, next);
+                        } else {
+                            next();
+                        }
+                    });
                 });
-            });
 
+            }
         }
+
 
         return this;
     }

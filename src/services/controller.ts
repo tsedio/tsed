@@ -160,12 +160,11 @@ export default class ControllerService {
             .forEach(finalCtrl => {
 
                 if (!finalCtrl.parent) {
+
                     finalCtrl
                         .getMountEndpoints()
                         .forEach(endpoint => {
-
                             this.expressApplication.use(finalCtrl.getEndpointUrl(endpoint), finalCtrl.router);
-
                         });
                 }
 

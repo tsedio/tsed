@@ -25,7 +25,7 @@ export default class GlobalErrorHandlerMiddleware implements IMiddlewareError {
 
         const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
-        if (error instanceof Exception) {
+        if (error instanceof Exception || error.status) {
             $log.error("" + error);
             response.status(error.status).send(toHTML(error.message));
             return next();
