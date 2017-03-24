@@ -45,6 +45,12 @@ export default class RequestService {
      */
     parseSession = (request, expression) => this.parse.eval(expression, request["session"]);
     /**
+     * 
+     * @param request
+     * @param expression
+     */
+    parseLocals = (request, expression) => this.parse.eval(expression, request["locals"]);
+    /**
      *
      * @param request
      */

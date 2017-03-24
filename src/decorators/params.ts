@@ -1,6 +1,6 @@
 import InjectParams from "../services/inject-params";
 import {
-    PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY, PARSE_SESSION, GET_HEADER
+    PARSE_COOKIES, PARSE_BODY, PARSE_PARAMS, PARSE_QUERY, PARSE_SESSION, GET_HEADER, PARSE_LOCALS
 } from "../constants/metadata-keys";
 
 /**
@@ -138,6 +138,32 @@ export function HeaderParams(expression) {
             injectParams.expression = expression;
 
             InjectParams.set(target, propertyKey, parameterIndex, injectParams);
+
+        }
+
+    };
+}
+
+/**
+ *
+ * @param expression
+ * @param useClass
+ * @returns {function(Function, (string|symbol), number): void}
+ * @constructor
+ */
+export function Locals(expression?: string | any, useClass?: any): Function {
+
+    return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
+
+        if (typeof parameterIndex === "number") {
+
+            InjectParams.build(PARSE_LOCALS, {
+                propertyKey,
+                parameterIndex,
+                expression,
+                target,
+                useClass
+            });
 
         }
 
