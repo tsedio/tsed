@@ -15,6 +15,7 @@ import {ContentType} from "../../../../src/decorators/content-type";
 import {UseAfter} from "../../../../src/decorators/use-after";
 import {Status} from "../../../../src/decorators/status";
 import {MultipartFile} from "../../../../src/decorators/multipart-file";
+import {Locals} from "../../../../src/decorators/params";
 
 interface ICalendar {
     id: string;
@@ -239,7 +240,8 @@ export class CalendarCtrl {
     @Authenticated()
     @UseAfter(CalendarCtrl.middleware2)
     public testUseAfter (
-        @Request() request: Express.Request
+        @Request() request: Express.Request,
+        @Locals() locals: any
     ): Object {
         return {id: 1, name: "test"};
     }

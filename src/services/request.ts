@@ -47,12 +47,6 @@ export default class RequestService {
     /**
      *
      * @param request
-     * @param expression
-     */
-    parseLocals = (request, expression) => this.parse.eval(expression, request["locals"]);
-    /**
-     *
-     * @param request
      */
     multipartFile = (request) => request["files"][0];
     /**

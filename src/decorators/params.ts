@@ -80,8 +80,6 @@ export function PathParams(expression?: string | any, useClass?: any): Function 
     };
 }
 
-
-
 /**
  *
  * @param expression
@@ -108,6 +106,13 @@ export function QueryParams(expression?: string | any, useClass?: any): Function
     };
 }
 
+/**
+ *
+ * @param expression
+ * @param useClass
+ * @returns {(target:any, propertyKey:(string|symbol), parameterIndex:number)=>void}
+ * @constructor
+ */
 export function Session(expression?: string | any, useClass?: any) {
 
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
@@ -127,6 +132,12 @@ export function Session(expression?: string | any, useClass?: any) {
     };
 }
 
+/**
+ *
+ * @param expression
+ * @returns {(target:any, propertyKey:(string|symbol), parameterIndex:number)=>void}
+ * @constructor
+ */
 export function HeaderParams(expression) {
     return (target: any, propertyKey: string | symbol, parameterIndex: number): void => {
 
@@ -147,11 +158,10 @@ export function HeaderParams(expression) {
 /**
  *
  * @param expression
- * @param useClass
  * @returns {function(Function, (string|symbol), number): void}
  * @constructor
  */
-export function Locals(expression?: string | any, useClass?: any): Function {
+export function Locals(expression?: string | any): Function {
 
     return (target: Function, propertyKey: string | symbol, parameterIndex: number): void => {
 
@@ -162,7 +172,7 @@ export function Locals(expression?: string | any, useClass?: any): Function {
                 parameterIndex,
                 expression,
                 target,
-                useClass
+                useConverter: false
             });
 
         }

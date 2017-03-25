@@ -3,7 +3,7 @@ import {BadRequest} from "ts-httpexceptions";
 import {IInvokableScope} from "../interfaces/InvokableScope";
 import {BAD_REQUEST_REQUIRED, BAD_REQUEST} from "../constants/errors-msgs";
 import {getClass} from "../utils/utils";
-import {INJECT_PARAMS, EXPRESS_NEXT_FN} from "../constants/metadata-keys";
+import {INJECT_PARAMS, EXPRESS_NEXT_FN, PARSE_LOCALS} from "../constants/metadata-keys";
 import Metadata from "./metadata";
 import InjectParams from "./inject-params";
 import ConverterService from "./converter";
@@ -14,6 +14,7 @@ import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService, EnvTypes} from "./server-settings";
 import {getClassName} from "../utils/class";
+import ResponseService from "./response";
 
 @Service()
 export default class MiddlewareService {
@@ -280,6 +281,7 @@ export default class MiddlewareService {
     getInjectableParameters = (target: any, methodName: string, localScope?: IInvokableScope): any[] => {
         const services = MiddlewareService.getParams(target, methodName);
         const requestService = this.injectorService.get<RequestService>(RequestService);
+        const responseService = this.injectorService.get<ResponseService>(ResponseService);
 
         return services
             .map((param: InjectParams, index: number) => {
@@ -290,9 +292,16 @@ export default class MiddlewareService {
 
                 let paramValue;
 
+                // TODO refactoring for the next version with filters
                 /* istanbul ignore else */
                 if (param.name in requestService) {
                     paramValue = requestService[param.name].call(requestService, localScope.request, param.expression);
+                }
+
+                // TODO refactoring for the next version with filters
+                /* istanbul ignore else */
+                if (param.name in responseService) {
+                    paramValue = responseService[param.name].call(responseService, localScope.response, param.expression);
                 }
 
                 if (param.required && (paramValue === undefined || paramValue === null)) {

@@ -2,6 +2,7 @@ import InjectorService from "./injector";
 import ControllerService from "./controller";
 import ParseService from "./parse";
 import RequestService from "./request";
+import ResponseService from "./response";
 import RouteService from "./route";
 import ConverterService from "./converter";
 import MiddlewareService from "./middleware";
@@ -13,6 +14,7 @@ export {
     ControllerService,
     ParseService,
     RequestService,
+    ResponseService,
     RouteService,
     ConverterService,
     MiddlewareService,
