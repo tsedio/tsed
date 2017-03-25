@@ -12,6 +12,6 @@ export default class ResponseService {
      * @param response
      * @param expression
      */
-    parseLocals = (response, expression) => this.parse.eval(expression, response["locals"]);
+    parseLocals = (response, expression) => this.parse.eval(expression, response["locals"], false);
 }
 
