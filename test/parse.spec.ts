@@ -13,6 +13,17 @@ describe('ParseService :', () => {
 
     });
 
+    it('should not clone object', inject([ParseService, Done], (parserService: ParseService, done) => {
+
+        const source = {test:{}};
+
+        expect(parserService.eval(undefined, source, false)).to.equal(source);
+        expect(parserService.eval("test", source, false)).to.equal(source.test);
+
+        done();
+
+    }));
+
     it('should eval expression with a scope and return value', inject([ParseService, Done], (parserService: ParseService, done) => {
 
         expect(parserService.eval(undefined, {
