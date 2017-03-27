@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "module": "commonjs",
     "target": "es5",
     "noImplicitAny": false,
     "sourceMap": true,
-    "experimentalDecorators":true,
+    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "isolatedModules": false,
@@ -18,9 +19,12 @@
     "declaration": true,
     "declarationDir": "lib/",
     "noResolve": false,
-    "types":[
+    "types": [
       "node",
       "chai",
+      "chai-as-promised",
+      "sinon",
+      "sinon-chai",
       "mocha",
       "cookie-parser",
       "express",
@@ -28,12 +32,11 @@
       "supertest"
     ]
   },
-
   "exclude": [
     "node_modules",
     "test",
     "dts",
-    "lib",
-    "testing"
+    "testing",
+    "lib"
   ]
 }

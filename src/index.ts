@@ -1,10 +1,14 @@
+/**
+ * @module core
+ * @preferred
+ */
+/** */
 require("source-map-support").install();
-require("reflect-metadata");
+import "reflect-metadata";
 
-export * from "./decorators";
-export * from "./controllers/endpoint";
-export * from "./services";
+export * from "./core";
+export * from "./di";
+export * from "./mvc";
 export * from "./converters";
-export * from "./middlewares";
-export * from "./server/server-loader";
-export * from "./interfaces";
+export * from "./filters";
+export * from "./server";

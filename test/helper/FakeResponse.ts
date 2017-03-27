@@ -1,13 +1,23 @@
-
 export class FakeResponse {
     _status: number = 200;
     _location: string;
     _json: any;
     _body: any = "";
     _headers: string = "";
+    public set() {
+        return this;
+    }
+
+    public type() {
+        return this;
+    }
+
+    public redirect() {
+        return this;
+    }
 
     /**
-     * 
+     *
      * @param value
      * @returns {FakeResponse}
      */
@@ -17,7 +27,7 @@ export class FakeResponse {
     }
 
     public send(value: any) {
-        this._body = '' + value;
+        this._body = "" + value;
     }
 
     public render(viewPath: string, data: Object) {
@@ -25,17 +35,16 @@ export class FakeResponse {
     }
 
     /**
-     * 
+     *
      * @param value
      * @returns {FakeResponse}
      */
-    public location(value: string) {
-        this._location = value;
+    public location() {
         return this;
     }
 
     /**
-     * 
+     *
      * @param value
      * @returns {FakeResponse}
      */
@@ -46,7 +55,7 @@ export class FakeResponse {
     }
 
     /**
-     * 
+     *
      * @param key
      * @param value
      * @returns {FakeResponse}
@@ -57,6 +66,6 @@ export class FakeResponse {
     }
 
     public get(key) {
-        return this['_'+key];
+        return this["_" + key];
     }
 }

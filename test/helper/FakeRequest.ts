@@ -1,15 +1,17 @@
-
 export class FakeRequest {
     method: string;
     path: string;
     mime: string;
+    id: number;
+    tagId: string;
     _responseData;
 
     public get(expression) {
         return "headerValue";
     }
+
     /**
-     * 
+     *
      * @type {{test: string, obj: {test: string}}}
      */
     public cookies: any = {
@@ -19,7 +21,7 @@ export class FakeRequest {
         }
     };
     /**
-     * 
+     *
      * @type {{test: string, obj: {test: string}}}
      */
     public body: any = {
@@ -29,7 +31,7 @@ export class FakeRequest {
         }
     };
     /**
-     * 
+     *
      * @type {{test: string, obj: {test: string}}}
      */
     public query: any = {
@@ -39,7 +41,7 @@ export class FakeRequest {
         }
     };
     /**
-     * 
+     *
      * @type {{test: string, obj: {test: string}}}
      */
     public params: any = {
@@ -62,8 +64,12 @@ export class FakeRequest {
     }
 
     public getStoredData() {
-        return this._responseData;
+        return this._responseData || {};
     }
 
     public accepts = (mime) => this.mime === mime;
+
+    public getEndpoint() {
+        return {};
+    }
 }

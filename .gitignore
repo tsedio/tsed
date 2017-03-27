@@ -54,4 +54,6 @@ docs
 /dts/
 
 .vscode
-.nyc_output/
+
+/.nyc_output/
+/docs

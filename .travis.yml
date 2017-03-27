@@ -3,10 +3,12 @@ node_js:
   - '4'
   - '5'
   - '6'
+  - '7'
   - 'node'
 
 env:
   - CXX=g++-4.8
+  - NODE_ENV=test
 addons:
   apt:
     sources:
@@ -15,13 +17,12 @@ addons:
       - g++-4.8
 
 before_install:
-  - npm install -g typescript@2.0.2
+  - npm install -g coveralls@2 nyc@10.3
 
 script:
-  - "npm run test"
-  - "npm run test:travis"
+  - npm run test
 
-after_script:
-  - "test -e ./coverage/lcov.info && npm install coveralls@2 remap-istanbul@0.6.4 && ./node_modules/.bin/remap-istanbul -i ./coverage/coverage.json -t lcovonly | coveralls"
+after_success:
+  - npm run test:travis
 
-sudo: required
+sudo: false

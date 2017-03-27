@@ -1,17 +1,14 @@
-
-import {$log} from "ts-log-debug";
-import {ServerLoader} from "../server/server-loader";
+/**
+ * @module testing
+ */
+/** */
+import {ServerLoader} from "../server/components/ServerLoader";
 
 export function bootstrap(server: any, ...args) {
 
     return (done: Function) => {
 
         if (server.$$instance === undefined) {
-
-            $log.setRepporting({
-                debug: false,
-                info: false
-            });
 
             const instance: ServerLoader = new server(...args);
 
