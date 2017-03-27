@@ -109,7 +109,7 @@ describe('InjectorService :', () => {
 
                 const instance = new InvokeMethodTest("2");
 
-                const result =  injectorService.invokeMethod(instance.method, {target: instance});
+                const result =  injectorService.invokeMethod(instance.method, {target: instance} as any);
 
                 expect(result).to.be.an.instanceof(InjectorService);
             }));

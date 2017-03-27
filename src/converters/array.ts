@@ -1,8 +1,8 @@
 
 import ConverterService from "../services/converter";
-import {Converter} from "../decorators/converter";
-import {IConverter} from "../interfaces/Converter";
-import {isArrayOrArrayClass} from "../utils/utils";
+import {Converter} from "../decorators/class/converter";
+import {IConverter} from "../interfaces";
+import {isArrayOrArrayClass} from "../utils";
 
 @Converter(Array)
 export class ArrayConverter implements IConverter {

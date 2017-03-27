@@ -1,6 +1,6 @@
 import {Endpoint} from "./endpoint";
 import * as Express from "express";
-import {getClassName} from "../utils/class";
+import {getClassName} from "../utils";
 import Metadata from "../services/metadata";
 
 import {
@@ -44,6 +44,24 @@ export default class Controller {
     }
 
     /**
+     * Return the class name.
+     */
+    public getName = () => getClassName(this._targetClass);
+
+    /**
+     * Resolve final endpoint url.
+     */
+    public getEndpointUrl = (endpoint: string = ""): string =>
+        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl;
+
+    /**
+     *
+     */
+    public hasEndpointUrl() {
+        return !!this.endpointUrl;
+    }
+
+    /**
      * Create all endpoint for a targetClass.
      */
     private metadataToEndpoints(): Controller {
@@ -61,52 +79,6 @@ export default class Controller {
             .filter(e => !!e);
 
         return this;
-    }
-
-    /**
-     * Map all endpoints generated to his class Router.
-     */
-    public mapEndpointsToRouters(): Controller {
-
-        this.endpoints
-            .forEach((endpoint: Endpoint) => {
-
-                const middlewares = endpoint.getMiddlewares();
-
-                if (endpoint.hasMethod() && this.router[endpoint.getMethod()]) {
-
-                   this.router[endpoint.getMethod()](endpoint.getRoute(), ...middlewares);
-
-                } else {
-                    this.router.use(...middlewares);
-                }
-
-            });
-
-        this.dependencies
-            .forEach((ctrl: Controller) => {
-                this.router.use(ctrl.endpointUrl, ctrl.router);
-            });
-
-        return this;
-    }
-
-    /**
-     * Return the class name.
-     */
-    public getName = () => getClassName(this._targetClass);
-
-    /**
-     * Resolve final endpoint url.
-     */
-    public getEndpointUrl = (endpoint: string = ""): string =>
-        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl;
-
-    /**
-     *
-     */
-    public hasEndpointUrl() {
-        return !!this.endpointUrl;
     }
 
     /**

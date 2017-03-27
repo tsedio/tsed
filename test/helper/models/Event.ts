@@ -1,6 +1,6 @@
 
 
-import {JsonProperty} from '../../../src/decorators/json-property';
+import {JsonProperty} from '../../../src/decorators/method/json-property';
 
 export class EventModel {
 

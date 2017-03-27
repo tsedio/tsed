@@ -1,6 +1,6 @@
 
-import {Service} from "../decorators/service";
-import {IControllerRoute} from "../interfaces/ControllerRoute";
+import {Service} from "../decorators/class/service";
+import {IControllerRoute} from "../interfaces";
 import {$log} from "ts-log-debug";
 import ControllerService from "./controller";
 

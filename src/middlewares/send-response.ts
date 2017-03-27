@@ -1,10 +1,10 @@
 
-import {IMiddleware} from "../interfaces/Middleware";
-import {Middleware} from "../decorators/middleware";
-import {ResponseData} from "../decorators/response-data";
-import {Response} from "../decorators/response";
+import {IMiddleware} from "../interfaces";
+import {Middleware} from "../decorators/class/middleware";
+import {Response} from "../decorators/param/response";
 import * as Express from "express";
 import ConverterService from "../services/converter";
+import {ResponseData} from "../decorators/param/response-data";
 
 @Middleware()
 export default class SendResponseMiddleware implements IMiddleware {

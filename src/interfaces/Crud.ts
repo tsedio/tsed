@@ -1,5 +1,4 @@
 import * as Express from "express";
-import {IPromise} from "./Promise";
 
 export interface ICrud<T> {
     /**
@@ -8,38 +7,38 @@ export interface ICrud<T> {
      * @param response
      * @param next
      */
-    find(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | T | void;
-    find(...args): IPromise<T> | T | void;
+    find(request: Express.Request, response: Express.Response, next?: Function): Promise<T> | T | void;
+    find(...args): Promise<T> | T | void;
     /**
      *
      * @param request
      * @param response
      * @param next
      */
-    save(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | T | void;
-    save(...args): IPromise<T>|void;
+    save(request: Express.Request, response: Express.Response, next?: Function): Promise<T> | T | void;
+    save(...args): Promise<T>|void;
     /**
      *
      * @param request
      * @param response
      * @param next
      */
-    update(request: Express.Request, response: Express.Response, next?: Function): IPromise<T> | T | void;
-    update(...args): IPromise<T>|void;
+    update(request: Express.Request, response: Express.Response, next?: Function): Promise<T> | T | void;
+    update(...args): Promise<T>|void;
     /**
      *
      * @param request
      * @param response
      * @param next
      */
-    query(request: Express.Request, response: Express.Response, next?: Function): IPromise<T[]> | T[] | void;
-    query(...args): IPromise<T[]>|void;
+    query(request: Express.Request, response: Express.Response, next?: Function): Promise<T[]> | T[] | void;
+    query(...args): Promise<T[]>|void;
     /**
      *
      * @param request
      * @param response
      * @param next
      */
-    remove(request: Express.Request, response: Express.Response, next?: Function): IPromise<any> | any | void;
-    remove(...args): IPromise<any>| any | void;
+    remove(request: Express.Request, response: Express.Response, next?: Function): Promise<any> | any | void;
+    remove(...args): Promise<any>| any | void;
 }

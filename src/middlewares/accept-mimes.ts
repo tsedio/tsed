@@ -1,7 +1,11 @@
 
-import {IMiddleware, Middleware, Request, EndpointInfo, Endpoint} from "../";
 import * as Express from "express";
 import {NotAcceptable} from "ts-httpexceptions";
+import {Middleware} from "../decorators/class/middleware";
+import {IMiddleware} from "../interfaces/interfaces";
+import {EndpointInfo} from "../decorators/param/endpoint-info";
+import {Endpoint} from "../controllers/endpoint";
+import {Request} from "../decorators/param/request";
 
 @Middleware()
 export default class AcceptMimesMiddleware implements IMiddleware {

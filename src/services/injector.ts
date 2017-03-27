@@ -1,10 +1,8 @@
 
 import Metadata from "./metadata";
 import {UNKNOW_SERVICE} from "../constants/errors-msgs";
-import {IProvider} from "../interfaces/Provider";
-import {getClass, getClassName} from "../utils";
-import {IInjectableMethod} from "../interfaces/InjectableMethod";
-import {getClassOrSymbol} from "../utils/utils";
+import {IProvider, IInjectableMethod} from "../interfaces";
+import {getClassName, getClassOrSymbol} from "../utils";
 
 /**
  * InjectorService manage all service collected by `@Service()` decorator.
@@ -29,7 +27,7 @@ export default class InjectorService {
      * @param handler
      * @param options
      */
-    public invokeMethod(handler: any, options: IInjectableMethod | any[]): any {
+    public invokeMethod(handler: any, options: IInjectableMethod<any> | any[]): any {
         return InjectorService.invokeMethod(handler, options);
     }
 
@@ -95,7 +93,7 @@ export default class InjectorService {
      * @param handler
      * @param options
      */
-    static invokeMethod(handler: any, options: IInjectableMethod | any[]) {
+    static invokeMethod(handler: any, options: IInjectableMethod<any> | any[]) {
 
         let designParamTypes, target, methodName, locals;
 
@@ -152,7 +150,7 @@ export default class InjectorService {
      */
     static construct(target): InjectorService {
 
-        const provider: IProvider = this.providers.get(getClassOrSymbol(target));
+        const provider: IProvider<any> = this.providers.get(getClassOrSymbol(target));
 
         /* istanbul ignore else */
         if (provider.instance === undefined || provider.type === "service") {
@@ -171,7 +169,7 @@ export default class InjectorService {
      * @param provider class token.
      * @param instance Instance
      */
-    static set(provider: IProvider | any, instance?: any): InjectorService {
+    static set(provider: IProvider<any> | any, instance?: any): InjectorService {
 
         let target;
 
@@ -179,7 +177,7 @@ export default class InjectorService {
 
             target = provider;
 
-            provider = <IProvider>{
+            provider = <IProvider<any>>{
                 provide: target,
                 useClass: target,
                 instance: instance || target,
@@ -205,14 +203,16 @@ export default class InjectorService {
      * @param target
      * @returns {boolean}
      */
-    static get = <T>(target): T => InjectorService.providers.get(getClassOrSymbol(target)).instance;
+    static get = <T>(target: any): T =>
+        InjectorService.providers.get(getClassOrSymbol(target)).instance;
 
     /**
      * Return true if the target provider exists and has an instance.
      * @param target
      * @returns {boolean}
      */
-    static has = (target): boolean => InjectorService.providers.has(getClassOrSymbol(target)) && !!InjectorService.get(target);
+    static has = (target: any): boolean =>
+        InjectorService.providers.has(getClassOrSymbol(target)) && !!InjectorService.get(target);
 
     /**
      * Initialize injectorService and load all services/factories.
@@ -220,12 +220,12 @@ export default class InjectorService {
     static load() {
 
         this.providers
-            .forEach((provider: IProvider) => {
+            .forEach((provider: IProvider<any>) => {
                 InjectorService.construct(provider.provide);
             });
 
 
-        this.providers.forEach((provider: IProvider) => {
+        this.providers.forEach((provider: IProvider<any>) => {
 
             const service = InjectorService.get<{$afterServicesInit: Function}>(provider.provide);
 
@@ -239,12 +239,14 @@ export default class InjectorService {
     /**
      * Add a new service that will built when InjectorService will be loaded.
      */
-    static service = (target: any) => InjectorService.set({provide: target, useClass: target, type: "service"});
+    static service = (target: any) =>
+        InjectorService.set({provide: target, useClass: target, type: "service"});
 
     /**
      * Add a new factory.
      */
-    static factory = (target: any, instance: any) => InjectorService.set({provide: target, useClass: target, instance: instance, type: "factory"});
+    static factory = (target: any, instance: any) =>
+        InjectorService.set({provide: target, useClass: target, instance: instance, type: "factory"});
 
 }
 

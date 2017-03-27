@@ -3,19 +3,18 @@ import {
     PathParams, Request, Response,
     BodyParams, Required, Use, Header, Next, Authenticated,
     CookiesParams, QueryParams,
-    RouterController,
-    IPromise
+    RouterController
 } from "../../../../src/index";
 
 import {$log} from "ts-log-debug";
 import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
 import {MongooseService} from "../../services/MongooseService"
-import {ContentType} from "../../../../src/decorators/content-type";
-import {UseAfter} from "../../../../src/decorators/use-after";
-import {Status} from "../../../../src/decorators/status";
-import {MultipartFile} from "../../../../src/decorators/multipart-file";
-import {Locals} from "../../../../src/decorators/params";
+import {ContentType} from "../../../../src/decorators/method/content-type";
+import {UseAfter} from "../../../../src/decorators/method/use-after";
+import {Status} from "../../../../src/decorators/method/status";
+import {MultipartFile} from "../../../../src/decorators/param/multipart-file";
+import {Locals} from "../../../../src/decorators/param/params";
 
 interface ICalendar {
     id: string;
@@ -127,7 +126,7 @@ export class CalendarCtrl {
     public findWithPromise(
         @Request() request,
         @PathParams("id") id
-    ): IPromise<ICalendar> {
+    ): Promise<ICalendar> {
 
         $log.debug("ID =>", id, request.params.id);
 
@@ -157,7 +156,7 @@ export class CalendarCtrl {
         @Request() request: Express.Request,
         @Response() response: Express.Response,
         @PathParams("id") id: string
-    ): IPromise<ICalendar> {
+    ): Promise<ICalendar> {
 
         //$log.debug("ID =>", id, request.params.id);
         //

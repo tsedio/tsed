@@ -1,21 +1,21 @@
-import {Err} from "../src/decorators/error";
-import {Location} from "../src/decorators/location";
+import {Err} from "../src/decorators/param/error";
+import {Location} from "../src/decorators/method/location";
 import Chai = require("chai");
-import InjectParams from "../src/services/inject-params";
 import {
     EXPRESS_ERR, ENDPOINT_USE, ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, CONTROLLER_SCOPE
 } from "../src/constants/metadata-keys";
 import Metadata from "../src/services/metadata";
-import {Redirect} from "../src/decorators/redirect";
+import {Redirect} from "../src/decorators/method/redirect";
 import {Header} from "../src/decorators/header";
-import {Scope} from "../src/decorators/controller";
-import {CookiesParams, BodyParams, QueryParams, PathParams, Session, HeaderParams} from "../src/decorators/params";
-import {Next} from "../src/decorators/next";
-import {Request} from "../src/decorators/request";
-import {Response} from "../src/decorators/response";
+import {Scope} from "../src/decorators/class/controller";
+import {CookiesParams, BodyParams, QueryParams, PathParams, Session, HeaderParams} from "../src/decorators/param/params";
+import {Next} from "../src/decorators/param/next";
+import {Request} from "../src/decorators/param/request";
+import {Response} from "../src/decorators/param/response";
 import {Required} from "../src/decorators/required";
-import {MultipartFile} from "../src/decorators/multipart-file";
-import {EndpointInfo} from "../src/decorators/endpoint-info";
+import {MultipartFile} from "../src/decorators/param/multipart-file";
+import {EndpointInfo} from "../src/decorators/param/endpoint-info";
+import EndpointParam from "../src/controllers/endpoint-param";
 
 let expect: Chai.ExpectStatic = Chai.expect;
 
@@ -31,7 +31,7 @@ describe('Decorators :', () => {
         
         it('should add metadata', () => {
             Err()(TestDecorator, 'method', 0);
-            const params = InjectParams.get(TestDecorator, 'method', 0);
+            const params = EndpointParam.get(TestDecorator, 'method', 0);
 
             expect(params.service).to.equal(EXPRESS_ERR);
         });

@@ -1,11 +1,11 @@
 
-import {Middleware} from "../decorators/middleware";
-import {IMiddleware} from "../interfaces/Middleware";
-import {Request} from "../decorators/request";
-import {Response} from "../decorators/response";
-import {EndpointInfo} from "../decorators/endpoint-info";
+import {Middleware} from "../decorators/class/middleware";
+import {IMiddleware} from "../interfaces";
+import {Request} from "../decorators/param/request";
+import {Response} from "../decorators/param/response";
+import {EndpointInfo} from "../decorators/param/endpoint-info";
 import {Endpoint} from "../controllers/endpoint";
-import {Next} from "../decorators/next";
+import {Next} from "../decorators/param/next";
 import {ServerSettingsService} from "../services/server-settings";
 import {$log} from "ts-log-debug";
 

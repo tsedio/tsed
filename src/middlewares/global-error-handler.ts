@@ -1,13 +1,13 @@
 
-import {IMiddlewareError} from "../interfaces/Middleware";
-import {MiddlewareError} from "../decorators/middleware-error";
-import {Err} from "../decorators/error";
-import {Response} from "../decorators/response";
-import {Next} from "../decorators/next";
+import {IMiddlewareError} from "../interfaces";
+import {MiddlewareError} from "../decorators/class/middleware-error";
+import {Err} from "../decorators/param/error";
+import {Response} from "../decorators/param/response";
+import {Next} from "../decorators/param/next";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {Exception} from "ts-httpexceptions";
-import {Request} from "../decorators/request";
+import {Request} from "../decorators/param/request";
 
 @MiddlewareError()
 export default class GlobalErrorHandlerMiddleware implements IMiddlewareError {

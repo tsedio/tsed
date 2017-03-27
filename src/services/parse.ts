@@ -1,6 +1,6 @@
 
-import {Service} from "../decorators/service";
-import {isEmpty} from "../utils/utils";
+import {Service} from "../decorators/class/service";
+import {isEmpty} from "../utils";
 
 @Service()
 export default class ParseService {

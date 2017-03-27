@@ -3,7 +3,7 @@ import {$log} from "ts-log-debug";
 import {ServerLoader, ServerSettings} from '../../src/index';
 import * as Express from "express";
 import Path = require("path");
-import {} from "../../src/decorators/server-settings";
+import {} from "../../src/decorators/class/server-settings";
 
 const rootDir = Path.resolve(__dirname);
 

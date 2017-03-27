@@ -1,18 +1,20 @@
 
-import {Service} from "../decorators/service";
+import {Service} from "../decorators/class/service";
 import {ExpressApplication} from "./express-application";
 import Controller from "../controllers/controller";
 import Metadata from "./metadata";
 import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
-import {IControllerRoute} from "../interfaces/ControllerRoute";
+import {IControllerRoute} from "../interfaces";
 import {Endpoint} from "../controllers/endpoint";
-import {getClassName} from "../utils/class";
-import {RouterController} from "./index";
+import {getClassName} from "../utils";
 import InjectorService from "./injector";
 import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
-import InjectParams from "./inject-params";
 import {Inject} from "../decorators/inject";
+import RouterController from "./router-controller";
+import EndpointParam from "../controllers/endpoint-param";
+import MiddlewareService from "./middleware";
+import SendResponseMiddleware from "../middlewares/send-response";
 
 /**
  * ControllerService manage all controllers declared with `@Controller` decorator.
@@ -76,24 +78,24 @@ export default class ControllerService {
      */
     public load() {
 
-        this.controllersFromMetadatas();
+        ControllerService
+            .controllersFromMetadatas()
+            .controllers
+            .forEach(ctrl => ControllerService.resolveDependencies(ctrl));
 
         ControllerService
             .controllers
-            .forEach(ctrl => this.resolveDependencies(ctrl));
-
-        ControllerService
-            .controllers
-            .forEach(ctrl => ctrl.mapEndpointsToRouters());
+            .forEach(ctrl => ControllerService.mapEndpointsToRouters(ctrl));
 
         this.mountControllers();
 
         return this;
     }
+
     /**
      * Map all controllers collected by @Controller annotation.
      */
-    private controllersFromMetadatas() {
+    static controllersFromMetadatas() {
 
         const controllers = Metadata.getTargetsFromPropertyKey(CONTROLLER_URL);
 
@@ -110,21 +112,91 @@ export default class ControllerService {
 
             });
 
-        return this;
+        return ControllerService;
     }
+
+    /**
+     * Map all endpoints generated to his class Router.
+     */
+    static mapEndpointsToRouters(ctrl: Controller) {
+
+        ctrl.endpoints
+            .forEach((endpoint: Endpoint) => {
+
+                const middlewares = ControllerService.getMiddlewares(endpoint);
+
+                if (endpoint.hasMethod() && ctrl.router[endpoint.getMethod()]) {
+
+                    ctrl.router[endpoint.getMethod()](endpoint.getRoute(), ...middlewares);
+
+                } else {
+                    ctrl.router.use(...middlewares);
+                }
+
+            });
+
+        ctrl.dependencies
+            .forEach((ctrl: Controller) => {
+                ctrl.router.use(ctrl.endpointUrl, ctrl.router);
+            });
+
+        return ControllerService;
+    }
+
+
+    /**
+     *
+     * @returns {any[]}
+     */
+    static getMiddlewares(endpoint: Endpoint): any[] {
+
+        const middlewareService = InjectorService.get<MiddlewareService>(MiddlewareService);
+        const middlewaresBefore = endpoint.getBeforeMiddlewares();
+        const middlewaresAfter = endpoint.getAfterMiddlewares();
+
+        let middlewares: any[] = [];
+
+        middlewares.push(endpoint.onRequest);
+
+        /* BEFORE */
+        middlewares = middlewares
+            .concat(middlewaresBefore.map(middleware => middlewareService.bindMiddleware(middleware)))
+            .concat(endpoint.middlewares.map(middleware => middlewareService.bindMiddleware(middleware)));
+
+        /* METHOD */
+        middlewares.push(middlewareService.bindMiddleware(
+            endpoint.targetClass,
+            endpoint.methodClassName,
+
+            () => {
+                const instance = InjectorService.get<ControllerService>(ControllerService).invoke(endpoint.targetClass);
+                return instance[endpoint.methodClassName].bind(instance);
+            }
+        ));
+
+        /* AFTER */
+        middlewares = middlewares
+            .concat(middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware)));
+
+        /* SEND */
+        middlewares.push(middlewareService.bindMiddleware(SendResponseMiddleware));
+
+        return middlewares.filter((item) => (!!item));
+    }
+
 
     /**
      * Resolve all dependencies for each controllers
      * @param currentCtrl
      * @returns {Controller}
      */
-    private resolveDependencies(currentCtrl: Controller): Controller {
+    static resolveDependencies(currentCtrl: Controller): Controller {
 
         currentCtrl.dependencies = currentCtrl
             .dependencies
             .map((dep: string | Function) => {
 
-                const ctrl = this.get(<string | Function>dep);
+                const ctrl = ControllerService.get(<string | Function>dep);
 
                 if (ctrl === undefined) {
                     throw new Error(UNKNOW_CONTROLLER(
@@ -230,7 +302,7 @@ export default class ControllerService {
 
                     const className = getClassName(ctrl.targetClass),
                         methodClassName = endpoint.methodClassName,
-                        parameters = InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName),
+                        parameters = EndpointParam.getParams(ctrl.targetClass, endpoint.methodClassName),
                         returnType = Metadata.getReturnType(ctrl.targetClass, endpoint.methodClassName);
 
                     routes.push({

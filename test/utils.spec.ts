@@ -1,4 +1,4 @@
-import {getClass} from '../src/utils/utils';
+import {getClass} from "../src/utils";
 import * as Chai from "chai";
 
 const expect: Chai.ExpectStatic = Chai.expect;

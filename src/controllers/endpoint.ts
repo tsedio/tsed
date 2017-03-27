@@ -2,10 +2,10 @@ import {
     ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_USE
 } from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
-import {InjectorService} from "../services";
-import MiddlewareService from "../services/middleware";
-import SendResponseMiddleware from "../middlewares/send-response";
-import {getClassName} from "../utils/class";
+import {getClassName} from "../utils";
+
+import ConverterService from "../services/converter";
+import InjectorService from "../services/injector";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -43,7 +43,7 @@ export class Endpoint {
      *
      * @type {Array}
      */
-    private middlewares: any[] = [];
+    private _middlewares: any[] = [];
     /**
      * HTTP method required.
      */
@@ -63,6 +63,10 @@ export class Endpoint {
         const args = Metadata.get(ENDPOINT_USE, _targetClass, _methodClassName) || [];
         this.push(args);
 
+    }
+
+    get middlewares(): any[] {
+        return this._middlewares;
     }
 
     /**
@@ -88,7 +92,7 @@ export class Endpoint {
                 return !!arg;
             });
 
-        this.middlewares = this.middlewares.concat(filteredArg);
+        this._middlewares = this._middlewares.concat(filteredArg);
     }
 
     /**
@@ -116,35 +120,30 @@ export class Endpoint {
     }
 
     /**
-     * Transform endpoint to an array arguments for express router.
-     * @returns {T[]}
+     *
+     * @param request
+     * @param response
+     * @param next
      */
-    public getMiddlewares(): any[] {
+    public send = (request, response, next) => {
 
-        const middlewareService = InjectorService.get<MiddlewareService>(MiddlewareService);
-        const middlewaresBefore = this.getBeforeMiddlewares();
-        const middlewaresAfter = this.getAfterMiddlewares();
+        if (response.headersSent) {
+            return;
+        }
+        const data = request.getStoredData();
+        const type = typeof data;
 
-        let middlewares: any[] = [];
+        if (data === undefined) {
+            response.send("");
+        } else if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
+            response.send(data);
+        } else {
 
-        middlewares.push(this.onRequest);
+            response.setHeader("Content-Type", "text/json");
+            response.json(InjectorService.get<ConverterService>(ConverterService).serialize(data));
 
-        /* BEFORE */
-        middlewares = middlewares
-            .concat(middlewaresBefore.map(middleware => middlewareService.bindMiddleware(middleware)))
-            .concat(this.middlewares.map(middleware => middlewareService.bindMiddleware(middleware)));
+        }
 
-        /* METHOD */
-        middlewares.push(middlewareService.bindMiddleware(this._targetClass, this._methodClassName));
-
-        /* AFTER */
-        middlewares = middlewares
-            .concat(middlewaresAfter.map(middleware => middlewareService.bindMiddleware(middleware)));
-
-        /* SEND */
-        middlewares.push(middlewareService.bindMiddleware(SendResponseMiddleware));
-
-        return middlewares.filter((item) => (!!item));
     }
 
     /**
@@ -153,7 +152,7 @@ export class Endpoint {
      * @param response
      * @param next
      */
-    private onRequest = (request, response, next) => {
+    public onRequest = (request, response, next) => {
 
         if (!response.headersSent) {
             response.setHeader("X-Managed-By", "TS-Express-Decorators");
@@ -243,18 +242,21 @@ export class Endpoint {
     /**
      * Return the list of middlewares that will be applied before all middlewares.
      */
-    public getBeforeMiddlewares = () => Metadata.get(ENDPOINT_USE_BEFORE, this._targetClass, this._methodClassName) || [];
+    public getBeforeMiddlewares = () =>
+        Metadata.get(ENDPOINT_USE_BEFORE, this._targetClass, this._methodClassName) || [];
 
     /**
      * Return the list of middlewares that will be applied after all middlewares.
      */
-    public getAfterMiddlewares = () => Metadata.get(ENDPOINT_USE_AFTER, this._targetClass, this._methodClassName) || [];
+    public getAfterMiddlewares = () =>
+        Metadata.get(ENDPOINT_USE_AFTER, this._targetClass, this._methodClassName) || [];
 
     /**
      * Get value for an endpoint method.
      * @param key
      */
-    public getMetadata = (key: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), this.targetClass, this.methodClassName);
+    public getMetadata = (key: any) =>
+        Metadata.get(typeof key === "string" ? key : getClassName(key), this.targetClass, this.methodClassName);
 
     /**
      * Store value for an endpoint method.
@@ -263,7 +265,8 @@ export class Endpoint {
      * @param targetClass
      * @param methodClassName
      */
-    static setMetadata = (key: any, value: any, targetClass: any, methodClassName: any) => Metadata.set(typeof key === "string" ? key : getClassName(key), value, targetClass, methodClassName);
+    static setMetadata = (key: any, value: any, targetClass: any, methodClassName: any) =>
+        Metadata.set(typeof key === "string" ? key : getClassName(key), value, targetClass, methodClassName);
 
     /**
      * Return the stored value for an endpoint method.
@@ -271,6 +274,7 @@ export class Endpoint {
      * @param targetClass
      * @param methodClassName
      */
-    static getMetadata = (key: any, targetClass: any, methodClassName: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), targetClass, methodClassName);
+    static getMetadata = (key: any, targetClass: any, methodClassName: any) =>
+        Metadata.get(typeof key === "string" ? key : getClassName(key), targetClass, methodClassName);
 
 }

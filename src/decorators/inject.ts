@@ -1,10 +1,11 @@
 
 import InjectorService from "../services/injector";
 import Metadata from "../services/metadata";
+import {Type} from "../interfaces";
 
 export function Inject(symbol?: any): Function {
 
-    return (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): TypedPropertyDescriptor<Function> => {
+    return <T>(target: Type<T>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): TypedPropertyDescriptor<Function> => {
 
         if (typeof descriptor === "number") {
             if (symbol) {

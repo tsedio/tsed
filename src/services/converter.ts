@@ -1,12 +1,12 @@
 
-import {Service} from "../decorators/service";
-import {isEmpty, isPrimitiveOrPrimitiveClass, isArrayOrArrayClass} from "../utils/utils";
+import {Service} from "../decorators/class/service";
+import {isEmpty, isPrimitiveOrPrimitiveClass, isArrayOrArrayClass} from "../utils";
 import {CONVERTER_DESERIALIZE, CONVERTER_SERIALIZE} from "../constants/errors-msgs";
-import {getClassName} from "../utils/class";
+import {getClassName} from "../utils";
 import Metadata from "./metadata";
 import {CONVERTER, JSON_PROPERTIES} from "../constants/metadata-keys";
-import {IJsonMetadata} from "../interfaces/JsonMetadata";
-import {IConverter} from "../interfaces/Converter";
+import {IJsonMetadata} from "../interfaces";
+import {IConverter} from "../interfaces";
 import {BadRequest} from "ts-httpexceptions";
 import InjectorService from "./injector";
 

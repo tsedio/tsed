@@ -7,7 +7,7 @@ import Metadata from "../services/metadata";
 import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS, SERVER_SETTINGS} from "../constants/metadata-keys";
 import {ExpressApplication, ControllerService, InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
-import {Deprecated} from "../decorators/deprecated";
+import {Deprecated} from "../decorators/method/deprecated";
 import {
     ServerSettingsService, ServerSettingsProvider, IServerMountDirectories, IServerSettings
 } from "../services/server-settings";

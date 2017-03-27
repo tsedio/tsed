@@ -2,17 +2,18 @@ import MiddlewareService from "../src/services/middleware";
 import {inject} from "../src/testing/inject";
 import Chai = require("chai");
 import {Done} from "../src/testing/done";
-import {MiddlewareType, IMiddleware, IMiddlewareError} from "../src/interfaces/Middleware";
-import {Middleware} from "../src/decorators/middleware";
-import {MiddlewareError} from "../src/decorators/middleware-error";
+import {IMiddleware, IMiddlewareError} from "../src/interfaces";
+import {Middleware} from "../src/decorators/class/middleware";
+import {MiddlewareError} from "../src/decorators/class/middleware-error";
 
-import {Request} from "../src/decorators/request";
-import {Next} from "../src/decorators/next";
-import {Controller} from "../src/decorators/controller";
-import {Get} from "../src/decorators/route";
+import {Request} from "../src/decorators/param/request";
+import {Next} from "../src/decorators/param/next";
+import {Controller} from "../src/decorators/class/controller";
+import {Get} from "../src/decorators/method/route";
 import {FakeRequest} from "./helper/FakeRequest";
-import {BodyParams} from "../src/decorators/params";
+import {BodyParams} from "../src/decorators/param/params";
 import SendResponseMiddleware from "../src/middlewares/send-response";
+import {MiddlewareType} from "../src/enums/MiddlewareType";
 
 const expect: Chai.ExpectStatic = Chai.expect;
 
@@ -310,12 +311,12 @@ describe('MiddlewareService : ', () => {
 
             it('should bind a middleware decorated', inject([MiddlewareService, Done], (middlewareService, done) => {
 
-                const request: any = {test: 'less'}, response: any = {};
+                const request: any = {test: 'test'}, response: any = {};
 
                 const next = (e) => {
                     expect(request).to.be.an('object');
                     expect(request.test).to.equal('test');
-                    done()
+                    done();
                 };
 
                 const wrappedMdlw = middlewareService.bindMiddleware(MiddlewareInjTest);
@@ -326,13 +327,14 @@ describe('MiddlewareService : ', () => {
                 expect(settings.type).to.equal(MiddlewareType.MIDDLEWARE);
                 expect(wrappedMdlw).to.be.a('function');
 
-                wrappedMdlw(request, response, next);
+                wrappedMdlw(request, response, next)
+                    .catch(err => console.error(err))
 
             }));
 
             it('should bind an endpoint decorated', inject([MiddlewareService, Done], (middlewareService, done) => {
 
-                const request: any = {test: 'less'}, response: any = {};
+                const request: any = {test: 'test'}, response: any = {};
 
                 const next = (e) => {
                     expect(request).to.be.an('object');

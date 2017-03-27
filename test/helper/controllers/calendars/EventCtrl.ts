@@ -1,5 +1,5 @@
-import {Controller, Get, Post, Put, Delete, Response, IPromise, Head,Patch} from "../../../../src/index";
-import {BodyParams} from '../../../../src/decorators/params';
+import {Controller, Get, Post, Put, Delete, Response, Head,Patch} from "../../../../src/index";
+import {BodyParams} from '../../../../src/decorators/param/params';
 import {EventModel} from '../../models/Event';
 
 
@@ -34,7 +34,7 @@ export class EventCtrl {
     @Get('/:id')
     find(
         @Response() response: any
-    ): IPromise<IEvent> | void {
+    ): Promise<IEvent> | void {
 
         response.send(200, 'OK');
 
@@ -48,7 +48,7 @@ export class EventCtrl {
     @Put('/')
     save(
 
-    ): IPromise<any> | void {
+    ): Promise<any> | void {
 
 
 
@@ -73,7 +73,7 @@ export class EventCtrl {
     @Delete('/:id')
     remove(
 
-    ): IPromise<any> | void {
+    ): Promise<any> | void {
         return null;
     }
 
@@ -84,7 +84,7 @@ export class EventCtrl {
     @Get('/')
     query(
 
-    ): IPromise<any[]> | void {
+    ): Promise<any[]> | void {
 
         return null;
     }

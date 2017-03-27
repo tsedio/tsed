@@ -43,7 +43,7 @@ describe("Endpoint :", () => {
             expect(endpoint.getMethod()).to.equal('get');
             expect(endpoint.getRoute()).to.equal('/');
 
-            expect(endpoint.getMiddlewares()).to.be.an('array');
+            expect(ControllerService.getMiddlewares(endpoint)).to.be.an('array');
             expect((endpoint as any).middlewares.length).to.equal(0);
         });
 
@@ -61,7 +61,7 @@ describe("Endpoint :", () => {
             expect(endpoint.getMethod()).to.equal('get');
             expect(endpoint.getRoute()).to.equal('/');
 
-            expect(endpoint.getMiddlewares()).to.be.an('array');
+            expect(ControllerService.getMiddlewares(endpoint)).to.be.an('array');
             expect((endpoint as any).middlewares.length).to.equal(1);
         });
 
@@ -81,7 +81,7 @@ describe("Endpoint :", () => {
             expect(endpoint.getMethod()).to.equal('get');
             expect(endpoint.getRoute()).to.equal('/');
 
-            const middlewares = endpoint.getMiddlewares();
+            const middlewares = ControllerService.getMiddlewares(endpoint);
 
             expect(middlewares).to.be.an('array');
             // expect(middlewares.length).to.equal(4);

@@ -1,6 +1,6 @@
 
-import {HeaderParams} from "./params";
-import {UseAfter} from "./use-after";
+import {HeaderParams} from "./param/params";
+import {UseAfter} from "./method/use-after";
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
@@ -25,7 +25,7 @@ export function Header(expression: string | {[key: string]: string}, expressionV
     return <T>(target: any, propertyKey: string | symbol, descriptor: number | TypedPropertyDescriptor<T>): void => {
 
         if (typeof descriptor === "number") {
-            return HeaderParams(expression)(target, propertyKey, descriptor as number);
+            return HeaderParams(expression as string)(target, propertyKey, descriptor as number);
         }
 
         return UseAfter((request, response, next) => {

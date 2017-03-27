@@ -1,7 +1,9 @@
 
-import {IMiddleware, Middleware, Request} from "../";
 import {NotAcceptable} from "ts-httpexceptions";
 import {ServerSettingsService} from "../services/server-settings";
+import {Middleware} from "../decorators/class/middleware";
+import {IMiddleware} from "../interfaces/interfaces";
+import {Request} from "../decorators/param/request";
 
 
 @Middleware()

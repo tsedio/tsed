@@ -1,34 +1,36 @@
 
 // Method/Attributs
-export * from "./use";
-export * from "./use-before";
-export * from "./use-after";
-export * from "./route";
-export * from "./response-view";
-export * from "./json-property";
-export * from "./location";
-export * from "./redirect";
+export * from "./method/use";
+export * from "./method/use-before";
+export * from "./method/use-after";
+export * from "./method/route";
+export * from "./method/response-view";
+export * from "./method/json-property";
+export * from "./method/location";
+export * from "./method/redirect";
+export * from "./method/status";
+export * from "./method/deprecated";
+export * from "./method/authenticated";
+
+// Shared
 export * from "./inject";
-export * from "./status";
-export * from "./deprecated";
+export * from "./header";
+export * from "./required";
 
 // Parameters
-export * from "./response-data";
-export * from "./authenticated";
-export * from "./required";
-export * from "./params";
-export * from "./response";
-export * from "./request";
-export * from "./next";
-export * from "./error";
-export * from "./header";
-export * from "./endpoint-info";
-export * from "./multipart-file";
+export * from "./param/response-data";
+export * from "./param/params";
+export * from "./param/response";
+export * from "./param/request";
+export * from "./param/next";
+export * from "./param/error";
+export * from "./param/endpoint-info";
+export * from "./param/multipart-file";
 
 // CLASS
-export * from "./controller";
-export * from "./service";
-export * from "./server-settings";
-export * from "./converter";
-export * from "./middleware";
-export * from "./middleware-error";
+export * from "./class/controller";
+export * from "./class/service";
+export * from "./class/server-settings";
+export * from "./class/converter";
+export * from "./class/middleware";
+export * from "./class/middleware-error";

@@ -2,13 +2,13 @@
 import * as Express from "express";
 import {Forbidden} from "ts-httpexceptions";
 import {ServerSettingsService} from "../services/server-settings";
-import {EndpointInfo} from "../decorators/endpoint-info";
-import {Request} from "../decorators/request";
-import {Response} from "../decorators/response";
-import {Middleware} from "../decorators/middleware";
-import {IMiddleware} from "../interfaces/Middleware";
+import {EndpointInfo} from "../decorators/param/endpoint-info";
+import {Request} from "../decorators/param/request";
+import {Response} from "../decorators/param/response";
+import {Middleware} from "../decorators/class/middleware";
+import {IMiddleware} from "../interfaces";
 import {Endpoint} from "../controllers/endpoint";
-import {Next} from "../decorators/next";
+import {Next} from "../decorators/param/next";
 
 @Middleware()
 export default class AuthenticatedMiddleware implements IMiddleware {

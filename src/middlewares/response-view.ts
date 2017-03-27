@@ -1,14 +1,13 @@
 
-import {IMiddleware} from "../interfaces/Middleware";
-import {Middleware} from "../decorators/middleware";
-import {ResponseData} from "../decorators/response-data";
-import {Response} from "../decorators/response";
+import {IMiddleware} from "../interfaces";
+import {Middleware} from "../decorators/class/middleware";
+import {ResponseData} from "../decorators/param/response-data";
+import {Response} from "../decorators/param/response";
 import * as Express from "express";
-import {EndpointInfo} from "../decorators/endpoint-info";
+import {EndpointInfo} from "../decorators/param/endpoint-info";
 import {Endpoint} from "../controllers/endpoint";
-import {Request} from "../decorators/request";
 import {InternalServerError} from "ts-httpexceptions";
-import {getClassName} from "../utils/class";
+import {getClassName} from "../utils";
 import {TEMPLATE_RENDERING_ERROR} from "../constants/errors-msgs";
 
 

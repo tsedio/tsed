@@ -4,8 +4,8 @@
  * @param expression
  * @constructor
  */
-export const BAD_REQUEST_REQUIRED = (name, expression) => `Bad request, parameter request.${name.toLowerCase().replace("parse", "")}.${expression} is required.`;
-export const BAD_REQUEST = (name, expression) => `Bad request, parameter request.${name.toLowerCase().replace("parse", "")}.${expression}.`;
+export const BAD_REQUEST_REQUIRED = (name, expression) => `Bad request, parameter request.${name.toLowerCase().replace(/parse|params|filter/gi, "")}.${expression} is required.`;
+export const BAD_REQUEST = (name, expression) => `Bad request, parameter request.${name.toLowerCase().replace(/parse|params|filter/gi, "")}.${expression}.`;
 /**
  *
  * @param name
