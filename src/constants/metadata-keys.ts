@@ -5,6 +5,7 @@ export const SERVER_SETTINGS = "tsed:server:settings";
 export const CONTROLLER_URL = "tsed:controller:url";
 export const CONTROLLER_DEPEDENCIES = "ted:controller:dependencies";
 export const CONTROLLER_SCOPE = "ted:controller:scope";
+export const CONTROLLER_ROUTER_OPTIONS = "ted:controller:router:options";
 export const CONTROLLER_MOUNT_ENDPOINTS = "ted:controller:endpoints";
 export const ENDPOINT_USE = "tsed:endpoint:use";
 export const ENDPOINT_USE_BEFORE = "tsed:endpoint:use:before";

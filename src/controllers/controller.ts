@@ -3,9 +3,7 @@ import * as Express from "express";
 import {getClassName} from "../utils/class";
 import Metadata from "../services/metadata";
 
-import {
-    CONTROLLER_MOUNT_ENDPOINTS
-} from "../constants/metadata-keys";
+import {CONTROLLER_MOUNT_ENDPOINTS, CONTROLLER_ROUTER_OPTIONS} from "../constants/metadata-keys";
 
 export default class Controller {
 
@@ -23,16 +21,18 @@ export default class Controller {
     /**
      * The express router instance for the controller.
      */
-    private _router: Express.Router = Express.Router();
+    private _router: Express.Router;
     /**
      *
      */
     public instance: any;
+
     /**
      * Build a new Controller metadata.
      * @param _targetClass
      * @param _endpointUrl
      * @param _dependencies
+     * @param _createInstancePerRequest
      */
     constructor (
         private _targetClass: any,
@@ -40,6 +40,9 @@ export default class Controller {
         private _dependencies: (string | Function | Controller)[] = [],
         private _createInstancePerRequest: boolean = false
     ) {
+
+        this._router = Express.Router(Metadata.get(CONTROLLER_ROUTER_OPTIONS, _targetClass));
+
         this.metadataToEndpoints();
     }
 
