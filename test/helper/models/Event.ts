@@ -1,6 +1,9 @@
+import {JsonProperty} from "../../../src/decorators/json-property";
 
-
-import {JsonProperty} from '../../../src/decorators/json-property';
+export class Task {
+    public name: string = void 0;
+    public percent: number;
+}
 
 export class EventModel {
 
@@ -16,9 +19,4 @@ export class EventModel {
     @JsonProperty({use: Task})
     public tasks: Task[];
 
-}
-
-export class Task {
-    public name: string = void 0;
-    public percent: number;
 }

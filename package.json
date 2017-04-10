@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Use TypeScript decorators to create your Express application and Rest API",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
