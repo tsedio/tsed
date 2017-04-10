@@ -1,6 +1,4 @@
-import {
-    ENDPOINT_USE_BEFORE, ENDPOINT_USE_AFTER, ENDPOINT_USE
-} from "../constants/metadata-keys";
+import {ENDPOINT_USE, ENDPOINT_USE_AFTER, ENDPOINT_USE_BEFORE} from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 import {InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
@@ -157,11 +155,6 @@ export class Endpoint {
 
         if (!response.headersSent) {
             response.setHeader("X-Managed-By", "TS-Express-Decorators");
-        }
-
-        /* istanbul ignore next */
-        if (request.method === "POST") { // TODO remove that in future version
-            response.status(201);
         }
 
         request.getEndpoint = () => this;
