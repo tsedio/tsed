@@ -217,12 +217,25 @@ export default class MiddlewareService {
         } = settings;
 
         const {next} = localScope;
+        let nextCalled = false;
+
 
         return new Promise((resolve, reject) => {
 
             let parameters, isPromise: boolean;
 
-            localScope.next = reject;
+            localScope.next = (err?) => {
+                if (!nextCalled) {
+                    nextCalled = true;
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                } else {
+                    $log.warn(`The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.\n\nSettings:\n\n`, settings);
+                }
+            };
 
             if (injectable) {
                 parameters = this.getInjectableParameters(target, methodName, localScope);
@@ -254,20 +267,18 @@ export default class MiddlewareService {
                     }
 
                     if (!hasNextFn || isPromise) {
-                        resolve();
+                        localScope.next();
                     }
                 })
                 .catch(reject);
 
         })
-            .then(
-                () => {
-                    next();
-                },
-                (err) => {
-                    next(err);
-                }
-            );
+            .then(() => {
+                next();
+            })
+            .catch((err) => {
+                next(err);
+            });
 
     }
 
