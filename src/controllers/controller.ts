@@ -101,7 +101,7 @@ export default class Controller {
      * Resolve final endpoint url.
      */
     public getEndpointUrl = (endpoint: string = ""): string =>
-        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl
+        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl;
 
     /**
      *
