@@ -38,10 +38,13 @@ typings/
 index.js
 index.js.map
 !testing/index.js
-**/*.js
-**/*.js.map
+src/**/*.js
+src/**/*.js.map
+test/**/*.js
+test/**/*.js.map
 test/spec/*.js
 test/spec/*.js.map
+docs
 
 # Test
 /stdout
