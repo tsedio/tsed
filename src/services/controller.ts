@@ -1,19 +1,17 @@
-
 import {Service} from "../decorators/service";
 import {ExpressApplication} from "./express-application";
 import Controller from "../controllers/controller";
 import Metadata from "./metadata";
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE} from "../constants/metadata-keys";
+import {CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE, CONTROLLER_URL} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {Endpoint} from "../controllers/endpoint";
 import {getClassName} from "../utils/class";
 import {RouterController} from "./index";
 import InjectorService from "./injector";
-import {UNKNOW_CONTROLLER, CYCLIC_REF} from "../constants/errors-msgs";
+import {CYCLIC_REF, UNKNOW_CONTROLLER} from "../constants/errors-msgs";
 import InjectParams from "./inject-params";
 import {Inject} from "../decorators/inject";
-
 /**
  * ControllerService manage all controllers declared with `@Controller` decorator.
  */
@@ -187,8 +185,8 @@ export default class ControllerService {
      * @param locals
      * @returns {T}
      */
-    public invoke<T>(target: any, locals: Map<string|Function, any> = new Map<string|Function, any>()): T {
-        return ControllerService.invoke<T>(target);
+    public invoke<T>(target: any, locals: Map<string | Function, any> = new Map<string | Function, any>()): T {
+        return ControllerService.invoke<T>(target, locals);
     }
 
     /**
@@ -197,7 +195,7 @@ export default class ControllerService {
      * @param locals
      * @returns {T}
      */
-    static invoke<T>(target: any, locals: Map<string|Function, any> = new Map<string|Function, any>()): T {
+    static invoke<T>(target: any, locals: Map<string | Function, any> = new Map<string | Function, any>()): T {
 
         target = target.targetClass || target;
 
