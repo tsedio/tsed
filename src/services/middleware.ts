@@ -1,9 +1,9 @@
-import {IMiddleware, IMiddlewareSettings, IInjectableMiddlewareMethod, MiddlewareType} from "../interfaces/Middleware";
+import {IInjectableMiddlewareMethod, IMiddleware, IMiddlewareSettings, MiddlewareType} from "../interfaces/Middleware";
 import {BadRequest} from "ts-httpexceptions";
 import {IInvokableScope} from "../interfaces/InvokableScope";
-import {BAD_REQUEST_REQUIRED, BAD_REQUEST} from "../constants/errors-msgs";
+import {BAD_REQUEST, BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
 import {getClass} from "../utils/utils";
-import {INJECT_PARAMS, EXPRESS_NEXT_FN, PARSE_LOCALS} from "../constants/metadata-keys";
+import {EXPRESS_NEXT_FN, INJECT_PARAMS} from "../constants/metadata-keys";
 import Metadata from "./metadata";
 import InjectParams from "./inject-params";
 import ConverterService from "./converter";
@@ -12,8 +12,7 @@ import {Service} from "../decorators/service";
 import RequestService from "./request";
 import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
-import {ServerSettingsService, EnvTypes} from "./server-settings";
-import {getClassName} from "../utils/class";
+import {EnvTypes, ServerSettingsService} from "./server-settings";
 import ResponseService from "./response";
 
 @Service()
@@ -21,11 +20,9 @@ export default class MiddlewareService {
 
     private static middlewares: Map<any, IMiddlewareSettings<any>> = new Map<any, IMiddlewareSettings<any>>();
 
-    constructor(
-        private injectorService: InjectorService,
-        private converterService: ConverterService,
-        private serverSettings: ServerSettingsService
-    ) {
+    constructor(private injectorService: InjectorService,
+                private converterService: ConverterService,
+                private serverSettings: ServerSettingsService) {
 
     }
 
@@ -94,6 +91,7 @@ export default class MiddlewareService {
     invoke<T extends IMiddleware>(target: any): T {
         return this.get<T>(target).instance;
     }
+
     /**
      *
      * @param target
@@ -139,7 +137,7 @@ export default class MiddlewareService {
 
             } else {
                 handler = () => target;
-                type = target.length  === 4 ? MiddlewareType.ERROR : MiddlewareType.MIDDLEWARE;
+                type = target.length === 4 ? MiddlewareType.ERROR : MiddlewareType.MIDDLEWARE;
                 length = target.length;
             }
 
@@ -154,8 +152,8 @@ export default class MiddlewareService {
             }
         } else {
             hasNextFn = MiddlewareService
-                .getParams(target, methodName)
-                .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
+                    .getParams(target, methodName)
+                    .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
         }
 
         return {
@@ -168,6 +166,7 @@ export default class MiddlewareService {
             hasNextFn
         };
     }
+
     /**
      *
      * @param target
@@ -242,11 +241,11 @@ export default class MiddlewareService {
             Promise
                 .resolve()
                 .then(() => {
-                     const result = handler()(...parameters);
+                    const result = handler()(...parameters);
 
-                     isPromise = result && result.then;
+                    isPromise = result && result.then;
 
-                     return result;
+                    return result;
                 })
                 .then((data) => {
 
@@ -333,7 +332,7 @@ export default class MiddlewareService {
 
             });
 
-    }
+    };
 
     /**
      *
