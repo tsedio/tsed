@@ -20,5 +20,6 @@ export {
     MiddlewareService,
     RouterController,
     Metadata
-}
+};
+
 export * from "./express-application";

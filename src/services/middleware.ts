@@ -332,7 +332,7 @@ export default class MiddlewareService {
 
             });
 
-    };
+    }
 
     /**
      *

@@ -204,7 +204,7 @@ export class Endpoint {
 
         Metadata.set(ENDPOINT_USE_BEFORE, args.concat(middlewares), target, targetKey);
         return this;
-    };
+    }
 
     /**
      * Add middleware and configuration for the endpoint.
@@ -231,7 +231,7 @@ export class Endpoint {
 
         Metadata.set(ENDPOINT_USE_AFTER, args.concat(middlewares), target, targetKey);
         return this;
-    };
+    }
 
     /**
      * Return the list of middlewares that will be applied before all middlewares.

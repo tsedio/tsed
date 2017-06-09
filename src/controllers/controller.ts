@@ -34,12 +34,10 @@ export default class Controller {
      * @param _dependencies
      * @param _createInstancePerRequest
      */
-    constructor (
-        private _targetClass: any,
-        private _endpointUrl: string,
-        private _dependencies: (string | Function | Controller)[] = [],
-        private _createInstancePerRequest: boolean = false
-    ) {
+    constructor(private _targetClass: any,
+                private _endpointUrl: string,
+                private _dependencies: (string | Function | Controller)[] = [],
+                private _createInstancePerRequest: boolean = false) {
 
         this._router = Express.Router(Metadata.get(CONTROLLER_ROUTER_OPTIONS, _targetClass));
 
@@ -78,7 +76,7 @@ export default class Controller {
 
                 if (endpoint.hasMethod() && this.router[endpoint.getMethod()]) {
 
-                   this.router[endpoint.getMethod()](endpoint.getRoute(), ...middlewares);
+                    this.router[endpoint.getMethod()](endpoint.getRoute(), ...middlewares);
 
                 } else {
                     this.router.use(...middlewares);
@@ -103,7 +101,7 @@ export default class Controller {
      * Resolve final endpoint url.
      */
     public getEndpointUrl = (endpoint: string = ""): string =>
-        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl;
+        endpoint === this.endpointUrl ? this.endpointUrl : endpoint + this.endpointUrl
 
     /**
      *
