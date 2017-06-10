@@ -166,7 +166,6 @@ export default class MiddlewareService {
             hasNextFn
         };
     }
-
     /**
      *
      * @param target
