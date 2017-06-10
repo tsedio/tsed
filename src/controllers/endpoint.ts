@@ -4,6 +4,7 @@ import {InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
 import SendResponseMiddleware from "../middlewares/send-response";
 import {getClassName} from "../utils/class";
+import {$log} from "ts-log-debug";
 
 export const METHODS = [
     "all", "checkout", "connect",
@@ -49,7 +50,7 @@ export class Endpoint {
     /**
      * Route strategy.
      */
-    private route: string | RegExp;
+    private route: string | RegExp;
 
     /**
      * Create an unique Endpoint manager for a targetClass and method.
@@ -125,6 +126,17 @@ export class Endpoint {
 
         let middlewares: any[] = [];
 
+        middlewares.push((request, response, next) => {
+            if (request.id) {
+                $log.debug(request.tagId, "Endpoint =>", JSON.stringify({
+                    target: getClassName(this.targetClass),
+                    methodClass: this.methodClassName,
+                    httpMethod: this.httpMethod
+                }));
+                next();
+            }
+        });
+
         middlewares.push(this.onRequest);
 
         /* BEFORE */
@@ -153,23 +165,24 @@ export class Endpoint {
      */
     private onRequest = (request, response, next) => {
 
+
         if (!response.headersSent) {
             response.setHeader("X-Managed-By", "TS-Express-Decorators");
         }
 
         request.getEndpoint = () => this;
 
-        request.storeData = function(data) {
+        request.storeData = function (data) {
             this._responseData = data;
             return this;
         };
 
-        request.getStoredData = function(data) {
+        request.getStoredData = function (data) {
             return this._responseData;
         };
 
         next();
-    }
+    };
 
     /**
      *

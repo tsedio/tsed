@@ -14,6 +14,7 @@ import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
 import {EnvTypes, ServerSettingsService} from "./server-settings";
 import ResponseService from "./response";
+import {getClassName} from "../utils";
 
 @Service()
 export default class MiddlewareService {
@@ -166,6 +167,7 @@ export default class MiddlewareService {
             hasNextFn
         };
     }
+
     /**
      *
      * @param target
@@ -215,16 +217,31 @@ export default class MiddlewareService {
             type, handler, hasNextFn
         } = settings;
 
-        const {next} = localScope;
+        const {next, request} = localScope;
+
+        const tagId = request.tagId;
+        let dataStored, parameters, isPromise: boolean;
         let nextCalled = false;
 
+        const info = (o = {}) => JSON.stringify({
+            type: MiddlewareType[type],
+            target: (target ? getClassName(target) : target.name) || "anonymous",
+            methodName, injectable, hasNextFn,
+            returnPromise: isPromise === undefined ? undefined : !!isPromise,
+            data: dataStored,
+            ...o
+        });
+
+        if (tagId) {
+            $log.debug(request.tagId, "[INVOKE][START]", info());
+        }
 
         return new Promise((resolve, reject) => {
 
-            let parameters, isPromise: boolean;
-
             localScope.next = (err?) => {
+
                 if (!nextCalled) {
+                    $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
                     nextCalled = true;
                     if (err) {
                         reject(err);
@@ -232,7 +249,8 @@ export default class MiddlewareService {
                         resolve();
                     }
                 } else {
-                    $log.warn(`The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.\n\nSettings:\n\n`, settings);
+                    $log.warn(tagId, "[INVOKE][DUPLICATE]", `The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.`);
+                    $log.warn(tagId, "[INVOKE][DUPLICATE]", `Trace:`, info({error: err}));
                 }
             };
 
@@ -254,14 +272,13 @@ export default class MiddlewareService {
                 .resolve()
                 .then(() => {
                     const result = handler()(...parameters);
-
                     isPromise = result && result.then;
-
                     return result;
                 })
                 .then((data) => {
 
                     if (data !== undefined) {
+                        dataStored = data;
                         localScope.request.storeData(data);
                     }
 
@@ -276,6 +293,9 @@ export default class MiddlewareService {
                 next();
             })
             .catch((err) => {
+                if ((request as any).id) {
+                    $log.warn(tagId, "[INVOKE]", err);
+                }
                 next(err);
             });
 
@@ -342,7 +362,7 @@ export default class MiddlewareService {
 
             });
 
-    }
+    };
 
     /**
      *

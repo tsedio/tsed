@@ -1,4 +1,3 @@
-
 import {IMiddleware} from "../interfaces/Middleware";
 import {Middleware} from "../decorators/middleware";
 import {ResponseData} from "../decorators/response-data";
@@ -31,6 +30,5 @@ export default class SendResponseMiddleware implements IMiddleware {
             response.json(this.converterService.serialize(data));
 
         }
-
     }
 }

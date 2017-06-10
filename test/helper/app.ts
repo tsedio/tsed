@@ -1,10 +1,9 @@
-
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerLoader} from "../../src/index";
-import Path = require("path");
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import {ServerSettings} from "../../src/decorators/server-settings";
+import Path = require("path");
 
 $log.setPrintDate(true);
 
@@ -27,7 +26,8 @@ const rootDir = Path.resolve(__dirname);
 
     serveStatic: {
         '/': `${rootDir}/views`
-    }
+    },
+    debug: true
 })
 export class ExampleServer extends ServerLoader {
 
@@ -44,7 +44,7 @@ export class ExampleServer extends ServerLoader {
             session = require('express-session');
 
         this
-            .use(morgan('dev'))
+        // .use(morgan('dev'))
             .use(TestAcceptMimeMiddleware)
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({

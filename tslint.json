@@ -25,9 +25,10 @@
         ],
         "semicolon": [
             true,
-            "always"
+          "always",
+          "ignore-bound-class-methods"
         ],
-        "triple-equals": [
+      "triple-equals": [
             true,
             "allow-null-check"
         ],

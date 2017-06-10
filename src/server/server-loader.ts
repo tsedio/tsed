@@ -4,12 +4,12 @@ import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {NotAcceptable} from "ts-httpexceptions";
 import Metadata from "../services/metadata";
-import {CONTROLLER_URL, CONTROLLER_MOUNT_ENDPOINTS, SERVER_SETTINGS} from "../constants/metadata-keys";
-import {ExpressApplication, ControllerService, InjectorService} from "../services";
+import {CONTROLLER_MOUNT_ENDPOINTS, CONTROLLER_URL, SERVER_SETTINGS} from "../constants/metadata-keys";
+import {ControllerService, ExpressApplication, InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
 import {Deprecated} from "../decorators/deprecated";
 import {
-    ServerSettingsService, ServerSettingsProvider, IServerMountDirectories, IServerSettings
+    IServerMountDirectories, IServerSettings, ServerSettingsProvider, ServerSettingsService
 } from "../services/server-settings";
 import GlobalErrorHandlerMiddleware from "../middlewares/global-error-handler";
 
@@ -46,7 +46,7 @@ export interface IServerLifecycle {
  *
  */
 export abstract class ServerLoader implements IServerLifecycle {
-
+    private AUTO_INCREMENT_ID = 1;
     /**
      * Application express.
      * @type {core.Express}
@@ -68,6 +68,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      *
      */
     private _injectorService: InjectorService;
+
     /**
      *
      * @constructor
@@ -80,7 +81,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         this._settings.env = process.env.NODE_ENV || this.expressApp.get("env") || "development";
         this._settings.authentification = ((<any>this).isAuthenticated || (<any>this).$onAuth || new Function()).bind(this);
 
-        const settings =  Metadata.get(SERVER_SETTINGS, this);
+        const settings = Metadata.get(SERVER_SETTINGS, this);
 
         if (settings) {
             this.autoload(settings);
@@ -176,6 +177,18 @@ export abstract class ServerLoader implements IServerLifecycle {
         const $onMountingMiddlewares = (<any>this).importMiddlewares || (<any>this).$onMountingMiddlewares || new Function; // TODO Fallback
         const $afterRoutesInit = (<any>this).$afterRoutesInit || new Function; // TODO Fallback
 
+        this.use((request, response) => {
+            request.id = request.id ? request.id : this.AUTO_INCREMENT_ID++;
+            request.tagId = `[#${(request as any).id}]`;
+            request.tsExpressHandleStart = new Date();
+
+            $log.debug(request.tagId, "-- Incoming request --------------------------------------------------------");
+            $log.debug(request.tagId, "Route =>", request.method, request.originalUrl || request.url);
+            $log.debug(request.tagId, "Request.id =>", request.id);
+            $log.debug(request.tagId, "Headers =>", JSON.stringify(request.headers).trim());
+            $log.debug(request.tagId, "----------------------------------------------------------------------------");
+        });
+
         return Promise
             .resolve()
             .then(() => $onMountingMiddlewares.call(this, this.expressApp))
@@ -208,6 +221,16 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 this.use(GlobalErrorHandlerMiddleware);
 
+                this.use((request, response) => {
+                    if (request.id) {
+                        const status = response._header
+                            ? response.statusCode
+                            : undefined;
+                        $log.debug(request.tagId, request.method, request.originalUrl || request.url, status, new Date().getTime() - request.tsExpressHandleStart.getTime(), "ms");
+                        $log.debug(request.tagId, "-- End Incoming request -----------------------------------------------------");
+                        delete request.id;
+                    }
+                });
             });
     }
 
@@ -218,6 +241,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         InjectorService.factory(ServerSettingsService, this.settings.$get());
         return InjectorService.get<ServerSettingsService>(ServerSettingsService);
     }
+
     /**
      *
      */
@@ -281,8 +305,12 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {Promise<any>|Promise}
      */
     public start(): Promise<any> {
-
+        const settings = InjectorService.get<ServerSettingsService>(ServerSettingsService);
         this.getSettingsService();
+
+        $log.setRepporting({
+            debug: !!settings.get("debug")
+        });
 
         return Promise
             .resolve()
@@ -471,14 +499,14 @@ export abstract class ServerLoader implements IServerLifecycle {
         /* istanbul ignore else */
 
         if (mountDirectories) {
-            if (require.resolve("serve-static") ) {
+            if (require.resolve("serve-static")) {
                 const serveStatic = require("serve-static");
 
                 Object.keys(mountDirectories).forEach(key => {
                     this.use(key, (request, response, next) => {
                         /* istanbul ignore next */
                         if (!response.headersSent) {
-                            serveStatic(mountDirectories[key])(request , response, next);
+                            serveStatic(mountDirectories[key])(request, response, next);
                         } else {
                             next();
                         }
@@ -499,6 +527,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     get settings(): ServerSettingsProvider {
         return this._settings;
     }
+
     /**
      * Return Express Application instance.
      * @returns {core.Express}
@@ -547,7 +576,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     /* istanbul ignore next */
     static AcceptMime(...mimes: string[]): Function {
 
-        return function(req: Express.Request, res: Express.Response, next: Express.NextFunction): any {
+        return function (req: Express.Request, res: Express.Response, next: Express.NextFunction): any {
 
             for (let i = 0; i < mimes.length; i++) {
                 if (!req.accepts(mimes[i])) {

@@ -9,11 +9,9 @@ import {Endpoint} from "../controllers/endpoint";
  */
 export function Use(...args: any[]): Function {
 
-    return <T> (
-        target: Function,
-        targetKey: string,
-        descriptor: TypedPropertyDescriptor<T>
-    ) : TypedPropertyDescriptor<T> => {
+    return <T>(target: Function,
+               targetKey: string,
+               descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
         Endpoint.use(target, targetKey, args);
 
