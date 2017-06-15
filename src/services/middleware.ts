@@ -193,12 +193,12 @@ export default class MiddlewareService {
         // Create Settings
         if (settings.type === MiddlewareType.ERROR) {
             return (err, request, response, next) => {
-                return this.invokeMethod(settings, {err, request, response, next});
+                this.invokeMethod(settings, {err, request, response, next});
             };
 
         } else {
             return (request, response, next) => {
-                return this.invokeMethod(settings, {request, response, next});
+                this.invokeMethod(settings, {request, response, next});
             };
         }
 
@@ -218,13 +218,6 @@ export default class MiddlewareService {
         } = settings;
 
         const {next, request} = localScope;
-
-        // TODO prevent twice calling...
-        if (request.endpointCalled) {
-            return next();
-        }
-        request.endpointCalled = true;
-
         const tagId = request.tagId;
         let dataStored, parameters, isPromise: boolean;
         let nextCalled = false;
@@ -237,6 +230,16 @@ export default class MiddlewareService {
             data: dataStored,
             ...o
         });
+
+        // TODO prevent twice calling...
+        if (type === MiddlewareType.ENDPOINT) {
+            if (request.endpointCalled) {
+                $log.warn(tagId, "[INVOKE][TWICE ENDPOINT]", `Trace:`, info({}));
+                return next();
+            }
+            request.endpointCalled = true;
+        }
+
 
         if (tagId) {
             $log.debug(request.tagId, "[INVOKE][START]", info());
