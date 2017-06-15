@@ -12,6 +12,7 @@ declare global {
 
         interface Request {
             tagId?: string;
+            endpointCalled?: boolean;
             $tryAuth: (request: Express.Request, response: Express.Response, next: Express.NextFunction, authorization?) => boolean;
             /**
              *

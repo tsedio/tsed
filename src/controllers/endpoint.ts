@@ -164,7 +164,7 @@ export class Endpoint {
      * @param next
      */
     private onRequest = (request, response, next) => {
-
+        request.endpointCalled = false;
 
         if (!response.headersSent) {
             response.setHeader("X-Managed-By", "TS-Express-Decorators");

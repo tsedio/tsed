@@ -219,6 +219,12 @@ export default class MiddlewareService {
 
         const {next, request} = localScope;
 
+        // TODO prevent twice calling...
+        if (request.endpointCalled) {
+            return next();
+        }
+        request.endpointCalled = true;
+
         const tagId = request.tagId;
         let dataStored, parameters, isPromise: boolean;
         let nextCalled = false;
