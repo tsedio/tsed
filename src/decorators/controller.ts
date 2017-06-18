@@ -1,5 +1,6 @@
-
-import {CONTROLLER_URL, CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE} from "../constants/metadata-keys";
+import {
+    CONTROLLER_DEPEDENCIES, CONTROLLER_ROUTER_OPTIONS, CONTROLLER_SCOPE, CONTROLLER_URL
+} from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
@@ -42,4 +43,26 @@ export function Scope(target: any): void {
 
     /* istanbul ignore next */
     Metadata.set(CONTROLLER_SCOPE, true, target);
+}
+
+
+export function RouterSettings(options: { caseSensitive?: boolean, mergeParams?: boolean, strict?: boolean }): Function {
+
+    return (target: any): void => {
+
+        Metadata.set(CONTROLLER_ROUTER_OPTIONS, Object.assign(options || {}, {}), target);
+
+    };
+}
+
+export function MergeParams(mergeParams: boolean) {
+    return RouterSettings({mergeParams});
+}
+
+export function CaseSensitive(caseSensitive: boolean) {
+    return RouterSettings({caseSensitive});
+}
+
+export function Strict(strict: boolean) {
+    return RouterSettings({strict});
 }

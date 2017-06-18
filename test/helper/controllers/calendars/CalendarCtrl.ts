@@ -1,21 +1,18 @@
 import {
-    Controller, Get, Post, Put, Delete,
-    PathParams, Request, Response,
-    BodyParams, Required, Use, Header, Next, Authenticated,
-    CookiesParams, QueryParams,
-    RouterController,
-    IPromise
+    Authenticated, BodyParams, Controller, CookiesParams, Delete, Get, Header, IPromise, Next, PathParams, Post, Put,
+    QueryParams, Request, Required, Response, RouterController, Use
 } from "../../../../src/index";
 
 import {$log} from "ts-log-debug";
 import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
-import {MongooseService} from "../../services/MongooseService"
+import {MongooseService} from "../../services/MongooseService";
 import {ContentType} from "../../../../src/decorators/content-type";
 import {UseAfter} from "../../../../src/decorators/use-after";
 import {Status} from "../../../../src/decorators/status";
 import {MultipartFile} from "../../../../src/decorators/multipart-file";
 import {Locals} from "../../../../src/decorators/params";
+import {MergeParams} from "../../../../src/decorators/controller";
 
 interface ICalendar {
     id: string;
@@ -28,6 +25,7 @@ interface ICalendar {
  * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the `/calendars` path.
  */
 @Controller("/calendars", EventCtrl)
+@MergeParams(true)
 export class CalendarCtrl {
 
     constructor(
