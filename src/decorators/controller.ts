@@ -45,7 +45,6 @@ export function Scope(target: any): void {
     Metadata.set(CONTROLLER_SCOPE, true, target);
 }
 
-
 export function RouterSettings(options: { caseSensitive?: boolean, mergeParams?: boolean, strict?: boolean }): Function {
 
     return (target: any): void => {

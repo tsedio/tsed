@@ -8,11 +8,9 @@ import {Endpoint} from "../controllers/endpoint";
  */
 export function UseBefore(...args: any[]): Function {
 
-    return <T> (
-        target: Function,
-        targetKey: string,
-        descriptor: TypedPropertyDescriptor<T>
-    ) : TypedPropertyDescriptor<T> => {
+    return <T>(target: Function,
+               targetKey: string,
+               descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
         Endpoint.useBefore(target, targetKey, args);
 

@@ -14,6 +14,7 @@ import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
 import {EnvTypes, ServerSettingsService} from "./server-settings";
 import ResponseService from "./response";
+import {getClassName} from "../utils";
 
 @Service()
 export default class MiddlewareService {
@@ -192,12 +193,12 @@ export default class MiddlewareService {
         // Create Settings
         if (settings.type === MiddlewareType.ERROR) {
             return (err, request, response, next) => {
-                return this.invokeMethod(settings, {err, request, response, next});
+                this.invokeMethod(settings, {err, request, response, next});
             };
 
         } else {
             return (request, response, next) => {
-                return this.invokeMethod(settings, {request, response, next});
+                this.invokeMethod(settings, {request, response, next});
             };
         }
 
@@ -216,13 +217,51 @@ export default class MiddlewareService {
             type, handler, hasNextFn
         } = settings;
 
-        const {next} = localScope;
+        const {next, request} = localScope;
+        const tagId = request.tagId;
+        let dataStored, parameters, isPromise: boolean;
+        let nextCalled = false;
+
+        const info = (o = {}) => JSON.stringify({
+            type: MiddlewareType[type],
+            target: (target ? getClassName(target) : target.name) || "anonymous",
+            methodName, injectable, hasNextFn,
+            returnPromise: isPromise === undefined ? undefined : !!isPromise,
+            data: dataStored,
+            ...o
+        });
+
+        // TODO prevent twice calling...
+        if (type === MiddlewareType.ENDPOINT) {
+            if (request.endpointCalled) {
+                $log.warn(tagId, "[INVOKE][TWICE ENDPOINT]", `Trace:`, info({}));
+                return next();
+            }
+            request.endpointCalled = true;
+        }
+
+
+        if (tagId) {
+            $log.debug(request.tagId, "[INVOKE][START]", info());
+        }
 
         return new Promise((resolve, reject) => {
 
-            let parameters, isPromise: boolean;
+            localScope.next = (err?) => {
 
-            localScope.next = reject;
+                if (!nextCalled) {
+                    $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
+                    nextCalled = true;
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                } else {
+                    $log.warn(tagId, "[INVOKE][DUPLICATE]", `The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.`);
+                    $log.warn(tagId, "[INVOKE][DUPLICATE]", `Trace:`, info({error: err}));
+                }
+            };
 
             if (injectable) {
                 parameters = this.getInjectableParameters(target, methodName, localScope);
@@ -242,32 +281,32 @@ export default class MiddlewareService {
                 .resolve()
                 .then(() => {
                     const result = handler()(...parameters);
-
                     isPromise = result && result.then;
-
                     return result;
                 })
                 .then((data) => {
 
                     if (data !== undefined) {
+                        dataStored = data;
                         localScope.request.storeData(data);
                     }
 
                     if (!hasNextFn || isPromise) {
-                        resolve();
+                        localScope.next();
                     }
                 })
                 .catch(reject);
 
         })
-            .then(
-                () => {
-                    next();
-                },
-                (err) => {
-                    next(err);
+            .then(() => {
+                next();
+            })
+            .catch((err) => {
+                if ((request as any).id) {
+                    $log.warn(tagId, "[INVOKE]", err);
                 }
-            );
+                next(err);
+            });
 
     }
 
@@ -332,7 +371,7 @@ export default class MiddlewareService {
 
             });
 
-    }
+    };
 
     /**
      *

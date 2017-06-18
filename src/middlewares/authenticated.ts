@@ -25,13 +25,17 @@ export default class AuthenticatedMiddleware implements IMiddleware {
     ) {
 
         const options = endpoint.getMetadata(AuthenticatedMiddleware) || {};
+        let resolved = false;
 
         const callback = (result: boolean) => {
-            if (result === false) {
-                next(new Forbidden("Forbidden"));
-                return;
+            if (!resolved) {
+                resolved = true;
+                if (result === false) {
+                    next(new Forbidden("Forbidden"));
+                    return;
+                }
+                next();
             }
-            next();
         };
 
         const fn = this.serverSettingsService.authentification;

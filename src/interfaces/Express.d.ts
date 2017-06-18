@@ -1,5 +1,3 @@
-
-import * as Express from "express";
 import {Endpoint} from "../controllers/endpoint";
 
 declare global {
@@ -13,6 +11,8 @@ declare global {
         export interface Application { }
 
         interface Request {
+            tagId?: string;
+            endpointCalled?: boolean;
             $tryAuth: (request: Express.Request, response: Express.Response, next: Express.NextFunction, authorization?) => boolean;
             /**
              *

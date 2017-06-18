@@ -1,10 +1,9 @@
-
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerLoader} from "../../src/index";
-import Path = require("path");
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import {ServerSettings} from "../../src/decorators/server-settings";
+import Path = require("path");
 
 $log.setPrintDate(true);
 
@@ -15,8 +14,8 @@ const rootDir = Path.resolve(__dirname);
     port: 8000,
     httpsPort: 8080,
     mount: {
-        '/rest': `${rootDir}/controllers/**/**.js`,
-        '/rest/v1': `${rootDir}/controllers/**/**.js`
+        "/rest": `${rootDir}/controllers/**/**.js`,
+        "/rest/v1": `${rootDir}/controllers/**/**.js`
     },
 
     componentsScan: [
@@ -26,8 +25,9 @@ const rootDir = Path.resolve(__dirname);
     uploadDir: `${rootDir}/uploads`,
 
     serveStatic: {
-        '/': `${rootDir}/views`
-    }
+        "/": `${rootDir}/views`
+    },
+    debug: true
 })
 export class ExampleServer extends ServerLoader {
 
@@ -36,15 +36,15 @@ export class ExampleServer extends ServerLoader {
      * @returns {Server}
      */
     public $onMountingMiddlewares(): void {
-        let morgan = require('morgan'),
-            cookieParser = require('cookie-parser'),
-            bodyParser = require('body-parser'),
-            compress = require('compression'),
-            methodOverride = require('method-override'),
-            session = require('express-session');
+        let morgan = require("morgan"),
+            cookieParser = require("cookie-parser"),
+            bodyParser = require("body-parser"),
+            compress = require("compression"),
+            methodOverride = require("method-override"),
+            session = require("express-session");
 
         this
-            .use(morgan('dev'))
+        // .use(morgan('dev'))
             .use(TestAcceptMimeMiddleware)
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
@@ -54,9 +54,9 @@ export class ExampleServer extends ServerLoader {
             .use(compress({}))
             .use(methodOverride());
 
-        this.engine('.html', require('ejs').__express)
-            .set('views', './views')
-            .set('view engine', 'html');
+        this.engine(".html", require("ejs").__express)
+            .set("views", "./views")
+            .set("view engine", "html");
     }
 
     /**
@@ -68,14 +68,15 @@ export class ExampleServer extends ServerLoader {
      */
     public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
 
-        next(request.get("authorization") === "token");
+        next(true);
+        next(true); request.get("authorization") === "token";
     }
 
     /**
      *
      */
     public $onReady() {
-        $log.info('Server started...');
+        $log.info("Server started...");
     }
 
     /**
@@ -84,7 +85,7 @@ export class ExampleServer extends ServerLoader {
      */
     static Initialize(): Promise<any> {
 
-        $log.info('Initialize server');
+        $log.info("Initialize server");
 
         return new ExampleServer().start();
     }

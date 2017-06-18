@@ -1,4 +1,3 @@
-
 import {IMiddlewareError} from "../interfaces/Middleware";
 import {MiddlewareError} from "../decorators/middleware-error";
 import {Err} from "../decorators/error";
@@ -12,12 +11,10 @@ import {Request} from "../decorators/request";
 @MiddlewareError()
 export default class GlobalErrorHandlerMiddleware implements IMiddlewareError {
 
-    use(
-        @Err() error: any,
+    use(@Err() error: any,
         @Request() request: Express.Request,
         @Response() response: Express.Response,
-        @Next() next: Express.NextFunction
-    ): any {
+        @Next() next: Express.NextFunction): any {
 
         if (response.headersSent) {
             return next(error);

@@ -12,6 +12,7 @@ import InjectorService from "./injector";
 import {CYCLIC_REF, UNKNOW_CONTROLLER} from "../constants/errors-msgs";
 import InjectParams from "./inject-params";
 import {Inject} from "../decorators/inject";
+
 /**
  * ControllerService manage all controllers declared with `@Controller` decorator.
  */

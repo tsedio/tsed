@@ -1,9 +1,9 @@
-import {Controller, Get, Post, Put, Delete, Response, IPromise, Head,Patch} from "../../../../src/index";
-import {BodyParams} from '../../../../src/decorators/params';
-import {EventModel} from '../../models/Event';
+import {Controller, Delete, Get, Head, IPromise, Next, Patch, Post, Put, Response} from "../../../../src/index";
+import {BodyParams} from "../../../../src/decorators/params";
+import {EventModel} from "../../models/Event";
 
 
-interface IEvent{
+interface IEvent {
     id: string;
 }
 
@@ -12,8 +12,8 @@ export class EventCtrl {
     /**
      *
      */
-    @Head('/')
-    head(){
+    @Head("/")
+    head() {
 
     }
 
@@ -21,8 +21,8 @@ export class EventCtrl {
      *
      * @returns {string}
      */
-    @Patch('/:id')
-    patch(){
+    @Patch("/:id")
+    patch() {
         return "";
     }
 
@@ -31,12 +31,10 @@ export class EventCtrl {
      * @param response
      * @returns {null}
      */
-    @Get('/:id')
-    find(
-        @Response() response: any
-    ): IPromise<IEvent> | void {
+    @Get("/:id")
+    find(@Response() response: any): IPromise<IEvent> | void {
 
-        response.send(200, 'OK');
+        response.send(200, "OK");
 
         return null;
     }
@@ -45,11 +43,8 @@ export class EventCtrl {
      *
      * @returns {null}
      */
-    @Put('/')
-    save(
-
-    ): IPromise<any> | void {
-
+    @Put("/")
+    save(): IPromise<any> | void {
 
 
         return null;
@@ -60,7 +55,7 @@ export class EventCtrl {
      * @param event
      * @returns {null}
      */
-    @Post('/:id')
+    @Post("/:id")
     update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
 
         return event;
@@ -70,10 +65,8 @@ export class EventCtrl {
      *
      * @returns {null}
      */
-    @Delete('/:id')
-    remove(
-
-    ): IPromise<any> | void {
+    @Delete("/:id")
+    remove(): IPromise<any> | void {
         return null;
     }
 
@@ -81,11 +74,17 @@ export class EventCtrl {
      *
      * @returns {null}
      */
-    @Get('/')
-    query(
+    @Get("/")
+    query(@Response() response,
+          @Next() next): IPromise<any[]> | void {
+        return Promise.resolve([{test: "test"}])
+            .then((response) => {
 
-    ): IPromise<any[]> | void {
-
-        return null;
+                setTimeout(() => {
+                    console.log("NextTick");
+                    next();
+                });
+                return response;
+            });
     }
 }
