@@ -22,6 +22,7 @@ export const INJECT_PARAMS = "tsed:inject:params";
 export const DESIGN_PARAM_TYPES = "design:paramtypes";
 export const DESIGN_TYPE = "design:type";
 export const DESIGN_RETURN_TYPE = "design:returntype";
+export const DESIGN_RETURN_CONTENT_TYPE = "design:return:content-type";
 
 // SYMBOLS
 export const EXPRESS_NEXT_FN = Symbol("next");

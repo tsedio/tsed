@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/romakita/ts-express-decorators#readme",
   "dependencies": {
+    "@types/swagger-schema-official": "^2.0.5",
     "colors": "^1.1.2",
     "glob": "^7.0.3",
     "reflect-metadata": "^0.1.8",
