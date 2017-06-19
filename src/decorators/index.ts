@@ -15,6 +15,7 @@ export * from "./deprecated";
 // Parameters
 export * from "./response-data";
 export * from "./authenticated";
+export * from "./content-type";
 export * from "./required";
 export * from "./params";
 export * from "./response";

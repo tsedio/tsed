@@ -1,4 +1,6 @@
 import {UseAfter} from "./use-after";
+import {Endpoint} from "../controllers/endpoint";
+import {DESIGN_RETURN_CONTENT_TYPE} from "../constants/metadata-keys";
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
  * If type contains the “/” character, then it sets the `Content-Type` to type.
@@ -19,6 +21,8 @@ import {UseAfter} from "./use-after";
 export function ContentType(type: string): Function {
 
     return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
+
+        Endpoint.setMetadata(DESIGN_RETURN_CONTENT_TYPE, type, target, targetKey);
 
         return UseAfter((request, response, next) => {
 
