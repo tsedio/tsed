@@ -305,8 +305,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {Promise<any>|Promise}
      */
     public start(): Promise<any> {
-        const settings = InjectorService.get<ServerSettingsService>(ServerSettingsService);
-        this.getSettingsService();
+        const settings = this.getSettingsService();
 
         $log.setRepporting({
             debug: !!settings.get("debug")
