@@ -1,8 +1,7 @@
 import MiddlewareService from "../src/services/middleware";
 import {inject} from "../src/testing/inject";
-import Chai = require("chai");
 import {Done} from "../src/testing/done";
-import {MiddlewareType, IMiddleware, IMiddlewareError} from "../src/interfaces/Middleware";
+import {IMiddleware, IMiddlewareError, MiddlewareType} from "../src/interfaces/Middleware";
 import {Middleware} from "../src/decorators/middleware";
 import {MiddlewareError} from "../src/decorators/middleware-error";
 
@@ -13,6 +12,7 @@ import {Get} from "../src/decorators/route";
 import {FakeRequest} from "./helper/FakeRequest";
 import {BodyParams} from "../src/decorators/params";
 import SendResponseMiddleware from "../src/middlewares/send-response";
+import Chai = require("chai");
 
 const expect: Chai.ExpectStatic = Chai.expect;
 
@@ -55,7 +55,7 @@ class MiddlewareTestError2 implements IMiddlewareError {
 }
 
 @Controller("/test")
-class EndpointCtrl implements IMiddlewareError {
+class EndpointCtrl {
 
     @Get('/')
     get(@Request() request) {

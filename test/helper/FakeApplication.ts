@@ -1,11 +1,10 @@
 import * as SuperTest from "supertest";
-import {$log} from "ts-log-debug";
-import {ServerLoader, ServerSettings} from '../../src/index';
+import {ServerLoader, ServerSettings} from "../../src/index";
 import * as Express from "express";
 import Path = require("path");
-import {} from "../../src/decorators/server-settings";
 
 const rootDir = Path.resolve(__dirname);
+let server;
 
 @ServerSettings({
     rootDir,
@@ -23,7 +22,7 @@ const rootDir = Path.resolve(__dirname);
 })
 export class FakeApplication extends ServerLoader {
 
-    static Server: FakeApplication;
+    // static Server: FakeApplication;
 
     /**
      * This method let you configure the middleware required by your application to works.
@@ -71,22 +70,6 @@ export class FakeApplication extends ServerLoader {
 
     public request(): SuperTest.SuperTest<SuperTest.Test> {
         return SuperTest(this.expressApp);
-    }
-
-    static getInstance(done?: Function): FakeApplication {
-
-        $log.setRepporting({
-            debug: false,
-            info: false,
-            error: false
-        });
-
-        if (FakeApplication.Server === undefined){
-            FakeApplication.Server = new FakeApplication();
-            (FakeApplication.Server as any).initializeSettings().then(done);
-        }
-
-        return FakeApplication.Server;
     }
 
 }

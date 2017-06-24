@@ -20,6 +20,7 @@ export interface IHTTPSServerOptions extends Https.ServerOptions {
  * ServerLoader lifecycle let you intercept a phase.
  */
 export interface IServerLifecycle {
+    version: string;
     /**
      * This method is called when the server starting his lifecycle.
      */
@@ -46,6 +47,7 @@ export interface IServerLifecycle {
  *
  */
 export abstract class ServerLoader implements IServerLifecycle {
+    version = require("../../package.json").version;
     private AUTO_INCREMENT_ID = 1;
     /**
      * Application express.

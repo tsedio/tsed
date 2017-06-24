@@ -79,17 +79,7 @@ export class ExampleServer extends ServerLoader {
         $log.info("Server started...");
     }
 
-    /**
-     * Start your server. Enjoy it !
-     * @returns {Promise<U>|Promise<TResult>}
-     */
-    static Initialize(): Promise<any> {
-
-        $log.info("Initialize server");
-
-        return new ExampleServer().start();
-    }
 
 }
 
-ExampleServer.Initialize();
+new ExampleServer().start();
