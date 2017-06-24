@@ -5,12 +5,10 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
+    "clean": "rimraf test/*.js test/**/*.js test/*.js.map test/**/*.js.map src/**/*.js src/**/*.js.map",
     "prepublish": "npm run tsc:compile",
     "tslint": "tslint ./src/**/*.ts",
-    "release:major": "npm version major && npm publish && git push --follow-tags",
-    "release:minor": "npm version minor && npm publish && git push --follow-tags",
-    "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "test": "npm run tsc && mocha --reporter spec --check-leaks --bail test/ && npm run tslint",
+    "test": "npm run clean && npm run tsc && mocha --reporter spec --check-leaks --bail test/ && npm run tslint",
     "test:cov": "npm run tsc && istanbul cover -x \"examples/**\" node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/ && npm run test:remap",
     "test:remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
     "test:travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
@@ -70,6 +68,7 @@
     "morgan": "^1.7.0",
     "multer": "^1.3.0",
     "remap-istanbul": "^0.9.1",
+    "rimraf": "^2.6.1",
     "supertest": "^3.0.0",
     "tslint": "^4.4.2",
     "typescript": "^2.0.2"
