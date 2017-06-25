@@ -27,6 +27,9 @@ const rootDir = Path.resolve(__dirname);
     serveStatic: {
         "/": `${rootDir}/views`
     },
+    swagger: {
+        path: "/api-docs"
+    },
     debug: true
 })
 export class ExampleServer extends ServerLoader {
@@ -44,7 +47,6 @@ export class ExampleServer extends ServerLoader {
             session = require("express-session");
 
         this
-        // .use(morgan('dev'))
             .use(TestAcceptMimeMiddleware)
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
@@ -57,6 +59,8 @@ export class ExampleServer extends ServerLoader {
         this.engine(".html", require("ejs").__express)
             .set("views", "./views")
             .set("view engine", "html");
+
+
     }
 
     /**
@@ -69,7 +73,8 @@ export class ExampleServer extends ServerLoader {
     public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
 
         next(true);
-        next(true); request.get("authorization") === "token";
+        next(true);
+        request.get("authorization") === "token";
     }
 
     /**

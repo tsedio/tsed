@@ -1,22 +1,22 @@
-import {Render, Controller, All, Get, RouteService} from "../../../src";
+import {All, Controller, Get, Render, RouteService} from "../../../src";
+import SwaggerService from "../../../src/services/swagger";
 
 @Controller("/rest")
 export class RestCtrl {
 
-    constructor (
-        private routeService: RouteService
-    ) {
+    constructor(private routeService: RouteService, private swaggerService: SwaggerService) {
 
     }
 
-    @All('/')
+    @All("/")
     public test(): Object {
         return this.routeService.getAll();
     }
 
-    @Get('/html')
+    @Get("/html")
     @Render("rest")
     public render() {
         return {endpoints: JSON.parse(JSON.stringify(this.routeService.getAll()))};
     }
+
 }

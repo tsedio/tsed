@@ -12,6 +12,7 @@ import {
     IServerMountDirectories, IServerSettings, ServerSettingsProvider, ServerSettingsService
 } from "../services/server-settings";
 import GlobalErrorHandlerMiddleware from "../middlewares/global-error-handler";
+import SwaggerService from "../services/swagger";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -197,9 +198,11 @@ export abstract class ServerLoader implements IServerLifecycle {
             .then(() => {
 
                 const controllerService = this.injectorService.get<ControllerService>(ControllerService);
+                const swaggerService = this.injectorService.get<SwaggerService>(SwaggerService);
 
                 $log.info("[TSED] Import controllers");
                 controllerService.load();
+                swaggerService.load();
 
                 $log.info("[TSED] Routes mounted :");
                 controllerService.printRoutes($log);

@@ -60,6 +60,10 @@
   dependencies:
     "@types/superagent" "*"
 
+"@types/swagger-schema-official@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@types/swagger-schema-official/-/swagger-schema-official-2.0.5.tgz#9fe49b40b1d033fd73bebb7bb69cfa8cbf30b9f1"
+
 abbrev@1, abbrev@1.0.x:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
@@ -1733,6 +1737,10 @@ supports-color@^3.1.0:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
+
+swagger-schema-official@^2.0.0-bab6bed:
+  version "2.0.0-d79c205"
+  resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-d79c205.tgz#465e81bedf5d4874a423ef3c6041c606bbc3f2fd"
 
 term-size@^0.1.0:
   version "0.1.1"
