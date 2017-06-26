@@ -263,7 +263,7 @@ export class Endpoint {
     public getMetadata = (key: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), this.targetClass, this.methodClassName);
 
     public getApiInfo() {
-        return Metadata.getApiInfo(this.targetClass, this.methodClassName);
+        return Endpoint.getApiInfo(this.targetClass, this.methodClassName);
     }
     /**
      * Store value for an endpoint method.

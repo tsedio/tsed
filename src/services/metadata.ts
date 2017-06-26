@@ -1,5 +1,5 @@
 import {
-    DESIGN_PARAM_TYPES, DESIGN_RETURN_CONTENT_TYPE, DESIGN_RETURN_TYPE, DESIGN_TYPE
+    DESIGN_PARAM_TYPES, DESIGN_RETURN_TYPE, DESIGN_TYPE
 } from "../constants/metadata-keys";
 import {getClass} from "../utils/utils";
 require("reflect-metadata");

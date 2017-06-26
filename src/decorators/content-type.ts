@@ -1,6 +1,5 @@
 import {UseAfter} from "./use-after";
 import {Endpoint} from "../controllers/endpoint";
-import {DESIGN_RETURN_CONTENT_TYPE} from "../constants/metadata-keys";
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
  * If type contains the “/” character, then it sets the `Content-Type` to type.
