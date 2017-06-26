@@ -7,7 +7,6 @@ import Controller from "../controllers/controller";
 import {Endpoint} from "../controllers/endpoint";
 import {getClassName} from "../utils/utils";
 import InjectParams from "./inject-params";
-import Metadata from "./metadata";
 import {Inject} from "../decorators/inject";
 import {ExpressApplication} from "./express-application";
 import {ServerSettingsService} from "./server-settings";
@@ -166,12 +165,13 @@ export default class SwaggerService {
 
             if (endpoint.hasMethod()) {
 
+                // get Api Info collected by decorators
+                const {produces = [], consumes = []} = endpoint.getApiInfo();
+
                 const className = getClassName(ctrl.targetClass),
-                    parameters = InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName),
-                    returnContentType = Metadata.getReturnContentType(ctrl.targetClass, endpoint.methodClassName);
+                    parameters = InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName);
 
-
-                let OpenAPIPath = `${endpointUrl}${this.getOpenApiPath(endpoint.getRoute()) || ""}`;
+                const OpenAPIPath = `${endpointUrl}${this.getOpenApiPath(endpoint.getRoute()) || ""}`;
 
                 if (!paths[OpenAPIPath]) paths[OpenAPIPath] = {};
 
@@ -179,9 +179,9 @@ export default class SwaggerService {
                     operationId: endpoint.methodClassName,
                     tags: [className],
                     parameters: this.getOpenApiParams(parameters),
-                    consumes: [],
+                    consumes,
                     responses: {"200": {description: ""}},
-                    produces: returnContentType ? [returnContentType] : []
+                    produces
                 };
 
             }

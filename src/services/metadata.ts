@@ -85,14 +85,6 @@ export default class Metadata<T> {
      *
      * @param target
      * @param propertyKey
-     */
-    static getReturnContentType = (target: any, propertyKey: string | symbol): string =>
-        Reflect.getMetadata(DESIGN_RETURN_CONTENT_TYPE, target, propertyKey);
-
-    /**
-     *
-     * @param target
-     * @param propertyKey
      * @returns {any}
      */
     static getParamTypes(target: any, propertyKey?: string): any[] {

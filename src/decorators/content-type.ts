@@ -20,9 +20,14 @@ import {DESIGN_RETURN_CONTENT_TYPE} from "../constants/metadata-keys";
  */
 export function ContentType(type: string): Function {
 
-    return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
+    return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
-        Endpoint.setMetadata(DESIGN_RETURN_CONTENT_TYPE, type, target, targetKey);
+        const apiInfo = Endpoint.getApiInfo(target, targetKey);
+
+        apiInfo.produces = apiInfo.produces || [];
+        apiInfo.produces.push(type);
+
+        Endpoint.setApiInfo(apiInfo, target, targetKey);
 
         return UseAfter((request, response, next) => {
 
