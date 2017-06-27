@@ -110,6 +110,8 @@ export default class SwaggerService {
         let paths: ISwaggerPaths = {};
         let definitions = {};
 
+        this.MODEL_AUTO_INCREMENT = 1;
+
         this.controllerService
             .forEach((finalCtrl: Controller) => {
                 if (!finalCtrl.parent) {
@@ -196,11 +198,10 @@ export default class SwaggerService {
      * @returns {Parameter[]}
      */
     public getOpenApiParams = (injectedParams: InjectParams[], definitions: { [key: string]: Schema }): Parameter[] => {
-        let openAPIParameters: Parameter[] = [];
         let bodySchema: Schema;
-
-        openAPIParameters = <Parameter[]> injectedParams
+        let openAPIParameters: Parameter[] = <Parameter[]> injectedParams
             .map((param: InjectParams) => {
+                console.log(param);
                 const inType = {
                     "parseBody": "body",
                     "parseParams": "path",
@@ -208,20 +209,18 @@ export default class SwaggerService {
                     "getHeader": "header"
                 }[param.name];
 
+                // console.log(param.toJSON());
                 if (inType === undefined) { // not a input paramaters
-                    console.log("inType", inType, param.name);
+                    console.log("Unsupported type =>", param.name);
                     return;
                 }
-                if (inType === "body") {
-                    bodySchema = this.createSchema(param);
-                } else {
+                if (inType !== "body") {
                     const schema = this.mapParam(param);
-                    console.log(schema)
-                    return {
-                        "in": inType,
-                        ...schema
-                    };
+                    schema["in"] = inType;
+                    return schema;
                 }
+
+                bodySchema = deepExtends(bodySchema || {}, this.createSchema(param));
             })
             .filter(o => !!o);
 
@@ -232,16 +231,16 @@ export default class SwaggerService {
 
             bodyParam.in = "body";
             bodyParam.name = "body";
-            bodyParam["$ref"] = `#/definitions/${model}`;
             bodyParam.description = "";
             bodyParam.required = true;
+            bodyParam.schema = {};
+            bodyParam.schema["$ref"] = `#/definitions/${model}`;
             openAPIParameters.push(bodyParam);
 
             definitions[model] = bodySchema;
 
             this.MODEL_AUTO_INCREMENT++;
         }
-
 
         return openAPIParameters;
     };
@@ -266,33 +265,6 @@ export default class SwaggerService {
             type: this.swaggerType(useName)
         };
     }
-
-    /**
-     *
-     * @param param
-     */
-    /*mapBopyParam(param: InjectParams) {
-     const {required, useName: type} = param;
-
-     const body = {properties: {}};
-
-     if (!schema) {
-     bodyParams.schema = {};
-     bodyParams.schema.properties = {};
-     }
-     const property: Schema = {
-     type
-     };
-
-     this.parseService.eval(ex);
-
-     bodyParams.schema.properties[p.expression] = property;
-     if (p.required) {
-     if (!bodyParams.schema.required) bodyParams.schema.required = [];
-     bodyParams.schema.required.push(p.expression);
-     }
-     }*/
-
     /**
      *
      * @param param
@@ -300,7 +272,7 @@ export default class SwaggerService {
      */
     private createSchema(param: InjectParams) {
         const {
-            required,
+            required = false,
             useName,
             baseTypeName,
             expression
@@ -314,12 +286,8 @@ export default class SwaggerService {
         let current = output;
 
         keys.forEach((key, index) => {
-            current[key] = <Schema> {};
-
-            if (index < keys.length - 1) {
-                current.properties = {};
-                current = current[key].properties;
-            }
+            current.properties[key] = <Schema> {type: "object"};
+            current = current.properties[key];
         });
 
         if (baseTypeName === "Array") {
@@ -339,6 +307,8 @@ export default class SwaggerService {
             required
         });
 
+        delete current.properties;
+
         return output;
     }
 
@@ -349,6 +319,30 @@ export default class SwaggerService {
 
         // in type case the type is complexe
         return type;
+    }
+
+    /**
+     *
+     * @param openAPIPath
+     * @param parameters
+     * @returns {Parameter[]}
+     */
+    public completeMissingPathParams(openAPIPath: string, parameters: Parameter[]): Parameter[] {
+        return openAPIPath
+            .split("/")
+            .filter(keyPath => {
+                if (keyPath.match(/{/)) {
+                    const name = keyPath.replace(/{|}/, "");
+                    return !parameters.find(o => o["in"] === "path" && o.name === name);
+                }
+            })
+            .map<Parameter>(keyPath => ({
+                in: "path",
+                name: keyPath.replace(/{|}/gi, ""),
+                type: "string",
+                required: keyPath.indexOf("?") === -1
+            }))
+            .concat(parameters);
     }
 
     /**
@@ -366,23 +360,29 @@ export default class SwaggerService {
         ctrl.endpoints.forEach((endpoint: Endpoint) => {
 
             if (endpoint.hasMethod()) {
+                const openAPIPath = `${endpointUrl}${this.getOpenApiPath(endpoint.getRoute()) || ""}`.trim();
 
+                // if ("/rest/calendars/events/{id}" !== openAPIPath) return;
+                // if (endpoint.getMethod() !== "post") return;
+                console.log(endpoint.getMethod(), openAPIPath, "========================");
                 // get Api Info collected by decorators
                 const {produces = [], consumes = []} = endpoint.getApiInfo();
+                let parameters = this.getOpenApiParams(
+                    InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName),
+                    definitions
+                );
 
-                const className = getClassName(ctrl.targetClass),
-                    parameters = this.getOpenApiParams(
-                        InjectParams.getParams(ctrl.targetClass, endpoint.methodClassName),
-                        definitions
-                    );
+                console.log("Parameters =>", parameters);
 
-                const OpenAPIPath = `${endpointUrl}${this.getOpenApiPath(endpoint.getRoute()) || ""}`;
+                parameters = this.completeMissingPathParams(openAPIPath, parameters);
 
-                if (!paths[OpenAPIPath]) paths[OpenAPIPath] = {};
+                console.log("Parameters =>", parameters);
 
-                paths[OpenAPIPath][endpoint.getMethod()] = {
+                if (!paths[openAPIPath]) paths[openAPIPath] = {};
+
+                paths[openAPIPath][endpoint.getMethod()] = {
                     operationId: endpoint.methodClassName,
-                    tags: [className],
+                    tags: [ctrl.getName()],
                     parameters,
                     consumes,
                     responses: {"200": {description: ""}},

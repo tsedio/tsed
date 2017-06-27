@@ -145,7 +145,7 @@ export class CalendarCtrl {
                                    @Response() response: Express.Response,
                                    @PathParams("id") id: string): IPromise<ICalendar> {
 
-        //$log.debug("ID =>", id, request.params.id);
+        // $log.debug("ID =>", id, request.params.id);
         //
         return new Promise<ICalendar>((resolve, reject) => {
 
@@ -176,14 +176,14 @@ export class CalendarCtrl {
 
     /**
      *
-     * @param auth
      * @param name
+     * @param alias
      * @returns {{id: number, name: string}}
      */
     @Put("/")
-    public save(@BodyParams("name") @Required() name: string): any {
+    public save(@BodyParams("name") @Required() name: string, @BodyParams("alias") alias?: string): any {
 
-        return {id: 2, name: name};
+        return {id: 2, name: name, alias: alias};
     }
 
 
@@ -210,7 +210,7 @@ export class CalendarCtrl {
 
         request["user"] = 1;
 
-        //console.log(request.headers)
+        // console.log(request.headers)
         next();
     }
 
