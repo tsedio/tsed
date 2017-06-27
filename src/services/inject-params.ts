@@ -61,11 +61,13 @@ export default class InjectParams {
     }
 
     get useName(): string {
-        return this.use ? getClassName(this.use) : undefined
+        return this.use ? getClassName(this.use) : undefined;
     }
+
     get baseTypeName(): string {
-        return this.baseType && this.useName !== getClassName(this.baseType) ? getClassName(this.baseType) : undefined
+        return this.baseType && this.useName !== getClassName(this.baseType) ? getClassName(this.baseType) : undefined;
     }
+
     /**
      *
      * @returns {{service: (string|symbol), name: string, expression: string, required: boolean, use: undefined, baseType: undefined}}
