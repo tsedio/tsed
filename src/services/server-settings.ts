@@ -1,4 +1,3 @@
-
 import * as Path from "path";
 import {ExpressApplication} from "./express-application";
 import * as Https from "https";
@@ -17,6 +16,7 @@ export interface IServerMountDirectories {
 }
 
 export interface IServerSettings {
+    version?: string;
     rootDir?: string;
     endpointUrl?: string;
     env?: Env;
@@ -49,9 +49,18 @@ export class ServerSettingsService implements IServerSettings {
         }
     }
 
+    resolve(value: string) {
+        return value.replace("${rootDir}", this.rootDir);
+    }
+
     get rootDir() {
         return this.map.get("rootDir");
     }
+
+    get version() {
+        return this.map.get("version");
+    }
+
     /**
      *
      * @returns {string}
@@ -104,7 +113,7 @@ export class ServerSettingsService implements IServerSettings {
      *
      * @returns {string|number}
      */
-    getHttpPort(): {address: string, port: number} {
+    getHttpPort(): { address: string, port: number } {
         return ServerSettingsService.buildAddressAndPort(this.map.get("httpPort"));
     }
 
@@ -112,7 +121,7 @@ export class ServerSettingsService implements IServerSettings {
      *
      * @returns {string|number}
      */
-    getHttpsPort(): {address: string, port: number} {
+    getHttpsPort(): { address: string, port: number } {
         return ServerSettingsService.buildAddressAndPort(this.map.get("httpsPort"));
     }
 
@@ -121,7 +130,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {string}
      */
     get uploadDir(): string {
-        return this.map.get("uploadDir").replace("${rootDir}", this.rootDir);
+        return this.resolve(this.map.get("uploadDir"));
     }
 
     /**
@@ -134,7 +143,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-           finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
+            finalObj[k] = this.resolve(obj[k]);
         });
 
         return finalObj;
@@ -150,7 +159,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = [];
 
         Object.keys(obj).forEach(k => {
-            finalObj.push(obj[k].replace("${rootDir}", this.rootDir));
+            finalObj.push(this.resolve(obj[k]));
         });
 
         return finalObj;
@@ -165,7 +174,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-            finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
+            finalObj[k] = this.resolve(obj[k]);
         });
 
         return finalObj;
@@ -176,7 +185,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get acceptMimes(): string[] {
-        return this.map.get("acceptMimes");
+        return this.map.get("acceptMimes") || ["application/json"];
     }
 
     /**
@@ -210,7 +219,7 @@ export class ServerSettingsService implements IServerSettings {
      * @param addressPort
      * @returns {{address: string, port: number}}
      */
-    private static buildAddressAndPort(addressPort: string | number): {address: string, port: number} {
+    private static buildAddressAndPort(addressPort: string | number): { address: string, port: number } {
         let address = "0.0.0.0";
         let port = addressPort;
 
@@ -234,6 +243,7 @@ export class ServerSettingsProvider implements IServerSettings {
         this.port = 8080;
         this.httpsPort = 8000;
         this.endpointUrl = "/rest";
+        this.version = "1.0.0";
         this.uploadDir = "${rootDir}/uploads";
 
         /* istanbul ignore next */
@@ -251,6 +261,10 @@ export class ServerSettingsProvider implements IServerSettings {
 
     }
 
+    set version(v: string) {
+        this.map.set("version", v);
+    }
+
     /**
      *
      * @param value
@@ -258,6 +272,7 @@ export class ServerSettingsProvider implements IServerSettings {
     set rootDir(value: string) {
         this.map.set("rootDir", value);
     }
+
     /**
      *
      * @param value
@@ -365,7 +380,7 @@ export class ServerSettingsProvider implements IServerSettings {
      * @param value
      */
     set acceptMimes(value: string[]) {
-        this.map.set("acceptMimes", value) || [];
+        this.map.set("acceptMimes", value);
     }
 
 
@@ -384,7 +399,7 @@ export class ServerSettingsProvider implements IServerSettings {
 
                 const descriptor = Object.getOwnPropertyDescriptor(ServerSettingsProvider.prototype, key);
 
-                if (descriptor &&  ["set", "map"].indexOf(key) === -1) {
+                if (descriptor && ["set", "map"].indexOf(key) === -1) {
                     this[key] = propertyKey[key];
                 } else {
                     this.set(key, propertyKey[key]);
@@ -403,5 +418,5 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     public $get = (): ServerSettingsService => {
         return new ServerSettingsService(this.map);
-    }
+    };
 }

@@ -10,6 +10,7 @@ $log.setPrintDate(true);
 const rootDir = Path.resolve(__dirname);
 
 @ServerSettings({
+    version: "1.1.0",
     rootDir,
     port: 8000,
     httpsPort: 8080,
@@ -26,6 +27,18 @@ const rootDir = Path.resolve(__dirname);
 
     serveStatic: {
         "/": `${rootDir}/views`
+    },
+
+    swagger: {
+        path: "/api-docs",
+        spec: {
+            info: {
+                title: "An application",
+                contact: {
+                    email: "team@team.fr"
+                }
+            }
+        }
     },
     debug: true
 })
@@ -44,7 +57,6 @@ export class ExampleServer extends ServerLoader {
             session = require("express-session");
 
         this
-        // .use(morgan('dev'))
             .use(TestAcceptMimeMiddleware)
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
@@ -57,6 +69,8 @@ export class ExampleServer extends ServerLoader {
         this.engine(".html", require("ejs").__express)
             .set("views", "./views")
             .set("view engine", "html");
+
+
     }
 
     /**
@@ -69,7 +83,8 @@ export class ExampleServer extends ServerLoader {
     public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
 
         next(true);
-        next(true); request.get("authorization") === "token";
+        next(true);
+        request.get("authorization") === "token";
     }
 
     /**

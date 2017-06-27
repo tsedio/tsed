@@ -56,9 +56,9 @@ export class EventCtrl {
      * @returns {null}
      */
     @Post("/:id")
-    update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
+    update(@BodyParams("events", EventModel) events: EventModel[]): EventModel[] {
 
-        return event;
+        return events;
     }
 
     /**

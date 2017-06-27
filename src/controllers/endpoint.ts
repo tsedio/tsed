@@ -1,4 +1,4 @@
-import {ENDPOINT_USE, ENDPOINT_USE_AFTER, ENDPOINT_USE_BEFORE} from "../constants/metadata-keys";
+import {ENDPOINT_API_INFO, ENDPOINT_USE, ENDPOINT_USE_AFTER, ENDPOINT_USE_BEFORE} from "../constants/metadata-keys";
 import Metadata from "../services/metadata";
 import {InjectorService} from "../services";
 import MiddlewareService from "../services/middleware";
@@ -262,6 +262,9 @@ export class Endpoint {
      */
     public getMetadata = (key: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), this.targetClass, this.methodClassName);
 
+    public getApiInfo() {
+        return Endpoint.getApiInfo(this.targetClass, this.methodClassName);
+    }
     /**
      * Store value for an endpoint method.
      * @param key
@@ -271,6 +274,15 @@ export class Endpoint {
      */
     static setMetadata = (key: any, value: any, targetClass: any, methodClassName: any) => Metadata.set(typeof key === "string" ? key : getClassName(key), value, targetClass, methodClassName);
 
+    static setApiInfo(value: { [key: string]: any }, targetClass: any, methodClassName: any) {
+        this.setMetadata(ENDPOINT_API_INFO, value, targetClass, methodClassName);
+        return this;
+    }
+
+    static getApiInfo(targetClass: any, methodClassName: any) {
+        return this.getMetadata(ENDPOINT_API_INFO, targetClass, methodClassName) || {};
+    }
+
     /**
      * Return the stored value for an endpoint method.
      * @param key
@@ -278,5 +290,4 @@ export class Endpoint {
      * @param methodClassName
      */
     static getMetadata = (key: any, targetClass: any, methodClassName: any) => Metadata.get(typeof key === "string" ? key : getClassName(key), targetClass, methodClassName);
-
 }

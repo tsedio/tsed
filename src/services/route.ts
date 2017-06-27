@@ -1,4 +1,3 @@
-
 import {Service} from "../decorators/service";
 import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {$log} from "ts-log-debug";

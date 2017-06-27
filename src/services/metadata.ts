@@ -1,4 +1,6 @@
-import {DESIGN_PARAM_TYPES, DESIGN_RETURN_TYPE, DESIGN_TYPE} from "../constants/metadata-keys";
+import {
+    DESIGN_PARAM_TYPES, DESIGN_RETURN_TYPE, DESIGN_TYPE
+} from "../constants/metadata-keys";
 import {getClass} from "../utils/utils";
 require("reflect-metadata");
 

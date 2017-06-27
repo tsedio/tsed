@@ -10,6 +10,7 @@ export const CONTROLLER_MOUNT_ENDPOINTS = "ted:controller:endpoints";
 export const ENDPOINT_USE = "tsed:endpoint:use";
 export const ENDPOINT_USE_BEFORE = "tsed:endpoint:use:before";
 export const ENDPOINT_USE_AFTER = "tsed:endpoint:use:after";
+export const ENDPOINT_API_INFO = "tsed:endpoint:api:info";
 
 // converters
 export const CONVERTER = "tsed:converter";

@@ -60,22 +60,26 @@ export default class InjectParams {
         return this._name;
     }
 
+    get useName(): string {
+        return this.use ? getClassName(this.use) : undefined;
+    }
+
+    get baseTypeName(): string {
+        return this.baseType && this.useName !== getClassName(this.baseType) ? getClassName(this.baseType) : undefined;
+    }
+
     /**
      *
      * @returns {{service: (string|symbol), name: string, expression: string, required: boolean, use: undefined, baseType: undefined}}
      */
     toJSON() {
-
-        const use = this.use ? getClassName(this.use) : undefined;
-        const baseType = this.baseType && use !== getClassName(this.baseType) ? getClassName(this.baseType) : undefined;
-
         return {
             service: this._service,
             name: this._name,
             expression: this.expression,
             required: this.required,
-            use: use,
-            baseType: baseType
+            use: this.useName,
+            baseType: this.baseTypeName
         };
     }
 
@@ -96,7 +100,7 @@ export default class InjectParams {
 
     }
 
-    static getParams(target: any, targetKey: string | symbol): InjectParams {
+    static getParams(target: any, targetKey: string | symbol): InjectParams[] {
 
         return Metadata.has(INJECT_PARAMS, target, targetKey)
             ? Metadata.get(INJECT_PARAMS, target, targetKey)

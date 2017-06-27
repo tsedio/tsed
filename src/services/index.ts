@@ -7,6 +7,7 @@ import RouteService from "./route";
 import ConverterService from "./converter";
 import MiddlewareService from "./middleware";
 import RouterController from "./router-controller";
+import SwaggerService from "./swagger";
 import Metadata from "./metadata";
 
 export {
@@ -19,6 +20,7 @@ export {
     ConverterService,
     MiddlewareService,
     RouterController,
+    SwaggerService,
     Metadata
 };
 

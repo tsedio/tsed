@@ -29,9 +29,7 @@ export default class ControllerService {
      *
      * @param expressApplication
      */
-    constructor (
-        @Inject(ExpressApplication) private expressApplication: ExpressApplication
-    ) {
+    constructor(@Inject(ExpressApplication) private expressApplication: ExpressApplication) {
 
     }
 
@@ -89,6 +87,7 @@ export default class ControllerService {
 
         return this;
     }
+
     /**
      * Map all controllers collected by @Controller annotation.
      */
@@ -283,7 +282,7 @@ export default class ControllerService {
     /**
      * Print all route mounted in express via Annotation.
      */
-    public printRoutes(logger: {info: (s) => void} = $log): void {
+    public printRoutes(logger: { info: (s) => void } = $log): void {
 
         const mapColor = {
             GET: (<any>"GET").green,
@@ -316,5 +315,14 @@ export default class ControllerService {
 
         logger.info("\n" + str.trim());
 
+    }
+
+    /**
+     *
+     * @param callback
+     * @param thisArg
+     */
+    public forEach(callback, thisArg?) {
+        return ControllerService.controllers.forEach(callback, thisArg);
     }
 }

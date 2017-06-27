@@ -27,7 +27,7 @@ export const getContructor = (targetClass: any): Function =>
  * @returns {*}
  */
 export function getClass(target: any): any {
-   return target.prototype ? target : target.constructor;
+    return target.prototype ? target : target.constructor;
 }
 
 export function getClassOrSymbol(target: any): any {
@@ -90,4 +90,38 @@ export function isCollection(target): boolean {
  */
 export function isEmpty(value: any): boolean {
     return value === "" || value === null || value === undefined;
+}
+
+export function deepExtends(out, ...args) {
+    out = out || {};
+
+    args.forEach(obj => {
+        if (obj === undefined || obj === null) {
+            return;
+        }
+
+        Object.keys(obj).forEach(key => {
+            const value = obj[key];
+
+            if (value === undefined || value === null) {
+                return;
+            }
+
+            if (isPrimitiveOrPrimitiveClass(value) || typeof value === "function") {
+                out[key] = value;
+                return;
+            }
+
+            if (isArrayOrArrayClass(value)) {
+                // TODO Maybe use reduce ?
+                out[key] = [].concat(out[key] || [], value);
+                return;
+            }
+
+            // Object
+            out[key] = deepExtends(out[key], value);
+        });
+    });
+
+    return out;
 }
