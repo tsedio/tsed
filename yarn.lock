@@ -1742,6 +1742,10 @@ swagger-schema-official@^2.0.0-bab6bed:
   version "2.0.0-d79c205"
   resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-d79c205.tgz#465e81bedf5d4874a423ef3c6041c606bbc3f2fd"
 
+swagger-ui-express@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-2.0.0.tgz#560f289bb6420b3475674a39fdd91d99ee30ced5"
+
 term-size@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/term-size/-/term-size-0.1.1.tgz#87360b96396cab5760963714cda0d0cbeecad9ca"

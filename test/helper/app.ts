@@ -10,6 +10,7 @@ $log.setPrintDate(true);
 const rootDir = Path.resolve(__dirname);
 
 @ServerSettings({
+    version: "1.1.0",
     rootDir,
     port: 8000,
     httpsPort: 8080,
@@ -27,8 +28,17 @@ const rootDir = Path.resolve(__dirname);
     serveStatic: {
         "/": `${rootDir}/views`
     },
+
     swagger: {
-        path: "/api-docs"
+        path: "/api-docs",
+        spec: {
+            info: {
+                title: "An application",
+                contact: {
+                    email: "team@team.fr"
+                }
+            }
+        }
     },
     debug: true
 })
