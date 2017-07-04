@@ -12,6 +12,7 @@ describe("ServerSettingsProvider", () => {
         serverSettingsProvider.set({"ownConfig2": "test"});
 
         serverSettingsProvider.endpoint = "/rest";
+        serverSettingsProvider.version = "1.0.0";
         serverSettingsProvider.httpsOptions = {test: "/rest"} as any;
         serverSettingsProvider.acceptMimes = ["application/json"];
         serverSettingsProvider.serveStatic = {"/": "/publics"};
@@ -90,6 +91,10 @@ describe("ServerSettingsProvider", () => {
 
     it("should return env", () => {
         expect(this.serverSettingsProvider.env).to.equal("test");
+    });
+
+    it("should return env", () => {
+        expect(this.serverSettingsService.version).to.equal("1.0.0");
     });
 
     describe("forEach()", () => {

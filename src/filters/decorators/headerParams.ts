@@ -4,7 +4,7 @@
 /** */
 import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
 import {Type} from "../../core/interfaces/Type";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -17,7 +17,7 @@ export function HeaderParams(expression: string): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(HeaderParamsFilter, {
+            ParamRegistry.useFilter(HeaderParamsFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

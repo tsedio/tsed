@@ -4,7 +4,7 @@
 
 import {Type} from "../../core/interfaces/Type";
 import {CookiesFilter} from "../components/CookiesFilter";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -18,7 +18,7 @@ export function CookiesParams(expression?: string | any, useType?: any): Functio
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(CookiesFilter, {
+            ParamRegistry.useFilter(CookiesFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

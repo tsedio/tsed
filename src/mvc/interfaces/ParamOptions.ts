@@ -8,7 +8,7 @@ import {IParamArgs} from "./Arguments";
 /**
  *
  */
-export interface IInjectableParamsMetadata<T> {
+export interface IParamOptions<T> {
     required?: boolean;
     expression?: string | RegExp;
     useType?: Type<T>;
@@ -19,6 +19,6 @@ export interface IInjectableParamsMetadata<T> {
 /**
  *
  */
-export interface IInjectableParamSettings<T> extends IInjectableParamsMetadata<T>, IParamArgs<T> {
+export interface IInjectableParamSettings<T> extends IParamOptions<T>, IParamArgs<T> {
 
 }

@@ -8,7 +8,7 @@ import {UseBefore} from "../../mvc/decorators/method/useBefore";
 import {Metadata} from "../../core/class/Metadata";
 import {MultipartFileFilter, MultipartFilesFilter} from "../filters/MultipartFileFilter";
 import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 
 /**
  *
@@ -31,7 +31,7 @@ export function MultipartFile(options?: any): Function {
             const filter = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array
                 ? MultipartFilesFilter : MultipartFileFilter;
 
-            ParamsRegistry.useFilter(filter, {
+            ParamRegistry.useFilter(filter, {
                 propertyKey,
                 parameterIndex,
                 target,

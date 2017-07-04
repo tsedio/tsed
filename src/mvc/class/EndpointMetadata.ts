@@ -6,8 +6,10 @@ import {PathParamsType} from "../interfaces/PathParamsType";
 import {Type} from "../../core/interfaces/Type";
 import {ENDPOINT_METHODS} from "../constants/index";
 import {Metadata} from "../../core/class/Metadata";
-import {getClass, nameOf} from "../../core/utils/index";
+import {isArrayOrArrayClass, isPromise} from "../../core/utils/index";
 import {NotEnumerable} from "../../core/decorators/enumerable";
+import {Deprecated} from "../../core/decorators/deprecated";
+import {Storable} from "../../core/class/Storable";
 /**
  * EndpointMetadata contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
@@ -24,7 +26,7 @@ import {NotEnumerable} from "../../core/decorators/enumerable";
  *    }
  *
  */
-export class EndpointMetadata {
+export class EndpointMetadata extends Storable {
     /**
      *
      * @type {Array}
@@ -57,8 +59,18 @@ export class EndpointMetadata {
     @NotEnumerable()
     private _path: PathParamsType;
 
-    constructor(private _provide: Type<any>, private _methodClassName: string) {
-        this._provide = getClass(_provide);
+    constructor(_provide: Type<any>, private _methodClassName: string) {
+        super(_provide, _methodClassName, {});
+
+        this._type = Metadata.getReturnType(this._target, this.methodClassName);
+    }
+
+    set type(type: Type<any>) {
+        this._type = type;
+    }
+
+    get type(): Type<any> {
+        return isPromise(this._type) || isArrayOrArrayClass(this._type) || this._type === Object ? undefined : this._type;
     }
 
     /**
@@ -151,40 +163,15 @@ export class EndpointMetadata {
 
     /**
      *
-     * @returns {any}
-     */
-    public get targetClass(): Type<any> {
-        return this._provide;
-    }
-
-    /**
-     *
-     * @returns {Type<any>}
-     */
-    public get provide(): Type<any> {
-        return this._provide;
-    }
-
-    /**
-     *
-     * @returns {string}
-     */
-    public get className(): string {
-        return this.provide.name;
-    }
-
-    /**
-     *
      */
     public get methodClassName(): string {
         return this._methodClassName;
     }
 
-    /**
-     *
-     */
-    public get returnType(): any {
-        return Metadata.getReturnType(this.targetClass, this.methodClassName);
+    public statusResponse(code) {
+        const response = (this.store.get("responses") || {})[code] || {};
+        this.type = response.type;
+        this.collectionType = response.collectionType;
     }
 
     /**
@@ -240,7 +227,8 @@ export class EndpointMetadata {
      * Get value for an endpoint method.
      * @param key
      */
-    public getMetadata = (key: any) =>
-        Metadata.get(nameOf(key), this.targetClass, this.methodClassName);
-
+    @Deprecated("Use EndpointMetadata.store() instead of")
+    public getMetadata(key: any): any {
+        return this.store.get<any>(key);
+    }
 }

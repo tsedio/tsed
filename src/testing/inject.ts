@@ -24,9 +24,12 @@ import {EnvTypes} from "../core/interfaces/Env";
 export function inject(targets: any[], func: Function) {
 
     if (!InjectorService.has(ExpressApplication)) {
-        InjectorService.set(ExpressApplication, {
-            use: () => (undefined)
-        });
+        /* istanbul ignore next */
+        const app = {
+            use: () => (app),
+            get: () => (app)
+        };
+        InjectorService.set(ExpressApplication, app);
 
         /* istanbul ignore else */
         if (!InjectorService.has(ServerSettingsService)) {

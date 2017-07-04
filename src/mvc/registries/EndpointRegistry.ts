@@ -4,8 +4,8 @@
 /** */
 import {Metadata} from "../../core/class/Metadata";
 import {Type} from "../../core/interfaces/Type";
-import {nameOf} from "../../core/utils/index";
 import {EndpointMetadata} from "../class/EndpointMetadata";
+import {Store} from "../../core/class/Store";
 /**
  * Registry for all Endpoint collected on a provide.
  */
@@ -17,6 +17,7 @@ export class EndpointRegistry {
         }
         return Metadata.get(EndpointRegistry.name, target);
     }
+
     /**
      *
      * @param target
@@ -75,14 +76,28 @@ export class EndpointRegistry {
     }
 
     /**
+     * Store a data on store manager.
+     * @param key
+     * @param value
+     * @param targetClass
+     * @param methodClassName
+     * @returns {any}
+     */
+    static store(targetClass: any, methodClassName: string): Store {
+        return Store.from(targetClass, methodClassName, {});
+    }
+
+    /**
      * Store value for an endpoint method.
      * @param key
      * @param value
      * @param targetClass
      * @param methodClassName
      */
-    static setMetadata = (key: any, value: any, targetClass: any, methodClassName: any) =>
-        Metadata.set(nameOf(key), value, targetClass, methodClassName);
+    static setMetadata = (key: any, value: any, targetClass: any, methodClassName: string) => {
+        EndpointRegistry.store(targetClass, methodClassName).set(key, value);
+        return EndpointRegistry;
+    };
 
     /**
      * Return the stored value for an endpoint method.
@@ -90,6 +105,6 @@ export class EndpointRegistry {
      * @param targetClass
      * @param methodClassName
      */
-    static getMetadata = (key: any, targetClass: any, methodClassName: any) =>
-        Metadata.get(nameOf(key), targetClass, methodClassName);
+    static getMetadata = (key: any, targetClass: any, methodClassName: string) =>
+        EndpointRegistry.store(targetClass, methodClassName).get(key);
 }

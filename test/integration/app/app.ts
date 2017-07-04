@@ -2,6 +2,7 @@ import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerLoader, ServerSettings} from "../../../src/index";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
+import "../../../src/swagger";
 import Path = require("path");
 
 const rootDir = Path.resolve(__dirname);
@@ -23,6 +24,13 @@ const rootDir = Path.resolve(__dirname);
 
     serveStatic: {
         "/": `${rootDir}/views`
+    },
+    swagger: {
+        path: "/api-doc",
+        specPath: `${rootDir}/spec/swagger.json`,
+        cssPath: `${rootDir}/spec/style.css`,
+        showExplorer: true,
+        spec: require(`${rootDir}/spec/swagger.default.json`)
     },
     debug: true
 })

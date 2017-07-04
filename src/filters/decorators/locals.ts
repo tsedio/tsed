@@ -1,6 +1,6 @@
 import {Type} from "../../core/interfaces/Type";
 import {LocalsFilter} from "../components/LocalsFilter";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -13,7 +13,7 @@ export function Locals(expression?: string | any): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(LocalsFilter, {
+            ParamRegistry.useFilter(LocalsFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

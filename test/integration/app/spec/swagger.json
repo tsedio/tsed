@@ -1,0 +1,1118 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger Petstore",
+    "description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "global_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:global": "modify pets in your account",
+        "read:global": "read your pets"
+      }
+    },
+    "calendar_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:calendar": "modify pets in your account",
+        "read:calendar": "read your pets"
+      }
+    }
+  },
+  "paths": {
+    "/rest/calendars/events/": {
+      "head": {
+        "operationId": "EventCtrl.head_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "put": {
+        "operationId": "EventCtrl.save_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "get": {
+        "operationId": "EventCtrl.query_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/events/{id}": {
+      "patch": {
+        "operationId": "EventCtrl.patch_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "get": {
+        "operationId": "EventCtrl.find_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "post": {
+        "operationId": "EventCtrl.update_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EventModel"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "delete": {
+        "operationId": "EventCtrl.remove_NaN",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/classic/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findClassic_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/token": {
+      "get": {
+        "operationId": "CalendarCtrl.getToken_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/token/{token}": {
+      "get": {
+        "operationId": "CalendarCtrl.updateToken_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "type": "string",
+            "required": true,
+            "description": "Token required to update token"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/query": {
+      "get": {
+        "operationId": "CalendarCtrl.getQuery_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/annotation/test/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findWithAnnotation_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/annotation/promised/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findWithPromise_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/annotation/status/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findAndChangeStatusCode_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/middleware": {
+      "get": {
+        "operationId": "CalendarCtrl.getWithMiddleware_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "type": "string",
+            "in": "header"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/": {
+      "put": {
+        "operationId": "CalendarCtrl.save_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "delete": {
+        "operationId": "CalendarCtrl.remove_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "security": [
+          {
+            "calendar_auth": [
+              "write:calendar",
+              "read:calendar"
+            ]
+          },
+          {
+            "global_auth": [
+              "read:global"
+            ]
+          }
+        ],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/mvc": {
+      "get": {
+        "operationId": "CalendarCtrl.testStackMiddlewares_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/middlewares2": {
+      "get": {
+        "operationId": "CalendarCtrl.testUseAfter_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/headers": {
+      "get": {
+        "operationId": "CalendarCtrl.testResponseHeader_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": true
+      }
+    },
+    "/rest/calendars/documents": {
+      "post": {
+        "operationId": "CalendarCtrl.testMultipart_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/documents/1": {
+      "post": {
+        "operationId": "CalendarCtrl.testMultipart2_NaN",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/events/": {
+      "head": {
+        "operationId": "EventCtrl.head",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "put": {
+        "operationId": "EventCtrl.save",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "get": {
+        "operationId": "EventCtrl.query",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/events/{id}": {
+      "patch": {
+        "operationId": "EventCtrl.patch",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "get": {
+        "operationId": "EventCtrl.find",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "post": {
+        "operationId": "EventCtrl.update",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "delete": {
+        "operationId": "EventCtrl.remove",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/classic/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findClassic",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/token": {
+      "get": {
+        "operationId": "CalendarCtrl.getToken",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/token/{token}": {
+      "get": {
+        "operationId": "CalendarCtrl.updateToken",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "type": "string",
+            "required": true,
+            "description": "Token required to update token"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/query": {
+      "get": {
+        "operationId": "CalendarCtrl.getQuery",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/annotation/test/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findWithAnnotation",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/annotation/promised/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findWithPromise",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/annotation/status/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findAndChangeStatusCode",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/middleware": {
+      "get": {
+        "operationId": "CalendarCtrl.getWithMiddleware",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "type": "string",
+            "in": "header"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/": {
+      "put": {
+        "operationId": "CalendarCtrl.save",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "delete": {
+        "operationId": "CalendarCtrl.remove",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Model1"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "security": [
+          {
+            "calendar_auth": [
+              "write:calendar",
+              "read:calendar"
+            ]
+          },
+          {
+            "global_auth": [
+              "read:global"
+            ]
+          }
+        ],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/mvc": {
+      "get": {
+        "operationId": "CalendarCtrl.testStackMiddlewares",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/middlewares2": {
+      "get": {
+        "operationId": "CalendarCtrl.testUseAfter",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/headers": {
+      "get": {
+        "operationId": "CalendarCtrl.testResponseHeader",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": true
+      }
+    },
+    "/rest/v1/calendars/documents": {
+      "post": {
+        "operationId": "CalendarCtrl.testMultipart",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/documents/1": {
+      "post": {
+        "operationId": "CalendarCtrl.testMultipart2",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/html": {
+      "get": {
+        "operationId": "RestCtrl.render_NaN",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/rest/html": {
+      "get": {
+        "operationId": "RestCtrl.render",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "percent": {
+          "type": "number"
+        }
+      }
+    },
+    "EventModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "example": {
+            "example1": "Description example"
+          },
+          "description": "Description of event model id",
+          "title": "iD",
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      }
+    },
+    "Model1": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventModel"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

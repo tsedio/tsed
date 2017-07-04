@@ -58,7 +58,7 @@ export class EndpointBuilder {
             /* istanbul ignore else */
             if (request.id) {
                 $log.debug(request.tagId, "Endpoint =>", JSON.stringify({
-                    target: nameOf(this.endpoint.targetClass),
+                    target: nameOf(this.endpoint.target),
                     methodClass: this.endpoint.methodClassName,
                     httpMethod: this.endpoint.httpMethod
                 }));

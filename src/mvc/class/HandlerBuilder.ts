@@ -34,14 +34,14 @@ export class HandlerBuilder {
 
     /**
      *
-     * @param target
+     * @param obj
      * @returns {HandlerBuilder}
      */
-    static from(target: any | EndpointMetadata) {
-        if (target instanceof EndpointMetadata) {
-            return new HandlerBuilder(new HandlerMetadata(target.targetClass, target.methodClassName));
+    static from(obj: any | EndpointMetadata) {
+        if (obj instanceof EndpointMetadata) {
+            return new HandlerBuilder(new HandlerMetadata(obj.target, obj.methodClassName));
         }
-        return new HandlerBuilder(new HandlerMetadata(target));
+        return new HandlerBuilder(new HandlerMetadata(obj));
     }
 
     /**
@@ -180,6 +180,7 @@ export class HandlerBuilder {
         };
 
         try {
+            $log.debug(request.tagId, "[INVOKE][START]", info());
 
             const parameters = this.localsToParams(locals);
             const result = await (this.handler)(...parameters);
@@ -242,7 +243,7 @@ export class HandlerBuilder {
                 try {
 
                     if (param.useConverter) {
-                        paramValue = converterService.deserialize(paramValue, param.baseType || param.useType, param.useType);
+                        paramValue = converterService.deserialize(paramValue, param.type || param.collectionType, param.collectionType);
                     }
 
                 } catch (err) {

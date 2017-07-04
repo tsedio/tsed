@@ -38,6 +38,7 @@ typings/
 index.js
 index.js.map
 !testing/index.js
+!swagger/index.js
 src/**/*.js
 src/**/*.js.map
 test/**/*.js
@@ -57,3 +58,4 @@ docs
 
 /.nyc_output/
 /docs
+/test/integration/app/spec/swagger.json

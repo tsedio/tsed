@@ -1,6 +1,7 @@
 import {assert, expect} from "chai";
 import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
 import {Metadata} from "../../../../src/core/class/Metadata";
+import {EndpointRegistry} from "../../../../src/mvc/registries/EndpointRegistry";
 
 class Test {
 
@@ -26,7 +27,8 @@ describe("EndpointMetadata", () => {
         this.endpointMetadata.after([() => {
         }]);
 
-        Metadata.set("test", "value", Test, "method");
+        EndpointRegistry.store(Test, "method").set("test", "value");
+
         Metadata.set("design:returntype", Object, Test, "method");
     });
 
@@ -58,16 +60,8 @@ describe("EndpointMetadata", () => {
         expect(this.endpointMetadata.hasHttpMethod()).to.be.true;
     });
 
-    it("should get className", () =>
-        expect(this.endpointMetadata.className).to.equal("Test")
-    );
-
-    it("should get provide", () =>
-        expect(this.endpointMetadata.provide).to.equal(Test)
-    );
-
-    it("should get targetClass", () =>
-        expect(this.endpointMetadata.targetClass).to.equal(Test)
+    it("should get target", () =>
+        expect(this.endpointMetadata.target).to.equal(Test)
     );
 
     it("should get methodClassName", () =>
@@ -77,8 +71,4 @@ describe("EndpointMetadata", () => {
     it("should get metadata", () =>
         expect(this.endpointMetadata.getMetadata("test")).to.equal("value")
     );
-
-    it("should return function type", () => {
-        expect(this.endpointMetadata.returnType).to.equal(Object);
-    });
 });

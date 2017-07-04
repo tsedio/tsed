@@ -6,6 +6,10 @@ import * as Express from "express";
 import {EventCtrl} from "./EventCtrl";
 import {MongooseService} from "../../services/MongooseService";
 import {MultipartFile} from "../../../../../src/multipartfiles/decorators/multipartFile";
+import {CalendarModel} from "../../models/Calendar";
+import {Deprecated} from "../../../../../src/swagger/decorators/deprecated";
+import {Security} from "../../../../../src/swagger/decorators/security";
+import {Description} from "../../../../../src/swagger/decorators/description";
 
 interface ICalendar {
     id: string;
@@ -40,9 +44,11 @@ export class CalendarCtrl {
      * @returns {{id: any, name: string}}
      */
     @Get("/classic/:id")
-    public findClassic(request: any, response: any): ICalendar {
-
-        return {id: request.params.id, name: "test"};
+    public findClassic(request: any, response: any): CalendarModel {
+        const model = new CalendarModel();
+        model.id = request.params.id;
+        model.name = "test";
+        return model;
     }
 
     @Get("/token")
@@ -58,7 +64,7 @@ export class CalendarCtrl {
     }
 
     @Get("/token/:token")
-    public updateToken(@PathParams("token") token: string): string {
+    public updateToken(@PathParams("token") @Description("Token required to update token") token: string): string {
         this.mongooseService.token(token);
         return "token updated";
     }
@@ -88,7 +94,12 @@ export class CalendarCtrl {
     @Get("/annotation/test/:id")
     public findWithAnnotation(@Response() response: Express.Response,
                               @PathParams("id") @Required() id: string): void {
-        response.status(200).json({id: "1", name: "test"});
+
+        const model = new CalendarModel();
+        model.id = "1";
+        model.name = "test";
+
+        response.status(200).json(model);
     }
 
     /**
@@ -101,13 +112,14 @@ export class CalendarCtrl {
      * @returns {Promise<ICalendar>}
      */
     @Get("/annotation/promised/:id")
-    public findWithPromise(@PathParams("id") id): Promise<ICalendar> {
+    public findWithPromise(@PathParams("id") id: string): Promise<ICalendar> {
         //
+        const model = new CalendarModel();
+        model.id = id;
+        model.name = "test";
+
         return new Promise<ICalendar>((resolve, reject) => {
-            resolve({
-                id: id,
-                name: "test"
-            });
+            resolve(model);
         });
     }
 
@@ -126,22 +138,22 @@ export class CalendarCtrl {
                                    @Response() response: Express.Response,
                                    @PathParams("id") id: string): Promise<ICalendar> {
 
-        // $log.debug("ID =>", id, request.params.id);
-        //
+        const model = new CalendarModel();
+        model.id = id;
+        model.name = "test";
+
         return new Promise<ICalendar>((resolve, reject) => {
 
             response.status(202);
 
-            resolve({
-                id: id,
-                name: "test"
-            });
+            resolve(model);
         });
     }
 
     /**
      *
      * @param request
+     * @param auth
      * @returns {{user: (number|any|string)}}
      */
     @Get("/middleware")
@@ -162,23 +174,36 @@ export class CalendarCtrl {
      * @returns {{id: number, name: string}}
      */
     @Put("/")
-    public save(@BodyParams("name") @Required() name: string): any {
+    public save(@BodyParams("name") @Required() name: string): CalendarModel {
+        const model = new CalendarModel();
+        model.id = "2";
+        model.name = "test";
 
-        return {id: 2, name: name};
+        return model;
     }
 
 
     @Delete("/")
     @Authenticated({role: "admin"})
-    public remove(@BodyParams("id") @Required() id: string): any {
-        return {id: id, name: "test"};
+    @Security("global_auth", "read:global")
+    @Security("calendar_auth", "write:calendar", "read:calendar")
+    public remove(@BodyParams("id") @Required() id: string): CalendarModel {
+        const model = new CalendarModel();
+        model.id = id;
+        model.name = "test";
+        return model;
     }
 
     @Get("/mvc")
     @Authenticated()
     @Use(CalendarCtrl.middleware)
-    public testStackMiddlewares(@Request() request: Express.Request) {
-        return {id: request["user"], name: "test"};
+    public testStackMiddlewares(@Request() request: Express.Request): CalendarModel {
+
+        const model = new CalendarModel();
+        model.id = request["user"];
+        model.name = "test";
+
+        return model;
     }
 
     /**
@@ -200,7 +225,12 @@ export class CalendarCtrl {
     @UseAfter(CalendarCtrl.middleware2)
     public testUseAfter(@Request() request: Express.Request,
                         @Locals() locals: any): Object {
-        return {id: 1, name: "test"};
+
+        const model = new CalendarModel();
+        model.id = request["user"];
+        model.name = "test";
+
+        return model;
     }
 
     /**
@@ -227,20 +257,19 @@ export class CalendarCtrl {
     @Header("x-token-test-2", "test2")
     @Status(200)
     @ContentType("application/xml")
+    @Deprecated()
     testResponseHeader(@Request() request: Express.Request) {
         return "<xml></xml>";
     }
 
     @Post("/documents")
     testMultipart(@MultipartFile() files: any[]) {
-        console.log(files);
         return files;
     }
 
 
     @Post("/documents/1")
     testMultipart2(@MultipartFile() file: any) {
-        console.log(file);
         return file;
     }
 }

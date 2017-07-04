@@ -42,7 +42,7 @@ export class ResponseViewMiddleware implements IMiddleware {
                     if (err) {
 
                         reject(new TemplateRenderingError(
-                            endpoint.targetClass,
+                            endpoint.target,
                             endpoint.methodClassName,
                             err
                         ));

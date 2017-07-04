@@ -2,7 +2,14 @@ import * as Chai from "chai";
 import {getContructor, nameOfClass} from "../../../../src";
 
 import {
-    getClass, getClassOrSymbol, isArrayOrArrayClass, isCollection, isEmpty, isPrimitiveOrPrimitiveClass, nameOf
+    deepExtends,
+    getClass,
+    getClassOrSymbol,
+    isArrayOrArrayClass,
+    isCollection,
+    isEmpty,
+    isPrimitiveOrPrimitiveClass,
+    nameOf
 } from "../../../../src/core/utils/index";
 
 const expect: Chai.ExpectStatic = Chai.expect;
@@ -166,6 +173,185 @@ describe("Utils", () => {
         });
         it("should return name when instance is given", () => {
             expect(nameOfClass(new Test)).to.eq("Test");
+        });
+    });
+
+    describe("deepExtends", () => {
+        describe("without reducers", () => {
+            describe("when is an object", () => {
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        {
+                            "security": ["o"]
+                        },
+                        {
+                            "security": ["o", "o1"]
+                        })
+                    ).to.deep.eq(
+                        {
+                            "security": [
+                                "o",
+                                "o",
+                                "o1"
+                            ]
+                        }
+                    );
+                });
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        {
+                            "security": [{"1": "o"}]
+                        },
+                        {
+                            "security": [{"1": "o"}, {"2": "o1"}]
+                        })
+                    ).to.deep.eq(
+                        {
+                            "security": [
+                                {"1": "o"},
+                                {"1": "o"},
+                                {"2": "o1"}
+                            ]
+                        }
+                    );
+                });
+
+            });
+
+            describe("when is an array", () => {
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        [
+                            "1", "2", "4"
+                        ],
+                        [
+                            "1", "2", "3"
+                        ])
+                    ).to.deep.eq(
+                        ["1", "2", "4", "1", "2", "3"]
+                    );
+                });
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        [
+                            {"1": "1"}, {"2": "2"}, {"4": "4"}
+                        ],
+                        [
+                            {"1": "1"}, {"2": "2"}, {"3": "3"}
+                        ])
+                    ).to.deep.eq(
+                        [{"1": "1"}, {"2": "2"}, {"4": "4"}, {"1": "1"}, {"2": "2"}, {"3": "3"}]
+                    );
+                });
+
+            });
+        });
+
+        describe("with reducers", () => {
+            describe("when is an object", () => {
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        {
+                            "security": ["o"]
+                        },
+                        {
+                            "security": ["o", "o1"]
+                        },
+                        {
+                            "default": (collection, value) => {
+                                if (collection.indexOf(value) === -1) {
+                                    collection.push(value);
+                                }
+                                return collection;
+                            }
+                        })
+                    ).to.deep.eq(
+                        {
+                            "security": [
+                                "o",
+                                "o1"
+                            ]
+                        }
+                    );
+                });
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        {
+                            "parameters": [
+                                {"in": "test", "name": "get", "description": "test"},
+                                {"in": "test", "name": "post", "description": "test"}
+                            ]
+                        },
+                        {
+                            "parameters": [
+                                {"in": "test", "name": "get", "description": "test2"},
+                                {"in": "test", "name": "util", "description": "test2"}
+                            ]
+                        },
+                        {
+                            "parameters": (collection, value) => {
+
+                                const current = collection.find((current) =>
+                                    current.in === value.in && current.name === value.name
+                                );
+
+                                if (current) {
+                                    deepExtends(current, value);
+                                } else {
+                                    collection.push(value);
+                                }
+
+                                return collection;
+                            }
+                        })
+                    ).to.deep.eq(
+                        {
+                            "parameters": [
+                                {"in": "test", "name": "get", "description": "test2"},
+                                {"in": "test", "name": "post", "description": "test"},
+                                {"in": "test", "name": "util", "description": "test2"}
+                            ]
+                        }
+                    );
+                });
+
+            });
+
+            describe("when is an array", () => {
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        [
+                            "1", "2", "4"
+                        ],
+                        [
+                            "1", "2", "3"
+                        ])
+                    ).to.deep.eq(
+                        ["1", "2", "4", "1", "2", "3"]
+                    );
+                });
+
+                it("should merge data", () => {
+                    expect(deepExtends(
+                        [
+                            {"1": "1"}, {"2": "2"}, {"4": "4"}
+                        ],
+                        [
+                            {"1": "1"}, {"2": "2"}, {"3": "3"}
+                        ])
+                    ).to.deep.eq(
+                        [{"1": "1"}, {"2": "2"}, {"4": "4"}, {"1": "1"}, {"2": "2"}, {"3": "3"}]
+                    );
+                });
+
+            });
         });
     });
 

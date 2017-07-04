@@ -4,7 +4,7 @@
 /** */
 import {BodyParamsFilter} from "../components/BodyParamsFilter";
 import {Type} from "../../core/interfaces/Type";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -18,7 +18,7 @@ export function BodyParams(expression?: string | any, useType?: any): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(BodyParamsFilter, {
+            ParamRegistry.useFilter(BodyParamsFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

@@ -7,7 +7,7 @@
  * @private
  * @type {string}
  */
-export const PARAM_METADATA = "tsed:inject:params";
+export const PARAM_METADATA = "tsed:params:metadata";
 /**
  * Express methods
  * @private

@@ -24,10 +24,13 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  */
 export function Authenticated(options?: any): Function {
 
+    return <T>(target: any, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
-    return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        EndpointRegistry.setMetadata(AuthenticatedMiddleware, options, target, targetKey);
+        EndpointRegistry
+            .get(target, targetKey)
+            .store
+            .set(AuthenticatedMiddleware, options)
+            .merge("responses", {"403": {description: "Forbidden"}});
 
         return UseBefore(AuthenticatedMiddleware)(target, targetKey, descriptor);
     };

@@ -2,51 +2,42 @@
  * @module mvc
  */ /** */
 
-import {IInjectableParamsMetadata} from "../interfaces";
+import {IParamOptions} from "../interfaces";
 import {NotEnumerable} from "../../core/decorators/enumerable";
 import {nameOf} from "../../core/utils/index";
 import {Type} from "../../core/interfaces/Type";
+import {Storable} from "../../core/class/Storable";
 /**
  *
  */
-export class ParamMetadata implements IInjectableParamsMetadata<any> {
+export class ParamMetadata extends Storable implements IParamOptions<any> {
 
     /**
      *
      */
     @NotEnumerable()
-    private _required: boolean;
+    protected _required: boolean;
     /**
      *
      */
     @NotEnumerable()
-    private _expression: string | RegExp;
-    /**
-     *
-     */
-    @NotEnumerable()
-    private _useType: Type<any>;
+    protected _expression: string | RegExp;
     /**
      *
      * @type {boolean}
      */
     @NotEnumerable()
-    private _useConverter: boolean = true;
+    protected _useConverter: boolean = true;
+
     /**
      *
      */
     @NotEnumerable()
-    private _baseType: Type<any>;
-    /**
-     *
-     */
-    @NotEnumerable()
-    private _service: string | Type<any> | symbol;
-    /**
-     *
-     */
-    @NotEnumerable()
-    private _name: string;
+    protected _service: string | Type<any> | symbol;
+
+    constructor(protected _target, protected _propertyKey, protected _index) {
+        super(_target, _propertyKey, _index);
+    }
 
     /**
      *
@@ -94,31 +85,7 @@ export class ParamMetadata implements IInjectableParamsMetadata<any> {
      */
     set service(value: Type<any> | symbol) {
         this._service = value;
-        this._name = nameOf(value);
-    }
-
-    /**
-     *
-     * @returns {string}
-     */
-    get name(): string {
-        return this._name;
-    }
-
-    /**
-     *
-     * @param value
-     */
-    set useType(value: Type<any>) {
-        this._useType = value;
-    }
-
-    /**
-     *
-     * @returns {Type<any>}
-     */
-    get useType(): Type<any> {
-        return this._useType;
+        this.name = nameOf(value);
     }
 
     /**
@@ -139,36 +106,17 @@ export class ParamMetadata implements IInjectableParamsMetadata<any> {
 
     /**
      *
-     * @param value
-     */
-    set baseType(value: Type<any>) {
-        this._baseType = value;
-    }
-
-    /**
-     *
-     * @returns {Type<any>}
-     */
-    get baseType(): Type<any> {
-        return this._baseType;
-    }
-
-    /**
-     *
      * @returns {{service: (string|symbol), name: string, expression: string, required: boolean, use: undefined, baseType: undefined}}
      */
     toJSON() {
 
-        const use = this._useType ? nameOf(this._useType) : undefined;
-        const baseType = this._baseType && use !== nameOf(this._baseType) ? nameOf(this._baseType) : undefined;
-
         return {
             service: nameOf(this._service),
-            name: this._name,
+            name: this.name,
             expression: this._expression,
             required: this._required,
-            use,
-            baseType: baseType
+            use: this.typeName,
+            baseType: this.collectionName,
         };
     }
 }

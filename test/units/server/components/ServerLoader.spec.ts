@@ -178,7 +178,7 @@ describe("ServerLoader", () => {
 
                 this.startServerStub.should.have.been.calledWithExactly(this.server._httpsServer, {
                     address: "0.0.0.0",
-                    https: false,
+                    https: true,
                     port: 8000
                 });
             });

@@ -17,7 +17,7 @@ export abstract class ProxyRegistry<T, I> {
      * @param callbackfn
      * @param thisArg
      */
-    public forEach = (callbackfn: (value: any, index: any, map: Map<any, any>) => void, thisArg?: any): void =>
+    public forEach = (callbackfn: (value: T, index: any, map: Map<any, any>) => void, thisArg?: any): void =>
         this.registry.forEach(callbackfn, thisArg);
 
     /**

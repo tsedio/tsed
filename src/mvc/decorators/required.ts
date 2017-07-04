@@ -3,7 +3,8 @@
  */ /** */
 
 import {Type} from "../../core/interfaces/Type";
-import {ParamsRegistry} from "../registries/ParamsRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
+import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 /**
  * Add required annotation for a function argument .
  * @returns {Function}
@@ -14,9 +15,9 @@ export function Required(): any {
     return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): void => {
 
         if (typeof parameterIndex === "number") {
-
-            ParamsRegistry.required(target, propertyKey, parameterIndex);
-
+            ParamRegistry.required(target, propertyKey, parameterIndex);
+        } else {
+            PropertyRegistry.required(target, propertyKey);
         }
 
     };

@@ -4,7 +4,7 @@
 
 import {Type} from "../../../core/interfaces/Type";
 import {ENDPOINT_INFO} from "../../constants/index";
-import {ParamsRegistry} from "../../registries/ParamsRegistry";
+import {ParamRegistry} from "../../registries/ParamRegistry";
 /**
  *
  * @returns {Function}
@@ -16,7 +16,7 @@ export function EndpointInfo(): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useService(ENDPOINT_INFO, {
+            ParamRegistry.useService(ENDPOINT_INFO, {
                 propertyKey,
                 parameterIndex,
                 target

@@ -4,7 +4,7 @@
 /** */
 import {Type} from "../../core/interfaces/Type";
 import {QueryParamsFilter} from "../components/QueryParamsFilter";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -18,7 +18,7 @@ export function QueryParams(expression?: string | any, useType?: any): Function 
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(QueryParamsFilter, {
+            ParamRegistry.useFilter(QueryParamsFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

@@ -29,8 +29,16 @@ export class ServerSettingsService implements IServerSettings {
         }
     }
 
+    resolve(value: string) {
+        return value.replace("${rootDir}", this.rootDir);
+    }
+
     get rootDir() {
         return this.map.get("rootDir");
+    }
+
+    get version() {
+        return this.map.get("version");
     }
 
     /**
@@ -102,7 +110,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {string}
      */
     get uploadDir(): string {
-        return this.map.get("uploadDir").replace("${rootDir}", this.rootDir);
+        return this.resolve(this.map.get("uploadDir"));
     }
 
     /**
@@ -115,7 +123,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-            finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
+            finalObj[k] = this.resolve(obj[k]);
         });
 
         return finalObj;
@@ -131,7 +139,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = [];
 
         Object.keys(obj).forEach(k => {
-            finalObj.push(obj[k].replace("${rootDir}", this.rootDir));
+            finalObj.push(this.resolve(obj[k]));
         });
 
         return finalObj;
@@ -146,7 +154,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-            finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
+            finalObj[k] = this.resolve(obj[k]);
         });
 
         return finalObj;
@@ -157,7 +165,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get acceptMimes(): string[] {
-        return this.map.get("acceptMimes");
+        return this.map.get("acceptMimes") || ["application/json"];
     }
 
     /**
@@ -219,6 +227,7 @@ export class ServerSettingsProvider implements IServerSettings {
         this.port = 8080;
         this.httpsPort = 8000;
         this.endpointUrl = "/rest";
+        this.version = "1.0.0";
         this.uploadDir = "${rootDir}/uploads";
         this.debug = false;
 
@@ -235,6 +244,10 @@ export class ServerSettingsProvider implements IServerSettings {
             "${rootDir}/converters/**/*.js"
         ];
 
+    }
+
+    set version(v: string) {
+        this.map.set("version", v);
     }
 
     /**

@@ -279,9 +279,9 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     protected startServer(http, settings) {
-        const {address, port} = settings;
+        const {address, port, https} = settings;
 
-        $log.debug(`Start server on ${settings.address}:${settings.port}`);
+        $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
 
         const promise = new Promise((resolve, reject) => {
             http
@@ -289,7 +289,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 .on("error", reject);
         })
             .then(() => {
-                $log.info(`HTTP Server listen on ${settings.address}:${settings.port}`);
+                $log.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
             });
 
         http.listen(+port, address);
@@ -319,7 +319,7 @@ export abstract class ServerLoader implements IServerLifecycle {
             const settings = this._settingsService.getHttpsPort();
             promises.push(this.startServer(
                 this.httpsServer,
-                {https: false, ...settings}
+                {https: true, ...settings}
             ));
         }
 

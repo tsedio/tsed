@@ -37,6 +37,7 @@
     "test",
     "dts",
     "testing",
+    "swagger",
     "lib"
   ]
 }

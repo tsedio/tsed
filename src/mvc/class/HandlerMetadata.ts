@@ -4,7 +4,7 @@
 /** */
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {ParamsRegistry} from "../registries/ParamsRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
 import {MiddlewareType} from "../interfaces/Middleware";
 import {ParamMetadata} from "./ParamMetadata";
 import {NotEnumerable} from "../../core/decorators/enumerable";
@@ -56,8 +56,8 @@ export class HandlerMetadata {
         }
 
         if (this._methodClassName) {
-            this._injectable = ParamsRegistry.isInjectable(this._target, this._methodClassName);
-            this._nextFunction = ParamsRegistry.hasNextFunction(this._target, this._methodClassName);
+            this._injectable = ParamRegistry.isInjectable(this._target, this._methodClassName);
+            this._nextFunction = ParamRegistry.hasNextFunction(this._target, this._methodClassName);
 
             handler = this._target.prototype[this._methodClassName];
         }
@@ -94,6 +94,6 @@ export class HandlerMetadata {
     }
 
     get services(): ParamMetadata[] {
-        return ParamsRegistry.getParams(this.target, this.methodClassName);
+        return ParamRegistry.getParams(this.target, this.methodClassName);
     }
 }

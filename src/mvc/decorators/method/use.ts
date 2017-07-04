@@ -16,8 +16,7 @@ export function Use(...args: any[]): Function {
 
     return <T>(target: Type<any>,
                targetKey: string,
-               descriptor: TypedPropertyDescriptor<T>
-    ) : TypedPropertyDescriptor<T> => {
+               descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
         EndpointRegistry.use(target, targetKey, args);
 

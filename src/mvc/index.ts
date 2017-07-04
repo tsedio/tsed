@@ -12,7 +12,7 @@ export * from "./class/ParamMetadata";
 // registries
 export * from "./registries/ControllerRegistry";
 export * from "./registries/EndpointRegistry";
-export * from "./registries/ParamsRegistry";
+export * from "./registries/ParamRegistry";
 
 // filters
 export * from "./components/GlobalAcceptMimesMiddleware";

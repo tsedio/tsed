@@ -4,7 +4,7 @@
 /** */
 import {SessionFilter} from "../components/SessionFilter";
 import {Type} from "../../core/interfaces/Type";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -18,7 +18,7 @@ export function Session(expression?: string | any, useType?: any): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(SessionFilter, {
+            ParamRegistry.useFilter(SessionFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

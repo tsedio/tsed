@@ -4,7 +4,7 @@
 
 import {Type} from "../../../core/interfaces/Type";
 import {RESPONSE_DATA} from "../../constants/index";
-import {ParamsRegistry} from "../../registries/ParamsRegistry";
+import {ParamRegistry} from "../../registries/ParamRegistry";
 /**
  *
  * @returns {function(Function, (string|symbol), number): void}
@@ -16,7 +16,7 @@ export function ResponseData(): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useService(RESPONSE_DATA, {
+            ParamRegistry.useService(RESPONSE_DATA, {
                 propertyKey,
                 parameterIndex,
                 target

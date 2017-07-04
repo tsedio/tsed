@@ -3,10 +3,10 @@ import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
 import {LocalsFilter} from "../../../../src/filters/components/LocalsFilter";
 
-const ParamsRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
+const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
 
 const {Locals} = Proxyquire.load("../../../../src/filters/decorators/locals", {
-    "../../mvc/registries/ParamsRegistry": {ParamsRegistry}
+    "../../mvc/registries/ParamRegistry": {ParamRegistry}
 });
 
 class Test {
@@ -19,11 +19,11 @@ describe("Locals", () => {
         before(() => {
             this.options = ["test", Test];
             Locals(...this.options)(Test, "test", 0);
-            this.args = ParamsRegistry.useFilter.args[0];
+            this.args = ParamRegistry.useFilter.args[0];
         });
 
         it("should call registry method", () => {
-            assert(ParamsRegistry.useFilter.called, "method not called");
+            assert(ParamRegistry.useFilter.called, "method not called");
         });
 
         it("should add metadata", () => {
@@ -43,12 +43,12 @@ describe("Locals", () => {
 
     describe("as other decorator type", () => {
         before(() => {
-            ParamsRegistry.useFilter = Sinon.stub();
+            ParamRegistry.useFilter = Sinon.stub();
             Locals()(Test, "test", {});
         });
 
         it("should do nothing", () => {
-            assert(!ParamsRegistry.useFilter.called, "method is called");
+            assert(!ParamRegistry.useFilter.called, "method is called");
         });
     });
 

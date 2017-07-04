@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import {ParamMetadata} from "../../../../src";
 import {EXPRESS_ERR} from "../../../../src/mvc/constants/index";
+import {Store} from "../../../../src/core/class/Store";
 
 class Test {
     method(arg1, arg2) {
@@ -12,11 +13,10 @@ class TestFilter {
 describe("ParamMetadata", () => {
 
     before(() => {
-        this.paramMetadata = new ParamMetadata();
+        this.paramMetadata = new ParamMetadata(Test, "method", 0);
         this.paramMetadata.required = true;
         this.paramMetadata.expression = "test";
-        this.paramMetadata.baseType = Test;
-        this.paramMetadata.useType = Test;
+        this.paramMetadata.type = Test;
         this.paramMetadata.useConverter = true;
     });
 
@@ -30,16 +30,24 @@ describe("ParamMetadata", () => {
         expect(this.paramMetadata.expression).to.be.a("string").and.to.eq("test")
     );
 
-    it("should return useType", () =>
-        expect(this.paramMetadata.useType).to.eq(Test)
+    it("should return collectionType", () =>
+        expect(this.paramMetadata.collectionType).to.eq(undefined)
     );
 
-    it("should return baseType", () =>
-        expect(this.paramMetadata.baseType).to.eq(Test)
+    it("should return type", () =>
+        expect(this.paramMetadata.type).to.eq(Test)
+    );
+
+    it("should return index", () =>
+        expect(this.paramMetadata.index).to.eq(0)
     );
 
     it("should return useConverter", () =>
         expect(this.paramMetadata.useConverter).to.eq(true)
+    );
+
+    it("should return store", () =>
+        expect(this.paramMetadata.store).to.be.an.instanceof(Store)
     );
 
     describe("as a service", () => {
@@ -74,11 +82,10 @@ describe("ParamMetadata", () => {
 
         describe("with service", () => {
             before(() => {
-                this.paramMetadata = new ParamMetadata();
+                this.paramMetadata = new ParamMetadata(Test, "method", 0);
                 this.paramMetadata.required = true;
                 this.paramMetadata.expression = "test";
-                this.paramMetadata.baseType = Test;
-                this.paramMetadata.useType = Test;
+                this.paramMetadata.type = Test;
                 this.paramMetadata.useConverter = true;
                 this.paramMetadata.service = TestFilter;
             });
@@ -89,13 +96,13 @@ describe("ParamMetadata", () => {
 
         });
 
-        describe("with useType != baseType", () => {
+        describe("with collectionType != type", () => {
             before(() => {
-                this.paramMetadata = new ParamMetadata();
+                this.paramMetadata = new ParamMetadata(Test, "method", 0);
                 this.paramMetadata.required = true;
                 this.paramMetadata.expression = "test";
-                this.paramMetadata.baseType = Array;
-                this.paramMetadata.useType = Test;
+                this.paramMetadata._collectionType = Array;
+                this.paramMetadata.type = Test;
                 this.paramMetadata.useConverter = true;
                 this.paramMetadata.service = TestFilter;
             });
@@ -106,16 +113,17 @@ describe("ParamMetadata", () => {
 
         });
 
-        describe("without useType and baseType", () => {
+        describe("without collectionType and type", () => {
             before(() => {
-                this.paramMetadata = new ParamMetadata();
+                this.paramMetadata = new ParamMetadata(Test, "method", 0);
                 this.paramMetadata.required = true;
                 this.paramMetadata.expression = "test";
                 this.paramMetadata.service = TestFilter;
+                this.paramMetadata.type = TestFilter;
             });
 
             it("should return the JSON", () => {
-                expect(JSON.stringify(this.paramMetadata)).to.eq(`{"service":"TestFilter","name":"TestFilter","expression":"test","required":true}`);
+                expect(JSON.stringify(this.paramMetadata)).to.eq(`{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"TestFilter"}`);
             });
 
         });

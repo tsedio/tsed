@@ -9,7 +9,6 @@ import {getClass, getClassOrSymbol} from "../utils/index";
  * @private
  */
 export class Registry<T, O> {
-
     /**
      * Internal Map
      * @type {Array}
@@ -27,6 +26,7 @@ export class Registry<T, O> {
     get size() {
         return this._map.size;
     }
+
     /**
      * The get() method returns a specified element from a Map object.
      * @param key Required. The key of the element to return from the Map object.
@@ -130,9 +130,4 @@ export class Registry<T, O> {
      */
     values = (): IterableIterator<T> =>
         this._map.values();
-
-
-    /*[Symbol.iterator](): IterableIterator<[Type<T>, T]> {
-     return this._map[Symbol.iterator]();
-     }*/
 }

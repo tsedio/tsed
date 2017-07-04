@@ -32,6 +32,7 @@
     "node_modules",
     "dts",
     "testing",
+    "swagger",
     "lib"
   ]
 }

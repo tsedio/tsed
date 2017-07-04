@@ -3,7 +3,7 @@
  */ /** */
 
 import {EXPRESS_RESPONSE} from "../../constants/index";
-import {ParamsRegistry} from "../../registries/ParamsRegistry";
+import {ParamRegistry} from "../../registries/ParamRegistry";
 /**
  * Response service.
  * @returns {function(Function, (string|symbol), number): void}
@@ -23,7 +23,7 @@ export function Res() {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useService(EXPRESS_RESPONSE, {
+            ParamRegistry.useService(EXPRESS_RESPONSE, {
                 target,
                 propertyKey,
                 parameterIndex

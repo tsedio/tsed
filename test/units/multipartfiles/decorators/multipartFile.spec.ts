@@ -4,7 +4,7 @@ import * as Proxyquire from "proxyquire";
 import {MultipartFileFilter, MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
 import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middlewares/MultipartFileMiddleware";
 
-const ParamsRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
+const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
 const EndpointRegistry: any = {setMetadata: Sinon.stub()};
 const Metadata: any = {getParamTypes: Sinon.stub().returns([Object])};
 
@@ -12,7 +12,7 @@ const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
 
 const {MultipartFile} = Proxyquire.load("../../../../src/multipartfiles/decorators/multipartFile", {
-    "../../mvc/registries/ParamsRegistry": {ParamsRegistry},
+    "../../mvc/registries/ParamRegistry": {ParamRegistry},
     "../../mvc/registries/EndpointRegistry": {EndpointRegistry},
     "../../core/class/Metadata": {Metadata},
     "../../mvc/decorators/method/useBefore": {UseBefore}
@@ -30,13 +30,13 @@ describe("MultipartFile", () => {
             before(() => {
                 this.options = {};
                 MultipartFile(this.options)(Test, "test", 0);
-                this.args = ParamsRegistry.useFilter.args[0];
+                this.args = ParamRegistry.useFilter.args[0];
             });
 
             after(() => {
                 delete this.args;
                 delete this.options;
-                ParamsRegistry.useFilter = Sinon.stub();
+                ParamRegistry.useFilter = Sinon.stub();
             });
 
             it("should set endpoint metadata", () => {
@@ -62,13 +62,13 @@ describe("MultipartFile", () => {
                 Metadata.getParamTypes.returns([Array]);
                 this.options = {};
                 MultipartFile(this.options)(Test, "test", 0);
-                this.args = ParamsRegistry.useFilter.args[0];
+                this.args = ParamRegistry.useFilter.args[0];
             });
 
             after(() => {
                 delete this.args;
                 delete this.options;
-                ParamsRegistry.useFilter = Sinon.stub();
+                ParamRegistry.useFilter = Sinon.stub();
             });
 
             it("should set endpoint metadata", () => {
@@ -98,12 +98,12 @@ describe("MultipartFile", () => {
 
     describe("as other decorator type", () => {
         before(() => {
-            ParamsRegistry.useFilter = Sinon.stub();
+            ParamRegistry.useFilter = Sinon.stub();
             MultipartFile()(Test, "test", {});
         });
 
         it("should do nothing", () => {
-            assert(!ParamsRegistry.useFilter.called, "method is called");
+            assert(!ParamRegistry.useFilter.called, "method is called");
         });
     });
 

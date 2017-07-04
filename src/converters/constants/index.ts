@@ -13,4 +13,4 @@ export const CONVERTER = "tsed:converter";
  * @private
  * @type {string}
  */
-export const JSON_PROPERTIES = "tsed:json:properties";
+export const PROPERTIES_METADATA = "tsed:properties:metadata";

@@ -20,7 +20,7 @@ class Test {
     }
 }
 
-const ParamsRegistry = {
+const ParamRegistry = {
     isInjectable: Sinon.stub(),
     hasNextFunction: Sinon.stub(),
     getParams: Sinon.stub().returns([])
@@ -44,7 +44,7 @@ const ConverterService = {
 };
 
 const HandlerBuilder = Proxyquire("../../../../src/mvc/class/HandlerBuilder", {
-    "../registries/ParamsRegistry": {ParamsRegistry},
+    "../registries/ParamRegistry": {ParamRegistry},
     "../registries/MiddlewareRegistry": {MiddlewareRegistry},
     "../registries/ConverterService": {ConverterService},
     "../registries/ControllerRegistry": {ControllerRegistry}

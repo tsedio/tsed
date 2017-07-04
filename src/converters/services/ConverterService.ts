@@ -7,10 +7,13 @@ import {isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../c
 import {BadRequest} from "ts-httpexceptions";
 import {InjectorService} from "../../di";
 import {Metadata} from "../../core/class/Metadata";
-import {IConverter, IJsonMetadata} from "../interfaces/index";
-import {CONVERTER, JSON_PROPERTIES} from "../constants/index";
+import {IConverter} from "../interfaces/index";
+import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
+import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {Type} from "../../core/interfaces/Type";
+import {PropertyMetadata} from "../class/PropertyMetadata";
 
 @Service()
 export class ConverterService {
@@ -57,7 +60,7 @@ export class ConverterService {
                 Object.getOwnPropertyNames(obj).forEach(propertyKey => {
 
                     if (typeof obj[propertyKey] !== "function") {
-                        const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {};
+                        const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {} as any;
 
                         plainObject[jsonMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
                     }
@@ -120,7 +123,7 @@ export class ConverterService {
             const instance = new targetType();
 
             Object.keys(obj).forEach((propertyName: string) => {
-                const jsonMetadata = ConverterService.getJsonMetadata(targetType, propertyName) || {};
+                const jsonMetadata = ConverterService.getJsonMetadata(targetType, propertyName) || {} as any;
                 const propertyValue = obj[jsonMetadata.name] || obj[propertyName];
                 const propertyKey = jsonMetadata.propertyKey || propertyName;
 
@@ -130,8 +133,8 @@ export class ConverterService {
 
                         instance[propertyKey] = this.deserialize(
                             propertyValue,
-                            jsonMetadata.use,
-                            jsonMetadata.baseType
+                            jsonMetadata.isCollection ? jsonMetadata.collectionType : jsonMetadata.type,
+                            jsonMetadata.type
                         );
                     }
 
@@ -185,16 +188,29 @@ export class ConverterService {
      * @param propertyKey
      * @returns {undefined|V|string|any|T|IDBRequest}
      */
-    static getJsonMetadata(targetClass, propertyKey: string): IJsonMetadata<any> {
-        return this.getJsonProperties(targetClass).get(propertyKey);
+    static getJsonMetadata(targetClass, propertyKey: string): PropertyMetadata {
+        const properties = this.getJsonProperties(targetClass);
+
+        if (properties.has(propertyKey)) {
+            return properties.get(propertyKey);
+        }
+
+        let property;
+        properties.forEach(p => {
+            if (p.name === propertyKey || p.propertyKey === propertyKey) {
+                property = p;
+            }
+        });
+
+        return property;
     }
 
     /**
      * Return all properties for a class.
-     * @param targetClass
-     * @returns {any|Map<string, IJsonMetadata>}
+     * @returns {any|Map<string, IPropertyMetadata>}
+     * @param target
      */
-    static getJsonProperties(targetClass): Map<string, IJsonMetadata<any>> {
-        return Metadata.get(JSON_PROPERTIES, targetClass) || new Map<string, IJsonMetadata<any>>();
+    static getJsonProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
+        return PropertyRegistry.getProperties(target);
     }
 }

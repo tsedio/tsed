@@ -10,7 +10,7 @@ import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {nameOf} from "../../core/utils/index";
-import {ParamsRegistry} from "../registries/ParamsRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
  * `RouteService` is used to provide all routes collected by annotation `@ControllerProvider`.
@@ -105,8 +105,7 @@ export class RouteService {
 
                 const className = nameOf(ctrl.provide),
                     methodClassName = endpoint.methodClassName,
-                    parameters = ParamsRegistry.getParams(ctrl.provide, endpoint.methodClassName),
-                    returnType = endpoint.returnType;
+                    parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
 
                 routes.push({
                     method: endpoint.httpMethod,
@@ -114,8 +113,7 @@ export class RouteService {
                     url: `${endpointUrl}${endpoint.path || ""}`,
                     className,
                     methodClassName,
-                    parameters,
-                    returnType
+                    parameters
                 });
 
             }
@@ -171,11 +169,4 @@ export class RouteService {
     getAll(): IControllerRoute[] {
         return this.getRoutes();
     }
-
-    /**
-     * Print routes in console.
-     */
-    /*printRoutes(logger: { info: (s) => void } = $log) {
-     return this.controllerService.printRoutes(logger);
-     }*/
 }

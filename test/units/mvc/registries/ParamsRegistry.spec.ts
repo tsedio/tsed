@@ -11,20 +11,20 @@ const Metadata = {
     has: Sinon.stub().returns(true)
 };
 
-const {ParamsRegistry} = Proxyquire("../../../../src/mvc/registries/ParamsRegistry", {
+const {ParamRegistry} = Proxyquire("../../../../src/mvc/registries/ParamRegistry", {
     "../../core/class/Metadata": {
         Metadata
     }
 });
 
-// const ParamsRegistry = Proxyquire()
+// const ParamRegistry = Proxyquire()
 
-describe("ParamsRegistry", () => {
+describe("ParamRegistry", () => {
 
     describe("hasNextFunction()", () => {
 
         it("should return true", () => {
-            expect(ParamsRegistry.hasNextFunction(Test, "test")).to.eq(true);
+            expect(ParamRegistry.hasNextFunction(Test, "test")).to.eq(true);
         });
 
     });

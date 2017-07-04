@@ -2,7 +2,7 @@ import {expect, Sinon} from "../../../tools";
 import * as Proxyquire from "proxyquire";
 import {MiddlewareType} from "../../../../src/mvc/interfaces/Middleware";
 
-const ParamsRegistry = {
+const ParamRegistry = {
     isInjectable: Sinon.stub(),
     hasNextFunction: Sinon.stub(),
     getParams: Sinon.stub().returns([])
@@ -18,7 +18,7 @@ const ControllerRegistry = {
 };
 
 const HandlerMetadata = Proxyquire("../../../../src/mvc/class/HandlerMetadata", {
-    "../registries/ParamsRegistry": {ParamsRegistry},
+    "../registries/ParamRegistry": {ParamRegistry},
     "../registries/MiddlewareRegistry": {MiddlewareRegistry},
     "../registries/ControllerRegistry": {ControllerRegistry}
 }).HandlerMetadata;
@@ -40,8 +40,8 @@ class Test2 {
 describe("HandlerMetadata", () => {
     describe("from function", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(false);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(false);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(false);
 
@@ -50,8 +50,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             ControllerRegistry.has.reset();
         });
@@ -79,8 +79,8 @@ describe("HandlerMetadata", () => {
 
     describe("from function err", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(false);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(false);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(false);
 
@@ -89,8 +89,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             ControllerRegistry.has.reset();
         });
@@ -118,8 +118,8 @@ describe("HandlerMetadata", () => {
 
     describe("from function with nextFn", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(false);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(false);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(false);
 
@@ -128,8 +128,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             ControllerRegistry.has.reset();
         });
@@ -157,8 +157,8 @@ describe("HandlerMetadata", () => {
 
     describe("from endpoint without injection", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(false);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(false);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(true);
 
@@ -166,8 +166,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             ControllerRegistry.has.reset();
         });
@@ -195,8 +195,8 @@ describe("HandlerMetadata", () => {
 
     describe("from endpoint with injection", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(true);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(true);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(true);
 
@@ -204,8 +204,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             ControllerRegistry.has.reset();
         });
@@ -233,8 +233,8 @@ describe("HandlerMetadata", () => {
 
     describe("from middleware with injection", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(true);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(true);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(true);
             MiddlewareRegistry.get.returns({type: MiddlewareType.MIDDLEWARE});
             ControllerRegistry.has.returns(false);
@@ -243,8 +243,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             MiddlewareRegistry.get.reset();
             ControllerRegistry.has.reset();
@@ -281,8 +281,8 @@ describe("HandlerMetadata", () => {
 
     describe("from middleware without injection", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(false);
-            ParamsRegistry.hasNextFunction.returns(false);
+            ParamRegistry.isInjectable.returns(false);
+            ParamRegistry.hasNextFunction.returns(false);
             MiddlewareRegistry.has.returns(true);
             MiddlewareRegistry.get.returns({type: MiddlewareType.MIDDLEWARE});
             ControllerRegistry.has.returns(false);
@@ -291,8 +291,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             MiddlewareRegistry.get.reset();
             ControllerRegistry.has.reset();
@@ -329,8 +329,8 @@ describe("HandlerMetadata", () => {
 
     describe("from middlewareError with injection", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(true);
-            ParamsRegistry.hasNextFunction.returns(true);
+            ParamRegistry.isInjectable.returns(true);
+            ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(true);
             MiddlewareRegistry.get.returns({type: MiddlewareType.ERROR});
             ControllerRegistry.has.returns(false);
@@ -339,8 +339,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             MiddlewareRegistry.get.reset();
             ControllerRegistry.has.reset();
@@ -376,8 +376,8 @@ describe("HandlerMetadata", () => {
     });
     describe("from middlewareError without injection", () => {
         before(() => {
-            ParamsRegistry.isInjectable.returns(false);
-            ParamsRegistry.hasNextFunction.returns(false);
+            ParamRegistry.isInjectable.returns(false);
+            ParamRegistry.hasNextFunction.returns(false);
             MiddlewareRegistry.has.returns(true);
             MiddlewareRegistry.get.returns({type: MiddlewareType.ERROR});
             ControllerRegistry.has.returns(false);
@@ -386,8 +386,8 @@ describe("HandlerMetadata", () => {
         });
 
         after(() => {
-            ParamsRegistry.isInjectable.reset();
-            ParamsRegistry.hasNextFunction.reset();
+            ParamRegistry.isInjectable.reset();
+            ParamRegistry.hasNextFunction.reset();
             MiddlewareRegistry.has.reset();
             MiddlewareRegistry.get.reset();
             ControllerRegistry.has.reset();

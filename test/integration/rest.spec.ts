@@ -8,6 +8,7 @@ import * as Express from "express";
 import {ServerSettings} from "../../src/server/decorators/serverSettings";
 import {ServerLoader} from "../../src/server/components/ServerLoader";
 import {GlobalAcceptMimesMiddleware} from "../../src/mvc/components/GlobalAcceptMimesMiddleware";
+import "../../src/swagger";
 import Path = require("path");
 
 const rootDir = Path.join(Path.resolve(__dirname), "app");
@@ -25,7 +26,10 @@ const rootDir = Path.join(Path.resolve(__dirname), "app");
     serveStatic: {
         "/": `${rootDir}/views`
     },
-    acceptMimes: ["application/json"]
+    acceptMimes: ["application/json"],
+    swagger: {
+        path: "/api-doc"
+    }
 })
 export class FakeApplication extends ServerLoader {
 
@@ -85,26 +89,6 @@ describe("Rest", () => {
     });
 
     describe("GET /rest", () => {
-
-        it("should return all routes", inject([Done], (done: Function) => {
-            this.fakeApplication
-                .request()
-                .get("/rest/")
-                .expect(200)
-                .end((err, response: any) => {
-
-                    if (err) {
-                        throw (err);
-                    }
-                    let obj = JSON.parse(response.text);
-
-                    expect(obj).to.be.an("array");
-
-                    done();
-                });
-
-        }));
-
         it("should return html content", inject([Done], (done: Function) => {
             this.fakeApplication
                 .request()
@@ -137,6 +121,7 @@ describe("Rest", () => {
                     if (err) {
                         throw (err);
                     }
+                    console.log(response.text);
 
                     let obj = JSON.parse(response.text);
 
@@ -468,5 +453,4 @@ describe("Rest", () => {
         });
 
     });
-
 });

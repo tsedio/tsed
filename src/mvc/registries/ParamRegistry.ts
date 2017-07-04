@@ -1,11 +1,15 @@
+/**
+ * @module mvc
+ */
+/** */
 import {ParamMetadata} from "../class/ParamMetadata";
 import {Type} from "../../core/interfaces/Type";
 import {Metadata} from "../../core/class/Metadata";
 import {EXPRESS_NEXT_FN, PARAM_METADATA} from "../constants/index";
 import {IParamArgs} from "../interfaces/Arguments";
-import {IInjectableParamSettings} from "../interfaces/InjectableParamsMetadata";
+import {IInjectableParamSettings} from "../interfaces/ParamOptions";
 
-export class ParamsRegistry {
+export class ParamRegistry {
     /**
      *
      * @param target
@@ -17,7 +21,7 @@ export class ParamsRegistry {
 
         const params = this.getParams(target, targetKey);
 
-        params[index] = params[index] || new ParamMetadata();
+        params[index] = params[index] || new ParamMetadata(target, targetKey, index);
 
         return params[index];
 
@@ -66,11 +70,11 @@ export class ParamsRegistry {
      * @param settings
      */
     static useService(service: symbol, settings: IParamArgs<any>) {
-        const param = ParamsRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
+        const param = ParamRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
         param.service = service;
         param.useConverter = false;
 
-        ParamsRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
+        ParamRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
         return this;
     }
 
@@ -81,11 +85,18 @@ export class ParamsRegistry {
      * @param parameterIndex
      */
     static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number) {
-        const param = ParamsRegistry.get(target, propertyKey, parameterIndex);
+        const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
         param.required = true;
 
-        ParamsRegistry.set(target, propertyKey, parameterIndex, param);
+        ParamRegistry.set(target, propertyKey, parameterIndex, param);
+
+        ParamRegistry.get(target, propertyKey, parameterIndex).store.merge("responses", {
+            "400": {
+                description: "BadRequest"
+            }
+        });
+
         return this;
     }
 
@@ -104,8 +115,7 @@ export class ParamsRegistry {
             useConverter
         } = options;
 
-        const param = ParamsRegistry.get(target, propertyKey, parameterIndex);
-        const baseType = Metadata.getParamTypes(target, propertyKey)[parameterIndex];
+        const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
         if (typeof expression !== "string") {
             useType = <any>expression;
@@ -114,14 +124,16 @@ export class ParamsRegistry {
 
         param.service = service;
         param.expression = expression;
-        param.baseType = baseType;
-        param.useType = useType || baseType;
+
+        if (useType) {
+            param.type = useType;
+        }
 
         if (useConverter !== undefined) {
             param.useConverter = useConverter;
         }
 
-        ParamsRegistry.set(target, propertyKey, parameterIndex, param);
+        ParamRegistry.set(target, propertyKey, parameterIndex, param);
 
         return param;
     }
@@ -132,7 +144,7 @@ export class ParamsRegistry {
      * @param propertyKey
      */
     static hasNextFunction = (target: Type<any>, propertyKey: string) =>
-    ParamsRegistry
+    ParamRegistry
         .getParams(target, propertyKey)
         .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
 }

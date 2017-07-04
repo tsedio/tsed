@@ -2,12 +2,11 @@
  * @module converters
  */
 /** */
-import {Metadata} from "../../core/class/Metadata";
 import {InjectorService} from "../../di/services/InjectorService";
-import {isCollection, isEmpty} from "../../core/utils/index";
+import {isEmpty} from "../../core/utils/index";
 import {ConverterService} from "../services/ConverterService";
-import {IJsonMetadata} from "../interfaces/index";
-import {JSON_PROPERTIES} from "../constants/index";
+import {IPropertyOptions} from "../class/PropertyMetadata";
+import {PropertyRegistry} from "../registries/PropertyRegistry";
 /**
  * `@JsonProperty()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
  * But in some cases, we need to configure explicitly the JSON attribut name mapped to the provide attribut.
@@ -37,54 +36,36 @@ import {JSON_PROPERTIES} from "../constants/index";
  * > Theses ES6 collections can be used : Map and Set. Map will be serialized as an object and Set as an array.
  * By default Date, Array, Map and Set have a default custom Converter allready embded. But you can override theses (see next part).
  *
- * For the Array, you must add the `{use: baseType}` option to the decorators.
+ * For the Array, you must add the `{use: type}` option to the decorators.
  * `TypeClass` will be used to deserialize each item in the collection stored on the attribut source.
  *
- * @param metadata
  * @returns {Function}
  * @decorator
+ * @param options
  */
-export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
+export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
 
     return (target: any, propertyKey: string) => {
 
         /* istanbul ignore else */
         if (propertyKey) {
-            const baseType = Metadata.getType(target, propertyKey);
 
-            let decoratorMetaData: IJsonMetadata<T> = {
-                name: propertyKey,
-                use: baseType,
-                baseType: baseType
-            };
+            const property = PropertyRegistry.get(target, propertyKey);
 
-            if (typeof metadata === "string") {
-                decoratorMetaData.name = metadata as string;
+            if (typeof options === "string") {
+                property.name = options as string;
             }
-            else if (typeof metadata === "object") {
+            else if (typeof options === "object") {
+                property.name = options.name;
 
-                decoratorMetaData = Object.assign(decoratorMetaData, metadata as IJsonMetadata<T>);
-
-                if (isCollection(baseType) && !isEmpty((<IJsonMetadata<T>>metadata).use)) {
-                    decoratorMetaData.use = baseType;
-                    decoratorMetaData.baseType = (<IJsonMetadata<T>>metadata).use;
+                if (!isEmpty((<IPropertyOptions>options).use)) {
+                    property.type = (options as IPropertyOptions).use;
                 }
-
             }
-
-            decoratorMetaData.propertyKey = propertyKey;
-
-            const properties: Map<string, IJsonMetadata<T>> = Metadata.get(JSON_PROPERTIES, target)
-                || new Map<string, IJsonMetadata<T>>();
-
-            properties.set(decoratorMetaData.propertyKey, decoratorMetaData);
-            properties.set(decoratorMetaData.name, decoratorMetaData);
-
-            Metadata.set(JSON_PROPERTIES, properties, target);
 
             if (!target.constructor.prototype.toJSON) {
 
-                target.constructor.prototype.toJSON = function(){
+                target.constructor.prototype.toJSON = function () {
                     return InjectorService
                         .invoke<ConverterService>(ConverterService)
                         .serialize(this);
@@ -97,3 +78,4 @@ export function JsonProperty<T>(metadata?: IJsonMetadata<T>|string): Function {
     };
 
 }
+

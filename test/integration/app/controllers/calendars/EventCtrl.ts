@@ -1,5 +1,10 @@
 import {BodyParams, Controller, Delete, Get, Head, Patch, Post, Put, Response} from "../../../../../src/index";
 import {EventModel} from "../../models/Event";
+import {Returns} from "../../../../../src/swagger/decorators/returns";
+import {Authenticated} from "../../../../../src/mvc/decorators/method/authenticated";
+import {Required} from "../../../../../src/mvc/decorators/required";
+import {Responses} from "../../../../../src/swagger/decorators/responses";
+import {NotFound} from "ts-httpexceptions";
 
 
 interface IEvent {
@@ -21,8 +26,14 @@ export class EventCtrl {
      * @returns {string}
      */
     @Patch("/:id")
-    patch() {
-        return "";
+    @Responses("404", {description: "Not found"})
+    patch(@Required() @BodyParams() event: EventModel): EventModel {
+
+        if (event.id === "0" || event.id === "") {
+            throw new NotFound("Not found");
+        }
+
+        return event;
     }
 
     /**
@@ -55,6 +66,8 @@ export class EventCtrl {
      * @returns {null}
      */
     @Post("/:id")
+    @Authenticated()
+    @Returns(200, {use: EventModel, collection: Array})
     update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
 
         return event;

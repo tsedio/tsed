@@ -4,7 +4,7 @@
 
 import {PathParamsFilter} from "../components/PathParamsFilter";
 import {Type} from "../../core/interfaces/Type";
-import {ParamsRegistry} from "../../mvc/registries/ParamsRegistry";
+import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 /**
  *
  * @param expression
@@ -18,7 +18,7 @@ export function PathParams(expression?: string | any, useType?: any): Function {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useFilter(PathParamsFilter, {
+            ParamRegistry.useFilter(PathParamsFilter, {
                 target,
                 propertyKey,
                 parameterIndex,

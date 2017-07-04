@@ -1,13 +1,18 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
+import {Sinon} from "../../../tools";
 
-const ParamsRegistry: any = {
+const ParamRegistry: any = {
+    required: Sinon.stub()
+};
+
+
+const PropertyRegistry: any = {
     required: Sinon.stub()
 };
 
 const {Required} = Proxyquire.load("../../../../src/mvc/decorators/required", {
-    "../registries/ParamsRegistry": {ParamsRegistry}
+    "../registries/ParamRegistry": {ParamRegistry},
+    "../../converters/registries/PropertyRegistry": {PropertyRegistry}
 });
 
 class Test {
@@ -16,16 +21,31 @@ class Test {
 
 describe("Required", () => {
 
-    before(() => {
-        Required()(Test, "test", 0);
+    describe("when decorator is used as param", () => {
+        before(() => {
+            Required()(Test, "test", 0);
+        });
+
+        after(() => {
+            ParamRegistry.required.reset();
+        });
+
+        it("should called with the correct parameters", () => {
+            ParamRegistry.required.should.have.been.calledWithExactly(Test, "test", 0);
+        });
     });
 
-    after(() => {
+    describe("when decorator is used as property", () => {
+        before(() => {
+            Required()(Test, "test");
+        });
 
+        after(() => {
+            PropertyRegistry.required.reset();
+        });
+
+        it("should called with the correct parameters", () => {
+            PropertyRegistry.required.should.have.been.calledWithExactly(Test, "test");
+        });
     });
-
-    it("should called with some parameters", () => {
-        assert(ParamsRegistry.required.calledWith(Test, "test", 0));
-    });
-
 });

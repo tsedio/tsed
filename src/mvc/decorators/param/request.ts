@@ -3,7 +3,7 @@
  */
 /** */
 import {EXPRESS_REQUEST} from "../../constants/index";
-import {ParamsRegistry} from "../../registries/ParamsRegistry";
+import {ParamRegistry} from "../../registries/ParamRegistry";
 /**
  * Request service.
  * @returns {function(Function, (string|symbol), number): void}
@@ -23,7 +23,7 @@ export function Req() {
 
         if (typeof parameterIndex === "number") {
 
-            ParamsRegistry.useService(EXPRESS_REQUEST, {
+            ParamRegistry.useService(EXPRESS_REQUEST, {
                 target,
                 propertyKey,
                 parameterIndex
