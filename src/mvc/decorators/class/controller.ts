@@ -40,7 +40,7 @@ export function Controller(path: PathParamsType | IControllerOptions, ...depende
         if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
             ControllerRegistry.merge(target, {path: (path as PathParamsType), dependencies});
         } else {
-            ControllerRegistry.merge(target, path);
+            ControllerRegistry.merge(target, path as any);
         }
     };
 }

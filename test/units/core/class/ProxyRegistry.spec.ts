@@ -20,7 +20,8 @@ describe("ProxyRegistry", () => {
 
     before(() => {
         this.proxy = class extends ProxyRegistry<any, any> {
-            invoke() {
+            invoke<T>(target: any, locals?: Map<Function, any>, designParamTypes?: any[]): any {
+                return null;
             }
         };
         this.registry = new Registry(FakeMetadata);
