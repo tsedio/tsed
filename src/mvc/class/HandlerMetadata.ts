@@ -1,13 +1,13 @@
+import {NotEnumerable} from "../../core/decorators/enumerable";
+import {MiddlewareType} from "../interfaces";
+import {ControllerRegistry} from "../registries/ControllerRegistry";
 /**
  * @module mvc
  */
 /** */
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
-import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {ParamRegistry} from "../registries/ParamRegistry";
-import {MiddlewareType} from "../interfaces/Middleware";
 import {ParamMetadata} from "./ParamMetadata";
-import {NotEnumerable} from "../../core/decorators/enumerable";
 
 
 export class HandlerMetadata {
@@ -44,22 +44,24 @@ export class HandlerMetadata {
     private resolve() {
 
         let handler = this._target;
+        let target = this._target;
 
         if (MiddlewareRegistry.has(this._target)) {
+            const middleware = MiddlewareRegistry.get(this._target);
             this._type = "middleware";
-            this._errorParam = MiddlewareRegistry.get(this._target).type === MiddlewareType.ERROR;
+            this._errorParam = middleware.type === MiddlewareType.ERROR;
             this._methodClassName = "use";
-        }
+            target = middleware.useClass;
 
-        if (ControllerRegistry.has(this._target)) {
+        } else if (ControllerRegistry.has(this._target)) {
             this._type = "controller";
         }
 
         if (this._methodClassName) {
-            this._injectable = ParamRegistry.isInjectable(this._target, this._methodClassName);
-            this._nextFunction = ParamRegistry.hasNextFunction(this._target, this._methodClassName);
+            this._injectable = ParamRegistry.isInjectable(target, this._methodClassName);
+            this._nextFunction = ParamRegistry.hasNextFunction(target, this._methodClassName);
 
-            handler = this._target.prototype[this._methodClassName];
+            handler = target.prototype[this._methodClassName];
         }
 
         if (!this._injectable) {

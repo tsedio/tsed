@@ -1,23 +1,23 @@
+import {$log} from "ts-log-debug";
+import {ConverterService} from "../../converters/services/ConverterService";
+import {CastError} from "../../core/errors/CastError";
 /**
  * @module mvc
  */
 /** */
 import {Type} from "../../core/interfaces/Type";
-import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
-import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {RouterController} from "../services/RouterController";
+import {nameOf} from "../../core/utils/index";
 import {InjectorService} from "../../di/services/InjectorService";
-import {ParamMetadata} from "./ParamMetadata";
-import {ENDPOINT_INFO, RESPONSE_DATA} from "../constants/index";
-import {RequiredParamError} from "../errors/RequiredParamError";
-import {ParseExpressionError} from "../errors/ParseExpressionError";
-import {ConverterService} from "../../converters/services/ConverterService";
-import {CastError} from "../../core/errors/CastError";
 import {FilterService} from "../../filters/services/FilterService";
+import {ENDPOINT_INFO, RESPONSE_DATA} from "../constants/index";
+import {ParseExpressionError} from "../errors/ParseExpressionError";
+import {RequiredParamError} from "../errors/RequiredParamError";
+import {ControllerRegistry} from "../registries/ControllerRegistry";
+import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
+import {RouterController} from "../services/RouterController";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
-import {nameOf} from "../../core/utils/index";
-import {$log} from "ts-log-debug";
+import {ParamMetadata} from "./ParamMetadata";
 
 export interface IHandlerScope {
     request: Express.Request;
@@ -38,9 +38,10 @@ export class HandlerBuilder {
      * @returns {HandlerBuilder}
      */
     static from(obj: any | EndpointMetadata) {
-        if (obj instanceof EndpointMetadata) {
+        if (obj instanceof EndpointMetadata) { // Endpoint
             return new HandlerBuilder(new HandlerMetadata(obj.target, obj.methodClassName));
         }
+        // Middleware
         return new HandlerBuilder(new HandlerMetadata(obj));
     }
 

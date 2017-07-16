@@ -1,6 +1,7 @@
-import {expect, Sinon} from "../../../tools";
 import * as Proxyquire from "proxyquire";
-import {MiddlewareType} from "../../../../src/mvc/interfaces/Middleware";
+import {getClass} from "../../../../src/core/utils";
+import {MiddlewareType} from "../../../../src/mvc/interfaces";
+import {expect, Sinon} from "../../../tools";
 
 const ParamRegistry = {
     isInjectable: Sinon.stub(),
@@ -236,7 +237,7 @@ describe("HandlerMetadata", () => {
             ParamRegistry.isInjectable.returns(true);
             ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({type: MiddlewareType.MIDDLEWARE});
+            MiddlewareRegistry.get.returns({useClass: getClass(Test), type: MiddlewareType.MIDDLEWARE});
             ControllerRegistry.has.returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
@@ -284,7 +285,7 @@ describe("HandlerMetadata", () => {
             ParamRegistry.isInjectable.returns(false);
             ParamRegistry.hasNextFunction.returns(false);
             MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({type: MiddlewareType.MIDDLEWARE});
+            MiddlewareRegistry.get.returns({useClass: getClass(Test), type: MiddlewareType.MIDDLEWARE});
             ControllerRegistry.has.returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
@@ -332,7 +333,7 @@ describe("HandlerMetadata", () => {
             ParamRegistry.isInjectable.returns(true);
             ParamRegistry.hasNextFunction.returns(true);
             MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({type: MiddlewareType.ERROR});
+            MiddlewareRegistry.get.returns({useClass: getClass(Test), type: MiddlewareType.ERROR});
             ControllerRegistry.has.returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
@@ -379,7 +380,7 @@ describe("HandlerMetadata", () => {
             ParamRegistry.isInjectable.returns(false);
             ParamRegistry.hasNextFunction.returns(false);
             MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({type: MiddlewareType.ERROR});
+            MiddlewareRegistry.get.returns({useClass: getClass(Test2), type: MiddlewareType.ERROR});
             ControllerRegistry.has.returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test2);

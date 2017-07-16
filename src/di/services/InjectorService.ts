@@ -5,13 +5,13 @@
 import {$log} from "ts-log-debug";
 import {nameOf} from "../../core";
 import {Metadata} from "../../core/class/Metadata";
-import {IInjectableMethod} from "../interfaces/InjectableMethod";
-import {IProvider} from "../interfaces/Provider";
-import {InjectionError} from "../errors/InjectionError";
-import {ProviderRegistry, ProxyProviderRegistry} from "../registries/ProviderRegistry";
+import {Registry} from "../../core/class/Registry";
 import {Type} from "../../core/interfaces/Type";
 import {Provider} from "../class/Provider";
-import {Registry} from "../../core/class/Registry";
+import {InjectionError} from "../errors/InjectionError";
+import {IInjectableMethod} from "../interfaces/InjectableMethod";
+import {IProvider} from "../interfaces/Provider";
+import {ProviderRegistry, ProxyProviderRegistry} from "../registries/ProviderRegistry";
 
 /**
  * InjectorService manage all service collected by `@Service()` decorators.
@@ -230,14 +230,14 @@ export class InjectorService extends ProxyProviderRegistry {
     /**
      * Initialize injectorService and load all services/factories.
      */
-    static load() {
+    static async load() {
 
         this.buildRegistry(
             ProviderRegistry,
             (provider) => provider.instance === undefined || provider.type === "service"
         );
 
-        this.emit("$onInjectorReady");
+        return this.emit("$onInjectorReady");
     }
 
     /**
@@ -245,18 +245,19 @@ export class InjectorService extends ProxyProviderRegistry {
      * @param eventName
      * @param args
      */
-    static emit(eventName: string, ...args) {
+    static async emit(eventName: string, ...args): Promise<any[]> {
+        const promises = [];
 
         ProviderRegistry.forEach((provider: IProvider<any>) => {
 
             const service = InjectorService.get<any>(provider.provide);
 
             if (eventName in service) {
-                service[eventName](...args);
+                promises.push(service[eventName](...args));
             }
         });
 
-        return this;
+        return Promise.all(promises);
     }
 
     /**

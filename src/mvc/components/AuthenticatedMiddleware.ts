@@ -51,7 +51,9 @@ export class AuthenticatedMiddleware implements IMiddleware {
                     callback(result);
                 }
             } catch (er) {
+                /* istanbul ignore next */
                 console.error(er);
+                /* istanbul ignore next */
                 next(er);
             }
 

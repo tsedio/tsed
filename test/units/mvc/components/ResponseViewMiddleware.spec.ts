@@ -49,6 +49,36 @@ describe("ResponseViewMiddleware :", () => {
         });
     });
 
+    describe("when header isn't sent but view path is wrong", () => {
+        before(() => {
+            this.response.headersSent = false;
+            this.middleware.use(
+                {},
+                {
+                    store: {
+                        get: (type) => {
+                            return type === ResponseViewMiddleware ? {
+                                viewPath: undefined,
+                                viewOptions: {test: "test"}
+                            } : {test: "test"};
+                        }
+                    }
+                },
+                this.response as any
+            );
+        });
+        after(() => {
+            this.response.render.reset();
+        });
+        it("should have middleware", () => {
+            expect(this.middleware).not.to.be.undefined;
+        });
+
+        it("should set header to the response object", () => {
+            this.response.render.should.not.be.called;
+        });
+    });
+
     describe("when header is sent", () => {
 
         before(() => {

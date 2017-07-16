@@ -1,3 +1,4 @@
+import {$log} from "ts-log-debug";
 /**
  * @module testing
  */
@@ -5,6 +6,9 @@
 import {ServerLoader} from "../server/components/ServerLoader";
 
 export function bootstrap(server: any, ...args) {
+
+    $log.stop();
+    process.env.NODE_ENV = process.env.NODE_ENV || "test";
 
     return (done: Function) => {
 
@@ -14,7 +18,7 @@ export function bootstrap(server: any, ...args) {
 
             server.$$instance = instance;
 
-            (instance as any).startServers = function() {
+            (instance as any).startServers = function () {
                 return Promise.resolve();
             };
 

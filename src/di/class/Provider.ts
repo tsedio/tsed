@@ -1,11 +1,11 @@
+import {NotEnumerable} from "../../core/decorators/enumerable";
+import {Type} from "../../core/interfaces/Type";
+import {getClass, nameOf} from "../../core/utils/index";
 /**
  * @module di
  */
 /** */
 import {IProvider} from "../interfaces/Provider";
-import {getClass, nameOf} from "../../core/utils/index";
-import {Type} from "../../core/interfaces/Type";
-import {NotEnumerable} from "../../core/decorators/enumerable";
 
 export class Provider<T> implements IProvider<T> {
 
@@ -44,7 +44,7 @@ export class Provider<T> implements IProvider<T> {
      * @returns {Type<T>}
      */
     get useClass(): Type<T> {
-        return this._useClass;
+        return this._useClass || this._provide;
     }
 
     /**

@@ -13,6 +13,7 @@ import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
 import {LogEndIncomingRequestMiddleware} from "../../mvc/components/LogEndIncomingRequestMiddleware";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
+import {IComponentScanned} from "../interfaces/ComponentScanned";
 import {IHTTPSServerOptions} from "../interfaces/HTTPSServerOptions";
 import {IServerLifecycle} from "../interfaces/ServerLifeCycle";
 
@@ -44,7 +45,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     private _settings: ServerSettingsProvider;
     private _settingsService: ServerSettingsService;
-    private _components = [];
+    private _components: IComponentScanned[] = [];
     /**
      * Instance of httpServer.
      */
@@ -150,9 +151,11 @@ export abstract class ServerLoader implements IServerLifecycle {
      *
      * @returns {Promise<void>}
      */
-    protected loadSettingsAndInjector() {
+    protected async loadSettingsAndInjector() {
         const debug = this.settings.get("debug");
-        if (debug) {
+
+        /* istanbul ignore next */
+        if (debug && this.settings.env !== "test") {
             $log.level = "debug";
         }
 
@@ -166,7 +169,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         $log.info("Build services");
         this._injectorService = InjectorService.get<InjectorService>(InjectorService);
-        this.injectorService.load();
+        return this.injectorService.load();
     }
 
     /**
@@ -178,12 +181,12 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         this.use(LogIncomingRequestMiddleware);
         await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
-
-        this.injectorService.emit("$onRoutesInit", this._components);
+        await this.injectorService.emit("$beforeRoutesInit");
+        await this.injectorService.emit("$onRoutesInit", this._components);
 
         delete this._components; // free memory
 
-        this.injectorService.emit("$afterRoutesInit");
+        await this.injectorService.emit("$afterRoutesInit");
 
         await this.callHook("$afterRoutesInit", undefined, this.expressApp);
 
@@ -275,7 +278,7 @@ export abstract class ServerLoader implements IServerLifecycle {
             await this.startServers();
             await this.callHook("$onReady");
 
-            this.injectorService.emit("$onServerReady");
+            await this.injectorService.emit("$onServerReady");
 
             $log.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
 
