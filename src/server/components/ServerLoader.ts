@@ -7,19 +7,20 @@ import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {Deprecated, ExpressApplication} from "../../core";
-import {ServerSettingsProvider, ServerSettingsService} from "../services/ServerSettings";
 import {InjectorService} from "../../di";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
+import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
+import {LogEndIncomingRequestMiddleware} from "../../mvc/components/LogEndIncomingRequestMiddleware";
+import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
+import {IHTTPSServerOptions} from "../interfaces/HTTPSServerOptions";
+import {IServerLifecycle} from "../interfaces/ServerLifeCycle";
 
 import {IServerSettings} from "../interfaces/ServerSettings";
-import {IServerLifecycle} from "../interfaces/ServerLifeCycle";
-import {IHTTPSServerOptions} from "../interfaces/HTTPSServerOptions";
-import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
-import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
-import {LogEndIncomingRequestMiddleware} from "../../mvc/components/LogEndIncomingRequestMiddleware";
+import {ServerSettingsProvider, ServerSettingsService} from "../services/ServerSettings";
 
 $log.name = "TSED";
+$log.level = "info";
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
  *
@@ -67,7 +68,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         InjectorService.factory(ExpressApplication, this.expressApp);
 
         this._settings = new ServerSettingsProvider();
-        this._settings.authentification = ((<any>this).isAuthenticated || (<any>this).$onAuth || new Function()).bind(this);
+        this._settings.authentification = (<any>this).$onAuth || this._settings.authentification;
 
         const settings = ServerSettingsProvider.getMetadata(this);
 
@@ -150,7 +151,10 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {Promise<void>}
      */
     protected loadSettingsAndInjector() {
-        $log.level = this.settings.get("debug") ? "debug" : "info";
+        const debug = this.settings.get("debug");
+        if (debug) {
+            $log.level = "debug";
+        }
 
         $log.debug("Initialize settings");
         this._settingsService = this.getSettingsService();
@@ -208,6 +212,10 @@ export abstract class ServerLoader implements IServerLifecycle {
     protected setSettings(settings: IServerSettings) {
 
         this._settings.set(settings);
+
+        if (this.settings.env === "test") {
+            $log.stop();
+        }
 
         const settingsService = this.getSettingsService();
 

@@ -1,8 +1,8 @@
 import {assert, expect} from "chai";
-import {MiddlewareService} from "../../../../src/mvc/services/MiddlewareService";
 import {AcceptMimesMiddleware} from "../../../../src/mvc/components/AcceptMimesMiddleware";
-import {FakeRequest} from "../../../helper/FakeRequest";
-import {inject} from "../../../../src/testing/inject";
+import {MiddlewareService} from "../../../../src/mvc/services/MiddlewareService";
+import {inject} from "../../../../src/testing";
+import {FakeRequest} from "../../../helper";
 
 describe("AcceptMimesMiddleware", () => {
 
@@ -20,8 +20,10 @@ describe("AcceptMimesMiddleware", () => {
     it("should accept mime and return nothing when 'application/json' is configured", () => {
 
         expect(this.middleware.use({
-            getMetadata: () => {
-                return ["application/json"];
+            store: {
+                get: () => {
+                    return ["application/json"];
+                }
             }
         }, this.request)).to.eq(undefined);
 
@@ -30,10 +32,14 @@ describe("AcceptMimesMiddleware", () => {
     it("should accept mime and return nothing when nothing is configured", () => {
 
         expect(this.middleware.use({
-            getMetadata: () => {
-                return undefined;
-            }
-        }, this.request)).to.eq(undefined);
+                store: {
+                    get: () => {
+                        return undefined;
+                    }
+                }
+            },
+            this.request)
+        ).to.eq(undefined);
 
     });
 
@@ -42,8 +48,10 @@ describe("AcceptMimesMiddleware", () => {
 
         assert.throws(() => {
             this.middleware.use({
-                getMetadata: () => {
-                    return ["application/xml"];
+                store: {
+                    get: () => {
+                        return ["application/xml"];
+                    }
                 }
             }, this.request);
         }, "You must accept content-type application/xml");

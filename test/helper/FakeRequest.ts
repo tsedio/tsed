@@ -70,6 +70,11 @@ export class FakeRequest {
     public accepts = (mime) => this.mime === mime;
 
     public getEndpoint() {
-        return {};
+        return {
+            store: {
+                get: () => {
+                }
+            }
+        };
     }
 }

@@ -2,14 +2,14 @@
  * @module mvc
  */ /** */
 
-import {PathParamsType} from "../interfaces/PathParamsType";
-import {Type} from "../../core/interfaces/Type";
-import {ENDPOINT_METHODS} from "../constants/index";
 import {Metadata} from "../../core/class/Metadata";
-import {isArrayOrArrayClass, isPromise} from "../../core/utils/index";
-import {NotEnumerable} from "../../core/decorators/enumerable";
-import {Deprecated} from "../../core/decorators/deprecated";
 import {Storable} from "../../core/class/Storable";
+import {Deprecated} from "../../core/decorators/deprecated";
+import {NotEnumerable} from "../../core/decorators/enumerable";
+import {Type} from "../../core/interfaces/Type";
+import {isArrayOrArrayClass, isPromise} from "../../core/utils/index";
+import {ENDPOINT_METHODS} from "../constants/index";
+import {PathParamsType} from "../interfaces/PathParamsType";
 /**
  * EndpointMetadata contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
@@ -227,7 +227,7 @@ export class EndpointMetadata extends Storable {
      * Get value for an endpoint method.
      * @param key
      */
-    @Deprecated("Use EndpointMetadata.store() instead of")
+    @Deprecated("Use endpointMetadata.store.get(key) instead of")
     public getMetadata(key: any): any {
         return this.store.get<any>(key);
     }

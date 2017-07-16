@@ -7,16 +7,22 @@ export * from "./interfaces";
 // provide
 export * from "./class/ControllerProvider";
 export * from "./class/Endpoint";
+export * from "./class/EndpointMetadata";
+export * from "./class/HandlerMetadata";
 export * from "./class/ParamMetadata";
 
 // registries
 export * from "./registries/ControllerRegistry";
 export * from "./registries/EndpointRegistry";
+export * from "./registries/MiddlewareRegistry";
 export * from "./registries/ParamRegistry";
 
-// filters
+// middlewares
 export * from "./components/GlobalAcceptMimesMiddleware";
 export * from "./components/GlobalErrorHandlerMiddleware";
+export * from "./components/AuthenticatedMiddleware";
+export * from "./components/ResponseViewMiddleware";
+export * from "./components/SendResponseMiddleware";
 
 // services
 export * from "./services/ControllerService";
@@ -53,5 +59,6 @@ export * from "./decorators/param/endpointInfo";
 export * from "./decorators/class/controller";
 export * from "./decorators/class/middleware";
 export * from "./decorators/class/middlewareError";
+export * from "./decorators/class/overrideMiddleware";
 export * from "./decorators/class/scope";
 export * from "./decorators/class/routerSettings";

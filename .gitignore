@@ -45,7 +45,6 @@ test/**/*.js
 test/**/*.js.map
 test/spec/*.js
 test/spec/*.js.map
-docs
 
 # Test
 /stdout
@@ -57,5 +56,4 @@ docs
 .vscode
 
 /.nyc_output/
-/docs
 /test/integration/app/spec/swagger.json

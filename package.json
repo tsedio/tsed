@@ -14,7 +14,7 @@
     "tsc": "tsc --project tsconfig.json",
     "tsc:compile": "rm -rf ./lib && tsc --project tsconfig.compile.json",
     "//version": "npm run build:doc && git add docs",
-    "build:doc": "typedoc --target ES6 --module commonjs --name TsExpressDecorators --exclude '**/test/**/*.ts' --out docs/ ./src/**/*.ts"
+    "build:doc": "typedoc --target ES6 --module commonjs --name TsExpressDecorators --exclude '**/test/**/*.ts' --out docs/api/ ./src/**/*.ts"
   },
   "repository": {
     "type": "git",

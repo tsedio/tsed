@@ -3,13 +3,13 @@
  */ /** */
 
 import * as Express from "express";
+import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
-import {IMiddleware} from "../interfaces/index";
-import {ResponseData} from "../decorators/param/responseData";
 import {EndpointInfo} from "../decorators/param/endpointInfo";
 import {Response} from "../decorators/param/response";
+import {ResponseData} from "../decorators/param/responseData";
 import {TemplateRenderingError} from "../errors/TemplateRenderingError";
-import {EndpointMetadata} from "../class/EndpointMetadata";
+import {IMiddleware} from "../interfaces/index";
 /**
  * @private
  */
@@ -28,7 +28,7 @@ export class ResponseViewMiddleware implements IMiddleware {
 
         return new Promise((resolve, reject) => {
 
-            const {viewPath, viewOptions} = endpoint.getMetadata(ResponseViewMiddleware);
+            const {viewPath, viewOptions} = endpoint.store.get(ResponseViewMiddleware);
 
             if (viewPath !== undefined) {
 

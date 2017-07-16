@@ -2,15 +2,16 @@
  * @module mvc
  */
 /** */
+import * as Express from "express";
 import {Forbidden} from "ts-httpexceptions";
+import {IMiddleware} from "../";
 import {ServerSettingsService} from "../../server/services/ServerSettings";
+import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
-import {IMiddleware} from "../interfaces/index";
 import {EndpointInfo} from "../decorators/param/endpointInfo";
 import {Next} from "../decorators/param/next";
-import {Response} from "../decorators/param/response";
 import {Request} from "../decorators/param/request";
-import {EndpointMetadata} from "../class/EndpointMetadata";
+import {Response} from "../decorators/param/response";
 /**
  * @private
  */
@@ -24,10 +25,9 @@ export class AuthenticatedMiddleware implements IMiddleware {
     public use(@EndpointInfo() endpoint: EndpointMetadata,
                @Request() request: Express.Request,
                @Response() response: Express.Response,
-               @Next() next: Express.NextFunction
-    ) {
+               @Next() next: Express.NextFunction) {
 
-        const options = endpoint.getMetadata(AuthenticatedMiddleware) || {};
+        const options = endpoint.store.get(AuthenticatedMiddleware) || {};
         let resolved = false;
 
         const callback = (result: boolean) => {
@@ -42,15 +42,19 @@ export class AuthenticatedMiddleware implements IMiddleware {
         };
 
         const fn = this.serverSettingsService.authentification;
-
         /* istanbul ignore else */
         if (fn) {
-            const result = fn.call(this, request, response, <Express.NextFunction>callback, options);
-
-            /* istanbul ignore else */
-            if (result !== undefined) {
-                callback(result);
+            try {
+                const result = fn(request, response, <Express.NextFunction>callback, options);
+                /* istanbul ignore else */
+                if (result !== undefined) {
+                    callback(result);
+                }
+            } catch (er) {
+                console.error(er);
+                next(er);
             }
+
 
         } else {
             next();

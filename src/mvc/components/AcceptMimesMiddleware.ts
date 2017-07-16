@@ -3,11 +3,11 @@
  */
 /** */
 import {NotAcceptable} from "ts-httpexceptions";
+import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
-import {IMiddleware} from "../interfaces";
 import {EndpointInfo} from "../decorators/param/endpointInfo";
 import {Request} from "../decorators/param/request";
-import {EndpointMetadata} from "../class/EndpointMetadata";
+import {IMiddleware} from "../interfaces";
 /**
  * @private
  */
@@ -17,7 +17,7 @@ export class AcceptMimesMiddleware implements IMiddleware {
     public use(@EndpointInfo() endpoint: EndpointMetadata,
                @Request() request: any): void {
 
-        const mimes = endpoint.getMetadata(AcceptMimesMiddleware) || [];
+        const mimes = endpoint.store.get(AcceptMimesMiddleware) || [];
 
         mimes.forEach((mime) => {
             if (!request.accepts(mime)) {

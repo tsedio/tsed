@@ -1,7 +1,8 @@
 /**
  * @module server
- */ /** */
-
+ */
+/** */
+import * as Express from "express";
 /**
  * ServerLoader lifecycle let you intercept a phase.
  */
@@ -18,6 +19,6 @@ export interface IServerLifecycle {
 
     $onServerInitError?(error): any;
     $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
-    $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction, authorization?: any): boolean
-        | void;
+    $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction, authorization?: any): boolean | void;
+    $onAuth?(): boolean | void;
 }

@@ -1,13 +1,13 @@
+import * as Https from "https";
 /**
  * @module server
  */
 /** */
 import * as Path from "path";
-import * as Https from "https";
-import {IServerMountDirectories, IServerSettings} from "../interfaces/ServerSettings";
-import {Env, EnvTypes} from "../../core/interfaces/Env";
-import {SERVER_SETTINGS} from "../constants/index";
 import {Metadata} from "../../core/class/Metadata";
+import {Env, EnvTypes} from "../../core/interfaces";
+import {SERVER_SETTINGS} from "../constants";
+import {IServerMountDirectories, IServerSettings} from "../interfaces/ServerSettings";
 const rootDir = Path.dirname(require.main.filename);
 
 
@@ -337,10 +337,10 @@ export class ServerSettingsProvider implements IServerSettings {
 
     /**
      *
-     * @param fn
+     * @param callback
      */
-    set authentification(fn: Function) {
-        this.map.set("authentification", fn);
+    set authentification(callback: (request?, response?, next?, options?) => boolean) {
+        this.map.set("authentification", callback);
     }
 
     /**

@@ -1,9 +1,8 @@
-import {assert, expect} from "../../../tools";
 import * as Sinon from "sinon";
-import {AuthenticatedMiddleware} from "../../../../src/mvc/components/AuthenticatedMiddleware";
 import {Forbidden} from "ts-httpexceptions";
-import {FakeResponse} from "../../../helper/FakeResponse";
-import {FakeRequest} from "../../../helper/FakeRequest";
+import {AuthenticatedMiddleware} from "../../../../src/mvc/components/AuthenticatedMiddleware";
+import {FakeRequest, FakeResponse} from "../../../helper";
+import {assert, expect} from "../../../tools";
 
 class Test {
 
@@ -16,7 +15,7 @@ describe("AuthenticatedMiddleware", () => {
         this.request = new FakeRequest();
         this.response = new FakeResponse();
         this.endpoint = {
-            getMetadata: Sinon.stub().returns({})
+            store: {get: Sinon.stub().returns({})}
         };
 
     });

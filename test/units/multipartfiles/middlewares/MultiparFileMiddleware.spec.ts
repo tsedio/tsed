@@ -1,6 +1,6 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
+import {expect} from "chai";
 import * as Proxyquire from "proxyquire";
+import * as Sinon from "sinon";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 
@@ -24,7 +24,9 @@ describe("MultipartFileMiddleware", () => {
         this.request = new FakeRequest();
         this.response = new FakeResponse();
         this.fakeEndpoint = {
-            getMetadata: Sinon.stub()
+            store: {
+                get: Sinon.stub()
+            }
         };
     });
 

@@ -3,11 +3,11 @@
  */
 /** */
 import {$log} from "ts-log-debug";
-import {Middleware} from "../../mvc/decorators/class/middleware";
-import {ServerSettingsService} from "../../server/services/ServerSettings";
-import {IMiddleware} from "../../mvc/interfaces/index";
 import {EndpointInfo, Next, Request, Response} from "../../mvc";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
+import {Middleware} from "../../mvc/decorators/class/middleware";
+import {IMiddleware} from "../../mvc/interfaces/index";
+import {ServerSettingsService} from "../../server/services/ServerSettings";
 /**
  * @private
  */
@@ -45,7 +45,7 @@ export class MultipartFileMiddleware implements IMiddleware {
         if (this.multer) {
             const options = Object.assign({
                 dest: this.serverSettingsService.uploadDir,
-            }, endpoint.getMetadata(MultipartFileMiddleware) || {});
+            }, endpoint.store.get(MultipartFileMiddleware) || {});
 
             const middleware = this.multer(options);
 
