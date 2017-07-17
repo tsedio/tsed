@@ -1,10 +1,10 @@
+import {AuthenticatedMiddleware} from "../../components/AuthenticatedMiddleware";
+import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {UseBefore} from "./useBefore";
-import {AuthenticatedMiddleware} from "../../components/AuthenticatedMiddleware";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
  * Set authentification strategy on your endpoint.
  *

@@ -1,13 +1,14 @@
 /**
- * @module converters
+ * @module common/converters
  */ /** */
 
-import {Converter} from "../decorators/converter";
 import {BadRequest} from "ts-httpexceptions";
+import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 
 /**
  * @private
+ * @converter
  */
 @Converter(String, Number, Boolean)
 export class PrimitiveConverter implements IConverter {

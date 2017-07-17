@@ -1,17 +1,17 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import * as Express from "express";
 import {$log} from "ts-log-debug";
-import {Service} from "../../di/decorators/service";
+import {Type} from "../../core/interfaces";
 import {ExpressApplication} from "../../core/services/ExpressApplication";
 import {Inject} from "../../di";
-import {ControllerProvider} from "../class/ControllerProvider";
-import {Type} from "../../core/interfaces/Type";
-import {ControllerRegistry, ProxyControllerRegistry} from "../registries/ControllerRegistry";
-import {ControllerBuilder} from "../class/ControllerBuilder";
+import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
+import {ControllerBuilder} from "../class/ControllerBuilder";
+import {ControllerProvider} from "../class/ControllerProvider";
+import {ControllerRegistry, ProxyControllerRegistry} from "../registries/ControllerRegistry";
 import {RouterController} from "./RouterController";
 
 /**

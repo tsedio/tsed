@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  * @preferred
  */ /** */
 
@@ -13,7 +13,4 @@ export * from "./class/ProxyRegistry";
 export * from "./services/ExpressApplication";
 
 // decorators
-export * from "./decorators/deprecated";
-export * from "./decorators/configurable";
-export * from "./decorators/enumerable";
-export * from "./decorators/writable";
+export * from "./decorators";

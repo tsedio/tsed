@@ -1,16 +1,16 @@
+import {$log} from "ts-log-debug";
+import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
+import {nameOf} from "../../core/utils";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {Service} from "../../di/decorators/service";
-import {$log} from "ts-log-debug";
-import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
-import {ControllerService} from "./ControllerService";
-import {IControllerRoute} from "../interfaces/ControllerRoute";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {EndpointMetadata} from "../class/EndpointMetadata";
-import {nameOf} from "../../core/utils/index";
+import {IControllerRoute} from "../interfaces";
 import {ParamRegistry} from "../registries/ParamRegistry";
+import {ControllerService} from "./ControllerService";
 
 /**
  * `RouteService` is used to provide all routes collected by annotation `@ControllerProvider`.

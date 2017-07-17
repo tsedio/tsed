@@ -1,17 +1,21 @@
 /**
- * @module core
+ * @module common/core
  */
-import {Metadata} from "./Metadata";
-import {deepExtends, nameOf} from "../utils/index";
-import {Registry} from "./Registry";
 /** */
+import {deepExtends, nameOf} from "../utils";
+
+import {Metadata} from "./Metadata";
+import {Registry} from "./Registry";
+
 export const CLASS_STORE = "tsed:class:store";
 export const METHOD_STORE = "tsed:method:store";
 export const PROPERTY_STORE = "tsed:property:store";
 export const PARAM_STORE = "tsed:param:store";
 
 export type StoreMap = Map<string, any>;
-
+/**
+ *
+ */
 export class Store {
 
     private _map: StoreMap;

@@ -1,16 +1,17 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import * as Express from "express";
+import {ConverterService} from "../../converters/services/ConverterService";
 
 import {Middleware} from "../decorators/class/middleware";
-import {IMiddleware} from "../interfaces/index";
-import {ConverterService} from "../../converters/services/ConverterService";
-import {ResponseData} from "../decorators/param/responseData";
 import {Response} from "../decorators/param/response";
+import {ResponseData} from "../decorators/param/responseData";
+import {IMiddleware} from "../interfaces/index";
 /**
  * @private
+ * @middleware
  */
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {
@@ -30,7 +31,7 @@ export class SendResponseMiddleware implements IMiddleware {
         if (data === undefined) {
             response.send("");
         } else if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
-            response.send(data);
+            response.send(String(data));
         } else {
 
             response.setHeader("Content-Type", "text/json");

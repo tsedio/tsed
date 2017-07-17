@@ -1,11 +1,11 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {Metadata} from "../../core/class/Metadata";
+import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces/Type";
 import {EndpointMetadata} from "../class/EndpointMetadata";
-import {Store} from "../../core/class/Store";
 /**
  * Registry for all Endpoint collected on a provide.
  */

@@ -1,7 +1,8 @@
 import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
-import {MultipartFileFilter, MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
+import * as Sinon from "sinon";
+import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middlewares/MultipartFileMiddleware";
 
 const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};

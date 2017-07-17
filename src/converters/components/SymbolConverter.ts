@@ -1,11 +1,12 @@
 /**
- * @module converters
+ * @module common/converters
  */ /** */
 
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 /**
  * @private
+ * @converter
  */
 @Converter(Symbol)
 export class SymbolConverter implements IConverter {

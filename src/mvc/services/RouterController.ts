@@ -1,5 +1,5 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import * as Express from "express";

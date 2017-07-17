@@ -1,9 +1,9 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
-import {Type} from "../interfaces/Type";
-import {getClass, getClassOrSymbol} from "../utils/index";
+import {Type} from "../interfaces";
+import {getClass, getClassOrSymbol} from "../utils";
 
 /**
  * @private

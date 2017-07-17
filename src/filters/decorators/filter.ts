@@ -1,11 +1,13 @@
 /**
- * @module filters
+ * @module common/filters
  */ /** */
 
-import {Type} from "../../core/interfaces/Type";
+import {Type} from "../../core/interfaces";
 import {FilterRegistry} from "../registries/FilterRegistry";
 /**
+ * Filter decorator declare a class as new Filter component.
  *
+ * See [filters](docs/filters.md) section for more information.
  * @returns {(target:any)=>undefined}
  * @decorator
  */

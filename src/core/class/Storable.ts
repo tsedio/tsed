@@ -1,12 +1,15 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
-import {Store} from "./Store";
-import {NotEnumerable} from "../decorators/enumerable";
-import {Type} from "../interfaces/Type";
+import {NotEnumerable} from "../decorators";
+import {Type} from "../interfaces";
 import {EntityDescription} from "./EntityDescription";
 
+import {Store} from "./Store";
+/**
+ *
+ */
 export abstract class Storable extends EntityDescription {
 
     @NotEnumerable()

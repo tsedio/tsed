@@ -1,10 +1,14 @@
+/**
+ * @module swagger
+ */
+/** */
 import {BodyParameter, Parameter, Schema} from "swagger-schema-official";
+import {Type} from "../../core/interfaces";
+import {deepExtends} from "../../core/utils";
 
 import {ParamMetadata} from "../../mvc/class/ParamMetadata";
-import {deepExtends} from "../../core/utils/index";
-import {swaggerType} from "../utils/index";
 import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
-import {Type} from "../../core/interfaces/Type";
+import {swaggerType} from "../utils";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
 
 export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {

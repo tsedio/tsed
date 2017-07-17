@@ -1,6 +1,6 @@
 import {Type} from "../../../core/interfaces";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {IMiddleware} from "../../interfaces";

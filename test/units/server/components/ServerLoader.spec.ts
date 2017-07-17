@@ -1,7 +1,7 @@
-import {$logStub, expect, Sinon} from "../../../tools";
 import {Metadata} from "../../../../src/core/class/Metadata";
-import {SERVER_SETTINGS} from "../../../../src/server/constants/index";
 import {ServerLoader} from "../../../../src/server/components/ServerLoader";
+import {SERVER_SETTINGS} from "../../../../src/server/constants/index";
+import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {
     before(() => {
@@ -23,9 +23,11 @@ describe("ServerLoader", () => {
             }
         }
 
-        Metadata.set(SERVER_SETTINGS, {debug: true}, TestServer);
+        Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
 
         this.server = new TestServer();
+        this.server.settings.httpPort = 8080;
+        this.server.settings.httpsPort = 8000;
         this.useStub = Sinon.stub(this.server._expressApp, "use");
         this.setStub = Sinon.stub(this.server._expressApp, "set");
         this.engineStub = Sinon.stub(this.server._expressApp, "engine");

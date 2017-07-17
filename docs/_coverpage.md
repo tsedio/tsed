@@ -10,5 +10,5 @@
 * Rest route and controller, param data injection support.
 
 [GitHub](https://github.com/Romakita/ts-log-debug/)
-[Get Started](#tslogdebug)
+[Get Started](#tsed)
 

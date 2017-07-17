@@ -1,4 +1,4 @@
-# TsExpressDecorators
+# Ts.ED
 
 [![Build Status](https://travis-ci.org/Romakita/ts-express-decorators.svg?branch=master)](https://travis-ci.org/Romakita/ts-express-decorators)
 [![Coverage Status](https://coveralls.io/repos/github/Romakita/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/Romakita/ts-express-decorators?branch=master)
@@ -10,7 +10,7 @@
 [![img](https://david-dm.org/romakita/ts-express-decorators/peer-status.svg)](https://david-dm.org/romakita/ts-express-decorators/#info=peerDependenciess)
 [![Known Vulnerabilities](https://snyk.io/test/github/romakita/ts-express-decorators/badge.svg)](https://snyk.io/test/github/romakita/ts-express-decorators)
 
-> Build your TypeScript v2 application with Express decorators ! Support ES5 and ES6.
+> Build your TypeScript v2 application with Express decorators !
 
 [![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-express-decorators/)
 [![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=6&height=3)](https://nodei.co/npm/ts-express-decorators/)
@@ -29,6 +29,7 @@
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
 * Templating (View),
+* Swagger documentation and Swagger-ui,
 * Testing.
 
 ## Installation
@@ -39,7 +40,7 @@ You can get the latest release using npm:
 $ npm install --save ts-express-decorators express@4 @types/express
 ```
 
-> **Important!** TsExpressDecorators requires Node >= 4, Express >= 4, TypeScript >= 2.0 and 
+> **Important!** Ts.ED requires Node >= 4, Express >= 4, TypeScript >= 2.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 
@@ -62,22 +63,16 @@ options in your `tsconfig.json` file.
 }
 ```
 
-## Migrate from 1.3 or under to 1.4
+## Migrate from 1.x or to 2.x
 
-The `@types/express` modules dependency has move to devDependencies. So you can have a compilation error with TypeScript.
-To resolve it, just run `npm install --save @types/express`.
-
-If we used the InjectorService. Make you sure we have this in your code:
-
-* `InjectorService.invoke(target)` has changed to `InjectorService.invoke<T>(target): T`.
-* `InjectorService.get(target)` has changed to `InjectorService.get<T>(target): T`.
+See [migrate from 1.x to 2.x](migrate-to-v2.md) section.
 
 ## Quick start
 #### Create your express server
 
-TsExpressDecorators provide a [`ServerLoader`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader) class to configure your 
+Ts.ED provide a [`ServerLoader`](docs/server-loader.md) class to configure your 
 express quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader).
+a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
 
 ```typescript
 import * as Express from "express";
@@ -85,7 +80,8 @@ import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
-    rootDir: Path.resolve(__dirname)
+    rootDir: Path.resolve(__dirname),
+    acceptMimes: ["application/json"]
 })
 export class Server extends ServerLoader {
 
@@ -95,17 +91,14 @@ export class Server extends ServerLoader {
      */
     public $onMountingMiddlewares(): void|Promise<any> {
     
-        const morgan = require('morgan'),
-            cookieParser = require('cookie-parser'),
+        const cookieParser = require('cookie-parser'),
             bodyParser = require('body-parser'),
             compress = require('compression'),
             methodOverride = require('method-override');
 
 
         this
-            .use(morgan('dev'))
-            .use(ServerLoader.AcceptMime("application/json"))
-
+            .use(GlobalAcceptMimesMiddleware)
             .use(cookieParser())
             .use(compress({}))
             .use(methodOverride())
@@ -123,13 +116,10 @@ export class Server extends ServerLoader {
    
     public $onServerInitError(err){
         console.error(err);
-    }
-
-    static Initialize = (): Promise<any> => new Server().start();
-    
+    }    
 }
 
-Server.Initialize();
+new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
@@ -150,7 +140,7 @@ So the controller's url will be `http://host/rest/calendars`.
 import {Controller, Get} from "ts-express-decorators";
 import * as Express from "express";
 
-interface ICalendar{
+export interface Calendar{
     id: string;
     name: string;
 }
@@ -169,23 +159,21 @@ export class CalendarCtrl {
      * @returns {{id: any, name: string}}
      */
     @Get("/:id")
-    public get(request: Express.Request, response: Express.Response): ICalendar {
-
-        return <ICalendar> {id: request.params.id, name: "test"};
+    async get(request: Express.Request, response: Express.Response): Promise<Calendar> {
+        return {id: request.params.id, name: "test"};
     }
 
-    @Get("")
+    @Get("/")
     @ResponseView("calendars/index") // Render "calendars/index" file using Express.Response.render internal
-    public get(request: Express.Request, response: Express.Response): Array<ICalendar> {
+    async renderCalendars(request: Express.Request, response: Express.Response): Promise<Array<Calendar>> {
 
-        return [<ICalendar> {id: '1', name: "test"}];
+        return [{id: '1', name: "test"}];
     }
     
-    @Authenticated()
-    @BodyParams() @Required("calendar.name")  // Throw Bad Request (400) if the request.body.calendar.name isn't provided 
     @Post("/")
-    public post(
-        @BodyParams("calendar") calendar: ICalendar
+    @Authenticated()
+    async post(
+        @Required() @BodyParams("calendar") calendar: Calendar
     ): Promise<ICalendar> {
     
         return new Promise((resolve: Function, reject: Function) => {
@@ -197,9 +185,9 @@ export class CalendarCtrl {
         });
     }
     
-    @Authenticated()
     @Delete("/")
-    public post(
+    @Authenticated()
+    async post(
         @BodyParams("calendar.id") @Required() id: string 
     ): Promise<ICalendar> {
     
@@ -224,20 +212,6 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * [AlexProca](https://github.com/alexproca)
 * [Vincent178](https://github.com/vincent178)
 * [Vologab](https://github.com/vologab)
-
-
-
-## License
-
-The MIT License (MIT)
-
-Copyright (c) 2016 Romain Lenzotti
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [travis]: https://travis-ci.org/
 

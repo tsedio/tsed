@@ -1,9 +1,8 @@
-/**
- * @module mvc
- */
-import {IMiddlewareOptions} from "../interfaces/MiddlewareOptions";
-import {MiddlewareType} from "../interfaces/Middleware";
 import {Provider} from "../../di/class/Provider";
+/**
+ * @module common/mvc
+ */
+import {IMiddlewareOptions, MiddlewareType} from "../interfaces";
 /** */
 
 export class MiddlewareProvider extends Provider<any> implements IMiddlewareOptions {

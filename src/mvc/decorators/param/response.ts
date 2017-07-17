@@ -1,5 +1,5 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
 import {EXPRESS_RESPONSE} from "../../constants/index";

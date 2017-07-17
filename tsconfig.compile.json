@@ -1,43 +1,23 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "commonjs",
-    "target": "es5",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
-    "isolatedModules": false,
-    "suppressImplicitAnyIndexErrors": false,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "declaration": true,
     "rootDir": "src/",
     "outDir": "lib/",
-    "declaration": true,
     "declarationDir": "lib/",
     "noResolve": false,
-    "types": [
-      "node",
-      "chai",
-      "chai-as-promised",
-      "sinon",
-      "sinon-chai",
-      "mocha",
-      "cookie-parser",
-      "express",
-      "reflect-metadata",
-      "supertest"
-    ]
+    "preserveConstEnums": true
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "test",
-    "dts",
-    "testing",
+    "multipartfiles",
     "swagger",
+    "servestatic",
+    "test",
     "lib"
   ]
 }

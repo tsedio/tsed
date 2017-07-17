@@ -1,26 +1,26 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
-import {MiddlewareError} from "../decorators/class/middlewareError";
 import * as Express from "express";
-import {$log} from "ts-log-debug";
 import {Exception} from "ts-httpexceptions";
-import {IMiddlewareError} from "../interfaces/Middleware";
+import {$log} from "ts-log-debug";
+import {MiddlewareError} from "../decorators/class/middlewareError";
 import {Err} from "../decorators/param/error";
+import {Next} from "../decorators/param/next";
 import {Request} from "../decorators/param/request";
 import {Response} from "../decorators/param/response";
-import {Next} from "../decorators/param/next";
-
+import {IMiddlewareError} from "../interfaces";
+/**
+ * @middleware
+ */
 @MiddlewareError()
 export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
 
-    use(
-        @Err() error: any,
+    use(@Err() error: any,
         @Request() request: Express.Request,
         @Response() response: Express.Response,
-        @Next() next: Express.NextFunction
-    ): any {
+        @Next() next: Express.NextFunction): any {
 
         if (response.headersSent) {
             return next(error);

@@ -1,5 +1,5 @@
 /**
- * @module server
+ * @module common/server
  */ /** */
 
 /**

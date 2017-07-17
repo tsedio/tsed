@@ -1,13 +1,14 @@
 /**
- * @module filters
+ * @module common/filters
  */
 /** */
 
-import {IFilter} from "../interfaces";
 import {Filter} from "../decorators/filter";
+import {IFilter} from "../interfaces";
 import {ParseService} from "../services/ParseService";
 /**
  * @private
+ * @filter
  */
 @Filter()
 export class QueryParamsFilter implements IFilter {

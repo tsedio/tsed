@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
 import "reflect-metadata";
@@ -29,7 +29,7 @@ const DESIGN_RETURN_TYPE = "design:returntype";
  */
 const PROPERTIES: Map<string | symbol, any[]> = new Map<string | symbol, any[]>();
 /**
- *
+ * @stable
  */
 export class Metadata {
     /**
@@ -69,7 +69,7 @@ export class Metadata {
      * function MyAnnotation(options): PropertyDecorator {
      *     return (target, key) => Reflect.defineMetadata("custom:annotation", options, target, key);
      * }
-     * ``
+     * ```
      *
      */
     static set(key: string, value: any, target: any, propertyKey?: string | symbol): void {

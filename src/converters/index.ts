@@ -1,5 +1,5 @@
 /**
- * @module converters
+ * @module common/converters
  * @preferred
  */ /** */
 export * from "./interfaces";
@@ -10,10 +10,10 @@ export * from "./decorators/jsonProperty";
 
 // services
 export * from "./services/ConverterService";
+import "./components/ArrayConverter";
+import "./components/DateConverter";
+import "./components/MapConverter";
 // filters
 import "./components/PrimitiveConverter";
-import "./components/SymbolConverter";
-import "./components/ArrayConverter";
-import "./components/MapConverter";
 import "./components/SetConverter";
-import "./components/DateConverter";
+import "./components/SymbolConverter";

@@ -1,5 +1,5 @@
 /**
- * @module filters
+ * @module common/filters
  */
 /** */
 
@@ -8,6 +8,7 @@ import {IFilter} from "../interfaces/index";
 import {ParseService} from "../services/ParseService";
 /**
  * @private
+ * @filter
  */
 @Filter()
 export class LocalsFilter implements IFilter {

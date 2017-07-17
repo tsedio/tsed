@@ -1,17 +1,18 @@
+/**
+ * @module common/mvc
+ */
+/** */
 import {$log} from "ts-log-debug";
 import {ConverterService} from "../../converters/services/ConverterService";
 import {CastError} from "../../core/errors/CastError";
-/**
- * @module mvc
- */
-/** */
-import {Type} from "../../core/interfaces/Type";
-import {nameOf} from "../../core/utils/index";
+import {Type} from "../../core/interfaces";
+import {nameOf} from "../../core/utils";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterService} from "../../filters/services/FilterService";
-import {ENDPOINT_INFO, RESPONSE_DATA} from "../constants/index";
+import {ENDPOINT_INFO, RESPONSE_DATA} from "../constants";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
+import {IHandlerScope} from "../interfaces/IHandlerScope";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 import {RouterController} from "../services/RouterController";
@@ -19,14 +20,10 @@ import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
 import {ParamMetadata} from "./ParamMetadata";
 
-export interface IHandlerScope {
-    request: Express.Request;
-    response: Express.Response;
-    next: Function;
-    err?: any;
-    [service: string]: any;
-}
 
+/**
+ * @stable
+ */
 export class HandlerBuilder {
 
     protected constructor(private handlerMetadata: HandlerMetadata) {
@@ -74,7 +71,6 @@ export class HandlerBuilder {
 
     /**
      *
-     * @param target
      * @param locals
      * @returns {any}
      */
@@ -144,7 +140,7 @@ export class HandlerBuilder {
      */
     public async invoke(locals: IHandlerScope): Promise<any> {
 
-        const {next, request} = locals;
+        const {next, request, response} = locals;
         let called = false;
         const tagId = request.tagId;
         const target = this.handlerMetadata.target;
@@ -162,6 +158,7 @@ export class HandlerBuilder {
         });
 
         if (this.handlerMetadata.type === "controller") {
+            /* istanbul ignore next */
             if (request.endpointCalled) {
                 $log.warn(tagId, "[INVOKE][TWICE ENDPOINT]", `Trace:`, info({}));
                 return next();
@@ -170,6 +167,10 @@ export class HandlerBuilder {
         }
 
         locals.next = (err?) => {
+            if (response["headersSent"]) {
+                $log.debug(request.tagId, "[INVOKE][END  ]", info({warn: "response already send"}));
+                return;
+            }
             /* istanbul ignore else */
             if (!called) {
                 $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));

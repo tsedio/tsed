@@ -1,14 +1,15 @@
+import {Type} from "../../core/interfaces/Type";
+import {EndpointRegistry} from "../registries/EndpointRegistry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {EndpointMetadata} from "./EndpointMetadata";
-import {EndpointRegistry} from "../registries/EndpointRegistry";
-import {Type} from "../../core/interfaces/Type";
 
 
 /**
  * Endpoint is proxy of EndpointMetadata and EndpointRegistry.
+ * @deprecated
  */
 export class Endpoint extends EndpointMetadata {
 

@@ -1,12 +1,12 @@
+import {isEmpty} from "../../core/utils/index";
 /**
- * @module converters
+ * @module common/converters
  */
 /** */
 import {InjectorService} from "../../di/services/InjectorService";
-import {isEmpty} from "../../core/utils/index";
-import {ConverterService} from "../services/ConverterService";
-import {IPropertyOptions} from "../class/PropertyMetadata";
+import {IPropertyOptions} from "../interfaces/IPropertyOptions";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {ConverterService} from "../services/ConverterService";
 /**
  * `@JsonProperty()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
  * But in some cases, we need to configure explicitly the JSON attribut name mapped to the provide attribut.

@@ -1,9 +1,9 @@
+import {Type} from "../../core/interfaces/Type";
 /**
- * @module di
+ * @module common/di
  */
 /** */
 import {nameOf} from "../../core/utils/index";
-import {Type} from "../../core/interfaces/Type";
 /**
  * @private
  */

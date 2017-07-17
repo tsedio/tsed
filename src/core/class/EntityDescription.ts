@@ -1,13 +1,11 @@
+import {NotEnumerable} from "../decorators";
+import {Type} from "../interfaces";
 /**
- * @module core
+ * @module common/core
  */
 /** */
-import {
-    getClass, isArrayOrArrayClass, isCollection, isPrimitiveOrPrimitiveClass, isPromise, nameOf
-} from "../utils/index";
-import {Type} from "../interfaces/Type";
+import {getClass, isArrayOrArrayClass, isCollection, isPrimitiveOrPrimitiveClass, isPromise, nameOf} from "../utils";
 import {Metadata} from "./Metadata";
-import {NotEnumerable} from "../decorators/enumerable";
 
 export abstract class EntityDescription {
 

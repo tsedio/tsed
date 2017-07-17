@@ -1,11 +1,11 @@
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
+import {Registry} from "../../core/class/Registry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {ControllerProvider} from "../class/ControllerProvider";
-import {IControllerOptions} from "../interfaces/ControllerOptions";
-import {Registry} from "../../core/class/Registry";
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
+import {IControllerOptions} from "../interfaces/IControllerOptions";
 
 export const ControllerRegistry = new Registry<ControllerProvider, IControllerOptions>(ControllerProvider);
 

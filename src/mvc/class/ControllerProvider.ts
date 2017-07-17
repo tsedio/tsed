@@ -1,21 +1,18 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import * as Express from "express";
-
-import {IControllerOptions, IRouterOptions} from "../interfaces/ControllerOptions";
+import {NotEnumerable} from "../../core/decorators";
+import {Type} from "../../core/interfaces";
+import {getClass} from "../../core/utils";
 import {Provider} from "../../di/class/Provider";
+
+import {IControllerOptions, IRouterOptions} from "../interfaces";
+import {IChildrenController} from "../interfaces/IChildrenController";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
-import {getClass} from "../../core/utils/index";
-import {Type} from "../../core/interfaces/Type";
-import {NotEnumerable} from "../../core/decorators/enumerable";
 
-
-export interface ChildrenController extends Type<any> {
-    $parentCtrl?: ControllerProvider;
-}
 
 /**
  *
@@ -42,7 +39,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      * @private
      */
     @NotEnumerable()
-    private _dependencies: ChildrenController[] = [];
+    private _dependencies: IChildrenController[] = [];
 
     /**
      *
@@ -91,7 +88,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      *
      * @returns {Type<any>[]}
      */
-    get dependencies(): ChildrenController[] {
+    get dependencies(): IChildrenController[] {
         return this._dependencies;
     }
 
@@ -99,7 +96,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      *
      * @param dependencies
      */
-    set dependencies(dependencies: ChildrenController[]) {
+    set dependencies(dependencies: IChildrenController[]) {
         this._dependencies = dependencies;
         this._dependencies.forEach(d => d.$parentCtrl = this);
     }

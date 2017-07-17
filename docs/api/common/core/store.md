@@ -1,0 +1,87 @@
+<header class="symbol-info-header">    <h1 id="store">Store</h1>    <label class="symbol-info-type-label class">Class</label>    <label class="api-type-label private">private</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Store }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/lib/core/class/Store"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/romakita/ts-express-decorators/blob/v2.0.0-1/src/core/class/Store.ts#L0-L0">                core/class/Store.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+### Overview
+
+<pre><code class="typescript-lang"><span class="token keyword">class</span> Store <span class="token punctuation">{</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> size<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    get<span class="token punctuation">:</span> <T><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">;</span>
+    has<span class="token punctuation">:</span> <span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> metadata<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Store<span class="token punctuation">;</span>
+    entries<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => IterableIterator<<span class="token punctuation">[</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span><span class="token punctuation">]</span>><span class="token punctuation">;</span>
+    keys<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => IterableIterator<<span class="token keyword">string</span>><span class="token punctuation">;</span>
+    clear<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">;</span>
+    delete<span class="token punctuation">:</span> <span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    forEach<span class="token punctuation">:</span> <span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map<<span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">;</span>
+    values<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => IterableIterator<<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token function">merge</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Store<span class="token punctuation">;</span>
+    <span class="token function">storeValues</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token keyword">from</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Store<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+### Members
+
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> size<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre></div>
+Return the size of the collection.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">get<span class="token punctuation">:</span> <T><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">any</span></code></pre></div>
+
+The get() method returns a specified element from a Map object.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">has<span class="token punctuation">:</span> <span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span></code></pre></div>
+The has() method returns a boolean indicating whether an element with the specified key exists or not.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> metadata<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/core/store"><span class="token">Store</span></a></code></pre></div>
+
+Param | Type | Description
+---|---|---
+key| <code>any</code> |Required. The key of the element to add to the Map object.
+metadata| <code>any</code> |Required. The value of the element to add to the Map object.
+
+The set() method adds or updates an element with a specified key and value to a Map object.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">entries<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => IterableIterator<<span class="token punctuation">[</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span><span class="token punctuation">]</span>></code></pre></div>
+The entries() method returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">keys<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => IterableIterator<<span class="token keyword">string</span>></code></pre></div>
+The keys() method returns a new Iterator object that contains the keys for each element in the Map object in insertion order.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">clear<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => <span class="token keyword">void</span></code></pre></div>
+The clear() method removes all elements from a Map object.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">delete<span class="token punctuation">:</span> <span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span></code></pre></div>
+
+The delete() method removes the specified element from a Map object.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">forEach<span class="token punctuation">:</span> <span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map<<span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">void</span></code></pre></div>
+
+The forEach() method executes a provided function once per each key/value pair in the Map object, in insertion order.
+
+The forEach method executes the provided callback once for each key of the map which actually exist. It is not invoked for keys which have been deleted. However, it is executed for values which are present but have the value undefined.
+callback is invoked with three arguments:
+
+* the element value
+* the element key
+* the Map object being traversed
+
+If a thisArg parameter is provided to forEach, it will be passed to callback when invoked, for use as its this value.  Otherwise, the value undefined will be passed for use as its this value.  The this value ultimately observable by callback is determined according to the usual rules for determining the this seen by a function.
+
+Each value is visited once, except in the case when it was deleted and re-added before forEach has finished. callback is not invoked for values deleted before being visited. New values added before forEach has finished will be visited.
+forEach executes the callback function once for each element in the Map object; it does not return a value.
+
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">values<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> => IterableIterator<<span class="token keyword">any</span>></code></pre></div>
+The values() method returns a new Iterator object that contains the values for each element in the Map object in insertion order.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">merge</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/core/store"><span class="token">Store</span></a></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">storeValues</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre></div>
+Store all keys contains in the options object.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token keyword">from</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/core/store"><span class="token">Store</span></a></code></pre></div>
+Create or get a Store from args {target + methodName + descriptor}

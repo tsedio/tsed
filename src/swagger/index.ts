@@ -2,6 +2,7 @@
  * @module swagger
  */ /** */
 export * from "./services/SwaggerService";
+export * from "./interfaces";
 export * from "./decorators/description";
 export * from "./decorators/example";
 export * from "./decorators/responses";

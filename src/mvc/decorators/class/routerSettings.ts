@@ -1,14 +1,15 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
+import {IRouterOptions} from "../../interfaces";
 import {ControllerRegistry} from "../../registries/ControllerRegistry";
-import {IRouterOptions} from "../../interfaces/ControllerOptions";
+
 /**
  *
- * @param options
  * @returns {(target:any)=>void}
  * @decorator
+ * @param routerOptions
  */
 export function RouterSettings(routerOptions: IRouterOptions): Function {
 
@@ -18,30 +19,4 @@ export function RouterSettings(routerOptions: IRouterOptions): Function {
 
     };
 }
-/**
- *
- * @param mergeParams
- * @returns {Function}
- * @decorator
- */
-export function MergeParams(mergeParams: boolean) {
-    return RouterSettings({mergeParams});
-}
-/**
- *
- * @param caseSensitive
- * @returns {Function}
- * @decorator
- */
-export function CaseSensitive(caseSensitive: boolean) {
-    return RouterSettings({caseSensitive});
-}
-/**
- *
- * @param strict
- * @returns {Function}
- * @decorator
- */
-export function Strict(strict: boolean) {
-    return RouterSettings({strict});
-}
+

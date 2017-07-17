@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
 import {Type} from "../interfaces/Type";

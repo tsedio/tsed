@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
 
@@ -8,8 +8,4 @@ export function Configurable(value: boolean = true): Function {
         descriptor.configurable = value;
         return descriptor;
     };
-}
-
-export function NotConfigurable(): Function {
-    return Configurable(false);
 }

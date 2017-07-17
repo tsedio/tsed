@@ -1,5 +1,5 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {MiddlewareType} from "../../interfaces";

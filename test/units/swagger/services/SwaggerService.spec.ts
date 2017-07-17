@@ -1,10 +1,10 @@
 import * as Fs from "fs";
-import {expect, Sinon} from "../../../tools";
-import {SwaggerService} from "../../../../src/swagger/services/SwaggerService";
-import {inject} from "../../../../src/testing/inject";
-import {ServerSettingsService} from "../../../../src/server/services/ServerSettings";
 import {ExpressApplication} from "../../../../src/core/services/ExpressApplication";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
+import {ServerSettingsService} from "../../../../src/server/services/ServerSettingsService";
+import {SwaggerService} from "../../../../src/swagger/services/SwaggerService";
+import {inject} from "../../../../src/testing/inject";
+import {expect, Sinon} from "../../../tools";
 
 
 describe("SwaggerService", () => {

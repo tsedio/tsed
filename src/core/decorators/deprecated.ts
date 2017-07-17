@@ -1,8 +1,8 @@
 /**
- * @module core
+ * @module common/core
  */ /** */
 
-import {Type} from "../interfaces/Type";
+import {Type} from "../interfaces";
 /**
  * The `@Deprecated()` decorators wraps the given method in such a way that it is marked as deprecated.
  *

@@ -1,5 +1,5 @@
 /**
- * @module converters
+ * @module common/converters
  */
 /** */
 import {Converter} from "../decorators/converter";
@@ -7,6 +7,7 @@ import {IConverter} from "../interfaces/index";
 import {ConverterService} from "../services/ConverterService";
 /**
  * @private
+ * @converter
  */
 @Converter(Set)
 export class SetConverter implements IConverter {

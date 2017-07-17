@@ -1,19 +1,19 @@
+import {BadRequest} from "ts-httpexceptions";
+import {Metadata} from "../../core/class/Metadata";
+import {Type} from "../../core/interfaces/Type";
+import {isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
+import {InjectorService} from "../../di";
 /**
- * @module converters
+ * @module common/converters
  */
 /** */
 import {Service} from "../../di/decorators/service";
-import {isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
-import {BadRequest} from "ts-httpexceptions";
-import {InjectorService} from "../../di";
-import {Metadata} from "../../core/class/Metadata";
-import {IConverter} from "../interfaces/index";
+import {PropertyMetadata} from "../class/PropertyMetadata";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
+import {IConverter} from "../interfaces/index";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
-import {Type} from "../../core/interfaces/Type";
-import {PropertyMetadata} from "../class/PropertyMetadata";
 
 @Service()
 export class ConverterService {

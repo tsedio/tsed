@@ -1,17 +1,17 @@
-Welcome to the TsExpressDecorators project wiki! 
+Welcome to the Ts.ED project wiki! 
 
 This wiki contains informations to developp your application with decorators, to create your own Controllers, Converters, Decorators, Middlewares and Services.
 * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Installation)
 * [Quick start](https://github.com/Romakita/ts-express-decorators/wiki/Quick-start)
 * [Examples](https://github.com/Romakita/ts-express-decorators/wiki/Examples)
-* [Controllers](https://github.com/Romakita/ts-express-decorators/wiki/Controllers)
-  * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#installation)
-  * [Response and Request](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#response-and-request)
-  * [PathParams, BodyParams, QueryParams](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#pathparams-bodyparams-queryparams)
-  * [Header](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#header)
-  * [Use promise](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#use-promise)
-  * [Custom middleware](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#custom-middleware)
-  * [Controller dependencies](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#controller-dependencies)
+* [Controllers](docs/controllers.md)
+  * [Installation](docs/controllers.md#installation)
+  * [Response and Request](docs/controllers.md#response-and-request)
+  * [PathParams, BodyParams, QueryParams](docs/controllers.md#pathparams-bodyparams-queryparams)
+  * [Header](docs/controllers.md#header)
+  * [Use promise](docs/controllers.md#use-promise)
+  * [Custom middleware](docs/controllers.md#custom-middleware)
+  * [Controller dependencies](docs/controllers.md#controller-dependencies)
 * [Services](https://github.com/Romakita/ts-express-decorators/wiki/Services)
   * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Services#installation)
   * [Declaring a service](https://github.com/Romakita/ts-express-decorators/wiki/Services#declaring-a-service)

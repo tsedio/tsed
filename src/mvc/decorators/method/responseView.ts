@@ -1,10 +1,10 @@
+import {ResponseViewMiddleware} from "../../components/ResponseViewMiddleware";
+import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {UseAfter} from "./useAfter";
-import {ResponseViewMiddleware} from "../../components/ResponseViewMiddleware";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
  * Renders a view and sends the rendered HTML string to the client. Optional parameter:
  *

@@ -1,19 +1,19 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
 import {$log} from "ts-log-debug";
 
 import {Type} from "../../core";
-
-import {ServerSettingsService} from "../../server/services/ServerSettings";
 import {Service} from "../../di/decorators/service";
+import {InjectorService} from "../../di/services/InjectorService";
+
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {MiddlewareProvider} from "../class/MiddlewareProvider";
+import {UnknowMiddlewareError} from "../errors/UnknowMiddlewareError";
 import {IMiddleware} from "../interfaces";
 
 import {MiddlewareRegistry, ProxyMiddlewareRegistry} from "../registries/MiddlewareRegistry";
-import {MiddlewareProvider} from "../class/MiddlewareProvider";
-import {InjectorService} from "../../di/services/InjectorService";
-import {UnknowMiddlewareError} from "../errors/UnknowMiddlewareError";
 
 
 /**

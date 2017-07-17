@@ -1,9 +1,13 @@
+/**
+ * @module common/mvc
+ */
+/** */
 import * as Express from "express";
-
-import {EndpointBuilder} from "./EndpointBuilder";
-import {ControllerProvider} from "./ControllerProvider";
 import {Type} from "../../core/interfaces/Type";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
+import {ControllerProvider} from "./ControllerProvider";
+
+import {EndpointBuilder} from "./EndpointBuilder";
 
 export class ControllerBuilder {
 

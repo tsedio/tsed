@@ -1,16 +1,4 @@
-[Home](https://github.com/Romakita/ts-express-decorators/wiki) > Testing
-
-## Sections
-
-* [Unit test](https://github.com/Romakita/ts-express-decorators/wiki/Testing#unit-test)
-  * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Testing#installation)
-  * [Testing services](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-services)
-  * [Testing controllers](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-controllers)
-  * [Testing converters](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-converters)
-  * [Testing middlewares](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-middlewares)
-* [Test your REST API](https://github.com/Romakita/ts-express-decorators/wiki/Testing#test-your-rest-api)
-  * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Testing#installation-1)
-  * [Example](https://github.com/Romakita/ts-express-decorators/wiki/Testing#test-your-rest-api)
+# Testing
 
 ## Unit test
 ### Installation
@@ -61,14 +49,14 @@ And add `mocha` and `chai` types in your `tsconfig.json`:
 
 ### Testing services
 
-TsExpressDecorators are bundled with a testing module `ts-express-decorators/testing`. This module provide a function `inject()` to inject your services collected via annotation `@Service()`.
+Ts.ED are bundled with a testing module `ts-express-decorators/testing`. This module provide a function `inject()` to inject your services collected via annotation `@Service()`.
 
 Example of unit test for the `ParseService`:
 
 ```typescript
 import {expect} from "chai";
 import {inject} from "ts-express-decorators/testing";
-import ParseService from "ts-express-decorators";
+import {ParseService} from "ts-express-decorators";
 
 describe('ParseService :', () => {
 
@@ -95,7 +83,7 @@ Testing asynchronous method is also possible with `Done` function:
 ```typescript
 import {expect} from "chai";
 import {inject} from "ts-express-decorators/testing";
-import DbService from "../services/db";
+import {DbService} from "../services/db";
 
 describe('DbService :', () => {
 
@@ -119,7 +107,7 @@ Use `ControllerService` to invoke your controller and test it:
 ```typescript
 import {expect} from "chai";
 import {inject} from "ts-express-decorators/testing";
-import MyCtrl from "../controllers/MyCtrl";
+import {MyCtrl} from "../controllers/MyCtrl";
 
 describe('MyCtrl :', () => {
 
@@ -141,8 +129,8 @@ describe('MyCtrl :', () => {
 ```typescript
 // in MyCtrl.ts
 import {Get, Controller} from "ts-express-decorators/testing";
-import DbService from "../services/DbService";
-import OtherService from "../services/OtherService";
+import {DbService} from "../services/DbService";
+import {OtherService} from "../services/OtherService";
 
 @Controller('/')
 export default class MyCtrl {
@@ -159,8 +147,8 @@ export default class MyCtrl {
 // in MyCtrl.spec.ts
 import {expect} from "chai";
 import {inject} from "ts-express-decorators/testing";
-import MyCtrl from "../controllers/MyCtrl";
-import DbService from "../services/DbService";
+import {MyCtrl} from "../controllers/MyCtrl";
+import {DbService} from "../services/DbService";
 
 describe('MyCtrl :', () => {
 
@@ -193,7 +181,7 @@ describe('MyCtrl :', () => {
 
 `Converters` let you to customize how [ConverterService](https://github.com/Romakita/ts-express-decorators/wiki/Converters) will deserialize a data for one or more types. This example show you the unit test for the Array type. 
 
-The converter implementation in TsExpressDecorators for Array type is the following:
+The converter implementation in Ts.ED for Array type is the following:
 ```typescript
 import ConverterService from "../services/converter";
 import {Converter} from "../decorators/converter";

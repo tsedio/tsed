@@ -10,7 +10,7 @@
 [![img](https://david-dm.org/romakita/ts-express-decorators/peer-status.svg)](https://david-dm.org/romakita/ts-express-decorators/#info=peerDependenciess)
 [![Known Vulnerabilities](https://snyk.io/test/github/romakita/ts-express-decorators/badge.svg)](https://snyk.io/test/github/romakita/ts-express-decorators)
 
-> Build your TypeScript v2 application with Express decorators ! Support ES5 and ES6.
+> Build your TypeScript v2 application with Express decorators !
 
 [![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-express-decorators/)
 [![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=6&height=3)](https://nodei.co/npm/ts-express-decorators/)
@@ -29,7 +29,14 @@
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
 * Templating (View),
+* Swagger documentation and Swagger-ui,
 * Testing.
+
+## Documentation
+
+Documentation for v2.x is available on [https://romakita.github.io/ts-express-decorators](https://romakita.github.io/ts-express-decorators)
+
+
 
 ## Installation
 
@@ -75,9 +82,9 @@ If we used the InjectorService. Make you sure we have this in your code:
 ## Quick start
 #### Create your express server
 
-TsExpressDecorators provide a [`ServerLoader`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader) class to configure your 
+TsExpressDecorators provide a [`ServerLoader`](docs/server-loader.md) class to configure your 
 express quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader).
+a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
 
 ```typescript
 import * as Express from "express";
@@ -85,7 +92,8 @@ import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
-    rootDir: Path.resolve(__dirname)
+    rootDir: Path.resolve(__dirname),
+    acceptMimes: ["application/json"]
 })
 export class Server extends ServerLoader {
 
@@ -95,17 +103,14 @@ export class Server extends ServerLoader {
      */
     public $onMountingMiddlewares(): void|Promise<any> {
     
-        const morgan = require('morgan'),
-            cookieParser = require('cookie-parser'),
+        const cookieParser = require('cookie-parser'),
             bodyParser = require('body-parser'),
             compress = require('compression'),
             methodOverride = require('method-override');
 
 
         this
-            .use(morgan('dev'))
-            .use(ServerLoader.AcceptMime("application/json"))
-
+            .use(GlobalAcceptMimesMiddleware)
             .use(cookieParser())
             .use(compress({}))
             .use(methodOverride())
@@ -123,13 +128,10 @@ export class Server extends ServerLoader {
    
     public $onServerInitError(err){
         console.error(err);
-    }
-
-    static Initialize = (): Promise<any> => new Server().start();
-    
+    }    
 }
 
-Server.Initialize();
+new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
@@ -150,7 +152,7 @@ So the controller's url will be `http://host/rest/calendars`.
 import {Controller, Get} from "ts-express-decorators";
 import * as Express from "express";
 
-interface ICalendar{
+export interface Calendar{
     id: string;
     name: string;
 }
@@ -169,23 +171,21 @@ export class CalendarCtrl {
      * @returns {{id: any, name: string}}
      */
     @Get("/:id")
-    public get(request: Express.Request, response: Express.Response): ICalendar {
-
-        return <ICalendar> {id: request.params.id, name: "test"};
+    async get(request: Express.Request, response: Express.Response): Promise<Calendar> {
+        return {id: request.params.id, name: "test"};
     }
 
-    @Get("")
+    @Get("/")
     @ResponseView("calendars/index") // Render "calendars/index" file using Express.Response.render internal
-    public get(request: Express.Request, response: Express.Response): Array<ICalendar> {
+    async renderCalendars(request: Express.Request, response: Express.Response): Promise<Array<Calendar>> {
 
-        return [<ICalendar> {id: '1', name: "test"}];
+        return [{id: '1', name: "test"}];
     }
     
-    @Authenticated()
-    @BodyParams() @Required("calendar.name")  // Throw Bad Request (400) if the request.body.calendar.name isn't provided 
     @Post("/")
-    public post(
-        @BodyParams("calendar") calendar: ICalendar
+    @Authenticated()
+    async post(
+        @Required() @BodyParams("calendar") calendar: Calendar
     ): Promise<ICalendar> {
     
         return new Promise((resolve: Function, reject: Function) => {
@@ -197,9 +197,9 @@ export class CalendarCtrl {
         });
     }
     
-    @Authenticated()
     @Delete("/")
-    public post(
+    @Authenticated()
+    async post(
         @BodyParams("calendar.id") @Required() id: string 
     ): Promise<ICalendar> {
     
@@ -218,70 +218,12 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 > **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
-## [Wiki](https://github.com/Romakita/ts-express-decorators/wiki/home)
-
-Welcome to the TsExpressDecorators project wiki! 
-
-* [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Installation)
-* [Quick start](https://github.com/Romakita/ts-express-decorators/wiki/Quick-start)
-* [Examples](https://github.com/Romakita/ts-express-decorators/wiki/Examples)
-* [Controllers](https://github.com/Romakita/ts-express-decorators/wiki/Controllers)
-  * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#installation)
-  * [Response and Request](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#response-and-request)
-  * [PathParams, BodyParams, QueryParams](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#pathparams-bodyparams-queryparams)
-  * [Header](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#header)
-  * [Use promise](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#use-promise)
-  * [Custom middleware](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#custom-middleware)
-  * [Controller dependencies](https://github.com/Romakita/ts-express-decorators/wiki/Controllers#controller-dependencies)
-* [Services](https://github.com/Romakita/ts-express-decorators/wiki/Services)
-  * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Services#installation)
-  * [Declaring a service](https://github.com/Romakita/ts-express-decorators/wiki/Services#declaring-a-service)
-  * [Declaring a service already constructed (Factory)](https://github.com/Romakita/ts-express-decorators/wiki/Services#declaring-a-service-already-constructed-factory)
-  * [Inject ExpressApplication](https://github.com/Romakita/ts-express-decorators/wiki/Services#inject-expressapplication)
-  * [Services available](https://github.com/Romakita/ts-express-decorators/wiki/Services#services-available)
-  * [Converters](https://github.com/Romakita/ts-express-decorators/wiki/Converters)
-* [Middlewares](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares)
-  * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#installation)
-  * [Specifics parameters decorators](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#specifics-parameters-decorators)
-  * [Declaring a global middleware](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#declaring-a-global-middleware)
-  * [Declaring a global error middleware](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#declaring-a-global-error-middleware)
-  * [Declaring a middleware for an endpoint](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#declaring-a-middleware-for-an-endpoint)
-    * [Simple use case](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#simple-use-case)
-    * [Create your own decorator](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#create-your-own-decorator)
-    * [How to format the Response with middleware](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#how-to-format-the-response-with-middleware)
-  * [Declaring an error middleware for an endpoint](https://github.com/Romakita/ts-express-decorators/wiki/Middlewares#declaring-an-error-middleware-for-an-endpoint)
-* [ServerLoader](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader)
-  * [Configure server with decorator](https://github.com/Romakita/ts-express-decorators/wiki/Configure-server-with-decorator)
-  * [API](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader----API)
-  * [Versioning Rest API](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader-Versioning-Rest-API)
-  * [Lifecycle hooks](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks)
-  * [Middlewares settings](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks#serverloaderonmountingmiddlewares-void--promise)
-  * [Serve static](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks#serverloaderafterroutesinit-void--promise)
-  * [Authentification](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks#serverloaderonauthrequest-response-next-void)
-  * [Global errors handlers](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader---Lifecycle-Hooks#serverloaderonerrorerror-request-response-next-void)
-* [Templating](https://github.com/Romakita/ts-express-decorators/wiki/Templating)
-* [Upload files with Multer](https://github.com/Romakita/ts-express-decorators/wiki/Upload-files-with-multer)
-* [Throw HTTP exceptions](https://github.com/Romakita/ts-express-decorators/wiki/Throw-HTTP-Exceptions)
-* [Testing](https://github.com/Romakita/ts-express-decorators/wiki/Testing)
-  * [Unit test](https://github.com/Romakita/ts-express-decorators/wiki/Testing#unit-test)
-    * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Testing#installation)
-    * [Testing services](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-services)
-    * [Testing controllers](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-controllers)
-    * [Testing converters](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-converters)
-    * [Testing middlewares](https://github.com/Romakita/ts-express-decorators/wiki/Testing#testing-middlewares)
-  * [Test your REST API](https://github.com/Romakita/ts-express-decorators/wiki/Testing#test-your-rest-api)
-    * [Installation](https://github.com/Romakita/ts-express-decorators/wiki/Testing#installation-1)
-    * [Example](https://github.com/Romakita/ts-express-decorators/wiki/Testing#test-your-rest-api)
-* [API references](https://github.com/Romakita/ts-express-decorators/wiki/API-references)
-* [Change log](CHANGELOG.md)
-
 ## Contributors
 
 * [Romain Lenzotti](https://github.com/romakita)
 * [AlexProca](https://github.com/alexproca)
 * [Vincent178](https://github.com/vincent178)
-
-
+* [Vologab](https://github.com/vologab)
 
 ## License
 

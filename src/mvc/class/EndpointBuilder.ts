@@ -1,9 +1,14 @@
-import {EndpointMetadata} from "./EndpointMetadata";
-import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
+/**
+ * @module common/mvc
+ */
+/** */
+
 import * as Express from "express";
-import {HandlerBuilder} from "./HandlerBuilder";
 import {$log} from "ts-log-debug";
-import {nameOf} from "../../core/utils/index";
+import {nameOf} from "../../core/utils";
+import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
+import {EndpointMetadata} from "./EndpointMetadata";
+import {HandlerBuilder} from "./HandlerBuilder";
 
 export class EndpointBuilder {
 

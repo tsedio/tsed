@@ -1,11 +1,11 @@
 /**
- * @module server
+ * @module common/server
  */ /** */
 
-import {IServerSettings} from "../interfaces/ServerSettings";
 import {Metadata} from "../../core/class/Metadata";
-import {SERVER_SETTINGS} from "../constants/index";
 import {Type} from "../../core/interfaces/Type";
+import {SERVER_SETTINGS} from "../constants/index";
+import {IServerSettings} from "../interfaces/IServerSettings";
 /**
  *
  * @param settings

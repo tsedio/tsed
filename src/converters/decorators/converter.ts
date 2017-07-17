@@ -1,5 +1,5 @@
 /**
- * @module converters
+ * @module common/converters
  */ /** */
 
 import {Metadata} from "../../core/class/Metadata";

@@ -1,9 +1,9 @@
+import {HeaderParams} from "../../filters/decorators/headerParams";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {UseAfter} from "./method/useAfter";
-import {HeaderParams} from "../../filters/decorators/headerParams";
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
  *

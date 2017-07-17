@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  */ /** */
 /**
  * Get the provide constructor.

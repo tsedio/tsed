@@ -1,16 +1,16 @@
 /**
- * @module filters
+ * @module common/filters
  */
 /** */
 import {$log} from "ts-log-debug";
-import {Service} from "../../di/decorators/service";
-import {ServerSettingsService} from "../../server/services/ServerSettings";
-import {IFilter} from "../interfaces";
 import {Type} from "../../core/interfaces/Type";
-import {FilterRegistry, ProxyFilterRegistry} from "../registries/FilterRegistry";
-import {FilterProvider} from "../class/FilterProvider";
+import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {FilterProvider} from "../class/FilterProvider";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
+import {IFilter} from "../interfaces";
+import {FilterRegistry, ProxyFilterRegistry} from "../registries/FilterRegistry";
 /**
  *
  */

@@ -1,10 +1,10 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
-import {Type} from "../../core/interfaces/Type";
-import {ParamRegistry} from "../registries/ParamRegistry";
 import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
+import {Type} from "../../core/interfaces";
+import {ParamRegistry} from "../registries/ParamRegistry";
 /**
  * Add required annotation for a function argument .
  * @returns {Function}

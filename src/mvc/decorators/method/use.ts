@@ -1,5 +1,5 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {Type} from "../../../core/interfaces/Type";

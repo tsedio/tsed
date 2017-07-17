@@ -1,8 +1,9 @@
+import {deepExtends, nameOf} from "../../core/utils";
 /**
- * @module mvc
+ * @module swagger
  */
+/** */
 import {PathParamsType} from "../../mvc/interfaces/PathParamsType";
-import {deepExtends, nameOf} from "../../core/utils/index";
 /** */
 
 export function toSwaggerPath(expressPath: PathParamsType): PathParamsType {

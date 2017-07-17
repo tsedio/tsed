@@ -1,15 +1,10 @@
+import {Storable} from "../../core/class/Storable";
+import {NotEnumerable} from "../../core/decorators";
 /**
- * @module converters
+ * @module common/converters
  */
 /** */
-import {Type} from "../../core/interfaces/Type";
-import {NotEnumerable} from "../../core/decorators/enumerable";
-import {Storable} from "../../core/class/Storable";
-
-export interface IPropertyOptions {
-    name?: string;
-    use?: Type<any>;
-}
+import {IPropertyOptions} from "../interfaces/IPropertyOptions";
 
 export class PropertyMetadata extends Storable implements IPropertyOptions {
     /**

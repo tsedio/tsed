@@ -1,12 +1,12 @@
+import {Type} from "../../../core/interfaces/Type";
+import {isArrayOrArrayClass} from "../../../core/utils/index";
+import {IControllerOptions} from "../../interfaces/IControllerOptions";
+import {PathParamsType} from "../../interfaces/PathParamsType";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {ControllerRegistry} from "../../registries/ControllerRegistry";
-import {IControllerOptions} from "../../interfaces/ControllerOptions";
-import {Type} from "../../../core/interfaces/Type";
-import {PathParamsType} from "../../interfaces/PathParamsType";
-import {isArrayOrArrayClass} from "../../../core/utils/index";
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
  * This routing listing will be built with the `express.Router` object.

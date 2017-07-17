@@ -1,5 +1,5 @@
 /**
- * @module di
+ * @module common/di
  */
 /** */
 import {InjectorService} from "../services/InjectorService";

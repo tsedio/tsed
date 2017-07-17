@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
 
@@ -11,8 +11,4 @@ export function Writable(value: boolean = true): Function {
         descriptor.writable = value;
         return descriptor;
     };
-}
-
-export function Readonly(): Function {
-    return Writable(false);
 }

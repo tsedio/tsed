@@ -1,0 +1,234 @@
+<header class="symbol-info-header">    <h1 id="serverloader">ServerLoader</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/romakita/ts-express-decorators/blob/v2.0.0-1/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+### Overview
+
+<pre><code class="typescript-lang"><span class="token keyword">abstract</span> <span class="token keyword">class</span> ServerLoader <span class="token keyword">implements</span> <a href="#api/common/server/iserverlifecycle"><span class="token">IServerLifecycle</span></a> <span class="token punctuation">{</span>
+    version<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">createHttpServer</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">createHttpsServer</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="#api/common/server/ihttpsserveroptions"><span class="token">IHTTPSServerOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> val<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a>><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serversettingsservice"><span class="token">ServerSettingsService</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <a href="#api/common/server/iserversettings"><span class="token">IServerSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+        address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | false<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span>
+    <span class="token function">setHttpPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">setHttpsPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">setEndpoint</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">scan</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">onError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/server/serversettingsprovider"><span class="token">ServerSettingsProvider</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> expressApp<span class="token punctuation">:</span> Express.Application<span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server<span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+### Description
+
+ServerLoader provider all method to instantiate an ExpressServer.
+
+It provide some features :
+
+* Middleware importation,
+* Scan directory. You can specify controllers and services directory in your project,
+* Error management (GlobalErrorHandler),
+* Authentication strategy.
+
+
+```typescript
+// In server.ts
+import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import Path = require("path");
+@ServerSettings({
+   rootDir: Path.resolve(__dirname),
+   port: 8000,
+   httpsPort: 8080,
+   mount: {
+     "/rest": "${rootDir}/controllers/**/*.js"
+   }
+})
+export class Server extends ServerLoader {
+
+    $onReady(){
+        console.log('Server started...');
+    }
+
+    $onServerInitError(err){
+        console.error(err);
+    }
+}
+
+// In app.ts
+import Server from "./server";
+new Server()
+    .start()
+    .then(() => console.log('started'))
+    .catch(er => console.error(er));
+
+```
+
+### Members
+
+<div class="method-overview"><pre><code class="typescript-lang">version<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">createHttpServer</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Create a new HTTP server with the provided `port`.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">createHttpsServer</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="#api/common/server/ihttpsserveroptions"><span class="token">IHTTPSServerOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+
+Param | Type | Description
+---|---|---
+options| <code><a href="#api/common/server/ihttpsserveroptions"><span class="token">IHTTPSServerOptions</span></a></code> |Options to create new HTTPS server.
+
+Create a new HTTPs server.
+
+`options` <IHTTPSServerOptions>:
+
+- `port` &lt;number&gt;: Port number,
+- `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
+- `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
+- `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
+- `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
+
+See more info on [httpsOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener).
+
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+This method let you to add a express middleware or a Ts.ED middleware like GlobalAcceptMimes.
+
+```typescript
+@ServerSettings({
+   rootDir,
+   acceptMimes: ['application/json'] // optional
+})
+export class Server extends ServerLoader {
+    $onMountingMiddlewares(): void|Promise<any> {
+        const methodOverride = require('method-override');
+
+        this.use(GlobalAcceptMimesMiddleware)
+            .use(methodOverride());
+
+        // similar to
+        this.expressApp.use(methodOverride());
+
+        // but not similar to
+        this.expressApp.use(GlobalAcceptMimesMiddleware); // in this case, this middleware will not be added correctly to express.
+
+        return null;
+    }
+}
+```
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> val<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Proxy to express set
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Proxy to express engine
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a>></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> <span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre></div>
+Initialize configuration of the express app.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serversettingsservice"><span class="token">ServerSettingsService</span></a></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> <span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <a href="#api/common/server/iserversettings"><span class="token">IServerSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre></div>
+Start the express server.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+     address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+     port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | false<span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span></code></pre></div>
+Create a new server from settings parameters.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">setHttpPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Set the port for http server.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><del><span class="token function">setHttpsPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></del></code></pre></div>
+Set the port for https server.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><del><span class="token function">setEndpoint</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></del></code></pre></div>
+Change the global endpoint path.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">scan</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Scan and imports all files matching the pattern. See the document on the [Glob](https://www.npmjs.com/package/glob)
+pattern for more information.
+
+#### Example
+
+```typescript
+import {ServerLoader} from "ts-express-decorators";
+import Path = require("path");
+
+export class Server extends ServerLoader {
+
+   constructor() {
+       super();
+
+       let appPath = Path.resolve(__dirname);
+
+       this.scan(appPath + "/controllers/**/**.js")
+  }
+}
+```
+
+Theses pattern scan all files in the directories controllers, services recursively.
+
+!> On windows on can have an issue with the Glob pattern and the /. To solve it, build your path pattern with the module Path.
+
+```typescript
+const controllerPattern = Path.join(rootDir, 'controllers','**','*.js');
+```
+
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><del><span class="token function">onError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></del></code></pre></div>
+ServerLoader.onError() is deprecated. Use your own middleware instead of.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
+under the endpoint. See [Versioning Rest API](docs/server-loader/versioning.md) for more informations.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/server/serversettingsprovider"><span class="token">ServerSettingsProvider</span></a></code></pre></div>
+Return the settings configured by the decorator [@ServerSettings](api/common/server/decorators/serversettings.md).
+
+   rootDir: Path.resolve(__dirname),
+   port: 8000,
+   httpsPort: 8080,
+   mount: {
+     "/rest": "${rootDir}/controllers/**/*.js"
+}
+})
+export class Server extends ServerLoader {
+    $onInit(){
+        console.log(this.settings); // {rootDir, port, httpsPort,...}
+    }
+}
+```
+
+@returns {ServerSettingsProvider}
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> expressApp<span class="token punctuation">:</span> Express.Application</code></pre></div>
+Return Express Application instance.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre></div>
+Return the injectorService initialized by the server.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server</code></pre></div>
+Return Http.Server instance.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server</code></pre></div>
+Return Https.Server instance.

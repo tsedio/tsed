@@ -39,6 +39,8 @@ index.js
 index.js.map
 !testing/index.js
 !swagger/index.js
+!multipartfiles/index.js
+!servestatic/index.js
 src/**/*.js
 src/**/*.js.map
 test/**/*.js
@@ -57,4 +59,3 @@ test/spec/*.js.map
 
 /.nyc_output/
 /test/integration/app/spec/swagger.json
-/docs

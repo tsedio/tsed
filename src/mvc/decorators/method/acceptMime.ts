@@ -1,10 +1,10 @@
+import {AcceptMimesMiddleware} from "../../components/AcceptMimesMiddleware";
+import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {UseBefore} from "./useBefore";
-import {AcceptMimesMiddleware} from "../../components/AcceptMimesMiddleware";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
  * Set a mime list as acceptable for a request on a specific endpoint.
  *

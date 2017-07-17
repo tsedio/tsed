@@ -1,5 +1,6 @@
-import {assert, expect} from "chai";
-import {Enumerable, NotEnumerable} from "../../../../src/core/decorators/enumerable";
+import {expect} from "chai";
+import {NotEnumerable} from "../../../../src/core/decorators";
+import {Enumerable} from "../../../../src/core/decorators/enumerable";
 
 class Test {
 }

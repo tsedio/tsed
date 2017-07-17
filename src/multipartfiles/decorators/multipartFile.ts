@@ -2,13 +2,14 @@
  * @module multiparfiles
  */ /** */
 
-import {Type} from "../../core/interfaces/Type";
-import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
-import {UseBefore} from "../../mvc/decorators/method/useBefore";
 import {Metadata} from "../../core/class/Metadata";
-import {MultipartFileFilter, MultipartFilesFilter} from "../filters/MultipartFileFilter";
+import {Type} from "../../core/interfaces";
+import {UseBefore} from "../../mvc/decorators/method/useBefore";
 import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
 import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
+import {MultipartFileFilter} from "../filters/MultipartFileFilter";
+import {MultipartFilesFilter} from "../filters/MultipartFilesFilter";
+import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
 
 /**
  *

@@ -1,5 +1,5 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
 import * as Express from "express";
@@ -9,9 +9,10 @@ import {EndpointInfo} from "../decorators/param/endpointInfo";
 import {Response} from "../decorators/param/response";
 import {ResponseData} from "../decorators/param/responseData";
 import {TemplateRenderingError} from "../errors/TemplateRenderingError";
-import {IMiddleware} from "../interfaces/index";
+import {IMiddleware} from "../interfaces";
 /**
  * @private
+ * @middleware
  */
 @Middleware()
 export class ResponseViewMiddleware implements IMiddleware {

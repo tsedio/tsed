@@ -1,7 +1,7 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
+import {expect} from "chai";
 import * as Proxyquire from "proxyquire";
-import {MiddlewareType} from "../../../../../src/mvc/interfaces/Middleware";
+import * as Sinon from "sinon";
+import {MiddlewareType} from "../../../../../src/mvc/interfaces";
 
 const MiddlewareRegistry: any = {
     merge: Sinon.stub()

@@ -1,12 +1,12 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
-import {IParamOptions} from "../interfaces";
-import {NotEnumerable} from "../../core/decorators/enumerable";
-import {nameOf} from "../../core/utils/index";
-import {Type} from "../../core/interfaces/Type";
 import {Storable} from "../../core/class/Storable";
+import {NotEnumerable} from "../../core/decorators";
+import {Type} from "../../core/interfaces";
+import {nameOf} from "../../core/utils";
+import {IParamOptions} from "../interfaces";
 /**
  *
  */

@@ -3,13 +3,13 @@
  */
 /** */
 import {$log} from "ts-log-debug";
-import {EndpointInfo, Next, Request, Response} from "../../mvc";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
-import {Middleware} from "../../mvc/decorators/class/middleware";
-import {IMiddleware} from "../../mvc/interfaces/index";
-import {ServerSettingsService} from "../../server/services/ServerSettings";
+import {EndpointInfo, Middleware, Next, Req, Res} from "../../mvc/decorators";
+import {IMiddleware} from "../../mvc/interfaces";
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 /**
  * @private
+ * @middleware
  */
 @Middleware()
 export class MultipartFileMiddleware implements IMiddleware {
@@ -37,14 +37,13 @@ export class MultipartFileMiddleware implements IMiddleware {
      * @returns {any}
      */
     use(@EndpointInfo() endpoint: EndpointMetadata,
-        @Request() request: Express.Request,
-        @Response() response: Express.Response,
-        @Next() next
-    ) {
+        @Req() request: Express.Request,
+        @Res() response: Express.Response,
+        @Next() next) {
 
         if (this.multer) {
             const options = Object.assign({
-                dest: this.serverSettingsService.uploadDir,
+                dest: this.serverSettingsService.uploadDir
             }, endpoint.store.get(MultipartFileMiddleware) || {});
 
             const middleware = this.multer(options);

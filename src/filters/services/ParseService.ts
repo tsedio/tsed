@@ -1,9 +1,9 @@
+import {isEmpty} from "../../core/utils";
 /**
- * @module filters
+ * @module common/filters
  */
 /** */
 import {Service} from "../../di/decorators/service";
-import {isEmpty} from "../../core/utils";
 /**
  *
  */

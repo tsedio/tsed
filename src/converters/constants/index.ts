@@ -1,5 +1,5 @@
 /**
- * @module converters
+ * @module common/converters
  */ /** */
 
 /**

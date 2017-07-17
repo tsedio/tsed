@@ -1,10 +1,10 @@
-import {BodyParams, Controller, Delete, Get, Head, Patch, Post, Put, Response} from "../../../../../src/index";
-import {EventModel} from "../../models/Event";
-import {Returns} from "../../../../../src/swagger/decorators/returns";
-import {Authenticated} from "../../../../../src/mvc/decorators/method/authenticated";
-import {Required} from "../../../../../src/mvc/decorators/required";
-import {Responses} from "../../../../../src/swagger/decorators/responses";
 import {NotFound} from "ts-httpexceptions";
+import {BodyParams, Controller, Delete, Get, Head, Patch, Post, Put, Response} from "../../../../../src/index";
+import {Required} from "../../../../../src/mvc/decorators";
+import {Authenticated} from "../../../../../src/mvc/decorators/method/authenticated";
+import {Responses} from "../../../../../src/swagger/decorators/responses";
+import {Returns} from "../../../../../src/swagger/decorators/returns";
+import {EventModel} from "../../models/Event";
 
 
 interface IEvent {

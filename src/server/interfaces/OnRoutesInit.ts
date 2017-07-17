@@ -1,8 +1,8 @@
 /**
- * @module server
+ * @module common/server
  */
 /** */
-import {IComponentScanned} from "./ComponentScanned";
+import {IComponentScanned} from "./IComponentScanned";
 
 export interface OnRoutesInit {
     $onRoutesInit(components: IComponentScanned[]): void | Promise<any>;

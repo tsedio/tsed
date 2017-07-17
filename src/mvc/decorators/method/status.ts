@@ -1,10 +1,10 @@
+import {Type} from "../../../core/interfaces/Type";
+import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {UseAfter} from "./useAfter";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
-import {Type} from "../../../core/interfaces/Type";
 /**
  * Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
  *

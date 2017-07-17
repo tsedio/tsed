@@ -1,5 +1,6 @@
-import {assert, expect} from "chai";
-import {Configurable, NotConfigurable} from "../../../../src/core/decorators/configurable";
+import {expect} from "chai";
+import {NotConfigurable} from "../../../../src/core/decorators";
+import {Configurable} from "../../../../src/core/decorators/configurable";
 
 class Test {
 }

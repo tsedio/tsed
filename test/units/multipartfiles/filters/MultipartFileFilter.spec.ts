@@ -1,7 +1,8 @@
-import {assert, expect} from "chai";
-import {inject} from "../../../../src/testing/inject";
+import {expect} from "chai";
 import {FilterService} from "../../../../src/filters/services/FilterService";
-import {MultipartFileFilter, MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
+import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
+import {inject} from "../../../../src/testing";
 
 describe("MultipartFileFilter", () => {
 

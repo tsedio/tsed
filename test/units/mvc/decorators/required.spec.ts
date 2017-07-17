@@ -10,14 +10,16 @@ const PropertyRegistry: any = {
     required: Sinon.stub()
 };
 
-const {Required} = Proxyquire.load("../../../../src/mvc/decorators/required", {
-    "../registries/ParamRegistry": {ParamRegistry},
-    "../../converters/registries/PropertyRegistry": {PropertyRegistry}
-});
 
 class Test {
 
 }
+
+
+const {Required} = Proxyquire.load("../../../../src/mvc/decorators/required", {
+    "../registries/ParamRegistry": {ParamRegistry},
+    "../../converters/registries/PropertyRegistry": {PropertyRegistry}
+});
 
 describe("Required", () => {
 

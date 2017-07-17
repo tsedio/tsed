@@ -1,11 +1,11 @@
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
+import {Registry} from "../../core/class/Registry";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {MiddlewareProvider} from "../class/MiddlewareProvider";
-import {IMiddlewareOptions} from "../interfaces/MiddlewareOptions";
-import {Registry} from "../../core/class/Registry";
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
+import {IMiddlewareOptions} from "../interfaces/IMiddlewareOptions";
 
 export const MiddlewareRegistry = new Registry<MiddlewareProvider, IMiddlewareOptions>(MiddlewareProvider);
 

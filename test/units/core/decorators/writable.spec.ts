@@ -1,5 +1,5 @@
-import {assert, expect} from "chai";
-import {Readonly, Writable} from "../../../../src/core/decorators/writable";
+import {expect} from "chai";
+import {Readonly, Writable} from "../../../../src/core/decorators";
 
 class Test {
 }

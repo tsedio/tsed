@@ -1,18 +1,22 @@
-import {Info, Schema, Spec} from "swagger-schema-official";
+/**
+ * @module swagger
+ */
+/** */
 import * as Fs from "fs";
 import * as PathUtils from "path";
+import {Info, Schema, Spec} from "swagger-schema-official";
 import {$log} from "ts-log-debug";
-import {Service} from "../../di/decorators/service";
-import {ControllerService} from "../../mvc/services/ControllerService";
-import {ServerSettingsService} from "../../server/services/ServerSettings";
-import {Inject} from "../../di/decorators/inject";
 import {ExpressApplication} from "../../core/services/ExpressApplication";
-import {ISwaggerPaths, ISwaggerSettings} from "../interfaces/interfaces";
-import {deepExtends} from "../../core/utils/index";
+import {deepExtends} from "../../core/utils";
+import {Inject} from "../../di/decorators/inject";
+import {Service} from "../../di/decorators/service";
 import {ControllerProvider} from "../../mvc/class/ControllerProvider";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
+import {ControllerService} from "../../mvc/services/ControllerService";
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
-import {getReducers} from "../utils/index";
+import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
+import {getReducers} from "../utils";
 
 
 @Service()

@@ -1,14 +1,13 @@
 /**
- * @module mvc
+ * @module common/mvc
  */ /** */
 
 import {Metadata} from "../../core/class/Metadata";
 import {Storable} from "../../core/class/Storable";
-import {Deprecated} from "../../core/decorators/deprecated";
-import {NotEnumerable} from "../../core/decorators/enumerable";
-import {Type} from "../../core/interfaces/Type";
-import {isArrayOrArrayClass, isPromise} from "../../core/utils/index";
-import {ENDPOINT_METHODS} from "../constants/index";
+import {Deprecated, NotEnumerable} from "../../core/decorators";
+import {Type} from "../../core/interfaces";
+import {isArrayOrArrayClass, isPromise} from "../../core/utils";
+import {ENDPOINT_METHODS} from "../constants";
 import {PathParamsType} from "../interfaces/PathParamsType";
 /**
  * EndpointMetadata contains metadata about a controller and his method.

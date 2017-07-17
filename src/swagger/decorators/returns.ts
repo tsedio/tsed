@@ -3,7 +3,7 @@
  */
 /** */
 import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
-import {IResponsesOptions} from "../interfaces/interfaces";
+import {IResponsesOptions} from "../interfaces/index";
 
 export function Returns(code: number, options: IResponsesOptions = {}) {
     return <T>(target: any, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {

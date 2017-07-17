@@ -1,14 +1,15 @@
 /**
- * @module converters
+ * @module common/converters
  */ /** */
 
-import {Converter} from "../decorators/converter";
 import {isArrayOrArrayClass} from "../../core/utils";
-import {ConverterService} from "../services/ConverterService";
+import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
+import {ConverterService} from "../services/ConverterService";
 
 /**
  * @private
+ * @converter
  */
 @Converter(Array)
 export class ArrayConverter implements IConverter {

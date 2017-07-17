@@ -2,8 +2,8 @@
  * @module swagger
  */
 import {Path, Response} from "swagger-schema-official";
-import {toSwaggerPath} from "../utils/index";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
+import {toSwaggerPath} from "../utils";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
 /** */

@@ -1,0 +1,453 @@
+.app-nav a.logo {
+    float: left;
+    z-index: 1;
+    height: 20px;
+    display: block;
+    margin-top: -10px;
+}
+
+.app-nav a.logo img {
+    width: 200px;
+    color: white;
+}
+
+section.cover {
+    color: white;
+    background: linear-gradient(to bottom, #4e83cc 0%, #2d5996 50%) !important
+}
+
+section.cover blockquote {
+    color: #FFA700;
+}
+
+section.cover h1 .anchor span {
+    color: white
+}
+
+section.cover .cover-main > p:last-child a {
+    border-color: white;
+    color: white
+}
+
+section.cover .cover-main > p:last-child a:hover {
+    background: white;
+    color: #337ab7;
+}
+
+section.cover .cover-main > p:last-child a:last-child {
+    color: #111;
+    border-color: #FFA700;
+    background-color: #FFA700;
+}
+
+.github-corner svg {
+    color: #fff;
+    fill: #FFA700;
+    fill: var(--theme-color, #FFA700);
+    height: 80px;
+    width: 80px;
+}
+
+.markdown-section ul.api-list {
+    list-style: none;
+    margin: 0 0 32px -8px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.api-list li {
+    font-size: 14px;
+    margin: 8px 0;
+    line-height: 14px;
+    padding: 0;
+    float: left;
+    width: 33%;
+    overflow: hidden;
+    min-width: 220px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.api-list li a.symbol-container {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0 16px 0;
+}
+
+a.symbol-container {
+    width: 30%;
+    color: #546e7a;
+    display: inline-block;
+    line-height: 16px;
+    padding: 0 16px 0;
+    text-decoration: none;
+    transition: all .3s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.symbol-container:hover {
+    background: #eceff1;
+    color: #2196f3;
+}
+
+.symbol {
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(10, 16, 20, .24);
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+    width: 16px;
+}
+
+.symbol {
+    margin-right: 8px;
+}
+
+.symbol.class {
+    background: #2196f3;
+}
+
+.symbol.class:before {
+    content: "C";
+}
+
+.symbol.interface {
+    background: #009688;
+}
+
+.symbol.interface:before {
+    content: "I";
+}
+
+.symbol.decorator {
+    background: #1565c0;
+}
+
+.symbol.decorator:before {
+    content: "@";
+}
+
+.symbol.type {
+    background: #7cb342;
+}
+
+.symbol.type:before {
+    content: "T";
+}
+
+.symbol.service {
+    background: #d81b60;
+}
+
+.symbol.service:before {
+    content: "S";
+}
+
+.symbol.function {
+    background: #4caf50;
+}
+
+.symbol.function:before {
+    content: "F";
+}
+
+.symbol.const {
+    background: #6e6e6e;
+}
+
+.symbol.const:before {
+    content: "K";
+}
+
+.symbol.enum {
+    background: #ffa000;
+}
+
+.symbol.enum:before {
+    content: "E";
+}
+
+.plugin-api-search-nav > * {
+    float: left;
+    margin: 8px;
+}
+
+.plugin-api-search-nav:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+aio-select {
+    width: 200px;
+    color: rgba(0, 0, 0, .87);
+    display: block;
+}
+
+aio-select .form-select-menu {
+    position: relative;
+    margin: 0;
+}
+
+aio-select.open .form-select-menu ul.form-select-dropdown {
+    display: block;
+}
+
+.form-select-button {
+    background: #fff;
+    box-shadow: 0 2px 2px rgba(10, 16, 20, .24), 0 0 2px rgba(10, 16, 20, .12);
+    box-sizing: border-box;
+    border: 1px solid #fff;
+    color: #546e7a;
+    font-size: 12px;
+    font-weight: 400;
+    height: 32px;
+    line-height: 32px;
+    outline: none;
+    padding: 0 16px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+}
+
+.form-select-button:focus {
+    border: 1px solid #42a5f5;
+    box-shadow: 0 2px 2px rgba(66, 165, 245, .24), 0 0 2px rgba(66, 165, 245, .12);
+}
+
+.form-select-button strong {
+    font-weight: 600;
+    margin-right: 8px;
+    text-transform: uppercase;
+}
+
+ul.form-select-dropdown {
+    color: rgba(0, 0, 0, .87);
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    background: #fff;
+    box-shadow: 0 16px 16px rgba(10, 16, 20, .24), 0 0 16px rgba(10, 16, 20, .12);
+    border-radius: 4px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    display: none;
+}
+
+.form-select-dropdown li {
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 32px;
+    margin: 0;
+    padding: 0 16px 0 40px;
+    position: relative;
+    transition: all .2s;
+}
+
+.form-select-dropdown li:hover {
+    background: #eceff1;
+    color: #2196f3;
+}
+
+.form-select-dropdown li.selected,
+.form-select-dropdown li.selected:hover {
+    background-color: #cfd8dc;
+}
+
+.form-select-dropdown li .symbol {
+    left: 16px;
+    position: absolute;
+    top: 8px;
+    z-index: 5;
+}
+
+.form-select-dropdown li:hover {
+    background: #eceff1;
+    color: #2196f3;
+}
+
+.form-select-menu {
+    margin: 8px;
+}
+
+.form-search {
+    position: relative;
+}
+
+.form-search input {
+    width: 182px;
+}
+
+.form-search input {
+    box-shadow: 0 2px 2px rgba(10, 16, 20, .24), 0 0 2px rgba(10, 16, 20, .12);
+    box-sizing: border-box;
+    border: 1px solid #fff;
+    color: #1e88e5;
+    font-size: 16px;
+    height: 32px;
+    line-height: 32px;
+    outline: none;
+    padding: 0 16px 0 32px;
+    transition: all .2s;
+}
+
+.form-search input:focus {
+    border: 1px solid #42a5f5;
+    box-shadow: 0 2px 2px rgba(66, 165, 245, .24), 0 0 2px rgba(66, 165, 245, .12);
+}
+
+div.form-search i.material-icons {
+    width: 20px;
+    pointer-events: none;
+    right: 48px;
+    color: #cfd8dc;
+    font-size: 20px;
+    left: 8px;
+    position: absolute;
+    top: 6px;
+    z-index: 1;
+    display: none;
+}
+
+/** api-header **/
+
+.symbol-info-header label {
+    border-radius: 4px;
+    padding: 4px 16px;
+    display: inline;
+    font-size: 14px;
+    color: #fff;
+    margin: 0 8px 0 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    background: #6e6e6e;
+
+}
+
+.symbol-info-header h1 {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 8px 0;
+}
+
+.symbol-info-header label.symbol-info-type-label.class {
+    background: #2196f3;
+}
+
+.symbol-info-header label.symbol-info-type-label.interface {
+    background: #009688;
+}
+
+.symbol-info-header label.symbol-info-type-label.decorator {
+    background: #1565c0;
+}
+
+.symbol-info-header label.symbol-info-type-label.type {
+    background: #7cb342;
+}
+
+.symbol-info-header label.symbol-info-type-label.service {
+    background: #d81b60;
+}
+
+.symbol-info-header label.symbol-info-type-label.function {
+    background: #4caf50;
+}
+
+.symbol-info-header label.symbol-info-type-label.const {
+    background: #6e6e6e;
+}
+
+.symbol-info-header label.symbol-info-type-label.enum {
+    background: #ffa000;
+}
+
+/** Method overview **/
+.method-overview pre {
+    border-left: 0;
+    background: transparent;
+    font-size: 16px;
+    margin: 0 0 1em;
+    padding: 0;
+    overflow: auto;
+    word-wrap: normal;
+}
+
+.method-overview pre code {
+    background: transparent;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+pre code a {
+    text-decoration: none;
+}
+
+pre code a:hover {
+    text-decoration: underline;
+}
+
+pre code a:hover span {
+    color: #0074d9 !important;
+    color: var(--theme-color, #0074d9) !important;
+}
+
+.markdown-section .is-full-width {
+    width: 100%;
+}
+
+.markdown-section .symbol-info table {
+    margin: 24px 0;
+    box-shadow: 0 2px 2px rgba(10, 16, 20, .24), 0 0 2px rgba(10, 16, 20, .12);
+    border-radius: 2px;
+    background: #fafafa;
+    display: table;
+    border: 0;
+}
+
+.markdown-section .symbol-info table tbody {
+    border: 0
+}
+
+.markdown-section .symbol-info table tbody tr {
+    border: 0
+}
+
+.markdown-section .symbol-info table tbody th {
+    background: hsla(0, 0%, 86%, .2);
+    border: 0;
+    border-right: 1px solid #dbdbdb;
+    font-weight: 600;
+    max-width: 100px;
+}
+
+.markdown-section .symbol-info table tbody td {
+    border: 0px;
+}
+
+.markdown-section .symbol-info table tbody td, .markdown-section .symbol-info table tbody th {
+    padding: 16px;
+    line-height: 24px;
+    vertical-align: top;
+}
+
+.markdown-section .symbol-info table tbody td, .markdown-section .symbol-info table tbody th, .markdown-section .symbol-info table thead th {
+
+    border-bottom: 1px solid #dbdbdb;
+    text-align: left;
+}

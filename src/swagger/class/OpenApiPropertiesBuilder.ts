@@ -3,13 +3,13 @@
  */
 /** */
 import {Schema} from "swagger-schema-official";
-import {Type} from "../../core/interfaces/Type";
-import {Store} from "../../core/class/Store";
-import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 import {PropertyMetadata} from "../../converters/class/PropertyMetadata";
-import {swaggerType} from "../utils/index";
-import {deepExtends, nameOf} from "../../core/utils/index";
+import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 import {Storable} from "../../core/class/Storable";
+import {Store} from "../../core/class/Store";
+import {Type} from "../../core/interfaces";
+import {deepExtends, nameOf} from "../../core/utils";
+import {swaggerType} from "../utils";
 
 /**
  * Builder a Schema from a target.

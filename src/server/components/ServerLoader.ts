@@ -1,5 +1,5 @@
 /**
- * @module server
+ * @module common/server
  */
 /** */
 import * as Express from "express";
@@ -7,18 +7,17 @@ import * as Http from "http";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {Deprecated, ExpressApplication} from "../../core";
+import {HttpServer} from "../../core/services/HttpServer";
+import {HttpsServer} from "../../core/services/HttpsServer";
 import {InjectorService} from "../../di";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
 import {LogEndIncomingRequestMiddleware} from "../../mvc/components/LogEndIncomingRequestMiddleware";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
-import {IComponentScanned} from "../interfaces/ComponentScanned";
-import {IHTTPSServerOptions} from "../interfaces/HTTPSServerOptions";
-import {IServerLifecycle} from "../interfaces/ServerLifeCycle";
-
-import {IServerSettings} from "../interfaces/ServerSettings";
-import {ServerSettingsProvider, ServerSettingsService} from "../services/ServerSettings";
+import {ServerSettingsProvider} from "../class/ServerSettingsProvider";
+import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle, IServerSettings} from "../interfaces";
+import {ServerSettingsService} from "../services/ServerSettingsService";
 
 $log.name = "TSED";
 $log.level = "info";
@@ -32,41 +31,59 @@ $log.level = "info";
  * * Error management (GlobalErrorHandler),
  * * Authentication strategy.
  *
+ *
+ * ```typescript
+ * // In server.ts
+ * import {ServerLoader, ServerSettings} from "ts-express-decorators";
+ * import Path = require("path");
+ * @ServerSettings({
+ *    rootDir: Path.resolve(__dirname),
+ *    port: 8000,
+ *    httpsPort: 8080,
+ *    mount: {
+ *      "/rest": "${rootDir}/controllers/**\/*.js"
+ *    }
+ * })
+ * export class Server extends ServerLoader {
+ *
+ *     $onReady(){
+ *         console.log('Server started...');
+ *     }
+ *
+ *     $onServerInitError(err){
+ *         console.error(err);
+ *     }
+ * }
+ *
+ * // In app.ts
+ * import Server from "./server";
+ * new Server()
+ *     .start()
+ *     .then(() => console.log('started'))
+ *     .catch(er => console.error(er));
+ *
+ * ```
+ *
  */
 export abstract class ServerLoader implements IServerLifecycle {
-    public version = require("../../../package.json").version;
-    /**
-     * Application express.
-     * @type {core.Express}
-     */
+    public version: string = require("../../../package.json").version;
     private _expressApp: Express.Application = Express();
-    /**
-     *
-     */
     private _settings: ServerSettingsProvider;
     private _settingsService: ServerSettingsService;
     private _components: IComponentScanned[] = [];
-    /**
-     * Instance of httpServer.
-     */
     private _httpServer: Http.Server;
-    /**
-     * Instance of HttpsServer.
-     */
     private _httpsServer: Https.Server;
-    /**
-     *
-     */
     private _injectorService: InjectorService;
 
     /**
      *
-     * @constructor
      */
     constructor() {
 
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
+        InjectorService.factory(HttpServer, {get: () => this.httpServer});
+        InjectorService.factory(HttpsServer, {get: () => this.httpsServer});
 
         this._settings = new ServerSettingsProvider();
         this._settings.authentification = (<any>this).$onAuth || this._settings.authentification;
@@ -80,7 +97,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     /**
-     * Create a new HTTP server.
+     * Create a new HTTP server with the provided `port`.
      * @returns {ServerLoader}
      */
     public createHttpServer(port: string | number): ServerLoader {
@@ -91,7 +108,18 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /**
      * Create a new HTTPs server.
-     * @param options
+     *
+     * `options` <IHTTPSServerOptions>:
+     *
+     * - `port` &lt;number&gt;: Port number,
+     * - `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
+     * - `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
+     * - `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
+     * - `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
+     *
+     * See more info on [httpsOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener).
+     *
+     * @param options Options to create new HTTPS server.
      * @returns {ServerLoader}
      */
     public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
@@ -101,7 +129,30 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     /**
-     * Mounts the specified middleware function or functions at the specified path. If path is not specified, it defaults to “/”.
+     * This method let you to add a express middleware or a Ts.ED middleware like GlobalAcceptMimes.
+     *
+     * ```typescript
+     * @ServerSettings({
+     *    rootDir,
+     *    acceptMimes: ['application/json'] // optional
+     * })
+     * export class Server extends ServerLoader {
+     *     $onMountingMiddlewares(): void|Promise<any> {
+     *         const methodOverride = require('method-override');
+     *
+     *         this.use(GlobalAcceptMimesMiddleware)
+     *             .use(methodOverride());
+     *
+     *         // similar to
+     *         this.expressApp.use(methodOverride());
+     *
+     *         // but not similar to
+     *         this.expressApp.use(GlobalAcceptMimesMiddleware); // in this case, this middleware will not be added correctly to express.
+     *
+     *         return null;
+     *     }
+     * }
+     * ```
      * @param args
      * @returns {ServerLoader}
      */
@@ -235,7 +286,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 case "httpPort":
                     /* istanbul ignore else */
-                    if (this._httpServer === undefined) {
+                    if (value && this._httpServer === undefined) {
                         this.createHttpServer(value);
                     }
 
@@ -244,7 +295,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 case "httpsPort":
 
                     /* istanbul ignore else */
-                    if (this._httpsServer === undefined) {
+                    if (value && this._httpsServer === undefined) {
                         this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
                     }
 
@@ -266,7 +317,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     /**
-     * Binds and listen all ports (Http and/or Https). Run server.
+     * Start the express server.
      * @returns {Promise<any>|Promise}
      */
     public async start(): Promise<any> {
@@ -289,7 +340,13 @@ export abstract class ServerLoader implements IServerLifecycle {
         }
     }
 
-    protected startServer(http, settings) {
+    /**
+     * Create a new server from settings parameters.
+     * @param http
+     * @param settings
+     * @returns {Promise<TResult2|TResult1>}
+     */
+    protected startServer(http: any, settings: { https: boolean, address: string, port: string | number | false }) {
         const {address, port, https} = settings;
 
         $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
@@ -317,7 +374,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         const promises: Promise<any>[] = [];
 
         /* istanbul ignore else */
-        if (this.httpServer) {
+        if (this.settings.httpPort) {
             const settings = this._settingsService.getHttpPort();
             promises.push(this.startServer(
                 this.httpServer,
@@ -326,7 +383,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         }
 
         /* istanbul ignore else */
-        if (this.httpsServer) {
+        if (this.settings.httpsPort) {
             const settings = this._settingsService.getHttpsPort();
             promises.push(this.startServer(
                 this.httpsServer,
@@ -339,6 +396,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /**
      * Set the port for http server.
+     * @deprected
      * @param port
      * @returns {ServerLoader}
      */
@@ -353,6 +411,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /**
      * Set the port for https server.
+     * @deprecated
      * @param port
      * @returns {ServerLoader}
      */
@@ -367,6 +426,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /**
      * Change the global endpoint path.
+     * @deprecated
      * @param endpoint
      * @returns {ServerLoader}
      */
@@ -380,7 +440,35 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     /**
-     * Configure and the directory to find controllers. All controller are mounted on the global endpoint.
+     * Scan and imports all files matching the pattern. See the document on the [Glob](https://www.npmjs.com/package/glob)
+     * pattern for more information.
+     *
+     * #### Example
+     *
+     * ```typescript
+     * import {ServerLoader} from "ts-express-decorators";
+     * import Path = require("path");
+     *
+     * export class Server extends ServerLoader {
+     *
+     *    constructor() {
+     *        super();
+     *
+     *        let appPath = Path.resolve(__dirname);
+     *
+     *        this.scan(appPath + "/controllers/**\/**.js")
+     *   }
+     * }
+     * ```
+     *
+     * Theses pattern scan all files in the directories controllers, services recursively.
+     *
+     * !> On windows on can have an issue with the Glob pattern and the /. To solve it, build your path pattern with the module Path.
+     *
+     * ```typescript
+     * const controllerPattern = Path.join(rootDir, 'controllers','**','*.js');
+     * ```
+     *
      * @param path
      * @param endpoint
      * @returns {ServerLoader}
@@ -405,6 +493,11 @@ export abstract class ServerLoader implements IServerLifecycle {
         return this;
     }
 
+
+    /**
+     * ServerLoader.onError() is deprecated. Use your own middleware instead of.
+     * @deprecated
+     */
     @Deprecated("ServerLoader.onError() is deprecated. Use your own middleware instead of.")
     /* istanbul ignore next */
     public onError() {
@@ -412,7 +505,8 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
 
     /**
-     * Mount all controllers under the `path` parameters to the specified `endpoint`.
+     * Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
+     * under the endpoint. See [Versioning Rest API](docs/server-loader/versioning.md) for more informations.
      * @param endpoint
      * @param path
      * @returns {ServerLoader}
@@ -424,14 +518,6 @@ export abstract class ServerLoader implements IServerLifecycle {
         return this;
     }
 
-
-    /**
-     *
-     * @param key
-     * @param elseFn
-     * @param args
-     * @returns {any}
-     */
     private callHook = (key, elseFn = new Function, ...args) => {
 
         if (key in this) {
@@ -448,7 +534,23 @@ export abstract class ServerLoader implements IServerLifecycle {
     private hasHook = (key) => !!this[key];
 
     /**
-     * Return the settings provider.
+     * Return the settings configured by the decorator [@ServerSettings](api/common/server/decorators/serversettings.md).
+     *
+     * @ServerSettings({
+     *    rootDir: Path.resolve(__dirname),
+     *    port: 8000,
+     *    httpsPort: 8080,
+     *    mount: {
+     *      "/rest": "${rootDir}/controllers/**\/*.js"
+     * }
+     * })
+     * export class Server extends ServerLoader {
+     *     $onInit(){
+     *         console.log(this.settings); // {rootDir, port, httpsPort,...}
+     *     }
+     * }
+     * ```
+     *
      * @returns {ServerSettingsProvider}
      */
     get settings(): ServerSettingsProvider {

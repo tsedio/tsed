@@ -1,5 +1,5 @@
 /**
- * @module filters
+ * @module common/filters
  * @preferred
  */ /** */
 export * from "./interfaces";

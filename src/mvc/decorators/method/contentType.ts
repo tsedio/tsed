@@ -1,9 +1,9 @@
+import {Store} from "../../../core/class/Store";
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {UseAfter} from "./useAfter";
-import {Store} from "../../../core/class/Store";
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
  * If type contains the “/” character, then it sets the `Content-Type` to type.

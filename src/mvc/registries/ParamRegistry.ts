@@ -1,13 +1,12 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
-import {ParamMetadata} from "../class/ParamMetadata";
-import {Type} from "../../core/interfaces/Type";
 import {Metadata} from "../../core/class/Metadata";
-import {EXPRESS_NEXT_FN, PARAM_METADATA} from "../constants/index";
-import {IParamArgs} from "../interfaces/Arguments";
-import {IInjectableParamSettings} from "../interfaces/ParamOptions";
+import {Type} from "../../core/interfaces";
+import {ParamMetadata} from "../class/ParamMetadata";
+import {EXPRESS_NEXT_FN, PARAM_METADATA} from "../constants";
+import {IInjectableParamSettings, IParamArgs} from "../interfaces";
 
 export class ParamRegistry {
     /**

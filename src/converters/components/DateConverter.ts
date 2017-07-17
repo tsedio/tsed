@@ -1,5 +1,5 @@
 /**
- * @module converters
+ * @module common/converters
  */ /** */
 
 import {Converter} from "../decorators/converter";
@@ -7,6 +7,7 @@ import {IConverter} from "../interfaces/index";
 
 /**
  * @private
+ * @converter
  */
 @Converter(Date)
 export class DateConverter implements IConverter {

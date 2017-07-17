@@ -1,13 +1,14 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {$log} from "ts-log-debug";
 import {Middleware} from "../decorators/class/middleware";
-import {IMiddleware} from "../interfaces";
 import {Req} from "../decorators/param/request";
+import {IMiddleware} from "../interfaces";
 /**
  * @private
+ * @middleware
  */
 @Middleware()
 export class LogIncomingRequestMiddleware implements IMiddleware {

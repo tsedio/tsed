@@ -1,10 +1,10 @@
+import {Metadata} from "../../core/class/Metadata";
 /**
- * @module converters
+ * @module common/converters
  */
 /** */
 import {Type} from "../../core/interfaces/Type";
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {Metadata} from "../../core/class/Metadata";
 import {PROPERTIES_METADATA} from "../constants/index";
 
 export class PropertyRegistry {

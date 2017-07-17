@@ -1,5 +1,5 @@
 /**
- * @module core
+ * @module common/core
  */
 /** */
 
@@ -13,6 +13,3 @@ export function Enumerable(value: boolean = true): Function {
     };
 }
 
-export function NotEnumerable(): Function {
-    return Enumerable(false);
-}

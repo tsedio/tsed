@@ -1,11 +1,11 @@
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 /**
  * @module filters
  */
 /** */
 import {Registry} from "../../core/class/Registry";
 import {Provider} from "../class/Provider";
-import {IProviderOptions} from "../interfaces/ProviderOptions";
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
+import {IProviderOptions} from "../interfaces/IProviderOptions";
 
 export const ProviderRegistry = new Registry<Provider<any>, IProviderOptions<any>>(Provider);
 

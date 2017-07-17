@@ -1,13 +1,12 @@
 /**
- * @module server
+ * @module common/server
  */
 /** */
 export * from "./AfterRoutesInit";
 export * from "./BeforeRoutesInit";
-export * from "./ComponentScanned";
-export * from "./OnInit";
+export * from "./IComponentScanned";
 export * from "./OnRoutesInit";
 export * from "./OnServerReady";
-export * from "./ServerSettings";
-export * from "./ServerLifeCycle";
-export * from "./HTTPSServerOptions";
+export * from "./IServerSettings";
+export * from "./IServerLifeCycle";
+export * from "./IHTTPSServerOptions";

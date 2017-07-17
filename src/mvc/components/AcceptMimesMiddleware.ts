@@ -1,5 +1,5 @@
 /**
- * @module mvc
+ * @module common/mvc
  */
 /** */
 import {NotAcceptable} from "ts-httpexceptions";
@@ -10,6 +10,7 @@ import {Request} from "../decorators/param/request";
 import {IMiddleware} from "../interfaces";
 /**
  * @private
+ * @middleware
  */
 @Middleware()
 export class AcceptMimesMiddleware implements IMiddleware {

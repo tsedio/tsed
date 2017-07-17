@@ -1,9 +1,9 @@
+import {Metadata} from "../../core/class/Metadata";
 /**
- * @module di
+ * @module common/di
  */
 /** */
 import {Type} from "../../core/interfaces";
-import {Metadata} from "../../core/class/Metadata";
 import {InjectorService} from "../services/InjectorService";
 
 export function Inject(symbol?: any): Function {

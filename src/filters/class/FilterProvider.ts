@@ -1,3 +1,7 @@
+/**
+ * @module common/filters
+ */
+/** */
 import {Provider} from "../../di/class/Provider";
 /**
  *

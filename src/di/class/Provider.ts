@@ -1,11 +1,11 @@
-import {NotEnumerable} from "../../core/decorators/enumerable";
-import {Type} from "../../core/interfaces/Type";
-import {getClass, nameOf} from "../../core/utils/index";
+import {NotEnumerable} from "../../core/decorators";
+import {Type} from "../../core/interfaces";
+import {getClass, nameOf} from "../../core/utils";
 /**
- * @module di
+ * @module common/di
  */
 /** */
-import {IProvider} from "../interfaces/Provider";
+import {IProvider} from "../interfaces/IProvider";
 
 export class Provider<T> implements IProvider<T> {
 
