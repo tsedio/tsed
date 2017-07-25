@@ -1,7 +1,5 @@
-
-import * as Path from "path";
-import {ExpressApplication} from "./express-application";
 import * as Https from "https";
+import * as Path from "path";
 const rootDir = Path.dirname(require.main.filename);
 
 export type Env = "production" | "development" | "test";
@@ -21,8 +19,8 @@ export interface IServerSettings {
     endpointUrl?: string;
     env?: Env;
     port?: string | number;
-    httpPort?: string | number;
-    httpsPort?: string | number;
+    httpPort?: string | number | boolean;
+    httpsPort?: string | number | boolean;
     httpsOptions?: Https.ServerOptions;
     uploadDir?: string;
     mount?: IServerMountDirectories;

@@ -1,17 +1,20 @@
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
-import {$log} from "ts-log-debug";
 import {NotAcceptable} from "ts-httpexceptions";
-import Metadata from "../services/metadata";
+import {$log} from "ts-log-debug";
 import {CONTROLLER_MOUNT_ENDPOINTS, CONTROLLER_URL, SERVER_SETTINGS} from "../constants/metadata-keys";
-import {ControllerService, ExpressApplication, InjectorService} from "../services";
-import MiddlewareService from "../services/middleware";
 import {Deprecated} from "../decorators/deprecated";
-import {
-    IServerMountDirectories, IServerSettings, ServerSettingsProvider, ServerSettingsService
-} from "../services/server-settings";
 import GlobalErrorHandlerMiddleware from "../middlewares/global-error-handler";
+import {ControllerService, ExpressApplication, InjectorService} from "../services";
+import Metadata from "../services/metadata";
+import MiddlewareService from "../services/middleware";
+import {
+    IServerMountDirectories,
+    IServerSettings,
+    ServerSettingsProvider,
+    ServerSettingsService
+} from "../services/server-settings";
 
 export interface IHTTPSServerOptions extends Https.ServerOptions {
     port: string | number;
@@ -268,7 +271,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 case "httpPort":
                     /* istanbul ignore else */
-                    if (this._httpServer === undefined) {
+                    if (value && this._httpServer === undefined) {
                         this.createHttpServer(value);
                     }
 
@@ -277,7 +280,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 case "httpsPort":
 
                     /* istanbul ignore else */
-                    if (this._httpsServer === undefined) {
+                    if (value && this._httpsServer === undefined) {
                         this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
                     }
 
