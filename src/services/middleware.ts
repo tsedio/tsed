@@ -1,20 +1,20 @@
-import {IInjectableMiddlewareMethod, IMiddleware, IMiddlewareSettings, MiddlewareType} from "../interfaces/Middleware";
 import {BadRequest} from "ts-httpexceptions";
-import {IInvokableScope} from "../interfaces/InvokableScope";
-import {BAD_REQUEST, BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
-import {getClass} from "../utils/utils";
-import {EXPRESS_NEXT_FN, INJECT_PARAMS} from "../constants/metadata-keys";
-import Metadata from "./metadata";
-import InjectParams from "./inject-params";
-import ConverterService from "./converter";
-import InjectorService from "./injector";
-import {Service} from "../decorators/service";
-import RequestService from "./request";
-import ControllerService from "./controller";
 import {$log} from "ts-log-debug";
-import {EnvTypes, ServerSettingsService} from "./server-settings";
-import ResponseService from "./response";
+import {BAD_REQUEST, BAD_REQUEST_REQUIRED} from "../constants/errors-msgs";
+import {EXPRESS_NEXT_FN, INJECT_PARAMS} from "../constants/metadata-keys";
+import {Service} from "../decorators/service";
+import {IInvokableScope} from "../interfaces/InvokableScope";
+import {IInjectableMiddlewareMethod, IMiddleware, IMiddlewareSettings, MiddlewareType} from "../interfaces/Middleware";
 import {getClassName} from "../utils";
+import {getClass} from "../utils/utils";
+import ControllerService from "./controller";
+import ConverterService from "./converter";
+import InjectParams from "./inject-params";
+import InjectorService from "./injector";
+import Metadata from "./metadata";
+import RequestService from "./request";
+import ResponseService from "./response";
+import {EnvTypes, ServerSettingsService} from "./server-settings";
 
 @Service()
 export default class MiddlewareService {
@@ -248,18 +248,19 @@ export default class MiddlewareService {
         return new Promise((resolve, reject) => {
 
             localScope.next = (err?) => {
-
-                if (!nextCalled) {
-                    $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
-                    nextCalled = true;
-                    if (err) {
-                        reject(err);
+                if (!localScope.response.headersSent) {
+                    if (!nextCalled) {
+                        $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
+                        nextCalled = true;
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
                     } else {
-                        resolve();
+                        $log.warn(tagId, "[INVOKE][DUPLICATE]", `The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.`);
+                        $log.warn(tagId, "[INVOKE][DUPLICATE]", `Trace:`, info({error: err}));
                     }
-                } else {
-                    $log.warn(tagId, "[INVOKE][DUPLICATE]", `The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.`);
-                    $log.warn(tagId, "[INVOKE][DUPLICATE]", `Trace:`, info({error: err}));
                 }
             };
 

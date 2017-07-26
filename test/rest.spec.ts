@@ -1,10 +1,9 @@
 import {expect} from "chai";
-import {ExpressApplication} from "../src/services";
-import {Done} from "../src/testing/done";
-import {inject} from "../src/testing/inject";
 
 import {$log} from "ts-log-debug";
-
+import {ExpressApplication} from "../src/services";
+import {inject} from "../src/testing";
+$log.stop();
 describe("Rest :", () => {
     before((done) => {
         const {FakeApplication} = require("./helper/FakeApplication");
@@ -13,8 +12,12 @@ describe("Rest :", () => {
         this.fakeApplication.initializeSettings().then(done);
     });
 
+    before(inject([ExpressApplication], (expressApplication: ExpressApplication) => {
+        this.expressApplication = expressApplication;
+    }));
+
     describe("GET /rest", () => {
-        it("should return all routes", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
+        it("should return all routes", (done) => {
             this.fakeApplication
                 .request()
                 .get("/rest/")
@@ -32,9 +35,9 @@ describe("Rest :", () => {
                     done();
                 });
 
-        }));
+        });
 
-        it("should return html content", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
+        it("should return html content", (done) => {
             this.fakeApplication
                 .request()
                 .get("/rest/html")
@@ -50,11 +53,31 @@ describe("Rest :", () => {
                     done();
                 });
 
-        }));
+        });
+    });
+
+    describe("GET /rest with conflict routes", () => {
+        it("should return id", (done: Function) => {
+            this.fakeApplication
+                .request()
+                .get("/rest/test")
+                .expect(200)
+                .end((err, response: any) => {
+
+                    if (err) {
+                        throw (err);
+                    }
+
+                    expect(response.text).to.eq("test");
+
+                    done();
+                });
+
+        });
     });
 
     describe("GET /rest/calendars", () => {
-        it("should return an object (without annotation)", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Function) => {
+        it("should return an object (without annotation)", (done) => {
 
             this.fakeApplication
                 .request()
@@ -75,7 +98,7 @@ describe("Rest :", () => {
                     done();
                 });
 
-        }));
+        });
 
         it("should return an object (PathParams annotation)", (done: Function) => {
 
@@ -196,7 +219,6 @@ describe("Rest :", () => {
             this.fakeApplication
                 .request()
                 .get("/rest/calendars/token")
-                //.send({id: 1})
                 .set("Cookie", "authorization=auth")
                 .expect(200)
                 .end((err, response: any) => {
