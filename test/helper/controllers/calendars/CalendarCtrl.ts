@@ -1,18 +1,34 @@
-import {
-    Authenticated, BodyParams, Controller, CookiesParams, Delete, Get, Header, IPromise, Next, PathParams, Post, Put,
-    QueryParams, Request, Required, Response, RouterController, Use
-} from "../../../../src/index";
+import * as Express from "express";
 
 import {$log} from "ts-log-debug";
-import * as Express from "express";
-import {EventCtrl} from "./EventCtrl";
-import {MongooseService} from "../../services/MongooseService";
 import {ContentType} from "../../../../src/decorators/content-type";
-import {UseAfter} from "../../../../src/decorators/use-after";
-import {Status} from "../../../../src/decorators/status";
+import {MergeParams} from "../../../../src/decorators/controller";
 import {MultipartFile} from "../../../../src/decorators/multipart-file";
 import {Locals} from "../../../../src/decorators/params";
-import {MergeParams} from "../../../../src/decorators/controller";
+import {Status} from "../../../../src/decorators/status";
+import {UseAfter} from "../../../../src/decorators/use-after";
+import {
+    Authenticated,
+    BodyParams,
+    Controller,
+    CookiesParams,
+    Delete,
+    Get,
+    Header,
+    IPromise,
+    Next,
+    PathParams,
+    Post,
+    Put,
+    QueryParams,
+    Request,
+    Required,
+    Response,
+    RouterController,
+    Use
+} from "../../../../src/index";
+import {MongooseService} from "../../services/MongooseService";
+import {EventCtrl} from "./EventCtrl";
 
 interface ICalendar {
     id: string;
@@ -210,7 +226,6 @@ export class CalendarCtrl {
 
         request["user"] = 1;
 
-        //console.log(request.headers)
         next();
     }
 
@@ -232,7 +247,6 @@ export class CalendarCtrl {
 
         request.getStoredData().uuid = 10909;
 
-        // console.log(request.headers)
         next();
     }
 
@@ -261,5 +275,10 @@ export class CalendarCtrl {
     testMultipart2(@MultipartFile() file: any) {
         console.log(file);
         return file;
+    }
+
+    @Get("/number")
+    number() {
+        return 1;
     }
 }

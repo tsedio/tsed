@@ -433,4 +433,19 @@ describe("Rest :", () => {
         });
 
     });
+
+    describe("PATCH /rest/calendars/number", () => {
+
+        it("should return 1", (done) => {
+            this.fakeApplication
+                .request()
+                .get("/rest/calendars/number")
+                .expect(200)
+                .end((err, response: any) => {
+                    expect(response.text).to.eq("1");
+                    done();
+                });
+        });
+
+    });
 });

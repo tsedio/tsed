@@ -1,8 +1,8 @@
-import {IMiddleware} from "../interfaces/Middleware";
-import {Middleware} from "../decorators/middleware";
-import {ResponseData} from "../decorators/response-data";
-import {Response} from "../decorators/response";
 import * as Express from "express";
+import {Middleware} from "../decorators/middleware";
+import {Response} from "../decorators/response";
+import {ResponseData} from "../decorators/response-data";
+import {IMiddleware} from "../interfaces/Middleware";
 import ConverterService from "../services/converter";
 
 @Middleware()
@@ -23,7 +23,7 @@ export default class SendResponseMiddleware implements IMiddleware {
         if (data === undefined) {
             response.send("");
         } else if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
-            response.send(data);
+            response.send(String(data));
         } else {
 
             response.setHeader("Content-Type", "text/json");
