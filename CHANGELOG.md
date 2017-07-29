@@ -1,5 +1,7 @@
 # CHANGELOG
 
+See new changelog [here](https://github.com/Romakita/ts-express-decorators/releases).
+
 ## v1.4.0
 
 * Add `@Inject()` decorator [#42](https://github.com/Romakita/ts-express-decorators/issues/42),
