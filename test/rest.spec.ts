@@ -448,4 +448,18 @@ describe("Rest :", () => {
         });
 
     });
+
+    describe("PATCH /rest/calendars/throws", () => {
+
+        it("should return an error", (done) => {
+            this.fakeApplication
+                .request()
+                .get("/rest/calendars/throws")
+                .expect(406)
+                .end((err, response: any) => {
+                    done();
+                });
+        });
+
+    });
 });

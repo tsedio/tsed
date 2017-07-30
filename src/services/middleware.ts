@@ -303,8 +303,10 @@ export default class MiddlewareService {
                 next();
             })
             .catch((err) => {
+
                 if ((request as any).id) {
-                    $log.warn(tagId, "[INVOKE]", err);
+                    console.warn(tagId, "[INVOKE]", err);
+                    // $log.warn(tagId, "[INVOKE]", err);
                 }
                 next(err);
             });

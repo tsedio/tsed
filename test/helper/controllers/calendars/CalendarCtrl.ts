@@ -1,4 +1,5 @@
 import * as Express from "express";
+import {BadGateway} from "ts-httpexceptions";
 
 import {$log} from "ts-log-debug";
 import {ContentType} from "../../../../src/decorators/content-type";
@@ -280,5 +281,26 @@ export class CalendarCtrl {
     @Get("/number")
     number() {
         return 1;
+    }
+
+    @Get("/throws")
+    throwsError() {
+
+        function ValidationError(errors) {
+            this.message = "validation failed";
+            this.errors = errors;
+        }
+
+        function errorSubclass(Subclass) {
+            Subclass.prototype = Error.prototype; // This line causes the problem which I don't know its reason
+            // and I wonder why it causes such strange behavior.
+            Subclass.prototype.constructor = Subclass;
+            return Subclass;
+        }
+
+        const ValErr = errorSubclass(ValidationError);
+
+        throw new ValErr(["some Error"]);
+        // throw new BadGateway("test");
     }
 }
