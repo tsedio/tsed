@@ -1,7 +1,7 @@
-[Home](https://github.com/Romakita/ts-express-decorators/wiki) > Global Errors Handler
+# Global Errors Handler
 
 
-All errors are intercepted by the [ServerLoader]() class. By default, all 
+All errors are intercepted by the [ServerLoader](api/common/server/serverloader.md) class. By default, all 
 HTTP Exceptions are automatically sent to the client, and technical error are
 sent as Internal Server Error. 
 
@@ -30,3 +30,4 @@ export class Server extends ServerLoader {
     }
 }
 ```
+

@@ -19,18 +19,17 @@ import {ServerSettingsProvider} from "../class/ServerSettingsProvider";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle, IServerSettings} from "../interfaces";
 import {ServerSettingsService} from "../services/ServerSettingsService";
 
-$log.name = "TSED";
-$log.level = "info";
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
  *
  * It provide some features :
  *
+ * * [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md),
+ * * [Versioning Api](docs/server-loader/versioning.md),
+ * * [Authentication strategy](docs/server-loader/authentication.md).
+ * * [Global errors handler](docs/server-loader/global-error-handler.md),
  * * Middleware importation,
  * * Scan directory. You can specify controllers and services directory in your project,
- * * Error management (GlobalErrorHandler),
- * * Authentication strategy.
- *
  *
  * ```typescript
  * // In server.ts
@@ -65,6 +64,8 @@ $log.level = "info";
  * ```
  *
  */
+$log.name = "TSED";
+$log.level = "info";
 export abstract class ServerLoader implements IServerLifecycle {
     public version: string = require("../../../package.json").version;
     private _expressApp: Express.Application = Express();

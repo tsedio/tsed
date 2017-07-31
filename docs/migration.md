@@ -6,7 +6,7 @@
 - Interface IPromise is removed. Use Promise instead of.
 - Interface ICrud is removed.
 - ServerLoader.AcceptMime() is removed. Use GlobalAcceptMimesMiddleware instead of (see document). 
-
+- Update [ts-log-debug](https://romakita.github.io/ts-log-debug) to the new major version.
 
 ## From v1.3 or under to v1.4
 

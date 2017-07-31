@@ -132,7 +132,7 @@ new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
-To customize the server settings see [Configure server with decorator](https://github.com/Romakita/ts-express-decorators/wiki/configure-server-with-decorator).
+To customize the server settings see [Configure server with decorator](configuration.md).
 
 #### With the methods
 
@@ -204,12 +204,12 @@ new Server().start();
 ## Create your first controller
 
 Create a new `calendarCtrl.ts` in your controllers directory configured 
-previously with [`ServerLoader.scan()`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader----API#serverloaderscanglobpattern-serverloader) 
-or [`ServerLoader.mount()`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader----API#serverloadermountendpoint-globpattern-serverloader). 
+previously with [`ServerLoader.scan()`](api/common/server/serverloader.md) 
+or [`ServerLoader.mount()`](api/common/server/serverloader.md). 
 All controllers declared with `@Controller` decorators is considered as an Express router. An Express router require a path 
 (here, the path is `/calendars`) to expose an url on your server. 
 More precisely, it is a part of path, and entire exposed url depend on 
-the Server configuration (see [`ServerLoader.setEndpoint()`](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader----API#serverloadersetendpointendpoint-serverloader)) and the controllers 
+the Server configuration (see [`ServerLoader.setEndpoint()`](api/common/server/serverloader.md)) and the controllers 
 dependencies. In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 

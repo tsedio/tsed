@@ -1072,7 +1072,7 @@ docsify-cli@^4.1.9:
     yargonaut "^1.1.2"
     yargs "^7.0.2"
 
-docsify-server-renderer@^4.1.9:
+docsify-server-renderer@^4.1.9, docsify-server-renderer@^4.2.6:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/docsify-server-renderer/-/docsify-server-renderer-4.2.6.tgz#46ac2e356f4718a5988f6bc290633ea092fa8df8"
   dependencies:

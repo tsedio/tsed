@@ -35,7 +35,7 @@
 
 ## Documentation
 
-Documentation for v2.x is available on [https://romakita.github.io/ts-express-decorators](https://romakita.github.io/ts-express-decorators)
+Documentation for v2.x beta is available on [https://romakita.github.io/ts-express-decorators](https://romakita.github.io/ts-express-decorators)
 
 ## Migrate from 1.x or to 2.x
 
@@ -128,7 +128,7 @@ new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
-To customize the server settings see [Configure server with decorator](https://github.com/Romakita/ts-express-decorators/wiki/Configure-server-with-decorator)
+To customize the server settings see [Configure server with decorator](http://romakita.github.io/#/configuration)
 
 #### Create your first controller
 

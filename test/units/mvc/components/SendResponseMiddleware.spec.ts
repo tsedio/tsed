@@ -1,8 +1,8 @@
-import {expect} from "../../../tools";
 import {MiddlewareService} from "../../../../src";
-import {inject} from "../../../../src/testing/inject";
 import {SendResponseMiddleware} from "../../../../src/mvc/components/SendResponseMiddleware";
+import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper/FakeResponse";
+import {expect} from "../../../tools";
 
 describe("SendResponseMiddleware :", () => {
 
@@ -65,19 +65,6 @@ describe("SendResponseMiddleware :", () => {
         expect(middleware).not.to.be.undefined;
 
         middleware.use(undefined, fakeResponse as any);
-
-        expect(fakeResponse._body).to.equal("");
-
-    }));
-
-    it("should send nothing (headersSent)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
-        fakeResponse["headersSent"] = true;
-
-        expect(middleware).not.to.be.undefined;
-
-        middleware.use(true, fakeResponse as any);
 
         expect(fakeResponse._body).to.equal("");
 

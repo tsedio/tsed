@@ -141,7 +141,7 @@ export class HandlerBuilder {
     public async invoke(locals: IHandlerScope): Promise<any> {
 
         const {next, request, response} = locals;
-        let called = false;
+        let nextCalled = false;
         const tagId = request.tagId;
         const target = this.handlerMetadata.target;
         const injectable = this.handlerMetadata.injectable;
@@ -157,28 +157,16 @@ export class HandlerBuilder {
             ...o
         });
 
-        if (this.handlerMetadata.type === "controller") {
-            /* istanbul ignore next */
-            if (request.endpointCalled) {
-                $log.warn(tagId, "[INVOKE][TWICE ENDPOINT]", `Trace:`, info({}));
-                return next();
-            }
-            request.endpointCalled = true;
-        }
-
         locals.next = (err?) => {
+            nextCalled = true;
             if (response["headersSent"]) {
                 $log.debug(request.tagId, "[INVOKE][END  ]", info({warn: "response already send"}));
                 return;
             }
+
             /* istanbul ignore else */
-            if (!called) {
-                $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
-                return next(err);
-            } else {
-                $log.warn(tagId, "[INVOKE][DUPLICATE]", `The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.`);
-                $log.warn(tagId, "[INVOKE][DUPLICATE]", `Trace:`, info({error: err}));
-            }
+            $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
+            return next(err);
         };
 
         try {
@@ -187,13 +175,16 @@ export class HandlerBuilder {
             const parameters = this.localsToParams(locals);
             const result = await (this.handler)(...parameters);
 
-            if (this.handlerMetadata.type !== "function" && result !== undefined) {
-                locals.request.storeData(result);
+            if (!nextCalled) {
+                if (this.handlerMetadata.type !== "function" && result !== undefined) {
+                    locals.request.storeData(result);
+                }
+
+                if (!this.handlerMetadata.nextFunction) {
+                    locals.next();
+                }
             }
 
-            if (!this.handlerMetadata.nextFunction) {
-                locals.next();
-            }
 
         } catch (err) {
             locals.next(err);

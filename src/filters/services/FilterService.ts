@@ -6,18 +6,17 @@ import {$log} from "ts-log-debug";
 import {Type} from "../../core/interfaces/Type";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {FilterProvider} from "../class/FilterProvider";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
 import {IFilter} from "../interfaces";
 import {FilterRegistry, ProxyFilterRegistry} from "../registries/FilterRegistry";
 /**
- *
+ * @beta
  */
 @Service()
 export class FilterService extends ProxyFilterRegistry {
 
-    constructor(private injectorService: InjectorService, private serverSettings: ServerSettingsService) {
+    constructor(private injectorService: InjectorService) {
         super();
     }
 

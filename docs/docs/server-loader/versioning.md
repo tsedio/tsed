@@ -1,7 +1,7 @@
 # Versioning REST API
 
 Ts.ED provide the possibility to mount multiple Rest path instead of the default path `/rest`.
-You have two methods to configure all global endpoints for each directories scanned by the ServerLoader.
+You have two methods to configure all global endpoints for each directories scanned by the [ServerLoader](api/common/server/serverloader.md).
 
 ### With decorator (Recommended)
 ```typescript

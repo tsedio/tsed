@@ -34,6 +34,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         const produces = this.endpoint.store.get("produces") || [];
         const consumes = this.endpoint.store.get("consumes") || [];
         const responses = this.endpoint.store.get("responses") || {"200": {description: "Success"}};
+        const summary = this.endpoint.store.get("summary") || "";
         const deprecated = this.endpoint.store.get("deprecated") || false;
         const security = this.endpoint.store.get("security");
         const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
@@ -49,6 +50,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
             operationId,
             tags: [this.endpoint.targetName],
             parameters: openApiParamsBuilder.parameters,
+            summary,
             consumes,
             responses,
             produces,

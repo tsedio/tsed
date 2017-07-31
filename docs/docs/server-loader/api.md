@@ -1,7 +1,7 @@
 # ServerLoader API
 ### constructor
 
-Create a new instance of [ServerLoader](docs/server-loader.md). 
+Create a new instance of [ServerLoader](api/common/server/serverloader.md). 
 
 ```typescript
 // In server.ts

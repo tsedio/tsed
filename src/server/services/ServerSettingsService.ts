@@ -7,7 +7,7 @@ import {Env} from "../../core/interfaces";
 import {IServerMountDirectories, IServerSettings} from "../interfaces";
 
 /**
- * `ServerSettingsService` contains all informations about ServerLoader configuration.
+ * `ServerSettingsService` contains all information about [ServerLoader](api/common/server/serverloader.md) configuration.
  */
 export class ServerSettingsService implements IServerSettings {
 

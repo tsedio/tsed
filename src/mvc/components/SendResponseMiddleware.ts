@@ -21,23 +21,15 @@ export class SendResponseMiddleware implements IMiddleware {
     }
 
     public use(@ResponseData() data: any, @Response() response: Express.Response) {
-
-        if (response.headersSent) {
-            return;
-        }
-
         const type = typeof data;
 
-        if (data === undefined) {
-            response.send("");
-        } else if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
-            response.send(String(data));
-        } else {
-
-            response.setHeader("Content-Type", "text/json");
-            response.json(this.converterService.serialize(data));
-
+        if (data !== undefined) {
+            if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
+                response.send(String(data));
+            } else {
+                response.setHeader("Content-Type", "text/json");
+                response.json(this.converterService.serialize(data));
+            }
         }
-
     }
 }

@@ -1,8 +1,12 @@
-## Status
-**READY/IN DEVELOPMENT/HOLD**
+<!-- This template it's just here to help you for write your Pull Request -->
 
-## Migrations
-YES | NO
+## Informations
+
+Type | Status | Migration
+---|---|---
+Feature/Fix/Documentation | Ready/In development/Hold | Yes/No
+
+****
 
 ## Description
 A few sentences describing the overall goals of the pull request's commits.
@@ -24,15 +28,20 @@ other_pr_master | [link]()
 
 
 ## Todos
+
 - [ ] Tests
+- [ ] Coverage
+- [ ] Example
 - [ ] Documentation
 
 
 ## Deploy Notes
+
 Notes regarding deployment the contained body of work.  These should note any
 db migrations, etc.
 
 ## Impacted Areas in Application
+
 List general components of the application that this PR will affect:
 
 * 

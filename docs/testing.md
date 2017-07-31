@@ -179,7 +179,7 @@ describe('MyCtrl :', () => {
 
 ### Testing converters
 
-`Converters` let you to customize how [ConverterService](https://github.com/Romakita/ts-express-decorators/wiki/Converters) will deserialize a data for one or more types. This example show you the unit test for the Array type. 
+`Converters` let you to customize how [ConverterService](docs/converters.md) will deserialize a data for one or more types. This example show you the unit test for the Array type. 
 
 The converter implementation in Ts.ED for Array type is the following:
 ```typescript

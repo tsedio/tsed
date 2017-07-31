@@ -70,6 +70,7 @@
     "cookie-parser": "^1.4.1",
     "coveralls": "^2.13.1",
     "docsify-cli": "^4.1.9",
+    "docsify-server-renderer": "^4.2.6",
     "ejs": "^2.5.5",
     "express": "^4.13.4",
     "express-session": "^1.13.0",

@@ -1,7 +1,7 @@
 # Global middleware 
 
-Global middlewares and Endpoint middlewares are almost similar but Global middleware cannot use the `@EndpointInfo` decorator.
-Global middlewares let you to manage request and response on [`ServerLoader`](docs/server-loader.md).
+Global middlewares and Endpoint middlewares are almost similar but Global middleware cannot use the [`@EndpointInfo`](api/common/mvc/endpointinfo.md) decorator.
+Global middlewares let you to manage request and response on [`ServerLoader`](api/common/server/serverloader.md).
 
 Create your middleware:
 ```typescript
@@ -27,7 +27,7 @@ export default class GlobalAcceptMimesMiddleware implements IMiddleware {
 }
 ```
 
-Then, add your middleware in `ServerLoader`:
+Then, add your middleware in [`ServerLoader`](api/common/server/serverloader.md):
 
 ```typescript
 @ServerSettings({

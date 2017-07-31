@@ -96,9 +96,9 @@ class Server extends ServerLoader {
 
 #### ServerLoader.$afterRoutesInit(): void | Promise
 
-This hook will be called after all the routes are collected by [`ServerLoader.mount()`](docs/server-loader/api.md#serverloadermountendpoint-globpattern-serverloader) 
-or [`ServerLoader.scan()`](docs/server-loader/api.md#serverloadermountendpoint-globpattern-serverloader). 
-When all routes are collected, ServerLoader build the [controllers](docs/controllers.md) then ServerLoader mount each route to the ExpressApp. 
+This hook will be called after all the routes are collected by [`ServerLoader.mount()`](api/common/server/serverloader.md) 
+or [`ServerLoader.scan()`](api/common/server/serverloader.md). 
+When all routes are collected, [ServerLoader](api/common/server/serverloader.md) build the [controllers](docs/controllers.md) then [ServerLoader](api/common/server/serverloader.md) mount each route to the ExpressApp. 
 
 This hook is the right place to add middlewares before the [Global Handlers Error](docs/global-errors-handler.md). 
 

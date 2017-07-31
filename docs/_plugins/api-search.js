@@ -30,6 +30,7 @@
 
       Docsify.dom.on($button, "click", (e) => {
         $fieldFilterByType.classList.add("open");
+        $button.focus();
       });
 
       Docsify.dom.on($button, "blur", () => {
@@ -169,6 +170,14 @@
             query[arg[0]] = arg[1];
           });
 
+          if (query.query) {
+            query.query.split("%7c").forEach(values => {
+              const arg = values.split("_");
+              query[arg[0]] = arg[1];
+            });
+
+          }
+          console.log(query);
           searchApi(query);
         }
       }

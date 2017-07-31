@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ts.ED</title>
-    <meta name="description" content="A multi chanel logger written in TypeScript.">
+    <meta name="description" content="Use TypeScript decorators to create your Express application and Rest API">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@latest/lib/themes/buble.css" title="buble">
@@ -12,7 +12,7 @@
 </head>
 <body>
 <nav>
-    <a href="/" class="logo"><img src="_media/nodetyped.svg" style="max-height:40px"></a>
+    <!--<a href="/" class="logo"><img src="_media/nodetyped.svg" style="max-height:40px"></a>-->
     <a href="#/getting-started">Getting Started</a>
     <a href="https://github.com/Romakita/ts-express-decorators/wiki">Version 1.x</a>
 </nav>
@@ -42,8 +42,8 @@
     plugins: [
       function (hook, vm) {
         hook.beforeEach(function (html) {
-          var url = 'http://github.com/romakita/log-debug/blob/master/docs/' + vm.route.file
-          var editHtml = '[:memo: Edit Document](' + url + ')\n'
+          var url = "http://github.com/Romakita/ts-express-decorators/blob/master/docs/" + vm.route.file;
+          var editHtml = "[:memo: Edit Document](" + url + ")\n";
 
           return html
             + '\n----\n'

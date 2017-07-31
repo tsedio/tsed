@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="serverloader">ServerLoader</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/romakita/ts-express-decorators/blob/v2.0.0-1/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v2.0.0-2/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -33,50 +33,6 @@
     <span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server<span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-
-### Description
-
-ServerLoader provider all method to instantiate an ExpressServer.
-
-It provide some features :
-
-* Middleware importation,
-* Scan directory. You can specify controllers and services directory in your project,
-* Error management (GlobalErrorHandler),
-* Authentication strategy.
-
-
-```typescript
-// In server.ts
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import Path = require("path");
-@ServerSettings({
-   rootDir: Path.resolve(__dirname),
-   port: 8000,
-   httpsPort: 8080,
-   mount: {
-     "/rest": "${rootDir}/controllers/**/*.js"
-   }
-})
-export class Server extends ServerLoader {
-
-    $onReady(){
-        console.log('Server started...');
-    }
-
-    $onServerInitError(err){
-        console.error(err);
-    }
-}
-
-// In app.ts
-import Server from "./server";
-new Server()
-    .start()
-    .then(() => console.log('started'))
-    .catch(er => console.error(er));
-
-```
 
 ### Members
 

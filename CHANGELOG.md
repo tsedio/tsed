@@ -57,5 +57,5 @@ You can encounter typescript compilation issues:
 
 * Remove Bluebird and use native Promise. Breaking change are possible if you use v1.1.0 of ts-express-decorators. Just, replace Bluebird reference in your `Server.ts` or install Bluebird and @types/bluebird dependencies.
 * Improve `package.json` configuration. Now, IDE like webstorm can auto discovered the exposed decorators.
-* Implement [Lifecycle hooks](https://github.com/Romakita/ts-express-decorators/wiki/Class:-ServerLoader#lifecycle-hooks).
-* Change testing module. See documentation (https://github.com/Romakita/ts-express-decorators/wiki/Testing).
+* Implement [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md).
+* Change testing module. See documentation (testing.md).

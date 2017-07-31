@@ -3,7 +3,7 @@
 * [Examples](tutorials/examples.md)
 * [Migration](migration.md)
 * [Tutorials](tutorials.md)
-  * [Authentication](tutorials/authentication.md)
+  * [Passport.js](tutorials/passport.md)
   * [Socket.io](tutorials/socket-io.md)
   * [Swagger](tutorials/swagger.md)
   * [Upload files](tutorials/upload-files-with-multer.md)
@@ -30,6 +30,9 @@
   * ServerLoader
     * [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md)
     * [Versioning Rest API](docs/server-loader/versioning.md)
+    * [Authentication](docs/server-loader/authentication.md)
+    * [Global errors handler](docs/server-loader/global-errors-handler.md)
   * [API references](api/index.md)
 * [Testing](testing.md)
+* [Contributing](contributing.md)
 * [License](license.md)

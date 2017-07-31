@@ -1,7 +1,7 @@
 import * as Chai from "chai";
-import * as Sinon from "sinon";
-import * as SinonChai from "sinon-chai";
 import * as ChaiAsPromised from "chai-as-promised";
+import * as SinonLib from "sinon";
+import * as SinonChai from "sinon-chai";
 import {$log} from "ts-log-debug";
 
 Chai.should();
@@ -10,6 +10,7 @@ Chai.use(ChaiAsPromised);
 
 const expect = Chai.expect;
 const assert = Chai.assert;
+const Sinon = SinonLib;
 
 const $logStub = {
     $log: $log as any

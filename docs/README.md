@@ -23,7 +23,7 @@
 You can get the latest release using npm:
 
 ```batch
-$ npm install --save ts-express-decorators express@4 @types/express
+$ npm install --save ts-express-decorators@beta express@4 @types/express
 ```
 
 > **Important!** Ts.ED requires Node >= 4, Express >= 4, TypeScript >= 2.0 and 
@@ -109,7 +109,7 @@ new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
-To customize the server settings see [Configure server with decorator](https://github.com/Romakita/ts-express-decorators/wiki/Configure-server-with-decorator)
+To customize the server settings see [Configure server with decorator](configuration.md)
 
 #### Create your first controller
 
