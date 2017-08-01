@@ -7,8 +7,10 @@ declare global {
         interface NextFunction extends Function {
 
         }
-        export interface Response { }
-        export interface Application { }
+        export interface Response {
+        }
+        export interface Application {
+        }
 
         interface Request {
             tagId?: string;
@@ -27,6 +29,10 @@ declare global {
              * @param obj
              */
             storeData(obj: any): Express.Request;
+            /**
+             *
+             */
+            hasStoredData(): boolean;
         }
     }
 }

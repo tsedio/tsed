@@ -128,7 +128,7 @@ export class Endpoint {
 
         middlewares.push((request, response, next) => {
             if (request.id) {
-                $log.debug(request.tagId, "Endpoint =>", JSON.stringify({
+                $log.debug(request.tagId, "[ENDPOINT]", JSON.stringify({
                     target: getClassName(this.targetClass),
                     methodClass: this.methodClassName,
                     httpMethod: this.httpMethod
@@ -179,6 +179,10 @@ export class Endpoint {
 
         request.getStoredData = function (data) {
             return this._responseData;
+        };
+
+        request.hasStoredData = function () {
+            return this._responseData !== undefined;
         };
 
         next();

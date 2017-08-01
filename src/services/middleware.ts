@@ -175,19 +175,6 @@ export default class MiddlewareService {
      */
     bindMiddleware(target: any, methodName?: string): Function {
 
-        // middleware(req, res, next, err);
-        // middleware(req, res, next);
-        // middleware(req, res);
-        //
-        // Enpoint.middleware(request, response);
-        // Enpoint.middleware(request, response, next);
-        // Enpoint.middleware(...);
-        //
-        // Middleware.use(request, response);
-        // Middleware.use(err, request, response, next);
-        // Middleware.use(request, response, next);
-        // Middleware.use(...);
-
         const settings = this.createSettings(target, methodName);
 
         // Create Settings
@@ -231,16 +218,6 @@ export default class MiddlewareService {
             ...o
         });
 
-        // TODO prevent twice calling...
-        if (type === MiddlewareType.ENDPOINT) {
-            if (request.endpointCalled) {
-                $log.warn(tagId, "[INVOKE][TWICE ENDPOINT]", `Trace:`, info({}));
-                return next();
-            }
-            request.endpointCalled = true;
-        }
-
-
         if (tagId) {
             $log.debug(request.tagId, "[INVOKE][START]", info());
         }
@@ -248,18 +225,13 @@ export default class MiddlewareService {
         return new Promise((resolve, reject) => {
 
             localScope.next = (err?) => {
+                nextCalled = true;
                 if (!localScope.response.headersSent) {
-                    if (!nextCalled) {
-                        $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
-                        nextCalled = true;
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve();
-                        }
+                    $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
+                    if (err) {
+                        reject(err);
                     } else {
-                        $log.warn(tagId, "[INVOKE][DUPLICATE]", `The handler have been resolved twice. See your code and find if you use @Next() and Promise at the same time.`);
-                        $log.warn(tagId, "[INVOKE][DUPLICATE]", `Trace:`, info({error: err}));
+                        resolve();
                     }
                 }
             };
@@ -287,14 +259,17 @@ export default class MiddlewareService {
                 })
                 .then((data) => {
 
-                    if (data !== undefined) {
-                        dataStored = data;
-                        localScope.request.storeData(data);
+                    if (!nextCalled) {
+                        if (data !== undefined) {
+                            dataStored = data;
+                            localScope.request.storeData(data);
+                        }
+
+                        if (!hasNextFn || isPromise) {
+                            localScope.next();
+                        }
                     }
 
-                    if (!hasNextFn || isPromise) {
-                        localScope.next();
-                    }
                 })
                 .catch(reject);
 
