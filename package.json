@@ -13,12 +13,15 @@
     "test:remap": "./node_modules/.bin/remap-istanbul -i coverage/coverage.json -o coverage/lcov-report -t html",
     "test:travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "tsc": "tsc",
-    "tsc:compile": "tsc --project tsconfig.compile.json"
+    "tsc:compile": "tsc --project tsconfig.compile.json",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release-locale": "semantic-release pre --debug=true"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/romakita/ts-express-decorators.git"
   },
+
   "keywords": [
     "Express",
     "TypeScript",
@@ -69,12 +72,18 @@
     "multer": "^1.3.0",
     "remap-istanbul": "^0.9.1",
     "rimraf": "^2.6.1",
+    "semantic-release": "^6.3.6",
     "supertest": "^3.0.0",
     "tslint": "^4.4.2",
     "typescript": "^2.0.2"
   },
   "directories": {
     "lib": "lib",
+    "src": "src",
     "test": "test"
+  },
+  "release": {
+    "debug": false,
+    "branch": "1.4.x"
   }
 }
