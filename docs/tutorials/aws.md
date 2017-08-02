@@ -1,12 +1,14 @@
 # AWS
 
-Amazon Web Services is one a the service to hosting your Node.js application.
+Amazon Web Services is one possible way host your Node.js application.
 
-This tutorial show you how we can configure the Express application written with Ts.ED.
+This tutorial show you how to configure the Express application written with Ts.ED, to be executed as aAWS Lambda Function.
+
+More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 
 #### Installation
 
-Before starting, install the `aws-serverless-express` module.
+First, install the `aws-serverless-express` module:
 
 ```bash
 npm install --save aws-serverless-express
@@ -16,9 +18,9 @@ npm install --save aws-serverless-express
 
 You need to create three files:
 
- - One for the serverLoader configuration,
- - One for aws, named lambda.ts (or .js),
- - One for the development, named local.ts (or other name).
+ - One for the `ServerLoader` configuration
+ - One for aws, named lambda.js (the entry point on AWS Lambda, that contains the function handler)
+ - One for the local development, for example "local.js" (that you can use to run the app locally with `node local.js`)
  
 ```typescript
 // server.js
@@ -62,6 +64,8 @@ import {Server} from "./server.js";
 const awsServerlessExpress = require("aws-serverless-express");
 
 const server = new Server();
+// optional: Ts.ED creates two servers that listen for HTTP and HTTPS requests respectively.
+// You can enable/disable each one independently with these flags
 server.settings.httpPort = false;
 server.settings.httpsPort = false;
 
@@ -69,6 +73,7 @@ const lambdaServer = awsServerlessExpress.createServer(server.expressApp);
 
 server.start();
 
+// The function handler to setup on AWS Lambda console -- the name of this function must match the one configured on AWS
 export const handler = (event, context, callback) => awsServerlessExpress.proxy(lambdaServer, event, context);
 ```
 
@@ -78,7 +83,7 @@ import {Server} from "./server.js";
 
 new Server().start();
 ```
-> You can see an pure example provided by AWS Team on this [github repository](https://github.com/awslabs/aws-serverless-express/tree/master/example).re
+> You can see an example provided by the AWS Team on this: [github repository](https://github.com/awslabs/aws-serverless-express/tree/master/example).
 
 
 > Credits : Thanks to [vetras](https://github.com/vetras) for his contribution.
