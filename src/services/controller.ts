@@ -1,17 +1,18 @@
-import {Service} from "../decorators/service";
-import {ExpressApplication} from "./express-application";
-import Controller from "../controllers/controller";
-import Metadata from "./metadata";
-import {CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE, CONTROLLER_URL} from "../constants/metadata-keys";
 import {$log} from "ts-log-debug";
-import {IControllerRoute} from "../interfaces/ControllerRoute";
-import {Endpoint} from "../controllers/endpoint";
-import {getClassName} from "../utils/class";
-import {RouterController} from "./index";
-import InjectorService from "./injector";
 import {CYCLIC_REF, UNKNOW_CONTROLLER} from "../constants/errors-msgs";
-import InjectParams from "./inject-params";
+import {CONTROLLER_DEPEDENCIES, CONTROLLER_SCOPE, CONTROLLER_URL} from "../constants/metadata-keys";
+import Controller from "../controllers/controller";
+import {Endpoint} from "../controllers/endpoint";
 import {Inject} from "../decorators/inject";
+import {Service} from "../decorators/service";
+import {IControllerRoute} from "../interfaces/ControllerRoute";
+import {getClassName} from "../utils/class";
+import {ExpressApplication} from "./express-application";
+import {RouterController} from "./index";
+import InjectParams from "./inject-params";
+import InjectorService from "./injector";
+import Metadata from "./metadata";
+import {ServerSettingsService} from "./server-settings";
 
 /**
  * ControllerService manage all controllers declared with `@Controller` decorator.
@@ -29,9 +30,8 @@ export default class ControllerService {
      *
      * @param expressApplication
      */
-    constructor (
-        @Inject(ExpressApplication) private expressApplication: ExpressApplication
-    ) {
+    constructor(@Inject(ExpressApplication) private expressApplication: ExpressApplication,
+                private serverSettings: ServerSettingsService) {
 
     }
 
@@ -49,16 +49,16 @@ export default class ControllerService {
      * @param target
      * @param endpoint
      * @param dependencies
-     * @param createInstancePerRequest
+     * @param controlerOptions
      * @returns {ControllerService}
      */
-    static set(target: any, endpoint: string, dependencies: any[], createInstancePerRequest: boolean = false) {
+    static set(target: any, endpoint: string, dependencies: any[], controlerOptions: {[key: string]: boolean} = {}) {
 
         const ctrl = new Controller(
             target,
             endpoint,
             dependencies,
-            createInstancePerRequest
+            controlerOptions
         );
 
         this.controllers.set(
@@ -89,6 +89,7 @@ export default class ControllerService {
 
         return this;
     }
+
     /**
      * Map all controllers collected by @Controller annotation.
      */
@@ -103,7 +104,7 @@ export default class ControllerService {
                     target,
                     Metadata.get(CONTROLLER_URL, target),
                     Metadata.get(CONTROLLER_DEPEDENCIES, target),
-                    Metadata.get(CONTROLLER_SCOPE, target)
+                    {scope: Metadata.get(CONTROLLER_SCOPE, target), ...this.serverSettings.routers}
                 );
 
 
@@ -283,7 +284,7 @@ export default class ControllerService {
     /**
      * Print all route mounted in express via Annotation.
      */
-    public printRoutes(logger: {info: (s) => void} = $log): void {
+    public printRoutes(logger: { info: (s) => void } = $log): void {
 
         const mapColor = {
             GET: (<any>"GET").green,

@@ -32,14 +32,16 @@ export default class Controller {
      * @param _targetClass
      * @param _endpointUrl
      * @param _dependencies
-     * @param _createInstancePerRequest
+     * @param _controllerOptions
      */
     constructor(private _targetClass: any,
                 private _endpointUrl: string,
                 private _dependencies: (string | Function | Controller)[] = [],
-                private _createInstancePerRequest: boolean = false) {
+                private _controllerOptions: {[key: string]: boolean} = {}
+    ) {
 
-        this._router = Express.Router(Metadata.get(CONTROLLER_ROUTER_OPTIONS, _targetClass));
+        const { caseSensitive, mergeParams, strict } = Object.assign(_controllerOptions, Metadata.get(CONTROLLER_ROUTER_OPTIONS, _targetClass));
+        this._router = Express.Router({caseSensitive, mergeParams, strict});
 
         this.metadataToEndpoints();
     }
@@ -184,6 +186,6 @@ export default class Controller {
      * @returns {boolean}
      */
     get createInstancePerRequest() {
-        return this._createInstancePerRequest;
+        return this._controllerOptions.createInstancePerRequest;
     }
 }

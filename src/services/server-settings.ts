@@ -27,6 +27,11 @@ export interface IServerSettings {
     componentsScan?: string[];
     serveStatic?: IServerMountDirectories;
     acceptMimes?: string[];
+    routers?: {
+        mergeParams?: boolean;
+        caseSensitive?: boolean;
+        strict?: boolean;
+    };
     [key: string]: any;
 }
 /**
@@ -50,6 +55,7 @@ export class ServerSettingsService implements IServerSettings {
     get rootDir() {
         return this.map.get("rootDir");
     }
+
     /**
      *
      * @returns {string}
@@ -102,7 +108,7 @@ export class ServerSettingsService implements IServerSettings {
      *
      * @returns {string|number}
      */
-    getHttpPort(): {address: string, port: number} {
+    getHttpPort(): { address: string, port: number } {
         return ServerSettingsService.buildAddressAndPort(this.map.get("httpPort"));
     }
 
@@ -110,7 +116,7 @@ export class ServerSettingsService implements IServerSettings {
      *
      * @returns {string|number}
      */
-    getHttpsPort(): {address: string, port: number} {
+    getHttpsPort(): { address: string, port: number } {
         return ServerSettingsService.buildAddressAndPort(this.map.get("httpsPort"));
     }
 
@@ -132,7 +138,7 @@ export class ServerSettingsService implements IServerSettings {
         const finalObj = {};
 
         Object.keys(obj).forEach(k => {
-           finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
+            finalObj[k] = obj[k].replace("${rootDir}", this.rootDir);
         });
 
         return finalObj;
@@ -194,6 +200,10 @@ export class ServerSettingsService implements IServerSettings {
         return this.map.get("authentification") as Function;
     }
 
+    get routers(): { caseSensitive?: boolean, mergeParams?: boolean, strict?: boolean } {
+        return this.map.get("routers") || {};
+    }
+
     /**
      *
      * @param callbackfn
@@ -208,7 +218,7 @@ export class ServerSettingsService implements IServerSettings {
      * @param addressPort
      * @returns {{address: string, port: number}}
      */
-    private static buildAddressAndPort(addressPort: string | number): {address: string, port: number} {
+    private static buildAddressAndPort(addressPort: string | number): { address: string, port: number } {
         let address = "0.0.0.0";
         let port = addressPort;
 
@@ -256,6 +266,7 @@ export class ServerSettingsProvider implements IServerSettings {
     set rootDir(value: string) {
         this.map.set("rootDir", value);
     }
+
     /**
      *
      * @param value
@@ -363,9 +374,12 @@ export class ServerSettingsProvider implements IServerSettings {
      * @param value
      */
     set acceptMimes(value: string[]) {
-        this.map.set("acceptMimes", value) || [];
+        this.map.set("acceptMimes", value || []);
     }
 
+    set routers(options: { caseSensitive?: boolean, mergeParams?: boolean, strict?: boolean }) {
+        this.map.set("routers", options || {});
+    }
 
     /**
      *
@@ -382,7 +396,7 @@ export class ServerSettingsProvider implements IServerSettings {
 
                 const descriptor = Object.getOwnPropertyDescriptor(ServerSettingsProvider.prototype, key);
 
-                if (descriptor &&  ["set", "map"].indexOf(key) === -1) {
+                if (descriptor && ["set", "map"].indexOf(key) === -1) {
                     this[key] = propertyKey[key];
                 } else {
                     this.set(key, propertyKey[key]);
@@ -401,5 +415,5 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     public $get = (): ServerSettingsService => {
         return new ServerSettingsService(this.map);
-    }
+    };
 }
