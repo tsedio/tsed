@@ -3900,7 +3900,7 @@ ts-httpexceptions@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/ts-httpexceptions/-/ts-httpexceptions-2.2.3.tgz#e9e11a08fcf51f4bc8445dbfac564af3cbb2e1b7"
 
-ts-log-debug@^3.0.0-2:
+ts-log-debug@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-3.0.0.tgz#3acfcc2fda75c3bab22d65a56132c2dbd1f9a996"
   dependencies:

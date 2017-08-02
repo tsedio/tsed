@@ -19,7 +19,12 @@ The default configuration is as follow:
     "${rootDir}/middlewares/**/*.js",
     "${rootDir}/services/**/*.js",
     "${rootDir}/converters/**/*.js"
-  ]
+  ],
+  routers: {
+    mergeParams: false,
+    strict: false,
+    caseSensitive: false
+  }
 }
 ```
 
@@ -61,3 +66,5 @@ new Server.start();
 * `serveStatic` &lt;IServerMountDirectories&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
+* `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
+

@@ -1,10 +1,10 @@
-import {expect, Sinon} from "../../../tools";
 import * as Proxyquire from "proxyquire";
-import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
-import {ControllerService} from "../../../../src/mvc/services/ControllerService";
-import {ProxyControllerRegistry} from "../../../../src/mvc/registries/ControllerRegistry";
-import {inject} from "../../../../src/testing/inject";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
+import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
+import {ProxyControllerRegistry} from "../../../../src/mvc/registries/ControllerRegistry";
+import {ControllerService} from "../../../../src/mvc/services/ControllerService";
+import {inject} from "../../../../src/testing/inject";
+import {expect, Sinon} from "../../../tools";
 
 
 class Test {
@@ -60,26 +60,26 @@ describe("ControllerService", () => {
     });
 
     /*describe("require()", () => {
-        before(() => {
-            this.conf = ControllerServiceProxy.require("./test");
-            this.conf.mapTo("/");
-        });
+     before(() => {
+     this.conf = ControllerServiceProxy.require("./test");
+     this.conf.mapTo("/");
+     });
 
-        it("should returns object", () => {
-            expect(this.conf).to.be.an("object");
-        });
+     it("should returns object", () => {
+     expect(this.conf).to.be.an("object");
+     });
 
-        it("should returns an object with classes", () => {
-            expect(this.conf.classes).to.be.an("array");
-        });
+     it("should returns an object with classes", () => {
+     expect(this.conf.classes).to.be.an("array");
+     });
 
-        it("should returns an object with mapTo function", () => {
-            expect(this.conf.mapTo).to.be.a("function");
-        });
+     it("should returns an object with mapTo function", () => {
+     expect(this.conf.mapTo).to.be.a("function");
+     });
 
-        it("should have been called the pushRouterPath method", () => {
-            expect(pushRouterPath.should.calledWithExactly("/"));
-        });
+     it("should have been called the pushRouterPath method", () => {
+     expect(pushRouterPath.should.calledWithExactly("/"));
+     });
      });*/
 
     describe("buildControllers()", () => {
@@ -89,7 +89,7 @@ describe("ControllerService", () => {
             this.controllerProvider.pushRouterPath("/rest");
             this.controllerProvider.path = "test";
 
-            this.controllerService = new ControllerServiceProxy(InjectorService, this.expressApplicationStub);
+            this.controllerService = new ControllerServiceProxy(InjectorService, this.expressApplicationStub, {routers: {}});
             this.controllerService.buildControllers();
 
             ControllerRegistry.forEach.callArgWith(0, this.controllerProvider);

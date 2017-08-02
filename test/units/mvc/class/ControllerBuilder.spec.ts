@@ -1,10 +1,11 @@
-import {expect, Sinon} from "./../../../tools";
+import * as Express from "express";
 import * as Proxyquire from "proxyquire";
 import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
+import {EndpointBuilder} from "../../../../src/mvc/class/EndpointBuilder";
 
 import {EndpointRegistry} from "../../../../src/mvc/registries/EndpointRegistry";
-import {EndpointBuilder} from "../../../../src/mvc/class/EndpointBuilder";
 import {inject} from "../../../../src/testing/inject";
+import {expect, Sinon} from "./../../../tools";
 
 class Test {
 }
@@ -90,6 +91,26 @@ describe("ControllerBuilder", () => {
 
         it("should create new EndpointBuilder", () => {
             expect(EndpointBuilderStub).to.have.been.calledWithNew;
+        });
+
+    });
+
+    describe("with default options for the router", () => {
+        before(inject([], () => {
+            this.controllerMetadata = new ControllerProvider(Test);
+            this.controllerMetadata.path = "/test";
+
+            this.expressRouterStub = Sinon.stub(Express, "Router");
+
+            this.controllerBuilder = new ControllerBuilder(this.controllerMetadata, {options: "option"});
+        }));
+
+        after(() => {
+            this.expressRouterStub.restore();
+        });
+
+        it("should be called with the router options", () => {
+            this.expressRouterStub.should.be.calledWithExactly({options: "option"});
         });
 
     });

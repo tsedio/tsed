@@ -17,6 +17,7 @@ describe("ServerSettingsProvider", () => {
         serverSettingsProvider.httpsOptions = {test: "/rest"} as any;
         serverSettingsProvider.acceptMimes = ["application/json"];
         serverSettingsProvider.serveStatic = {"/": "/publics"};
+        serverSettingsProvider.routers = {mergeParams: true};
 
         this.serverSettingsService = serverSettingsProvider.$get();
         this.serverSettingsProvider = serverSettingsProvider;
@@ -96,6 +97,10 @@ describe("ServerSettingsProvider", () => {
 
     it("should return env", () => {
         expect(this.serverSettingsService.version).to.equal("1.0.0");
+    });
+
+    it("should return env", () => {
+        expect(this.serverSettingsService.routers).to.deep.equal({mergeParams: true});
     });
 
     describe("forEach()", () => {

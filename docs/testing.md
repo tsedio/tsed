@@ -348,3 +348,21 @@ describe("Rest", () => {
     });
 });
 ```
+
+### Disable Logs
+
+If you like to disable log output for any reason, you can do it by calling `$log.level` or `$log.stop()`.
+It is useful to suppress logging during unit tests runs so that your passed/failed test summary does not get polluted with information.
+
+```
+import { $log } from "ts-log-debug";
+
+describe('A test that will not print logs :', () => {
+
+    before(() => {
+        $log.level = "OFF"
+    });
+
+    /* you tests heres */
+});
+```

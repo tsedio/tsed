@@ -6,6 +6,7 @@ import * as Https from "https";
 import * as Path from "path";
 import {Metadata} from "../../core/class/Metadata";
 import {Env, EnvTypes} from "../../core/interfaces";
+import {IRouterOptions} from "../../mvc/interfaces";
 import {SERVER_SETTINGS} from "../constants";
 
 import {IServerMountDirectories, IServerSettings} from "../interfaces";
@@ -193,6 +194,10 @@ export class ServerSettingsProvider implements IServerSettings {
 
     set debug(debug: boolean) {
         this.map.set("debug", debug);
+    }
+
+    set routers(options: IRouterOptions) {
+        this.map.set("routers", options);
     }
 
     /**

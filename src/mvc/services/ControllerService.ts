@@ -9,6 +9,7 @@ import {ExpressApplication} from "../../core/services/ExpressApplication";
 import {Inject} from "../../di";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ControllerRegistry, ProxyControllerRegistry} from "../registries/ControllerRegistry";
@@ -24,8 +25,11 @@ export class ControllerService extends ProxyControllerRegistry {
      *
      * @param expressApplication
      * @param injectorService
+     * @param serverSettings
      */
-    constructor(private injectorService: InjectorService, @Inject(ExpressApplication) private expressApplication: ExpressApplication) {
+    constructor(private injectorService: InjectorService,
+                @Inject(ExpressApplication) private expressApplication: ExpressApplication,
+                private serverSettings: ServerSettingsService) {
         super();
     }
 
@@ -102,10 +106,12 @@ export class ControllerService extends ProxyControllerRegistry {
      */
     public buildControllers() {
 
+        const defaultRoutersOptions = this.serverSettings.routers;
+
         ControllerRegistry.forEach((provider: ControllerProvider) => {
 
             if (!provider.hasParent()) {
-                new ControllerBuilder(provider).build();
+                new ControllerBuilder(provider, defaultRoutersOptions).build();
 
                 provider.routerPaths.forEach(path => {
                     this.expressApplication.use(provider.getEndpointUrl(path), provider.router);

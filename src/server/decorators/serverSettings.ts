@@ -62,7 +62,7 @@ import {IServerSettings} from "../interfaces/IServerSettings";
  * * `mount` &lt;IServerMountDirectories&gt;: Mount all controllers under a directories to an endpoint.
  * * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/ovierview.md), [Middlewares](docs/middlewares/ovierview.md) or [Converters](docs/converters.md).
  * * `serveStatic` &lt;IServerMountDirectories&gt;: Objet to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
- *
+ * * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
  *
  * @param settings
  * @returns {(target:any)=>any}

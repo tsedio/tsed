@@ -4,6 +4,7 @@
 /** */
 import * as Https from "https";
 import {Env} from "../../core/interfaces";
+import {IRouterOptions} from "../../mvc/interfaces";
 import {IServerMountDirectories, IServerSettings} from "../interfaces";
 
 /**
@@ -182,6 +183,10 @@ export class ServerSettingsService implements IServerSettings {
 
     get debug(): boolean {
         return !!this.map.get("debug");
+    }
+
+    get routers(): IRouterOptions {
+        return this.map.get("routers") || {};
     }
 
     /**

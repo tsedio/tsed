@@ -46,7 +46,7 @@
     "reflect-metadata": "^0.1.8",
     "source-map-support": "^0.4.15",
     "ts-httpexceptions": "^2.2.1",
-    "ts-log-debug": "^3.0.0-2",
+    "ts-log-debug": "^3.0.0",
     "swagger-schema-official": "^2.0.0-bab6bed"
   },
   "devDependencies": {
