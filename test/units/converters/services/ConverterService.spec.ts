@@ -1,7 +1,7 @@
 import {assert, expect} from "chai";
 import {BadRequest} from "ts-httpexceptions";
-import {inject} from "../../../../src/testing/inject";
 import {ConverterService, JsonProperty} from "../../../../src";
+import {inject} from "../../../../src/testing/inject";
 
 class Foo {
 
@@ -256,7 +256,7 @@ describe("ConverterService", () => {
 
         describe("deserialization error", () => {
             it("should emit a BadRequest when the number parsing failed", () =>
-                assert.throws(() => this.converterService.deserialize("NK1", Number), BadRequest)
+                assert.throws(() => this.converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.")
             );
         });
 
