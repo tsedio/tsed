@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 
 echo "Add tags v$PACKAGE_VERSION on Github"

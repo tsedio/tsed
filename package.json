@@ -6,7 +6,6 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf test/*.js test/**/*.js test/*.js.map test/**/*.js.map test/**/**/*.js test/**/**/*.js.map src/**/*.js src/**/*.js.map src/**/**/*.js src/**/**/*.js.map",
-    "prepublish": "npm run tsc:compile",
     "tslint": "tslint ./src/*.ts",
     "test": "npm run clean && npm run tsc && npm run tslint && NODE_ENV=test nyc --reporter=html --reporter=text _mocha --recursive",
     "coveralls:travis": "nyc report --reporter=text-lcov | coveralls",
@@ -16,7 +15,11 @@
     "doc:build": "cd docs/_build && node build-api.js && cd ../..",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "semantic-release-locale": "semantic-release pre --debug=true",
-    "postpublish": "PACKAGE_VERSION=$(node -p -e \"require('./package.json').version\") && git add package.json && git commit -m \"$PACKAGE_VERSION\" && git tag $PACKAGE_VERSION && git push origin master -f --tags"
+    "startfeat": "sh sh/startfeat.sh",
+    "finishfeat": "sh sh/finishfeat.sh",
+    "rebasefeat": "sh sh/rebasefeat.sh",
+    "prepublish": "npm run tsc:compile",
+    "postpublish": "sh sh/postpublish.sh"
   },
   "repository": {
     "type": "git",
