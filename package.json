@@ -15,7 +15,8 @@
     "doc:serve": "concurrently \"tsc --project tsconfig.compile.json -w\" \"docsify serve ./docs\" \"cd docs/_build && nodemon --delay 2.5 -e ts --watch ../../lib build-api.js\"",
     "doc:build": "cd docs/_build && node build-api.js && cd ../..",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "semantic-release-locale": "semantic-release pre --debug=true"
+    "semantic-release-locale": "semantic-release pre --debug=true",
+    "postpublish": "PACKAGE_VERSION=$(node -p -e \"require('./package.json').version\") && git add package.json && git commit -m \"$PACKAGE_VERSION\" && git tag $PACKAGE_VERSION && git push origin master -f --tags"
   },
   "repository": {
     "type": "git",
