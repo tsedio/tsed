@@ -451,3 +451,7 @@ pre code a:hover span {
     border-bottom: 1px solid #dbdbdb;
     text-align: left;
 }
+
+.markdown-section code {
+    white-space: pre;
+}

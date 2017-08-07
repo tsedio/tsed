@@ -42,12 +42,12 @@ export class Server extends ServerLoader {
 }
 ```
 
-## Local strategy
+### Local strategy
 
 Now, we need to expose some routes to enable the login, the signup and the logout. To do that, 
 we'll use the passport-local strategy and we create a passport service and a passport controller.
 
-### The PassportLocalService
+#### The PassportLocalService
 
 In the service directory, we'll create the `PassportLocalServices.ts` and write this code:
 
@@ -83,7 +83,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 > We use the hook service licecycle to autoloading some actions when the server start. 
 See the [service lifecycle](docs/services/lifecyle-hooks.md) for more informations.
 
-### Passport controller
+#### Passport controller
 
 We'll need to prepare some routes. To work it, the Passport need 3 routes:
 
@@ -332,7 +332,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 }
 ```
 
-### Logout
+#### Logout
 
 Logout is very short, just place this code in the PassportCtrl and it's done:
 

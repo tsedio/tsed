@@ -1,4 +1,4 @@
-# Server configuration
+# Configuration
 
 `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
 

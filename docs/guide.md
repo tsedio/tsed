@@ -1,7 +1,17 @@
-# Tutorials
+# Guide
 
-* [How to integrate Socket.io](tutorials/how-to-integrate-socket-io.md)
-* [How to integrate Swagger](tutorials/how-to-integrate-swagger.md)
+## Tutorials
+
+* [Passport.js](tutorials/passport.md)
+* [Socket.io](tutorials/socket-io.md)
+* [Swagger](tutorials/swagger.md)
+* [Upload files](tutorials/upload-files-with-multer.md)
+* [Serve static files](tutorials/serve-static-files.md)
+* [Templating](tutorials/templating.md)
+* [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
+* [AWS project](tutorials/aws.md)
+
+## Examples 
 
 Some examples are available along these links :
 

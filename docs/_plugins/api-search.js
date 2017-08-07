@@ -1,22 +1,8 @@
 (function () {
   "use strict";
 
-  const TYPES = {
-    "@": {value: "decorator", label: "Decorator"},
-    "T": {value: "type", label: "Type alias"},
-    "C": {value: "class", label: "Class"},
-    "S": {value: "service", label: "Service"},
-    "I": {value: "interface", label: "Interface"},
-    "K": {value: "const", label: "Constant"},
-    "E": {value: "enum", label: "Enum"},
-    "F": {value: "function", label: "Function"}
-  };
-
   let INDEX = {};
   let criteria = {};
-
-  const getType = (type) =>
-    TYPES[Object.keys(TYPES).find(key => TYPES[key].value === type)];
 
   const bindDropdown = (type) => {
     const $fieldFilterByType = Docsify.dom.find("aio-select.aio-" + type);
@@ -177,7 +163,6 @@
             });
 
           }
-          console.log(query);
           searchApi(query);
         }
       }

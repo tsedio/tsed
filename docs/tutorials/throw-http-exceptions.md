@@ -4,6 +4,7 @@ You can use [ts-httpexceptions](https://github.com/Romakita/ts-httpexceptions) o
 All exception will be intercepted by the [Global Errors Handler]() and are sent to the client browser.
 
 Here an example:
+
 ```typescript
 import {Controller, Get, PathParams} from "ts-express-decorators";
 import {BadRequest} from "ts-httpexceptions";
@@ -24,4 +25,5 @@ export class CalendarCtrl {
     }
 }
 ```
+
 > If `id` parameter is not an number, the method throw a Bad Request. This will produce a response with status code 400 and "Not a number" message.

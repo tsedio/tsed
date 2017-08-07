@@ -16,6 +16,11 @@
 [![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-express-decorators/)
 [![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=6&height=3)](https://nodei.co/npm/ts-express-decorators/)
 
+## What is it
+
+Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provide a lot of decorators 
+to write your code.
+
 ## Features
 
 * Define class as Controller,
@@ -29,7 +34,7 @@
 * Define required parameters,
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
-* Templating (View),
+* Template (View),
 * Swagger documentation and Swagger-ui,
 * Testing.
 
@@ -39,7 +44,7 @@ Documentation for v2.x beta is available on [https://romakita.github.io/ts-expre
 
 ## Migrate from 1.x or to 2.x
 
-See [migrate from 1.x to 2.x](https://romakita.github.io/ts-express-decorators/#/migration) section.
+See [migrate from 1.x to 2.x](https://romakita.github.io/ts-express-decorators/#/docs/migration) section.
 
 ## Installation
 

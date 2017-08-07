@@ -3,42 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <title>Ts.ED</title>
-    <meta name="description" content="Use TypeScript decorators to create your Express application and Rest API">
+    <meta name="description" content="Use TypeScript decorators to create your Express application and Rest API. Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provide a lot of decorators
+    to write your code.">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@latest/lib/themes/buble.css" title="buble">
+    <link rel="stylesheet" href="_styles/ps-icon-pack.css" title="buble">
     <link rel="stylesheet" href="_styles/main.css" title="buble">
-
+    <style>
+        .not-visible {
+            display: none
+        }
+    </style>
 </head>
 <body>
-<nav>
-    <!--<a href="/" class="logo"><img src="_media/nodetyped.svg" style="max-height:40px"></a>-->
-    <a href="#/getting-started">Getting Started</a>
-    <a href="https://github.com/Romakita/ts-express-decorators/wiki">Version 1.x</a>
-</nav>
 <div id="app">Loading ...</div>
+
+<div class="not-visible">
+    <header>
+        <nav>
+            <a href="/">Ts.ED</a>
+            <ul>
+                <li>
+                    <div class="ps-icon ps-icon-arrow-right"></div>
+                    <a href="#/getting-started">Getting started</a></li>
+                <li>
+                    <div class="ps-icon ps-icon-cookie"></div>
+                    <a href="#/guide">Guide</a>
+                    <ul>
+                        <li><a href="#/tutorials/passport">Passport.js</a></li>
+                        <li><a href="#/tutorials/socket-io">Socket.io</a></li>
+                        <li><a href="#/tutorials/swagger">Swagger</a></li>
+                        <li><a href="#/tutorials/upload-files-with-multer">Upload files</a></li>
+                        <li><a href="#/tutorials/serve-static-files">Serve static files</a></li>
+                        <li><a href="#/tutorials/templating">Templating</a></li>
+                        <li><a href="#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a></li>
+                        <li><a href="#/tutorials/aws">AWS project</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="ps-icon ps-icon-book-tag"></div>
+                    <a href="#/docs">Documentation</a>
+                    <ul>
+                        <li><a href="#/docs/migration">Migration</a></li>
+                        <li><a href="#/docs/controllers">Controllers</a></li>
+                        <li><a href="#/docs/services">Services</a></li>
+                        <li><a href="#/docs/converters">Converters</a></li>
+                        <li><a href="#/docs/middlewares">Middlewares</a></li>
+                        <li><a href="#/docs/filters">Filters</a></li>
+                        <li><a href="#/docs/server-loader">ServerLoader</a></li>
+                        <li><a href="#/configuration">Server configuration</a></li>
+                        <li><a href="#/docs/testing">Testing</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="ps-icon ps-icon-puzzle"></div>
+                    <a href="#/api/index">API references</a></li>
+            </ul>
+        </nav>
+
+        <section>
+
+            <h1 id="tsed"><a href="#/?id=tsed" data-id="tsed" class="anchor"><span>Ts.ED</span></a></h1>
+            <blockquote>
+                <p>Build your TypeScript v2 application with Express decorators !</p></blockquote>
+            <h2 id="what-is-it"><a href="#/?id=what-is-it" data-id="what-is-it"
+                                   class="anchor"><span>What is it</span></a></h2>
+            <p>Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provide
+                a lot of decorators
+                to write your code.</p>
+            <h2 id="features"><a href="#/?id=features" data-id="features" class="anchor"><span>Features</span></a></h2>
+            <ul>
+                <li>Define class as Controller,</li>
+                <li>Define class as Service (IoC),</li>
+                <li>Define class as Middleware and MiddlewareError,</li>
+                <li>Define class as Converter (POJ to Model and Model to POJ),</li>
+                <li>Define root path for an entire controller and versioning your Rest API,</li>
+                <li>Define as sub-route path for a method,</li>
+                <li>Define routes on GET, POST, PUT, DELETE and HEAD verbs,</li>
+                <li>Define middlewares on routes,</li>
+                <li>Define required parameters,</li>
+                <li>Inject data from query string, path parameters, entire body, cookies, session or header,</li>
+                <li>Inject Request, Response, Next object from Express request,</li>
+                <li>Template (View),</li>
+                <li>Swagger documentation and Swagger-ui,</li>
+                <li>Testing.</li>
+            </ul>
+            <h2 id="migrate-from-1x-or-to-2x"><a href="#/?id=migrate-from-1x-or-to-2x"
+                                                 data-id="migrate-from-1x-or-to-2x" class="anchor"><span>Migrate from 1.x or to 2.x</span></a>
+            </h2>
+            <p>See <a href="#/docs/migration">migrate from 1.x to 2.x</a> section.</p>
+            <h2 id="contributors"><a href="#/?id=contributors" data-id="contributors"
+                                     class="anchor"><span>Contributors</span></a></h2>
+            <ul>
+                <li><a href="https://github.com/romakita" target="_blank">Romain Lenzotti</a></li>
+                <li><a href="https://github.com/alexproca" target="_blank">AlexProca</a></li>
+                <li><a href="https://github.com/vincent178" target="_blank">Vincent178</a></li>
+                <li><a href="https://github.com/vologab" target="_blank">Vologab</a></li>
+            </ul>
+            <hr>
+
+        </section>
+
+    </header>
+</div>
+
 </body>
 <script>
   window.$docsify = {
-    name: 'Ts.ED',
-    repo: 'http://github.com/romakita/ts-express-decorators',
+    name: "Ts.ED",
+    repo: "http://github.com/romakita/ts-express-decorators",
 
     auto2top: true,
     coverpage: true,
     executeScript: true,
     loadSidebar: true,
+    loadNavbar: true,
     maxLevel: 4,
     subMaxLevel: 2,
+    ga: "UA-35240348-1",
     search: {
       noData: {
-        '/': 'No results!'
+        "/": "No results!"
       },
-      paths: 'auto',
+      paths: "auto",
       placeholder: {
-        '/': 'Search'
+        "/": "Search"
       }
     },
-    formatUpdated: '{MM}/{DD} {HH}:{mm}',
+    formatUpdated: "{MM}/{DD} {HH}:{mm}",
     plugins: [
       function (hook, vm) {
         hook.beforeEach(function (html) {
@@ -46,17 +139,18 @@
           var editHtml = "[:memo: Edit Document](" + url + ")\n";
 
           return html
-            + '\n----\n'
-            + 'Last modified {docsify-updated} '
-            + editHtml
-        })
+            + "\n----\n"
+            + "Last modified {docsify-updated} "
+            + editHtml;
+        });
       }
     ]
-  }
+  };
 </script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/docsify.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/zoom-image.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/ga.min.js"></script>
 <script src="_plugins/api-search.js"></script>
 
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
@@ -64,4 +158,5 @@
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-typescript.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
+
 </html>
