@@ -15,8 +15,8 @@ export interface IServerSettings {
     endpointUrl?: string;
     env?: Env;
     port?: string | number;
-    httpPort?: string | number;
-    httpsPort?: string | number;
+    httpPort?: string | number | false;
+    httpsPort?: string | number | false;
     httpsOptions?: Https.ServerOptions;
     uploadDir?: string;
     mount?: IServerMountDirectories;
