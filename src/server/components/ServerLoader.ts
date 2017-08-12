@@ -204,12 +204,6 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {Promise<void>}
      */
     protected async loadSettingsAndInjector() {
-        const debug = this.settings.get("debug");
-
-        /* istanbul ignore next */
-        if (debug && this.settings.env !== "test") {
-            $log.level = "debug";
-        }
 
         $log.debug("Initialize settings");
         this._settingsService = this.getSettingsService();
@@ -324,6 +318,14 @@ export abstract class ServerLoader implements IServerLifecycle {
     public async start(): Promise<any> {
         const start = new Date();
         try {
+
+            const debug = this.settings.get("debug");
+
+            /* istanbul ignore next */
+            if (debug && this.settings.env !== "test") {
+                $log.level = "debug";
+            }
+
             await this.callHook("$onInit");
             await this.loadSettingsAndInjector();
             await this.loadMiddlewares();
