@@ -11,6 +11,8 @@ export * from "./class/ProxyRegistry";
 
 // Services
 export * from "./services/ExpressApplication";
+export * from "./services/HttpServer";
+export * from "./services/HttpsServer";
 
 // decorators
 export * from "./decorators";
