@@ -87,7 +87,7 @@
           experimental !== "true" ? "stable" : "",
           experimental === "true" ? "experimental" : "",
           isPrivate === "true" ? "private" : "",
-          isPrivate !== "true" ? "private" : ""
+          isPrivate !== "true" ? "public" : ""
         ]
       });
     });
@@ -103,7 +103,6 @@
     const {type = "", status = "", keywords = ""} = Object.assign(criteria, options);
 
     const empty = (t) => t === "" || t === "all";
-
     Object.keys(INDEX).forEach((group) => {
       const groupKey = group.replace("/", "");
       const titleGroup = Docsify.dom.find(container, "#" + groupKey);
