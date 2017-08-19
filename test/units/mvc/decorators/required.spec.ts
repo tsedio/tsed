@@ -1,5 +1,6 @@
 import * as Proxyquire from "proxyquire";
-import {Sinon} from "../../../tools";
+import {EndpointRegistry} from "../../../../src/mvc/registries/EndpointRegistry";
+import {expect, Sinon} from "../../../tools";
 
 const ParamRegistry: any = {
     required: Sinon.stub()
@@ -22,6 +23,21 @@ const {Required} = Proxyquire.load("../../../../src/mvc/decorators/required", {
 });
 
 describe("Required", () => {
+    describe("is all case", () => {
+        before(() => {
+            Required()(Test, "test", 0);
+            this.store = EndpointRegistry.store(Test, "test");
+        });
+
+        after(() => {
+            ParamRegistry.required.reset();
+            this.store.clear();
+        });
+
+        it("should set metadata", () => {
+            expect(this.store.get("responses")).to.deep.eq({"400": {description: "Bad request"}});
+        });
+    });
 
     describe("when decorator is used as param", () => {
         before(() => {
@@ -30,6 +46,10 @@ describe("Required", () => {
 
         after(() => {
             ParamRegistry.required.reset();
+        });
+
+        it("should set metadata", () => {
+            expect(this.store.get("responses")).to.deep.eq({"400": {description: "Bad request"}});
         });
 
         it("should called with the correct parameters", () => {

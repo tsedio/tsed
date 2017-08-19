@@ -28,9 +28,12 @@ describe("Authenticated", () => {
         this.store.clear();
     });
 
-
     it("should set metadata", () => {
         expect(this.store.get(AuthenticatedMiddleware)).to.deep.eq(this.options);
+    });
+
+    it("should set responses metadata", () => {
+        expect(this.store.get("responses")).to.deep.eq({"403": {description: "Forbidden"}});
     });
 
     it("should create middleware", () => {

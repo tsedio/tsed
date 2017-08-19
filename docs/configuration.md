@@ -20,10 +20,10 @@ The default configuration is as follow:
     "${rootDir}/services/**/*.js",
     "${rootDir}/converters/**/*.js"
   ],
-  routers: {
-    mergeParams: false,
-    strict: false,
-    caseSensitive: false
+  "routers": {
+    "mergeParams": false,
+    "strict": false,
+    "caseSensitive": false
   }
 }
 ```

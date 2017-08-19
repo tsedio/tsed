@@ -31,7 +31,7 @@ export class Server extends ServerLoader {
 ```
 > The path option for swagger will be used to expose the documentation (ex: http://localhost:8000/api-docs).
 
-Normally, Swagger-ui is ready. You can start your server en check if it work fine.
+Normally, Swagger-ui is ready. You can start your server and check if it work fine.
 
 > Note: Ts.ED will print the swagger url in the console.
 
