@@ -30,7 +30,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
 
     build(): this {
 
-        const openAPIPath = `${this.endpointUrl}${toSwaggerPath(this.endpoint.path) || ""}`.trim();
+        const openAPIPath = ("" + toSwaggerPath(`${this.endpointUrl}${this.endpoint.path || ""}`)).trim();
         const produces = this.endpoint.store.get("produces") || [];
         const consumes = this.endpoint.store.get("consumes") || [];
         const responses = this.endpoint.store.get("responses") || {"200": {description: "Success"}};
@@ -68,7 +68,6 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
     }
 
     private createResponse(code: string, options: any): Response {
-        let builder;
         const {description = "Success", headers} = options;
         const response: Response = {description, headers};
 

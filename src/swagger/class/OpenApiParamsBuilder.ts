@@ -53,15 +53,20 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
 
                     deepExtends(this._definitions, builder.definitions);
 
-                    return {
-                        "in": "body",
-                        name: "body",
-                        description: "",
-                        required: !!param.required,
-                        schema: {
-                            "$ref": `#/definitions/${param.typeName}`
+                    return Object.assign(
+                        {
+                            description: ""
+                        },
+                        param.store.get("schema"),
+                        {
+                            "in": "body",
+                            name: "body",
+                            required: !!param.required,
+                            schema: {
+                                "$ref": `#/definitions/${param.typeName}`
+                            }
                         }
-                    };
+                    );
                 }
             })
             .filter(o => !!o);
