@@ -3,12 +3,14 @@
 set -e
 
 PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+echo "Publish v$PACKAGE_VERSION"
 
-echo "Add tags v$PACKAGE_VERSION on Github"
+npm run doc:build
+npm publish
 
 git add package.json
+git add docs
 git commit -m "$PACKAGE_VERSION"
-git tag $PACKAGE_VERSION
-git push origin master -f --tags
+git push origin master -f
 
 echo "Done"

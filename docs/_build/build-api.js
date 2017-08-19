@@ -5,6 +5,7 @@
 const {writeSymbol, writeIndex} = require("./write");
 const template = require("./template");
 const scan = require("./scan");
+const writeVersion = require("./write-version");
 const path = require("path");
 
 const {$log} = require("ts-log-debug");
@@ -17,9 +18,9 @@ const options = {
 };
 
 Promise.resolve()
+  .then(() => writeVersion(path.resolve(__dirname + "/../_coverpage.md")))
   .then(() => scan(options.pattern))
   .then(docComponents => {
-
     docComponents.forEach(docComponents => {
       docComponents.symbols.forEach((symbol) => {
         writeSymbol(Object.assign(symbol, {output: template(symbol)}));

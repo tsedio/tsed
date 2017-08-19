@@ -92,7 +92,8 @@ module.exports.writeIndex = () => {
     ""
   ];
 
-  Object.values(info.modules).map(module => {
+  Object.keys(info.modules).map(key => {
+    const module = info.modules[key];
     indexTemplate.push("\n#### " + module + "\n\n");
     const symbols = [];
 
