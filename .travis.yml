@@ -8,9 +8,8 @@ node_js:
   - '7'
   - 'node'
 after_success:
-  - npm run semantic-release
   - npm run coveralls:travis
-  - sh ./afterpublish.sh
+  - npm run semantic-release
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
