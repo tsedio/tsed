@@ -11,10 +11,10 @@ git add docs
 git commit -m "docs: v$PACKAGE_VERSION"
 
 git branch -D master || echo "Local master not found"
-git checkout -b master origin/master
+git checkout -b master origin/master || echo "Ignored"
 
 echo "Rebase from production branch"
-git rebase production
+git rebase production || echo "Ignored"
 git push origin master -f
 
 echo "Done"
