@@ -45,6 +45,7 @@ if [[ ${FEATURE_BRANCH} == ${MASTER_BRANCH} ]]; then
     echo "Checkout production"
     git checkout -b production origin/production
     git merge --no-ff -m "Merge master" master
+    git push origin master
     git push origin production
     echo ${FEATURE_BRANCH} ' FINISH DONE'
     exit 0
