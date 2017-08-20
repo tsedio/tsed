@@ -48,7 +48,7 @@
   "bugs": {
     "url": "https://github.com/Romakita/ts-express-decorators/issues"
   },
-  "homepage": "https://github.com/Romakita/ts-express-decorators#readme",
+  "homepage": "https://romakita.github.io/ts-express-decorators/#/",
   "dependencies": {
     "glob": "^7.0.3",
     "reflect-metadata": "^0.1.8",
