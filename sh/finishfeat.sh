@@ -11,47 +11,43 @@ PRODUCTION_BRANCH="production"
 git fetch --all --prune --tags
 
 if [[ ${FEATURE_BRANCH} == ${PRODUCTION_BRANCH} ]]; then
-  exit 0
+    echo "Start manual publish with np"
+    np --any-branch
+    exit 0
 fi
 
 if [[ ${FEATURE_BRANCH} != ${MASTER_BRANCH} ]]; then
+    echo "Start publishing branch feature"
+    git rebase origin/production
 
-   echo "Publish local feature"
-   git rebase origin/master
+    echo "Try to delete production"
+    git branch -D production || echo "Local production not found"
 
-fi
-
-git checkout master
-git reset --hard origin/master
-
-if [[ ${FEATURE_BRANCH} != ${MASTER_BRANCH} ]]; then
-
+    echo "Checkout production"
+    git checkout -b production origin/production
     git merge --no-ff -m "$(echo $FEATURE_BRANCH)" ${FEATURE_BRANCH}
 
-fi
-
-echo "Try to delete production"
-
-git branch -D production || echo "Local production not found"
-
-echo "Checkout production"
-
-git checkout -b production origin/production
-
-echo "Reset HEAD of production"
-
-git reset --hard origin/master
-
-echo "Push origin production"
-
-git push origin production -f
-
-if [[ ${FEATURE_BRANCH} != ${MASTER_BRANCH} ]]; then
+    git push origin production
     git push origin :${FEATURE_BRANCH}
     git branch -d ${FEATURE_BRANCH}
     echo ${FEATURE_BRANCH} ' FINISH DONE'
+
+    exit 0
 fi
 
-git checkout master
+if [[ ${FEATURE_BRANCH} == ${MASTER_BRANCH} ]]; then
+    echo "Start publishing master branch (group features)"
+    git rebase origin/production
+
+    echo "Try to delete production"
+    git branch -D production || echo "Local production not found"
+
+    echo "Checkout production"
+    git checkout -b production origin/production
+    git merge --no-ff -m "Merge master" master
+    git push origin production
+    echo ${FEATURE_BRANCH} ' FINISH DONE'
+    exit 0
+fi
 
 echo 'PUBLISH DONE'

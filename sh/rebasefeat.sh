@@ -3,4 +3,4 @@
 set -e
 
 git fetch --all --prune --tags
-git rebase origin/master
+git rebase origin/production
