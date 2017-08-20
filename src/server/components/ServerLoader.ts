@@ -5,6 +5,7 @@
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
+import * as Path from "path";
 import {$log} from "ts-log-debug";
 import {Deprecated, ExpressApplication} from "../../core";
 import {HttpServer} from "../../core/services/HttpServer";
@@ -478,7 +479,9 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public scan(path: string, endpoint: string = this._settings.endpoint): ServerLoader {
 
-        let files: string[] = require("glob").sync(path.replace(/\\/gi, "/"));
+        path = Path.resolve(path);
+
+        let files: string[] = require("glob").sync(path);
         let nbFiles = 0;
 
         $log.info(`Scan files : ${path}`);

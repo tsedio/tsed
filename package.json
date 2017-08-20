@@ -10,7 +10,7 @@
     "test": "npm run clean && npm run tsc && npm run tslint && NODE_ENV=test nyc --reporter=html --reporter=text _mocha --recursive",
     "coveralls:travis": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",
-    "tsc:compile": "rm -rf ./lib && tsc --project tsconfig.compile.json",
+    "tsc:compile": "rimraf ./lib && tsc --project tsconfig.compile.json",
     "doc:serve": "concurrently \"tsc --project tsconfig.compile.json -w\" \"docsify serve ./docs\" \"cd docs/_build && nodemon --delay 2.5 -e ts --watch ../../lib build-api.js\"",
     "doc:build": "cd docs/_build && node build-api.js && cd ../..",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post && sh ./sh/afterpublish.sh",
