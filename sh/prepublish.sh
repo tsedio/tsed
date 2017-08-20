@@ -7,5 +7,3 @@ git config --global user.name "Travis CI"
 
 git checkout production
 git branch --set-upstream-to=origin/production production
-
-npm publish
