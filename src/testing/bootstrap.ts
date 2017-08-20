@@ -1,10 +1,17 @@
-import {$log} from "ts-log-debug";
 /**
  * @module testing
  */
 /** */
+import {$log} from "ts-log-debug";
 import {ServerLoader} from "../server/components/ServerLoader";
 
+/**
+ * Load the server silently without listening port and configure it on test profile.
+ * @decorator
+ * @param server
+ * @param args
+ * @returns {(done:Function)=>undefined}
+ */
 export function bootstrap(server: any, ...args) {
 
     $log.stop();
