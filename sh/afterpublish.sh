@@ -5,16 +5,18 @@ set -e
 PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 
 echo "Generate documentation for v$PACKAGE_VERSION"
+
+git config --global user.email "travis@travis-ci.org"
+git config --global user.name "Travis CI"
+
 npm run doc:build
 git add package.json
 git add docs
-git commit -m "docs: v$PACKAGE_VERSION"
 
-git branch -D master || echo "Local master not found"
-git checkout -b master origin/master || echo "Ignored"
+git commit -m "Travis build: $TRAVIS_BUILD_NUMBER  v$PACKAGE_VERSION [ci skip]"
 
-echo "Rebase from production branch"
-git rebase production || echo "Ignored"
-git push origin master -f
+git remote add origin https://${GH_TOKEN}@github.com/Romakita/ts-express-decorators.git > /dev/null 2>&1
+git push --quiet --set-upstream origin production
+git push -f origin production:refs/heads/master
 
 echo "Done"
