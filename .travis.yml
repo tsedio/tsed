@@ -10,6 +10,7 @@ node_js:
 after_success:
   - npm run semantic-release
   - npm run coveralls:travis
+  - sh ./afterpublish.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
