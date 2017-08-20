@@ -13,7 +13,6 @@
     "tsc:compile": "rimraf ./lib && tsc --project tsconfig.compile.json",
     "doc:serve": "concurrently \"tsc --project tsconfig.compile.json -w\" \"docsify serve ./docs\" \"cd docs/_build && nodemon --delay 2.5 -e ts --watch ../../lib build-api.js\"",
     "doc:build": "cd docs/_build && node build-api.js && cd ../..",
-    "semantic-release": "sh ./sh/prepublish.sh && semantic-release pre && npm publish && semantic-release post && sh ./sh/afterpublish.sh",
     "semantic-release-locale": "semantic-release pre --debug=true",
     "startfeat": "sh sh/startfeat.sh",
     "finishfeat": "sh sh/finishfeat.sh",
