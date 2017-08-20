@@ -6,13 +6,8 @@ PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 
 echo "Generate documentation for v$PACKAGE_VERSION"
 
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis CI"
-
 npm run doc:build
 
-git checkout production
-git branch --set-upstream-to=origin/production production
 git status
 
 git add package.json
