@@ -12,7 +12,7 @@ import {SERVER_SETTINGS} from "../constants";
 import {IServerMountDirectories, IServerSettings} from "../interfaces";
 import {ServerSettingsService} from "../services/ServerSettingsService";
 
-const rootDir = Path.dirname(require.main.filename);
+const rootDir = Path.dirname(require.main!.filename);
 
 export class ServerSettingsProvider implements IServerSettings {
 

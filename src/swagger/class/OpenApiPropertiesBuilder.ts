@@ -39,7 +39,7 @@ export class OpenApiPropertiesBuilder {
 
         properties.forEach((property: PropertyMetadata) => {
             const propertyKey = property.name || property.propertyKey;
-            schema.properties[propertyKey] = this.createSchema(property);
+            schema.properties![propertyKey] = this.createSchema(property);
         });
 
         this._schema = schema;

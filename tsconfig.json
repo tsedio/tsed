@@ -11,7 +11,7 @@
     "isolatedModules": false,
     "suppressImplicitAnyIndexErrors": false,
     "noImplicitAny": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "lib": [
       "es6",
       "dom"

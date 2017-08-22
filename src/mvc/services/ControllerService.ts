@@ -56,7 +56,7 @@ export class ControllerService extends ProxyControllerRegistry {
                 .map(clazzName => component.classes[clazzName])
                 .filter(clazz => ControllerRegistry.has(clazz))
                 .map(clazz =>
-                    ControllerRegistry.get(clazz).pushRouterPath(component.endpoint)
+                    ControllerRegistry.get(clazz)!.pushRouterPath(component.endpoint)
                 );
         });
     }
@@ -66,7 +66,7 @@ export class ControllerService extends ProxyControllerRegistry {
      * @param target
      * @returns {ControllerProvider}
      */
-    static get = (target: Type<any>): ControllerProvider =>
+    static get = (target: Type<any>): ControllerProvider | undefined =>
         ControllerRegistry.get(target);
 
     /**

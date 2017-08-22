@@ -66,6 +66,11 @@ export class HandlerBuilder {
      */
     private middlewareHandler(): Function {
         const provider = MiddlewareRegistry.get(this.handlerMetadata.target);
+
+        if (!provider) {
+            throw new Error("Middleware component not found in the MiddlewareRegistry");
+        }
+
         return provider.instance.use.bind(provider.instance);
     }
 
@@ -77,6 +82,11 @@ export class HandlerBuilder {
     private endpointHandler = <T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function => {
 
         const provider = ControllerRegistry.get(this.handlerMetadata.target);
+
+        if (!provider) {
+            throw new Error("Controller component not found in the ControllerRegistry");
+        }
+
         const target = provider.useClass;
 
         if (provider.scope || provider.instance === undefined) {
@@ -88,7 +98,7 @@ export class HandlerBuilder {
             provider.instance = InjectorService.invoke<T>(target, locals);
         }
 
-        return provider.instance[this.handlerMetadata.methodClassName].bind(provider.instance);
+        return provider.instance[this.handlerMetadata.methodClassName!].bind(provider.instance);
     };
 
     /**
@@ -196,14 +206,13 @@ export class HandlerBuilder {
      * @param localScope
      * @returns {[(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any)]}
      */
-    private getInjectableParameters = (localScope?: IHandlerScope): any[] => {
+    private getInjectableParameters = (localScope: IHandlerScope = {} as IHandlerScope): any[] => {
         const converterService = InjectorService.get<ConverterService>(ConverterService);
         const filterService = InjectorService.get<FilterService>(FilterService);
 
         return this.handlerMetadata
             .services
             .map((param: ParamMetadata, index: number) => {
-
 
                 let paramValue;
 

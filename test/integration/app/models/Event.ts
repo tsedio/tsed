@@ -1,11 +1,11 @@
 import {JsonProperty} from "../../../../src";
-import {Title} from "../../../../src/swagger/decorators/title";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {Example} from "../../../../src/swagger/decorators/example";
+import {Title} from "../../../../src/swagger/decorators/title";
 
 export class Task {
     @JsonProperty()
-    public name: string = void 0;
+    public name: string | undefined = void 0;
 
     @JsonProperty()
     public percent: number;

@@ -1,6 +1,7 @@
 /**
  * @module common/mvc
- */ /** */
+ */
+/** */
 
 import {$log} from "ts-log-debug";
 
@@ -42,7 +43,7 @@ export class MiddlewareService extends ProxyMiddlewareRegistry {
      * @param target
      * @returns {ControllerProvider}
      */
-    static get = (target: Type<any>): MiddlewareProvider =>
+    static get = (target: Type<any>): MiddlewareProvider | undefined =>
         MiddlewareRegistry.get(target);
 
     /**
@@ -93,11 +94,12 @@ export class MiddlewareService extends ProxyMiddlewareRegistry {
      */
     invokeMethod<T extends IMiddleware>(target: Type<T>, ...args: any[]) {
 
-        if (!this.has(target)) {
+        const provider = this.get(target);
+
+        if (!provider) {
             throw new UnknowMiddlewareError(target);
         }
 
-        const provider = this.get(target);
         const instance = provider.instance || this.invoke(provider.useClass);
 
         return instance.use(...args);

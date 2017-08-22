@@ -22,7 +22,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
     }
 
     build(): this {
-        let bodySchema: Schema;
+        let bodySchema: Schema | undefined = undefined;
         let required = false;
         this._parameters = <Parameter[]> this.injectedParams
             .map((param: ParamMetadata) => {
@@ -128,8 +128,8 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         let current = output;
 
         keys.forEach((key, index) => {
-            current.properties[key] = <Schema> {type: "object"};
-            current = current.properties[key];
+            current.properties![key] = <Schema> {type: "object"};
+            current = current.properties![key];
         });
 
         if (model.isClass) {

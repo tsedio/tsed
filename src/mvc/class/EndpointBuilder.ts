@@ -10,6 +10,9 @@ import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class EndpointBuilder {
+    constructor(private endpoint: EndpointMetadata,
+                private router: any) {
+    }
 
     /**
      *
@@ -44,10 +47,6 @@ export class EndpointBuilder {
             next();
         };
 
-    constructor(private endpoint: EndpointMetadata,
-                private router: any) {
-    }
-
     /**
      *
      * @param middlewares
@@ -69,12 +68,12 @@ export class EndpointBuilder {
     build() {
         const endpoint = this.endpoint;
 
-        let middlewares: any[] = []
-            .concat(endpoint.beforeMiddlewares)
-            .concat(endpoint.middlewares)
-            .concat([endpoint])
-            .concat(endpoint.afterMiddlewares)
-            .concat(SendResponseMiddleware)
+        let middlewares: any = []
+            .concat(endpoint.beforeMiddlewares as any)
+            .concat(endpoint.middlewares as any)
+            .concat([endpoint] as any)
+            .concat(endpoint.afterMiddlewares as any)
+            .concat(SendResponseMiddleware as any)
             .filter((item: any) => (!!item))
             .map((middleware: any) => HandlerBuilder.from(middleware).build());
 

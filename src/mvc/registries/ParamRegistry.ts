@@ -32,7 +32,7 @@ export class ParamRegistry {
      * @param targetKey
      * @returns {Array}
      */
-    static getParams = (target: Type<any>, targetKey: string | symbol): ParamMetadata[] =>
+    static getParams = (target: Type<any>, targetKey?: string | symbol): ParamMetadata[] =>
         Metadata.has(PARAM_METADATA, target, targetKey)
             ? Metadata.get(PARAM_METADATA, target, targetKey)
             : [];
@@ -122,7 +122,7 @@ export class ParamRegistry {
         }
 
         param.service = service;
-        param.expression = expression;
+        param.expression = expression!;
 
         if (useType) {
             param.type = useType;
