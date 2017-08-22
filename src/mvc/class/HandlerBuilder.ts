@@ -49,12 +49,12 @@ export class HandlerBuilder {
     public build() {
 
         if (this.handlerMetadata.errorParam) {
-            return (err, request, response, next) => {
+            return (err: any, request: any, response: any, next: any) => {
                 return this.invoke({err, request, response, next});
             };
 
         } else {
-            return (request, response, next) => {
+            return (request: any, response: any, next: any) => {
                 return this.invoke({request, response, next});
             };
         }
@@ -66,6 +66,11 @@ export class HandlerBuilder {
      */
     private middlewareHandler(): Function {
         const provider = MiddlewareRegistry.get(this.handlerMetadata.target);
+
+        if (!provider) {
+            throw new Error("Middleware component not found in the MiddlewareRegistry");
+        }
+
         return provider.instance.use.bind(provider.instance);
     }
 
@@ -77,6 +82,11 @@ export class HandlerBuilder {
     private endpointHandler = <T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function => {
 
         const provider = ControllerRegistry.get(this.handlerMetadata.target);
+
+        if (!provider) {
+            throw new Error("Controller component not found in the ControllerRegistry");
+        }
+
         const target = provider.useClass;
 
         if (provider.scope || provider.instance === undefined) {
@@ -88,7 +98,7 @@ export class HandlerBuilder {
             provider.instance = InjectorService.invoke<T>(target, locals);
         }
 
-        return provider.instance[this.handlerMetadata.methodClassName].bind(provider.instance);
+        return provider.instance[this.handlerMetadata.methodClassName!].bind(provider.instance);
     };
 
     /**
@@ -112,30 +122,6 @@ export class HandlerBuilder {
     /**
      *
      * @param locals
-     */
-    private localsToParams(locals: IHandlerScope) {
-
-        if (this.handlerMetadata.injectable) {
-            return this.getInjectableParameters(locals);
-        }
-
-        let parameters = [locals.request, locals.response];
-
-        if (this.handlerMetadata.errorParam) {
-            parameters.unshift(locals.err);
-        }
-
-        if (this.handlerMetadata.nextFunction) {
-            parameters.push(locals.next);
-        }
-
-        return parameters;
-    }
-
-
-    /**
-     *
-     * @param locals
      * @returns {Promise<TResult2|TResult1>}
      */
     public async invoke(locals: IHandlerScope): Promise<any> {
@@ -146,7 +132,7 @@ export class HandlerBuilder {
         const target = this.handlerMetadata.target;
         const injectable = this.handlerMetadata.injectable;
         const methodName = this.handlerMetadata.methodClassName;
-        let dataStored, parameters, isPromise: boolean;
+        let dataStored: any;
 
         const info = (o = {}) => JSON.stringify({
             type: this.handlerMetadata.type,
@@ -157,9 +143,9 @@ export class HandlerBuilder {
             ...o
         });
 
-        locals.next = (err?) => {
+        locals.next = (err?: any) => {
             nextCalled = true;
-            if (response["headersSent"]) {
+            if (response.headersSent) {
                 $log.debug(request.tagId, "[INVOKE][END  ]", info({warn: "response already send"}));
                 return;
             }
@@ -194,17 +180,39 @@ export class HandlerBuilder {
 
     /**
      *
+     * @param locals
+     */
+    private localsToParams(locals: IHandlerScope) {
+
+        if (this.handlerMetadata.injectable) {
+            return this.getInjectableParameters(locals);
+        }
+
+        let parameters: any[] = [locals.request, locals.response];
+
+        if (this.handlerMetadata.errorParam) {
+            parameters.unshift(locals.err);
+        }
+
+        if (this.handlerMetadata.nextFunction) {
+            parameters.push(locals.next);
+        }
+
+        return parameters;
+    }
+
+    /**
+     *
      * @param localScope
      * @returns {[(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any)]}
      */
-    private getInjectableParameters = (localScope?: IHandlerScope): any[] => {
+    private getInjectableParameters = (localScope: IHandlerScope = {} as IHandlerScope): any[] => {
         const converterService = InjectorService.get<ConverterService>(ConverterService);
         const filterService = InjectorService.get<FilterService>(FilterService);
 
         return this.handlerMetadata
             .services
             .map((param: ParamMetadata, index: number) => {
-
 
                 let paramValue;
 

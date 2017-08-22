@@ -48,7 +48,7 @@ export class HandlerMetadata {
         let target = this._target;
 
         if (MiddlewareRegistry.has(this._target)) {
-            const middleware = MiddlewareRegistry.get(this._target);
+            const middleware = MiddlewareRegistry.get(this._target)!;
             this._type = "middleware";
             this._errorParam = middleware.type === MiddlewareType.ERROR;
             this._methodClassName = "use";
@@ -88,7 +88,7 @@ export class HandlerMetadata {
         return this._nextFunction;
     }
 
-    get methodClassName(): string {
+    get methodClassName(): string | undefined {
         return this._methodClassName;
     }
 

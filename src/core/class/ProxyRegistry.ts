@@ -25,7 +25,7 @@ export abstract class ProxyRegistry<T, I> {
      * @param target
      * @returns {ControllerProvider}
      */
-    public get(target: Type<any> | symbol): T {
+    public get(target: Type<any> | symbol): T | undefined {
         return this.registry.get(target);
     }
 

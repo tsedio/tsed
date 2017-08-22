@@ -6,6 +6,7 @@
 import {Filter} from "../decorators/filter";
 import {IFilter} from "../interfaces";
 import {ParseService} from "../services/ParseService";
+
 /**
  * @private
  * @filter
@@ -16,7 +17,7 @@ export class PathParamsFilter implements IFilter {
 
     }
 
-    transform(expression: string, request, response) {
+    transform(expression: string, request: any, response: any) {
         return this.parseService.eval(expression, request["params"]);
     }
 }

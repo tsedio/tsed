@@ -11,7 +11,8 @@ import {SERVER_SETTINGS} from "../constants";
 
 import {IServerMountDirectories, IServerSettings} from "../interfaces";
 import {ServerSettingsService} from "../services/ServerSettingsService";
-const rootDir = Path.dirname(require.main.filename);
+
+const rootDir = Path.dirname(require.main!.filename);
 
 export class ServerSettingsProvider implements IServerSettings {
 
@@ -151,7 +152,7 @@ export class ServerSettingsProvider implements IServerSettings {
      *
      * @param callback
      */
-    set authentification(callback: (request?, response?, next?, options?) => boolean) {
+    set authentification(callback: (request?: any, response?: any, next?: any, options?: any) => boolean) {
         this.map.set("authentification", callback);
     }
 
@@ -210,13 +211,14 @@ export class ServerSettingsProvider implements IServerSettings {
         if (typeof propertyKey === "string") {
             this.map.set(propertyKey, value);
         } else {
+            const self: any = this;
 
             Object.keys(propertyKey as IServerSettings).forEach((key) => {
 
                 const descriptor = Object.getOwnPropertyDescriptor(ServerSettingsProvider.prototype, key);
 
                 if (descriptor && ["set", "map"].indexOf(key) === -1) {
-                    this[key] = propertyKey[key];
+                    self[key] = propertyKey[key];
                 } else {
                     this.set(key, propertyKey[key]);
                 }

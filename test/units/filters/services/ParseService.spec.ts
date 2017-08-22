@@ -1,10 +1,10 @@
 import {expect} from "chai";
-import {Done, inject} from "../../../../src/testing";
 import {ParseService} from "../../../../src";
+import {Done, inject} from "../../../../src/testing";
 
-describe('ParseService :', () => {
+describe("ParseService :", () => {
 
-    it('should clone object', () => {
+    it("should clone object", () => {
 
         const source = {};
 
@@ -12,30 +12,30 @@ describe('ParseService :', () => {
 
     });
 
-    it('should not clone object', inject([ParseService, Done], (parserService: ParseService, done) => {
+    it("should not clone object", inject([ParseService, Done], (parserService: ParseService, done: Function) => {
 
-        const source = {test:{}};
+        const source = {test: {}};
 
-        expect(parserService.eval(undefined, source, false)).to.equal(source);
+        expect(parserService.eval(undefined!, source, false)).to.equal(source);
         expect(parserService.eval("test", source, false)).to.equal(source.test);
 
         done();
 
     }));
 
-    it('should eval expression with a scope and return value', inject([ParseService, Done], (parserService: ParseService, done) => {
+    it("should eval expression with a scope and return value", inject([ParseService, Done], (parserService: ParseService, done: Function) => {
 
-        expect(parserService.eval(undefined, {
+        expect(parserService.eval(undefined!, {
             test: "yes"
         }).test).to.equal("yes");
 
-        expect(parserService.eval(undefined, "test")).to.equal("test");
+        expect(parserService.eval(undefined!, "test")).to.equal("test");
 
         done();
 
     }));
 
-    it('should eval expression with a scope and return value', inject([ParseService, Done], (parserService: ParseService, done) => {
+    it("should eval expression with a scope and return value", inject([ParseService, Done], (parserService: ParseService, done: Function) => {
 
         expect(parserService.eval("test", {
             test: "yes"
@@ -45,7 +45,7 @@ describe('ParseService :', () => {
 
     }));
 
-    it('should eval expression with a scope and return value', inject([ParseService], (parserService: ParseService) => {
+    it("should eval expression with a scope and return value", inject([ParseService], (parserService: ParseService) => {
 
 
         expect(parserService.eval("test.foo", {

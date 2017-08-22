@@ -123,9 +123,9 @@ export class RouteService {
     /**
      * Print all route mounted in express via Annotation.
      */
-    public printRoutes(logger: { info: (s) => void } = $log): void {
+    public printRoutes(logger: { info: (s: any) => void } = $log): void {
 
-        const mapColor = {
+        const mapColor: { [key: string]: string } = {
             GET: "green",
             POST: "yellow",
             PUT: "blue",

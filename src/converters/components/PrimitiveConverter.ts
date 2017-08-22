@@ -13,7 +13,7 @@ import {IConverter} from "../interfaces/index";
 @Converter(String, Number, Boolean)
 export class PrimitiveConverter implements IConverter {
 
-    deserialize(data: string, target: any): String | Number | Boolean {
+    deserialize(data: string, target: any): String | Number | Boolean | void {
 
         switch (target) {
             case String:

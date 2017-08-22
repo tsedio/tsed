@@ -8,7 +8,7 @@ export default class TestAcceptMimeMiddleware implements IMiddleware {
     private mimes = ["application/json"];
 
     public use(@Request() request: Express.Request,
-               @Next() next) {
+               @Next() next: Function) {
 
         this.mimes.forEach((mime) => {
 

@@ -7,6 +7,7 @@ import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {EndpointInfo, Middleware, Next, Req, Res} from "../../mvc/decorators";
 import {IMiddleware} from "../../mvc/interfaces";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+
 /**
  * @private
  * @middleware
@@ -14,7 +15,7 @@ import {ServerSettingsService} from "../../server/services/ServerSettingsService
 @Middleware()
 export class MultipartFileMiddleware implements IMiddleware {
 
-    private multer;
+    private multer: any;
 
     constructor(private serverSettingsService: ServerSettingsService) {
 
@@ -39,7 +40,7 @@ export class MultipartFileMiddleware implements IMiddleware {
     use(@EndpointInfo() endpoint: EndpointMetadata,
         @Req() request: Express.Request,
         @Res() response: Express.Response,
-        @Next() next) {
+        @Next() next: Express.NextFunction) {
 
         if (this.multer) {
             const options = Object.assign({

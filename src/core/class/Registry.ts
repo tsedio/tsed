@@ -8,7 +8,7 @@ import {getClass, getClassOrSymbol} from "../utils";
 /**
  * @private
  */
-export class Registry<T, O> {
+export class Registry<T, O extends { [key: string]: any }> {
     /**
      * Internal Map
      * @type {Array}
@@ -32,7 +32,7 @@ export class Registry<T, O> {
      * @param key Required. The key of the element to return from the Map object.
      * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
      */
-    get = (key: Type<any> | symbol): T =>
+    get = (key: Type<any> | symbol): T | undefined =>
         this._map.get(getClassOrSymbol(key));
 
     /**
@@ -79,7 +79,7 @@ export class Registry<T, O> {
             this.set(target, new this._class(target));
         }
 
-        const meta = this.get(target);
+        const meta: any = this.get(target);
 
         Object.keys(options).forEach(key => {
             meta[key] = options[key];

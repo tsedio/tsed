@@ -1,15 +1,33 @@
-import {
-    Authenticated, BodyParams, ContentType, Controller, CookiesParams, Delete, Get, Header, Locals, PathParams, Post,
-    Put, QueryParams, Request, Required, Response, RouterController, Status, Use, UseAfter
-} from "../../../../../src";
 import * as Express from "express";
-import {EventCtrl} from "./EventCtrl";
-import {MongooseService} from "../../services/MongooseService";
+import {
+    Authenticated,
+    BodyParams,
+    ContentType,
+    Controller,
+    CookiesParams,
+    Delete,
+    Get,
+    Header,
+    Locals,
+    PathParams,
+    Post,
+    Put,
+    QueryParams,
+    Request,
+    Required,
+    Response,
+    RouterController,
+    Status,
+    Use,
+    UseAfter
+} from "../../../../../src";
 import {MultipartFile} from "../../../../../src/multipartfiles/decorators/multipartFile";
-import {CalendarModel} from "../../models/Calendar";
 import {Deprecated} from "../../../../../src/swagger/decorators/deprecated";
-import {Security} from "../../../../../src/swagger/decorators/security";
 import {Description} from "../../../../../src/swagger/decorators/description";
+import {Security} from "../../../../../src/swagger/decorators/security";
+import {CalendarModel} from "../../models/Calendar";
+import {MongooseService} from "../../services/MongooseService";
+import {EventCtrl} from "./EventCtrl";
 
 interface ICalendar {
     id: string;
@@ -70,11 +88,18 @@ export class CalendarCtrl {
     }
 
 
-    @Get("/query")
-    public getQuery(@QueryParams("search") search: string,
-                    @Request() request): string {
+    /**
+     *
+     * @param request
+     * @param response
+     * @param next
+     */
+    static middleware(request: any, response: Express.Response, next: Express.NextFunction) {
 
-        return search || "EMPTY";
+        request["user"] = 1;
+
+        // console.log(request.headers)
+        next();
     }
 
     /**
@@ -150,21 +175,11 @@ export class CalendarCtrl {
         });
     }
 
-    /**
-     *
-     * @param request
-     * @param auth
-     * @returns {{user: (number|any|string)}}
-     */
-    @Get("/middleware")
-    @Use(CalendarCtrl.middleware)
-    public getWithMiddleware(@Request() request,
-                             @Header("authorization") auth: string): any {
+    @Get("/query")
+    public getQuery(@QueryParams("search") search: string,
+                    @Request() request: any): string {
 
-        return {
-            user: request.user,
-            token: auth
-        };
+        return search || "EMPTY";
     }
 
     /**
@@ -194,10 +209,27 @@ export class CalendarCtrl {
         return model;
     }
 
+    /**
+     *
+     * @param request
+     * @param auth
+     * @returns {{user: (number|any|string)}}
+     */
+    @Get("/middleware")
+    @Use(CalendarCtrl.middleware)
+    public getWithMiddleware(@Request() request: any,
+                             @Header("authorization") auth: string): any {
+
+        return {
+            user: request.user,
+            token: auth
+        };
+    }
+
     @Get("/mvc")
     @Authenticated()
     @Use(CalendarCtrl.middleware)
-    public testStackMiddlewares(@Request() request: Express.Request): CalendarModel {
+    public testStackMiddlewares(@Request() request: any): CalendarModel {
 
         const model = new CalendarModel();
         model.id = request["user"];
@@ -206,24 +238,10 @@ export class CalendarCtrl {
         return model;
     }
 
-    /**
-     *
-     * @param request
-     * @param response
-     * @param next
-     */
-    static middleware(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
-
-        request["user"] = 1;
-
-        // console.log(request.headers)
-        next();
-    }
-
     @Get("/middlewares2")
     @Authenticated()
     @UseAfter(CalendarCtrl.middleware2)
-    public testUseAfter(@Request() request: Express.Request,
+    public testUseAfter(@Request() request: any,
                         @Locals() locals: any): Object {
 
         const model = new CalendarModel();

@@ -23,7 +23,7 @@ export function inject(targets: any[], func: Function) {
 
     loadInjector();
 
-    return (done) => {
+    return (done: Function) => {
 
         let isDoneInjected = false;
         const args = targets.map((target) => {

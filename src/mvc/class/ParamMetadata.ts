@@ -1,12 +1,14 @@
 /**
  * @module common/mvc
- */ /** */
+ */
+/** */
 
 import {Storable} from "../../core/class/Storable";
 import {NotEnumerable} from "../../core/decorators";
 import {Type} from "../../core/interfaces";
 import {nameOf} from "../../core/utils";
 import {IParamOptions} from "../interfaces";
+
 /**
  *
  */
@@ -35,7 +37,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
     @NotEnumerable()
     protected _service: string | Type<any> | symbol;
 
-    constructor(protected _target, protected _propertyKey, protected _index) {
+    constructor(protected _target: any, protected _propertyKey: string | symbol, protected _index: number) {
         super(_target, _propertyKey, _index);
     }
 
@@ -116,7 +118,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
             expression: this._expression,
             required: this._required,
             use: this.typeName,
-            baseType: this.collectionName,
+            baseType: this.collectionName
         };
     }
 }

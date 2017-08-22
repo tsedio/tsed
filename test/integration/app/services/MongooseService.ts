@@ -1,6 +1,6 @@
-import {SanitizeService} from "./SanitizeService";
-import {CustomFactory} from "./CustomFactory";
 import {Inject, Service} from "../../../../src";
+import {CustomFactory} from "./CustomFactory";
+import {SanitizeService} from "./SanitizeService";
 
 @Service()
 export class MongooseService {
@@ -12,7 +12,7 @@ export class MongooseService {
 
     }
 
-    token(token?) {
+    token(token?: string) {
         if (token) {
             this._token = token;
         }

@@ -13,7 +13,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
     @NotEnumerable()
     protected _required: boolean = false;
 
-    constructor(target, propertyKey) {
+    constructor(target: any, propertyKey: any) {
         super(target, propertyKey);
     }
 

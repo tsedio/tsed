@@ -49,19 +49,12 @@ export class Store {
     }
 
     /**
-     *
-     * @param key
+     * Create or get a Store from args {target + methodName + descriptor}
      * @param args
-     * @private
+     * @returns {Store}
      */
-    private _storeGet(key: string, ...args): StoreMap {
-        const registry = Metadata as any;
-
-        if (!registry.has(key, ...args)) {
-            registry.set(key, new Map<string, any>(), ...args);
-        }
-
-        return registry.get(key, ...args);
+    static from(...args: any[]): Store {
+        return new Store(args);
     }
 
     /**
@@ -184,11 +177,18 @@ export class Store {
     }
 
     /**
-     * Create or get a Store from args {target + methodName + descriptor}
+     *
+     * @param key
      * @param args
-     * @returns {Store}
+     * @private
      */
-    static from(...args): Store {
-        return new Store(args);
+    private _storeGet(key: string, ...args: any[]): StoreMap {
+        const registry = Metadata as any;
+
+        if (!registry.has(key, ...args)) {
+            registry.set(key, new Map<string, any>(), ...args);
+        }
+
+        return registry.get(key, ...args);
     }
 }

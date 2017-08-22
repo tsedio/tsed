@@ -44,8 +44,8 @@ export function swaggerType(type: any): string {
     return nameOf(type);
 }
 
-export function getReducers(): { [key: string]: (collection, value) => any } {
-    const defaultReducer = (collection, value) => {
+export function getReducers(): { [key: string]: (collection: any[], value: any) => any } {
+    const defaultReducer = (collection: any[], value: any) => {
         if (collection.indexOf(value) === -1) {
             collection.push(value);
         }
@@ -55,7 +55,7 @@ export function getReducers(): { [key: string]: (collection, value) => any } {
     return {
         "default": defaultReducer,
         "security": (collection, value) => {
-            const current = collection.find((current) => {
+            const current = collection.find((current: any): any => {
                 return Object.keys(value).find((key) => !!current[key]);
             });
 

@@ -9,6 +9,7 @@ import {ExpressApplication} from "../../core/services/ExpressApplication";
 import {Inject} from "../../di";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
+import {IComponentScanned} from "../../server/interfaces";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
@@ -49,13 +50,13 @@ export class ControllerService extends ProxyControllerRegistry {
      *
      * @param components
      */
-    public mapComponents(components) {
+    public mapComponents(components: IComponentScanned[]) {
         components.forEach(component => {
             Object.keys(component.classes)
                 .map(clazzName => component.classes[clazzName])
                 .filter(clazz => ControllerRegistry.has(clazz))
                 .map(clazz =>
-                    ControllerRegistry.get(clazz).pushRouterPath(component.endpoint)
+                    ControllerRegistry.get(clazz)!.pushRouterPath(component.endpoint)
                 );
         });
     }
@@ -65,7 +66,7 @@ export class ControllerService extends ProxyControllerRegistry {
      * @param target
      * @returns {ControllerProvider}
      */
-    static get = (target: Type<any>): ControllerProvider =>
+    static get = (target: Type<any>): ControllerProvider | undefined =>
         ControllerRegistry.get(target);
 
     /**

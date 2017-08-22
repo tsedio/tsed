@@ -6,12 +6,13 @@ import {Metadata} from "../../core/class/Metadata";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces/Type";
 import {EndpointMetadata} from "../class/EndpointMetadata";
+
 /**
  * Registry for all Endpoint collected on a provide.
  */
 export class EndpointRegistry {
 
-    static getByTarget(target): EndpointMetadata[] {
+    static getByTarget(target: any): EndpointMetadata[] {
         if (!Metadata.has(EndpointRegistry.name, target)) {
             Metadata.set(EndpointRegistry.name, [], target);
         }

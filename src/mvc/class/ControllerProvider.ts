@@ -50,7 +50,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
     @NotEnumerable()
     public router: Express.Router;
 
-    constructor(provide) {
+    constructor(provide: any) {
         super(provide);
         this.type = "controller";
     }

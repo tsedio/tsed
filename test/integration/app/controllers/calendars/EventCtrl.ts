@@ -42,11 +42,11 @@ export class EventCtrl {
      * @returns {null}
      */
     @Get("/:id")
-    find(@Response() response: any): Promise<IEvent> | void {
+    find(@Response() response: any): Promise<any> | void {
 
         response.send(200, "OK");
 
-        return null;
+        return Promise.resolve(null);
     }
 
     /**
@@ -57,7 +57,7 @@ export class EventCtrl {
     save(): Promise<any> | void {
 
 
-        return null;
+        return Promise.resolve(null);
     }
 
     /**
@@ -79,7 +79,7 @@ export class EventCtrl {
      */
     @Delete("/:id")
     remove(): Promise<any> | void {
-        return null;
+        return Promise.resolve(null);
     }
 
     /**
@@ -88,7 +88,6 @@ export class EventCtrl {
      */
     @Get("/")
     query(): Promise<any[]> | void {
-
-        return null;
+        return Promise.resolve([]);
     }
 }

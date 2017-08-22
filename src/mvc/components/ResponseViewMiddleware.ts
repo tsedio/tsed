@@ -10,6 +10,7 @@ import {Response} from "../decorators/param/response";
 import {ResponseData} from "../decorators/param/responseData";
 import {TemplateRenderingError} from "../errors/TemplateRenderingError";
 import {IMiddleware} from "../interfaces";
+
 /**
  * @private
  * @middleware
@@ -37,7 +38,7 @@ export class ResponseViewMiddleware implements IMiddleware {
                     data = Object.assign({}, data, viewOptions);
                 }
 
-                response.render(viewPath, data, (err, html) => {
+                response.render(viewPath, data, (err: any, html) => {
 
                     /* istanbul ignore next */
                     if (err) {

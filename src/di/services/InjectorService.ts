@@ -115,18 +115,93 @@ export class InjectorService extends ProxyProviderRegistry {
      * @param target The class or symbol registered in InjectorService.
      * @returns {boolean}
      */
-    public get<T>(target: Type<T> | symbol): T {
-        return super.get(target).instance;
-    }
+    static get = <T>(target: any): T =>
+        ProviderRegistry.get(target)!.instance;
 
     /**
-     * Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
-     * @param eventName The event name to emit at all services.
-     * @param args List of the parameters to give to each services.
-     * @returns {Promise<any[]>} A list of promises.
+     * Invoke a class method and inject service.
+     *
+     * #### IInjectableMethod options
+     *
+     * * **target**: Optional. The class instance.
+     * * **methodName**: `string` Optional. The method name.
+     * * **designParamTypes**: `any[]` Optional. List of injectable types.
+     * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
+     *
+     * #### Example
+     *
+     * ```typescript
+     * import {InjectorService} from "ts-express-decorators";
+     *
+     * class MyService {
+     *      constructor(injectorService: InjectorService) {
+     *          injectorService.invokeMethod(this.method, {
+     *              this,
+     *              methodName: 'method'
+     *          });
+     *      }
+     *
+     *   method(otherService: OtherService) {}
+     * }
+     * ```
+     *
+     * @returns {any}
+     * @param handler The injectable method to invoke. Method parameters are injected according method signature.
+     * @param options Object to configure the invocation.
      */
-    public emit(eventName, ...args) {
-        return InjectorService.emit(eventName, ...args);
+    static invokeMethod(handler: any, options: IInjectableMethod<any> | any[]) {
+
+        let designParamTypes, target, methodName;
+        let locals: Map<any, any> = new Map<any, any>();
+
+        if (options instanceof Array) {
+            designParamTypes = options as Array<any>;
+        } else {
+            designParamTypes = options.designParamTypes;
+            target = options.target;
+            methodName = options.methodName;
+
+            if (options.locals) {
+                locals = options.locals;
+            }
+        }
+
+        if (locals instanceof Map === false) {
+            locals = new Map();
+        }
+
+        if (handler.$injected) {
+            return handler.call(target, locals);
+        }
+
+        if (!designParamTypes) {
+            designParamTypes = Metadata.getParamTypes(target, methodName);
+        }
+
+        const services = designParamTypes
+            .map((serviceType: any) => {
+
+                const serviceName = typeof serviceType === "function" ? nameOf(serviceType) : serviceType;
+
+                /* istanbul ignore next */
+                if (locals.has(serviceName)) {
+                    return locals.get(serviceName);
+                }
+
+                if (locals.has(serviceType)) {
+                    return locals.get(serviceType);
+                }
+
+                /* istanbul ignore next */
+                if (!this.has(serviceType)) {
+                    return undefined;
+                }
+
+                return this.get(serviceType);
+
+            });
+
+        return handler(...services);
     }
 
     /**
@@ -190,97 +265,36 @@ export class InjectorService extends ProxyProviderRegistry {
     }
 
     /**
-     * Invoke a class method and inject service.
-     *
-     * #### IInjectableMethod options
-     *
-     * * **target**: Optional. The class instance.
-     * * **methodName**: `string` Optional. The method name.
-     * * **designParamTypes**: `any[]` Optional. List of injectable types.
-     * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-     *
-     * #### Example
-     *
-     * ```typescript
-     * import {InjectorService} from "ts-express-decorators";
-     *
-     * class MyService {
-     *      constructor(injectorService: InjectorService) {
-     *          injectorService.invokeMethod(this.method, {
-     *              this,
-     *              methodName: 'method'
-     *          });
-     *      }
-     *
-     *   method(otherService: OtherService) {}
-     * }
-     * ```
-     *
-     * @returns {any}
-     * @param handler The injectable method to invoke. Method parameters are injected according method signature.
-     * @param options Object to configure the invocation.
-     */
-    static invokeMethod(handler: any, options: IInjectableMethod<any> | any[]) {
-
-        let designParamTypes, target, methodName, locals;
-
-        if (options instanceof Array) {
-            designParamTypes = options as Array<any>;
-        } else {
-            designParamTypes = options.designParamTypes;
-            target = options.target;
-            methodName = options.methodName;
-            locals = options.locals;
-        }
-
-        if (locals instanceof Map === false) {
-            locals = new Map();
-        }
-
-        if (handler.$injected) {
-            return handler.call(target, locals);
-        }
-
-        if (!designParamTypes) {
-            designParamTypes = Metadata.getParamTypes(target, methodName);
-        }
-
-        const services = designParamTypes
-            .map((serviceType: any) => {
-
-                const serviceName = typeof serviceType === "function" ? nameOf(serviceType) : serviceType;
-
-                /* istanbul ignore next */
-                if (locals.has(serviceName)) {
-                    return locals.get(serviceName);
-                }
-
-                if (locals.has(serviceType)) {
-                    return locals.get(serviceType);
-                }
-
-                /* istanbul ignore next */
-                if (!this.has(serviceType)) {
-                    return undefined;
-                }
-
-                return this.get(serviceType);
-
-            });
-
-        return handler(...services);
-    }
-
-    /**
      * Construct the service with his dependencies.
      * @param target The service to be built.
      */
     static construct<T>(target: Type<any> | symbol): T {
 
-        const provider: Provider<any> = ProviderRegistry.get(target);
+        const provider: Provider<any> = ProviderRegistry.get(target)!;
 
         /* istanbul ignore else */
         return this.invoke<any>(provider.useClass);
+    }
+
+    /**
+     * Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
+     * @param eventName The event name to emit at all services.
+     * @param args List of the parameters to give to each services.
+     * @returns {Promise<any[]>} A list of promises.
+     */
+    static async emit(eventName: string, ...args: any[]): Promise<any[]> {
+        const promises: Promise<any>[] = [];
+
+        ProviderRegistry.forEach((provider: IProvider<any>) => {
+
+            const service = InjectorService.get<any>(provider.provide);
+
+            if (eventName in service) {
+                promises.push(service[eventName](...args));
+            }
+        });
+
+        return Promise.all(promises);
     }
 
     /**
@@ -351,8 +365,9 @@ export class InjectorService extends ProxyProviderRegistry {
      * @param target The class or symbol registered in InjectorService.
      * @returns {boolean}
      */
-    static get = <T>(target: any): T =>
-        ProviderRegistry.get(target).instance;
+    public get<T>(target: Type<T> | symbol): T {
+        return super.get(target)!.instance;
+    }
 
     /**
      * Check if the service of factory exists in `InjectorService`.
@@ -397,19 +412,8 @@ export class InjectorService extends ProxyProviderRegistry {
      * @param args List of the parameters to give to each services.
      * @returns {Promise<any[]>} A list of promises.
      */
-    static async emit(eventName: string, ...args): Promise<any[]> {
-        const promises = [];
-
-        ProviderRegistry.forEach((provider: IProvider<any>) => {
-
-            const service = InjectorService.get<any>(provider.provide);
-
-            if (eventName in service) {
-                promises.push(service[eventName](...args));
-            }
-        });
-
-        return Promise.all(promises);
+    public emit(eventName: string, ...args: any[]) {
+        return InjectorService.emit(eventName, ...args);
     }
 
     /**

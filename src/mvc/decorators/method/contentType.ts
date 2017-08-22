@@ -29,7 +29,7 @@ export function ContentType(type: string): Function {
             .from([target, targetKey, descriptor])
             .merge("produces", type);
 
-        return UseAfter((request, response, next) => {
+        return UseAfter((request: any, response: any, next: any) => {
 
             if (!response.headersSent) {
                 response.type(type);

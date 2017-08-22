@@ -28,7 +28,7 @@ export class ServeStaticService {
     mount(path: string) {
         const serveStatic = require("serve-static");
         const middleware = serveStatic(this.serverSettingsService.serveStatic[path]);
-        this.expressApp.use(path, (request, response, next) => {
+        this.expressApp.use(path, (request: any, response: any, next: any) => {
             if (!response.headersSent) {
                 middleware(request, response, next);
             } else {

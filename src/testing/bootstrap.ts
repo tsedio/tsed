@@ -12,7 +12,7 @@ import {ServerLoader} from "../server/components/ServerLoader";
  * @param args
  * @returns {(done:Function)=>undefined}
  */
-export function bootstrap(server: any, ...args) {
+export function bootstrap(server: any, ...args: any[]) {
 
     $log.stop();
     process.env.NODE_ENV = process.env.NODE_ENV || "test";

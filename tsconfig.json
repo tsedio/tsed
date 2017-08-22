@@ -3,7 +3,6 @@
     "baseUrl": ".",
     "module": "commonjs",
     "target": "es5",
-    "noImplicitAny": false,
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
@@ -11,6 +10,8 @@
     "moduleResolution": "node",
     "isolatedModules": false,
     "suppressImplicitAnyIndexErrors": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
     "lib": [
       "es6",
       "dom"

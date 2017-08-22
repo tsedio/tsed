@@ -7,6 +7,7 @@ import {Middleware} from "../decorators/class/middleware";
 import {Req} from "../decorators/param/request";
 import {Res} from "../decorators/param/response";
 import {IMiddleware} from "../interfaces";
+
 /**
  * @private
  * @middleware
@@ -14,7 +15,7 @@ import {IMiddleware} from "../interfaces";
 @Middleware()
 export class LogEndIncomingRequestMiddleware implements IMiddleware {
 
-    public use(@Req() request: any, @Res() response): void {
+    public use(@Req() request: any, @Res() response: any): void {
         /* istanbul ignore else */
         if (request.id) {
             const status = response._header

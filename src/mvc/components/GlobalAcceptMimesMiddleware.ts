@@ -7,6 +7,7 @@ import {ServerSettingsService} from "../../server/services/ServerSettingsService
 import {Middleware} from "../decorators/class/middleware";
 import {Request} from "../decorators/param/request";
 import {IMiddleware} from "../interfaces/index";
+
 /**
  * @middleware
  */
@@ -17,7 +18,7 @@ export class GlobalAcceptMimesMiddleware implements IMiddleware {
 
     }
 
-    use(@Request() request) {
+    use(@Request() request: any) {
 
         this.serverSettingsService
             .acceptMimes

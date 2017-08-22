@@ -15,7 +15,7 @@ const myFactory = function () {
 };
 
 class InvokeMethodTest {
-    constructor(private t) {
+    constructor(private t: any) {
 
     }
 
@@ -36,7 +36,7 @@ describe("InjectorService", () => {
         describe("factory()", () => {
 
             it("should create new Factory", () => {
-                InjectorService.factory(myFactory, new myFactory);
+                InjectorService.factory(myFactory, new (myFactory as any));
             });
 
             it("should inject the Factory", inject([myFactory], (myFactory: MyFactory) => {
@@ -48,7 +48,7 @@ describe("InjectorService", () => {
         describe("use()", () => {
 
             it("should create new entry", () => {
-                InjectorService.set(myFactory, new myFactory);
+                InjectorService.set(myFactory, new (myFactory as any));
             });
 
             it("should inject the Factory", inject([myFactory], (myFactory: MyFactory) => {
@@ -134,7 +134,7 @@ describe("InjectorService", () => {
 
             it("should invoke a method of provide (injector)", inject([InjectorService], (injectorService: InjectorService) => {
 
-                const result = injectorService.invokeMethod((injector) => injector, {
+                const result = injectorService.invokeMethod((injector: any) => injector, {
                     designParamTypes: [InjectorService]
                 });
 
@@ -143,7 +143,7 @@ describe("InjectorService", () => {
 
             it("should invoke a method of provide (injector)", inject([InjectorService], (injectorService: InjectorService) => {
 
-                const result = injectorService.invokeMethod((injector) => injector, [InjectorService]);
+                const result = injectorService.invokeMethod((injector: any) => injector, [InjectorService]);
 
                 expect(result).to.be.an.instanceof(InjectorService);
             }));
@@ -154,7 +154,7 @@ describe("InjectorService", () => {
                 const locals = new Map<Function, any>();
                 locals.set(InjectorService, injectorService);
 
-                const result = injectorService.invokeMethod((injector) => injector, {
+                const result = injectorService.invokeMethod((injector: any) => injector, {
                     designParamTypes: [InjectorService],
                     locals
                 });

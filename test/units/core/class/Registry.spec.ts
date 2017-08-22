@@ -2,10 +2,10 @@ import {expect} from "chai";
 import {Registry} from "../../../../src/core/class/Registry";
 
 class FakeMetadata {
-    attr1;
-    attr2;
+    attr1: any;
+    attr2: any;
 
-    constructor(public target) {
+    constructor(public target: any) {
         console.log(target);
     }
 
@@ -145,8 +145,8 @@ describe("Registry", () => {
         });
 
         it("should loop for each item stored in registry", () => {
-            const o = [];
-            this.registry.forEach((e) => o.push(e));
+            const o: any = [];
+            this.registry.forEach((e: any) => o.push(e));
             expect(o.length).to.equal(1);
         });
     });

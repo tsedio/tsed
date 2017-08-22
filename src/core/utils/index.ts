@@ -63,7 +63,7 @@ export function isArrayOrArrayClass(target: any): boolean {
  * @param target
  * @returns {boolean}
  */
-export function isCollection(target): boolean {
+export function isCollection(target: any): boolean {
     return isArrayOrArrayClass(target)
         || target === Map
         || target instanceof Map
@@ -132,11 +132,11 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
         out = out || {};
     }
 
-    const defaultReducer = reducers["default"] ? reducers["default"] : (collection, value) => {
+    const defaultReducer = reducers["default"] ? reducers["default"] : (collection: any[], value: any) => {
         collection.push(value);
         return collection;
     };
-    const set = (key, value) => {
+    const set = (key: string | number, value: any) => {
         if (isArrayOrArrayClass(obj)) {
             out.push(value);
         } else {
@@ -162,7 +162,7 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
 
         if (isArrayOrArrayClass(value)) {
 
-            value = value.map((value) => deepExtends(undefined, value));
+            value = value.map((value: any) => deepExtends(undefined, value));
 
             set(key, []
                 .concat(out[key] || [], value)

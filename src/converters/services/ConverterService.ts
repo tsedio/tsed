@@ -23,6 +23,29 @@ export class ConverterService {
     }
 
     /**
+     * Return a JsonMetadata for a properties.
+     * @param targetClass
+     * @param propertyKey
+     * @returns {undefined|V|string|any|T|IDBRequest}
+     */
+    static getJsonMetadata(targetClass: any, propertyKey: string): PropertyMetadata | undefined {
+        const properties = this.getJsonProperties(targetClass);
+
+        if (properties.has(propertyKey)) {
+            return properties.get(propertyKey);
+        }
+
+        let property;
+        properties.forEach(p => {
+            if (p.name === propertyKey || p.propertyKey === propertyKey) {
+                property = p;
+            }
+        });
+
+        return property;
+    }
+
+    /**
      * Convert instance to plainObject.
      * @param obj
      */
@@ -55,7 +78,7 @@ export class ConverterService {
             // Default converter
             if (!isPrimitiveOrPrimitiveClass(obj)) {
 
-                const plainObject = isArrayOrArrayClass(obj) ? [] : {};
+                const plainObject: any = isArrayOrArrayClass(obj) ? [] : {};
 
                 Object.getOwnPropertyNames(obj).forEach(propertyKey => {
 
@@ -98,13 +121,13 @@ export class ConverterService {
 
             if (converter) {
                 // deserialize from a custom JsonConverter
-                return converter.deserialize(obj, targetType, baseType);
+                return converter!.deserialize!(obj, targetType, baseType);
             }
 
             /* istanbul ignore next */
             if (isArrayOrArrayClass(obj)) {
                 const converter = this.getConverter(Array);
-                return converter.deserialize(obj, Array, baseType);
+                return converter!.deserialize!(obj, Array, baseType);
             }
 
             if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
@@ -141,7 +164,7 @@ export class ConverterService {
                 } catch (err) {
                     /* istanbul ignore next */
                     (() => {
-                        const castedError = new Error("For " + propertyKey + " with value " + propertyValue + " \n" + err.message);
+                        const castedError = new Error("For " + String(propertyKey) + " with value " + propertyValue + " \n" + err.message);
                         castedError.stack = err.stack;
                         throw castedError;
                     })();
@@ -172,37 +195,13 @@ export class ConverterService {
      * @param targetType
      * @returns {any}
      */
-    public getConverter(targetType: any): IConverter {
+    public getConverter(targetType: any): IConverter | undefined {
 
         const converter = Metadata.get(CONVERTER, targetType);
 
         if (converter) {
             return this.injectorService.invoke(converter);
         }
-
-    }
-
-    /**
-     * Return a JsonMetadata for a properties.
-     * @param targetClass
-     * @param propertyKey
-     * @returns {undefined|V|string|any|T|IDBRequest}
-     */
-    static getJsonMetadata(targetClass, propertyKey: string): PropertyMetadata {
-        const properties = this.getJsonProperties(targetClass);
-
-        if (properties.has(propertyKey)) {
-            return properties.get(propertyKey);
-        }
-
-        let property;
-        properties.forEach(p => {
-            if (p.name === propertyKey || p.propertyKey === propertyKey) {
-                property = p;
-            }
-        });
-
-        return property;
     }
 
     /**

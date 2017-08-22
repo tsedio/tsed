@@ -31,6 +31,11 @@ export class ControllerBuilder {
         ctrl.dependencies
             .forEach((child: Type<any>) => {
                 const ctrlMeta = ControllerRegistry.get(child);
+
+                if (!ctrlMeta) {
+                    throw new Error("Controller component not found in the ControllerRegistry");
+                }
+
                 const ctrlBuilder = new ControllerBuilder(ctrlMeta, this.defaultRoutersOptions).build();
 
                 this.provider.router.use(ctrlMeta.path, ctrlBuilder.provider.router);

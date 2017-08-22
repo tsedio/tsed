@@ -1,13 +1,13 @@
-import {expect, Sinon} from "../../../tools";
 import * as Proxyquire from "proxyquire";
-import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
-import {FakeRequest} from "../../../helper/FakeRequest";
-import {FakeResponse} from "../../../helper/FakeResponse";
 import {PathParamsFilter} from "../../../../src/filters/components/PathParamsFilter";
-import {inject} from "../../../../src/testing/inject";
 import {FilterService} from "../../../../src/filters/services/FilterService";
+import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
 import {ENDPOINT_INFO, EXPRESS_ERR, RESPONSE_DATA} from "../../../../src/mvc/constants/index";
 import {RequiredParamError} from "../../../../src/mvc/errors/RequiredParamError";
+import {inject} from "../../../../src/testing/inject";
+import {FakeRequest} from "../../../helper/FakeRequest";
+import {FakeResponse} from "../../../helper/FakeResponse";
+import {expect, Sinon} from "../../../tools";
 
 class Test {
 
@@ -103,7 +103,7 @@ describe("HandlerBuilder", () => {
                         type: "function",
                         nextFunction: true,
                         errorParam: false,
-                        target: (req, res, next) => {
+                        target: (req: any, res: any, next: any) => {
                             this.stub(req, res, next);
                             next();
                         }
@@ -137,7 +137,7 @@ describe("HandlerBuilder", () => {
                     this.metadata = {
                         nextFunction: false,
                         errorParam: false,
-                        target: (req, res) => {
+                        target: (req: any, res: any) => {
                             this.stub(req, res);
                         }
                     };
@@ -170,7 +170,7 @@ describe("HandlerBuilder", () => {
                     this.metadata = {
                         nextFunction: true,
                         errorParam: true,
-                        target: (err, req, res, next) => {
+                        target: (err: any, req: any, res: any, next: any) => {
                             this.stub(err, req, res, next);
                             next(err);
                         }
@@ -222,7 +222,7 @@ describe("HandlerBuilder", () => {
 
                     this.middleware = new HandlerBuilder(this.metadata).build();
                     this.middleware(this.request, this.response, this.nextSpy)
-                        .catch(er => console.error(er));
+                        .catch((er: any) => console.error(er));
                 });
 
                 after(() => {
@@ -239,7 +239,7 @@ describe("HandlerBuilder", () => {
                         Sinon.match.func,
                         undefined,
                         Sinon.match.instanceOf(FakeRequest),
-                        Sinon.match.instanceOf(FakeResponse),
+                        Sinon.match.instanceOf(FakeResponse)
                     );
                 });
 
@@ -288,7 +288,7 @@ describe("HandlerBuilder", () => {
 
                     this.middleware = new HandlerBuilder(this.metadata).build();
                     this.middleware(this.request, this.response, this.nextSpy)
-                        .catch(er => console.error(er));
+                        .catch((er: any) => console.error(er));
                 });
 
                 after(() => {
@@ -305,7 +305,7 @@ describe("HandlerBuilder", () => {
                         Sinon.match.func,
                         "required",
                         Sinon.match.instanceOf(FakeRequest),
-                        Sinon.match.instanceOf(FakeResponse),
+                        Sinon.match.instanceOf(FakeResponse)
                     );
                 });
 
@@ -345,7 +345,7 @@ describe("HandlerBuilder", () => {
 
                     this.middleware = new HandlerBuilder(this.metadata).build();
                     this.middleware(this.request, this.response, this.nextSpy)
-                        .catch(er => console.error(er));
+                        .catch((er: any) => console.error(er));
                 });
 
                 after(() => {
@@ -362,7 +362,7 @@ describe("HandlerBuilder", () => {
                         Sinon.match.func,
                         undefined,
                         Sinon.match.instanceOf(FakeRequest),
-                        Sinon.match.instanceOf(FakeResponse),
+                        Sinon.match.instanceOf(FakeResponse)
                     );
                 });
 
@@ -411,7 +411,7 @@ describe("HandlerBuilder", () => {
 
                     this.middleware = new HandlerBuilder(this.metadata).build();
                     this.middleware(new Error(), this.request, this.response, this.nextSpy)
-                        .catch(er => console.error(er));
+                        .catch((er: any) => console.error(er));
                 });
 
                 after(() => {
@@ -428,7 +428,7 @@ describe("HandlerBuilder", () => {
                         Sinon.match.func,
                         undefined,
                         Sinon.match.instanceOf(FakeRequest),
-                        Sinon.match.instanceOf(FakeResponse),
+                        Sinon.match.instanceOf(FakeResponse)
                     );
                 });
 
@@ -437,7 +437,7 @@ describe("HandlerBuilder", () => {
                         Sinon.match.instanceOf(Error),
                         {request: "body"},
                         Sinon.match.instanceOf(Object),
-                        Sinon.match.instanceOf(Object),
+                        Sinon.match.instanceOf(Object)
                     );
                 });
 

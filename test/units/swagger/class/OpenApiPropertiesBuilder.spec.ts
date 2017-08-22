@@ -1,18 +1,18 @@
 import {JsonProperty} from "../../../../src/converters/decorators/jsonProperty";
-import {OpenApiPropertiesBuilder} from "../../../../src/swagger/class/OpenApiPropertiesBuilder";
-import {Title} from "../../../../src/swagger/decorators/title";
-import {Description} from "../../../../src/swagger/decorators/description";
-import {expect} from "../../../tools";
 import {Required} from "../../../../src/mvc/decorators/required";
+import {OpenApiPropertiesBuilder} from "../../../../src/swagger/class/OpenApiPropertiesBuilder";
+import {Description} from "../../../../src/swagger/decorators/description";
+import {Title} from "../../../../src/swagger/decorators/title";
+import {expect} from "../../../tools";
 
 class Foo {
     @Title("Foo.test")
     @Description("Description.test")
-    test;
+    test: any;
 
     @Title("Foo.foo")
     @Description("Description.foo")
-    foo;
+    foo: any;
 
     method() {
     }

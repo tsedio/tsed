@@ -33,7 +33,8 @@ export class ParseService {
 
         let keys: string[] = expression.split(".");
 
-        while ((scope = scope[keys.shift()]) && keys.length) {}
+        while ((scope = scope[keys.shift()!]) && keys.length) {
+        }
 
         return typeof scope === "object" && clone ? ParseService.clone(scope) : scope;
     }
