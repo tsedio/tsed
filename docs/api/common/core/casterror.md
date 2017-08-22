@@ -5,9 +5,12 @@
 
 <pre><code class="typescript-lang"><span class="token keyword">class</span> CastError <span class="token keyword">extends</span> InternalServerError <span class="token punctuation">{</span>
     origin<span class="token punctuation">:</span> Error<span class="token punctuation">;</span>
+    stack<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>err<span class="token punctuation">:</span> Error<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 ### Members
 
 <div class="method-overview"><pre><code class="typescript-lang">origin<span class="token punctuation">:</span> Error</code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">stack<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>

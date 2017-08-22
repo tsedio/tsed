@@ -5,13 +5,13 @@
 
 <pre><code class="typescript-lang"><span class="token keyword">class</span> ParamMetadata <span class="token keyword">extends</span> <a href="#api/common/core/storable"><span class="token">Storable</span></a> <span class="token keyword">implements</span> <a href="#api/common/mvc/iparamoptions"><span class="token">IParamOptions</span></a><<span class="token keyword">any</span>> <span class="token punctuation">{</span>
     <span class="token keyword">protected</span> _target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _required<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _expression<span class="token punctuation">:</span> <span class="token keyword">string</span> | RegExp<span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _useConverter<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _service<span class="token punctuation">:</span> <span class="token keyword">string</span> | <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">;</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> _index<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">,</span> _index<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     required<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     expression<span class="token punctuation">:</span> <span class="token keyword">string</span> | RegExp<span class="token punctuation">;</span>
     service<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">;</span>
@@ -30,9 +30,9 @@
 
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _target<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol</code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _required<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre></div>
 <hr />

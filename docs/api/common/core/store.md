@@ -5,6 +5,7 @@
 
 <pre><code class="typescript-lang"><span class="token keyword">class</span> Store <span class="token punctuation">{</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token keyword">from</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Store<span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> size<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     get<span class="token punctuation">:</span> <T><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">;</span>
     has<span class="token punctuation">:</span> <span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
@@ -19,11 +20,13 @@
     <span class="token function">storeValues</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token keyword">from</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Store<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 ### Members
 
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token keyword">from</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/core/store"><span class="token">Store</span></a></code></pre></div>
+Create or get a Store from args {target + methodName + descriptor}
+<hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> size<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre></div>
 Return the size of the collection.
 <hr />
@@ -82,6 +85,3 @@ The values() method returns a new Iterator object that contains the values for e
      <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre></div>
 Store all keys contains in the options object.
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token keyword">from</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/core/store"><span class="token">Store</span></a></code></pre></div>
-Create or get a Store from args {target + methodName + descriptor}

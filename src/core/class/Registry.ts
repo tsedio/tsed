@@ -6,9 +6,10 @@ import {Type} from "../interfaces";
 import {getClass, getClassOrSymbol} from "../utils";
 
 /**
+ *
  * @private
  */
-export class Registry<T, O extends { [key: string]: any }> {
+export class Registry<T, O> {
     /**
      * Internal Map
      * @type {Array}
@@ -82,7 +83,7 @@ export class Registry<T, O extends { [key: string]: any }> {
         const meta: any = this.get(target);
 
         Object.keys(options).forEach(key => {
-            meta[key] = options[key];
+            meta[key] = (options as any)[key];
         });
 
         this.set(target, meta);
