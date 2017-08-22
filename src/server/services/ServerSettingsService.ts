@@ -116,7 +116,7 @@ export class ServerSettingsService implements IServerSettings {
     get mount(): IServerMountDirectories {
 
         const obj = this.map.get("mount") || [];
-        const finalObj = {};
+        const finalObj: any = {};
 
         Object.keys(obj).forEach(k => {
             finalObj[k] = this.resolve(obj[k]);
@@ -132,9 +132,9 @@ export class ServerSettingsService implements IServerSettings {
     get componentsScan(): string[] {
 
         const obj: string[] = this.map.get("componentsScan") || [];
-        const finalObj = [];
+        const finalObj: any[] = [];
 
-        Object.keys(obj).forEach(k => {
+        Object.keys(obj).forEach((k: any) => {
             finalObj.push(this.resolve(obj[k]));
         });
 
@@ -147,9 +147,9 @@ export class ServerSettingsService implements IServerSettings {
      */
     get serveStatic(): IServerMountDirectories {
         const obj = this.map.get("serveStatic") || {};
-        const finalObj = {};
+        const finalObj: any = {};
 
-        Object.keys(obj).forEach(k => {
+        Object.keys(obj).forEach((k: any) => {
             finalObj[k] = this.resolve(obj[k]);
         });
 

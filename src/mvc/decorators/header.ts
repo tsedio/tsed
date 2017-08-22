@@ -4,6 +4,7 @@ import {HeaderParams} from "../../filters/decorators/headerParams";
  */
 /** */
 import {UseAfter} from "./method/useAfter";
+
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
  *
@@ -30,7 +31,7 @@ export function Header(expression: string | { [key: string]: string }, expressio
             return HeaderParams(expression as string)(target, propertyKey, descriptor as number);
         }
 
-        return UseAfter((request, response, next) => {
+        return UseAfter((request: any, response: any, next: any) => {
 
             if (response.headersSent) {
                 next();
@@ -40,7 +41,7 @@ export function Header(expression: string | { [key: string]: string }, expressio
                 response.set(expression, expressionValue);
             } else {
                 Object.keys(expression).forEach((key) => {
-                    response.set(key, expression[key]);
+                    response.set(key, (expression as any)[key]);
                 });
             }
 

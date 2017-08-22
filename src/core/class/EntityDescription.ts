@@ -116,7 +116,7 @@ export abstract class EntityDescription {
      * @returns {string}
      */
     get collectionName(): string {
-        return this._collectionType ? nameOf(this._collectionType) : undefined;
+        return this._collectionType ? nameOf(this._collectionType) : "";
     }
 
 

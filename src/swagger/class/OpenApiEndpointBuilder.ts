@@ -1,16 +1,17 @@
 /**
  * @module swagger
  */
-import {Path, Response} from "swagger-schema-official";
+import {Operation, Path, Response} from "swagger-schema-official";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {toSwaggerPath} from "../utils";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
+
 /** */
 
-const OPERATION_IDS = {};
+const OPERATION_IDS: any = {};
 
-const getOperationId = (operationId) => {
+const getOperationId = (operationId: string) => {
     if (OPERATION_IDS[operationId] === undefined) {
         OPERATION_IDS[operationId]++;
         operationId = operationId + "_" + OPERATION_IDS[operationId];
@@ -45,8 +46,8 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
 
         if (!this._paths[openAPIPath]) this._paths[openAPIPath] = {};
 
-
-        this._paths[openAPIPath][this.endpoint.httpMethod] = {
+        const path: any = this._paths[openAPIPath];
+        const operation: Operation = {
             operationId,
             tags: [this.endpoint.targetName],
             parameters: openApiParamsBuilder.parameters,
@@ -58,6 +59,8 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
             deprecated
         };
 
+        path[this.endpoint.httpMethod] = operation;
+
         Object.keys(responses).forEach(code => {
             responses[code] = this.createResponse(code, responses[code]);
         });
@@ -67,7 +70,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         return this;
     }
 
-    private createResponse(code: string, options: any): Response {
+    private createResponse(code: string | number, options: any): Response {
         const {description = "Success", headers} = options;
         const response: Response = {description, headers};
 

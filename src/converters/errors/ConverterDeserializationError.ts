@@ -11,8 +11,8 @@ import {nameOf} from "../../core/utils/index";
  */
 export class ConverterDeserializationError extends InternalServerError {
 
-    name = "CONVERTER_DESERIALIZATION_ERROR";
-    stack;
+    name: string = "CONVERTER_DESERIALIZATION_ERROR";
+    stack: any;
 
     constructor(target: Type<any>, obj: any, err: Error) {
         super(ConverterDeserializationError.buildMessage(target, obj, err));

@@ -3,7 +3,6 @@
  */
 /** */
 
-import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {nameOf} from "../../core/utils";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
@@ -12,33 +11,41 @@ import {HandlerBuilder} from "./HandlerBuilder";
 
 export class EndpointBuilder {
 
-    constructor(private endpoint: EndpointMetadata,
-                private router: Express.Router) {
-        // console.log("Create endpoint =>", endpoint.className + "." + endpoint.methodClassName);
-    }
-
     /**
      *
-     * @returns {any[]}
-     * @param invokable
      */
-    build() {
+    private onRequest = () =>
+        (request: any, response: any, next: any) => {
 
-        const endpoint = this.endpoint;
-        let middlewares: any[] = []
-            .concat(endpoint.beforeMiddlewares)
-            .concat(endpoint.middlewares)
-            .concat([endpoint])
-            .concat(endpoint.afterMiddlewares)
-            .concat(SendResponseMiddleware)
-            .filter((item) => (!!item))
-            .map(middleware => HandlerBuilder.from(middleware).build());
+            /* istanbul ignore else */
+            if (request.id) {
+                $log.debug(request.tagId, "Endpoint =>", JSON.stringify({
+                    target: nameOf(this.endpoint.target),
+                    methodClass: this.endpoint.methodClassName,
+                    httpMethod: this.endpoint.httpMethod
+                }));
+            }
 
-        middlewares = [this.onRequest()].concat(middlewares);
+            if (!response.headersSent) {
+                response.setHeader("X-Managed-By", "TS-Express-Decorators");
+            }
 
-        this.routeMiddlewares(middlewares);
+            request.getEndpoint = () => this.endpoint;
 
-        return middlewares;
+            request.storeData = function (data: any) {
+                this._responseData = data;
+                return this;
+            };
+
+            request.getStoredData = function () {
+                return this._responseData;
+            };
+
+            next();
+        };
+
+    constructor(private endpoint: EndpointMetadata,
+                private router: any) {
     }
 
     /**
@@ -56,34 +63,25 @@ export class EndpointBuilder {
 
     /**
      *
+     * @returns {any[]}
+     * @param invokable
      */
-    private onRequest = () =>
-        (request, response, next) => {
+    build() {
+        const endpoint = this.endpoint;
 
-            /* istanbul ignore else */
-            if (request.id) {
-                $log.debug(request.tagId, "Endpoint =>", JSON.stringify({
-                    target: nameOf(this.endpoint.target),
-                    methodClass: this.endpoint.methodClassName,
-                    httpMethod: this.endpoint.httpMethod
-                }));
-            }
+        let middlewares: any[] = []
+            .concat(endpoint.beforeMiddlewares)
+            .concat(endpoint.middlewares)
+            .concat([endpoint])
+            .concat(endpoint.afterMiddlewares)
+            .concat(SendResponseMiddleware)
+            .filter((item: any) => (!!item))
+            .map((middleware: any) => HandlerBuilder.from(middleware).build());
 
-            if (!response.headersSent) {
-                response.setHeader("X-Managed-By", "TS-Express-Decorators");
-            }
+        middlewares = [this.onRequest()].concat(middlewares);
 
-            request.getEndpoint = () => this.endpoint;
+        this.routeMiddlewares(middlewares);
 
-            request.storeData = function (data) {
-                this._responseData = data;
-                return this;
-            };
-
-            request.getStoredData = function (data) {
-                return this._responseData;
-            };
-
-            next();
-        };
+        return middlewares;
+    }
 }

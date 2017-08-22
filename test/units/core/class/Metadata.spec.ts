@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {Metadata} from "../../../../src";
 
-function logger(target, method?, descriptor?) {
+function logger(target: any, method?: any, descriptor?: any) {
 
     return descriptor;
 }
@@ -27,7 +27,7 @@ class Test {
 
 class Test2 {
 
-    attribut;
+    attribut: any;
 
     constructor() {
     }

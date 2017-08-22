@@ -1,12 +1,12 @@
-import {expect} from "../tools";
+import * as Express from "express";
 
 
 import * as SuperTest from "supertest";
-import * as Express from "express";
-import {ServerSettings} from "../../src/server/decorators/serverSettings";
-import {ServerLoader} from "../../src/server/components/ServerLoader";
 import {GlobalAcceptMimesMiddleware} from "../../src/mvc/components/GlobalAcceptMimesMiddleware";
+import {ServerLoader} from "../../src/server/components/ServerLoader";
+import {ServerSettings} from "../../src/server/decorators/serverSettings";
 import "../../src/swagger";
+import {expect} from "../tools";
 import Path = require("path");
 
 const rootDir = Path.join(Path.resolve(__dirname), "app");
@@ -93,7 +93,7 @@ describe("Rest", () => {
                 .request()
                 .get("/api-doc/swagger.json")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
                     this.spec = JSON.parse(response.text);
                     done();
                 });

@@ -26,12 +26,12 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         let required = false;
         this._parameters = <Parameter[]> this.injectedParams
             .map((param: ParamMetadata) => {
-                const inType = {
+                const inType = ({
                     "BodyParamsFilter": "body",
                     "PathParamsFilter": "path",
                     "QueryParamsFilter": "query",
                     "HeaderParamsFilter": "header"
-                }[param.name];
+                } as any)[param.name];
 
                 if (inType === undefined) { // not a input paramaters
                     return;

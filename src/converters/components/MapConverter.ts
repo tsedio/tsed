@@ -5,6 +5,7 @@
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 import {ConverterService} from "../services/ConverterService";
+
 /**
  * @private
  * @converter
@@ -38,9 +39,9 @@ export class MapConverter implements IConverter {
      * @param data
      */
     serialize<T>(data: Map<string, T>): any {
-        const obj = {};
+        const obj: any = {};
 
-        data.forEach((value, key) =>
+        data.forEach((value: T, key: string) =>
             obj[key] = this.converterService.serialize(value)
         );
 

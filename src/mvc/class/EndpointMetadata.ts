@@ -1,6 +1,7 @@
 /**
  * @module common/mvc
- */ /** */
+ */
+/** */
 
 import {Metadata} from "../../core/class/Metadata";
 import {Storable} from "../../core/class/Storable";
@@ -9,6 +10,7 @@ import {Type} from "../../core/interfaces";
 import {isArrayOrArrayClass, isPromise} from "../../core/utils";
 import {ENDPOINT_METHODS} from "../constants";
 import {PathParamsType} from "../interfaces/PathParamsType";
+
 /**
  * EndpointMetadata contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
@@ -69,7 +71,7 @@ export class EndpointMetadata extends Storable {
     }
 
     get type(): Type<any> {
-        return isPromise(this._type) || isArrayOrArrayClass(this._type) || this._type === Object ? undefined : this._type;
+        return isPromise(this._type) || isArrayOrArrayClass(this._type) || this._type === Object ? undefined! : this._type;
     }
 
     /**
@@ -167,7 +169,7 @@ export class EndpointMetadata extends Storable {
         return this._methodClassName;
     }
 
-    public statusResponse(code) {
+    public statusResponse(code: string | number) {
         const response = (this.store.get("responses") || {})[code] || {};
         this.type = response.type;
         this.collectionType = response.collectionType;

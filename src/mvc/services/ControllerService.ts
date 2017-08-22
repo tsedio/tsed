@@ -9,6 +9,7 @@ import {ExpressApplication} from "../../core/services/ExpressApplication";
 import {Inject} from "../../di";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
+import {IComponentScanned} from "../../server/interfaces";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
@@ -49,7 +50,7 @@ export class ControllerService extends ProxyControllerRegistry {
      *
      * @param components
      */
-    public mapComponents(components) {
+    public mapComponents(components: IComponentScanned[]) {
         components.forEach(component => {
             Object.keys(component.classes)
                 .map(clazzName => component.classes[clazzName])

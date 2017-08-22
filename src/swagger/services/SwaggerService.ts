@@ -64,7 +64,7 @@ export class SwaggerService {
 
     }
 
-    private onRequest = (req, res, next) => {
+    private onRequest = (req: any, res: any, next: any) => {
         if (req.url.indexOf("swagger.json") > -1) {
             const content = this.getOpenAPISpec();
             res.status(200).json(content);

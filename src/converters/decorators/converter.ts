@@ -1,9 +1,11 @@
 /**
  * @module common/converters
- */ /** */
+ */
+/** */
 
 import {Metadata} from "../../core/class/Metadata";
 import {CONVERTER} from "../constants/index";
+
 /**
  * `@Converter(...targetTypes)` let you to define some converters for a certain type/Class.
  * It usefull for a generic conversion.
@@ -14,10 +16,10 @@ import {CONVERTER} from "../constants/index";
  */
 export function Converter(...classes: any[]): Function {
 
-    return customConverter => {
+    return (target: any) => {
 
         classes.forEach(clazz =>
-            Metadata.set(CONVERTER, customConverter, clazz)
+            Metadata.set(CONVERTER, target, clazz)
         );
 
     };

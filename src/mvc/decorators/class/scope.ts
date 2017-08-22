@@ -10,7 +10,7 @@ import {ControllerRegistry} from "../../registries/ControllerRegistry";
  */
 export function Scope(scope: false | "request" = "request") {
 
-    return (target) => {
+    return (target: any) => {
         ControllerRegistry.merge(target, {scope});
     };
 }

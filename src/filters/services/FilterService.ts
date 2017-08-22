@@ -10,6 +10,7 @@ import {FilterProvider} from "../class/FilterProvider";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
 import {IFilter} from "../interfaces";
 import {FilterRegistry, ProxyFilterRegistry} from "../registries/FilterRegistry";
+
 /**
  * @beta
  */
@@ -36,7 +37,7 @@ export class FilterService extends ProxyFilterRegistry {
      * @param target
      * @returns {ControllerProvider}
      */
-    static get = (target: Type<any>): FilterProvider =>
+    static get = (target: Type<any>): FilterProvider | undefined =>
         FilterRegistry.get(target);
 
     /**
@@ -73,13 +74,18 @@ export class FilterService extends ProxyFilterRegistry {
      * @param args
      * @returns {any}
      */
-    invokeMethod<T extends IFilter>(target: Type<T>, ...args: any[]) {
+    invokeMethod<T extends IFilter>(target: Type<T>, ...args: any[]): any {
 
         if (!this.has(target)) {
             throw new UnknowFilterError(target);
         }
 
         const provider = this.get(target);
+
+        if (!provider) {
+            throw new Error("Target component not found in the registry");
+        }
+
         const instance = provider.instance || this.invoke(provider.useClass);
 
         return instance.transform(...args);

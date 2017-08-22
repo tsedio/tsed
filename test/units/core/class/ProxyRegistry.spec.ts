@@ -1,12 +1,12 @@
-import {expect} from "../../../tools";
 import {ProxyRegistry} from "../../../../src/core/class/ProxyRegistry";
 import {Registry} from "../../../../src/core/class/Registry";
+import {expect} from "../../../tools";
 
 class FakeMetadata {
-    attr1;
-    attr2;
+    attr1: any;
+    attr2: any;
 
-    constructor(public target) {
+    constructor(public target: any) {
 
     }
 
@@ -83,8 +83,8 @@ describe("ProxyRegistry", () => {
         });
 
         it("should loop for each item stored in service", () => {
-            const o = [];
-            this.service.forEach((e) => o.push(e));
+            const o: any = [];
+            this.service.forEach((e: any) => o.push(e));
             expect(o.length).to.equal(4);
         });
     });

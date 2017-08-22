@@ -1,11 +1,11 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
+import {assert} from "chai";
 import * as Proxyquire from "proxyquire";
+import * as Sinon from "sinon";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 
-let middleware;
-const UseAfterStub: any = function (_middleware_) {
+let middleware: any;
+const UseAfterStub: any = function (_middleware_: any) {
     middleware = _middleware_;
     return () => {
     };

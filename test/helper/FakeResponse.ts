@@ -4,6 +4,7 @@ export class FakeResponse {
     _json: any;
     _body: any = "";
     _headers: string = "";
+
     public set() {
         return this;
     }
@@ -60,12 +61,12 @@ export class FakeResponse {
      * @param value
      * @returns {FakeResponse}
      */
-    public setHeader(key, value): FakeResponse {
+    public setHeader(key: string, value: string): FakeResponse {
         this._headers += `${key}:${value}\n`;
         return this;
     }
 
-    public get(key) {
-        return this["_" + key];
+    public get(key: string) {
+        return (this as any)["_" + key];
     }
 }

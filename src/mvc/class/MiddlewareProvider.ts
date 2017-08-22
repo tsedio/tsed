@@ -7,7 +7,7 @@ import {IMiddlewareOptions, MiddlewareType} from "../interfaces";
 
 export class MiddlewareProvider extends Provider<any> implements IMiddlewareOptions {
 
-    constructor(provide) {
+    constructor(provide: any) {
         super(provide);
     }
 

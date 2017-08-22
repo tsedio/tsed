@@ -1,12 +1,13 @@
 import {expect} from "chai";
 import {ParamMetadata} from "../../../../src";
-import {EXPRESS_ERR} from "../../../../src/mvc/constants/index";
 import {Store} from "../../../../src/core/class/Store";
+import {EXPRESS_ERR} from "../../../../src/mvc/constants/index";
 
 class Test {
-    method(arg1, arg2) {
+    method(arg1: any, arg2: any) {
     }
 }
+
 class TestFilter {
 }
 
@@ -91,7 +92,7 @@ describe("ParamMetadata", () => {
             });
 
             it("should return the JSON", () => {
-                expect(JSON.stringify(this.paramMetadata)).to.eq(`{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"Test"}`);
+                expect(JSON.stringify(this.paramMetadata)).to.eq(`{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"Test","baseType":""}`);
             });
 
         });
@@ -123,7 +124,7 @@ describe("ParamMetadata", () => {
             });
 
             it("should return the JSON", () => {
-                expect(JSON.stringify(this.paramMetadata)).to.eq(`{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"TestFilter"}`);
+                expect(JSON.stringify(this.paramMetadata)).to.eq(`{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"TestFilter","baseType":""}`);
             });
 
         });

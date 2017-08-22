@@ -5,13 +5,14 @@
 import {InternalServerError} from "ts-httpexceptions";
 import {Type} from "../../core/interfaces/Type";
 import {nameOf} from "../../core/utils/index";
+
 /**
  * @private
  */
 export class ConverterSerializationError extends InternalServerError {
 
-    name = "CONVERTER_SERIALIZATION_ERROR";
-    stack;
+    name: string = "CONVERTER_SERIALIZATION_ERROR";
+    stack: any;
 
     constructor(target: Type<any>, err: Error) {
         super(ConverterSerializationError.buildMessage(target, err));

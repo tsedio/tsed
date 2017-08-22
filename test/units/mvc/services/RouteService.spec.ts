@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {inject} from "../../../../src/testing";
 import {RouteService} from "../../../../src";
+import {inject} from "../../../../src/testing";
 
 describe("RouteService", () => {
 
@@ -17,7 +17,7 @@ describe("RouteService", () => {
         let str = "";
 
         const routes = routeService.printRoutes({
-            info: (...args) => (str += args.join(" "))
+            info: (...args: any[]) => (str += args.join(" "))
         });
 
         expect(!!str).to.be.true;

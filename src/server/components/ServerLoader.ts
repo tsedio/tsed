@@ -67,6 +67,7 @@ import {ServerSettingsService} from "../services/ServerSettingsService";
  */
 $log.name = "TSED";
 $log.level = "info";
+
 export abstract class ServerLoader implements IServerLifecycle {
     public version: string = require("../../../package.json").version;
     private _expressApp: Express.Application = Express();
@@ -219,34 +220,16 @@ export abstract class ServerLoader implements IServerLifecycle {
         return this.injectorService.load();
     }
 
-    /**
-     * Initialize configuration of the express app.
-     */
-    protected async loadMiddlewares(): Promise<any> {
+    private callHook = (key: string, elseFn = new Function, ...args: any[]) => {
+        const self: any = this;
 
-        $log.debug("Mount middlewares");
-
-        this.use(LogIncomingRequestMiddleware);
-        await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
-        await this.injectorService.emit("$beforeRoutesInit");
-        await this.injectorService.emit("$onRoutesInit", this._components);
-
-        delete this._components; // free memory
-
-        await this.injectorService.emit("$afterRoutesInit");
-
-        await this.callHook("$afterRoutesInit", undefined, this.expressApp);
-
-        // Import the globalErrorHandler
-
-        /* istanbul ignore next */
-        if (this.hasHook("$onError")) {
-            this.use(this["$onError"].bind(this));
+        if (key in this) {
+            $log.debug(`Call hook ${key}()`);
+            return self[key](...args);
         }
 
-        this.use(GlobalErrorHandlerMiddleware);
-        this.use(LogEndIncomingRequestMiddleware);
-    }
+        return elseFn();
+    };
 
     /**
      *
@@ -255,62 +238,11 @@ export abstract class ServerLoader implements IServerLifecycle {
         InjectorService.factory(ServerSettingsService, this.settings.$get());
         return InjectorService.get<ServerSettingsService>(ServerSettingsService);
     }
-
     /**
      *
+     * @param key
      */
-    protected setSettings(settings: IServerSettings) {
-
-        this._settings.set(settings);
-
-        if (this.settings.env === "test") {
-            $log.stop();
-        }
-
-        const settingsService = this.getSettingsService();
-
-        const bind = (property, value, map) => {
-
-            switch (property) {
-                case "mount":
-                    Object.keys(settingsService.mount).forEach((key) => this.mount(key, value[key]));
-                    break;
-
-                case "componentsScan":
-                    settingsService.componentsScan.forEach(componentDir => this.scan(componentDir));
-                    break;
-
-                case "httpPort":
-                    /* istanbul ignore else */
-                    if (value && this._httpServer === undefined) {
-                        this.createHttpServer(value);
-                    }
-
-                    break;
-
-                case "httpsPort":
-
-                    /* istanbul ignore else */
-                    if (value && this._httpsServer === undefined) {
-                        this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
-                    }
-
-                    break;
-            }
-        };
-
-
-        settingsService
-            .forEach((value, key, map) => {
-
-                /* istanbul ignore else */
-                if (value) {
-                    bind(key, value, map);
-                }
-            });
-
-
-    }
+    private hasHook = (key: string) => !!(this as any)[key];
 
     /**
      * Start the express server.
@@ -524,20 +456,90 @@ export abstract class ServerLoader implements IServerLifecycle {
         return this;
     }
 
-    private callHook = (key, elseFn = new Function, ...args) => {
+    /**
+     * Initialize configuration of the express app.
+     */
+    protected async loadMiddlewares(): Promise<any> {
 
-        if (key in this) {
-            $log.debug(`Call hook ${key}()`);
-            return this[key](...args);
+        $log.debug("Mount middlewares");
+
+        this.use(LogIncomingRequestMiddleware);
+        await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
+        await this.injectorService.emit("$beforeRoutesInit");
+        await this.injectorService.emit("$onRoutesInit", this._components);
+
+        delete this._components; // free memory
+
+        await this.injectorService.emit("$afterRoutesInit");
+
+        await this.callHook("$afterRoutesInit", undefined, this.expressApp);
+
+        // Import the globalErrorHandler
+
+        /* istanbul ignore next */
+        if (this.hasHook("$onError")) {
+            this.use((this as any)["$onError"].bind(this));
         }
 
-        return elseFn();
-    };
+        this.use(GlobalErrorHandlerMiddleware);
+        this.use(LogEndIncomingRequestMiddleware);
+    }
+
     /**
      *
-     * @param key
      */
-    private hasHook = (key) => !!this[key];
+    protected setSettings(settings: IServerSettings) {
+
+        this._settings.set(settings);
+
+        if (this.settings.env === "test") {
+            $log.stop();
+        }
+
+        const settingsService = this.getSettingsService();
+
+        const bind = (property: string, value: any, map: Map<string, any>) => {
+
+            switch (property) {
+                case "mount":
+                    Object.keys(settingsService.mount).forEach((key) => this.mount(key, value[key]));
+                    break;
+
+                case "componentsScan":
+                    settingsService.componentsScan.forEach(componentDir => this.scan(componentDir));
+                    break;
+
+                case "httpPort":
+                    /* istanbul ignore else */
+                    if (value && this._httpServer === undefined) {
+                        this.createHttpServer(value);
+                    }
+
+                    break;
+
+                case "httpsPort":
+
+                    /* istanbul ignore else */
+                    if (value && this._httpsServer === undefined) {
+                        this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
+                    }
+
+                    break;
+            }
+        };
+
+
+        settingsService
+            .forEach((value, key, map) => {
+
+                /* istanbul ignore else */
+                if (value) {
+                    bind(key, value, map);
+                }
+            });
+
+
+    }
 
     /**
      * Return the settings configured by the decorator [@ServerSettings](api/common/server/decorators/serversettings.md).

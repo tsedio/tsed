@@ -15,7 +15,7 @@ describe("ResponseViewMiddleware :", () => {
 
         this.endpoint = {
             store: {
-                get: (type) => {
+                get: (type: any) => {
                     return type === ResponseViewMiddleware ? {
                         viewPath: "page.html",
                         viewOptions: {test: "test"}
@@ -56,9 +56,8 @@ describe("ResponseViewMiddleware :", () => {
                 {},
                 {
                     store: {
-                        get: (type) => {
+                        get: (type: any) => {
                             return type === ResponseViewMiddleware ? {
-                                viewPath: undefined,
                                 viewOptions: {test: "test"}
                             } : {test: "test"};
                         }

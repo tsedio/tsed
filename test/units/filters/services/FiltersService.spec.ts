@@ -1,11 +1,11 @@
-import {assert, expect} from "../../../tools";
+import {FilterProvider} from "../../../../src/filters/class/FilterProvider";
+import {HeaderParamsFilter} from "../../../../src/filters/components/HeaderParamsFilter";
+import {FilterService} from "../../../../src/filters/services/FilterService";
+import {inject} from "../../../../src/testing";
 
 import {FakeRequest} from "../../../helper";
-import {inject} from "../../../../src/testing";
-import {HeaderParamsFilter} from "../../../../src/filters/components/HeaderParamsFilter";
 import {FakeResponse} from "../../../helper/FakeResponse";
-import {FilterService} from "../../../../src/filters/services/FilterService";
-import {FilterProvider} from "../../../../src/filters/class/FilterProvider";
+import {assert, expect} from "../../../tools";
 
 class Test {
 
@@ -57,8 +57,8 @@ describe("FilterService", () => {
 
     describe("forEach()", () => {
         it("should loop on registry", () => {
-            const list = [];
-            this.filterService.forEach((f) => list.push(f));
+            const list: any = [];
+            this.filterService.forEach((f: any) => list.push(f));
             expect(!!list.length).to.be.true;
         });
     });

@@ -60,7 +60,7 @@ export class ParamRegistry {
      * @param target
      * @param method
      */
-    static isInjectable = (target, method): boolean =>
+    static isInjectable = (target: any, method: string): boolean =>
     (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
 
     /**

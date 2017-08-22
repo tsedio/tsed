@@ -22,7 +22,7 @@ export class PropertyRegistry {
             this.set(target, propertyKey, new PropertyMetadata(target, propertyKey));
         }
 
-        return this.getProperties(target).get(propertyKey);
+        return this.getProperties(target).get(propertyKey) as PropertyMetadata;
     }
 
     /**
@@ -34,6 +34,7 @@ export class PropertyRegistry {
         Metadata.has(PROPERTIES_METADATA, target)
             ? Metadata.get(PROPERTIES_METADATA, target)
             : new Map<string | symbol, PropertyMetadata>();
+
     /**
      *
      * @param target

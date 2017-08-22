@@ -1,12 +1,12 @@
-import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../../../src/core/class/Store";
 import {Metadata} from "../../../../src/core/class/Metadata";
+import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../../../src/core/class/Store";
 import {expect, Sinon} from "../../../tools";
 
 class FakeMetadata {
-    attr1;
-    attr2;
+    attr1: any;
+    attr2: any;
 
-    constructor(public target) {
+    constructor(public target: any) {
 
     }
 
@@ -192,8 +192,8 @@ describe("Store", () => {
         });
 
         it("should loop for each item stored in registry", () => {
-            const o = [];
-            this.store.forEach((e) => o.push(e));
+            const o: any = [];
+            this.store.forEach((e: any) => o.push(e));
             expect(o.length).to.equal(1);
         });
     });

@@ -4,11 +4,8 @@ export class FakeRequest {
     mime: string;
     id: number;
     tagId: string;
-    _responseData;
-
-    public get(expression) {
-        return "headerValue";
-    }
+    _responseData: any;
+    public accepts = (mime: string) => this.mime === mime;
 
     /**
      *
@@ -58,16 +55,18 @@ export class FakeRequest {
         }
     };
 
-    public storeData(data) {
-        this._responseData = data;
-        return this;
+    public get(expression: any) {
+        return "headerValue";
     }
 
     public getStoredData() {
         return this._responseData || {};
     }
 
-    public accepts = (mime) => this.mime === mime;
+    public storeData(data: any) {
+        this._responseData = data;
+        return this;
+    }
 
     public getEndpoint() {
         return {

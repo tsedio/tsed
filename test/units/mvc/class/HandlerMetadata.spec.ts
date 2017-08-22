@@ -25,15 +25,15 @@ const HandlerMetadata = Proxyquire("../../../../src/mvc/class/HandlerMetadata", 
 }).HandlerMetadata;
 
 class Test {
-    use(req, res, next) {
+    use(req: any, res: any, next: any) {
 
     }
 
-    test(req, res, next) {
+    test(req: any, res: any, next: any) {
     }
 }
 class Test2 {
-    use(err, req, res, next) {
+    use(err: any, req: any, res: any, next: any) {
 
     }
 }
@@ -46,7 +46,7 @@ describe("HandlerMetadata", () => {
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(false);
 
-            this.handlerMetadata = new HandlerMetadata((req, res, next) => {
+            this.handlerMetadata = new HandlerMetadata((req: any, res: any, next: any) => {
             });
         });
 
@@ -85,7 +85,7 @@ describe("HandlerMetadata", () => {
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(false);
 
-            this.handlerMetadata = new HandlerMetadata((err, req, res, next) => {
+            this.handlerMetadata = new HandlerMetadata((err: any, req: any, res: any, next: any) => {
             });
         });
 
@@ -124,7 +124,7 @@ describe("HandlerMetadata", () => {
             MiddlewareRegistry.has.returns(false);
             ControllerRegistry.has.returns(false);
 
-            this.handlerMetadata = new HandlerMetadata((req, res) => {
+            this.handlerMetadata = new HandlerMetadata((req: any, res: any) => {
             });
         });
 

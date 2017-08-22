@@ -33,7 +33,7 @@ describe("AcceptMimesMiddleware", () => {
 
         expect(this.middleware.use({
                 store: {
-                    get: () => {
+                    get: (): any => {
                         return undefined;
                     }
                 }

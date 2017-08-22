@@ -54,7 +54,7 @@ export function Redirect(status: string | number, location?: string): Function {
 
     return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
-        return UseAfter((request, response, next) => {
+        return UseAfter((request: any, response: any, next: any) => {
 
             /* istanbul ignore else */
             if (!response.headersSent) {

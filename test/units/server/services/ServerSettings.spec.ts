@@ -106,7 +106,7 @@ describe("ServerSettingsProvider", () => {
     describe("forEach()", () => {
         before(() => {
             this.result = [];
-            this.serverSettingsService.forEach(o => this.result.push(o));
+            this.serverSettingsService.forEach((o: any) => this.result.push(o));
         });
 
         it("should loop on items", () => {

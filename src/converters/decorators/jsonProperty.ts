@@ -1,3 +1,4 @@
+import {Type} from "../../core/interfaces";
 import {isEmpty} from "../../core/utils/index";
 /**
  * @module common/converters
@@ -7,6 +8,7 @@ import {InjectorService} from "../../di/services/InjectorService";
 import {IPropertyOptions} from "../interfaces/IPropertyOptions";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 import {ConverterService} from "../services/ConverterService";
+
 /**
  * `@JsonProperty()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
  * But in some cases, we need to configure explicitly the JSON attribut name mapped to the provide attribut.
@@ -56,10 +58,10 @@ export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
                 property.name = options as string;
             }
             else if (typeof options === "object") {
-                property.name = options.name;
+                property.name = options.name as string;
 
                 if (!isEmpty((<IPropertyOptions>options).use)) {
-                    property.type = (options as IPropertyOptions).use;
+                    property.type = (options as IPropertyOptions).use as Type<any>;
                 }
             }
 

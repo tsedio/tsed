@@ -3,9 +3,10 @@ import {Store} from "../../../../src/core/class/Store";
 import {expect} from "../../../tools";
 
 class Test {
-    method(arg1, arg2) {
+    method(arg1: any, arg2: any) {
     }
 }
+
 class TestFilter {
 }
 
@@ -32,7 +33,7 @@ describe("PropertyMetadata", () => {
     );
 
     it("should return collectionName", () =>
-        expect(this.propertyMetadata.collectionName).to.eq(undefined)
+        expect(this.propertyMetadata.collectionName).to.eq("")
     );
 
     it("should return typeName", () =>

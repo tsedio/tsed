@@ -8,6 +8,7 @@ import {Middleware} from "../decorators/class/middleware";
 import {EndpointInfo} from "../decorators/param/endpointInfo";
 import {Request} from "../decorators/param/request";
 import {IMiddleware} from "../interfaces";
+
 /**
  * @private
  * @middleware
@@ -20,7 +21,7 @@ export class AcceptMimesMiddleware implements IMiddleware {
 
         const mimes = endpoint.store.get(AcceptMimesMiddleware) || [];
 
-        mimes.forEach((mime) => {
+        mimes.forEach((mime: string) => {
             if (!request.accepts(mime)) {
                 throw new NotAcceptable(mime);
             }

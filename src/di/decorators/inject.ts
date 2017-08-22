@@ -8,7 +8,7 @@ import {InjectorService} from "../services/InjectorService";
 
 export function Inject(symbol?: any): Function {
 
-    return <T>(target: Type<T>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): TypedPropertyDescriptor<Function> => {
+    return <T>(target: Type<T>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any => {
 
         if (typeof descriptor === "number") {
             if (symbol) {
@@ -35,7 +35,7 @@ export function Inject(symbol?: any): Function {
                     locals = new Map();
                 }
 
-                return InjectorService.invokeMethod(originalMethod.bind(this), {
+                return InjectorService.invokeMethod(originalMethod!.bind(this), {
                     target,
                     methodName: targetKey,
                     locals

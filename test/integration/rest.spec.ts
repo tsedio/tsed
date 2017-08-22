@@ -1,14 +1,14 @@
-import {Done} from "../../src/testing/done";
-import {inject} from "../../src/testing/inject";
-import {expect} from "../tools";
+import * as Express from "express";
 
 
 import * as SuperTest from "supertest";
-import * as Express from "express";
-import {ServerSettings} from "../../src/server/decorators/serverSettings";
-import {ServerLoader} from "../../src/server/components/ServerLoader";
 import {GlobalAcceptMimesMiddleware} from "../../src/mvc/components/GlobalAcceptMimesMiddleware";
+import {ServerLoader} from "../../src/server/components/ServerLoader";
+import {ServerSettings} from "../../src/server/decorators/serverSettings";
 import "../../src/swagger";
+import {Done} from "../../src/testing/done";
+import {inject} from "../../src/testing/inject";
+import {expect} from "../tools";
 import Path = require("path");
 
 const rootDir = Path.join(Path.resolve(__dirname), "app");
@@ -94,7 +94,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/html")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -116,7 +116,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/calendars/classic/1")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -140,7 +140,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/calendars/annotation/test/1")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -163,7 +163,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/calendars/annotation/promised/1")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -185,7 +185,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/calendars/annotation/status/1")
                 .expect(202)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -211,7 +211,7 @@ describe("Rest", () => {
                     Authorization: "tokenauth"
                 })
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -236,7 +236,7 @@ describe("Rest", () => {
                 // .send({id: 1})
                 .set("Cookie", "authorization=auth")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     let token = response.text;
 
@@ -255,7 +255,7 @@ describe("Rest", () => {
                 // .send({id: 1})
                 .set("Cookie", "authorization=auth")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     let token = response.text;
 
@@ -272,7 +272,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/calendars/query?search=ts-express-decorators")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     let token = response.text;
 
@@ -290,7 +290,7 @@ describe("Rest", () => {
                 .get("/rest/calendars/mvc")
                 .set({authorization: "token"})
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -313,7 +313,7 @@ describe("Rest", () => {
                 .get("/rest/calendars/middlewares2")
                 .set({authorization: "token"})
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -335,7 +335,7 @@ describe("Rest", () => {
                 .request()
                 .get("/rest/calendars/headers")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     if (err) {
                         throw (err);
@@ -360,7 +360,7 @@ describe("Rest", () => {
                 .request()
                 .put("/rest/calendars")
                 .expect(400)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
                     expect(response.error.text).to.contains("Bad request, parameter request.body.name is required.");
                     done();
                 });
@@ -374,7 +374,7 @@ describe("Rest", () => {
                 .put("/rest/calendars")
                 .send({name: "test"})
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     let obj = JSON.parse(response.text);
 
@@ -394,7 +394,7 @@ describe("Rest", () => {
                 .request()
                 .delete("/rest/calendars")
                 .expect(403)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     expect(response.error.text).to.contains("Forbidden");
                     done();
@@ -409,7 +409,7 @@ describe("Rest", () => {
                 .delete("/rest/calendars")
                 .set({authorization: "token"})
                 .expect(400)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     expect(response.error.text).to.contains("Bad request, parameter request.body.id is required.");
 
@@ -428,7 +428,7 @@ describe("Rest", () => {
                 .request()
                 .head("/rest/calendars/events")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
                     expect(response.text).to.eq(undefined);
 
@@ -445,7 +445,7 @@ describe("Rest", () => {
                 .request()
                 .patch("/rest/calendars/events/1")
                 .expect(200)
-                .end((err, response: any) => {
+                .end((err: any, response: any) => {
 
 
                     done();

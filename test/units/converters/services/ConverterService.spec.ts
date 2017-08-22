@@ -1,21 +1,21 @@
 import {assert, expect} from "chai";
-import {BadRequest} from "ts-httpexceptions";
 import {ConverterService, JsonProperty} from "../../../../src";
 import {inject} from "../../../../src/testing/inject";
 
 class Foo {
 
-    test;
-    foo;
+    test: any;
+    foo: any;
 
     method() {
     }
 
-    deserialize(obj) {
+    deserialize(obj: any) {
+        const self: any = this;
 
         Object.getOwnPropertyNames(obj).forEach((key) => {
-            if (typeof this[key] !== "function") {
-                this[key] = obj[key];
+            if (typeof self[key] !== "function") {
+                self[key] = obj[key];
             }
         });
 
@@ -244,7 +244,7 @@ describe("ConverterService", () => {
                 );
 
                 it("should have an attribut that is deserialized as a Set and have a method", () => {
-                    this.foo2.theSet.forEach(item => {
+                    this.foo2.theSet.forEach((item: any) => {
                         expect(item).to.be.an("object");
                         expect(item.test).to.be.a("string");
                     });

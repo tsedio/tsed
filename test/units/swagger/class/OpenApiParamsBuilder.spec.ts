@@ -1,20 +1,20 @@
 import * as Proxyquire from "proxyquire";
 import {JsonProperty} from "../../../../src/converters/decorators/jsonProperty";
-import {Title} from "../../../../src/swagger/decorators/title";
-import {Description} from "../../../../src/swagger/decorators/description";
-import {expect, Sinon} from "../../../tools";
-import {Required} from "../../../../src/mvc/decorators/required";
-import {ParamMetadata} from "../../../../src/mvc/class/ParamMetadata";
 import {BodyParamsFilter} from "../../../../src/filters/components/BodyParamsFilter";
+import {ParamMetadata} from "../../../../src/mvc/class/ParamMetadata";
+import {Required} from "../../../../src/mvc/decorators/required";
+import {Description} from "../../../../src/swagger/decorators/description";
+import {Title} from "../../../../src/swagger/decorators/title";
+import {expect, Sinon} from "../../../tools";
 
 class Foo {
     @Title("Foo.test")
     @Description("Description.test")
-    test;
+    test: any;
 
     @Title("Foo.foo")
     @Description("Description.foo")
-    foo;
+    foo: any;
 
     method() {
     }

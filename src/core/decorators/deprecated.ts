@@ -1,8 +1,10 @@
 /**
  * @module common/core
- */ /** */
+ */
+/** */
 
 import {Type} from "../interfaces";
+
 /**
  * The `@Deprecated()` decorators wraps the given method in such a way that it is marked as deprecated.
  *
@@ -36,7 +38,7 @@ import {Type} from "../interfaces";
  */
 export function Deprecated(message: string): Function {
 
-    return (target: Type<any>, targetKey: string, descriptor) => {
+    return (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<any>) => {
 
         const originalMethod = descriptor.value;
 
