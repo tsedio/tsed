@@ -13,6 +13,7 @@ export const PROPERTY_STORE = "tsed:property:store";
 export const PARAM_STORE = "tsed:param:store";
 
 export type StoreMap = Map<string, any>;
+
 /**
  *
  */
@@ -49,6 +50,14 @@ export class Store {
     }
 
     /**
+     * Return the size of the collection.
+     * @returns {number}
+     */
+    get size() {
+        return this._map.size;
+    }
+
+    /**
      * Create or get a Store from args {target + methodName + descriptor}
      * @param args
      * @returns {Store}
@@ -58,28 +67,22 @@ export class Store {
     }
 
     /**
-     * Return the size of the collection.
-     * @returns {number}
-     */
-    get size() {
-        return this._map.size;
-    }
-
-    /**
      * The get() method returns a specified element from a Map object.
      * @param key Required. The key of the element to return from the Map object.
      * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
      */
-    get = <T>(key: any): any =>
-        this._map.get(nameOf(key));
+    get<T>(key: any): any {
+        return this._map.get(nameOf(key));
+    }
 
     /**
      * The has() method returns a boolean indicating whether an element with the specified key exists or not.
      * @param key
      * @returns {boolean}
      */
-    has = (key: any): boolean =>
-        this._map.has(nameOf(key));
+    has(key: any): boolean {
+        return this._map.has(nameOf(key));
+    }
 
     /**
      * The set() method adds or updates an element with a specified key and value to a Map object.
@@ -96,29 +99,33 @@ export class Store {
      * The entries() method returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    entries = (): IterableIterator<[string, any]> =>
-        this._map.entries();
+    entries(): IterableIterator<[string, any]> {
+        return this._map.entries();
+    }
 
     /**
      * The keys() method returns a new Iterator object that contains the keys for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    keys = (): IterableIterator<string> =>
-        this._map.keys();
+    keys(): IterableIterator<string> {
+        return this._map.keys();
+    }
 
     /**
      * The clear() method removes all elements from a Map object.
      */
-    clear = () =>
-        this._map.clear();
+    clear() {
+        return this._map.clear();
+    }
 
     /**
      * The delete() method removes the specified element from a Map object.
      * @param key Required. The key of the element to remove from the Map object.
      * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
      */
-    delete = (key: string): boolean =>
-        this._map.delete(nameOf(key));
+    delete(key: string): boolean {
+        return this._map.delete(nameOf(key));
+    }
 
     /**
      * The forEach() method executes a provided function once per each key/value pair in the Map object, in insertion order.
@@ -139,15 +146,17 @@ export class Store {
      * forEach executes the callback function once for each element in the Map object; it does not return a value.
      *
      */
-    forEach = (callbackfn: (value: any, key: string, map: Map<string, any>) => void, thisArg?: any): void =>
-        this._map.forEach(callbackfn);
+    forEach(callbackfn: (value: any, key: string, map: Map<string, any>) => void, thisArg?: any): void {
+        return this._map.forEach(callbackfn);
+    }
 
     /**
      * The values() method returns a new Iterator object that contains the values for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    values = (): IterableIterator<any> =>
-        this._map.values();
+    values(): IterableIterator<any> {
+        return this._map.values();
+    }
 
     /**
      *

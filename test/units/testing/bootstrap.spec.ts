@@ -12,8 +12,6 @@ class FakeServer {
 }
 
 describe("bootstrap", () => {
-
-
     it("should mock server for test", (done) => {
 
         const fnMocha = bootstrap(FakeServer);

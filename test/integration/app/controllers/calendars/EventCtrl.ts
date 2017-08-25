@@ -5,6 +5,7 @@ import {Authenticated} from "../../../../../src/mvc/decorators/method/authentica
 import {Responses} from "../../../../../src/swagger/decorators/responses";
 import {Returns} from "../../../../../src/swagger/decorators/returns";
 import {EventModel} from "../../models/Event";
+import {BaseController} from "../base/BaseController";
 
 
 interface IEvent {
@@ -12,7 +13,7 @@ interface IEvent {
 }
 
 @Controller("/events")
-export class EventCtrl {
+export class EventCtrl extends BaseController {
     /**
      *
      */

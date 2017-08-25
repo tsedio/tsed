@@ -253,6 +253,6 @@ export class ServerSettingsProvider implements IServerSettings {
      * @returns {any}
      */
     static getMetadata(target: any) {
-        return Metadata.get(SERVER_SETTINGS, target);
+        return Metadata.getOwn(SERVER_SETTINGS, target);
     }
 }

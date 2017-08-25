@@ -1,11 +1,11 @@
 import * as Express from "express";
 import * as Proxyquire from "proxyquire";
-import {expect, Sinon} from "../../../tools";
 
 import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
+import {expect, Sinon} from "../../../tools";
 
 
 const HandlerBuilder = {

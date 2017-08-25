@@ -61,7 +61,7 @@ export class ParamRegistry {
      * @param method
      */
     static isInjectable = (target: any, method: string): boolean =>
-    (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
+        (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
 
     /**
      *
@@ -143,7 +143,7 @@ export class ParamRegistry {
      * @param propertyKey
      */
     static hasNextFunction = (target: Type<any>, propertyKey: string) =>
-    ParamRegistry
-        .getParams(target, propertyKey)
-        .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
+        ParamRegistry
+            .getParams(target, propertyKey)
+            .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
 }

@@ -1,6 +1,7 @@
 /**
  * @module common/core
- */ /** */
+ */
+/** */
 /**
  * Get the provide constructor.
  * @param targetClass
@@ -9,6 +10,7 @@ export const getContructor = (targetClass: any): Function =>
     typeof targetClass === "function"
         ? targetClass
         : targetClass.constructor;
+
 /**
  * Get the provide constructor if target is an instance.
  * @param target
@@ -47,6 +49,7 @@ export function isPrimitiveOrPrimitiveClass(target: any): boolean {
         || target instanceof Boolean
         || target === Boolean;
 }
+
 /**
  * Return true if the clazz is an array.
  * @param target
@@ -58,6 +61,7 @@ export function isArrayOrArrayClass(target: any): boolean {
     }
     return Object.prototype.toString.call(target) === "[object Array]";
 }
+
 /**
  * Return true if the target.
  * @param target
@@ -74,6 +78,7 @@ export function isCollection(target: any): boolean {
         || target === WeakSet
         || target instanceof WeakSet;
 }
+
 /**
  * Return true if the value is an empty string, null or undefined.
  * @param value
@@ -189,4 +194,8 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
 
 export function isPromise(target: any): boolean {
     return target === Promise || target instanceof Promise;
+}
+
+export function getInhiritedClass(target: any): any {
+    return Object.getPrototypeOf(target);
 }

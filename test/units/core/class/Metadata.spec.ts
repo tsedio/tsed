@@ -71,6 +71,16 @@ describe("Metadata", () => {
         });
     });
 
+    describe("getOwn", () => {
+        it("should get meta on a class", () => {
+            expect(Metadata.getOwn("metadatakey1", Test)).to.equal("test1");
+        });
+
+        it("should get meta on a method", () => {
+            expect(Metadata.getOwn("metadatakey3", Test, "method")).to.equal("test1");
+        });
+    });
+
     describe("delete", () => {
         it("should remove meta on a class", () => {
             expect(Metadata.delete("metadatakey1", Test)).to.equal(true);
@@ -80,6 +90,12 @@ describe("Metadata", () => {
     describe("getType", () => {
         it("should return attribut type", () => {
             expect(Metadata.getType(Test.prototype, "attribut")).to.equal(String);
+        });
+    });
+
+    describe("getOwnType", () => {
+        it("should return attribut type", () => {
+            expect(Metadata.getOwnType(Test.prototype, "attribut")).to.equal(String);
         });
     });
 
@@ -95,9 +111,27 @@ describe("Metadata", () => {
         });
     });
 
+    describe("getOwnParamTypes", () => {
+        it("should return types on constructor", () => {
+            expect(Metadata.getOwnParamTypes(Test)).to.be.an("array");
+            expect(Metadata.getOwnParamTypes(Test)[0]).to.equal(String);
+        });
+
+        it("should return types on method", () => {
+            expect(Metadata.getOwnParamTypes(Test.prototype, "method")).to.be.an("array");
+            expect(Metadata.getOwnParamTypes(Test.prototype, "method")[0]).to.equal(String);
+        });
+    });
+
     describe("getReturnType", () => {
         it("should return types on method", () => {
             expect(Metadata.getReturnType(Test.prototype, "method")).to.equal(Boolean);
+        });
+    });
+
+    describe("getOwnReturnType", () => {
+        it("should return types on method", () => {
+            expect(Metadata.getOwnReturnType(Test.prototype, "method")).to.equal(Boolean);
         });
     });
 

@@ -1,35 +1,10 @@
 /**
  * @module common/core
  */
-/** */
 import "reflect-metadata";
 import {getClass} from "../utils";
 
-/**
- * Metadata key
- * @private
- * @type {string}
- */
-const DESIGN_PARAM_TYPES = "design:paramtypes";
-/**
- * Metadata key
- * @private
- * @type {string}
- */
-const DESIGN_TYPE = "design:type";
-/**
- * Metadata key
- * @private
- * @type {string}
- */
-const DESIGN_RETURN_TYPE = "design:returntype";
-/**
- * Properties collections
- * @private
- * @type {string}
- */
-const PROPERTIES: Map<string | symbol, any[]> = new Map<string | symbol, any[]>();
-
+/** */
 /**
  * @stable
  */
@@ -69,8 +44,49 @@ export class Metadata {
      * ```
      *
      */
-    static get = (key: string, target: any, propertyKey?: string | symbol): any =>
-        Reflect.getMetadata(key, getClass(target), propertyKey!);
+    static get(key: string, target: any, propertyKey?: string | symbol): any {
+        return Reflect.getMetadata(key, getClass(target), propertyKey!);
+    }
+
+    /**
+     * Gets the metadata value for the provided metadata key on the target object or its prototype chain.
+     * @param key A key used to store and retrieve metadata.
+     * @param target The target object on which the metadata is defined.
+     * @param propertyKey The property key for the target.
+     * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
+     * @example
+     *
+     * ```typescript
+     * class Example {
+     *     // property declarations are not part of ES6, though they are valid in TypeScript:
+     *     // static staticProperty;
+     *     // property;
+     *
+     *     static staticMethod(p) { }
+     *     method(p) { }
+     * }
+     *
+     * // constructor
+     * result = Metadata.getOwn("custom:annotation", Example);
+     *
+     * // property (on constructor)
+     * result = Metadata.getOwn("custom:annotation", Example, "staticProperty");
+     *
+     * // property (on prototype)
+     * result = Metadata.getOwn("custom:annotation", Example.prototype, "property");
+     *
+     * // method (on constructor)
+     * result = Metadata.getOwn("custom:annotation", Example, "staticMethod");
+     *
+     * // method (on prototype)
+     * result = Metadata.getOwn("custom:annotation", Example.prototype, "method");
+     * ```
+     *
+     */
+    static getOwn(key: string, target: any, propertyKey?: string | symbol): any {
+        return Reflect.getOwnMetadata(key, getClass(target), propertyKey!);
+    }
+
     /**
      * Gets the metadata value for the provided metadata DESIGN_TYPE on the target object or its prototype chain.
      * @param target The target object on which the metadata is defined.
@@ -99,8 +115,42 @@ export class Metadata {
      * ```
      *
      */
-    static getType = (target: any, propertyKey?: string | symbol): any =>
-        Reflect.getMetadata(DESIGN_TYPE, target, propertyKey!);
+    static getType(target: any, propertyKey?: string | symbol): any {
+        return Reflect.getMetadata(DESIGN_TYPE, target, propertyKey!);
+    }
+
+    /**
+     * Gets the metadata value for the provided metadata DESIGN_TYPE on the target object or its prototype chain.
+     * @param target The target object on which the metadata is defined.
+     * @param propertyKey The property key for the target.
+     * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
+     * @example
+     *
+     * ```typescript
+     * class Example {
+     *     // property declarations are not part of ES6, though they are valid in TypeScript:
+     *     // static staticProperty;
+     *     // property;
+     *
+     *     static staticMethod(p) { }
+     *     method(p) { }
+     * }
+     *
+     * // on contructor
+     * result = Metadata.getOwnType(Example);
+     *
+     * // property (on constructor)
+     * result = Metadata.getOwnType(Example, "staticProperty");
+     *
+     * // method (on constructor)
+     * result = Metadata.getOwnType(Example, "staticMethod");
+     * ```
+     *
+     */
+    static getOwnType(target: any, propertyKey?: string | symbol): any {
+        return Reflect.getMetadata(DESIGN_TYPE, target, propertyKey!);
+    }
+
     /**
      * Gets the metadata value for the provided metadata DESIGN_RETURN_TYPE on the target object or its prototype chain.
      * @param target The target object on which the metadata is defined.
@@ -129,8 +179,42 @@ export class Metadata {
      * ```
      *
      */
-    static getReturnType = (target: any, propertyKey?: string | symbol): any =>
-        Reflect.getMetadata(DESIGN_RETURN_TYPE, target, propertyKey!);
+    static getReturnType(target: any, propertyKey?: string | symbol): any {
+        return Reflect.getMetadata(DESIGN_RETURN_TYPE, target, propertyKey!);
+    }
+
+    /**
+     * Gets the metadata value for the provided metadata DESIGN_RETURN_TYPE on the target object or its prototype chain.
+     * @param target The target object on which the metadata is defined.
+     * @param propertyKey The property key for the target.
+     * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
+     * @example
+     *
+     * ```typescript
+     * class Example {
+     *     // property declarations are not part of ES6, though they are valid in TypeScript:
+     *     // static staticProperty;
+     *     // property;
+     *
+     *     static staticMethod(p) { }
+     *     method(p) { }
+     * }
+     *
+     * // on contructor
+     * result = Metadata.getOwnReturnType(Example);
+     *
+     * // property (on constructor)
+     * result = Metadata.getOwnReturnType(Example, "staticProperty");
+     *
+     * // method (on constructor)
+     * result = Metadata.getOwnReturnType(Example, "staticMethod");
+     * ```
+     *
+     */
+    static getOwnReturnType(target: any, propertyKey?: string | symbol): any {
+        return Reflect.getOwnMetadata(DESIGN_RETURN_TYPE, target, propertyKey!);
+    }
+
     /**
      * Gets a value indicating whether the target object or its prototype chain has the provided metadata key defined.
      * @param key A key used to store and retrieve metadata.
@@ -166,8 +250,49 @@ export class Metadata {
      * ```
      *
      */
-    static has = (key: string, target: any, propertyKey?: string | symbol): boolean =>
-        Reflect.hasMetadata(key, getClass(target), propertyKey!);
+    static has(key: string, target: any, propertyKey?: string | symbol): boolean {
+        return Reflect.hasMetadata(key, getClass(target), propertyKey!);
+    }
+
+    /**
+     * Gets a value indicating whether the target object or its prototype chain has the provided metadata key defined.
+     * @param key A key used to store and retrieve metadata.
+     * @param target The target object on which the metadata is defined.
+     * @param propertyKey The property key for the target.
+     * @returns `true` if the metadata key was defined on the target object or its prototype chain; otherwise, `false`.
+     * @example
+     *
+     * ```typescript
+     * class Example {
+     *     // property declarations are not part of ES6, though they are valid in TypeScript:
+     *     // static staticProperty;
+     *     // property;
+     *
+     *     static staticMethod(p) { }
+     *     method(p) { }
+     * }
+     *
+     * // constructor
+     * result = Metadata.has("custom:annotation", Example);
+     *
+     * // property (on constructor)
+     * result = Metadata.hasOwn("custom:annotation", Example, "staticProperty");
+     *
+     * // property (on prototype)
+     * result = Metadata.hasOwn("custom:annotation", Example.prototype, "property");
+     *
+     * // method (on constructor)
+     * result = Metadata.hasOwn("custom:annotation", Example, "staticMethod");
+     *
+     * // method (on prototype)
+     * result = Metadata.hasOwn("custom:annotation", Example.prototype, "method");
+     * ```
+     *
+     */
+    static hasOwn(key: string, target: any, propertyKey?: string | symbol): boolean {
+        return Reflect.hasOwnMetadata(key, getClass(target), propertyKey!);
+    }
+
     /**
      * Deletes the metadata entry from the target object with the provided key.
      * @param key A key used to store and retrieve metadata.
@@ -203,8 +328,9 @@ export class Metadata {
      * ```
      *
      */
-    static delete = (key: string, target: any, propertyKey?: string | symbol): boolean =>
-        Reflect.deleteMetadata(key, getClass(target), propertyKey!);
+    static delete(key: string, target: any, propertyKey?: string | symbol): boolean {
+        return Reflect.deleteMetadata(key, getClass(target), propertyKey!);
+    }
 
     /**
      * Set the metadata value for the provided metadata DESIGN_PARAM_TYPES on the target object or its prototype chain.
@@ -337,4 +463,61 @@ export class Metadata {
         return Reflect.getMetadata(DESIGN_PARAM_TYPES, target, propertyKey!) || [];
     }
 
+    /**
+     * Gets the metadata value for the provided metadata DESIGN_PARAM_TYPES on the target object or its prototype chain.
+     * @param target The target object on which the metadata is defined.
+     * @param propertyKey The property key for the target.
+     * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
+     * @example
+     *
+     * ```typescript
+     * class Example {
+     *     // property declarations are not part of ES6, though they are valid in TypeScript:
+     *     // static staticProperty;
+     *     // property;
+     *
+     *     static staticMethod(p) { }
+     *     method(p) { }
+     * }
+     *
+     * // on contructor
+     * result = Metadata.getParamTypes(Example);
+     *
+     * // property (on constructor)
+     * result = Metadata.getParamTypes(Example, "staticProperty");
+     *
+     * // method (on constructor)
+     * result = Metadata.getParamTypes(Example, "staticMethod");
+     * ```
+     *
+     */
+    static getOwnParamTypes(target: any, propertyKey?: string | symbol): any[] {
+        return Reflect.getOwnMetadata(DESIGN_PARAM_TYPES, target, propertyKey!) || [];
+    }
 }
+
+/**
+ * Metadata key
+ * @private
+ * @type {string}
+ */
+const DESIGN_PARAM_TYPES = "design:paramtypes";
+/**
+ * Metadata key
+ * @private
+ * @type {string}
+ */
+const DESIGN_TYPE = "design:type";
+/**
+ * Metadata key
+ * @private
+ * @type {string}
+ */
+const DESIGN_RETURN_TYPE = "design:returntype";
+
+/**
+ * Properties collections
+ * @private
+ * @type {string}
+ */
+const PROPERTIES: Map<string | symbol, any[]> = new Map<string | symbol, any[]>();

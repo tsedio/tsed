@@ -29,23 +29,10 @@ export abstract class EntityDescription {
     constructor(protected _target: Type<any>,
                 protected _propertyKey: string | symbol,
                 protected _index?: any) {
-        let type;
 
-        if (typeof this._index === "number") {
-            type = Metadata.getParamTypes(_target, _propertyKey)[this._index];
-        } else {
-            type = Metadata.getType(_target, _propertyKey);
-        }
-
-        if (isCollection(type)) {
-            this._collectionType = type;
-            this._type = Object;
-        } else {
-            this._type = type;
-        }
-
-        this._name = nameOf(_propertyKey);
+        this.target = _target;
     }
+
 
     /**
      *
@@ -61,6 +48,30 @@ export abstract class EntityDescription {
      */
     public get target(): Type<any> {
         return getClass(this._target);
+    }
+
+    /**
+     *
+     * @param {Type<any>} target
+     */
+    public set target(target: Type<any>) {
+        this._target = target;
+        let type;
+
+        if (typeof this._index === "number") {
+            type = Metadata.getParamTypes(this._target, this._propertyKey)[this._index];
+        } else {
+            type = Metadata.getType(this._target, this._propertyKey);
+        }
+
+        if (isCollection(type)) {
+            this._collectionType = type;
+            this._type = Object;
+        } else {
+            this._type = type;
+        }
+
+        this._name = nameOf(this._propertyKey);
     }
 
     /**

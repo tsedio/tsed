@@ -1,4 +1,7 @@
 import {Metadata} from "../../../../src/core/class/Metadata";
+import {HttpServer} from "../../../../src/core/services/HttpServer";
+import {HttpsServer} from "../../../../src/core/services/HttpsServer";
+import {InjectorService} from "../../../../src/di/services/InjectorService";
 import {ServerLoader} from "../../../../src/server/components/ServerLoader";
 import {SERVER_SETTINGS} from "../../../../src/server/constants/index";
 import {$logStub, expect, Sinon} from "../../../tools";
@@ -32,12 +35,21 @@ describe("ServerLoader", () => {
         this.setStub = Sinon.stub(this.server._expressApp, "set");
         this.engineStub = Sinon.stub(this.server._expressApp, "engine");
 
+        this.httpServer = InjectorService.get<HttpServer>(HttpServer).get();
+        this.httpsServer = InjectorService.get<HttpsServer>(HttpsServer).get();
     });
 
     after(() => {
         this.useStub.restore();
         this.setStub.restore();
         this.engineStub.restore();
+    });
+
+    it("should add the httpServer in injectorService", () => {
+        this.httpServer.should.be.an("object");
+    });
+    it("should add the httpsServer in injectorService", () => {
+        this.httpsServer.should.be.an("object");
     });
 
     describe("startServer()", () => {
@@ -196,7 +208,8 @@ describe("ServerLoader", () => {
 
                 $logStub.$log.error.reset();
 
-                return this.server.start();
+                return this.server.start().catch((err: any) => {
+                });
             });
 
             after(() => {
