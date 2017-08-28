@@ -12,24 +12,24 @@ const rootDir = Path.resolve(__dirname);
     port: 8001,
     httpsPort: 8081,
     mount: {
-        "/rest": `${rootDir}/controllers/**/**.js`,
-        "/rest/v1": `${rootDir}/controllers/**/**.js`
+        "/rest": "${rootDir}/controllers/**/**.js",
+        "/rest/v1": "${rootDir}/controllers/**/**.js"
     },
 
     componentsScan: [
-        `${rootDir}/services/**/**.js`
+        "${rootDir}/services/**/**.js"
     ],
 
-    uploadDir: `${rootDir}/uploads`,
+    uploadDir: "${rootDir}/uploads",
 
     serveStatic: {
-        "/": `${rootDir}/views`
+        "/": "${rootDir}/views"
     },
     debug: true,
     swagger: {
         path: "/api-doc",
-        specPath: `${rootDir}/spec/swagger.json`,
-        cssPath: `${rootDir}/spec/style.css`,
+        specPath: "${rootDir}/spec/swagger.json",
+        cssPath: "${rootDir}/spec/style.css",
         showExplorer: true,
         spec: require(`${rootDir}/spec/swagger.default.json`)
     }

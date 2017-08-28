@@ -23,6 +23,13 @@ describe("ServerSettingsProvider", () => {
         this.serverSettingsProvider = serverSettingsProvider;
     });
 
+    it("should return rootDir", () => {
+        expect(this.serverSettingsService.rootDir).to.equal(process.cwd());
+    });
+    it("should return rootDir", () => {
+        expect(this.serverSettingsProvider.rootDir).to.equal(process.cwd());
+    });
+
     it("should return endpoint", () => {
         expect(this.serverSettingsService.endpoint).to.equal("/rest");
     });
@@ -126,6 +133,19 @@ describe("ServerSettingsProvider", () => {
             expect((ServerSettingsService as any).buildAddressAndPort(9000)).to.deep.eq({
                 address: "0.0.0.0",
                 port: 9000
+            });
+        });
+    });
+
+    describe("resolve()", () => {
+        it("should replace rootDir", () => {
+            expect(this.serverSettingsService.resolve("${rootDir}")).to.eq(process.cwd());
+        });
+
+        it("should replace rootDir", () => {
+            expect(this.serverSettingsService.resolve({other: 808, resolve: "${rootDir}"})).to.deep.eq({
+                other: 808,
+                resolve: process.cwd()
             });
         });
     });

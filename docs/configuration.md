@@ -35,7 +35,7 @@ import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
-   rootDir: Path.resolve(__dirname),
+   rootDir: Path.resolve(__dirname), //optional. By default it's equal to process.cwd()
    mount: {
      "/rest": "${rootDir}/controllers/current/**/*.js",
      "/rest/v1": "${rootDir}/controllers/v1/**/*.js"
@@ -51,7 +51,7 @@ new Server.start();
 ```
 ### Options
 
-* `rootDir` &lt;string&gt;: The root directory where you build run project.
+* `rootDir` &lt;string&gt;: The root directory where you build run project. By default, it's equal to `process.cwd().
 * `env` &lt;Env&gt;: The environment profile. By default the environment profile is equals to `NODE_ENV`.
 * `port` &lt;string | number&gt;: Port number for the [HTTP.Server](https://nodejs.org/api/http.html#http_class_http_server).
 * `httpsPort` &lt;string | number&gt;: Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class_https_server).

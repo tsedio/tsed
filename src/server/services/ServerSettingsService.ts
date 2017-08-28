@@ -21,12 +21,27 @@ export class ServerSettingsService implements IServerSettings {
     constructor(settings?: Map<string, any>) {
 
         if (settings) {
-            settings.forEach((value, key) => this.map.set(key, value));
+            this.map.set("rootDir", settings.get("rootDir"));
+
+            settings.forEach((value, key) => {
+                this.map.set(key, this.resolve(value));
+            });
         }
     }
 
-    resolve(value: string) {
-        return value.replace("${rootDir}", this.rootDir);
+    resolve(value: any) {
+        if (typeof value === "object") {
+            Object.keys(value).forEach((k: string, i: number, m: any) => {
+                value[k] = this.resolve(value[k]);
+            });
+
+            return value;
+        }
+
+        if (typeof value === "string") {
+            return value.replace(/\${rootDir}/, this.rootDir);
+        }
+        return value;
     }
 
     get rootDir() {
@@ -106,7 +121,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {string}
      */
     get uploadDir(): string {
-        return this.resolve(this.map.get("uploadDir"));
+        return this.map.get("uploadDir");
     }
 
     /**
@@ -114,15 +129,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get mount(): IServerMountDirectories {
-
-        const obj = this.map.get("mount") || [];
-        const finalObj: any = {};
-
-        Object.keys(obj).forEach(k => {
-            finalObj[k] = this.resolve(obj[k]);
-        });
-
-        return finalObj;
+        return this.map.get("mount") || {};
     }
 
     /**
@@ -130,15 +137,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get componentsScan(): string[] {
-
-        const obj: string[] = this.map.get("componentsScan") || [];
-        const finalObj: any[] = [];
-
-        Object.keys(obj).forEach((k: any) => {
-            finalObj.push(this.resolve(obj[k]));
-        });
-
-        return finalObj;
+        return this.map.get("componentsScan") || [];
     }
 
     /**
@@ -146,14 +145,7 @@ export class ServerSettingsService implements IServerSettings {
      * @returns {undefined|any}
      */
     get serveStatic(): IServerMountDirectories {
-        const obj = this.map.get("serveStatic") || {};
-        const finalObj: any = {};
-
-        Object.keys(obj).forEach((k: any) => {
-            finalObj[k] = this.resolve(obj[k]);
-        });
-
-        return finalObj;
+        return this.map.get("serveStatic") || {};
     }
 
     /**
