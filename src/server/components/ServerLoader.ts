@@ -238,6 +238,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         InjectorService.factory(ServerSettingsService, this.settings.$get());
         return InjectorService.get<ServerSettingsService>(ServerSettingsService);
     }
+
     /**
      *
      * @param key
@@ -270,9 +271,11 @@ export abstract class ServerLoader implements IServerLifecycle {
             $log.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
 
         } catch (err) {
-            return this.callHook("$onServerInitError", () => {
+            this.callHook("$onServerInitError", () => {
                 $log.error("HTTP Server error", err);
             }, err);
+
+            return Promise.reject(err);
         }
     }
 
@@ -286,7 +289,6 @@ export abstract class ServerLoader implements IServerLifecycle {
         const {address, port, https} = settings;
 
         $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
-
         const promise = new Promise((resolve, reject) => {
             http
                 .on("listening", resolve)
@@ -297,8 +299,6 @@ export abstract class ServerLoader implements IServerLifecycle {
             });
 
         http.listen(+port, address);
-
-
         return promise;
     }
 

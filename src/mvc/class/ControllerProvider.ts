@@ -81,7 +81,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      * @returns {Endpoint[]}
      */
     get endpoints(): EndpointMetadata[] {
-        return EndpointRegistry.getByTarget(getClass(this.provide));
+        return EndpointRegistry.getEndpoints(getClass(this.provide));
     }
 
     /**

@@ -1,6 +1,6 @@
-import {expect, Sinon} from "../../../tools";
 import * as Proxyquire from "proxyquire";
 import {EXPRESS_NEXT_FN} from "../../../../src/mvc/constants/index";
+import {expect, Sinon} from "../../../tools";
 
 class Test {
 

@@ -166,6 +166,7 @@ export class InjectorService extends ProxyProviderRegistry {
             }
         }
 
+        /* istanbul ignore next */
         if (locals instanceof Map === false) {
             locals = new Map();
         }

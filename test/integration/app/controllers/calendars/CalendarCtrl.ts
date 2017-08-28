@@ -27,12 +27,14 @@ import {Description} from "../../../../../src/swagger/decorators/description";
 import {Security} from "../../../../../src/swagger/decorators/security";
 import {CalendarModel} from "../../models/Calendar";
 import {MongooseService} from "../../services/MongooseService";
+import {BaseController} from "../base/BaseController";
 import {EventCtrl} from "./EventCtrl";
 
 interface ICalendar {
     id: string;
     name: string;
 }
+
 /**
  * Add @ControllerProvider annotation to declare your provide as Router controller. The first param is the global path for your controller.
  * The others params is the controller dependencies.
@@ -40,12 +42,12 @@ interface ICalendar {
  * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the `/calendars` path.
  */
 @Controller("/calendars", EventCtrl)
-export class CalendarCtrl {
+export class CalendarCtrl extends BaseController {
 
     constructor(private mongooseService: MongooseService,
                 private routerController: RouterController) {
 
-        //
+        super(mongooseService);
         const router = this.routerController.getRouter();
 
     }

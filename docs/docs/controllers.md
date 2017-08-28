@@ -322,3 +322,33 @@ class EventCtrl {
 
 > CaseSensitive and Strict options are also supported.
 
+## Inheritance
+
+Ts.ED support the ES6 inheritance class. So you can declare a controller that implement some generic method
+and use it on a children class.
+
+
+To do that just declare a parent controller without the `@Controller` decorator.
+```typescript
+export abstract class BaseController {
+    constructor(private someService: SomeService) {}
+    
+    @Get('/list')
+    async list(@QueryParams("search") search: any) {
+        return someService.list(search)
+    }
+}
+```
+
+Then, on your children controller:
+
+```typescript
+@Controller('/children')
+export abstract class ChildrenCtrl extends BaseController {
+    @Get('/:id')
+    async get(@PathParams("id") id: string): Promise<any> {
+      return {id: id}  
+    }
+}
+```
+

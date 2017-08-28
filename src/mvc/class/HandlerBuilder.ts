@@ -67,6 +67,7 @@ export class HandlerBuilder {
     private middlewareHandler(): Function {
         const provider = MiddlewareRegistry.get(this.handlerMetadata.target);
 
+        /* istanbul ignore next */
         if (!provider) {
             throw new Error("Middleware component not found in the MiddlewareRegistry");
         }
@@ -83,6 +84,7 @@ export class HandlerBuilder {
 
         const provider = ControllerRegistry.get(this.handlerMetadata.target);
 
+        /* istanbul ignore next */
         if (!provider) {
             throw new Error("Controller component not found in the ControllerRegistry");
         }
@@ -128,7 +130,6 @@ export class HandlerBuilder {
 
         const {next, request, response} = locals;
         let nextCalled = false;
-        const tagId = request.tagId;
         const target = this.handlerMetadata.target;
         const injectable = this.handlerMetadata.injectable;
         const methodName = this.handlerMetadata.methodClassName;
@@ -156,7 +157,9 @@ export class HandlerBuilder {
         };
 
         try {
-            $log.debug(request.tagId, "[INVOKE][START]", info());
+            if (request.tagId) {
+                $log.debug(request.tagId, "[INVOKE][START]", info());
+            }
 
             const parameters = this.localsToParams(locals);
             const result = await (this.handler)(...parameters);

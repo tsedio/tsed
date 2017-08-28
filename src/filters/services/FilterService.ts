@@ -82,6 +82,7 @@ export class FilterService extends ProxyFilterRegistry {
 
         const provider = this.get(target);
 
+        /* istanbul ignore next */
         if (!provider) {
             throw new Error("Target component not found in the registry");
         }

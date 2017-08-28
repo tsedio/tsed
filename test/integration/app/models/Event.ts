@@ -5,7 +5,7 @@ import {Title} from "../../../../src/swagger/decorators/title";
 
 export class Task {
     @JsonProperty()
-    public name: string | undefined = void 0;
+    public name: string = "";
 
     @JsonProperty()
     public percent: number;

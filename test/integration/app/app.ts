@@ -9,8 +9,8 @@ const rootDir = Path.resolve(__dirname);
 
 @ServerSettings({
     rootDir,
-    port: 8000,
-    httpsPort: 8080,
+    port: 8001,
+    httpsPort: 8081,
     mount: {
         "/rest": `${rootDir}/controllers/**/**.js`,
         "/rest/v1": `${rootDir}/controllers/**/**.js`

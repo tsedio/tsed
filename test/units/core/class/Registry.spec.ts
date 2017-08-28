@@ -6,7 +6,6 @@ class FakeMetadata {
     attr2: any;
 
     constructor(public target: any) {
-        console.log(target);
     }
 
     test() {
