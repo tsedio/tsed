@@ -449,9 +449,11 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param path
      * @returns {ServerLoader}
      */
-    public mount(endpoint: string, path: string): ServerLoader {
+    public mount(endpoint: string, path: string | string[]): ServerLoader {
 
-        this.scan(path, endpoint);
+        [].concat(path as any).forEach((path: string) => {
+            this.scan(path, endpoint);
+        });
 
         return this;
     }

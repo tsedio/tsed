@@ -1,11 +1,13 @@
 /**
  * @module common/server
- */ /** */
+ */
+/** */
 
 import {Metadata} from "../../core/class/Metadata";
 import {Type} from "../../core/interfaces/Type";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IServerSettings} from "../interfaces/IServerSettings";
+
 /**
  * `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
  *
@@ -38,7 +40,10 @@ import {IServerSettings} from "../interfaces/IServerSettings";
  *     rootDir: Path.resolve(__dirname),
  *     mount: {
  *         "/rest": "${rootDir}/controllers/current/**\/*.js",
- *         "/rest/v1": "${rootDir}/controllers/v1/**\/*.js"
+ *         "/rest/v1": [
+ *           "${rootDir}/controllers/v1/users/*.js",
+ *           "${rootDir}/controllers/v1/groups/*.js"
+ *         ]
  *     }
  * })
  * export class Server extends ServerLoader {
@@ -59,9 +64,9 @@ import {IServerSettings} from "../interfaces/IServerSettings";
  *   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
  *   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
  * * `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](tutorials/upload-files-with-multer.md).
- * * `mount` &lt;IServerMountDirectories&gt;: Mount all controllers under a directories to an endpoint.
+ * * `mount` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
  * * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/ovierview.md), [Middlewares](docs/middlewares/ovierview.md) or [Converters](docs/converters.md).
- * * `serveStatic` &lt;IServerMountDirectories&gt;: Objet to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
+ * * `serveStatic` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Objet to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
  * * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
  *
  * @param settings

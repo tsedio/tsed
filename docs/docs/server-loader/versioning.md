@@ -4,6 +4,7 @@ Ts.ED provide the possibility to mount multiple Rest path instead of the default
 You have two methods to configure all global endpoints for each directories scanned by the [ServerLoader](api/common/server/serverloader.md).
 
 ### With decorator (Recommended)
+
 ```typescript
 import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
@@ -13,7 +14,10 @@ const rootDir = Path.resolve(__dirname);
    rootDir,
    mount: {
      "/rest": "${rootDir}/controllers/current/**/*.js",
-     "/rest/v1": "${rootDir}/controllers/v1/**/*.js"
+     "/rest/v1": [
+        "${rootDir}/controllers/v1/users/*.js", 
+        "${rootDir}/controllers/v1/groups/*.js"
+     ]
    }
 })
 export class Server extends ServerLoader {
@@ -22,6 +26,7 @@ export class Server extends ServerLoader {
 
 new Server().start();
 ```
+> Note: mount attribute accept a list of glob for each endpoint. That let you to declare a resource versioning.
 
 ### With ServerLoader API
 
@@ -37,7 +42,10 @@ export class Server extends ServerLoader implements IServerLifecycle {
         const appPath: string = Path.resolve(__dirname);
 
         this.mount('rest/', appPath + "/controllers/**/**.js") 
-            .mount('rest/v1/', appPath + "/v1/controllers/**/**.js") 
+            .mount('rest/v1/', [
+                appPath + "/controllers/v1/users/**.js",
+                appPath + "/controllers/v1/groups/**.js"
+            ]) 
             .createHttpServer(8000)
             .createHttpsServer({
                 port: 8080
