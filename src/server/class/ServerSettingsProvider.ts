@@ -3,7 +3,6 @@
  */
 /** */
 import * as Https from "https";
-import * as Path from "path";
 import {Metadata} from "../../core/class/Metadata";
 import {Env, EnvTypes} from "../../core/interfaces";
 import {IRouterOptions} from "../../mvc/interfaces";
@@ -12,7 +11,7 @@ import {SERVER_SETTINGS} from "../constants";
 import {IServerMountDirectories, IServerSettings} from "../interfaces";
 import {ServerSettingsService} from "../services/ServerSettingsService";
 
-const rootDir = Path.dirname(require.main!.filename);
+const rootDir = process.cwd();
 
 export class ServerSettingsProvider implements IServerSettings {
 
@@ -54,6 +53,10 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     set rootDir(value: string) {
         this.map.set("rootDir", value);
+    }
+
+    get rootDir() {
+        return this.map.get("rootDir");
     }
 
     /**

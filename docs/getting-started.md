@@ -89,7 +89,7 @@ import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
-    rootDir: Path.resolve(__dirname),
+    rootDir: Path.resolve(__dirname), // optional. By default it's equal to process.cwd()
     acceptMimes: ["application/json"]
 })
 export class Server extends ServerLoader {
