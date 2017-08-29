@@ -133,27 +133,31 @@ export class HandlerBuilder {
         const target = this.handlerMetadata.target;
         const injectable = this.handlerMetadata.injectable;
         const methodName = this.handlerMetadata.methodClassName;
-        let dataStored: any;
 
         const info = (o = {}) => JSON.stringify({
             type: this.handlerMetadata.type,
             target: (target ? nameOf(target) : target.name) || "anonymous",
             methodName,
             injectable,
-            data: dataStored,
+            data: locals.request && locals.request.getStoredData ? locals.request.getStoredData() : undefined,
             ...o
         });
 
-        locals.next = (err?: any) => {
-            nextCalled = true;
-            if (response.headersSent) {
-                $log.debug(request.tagId, "[INVOKE][END  ]", info({warn: "response already send"}));
-                return;
-            }
+        locals.next = (error?: any) => {
+            try {
+                nextCalled = true;
+                if (response.headersSent) {
+                    $log.debug(request.tagId, "[INVOKE][END  ]", info());
+                    return;
+                }
 
-            /* istanbul ignore else */
-            $log.debug(request.tagId, "[INVOKE][END  ]", info({error: err}));
-            return next(err);
+                /* istanbul ignore else */
+                $log.debug(request.tagId, "[INVOKE][END  ]", info({error}));
+                return next(error);
+            } catch (er) {
+                er.originalError = error;
+                return next(er);
+            }
         };
 
         try {
@@ -165,6 +169,7 @@ export class HandlerBuilder {
             const result = await (this.handler)(...parameters);
 
             if (!nextCalled) {
+
                 if (this.handlerMetadata.type !== "function" && result !== undefined) {
                     locals.request.storeData(result);
                 }
@@ -173,12 +178,9 @@ export class HandlerBuilder {
                     locals.next();
                 }
             }
-
-
         } catch (err) {
             locals.next(err);
         }
-
     }
 
     /**

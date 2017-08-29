@@ -455,6 +455,117 @@ describe("HandlerBuilder", () => {
             });
 
         });
+    });
 
+    describe("invoke()", () => {
+        describe("when handler return an Error", () => {
+            before(() => {
+                this.response = new FakeResponse();
+                this.request = new FakeRequest();
+                this.nextSpy = Sinon.spy();
+                this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
+                ConverterService.deserialize.returns({response: "body"});
+
+                this.metadata = {
+                    type: "controller",
+                    injectable: true,
+                    nextFunction: false,
+                    errorParam: false,
+                    target: Test,
+                    methodClassName: "get",
+                    services: [],
+                    instance: new Test
+                };
+
+                const handlerBuilder = new HandlerBuilder(this.metadata);
+                this.localsToParamsStub = Sinon.stub(handlerBuilder, "localsToParams").returns([]);
+
+                Object.defineProperty(handlerBuilder, "handler", {
+                    get: () => () => new Error("test")
+                });
+
+                this.middleware = handlerBuilder.build();
+                this.middleware(this.request, this.response, this.nextSpy)
+                    .catch((er: any) => {
+                        this.error = er;
+                        console.log(er);
+                    });
+            });
+
+            after(() => {
+                (Test.prototype.get as any).restore();
+            });
+
+            it("should call the locals method", () => {
+                return this.localsToParamsStub.should.be.calledOnce;
+            });
+
+            it("should call next spy", () =>
+                this.nextSpy.should.have.been.calledOnce
+            );
+
+            it("should store data", () => {
+                expect(this.request.getStoredData()).to.be.an.instanceof(Error);
+            });
+        });
+        describe("when handler return a Circular Object", () => {
+            before(() => {
+                this.response = new FakeResponse();
+                this.request = new FakeRequest();
+                this.nextSpy = Sinon.spy();
+                this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
+                ConverterService.deserialize.returns({response: "body"});
+
+                this.metadata = {
+                    type: "controller",
+                    injectable: true,
+                    nextFunction: false,
+                    errorParam: false,
+                    target: Test,
+                    methodClassName: "get",
+                    services: [],
+                    instance: new Test
+                };
+
+                const handlerBuilder = new HandlerBuilder(this.metadata);
+                this.localsToParamsStub = Sinon.stub(handlerBuilder, "localsToParams").returns([]);
+
+                const circularObject = new Error("test");
+                const circularObject2 = new Error("test2");
+
+                (circularObject as any)._circ2 = circularObject2;
+                (circularObject2 as any)._circ1 = circularObject;
+
+                Object.defineProperty(handlerBuilder, "handler", {
+                    get: () => () => circularObject
+                });
+
+                this.middleware = handlerBuilder.build();
+                this.middleware(this.request, this.response, this.nextSpy)
+                    .catch((er: any) => {
+                        this.error = er;
+                    });
+            });
+
+            after(() => {
+                (Test.prototype.get as any).restore();
+            });
+
+            it("should call the locals method", () => {
+                return this.localsToParamsStub.should.be.calledOnce;
+            });
+
+            it("should call next spy", () =>
+                this.nextSpy.should.have.been.calledOnce
+            );
+
+            it("should catch an error", () => {
+                this.nextSpy.should.have.been.calledWithExactly(Sinon.match.instanceOf(Error));
+            });
+
+            it("should store data", () => {
+                expect(this.request.getStoredData()).to.be.an.instanceof(Error);
+            });
+        });
     });
 });
