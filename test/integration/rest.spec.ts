@@ -325,7 +325,6 @@ describe("Rest", () => {
 
                     expect(response.headers["x-token-test"]).to.equal("test");
                     expect(response.headers["x-token-test-2"]).to.equal("test2");
-                    expect(response.headers["x-managed-by"]).to.equal("TS-Express-Decorators");
                     expect(response.headers["content-type"]).to.equal("application/xml; charset=utf-8");
 
                     done();

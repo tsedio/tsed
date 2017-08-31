@@ -122,10 +122,6 @@ describe("EndpointBuilder", () => {
                 expect(this.request.getEndpoint).to.be.a("function");
             });
 
-            it("should set header", () =>
-                this.response.setHeader.should.have.been.calledWithExactly("X-Managed-By", "TS-Express-Decorators")
-            );
-
             it("should return EndpointMetadata", () => {
                 expect(this.request.getEndpoint()).to.equal(this.endpointMetadata);
             });
