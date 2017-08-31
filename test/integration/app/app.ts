@@ -26,6 +26,7 @@ const rootDir = Path.resolve(__dirname);
         "/": "${rootDir}/views"
     },
     debug: true,
+    disableLogRequest: false,
     swagger: {
         path: "/api-doc",
         specPath: "${rootDir}/spec/swagger.json",

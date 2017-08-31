@@ -69,4 +69,5 @@ export class FakeResponse {
     public get(key: string) {
         return (this as any)["_" + key];
     }
+    end() {}
 }

@@ -14,7 +14,6 @@ import {InjectorService} from "../../di";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
-import {LogEndIncomingRequestMiddleware} from "../../mvc/components/LogEndIncomingRequestMiddleware";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 import {ServerSettingsProvider} from "../class/ServerSettingsProvider";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle, IServerSettings} from "../interfaces";
@@ -484,7 +483,6 @@ export abstract class ServerLoader implements IServerLifecycle {
         }
 
         this.use(GlobalErrorHandlerMiddleware);
-        this.use(LogEndIncomingRequestMiddleware);
     }
 
     /**

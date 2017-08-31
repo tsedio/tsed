@@ -44,7 +44,6 @@ this:
 
 
 ```typescript
-
 @OverrideMiddleware(SendResponseMiddleware)
 export class MySendResponseMiddleware extends SendResponseMiddleware {
  
@@ -58,7 +57,6 @@ export class MySendResponseMiddleware extends SendResponseMiddleware {
     
     }
 }
-
 ```
 > Extends SendResponseMiddleware is optional. 
 
