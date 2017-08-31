@@ -29,10 +29,6 @@ export class EndpointBuilder {
                 }));
             }
 
-            if (!response.headersSent) {
-                response.setHeader("X-Managed-By", "TS-Express-Decorators");
-            }
-
             request.getEndpoint = () => this.endpoint;
 
             request.storeData = function (data: any) {
