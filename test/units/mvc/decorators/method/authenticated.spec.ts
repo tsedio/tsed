@@ -1,7 +1,8 @@
-import {expect, Sinon} from "../../../../tools";
 import * as Proxyquire from "proxyquire";
+import {Store} from "../../../../../src/core/class/Store";
+import {descriptorOf} from "../../../../../src/core/utils";
 import {AuthenticatedMiddleware} from "../../../../../src/mvc/components/AuthenticatedMiddleware";
-import {EndpointRegistry} from "../../../../../src/mvc/registries/EndpointRegistry";
+import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
@@ -11,17 +12,19 @@ const {Authenticated} = Proxyquire.load("../../../../../src/mvc/decorators/metho
 });
 
 class Test {
+    test() {
 
+    }
 }
 
 describe("Authenticated", () => {
 
     before(() => {
         this.descriptor = {};
-        this.options = {};
+        this.options = {options: "options"};
 
-        Authenticated(this.options)(Test, "test", this.descriptor);
-        this.store = EndpointRegistry.store(Test, "test");
+        Authenticated(this.options)(Test, "test", descriptorOf(Test, "test"));
+        this.store = Store.fromMethod(Test, "test");
     });
 
     after(() => {
@@ -37,8 +40,8 @@ describe("Authenticated", () => {
     });
 
     it("should create middleware", () => {
-        UseBefore.should.have.been.calledWith(AuthenticatedMiddleware);
-        middleware.should.have.been.calledWith(Test, "test", this.descriptor);
+        UseBefore.should.be.calledWithExactly(AuthenticatedMiddleware);
+        middleware.should.be.calledWithExactly(Test, "test", descriptorOf(Test, "test"));
     });
 
 });

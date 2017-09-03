@@ -5,16 +5,15 @@
 import {Schema} from "swagger-schema-official";
 import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 import {Store} from "../../core/class/Store";
+import {DecoratorParameters} from "../../core/interfaces";
+import {getDecoratorType} from "../../core/utils";
 
 export function Schema(schema: Schema) {
-    return (...args: any[]) => {
-        if (args.length === 3 && typeof args[2] !== "number") {
-            const property = PropertyRegistry.get(args[0], args[1]);
-            property.store.merge("schema", schema);
-        } else {
-            Store.from(...args).merge("schema", schema);
+    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+        if (getDecoratorType(parameters) === "property") {
+            PropertyRegistry.get(parameters[0], parameters[1]);
         }
 
-        return args[2];
-    };
+        store.merge("schema", schema);
+    });
 }

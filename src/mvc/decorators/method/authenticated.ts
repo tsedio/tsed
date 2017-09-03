@@ -1,19 +1,20 @@
+import {Store} from "../../../core/class/Store";
 import {AuthenticatedMiddleware} from "../../components/AuthenticatedMiddleware";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
  * @module common/mvc
  */
 /** */
 import {UseBefore} from "./useBefore";
+
 /**
  * Set authentification strategy on your endpoint.
  *
  * ```typescript
- * \@ControllerProvider('/mypath')
+ * @ControllerProvider('/mypath')
  * provide MyCtrl {
  *
- *   \@Get('/')
- *   \@Authenticated({role: 'admin'})
+ *   @Get('/')
+ *   @Authenticated({role: 'admin'})
  *   public getResource(){}
  * }
  * ```
@@ -23,16 +24,11 @@ import {UseBefore} from "./useBefore";
  * @decorator
  */
 export function Authenticated(options?: any): Function {
-
-    return <T>(target: any, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        EndpointRegistry
-            .get(target, targetKey)
-            .store
+    return Store.decorate((store: Store) => {
+        store
             .set(AuthenticatedMiddleware, options)
             .merge("responses", {"403": {description: "Forbidden"}});
 
-        return UseBefore(AuthenticatedMiddleware)(target, targetKey, descriptor);
-    };
-
+        return UseBefore(AuthenticatedMiddleware);
+    });
 }

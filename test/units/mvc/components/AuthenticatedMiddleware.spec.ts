@@ -15,7 +15,7 @@ describe("AuthenticatedMiddleware", () => {
         this.request = new FakeRequest();
         this.response = new FakeResponse();
         this.endpoint = {
-            store: {get: Sinon.stub().returns({})}
+            get: Sinon.stub().returns({})
         };
 
     });

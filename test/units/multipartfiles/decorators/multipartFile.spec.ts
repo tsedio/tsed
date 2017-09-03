@@ -1,9 +1,11 @@
-import {assert, expect} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
+import {Store} from "../../../../src/core/class/Store";
+import {descriptorOf} from "../../../../src/core/utils";
 import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
 import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middlewares/MultipartFileMiddleware";
+import {assert, expect} from "../../../tools";
 
 const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
 const EndpointRegistry: any = {setMetadata: Sinon.stub()};
@@ -14,13 +16,13 @@ const UseBefore: any = Sinon.stub().returns(middleware);
 
 const {MultipartFile} = Proxyquire.load("../../../../src/multipartfiles/decorators/multipartFile", {
     "../../mvc/registries/ParamRegistry": {ParamRegistry},
-    "../../mvc/registries/EndpointRegistry": {EndpointRegistry},
     "../../core/class/Metadata": {Metadata},
     "../../mvc/decorators/method/useBefore": {UseBefore}
 });
 
 class Test {
-
+    test() {
+    }
 }
 
 describe("MultipartFile", () => {
@@ -32,6 +34,7 @@ describe("MultipartFile", () => {
                 this.options = {};
                 MultipartFile(this.options)(Test, "test", 0);
                 this.args = ParamRegistry.useFilter.args[0];
+                this.store = Store.fromMethod(Test, "test");
             });
 
             after(() => {
@@ -41,12 +44,12 @@ describe("MultipartFile", () => {
             });
 
             it("should set endpoint metadata", () => {
-                assert(EndpointRegistry.setMetadata.calledWith(MultipartFileMiddleware, this.options, Test, "test"), "shouldn't set metadata");
+                expect(this.store.get(MultipartFileMiddleware)).to.deep.eq(this.options);
             });
 
             it("should create middleware", () => {
-                assert(UseBefore.calledWith(MultipartFileMiddleware), "haven't the right middleware");
-                assert(middleware.calledWith(Test, "test", 0));
+                UseBefore.should.be.calledWithExactly(MultipartFileMiddleware);
+                middleware.should.be.calledWithExactly(Test, "test", descriptorOf(Test, "test"));
             });
 
             it("should set params metadata", () => {
@@ -64,6 +67,10 @@ describe("MultipartFile", () => {
                 this.options = {};
                 MultipartFile(this.options)(Test, "test", 0);
                 this.args = ParamRegistry.useFilter.args[0];
+                this.store = Store.from(Test, "test", {
+                    value: () => {
+                    }
+                });
             });
 
             after(() => {
@@ -73,17 +80,12 @@ describe("MultipartFile", () => {
             });
 
             it("should set endpoint metadata", () => {
-                assert(EndpointRegistry.setMetadata.calledWith(
-                    MultipartFileMiddleware,
-                    this.options,
-                    Test,
-                    "test"
-                ), "shouldn't set metadata");
+                expect(this.store.get(MultipartFileMiddleware)).to.deep.eq(this.options);
             });
 
             it("should create middleware", () => {
-                assert(UseBefore.calledWith(MultipartFileMiddleware), "haven't the right middleware");
-                assert(middleware.calledWith(Test, "test", 0));
+                UseBefore.should.be.calledWithExactly(MultipartFileMiddleware);
+                middleware.should.be.calledWithExactly(Test, "test", descriptorOf(Test, "test"));
             });
 
             it("should set params metadata", () => {
@@ -100,7 +102,10 @@ describe("MultipartFile", () => {
     describe("as other decorator type", () => {
         before(() => {
             ParamRegistry.useFilter = Sinon.stub();
-            MultipartFile()(Test, "test", {});
+            MultipartFile()(Test, "test", {
+                value: () => {
+                }
+            });
         });
 
         it("should do nothing", () => {

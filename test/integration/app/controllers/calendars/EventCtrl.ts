@@ -6,13 +6,12 @@ import {Responses} from "../../../../../src/swagger/decorators/responses";
 import {Returns} from "../../../../../src/swagger/decorators/returns";
 import {EventModel} from "../../models/Event";
 import {BaseController} from "../base/BaseController";
+import {TaskCtrl} from "./TaskCtrl";
 
-
-interface IEvent {
-    id: string;
-}
-
-@Controller("/events")
+@Controller({
+    path: "/events",
+    dependencies: [TaskCtrl]
+})
 export class EventCtrl extends BaseController {
     /**
      *

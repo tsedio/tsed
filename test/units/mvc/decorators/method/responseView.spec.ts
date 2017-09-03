@@ -1,18 +1,12 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
+import {Store} from "../../../../../src/core/class/Store";
 import {ResponseViewMiddleware} from "../../../../../src/mvc/components/ResponseViewMiddleware";
+import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseAfter: any = Sinon.stub().returns(middleware);
-
-const EndpointRegistry: any = {
-    setMetadata: Sinon.stub()
-};
-
 const {ResponseView} = Proxyquire.load("../../../../../src/mvc/decorators/method/responseView", {
-    "./useAfter": {UseAfter},
-    "../../registries/EndpointRegistry": {EndpointRegistry}
+    "./useAfter": {UseAfter}
 });
 
 class Test {
@@ -25,6 +19,7 @@ describe("ResponseView", () => {
         this.descriptor = {};
         this.options = ["page", {}];
         ResponseView(...this.options)(Test, "test", this.descriptor);
+        this.store = Store.from(Test, "test", this.descriptor);
     });
 
     after(() => {
@@ -33,20 +28,14 @@ describe("ResponseView", () => {
     });
 
     it("should set metadata", () => {
-        assert(EndpointRegistry.setMetadata.calledWith(
-            ResponseViewMiddleware,
-            {
-                viewPath: this.options[0],
-                viewOptions: this.options[1]
-            },
-            Test,
-            "test"
-        ), "shouldn't set metadata");
+        expect(this.store.get(ResponseViewMiddleware)).to.deep.eq({
+            viewPath: this.options[0],
+            viewOptions: this.options[1]
+        });
     });
 
     it("should create middleware", () => {
-        assert(UseAfter.calledWith(ResponseViewMiddleware), "haven't the right middleware");
-        assert(middleware.calledWith(Test, "test", this.descriptor));
+        UseAfter.should.be.calledWith(ResponseViewMiddleware);
+        middleware.should.be.calledWith(Test, "test", this.descriptor);
     });
-
 });

@@ -14,4 +14,5 @@ export interface IControllerOptions {
     dependencies?: Type<any>[];
     scope?: boolean | "request";
     routerOptions?: IRouterOptions;
+    middlewares?: IControllerMiddlewares;
 }

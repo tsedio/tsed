@@ -18,12 +18,9 @@ describe("AcceptMimesMiddleware", () => {
     });
 
     it("should accept mime and return nothing when 'application/json' is configured", () => {
-
         expect(this.middleware.use({
-            store: {
-                get: () => {
-                    return ["application/json"];
-                }
+            get: () => {
+                return ["application/json"];
             }
         }, this.request)).to.eq(undefined);
 
@@ -32,10 +29,8 @@ describe("AcceptMimesMiddleware", () => {
     it("should accept mime and return nothing when nothing is configured", () => {
 
         expect(this.middleware.use({
-                store: {
-                    get: (): any => {
-                        return undefined;
-                    }
+                get: (): any => {
+                    return undefined;
                 }
             },
             this.request)
@@ -48,10 +43,8 @@ describe("AcceptMimesMiddleware", () => {
 
         assert.throws(() => {
             this.middleware.use({
-                store: {
-                    get: () => {
-                        return ["application/xml"];
-                    }
+                get: () => {
+                    return ["application/xml"];
                 }
             }, this.request);
         }, "You must accept content-type application/xml");

@@ -50,6 +50,13 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
     @NotEnumerable()
     public router: Express.Router;
 
+    @NotEnumerable()
+    private _middlewares: IControllerMiddlewares = {
+        useBefore: [],
+        use: [],
+        useAfter: []
+    };
+
     constructor(provide: any) {
         super(provide);
         this.type = "controller";
@@ -125,6 +132,10 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
         return this._routerOptions;
     }
 
+    /**
+     *
+     * @returns {ControllerProvider}
+     */
     get parent() {
         return this.provide.$parentCtrl;
     }
@@ -139,13 +150,30 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
 
     /**
      *
-     * @returns {Express.Router}
+     * @returns {any[]}
      */
-    /*get router(): Express.Router {
-     return this._router;
-     }*/
+    get middlewares(): IControllerMiddlewares {
+        return this._middlewares;
+    }
 
-    pushRouterPath(path: string) {
+    /**
+     *
+     * @param middlewares
+     */
+    set middlewares(middlewares: IControllerMiddlewares) {
+
+        const concat = (key: string, a: any, b: any) => a[key] = a[key].concat(b[key]);
+
+        Object.keys(middlewares).forEach((key: string) => {
+            concat(key, this._middlewares, middlewares);
+        });
+    }
+
+    /**
+     *
+     * @param {string} path
+     */
+    public pushRouterPath(path: string) {
         this._routerPaths.push(path);
     }
 
@@ -162,6 +190,10 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
         return !!this.path;
     }
 
+    /**
+     *
+     * @returns {boolean}
+     */
     public hasDependencies(): boolean {
         return !!this.dependencies.length;
     }

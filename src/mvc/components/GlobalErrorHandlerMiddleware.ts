@@ -39,7 +39,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
             return next();
         }
 
-        $log.error("" + error);
+        $log.error(error);
         response.status(error.status || 500).send("Internal Error");
 
         return next();

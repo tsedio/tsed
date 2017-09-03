@@ -32,12 +32,12 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
     build(): this {
 
         const openAPIPath = ("" + toSwaggerPath(`${this.endpointUrl}${this.endpoint.path || ""}`)).trim();
-        const produces = this.endpoint.store.get("produces") || [];
-        const consumes = this.endpoint.store.get("consumes") || [];
-        const responses = this.endpoint.store.get("responses") || {"200": {description: "Success"}};
-        const summary = this.endpoint.store.get("summary") || "";
-        const deprecated = this.endpoint.store.get("deprecated") || false;
-        const security = this.endpoint.store.get("security");
+        const produces = this.endpoint.get("produces") || [];
+        const consumes = this.endpoint.get("consumes") || [];
+        const responses = this.endpoint.get("responses") || {"200": {description: "Success"}};
+        const summary = this.endpoint.get("summary") || "";
+        const deprecated = this.endpoint.get("deprecated") || false;
+        const security = this.endpoint.get("security");
         const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
         const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
         openApiParamsBuilder

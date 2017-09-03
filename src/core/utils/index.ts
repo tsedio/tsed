@@ -2,6 +2,9 @@
  * @module common/core
  */
 /** */
+
+import {DecoratorParameters} from "../interfaces";
+
 /**
  * Get the provide constructor.
  * @param targetClass
@@ -200,6 +203,30 @@ export function getInhiritedClass(target: any): any {
     return Object.getPrototypeOf(target);
 }
 
+export function getDecoratorType(args: any[]): "parameter" | "property" | "method" | "class" {
+    const [, propertyKey, descriptor] = args;
+
+    if (typeof descriptor === "number") {
+        return "parameter";
+    }
+
+    if (propertyKey && descriptor === undefined || descriptor && (descriptor.get || descriptor.set)) {
+        return "property";
+    }
+    return (descriptor && descriptor.value) ? "method" : "class";
+}
+
+export function descriptorOf(target: any, propertyKey: string): PropertyDescriptor {
+    return Object.getOwnPropertyDescriptor(target && target.prototype || target, propertyKey);
+}
+
+export function decoratorArgs(target: any, propertyKey: string): DecoratorParameters {
+    return [
+        target,
+        propertyKey,
+        descriptorOf(target, propertyKey)
+    ];
+}
 export function applyBefore(target: any, name: string, callback: Function) {
     const original = target[name];
     target[name] = function (...args: any[]) {

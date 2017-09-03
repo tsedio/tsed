@@ -1,10 +1,12 @@
+import {Store} from "../../../core/class/Store";
+import {DecoratorParameters} from "../../../core/interfaces";
 import {AcceptMimesMiddleware} from "../../components/AcceptMimesMiddleware";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
  * @module common/mvc
  */
 /** */
 import {UseBefore} from "./useBefore";
+
 /**
  * Set a mime list as acceptable for a request on a specific endpoint.
  *
@@ -23,11 +25,8 @@ import {UseBefore} from "./useBefore";
  * @decorator
  */
 export function AcceptMime(...mimes: string[]): Function {
-
-    return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        EndpointRegistry.setMetadata(AcceptMimesMiddleware, mimes, target, targetKey);
-
-        return UseBefore(AcceptMimesMiddleware)(target, targetKey, descriptor);
-    };
+    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+        store.set(AcceptMimesMiddleware, mimes);
+        return UseBefore(AcceptMimesMiddleware);
+    });
 }

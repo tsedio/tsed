@@ -1,10 +1,11 @@
+import {Store} from "../../../core/class/Store";
 import {ResponseViewMiddleware} from "../../components/ResponseViewMiddleware";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
 /**
  * @module common/mvc
  */
 /** */
 import {UseAfter} from "./useAfter";
+
 /**
  * Renders a view and sends the rendered HTML string to the client. Optional parameter:
  *
@@ -27,13 +28,10 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
-
-    return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        EndpointRegistry.setMetadata(ResponseViewMiddleware, {viewPath, viewOptions}, target, targetKey);
-
-        return UseAfter(ResponseViewMiddleware)(target, targetKey, descriptor);
-    };
+    return Store.decorate((store: Store) => {
+        store.set(ResponseViewMiddleware, {viewPath, viewOptions});
+        return UseAfter(ResponseViewMiddleware);
+    });
 }
 
 /**

@@ -4,6 +4,7 @@ import {Store} from "../../../core/class/Store";
  */
 /** */
 import {UseAfter} from "./useAfter";
+
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
  * If type contains the “/” character, then it sets the `Content-Type` to type.
@@ -22,13 +23,8 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function ContentType(type: string): Function {
-
-    return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        Store
-            .from([target, targetKey, descriptor])
-            .merge("produces", type);
-
+    return Store.decorate((store: Store) => {
+        store.merge("produces", type);
         return UseAfter((request: any, response: any, next: any) => {
 
             if (!response.headersSent) {
@@ -36,7 +32,6 @@ export function ContentType(type: string): Function {
             }
 
             next();
-
-        })(target, targetKey, descriptor);
-    };
+        });
+    });
 }

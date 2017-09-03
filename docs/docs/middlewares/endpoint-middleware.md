@@ -5,7 +5,7 @@ Middleware for an endpoint let you to manage request and response directly on a 
 create a middleware to do something on request or response like that:
 
 ```typescript
-import {IMiddleware, Middleware, Response, ServerSettingsService} from "ts-express-decorators";
+import {IMiddleware, Middleware, Request, ServerSettingsService} from "ts-express-decorators";
 import {NotAcceptable} from "ts-httpexceptions";
 
 @Middleware()
@@ -51,16 +51,27 @@ To do that we'll proposed a new decorator that take the configuration and wrap t
 
 ```typescript
 // decorators/accept-mimes.ts
-import {EndpointRegistry, UseBefore} from "ts-express-decorators";
+import {Store, UseBefore} from "ts-express-decorators";
 import AcceptMimesMiddleware from "../middlewares/accept-mimes";
 
-export function AcceptMimes(...args: string[]) {
+export function AcceptMimes(...mimes: string[]) {
     return <T> (target: any, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
-        EndpointRegistry.setMetadata(AcceptMimesMiddleware, mimes, target, targetKey);
+        Store
+            .from(target, targetKey, descriptor)
+            .set(AcceptMimesMiddleware, mimes);
 
         return UseBefore(AcceptMimesMiddleware)(target, targetKey, descriptor);
     };
+}
+
+// OR Shorter
+
+export function AcceptMimes(...mimes: string[]) {
+    return Store.decorate((store) => {
+        store.set(AcceptMimesMiddleware, mimes);
+        return UseBefore(AcceptMimesMiddleware)
+    });
 }
 ```
 
@@ -75,8 +86,8 @@ import {NotAcceptable} from "ts-httpexceptions";
 export default class AcceptMimesMiddleware implements IMiddleware {
    use(@Request() request, @EndpointInfo() endpoint: Endpoint) {
        
-        // get the parameters stored for the current endpoint.
-        const mimes = endpoint.store.get(AcceptMimesMiddleware) || [];
+        // get the parameters stored for the current endpoint or on the controller.
+        const mimes = endpoint.get(AcceptMimesMiddleware) || [];
 
         mimes.forEach((mime) => {
             if (!request.accepts(mime)) {
@@ -123,14 +134,9 @@ export default class ResponseViewMiddleware implements IMiddleware {
         @EndpointInfo() endpoint: Endpoint,    
         @Response() response: Express.Response
     ) {
-        // prevent error when response is already sent
-        if (response.headersSent) {
-           return;
-        }
-
         return new Promise((resolve, reject) => {
 
-            const {viewPath, viewOptions} = endpoint.store.get(ResponseViewMiddleware);
+            const {viewPath, viewOptions} = endpoint.get(ResponseViewMiddleware);
 
             if (viewPath !== undefined) {
 
@@ -159,20 +165,30 @@ export default class ResponseViewMiddleware implements IMiddleware {
 And his decorator:
 ```typescript
 // middlewares/response-view.ts
-import {Endpoint, UseAfter} from "ts-express-decorators";
+import {Endpoint, Store, UseAfter} from "ts-express-decorators";
 import ResponseViewMiddleware from "../middlewares/response-view";
 
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
 
     return (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> => {
-        // store parameters
-        Endpoint.setMetadata(ResponseViewMiddleware, {viewPath, viewOptions}, target, targetKey);
+        
+        Store
+           .from(target, targetKey, descriptor)
+           .set(ResponseViewMiddleware, {viewPath, viewOptions});
 
         // Wrap the UserAfter decorator to push the middleware after the endpoint execution
         return UseAfter(ResponseViewMiddleware)(target, targetKey, descriptor);
     };
+    
+    // or shorter
+    return Store.decorate((store) => {
+        store.set(ResponseViewMiddleware, {viewPath, viewOptions});
+        // Wrap the UserAfter decorator to push the middleware after the endpoint execution
+        return UseAfter(ResponseViewMiddleware)
+    });
 }
 ```
+> Note: Store is recommended if your decorator can be used in different context.
 
 Finally, we can use this decorator on a controller:
 

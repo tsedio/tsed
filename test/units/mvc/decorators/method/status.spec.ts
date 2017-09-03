@@ -1,7 +1,7 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
+import {Store} from "../../../../../src/core/class/Store";
 import {FakeResponse} from "../../../../helper/FakeResponse";
+import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseAfter: any = Sinon.stub().returns(middleware);
@@ -19,8 +19,13 @@ describe("Status", () => {
     before(() => {
         this.descriptor = {};
         this.options = 200;
-        Status(this.options)(Test, "test", this.descriptor);
+        Status(this.options, {
+            description: "description",
+            use: "use",
+            collection: "collection"
+        })(Test, "test", this.descriptor);
         this.middleware = UseAfter.args[0][0];
+        this.store = Store.from(Test, "test", this.descriptor);
     });
 
     after(() => {
@@ -31,7 +36,17 @@ describe("Status", () => {
 
     it("should create middleware", () => {
         expect(this.middleware).to.be.a("function");
-        assert(middleware.calledWith(Test, "test", this.descriptor));
+        middleware.should.be.calledWithExactly(Test, "test", this.descriptor);
+    });
+
+    it("should store data in the Store", () => {
+        expect(this.store.get("responses")).to.deep.eq({
+            "200": {
+                "collectionType": "collection",
+                "description": "description",
+                "type": "use"
+            }
+        });
     });
 
     describe("when middleware is executed", () => {
@@ -50,13 +65,16 @@ describe("Status", () => {
         });
 
         it("should call response method", () => {
-            assert(this.response.status.calledWith(this.options), "method not called");
+            this.response.status.should.be.calledWith(this.options);
         });
 
         it("should call next function", () => {
-            assert(this.nextSpy.called, "function not called");
+            return this.nextSpy.should.be.calledOnce;
         });
 
+        it("shoul store data in the Store", () => {
+            this.store.get("responses", {});
+        });
     });
 
     describe("when middleware is executed but header is sent", () => {
@@ -65,7 +83,7 @@ describe("Status", () => {
             this.nextSpy = Sinon.stub();
             this.response = new FakeResponse();
             this.response.headersSent = true;
-            Sinon.stub(this.response, "type");
+            Sinon.stub(this.response, "status");
 
             this.middleware({}, this.response, this.nextSpy);
         });
@@ -76,11 +94,11 @@ describe("Status", () => {
         });
 
         it("should call response method", () => {
-            assert(!this.response.location.called, "method is called");
+            return this.response.status.should.not.be.called;
         });
 
         it("should call next function", () => {
-            assert(this.nextSpy.called, "function not called");
+            return this.nextSpy.should.be.calledOnce;
         });
 
     });

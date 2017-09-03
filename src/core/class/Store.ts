@@ -1,8 +1,9 @@
+import {DecoratorParameters} from "../interfaces";
 /**
  * @module common/core
  */
 /** */
-import {deepExtends, nameOf} from "../utils";
+import {deepExtends, descriptorOf, getDecoratorType, nameOf} from "../utils";
 
 import {Metadata} from "./Metadata";
 import {Registry} from "./Registry";
@@ -23,29 +24,23 @@ export class Store {
 
     constructor(args: any[]) {
 
-        const [target, propertyKey, indexParameter] = args;
-
+        const [target, propertyKey, descriptor] = args;
         this._map = (() => {
-            if (indexParameter !== undefined) {
-
-                if (typeof indexParameter === "number") {
-
+            switch (getDecoratorType(args)) {
+                case "parameter":
                     const store = this._storeGet(PARAM_STORE, target, propertyKey);
-                    if (!store.has("" + indexParameter)) {
-                        store.set("" + indexParameter, new Map<string, any>());
+                    if (!store.has("" + descriptor)) {
+                        store.set("" + descriptor, new Map<string, any>());
                     }
 
-                    return store.get("" + indexParameter);
-                }
-
-                return this._storeGet(METHOD_STORE, target, propertyKey);
+                    return store.get("" + descriptor);
+                case "property":
+                    return this._storeGet(PROPERTY_STORE, target, propertyKey);
+                case "method":
+                    return this._storeGet(METHOD_STORE, target, propertyKey);
+                case "class":
+                    return this._storeGet(CLASS_STORE, target);
             }
-
-            if (propertyKey !== undefined) {
-                return this._storeGet(PROPERTY_STORE, target, propertyKey);
-            }
-
-            return this._storeGet(CLASS_STORE, target);
         })();
     }
 
@@ -64,6 +59,37 @@ export class Store {
      */
     static from(...args: any[]): Store {
         return new Store(args);
+    }
+
+    /**
+     * Create store on the method.
+     * @param target
+     * @param {string} propertyKey
+     * @returns {Store}
+     */
+    static fromMethod(target: any, propertyKey: string): Store {
+        return new Store([
+            target,
+            propertyKey,
+            descriptorOf(target, propertyKey)
+        ]);
+    }
+
+    /**
+     * Create a store correctly configured from the parameters given by the decorator.
+     * The `fn` can return a decorator that will be initialized with the parameters (target, propertyKey, descriptor).
+     * @param {(store: Store, parameters: DecoratorParameters) => void} fn
+     * @returns {Function}
+     */
+    static decorate(fn: (store: Store, parameters: DecoratorParameters) => void): Function {
+        return (...parameters: any[]): any => {
+            const store = Store.from(...parameters);
+            const result = fn(store, parameters as DecoratorParameters);
+            if (typeof result === "function") {
+                result(...parameters);
+            }
+            return parameters[2];
+        };
     }
 
     /**

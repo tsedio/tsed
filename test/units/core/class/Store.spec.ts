@@ -1,5 +1,6 @@
 import {Metadata} from "../../../../src/core/class/Metadata";
 import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../../../src/core/class/Store";
+import {descriptorOf} from "../../../../src/core/utils";
 import {expect, Sinon} from "../../../tools";
 
 class FakeMetadata {
@@ -17,8 +18,6 @@ class FakeMetadata {
 
 describe("Store", () => {
     describe("constructor", () => {
-
-
         describe("when metadata should be store on class", () => {
 
             before(() => {
@@ -51,7 +50,10 @@ describe("Store", () => {
         describe("when metadata should be store on method", () => {
             before(() => {
                 this.spyGet = Sinon.spy(Metadata, "get");
-                this.store = new Store([FakeMetadata, "get", {test: "test"}]);
+                this.store = new Store([FakeMetadata, "get", {
+                    value: function () {
+                    }
+                }]);
             });
             after(() => {
                 this.spyGet.restore();
@@ -61,11 +63,48 @@ describe("Store", () => {
                 this.spyGet.should.have.been.calledWithExactly(METHOD_STORE, FakeMetadata, "get");
             });
         });
-        describe("when metadata should be store on property", () => {
+
+        describe("when metadata should be store on property (1)", () => {
 
             before(() => {
                 this.spyGet = Sinon.spy(Metadata, "get");
                 this.store = new Store([FakeMetadata, "get"]);
+            });
+            after(() => {
+                this.spyGet.restore();
+            });
+
+            it("should have been called the Metadata.get()", () => {
+                this.spyGet.should.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+            });
+        });
+
+        describe("when metadata should be store on property (2)", () => {
+
+            before(() => {
+                this.spyGet = Sinon.spy(Metadata, "get");
+                this.store = new Store([FakeMetadata, "get", {
+                    set: function () {
+                    }
+                }]);
+            });
+            after(() => {
+                this.spyGet.restore();
+            });
+
+            it("should have been called the Metadata.get()", () => {
+                this.spyGet.should.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+            });
+        });
+
+        describe("when metadata should be store on property (3)", () => {
+
+            before(() => {
+                this.spyGet = Sinon.spy(Metadata, "get");
+                this.store = new Store([FakeMetadata, "get", {
+                    get: function () {
+                    }
+                }]);
             });
             after(() => {
                 this.spyGet.restore();
@@ -235,6 +274,28 @@ describe("Store", () => {
         });
         it("should store data", () => {
             expect(this.store.get("content2")).to.eq("json2");
+        });
+    });
+
+    describe("decorate()", () => {
+        before(() => {
+            this.parameters = [FakeMetadata, "test", descriptorOf(FakeMetadata, "test")];
+            this.cbStub = Sinon.stub();
+            this.fnStub = Sinon.stub().returns(this.cbStub);
+            Store.decorate(this.fnStub)(...this.parameters);
+        });
+
+        it("should have been called the function", () => {
+            this.fnStub.should.be
+                .calledOnce
+                .and
+                .calledWithExactly(Sinon.match.instanceOf(Store), this.parameters);
+        });
+
+        it("should have been called the return function with the parameters", () => {
+            this.cbStub.should.be.calledOnce
+                .and
+                .calledWithExactly(...this.parameters);
         });
     });
 });
