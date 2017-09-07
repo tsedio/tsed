@@ -145,6 +145,45 @@ describe("ServerLoader", () => {
 
     });
 
+    describe("mount()", () => {
+        describe("when we give a single path", () => {
+            before(() => {
+                this.scanStub = Sinon.stub(this.server, "scan");
+
+                this.server.mount("endpoint", "path/to/*.js");
+            });
+
+            after(() => {
+                this.scanStub.restore();
+            });
+
+            it("should have been called the scan method", () => {
+                this.scanStub.should.be.calledOnce.and.calledWithExactly("path/to/*.js", "endpoint");
+            });
+
+        });
+        describe("when we give an array of path", () => {
+            before(() => {
+                this.scanStub = Sinon.stub(this.server, "scan");
+
+                this.server.mount("endpoint", ["path/to/*.js", "path2/to/*.js"]);
+            });
+
+            after(() => {
+                this.scanStub.restore();
+            });
+
+            it("should have been called the scan method", () => {
+                this.scanStub.should.be
+                    .calledTwice
+                    .and
+                    .calledWithExactly("path/to/*.js", "endpoint")
+                    .and
+                    .calledWithExactly("path2/to/*.js", "endpoint");
+            });
+        });
+    });
+
     describe("start()", () => {
 
         describe("when success", () => {

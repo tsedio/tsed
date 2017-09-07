@@ -20,7 +20,11 @@ export class ServeStaticService {
         if (require.resolve("serve-static")) {
             Object
                 .keys(this.serverSettingsService.serveStatic)
-                .forEach(path => this.mount(path));
+                .forEach(path => {
+                    []
+                        .concat(path as any)
+                        .forEach((path: string) => this.mount(path));
+                });
 
         }
     }

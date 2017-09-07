@@ -38,7 +38,10 @@ import Path = require("path");
    rootDir: Path.resolve(__dirname), //optional. By default it's equal to process.cwd()
    mount: {
      "/rest": "${rootDir}/controllers/current/**/*.js",
-     "/rest/v1": "${rootDir}/controllers/v1/**/*.js"
+     "/rest/v1": [
+        "${rootDir}/controllers/v1/users/*.js", 
+        "${rootDir}/controllers/v1/groups/*.js"
+     ]
    }
 })
 export class Server extends ServerLoader {
@@ -61,9 +64,9 @@ new Server.start();
   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
 * `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](tutorials/upload-files-with-multer.md).
-* `mount` &lt;IServerMountDirectories&gt;: Mount all controllers under a directories to an endpoint.
+* `mount` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
 * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/overview.md), [Middlewares](docs/middlewares/overview.md) or [Converters](docs/converters.md).
-* `serveStatic` &lt;IServerMountDirectories&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
+* `serveStatic` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
