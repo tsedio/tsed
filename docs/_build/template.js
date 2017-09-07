@@ -157,8 +157,7 @@ const _buildParams = (labels, overview) => {
     const signature = signatureMatch[1] + ",";
     labels.forEach((label) => {
       const matched = signature.match(new RegExp(`${label.paramKey}(\\?)?:?(.[^,]+),`));
-      // console.log(matched, label.paramKey, signature);
-      const type = highlight.bindSymbols((matched[2] ? matched[2].trim() : ""), "");
+      const type = label.type || highlight.bindSymbols((matched[2] ? matched[2].trim() : ""), "");
       const description = (matched[1] ? "Optional. " : "")
         + label.description.replace(/Optional\.?/gi, "").trim();
 

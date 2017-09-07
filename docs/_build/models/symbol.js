@@ -5,14 +5,23 @@ const _filterParams = (labels) => {
 
   return labels.filter(o => o.key === "param")
     .map(o => {
+      let type = o.value.match(/{(.*)}/);
+
+      if (type) {
+        o.value = o.value.replace(/{(.*)}/, "").trim();
+        type = type[1];
+      }
+
       const spaceIndex = o.value.trim().indexOf(" ");
       if (spaceIndex === -1) {
         return;
       }
+
       const paramKey = o.value.slice(0, spaceIndex);
       const description = o.value.slice(spaceIndex + 1, o.value.length);
       return {
         paramKey,
+        type,
         description
       };
     })

@@ -34,12 +34,15 @@ Then, add your middleware on your endpoint controller's:
 import {Controller, Get} from "ts-express-decorators";
 
 @Controller('/test')
+@UseBefore(AcceptMimesMiddleware) // global to the controller
 class MyCtrl {
    @Get('/')
-   @UseBefore(AcceptMimesMiddleware)
+   @UseBefore(AcceptMimesMiddleware) // only to this endpoint
    getContent() {}
 }     
 ```
+
+> See [middleware call sequence](docs/middlewares/call-sequence.md) for more information.
 
 ### Create your own decorator
 
@@ -205,3 +208,4 @@ class MyCtrl {
    }
 }  
 ```
+

@@ -213,14 +213,16 @@ export class CalendarCtrl {
 
 ## Custom middleware
 
-`@Use()` decorator let you to add custom middleware on a method. 
+`@Use()`, `@UseBefore()`, `@UseAfter()` decorators let you to add custom middleware on a method or on controller. 
 
+### Example
 ```typescript
 import {Controller, Get, PathParams, Use, UseBefore, UseAfter} from "ts-express-decorators";
 import {BadRequest} from "httpexceptions";
-import {CustomMiddleware} from "../middlewares/CustomMiddleware"
+import {CustomMiddleware, CustomBeforeMdlw} from "../middlewares/middlewares"
 
 @Controller("/calendars")
+@UseBefore(CustomBeforeMdlw)
 export class CalendarCtrl {
 
     @Get("/:id")
@@ -249,6 +251,15 @@ export class CalendarCtrl {
 }
 ```
 > For more information about the `CustomMiddleware` see the [Middlewares](docs/middlewares.md) section.
+
+### Middleware call sequence
+
+When a request is sent to the server all middlewares added in the ServerLoader, Controller or Endpoint with decorators
+ will be called while a response isn't sent by one of the middleware in the stack.
+
+<img src="_media/middleware-call-sequence.png" style="max-width:400px">
+
+> See [middleware call sequence](docs/middlewares/call-sequence.md) for more information.
 
 ## Dependencies
 
