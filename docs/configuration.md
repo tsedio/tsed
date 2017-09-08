@@ -71,3 +71,96 @@ new Server.start();
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 
+### Logger
+#### Default logger
+
+Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-debug/). 
+
+ - [Configuration](https://romakita.github.io/ts-log-debug/#/getting-started?id=installation),
+ - [Customize appender (chanel)](https://romakita.github.io/ts-log-debug/#/appenders/custom),
+ - [Customize layout](https://romakita.github.io/ts-log-debug/#/layouts/custom)
+
+
+#### Shutdown logger
+
+Shutdown return a Promise that will be resolved when ts-log-debug has closed all appenders and finished writing log events. 
+Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
+
+```typescript
+import {$log} from "ts-log-debug";
+
+$log
+  .shutdown()
+  .then(() => {
+     console.log("Complete")
+  }); 
+```
+
+#### Request and response
+
+By default, the request and response will be logged by Ts.ED. 
+For each Express.Request, a logger will be attached and can be used like here:
+
+```typescript
+request.log.info({customData: "test"}) // parameter is optional
+request.log.debug({customData: "test"})
+request.log.warn({customData: "test"})
+request.log.error({customData: "test"})
+request.log.trace({customData: "test"})
+```
+A call with once of this method will generate this log:
+```bash
+[2017-09-01 11:12:46.994] [INFO ] [TSED] - {
+  "status": 200,
+  "reqId": 1,
+  "method": "GET",
+  "url": "/api-doc/swagger.json",
+  "duration": 92,
+  "headers": {
+    "host": "0.0.0.0:8001",
+    "connection": "keep-alive",
+    "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36",
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "accept-encoding": "gzip, deflate",
+    "accept-language": "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
+  },
+  "body": {},
+  "query": {},
+  "customData": "test"
+}
+```
+
+The log methods is added by the [LogIncomingRequestMiddleware](api/common/mvc/logincomingrequestmiddleware.md).
+It can be overloaded with `@OverrideMiddleware`.
+
+Example: 
+
+```typescript
+@OverrideMiddleware(LogIncomingRequestMiddleware)
+export class CustomLogIncomingRequestMiddleware extends LogIncomingRequestMiddleware {
+ 
+    public use(@Req() request: any, @Res() response: any) {
+    
+        // you can set a custom ID with another lib
+        request.id = require('uuid').v4()
+        
+        return super.use(request, response); // required 
+    }
+    
+    protected requestToObject(request) {
+        return {
+           reqId: request.id,
+           method: request.method,
+           url: request.originalUrl || request.url,
+           duration: new Date().getTime() - request.tsExpressHandleStart.getTime(),
+           headers: request.headers,
+           body: request.body,
+           query: request.query,
+           params: request.params
+        }
+    }
+}
+```
+
+

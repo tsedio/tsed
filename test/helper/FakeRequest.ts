@@ -76,4 +76,8 @@ export class FakeRequest {
             }
         };
     }
+
+    public end() {
+
+    }
 }

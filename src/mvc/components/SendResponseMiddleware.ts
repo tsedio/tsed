@@ -9,6 +9,7 @@ import {Middleware} from "../decorators/class/middleware";
 import {Response} from "../decorators/param/response";
 import {ResponseData} from "../decorators/param/responseData";
 import {IMiddleware} from "../interfaces/index";
+
 /**
  * @private
  * @middleware

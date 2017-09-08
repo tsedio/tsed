@@ -199,3 +199,11 @@ export function isPromise(target: any): boolean {
 export function getInhiritedClass(target: any): any {
     return Object.getPrototypeOf(target);
 }
+
+export function applyBefore(target: any, name: string, callback: Function) {
+    const original = target[name];
+    target[name] = function (...args: any[]) {
+        callback(...args);
+        return original.apply(this, args);
+    };
+}
