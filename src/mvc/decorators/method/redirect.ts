@@ -3,6 +3,7 @@
  */
 /** */
 import {UseAfter} from "./useAfter";
+
 /**
  * Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
  *
@@ -52,19 +53,15 @@ import {UseAfter} from "./useAfter";
  */
 export function Redirect(status: string | number, location?: string): Function {
 
-    return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
+    return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
         return UseAfter((request: any, response: any, next: any) => {
-
             /* istanbul ignore else */
-            if (!response.headersSent) {
-                if (typeof status === "string") {
-                    response.redirect(status);
-                } else {
-                    response.redirect(status, location);
-                }
+            if (typeof status === "string") {
+                response.redirect(status);
+            } else {
+                response.redirect(status, location);
             }
-
             next();
 
         })(target, targetKey, descriptor);

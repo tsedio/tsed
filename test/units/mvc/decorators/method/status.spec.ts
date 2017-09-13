@@ -76,30 +76,4 @@ describe("Status", () => {
             this.store.get("responses", {});
         });
     });
-
-    describe("when middleware is executed but header is sent", () => {
-
-        before(() => {
-            this.nextSpy = Sinon.stub();
-            this.response = new FakeResponse();
-            this.response.headersSent = true;
-            Sinon.stub(this.response, "status");
-
-            this.middleware({}, this.response, this.nextSpy);
-        });
-
-        after(() => {
-            delete this.response;
-            delete this.nextSpy;
-        });
-
-        it("should call response method", () => {
-            return this.response.status.should.not.be.called;
-        });
-
-        it("should call next function", () => {
-            return this.nextSpy.should.be.calledOnce;
-        });
-
-    });
 });

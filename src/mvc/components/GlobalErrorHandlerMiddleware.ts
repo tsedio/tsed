@@ -22,10 +22,6 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
         @Response() response: Express.Response,
         @Next() next: Express.NextFunction): any {
 
-        if (response.headersSent) {
-            return next(error);
-        }
-
         const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
         if (error instanceof Exception || error.status) {

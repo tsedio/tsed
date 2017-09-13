@@ -24,10 +24,6 @@ export class ResponseViewMiddleware implements IMiddleware {
         @Response() response: Express.Response
     ) {
 
-        if (response.headersSent) {
-           return;
-        }
-
         return new Promise((resolve, reject) => {
 
             const {viewPath, viewOptions} = endpoint.store.get(ResponseViewMiddleware);

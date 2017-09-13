@@ -32,11 +32,6 @@ export function Header(expression: string | { [key: string]: string }, expressio
         }
 
         return UseAfter((request: any, response: any, next: any) => {
-
-            if (response.headersSent) {
-                next();
-                return;
-            }
             if (expressionValue !== undefined) {
                 response.set(expression, expressionValue);
             } else {

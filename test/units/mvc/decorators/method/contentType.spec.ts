@@ -58,30 +58,4 @@ describe("ContentType", () => {
         });
 
     });
-
-    describe("when middleware is executed but header is sent", () => {
-
-        before(() => {
-            this.nextSpy = Sinon.stub();
-            this.response = new FakeResponse();
-            this.response.headersSent = true;
-            Sinon.stub(this.response, "type");
-
-            this.middleware({}, this.response, this.nextSpy);
-        });
-
-        after(() => {
-            delete this.response;
-            delete this.nextSpy;
-        });
-
-        it("should call response method", () => {
-            assert(!this.response.type.called, "method is called");
-        });
-
-        it("should call next function", () => {
-            assert(this.nextSpy.called, "function not called");
-        });
-
-    });
 });

@@ -3,6 +3,7 @@
  */
 /** */
 import {UseAfter} from "./useAfter";
+
 /**
  * Sets the response Location HTTP header to the specified path parameter.
  *
@@ -23,13 +24,10 @@ import {UseAfter} from "./useAfter";
  */
 export function Location(location: string): Function {
 
-    return <T> (target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
+    return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
 
         return UseAfter((request: any, response: any, next: any) => {
-
-            if (!response.headersSent) {
-                response.location(location);
-            }
+            response.location(location);
 
             next();
 
