@@ -26,11 +26,7 @@ export function ContentType(type: string): Function {
     return Store.decorate((store: Store) => {
         store.merge("produces", type);
         return UseAfter((request: any, response: any, next: any) => {
-
-            if (!response.headersSent) {
-                response.type(type);
-            }
-
+            response.type(type);
             next();
         });
     });

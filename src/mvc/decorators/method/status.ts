@@ -29,10 +29,7 @@ export function Status(code: number, options: { description?: string, use?: Type
             }
         });
         return UseAfter((request: any, response: any, next: any) => {
-            if (!response.headersSent) {
-                response.status(code);
-            }
-
+            response.status(code);
             next();
         });
     });

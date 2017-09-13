@@ -29,8 +29,6 @@ describe("ResponseViewMiddleware :", () => {
 
     describe("when header isn't sent", () => {
         before(() => {
-            this.response.headersSent = false;
-
             this.middleware.use(
                 {},
                 this.endpoint,
@@ -51,7 +49,6 @@ describe("ResponseViewMiddleware :", () => {
 
     describe("when header isn't sent but view path is wrong", () => {
         before(() => {
-            this.response.headersSent = false;
             this.middleware.use(
                 {},
                 {
@@ -77,24 +74,4 @@ describe("ResponseViewMiddleware :", () => {
             this.response.render.should.not.be.called;
         });
     });
-
-    describe("when header is sent", () => {
-
-        before(() => {
-            this.response.headersSent = true;
-
-            this.middleware.use(
-                {},
-                this.endpoint,
-                this.response as any
-            );
-        });
-        after(() => {
-            this.response.render.reset();
-        });
-        it("should do nothing", () => {
-            this.response.render.should.not.be.called;
-        });
-    });
-
 });

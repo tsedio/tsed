@@ -1,10 +1,10 @@
-import {assert, expect} from "../../../tools";
-import {inject} from "../../../../src/testing/inject";
-import {GlobalErrorHandlerMiddleware, MiddlewareService} from "../../../../src";
-import {FakeResponse} from "../../../helper/FakeResponse";
-import {FakeRequest} from "../../../helper/FakeRequest";
 import * as Sinon from "sinon";
 import {BadRequest} from "ts-httpexceptions/lib";
+import {GlobalErrorHandlerMiddleware, MiddlewareService} from "../../../../src";
+import {inject} from "../../../../src/testing/inject";
+import {FakeRequest} from "../../../helper/FakeRequest";
+import {FakeResponse} from "../../../helper/FakeResponse";
+import {assert, expect} from "../../../tools";
 
 
 describe("GlobalErrorHandlerMiddleware", () => {
@@ -17,7 +17,6 @@ describe("GlobalErrorHandlerMiddleware", () => {
     });
 
     describe("use()", () => {
-
         before(() => {
             this.response = new FakeResponse();
             this.request = new FakeRequest();
@@ -28,37 +27,8 @@ describe("GlobalErrorHandlerMiddleware", () => {
             delete this.request;
         });
 
-        describe("headerSent", () => {
-            before(() => {
-                this.response["headersSent"] = true;
-                this.error = new Error("test");
-                this.nextSpy = Sinon.stub();
-
-                this.middleware.use(
-                    this.error,
-                    this.responseStub,
-                    this.response,
-                    this.nextSpy
-                );
-            });
-
-            after(() => {
-                delete this.error;
-                delete this.nextSpy;
-            });
-
-            it("should have called next function", () => {
-                assert(this.nextSpy.calledWith(this.error));
-            });
-
-            it("should have an empty body", () => {
-                expect(this.response._body).is.equal("");
-            });
-        });
-
         describe("instanceof Exception", () => {
             before(() => {
-                this.response["headersSent"] = false;
                 this.error = new BadRequest("test");
                 this.nextSpy = Sinon.stub();
 
@@ -90,7 +60,6 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
         describe("Error as string", () => {
             before(() => {
-                this.response["headersSent"] = false;
                 this.error = "message";
                 this.nextSpy = Sinon.stub();
 
@@ -122,7 +91,6 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
         describe("InternalServerError", () => {
             before(() => {
-                this.response["headersSent"] = false;
                 this.error = new Error("test");
                 this.nextSpy = Sinon.stub();
 
@@ -152,6 +120,4 @@ describe("GlobalErrorHandlerMiddleware", () => {
             });
         });
     });
-
-
 });
