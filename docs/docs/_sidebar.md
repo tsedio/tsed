@@ -17,6 +17,7 @@
   * [Endpoint middleware](docs/middlewares/endpoint-middleware.md)
   * [Endpoint error middleware](docs/middlewares/endpoint-error-middleware.md)
   * [Override middleware](docs/middlewares/override-middleware.md)
+  * [Call sequence](docs/middlewares/call-sequence.md)
 * [Filters](docs/filters.md)
 * [ServerLoader](docs/server-loader.md)
   * [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md)

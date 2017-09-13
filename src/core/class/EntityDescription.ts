@@ -26,10 +26,15 @@ export abstract class EntityDescription {
     @NotEnumerable()
     protected _type: Type<any>;
 
+    protected _index: number;
+
     constructor(protected _target: Type<any>,
                 protected _propertyKey: string | symbol,
-                protected _index?: any) {
+                index?: number | PropertyDescriptor) {
 
+        if (typeof index === "number") {
+            this._index = index;
+        }
         this.target = _target;
     }
 
@@ -38,8 +43,8 @@ export abstract class EntityDescription {
      *
      * @returns {any}
      */
-    public get index(): any {
-        return typeof this._index === "number" ? this._index : undefined;
+    public get index(): number {
+        return this._index;
     }
 
     /**

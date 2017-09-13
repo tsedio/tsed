@@ -13,6 +13,7 @@
     scope<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | "request"<span class="token punctuation">;</span>
     routerOptions<span class="token punctuation">:</span> <a href="#api/common/mvc/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    middlewares<span class="token punctuation">:</span> <a href="#api/common/mvc/icontrollermiddlewares"><span class="token">IControllerMiddlewares</span></a><span class="token punctuation">;</span>
     <span class="token function">pushRouterPath</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     getEndpointUrl<span class="token punctuation">:</span> <span class="token punctuation">(</span>routerPath<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> => <span class="token keyword">string</span><span class="token punctuation">;</span>
     <span class="token function">hasEndpointUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
@@ -38,6 +39,8 @@ set path
 <div class="method-overview"><pre><code class="typescript-lang">routerOptions<span class="token punctuation">:</span> <a href="#api/common/mvc/irouteroptions"><span class="token">IRouterOptions</span></a></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang">middlewares<span class="token punctuation">:</span> <a href="#api/common/mvc/icontrollermiddlewares"><span class="token">IControllerMiddlewares</span></a></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token function">pushRouterPath</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre></div>
 <hr />

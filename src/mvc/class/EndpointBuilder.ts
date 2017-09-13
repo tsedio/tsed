@@ -9,6 +9,9 @@ import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
 
+/**
+ *
+ */
 export class EndpointBuilder {
     constructor(private endpoint: EndpointMetadata,
                 private router: any) {

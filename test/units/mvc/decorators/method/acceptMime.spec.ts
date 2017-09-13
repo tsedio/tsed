@@ -1,18 +1,13 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
+import {Store} from "../../../../../src/core/class/Store";
 import {AcceptMimesMiddleware} from "../../../../../src/mvc/components/AcceptMimesMiddleware";
+import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
 
-const EndpointRegistry: any = {
-    setMetadata: Sinon.stub()
-};
-
 const {AcceptMime} = Proxyquire.load("../../../../../src/mvc/decorators/method/acceptMime", {
-    "./useBefore": {UseBefore},
-    "../../registries/EndpointRegistry": {EndpointRegistry}
+    "./useBefore": {UseBefore}
 });
 
 class Test {
@@ -25,6 +20,7 @@ describe("AcceptMime", () => {
         this.descriptor = {};
         this.options = "application/json";
         AcceptMime("application/json")(Test, "test", this.descriptor);
+        this.store = Store.from(Test, "test", this.descriptor);
     });
 
     after(() => {
@@ -33,12 +29,12 @@ describe("AcceptMime", () => {
     });
 
     it("should set metadata", () => {
-        assert(EndpointRegistry.setMetadata.calledWith(AcceptMimesMiddleware, [this.options], Test, "test"), "shouldn't set metadata");
+        expect(this.store.get(AcceptMimesMiddleware)).to.deep.eq([this.options]);
     });
 
     it("should create middleware", () => {
-        assert(UseBefore.calledWith(AcceptMimesMiddleware), "haven't the right middleware");
-        assert(middleware.calledWith(Test, "test", this.descriptor));
+        UseBefore.should.be.calledWith(AcceptMimesMiddleware);
+        middleware.should.be.calledWith(Test, "test", this.descriptor);
     });
 
 });

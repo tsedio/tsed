@@ -19,7 +19,7 @@ export class AcceptMimesMiddleware implements IMiddleware {
     public use(@EndpointInfo() endpoint: EndpointMetadata,
                @Request() request: any): void {
 
-        const mimes = endpoint.store.get(AcceptMimesMiddleware) || [];
+        const mimes = endpoint.get(AcceptMimesMiddleware) || [];
 
         mimes.forEach((mime: string) => {
             if (!request.accepts(mime)) {

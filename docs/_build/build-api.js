@@ -23,7 +23,12 @@ Promise.resolve()
   .then(docComponents => {
     docComponents.forEach(docComponents => {
       docComponents.symbols.forEach((symbol) => {
-        writeSymbol(Object.assign(symbol, {output: template(symbol)}));
+        try {
+          writeSymbol(Object.assign(symbol, {output: template(symbol)}));
+        } catch (er) {
+          console.error("Error when writting this symbol", symbol);
+          throw er;
+        }
       });
     });
   })

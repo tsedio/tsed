@@ -12,6 +12,7 @@
     "suppressImplicitAnyIndexErrors": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "importHelpers": true,
     "lib": [
       "es6",
       "dom"

@@ -6,11 +6,11 @@
 <pre><code class="typescript-lang"><span class="token keyword">abstract</span> <span class="token keyword">class</span> EntityDescription <span class="token punctuation">{</span>
     <span class="token keyword">protected</span> _target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _collectionType<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">,</span> _index?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> index<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">,</span> index?<span class="token punctuation">:</span> <span class="token keyword">number</span> | PropertyDescriptor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> index<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> targetName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">;</span>
@@ -33,16 +33,15 @@
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol</code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
-<hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _collectionType<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>></code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> index<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> _index<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre></div>
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> index<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>></code></pre></div>
-
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> targetName<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
 <hr />

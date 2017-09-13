@@ -120,7 +120,7 @@ export class EndpointRegistry {
      * @returns {any}
      */
     static store(targetClass: any, methodClassName: string): Store {
-        return Store.from(targetClass, methodClassName, {});
+        return Store.from(targetClass, methodClassName, Object.getOwnPropertyDescriptor(targetClass, methodClassName));
     }
 
     /**

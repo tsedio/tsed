@@ -9,6 +9,7 @@ echo "Generate documentation for v$PACKAGE_VERSION"
 npm run doc:build
 
 git add -A .
+git reset -- .npmrc
 
 git status
 

@@ -1,8 +1,9 @@
 /**
  * @module common/core
  */
-/** */
+
 import {Type} from "../interfaces";
+
 import {getClass, getClassOrSymbol} from "../utils";
 
 /**
@@ -33,16 +34,29 @@ export class Registry<T, O> {
      * @param key Required. The key of the element to return from the Map object.
      * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
      */
-    get = (key: Type<any> | symbol): T | undefined =>
-        this._map.get(getClassOrSymbol(key));
+    get(key: Type<any> | symbol): T | undefined {
+        return this._map.get(getClassOrSymbol(key));
+    }
+
+    /**
+     *
+     * @param key
+     */
+    createIfNotExists(key: Type<any> | symbol): T {
+        if (!this.has(key)) {
+            this.set(key, new this._class(key));
+        }
+        return this.get(key)!;
+    }
 
     /**
      * The has() method returns a boolean indicating whether an element with the specified key exists or not.
      * @param key
      * @returns {boolean}
      */
-    has = (key: Type<any> | symbol): boolean =>
-        this._map.has(getClassOrSymbol(key));
+    has(key: Type<any> | symbol): boolean {
+        return this._map.has(getClassOrSymbol(key));
+    }
 
     /**
      * The set() method adds or updates an element with a specified key and value to a Map object.
@@ -59,28 +73,26 @@ export class Registry<T, O> {
      * The entries() method returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    entries = (): IterableIterator<[Type<any> | symbol, T]> =>
-        this._map.entries();
+    entries(): IterableIterator<[Type<any> | symbol, T]> {
+        return this._map.entries();
+    }
 
     /**
      * The keys() method returns a new Iterator object that contains the keys for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    keys = (): IterableIterator<Type<any> | symbol> =>
-        this._map.keys();
+    keys(): IterableIterator<Type<any> | symbol> {
+        return this._map.keys();
+    }
 
     /**
      *
      * @param target
      * @param options
      */
-    merge(target: Type<any> | symbol, options: O) {
+    merge(target: Type<any> | symbol, options: O): void {
 
-        if (!this.has(target)) {
-            this.set(target, new this._class(target));
-        }
-
-        const meta: any = this.get(target);
+        const meta: T & { [key: string]: any } = this.createIfNotExists(target);
 
         Object.keys(options).forEach(key => {
             meta[key] = (options as any)[key];
@@ -92,16 +104,18 @@ export class Registry<T, O> {
     /**
      * The clear() method removes all elements from a Map object.
      */
-    clear = () =>
+    clear(): void {
         this._map.clear();
+    }
 
     /**
      * The delete() method removes the specified element from a Map object.
      * @param key Required. The key of the element to remove from the Map object.
      * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
      */
-    delete = (key: Type<any> | symbol): boolean =>
-        this._map.delete(getClassOrSymbol(key));
+    delete(key: Type<any> | symbol): boolean {
+        return this._map.delete(getClassOrSymbol(key));
+    }
 
     /**
      * The forEach() method executes a provided function once per each key/value pair in the Map object, in insertion order.
@@ -122,13 +136,15 @@ export class Registry<T, O> {
      * forEach executes the callback function once for each element in the Map object; it does not return a value.
      *
      */
-    forEach = (callbackfn: (value: T, key: Type<any>, map: Map<Type<any> | symbol, T>) => void, thisArg?: any): void =>
+    forEach(callbackfn: (value: T, key: Type<any>, map: Map<Type<any> | symbol, T>) => void, thisArg?: any): void {
         this._map.forEach(callbackfn);
+    }
 
     /**
      * The values() method returns a new Iterator object that contains the values for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    values = (): IterableIterator<T> =>
-        this._map.values();
+    values(): IterableIterator<T> {
+        return this._map.values();
+    }
 }

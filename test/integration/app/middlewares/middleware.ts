@@ -1,16 +1,16 @@
-import {IMiddleware, Middleware} from "../../../../src";
 import * as Express from "express";
+import {IMiddleware, Middleware} from "../../../../src";
 
 @Middleware()
 export class TestMiddleware implements IMiddleware {
 
-    constructor(){
+    constructor() {
 
     }
 
     use(request: Express.Request, response: Express.Response): Promise<any> {
 
-        request.params.test = 'testMiddleware';
+        request.params.test = "testMiddleware";
 
         return Promise.resolve();
     }
@@ -19,14 +19,12 @@ export class TestMiddleware implements IMiddleware {
 @Middleware()
 export class Test2Middleware implements IMiddleware {
 
-    constructor(){
+    constructor() {
 
     }
 
     use(request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
-
-        request.params.test = 'test2Middleware';
-
+        request.params.test = "test2Middleware";
         next();
     }
 }

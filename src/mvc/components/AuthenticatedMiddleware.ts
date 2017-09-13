@@ -29,7 +29,7 @@ export class AuthenticatedMiddleware implements IMiddleware {
                @Response() response: Express.Response,
                @Next() next: Express.NextFunction) {
 
-        const options = endpoint.store.get(AuthenticatedMiddleware) || {};
+        const options = endpoint.get(AuthenticatedMiddleware) || {};
         let resolved = false;
 
         const callback = (result: boolean) => {

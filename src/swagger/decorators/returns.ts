@@ -1,26 +1,15 @@
-/**
- * @module swagger
- */
-/** */
-import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
+import {Store} from "../../core/class/Store";
 import {IResponsesOptions} from "../interfaces/index";
 
 export function Returns(code: number, options: IResponsesOptions = {}) {
-    return <T>(target: any, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        const endpoint = EndpointRegistry.get(target as any, targetKey);
-
-        endpoint
-            .store
-            .merge("responses", {
-                [code]: {
-                    description: options.description,
-                    headers: options.headers,
-                    type: options.use,
-                    collectionType: options.collection
-                }
-            });
-
-        return descriptor;
-    };
+    return Store.decorate((store: Store) => {
+        store.merge("responses", {
+            [code]: {
+                description: options.description,
+                headers: options.headers,
+                type: options.use,
+                collectionType: options.collection
+            }
+        });
+    });
 }

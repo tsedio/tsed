@@ -66,7 +66,7 @@ export class EndpointMetadata extends Storable {
     private _inheritedEndpoint: EndpointMetadata;
 
     constructor(_provide: Type<any>, private _methodClassName: string) {
-        super(_provide, _methodClassName, {});
+        super(_provide, _methodClassName, Object.getOwnPropertyDescriptor(_provide, _methodClassName));
 
         this._type = Metadata.getReturnType(this._target, this.methodClassName);
     }
@@ -179,6 +179,20 @@ export class EndpointMetadata extends Storable {
     }
 
     /**
+     * Find the a value from the endpoint. If no value is found then the value will be searched at the controller level.
+     * @param key
+     * @returns {any}
+     */
+    get(key: any) {
+        const value = this.store.get(key);
+        if (value !== undefined) {
+            return value;
+        }
+
+        return Store.from(this.target).get(key);
+    }
+
+    /**
      *
      * @returns {boolean}
      */
@@ -260,8 +274,8 @@ export class EndpointMetadata extends Storable {
      * Get value for an endpoint method.
      * @param key
      */
-    @Deprecated("Use endpointMetadata.store.get(key) instead of")
+    @Deprecated("Use endpointMetadata.get(key) instead of")
     public getMetadata(key: any): any {
-        return this.store.get<any>(key);
+        return this.get(key);
     }
 }
