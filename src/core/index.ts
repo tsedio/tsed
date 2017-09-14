@@ -8,6 +8,7 @@ export * from "./utils";
 export * from "./class/Metadata";
 export * from "./class/Registry";
 export * from "./class/ProxyRegistry";
+export * from "./class/Store";
 
 // Services
 export * from "./services/ExpressApplication";
