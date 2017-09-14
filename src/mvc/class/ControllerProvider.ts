@@ -8,10 +8,11 @@ import {Type} from "../../core/interfaces";
 import {getClass} from "../../core/utils";
 import {Provider} from "../../di/class/Provider";
 
-import {IControllerOptions, IRouterOptions} from "../interfaces";
+import {IControllerOptions, IRouterOptions, IControllerMiddlewares} from "../interfaces";
 import {IChildrenController} from "../interfaces/IChildrenController";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
+
 
 
 /**
