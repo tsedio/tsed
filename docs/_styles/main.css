@@ -48,6 +48,21 @@ section.cover .cover-main > p:last-child a:last-child {
     width: 80px;
 }
 
+.markdown-section {
+    padding-top: 60px;
+}
+
+.markdown-section .tool-docs.header {
+    position: absolute;
+    top: 65px;
+    right: 0px;
+}
+
+.markdown-section .tool-docs.header > * {
+    float: left;
+    margin: 5px;
+}
+
 .markdown-section ul.api-list {
     list-style: none;
     margin: 0 0 32px -8px;

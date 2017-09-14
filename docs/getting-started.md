@@ -31,7 +31,7 @@ options in your `tsconfig.json` file.
 }
 ```
 
-> **Note** : target can be set to ES2015/ES6.`.
+> **Note** : target can be set to ES2015/ES6.
 
 ### Optional
 You can copy this example of package.json to develop your application:

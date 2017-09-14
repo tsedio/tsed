@@ -135,12 +135,17 @@
       function (hook, vm) {
         hook.beforeEach(function (html) {
           var url = "http://github.com/Romakita/ts-express-decorators/blob/master/docs/" + vm.route.file;
-          var editHtml = "[:memo: Edit Document](" + url + ")\n";
+          var github = "<iframe src=\"http://ghbtns.com/github-btn.html?user=romakita&amp;repo=ts-express-decorators&amp;type=watch&amp;count=true\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"0\" width=\"110\" height=\"20\"></iframe>";
 
-          return html
+          return "<div class=\"tool-docs header\">"
+            + "<a href=\"" + url + "\" title=\"Edit document\"><div class=\"ps-icon ps-icon-pen\"></div></a>"
+            + github
+            + "</div>"
+            + "\n\n"
+            + html
             + "\n----\n"
-            + "Last modified {docsify-updated} "
-            + editHtml;
+            + "<small>Last modified {docsify-updated} - This work is under the [MIT License](license.md)</small>"
+            + "<div style='position: absolute; right:0px;bottom: 45px'>" + github + "</div>\n\n";
         });
       }
     ]
