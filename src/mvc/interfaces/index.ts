@@ -8,6 +8,7 @@ export * from "./IMiddleware";
 export * from "./IMiddlewareError";
 export * from "./IMiddlewareOptions";
 export * from "./IMiddlewareProvider";
+export * from "./IControllerMiddlewares";
 export * from "./IRouterOptions";
 export * from "./MiddlewareType";
 export * from "./IInjectableParamSettings";
