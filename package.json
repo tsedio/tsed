@@ -54,6 +54,7 @@
     "source-map-support": "^0.4.15",
     "ts-httpexceptions": "^2.2.1",
     "ts-log-debug": "^3.0.0",
+    "tslib": "^1.7.1",
     "swagger-schema-official": "^2.0.0-bab6bed"
   },
   "devDependencies": {
