@@ -8,9 +8,10 @@ import {Storable} from "../../core/class/Storable";
 import {Store} from "../../core/class/Store";
 import {Deprecated, NotEnumerable} from "../../core/decorators";
 import {Type} from "../../core/interfaces";
-import {isArrayOrArrayClass, isPromise} from "../../core/utils";
+import {isArrayOrArrayClass, isPromise, deepExtends} from "../../core/utils";
 import {ENDPOINT_METHODS} from "../constants";
 import {PathParamsType} from "../interfaces/PathParamsType";
+
 
 /**
  * EndpointMetadata contains metadata about a controller and his method.
@@ -179,17 +180,19 @@ export class EndpointMetadata extends Storable {
     }
 
     /**
-     * Find the a value from the endpoint. If no value is found then the value will be searched at the controller level.
+     * Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
+     * 
      * @param key
      * @returns {any}
      */
     get(key: any) {
-        const value = this.store.get(key);
-        if (value !== undefined) {
-            return value;
+        const ctrlValue = Store.from(this.target).get(key);
+        let meta = deepExtends(undefined, ctrlValue);
+        const endpointValue = this.store.get(key);
+        if (endpointValue !== undefined) {
+            meta = deepExtends(meta, endpointValue);
         }
-
-        return Store.from(this.target).get(key);
+        return meta;
     }
 
     /**
