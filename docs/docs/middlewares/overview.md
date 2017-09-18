@@ -31,10 +31,10 @@ In second place, create a new file in your middlewares folder. Create a new Clas
 
 You have different use case to declare and use a middlewares. Theses uses are following:
 
- * [Global Middleware](docs/global-middleware.md), this middleware can be used on [ServerLoader](api/common/server/serverloader.md),
- * [Global MiddlewareError](docs/global-error-middleware.md), this middleware error can be used on [ServerLoader](api/common/server/serverloader.md),
- * [Endpoint Middleware](docs/endpoint-middleware.md), this middleware can be used on a controller method,
- * [Endpoint Middleware Error](docs/endpoint-error-middleware.md), this middleware can be used on a controller method.
+ * [Global Middleware](docs/middlewares/global-middleware.md), this middleware can be used on [ServerLoader](api/common/server/serverloader.md),
+ * [Global MiddlewareError](docs/middlewares/global-error-middleware.md), this middleware error can be used on [ServerLoader](api/common/server/serverloader.md),
+ * [Endpoint Middleware](docs/middlewares/endpoint-middleware.md), this middleware can be used on a controller method,
+ * [Endpoint Middleware Error](docs/middlewares/endpoint-error-middleware.md), this middleware can be used on a controller method.
 
 ## Specifics parameters decorators
 
