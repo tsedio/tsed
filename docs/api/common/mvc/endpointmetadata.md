@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="endpointmetadata">EndpointMetadata</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { EndpointMetadata }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.3.2/src/mvc/class/EndpointMetadata.ts#L0-L0">                mvc/class/EndpointMetadata.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { EndpointMetadata }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.3.3/src/mvc/class/EndpointMetadata.ts#L0-L0">                mvc/class/EndpointMetadata.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -65,7 +65,8 @@ Endpoint inherited from parent class.
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> store<span class="token punctuation">:</span> <a href="#api/common/core/store"><span class="token">Store</span></a></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
-Find the a value from the endpoint. If no value is found then the value will be searched at the controller level.
+Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
+
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token function">hasHttpMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre></div>
 <hr />
