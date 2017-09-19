@@ -34,4 +34,6 @@ See [migrate from 1.x to 2.x](docs/migration.md) section.
 * [AlexProca](https://github.com/alexproca)
 * [Vincent178](https://github.com/vincent178)
 * [Vologab](https://github.com/vologab)
+* [lwallent](https://github.com/lwallent)
+
 
