@@ -65,6 +65,7 @@ You can copy this example of package.json to develop your application:
     "typescript": "^2.4.3"
   },
   "devDependencies": {
+    "@types/express": "^4.0.37",
     "@types/node": "^8.0.13",
     "concurrently": "^3.1.0",
     "nodemon": "^1.11.0"
