@@ -6,6 +6,7 @@ export * from "./interfaces";
 export * from "./decorators/deprecated";
 export * from "./decorators/description";
 export * from "./decorators/example";
+export * from "./decorators/name";
 export * from "./decorators/responses";
 export * from "./decorators/returns";
 export * from "./decorators/schema";

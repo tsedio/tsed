@@ -8,7 +8,7 @@ import {Storable} from "../../core/class/Storable";
 import {Store} from "../../core/class/Store";
 import {Deprecated, NotEnumerable} from "../../core/decorators";
 import {Type} from "../../core/interfaces";
-import {isArrayOrArrayClass, isPromise, deepExtends} from "../../core/utils";
+import {deepExtends, isArrayOrArrayClass, isPromise} from "../../core/utils";
 import {ENDPOINT_METHODS} from "../constants";
 import {PathParamsType} from "../interfaces/PathParamsType";
 
@@ -181,7 +181,7 @@ export class EndpointMetadata extends Storable {
 
     /**
      * Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
-     * 
+     *
      * @param key
      * @returns {any}
      */

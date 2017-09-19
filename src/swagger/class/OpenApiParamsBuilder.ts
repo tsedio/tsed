@@ -55,12 +55,12 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
 
                     return Object.assign(
                         {
-                            description: ""
+                            description: "",
+                            name: "body",
                         },
-                        param.store.get("schema"),
+                        param.store.get("baseparameter"),
                         {
                             "in": "body",
-                            name: "body",
                             required: !!param.required,
                             schema: {
                                 "$ref": `#/definitions/${param.typeName}`
