@@ -4,10 +4,11 @@
 /** */
 import * as Fs from "fs";
 import * as PathUtils from "path";
-import {Info, Schema, Spec} from "swagger-schema-official";
+import {Info, Schema, Spec, Tag} from "swagger-schema-official";
 import {$log} from "ts-log-debug";
+import {Store} from "../../core/class/Store";
 import {ExpressApplication} from "../../core/services/ExpressApplication";
-import {deepExtends} from "../../core/utils";
+import {deepExtends, nameOf} from "../../core/utils";
 import {Inject} from "../../di/decorators/inject";
 import {Service} from "../../di/decorators/service";
 import {ControllerProvider} from "../../mvc/class/ControllerProvider";
@@ -80,18 +81,22 @@ export class SwaggerService {
         const defaultSpec = this.getDefaultSpec();
         const paths: ISwaggerPaths = {};
         const definitions = {};
+        const tags: Tag[] = [];
 
         this.controllerService.forEach((provider: ControllerProvider) => {
             if (!provider.hasParent()) {
                 provider.routerPaths.forEach(path => {
                     this.buildRoutes(paths, definitions, provider, provider.getEndpointUrl(path));
                 });
+
+                this.buildTags(tags, provider);
             }
         });
 
         return deepExtends(
             defaultSpec,
             {
+                tags,
                 paths,
                 definitions
             },
@@ -185,6 +190,16 @@ export class SwaggerService {
                 deepExtends(definitions, builder.definitions);
             }
         });
+    }
 
+    private buildTags(tags: Tag[], ctrl: ControllerProvider) {
+        const clazz = ctrl.useClass;
+        const ctrlStore = Store.from(clazz);
+        const tag: Tag = {
+            name: nameOf(clazz)
+        };
+
+        Object.assign(tag, ctrlStore.get("tag"));
+        tags.push(tag);
     }
 }

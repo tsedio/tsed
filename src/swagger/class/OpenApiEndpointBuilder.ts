@@ -2,6 +2,7 @@
  * @module swagger
  */
 import {Operation, Path, Response} from "swagger-schema-official";
+import {Store} from "../../core/class/Store";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {toSwaggerPath} from "../utils";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
@@ -40,6 +41,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         const security = this.endpoint.get("security");
         const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
         const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
+
         openApiParamsBuilder
             .build()
             .completeMissingPathParams(openAPIPath);
@@ -49,7 +51,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         const path: any = this._paths[openAPIPath];
         const operation: Operation = {
             operationId,
-            tags: [this.endpoint.targetName],
+            tags: [this.getTagName()],
             parameters: openApiParamsBuilder.parameters,
             summary,
             consumes,
@@ -58,6 +60,9 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
             security: security,
             deprecated
         };
+
+        // only the description is added through the operation namespace for now
+        Object.assign(operation, this.endpoint.get("operation"));
 
         path[this.endpoint.httpMethod] = operation;
 
@@ -68,6 +73,14 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         Object.assign(this._definitions, openApiParamsBuilder.definitions);
 
         return this;
+    }
+
+    private getTagName(): string {
+        const clazz = this.endpoint.target;
+        const ctrlStore = Store.from(clazz);
+        const tag = ctrlStore.get("tag");
+        const tagName = (tag && tag.name) ? tag.name : this.endpoint.targetName;
+        return tagName;
     }
 
     private createResponse(code: string | number, options: any): Response {
