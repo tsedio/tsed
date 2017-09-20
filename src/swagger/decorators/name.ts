@@ -1,23 +1,23 @@
+import {Store} from "../../core/class/Store";
 import {getDecoratorType} from "../../core/utils/index";
-import {ControllerRegistry} from "../../mvc/registries/ControllerRegistry";
-import {BaseParameter} from "./baseparameter";
-import {Tag} from "./tag";
+import {BaseParameter} from "./baseParameter";
+
 /**
- *
- * @param {string} description
+ * Add a name metadata on the decorated element
  * @returns {Function}
  * @decorator
+ * @param name
  */
 export function Name(name: string) {
 
     return (...args: any[]) => {
-        const [target] = args;
         const type = getDecoratorType(args);
         switch (type) {
             case "parameter":
                 return BaseParameter({name})(...args);
             case "class":
-                if (ControllerRegistry.has(target)) return Tag({name})(...args);
+                Store.from(...args).set("name", name);
+                break;
             default:
                 throw new Error("Name on Property and Method Not Supported");
         }

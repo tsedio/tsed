@@ -13,8 +13,8 @@ const rootDir = Path.join(Path.resolve(__dirname), "app");
 
 @ServerSettings({
     rootDir,
-    port: 8000,
-    httpsPort: 8080,
+    port: 8002,
+    httpsPort: 8082,
     mount: {
         "/rest": `${rootDir}/controllers/**/**.js`
     },

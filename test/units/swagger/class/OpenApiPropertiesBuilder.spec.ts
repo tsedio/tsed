@@ -1,5 +1,5 @@
-import {JsonProperty} from "../../../../src/converters/decorators/jsonProperty";
 import {Required} from "../../../../src/mvc/decorators/required";
+import {JsonProperty} from "../../../../src/converters/decorators/jsonProperty";
 import {OpenApiPropertiesBuilder} from "../../../../src/swagger/class/OpenApiPropertiesBuilder";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {Title} from "../../../../src/swagger/decorators/title";

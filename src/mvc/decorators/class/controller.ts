@@ -7,6 +7,7 @@ import {PathParamsType} from "../../interfaces/PathParamsType";
  */
 /** */
 import {ControllerRegistry} from "../../registries/ControllerRegistry";
+
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
  * This routing listing will be built with the `express.Router` object.
@@ -32,11 +33,7 @@ import {ControllerRegistry} from "../../registries/ControllerRegistry";
  * @decorator
  */
 export function Controller(path: PathParamsType | IControllerOptions, ...dependencies: Type<any>[]): Function {
-
     return (target: any): void => {
-
-        // Metadata.set("IS_CLASS", true, target);
-
         if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
             ControllerRegistry.merge(target, {path: (path as PathParamsType), dependencies});
         } else {

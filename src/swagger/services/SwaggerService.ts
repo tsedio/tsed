@@ -81,7 +81,7 @@ export class SwaggerService {
         const defaultSpec = this.getDefaultSpec();
         const paths: ISwaggerPaths = {};
         const definitions = {};
-        const tags: Tag[] = [];
+        let tags: Tag[] = [];
 
         this.controllerService.forEach((provider: ControllerProvider) => {
             if (!provider.hasParent()) {
@@ -89,7 +89,7 @@ export class SwaggerService {
                     this.buildRoutes(paths, definitions, provider, provider.getEndpointUrl(path));
                 });
 
-                this.buildTags(tags, provider);
+                tags.push(this.buildTags(provider));
             }
         });
 
@@ -192,14 +192,16 @@ export class SwaggerService {
         });
     }
 
-    private buildTags(tags: Tag[], ctrl: ControllerProvider) {
+    private buildTags(ctrl: ControllerProvider): Tag {
         const clazz = ctrl.useClass;
         const ctrlStore = Store.from(clazz);
-        const tag: Tag = {
-            name: nameOf(clazz)
-        };
 
-        Object.assign(tag, ctrlStore.get("tag"));
-        tags.push(tag);
+        return Object.assign(
+            {
+                name: ctrlStore.get("name") || nameOf(clazz),
+                description: ctrlStore.get("description")
+            },
+            ctrlStore.get("tag") || {}
+        );
     }
 }
