@@ -12,7 +12,7 @@ Hook method | Description
 --- | --- | ---
 `constructor` | On this phase nothing is constructed. Express app isn't created.
 [`$onInit`](#serverloaderoninit-void-promise) | Respond when the server starting his lifecycle. Is good place to initialize Database connection.
-[`$onMountingMiddlewares`](#serverloaderonmountingmiddlewares-void-promise) | This hooks is the right place to configure the middlewares that must be used with your ExpressApplication. At this step, [InjectorService](api/injector-service.md) and [services](docs/services/overview.md) are ready and can be injected. The [Controllers](docs/controllers.md) isn't built.
+[`$onMountingMiddlewares`](#serverloaderonmountingmiddlewares-void-promise) | This hooks is the right place to configure the middlewares that must be used with your ExpressApplication. At this step, [InjectorService](api/common/core/di/injectorservice.md) and [services](docs/services/overview.md) are ready and can be injected. The [Controllers](docs/controllers.md) isn't built.
 [`$afterRoutesInit`](#serverloaderafterroutesinit-void-promise) | Respond just after all [Controllers](docs/controllers.md) are built. You can configure the [`serve-static`](https://github.com/expressjs/serve-static) middleware on this phase.
 [`$onReady`](#serverloaderonready-void) | Respond when the server is ready. At this step, HttpServer or/and HttpsServer object is available. The server listen the port.
 
@@ -25,8 +25,9 @@ Some hooks have been added to intercept 3 events. This hooks are here to configu
 a request require an authentication strategy.
 
 Hook method | Description
-[`$onAuth`](serverloaderonauthrequest-response-next-auth-void) | Respond when an Endpoint require an authentication strategy before access to the endpoint method.
-[`$onError`](serverloaderonerrorerror-request-response-next-void) | Respond when an error is intercepted by Express or Ts.ED.
+---|---
+[`$onAuth`](#serverloaderonauthrequest-response-next-auth-void) | Respond when an Endpoint require an authentication strategy before access to the endpoint method.
+[`$onError`](#serverloaderonerrorerror-request-response-next-void) | Respond when an error is intercepted by Express or Ts.ED.
 `$onServerInitError`| Respond when an error is triggered on server initialization.
 
 > $onAuth, $onError and $onServerInitError is a specials hooks.
@@ -128,7 +129,7 @@ class Server extends ServerLoader {
     }
 }
 ```
-> If you want integrate Socket.io, you can see the tutorials ["How to integrate Socket.io"](tutorials/how-to-integrate-socket-io.md).
+> If you want integrate Socket.io, you can see the tutorials ["How to integrate Socket.io"](tutorials/socket-io.md).
 
 
 ### Specials hooks examples
@@ -176,7 +177,7 @@ class MyCtrl {
 The object given to `@Authenticated` will be passed to `$onAuth` hook when a new request incoming on there route path 
 and let you manage the user's role for example.
 
-> See a complete integration example with [Passport.js](tutorials/examples.md).
+> See a complete integration example with [Passport.js](tutorials/passport.md).
 
 ***
 
@@ -225,4 +226,4 @@ class Server extends ServerLoader  {
     }
 }
 ```
-> You can use [`@MiddlewareError()`](docs/middlewares/handle-error.md) to handle all errors too.
+> You can use [`@MiddlewareError()`](docs/middlewares/global-error-middleware.md) to handle all errors too.
