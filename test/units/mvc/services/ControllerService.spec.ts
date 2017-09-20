@@ -1,7 +1,6 @@
-import * as Proxyquire from "proxyquire";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
 import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
-import {ProxyControllerRegistry} from "../../../../src/mvc/registries/ControllerRegistry";
+import {ControllerRegistry} from "../../../../src/mvc/registries/ControllerRegistry";
 import {ControllerService} from "../../../../src/mvc/services/ControllerService";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";
@@ -29,20 +28,6 @@ class TestService {
 
 const pushRouterPath = Sinon.stub();
 
-const ControllerRegistry = {
-    get: Sinon.stub().returns({pushRouterPath, provide: Test, useClass: Test}),
-    has: Sinon.stub().returns(true),
-    forEach: Sinon.stub()
-};
-
-const ControllerServiceProxy = Proxyquire.load("../../../../src/mvc/services/ControllerService", {
-    "../registries/ControllerRegistry": {
-        ControllerRegistry,
-        ProxyControllerRegistry
-    }
-}).ControllerService;
-
-
 describe("ControllerService", () => {
 
     describe("get()", () => {
@@ -59,53 +44,97 @@ describe("ControllerService", () => {
         });
     });
 
-    /*describe("require()", () => {
-     before(() => {
-     this.conf = ControllerServiceProxy.require("./test");
-     this.conf.mapTo("/");
-     });
-
-     it("should returns object", () => {
-     expect(this.conf).to.be.an("object");
-     });
-
-     it("should returns an object with classes", () => {
-     expect(this.conf.classes).to.be.an("array");
-     });
-
-     it("should returns an object with mapTo function", () => {
-     expect(this.conf.mapTo).to.be.a("function");
-     });
-
-     it("should have been called the pushRouterPath method", () => {
-     expect(pushRouterPath.should.calledWithExactly("/"));
-     });
-     });*/
-
     describe("buildControllers()", () => {
         before(() => {
-            this.expressApplicationStub = {use: Sinon.stub()};
-            this.controllerProvider = new ControllerProvider(Test);
-            this.controllerProvider.pushRouterPath("/rest");
-            this.controllerProvider.path = "test";
-
-            this.controllerService = new ControllerServiceProxy(InjectorService, this.expressApplicationStub, {routers: {}});
-            this.controllerService.buildControllers();
-
-            ControllerRegistry.forEach.callArgWith(0, this.controllerProvider);
+            this.getStub = Sinon.stub(ControllerRegistry, "get");
+            this.hasStub = Sinon.stub(ControllerRegistry, "has");
+            this.forEachStub = Sinon.stub(ControllerRegistry, "forEach");
         });
 
-        it("should called forEach()", () => {
-            ControllerRegistry.forEach.should.have.been.called;
+        after(() => {
+            this.getStub.restore();
+            this.hasStub.restore();
+            this.forEachStub.restore();
+        });
+        describe("when the controller is not scoped", () => {
+            before(() => {
+                this.expressApplicationStub = {use: Sinon.stub()};
+                this.controllerProvider = new ControllerProvider(Test);
+                this.controllerProvider.pushRouterPath("/rest");
+                this.controllerProvider.path = "test";
+                this.controllerProvider.scope = false;
+
+                this.controllerService = new ControllerService(InjectorService as any, this.expressApplicationStub, {routers: {}} as any);
+
+                this.invokeStub = Sinon.stub(this.controllerService, "invoke");
+                this.invokeStub.returns({instance: "instance"});
+                this.controllerService.buildControllers();
+
+                this.forEachStub.callArgWith(0, this.controllerProvider);
+            });
+
+            after(() => {
+                this.invokeStub.restore();
+            });
+
+            it("should called forEach()", () => {
+                ControllerRegistry.forEach.should.have.been.called;
+            });
+
+            it("should called use()", () => {
+                this.expressApplicationStub.use.should.have.been.called;
+            });
+
+            it("should append routerController to expressApplication", () => {
+                this.expressApplicationStub.use.calledWithExactly("/rest/test", Sinon.match.func);
+            });
+
+            it("should built the controller", () => {
+                return this.invokeStub.should.be.calledOnce.and.calledWithExactly(this.controllerProvider.useClass);
+            });
+
+            it("should store the instance", () => {
+                this.controllerProvider.instance.should.deep.eq({instance: "instance"});
+            });
         });
 
-        it("should called use()", () => {
-            this.expressApplicationStub.use.should.have.been.called;
+        describe("when the controller is scoped", () => {
+            before(() => {
+                this.expressApplicationStub = {use: Sinon.stub()};
+                this.controllerProvider = new ControllerProvider(Test);
+                this.controllerProvider.pushRouterPath("/rest");
+                this.controllerProvider.path = "test";
+                this.controllerProvider.scope = "request";
+
+                this.controllerService = new ControllerService(InjectorService as any, this.expressApplicationStub, {routers: {}} as any);
+
+                this.invokeStub = Sinon.stub(this.controllerService, "invoke");
+                this.controllerService.buildControllers();
+
+                this.forEachStub.callArgWith(0, this.controllerProvider);
+            });
+
+            after(() => {
+                this.invokeStub.restore();
+            });
+
+            it("should called forEach()", () => {
+                ControllerRegistry.forEach.should.have.been.called;
+            });
+
+            it("should called use()", () => {
+                this.expressApplicationStub.use.should.have.been.called;
+            });
+
+            it("should append routerController to expressApplication", () => {
+                this.expressApplicationStub.use.calledWithExactly("/rest/test", Sinon.match.func);
+            });
+
+            it("should not built the controller", () => {
+                return this.invokeStub.should.not.be.called;
+            });
         });
 
-        it("should append routerController to expressApplication", () => {
-            this.expressApplicationStub.use.calledWithExactly("/rest/test", Sinon.match.func);
-        });
     });
 
     describe("invoke()", () => {

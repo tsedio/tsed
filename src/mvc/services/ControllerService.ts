@@ -36,6 +36,33 @@ export class ControllerService extends ProxyControllerRegistry {
 
     /**
      *
+     * @param target
+     * @returns {ControllerProvider}
+     */
+    static get(target: Type<any>): ControllerProvider | undefined {
+        return ControllerRegistry.get(target);
+    }
+
+    /**
+     *
+     * @param target
+     */
+    static has(target: Type<any>) {
+        return ControllerRegistry.has(target);
+    }
+
+    /**
+     *
+     * @param target
+     * @param provider
+     */
+    static set(target: Type<any>, provider: ControllerProvider) {
+        ControllerRegistry.set(target, provider);
+        return this;
+    }
+
+    /**
+     *
      * @param components
      */
     public $onRoutesInit(components: { file: string, endpoint: string, classes: any[] }[]) {
@@ -62,31 +89,6 @@ export class ControllerService extends ProxyControllerRegistry {
     }
 
     /**
-     *
-     * @param target
-     * @returns {ControllerProvider}
-     */
-    static get = (target: Type<any>): ControllerProvider | undefined =>
-        ControllerRegistry.get(target);
-
-    /**
-     *
-     * @param target
-     * @param provider
-     */
-    static set(target: Type<any>, provider: ControllerProvider) {
-        ControllerRegistry.set(target, provider);
-        return this;
-    }
-
-    /**
-     *
-     * @param target
-     */
-    static has = (target: Type<any>) =>
-        ControllerRegistry.has(target);
-
-    /**
      * Invoke a controller from his Class.
      * @param target
      * @param locals
@@ -108,9 +110,7 @@ export class ControllerService extends ProxyControllerRegistry {
     public buildControllers() {
 
         const defaultRoutersOptions = this.serverSettings.routers;
-
         ControllerRegistry.forEach((provider: ControllerProvider) => {
-
             if (!provider.hasParent()) {
                 new ControllerBuilder(provider, defaultRoutersOptions).build();
 
@@ -118,6 +118,12 @@ export class ControllerService extends ProxyControllerRegistry {
                     this.expressApplication.use(provider.getEndpointUrl(path), provider.router);
                 });
 
+            }
+
+            const target = provider.useClass;
+
+            if (!provider.scope && provider.instance === undefined) {
+                provider.instance = this.invoke<any>(target);
             }
         });
 
