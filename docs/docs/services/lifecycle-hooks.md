@@ -5,7 +5,7 @@ This lifecycle hooks that provide visibility into these key life moments and the
 
 
 A service that uses one of the phases of the lifecycle can add a number of things and can be completely autonomous. 
-This is the case with the example of the socket server (See the section [How to integrate Socket.io](tutorials/how-to-integrate-socket-io.md)).
+This is the case with the example of the socket server (See the section [How to integrate Socket.io](tutorials/socket-io.md)).
 
 This schemes resume the order of the service's lifecycle along the ServerLoader's lifecycle.
 

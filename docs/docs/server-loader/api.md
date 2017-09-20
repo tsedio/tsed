@@ -95,7 +95,7 @@ Return the current instance of [Https.Server](https://nodejs.org/api/https.html#
 
 #### get ServerLoader.injectorService: InjectorService
 
-Return the instance of [InjectorService](api/injector-service.md).
+Return the instance of [InjectorService](api/common/core/di/injectorservice.md).
 
 ***
 
