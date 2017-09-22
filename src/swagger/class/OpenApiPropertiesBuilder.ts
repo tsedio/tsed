@@ -34,6 +34,10 @@ export class OpenApiPropertiesBuilder {
         const store = Store.from(this.target);
         const schema: Schema = Object.assign({}, store.get<Schema>("schema")) || {};
 
+        if (store.get("description")) {
+            schema.description = schema.description || store.get("description");
+        }
+
         schema.type = "object";
         schema.properties = {};
 
@@ -51,7 +55,11 @@ export class OpenApiPropertiesBuilder {
 
     protected createSchema(model: Storable): Schema {
         let builder;
-        let schemaProperty: Schema = model.store.get<Schema>("schema") || {};
+        let schema: Schema = model.store.get<Schema>("schema") || {};
+
+        if (model.store.get("description")) {
+            schema.description = schema.description || model.store.get("description");
+        }
 
         if (model.isClass) {
 
@@ -64,40 +72,40 @@ export class OpenApiPropertiesBuilder {
         if (model.isCollection) {
 
             if (model.isArray) {
-                schemaProperty.type = "array";
+                schema.type = "array";
 
                 if (model.isClass) {
-                    schemaProperty.items = {
+                    schema.items = {
                         $ref: `#/definitions/${model.typeName}`
                     };
                 } else {
-                    schemaProperty.items = {
+                    schema.items = {
                         type: swaggerType(model.type)
                     };
                 }
-                return schemaProperty;
+                return schema;
             }
 
             if (model.isClass) {
-                schemaProperty.additionalProperties = {
+                schema.additionalProperties = {
                     $ref: `#/definitions/${model.typeName}`
                 };
-                return schemaProperty;
+                return schema;
             }
 
-            schemaProperty.additionalProperties = {
+            schema.additionalProperties = {
                 type: swaggerType(model.type)
             };
-            return schemaProperty;
+            return schema;
         }
 
         if (model.isClass) {
-            schemaProperty.$ref = `#/definitions/${model.typeName}`;
-            return schemaProperty;
+            schema.$ref = `#/definitions/${model.typeName}`;
+            return schema;
         }
 
-        schemaProperty.type = swaggerType(model.type);
-        return schemaProperty;
+        schema.type = swaggerType(model.type);
+        return schema;
     }
 
 

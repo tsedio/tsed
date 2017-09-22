@@ -1,4 +1,5 @@
 import * as Fs from "fs";
+import {Store} from "../../../../src/core/class/Store";
 import {ExpressApplication} from "../../../../src/core/services/ExpressApplication";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
 import {ServerSettingsService} from "../../../../src/server/services/ServerSettingsService";
@@ -6,6 +7,9 @@ import {SwaggerService} from "../../../../src/swagger/services/SwaggerService";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";
 
+class Test {
+
+}
 
 describe("SwaggerService", () => {
     before(inject([InjectorService, ServerSettingsService], (injectorService: InjectorService, settingsService: ServerSettingsService) => {
@@ -241,6 +245,51 @@ describe("SwaggerService", () => {
             });
         });
 
+    });
+
+    describe("buildTags()", () => {
+        describe("when name is undefined", () => {
+            before(() => {
+                this.storeFromStub = Sinon.stub(Store, "from");
+                const store = {
+                    get: Sinon.stub()
+                };
+                this.storeFromStub.returns(store);
+                store.get.withArgs("description").returns("description");
+                store.get.withArgs("name").returns(undefined);
+                store.get.withArgs("tag").returns({test: "tag"});
+
+                this.result = this.swaggerService.buildTags({useClass: Test});
+            });
+            after(() => {
+                this.storeFromStub.restore();
+            });
+
+            it("should return an array with tags", () => {
+                this.result.should.deep.eq({description: "description", name: "Test", test: "tag"});
+            });
+        });
+        describe("when name is defined", () => {
+            before(() => {
+                this.storeFromStub = Sinon.stub(Store, "from");
+                const store = {
+                    get: Sinon.stub()
+                };
+                this.storeFromStub.returns(store);
+                store.get.withArgs("description").returns("description");
+                store.get.withArgs("name").returns("name");
+                store.get.withArgs("tag").returns({test: "tag"});
+
+                this.result = this.swaggerService.buildTags({useClass: Test});
+            });
+            after(() => {
+                this.storeFromStub.restore();
+            });
+
+            it("should return an array with tags", () => {
+                this.result.should.deep.eq({description: "description", name: "name", test: "tag"});
+            });
+        });
     });
 
     describe("readSpecPath", () => {

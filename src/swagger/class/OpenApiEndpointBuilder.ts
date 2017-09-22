@@ -13,7 +13,7 @@ import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
 const OPERATION_IDS: any = {};
 
 const getOperationId = (operationId: string) => {
-    if (OPERATION_IDS[operationId] === undefined) {
+    if (OPERATION_IDS[operationId] !== undefined) {
         OPERATION_IDS[operationId]++;
         operationId = operationId + "_" + OPERATION_IDS[operationId];
     } else {
@@ -24,7 +24,6 @@ const getOperationId = (operationId: string) => {
 
 export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
     private _paths: { [pathName: string]: Path } = {};
-
 
     constructor(private endpoint: EndpointMetadata, private endpointUrl: string) {
         super(endpoint.target);
@@ -75,14 +74,24 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         return this;
     }
 
+    /**
+     *
+     * @returns {string}
+     */
     private getTagName(): string {
         const clazz = this.endpoint.target;
         const ctrlStore = Store.from(clazz);
         const tag = ctrlStore.get("tag");
-        const tagName = (tag && tag.name) ? tag.name : this.endpoint.targetName;
-        return tagName;
+        const name = ctrlStore.get("name");
+        return name || tag && tag.name || this.endpoint.targetName;
     }
 
+    /**
+     *
+     * @param {string | number} code
+     * @param options
+     * @returns {Response}
+     */
     private createResponse(code: string | number, options: any): Response {
         const {description = "Success", headers} = options;
         const response: Response = {description, headers};
@@ -98,6 +107,10 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         return response;
     }
 
+    /**
+     *
+     * @returns {{[p: string]: Path}}
+     */
     public get paths(): { [p: string]: Path } {
         return this._paths;
     }
