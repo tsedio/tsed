@@ -54,8 +54,7 @@
     "source-map-support": "^0.4.15",
     "ts-httpexceptions": "^2.2.1",
     "ts-log-debug": "^3.0.0",
-    "tslib": "^1.7.1",
-    "swagger-schema-official": "^2.0.0-bab6bed"
+    "tslib": "^1.7.1"
   },
   "devDependencies": {
     "@types/chai": "^4.0.1",
@@ -69,7 +68,7 @@
     "@types/sinon-chai": "^2.7.27",
     "@types/superagent": "^3.5.3",
     "@types/supertest": "^2.0.0",
-    "@types/swagger-schema-official": "^2.0.5",
+    "@types/swagger-schema-official": "^2.0.6",
     "body-parser": "^1.15.1",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
