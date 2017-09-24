@@ -39,7 +39,7 @@ describe("ServeStaticService", () => {
     describe("mount()", () => {
         describe("when headers is not sent", () => {
             before(() => {
-                this.serveStaticService.mount("/path");
+                this.serveStaticService.mount("/path", "/views");
                 this.request = {
                     test: "request"
                 };
@@ -69,7 +69,7 @@ describe("ServeStaticService", () => {
 
         describe("when headers is sent", () => {
             before(() => {
-                this.serveStaticService.mount("/path");
+                this.serveStaticService.mount("/path", "/views");
                 this.request = {
                     test: "request"
                 };

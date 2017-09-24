@@ -22,16 +22,16 @@ export class ServeStaticService {
                 .keys(this.serverSettingsService.serveStatic)
                 .forEach(path => {
                     []
-                        .concat(path as any)
-                        .forEach((path: string) => this.mount(path));
+                        .concat(this.serverSettingsService.serveStatic[path] as any)
+                        .forEach((directory: string) => this.mount(path, directory));
                 });
 
         }
     }
 
-    mount(path: string) {
+    mount(path: string, directory: string) {
         const serveStatic = require("serve-static");
-        const middleware = serveStatic(this.serverSettingsService.serveStatic[path]);
+        const middleware = serveStatic(directory);
         this.expressApp.use(path, (request: any, response: any, next: any) => {
             if (!response.headersSent) {
                 middleware(request, response, next);
