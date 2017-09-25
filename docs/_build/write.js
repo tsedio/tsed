@@ -122,8 +122,8 @@ module.exports.writeIndex = () => {
 module.exports.writeSymbol = (symbol) => {
 
   if (symbol.symbolName.trim() === "") {
-    console.error(symbol);
-    process.exit(1);
+    console.error("Symbol empty =>", symbol);
+    return;
   }
 
   $log.info("Write", path.join(symbol.module.docPath, symbol.symbolName.toLowerCase() + ".md"));
