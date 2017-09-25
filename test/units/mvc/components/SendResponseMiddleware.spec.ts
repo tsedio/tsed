@@ -53,7 +53,6 @@ describe("SendResponseMiddleware :", () => {
         middleware.use(date, fakeResponse as any);
 
         expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._headers).to.contains("Content-Type:text/json");
         expect(fakeResponse._body).to.equal(JSON.stringify(date));
 
     }));
@@ -80,7 +79,6 @@ describe("SendResponseMiddleware :", () => {
         middleware.use(obj, fakeResponse as any);
 
         expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._headers).to.contains("Content-Type:text/json");
         expect(fakeResponse._body).to.equal(JSON.stringify(obj));
 
     }));
