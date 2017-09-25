@@ -28,7 +28,6 @@ export class SendResponseMiddleware implements IMiddleware {
             if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
                 response.send(String(data));
             } else {
-                response.setHeader("Content-Type", "text/json");
                 response.json(this.converterService.serialize(data));
             }
         }
