@@ -25,6 +25,7 @@ import {MultipartFile} from "../../../../../src/multipartfiles/decorators/multip
 import {Deprecated} from "../../../../../src/swagger/decorators/deprecated";
 import {Description} from "../../../../../src/swagger/decorators/description";
 import {Security} from "../../../../../src/swagger/decorators/security";
+import {Middleware1, Middleware2, Middleware3} from "../../middlewares/middleware";
 import {CalendarModel} from "../../models/Calendar";
 import {MongooseService} from "../../services/MongooseService";
 import {BaseController} from "../base/BaseController";
@@ -291,5 +292,12 @@ export class CalendarCtrl extends BaseController {
     @Post("/documents/1")
     testMultipart2(@MultipartFile() file: any) {
         return file;
+    }
+
+    @Get("/sum/:number")
+    @UseAfter(Middleware1, Middleware2, Middleware3)
+    async sumData(@PathParams("test") value: string, @PathParams("number") id: number) {
+        console.log("number :", id);
+        return +id;
     }
 }

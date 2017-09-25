@@ -428,4 +428,29 @@ describe("Rest", () => {
         });
 
     });
+
+    describe("GET /rest/calendars/sum/:number", () => {
+
+        it("should return a sum of the number applied by the different middlewares (chain middlewares test)", (done) => {
+            this.app
+                .get("/rest/calendars/sum/2")
+                .expect(200)
+                .end((err: any, response: any) => {
+                    expect(response.text).to.eq("8");
+                    done();
+                });
+        });
+
+
+        it("should return a sum of the number applied by the different middlewares (chain middlewares test 2)", (done) => {
+            this.app
+                .get("/rest/calendars/sum/10")
+                .expect(200)
+                .end((err: any, response: any) => {
+                    expect(response.text).to.eq("16");
+                    done();
+                });
+        });
+
+    });
 });
