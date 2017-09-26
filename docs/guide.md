@@ -22,7 +22,7 @@ Some examples are available along these links :
 * [Service declaration](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-services)
 * [Authentification with Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport)
 * [Mongoose and deserialization](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-mongoose)
-* [Swagger UI](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-swagger-ui)
+* [Swagger UI](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-swagger)
 * [Testing](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-testing)
 
 **Projects examples for v1.4.0 and more**

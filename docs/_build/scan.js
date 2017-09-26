@@ -19,6 +19,7 @@ module.exports = (pattern) => {
   let files = glob.sync(pattern);
 
   return files
+    .filter((file) => !file.match(/Express.d.ts/))
     .map(file => new DocComponent(file))
     .map(docComponent => {
 

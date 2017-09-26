@@ -86,7 +86,7 @@ a new `Server` class that extends [`ServerLoader`](../docs/server-loader.md).
 #### With decorators
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "ts-express-decorators";
 import Path = require("path");
 
 @ServerSettings({
@@ -133,14 +133,14 @@ new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
-To customize the server settings see [Configure server with decorator](configuration.md).
+To customize the server settings see [Configuragtion](configuration.md) page.
 
 #### With the methods
 
 These example is available for all version and use ServerLoader API to configure the server.
 
 ```typescript
-import {ServerLoader, IServerLifecycle} from "ts-express-decorators";
+import {ServerLoader, GlobalAcceptMimesMiddleware} from "ts-express-decorators";
 import Path = require("path");
 
 export class Server extends ServerLoader {
@@ -177,7 +177,7 @@ export class Server extends ServerLoader {
 
         this
             .use(morgan('dev'))
-            .use(ServerLoader.AcceptMime("application/json"))
+            .use(GlobalAcceptMimesMiddleware)
 
             .use(cookieParser())
             .use(compress({}))
@@ -204,18 +204,21 @@ new Server().start();
 
 ## Create your first controller
 
-Create a new `calendarCtrl.ts` in your controllers directory configured 
-previously with [`ServerLoader.scan()`](api/common/server/serverloader.md) 
-or [`ServerLoader.mount()`](api/common/server/serverloader.md). 
-All controllers declared with `@Controller` decorators is considered as an Express router. An Express router require a path 
-(here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it is a part of path, and entire exposed url depend on 
-the Server configuration (see [`ServerLoader.setEndpoint()`](api/common/server/serverloader.md)) and the controllers 
-dependencies. In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
+Create a new `calendarCtrl.ts` in your controllers directory (by default `root/controllers`).
+All controllers declared with `@Controller` decorators is considered as an Express router. 
+An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
+More precisely, it's a part of path, and entire exposed url depend on the Server configuration (see [Configuragtion](configuration.md)) 
+and the [controllers dependencies](docs/controllers.md). 
+
+In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
 ```typescript
-import {Controller, Get} from "ts-express-decorators";
+import {
+    Controller, Get, Render, Post, 
+    Authenticated, Required, BodyParams,
+    Delete
+} from "ts-express-decorators";
 import * as Express from "express";
 
 export interface Calendar{
@@ -242,9 +245,8 @@ export class CalendarCtrl {
     }
 
     @Get("/")
-    @ResponseView("calendars/index") // Render "calendars/index" file using Express.Response.render internal
+    @Render("calendars/index") // Render "calendars/index" file using Express.Response.render
     async renderCalendars(request: Express.Request, response: Express.Response): Promise<Array<Calendar>> {
-
         return [{id: '1', name: "test"}];
     }
     
@@ -252,14 +254,10 @@ export class CalendarCtrl {
     @Authenticated()
     async post(
         @Required() @BodyParams("calendar") calendar: Calendar
-    ): Promise<ICalendar> {
-    
+    ): Promise<Calendar> {
         return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = 1;
-            
+            calendar.id = "1";
             resolve(calendar);
-            
         });
     }
     
@@ -267,15 +265,8 @@ export class CalendarCtrl {
     @Authenticated()
     async post(
         @BodyParams("calendar.id") @Required() id: string 
-    ): Promise<ICalendar> {
-    
-        return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = id;
-            
-            resolve(calendar);
-            
-        });
+    ): Promise<Calendar> {
+        return {id, name: "calendar"};
     }
 }
 ```
