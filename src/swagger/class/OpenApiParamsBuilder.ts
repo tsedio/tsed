@@ -58,7 +58,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
                             description: "",
                             name: "body",
                         },
-                        param.store.get("baseparameter"),
+                        param.store.get("baseParameter"),
                         {
                             "in": "body",
                             required: !!param.required,
