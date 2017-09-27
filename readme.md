@@ -222,6 +222,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * [AlexProca](https://github.com/alexproca)
 * [Vincent178](https://github.com/vincent178)
 * [Vologab](https://github.com/vologab)
+* [lwallent](https://github.com/lwallent)
 
 ## License
 
