@@ -1,84 +1,9 @@
 import * as Proxyquire from "proxyquire";
-import {JsonProperty} from "../../../../src/converters/decorators/jsonProperty";
 import {BodyParamsFilter} from "../../../../src/filters/components/BodyParamsFilter";
 import {ParamMetadata} from "../../../../src/mvc/class/ParamMetadata";
-import {Required} from "../../../../src/mvc/decorators/required";
 import {Description} from "../../../../src/swagger/decorators/description";
-import {Title} from "../../../../src/swagger/decorators/title";
 import {expect, Sinon} from "../../../tools";
-
-class Foo {
-    @Title("Foo.test")
-    @Description("Description.test")
-    test: any;
-
-    @Title("Foo.foo")
-    @Description("Description.foo")
-    foo: any;
-
-    method() {
-    }
-}
-
-@Title("Foo2")
-@Description("Description Class")
-class Foo2 {
-
-    @Title("Test")
-    @Description("Description test")
-    @JsonProperty()
-    @Required()
-    test: string = "";
-
-    @JsonProperty("Name")
-    name: string;
-
-    @JsonProperty()
-    dateStart: Date;
-
-    @JsonProperty()
-    uint: number;
-
-    object: any;
-
-    @JsonProperty()
-    foo: Foo;
-
-    @Title("Foo2.foos")
-    @Description("Foo2.foos description")
-    @JsonProperty({use: Foo})
-    foos: Foo[];
-
-    @Title("Foo2.theMap")
-    @Description("Foo2.theMap description")
-    @JsonProperty({use: Foo})
-    theMap: Map<string, Foo>;
-
-    @Title("Foo2.theSet")
-    @Description("Foo2.theSet description")
-    @JsonProperty({use: Foo})
-    theSet: Set<Foo>;
-
-    @JsonProperty({use: String})
-    mapOfString: Map<string, string>;
-
-    @JsonProperty({use: String})
-    arrayOfString: string[];
-
-    method() {
-
-    }
-}
-
-class Foo3 {
-    toJSON() {
-        return {};
-    }
-}
-
-class Ctrl {
-
-}
+import {Ctrl, Foo, Foo2} from "./helpers/classes";
 
 const param0 = new ParamMetadata(Ctrl, "test", 0);
 param0.service = BodyParamsFilter;
@@ -132,17 +57,53 @@ describe("OpenApiParamsBuilder", () => {
                 },
                 "type": "object"
             },
+            "AgeModel": {
+                "properties": {
+                    "age": {
+                        "description": "The age",
+                        "title": "age",
+                        "type": "number"
+                    },
+                    "id": {
+                        "description": "Unique identifier.",
+                        "title": "id",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "NameModel": {
+                "properties": {
+                    "name": {
+                        "description": "The name",
+                        "title": "name",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Unique identifier.",
+                        "title": "id",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "Foo2": {
                 "description": "Description Class",
                 "properties": {
                     "Name": {
                         "type": "string"
                     },
-                    "dateStart": {
-                        "type": "string"
+                    "ageModel": {
+                        "$ref": "#/definitions/AgeModel"
+                    },
+                    "nameModel": {
+                        "$ref": "#/definitions/NameModel"
                     },
                     "foo": {
                         "$ref": "#/definitions/Foo"
+                    },
+                    "dateStart": {
+                        "type": "string"
                     },
                     "foos": {
                         "description": "Foo2.foos description",

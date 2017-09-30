@@ -4,6 +4,7 @@ import {Metadata} from "../../core/class/Metadata";
  */
 /** */
 import {Type} from "../../core/interfaces/Type";
+import {getClass, getInhiritedClass, nameOf} from "../../core/utils";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PROPERTIES_METADATA} from "../constants/index";
 
@@ -16,13 +17,13 @@ export class PropertyRegistry {
      */
     static get(target: Type<any>, propertyKey: string | symbol): PropertyMetadata {
 
-        const properties = this.getProperties(target);
+        const properties = this.getOwnProperties(target);
 
         if (!properties.has(propertyKey)) {
             this.set(target, propertyKey, new PropertyMetadata(target, propertyKey));
         }
 
-        return this.getProperties(target).get(propertyKey) as PropertyMetadata;
+        return this.getOwnProperties(target).get(propertyKey) as PropertyMetadata;
     }
 
     /**
@@ -30,10 +31,29 @@ export class PropertyRegistry {
      * @param target
      * @returns {Array}
      */
-    static getProperties = (target: Type<any>): Map<string | symbol, PropertyMetadata> =>
-        Metadata.has(PROPERTIES_METADATA, target)
-            ? Metadata.get(PROPERTIES_METADATA, target)
+    static getProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
+        const map = new Map<string | symbol, PropertyMetadata>();
+        let currentTarget = getClass(target);
+
+        while (nameOf(currentTarget) !== "") {
+            this.getOwnProperties(currentTarget).forEach((v: PropertyMetadata, k: string | symbol) => {
+                map.set(k, v);
+            });
+            currentTarget = getInhiritedClass(currentTarget);
+        }
+        return map;
+    }
+
+    /**
+     *
+     * @param {Type<any>} target
+     * @returns {Map<string | symbol, PropertyMetadata>}
+     */
+    static getOwnProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
+        return Metadata.hasOwn(PROPERTIES_METADATA, target)
+            ? Metadata.getOwn(PROPERTIES_METADATA, target)
             : new Map<string | symbol, PropertyMetadata>();
+    }
 
     /**
      *
@@ -43,7 +63,7 @@ export class PropertyRegistry {
      */
     static set(target: Type<any>, propertyKey: string | symbol, property: PropertyMetadata): void {
 
-        const properties = this.getProperties(target);
+        const properties = this.getOwnProperties(target);
 
         properties.set(propertyKey, property);
 
