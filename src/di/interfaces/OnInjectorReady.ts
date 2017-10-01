@@ -3,5 +3,5 @@
  */
 /** */
 export interface OnInjectorReady {
-    $onInjectorReady(): void;
+    $onInjectorReady(): Promise<any> | void;
 }
