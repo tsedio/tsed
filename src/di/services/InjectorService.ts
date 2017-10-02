@@ -208,9 +208,8 @@ export class InjectorService extends ProxyProviderRegistry {
     /**
      * Initialize injectorService and load all services/factories.
      */
-    public load(): InjectorService {
-        InjectorService.load();
-        return this;
+    async load(): Promise<any> {
+        return InjectorService.load();
     }
 
     /**
@@ -291,6 +290,10 @@ export class InjectorService extends ProxyProviderRegistry {
             const service = InjectorService.get<any>(provider.provide);
 
             if (eventName in service) {
+                /* istanbul ignore next */
+                if (eventName === "$onInjectorReady") {
+                    $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
+                }
                 promises.push(service[eventName](...args));
             }
         });
@@ -404,7 +407,10 @@ export class InjectorService extends ProxyProviderRegistry {
             (provider) => provider.instance === undefined || provider.type === "service"
         );
 
-        return this.emit("$onInjectorReady");
+        return Promise.all([
+            this.emit("$onInit"),
+            this.emit("$onInjectorReady") // deprecated
+        ]);
     }
 
     /**

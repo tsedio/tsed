@@ -12,12 +12,12 @@ This schemes resume the order of the service's lifecycle along the ServerLoader'
 ![lifecycle-hooks](_media/hooks-in-sequence.png)
 
 
-Each interface has a single hook method whose name is the interface name prefixed with `$`. For example, the `OnInjectorReady` 
-interface has a hook method named `$onInjectorReady()` that Ts.ED calls when all services are built.
+Each interface has a single hook method whose name is the interface name prefixed with `$`. For example, the `OnInit` 
+interface has a hook method named `$onInit()` (old name `$onInjectorReady`) or that Ts.ED calls when all services are built.
 
 ```typescript
 @Service()
-export class MyService implements OnInjectorReady, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady {
+export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady {
     private settings = {};
     
     constructor(
@@ -26,24 +26,24 @@ export class MyService implements OnInjectorReady, BeforeRoutesInit, OnRoutesIni
         this.settings = this.serverSettings.get('customServiceOptions');
     }
     
-    $OnInjectorReady() {
+    $onInit(): Promise<any> | void {
         console.log('All services is ready');
     }
     
-    $beforeRoutesInit() {
+    $beforeRoutesInit(): Promise<any> | void {
         console.log('Controllers and routes isn\'t mounted');
     }
     
-    $onRoutesInit(components: IComponentScanned[]) {
+    $onRoutesInit(components: IComponentScanned[]): Promise<any> | void {
        console.log('Controllers and routes are being built');
 
     }
     
-    $afterRoutesInit() {
+    $afterRoutesInit(): Promise<any> | void {
         console.log('Controllers and routes are built');
     }
     
-    $onServerReady() {
+    $onServerReady(): Promise<any> | void {
         console.log('Server is ready and listen the port');
     }
 }
@@ -51,7 +51,7 @@ export class MyService implements OnInjectorReady, BeforeRoutesInit, OnRoutesIni
 
 Hook | Purpose and Timing
 ---|---
-$onInjectorReady | Respond after Injector have initialized all Services in the registry.
+$onInit | Respond after Injector have initialized all Services in the registry.
 $beforeRoutesInit | Respond before loading the controllers. The middlewares and filters are already built.
 $onRoutesInit | Launch the build of the controllers. This hook provide a list of component scanned by componentsScan. 
 $afterRoutesInit | Respond after the controllers build. 
