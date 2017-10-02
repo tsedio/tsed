@@ -4,9 +4,9 @@
 ### Overview
 
 <pre><code class="typescript-lang"><span class="token keyword">interface</span> OnInjectorReady <span class="token punctuation">{</span>
-    $<span class="token function">onInjectorReady</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>> | <span class="token keyword">void</span><span class="token punctuation">;</span>
+    $<span class="token function">onInjectorReady</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 ### Members
 
-<div class="method-overview"><pre><code class="typescript-lang">$<span class="token function">onInjectorReady</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>> | <span class="token keyword">void</span></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang">$<span class="token function">onInjectorReady</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre></div>
