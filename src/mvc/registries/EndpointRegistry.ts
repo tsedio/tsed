@@ -5,7 +5,7 @@
 import {Metadata} from "../../core/class/Metadata";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces/Type";
-import {getInhiritedClass} from "../../core/utils";
+import {getInheritedClass} from "../../core/utils";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 
 /**
@@ -17,7 +17,7 @@ export class EndpointRegistry {
      * @param {Type<any>} ctrlClass
      */
     static inherit(ctrlClass: Type<any>) {
-        let inheritedClass = getInhiritedClass(ctrlClass);
+        let inheritedClass = getInheritedClass(ctrlClass);
 
         while (inheritedClass && EndpointRegistry.hasEndpoints(inheritedClass)) {
 
@@ -30,7 +30,7 @@ export class EndpointRegistry {
                         .push(endpoint);
                 });
 
-            inheritedClass = getInhiritedClass(inheritedClass);
+            inheritedClass = getInheritedClass(inheritedClass);
         }
     }
 

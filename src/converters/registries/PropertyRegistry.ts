@@ -4,7 +4,7 @@ import {Metadata} from "../../core/class/Metadata";
  */
 /** */
 import {Type} from "../../core/interfaces/Type";
-import {getClass, getInhiritedClass, nameOf} from "../../core/utils";
+import {getClass, getInheritedClass, nameOf} from "../../core/utils";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PROPERTIES_METADATA} from "../constants/index";
 
@@ -13,7 +13,7 @@ export class PropertyRegistry {
      *
      * @param target
      * @param propertyKey
-     * @returns {any}
+     * @returns {PropertyMetadata}
      */
     static get(target: Type<any>, propertyKey: string | symbol): PropertyMetadata {
 
@@ -23,7 +23,7 @@ export class PropertyRegistry {
             this.set(target, propertyKey, new PropertyMetadata(target, propertyKey));
         }
 
-        return this.getOwnProperties(target).get(propertyKey) as PropertyMetadata;
+        return this.getOwnProperties(target).get(propertyKey)!;
     }
 
     /**
@@ -33,14 +33,21 @@ export class PropertyRegistry {
      */
     static getProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
         const map = new Map<string | symbol, PropertyMetadata>();
+        const classes = [];
+
         let currentTarget = getClass(target);
 
         while (nameOf(currentTarget) !== "") {
-            this.getOwnProperties(currentTarget).forEach((v: PropertyMetadata, k: string | symbol) => {
+            classes.unshift(currentTarget);
+            currentTarget = getInheritedClass(currentTarget);
+        }
+
+        classes.forEach((klass) => {
+            this.getOwnProperties(klass).forEach((v: PropertyMetadata, k: string | symbol) => {
                 map.set(k, v);
             });
-            currentTarget = getInhiritedClass(currentTarget);
-        }
+        });
+
         return map;
     }
 
