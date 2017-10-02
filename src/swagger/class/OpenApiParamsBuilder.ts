@@ -2,11 +2,11 @@
  * @module swagger
  */
 /** */
-import {BodyParameter, Parameter, Schema} from "swagger-schema-official";
+import { BodyParameter, Parameter, Schema, BaseParameter } from "swagger-schema-official";
 import {Type} from "../../core/interfaces";
 import {deepExtends} from "../../core/utils";
 
-import {ParamMetadata} from "../../mvc/class/ParamMetadata";
+import { ParamMetadata } from "../../mvc/class/ParamMetadata";
 import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
 import {swaggerType} from "../utils";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
@@ -21,8 +21,10 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         this.injectedParams = ParamRegistry.getParams(target, methodClassName);
     }
 
+
     build(): this {
         let bodySchema: Schema | undefined = undefined;
+        let bodyParam: BodyParameter = {} as BodyParameter;
         let required = false;
         this._parameters = <Parameter[]> this.injectedParams
             .map((param: ParamMetadata) => {
@@ -36,79 +38,58 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
                 if (inType === undefined) { // not a input paramaters
                     return;
                 }
-                if (inType !== "body") {
-                    const schema = this.mapParam(param);
-                    schema["in"] = inType;
-                    return schema;
-                }
-                if (param.required) {
-                    required = true;
-                }
 
-                if (param.expression) {
-                    bodySchema = deepExtends(bodySchema || {}, this.createSchema(param));
-                } else {
-                    const builder = new OpenApiPropertiesBuilder(param.type);
-                    builder.build();
+                let baseParam: BaseParameter = this.createBaseParameter(inType, param);
 
-                    deepExtends(this._definitions, builder.definitions);
+                // Next assign type/schema:
+                if (inType === "body") {
+                    if (param.expression) {
+                        bodySchema = deepExtends(bodySchema || {}, this.createSchema(param));
+                        bodyParam = baseParam;
+                    } else {
+                        const builder = new OpenApiPropertiesBuilder(param.type);
+                        builder.build();
 
-                    return Object.assign(
-                        {
-                            description: "",
-                            name: "body",
-                        },
-                        param.store.get("baseParameter"),
-                        {
-                            "in": "body",
-                            required: !!param.required,
-                            schema: {
-                                "$ref": `#/definitions/${param.typeName}`
+                        deepExtends(this._definitions, builder.definitions);
+
+                        return Object.assign(baseParam,
+                            {
+                                schema: {
+                                    "$ref": `#/definitions/${param.typeName}`
+                                }
                             }
-                        }
-                    );
+                        );
+                    }
+                } else {
+                    // Apply the schema to be backwards compatible...
+                    return Object.assign(baseParam, param.store.get("schema") , {
+                        type: swaggerType(param.type)
+                    });
                 }
             })
             .filter(o => !!o);
 
-        if (bodySchema) {
-            let bodyParam: BodyParameter = {} as BodyParameter;
-            // model name will be extract from metadata in future.
+        if (bodySchema && bodyParam) {
             const model = `Model${this.MODEL_AUTO_INCREMENT}`;
-
-            bodyParam.in = "body";
-            bodyParam.name = "body";
-            bodyParam.description = "";
-            bodyParam.required = required;
             bodyParam.schema = {};
             bodyParam.schema["$ref"] = `#/definitions/${model}`;
-            this._parameters.push(bodyParam);
-
             this._definitions[model] = bodySchema;
-
             this.MODEL_AUTO_INCREMENT++;
         }
 
         return this;
     }
 
-    /**
-     *
-     * @param param
-     * @returns {T&{}}
-     */
-    private mapParam(param: ParamMetadata) {
-        const {
-            required,
-            expression
-        }
-            = param;
 
-        return Object.assign(param.store.get("schema") || {}, {
-            name: expression,
-            required,
-            type: swaggerType(param.type)
-        });
+    private createBaseParameter(inType: string, param: ParamMetadata): BaseParameter {
+        let baseParam: BaseParameter = {
+            name: (inType === "body") ? "body" : <string>param.expression,
+            in: inType,
+            required: !!param.required,
+            description: ""
+        };
+        // override defaults with baseParameter
+        return Object.assign(baseParam, param.store.get("baseParameter") );
     }
 
     /**
