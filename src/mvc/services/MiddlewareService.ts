@@ -30,7 +30,7 @@ export class MiddlewareService extends ProxyMiddlewareRegistry {
     /**
      *
      */
-    $onInjectorReady() {
+    $onInit() {
 
         /* istanbul ignore next */
         $log.debug("Build middlewares");

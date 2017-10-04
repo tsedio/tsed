@@ -45,6 +45,12 @@
     },
     {
       "name": "RestCtrl"
+    },
+    {
+      "name": "CalendarCtrl"
+    },
+    {
+      "name": "RestCtrl"
     }
   ],
   "paths": {
@@ -59,12 +65,13 @@
             "in": "path",
             "name": "eventId",
             "type": "string",
-            "required": true
+            "required": false
           },
           {
             "name": "test",
             "type": "string",
-            "in": "path"
+            "in": "path",
+            "required": false
           }
         ],
         "consumes": [],
@@ -253,13 +260,15 @@
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "The resource"
           },
           {
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "Id of the resource"
           }
         ],
         "summary": "Return an element by his resource",
@@ -343,7 +352,8 @@
             "in": "path",
             "name": "token",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "Token required to update token"
           }
         ],
         "consumes": [],
@@ -391,7 +401,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false
           }
         ],
         "consumes": [],
@@ -415,7 +425,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false
           }
         ],
         "consumes": [],
@@ -438,7 +448,8 @@
           {
             "name": "search",
             "type": "string",
-            "in": "query"
+            "in": "query",
+            "required": false
           }
         ],
         "consumes": [],
@@ -527,7 +538,8 @@
           {
             "name": "authorization",
             "type": "string",
-            "in": "header"
+            "in": "header",
+            "required": false
           }
         ],
         "consumes": [],
@@ -636,13 +648,15 @@
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "The resource"
           },
           {
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "Id of the resource"
           }
         ],
         "summary": "Return an element by his resource",
@@ -685,12 +699,13 @@
             "in": "path",
             "name": "eventId",
             "type": "string",
-            "required": true
+            "required": false
           },
           {
             "name": "test",
             "type": "string",
-            "in": "path"
+            "in": "path",
+            "required": false
           }
         ],
         "consumes": [],
@@ -879,13 +894,15 @@
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "The resource"
           },
           {
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "Id of the resource"
           }
         ],
         "summary": "Return an element by his resource",
@@ -969,7 +986,8 @@
             "in": "path",
             "name": "token",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "Token required to update token"
           }
         ],
         "consumes": [],
@@ -1017,7 +1035,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false
           }
         ],
         "consumes": [],
@@ -1041,7 +1059,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false
           }
         ],
         "consumes": [],
@@ -1064,7 +1082,8 @@
           {
             "name": "search",
             "type": "string",
-            "in": "query"
+            "in": "query",
+            "required": false
           }
         ],
         "consumes": [],
@@ -1153,7 +1172,8 @@
           {
             "name": "authorization",
             "type": "string",
-            "in": "header"
+            "in": "header",
+            "required": false
           }
         ],
         "consumes": [],
@@ -1262,13 +1282,15 @@
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "The resource"
           },
           {
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": false,
+            "description": "Id of the resource"
           }
         ],
         "summary": "Return an element by his resource",
