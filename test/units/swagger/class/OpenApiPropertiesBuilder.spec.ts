@@ -1,73 +1,7 @@
-import {Required} from "../../../../src/mvc/decorators/required";
-import {JsonProperty} from "../../../../src/converters/decorators/jsonProperty";
 import {OpenApiPropertiesBuilder} from "../../../../src/swagger/class/OpenApiPropertiesBuilder";
 import {Description} from "../../../../src/swagger/decorators/description";
-import {Title} from "../../../../src/swagger/decorators/title";
 import {expect} from "../../../tools";
-
-class Foo {
-    @Title("Foo.test")
-    @Description("Description.test")
-    test: any;
-
-    @Title("Foo.foo")
-    @Description("Description.foo")
-    foo: any;
-
-    method() {
-    }
-}
-
-@Title("Foo2")
-@Description("Description Class")
-class Foo2 {
-
-    @Title("Test")
-    @Description("Description test")
-    @JsonProperty()
-    @Required()
-    test: string = "";
-
-    @JsonProperty("Name")
-    name: string;
-
-    @JsonProperty()
-    dateStart: Date;
-
-    @JsonProperty()
-    uint: number;
-
-    object: any;
-
-    @JsonProperty()
-    foo: Foo;
-
-    @Title("Foo2.foos")
-    @Description("Foo2.foos description")
-    @JsonProperty({use: Foo})
-    foos: Foo[];
-
-    @Title("Foo2.theMap")
-    @Description("Foo2.theMap description")
-    @JsonProperty({use: Foo})
-    theMap: Map<string, Foo>;
-
-    @Title("Foo2.theSet")
-    @Description("Foo2.theSet description")
-    @JsonProperty({use: Foo})
-    theSet: Set<Foo>;
-
-    method() {
-
-    }
-}
-
-class Foo3 {
-    toJSON() {
-        return {};
-    }
-}
-
+import {Foo2} from "./helpers/classes";
 
 describe("OpenApiSchemaBuilder", () => {
 
@@ -82,22 +16,20 @@ describe("OpenApiSchemaBuilder", () => {
             "description": "Description Class",
             "type": "object",
             "properties": {
-                "test": {
-                    "type": "string",
-                    "title": "Test",
-                    "description": "Description test"
-                },
                 "Name": {
                     "type": "string"
                 },
-                "dateStart": {
-                    "type": "string"
+                "ageModel": {
+                    "$ref": "#/definitions/AgeModel"
                 },
-                "uint": {
-                    "type": "number"
+                "nameModel": {
+                    "$ref": "#/definitions/NameModel"
                 },
                 "foo": {
                     "$ref": "#/definitions/Foo"
+                },
+                "dateStart": {
+                    "type": "string"
                 },
                 "foos": {
                     "description": "Foo2.foos description",
@@ -106,6 +38,17 @@ describe("OpenApiSchemaBuilder", () => {
                     },
                     "title": "Foo2.foos",
                     "type": "array"
+                },
+                "arrayOfString": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "test": {
+                    "description": "Description test",
+                    "title": "Test",
+                    "type": "string"
                 },
                 "theMap": {
                     "additionalProperties": {
@@ -120,6 +63,14 @@ describe("OpenApiSchemaBuilder", () => {
                     },
                     "description": "Foo2.theSet description",
                     "title": "Foo2.theSet"
+                },
+                "mapOfString": {
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "uint": {
+                    "type": "number"
                 }
             }
         });
@@ -148,11 +99,17 @@ describe("OpenApiSchemaBuilder", () => {
                     "Name": {
                         "type": "string"
                     },
-                    "dateStart": {
-                        "type": "string"
+                    "ageModel": {
+                        "$ref": "#/definitions/AgeModel"
+                    },
+                    "nameModel": {
+                        "$ref": "#/definitions/NameModel"
                     },
                     "foo": {
                         "$ref": "#/definitions/Foo"
+                    },
+                    "dateStart": {
+                        "type": "string"
                     },
                     "foos": {
                         "description": "Foo2.foos description",
@@ -161,6 +118,12 @@ describe("OpenApiSchemaBuilder", () => {
                         },
                         "title": "Foo2.foos",
                         "type": "array"
+                    },
+                    "arrayOfString": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     },
                     "test": {
                         "description": "Description test",
@@ -181,11 +144,46 @@ describe("OpenApiSchemaBuilder", () => {
                         "description": "Foo2.theSet description",
                         "title": "Foo2.theSet"
                     },
+                    "mapOfString": {
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
                     "uint": {
                         "type": "number"
                     }
                 },
                 "title": "Foo2",
+                "type": "object"
+            },
+            "AgeModel": {
+                "properties": {
+                    "age": {
+                        "description": "The age",
+                        "title": "age",
+                        "type": "number"
+                    },
+                    "id": {
+                        "description": "Unique identifier.",
+                        "title": "id",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "NameModel": {
+                "properties": {
+                    "name": {
+                        "description": "The name",
+                        "title": "name",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Unique identifier.",
+                        "title": "id",
+                        "type": "string"
+                    }
+                },
                 "type": "object"
             }
         });

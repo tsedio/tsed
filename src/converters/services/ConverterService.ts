@@ -1,6 +1,5 @@
 import {BadRequest} from "ts-httpexceptions";
 import {Metadata} from "../../core/class/Metadata";
-import {Type} from "../../core/interfaces/Type";
 import {isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
 import {InjectorService} from "../../di";
 /**
@@ -24,12 +23,11 @@ export class ConverterService {
 
     /**
      * Return a JsonMetadata for a properties.
-     * @param targetClass
+     * @param properties
      * @param propertyKey
      * @returns {undefined|V|string|any|T|IDBRequest}
      */
-    static getJsonMetadata(targetClass: any, propertyKey: string): PropertyMetadata | undefined {
-        const properties = this.getJsonProperties(targetClass);
+    static getPropertyMetadata(properties: Map<string | symbol, PropertyMetadata>, propertyKey: string): PropertyMetadata | undefined {
 
         if (properties.has(propertyKey)) {
             return properties.get(propertyKey);
@@ -79,15 +77,14 @@ export class ConverterService {
             if (!isPrimitiveOrPrimitiveClass(obj)) {
 
                 const plainObject: any = isArrayOrArrayClass(obj) ? [] : {};
+                const properties = PropertyRegistry.getProperties(obj);
 
-                Object.getOwnPropertyNames(obj).forEach(propertyKey => {
-
+                Object.keys(obj).forEach(propertyKey => {
                     if (typeof obj[propertyKey] !== "function") {
-                        const jsonMetadata = ConverterService.getJsonMetadata(obj, propertyKey) || {} as any;
+                        const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey) || {} as any;
 
-                        plainObject[jsonMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
+                        plainObject[propertyMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
                     }
-
                 });
 
                 return plainObject;
@@ -144,20 +141,19 @@ export class ConverterService {
             // if (!isPrimitiveOrPrimitiveClass(obj) && !isPrimitiveOrPrimitiveClass(targetType)) {
 
             const instance = new targetType();
+            const properties = PropertyRegistry.getProperties(targetType);
 
             Object.keys(obj).forEach((propertyName: string) => {
-                const jsonMetadata = ConverterService.getJsonMetadata(targetType, propertyName) || {} as any;
-                const propertyValue = obj[jsonMetadata.name] || obj[propertyName];
-                const propertyKey = jsonMetadata.propertyKey || propertyName;
-
+                const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName) || {} as any;
+                const propertyValue = obj[propertyMetadata.name] || obj[propertyName];
+                const propertyKey = propertyMetadata.propertyKey || propertyName;
                 try {
 
                     if (typeof instance[propertyKey] !== "function") {
-
                         instance[propertyKey] = this.deserialize(
                             propertyValue,
-                            jsonMetadata.isCollection ? jsonMetadata.collectionType : jsonMetadata.type,
-                            jsonMetadata.type
+                            propertyMetadata.isCollection ? propertyMetadata.collectionType : propertyMetadata.type,
+                            propertyMetadata.type
                         );
                     }
 
@@ -169,8 +165,6 @@ export class ConverterService {
                         throw castedError;
                     })();
                 }
-
-
             });
 
             return instance;
@@ -202,14 +196,5 @@ export class ConverterService {
         if (converter) {
             return this.injectorService.invoke(converter);
         }
-    }
-
-    /**
-     * Return all properties for a class.
-     * @returns {any|Map<string, IPropertyMetadata>}
-     * @param target
-     */
-    static getJsonProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
-        return PropertyRegistry.getProperties(target);
     }
 }

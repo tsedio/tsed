@@ -199,7 +199,7 @@ export function isPromise(target: any): boolean {
     return target === Promise || target instanceof Promise;
 }
 
-export function getInhiritedClass(target: any): any {
+export function getInheritedClass(target: any): any {
     return Object.getPrototypeOf(target);
 }
 
