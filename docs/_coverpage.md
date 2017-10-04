@@ -9,6 +9,6 @@
 * Dependency Injection,
 * Rest route and controller, param data injection support.
 
-[GitHub](https://github.com/Romakita/ts-log-debug/)
+[GitHub](https://github.com/Romakita/ts-express-decorators/)
 [Get Started](#tsed)
 

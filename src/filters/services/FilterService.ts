@@ -24,7 +24,7 @@ export class FilterService extends ProxyFilterRegistry {
     /**
      *
      */
-    $onInjectorReady() {
+    $onInit() {
 
         /* istanbul ignore next */
         $log.debug("Build filters");
