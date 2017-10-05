@@ -5,12 +5,12 @@
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {EnvTypes} from "../../core/interfaces";
+import {applyBefore} from "../../core/utils";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {Middleware} from "../decorators/class/middleware";
 import {Req} from "../decorators/param/request";
 import {Res} from "../decorators/param/response";
 import {IMiddleware} from "../interfaces";
-import {applyBefore} from "../../core/utils";
 
 /**
  * @private
@@ -36,8 +36,17 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
         this.configureRequest(request);
 
         request.log.info();
+        this.onLogStart(request);
 
         applyBefore(response, "end", () => this.onLogEnd(request, response));
+    }
+
+    /**
+     * The separate onLogStart() function will allow developer to overwrite the initial request log.
+     * @param {e.Request} request
+     */
+    protected onLogStart(request: Express.Request) {
+        request.log.info();
     }
 
     /**
