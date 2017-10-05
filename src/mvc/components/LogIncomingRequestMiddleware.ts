@@ -35,7 +35,6 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
 
         this.configureRequest(request);
 
-        request.log.info();
         this.onLogStart(request);
 
         applyBefore(response, "end", () => this.onLogEnd(request, response));
