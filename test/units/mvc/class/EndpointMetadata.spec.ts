@@ -1,7 +1,7 @@
-import {expect} from "chai";
 import {Metadata} from "../../../../src/core/class/Metadata";
 import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
 import {EndpointRegistry} from "../../../../src/mvc/registries/EndpointRegistry";
+import {expect, Sinon} from "../../../tools";
 
 class Test {
 
@@ -159,5 +159,165 @@ describe("EndpointMetadata", () => {
         it("should return the store", () => {
             expect(this.store).to.deep.equal({"test2": "value2"});
         });
+    });
+
+    describe("statusResponse()", () => {
+        describe("when haven't responses", () => {
+            before(() => {
+                this.endpointMetadata = new EndpointMetadata(Test, "method");
+                this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
+
+                this.storeGetStub.withArgs("responses").returns({});
+
+                this.result = this.endpointMetadata.statusResponse(200);
+            });
+
+            after(() => {
+                this.storeGetStub.restore();
+            });
+
+            it("should haven't type and collectionType", () => {
+                expect(this.endpointMetadata.type).to.be.undefined;
+                expect(this.endpointMetadata.collectionType).to.be.undefined;
+            });
+            it("should haven\'t headers", () => {
+                expect(this.result).to.deep.eq({
+                    description: undefined,
+                    headers: undefined,
+                    examples: undefined
+                });
+            });
+        });
+
+        describe("when have empty responses", () => {
+            before(() => {
+                this.endpointMetadata = new EndpointMetadata(Test, "method");
+                this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
+
+                this.storeGetStub.withArgs("responses").returns({
+                    [200]: {}
+                });
+
+                this.result = this.endpointMetadata.statusResponse(200);
+            });
+
+            after(() => {
+                this.storeGetStub.restore();
+            });
+
+            it("should haven't type and collectionType", () => {
+                expect(this.endpointMetadata.type).to.be.undefined;
+                expect(this.endpointMetadata.collectionType).to.be.undefined;
+            });
+            it("should haven\'t headers", () => {
+                expect(this.result).to.deep.eq({
+                    "description": undefined,
+                    "examples": undefined,
+                    "headers": undefined
+                });
+            });
+        });
+
+        describe("when have responses", () => {
+            before(() => {
+                this.endpointMetadata = new EndpointMetadata(Test, "method");
+                this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
+                this.responses = {
+                    [200]: {
+                        type: Test,
+                        "headers": {
+                            "headerName": {
+                                type: "string",
+                                value: "x-content"
+                            }
+                        }
+                    }
+                }
+                this.storeGetStub.withArgs("responses").returns(this.responses);
+
+                this.result = this.endpointMetadata.statusResponse(200);
+            });
+
+            after(() => {
+                this.storeGetStub.restore();
+            });
+
+            it("should have type", () => {
+                expect(this.endpointMetadata.type).to.eq(Test);
+            });
+
+            it("should haven't collectionType", () => {
+                expect(this.endpointMetadata.collectionType).to.be.undefined;
+            });
+            it("should have headers", () => {
+                expect(this.result).to.deep.eq({
+                    "description": undefined,
+                    "examples": undefined,
+                    "headers": {
+                        "headerName": {
+                            type: "string"
+                        }
+                    }
+                });
+            });
+            it("shouldn't change the original responses", () => {
+                this.responses[200].headers.headerName.value.should.be.eq("x-content");
+            });
+        });
+
+        describe("when the status code match with the default response", () => {
+            before(() => {
+                this.endpointMetadata = new EndpointMetadata(Test, "method");
+                this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
+                this.responses = {
+                    [200]: {
+                        type: Test,
+                        description: "description"
+                    }
+                };
+                this.response = {
+                    type: Test,
+                    "headers": {
+                        "headerName": {
+                            type: "string",
+                            value: "x-content"
+                        }
+                    }
+                };
+                this.storeGetStub.withArgs("statusCode").returns(200);
+                this.storeGetStub.withArgs("responses").returns(this.responses);
+
+                this.storeGetStub.withArgs("response").returns(this.response);
+
+                this.result = this.endpointMetadata.statusResponse(200);
+            });
+
+            after(() => {
+                this.storeGetStub.restore();
+            });
+
+            it("should have type", () => {
+                expect(this.endpointMetadata.type).to.eq(Test);
+            });
+
+            it("should haven't collectionType", () => {
+                expect(this.endpointMetadata.collectionType).to.be.undefined;
+            });
+            it("should have headers", () => {
+                expect(this.result).to.deep.eq({
+                    "examples": undefined,
+                    description: "description",
+                    "headers": {
+                        "headerName": {
+                            "type": "string"
+                        }
+                    }
+                });
+            });
+            it("shouldn't change the original response", () => {
+                this.response.headers.headerName.value.should.be.eq("x-content");
+            });
+        });
+
     });
 });

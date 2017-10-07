@@ -1,6 +1,3 @@
-/**
- * @module swagger
- */
 import {Operation, Path, Response} from "swagger-schema-official";
 import {Store} from "../../core/class/Store";
 import {deepExtends} from "../../core/utils";
@@ -36,9 +33,6 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         const produces = this.endpoint.get("produces") || [];
         const consumes = this.endpoint.get("consumes") || [];
         const responses = this.endpoint.get("responses") || {"200": {description: "Success"}};
-        const summary = this.endpoint.get("summary") || "";
-        const deprecated = this.endpoint.get("deprecated") || false;
-        const security = this.endpoint.get("security");
         const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
         const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
 
@@ -55,16 +49,12 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
             operationId,
             tags: [this.getTagName()],
             parameters: openApiParamsBuilder.parameters,
-            summary,
             consumes,
             responses,
-            produces,
-            security: security,
-            deprecated
+            produces
         };
 
-        // only the description is added through the operation namespace for now
-        Object.assign(operation, this.endpoint.get("operation"));
+        deepExtends(operation, this.endpoint.get("operation") || {});
 
         path[this.endpoint.httpMethod] = operation;
 
@@ -95,11 +85,14 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
      * @param options
      * @returns {Response}
      */
-    private createResponse(code: string | number, options: any): Response {
-        const {description = "Success", headers} = options;
-        const response: Response = {description, headers};
+    private createResponse(code: string | number, options: Response): Response {
 
-        this.endpoint.statusResponse(code);
+        const {description = "Success", headers, examples} = Object.assign(
+            options,
+            this.endpoint.statusResponse(code)
+        );
+
+        const response: Response = {description, headers, examples};
 
         if (this.endpoint.type === undefined) {
             return response;
@@ -112,7 +105,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
 
     /**
      *
-     * @returns {{[p: string]: Path}}
+     * @returns {}
      */
     public get paths(): { [p: string]: Path } {
         return this._paths;

@@ -7,6 +7,7 @@ import {Returns} from "../../../../../src/swagger/decorators/returns";
 import {EventModel} from "../../models/Event";
 import {BaseController} from "../base/BaseController";
 import {TaskCtrl} from "./TaskCtrl";
+import {Title} from "../../../../../src/swagger/decorators/title";
 
 @Controller({
     path: "/events",
@@ -27,7 +28,7 @@ export class EventCtrl extends BaseController {
      */
     @Patch("/:id")
     @Responses("404", {description: "Not found"})
-    patch(@Required() @BodyParams() event: EventModel): EventModel {
+    patch(@Title("Title event") @Required() @BodyParams() event: EventModel): EventModel {
 
         if (event.id === "0" || event.id === "") {
             throw new NotFound("Not found");

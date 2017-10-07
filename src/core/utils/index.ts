@@ -227,6 +227,7 @@ export function decoratorArgs(target: any, propertyKey: string): DecoratorParame
         descriptorOf(target, propertyKey)
     ];
 }
+
 export function applyBefore(target: any, name: string, callback: Function) {
     const original = target[name];
     target[name] = function (...args: any[]) {

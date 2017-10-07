@@ -203,10 +203,43 @@ export class EndpointMetadata extends Storable {
         return !!this._httpMethod;
     }
 
-    public statusResponse(code: string | number) {
-        const response = (this.store.get("responses") || {})[code] || {};
-        this.type = response.type;
-        this.collectionType = response.collectionType;
+    /**
+     * Change the type and the collection type from the status code.
+     * @param {string | number} code
+     */
+    public statusResponse(code: string | number): { description: string, headers: any, examples: any } {
+        const get = (code: number | string) => (this.store.get("responses") || {})[code] || {};
+        let {description, headers, examples} = get(code);
+
+        if (code) {
+            const {type, collectionType} = get(code);
+            this.type = type;
+            this.collectionType = collectionType;
+        }
+
+        if (code === this.store.get("statusCode")) {
+            const response = this.store.get("response");
+
+            headers = response.headers || headers;
+            examples = response.examples || examples;
+            description = response.description || description;
+
+            this.type = response.type || this.type;
+            this.collectionType = response.collectionType || this.collectionType;
+        }
+
+        if (headers) {
+            headers = deepExtends({}, headers);
+            Object.keys(headers).forEach((key) => {
+                delete headers[key].value;
+            });
+        }
+
+        return {
+            headers,
+            examples,
+            description
+        };
     }
 
     /**

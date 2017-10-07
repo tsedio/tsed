@@ -12,6 +12,7 @@ export class Task {
     public percent: number;
 }
 
+@Title("EventModel Title")
 export class EventModel {
 
     @Title("iD")

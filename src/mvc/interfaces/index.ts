@@ -18,3 +18,5 @@ export * from "./IRouterOptions";
 export * from "./IRouterOptions";
 export * from "./PathParamsType";
 export * from "./IChildrenController";
+export * from "./IResponseOptions";
+export * from "./IResponseHeader";

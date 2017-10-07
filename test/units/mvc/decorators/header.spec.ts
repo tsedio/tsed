@@ -1,8 +1,10 @@
 import {assert} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
+import {Store} from "../../../../src/core/class/Store";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
+import {expect} from "../../../tools";
 
 let middleware: any;
 const UseAfterStub: any = function (_middleware_: any) {
@@ -21,7 +23,7 @@ class Test {
 
 describe("Header", () => {
 
-    describe("when is used to decorate a method", () => {
+    describe("when is used as method decorator", () => {
 
         before(() => {
             this.request = new FakeRequest();
@@ -74,6 +76,41 @@ describe("Header", () => {
 
             it("should call next function", () => {
                 assert(this.nextSpy.called, "next isn't called");
+            });
+        });
+
+        describe("swagger spec", () => {
+            before(() => {
+                Header({
+                    "Content-Type": "text/plain",
+                    "Content-Length": 123,
+                    "ETag": {
+                        "value": "12345",
+                        "description": "header description"
+                    }
+                })(Test, "test", {});
+
+                this.store = Store.from(Test, "test", {});
+            });
+
+            it("should store the swagger responses", () => {
+                expect(this.store.get("response")).to.deep.eq({
+                    "headers": {
+                        "Content-Length": {
+                            "type": "number",
+                            "value": 123
+                        },
+                        "Content-Type": {
+                            "type": "string",
+                            "value": "text/plain"
+                        },
+                        "ETag": {
+                            "description": "header description",
+                            "type": "string",
+                            "value": "12345"
+                        }
+                    }
+                });
             });
         });
     });
