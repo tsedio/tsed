@@ -1,7 +1,8 @@
 import {JsonProperty} from "../../../../src";
-import {Title} from "../../../../src/swagger/decorators/title";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {Example} from "../../../../src/swagger/decorators/example";
+import {Title} from "../../../../src/swagger/decorators/title";
+import {Required} from "../../../../src/mvc/decorators";
 
 export class CalendarModel {
 
@@ -12,6 +13,7 @@ export class CalendarModel {
     public id: string;
 
     @JsonProperty()
+    @Required()
     public name: string;
 }
 

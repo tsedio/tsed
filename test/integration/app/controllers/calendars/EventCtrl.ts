@@ -53,11 +53,12 @@ export class EventCtrl extends BaseController {
      *
      * @returns {null}
      */
-    @Put("/")
-    save(): Promise<any> | void {
+    @Put("/:id")
+    save(@BodyParams() event: EventModel): Promise<any> | void {
 
+        event.id = "1";
 
-        return Promise.resolve(null);
+        return Promise.resolve(event);
     }
 
     /**
@@ -65,7 +66,7 @@ export class EventCtrl extends BaseController {
      * @param event
      * @returns {null}
      */
-    @Post("/:id")
+    @Post("/list")
     @Authenticated()
     @Returns(200, {use: EventModel, collection: Array})
     update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {

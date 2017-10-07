@@ -12,7 +12,7 @@ describe("ParseExpressionError", () => {
     });
 
     it("should have a message", () => {
-        expect(this.errorInstance.message).to.equal("Bad request, parameter request.name.expression. message");
+        expect(this.errorInstance.message).to.equal("Bad request on parameter request.name.expression. message");
     });
 
     it("should have a name", () => {

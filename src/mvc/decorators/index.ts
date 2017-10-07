@@ -17,6 +17,7 @@ export * from "./method/contentType";
 // Shared
 export * from "./header";
 export * from "./required";
+export * from "./allow";
 
 // Parameters
 export * from "./param/responseData";

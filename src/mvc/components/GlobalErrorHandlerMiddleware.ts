@@ -1,6 +1,7 @@
 /**
  * @module common/mvc
- */ /** */
+ */
+/** */
 
 import * as Express from "express";
 import {Exception} from "ts-httpexceptions";
@@ -11,6 +12,7 @@ import {Next} from "../decorators/param/next";
 import {Request} from "../decorators/param/request";
 import {Response} from "../decorators/param/response";
 import {IMiddlewareError} from "../interfaces";
+
 /**
  * @middleware
  */
@@ -19,25 +21,24 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
 
     use(@Err() error: any,
         @Request() request: Express.Request,
-        @Response() response: Express.Response,
-        @Next() next: Express.NextFunction): any {
+        @Response() response: Express.Response): any {
 
         const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
         if (error instanceof Exception || error.status) {
             $log.error("" + error);
             response.status(error.status).send(toHTML(error.message));
-            return next();
+            return;
         }
 
         if (typeof error === "string") {
             response.status(404).send(toHTML(error));
-            return next();
+            return;
         }
 
         $log.error(error);
         response.status(error.status || 500).send("Internal Error");
 
-        return next();
+        return;
     }
 }

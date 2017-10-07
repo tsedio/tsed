@@ -28,7 +28,7 @@ describe("PropertyRegistry", () => {
 
     describe("required()", () => {
         before(() => {
-            PropertyRegistry.required(Test, "test");
+            PropertyRegistry.required(Test, "test", [null, ""]);
             this.propertyMetadata = PropertyRegistry.get(Test, "test");
         });
 
@@ -38,6 +38,9 @@ describe("PropertyRegistry", () => {
         it("should be required", () => {
             expect(this.propertyMetadata.required).to.eq(true);
         });
+        it("should be allowedValues", () => {
+            expect(this.propertyMetadata.allowedValues).to.deep.eq([null, ""]);
+        });
     });
 
     describe("getProperties", () => {
@@ -46,7 +49,6 @@ describe("PropertyRegistry", () => {
             PropertyRegistry.get(Children, "test");
             PropertyRegistry.get(Parent, "id");
             PropertyRegistry.get(Parent, "name");
-
         });
 
         describe("when is the Parent class", () => {

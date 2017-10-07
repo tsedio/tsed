@@ -305,7 +305,7 @@ describe("Rest", () => {
                     let obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
-                    expect(obj.uuid).to.equal(10909);
+                    expect(obj.id).to.equal(10909);
 
                     done();
                 });

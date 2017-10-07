@@ -3,6 +3,7 @@
  */
 import {Operation, Path, Response} from "swagger-schema-official";
 import {Store} from "../../core/class/Store";
+import {deepExtends} from "../../core/utils";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {toSwaggerPath} from "../utils";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
@@ -46,6 +47,8 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
             .completeMissingPathParams(openAPIPath);
 
         if (!this._paths[openAPIPath]) this._paths[openAPIPath] = {};
+
+        deepExtends(responses, openApiParamsBuilder.responses);
 
         const path: any = this._paths[openAPIPath];
         const operation: Operation = {

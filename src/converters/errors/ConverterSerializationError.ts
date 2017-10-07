@@ -1,6 +1,7 @@
 /**
  * @module common/converters
- */ /** */
+ */
+/** */
 
 import {InternalServerError} from "ts-httpexceptions";
 import {Type} from "../../core/interfaces/Type";
@@ -24,6 +25,6 @@ export class ConverterSerializationError extends InternalServerError {
      * @returns {string}
      */
     static buildMessage(target: Type<any>, err: Error) {
-        return `Convertion failed for class "${nameOf(target)}".`.trim();
+        return `Convertion failed for "${nameOf(target)}". ${err.message}`.trim();
     }
 }

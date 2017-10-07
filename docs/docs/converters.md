@@ -44,6 +44,7 @@ In second place, create a new file in your `converters` folder. Create a new cla
 class EventModel {
 
     @JsonProperty()
+    @Required()
     name: string;
      
     @JsonProperty('startDate')
@@ -53,12 +54,19 @@ class EventModel {
     endDate: Date;
 
     @JsonProperty({use: Task})
+    @Required()
+    @Allow(null)
     tasks: TaskModel[];
 }
 
 class TaskModel {
-     subject: string;
-     rate: number;
+    @JsonProperty()
+    @Required()
+    subject: string;
+    
+    @JsonProperty()
+    @Required()
+    rate: number;
 }
 ```
 > Theses ES6 collections can be used : Map and Set.

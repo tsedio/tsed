@@ -1,86 +1,164 @@
 import {MiddlewareService} from "../../../../src";
+import {ConverterService} from "../../../../src/converters/services/ConverterService";
 import {SendResponseMiddleware} from "../../../../src/mvc/components/SendResponseMiddleware";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper/FakeResponse";
-import {expect} from "../../../tools";
+import {expect, Sinon} from "../../../tools";
 
-describe("SendResponseMiddleware :", () => {
-
-
-    it("should send response (boolean)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
-
-        expect(middleware).not.to.be.undefined;
-
-        middleware.use(true, fakeResponse as any);
-
-        expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._body).to.equal("true");
+describe("SendResponseMiddleware", () => {
+    before(inject([ConverterService, MiddlewareService], (converterService: ConverterService, middlewareService: MiddlewareService) => {
+        this.serializeStub = Sinon.stub(converterService, "serialize");
+        this.middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
     }));
 
-    it("should send response (number)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
+    after(() => {
+        this.serializeStub.restore();
+    });
 
-        expect(middleware).not.to.be.undefined;
+    describe("with boolean value", () => {
+        before(() => {
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(true, this.fakeResponse as any);
+        });
 
-        middleware.use(1, fakeResponse as any);
+        after(() => {
+            this.serializeStub.reset();
+        });
 
-        expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._body).to.equal("1");
-    }));
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.not.have.been.called;
+        });
 
-    it("should send response (null)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
+        it("should return a string of the value", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal("true");
+        });
+    });
 
-        expect(middleware).not.to.be.undefined;
+    describe("with number value", () => {
+        before(() => {
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(1, this.fakeResponse as any);
+        });
 
-        middleware.use(null, fakeResponse as any);
+        after(() => {
+            this.serializeStub.reset();
+        });
 
-        expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._body).to.equal("null");
-    }));
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.not.have.been.called;
+        });
 
-    it("should send response (date)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const date = new Date();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
+        it("should return a string of the value", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal("1");
+        });
+    });
 
-        expect(middleware).not.to.be.undefined;
 
-        middleware.use(date, fakeResponse as any);
+    describe("with null value", () => {
+        before(() => {
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(null, this.fakeResponse as any);
+        });
 
-        expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._body).to.equal(JSON.stringify(date));
+        after(() => {
+            this.serializeStub.reset();
+        });
 
-    }));
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.not.have.been.called;
+        });
 
-    it("should send nothing (undefined)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
+        it("should return a string of the value", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal("null");
+        });
+    });
 
-        expect(middleware).not.to.be.undefined;
+    describe("with undefined value", () => {
+        before(() => {
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(undefined, this.fakeResponse as any);
+        });
 
-        middleware.use(undefined, fakeResponse as any);
+        after(() => {
+            this.serializeStub.reset();
+        });
 
-        expect(fakeResponse._body).to.equal("");
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.not.have.been.called;
+        });
 
-    }));
+        it("should send nothing", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal("");
+        });
+    });
 
-    it("should send response (object)", inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        const fakeResponse = new FakeResponse();
-        const middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
-        const obj = {};
+    describe("with date value", () => {
+        before(() => {
+            this.date = new Date();
+            this.serializeStub.returns("dataSerialized");
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(this.date, this.fakeResponse as any);
+        });
 
-        expect(middleware).not.to.be.undefined;
+        after(() => {
+            this.serializeStub.reset();
+        });
 
-        middleware.use(obj, fakeResponse as any);
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.have.been.calledWithExactly(this.date);
+        });
 
-        expect(fakeResponse._body).to.be.a("string");
-        expect(fakeResponse._body).to.equal(JSON.stringify(obj));
+        it("should return a string of the value", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal(JSON.stringify("dataSerialized"));
+        });
+    });
 
-    }));
+    describe("with object value", () => {
+        before(() => {
+            this.data = {data: "data"};
+            this.serializeStub.returns("dataSerialized");
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(this.data, this.fakeResponse as any);
+        });
 
+        after(() => {
+            this.serializeStub.reset();
+        });
+
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.have.been.calledWithExactly(this.data);
+        });
+
+        it("should send nothing", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal(JSON.stringify("dataSerialized"));
+        });
+    });
+
+    describe("with model value", () => {
+        before(() => {
+            this.data = {data: "data"};
+            this.serializeStub.returns("dataSerialized");
+            this.fakeResponse = new FakeResponse();
+            this.middleware.use(this.data, this.fakeResponse as any);
+        });
+
+        after(() => {
+            this.serializeStub.reset();
+        });
+
+        it("should not call serialize method", () => {
+            return this.serializeStub.should.have.been.calledWithExactly(this.data);
+        });
+
+        it("should send nothing", () => {
+            expect(this.fakeResponse._body).to.be.a("string");
+            expect(this.fakeResponse._body).to.equal(JSON.stringify("dataSerialized"));
+        });
+    });
 });

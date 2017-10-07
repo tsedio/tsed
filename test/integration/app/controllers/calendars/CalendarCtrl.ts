@@ -134,7 +134,6 @@ export class CalendarCtrl extends BaseController {
      *
      * By default, the response is sent with status 200 and is serialized in JSON.
      *
-     * @param request
      * @param id
      * @returns {Promise<ICalendar>}
      */
@@ -261,7 +260,7 @@ export class CalendarCtrl extends BaseController {
      */
     static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
 
-        request.getStoredData().uuid = 10909;
+        request.getStoredData().id = 10909;
 
         // console.log(request.headers)
         next();
