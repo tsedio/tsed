@@ -63,7 +63,7 @@ export class OpenApiPropertiesBuilder {
         }
 
         if (model.required) {
-            this._responses[400] = {description: "Bad request"};
+            this._responses[400] = {description: "Missing required parameter"};
         }
 
         if (model.isClass) {

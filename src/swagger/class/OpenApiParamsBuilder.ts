@@ -90,7 +90,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         };
 
         if (param.required) {
-            this._responses[400] = {description: "Bad request"};
+            this._responses[400] = {description: "Missing required parameter"};
         }
         // override defaults with baseParameter
         return Object.assign(baseParam, param.store.get("baseParameter"));
