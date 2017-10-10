@@ -81,11 +81,13 @@ export class PropertyRegistry {
      *
      * @param target
      * @param propertyKey
+     * @param allowedValues
      */
-    static required(target: Type<any>, propertyKey: string | symbol) {
+    static required(target: Type<any>, propertyKey: string | symbol, allowedValues: any[] = []) {
         const property = this.get(target, propertyKey);
 
         property.required = true;
+        property.allowedValues = allowedValues;
 
         this.set(target, propertyKey, property);
         this.get(target, propertyKey).store.merge("responses", {

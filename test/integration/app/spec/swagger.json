@@ -45,12 +45,6 @@
     },
     {
       "name": "RestCtrl"
-    },
-    {
-      "name": "CalendarCtrl"
-    },
-    {
-      "name": "RestCtrl"
     }
   ],
   "paths": {
@@ -69,9 +63,9 @@
           },
           {
             "name": "test",
-            "type": "string",
             "in": "path",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],
@@ -87,21 +81,6 @@
     "/rest/calendars/events/": {
       "head": {
         "operationId": "EventCtrl.head",
-        "tags": [
-          "EventCtrl"
-        ],
-        "parameters": [],
-        "consumes": [],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "produces": [],
-        "deprecated": false
-      },
-      "put": {
-        "operationId": "EventCtrl.save",
         "tags": [
           "EventCtrl"
         ],
@@ -187,8 +166,8 @@
         "produces": [],
         "deprecated": false
       },
-      "post": {
-        "operationId": "EventCtrl.update",
+      "put": {
+        "operationId": "EventCtrl.save",
         "tags": [
           "EventCtrl"
         ],
@@ -200,27 +179,18 @@
             "required": true
           },
           {
-            "in": "body",
             "name": "body",
+            "in": "body",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/Model1"
+              "$ref": "#/definitions/EventModel"
             }
           }
         ],
         "consumes": [],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/EventModel"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Success"
           }
         },
         "produces": [],
@@ -239,6 +209,48 @@
             "required": true
           }
         ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/calendars/events/list": {
+      "post": {
+        "operationId": "EventCtrl.update",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EventModel"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "get": {
+        "operationId": "EventCtrl.index",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "summary": "Return all elements from a service",
         "consumes": [],
         "responses": {
           "200": {
@@ -272,24 +284,6 @@
           }
         ],
         "summary": "Return an element by his resource",
-        "consumes": [],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "produces": [],
-        "deprecated": false
-      }
-    },
-    "/rest/calendars/events/list": {
-      "get": {
-        "operationId": "EventCtrl.index",
-        "tags": [
-          "EventCtrl"
-        ],
-        "parameters": [],
-        "summary": "Return all elements from a service",
         "consumes": [],
         "responses": {
           "200": {
@@ -447,9 +441,9 @@
         "parameters": [
           {
             "name": "search",
-            "type": "string",
             "in": "query",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],
@@ -468,16 +462,7 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Model1"
-            }
-          }
-        ],
+        "parameters": [],
         "consumes": [],
         "responses": {
           "400": {
@@ -492,16 +477,7 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Model1"
-            }
-          }
-        ],
+        "parameters": [],
         "consumes": [],
         "responses": {
           "400": {
@@ -537,9 +513,9 @@
         "parameters": [
           {
             "name": "authorization",
-            "type": "string",
             "in": "header",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],
@@ -703,9 +679,9 @@
           },
           {
             "name": "test",
-            "type": "string",
             "in": "path",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],
@@ -721,21 +697,6 @@
     "/rest/v1/calendars/events/": {
       "head": {
         "operationId": "EventCtrl.head_1",
-        "tags": [
-          "EventCtrl"
-        ],
-        "parameters": [],
-        "consumes": [],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "produces": [],
-        "deprecated": false
-      },
-      "put": {
-        "operationId": "EventCtrl.save_1",
         "tags": [
           "EventCtrl"
         ],
@@ -821,8 +782,8 @@
         "produces": [],
         "deprecated": false
       },
-      "post": {
-        "operationId": "EventCtrl.update_1",
+      "put": {
+        "operationId": "EventCtrl.save_1",
         "tags": [
           "EventCtrl"
         ],
@@ -834,27 +795,18 @@
             "required": true
           },
           {
-            "in": "body",
             "name": "body",
+            "in": "body",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/Model1"
+              "$ref": "#/definitions/EventModel"
             }
           }
         ],
         "consumes": [],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/EventModel"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Success"
           }
         },
         "produces": [],
@@ -873,6 +825,48 @@
             "required": true
           }
         ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      }
+    },
+    "/rest/v1/calendars/events/list": {
+      "post": {
+        "operationId": "EventCtrl.update_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EventModel"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "produces": [],
+        "deprecated": false
+      },
+      "get": {
+        "operationId": "EventCtrl.index_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "summary": "Return all elements from a service",
         "consumes": [],
         "responses": {
           "200": {
@@ -906,24 +900,6 @@
           }
         ],
         "summary": "Return an element by his resource",
-        "consumes": [],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "produces": [],
-        "deprecated": false
-      }
-    },
-    "/rest/v1/calendars/events/list": {
-      "get": {
-        "operationId": "EventCtrl.index_1",
-        "tags": [
-          "EventCtrl"
-        ],
-        "parameters": [],
-        "summary": "Return all elements from a service",
         "consumes": [],
         "responses": {
           "200": {
@@ -1081,9 +1057,9 @@
         "parameters": [
           {
             "name": "search",
-            "type": "string",
             "in": "query",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],
@@ -1102,16 +1078,7 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Model1"
-            }
-          }
-        ],
+        "parameters": [],
         "consumes": [],
         "responses": {
           "400": {
@@ -1126,16 +1093,7 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Model1"
-            }
-          }
-        ],
+        "parameters": [],
         "consumes": [],
         "responses": {
           "400": {
@@ -1171,9 +1129,9 @@
         "parameters": [
           {
             "name": "authorization",
-            "type": "string",
             "in": "header",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],

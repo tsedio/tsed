@@ -82,11 +82,13 @@ export class ParamRegistry {
      * @param target
      * @param propertyKey
      * @param parameterIndex
+     * @param allowedValues
      */
-    static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number) {
+    static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number, allowedValues: any[] = []) {
         const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
         param.required = true;
+        param.allowedValues = allowedValues;
 
         ParamRegistry.set(target, propertyKey, parameterIndex, param);
 

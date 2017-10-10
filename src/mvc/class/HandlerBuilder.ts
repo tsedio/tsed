@@ -147,7 +147,7 @@ export class HandlerBuilder {
             try {
                 nextCalled = true;
                 if (response.headersSent) {
-                    $log.debug(request.tagId, "[INVOKE][END  ]", info());
+                    // $log.debug(request.tagId, "[INVOKE][END  ]", info());
                     return;
                 }
 
@@ -242,14 +242,15 @@ export class HandlerBuilder {
                     );
                 }
 
-                if (param.required && (paramValue === undefined || paramValue === null)) {
+                if (!param.isValidValue(paramValue)) {
                     throw new RequiredParamError(param.name, param.expression);
                 }
 
                 try {
 
                     if (param.useConverter) {
-                        paramValue = converterService.deserialize(paramValue, param.type || param.collectionType, param.collectionType);
+                        const type = param.type || param.collectionType;
+                        paramValue = converterService.deserialize(paramValue, type, param.collectionType);
                     }
 
                 } catch (err) {
@@ -264,10 +265,6 @@ export class HandlerBuilder {
                 }
 
                 return paramValue;
-
             });
-
     };
-
-
 }

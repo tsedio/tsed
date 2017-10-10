@@ -2,7 +2,7 @@
  * @module swagger
  */
 /** */
-import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-official";
+import {BaseParameter, BodyParameter, Parameter, Response, Schema} from "swagger-schema-official";
 import {Type} from "../../core/interfaces";
 import {deepExtends} from "../../core/utils";
 
@@ -50,6 +50,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
                         const builder = new OpenApiPropertiesBuilder(param.type);
                         builder.build();
 
+                        deepExtends(this._responses, builder.responses);
                         deepExtends(this._definitions, builder.definitions);
 
                         return Object.assign(baseParam,
@@ -80,7 +81,6 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         return this;
     }
 
-
     private createBaseParameter(inType: string, param: ParamMetadata): BaseParameter {
         let baseParam: BaseParameter = {
             name: (inType === "body") ? "body" : <string>param.expression,
@@ -88,6 +88,10 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
             required: !!param.required,
             description: ""
         };
+
+        if (param.required) {
+            this._responses[400] = {description: "Missing required parameter"};
+        }
         // override defaults with baseParameter
         return Object.assign(baseParam, param.store.get("baseParameter"));
     }
@@ -118,6 +122,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
             builder.build();
 
             deepExtends(this._definitions, builder.definitions);
+            deepExtends(this._responses, builder.responses);
         } else {
             if (!model.isCollection) {
                 delete current.properties;

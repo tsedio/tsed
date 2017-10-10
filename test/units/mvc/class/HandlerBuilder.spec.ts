@@ -106,7 +106,8 @@ describe("HandlerBuilder", () => {
                         target: (req: any, res: any, next: any) => {
                             this.stub(req, res, next);
                             next();
-                        }
+                        },
+                        isValidValue: () => true
                     };
 
                     this.middleware = new HandlerBuilder(this.metadata).build();
@@ -214,7 +215,7 @@ describe("HandlerBuilder", () => {
                         errorParam: false,
                         target: Test,
                         methodClassName: "get",
-                        services: [{service: PathParamsFilter, useConverter: true}],
+                        services: [{service: PathParamsFilter, useConverter: true, isValidValue: () => true}],
                         instance: new Test
                     };
 
@@ -279,7 +280,8 @@ describe("HandlerBuilder", () => {
                             service: PathParamsFilter,
                             name: "PathParamsFilter",
                             required: true,
-                            expression: "required"
+                            expression: "required",
+                            isValidValue: () => false
                         }],
                         instance: new Test
                     };
@@ -338,7 +340,7 @@ describe("HandlerBuilder", () => {
                         errorParam: false,
                         target: Test,
                         methodClassName: "use",
-                        services: [{service: PathParamsFilter}]
+                        services: [{service: PathParamsFilter, isValidValue: () => true}]
                     };
 
                     this.invokeMethodStub = Sinon.stub(FilterService.prototype, "invokeMethod").returns({request: "body"});
@@ -400,10 +402,10 @@ describe("HandlerBuilder", () => {
                         target: Test,
                         methodClassName: "use",
                         services: [
-                            {service: EXPRESS_ERR, useConverter: false, name: "err"},
-                            {service: PathParamsFilter},
-                            {service: ENDPOINT_INFO, useConverter: false, name: "endpointInfo"},
-                            {service: RESPONSE_DATA, useConverter: false, name: "responseData"}
+                            {service: EXPRESS_ERR, useConverter: false, name: "err", isValidValue: () => true},
+                            {service: PathParamsFilter, isValidValue: () => true},
+                            {service: ENDPOINT_INFO, useConverter: false, name: "endpointInfo", isValidValue: () => true},
+                            {service: RESPONSE_DATA, useConverter: false, name: "responseData", isValidValue: () => true}
                         ]
                     };
 

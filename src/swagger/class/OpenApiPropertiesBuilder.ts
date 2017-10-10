@@ -2,7 +2,7 @@
  * @module swagger
  */
 /** */
-import {Schema} from "swagger-schema-official";
+import {Schema, Response} from "swagger-schema-official";
 import {PropertyMetadata} from "../../converters/class/PropertyMetadata";
 import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 import {Storable} from "../../core/class/Storable";
@@ -17,6 +17,7 @@ import {swaggerType} from "../utils";
 export class OpenApiPropertiesBuilder {
 
     protected _definitions: { [definitionsName: string]: Schema } = {};
+    protected _responses: { [responseName: string]: Response } = {};
     protected _schema: Schema;
 
     constructor(private target: Type<any>) {
@@ -59,6 +60,10 @@ export class OpenApiPropertiesBuilder {
 
         if (model.store.get("description")) {
             schema.description = schema.description || model.store.get("description");
+        }
+
+        if (model.required) {
+            this._responses[400] = {description: "Missing required parameter"};
         }
 
         if (model.isClass) {
@@ -115,5 +120,9 @@ export class OpenApiPropertiesBuilder {
 
     public get definitions(): { [p: string]: Schema } {
         return this._definitions;
+    }
+
+    public get responses(): { [responseName: string]: Response } {
+        return this._responses;
     }
 }

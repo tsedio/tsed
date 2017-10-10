@@ -4,7 +4,7 @@ import {GlobalErrorHandlerMiddleware, MiddlewareService} from "../../../../src";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
-import {assert, expect} from "../../../tools";
+import {expect} from "../../../tools";
 
 
 describe("GlobalErrorHandlerMiddleware", () => {
@@ -30,23 +30,12 @@ describe("GlobalErrorHandlerMiddleware", () => {
         describe("instanceof Exception", () => {
             before(() => {
                 this.error = new BadRequest("test");
-                this.nextSpy = Sinon.stub();
 
                 this.middleware.use(
                     this.error,
                     this.responseStub,
-                    this.response,
-                    this.nextSpy
+                    this.response
                 );
-            });
-
-            after(() => {
-                delete this.error;
-                delete this.nextSpy;
-            });
-
-            it("should have called next function", () => {
-                assert(this.nextSpy.calledWith());
             });
 
             it("should have a message body", () => {
@@ -66,18 +55,12 @@ describe("GlobalErrorHandlerMiddleware", () => {
                 this.middleware.use(
                     this.error,
                     this.responseStub,
-                    this.response,
-                    this.nextSpy
+                    this.response
                 );
             });
 
             after(() => {
                 delete this.error;
-                delete this.nextSpy;
-            });
-
-            it("should have called next function", () => {
-                assert(this.nextSpy.calledWith());
             });
 
             it("should have an empty body", () => {
@@ -92,23 +75,16 @@ describe("GlobalErrorHandlerMiddleware", () => {
         describe("InternalServerError", () => {
             before(() => {
                 this.error = new Error("test");
-                this.nextSpy = Sinon.stub();
 
                 this.middleware.use(
                     this.error,
                     this.responseStub,
-                    this.response,
-                    this.nextSpy
+                    this.response
                 );
             });
 
             after(() => {
                 delete this.error;
-                delete this.nextSpy;
-            });
-
-            it("should have called next function", () => {
-                assert(this.nextSpy.calledWith());
             });
 
             it("should have an empty body", () => {

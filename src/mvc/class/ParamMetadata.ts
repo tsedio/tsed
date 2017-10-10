@@ -5,12 +5,6 @@ import {nameOf} from "../../core/utils";
 import {IParamOptions} from "../interfaces";
 
 export class ParamMetadata extends Storable implements IParamOptions<any> {
-
-    /**
-     *
-     */
-    @NotEnumerable()
-    protected _required: boolean;
     /**
      *
      */
@@ -28,23 +22,6 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      */
     @NotEnumerable()
     protected _service: string | Type<any> | symbol;
-
-    /**
-     *
-     * @returns {boolean}
-     */
-    get required(): boolean {
-        return this._required;
-    }
-
-    /**
-     *
-     * @param value
-     */
-    set required(value: boolean) {
-        this._required = value;
-    }
-
     /**
      *
      * @returns {string|RegExp}
@@ -99,7 +76,6 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      * @returns {{service: (string|symbol), name: string, expression: string, required: boolean, use: undefined, baseType: undefined}}
      */
     toJSON() {
-
         return {
             service: nameOf(this._service),
             name: this.name,

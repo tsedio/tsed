@@ -1,6 +1,6 @@
 import {BadRequest} from "ts-httpexceptions";
 import {Metadata} from "../../core/class/Metadata";
-import {isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
+import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
 import {InjectorService} from "../../di";
 /**
  * @module common/converters
@@ -11,6 +11,8 @@ import {PropertyMetadata} from "../class/PropertyMetadata";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
+import {RequiredPropertyError} from "../errors/RequiredPropertyError";
+import {UnknowPropertyError} from "../errors/UnknowPropertyError";
 import {IConverter} from "../interfaces/index";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
@@ -58,7 +60,6 @@ export class ConverterService {
             const converter = this.getConverter(obj);
 
             if (converter && converter.serialize) {
-
                 // deserialize from a custom JsonConverter
                 return converter.serialize(obj);
             }
@@ -81,9 +82,22 @@ export class ConverterService {
 
                 Object.keys(obj).forEach(propertyKey => {
                     if (typeof obj[propertyKey] !== "function") {
-                        const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey) || {} as any;
+                        let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
 
-                        plainObject[propertyMetadata.name || propertyKey] = this.serialize(obj[propertyKey]);
+                        if (getClass(obj) !== Object && propertyMetadata === undefined) {
+                            throw new UnknowPropertyError(getClass(obj), propertyKey);
+                        }
+
+                        propertyMetadata = propertyMetadata || {} as any;
+                        plainObject[propertyMetadata!.name || propertyKey] = this.serialize(obj[propertyKey]);
+                    }
+                });
+
+                // Required validation
+                properties.forEach((propertyMetadata: PropertyMetadata) => {
+                    const key = propertyMetadata.name || propertyMetadata.propertyKey;
+                    if (!propertyMetadata.isValidValue(plainObject[key])) {
+                        throw new RequiredPropertyError(getClass(obj), propertyMetadata.propertyKey);
                     }
                 });
 
@@ -91,8 +105,12 @@ export class ConverterService {
             }
 
         } catch (err) {
-            /* istanbul ignore next */
-            throw new ConverterSerializationError(obj, err);
+            if (err.name === "BAD_REQUEST") {
+                throw new BadRequest(err.message);
+            } else {
+                /* istanbul ignore next */
+                throw new ConverterSerializationError(getClass(obj), err);
+            }
         }
 
         /* istanbul ignore next */
@@ -101,8 +119,8 @@ export class ConverterService {
 
     /**
      * Convert a plainObject to targetType.
-     * @param obj
-     * @param targetType
+     * @param obj Object source that will be deserialized
+     * @param targetType Pattern of the object deserialized
      * @param baseType
      * @returns {any}
      */
@@ -138,41 +156,23 @@ export class ConverterService {
 
 
             // Default converter
-            // if (!isPrimitiveOrPrimitiveClass(obj) && !isPrimitiveOrPrimitiveClass(targetType)) {
-
             const instance = new targetType();
             const properties = PropertyRegistry.getProperties(targetType);
 
             Object.keys(obj).forEach((propertyName: string) => {
-                const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName) || {} as any;
-                const propertyValue = obj[propertyMetadata.name] || obj[propertyName];
-                const propertyKey = propertyMetadata.propertyKey || propertyName;
-                try {
+                const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
+                return this.convertProperty(obj, instance, propertyName, propertyMetadata);
+            });
 
-                    if (typeof instance[propertyKey] !== "function") {
-                        instance[propertyKey] = this.deserialize(
-                            propertyValue,
-                            propertyMetadata.isCollection ? propertyMetadata.collectionType : propertyMetadata.type,
-                            propertyMetadata.type
-                        );
-                    }
-
-                } catch (err) {
-                    /* istanbul ignore next */
-                    (() => {
-                        const castedError = new Error("For " + String(propertyKey) + " with value " + propertyValue + " \n" + err.message);
-                        castedError.stack = err.stack;
-                        throw castedError;
-                    })();
+            // Required validation
+            properties.forEach((propertyMetadata: PropertyMetadata) => {
+                if (!propertyMetadata.isValidValue(instance[propertyMetadata.propertyKey])) {
+                    throw new RequiredPropertyError(targetType, propertyMetadata.propertyKey);
                 }
             });
 
             return instance;
-
-            // }
-
         } catch (err) {
-
             /* istanbul ignore next */
             if (err.name === "BAD_REQUEST") {
                 throw new BadRequest(err.message);
@@ -183,6 +183,45 @@ export class ConverterService {
 
         }
     }
+
+    /**
+     *
+     * @param obj
+     * @param instance
+     * @param {string} propertyName
+     * @param {PropertyMetadata} propertyMetadata
+     */
+    private convertProperty = (obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata) => {
+
+
+        if (getClass(instance) !== Object && propertyMetadata === undefined) {
+            throw new UnknowPropertyError(getClass(instance), propertyName);
+        }
+
+        propertyMetadata = propertyMetadata || {} as any;
+
+        const propertyValue = obj[propertyMetadata!.name] || obj[propertyName];
+        const propertyKey = propertyMetadata!.propertyKey || propertyName;
+
+        try {
+
+            if (typeof instance[propertyKey] !== "function") {
+                instance[propertyKey] = this.deserialize(
+                    propertyValue,
+                    propertyMetadata!.isCollection ? propertyMetadata!.collectionType : propertyMetadata!.type,
+                    propertyMetadata!.type
+                );
+            }
+
+        } catch (err) {
+            /* istanbul ignore next */
+            (() => {
+                const castedError = new Error("For " + String(propertyKey) + " with value " + propertyValue + " \n" + err.message);
+                castedError.stack = err.stack;
+                throw castedError;
+            })();
+        }
+    };
 
     /**
      *

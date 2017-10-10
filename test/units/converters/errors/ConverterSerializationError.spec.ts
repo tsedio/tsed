@@ -1,7 +1,7 @@
 import {assert, expect} from "chai";
 import {ConverterSerializationError} from "../../../../src/converters/errors/ConverterSerializationError";
 
-describe("ConverterDeserializationError", () => {
+describe("ConverterSerializationError", () => {
 
     before(() => {
         this.genericError = new Error("test");
@@ -15,7 +15,7 @@ describe("ConverterDeserializationError", () => {
     });
 
     it("should have a message", () => {
-        expect(this.errorInstance.message).to.equal("Convertion failed for class \"Test\".");
+        expect(this.errorInstance.message).to.equal("Convertion failed for \"Test\". test");
     });
 
     it("should have a name", () => {

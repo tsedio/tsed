@@ -1,10 +1,13 @@
-import {assert, expect} from "chai";
 import {ConverterService, JsonProperty} from "../../../../src";
+import {Required} from "../../../../src/mvc/decorators";
 import {inject} from "../../../../src/testing/inject";
+import {assert, expect} from "../../../tools";
 
 class Foo {
-
+    @JsonProperty()
     test: any;
+
+    @JsonProperty()
     foo: any;
 
     method() {
@@ -35,6 +38,7 @@ class Foo2 {
     test: string;
 
     @JsonProperty("Name")
+    @Required()
     name: string;
 
     @JsonProperty()
@@ -43,6 +47,7 @@ class Foo2 {
     @JsonProperty()
     uint: number;
 
+    @JsonProperty()
     object: any;
 
     @JsonProperty()
@@ -68,6 +73,15 @@ class Foo3 {
     }
 }
 
+class Foo4 {
+    @JsonProperty()
+    test: any;
+
+    @JsonProperty()
+    @Required()
+    foo: any;
+}
+
 
 describe("ConverterService", () => {
 
@@ -78,7 +92,6 @@ describe("ConverterService", () => {
     after(() => delete this.converterService);
 
     describe("deserialize()", () => {
-
         describe("primitive", () => {
 
             it("should convert boolean to Boolean", () => {
@@ -190,8 +203,7 @@ describe("ConverterService", () => {
                     theSet: [
                         {test: "13"},
                         {test: "1re"}
-                    ],
-                    method: {}
+                    ]
                 }, Foo2);
             });
 
@@ -222,8 +234,9 @@ describe("ConverterService", () => {
                     expect(this.foo2.foos).to.be.an("array")
                 );
 
-                it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
-                    expect(this.foo2.foos[0]).to.be.instanceof(Foo)
+                it(
+                    "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
+                        expect(this.foo2.foos[0]).to.be.instanceof(Foo)
                 );
             });
 
@@ -258,12 +271,41 @@ describe("ConverterService", () => {
             it("should emit a BadRequest when the number parsing failed", () =>
                 assert.throws(() => this.converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.")
             );
+
+            it("should emit a BadRequest when a property is not in the Model", () => {
+                assert.throws(() =>
+                        this.converterService.deserialize({
+                            test: 1,
+                            foo: "test",
+                            notPropertyAllowed: "tst"
+                        }, <any>Foo4),
+                    "Property notPropertyAllowed on class Foo4 is not allowed."
+                );
+            });
         });
 
+        describe("when an attribute is required", () => {
+            it("should throw a bad request (undefined value)", () => {
+                assert.throws(() => this.converterService.deserialize({
+                    name: undefined
+                }, Foo2), "Property name on class Foo2 is required.");
+            });
+
+            it("should throw a bad request (null value)", () => {
+                assert.throws(() => this.converterService.deserialize({
+                    name: null
+                }, Foo2), "Property name on class Foo2 is required.");
+            });
+
+            it("should throw a bad request (empty value)", () => {
+                assert.throws(() => this.converterService.deserialize({
+                    name: ""
+                }, Foo2), "Property name on class Foo2 is required.");
+            });
+        });
     });
 
     describe("serialize()", () => {
-
         describe("primitive", () => {
             it("should convert empty string to string", () =>
                 expect(this.converterService.serialize("")).to.be.a("string")
@@ -415,6 +457,29 @@ describe("ConverterService", () => {
             it("should use toJSON method", () => {
                 expect(this.foo).to.be.an("object");
             });
+        });
+
+        describe("serialization error", () => {
+            it("should emit a BadRequest when attribute is required", () =>
+                assert.throws(
+                    () => {
+                        const foo4: any = new Foo4();
+                        this.converterService.serialize(foo4);
+                    },
+                    "Property foo on class Foo4 is required."
+                )
+            );
+
+            it("should emit a BadRequest when attribute is not allowed", () =>
+                assert.throws(
+                    () => {
+                        const foo4: any = new Foo4();
+                        foo4.unknowProperty = "test";
+                        this.converterService.serialize(foo4);
+                    },
+                    "Property unknowProperty on class Foo4 is not allowed."
+                )
+            );
         });
     });
 });
