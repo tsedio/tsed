@@ -8,6 +8,8 @@ import {ServerSettings} from "../../src/server/decorators/serverSettings";
 import "../../src/swagger";
 import {expect} from "../tools";
 import Path = require("path");
+import {bootstrap, inject} from "../../src/testing";
+import {ExpressApplication} from "../../src/core/services/ExpressApplication";
 
 const rootDir = Path.join(Path.resolve(__dirname), "app");
 
@@ -72,25 +74,20 @@ export class FakeApplication extends ServerLoader {
 
         return request.get("authorization") === "token";
     }
-
-    public request(): SuperTest.SuperTest<SuperTest.Test> {
-        return SuperTest(this.expressApp);
-    }
 }
 
 
-describe("Rest", () => {
+describe("Swagger", () => {
 
-    before(() => {
-        this.fakeApplication = new FakeApplication();
-        return this.fakeApplication.start();
-    });
+    before(bootstrap(FakeApplication));
+    before(inject([ExpressApplication], (expressApplication: ExpressApplication) =>
+        this.app = SuperTest(expressApplication)
+    ));
 
     describe("GET /api-doc/swagger.json", () => {
 
         before((done) => {
-            this.fakeApplication
-                .request()
+            this.app
                 .get("/api-doc/swagger.json")
                 .expect(200)
                 .end((err: any, response: any) => {

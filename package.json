@@ -75,7 +75,7 @@
     "compression": "^1.6.1",
     "concurrently": "^3.5.0",
     "cookie-parser": "^1.4.1",
-    "coveralls": "^3.0.0",
+    "coveralls": "^2.13.1",
     "docsify-cli": "^4.1.9",
     "docsify-server-renderer": "^4.2.6",
     "ejs": "^2.5.5",
