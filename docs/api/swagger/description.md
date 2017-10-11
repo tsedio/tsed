@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="description">Description</h1>    <label class="symbol-info-type-label decorator">Decorator</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Description }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/swagger"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.5.0/src/swagger/decorators/description.ts#L0-L0">                swagger/decorators/description.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Description }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/swagger"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.6.0/src/swagger/decorators/description.ts#L0-L0">                swagger/decorators/description.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -7,4 +7,42 @@
 
 ### Description
 
-Add a description metadata on the decorated element
+Add a description metadata on the decorated element.
+
+## Examples
+### On class
+
+```typescript
+@Description("description")
+class Model {
+
+}
+```
+
+### On method
+
+```typescript
+@Controller("/")
+class ModelCtrl {
+   @Description("description")
+   async method() {}
+}
+```
+
+### On parameter
+
+```typescript
+@Controller("/")
+class ModelCtrl {
+   async method(@Description("description") @PathParam("id") id: string) {}
+}
+```
+
+### On property
+
+```typescript
+class Model {
+   @Description("description")
+   id: string;
+}
+```
