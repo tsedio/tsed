@@ -10,8 +10,7 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  * ## With status code
  *
  * ```typescript
- *  @Returns(404, {description: "Not found"})
- *  @Returns(200, {description: "OK", type: Model})
+ *  @ReturnsArray(200, {description: "OK", type: Model})
  *  async myMethod(): Promise<Model>  {
  *
  *  }
@@ -22,12 +21,9 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  * ```json
  * {
  *   "responses": {
- *     "404": {
- *       "description": "Description"
- *     },
  *     "2OO": {
  *       "description": "Description",
- *       "schema": {"schemaOfModel": "..."}
+ *       "schema": {"type": "array"}
  *     }
  *   }
  * }
@@ -35,35 +31,11 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  *
  * ### Without status code
  *
- * Returns can be use without status code. In this case, the response will be added to the default status code
+ * ReturnsArray can be use without status code. In this case, the response will be added to the default status code
  * (200 or the status code seated with `@Status`).
  *
  * ```typescript
- *  @Returns({description: "Description"})
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description"
- *     }
- *   }
- * }
- * ```
- *
- * ### With type schema
- *
- * Returns accept another signature with a type.
- *
- * ```typescript
- *  @Returns(Model, {description: "Description"}) //OR
- *  @Returns(Model)
+ *  @ReturnsArray({description: "Description"})
  *  async myMethod(): Promise<Model>  {
  *
  *  }
@@ -76,7 +48,37 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  *   "responses": {
  *     "200": {
  *       "description": "Description",
- *       "schema": {"schemaOfModel": "..."}
+ *       "schema": {"type": "array"}
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With type schema
+ *
+ * ReturnsArray accept another signature with a type.
+ *
+ * ```typescript
+ *  @ReturnsArray(Model, {description: "Description"}) //OR
+ *  @ReturnsArray(Model)
+ *  async myMethod(): Promise<Model>  {
+ *
+ *  }
+ * ```
+ *
+ * This example will produce this documentation in swagger:
+ *
+ * ```json
+ * {
+ *   "responses": {
+ *     "200": {
+ *       "description": "Description",
+ *       "schema": {
+ *         "type": "array",
+ *         "items": {
+ *           $ref: "Model"
+ *         }
+ *       }
  *     }
  *   }
  * }
@@ -87,12 +89,11 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  * @param statusCode Code status
  * @param options Swagger responses documentations
  */
-export function Returns(statusCode: number, options: ISwaggerResponses): any;
-export function Returns(options: ISwaggerResponses): any;
-export function Returns(model: Type<any>): any;
-export function Returns(model: Type<any>, options: ISwaggerResponses): any;
-export function Returns(...args: any[]) {
-
+export function ReturnsArray(statusCode: number, options: ISwaggerResponses): any;
+export function ReturnsArray(options: ISwaggerResponses): any;
+export function ReturnsArray(model: Type<any>): any;
+export function ReturnsArray(model: Type<any>, options: ISwaggerResponses): any;
+export function ReturnsArray(...args: any[]) {
     const configuration: any = {};
 
     args.forEach((value: any) => {
@@ -104,6 +105,8 @@ export function Returns(...args: any[]) {
     if (type) {
         options.type = type;
     }
+
+    options.collection = Array;
 
     return Store.decorate((store: Store) => {
         const response = mapReturnedResponse(options);

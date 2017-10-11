@@ -71,7 +71,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param request
      * @returns {Object}
      */
-    protected requestToObject(request: Express.Request) {
+    protected requestToObject(request: Express.Request): any {
         return {
             reqId: request.id,
             method: request.method,

@@ -2,10 +2,33 @@
  * @module swagger
  */
 /** */
-import {Store} from "../../core/class/Store";
+import {getDecoratorType} from "../../core/utils";
+import {Operation} from "./operation";
 
+/**
+ * Add deprecated metadata on the decorated element.
+ *
+ * ## Examples
+ * ### On method
+ *
+ * ```typescript
+ * class Model {
+ *    @Deprecated()
+ *    id: string;
+ * }
+ * ```
+ *
+ * @returns {Function}
+ * @constructor
+ */
 export function Deprecated() {
-    return Store.decorate((store: Store) => {
-        store.set("deprecated", true);
-    });
+    return (...args: any[]) => {
+        const type = getDecoratorType(args);
+        switch (type) {
+            case "method":
+                return Operation({deprecated: true})(...args);
+            default:
+                throw new Error("Deprecated is only supported on method");
+        }
+    };
 }

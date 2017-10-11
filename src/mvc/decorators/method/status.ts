@@ -1,5 +1,7 @@
 import {Store} from "../../../core/class/Store";
-import {Type} from "../../../core/interfaces/Type";
+import {DecoratorParameters} from "../../../core/interfaces";
+import {IResponseOptions} from "../../interfaces/IResponseOptions";
+import {mapReturnedResponse} from "../../utils/mapReturnedResponse";
 /**
  * @module common/mvc
  */
@@ -7,11 +9,40 @@ import {Type} from "../../../core/interfaces/Type";
 import {UseAfter} from "./useAfter";
 
 /**
- * Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
+ * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
  *
  * ```typescript
- *  @Status(403)
- *  private myMethod() {}
+ * @Status(204)
+ * async myMethod() {}
+ * ```
+ *
+ * With swagger description:
+ *
+ * ```typescript
+ * @Status(204, {
+ *   type: Model
+ *   description: "Description"
+ * })
+ * @Header('Content-Type', 'application-json')
+ * async myMethod() {
+ * }
+ * ```
+ *
+ * This example will produce the swagger responses object:
+ *
+ * ```json
+ * {
+ *   "responses": {
+ *     "404": {
+ *       "description": "Description",
+ *       "headers": {
+ *          "Content-Type": {
+ *             "type": "string"
+ *          }
+ *       }
+ *     }
+ *   }
+ * }
  * ```
  *
  * @param code
@@ -19,15 +50,14 @@ import {UseAfter} from "./useAfter";
  * @returns {Function}
  * @decorator
  */
-export function Status(code: number, options: { description?: string, use?: Type<any>, collection?: Type<any> } = {}): Function {
-    return Store.decorate((store: Store) => {
-        store.merge("responses", {
-            [code]: {
-                description: options.description,
-                type: options.use,
-                collectionType: options.collection
-            }
-        });
+export function Status(code: number, options: IResponseOptions = {}): Function {
+    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+        store.set("statusCode", code);
+
+        const response = mapReturnedResponse(options);
+        store.merge("response", response);
+        store.merge("responses", {[code]: response});
+
         return UseAfter((request: any, response: any, next: any) => {
             response.status(code);
             next();

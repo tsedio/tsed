@@ -22,7 +22,12 @@ describe("Status", () => {
         Status(this.options, {
             description: "description",
             use: "use",
-            collection: "collection"
+            collection: "collection",
+            headers: {
+                "200": {
+                    value: "headers"
+                }
+            }
         })(Test, "test", this.descriptor);
         this.middleware = UseAfter.args[0][0];
         this.store = Store.from(Test, "test", this.descriptor);
@@ -39,14 +44,34 @@ describe("Status", () => {
         middleware.should.be.calledWithExactly(Test, "test", this.descriptor);
     });
 
-    it("should store data in the Store", () => {
+    it("should store responses in the Store", () => {
         expect(this.store.get("responses")).to.deep.eq({
             "200": {
                 "collectionType": "collection",
                 "description": "description",
-                "type": "use"
+                "type": "use",
+                "headers": {
+                    "200": {
+                        value: "headers"
+                    }
+                }
             }
         });
+
+        expect(this.store.get("response")).to.deep.eq({
+            "collectionType": "collection",
+            "description": "description",
+            "type": "use",
+            "headers": {
+                "200": {
+                    value: "headers"
+                }
+            }
+        });
+    });
+
+    it("should store statusCode in the Store", () => {
+        expect(this.store.get("statusCode")).to.eq(200);
     });
 
     describe("when middleware is executed", () => {

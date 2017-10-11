@@ -86,6 +86,7 @@ describe("OpenApiParamsBuilder", () => {
                 this.endpointMetadata.type = undefined;
                 this.result = this.builder.createResponse(200, {
                     description: "description",
+                    examples: "examples",
                     headers: {header: "header"}
                 });
             });
@@ -106,6 +107,7 @@ describe("OpenApiParamsBuilder", () => {
             it("should return the response", () => {
                 this.result.should.deep.eq({
                     "description": "description",
+                    "examples": "examples",
                     "headers": {
                         "header": "header"
                     }
@@ -125,6 +127,7 @@ describe("OpenApiParamsBuilder", () => {
 
                 this.result = this.builder.createResponse(200, {
                     description: "description",
+                    examples: "examples",
                     headers: {header: "header"}
                 });
             });
@@ -145,6 +148,7 @@ describe("OpenApiParamsBuilder", () => {
             it("should return the response", () => {
                 this.result.should.deep.eq({
                     "description": "description",
+                    "examples": "examples",
                     "headers": {
                         "header": "header"
                     },

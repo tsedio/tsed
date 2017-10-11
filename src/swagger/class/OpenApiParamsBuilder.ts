@@ -2,7 +2,7 @@
  * @module swagger
  */
 /** */
-import {BaseParameter, BodyParameter, Parameter, Response, Schema} from "swagger-schema-official";
+import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-official";
 import {Type} from "../../core/interfaces";
 import {deepExtends} from "../../core/utils";
 
@@ -93,7 +93,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
             this._responses[400] = {description: "Missing required parameter"};
         }
         // override defaults with baseParameter
-        return Object.assign(baseParam, param.store.get("baseParameter"));
+        return deepExtends(baseParam, param.store.get("baseParameter") || {});
     }
 
     /**

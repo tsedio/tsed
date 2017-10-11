@@ -1,6 +1,6 @@
 import {Store} from "../../../../src/core/class/Store";
 import {descriptorOf} from "../../../../src/core/utils";
-import {Returns} from "../../../../src/swagger/decorators/returns";
+import {ReturnsArray} from "../../../../src/swagger/decorators/returnsArray";
 import {expect} from "../../../tools";
 
 
@@ -8,21 +8,24 @@ class Test {
     test1() {
 
     }
+
     test2() {
 
     }
+
     test3() {
 
     }
+
     test4() {
 
     }
 }
 
-describe("Returns()", () => {
+describe("ReturnsArray()", () => {
     describe("when status and configuration are given", () => {
         before(() => {
-            Returns(400, {
+            ReturnsArray(400, {
                 description: "Bad Request"
             })(Test, "test1", descriptorOf(Test, "test1"));
             this.store = Store.fromMethod(Test, "test1");
@@ -30,7 +33,7 @@ describe("Returns()", () => {
         it("should set the responses", () => {
             expect(this.store.get("responses")).to.deep.eq({
                 "400": {
-                    "collectionType": undefined,
+                    "collectionType": Array,
                     "description": "Bad Request",
                     "headers": undefined,
                     "type": undefined
@@ -41,14 +44,14 @@ describe("Returns()", () => {
 
     describe("when a type and configuration are given", () => {
         before(() => {
-            Returns(Test, {
+            ReturnsArray(Test, {
                 description: "Success"
             })(Test, "test2", descriptorOf(Test, "test2"));
             this.store = Store.fromMethod(Test, "test2");
         });
         it("should set the responses", () => {
             expect(this.store.get("response")).to.deep.eq({
-                "collectionType": undefined,
+                "collectionType": Array,
                 "description": "Success",
                 "headers": undefined,
                 "type": Test
@@ -58,12 +61,12 @@ describe("Returns()", () => {
 
     describe("when a type is given", () => {
         before(() => {
-            Returns(Test)(Test, "test3", descriptorOf(Test, "test3"));
+            ReturnsArray(Test)(Test, "test3", descriptorOf(Test, "test3"));
             this.store = Store.fromMethod(Test, "test3");
         });
         it("should set the responses", () => {
             expect(this.store.get("response")).to.deep.eq({
-                "collectionType": undefined,
+                "collectionType": Array,
                 "description": undefined,
                 "headers": undefined,
                 "type": Test
@@ -73,7 +76,7 @@ describe("Returns()", () => {
 
     describe("when a configuration is given", () => {
         before(() => {
-            Returns({
+            ReturnsArray({
                 description: "Success",
                 type: Test
             })(Test, "test4", descriptorOf(Test, "test4"));
@@ -81,7 +84,7 @@ describe("Returns()", () => {
         });
         it("should set the responses", () => {
             expect(this.store.get("response")).to.deep.eq({
-                "collectionType": undefined,
+                "collectionType": Array,
                 "description": "Success",
                 "headers": undefined,
                 "type": Test

@@ -20,7 +20,7 @@ export class ServerSettingsProvider implements IServerSettings {
     constructor() {
 
         this.rootDir = rootDir;
-        this.env = process.env.NODE_ENV || EnvTypes.DEV as Env;
+        this.env = process.env.NODE_ENV as Env || EnvTypes.DEV as Env;
         this.port = 8080;
         this.httpsPort = 8000;
         this.endpointUrl = "/rest";

@@ -47,8 +47,30 @@ showExplorer | `true` | Display the search field in the navbar.
 spec |  `{swagger: "2.0"}` | The default information spec. 
 specPath | `${rootDir}/spec/swagger.json` | The path to the swagger.json. This file will be written at the first server starting if it doesn't exist. The data will me merge with the collected data via annotation. 
 
+### Decorators
+
+These decorators already add a documentation on swagger:
+
+- [Header](api/common/mvc/header.md),
+- [Status](api/common/mvc/status.md),
+
+In addition, the Ts.ED swagger plugin given some decorators to write documentation:
+
+- [BaseParameter](api/swagger/baseparameter.md),
+- [Deprecated](api/swagger/deprecated.md),
+- [Description](api/swagger/description.md), to set a long text to describe the route,
+- [Example](api/swagger/example.md),
+- [Name](api/swagger/name.md),
+- [Operation](api/swagger/operation.md),
+- [Returns](api/swagger/returns.md) to describe all HTTP codes that method can answer. By default, all routes are configured on status code 200.
+- [ReturnsArray](api/swagger/returnsarray.md),
+- [Schema](api/swagger/schema.md),
+- [Security](api/swagger/security.md),
+- [Summary](api/swagger/summary.md), to set a quick summary on top of the route in Swagger-ui,
+- [Title](api/swagger/title.md).
+
  
-## Example
+## Examples
 
 #### Model documentation
 
@@ -76,15 +98,6 @@ export class CalendarModel {
 
 #### Endpoint documentation
 
-All routes can be documented with swagger decorators. Theses decorators can be used on:
-
-- [Summary](api/swagger/summary.md), to set a quick summary on top of the route in Swagger-ui.
-- [Description](api/swagger/description.md), to set a long text to describe the route.
-- [Deprecated](api/swagger/deprecated.md).
-- [Responses](api/swagger/responses.md) or [Returns](api/swagger/returns.md) to describe all HTTP codes that method can answer. By default, all routes are configure on status code 200.
-- [Security](api/swagger/security.md). See security section to more information.
-
-
 ```typescript
 import {Controller, Get, Post} from "ts-express-decorators";
 import {Summary, Description, Responses,Deprecated, Security} from "ts-express-decorators/swagger";
@@ -94,7 +107,7 @@ export class Calendar {
     @Get('/:id')
     @Summary("Summary of this route")
     @Description("Description of this route")
-    @Responses("404", {description: "Not found"})
+    @Returns("404", {description: "Not found"})
     async getCalendar(@QueryParam() id: string): Promise<CalendarModel> {
       //...
     }
@@ -102,7 +115,7 @@ export class Calendar {
     @Get('/v0/:id')
     @Deprecated()
     @Description("Deprecated route, use /rest/calendars/:id instead of.")
-    @Responses("404", {description: "Not found"})
+    @Returns("404", {description: "Not found"})
     getCalendarDeprecated(@QueryParam() id: string): Promise<CalendarModel> {
       //...
     }}
@@ -114,15 +127,6 @@ export class Calendar {
     }
 ```
 !> To update the swagger.json you need to reload the server before.
-
-## Security
-
-...work in progress
-
-## Global information
-
-...work in progress
-
 
 > Credits: Thanks to [vologab](https://github.com/vologab) to his contribution.
 

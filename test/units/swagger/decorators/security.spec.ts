@@ -1,6 +1,7 @@
 import {Store} from "../../../../src/core/class/Store";
+import {descriptorOf} from "../../../../src/core/utils";
 import {Security} from "../../../../src/swagger/decorators/security";
-import {expect} from "../../../tools";
+import {expect, assert} from "../../../tools";
 
 
 class Test {
@@ -10,18 +11,25 @@ class Test {
 }
 
 describe("Security()", () => {
-    before(() => {
-        Security("securityDefinitionName", "scope1", "scope2")(Test, "test");
-        this.store = Store.from(Test, "test", this.descriptor);
+    describe("when is used as method decorator", () => {
+        before(() => {
+            Security("securityDefinitionName", "scope1", "scope2")(Test, "test", descriptorOf(Test, "test"));
+            this.store = Store.from(Test, "test", descriptorOf(Test, "test"));
+        });
+        it("should set the security", () => {
+            expect(this.store.get("operation").security).to.deep.eq([
+                {
+                    "securityDefinitionName": [
+                        "scope1",
+                        "scope2"
+                    ]
+                }
+            ]);
+        });
     });
-    it("should set the security", () => {
-        expect(this.store.get("security")).to.deep.eq([
-            {
-                "securityDefinitionName": [
-                    "scope1",
-                    "scope2"
-                ]
-            }
-        ]);
+    describe("when is not used as method decorator", () => {
+        it("should set the deprecated", () => {
+            assert.throws(() => Security("", "")(Test, "test"), "Security is only supported on method");
+        });
     });
 });
