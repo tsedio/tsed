@@ -9,7 +9,7 @@
   - [Templating](tutorials/templating.md)
   - [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
   - [AWS project](tutorials/aws.md)
-- <div class="ps-icon ps-icon-book-tag"></div> [Documentation](docs.md)
+- <div class="ps-icon ps-icon-book-tag"></div> [Documentation](docs/_sidebar.md)
   - [Migration](docs/migration.md)
   - [Controllers](docs/controllers.md)
   - [Services](docs/services.md)

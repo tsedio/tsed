@@ -70,10 +70,6 @@ export class FakeApplication extends ServerLoader {
     public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
         return request.get("authorization") === "token";
     }
-
-    protected startServer(http: any, settings: { https: boolean; address: string; port: (string | number | any) }): Promise<any> {
-        return Promise.resolve();
-    }
 }
 
 

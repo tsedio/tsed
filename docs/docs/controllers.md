@@ -1,6 +1,6 @@
 # Controllers
 ## Installation
-You can adding the `controllers` folder on `mount` attribute in your server settings as follow :
+You can add the `controllers` folder on `mount` attribute in your server settings as follow :
 ```typescript
 import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
@@ -37,11 +37,11 @@ export class Server extends ServerLoader {
 }
 ```
 
-## Versioning yours API
+## Versioning your API
 
-As you seen in the previous example, the `mount` attribute is an object that let you to provide the global endpoint for your all controllers under the `controllers` folder.
+As you have seen in the previous example, the `mount` attribute is an object that let you to provide the global endpoint for your all controllers under the `controllers` folder.
 
-You can add more configuration to mount different endpoint associated to a folder. Here an other configuration example:
+You can add more configuration to mount different endpoint associated to a folder. Here is another configuration example:
 ```typescript
 import {ServerLoader, ServerSettings} from "ts-express-decorators";
 import Path = require("path");
@@ -61,8 +61,8 @@ export class Server extends ServerLoader {
 ## Async and Promise
 
 Ts.ED support Promise API and async instruction to send a response. Just return a promise
-in your method and the controller will be waiting your promised response before 
-send a response to the client.
+in your method and the controller will be waiting for your promised response before 
+sending a response to the client.
 
 ```typescript
 import {Controller, Get, PathParams} from "ts-express-decorators";
@@ -106,7 +106,7 @@ export class CalendarCtrl {
 
 ## Input parameters
 
-`@PathParams` decorator provide you a quick access to an attribute `Express.request.params`.
+`@PathParams` decorator provide quick access to an attribute `Express.request.params`.
 
 ```typescript
 import {Controller, Get, PathParams} from "ts-express-decorators";
@@ -125,7 +125,7 @@ export class CalendarCtrl {
 }
 ```
 
-Same decorator are available to get other params. Use `BodyParams` 
+Same decorator is available to get other params. Use `BodyParams` 
 (with the right HTTP verb `@Post`, `@Put`, etc...), `QueryParams` or `CookiesParams` 
 to get parameters send by the client. 
 
@@ -152,7 +152,7 @@ export class CalendarCtrl {
 
 ## Status
 
-You can change de status of the response with the `@Status()` decorator.
+You can change the status of the response with the `@Status()` decorator.
 ```typescript
 import {Controller, Get, BodyParams, Status} from "ts-express-decorators";
 
@@ -179,7 +179,7 @@ export class CalendarCtrl {
 
 ## Response and Request
 
-You can use decorator to inject `Express.Request`, `Express.Response` and 
+You can use a decorator to inject `Express.Request`, `Express.Response` and 
 `Express.NextFunction` services instead of the classic call provided by Express API.
 Just use decorator `Request` (or `Req`), `Response` (or `Res`) and `Next` on your method parameters like this :
 
