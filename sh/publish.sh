@@ -4,6 +4,9 @@ set -e
 
 PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 
+# Rewrite package.json with the right indentation
+node -p -e "require('fs').writeFileSync('./package.json', JSON.stringify(require('./package.json'), null, 2), {})"
+
 echo "Generate documentation for v$PACKAGE_VERSION"
 
 npm run doc:build
