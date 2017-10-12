@@ -201,9 +201,10 @@ export class ServerSettingsService implements IServerSettings {
 
         if (typeof addressPort === "string" && addressPort.indexOf(":") > -1) {
             [address, port] = addressPort.split(":");
+            port = +port;
         }
 
-        return {address, port: +port};
+        return {address, port: port as number};
     }
 
 }
