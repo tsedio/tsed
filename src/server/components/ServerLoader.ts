@@ -284,7 +284,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param settings
      * @returns {Promise<TResult2|TResult1>}
      */
-    protected startServer(http: any, settings: { https: boolean, address: string, port: string | number | false }) {
+    protected startServer(http: any, settings: { https: boolean, address: string | number, port: number }) {
         const {address, port, https} = settings;
 
         $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
@@ -297,7 +297,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 $log.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
             });
 
-        http.listen(+port, address);
+        http.listen(port, address);
         return promise;
     }
 
