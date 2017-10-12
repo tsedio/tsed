@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="serverloader">ServerLoader</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.6.0/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.6.1/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -16,8 +16,8 @@
     <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-        address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-        port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | false<span class="token punctuation">;</span>
+        address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
+        port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span>
     <span class="token function">setHttpPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">setHttpsPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
@@ -101,8 +101,8 @@ Start the express server.
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
      https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-     address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-     port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | false<span class="token punctuation">;</span>
+     address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
+     port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span></code></pre></div>
 Create a new server from settings parameters.
 <hr />
