@@ -1,7 +1,7 @@
 <!-- _coverpage.md -->
 
 
-# Ts.ED <small class="version">2.6.3</small>
+# Ts.ED <small class="version">2.6.4</small>
 
 > Use TypeScript decorators to create your Express application
 
