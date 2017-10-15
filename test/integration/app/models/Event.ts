@@ -17,12 +17,13 @@ export class EventModel {
 
     @Title("iD")
     @Description("Description of event model id")
-    @Example("example1", "Description example")
+    @Example("1FDCHZKH")
     @JsonProperty()
     public id: string;
 
     @JsonProperty()
     @Required()
+    @Example("example1", "2017-10-15T17:05:58.106Z")
     public startDate: Date;
 
     @JsonProperty()
