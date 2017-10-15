@@ -8,8 +8,15 @@ import {Schema} from "./schema";
  * @returns {(...args: any[]) => any}
  * @decorator
  */
-export function Example(name: string, description: string) {
+export function Example(name: string, description?: string) {
     return (...args: any[]) => {
-        return Schema({example: {[name]: description}})(...args);
+        let example;
+        if (description) {
+            example = {[name]: description};
+        } else {
+            example = name;
+        }
+
+        return Schema({example: example as any})(...args);
     };
 }
