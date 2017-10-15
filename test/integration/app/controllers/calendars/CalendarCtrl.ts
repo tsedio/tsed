@@ -29,6 +29,7 @@ import {CalendarModel} from "../../models/Calendar";
 import {MongooseService} from "../../services/MongooseService";
 import {BaseController} from "../base/BaseController";
 import {EventCtrl} from "./EventCtrl";
+import {Returns} from "../../../../../src/swagger/decorators/returns";
 
 interface ICalendar {
     id: string;
@@ -190,6 +191,7 @@ export class CalendarCtrl extends BaseController {
      * @returns {{id: number, name: string}}
      */
     @Put("/")
+    @Returns(CalendarModel)
     public save(@BodyParams("name") @Required() name: string): CalendarModel {
         const model = new CalendarModel();
         model.id = "2";

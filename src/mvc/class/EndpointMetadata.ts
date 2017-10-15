@@ -208,7 +208,7 @@ export class EndpointMetadata extends Storable {
      * @param {string | number} code
      */
     public statusResponse(code: string | number): { description: string, headers: any, examples: any } {
-        const get = (code: number | string) => (this.store.get("responses") || {})[code] || {};
+        const get = (code: number | string) => (this.get("responses") || {})[code] || {};
         let {description, headers, examples} = get(code);
 
         if (code) {
@@ -217,15 +217,19 @@ export class EndpointMetadata extends Storable {
             this.collectionType = collectionType;
         }
 
-        if (code === this.store.get("statusCode")) {
+        const expectedStatus = this.store.get("statusCode") || 200;
+
+        if (+code === +expectedStatus) {
             const response = this.store.get("response");
 
-            headers = response.headers || headers;
-            examples = response.examples || examples;
-            description = response.description || description;
+            if (response) {
+                headers = response.headers || headers;
+                examples = response.examples || examples;
+                description = response.description || description;
 
-            this.type = response.type || this.type;
-            this.collectionType = response.collectionType || this.collectionType;
+                this.type = response.type || this.type;
+                this.collectionType = response.collectionType || this.collectionType;
+            }
         }
 
         if (headers) {
