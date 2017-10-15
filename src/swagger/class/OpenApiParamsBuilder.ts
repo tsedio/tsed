@@ -4,7 +4,7 @@
 /** */
 import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-official";
 import {Type} from "../../core/interfaces";
-import {deepExtends} from "../../core/utils";
+import {deepExtends, nameOf} from "../../core/utils";
 
 import {ParamMetadata} from "../../mvc/class/ParamMetadata";
 import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
@@ -13,11 +13,12 @@ import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
 
 export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
     private _parameters: Parameter[] = [];
-    private MODEL_AUTO_INCREMENT = 1;
     private injectedParams: ParamMetadata[];
+    private name: string = "";
 
     constructor(target: Type<any>, methodClassName: string) {
         super(target);
+        this.name = `${nameOf(target)}${methodClassName.charAt(0).toUpperCase() + methodClassName.slice(1)}`;
         this.injectedParams = ParamRegistry.getParams(target, methodClassName);
     }
 
@@ -25,7 +26,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
     build(): this {
         let bodySchema: Schema | undefined = undefined;
         let bodyParam: BodyParameter = {} as BodyParameter;
-        let required = false;
+
         this._parameters = <Parameter[]> this.injectedParams
             .map((param: ParamMetadata) => {
                 const inType = ({
@@ -34,7 +35,6 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
                     "QueryParamsFilter": "query",
                     "HeaderParamsFilter": "header"
                 } as any)[param.name];
-
                 if (inType === undefined) { // not a input paramaters
                     return;
                 }
@@ -71,11 +71,12 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
             .filter(o => !!o);
 
         if (bodySchema && bodyParam) {
-            const model = `Model${this.MODEL_AUTO_INCREMENT}`;
+            const model = `${this.name}Payload`;
             bodyParam.schema = {};
             bodyParam.schema["$ref"] = `#/definitions/${model}`;
+
+            this._parameters.push(bodyParam);
             this._definitions[model] = bodySchema;
-            this.MODEL_AUTO_INCREMENT++;
         }
 
         return this;
@@ -130,7 +131,6 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         }
 
         Object.assign(current, super.createSchema(model));
-
         return output;
     }
 
