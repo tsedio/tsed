@@ -32,7 +32,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         const openAPIPath = ("" + toSwaggerPath(`${this.endpointUrl}${this.endpoint.path || ""}`)).trim();
         const produces = this.endpoint.get("produces") || [];
         const consumes = this.endpoint.get("consumes") || [];
-        const responses = this.endpoint.get("responses") || {"200": {description: "Success"}};
+        const responses = this.endpoint.get("responses") || {};
         const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
         const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
 
@@ -54,9 +54,11 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
             produces
         };
 
-        deepExtends(operation, this.endpoint.get("operation") || {});
+        deepExtends(operation, this.endpoint.get("operation") || {});
 
         path[this.endpoint.httpMethod] = operation;
+
+        responses[this.endpoint.get("statusCode") || "200"] = {description: "Success"};
 
         Object.keys(responses).forEach(code => {
             responses[code] = this.createResponse(code, responses[code]);
@@ -87,9 +89,9 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
      */
     private createResponse(code: string | number, options: Response): Response {
 
-        const {description = "Success", headers, examples} = Object.assign(
+        const {description, headers, examples} = deepExtends(
             options,
-            this.endpoint.statusResponse(code)
+            this.endpoint.statusResponse(code) || {}
         );
 
         const response: Response = {description, headers, examples};
