@@ -70,6 +70,7 @@ new Server.start();
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
+* `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknow, it throw a BadRequest. By default true.
 
 ### Logger
 #### Default logger
@@ -160,6 +161,23 @@ export class CustomLogIncomingRequestMiddleware extends LogIncomingRequestMiddle
            params: request.params
         }
     }
+}
+```
+
+### Disable strict model validation
+
+Since v1.6, [ConverterService](docs/converters.md) check the consistency between the model and the Json object given to the endpoint.
+
+!> When a property is unknown on the model, Ts.Ed throw a BadRequest.
+
+You disable this behavior like here:
+
+```typescript
+@ServerSettings({
+   validationModelStrict: false
+})
+export class Server extends ServerLoader {
+
 }
 ```
 

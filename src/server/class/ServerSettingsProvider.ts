@@ -204,6 +204,15 @@ export class ServerSettingsProvider implements IServerSettings {
         this.map.set("routers", options);
     }
 
+    get validationModelStrict(): boolean {
+        const value = this.map.get("validationModelStrict");
+        return value === undefined ? true : value;
+    }
+
+    set validationModelStrict(value: boolean) {
+        this.map.set("validationModelStrict", value);
+    }
+
     /**
      *
      * @param propertyKey

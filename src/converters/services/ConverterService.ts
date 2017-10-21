@@ -2,11 +2,8 @@ import {BadRequest} from "ts-httpexceptions";
 import {Metadata} from "../../core/class/Metadata";
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
 import {InjectorService} from "../../di";
-/**
- * @module common/converters
- */
-/** */
 import {Service} from "../../di/decorators/service";
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
@@ -18,9 +15,10 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
 
 @Service()
 export class ConverterService {
+    private validationModelStrict = true;
 
-    constructor(private injectorService: InjectorService) {
-
+    constructor(private injectorService: InjectorService, serverSettings: ServerSettingsService) {
+        this.validationModelStrict = serverSettings.get<boolean>("validationModelStrict");
     }
 
     /**
@@ -84,7 +82,7 @@ export class ConverterService {
                     if (typeof obj[propertyKey] !== "function") {
                         let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
 
-                        if (getClass(obj) !== Object && propertyMetadata === undefined) {
+                        if (this.validationModelStrict && getClass(obj) !== Object && propertyMetadata === undefined) {
                             throw new UnknowPropertyError(getClass(obj), propertyKey);
                         }
 
@@ -194,7 +192,7 @@ export class ConverterService {
     private convertProperty = (obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata) => {
 
 
-        if (getClass(instance) !== Object && propertyMetadata === undefined) {
+        if (this.validationModelStrict && getClass(instance) !== Object && propertyMetadata === undefined) {
             throw new UnknowPropertyError(getClass(instance), propertyName);
         }
 

@@ -110,6 +110,14 @@ describe("ServerSettingsProvider", () => {
         expect(this.serverSettingsService.routers).to.deep.equal({mergeParams: true});
     });
 
+    it("should return validationModelStrict", () => {
+        expect(this.serverSettingsService.validationModelStrict).to.equal(true);
+        expect(this.serverSettingsProvider.validationModelStrict).to.equal(true);
+
+        this.serverSettingsProvider.validationModelStrict = false;
+        expect(this.serverSettingsProvider.validationModelStrict).to.equal(false);
+    });
+
     describe("forEach()", () => {
         before(() => {
             this.result = [];
