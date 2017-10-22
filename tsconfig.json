@@ -27,7 +27,8 @@
       "cookie-parser",
       "express",
       "reflect-metadata",
-      "supertest"
+      "supertest",
+      "json-schema"
     ]
   },
   "include": [

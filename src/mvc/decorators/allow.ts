@@ -1,4 +1,4 @@
-import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
+import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {Type} from "../../core/interfaces";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 

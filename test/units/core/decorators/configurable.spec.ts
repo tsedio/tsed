@@ -1,20 +1,20 @@
 import {expect} from "chai";
 import {NotConfigurable} from "../../../../src/core/decorators";
 import {Configurable} from "../../../../src/core/decorators/configurable";
+import {descriptorOf} from "../../../../src/core/utils";
 
 class Test {
+    test: string;
 }
+
 describe("Configurable", () => {
     it("should set attribut as configurable", () => {
-        expect(Configurable()(Test, "test", {configurable: false}).configurable).to.eq(true);
+        Configurable()(Test, "test");
+        expect(descriptorOf(Test, "test").configurable).to.eq(true);
     });
-    it("should set attribut as configurable", () => {
-        expect(Configurable(true)(Test, "test", {configurable: false}).configurable).to.eq(true);
-    });
+
     it("should set attribut as not configurable", () => {
-        expect(NotConfigurable()(Test, "test", {configurable: true}).configurable).to.eq(false);
-    });
-    it("should set attribut as configurable", () => {
-        expect(Configurable()(Test, "test", undefined).configurable).to.eq(true);
+        NotConfigurable()(Test, "test");
+        expect(descriptorOf(Test, "test").configurable).to.eq(false);
     });
 });

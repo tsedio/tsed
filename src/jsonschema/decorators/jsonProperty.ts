@@ -5,9 +5,9 @@ import {isEmpty} from "../../core/utils/index";
  */
 /** */
 import {InjectorService} from "../../di/services/InjectorService";
-import {IPropertyOptions} from "../interfaces/IPropertyOptions";
+import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
-import {ConverterService} from "../services/ConverterService";
+import {ConverterService} from "../../converters/services/ConverterService";
 
 /**
  * `@JsonProperty()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.

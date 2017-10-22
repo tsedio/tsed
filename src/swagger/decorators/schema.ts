@@ -3,7 +3,7 @@
  */
 /** */
 import {Schema} from "swagger-schema-official";
-import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
+import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {Store} from "../../core/class/Store";
 import {DecoratorParameters} from "../../core/interfaces";
 import {getDecoratorType} from "../../core/utils";

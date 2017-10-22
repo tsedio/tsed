@@ -2,13 +2,13 @@
  * @module swagger
  */
 /** */
-import {Schema, Response} from "swagger-schema-official";
-import {PropertyMetadata} from "../../converters/class/PropertyMetadata";
-import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
+import {Response, Schema} from "swagger-schema-official";
 import {Storable} from "../../core/class/Storable";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
 import {deepExtends, nameOf} from "../../core/utils";
+import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
+import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {swaggerType} from "../utils";
 
 /**
@@ -31,12 +31,15 @@ export class OpenApiPropertiesBuilder {
     build(): this {
 
         const properties = PropertyRegistry.getProperties(this.target);
-
         const store = Store.from(this.target);
-        const schema: Schema = Object.assign({}, store.get<Schema>("schema")) || {};
+        const schema: Schema = this.getJsonSchema() || {};
 
         if (store.get("description")) {
             schema.description = schema.description || store.get("description");
+        }
+
+        if (schema.required && schema.required.length) {
+            this._responses[400] = {description: "Missing required parameter"};
         }
 
         schema.type = "object";
@@ -48,7 +51,6 @@ export class OpenApiPropertiesBuilder {
         });
 
         this._schema = schema;
-
         this._definitions[nameOf(this.target)] = this.schema;
 
         return this;
@@ -60,10 +62,6 @@ export class OpenApiPropertiesBuilder {
 
         if (model.store.get("description")) {
             schema.description = schema.description || model.store.get("description");
-        }
-
-        if (model.required) {
-            this._responses[400] = {description: "Missing required parameter"};
         }
 
         if (model.isClass) {
@@ -113,6 +111,10 @@ export class OpenApiPropertiesBuilder {
         return schema;
     }
 
+    public getJsonSchema() {
+        const schema = Store.from(this.target).get<Schema>("schema");
+        return schema.toJSON ? schema.toJSON() : schema;
+    }
 
     public get schema(): Schema {
         return this._schema;

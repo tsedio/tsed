@@ -48,71 +48,16 @@ describe("EntityDescription", () => {
         it("should return allowedValues", () => {
             expect(this.entityDescription.allowedValues).to.deep.eq([null, ""]);
         });
-    });
 
-
-    describe("isValidValue", () => {
-        describe("when property is required", () => {
-            before(() => {
-                this.entityDescription = new EntityTest(Test, "test");
-                this.entityDescription.allowedValues = [];
-                this.entityDescription.required = true;
-            });
-            it("should return false (value 0)", () => {
-                return expect(this.entityDescription.isValidValue(0)).to.be.true;
-            });
-
-            it("should return true (value '')", () => {
-                return expect(this.entityDescription.isValidValue("")).to.be.false;
-            });
-            it("should return true (value null)", () => {
-                return expect(this.entityDescription.isValidValue(null)).to.be.false;
-            });
-            it("should return true (value undefined)", () => {
-                return expect(this.entityDescription.isValidValue(undefined)).to.be.false;
-            });
+        it("should return false (isDate)", () => {
+            expect(this.entityDescription.isDate).to.be.false;
         });
 
-        describe("when property is required and have allowed values", () => {
-            before(() => {
-                this.entityDescription = new EntityTest(Test, "test");
-                this.entityDescription.allowedValues = [null];
-                this.entityDescription.required = true;
-            });
-            it("should return false (value 0)", () => {
-                return expect(this.entityDescription.isValidValue(0)).to.be.true;
-            });
-
-            it("should return true (value '')", () => {
-                return expect(this.entityDescription.isValidValue("")).to.be.false;
-            });
-            it("should return true (value null)", () => {
-                return expect(this.entityDescription.isValidValue(null)).to.be.true;
-            });
-            it("should return true (value undefined)", () => {
-                return expect(this.entityDescription.isValidValue(undefined)).to.be.false;
-            });
+        it("should return false (isPrimitive)", () => {
+            expect(this.entityDescription.isPrimitive).to.be.false;
         });
-
-        describe("when property is not required", () => {
-            before(() => {
-                this.entityDescription = new EntityTest(Test, "test");
-                this.entityDescription.allowedValues = [];
-                this.entityDescription.required = false;
-            });
-            it("should return false (value 0)", () => {
-                return expect(this.entityDescription.isValidValue(0)).to.be.true;
-            });
-
-            it("should return true (value '')", () => {
-                return expect(this.entityDescription.isValidValue("")).to.be.true;
-            });
-            it("should return true (value null)", () => {
-                return expect(this.entityDescription.isValidValue(null)).to.be.true;
-            });
-            it("should return true (value undefined)", () => {
-                return expect(this.entityDescription.isValidValue(undefined)).to.be.true;
-            });
+        it("should return false (isObject)", () => {
+            expect(this.entityDescription.isObject).to.be.false;
         });
     });
 });

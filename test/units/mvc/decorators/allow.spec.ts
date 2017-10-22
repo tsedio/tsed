@@ -1,4 +1,4 @@
-import {PropertyRegistry} from "../../../../src/converters/registries/PropertyRegistry";
+import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
 import {Allow} from "../../../../src/mvc/decorators/allow";
 import {Sinon} from "../../../tools";
 import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";

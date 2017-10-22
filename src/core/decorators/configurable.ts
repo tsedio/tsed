@@ -1,11 +1,14 @@
 /**
  * @module common/core
  */
+import {descriptorOf} from "../utils";
+
 /** */
 
 export function Configurable(value: boolean = true): Function {
-    return (target: any, propertyKey: string, descriptor: PropertyDescriptor = {writable: true, enumerable: true}) => {
+    return (target: any, propertyKey: string) => {
+        const descriptor = descriptorOf(target, propertyKey) ||  {writable: true, enumerable: true};
         descriptor.configurable = value;
-        return descriptor;
+        Object.defineProperty(target && target.prototype || target, propertyKey, descriptor);
     };
 }

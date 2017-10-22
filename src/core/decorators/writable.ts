@@ -1,14 +1,14 @@
 /**
  * @module common/core
  */
+import {descriptorOf} from "../utils";
+
 /** */
 
 export function Writable(value: boolean = true): Function {
-    return (target: any, propertyKey: string, descriptor: PropertyDescriptor = {
-        enumerable: true,
-        configurable: true
-    }) => {
+    return (target: any, propertyKey: string) => {
+        const descriptor = descriptorOf(target, propertyKey) || {configurable: true, enumerable: true};
         descriptor.writable = value;
-        return descriptor;
+        Object.defineProperty(target && target.prototype || target, propertyKey, descriptor);
     };
 }

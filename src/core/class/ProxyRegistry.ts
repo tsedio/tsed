@@ -11,7 +11,7 @@ export abstract class ProxyRegistry<T, I> {
 
     }
 
-    abstract invoke<T>(target: any, locals?: Map<Function, any>, designParamTypes?: any[]): T;
+    // abstract invoke<T>(target: any, locals?: Map<Function, any>, designParamTypes?: any[]): T;
     /**
      *
      * @param callbackfn

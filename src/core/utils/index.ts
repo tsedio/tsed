@@ -53,6 +53,19 @@ export function isPrimitiveOrPrimitiveClass(target: any): boolean {
         || target === Boolean;
 }
 
+export function primitiveOf(target: any): "string" | "number" | "boolean" | "any" {
+    if (target instanceof String || target === String) {
+        return "string";
+    }
+    if (target instanceof Number || target === Number) {
+        return "number";
+    }
+    if (target instanceof Boolean || target === Boolean) {
+        return "boolean";
+    }
+    return "any";
+}
+
 /**
  * Return true if the clazz is an array.
  * @param target
@@ -80,6 +93,37 @@ export function isCollection(target: any): boolean {
         || target instanceof WeakMap
         || target === WeakSet
         || target instanceof WeakSet;
+}
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+export function isDate(target: any): boolean {
+    return target === Date || target instanceof Date;
+}
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+export function isObject(target: any): boolean {
+    return target === Object;
+}
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+export function isClass(target: any) {
+    return !isPrimitiveOrPrimitiveClass(target)
+        && !isObject(target)
+        && !isDate(target)
+        && target !== undefined
+        && !isPromise(target);
 }
 
 /**
@@ -226,6 +270,19 @@ export function decoratorArgs(target: any, propertyKey: string): DecoratorParame
         propertyKey,
         descriptorOf(target, propertyKey)
     ];
+}
+
+export function ancestorsOf(target: any) {
+    const classes = [];
+
+    let currentTarget = getClass(target);
+
+    while (nameOf(currentTarget) !== "") {
+        classes.unshift(currentTarget);
+        currentTarget = getInheritedClass(currentTarget);
+    }
+
+    return classes;
 }
 
 export function applyBefore(target: any, name: string, callback: Function) {
