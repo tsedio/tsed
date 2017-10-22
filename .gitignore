@@ -41,6 +41,7 @@ index.js.map
 !swagger/index.js
 !multipartfiles/index.js
 !servestatic/index.js
+!ajv/index.js
 src/**/*.js
 src/**/*.js.map
 test/**/*.js

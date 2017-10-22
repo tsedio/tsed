@@ -71,6 +71,7 @@
     "@types/sinon-chai": "^2.7.27",
     "@types/superagent": "^3.5.3",
     "@types/supertest": "^2.0.0",
+    "ajv": "^5.2.4",
     "body-parser": "^1.15.1",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",

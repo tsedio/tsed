@@ -2,7 +2,6 @@ import {JsonSchemesRegistry} from "../../../../src/jsonschema/registries/JsonSch
 import {JsonFoo2} from "../../../helper/classes";
 import {expect} from "../../../tools";
 
-
 const j = (o: any): any => JSON.parse(JSON.stringify(o));
 
 describe("JsonSchemesRegistry", () => {
@@ -37,6 +36,7 @@ describe("JsonSchemesRegistry", () => {
                         }
                     },
                     "name": {
+                        "minLength": 3,
                         "type": "string"
                     },
                     "nameModel": {
@@ -46,6 +46,7 @@ describe("JsonSchemesRegistry", () => {
                         "type": "object"
                     },
                     "test": {
+                        "minLength": 3,
                         "type": "string"
                     },
                     "theMap": {

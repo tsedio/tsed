@@ -27,6 +27,7 @@ export * from "./services/ControllerService";
 export * from "./services/MiddlewareService";
 export * from "./services/RouterController";
 export * from "./services/RouteService";
+export * from "./services/ValidationService";
 
 // decorators
 export * from "./decorators";

@@ -13,6 +13,7 @@
 * [Passport.js](tutorials/passport.md)
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
+* [Ajv validation](tutorials/ajv.md)
 * [Upload files](tutorials/upload-files-with-multer.md)
 * [Serve static files](tutorials/serve-static-files.md)
 * [Templating](tutorials/templating.md)

@@ -55,6 +55,7 @@ describe("JsonSchemesService", () => {
                     }
                 },
                 "name": {
+                    "minLength": 3,
                     "type": "string"
                 },
                 "nameModel": {
@@ -64,6 +65,7 @@ describe("JsonSchemesService", () => {
                     "type": "object"
                 },
                 "test": {
+                    "minLength": 3,
                     "type": "string"
                 },
                 "theMap": {

@@ -43,7 +43,7 @@ describe("PropertyRegistry", () => {
         });
     });
 
-    describe("getProperties", () => {
+    describe("getProperties()", () => {
         before(() => {
             PropertyRegistry.get(Children, "id");
             PropertyRegistry.get(Children, "test");

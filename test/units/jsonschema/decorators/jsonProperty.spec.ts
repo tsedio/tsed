@@ -59,6 +59,7 @@ describe("JsonProperty()", () => {
                     }
                 },
                 "name": {
+                    "minLength": 3,
                     "type": "string"
                 },
                 "object": {
@@ -68,6 +69,7 @@ describe("JsonProperty()", () => {
                     "$ref": "#/definitions/JsonNameModel"
                 },
                 "test": {
+                    "minLength": 3,
                     "type": "string"
                 },
                 "theMap": {
