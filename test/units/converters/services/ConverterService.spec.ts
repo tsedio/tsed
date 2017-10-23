@@ -83,6 +83,13 @@ class Foo4 {
 }
 
 
+class Foo5 {
+    @JsonProperty()
+    test: any;
+    foo: any;
+}
+
+
 describe("ConverterService", () => {
 
     before(inject([ConverterService], (converterService: ConverterService) => {
@@ -271,7 +278,12 @@ describe("ConverterService", () => {
             it("should emit a BadRequest when the number parsing failed", () =>
                 assert.throws(() => this.converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.")
             );
+        });
 
+        describe("when validationModelStrict is enabled", () => {
+            before(() => {
+                this.converterService.validationModelStrict = true;
+            });
             it("should emit a BadRequest when a property is not in the Model", () => {
                 assert.throws(() =>
                         this.converterService.deserialize({
@@ -281,6 +293,30 @@ describe("ConverterService", () => {
                         }, <any>Foo4),
                     "Property notPropertyAllowed on class Foo4 is not allowed."
                 );
+            });
+        });
+
+        describe("when validationModelStrict is disabled", () => {
+            before(() => {
+                this.converterService.validationModelStrict = false;
+            });
+            after(() => {
+                this.converterService.validationModelStrict = true;
+            });
+
+            it("should not emit a BadRequest", () => {
+                const foo = new Foo5();
+                Object.assign(foo, {
+                    "foo": "test",
+                    "notPropertyAllowed": "tst",
+                    "test": 1
+                });
+
+                expect(this.converterService.deserialize({
+                    test: 1,
+                    foo: "test",
+                    notPropertyAllowed: "tst"
+                }, <any>Foo5)).to.deep.eq(foo);
             });
         });
 

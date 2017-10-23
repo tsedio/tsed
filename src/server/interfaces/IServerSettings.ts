@@ -28,6 +28,7 @@ export interface IServerSettings {
     serveStatic?: IServerMountDirectories;
     acceptMimes?: string[];
     debug?: boolean;
+    validationModelStrict?: boolean;
 
     [key: string]: any;
 }

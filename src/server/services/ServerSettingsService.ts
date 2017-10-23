@@ -181,6 +181,11 @@ export class ServerSettingsService implements IServerSettings {
         return this.map.get("routers") || {};
     }
 
+    get validationModelStrict(): boolean {
+        const value = this.map.get("validationModelStrict");
+        return value === undefined ? true : value;
+    }
+
     /**
      *
      * @param callbackfn
