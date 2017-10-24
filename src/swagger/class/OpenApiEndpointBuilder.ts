@@ -33,7 +33,7 @@ export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
         const produces = this.endpoint.get("produces") || [];
         const consumes = this.endpoint.get("consumes") || [];
         const responses = this.endpoint.get("responses") || {};
-        const security = this.endpoint.get("security") || {};
+        const security = this.endpoint.get("security") || [];
         const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
         const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
 

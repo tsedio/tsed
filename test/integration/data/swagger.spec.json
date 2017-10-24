@@ -1,0 +1,840 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger Petstore",
+    "description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "global_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:global": "modify pets in your account",
+        "read:global": "read your pets"
+      }
+    },
+    "calendar_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:calendar": "modify pets in your account",
+        "read:calendar": "read your pets"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "RestCtrl"
+    },
+    {
+      "name": "CalendarCtrl"
+    },
+    {
+      "name": "FakeCtrl"
+    }
+  ],
+  "paths": {
+    "/rest/html": {
+      "get": {
+        "operationId": "RestCtrl.render_1",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/events/{eventId}/tasks/": {
+      "get": {
+        "operationId": "TaskCtrl.get_1",
+        "tags": [
+          "TaskCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "test",
+            "in": "path",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/events/": {
+      "head": {
+        "operationId": "EventCtrl.head_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      },
+      "get": {
+        "operationId": "EventCtrl.query_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/events/{id}": {
+      "patch": {
+        "operationId": "EventCtrl.patch_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "title": "Title event",
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [],
+        "produces": []
+      },
+      "get": {
+        "operationId": "EventCtrl.find_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      },
+      "put": {
+        "operationId": "EventCtrl.save_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "security": [],
+        "produces": []
+      },
+      "delete": {
+        "operationId": "EventCtrl.remove_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/events/list": {
+      "post": {
+        "operationId": "EventCtrl.update_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EventCtrlUpdatePayload"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EventModel"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [],
+        "produces": []
+      },
+      "get": {
+        "operationId": "EventCtrl.index_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": [],
+        "summary": "Return all elements from a service"
+      }
+    },
+    "/rest/calendars/events/{resources}/test/{id}": {
+      "get": {
+        "operationId": "EventCtrl.getTest_1",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resources",
+            "type": "string",
+            "required": false,
+            "description": "The resource"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": false,
+            "description": "Id of the resource"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": [],
+        "summary": "Return an element by his resource"
+      }
+    },
+    "/rest/calendars/classic/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findClassic_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/token": {
+      "get": {
+        "operationId": "CalendarCtrl.getToken_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/token/{token}": {
+      "get": {
+        "operationId": "CalendarCtrl.updateToken_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "type": "string",
+            "required": false,
+            "description": "Token required to update token"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/annotation/test/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findWithAnnotation_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/annotation/promised/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findWithPromise_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/annotation/status/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.findAndChangeStatusCode_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/query": {
+      "get": {
+        "operationId": "CalendarCtrl.getQuery_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/": {
+      "put": {
+        "operationId": "CalendarCtrl.save_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CalendarCtrlSavePayload"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CalendarModel"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "security": [],
+        "produces": []
+      },
+      "delete": {
+        "operationId": "CalendarCtrl.remove_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CalendarCtrlRemovePayload"
+            }
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "calendar_auth": [
+              "write:calendar",
+              "read:calendar"
+            ]
+          },
+          {
+            "global_auth": [
+              "read:global"
+            ]
+          }
+        ],
+        "produces": []
+      }
+    },
+    "/rest/calendars/middleware": {
+      "get": {
+        "operationId": "CalendarCtrl.getWithMiddleware_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/mvc": {
+      "get": {
+        "operationId": "CalendarCtrl.testStackMiddlewares_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/middlewares2": {
+      "get": {
+        "operationId": "CalendarCtrl.testUseAfter_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/headers": {
+      "get": {
+        "operationId": "CalendarCtrl.testResponseHeader_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "x-token-test-2": {
+                "type": "string"
+              },
+              "x-token-test": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": "application/xml",
+        "deprecated": true
+      }
+    },
+    "/rest/calendars/documents": {
+      "post": {
+        "operationId": "CalendarCtrl.testMultipart_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/documents/1": {
+      "post": {
+        "operationId": "CalendarCtrl.testMultipart2_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/{resources}/test/{id}": {
+      "get": {
+        "operationId": "CalendarCtrl.getTest_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resources",
+            "type": "string",
+            "required": false,
+            "description": "The resource"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": false,
+            "description": "Id of the resource"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": [],
+        "summary": "Return an element by his resource"
+      }
+    },
+    "/rest/calendars/list": {
+      "get": {
+        "operationId": "CalendarCtrl.index_1",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": [],
+        "summary": "Return all elements from a service"
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "percent": {
+          "type": "number"
+        }
+      }
+    },
+    "EventModel": {
+      "title": "EventModel Title",
+      "type": "object",
+      "properties": {
+        "id": {
+          "example": "1FDCHZKH",
+          "title": "iD",
+          "description": "Description of event model id",
+          "type": "string"
+        },
+        "startDate": {
+          "example": {
+            "example1": "2017-10-15T17:05:58.106Z"
+          },
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      }
+    },
+    "EventCtrlUpdatePayload": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventModel"
+          }
+        }
+      }
+    },
+    "CalendarModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "example": {
+            "example1": "Description example"
+          },
+          "title": "iD",
+          "description": "Description of calendar model id",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "CalendarCtrlSavePayload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "CalendarCtrlRemovePayload": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
