@@ -94,7 +94,7 @@ export class ConverterService {
                 // Required validation
                 properties.forEach((propertyMetadata: PropertyMetadata) => {
                     const key = propertyMetadata.name || propertyMetadata.propertyKey;
-                    if (!propertyMetadata.isValidValue(plainObject[key])) {
+                    if (!propertyMetadata.isValidRequiredValue(plainObject[key])) {
                         throw new RequiredPropertyError(getClass(obj), propertyMetadata.propertyKey);
                     }
                 });
@@ -164,7 +164,7 @@ export class ConverterService {
 
             // Required validation
             properties.forEach((propertyMetadata: PropertyMetadata) => {
-                if (!propertyMetadata.isValidValue(instance[propertyMetadata.propertyKey])) {
+                if (!propertyMetadata.isValidRequiredValue(instance[propertyMetadata.propertyKey])) {
                     throw new RequiredPropertyError(targetType, propertyMetadata.propertyKey);
                 }
             });

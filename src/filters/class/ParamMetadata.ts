@@ -28,7 +28,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      * @type {Array}
      */
     @NotEnumerable()
-    private _allowedValues: any[] = [];
+    private _allowedRequiredValues: any[] = [];
 
     /**
      * Required entity.
@@ -105,27 +105,27 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      * Return the allowed values.
      * @returns {any[]}
      */
-    get allowedValues(): any[] {
-        return this._allowedValues;
+    get allowedRequiredValues(): any[] {
+        return this._allowedRequiredValues;
     }
 
     /**
      * Set the allowed values when the value is required.
      * @param {any[]} value
      */
-    set allowedValues(value: any[]) {
-        this._allowedValues = value;
+    set allowedRequiredValues(value: any[]) {
+        this._allowedRequiredValues = value;
     }
 
     /**
-     * This method use `EntityDescription.required` and `allowedValues` to validate the value.
+     * This method use `EntityDescription.required` and `allowedRequiredValues` to validate the value.
      * @param value
      * @returns {boolean}
      */
-    isValidValue(value: any): boolean {
+    isValidRequiredValue(value: any): boolean {
         if (this.required) {
             if (value === undefined || value === null || value === "") {
-                if (this.allowedValues.indexOf(value) === -1) {
+                if (this.allowedRequiredValues.indexOf(value) === -1) {
                     return false;
                 }
             }

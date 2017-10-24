@@ -10,7 +10,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
      * @type {Array}
      */
     @NotEnumerable()
-    private _allowedValues: any[] = [];
+    private _allowedRequiredValues: any[] = [];
 
     constructor(target: any, propertyKey: any) {
         super(target, propertyKey);
@@ -62,22 +62,22 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
      * Return the allowed values.
      * @returns {any[]}
      */
-    get allowedValues(): any[] {
-        return this._allowedValues;
+    get allowedRequiredValues(): any[] {
+        return this._allowedRequiredValues;
     }
 
     /**
      * Set the allowed values when the value is required.
      * @param {any[]} value
      */
-    set allowedValues(value: any[]) {
-        this._allowedValues = value;
+    set allowedRequiredValues(value: any[]) {
+        this._allowedRequiredValues = value;
     }
 
-    isValidValue(value: any): boolean {
+    isValidRequiredValue(value: any): boolean {
         if (this.required) {
             if (value === undefined || value === null || value === "") {
-                if (this.allowedValues.indexOf(value) === -1) {
+                if (this.allowedRequiredValues.indexOf(value) === -1) {
                     return false;
                 }
             }

@@ -242,7 +242,7 @@ export class HandlerBuilder {
                     );
                 }
 
-                if (!param.isValidValue(paramValue)) {
+                if (!param.isValidRequiredValue(paramValue)) {
                     throw new RequiredParamError(param.name, param.expression);
                 }
 

@@ -107,8 +107,8 @@ describe("ParamRegistry", () => {
         it("should be required", () => {
             expect(this.paramMetadata.required).to.eq(true);
         });
-        it("should be allowedValues", () => {
-            expect(this.paramMetadata.allowedValues).to.deep.eq([null, ""]);
+        it("should be allowedRequiredValues", () => {
+            expect(this.paramMetadata.allowedRequiredValues).to.deep.eq([null, ""]);
         });
     });
 });

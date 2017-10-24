@@ -31,7 +31,7 @@ describe("Allow", () => {
         });
 
         it("should have been stored allowed value on propertyMetadata", () => {
-            this.metadata.allowedValues.should.be.deep.eq([null, ""]);
+            this.metadata.allowedRequiredValues.should.be.deep.eq([null, ""]);
         });
     });
 
@@ -57,7 +57,7 @@ describe("Allow", () => {
         });
 
         it("should have been stored allowed value on propertyMetadata", () => {
-            this.metadata.allowedValues.should.be.deep.eq([null, ""]);
+            this.metadata.allowedRequiredValues.should.be.deep.eq([null, ""]);
         });
     });
 

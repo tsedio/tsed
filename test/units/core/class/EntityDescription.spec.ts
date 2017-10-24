@@ -16,7 +16,7 @@ describe("EntityDescription", () => {
             this.entityDescription = new EntityTest(Test, "test", 0);
             this.entityDescription.required = true;
             this.entityDescription.type = Test;
-            this.entityDescription.allowedValues = [null, ""];
+            this.entityDescription.allowedRequiredValues = [null, ""];
         });
 
         after(() => delete this.entityDescription);
@@ -45,8 +45,8 @@ describe("EntityDescription", () => {
             expect(this.entityDescription.isCollection).to.eq(false);
         });
 
-        it("should return allowedValues", () => {
-            expect(this.entityDescription.allowedValues).to.deep.eq([null, ""]);
+        it("should return allowedRequiredValues", () => {
+            expect(this.entityDescription.allowedRequiredValues).to.deep.eq([null, ""]);
         });
 
         it("should return false (isDate)", () => {
