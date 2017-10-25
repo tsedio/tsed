@@ -1,85 +1,12 @@
-import * as Express from "express";
-
-
 import * as SuperTest from "supertest";
-import {GlobalAcceptMimesMiddleware} from "../../src/mvc/components/GlobalAcceptMimesMiddleware";
-import {ServerLoader} from "../../src/server/components/ServerLoader";
-import {ServerSettings} from "../../src/server/decorators/serverSettings";
-import "../../src/swagger";
-import {expect} from "../tools";
-import Path = require("path");
-import {bootstrap, inject} from "../../src/testing";
 import {ExpressApplication} from "../../src/core/services/ExpressApplication";
-
-const rootDir = Path.join(Path.resolve(__dirname), "app");
-
-@ServerSettings({
-    rootDir,
-    port: 8002,
-    httpsPort: 8082,
-    mount: {
-        "/rest": `${rootDir}/controllers/**/**.js`
-    },
-    componentsScan: [
-        `${rootDir}/services/**/**.js`
-    ],
-    serveStatic: {
-        "/": `${rootDir}/views`
-    },
-    acceptMimes: ["application/json"],
-    swagger: {
-        path: "/api-doc"
-    }
-})
-export class FakeApplication extends ServerLoader {
-
-    static Server: FakeApplication;
-
-    /**
-     * This method let you configure the middleware required by your application to works.
-     * @returns {Server}
-     */
-    public $onMountingMiddlewares(): void {
-
-        let cookieParser = require("cookie-parser"),
-            bodyParser = require("body-parser"),
-            compress = require("compression"),
-            methodOverride = require("method-override"),
-            session = require("express-session");
-
-        this
-            .use(GlobalAcceptMimesMiddleware)
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }))
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride());
-
-        this.engine(".html", require("ejs").__express)
-            .set("views", `${rootDir}/views`)
-            .set("view engine", "html");
-
-    }
-
-    /**
-     * Set here your check authentification strategy.
-     * @param request
-     * @param response
-     * @param next
-     * @returns {boolean}
-     */
-    public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
-
-        return request.get("authorization") === "token";
-    }
-}
-
+import {bootstrap, inject} from "../../src/testing";
+import {expect} from "../tools";
+import {FakeServer} from "./FakeServer";
 
 describe("Swagger", () => {
 
-    before(bootstrap(FakeApplication));
+    before(bootstrap(FakeServer));
     before(inject([ExpressApplication], (expressApplication: ExpressApplication) =>
         this.app = SuperTest(expressApplication)
     ));
@@ -126,6 +53,8 @@ describe("Swagger", () => {
             expect(this.spec.produces[0]).to.be.eq("application/json");
         });
 
+        it("should be equals to the expected swagger.spec.json", () => {
+            expect(this.spec).to.deep.eq(require("./data/swagger.spec.json"));
+        });
     });
-
 });
