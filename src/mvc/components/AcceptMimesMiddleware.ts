@@ -5,8 +5,8 @@
 import {NotAcceptable} from "ts-httpexceptions";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
-import {EndpointInfo} from "../decorators/param/endpointInfo";
-import {Request} from "../decorators/param/request";
+import {EndpointInfo} from "../../filters/decorators/endpointInfo";
+import {Request} from "../../filters/decorators/request";
 import {IMiddleware} from "../interfaces";
 
 /**

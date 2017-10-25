@@ -1,6 +1,6 @@
 import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 import {Type} from "../../core/interfaces";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 
 /**
  * Add required annotation for a function argument.

@@ -213,7 +213,7 @@ export class CalendarCtrl {
 
 ## Custom middleware
 
-`@Use()`, `@UseBefore()`, `@UseAfter()` decorators let you to add custom middleware on a method or on controller. 
+`@Use()`, `@UseBefore()`, `@UseAfter()` decorators lets you add custom middleware on a method or on controller. 
 
 ### Example
 ```typescript
@@ -263,7 +263,7 @@ When a request is sent to the server all middlewares added in the ServerLoader, 
 
 ## Dependencies
 
-A controller can depend to an other controllers. Dependencies let you manage each `Controller` as Express Router module.
+A controller can depend to an other controllers. Dependencies lets you manage each `Controller` as Express Router module.
 
 ```typescript
 @Controller("/events")

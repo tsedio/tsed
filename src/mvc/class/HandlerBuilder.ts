@@ -9,7 +9,6 @@ import {Type} from "../../core/interfaces";
 import {nameOf} from "../../core/utils";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterService} from "../../filters/services/FilterService";
-import {ENDPOINT_INFO, RESPONSE_DATA} from "../constants";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {IHandlerScope} from "../interfaces/IHandlerScope";
@@ -18,7 +17,8 @@ import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 import {RouterController} from "../services/RouterController";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
-import {ParamMetadata} from "./ParamMetadata";
+import {ParamMetadata} from "../../filters/class/ParamMetadata";
+import {ENDPOINT_INFO, RESPONSE_DATA} from "../../filters/constants";
 
 
 /**

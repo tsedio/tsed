@@ -6,7 +6,8 @@ import {Metadata} from "../../core/class/Metadata";
 import {Type} from "../../core/interfaces";
 import {ParamMetadata} from "../class/ParamMetadata";
 import {EXPRESS_NEXT_FN, PARAM_METADATA} from "../constants";
-import {IInjectableParamSettings, IParamArgs} from "../interfaces";
+import {IInjectableParamSettings} from "../interfaces";
+import {IParamArgs} from "../interfaces/Arguments";
 
 export class ParamRegistry {
     /**
@@ -99,6 +100,31 @@ export class ParamRegistry {
         });
 
         return this;
+    }
+
+    /**
+     * Create a parameters decorators
+     * @param token
+     * @param {Partial<IInjectableParamSettings<any>>} options
+     * @returns {Function}
+     */
+    static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
+        return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
+
+            if (typeof parameterIndex === "number") {
+                const settings = Object.assign({
+                    target,
+                    propertyKey,
+                    parameterIndex
+                }, options);
+
+                if (typeof token === "symbol") {
+                    ParamRegistry.useService(token, settings);
+                } else {
+                    ParamRegistry.useFilter(token, settings);
+                }
+            }
+        };
     }
 
     /**

@@ -1,10 +1,11 @@
 /**
  * @module common/filters
- */ /** */
+ */
+/** */
 
-import {Type} from "../../core/interfaces/Type";
-import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
 import {PathParamsFilter} from "../components/PathParamsFilter";
+
 /**
  * PathParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
  *
@@ -32,20 +33,5 @@ import {PathParamsFilter} from "../components/PathParamsFilter";
  * @returns {Function}
  */
 export function PathParams(expression?: string | any, useType?: any): Function {
-
-    return <T>(target: Type<T>, propertyKey: string | symbol, parameterIndex: number): void => {
-
-        if (typeof parameterIndex === "number") {
-
-            ParamRegistry.useFilter(PathParamsFilter, {
-                target,
-                propertyKey,
-                parameterIndex,
-                expression,
-                useType
-            });
-
-        }
-
-    };
+    return ParamRegistry.decorate(PathParamsFilter, {expression, useType});
 }

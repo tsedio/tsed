@@ -9,13 +9,11 @@ export * from "./class/ControllerProvider";
 export * from "./class/Endpoint";
 export * from "./class/EndpointMetadata";
 export * from "./class/HandlerMetadata";
-export * from "./class/ParamMetadata";
 
 // registries
 export * from "./registries/ControllerRegistry";
 export * from "./registries/EndpointRegistry";
 export * from "./registries/MiddlewareRegistry";
-export * from "./registries/ParamRegistry";
 
 // middlewares
 export * from "./components/GlobalAcceptMimesMiddleware";

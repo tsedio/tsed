@@ -8,10 +8,10 @@ import {IMiddleware} from "../";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
-import {EndpointInfo} from "../decorators/param/endpointInfo";
-import {Next} from "../decorators/param/next";
-import {Request} from "../decorators/param/request";
-import {Response} from "../decorators/param/response";
+import {EndpointInfo} from "../../filters/decorators/endpointInfo";
+import {Next} from "../../filters/decorators/next";
+import {Request} from "../../filters/decorators/request";
+import {Response} from "../../filters/decorators/response";
 /**
  * This middleware manage the authentication.
  * @private

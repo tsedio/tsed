@@ -1,10 +1,10 @@
-import {Type} from "../../core/interfaces";
-import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
 /**
  * @module common/filters
  */
 /** */
 import {BodyParamsFilter} from "../components/BodyParamsFilter";
+
 /**
  * BodyParams return the value from [request.body](http://expressjs.com/en/4x/api.html#req.body) object.
  *
@@ -42,20 +42,5 @@ import {BodyParamsFilter} from "../components/BodyParamsFilter";
  * @returns {Function}
  */
 export function BodyParams(expression?: string | any, useType?: any): Function {
-
-    return <T>(target: Type<T>, propertyKey: string | symbol, parameterIndex: number): void => {
-
-        if (typeof parameterIndex === "number") {
-
-            ParamRegistry.useFilter(BodyParamsFilter, {
-                target,
-                propertyKey,
-                parameterIndex,
-                expression,
-                useType
-            });
-
-        }
-
-    };
+    return ParamRegistry.decorate(BodyParamsFilter, {expression, useType});
 }

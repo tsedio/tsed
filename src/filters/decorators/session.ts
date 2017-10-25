@@ -1,10 +1,6 @@
-import {Type} from "../../core/interfaces";
-import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
-/**
- * @module common/filters
- */
-/** */
+import {ParamRegistry} from "../registries/ParamRegistry";
 import {SessionFilter} from "../components/SessionFilter";
+
 /**
  * Session return the value from [request.session](http://expressjs.com/en/4x/api.html#req.session) object.
  *
@@ -37,20 +33,5 @@ import {SessionFilter} from "../components/SessionFilter";
  * @returns {Function}
  */
 export function Session(expression?: string | any, useType?: any): Function {
-
-    return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): void => {
-
-        if (typeof parameterIndex === "number") {
-
-            ParamRegistry.useFilter(SessionFilter, {
-                target,
-                propertyKey,
-                parameterIndex,
-                expression,
-                useType
-            });
-
-        }
-
-    };
+    return ParamRegistry.decorate(SessionFilter, {expression, useType});
 }

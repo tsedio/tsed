@@ -1,6 +1,6 @@
 # Converters
 
-The decorator `@JsonProperty` let you to customize serialization and deserialization property when Ts.ED send data as JSON.
+The decorator `@JsonProperty` lets you customize serialization and deserialization property when Ts.ED send data as JSON.
 
 All following decorators use `@JsonProperty` metadata to deserialize a Plain Object JavaScript to his Model:
 
@@ -38,7 +38,7 @@ In second place, create a new file in your `converters` folder. Create a new cla
 
 ## Define a model
 
-`@JsonProperty()` let you decorate an attribute. By default, no parameters are required to use it. But in some cases, we need to configure explicitly the JSON attribute name mapped to the class attribut. Here an example of different use cases with `@JsonProperty()`:
+`@JsonProperty()` lets you decorate an attribute. By default, no parameters are required to use it. But in some cases, we need to configure explicitly the JSON attribute name mapped to the class attribut. Here an example of different use cases with `@JsonProperty()`:
 
 ```typescript
 class EventModel {
@@ -98,7 +98,7 @@ export class EventCtrl {
 
 ## Create a custom converter
 
-`@Converter(...targetTypes)` let you to define some converters for a certain type/Class. It useful for a generic conversion.
+`@Converter(...targetTypes)` lets you define some converters for a certain type/Class. It useful for a generic conversion.
 
 ### Simple type
 Here an example to create a custom converter for the Date type:

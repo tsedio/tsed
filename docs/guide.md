@@ -1,5 +1,13 @@
 # Guide
 
+## Documentations
+
+* Create custom decorators:
+  * [on a parameter](docs/filters.md)
+  * [on an endpoint method](docs/middlewares/endpoint-middleware.md)
+* [Create a middlewares](docs/middlewares/overview.md)
+* [Create a converters](docs/converters.md)
+
 ## Tutorials
 
 * [Passport.js](tutorials/passport.md)

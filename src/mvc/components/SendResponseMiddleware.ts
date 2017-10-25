@@ -6,8 +6,8 @@ import * as Express from "express";
 import {ConverterService} from "../../converters/services/ConverterService";
 
 import {Middleware} from "../decorators/class/middleware";
-import {Response} from "../decorators/param/response";
-import {ResponseData} from "../decorators/param/responseData";
+import {Response} from "../../filters/decorators/response";
+import {ResponseData} from "../../filters/decorators/responseData";
 import {IMiddleware} from "../interfaces/index";
 
 /**

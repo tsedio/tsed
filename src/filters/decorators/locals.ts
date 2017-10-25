@@ -1,5 +1,5 @@
 import {Type} from "../../core/interfaces";
-import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
 import {LocalsFilter} from "../components/LocalsFilter";
 /**
  * Locals return the value from [response.locals](http://expressjs.com/en/4x/api.html#res.locals) object.
@@ -27,20 +27,5 @@ import {LocalsFilter} from "../components/LocalsFilter";
  * @returns {Function}
  */
 export function Locals(expression?: string | any): Function {
-
-    return <T>(target: Type<T>, propertyKey: string | symbol, parameterIndex: number): void => {
-
-        if (typeof parameterIndex === "number") {
-
-            ParamRegistry.useFilter(LocalsFilter, {
-                target,
-                propertyKey,
-                parameterIndex,
-                expression,
-                useConverter: false
-            });
-
-        }
-
-    };
+    return ParamRegistry.decorate(LocalsFilter, {expression, useConverter: false});
 }

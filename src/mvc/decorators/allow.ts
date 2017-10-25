@@ -1,6 +1,6 @@
 import {PropertyRegistry} from "../../converters/registries/PropertyRegistry";
 import {Type} from "../../core/interfaces";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 
 /**
  * Add allowed values when the property or parameters is required.
