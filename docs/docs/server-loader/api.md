@@ -186,7 +186,7 @@ Start the express server.
 
 #### ServerLoader.use(...args): ServerLoader
 
-This method let you to add a express middleware or a Ts.ED middleware like GlobalAcceptMimes.
+This method lets you add a express middleware or a Ts.ED middleware like GlobalAcceptMimes.
 
 ```typescript
 @ServerSettings({
@@ -195,7 +195,7 @@ This method let you to add a express middleware or a Ts.ED middleware like Globa
 })
 export class Server extends ServerLoader {
     /**
-     * This method let you configure the middleware required by your application to works.
+     * This method lets you configure the middleware required by your application to works.
      * @returns {Server}
      */
     $onMountingMiddlewares(): void|Promise<any> {

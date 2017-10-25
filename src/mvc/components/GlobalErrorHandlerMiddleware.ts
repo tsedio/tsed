@@ -7,10 +7,10 @@ import * as Express from "express";
 import {Exception} from "ts-httpexceptions";
 import {$log} from "ts-log-debug";
 import {MiddlewareError} from "../decorators/class/middlewareError";
-import {Err} from "../decorators/param/error";
-import {Next} from "../decorators/param/next";
-import {Request} from "../decorators/param/request";
-import {Response} from "../decorators/param/response";
+import {Err} from "../../filters/decorators/error";
+import {Next} from "../../filters/decorators/next";
+import {Request} from "../../filters/decorators/request";
+import {Response} from "../../filters/decorators/response";
 import {IMiddlewareError} from "../interfaces";
 
 /**

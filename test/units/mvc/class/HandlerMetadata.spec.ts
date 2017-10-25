@@ -19,7 +19,7 @@ const ControllerRegistry = {
 };
 
 const HandlerMetadata = Proxyquire("../../../../src/mvc/class/HandlerMetadata", {
-    "../registries/ParamRegistry": {ParamRegistry},
+    "../../filters/registries/ParamRegistry": {ParamRegistry},
     "../registries/MiddlewareRegistry": {MiddlewareRegistry},
     "../registries/ControllerRegistry": {ControllerRegistry}
 }).HandlerMetadata;

@@ -23,7 +23,7 @@ import {UseBefore} from "./useBefore";
  * @returns {Function}
  * @decorator
  */
-export function Authenticated(options?: any): Function {
+export function Authenticated(options?: any) {
     return Store.decorate((store: Store) => {
         store
             .set(AuthenticatedMiddleware, options)

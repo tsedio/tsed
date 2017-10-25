@@ -6,10 +6,10 @@ import {nameOf} from "../../core/utils";
  */
 /** */
 import {Service} from "../../di/decorators/service";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {IControllerRoute} from "../interfaces";
-import {ParamRegistry} from "../registries/ParamRegistry";
 import {ControllerService} from "./ControllerService";
 
 /**
@@ -45,20 +45,6 @@ export class RouteService {
 
             }
         });
-
-        // ControllerService
-        //     .controllers
-        //     .forEach((finalCtrl: ControllerProvider) => {
-        //         if (!finalCtrl.parent) {
-        //             finalCtrl
-        //                 .getMountEndpoints()
-        //                 .map(endpoint => finalCtrl.getEndpointUrl(endpoint))
-        //                 .forEach(endpoint => buildRoutes(finalCtrl, endpoint));
-        //         }
-        //     });
-
-        // Sorts routes befores prints
-        // routes = routes.sort(this.sort);
 
         return routes;
     }

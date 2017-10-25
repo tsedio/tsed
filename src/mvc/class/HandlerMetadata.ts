@@ -7,8 +7,8 @@ import {NotEnumerable} from "../../core/decorators";
 import {MiddlewareType} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
-import {ParamRegistry} from "../registries/ParamRegistry";
-import {ParamMetadata} from "./ParamMetadata";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
+import {ParamMetadata} from "../../filters/class/ParamMetadata";
 
 
 export class HandlerMetadata {

@@ -5,9 +5,9 @@
 import * as Express from "express";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
-import {EndpointInfo} from "../decorators/param/endpointInfo";
-import {Response} from "../decorators/param/response";
-import {ResponseData} from "../decorators/param/responseData";
+import {EndpointInfo} from "../../filters/decorators/endpointInfo";
+import {Response} from "../../filters/decorators/response";
+import {ResponseData} from "../../filters/decorators/responseData";
 import {TemplateRenderingError} from "../errors/TemplateRenderingError";
 import {IMiddleware} from "../interfaces";
 

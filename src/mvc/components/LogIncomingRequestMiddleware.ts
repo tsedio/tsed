@@ -8,8 +8,8 @@ import {EnvTypes} from "../../core/interfaces";
 import {applyBefore} from "../../core/utils";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {Middleware} from "../decorators/class/middleware";
-import {Req} from "../decorators/param/request";
-import {Res} from "../decorators/param/response";
+import {Req} from "../../filters/decorators/request";
+import {Res} from "../../filters/decorators/response";
 import {IMiddleware} from "../interfaces";
 
 /**

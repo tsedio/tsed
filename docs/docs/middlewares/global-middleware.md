@@ -1,7 +1,7 @@
 # Global middleware 
 
 Global middlewares and Endpoint middlewares are almost similar but Global middleware cannot use the [`@EndpointInfo`](api/common/mvc/endpointinfo.md) decorator.
-Global middlewares let you to manage request and response on [`ServerLoader`](api/common/server/serverloader.md).
+Global middlewares lets you manage request and response on [`ServerLoader`](api/common/server/serverloader.md).
 
 Create your middleware:
 ```typescript

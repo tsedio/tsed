@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {ParamMetadata} from "../../../../src";
 import {Store} from "../../../../src/core/class/Store";
-import {EXPRESS_ERR} from "../../../../src/mvc/constants/index";
+import {EXPRESS_ERR} from "../../../../src/filters/constants";
 
 class Test {
     method(arg1: any, arg2: any) {

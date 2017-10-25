@@ -163,7 +163,7 @@ class Server extends ServerLoader {
     }
 }
 ```
-Authorization parameters let you to manage some information like a role. Example:
+Authorization parameters lets you manage some information like a role. Example:
 
 ```typescript
 @Controller('/mypath')
@@ -175,7 +175,7 @@ class MyCtrl {
 }
 ```
 The object given to `@Authenticated` will be passed to `$onAuth` hook when a new request incoming on there route path 
-and let you manage the user's role for example.
+and lets you manage the user's role for example.
 
 > See a complete integration example with [Passport.js](tutorials/passport.md).
 

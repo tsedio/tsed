@@ -1,7 +1,7 @@
 import {PropertyRegistry} from "../../../../src/converters/registries/PropertyRegistry";
 import {Allow} from "../../../../src/mvc/decorators/allow";
 import {Sinon} from "../../../tools";
-import {ParamRegistry} from "../../../../src/mvc/registries/ParamRegistry";
+import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
 
 
 class Test {

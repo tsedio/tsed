@@ -6,8 +6,8 @@ import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-of
 import {Type} from "../../core/interfaces";
 import {deepExtends, nameOf} from "../../core/utils";
 
-import {ParamMetadata} from "../../mvc/class/ParamMetadata";
-import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
+import {ParamMetadata} from "../../filters/class/ParamMetadata";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {swaggerType} from "../utils";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
 

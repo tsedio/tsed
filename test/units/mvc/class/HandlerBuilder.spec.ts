@@ -2,12 +2,12 @@ import * as Proxyquire from "proxyquire";
 import {PathParamsFilter} from "../../../../src/filters/components/PathParamsFilter";
 import {FilterService} from "../../../../src/filters/services/FilterService";
 import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
-import {ENDPOINT_INFO, EXPRESS_ERR, RESPONSE_DATA} from "../../../../src/mvc/constants/index";
 import {RequiredParamError} from "../../../../src/mvc/errors/RequiredParamError";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";
+import {ENDPOINT_INFO, EXPRESS_ERR, RESPONSE_DATA} from "../../../../src/filters/constants";
 
 class Test {
 

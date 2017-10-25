@@ -1,12 +1,7 @@
-import {Sinon} from "../../../tools";
-import * as Proxyquire from "proxyquire";
 import {HeaderParamsFilter} from "../../../../src/filters/components/HeaderParamsFilter";
-
-const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
-
-const {HeaderParams} = Proxyquire.load("../../../../src/filters/decorators/headerParams", {
-    "../../mvc/registries/ParamRegistry": {ParamRegistry}
-});
+import {HeaderParams} from "../../../../src/filters/decorators/headerParams";
+import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {Sinon} from "../../../tools";
 
 class Test {
 
@@ -14,38 +9,20 @@ class Test {
 
 describe("HeaderParams", () => {
 
-    describe("as parameter decorator", () => {
-        before(() => {
-            this.options = ["test", Test];
-            HeaderParams(...this.options)(Test, "test", 0);
-        });
+    before(() => {
+        this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
+        HeaderParams("test");
+    });
 
-        after(() => {
-            ParamRegistry.useFilter.reset();
-        });
+    after(() => {
+        this.decorateStub.restore();
+    });
 
-        it("should call registry method", () =>
-            ParamRegistry.useFilter.should.have.been.called
-        );
-
-        it("should add metadata", () => {
-            ParamRegistry.useFilter.should.have.been.calledWithExactly(HeaderParamsFilter, {
-                target: Test,
-                propertyKey: "test",
-                parameterIndex: 0,
+    it("should have been called ParamFilter.decorate method with the correct parameters", () =>
+        this.decorateStub.should.have.been.calledOnce
+            .and
+            .calledWithExactly(HeaderParamsFilter, {
                 expression: "test"
-            });
-        });
-    });
-
-    describe("as other decorator type", () => {
-        before(() => {
-            HeaderParams()(Test, "test", {});
-        });
-
-        it("should do nothing", () =>
-            !ParamRegistry.useFilter.should.not.have.been.called
-        );
-    });
-
+            })
+    );
 });

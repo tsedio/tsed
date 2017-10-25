@@ -20,12 +20,6 @@ export * from "./required";
 export * from "./allow";
 
 // Parameters
-export * from "./param/responseData";
-export * from "./param/response";
-export * from "./param/request";
-export * from "./param/next";
-export * from "./param/error";
-export * from "./param/endpointInfo";
 
 export * from "./class/controller";
 export * from "./class/middleware";

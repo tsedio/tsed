@@ -1,12 +1,7 @@
-import {Sinon} from "../../../tools";
-import * as Proxyquire from "proxyquire";
 import {SessionFilter} from "../../../../src/filters/components/SessionFilter";
-
-const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
-
-const {Session} = Proxyquire.load("../../../../src/filters/decorators/session", {
-    "../../mvc/registries/ParamRegistry": {ParamRegistry}
-});
+import {Session} from "../../../../src/filters/decorators/session";
+import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {Sinon} from "../../../tools";
 
 class Test {
 
@@ -14,39 +9,21 @@ class Test {
 
 describe("Session", () => {
 
-    describe("as parameter decorator", () => {
-        before(() => {
-            this.options = ["test", Test];
-            Session(...this.options)(Test, "test", 0);
-        });
+    before(() => {
+        this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
+        Session("test", Test);
+    });
 
-        after(() => {
-            ParamRegistry.useFilter.reset();
-        });
+    after(() => {
+        this.decorateStub.restore();
+    });
 
-        it("should call registry method", () =>
-            ParamRegistry.useFilter.should.have.been.called
-        );
-
-        it("should add metadata", () => {
-            ParamRegistry.useFilter.should.have.been.calledWithExactly(SessionFilter, {
-                target: Test,
-                propertyKey: "test",
-                parameterIndex: 0,
+    it("should have been called ParamFilter.decorate method with the correct parameters", () =>
+        this.decorateStub.should.have.been.calledOnce
+            .and
+            .calledWithExactly(SessionFilter, {
                 expression: "test",
                 useType: Test
-            });
-        });
-    });
-
-    describe("as other decorator type", () => {
-        before(() => {
-            Session()(Test, "test", {});
-        });
-
-        it("should do nothing", () =>
-            !ParamRegistry.useFilter.should.not.have.been.called
-        );
-    });
-
+            })
+    );
 });

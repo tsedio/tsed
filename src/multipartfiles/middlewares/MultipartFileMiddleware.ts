@@ -4,9 +4,13 @@
 /** */
 import {$log} from "ts-log-debug";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
-import {EndpointInfo, Middleware, Next, Req, Res} from "../../mvc/decorators";
+import {Middleware} from "../../mvc/decorators";
 import {IMiddleware} from "../../mvc/interfaces";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {EndpointInfo} from "../../filters/decorators/endpointInfo";
+import {Req} from "../../filters/decorators/request";
+import {Next} from "../../filters/decorators/next";
+import {Res} from "../../filters/decorators/response";
 
 /**
  * @private

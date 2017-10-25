@@ -15,7 +15,7 @@ const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
 
 const {MultipartFile} = Proxyquire.load("../../../../src/multipartfiles/decorators/multipartFile", {
-    "../../mvc/registries/ParamRegistry": {ParamRegistry},
+    "../../filters/registries/ParamRegistry": {ParamRegistry},
     "../../core/class/Metadata": {Metadata},
     "../../mvc/decorators/method/useBefore": {UseBefore}
 });

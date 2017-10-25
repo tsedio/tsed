@@ -1,6 +1,6 @@
 # Endpoint error middleware
 
-`@MiddlewareError()` let you to handle all error when you add your middleware on an Endpoint.
+`@MiddlewareError()` lets you handle all error when you add your middleware on an Endpoint.
 
 Create your middleware error:
 ```typescript

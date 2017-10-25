@@ -1,5 +1,5 @@
-import {CookiesFilter} from "../../../../src/filters/components/CookiesFilter";
-import {Cookies} from "../../../../src/filters/decorators/cookies";
+import {ENDPOINT_INFO} from "../../../../src/filters/constants";
+import {EndpointInfo} from "../../../../src/filters/decorators/endpointInfo";
 import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
@@ -7,11 +7,11 @@ class Test {
 
 }
 
-describe("Cookies", () => {
+describe("EndpointInfo", () => {
 
     before(() => {
         this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-        Cookies("test", Test);
+        EndpointInfo();
     });
 
     after(() => {
@@ -21,9 +21,6 @@ describe("Cookies", () => {
     it("should have been called ParamFilter.decorate method with the correct parameters", () =>
         this.decorateStub.should.have.been.calledOnce
             .and
-            .calledWithExactly(CookiesFilter, {
-                expression: "test",
-                useType: Test
-            })
+            .calledWithExactly(ENDPOINT_INFO)
     );
 });

@@ -50,7 +50,7 @@ import {UseAfter} from "./useAfter";
  * @returns {Function}
  * @decorator
  */
-export function Status(code: number, options: IResponseOptions = {}): Function {
+export function Status(code: number, options: IResponseOptions = {}) {
     return Store.decorate((store: Store, parameters: DecoratorParameters) => {
         store.set("statusCode", code);
 

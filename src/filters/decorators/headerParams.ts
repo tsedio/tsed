@@ -1,10 +1,10 @@
-import {Type} from "../../core/interfaces/Type";
-import {ParamRegistry} from "../../mvc/registries/ParamRegistry";
+import {ParamRegistry} from "../registries/ParamRegistry";
 /**
  * @module common/filters
  */
 /** */
 import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
+
 /**
  * HeaderParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
  *
@@ -31,19 +31,5 @@ import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
  * @returns {Function}
  */
 export function HeaderParams(expression: string): Function {
-
-    return <T>(target: Type<T>, propertyKey: string | symbol, parameterIndex: number): void => {
-
-        if (typeof parameterIndex === "number") {
-
-            ParamRegistry.useFilter(HeaderParamsFilter, {
-                target,
-                propertyKey,
-                parameterIndex,
-                expression
-            });
-
-        }
-
-    };
+    return ParamRegistry.decorate(HeaderParamsFilter, {expression});
 }

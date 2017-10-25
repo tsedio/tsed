@@ -26,7 +26,7 @@ export class Server extends ServerLoader {
 
 new Server().start();
 ```
-> Note: mount attribute accept a list of glob for each endpoint. That let you to declare a resource versioning.
+> Note: mount attribute accept a list of glob for each endpoint. That lets you declare a resource versioning.
 
 ### With ServerLoader API
 
