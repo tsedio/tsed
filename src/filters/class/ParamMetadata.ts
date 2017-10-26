@@ -22,6 +22,20 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      */
     @NotEnumerable()
     protected _service: string | Type<any> | symbol;
+
+    /**
+     * Allowed value when the entity is required.
+     * @type {Array}
+     */
+    @NotEnumerable()
+    private _allowedRequiredValues: any[] = [];
+
+    /**
+     * Required entity.
+     */
+    @NotEnumerable()
+    protected _required: boolean = false;
+
     /**
      *
      * @returns {string|RegExp}
@@ -69,6 +83,54 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      */
     get useConverter(): boolean {
         return this._useConverter;
+    }
+
+    /**
+     * Return the required state.
+     * @returns {boolean}
+     */
+    get required(): boolean {
+        return this._required;
+    }
+
+    /**
+     * Change the state of the required data.
+     * @param value
+     */
+    set required(value: boolean) {
+        this._required = value;
+    }
+
+    /**
+     * Return the allowed values.
+     * @returns {any[]}
+     */
+    get allowedRequiredValues(): any[] {
+        return this._allowedRequiredValues;
+    }
+
+    /**
+     * Set the allowed values when the value is required.
+     * @param {any[]} value
+     */
+    set allowedRequiredValues(value: any[]) {
+        this._allowedRequiredValues = value;
+    }
+
+    /**
+     * This method use `EntityDescription.required` and `allowedRequiredValues` to validate the value.
+     * @param value
+     * @returns {boolean}
+     */
+    isValidRequiredValue(value: any): boolean {
+        if (this.required) {
+            if (value === undefined || value === null || value === "") {
+                if (this.allowedRequiredValues.indexOf(value) === -1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**

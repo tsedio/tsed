@@ -18,7 +18,7 @@ class Test {
 
 const {Required} = Proxyquire.load("../../../../src/mvc/decorators/required", {
     "../../filters/registries/ParamRegistry": {ParamRegistry},
-    "../../converters/registries/PropertyRegistry": {PropertyRegistry}
+    "../../jsonschema/registries/PropertyRegistry": {PropertyRegistry}
 });
 
 describe("Required", () => {

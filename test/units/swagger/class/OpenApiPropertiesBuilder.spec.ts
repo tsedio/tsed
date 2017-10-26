@@ -1,42 +1,45 @@
 import {OpenApiPropertiesBuilder} from "../../../../src/swagger/class/OpenApiPropertiesBuilder";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect} from "../../../tools";
-import {Foo2} from "./helpers/classes";
+import {SwaFoo2} from "./helpers/classes";
 
-describe("OpenApiSchemaBuilder", () => {
+describe("OpenApiPropertiesBuilder", () => {
 
     before(() => {
-        this.schemaBuilder = new OpenApiPropertiesBuilder(Foo2);
+        this.schemaBuilder = new OpenApiPropertiesBuilder(SwaFoo2);
         this.schemaBuilder.build();
     });
 
     it("should create a schema", () => {
         expect(this.schemaBuilder.schema).to.deep.eq({
-            "title": "Foo2",
+            "title": "SwaFoo2",
             "description": "Description Class",
             "type": "object",
+            "required": [
+                "test"
+            ],
             "properties": {
                 "Name": {
                     "type": "string"
                 },
                 "ageModel": {
-                    "$ref": "#/definitions/AgeModel"
+                    "$ref": "#/definitions/SwaAgeModel"
                 },
                 "nameModel": {
-                    "$ref": "#/definitions/NameModel"
+                    "$ref": "#/definitions/SwaNameModel"
                 },
                 "foo": {
-                    "$ref": "#/definitions/Foo"
+                    "$ref": "#/definitions/SwaFoo"
                 },
                 "dateStart": {
                     "type": "string"
                 },
                 "foos": {
-                    "description": "Foo2.foos description",
+                    "description": "SwaFoo2.foos description",
                     "items": {
-                        "$ref": "#/definitions/Foo"
+                        "$ref": "#/definitions/SwaFoo"
                     },
-                    "title": "Foo2.foos",
+                    "title": "SwaFoo2.foos",
                     "type": "array"
                 },
                 "arrayOfString": {
@@ -52,17 +55,17 @@ describe("OpenApiSchemaBuilder", () => {
                 },
                 "theMap": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/Foo"
+                        "$ref": "#/definitions/SwaFoo"
                     },
-                    "description": "Foo2.theMap description",
-                    "title": "Foo2.theMap"
+                    "description": "SwaFoo2.theMap description",
+                    "title": "SwaFoo2.theMap"
                 },
                 "theSet": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/Foo"
+                        "$ref": "#/definitions/SwaFoo"
                     },
-                    "description": "Foo2.theSet description",
-                    "title": "Foo2.theSet"
+                    "description": "SwaFoo2.theSet description",
+                    "title": "SwaFoo2.theSet"
                 },
                 "mapOfString": {
                     "additionalProperties": {
@@ -78,45 +81,48 @@ describe("OpenApiSchemaBuilder", () => {
 
     it("should create a definitions", () => {
         expect(this.schemaBuilder.definitions).to.deep.eq({
-            "Foo": {
+            "SwaFoo": {
                 "properties": {
                     "foo": {
                         "description": "Description.foo",
-                        "title": "Foo.foo",
+                        "title": "SwaFoo.foo",
                         "type": "object"
                     },
                     "test": {
                         "description": "Description.test",
-                        "title": "Foo.test",
+                        "title": "SwaFoo.test",
                         "type": "object"
                     }
                 },
                 "type": "object"
             },
-            "Foo2": {
+            "SwaFoo2": {
                 "description": "Description Class",
+                "required": [
+                    "test"
+                ],
                 "properties": {
                     "Name": {
                         "type": "string"
                     },
                     "ageModel": {
-                        "$ref": "#/definitions/AgeModel"
+                        "$ref": "#/definitions/SwaAgeModel"
                     },
                     "nameModel": {
-                        "$ref": "#/definitions/NameModel"
+                        "$ref": "#/definitions/SwaNameModel"
                     },
                     "foo": {
-                        "$ref": "#/definitions/Foo"
+                        "$ref": "#/definitions/SwaFoo"
                     },
                     "dateStart": {
                         "type": "string"
                     },
                     "foos": {
-                        "description": "Foo2.foos description",
+                        "description": "SwaFoo2.foos description",
                         "items": {
-                            "$ref": "#/definitions/Foo"
+                            "$ref": "#/definitions/SwaFoo"
                         },
-                        "title": "Foo2.foos",
+                        "title": "SwaFoo2.foos",
                         "type": "array"
                     },
                     "arrayOfString": {
@@ -132,17 +138,17 @@ describe("OpenApiSchemaBuilder", () => {
                     },
                     "theMap": {
                         "additionalProperties": {
-                            "$ref": "#/definitions/Foo"
+                            "$ref": "#/definitions/SwaFoo"
                         },
-                        "description": "Foo2.theMap description",
-                        "title": "Foo2.theMap"
+                        "description": "SwaFoo2.theMap description",
+                        "title": "SwaFoo2.theMap"
                     },
                     "theSet": {
                         "additionalProperties": {
-                            "$ref": "#/definitions/Foo"
+                            "$ref": "#/definitions/SwaFoo"
                         },
-                        "description": "Foo2.theSet description",
-                        "title": "Foo2.theSet"
+                        "description": "SwaFoo2.theSet description",
+                        "title": "SwaFoo2.theSet"
                     },
                     "mapOfString": {
                         "additionalProperties": {
@@ -153,10 +159,10 @@ describe("OpenApiSchemaBuilder", () => {
                         "type": "number"
                     }
                 },
-                "title": "Foo2",
+                "title": "SwaFoo2",
                 "type": "object"
             },
-            "AgeModel": {
+            "SwaAgeModel": {
                 "properties": {
                     "age": {
                         "description": "The age",
@@ -171,7 +177,7 @@ describe("OpenApiSchemaBuilder", () => {
                 },
                 "type": "object"
             },
-            "NameModel": {
+            "SwaNameModel": {
                 "properties": {
                     "name": {
                         "description": "The name",

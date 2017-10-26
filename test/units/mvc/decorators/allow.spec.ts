@@ -1,4 +1,4 @@
-import {PropertyRegistry} from "../../../../src/converters/registries/PropertyRegistry";
+import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
 import {Allow} from "../../../../src/mvc/decorators/allow";
 import {Sinon} from "../../../tools";
 import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
@@ -31,7 +31,7 @@ describe("Allow", () => {
         });
 
         it("should have been stored allowed value on propertyMetadata", () => {
-            this.metadata.allowedValues.should.be.deep.eq([null, ""]);
+            this.metadata.allowedRequiredValues.should.be.deep.eq([null, ""]);
         });
     });
 
@@ -57,7 +57,7 @@ describe("Allow", () => {
         });
 
         it("should have been stored allowed value on propertyMetadata", () => {
-            this.metadata.allowedValues.should.be.deep.eq([null, ""]);
+            this.metadata.allowedRequiredValues.should.be.deep.eq([null, ""]);
         });
     });
 

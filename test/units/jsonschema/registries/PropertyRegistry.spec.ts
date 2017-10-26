@@ -1,5 +1,5 @@
-import {PropertyMetadata} from "../../../../src/converters/class/PropertyMetadata";
-import {PropertyRegistry} from "../../../../src/converters/registries/PropertyRegistry";
+import {PropertyMetadata} from "../../../../src/jsonschema/class/PropertyMetadata";
+import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
 import {expect} from "../../../tools";
 
 class Test {
@@ -38,8 +38,8 @@ describe("PropertyRegistry", () => {
         it("should be required", () => {
             expect(this.propertyMetadata.required).to.eq(true);
         });
-        it("should be allowedValues", () => {
-            expect(this.propertyMetadata.allowedValues).to.deep.eq([null, ""]);
+        it("should be allowedRequiredValues", () => {
+            expect(this.propertyMetadata.allowedRequiredValues).to.deep.eq([null, ""]);
         });
     });
 

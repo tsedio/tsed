@@ -766,6 +766,11 @@
     "EventModel": {
       "title": "EventModel Title",
       "type": "object",
+      "required": [
+        "startDate",
+        "endDate",
+        "name"
+      ],
       "properties": {
         "id": {
           "example": "1FDCHZKH",
@@ -806,6 +811,9 @@
     },
     "CalendarModel": {
       "type": "object",
+      "required": [
+        "name"
+      ],
       "properties": {
         "id": {
           "example": {

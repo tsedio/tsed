@@ -1,12 +1,8 @@
+import {PROPERTIES_METADATA} from "../../converters/constants/index";
 import {Metadata} from "../../core/class/Metadata";
-/**
- * @module common/converters
- */
-/** */
 import {Type} from "../../core/interfaces/Type";
-import {getClass, getInheritedClass, nameOf} from "../../core/utils";
+import {ancestorsOf} from "../../core/utils";
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PROPERTIES_METADATA} from "../constants/index";
 
 export class PropertyRegistry {
     /**
@@ -33,16 +29,8 @@ export class PropertyRegistry {
      */
     static getProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
         const map = new Map<string | symbol, PropertyMetadata>();
-        const classes = [];
 
-        let currentTarget = getClass(target);
-
-        while (nameOf(currentTarget) !== "") {
-            classes.unshift(currentTarget);
-            currentTarget = getInheritedClass(currentTarget);
-        }
-
-        classes.forEach((klass) => {
+        ancestorsOf(target).forEach((klass) => {
             this.getOwnProperties(klass).forEach((v: PropertyMetadata, k: string | symbol) => {
                 map.set(k, v);
             });
@@ -81,13 +69,13 @@ export class PropertyRegistry {
      *
      * @param target
      * @param propertyKey
-     * @param allowedValues
+     * @param allowedRequiredValues
      */
-    static required(target: Type<any>, propertyKey: string | symbol, allowedValues: any[] = []) {
+    static required(target: Type<any>, propertyKey: string | symbol, allowedRequiredValues: any[] = []) {
         const property = this.get(target, propertyKey);
 
         property.required = true;
-        property.allowedValues = allowedValues;
+        property.allowedRequiredValues = allowedRequiredValues;
 
         this.set(target, propertyKey, property);
         this.get(target, propertyKey).store.merge("responses", {

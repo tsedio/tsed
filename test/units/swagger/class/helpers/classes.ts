@@ -1,25 +1,23 @@
-
-import {Title} from "../../../../../src/swagger/decorators/title";
-import {Description} from "../../../../../src/swagger/decorators/description";
+import {JsonProperty} from "../../../../../src/jsonschema/decorators/jsonProperty";
 import {Required} from "../../../../../src/mvc/decorators";
-import {JsonProperty} from "../../../../../src/converters/decorators/jsonProperty";
+import {Description} from "../../../../../src/swagger/decorators/description";
+import {Title} from "../../../../../src/swagger/decorators/title";
 
-
-export class BaseModel {
+export class SwaBaseModel {
     @Title("id")
     @Description("Unique identifier.")
     @JsonProperty()
     public id?: string;
 }
 
-export class NameModel extends BaseModel {
+export class SwaNameModel extends SwaBaseModel {
     @Title("name")
     @Description("The name")
     @JsonProperty()
     public name: string;
 }
 
-export class AgeModel extends BaseModel {
+export class SwaAgeModel extends SwaBaseModel {
     @Title("age")
     @Description("The age")
     @JsonProperty()
@@ -27,12 +25,12 @@ export class AgeModel extends BaseModel {
 }
 
 
-export class Foo {
-    @Title("Foo.test")
+export class SwaFoo {
+    @Title("SwaFoo.test")
     @Description("Description.test")
     test: any;
 
-    @Title("Foo.foo")
+    @Title("SwaFoo.foo")
     @Description("Description.foo")
     foo: any;
 
@@ -40,9 +38,9 @@ export class Foo {
     }
 }
 
-@Title("Foo2")
+@Title("SwaFoo2")
 @Description("Description Class")
-export class Foo2 {
+export class SwaFoo2 {
 
     @Title("Test")
     @Description("Description test")
@@ -62,22 +60,22 @@ export class Foo2 {
     object: any;
 
     @JsonProperty()
-    foo: Foo;
+    foo: SwaFoo;
 
-    @Title("Foo2.foos")
-    @Description("Foo2.foos description")
-    @JsonProperty({use: Foo})
-    foos: Foo[];
+    @Title("SwaFoo2.foos")
+    @Description("SwaFoo2.foos description")
+    @JsonProperty({use: SwaFoo})
+    foos: SwaFoo[];
 
-    @Title("Foo2.theMap")
-    @Description("Foo2.theMap description")
-    @JsonProperty({use: Foo})
-    theMap: Map<string, Foo>;
+    @Title("SwaFoo2.theMap")
+    @Description("SwaFoo2.theMap description")
+    @JsonProperty({use: SwaFoo})
+    theMap: Map<string, SwaFoo>;
 
-    @Title("Foo2.theSet")
-    @Description("Foo2.theSet description")
-    @JsonProperty({use: Foo})
-    theSet: Set<Foo>;
+    @Title("SwaFoo2.theSet")
+    @Description("SwaFoo2.theSet description")
+    @JsonProperty({use: SwaFoo})
+    theSet: Set<SwaFoo>;
 
     @JsonProperty({use: String})
     mapOfString: Map<string, string>;
@@ -86,17 +84,17 @@ export class Foo2 {
     arrayOfString: string[];
 
     @JsonProperty()
-    nameModel: NameModel;
+    nameModel: SwaNameModel;
 
     @JsonProperty()
-    ageModel: AgeModel;
+    ageModel: SwaAgeModel;
 
     method() {
 
     }
 }
 
-class Foo3 {
+class SwaFoo3 {
     toJSON() {
         return {};
     }

@@ -107,7 +107,7 @@ describe("HandlerBuilder", () => {
                             this.stub(req, res, next);
                             next();
                         },
-                        isValidValue: () => true
+                        isValidRequiredValue: () => true
                     };
 
                     this.middleware = new HandlerBuilder(this.metadata).build();
@@ -215,7 +215,7 @@ describe("HandlerBuilder", () => {
                         errorParam: false,
                         target: Test,
                         methodClassName: "get",
-                        services: [{service: PathParamsFilter, useConverter: true, isValidValue: () => true}],
+                        services: [{service: PathParamsFilter, useConverter: true, isValidRequiredValue: () => true}],
                         instance: new Test
                     };
 
@@ -281,7 +281,7 @@ describe("HandlerBuilder", () => {
                             name: "PathParamsFilter",
                             required: true,
                             expression: "required",
-                            isValidValue: () => false
+                            isValidRequiredValue: () => false
                         }],
                         instance: new Test
                     };
@@ -340,7 +340,7 @@ describe("HandlerBuilder", () => {
                         errorParam: false,
                         target: Test,
                         methodClassName: "use",
-                        services: [{service: PathParamsFilter, isValidValue: () => true}]
+                        services: [{service: PathParamsFilter, isValidRequiredValue: () => true}]
                     };
 
                     this.invokeMethodStub = Sinon.stub(FilterService.prototype, "invokeMethod").returns({request: "body"});
@@ -402,10 +402,10 @@ describe("HandlerBuilder", () => {
                         target: Test,
                         methodClassName: "use",
                         services: [
-                            {service: EXPRESS_ERR, useConverter: false, name: "err", isValidValue: () => true},
-                            {service: PathParamsFilter, isValidValue: () => true},
-                            {service: ENDPOINT_INFO, useConverter: false, name: "endpointInfo", isValidValue: () => true},
-                            {service: RESPONSE_DATA, useConverter: false, name: "responseData", isValidValue: () => true}
+                            {service: EXPRESS_ERR, useConverter: false, name: "err", isValidRequiredValue: () => true},
+                            {service: PathParamsFilter, isValidRequiredValue: () => true},
+                            {service: ENDPOINT_INFO, useConverter: false, name: "endpointInfo", isValidRequiredValue: () => true},
+                            {service: RESPONSE_DATA, useConverter: false, name: "responseData", isValidRequiredValue: () => true}
                         ]
                     };
 

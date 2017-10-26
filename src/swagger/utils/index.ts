@@ -1,9 +1,7 @@
-import {deepExtends, nameOf} from "../../core/utils";
-/**
- * @module swagger
- */
-/** */
+import {deepExtends} from "../../core/utils";
+import {JsonSchema} from "../../jsonschema/class/JsonSchema";
 import {PathParamsType} from "../../mvc/interfaces/PathParamsType";
+
 /** */
 
 export function toSwaggerPath(expressPath: PathParamsType): PathParamsType {
@@ -26,22 +24,8 @@ export function toSwaggerPath(expressPath: PathParamsType): PathParamsType {
     }
 }
 
-
-export function isBasicType(type: any) {
-    return ["Array", "Boolean", "Object", "Number", "String"].indexOf(nameOf(type)) > -1;
-}
-
 export function swaggerType(type: any): string {
-    if (this.isBasicType(type)) {
-        return nameOf(type).toLowerCase();
-    }
-
-    if (type instanceof Date || type === Date) {
-        return "string";
-    }
-
-    // in type case the type is complexe
-    return nameOf(type);
+    return JsonSchema.getJsonType(type) as string;
 }
 
 export function getReducers(): { [key: string]: (collection: any[], value: any) => any } {

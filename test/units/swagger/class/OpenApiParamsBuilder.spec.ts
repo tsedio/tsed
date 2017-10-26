@@ -3,11 +3,11 @@ import {BodyParamsFilter} from "../../../../src/filters/components/BodyParamsFil
 import {ParamMetadata} from "../../../../src/filters/class/ParamMetadata";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
-import {Ctrl, Foo, Foo2} from "./helpers/classes";
+import {Ctrl, SwaFoo2} from "./helpers/classes";
 
 const param0 = new ParamMetadata(Ctrl, "test", 0);
 param0.service = BodyParamsFilter;
-param0.type = Foo2;
+param0.type = SwaFoo2;
 
 const getParams = Sinon.stub().returns([param0]);
 
@@ -34,7 +34,7 @@ describe("OpenApiParamsBuilder", () => {
                 "name": "body",
                 "required": false,
                 "schema": {
-                    "$ref": "#/definitions/Foo2"
+                    "$ref": "#/definitions/SwaFoo2"
                 }
             }
         ]);
@@ -42,22 +42,7 @@ describe("OpenApiParamsBuilder", () => {
 
     it("should create a definitions", () => {
         expect(this.builder.definitions).to.deep.eq({
-            "Foo": {
-                "properties": {
-                    "foo": {
-                        "description": "Description.foo",
-                        "title": "Foo.foo",
-                        "type": "object"
-                    },
-                    "test": {
-                        "description": "Description.test",
-                        "title": "Foo.test",
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "AgeModel": {
+            "SwaAgeModel": {
                 "properties": {
                     "age": {
                         "description": "The age",
@@ -72,52 +57,57 @@ describe("OpenApiParamsBuilder", () => {
                 },
                 "type": "object"
             },
-            "NameModel": {
+            "SwaFoo": {
                 "properties": {
-                    "name": {
-                        "description": "The name",
-                        "title": "name",
-                        "type": "string"
+                    "foo": {
+                        "description": "Description.foo",
+                        "title": "SwaFoo.foo",
+                        "type": "object"
                     },
-                    "id": {
-                        "description": "Unique identifier.",
-                        "title": "id",
-                        "type": "string"
+                    "test": {
+                        "description": "Description.test",
+                        "title": "SwaFoo.test",
+                        "type": "object"
                     }
                 },
                 "type": "object"
             },
-            "Foo2": {
+            "SwaFoo2": {
                 "description": "Description Class",
                 "properties": {
                     "Name": {
                         "type": "string"
                     },
                     "ageModel": {
-                        "$ref": "#/definitions/AgeModel"
+                        "$ref": "#/definitions/SwaAgeModel"
                     },
-                    "nameModel": {
-                        "$ref": "#/definitions/NameModel"
-                    },
-                    "foo": {
-                        "$ref": "#/definitions/Foo"
+                    "arrayOfString": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
                     },
                     "dateStart": {
                         "type": "string"
                     },
+                    "foo": {
+                        "$ref": "#/definitions/SwaFoo"
+                    },
                     "foos": {
-                        "description": "Foo2.foos description",
+                        "description": "SwaFoo2.foos description",
                         "items": {
-                            "$ref": "#/definitions/Foo"
+                            "$ref": "#/definitions/SwaFoo"
                         },
-                        "title": "Foo2.foos",
+                        "title": "SwaFoo2.foos",
                         "type": "array"
                     },
-                    "arrayOfString": {
-                        "type": "array",
-                        "items": {
+                    "mapOfString": {
+                        "additionalProperties": {
                             "type": "string"
                         }
+                    },
+                    "nameModel": {
+                        "$ref": "#/definitions/SwaNameModel"
                     },
                     "test": {
                         "description": "Description test",
@@ -126,28 +116,41 @@ describe("OpenApiParamsBuilder", () => {
                     },
                     "theMap": {
                         "additionalProperties": {
-                            "$ref": "#/definitions/Foo"
+                            "$ref": "#/definitions/SwaFoo"
                         },
-                        "description": "Foo2.theMap description",
-                        "title": "Foo2.theMap"
+                        "description": "SwaFoo2.theMap description",
+                        "title": "SwaFoo2.theMap"
                     },
                     "theSet": {
                         "additionalProperties": {
-                            "$ref": "#/definitions/Foo"
+                            "$ref": "#/definitions/SwaFoo"
                         },
-                        "description": "Foo2.theSet description",
-                        "title": "Foo2.theSet"
-                    },
-                    "mapOfString": {
-                        "additionalProperties": {
-                            "type": "string"
-                        }
+                        "description": "SwaFoo2.theSet description",
+                        "title": "SwaFoo2.theSet"
                     },
                     "uint": {
                         "type": "number"
                     }
                 },
-                "title": "Foo2",
+                "required": [
+                    "test"
+                ],
+                "title": "SwaFoo2",
+                "type": "object"
+            },
+            "SwaNameModel": {
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier.",
+                        "title": "id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The name",
+                        "title": "name",
+                        "type": "string"
+                    }
+                },
                 "type": "object"
             }
         });
