@@ -6,25 +6,23 @@
 import {$log} from "ts-log-debug";
 
 import {Type} from "../../core";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
-
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {MiddlewareProvider} from "../class/MiddlewareProvider";
 import {UnknowMiddlewareError} from "../errors/UnknowMiddlewareError";
-import {IMiddleware} from "../interfaces";
+import {IMiddleware, IMiddlewareOptions} from "../interfaces";
 
-import {MiddlewareRegistry, ProxyMiddlewareRegistry} from "../registries/MiddlewareRegistry";
+import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 
 
 /**
  *
  */
 @Service()
-export class MiddlewareService extends ProxyMiddlewareRegistry {
-
-    constructor(private injectorService: InjectorService, private serverSettings: ServerSettingsService) {
-        super();
+export class MiddlewareService extends ProxyRegistry<MiddlewareProvider, IMiddlewareOptions> {
+    constructor(private injectorService: InjectorService) {
+        super(MiddlewareRegistry);
     }
 
     /**

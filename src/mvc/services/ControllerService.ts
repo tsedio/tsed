@@ -1,9 +1,6 @@
-/**
- * @module common/mvc
- */
-/** */
 import * as Express from "express";
 import {$log} from "ts-log-debug";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Type} from "../../core/interfaces";
 import {ExpressApplication} from "../../core/services/ExpressApplication";
 import {Inject} from "../../di";
@@ -13,15 +10,15 @@ import {IComponentScanned} from "../../server/interfaces";
 import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
-import {ControllerRegistry, ProxyControllerRegistry} from "../registries/ControllerRegistry";
+import {IControllerOptions} from "../interfaces";
+import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {RouterController} from "./RouterController";
 
 /**
  * ControllerService manage all controllers declared with `@ControllerProvider` decorators.
  */
 @Service()
-export class ControllerService extends ProxyControllerRegistry {
-
+export class ControllerService extends ProxyRegistry<ControllerProvider, IControllerOptions> {
     /**
      *
      * @param expressApplication
@@ -31,7 +28,7 @@ export class ControllerService extends ProxyControllerRegistry {
     constructor(private injectorService: InjectorService,
                 @Inject(ExpressApplication) private expressApplication: ExpressApplication,
                 private serverSettings: ServerSettingsService) {
-        super();
+        super(ControllerRegistry);
     }
 
     /**
