@@ -1,8 +1,7 @@
 # Override a Middleware
-> Beta feature. Need improvement. You can contribute !
 
-The decorator [@OverrideMiddleware](api/common/mvc/overridemiddleware.md) give you a solution to 
-override some embed Ts.ED middleware like the [SendResponseMiddleware](api/common/mvc/sendresponsemiddleware.md).
+The decorator [@OverrideMiddleware](api/common/mvc/overridemiddleware.md) gives you the ability to 
+override some internal Ts.ED middleware like the [SendResponseMiddleware](api/common/mvc/sendresponsemiddleware.md).
 
 For example, this is the current implementation of the [SendResponseMiddleware](api/common/mvc/sendresponsemiddleware.md).
 ```typescript
@@ -37,7 +36,7 @@ export class SendResponseMiddleware implements IMiddleware {
 
 ```
 
-But for a certain reason, this implementation isn't enough to meet your needs.
+But for some reason, this implementation isn't enough to meet your needs.
 
 With [@OverrideMiddleware](api/common/mvc/overridemiddleware.md) it's now possible to change the default implementation like
 this:
@@ -60,7 +59,7 @@ export class MySendResponseMiddleware extends SendResponseMiddleware {
 ```
 > Extends SendResponseMiddleware is optional. 
 
-And that all !
+And that is all!
 
 
 > All Ts.ED middlewares can be overrided. You can find the complete list [here](api/index.md?query=keywords_Middleware|type_class).
