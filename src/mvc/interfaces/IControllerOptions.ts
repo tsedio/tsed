@@ -4,7 +4,7 @@
 /** */
 import {Type} from "../../core/interfaces";
 import {IControllerMiddlewares} from "./IControllerMiddlewares";
-import {IRouterOptions} from "./IRouterOptions";
+import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 import {PathParamsType} from "./PathParamsType";
 
 /**

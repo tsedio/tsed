@@ -3,7 +3,7 @@ import {Metadata} from "../../core/class/Metadata";
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
 import {InjectorService} from "../../di";
 import {Service} from "../../di/decorators/service";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {CONVERTER} from "../constants/index";

@@ -6,7 +6,7 @@ import {$log} from "ts-log-debug";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {Middleware} from "../../mvc/decorators";
 import {IMiddleware} from "../../mvc/interfaces";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {EndpointInfo} from "../../filters/decorators/endpointInfo";
 import {Req} from "../../filters/decorators/request";
 import {Next} from "../../filters/decorators/next";

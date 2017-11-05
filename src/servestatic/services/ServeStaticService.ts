@@ -5,7 +5,7 @@
 import {ExpressApplication} from "../../core/services/ExpressApplication";
 import {Inject} from "../../di/decorators/inject";
 import {Service} from "../../di/decorators/service";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 
 @Service()
 export class ServeStaticService {

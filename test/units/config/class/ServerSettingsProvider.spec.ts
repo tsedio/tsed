@@ -1,13 +1,13 @@
-import {EnvTypes} from "../../../../src";
-import {ServerSettingsProvider} from "../../../../src/server/class/ServerSettingsProvider";
-import {ServerSettingsService} from "../../../../src/server/services/ServerSettingsService";
+import {ServerSettingsProvider} from "../../../../src/config/class/ServerSettingsProvider";
+import {ServerSettingsService} from "../../../../src/config/services/ServerSettingsService";
+import {Env} from "../../../../src/core/interfaces";
 import {expect} from "../../../tools";
 
 describe("ServerSettingsProvider", () => {
 
     before(() => {
         const serverSettingsProvider = new ServerSettingsProvider();
-        serverSettingsProvider.env = EnvTypes.TEST;
+        serverSettingsProvider.env = Env.TEST;
 
         serverSettingsProvider.set("ownConfig", "test");
         serverSettingsProvider.set({"ownConfig2": "test"});
@@ -43,7 +43,7 @@ describe("ServerSettingsProvider", () => {
     });
 
     it("should return env", () => {
-        expect(this.serverSettingsService.env).to.equal(EnvTypes.TEST);
+        expect(this.serverSettingsService.env).to.equal(Env.TEST);
     });
 
     it("should return httpsPort", () => {

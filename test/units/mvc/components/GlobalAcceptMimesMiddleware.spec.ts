@@ -1,17 +1,16 @@
-import {assert, expect} from "../../../tools";
-import {inject} from "../../../../src/testing/inject";
+import {ServerSettingsProvider} from "../../../../src/config/class/ServerSettingsProvider";
 import {GlobalAcceptMimesMiddleware} from "../../../../src/mvc/components/GlobalAcceptMimesMiddleware";
+import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
-import {ServerSettingsService} from "../../../../src";
+import {assert, expect} from "../../../tools";
 
 describe("GlobalAcceptMimesMiddleware", () => {
 
     before(inject([], () => {
+        const settings = new ServerSettingsProvider();
+        settings.acceptMimes = ["application/json"];
 
-        const map = new Map<string, any>();
-        map.set("acceptMimes", ["application/json"]);
-
-        this.middleware = new GlobalAcceptMimesMiddleware(new ServerSettingsService(map));
+        this.middleware = new GlobalAcceptMimesMiddleware(settings);
         this.request = new FakeRequest();
     }));
 
