@@ -1,24 +1,18 @@
-/**
- * @module common/filters
- */
-/** */
 import {$log} from "ts-log-debug";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Type} from "../../core/interfaces/Type";
 import {Service} from "../../di/decorators/service";
+import {IProviderOptions} from "../../di/interfaces";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterProvider} from "../class/FilterProvider";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
 import {IFilter} from "../interfaces";
-import {FilterRegistry, ProxyFilterRegistry} from "../registries/FilterRegistry";
+import {FilterRegistry} from "../registries/FilterRegistry";
 
-/**
- * @beta
- */
 @Service()
-export class FilterService extends ProxyFilterRegistry {
-
+export class FilterService extends ProxyRegistry<FilterProvider, IProviderOptions<any>> {
     constructor(private injectorService: InjectorService) {
-        super();
+        super(FilterRegistry);
     }
 
     /**

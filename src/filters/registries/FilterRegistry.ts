@@ -8,9 +8,3 @@ import {IProviderOptions} from "../../di/interfaces/IProviderOptions";
 import {FilterProvider} from "../class/FilterProvider";
 
 export const FilterRegistry = new Registry<FilterProvider, IProviderOptions<any>>(FilterProvider);
-
-export abstract class ProxyFilterRegistry extends ProxyRegistry<FilterProvider, IProviderOptions<any>> {
-    constructor() {
-        super(FilterRegistry);
-    }
-}

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf test/*.js test/**/*.js test/*.js.map test/**/*.js.map test/**/**/*.js test/**/**/*.js.map src/**/*.js src/**/*.js.map src/**/**/*.js src/**/**/*.js.map",
+    "clean": "rimraf 'test/{units,integration,helper}/**/*.{js,js.map}' 'src/**/*.{js,js.map}'",
     "tslint": "tslint 'src/**/*.ts?(x)'",
     "test": "npm run clean && npm run tsc && npm run tslint && NODE_ENV=test nyc --reporter=html --reporter=text _mocha --recursive",
     "coveralls:travis": "nyc report --reporter=text-lcov | coveralls",

@@ -1,7 +1,3 @@
-/**
- * @module common/di
- */
-/** */
 import {$log} from "ts-log-debug";
 import {nameOf} from "../../core";
 import {Metadata} from "../../core/class/Metadata";
@@ -9,8 +5,9 @@ import {Registry} from "../../core/class/Registry";
 import {Type} from "../../core/interfaces";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
-import {IInjectableMethod, IProvider} from "../interfaces";
-import {ProviderRegistry, ProxyProviderRegistry} from "../registries/ProviderRegistry";
+import {IInjectableMethod, IProvider, IProviderOptions} from "../interfaces";
+import {ProviderRegistry} from "../registries/ProviderRegistry";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -34,7 +31,10 @@ import {ProviderRegistry, ProxyProviderRegistry} from "../registries/ProviderReg
  * > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
  *
  */
-export class InjectorService extends ProxyProviderRegistry {
+export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptions<any>> {
+    constructor() {
+        super(ProviderRegistry);
+    }
 
     /**
      * Invoke the class and inject all services that required by the class constructor.
