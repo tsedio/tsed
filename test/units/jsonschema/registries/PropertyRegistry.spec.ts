@@ -1,6 +1,6 @@
 import {PropertyMetadata} from "../../../../src/jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {expect} from "../../../tools";
+import {expect, Sinon} from "../../../tools";
 
 class Test {
 }
@@ -85,5 +85,30 @@ describe("PropertyRegistry", () => {
             });
         });
 
+    });
+    describe("decorate()", () => {
+        before(() => {
+            this.getStub = Sinon.stub(PropertyRegistry, "get");
+            this.getStub.returns({schema: "schema"});
+            this.decoratorStub = Sinon.stub();
+            this.cbStub = Sinon.stub().returns(this.decoratorStub);
+            PropertyRegistry.decorate(this.cbStub)(Test, "test");
+        });
+
+        after(() => {
+            this.getStub.restore();
+        });
+
+        it("should call PropertyRegistry.get()", () => {
+            this.getStub.should.be.calledWithExactly(Test, "test");
+        });
+
+        it("should call the fn callback with the correct parameters", () => {
+            this.cbStub.should.be.calledWithExactly({schema: "schema"}, [Test, "test"]);
+        });
+
+        it("should cal the decorators returned by the fn callback", () => {
+            this.decoratorStub.should.be.calledWithExactly(Test, "test");
+        });
     });
 });

@@ -1,17 +1,12 @@
-import {JsonSchemesRegistry} from "../../../../src/jsonschema/registries/JsonSchemesRegistry";
 import {JsonSchemesService} from "../../../../src/jsonschema/services/JsonSchemesService";
 import {inject} from "../../../../src/testing";
-import {expect} from "../../../tools";
 import {JsonFoo2} from "../../../helper/classes";
+import {expect} from "../../../tools";
 
 describe("JsonSchemesService", () => {
     before(inject([JsonSchemesService], (service: JsonSchemesService) => {
         this.result = service.getSchemaDefinition(JsonFoo2);
     }));
-    after(() => {
-        JsonSchemesRegistry.clear();
-    });
-
     it("should return a schema with his definitions", () => {
         expect(this.result).to.deep.eq({
             "definitions": {

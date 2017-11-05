@@ -1,8 +1,11 @@
 import {PROPERTIES_METADATA} from "../../converters/constants/index";
 import {Metadata} from "../../core/class/Metadata";
+import {DecoratorParameters} from "../../core/interfaces";
 import {Type} from "../../core/interfaces/Type";
 import {ancestorsOf} from "../../core/utils";
 import {PropertyMetadata} from "../class/PropertyMetadata";
+import {InjectorService} from "../../di/services/InjectorService";
+import {ConverterService} from "../../converters/services/ConverterService";
 
 export class PropertyRegistry {
     /**
@@ -85,5 +88,20 @@ export class PropertyRegistry {
         });
 
         return this;
+    }
+
+    /**
+     *
+     * @param {(propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void} fn
+     * @returns {Function}
+     */
+    static decorate(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
+        return (...parameters: any[]): any => {
+            const propertyMetadata = PropertyRegistry.get(parameters[0], parameters[1]);
+            const result = fn(propertyMetadata, parameters as DecoratorParameters);
+            if (typeof result === "function") {
+                result(...parameters);
+            }
+        };
     }
 }

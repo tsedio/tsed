@@ -1,10 +1,10 @@
 import {JSONSchema4} from "json-schema";
 import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Registry} from "../../core/class/Registry";
+import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
 import {ancestorsOf, deepExtends, isArrayOrArrayClass, isClass} from "../../core/utils";
 import {JsonSchema} from "../class/JsonSchema";
-import {Store} from "../../core/class/Store";
 
 const JSON_SCHEMA_FIELDS = ["additionalItems", "items", "additionalProperties", "properties", "dependencies", "JSONSchema4"];
 
@@ -112,7 +112,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
         const schemaDefinition: JSONSchema4 = {};
         const schema = this.get(target);
 
-        deepExtends(schemaDefinition, schema.toJSON());
+        deepExtends(schemaDefinition, schema && schema.toJSON());
 
         schemaDefinition.definitions = {};
 

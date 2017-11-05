@@ -1,8 +1,8 @@
 # Converters
 
-The decorator `@JsonProperty` lets you customize serialization and deserialization property when Ts.ED send data as JSON.
+The decorator `@JsonProperty` or `@Property` lets you customize serialization and deserialization property when Ts.ED send data as JSON.
 
-All following decorators use `@JsonProperty` metadata to deserialize a Plain Object JavaScript to his Model:
+All following decorators use `@Property` metadata to deserialize a Plain Object JavaScript to his Model:
 
 - `@PathParams(expression?: string)`, 
 - `@BodyParams(expression?: string)`, 
@@ -42,30 +42,27 @@ In second place, create a new file in your `converters` folder. Create a new cla
 
 ```typescript
 class EventModel {
-
-    @JsonProperty()
+    
     @Required()
     name: string;
      
-    @JsonProperty('startDate')
+    @PropertyName('startDate')
     startDate: Date;
 
-    @JsonProperty({name: 'end-date'})
+    @Property({name: 'end-date'})
     endDate: Date;
 
-    @JsonProperty({use: Task})
+    @PropertyType(Task)
     @Required()
     @Allow(null)
     tasks: TaskModel[];
 }
 
 class TaskModel {
-    @JsonProperty()
     @Required()
     subject: string;
     
-    @JsonProperty()
-    @Required()
+    @Property()
     rate: number;
 }
 ```

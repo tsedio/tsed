@@ -1,4 +1,3 @@
-import {JsonProperty} from "../../../../src/jsonschema/decorators/jsonProperty";
 import {JsonSchemesRegistry} from "../../../../src/jsonschema/registries/JsonSchemesRegistry";
 import {JsonFoo2} from "../../../helper/classes";
 import {expect} from "../../../tools";
