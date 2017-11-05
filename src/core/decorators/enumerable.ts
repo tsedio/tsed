@@ -10,6 +10,7 @@ export function Enumerable(value: boolean = true): Function {
         const descriptor = descriptorOf(target, propertyKey) || {writable: true, configurable: true};
         descriptor.enumerable = value;
         Object.defineProperty(target && target.prototype || target, propertyKey, descriptor);
+        return descriptor;
     };
 }
 
