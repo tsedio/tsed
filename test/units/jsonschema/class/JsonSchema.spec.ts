@@ -4,7 +4,6 @@ import {expect} from "../../../tools";
 describe("JsonSchema", () => {
 
     describe("getJsonType()", () => {
-
         it("should return number", () => {
             expect(JsonSchema.getJsonType(Number)).to.eq("number");
         });
@@ -39,6 +38,17 @@ describe("JsonSchema", () => {
         });
         it("should return string when an string is given", () => {
             expect(JsonSchema.getJsonType("string")).to.deep.eq("string");
+        });
+    });
+
+    describe("toJSON()", () => {
+        before(() => {
+            this.jsonSchema = new JsonSchema();
+            this.jsonSchema.type = class Test {
+            };
+        });
+        it("should return object", () => {
+            expect(this.jsonSchema.toJSON()).to.deep.eq({type: "object"});
         });
     });
 });
