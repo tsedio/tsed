@@ -188,9 +188,3 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
 }
 
 export const JsonSchemesRegistry = new JsonSchemaRegistry(JsonSchema);
-
-export abstract class ProxyJsonSchemesRegistry extends ProxyRegistry<any, JsonSchema> {
-    constructor() {
-        super(JsonSchemesRegistry);
-    }
-}

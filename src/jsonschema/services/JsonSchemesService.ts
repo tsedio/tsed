@@ -1,15 +1,15 @@
 import {JSONSchema4} from "json-schema";
 import {Type} from "../../core/interfaces";
 import {Service} from "../../di/decorators/service";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
-import {JsonSchemesRegistry, ProxyJsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
+import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
+import {JsonSchema} from "../class/JsonSchema";
 
 
 @Service()
-export class JsonSchemesService extends ProxyJsonSchemesRegistry {
-
-    constructor(private serverSettingsServer: ServerSettingsService) {
-        super();
+export class JsonSchemesService extends ProxyRegistry<any, JsonSchema> {
+    constructor() {
+        super(JsonSchemesRegistry);
     }
 
     /**
