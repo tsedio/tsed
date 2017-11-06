@@ -45,7 +45,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param {e.Request} request
      */
     protected onLogStart(request: Express.Request) {
-        request.log.info();
+        request.log.debug();
     }
 
     /**
@@ -120,7 +120,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
             const status = (response as any)._header
                 ? response.statusCode
                 : undefined;
-            request.log.info({status, data: request.getStoredData && request.getStoredData()});
+            request.log.debug({status, data: request.getStoredData && request.getStoredData()});
             this.cleanRequest(request);
         }
     }
