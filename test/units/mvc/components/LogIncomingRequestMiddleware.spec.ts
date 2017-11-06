@@ -278,7 +278,7 @@ describe("LogIncomingRequestMiddleware", () => {
                 query: {query: "query"},
                 params: {params: "params"},
                 log: {
-                    info: Sinon.stub()
+                    debug: Sinon.stub()
                 },
                 getStoredData: () => "test"
             };
@@ -289,7 +289,7 @@ describe("LogIncomingRequestMiddleware", () => {
         }));
 
         it("should have been called the logger with the right parameters", () => {
-            this.request.log.info.should.be.calledWithExactly({status: undefined, data: "test"});
+            this.request.log.debug.should.be.calledWithExactly({status: undefined, data: "test"});
         });
 
         it("should clean the request object", () => {
