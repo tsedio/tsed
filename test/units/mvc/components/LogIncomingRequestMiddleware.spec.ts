@@ -138,7 +138,85 @@ describe("LogIncomingRequestMiddleware", () => {
             });
         });
     });
+    describe("minimalRequestPicker()", () => {
+        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+            this.request = {
+                id: "id",
+                method: "method",
+                originalUrl: "originalUrl",
+                headers: {headers: "headers"},
+                body: {body: "body"},
+                query: {query: "query"},
+                params: {params: "params"}
+            };
+            this.request2 = this.request = {
+                id: "id",
+                method: "method",
+                url: "url",
+                headers: {headers: "headers"},
+                body: {body: "body"},
+                query: {query: "query"},
+                params: {params: "params"}
+            };
+
+            this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+
+            Sinon.stub(this.middleware, "getDuration").returns(2);
+
+            this.result = this.middleware.minimalRequestPicker(this.request);
+
+            this.middleware.logRequestFields = ["reqId"];
+
+            this.result2 = this.middleware.minimalRequestPicker(this.request2);
+        }));
+
+        it("should have been called getDuration with the right parameters", () => {
+            this.middleware.getDuration.should.be.calledWithExactly(this.request);
+        });
+
+        it("should return an object from the request (1)", () => {
+            this.result.should.be.deep.eq({
+                "body": {
+                    "body": "body"
+                },
+                "duration": 2,
+                "headers": {
+                    "headers": "headers"
+                },
+                "method": "method",
+                "params": {
+                    "params": "params"
+                },
+                "query": {
+                    "query": "query"
+                },
+                "reqId": "id",
+                "url": "url"
+            });
+        });
+        it("should return an object from the request (2)", () => {
+            this.result2.should.be.deep.eq({
+                "reqId": "id"
+            });
+        });
+    });
     describe("stringify()", () => {
+        describe("when passed a string", () => {
+            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+                this.request = new FakeRequest();
+                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+                Sinon.stub(this.middleware, "getDuration").returns(2);
+                const none = (req: Express.Request) => {
+                };
+                this.result = this.middleware.stringify(this.request, none)("message");
+            }));
+
+            it("should include string as msg property", () => {
+                this.result.should.be.a("string");
+                expect(JSON.parse(this.result)).to.have.property("message", "message");
+            });
+        });
+
         describe("when dev", () => {
             before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
                 this.request = {
@@ -154,8 +232,8 @@ describe("LogIncomingRequestMiddleware", () => {
                 this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
 
                 Sinon.stub(this.middleware, "getDuration").returns(2);
-
-                this.result = this.middleware.stringify(this.request)({scope: "scope"});
+                const verbose = (req: Express.Request) => this.middleware.requestToObject(req);
+                this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
 
             it("should stringify the request", () => {
@@ -196,8 +274,8 @@ describe("LogIncomingRequestMiddleware", () => {
                 this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
                 this.middleware.env = "production";
                 Sinon.stub(this.middleware, "getDuration").returns(2);
-
-                this.result = this.middleware.stringify(this.request)({scope: "scope"});
+                const verbose = (req: Express.Request) => this.middleware.requestToObject(req);
+                this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
 
             it("should stringify the request", () => {
@@ -278,7 +356,8 @@ describe("LogIncomingRequestMiddleware", () => {
                 query: {query: "query"},
                 params: {params: "params"},
                 log: {
-                    debug: Sinon.stub()
+                    debug: Sinon.stub(),
+                    info: Sinon.stub()
                 },
                 getStoredData: () => "test"
             };

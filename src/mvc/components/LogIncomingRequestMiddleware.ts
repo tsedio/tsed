@@ -6,10 +6,10 @@ import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {EnvTypes} from "../../core/interfaces";
 import {applyBefore} from "../../core/utils";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
-import {Middleware} from "../decorators/class/middleware";
 import {Req} from "../../filters/decorators/request";
 import {Res} from "../../filters/decorators/response";
+import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces";
 
 /**
@@ -18,12 +18,20 @@ import {IMiddleware} from "../interfaces";
  */
 @Middleware()
 export class LogIncomingRequestMiddleware implements IMiddleware {
+    private static DEFAULT_FIELDS = [
+        "reqId",
+        "method",
+        "url",
+        "duration"
+    ];
 
     private AUTO_INCREMENT_ID = 1;
     private env: EnvTypes;
+    private logRequestFields: string[];
 
     constructor(private serverSettingsService: ServerSettingsService) {
         this.env = serverSettingsService.env;
+        this.logRequestFields = serverSettingsService.get("logRequestFields") || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
     }
 
     /**
@@ -57,17 +65,20 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
         request.tagId = `[#${(request as any).id}]`;
         request.tsedReqStart = new Date();
 
+        const verbose = (req: Express.Request) => this.requestToObject(req);
+        const info = (req: Express.Request) => this.minimalRequestPicker(req);
+
         request.log = {
-            info: (obj: any) => $log.info(this.stringify(request)(obj)),
-            debug: (obj: any) => $log.debug(this.stringify(request)(obj)),
-            warn: (obj: any) => $log.warn(this.stringify(request)(obj)),
-            error: (obj: any) => $log.error(this.stringify(request)(obj)),
-            trace: (obj: any) => $log.trace(this.stringify(request)(obj))
+            info: (obj: any) => $log.info(this.stringify(request, info)(obj)),
+            debug: (obj: any) => $log.debug(this.stringify(request, verbose)(obj)),
+            warn: (obj: any) => $log.warn(this.stringify(request, verbose)(obj)),
+            error: (obj: any) => $log.error(this.stringify(request, verbose)(obj)),
+            trace: (obj: any) => $log.trace(this.stringify(request, verbose)(obj))
         };
     }
 
     /**
-     * Return a partial request.
+     * Return complete request info.
      * @param request
      * @returns {Object}
      */
@@ -85,6 +96,21 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     }
 
     /**
+     * Return a filtered request from global configuration.
+     * @param request
+     * @returns {Object}
+     */
+    protected minimalRequestPicker(request: Express.Request): any {
+
+        const info = this.requestToObject(request);
+
+        return this.logRequestFields.reduce((acc: any, key: string) => {
+            acc[key] = info[key];
+            return acc;
+        }, {});
+    }
+
+    /**
      * Return the duration between the time when LogIncomingRequest has handle the request and now.
      * @param request
      * @returns {number}
@@ -96,11 +122,16 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     /**
      * Stringify a request to JSON.
      * @param request
+     * @param propertySelector
      * @returns {(scope: any) => string}
      */
-    protected stringify(request: Express.Request): (scope: any) => string {
+    protected stringify(request: Express.Request, propertySelector: (e: Express.Request) => any): (scope: any) => string {
         return (scope: any = {}) => {
-            scope = Object.assign(scope, this.requestToObject(request));
+            if (typeof scope === "string") {
+                scope = {message: scope};
+            }
+
+            scope = Object.assign(scope, propertySelector(request));
 
             if (this.env !== EnvTypes.PROD) {
                 return JSON.stringify(scope, null, 2);
@@ -120,6 +151,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
             const status = (response as any)._header
                 ? response.statusCode
                 : undefined;
+            request.log.info({status});
             request.log.debug({status, data: request.getStoredData && request.getStoredData()});
             this.cleanRequest(request);
         }
