@@ -7,6 +7,23 @@ export class FakeRequest {
     _responseData: any;
     public accepts = (mime: string) => this.mime === mime;
 
+    public log: Express.RequestLogger = {
+        debug: (scope?: any) => {
+        },
+
+        info: (scope?: any) => {
+        },
+
+        trace: (scope?: any) => {
+        },
+
+        warn: (scope?: any) => {
+        },
+
+        error: (scope?: any) => {
+        }
+    };
+
     /**
      *
      * @type {{test: string, obj: {test: string}}}

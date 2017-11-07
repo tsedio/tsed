@@ -28,6 +28,7 @@ export interface IServerSettings {
     serveStatic?: IServerMountDirectories;
     acceptMimes?: string[];
     debug?: boolean;
+    logRequestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
     validationModelStrict?: boolean;
 
     [key: string]: any;
