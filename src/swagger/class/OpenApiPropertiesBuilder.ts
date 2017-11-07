@@ -112,7 +112,7 @@ export class OpenApiPropertiesBuilder {
     }
 
     public getJsonSchema() {
-        const schema = Store.from(this.target).get<Schema>("schema");
+        const schema = Store.from(this.target).get<Schema>("schema") || {};
         return schema.toJSON ? schema.toJSON() : schema;
     }
 

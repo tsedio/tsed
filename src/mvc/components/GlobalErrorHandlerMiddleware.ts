@@ -26,7 +26,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
         const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
         if (error instanceof Exception || error.status) {
-            $log.error("" + error);
+            request.log.error({ERROR: error});
             response.status(error.status).send(toHTML(error.message));
             return;
         }
@@ -36,7 +36,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
             return;
         }
 
-        $log.error(error);
+        request.log.error({ERROR: error});
         response.status(error.status || 500).send("Internal Error");
 
         return;

@@ -57,12 +57,15 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
         request.tagId = `[#${(request as any).id}]`;
         request.tsedReqStart = new Date();
 
+        const verbose = (req: Express.Request) => this.verboseRequestPicker(req);
+        const info    = (req: Express.Request) => this.minimalRequestPicker(req);
+
         request.log = {
-            info: (obj: any) => $log.info(this.stringify(request)(obj)),
-            debug: (obj: any) => $log.debug(this.stringify(request)(obj)),
-            warn: (obj: any) => $log.warn(this.stringify(request)(obj)),
-            error: (obj: any) => $log.error(this.stringify(request)(obj)),
-            trace: (obj: any) => $log.trace(this.stringify(request)(obj))
+            info:  (obj: any) => $log.info(this.stringify(request, info)(obj)),
+            debug: (obj: any) => $log.debug(this.stringify(request, verbose)(obj)),
+            warn:  (obj: any) => $log.warn(this.stringify(request, verbose)(obj)),
+            error: (obj: any) => $log.error( this.stringify(request, verbose)(obj)),
+            trace: (obj: any) => $log.trace(this.stringify(request, verbose)(obj))
         };
     }
 
@@ -71,7 +74,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param request
      * @returns {Object}
      */
-    protected requestToObject(request: Express.Request): any {
+    protected verboseRequestPicker(request: Express.Request): any {
         return {
             reqId: request.id,
             method: request.method,
@@ -81,6 +84,18 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
             body: request.body,
             query: request.query,
             params: request.params
+        };
+    }
+
+       /**
+     * Return a partial request.
+     * @param request
+     * @returns {Object}
+     */
+    protected minimalRequestPicker(request: Express.Request): any {
+        return {
+            method: request.method,
+            url: request.originalUrl || request.url,
         };
     }
 
@@ -98,9 +113,12 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param request
      * @returns {(scope: any) => string}
      */
-    protected stringify(request: Express.Request): (scope: any) => string {
+    protected stringify(request: Express.Request, propertySelector: (e: Express.Request) => any): (scope: any) => string {
         return (scope: any = {}) => {
-            scope = Object.assign(scope, this.requestToObject(request));
+            if (typeof scope === "string") {
+                scope = {MSG: scope};
+            }
+            scope = Object.assign(scope, propertySelector(request));
 
             if (this.env !== EnvTypes.PROD) {
                 return JSON.stringify(scope, null, 2);
@@ -120,6 +138,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
             const status = (response as any)._header
                 ? response.statusCode
                 : undefined;
+            request.log.info({status});
             request.log.debug({status, data: request.getStoredData && request.getStoredData()});
             this.cleanRequest(request);
         }

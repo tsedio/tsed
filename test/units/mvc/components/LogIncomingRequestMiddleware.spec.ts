@@ -2,7 +2,7 @@ import {LogIncomingRequestMiddleware} from "../../../../src/mvc/components/LogIn
 import {MiddlewareService} from "../../../../src/mvc/services/MiddlewareService";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper";
-import {FakeRequest} from "../../../helper/FakeRequest";
+import { FakeRequest } from '../../../helper/FakeRequest';
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("LogIncomingRequestMiddleware", () => {
@@ -14,7 +14,7 @@ describe("LogIncomingRequestMiddleware", () => {
             this.request2 = {id: "id"};
             this.middleware.configureRequest(this.request);
             this.middleware.configureRequest(this.request2);
-            Sinon.stub(this.middleware, "requestToObject").returns({"reqId": "1"});
+            Sinon.stub(this.middleware, "verboseRequestPicker").returns({"reqId": "1"});
             this.request.log.debug({custom: "c"});
             this.request.log.info({custom: "c"});
             this.request.log.warn({custom: "c"});
@@ -64,7 +64,7 @@ describe("LogIncomingRequestMiddleware", () => {
             expect(this.middleware.getDuration(this.request)).to.be.a("number");
         });
     });
-    describe("requestToObject()", () => {
+    describe("verboseRequestPicker()", () => {
         before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
             this.request = {
                 id: "id",
@@ -89,8 +89,8 @@ describe("LogIncomingRequestMiddleware", () => {
 
             Sinon.stub(this.middleware, "getDuration").returns(2);
 
-            this.result = this.middleware.requestToObject(this.request);
-            this.result2 = this.middleware.requestToObject(this.request2);
+            this.result = this.middleware.verboseRequestPicker(this.request);
+            this.result2 = this.middleware.verboseRequestPicker(this.request2);
         }));
 
         it("should have been called getDuration with the right parameters", () => {
@@ -139,6 +139,22 @@ describe("LogIncomingRequestMiddleware", () => {
         });
     });
     describe("stringify()", () => {
+        describe("when passed a string", () => {
+            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+                this.request = new FakeRequest();
+                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+                Sinon.stub(this.middleware, "getDuration").returns(2);
+                const none = (req: Express.Request) => {};
+                this.result = this.middleware.stringify(this.request, none)("message");
+            }));
+
+            it("should include string as msg property", () => {
+                this.result.should.be.a("string");
+                expect(JSON.parse(this.result)).to.have.property("MSG", "message");
+            });
+        })
+
+
         describe("when dev", () => {
             before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
                 this.request = {
@@ -154,8 +170,8 @@ describe("LogIncomingRequestMiddleware", () => {
                 this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
 
                 Sinon.stub(this.middleware, "getDuration").returns(2);
-
-                this.result = this.middleware.stringify(this.request)({scope: "scope"});
+                const verbose = (req: Express.Request) => this.middleware.verboseRequestPicker(req);
+                this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
 
             it("should stringify the request", () => {
@@ -196,8 +212,8 @@ describe("LogIncomingRequestMiddleware", () => {
                 this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
                 this.middleware.env = "production";
                 Sinon.stub(this.middleware, "getDuration").returns(2);
-
-                this.result = this.middleware.stringify(this.request)({scope: "scope"});
+                const verbose = (req: Express.Request) => this.middleware.verboseRequestPicker(req);
+                this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
 
             it("should stringify the request", () => {
@@ -278,7 +294,8 @@ describe("LogIncomingRequestMiddleware", () => {
                 query: {query: "query"},
                 params: {params: "params"},
                 log: {
-                    debug: Sinon.stub()
+                    debug: Sinon.stub(),
+                    info: Sinon.stub()
                 },
                 getStoredData: () => "test"
             };

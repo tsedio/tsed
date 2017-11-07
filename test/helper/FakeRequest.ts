@@ -1,3 +1,4 @@
+
 export class FakeRequest {
     method: string;
     path: string;
@@ -6,6 +7,18 @@ export class FakeRequest {
     tagId: string;
     _responseData: any;
     public accepts = (mime: string) => this.mime === mime;
+
+    public log: Express.RequestLogger = {
+        debug: (scope?: any) => {},
+        
+        info: (scope?: any) => {},
+        
+        trace: (scope?: any) => {},
+        
+        warn: (scope?: any) => {},
+        
+        error: (scope?: any) => {}
+    };
 
     /**
      *

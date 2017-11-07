@@ -33,7 +33,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
                 this.middleware.use(
                     this.error,
-                    this.responseStub,
+                    this.request,
                     this.response
                 );
             });
@@ -54,7 +54,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
                 this.middleware.use(
                     this.error,
-                    this.responseStub,
+                    this.request,
                     this.response
                 );
             });
@@ -78,7 +78,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
                 this.middleware.use(
                     this.error,
-                    this.responseStub,
+                    this.request,
                     this.response
                 );
             });
