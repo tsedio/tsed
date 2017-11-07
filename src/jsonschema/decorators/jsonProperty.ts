@@ -1,13 +1,10 @@
+import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
+import {ConverterService} from "../../converters/services/ConverterService";
 import {Type} from "../../core/interfaces";
 import {isEmpty} from "../../core/utils/index";
-/**
- * @module common/converters
- */
-/** */
 import {InjectorService} from "../../di/services/InjectorService";
-import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
+import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
-import {ConverterService} from "../../converters/services/ConverterService";
 
 /**
  * `@JsonProperty()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
@@ -15,27 +12,30 @@ import {ConverterService} from "../../converters/services/ConverterService";
  * Here an example of different use cases with `@JsonProperty()`:
  *
  * ```typescript
- * provide EventModel {
+ * class EventModel {
  *
- *    \@JsonProperty()
+ *    @JsonProperty()
  *    name: string;
  *
- *    \@JsonProperty('startDate')
+ *    @JsonProperty('startDate')
  *    startDate: Date;
  *
- *    \@JsonProperty({name: 'end-date'})
+ *    @JsonProperty({name: 'end-date'})
  *    endDate: Date;
  *
- *    \@JsonProperty({use: Task})
+ *    @JsonProperty({use: Task})
  *    tasks: TaskModel[];
  * }
  *
- * provide TaskModel {
+ * class TaskModel {
+ *     @Property()
  *     subject: string;
+ *
+ *     @Property()
  *     rate: number;
  * }
  *
- * > Theses ES6 collections can be used : Map and Set. Map will be serialized as an object and Set as an array.
+ * > Theses ES6 collections can be used: Map and Set. Map will be serialized as an object and Set as an array.
  * By default Date, Array, Map and Set have a default custom Converter allready embded. But you can override theses (see next part).
  *
  * For the Array, you must add the `{use: type}` option to the decorators.
@@ -46,25 +46,19 @@ import {ConverterService} from "../../converters/services/ConverterService";
  * @param options
  */
 export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
+    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+        if (typeof options === "string") {
+            propertyMetadata.name = options as string;
+        }
+        else if (typeof options === "object") {
+            propertyMetadata.name = options.name as string;
 
-    return (target: any, propertyKey: string) => {
-
-        /* istanbul ignore else */
-        if (propertyKey) {
-
-            const property = PropertyRegistry.get(target, propertyKey);
-
-            if (typeof options === "string") {
-                property.name = options as string;
+            if (!isEmpty((<IPropertyOptions>options).use)) {
+                propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
             }
-            else if (typeof options === "object") {
-                property.name = options.name as string;
+        }
 
-                if (!isEmpty((<IPropertyOptions>options).use)) {
-                    property.type = (options as IPropertyOptions).use as Type<any>;
-                }
-            }
-
+        return (target: any) => {
             if (!target.constructor.prototype.toJSON) {
 
                 target.constructor.prototype.toJSON = function () {
@@ -73,11 +67,50 @@ export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
                         .serialize(this);
                 };
                 target.constructor.prototype.toJSON.$ignore = true;
-
             }
-        }
-
-    };
-
+        };
+    });
 }
 
+/**
+ * `@Property()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
+ * But in some cases, we need to configure explicitly the JSON attribut name mapped to the provide attribut.
+ * Here an example of different use cases with `@JsonProperty()`:
+ *
+ * ```typescript
+ * class EventModel {
+ *
+ *    @Property()
+ *    name: string;
+ *
+ *    @Property('startDate')
+ *    startDate: Date;
+ *
+ *    @Property({name: 'end-date'})
+ *    endDate: Date;
+ *
+ *    @Property({use: Task})
+ *    tasks: TaskModel[];
+ * }
+ *
+ * class TaskModel {
+ *     @Property()
+ *     subject: string;
+ *
+ *     @Property()
+ *     rate: number;
+ * }
+ *
+ * > Theses ES6 collections can be used: Map and Set. Map will be serialized as an object and Set as an array.
+ * By default Date, Array, Map and Set have a default custom Converter allready embded. But you can override theses (see next part).
+ *
+ * For the Array, you must add the `{use: type}` option to the decorators.
+ * `TypeClass` will be used to deserialize each item in the collection stored on the attribut source.
+ *
+ * @returns {Function}
+ * @decorator
+ * @param options
+ */
+export function Property(options?: IPropertyOptions | string) {
+    return JsonProperty(options);
+}

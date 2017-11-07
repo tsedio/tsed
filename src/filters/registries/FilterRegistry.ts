@@ -1,4 +1,3 @@
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 /**
  * @module common/filters
  */

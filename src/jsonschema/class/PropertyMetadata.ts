@@ -3,6 +3,7 @@ import {Storable} from "../../core/class/Storable";
 import {NotEnumerable} from "../../core/decorators";
 import {Type} from "../../core/interfaces";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
+import {JsonSchema} from "./JsonSchema";
 
 export class PropertyMetadata extends Storable implements IPropertyOptions {
     /**
@@ -34,9 +35,9 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
         return this._type;
     }
 
-    get schema() {
+    get schema(): JsonSchema {
         if (!this.store.has("schema")) {
-            const schema = JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.collectionType);
+            const schema = JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType);
             this.store.set("schema", schema);
         }
         return this.store.get("schema");

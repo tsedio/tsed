@@ -54,9 +54,7 @@ describe("PropertyMetadata", () => {
         });
 
         it("should return schema", () => {
-            expect(this.propertyMetadata.schema).to.deep.eq({
-                "type": "object"
-            });
+            expect(this.propertyMetadata.schema).to.deep.eq({"$ref": "#/definitions/Test"});
         });
     });
 

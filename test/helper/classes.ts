@@ -1,21 +1,23 @@
-import {JsonProperty} from "../../src/jsonschema/decorators/jsonProperty";
+import {Property} from "../../src/jsonschema/decorators/jsonProperty";
+import {PropertyName} from "../../src/jsonschema/decorators/propertyName";
+import {PropertyType} from "../../src/jsonschema/decorators/propertyType";
 import {Required} from "../../src/mvc/decorators";
 
 export class JsonBaseModel {
 
-    @JsonProperty()
+    @Property()
     public id?: string;
 }
 
 export class JsonNameModel extends JsonBaseModel {
 
-    @JsonProperty()
+    @Property()
     public name: string;
 }
 
 export class JsonAgeModel extends JsonBaseModel {
 
-    @JsonProperty()
+    @Property()
     public age: number;
 }
 
@@ -47,45 +49,46 @@ export class JsonFoo {
 }
 
 export class JsonFoo2 {
-    @JsonProperty()
+    @Property()
     @Required()
     test: string;
 
-    @JsonProperty("Name")
+
+    @Property()
+    @PropertyName("Name")
     name: string;
 
-    @JsonProperty()
+    @Property()
     dateStart: Date;
 
-    @JsonProperty()
+    @Property()
     uint: number;
 
-    @JsonProperty()
+    @Property()
     object: any;
 
-    @JsonProperty()
     @Required()
     foo: JsonFoo;
 
-    @JsonProperty({use: JsonFoo})
+    @PropertyType(JsonFoo)
     foos: JsonFoo[];
 
-    @JsonProperty({use: JsonFoo})
+    @PropertyType(JsonFoo)
     theMap: Map<string, JsonFoo>;
 
-    @JsonProperty({use: JsonFoo})
+    @PropertyType(JsonFoo)
     theSet: Set<JsonFoo>;
 
-    @JsonProperty({use: String})
+    @PropertyType(String)
     mapOfString: Map<string, string>;
 
-    @JsonProperty({use: String})
+    @PropertyType(String)
     arrayOfString: string[];
 
-    @JsonProperty()
+    @Property()
     nameModel: JsonNameModel;
 
-    @JsonProperty()
+    @Property()
     ageModel: JsonAgeModel;
 
     method() {
@@ -100,10 +103,9 @@ export class JsonFoo3 {
 }
 
 export class JsonFoo4 {
-    @JsonProperty()
+    @Property()
     test: any;
 
-    @JsonProperty()
     @Required()
     foo: any;
 }
