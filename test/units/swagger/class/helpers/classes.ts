@@ -3,6 +3,10 @@ import {Required} from "../../../../../src/mvc/decorators";
 import {Description} from "../../../../../src/swagger/decorators/description";
 import {Title} from "../../../../../src/swagger/decorators/title";
 
+export class SwaNoDecoModel {
+    public prop: string;
+}
+
 export class SwaBaseModel {
     @Title("id")
     @Description("Unique identifier.")

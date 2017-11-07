@@ -1,7 +1,7 @@
 import {OpenApiPropertiesBuilder} from "../../../../src/swagger/class/OpenApiPropertiesBuilder";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect} from "../../../tools";
-import {SwaFoo2} from "./helpers/classes";
+import { SwaFoo2, SwaNoDecoModel } from './helpers/classes';
 
 describe("OpenApiPropertiesBuilder", () => {
 
@@ -9,6 +9,15 @@ describe("OpenApiPropertiesBuilder", () => {
         this.schemaBuilder = new OpenApiPropertiesBuilder(SwaFoo2);
         this.schemaBuilder.build();
     });
+
+    it("should not fail", ()=> {
+        let builder = new OpenApiPropertiesBuilder(SwaNoDecoModel);
+        
+        let build = () => {builder.build();}
+           
+        expect(build).to.not.throw();
+    })
+
 
     it("should create a schema", () => {
         expect(this.schemaBuilder.schema).to.deep.eq({
