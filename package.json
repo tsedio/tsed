@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "Use TypeScript decorators to create your Express application",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
