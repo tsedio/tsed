@@ -271,8 +271,6 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
     static construct<T>(target: Type<any> | symbol): T {
 
         const provider: Provider<any> = ProviderRegistry.get(target)!;
-
-        /* istanbul ignore else */
         return this.invoke<any>(provider.useClass);
     }
 

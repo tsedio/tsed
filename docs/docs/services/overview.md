@@ -71,3 +71,18 @@ class MyController {
     }
 }  
 ```
+
+### Override a Service
+
+The decorator [@OverrideService](api/common/di/overrideservice.md) gives you the ability to 
+override some internal Ts.ED service like the [ParseService](api/common/filters/parseservice.md).
+
+Example usage:
+```typescript
+import {OverrideService, ParseService} from "ts-express-decorators"
+
+@OverrideService(ParseService)
+class CustomParseService extends ParseService {
+    
+}
+```

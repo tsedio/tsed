@@ -90,7 +90,7 @@ export class Registry<T, O> {
      * @param target
      * @param options
      */
-    merge(target: Type<any> | symbol, options: O): void {
+    merge(target: Type<any> | symbol, options: Partial<O>): void {
 
         const meta: T & { [key: string]: any } = this.createIfNotExists(target);
 
