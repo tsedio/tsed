@@ -2,6 +2,7 @@ import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerLoader, ServerSettings} from "../../../src/index";
 import "../../../src/swagger";
+import "../../../src/ajv";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import Path = require("path");
 

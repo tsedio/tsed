@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
@@ -40,6 +39,7 @@
     "multipartfiles",
     "swagger",
     "servestatic",
+    "ajv",
     "lib"
   ]
 }

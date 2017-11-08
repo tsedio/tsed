@@ -17,6 +17,7 @@
     "multipartfiles",
     "swagger",
     "servestatic",
+    "ajv",
     "test",
     "lib"
   ]

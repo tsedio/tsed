@@ -14,6 +14,7 @@ module.exports = {
     "filters": "common/filters",
     "mvc": "common/mvc",
     "server": "common/server",
+    "ajv": "ajv",
     "multipartfiles": "multipartfiles",
     "servestatic": "servestatic",
     "swagger": "swagger",

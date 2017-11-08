@@ -57,10 +57,15 @@ const $logStub: LogStub = <any> {
 
 $logStub.stub();
 
+const stub = (t: any): SinonStub => t;
+const restore = (t: any) => t.restore();
+
 export {
     expect,
     assert,
     Sinon,
     SinonChai,
-    $logStub
+    $logStub,
+    stub,
+    restore
 };
