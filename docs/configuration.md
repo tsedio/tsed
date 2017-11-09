@@ -133,7 +133,19 @@ A call with once of this method will generate this log:
 ```
 
 The log methods is added by the [LogIncomingRequestMiddleware](api/common/mvc/logincomingrequestmiddleware.md).
-It can be overloaded with `@OverrideMiddleware`.
+
+You can configure this output from configuration:
+
+```typescript
+@ServerSettings({
+   logRequestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+or you can override the middleware with `@OverrideMiddleware`.
 
 Example: 
 
@@ -180,5 +192,6 @@ export class Server extends ServerLoader {
 
 }
 ```
+
 
 
