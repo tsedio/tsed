@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="controllerprovider">ControllerProvider</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ControllerProvider }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.13.0/src/mvc/class/ControllerProvider.ts#L0-L0">                mvc/class/ControllerProvider.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ControllerProvider }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.14.0/src/mvc/class/ControllerProvider.ts#L0-L0">                mvc/class/ControllerProvider.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -11,7 +11,7 @@
     <span class="token keyword">readonly</span> endpoints<span class="token punctuation">:</span> <a href="#api/common/mvc/endpointmetadata"><span class="token">EndpointMetadata</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     dependencies<span class="token punctuation">:</span> <a href="#api/common/mvc/ichildrencontroller"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     scope<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | "request"<span class="token punctuation">;</span>
-    routerOptions<span class="token punctuation">:</span> <a href="#api/common/mvc/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">;</span>
+    routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     middlewares<span class="token punctuation">:</span> <a href="#api/common/mvc/icontrollermiddlewares"><span class="token">IControllerMiddlewares</span></a><span class="token punctuation">;</span>
     <span class="token function">pushRouterPath</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
@@ -36,7 +36,7 @@ set path
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">scope<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | "request"</code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang">routerOptions<span class="token punctuation">:</span> <a href="#api/common/mvc/irouteroptions"><span class="token">IRouterOptions</span></a></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang">routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
 <hr />
