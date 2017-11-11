@@ -1,5 +1,6 @@
 import * as Express from "express";
 import * as Proxyquire from "proxyquire";
+import {globalServerSettings} from "../../../../src/config";
 
 import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
 import {inject} from "../../../../src/testing/inject";
@@ -99,6 +100,7 @@ describe("EndpointBuilder", () => {
 
     describe("onRequest()", () => {
         before(() => {
+            globalServerSettings.debug = true;
             this.request = new FakeRequest();
             this.request.id = 1;
             this.response = new FakeResponse();
@@ -109,6 +111,7 @@ describe("EndpointBuilder", () => {
         });
 
         after(() => {
+            globalServerSettings.debug = false;
             this.response.setHeader.restore();
         });
 

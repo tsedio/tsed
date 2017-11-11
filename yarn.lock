@@ -3977,9 +3977,9 @@ ts-httpexceptions@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/ts-httpexceptions/-/ts-httpexceptions-2.2.3.tgz#e9e11a08fcf51f4bc8445dbfac564af3cbb2e1b7"
 
-ts-log-debug@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-3.0.0.tgz#3acfcc2fda75c3bab22d65a56132c2dbd1f9a996"
+ts-log-debug@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-3.0.1.tgz#ca7bfcf6812ff3a97fdbeb8419056a188beba8f0"
   dependencies:
     colors "^1.1.0"
     date-format "^1.1.0"
@@ -4172,7 +4172,7 @@ utils-merge@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.0.tgz#0294fb922bb9375153541c4f7096231f287c8af8"
 
-uuid@^3.0.0:
+uuid@^3.0.0, uuid@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 

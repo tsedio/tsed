@@ -4,6 +4,8 @@
 /** */
 import * as Express from "express";
 import {$log} from "ts-log-debug";
+import {globalServerSettings} from "../../config";
+import {ILoggerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Env} from "../../core/interfaces";
 import {applyBefore} from "../../core/utils";
@@ -27,11 +29,15 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
 
     private AUTO_INCREMENT_ID = 1;
     private env: Env;
-    private logRequestFields: string[];
+    private loggerSettings: ILoggerSettings;
+    private fields: string[];
+    private reqIdBuilder: () => number;
 
     constructor(private serverSettingsService: ServerSettingsService) {
         this.env = serverSettingsService.env;
-        this.logRequestFields = serverSettingsService.get("logRequestFields") || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
+        this.loggerSettings = serverSettingsService.logger as ILoggerSettings;
+        this.reqIdBuilder = this.loggerSettings.reqIdBuilder || (() => this.AUTO_INCREMENT_ID++);
+        this.fields = this.loggerSettings.requestFields || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
     }
 
     /**
@@ -53,7 +59,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param {e.Request} request
      */
     protected onLogStart(request: Express.Request) {
-        request.log.debug();
+        request.log.debug({event: "start"});
     }
 
     /**
@@ -61,15 +67,14 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param request
      */
     protected configureRequest(request: Express.Request) {
-        request.id = String(request.id ? request.id : this.AUTO_INCREMENT_ID++);
-        request.tagId = `[#${(request as any).id}]`;
+        request.id = String(request.id ? request.id : this.reqIdBuilder());
         request.tsedReqStart = new Date();
 
         const verbose = (req: Express.Request) => this.requestToObject(req);
         const info = (req: Express.Request) => this.minimalRequestPicker(req);
         request.log = {
-            info: (obj: any) => setImmediate(() => $log.info(this.stringify(request, info)(obj))),
-            debug: (obj: any) => setImmediate(() => $log.debug(this.stringify(request, verbose)(obj))),
+            info: (obj: any) => $log.info(this.stringify(request, info)(obj)),
+            debug: (obj: any) => $log.debug(this.stringify(request, verbose)(obj)),
             warn: (obj: any) => $log.warn(this.stringify(request, verbose)(obj)),
             error: (obj: any) => $log.error(this.stringify(request, verbose)(obj)),
             trace: (obj: any) => $log.trace(this.stringify(request, verbose)(obj))
@@ -102,10 +107,11 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     protected minimalRequestPicker(request: Express.Request): any {
         const info = this.requestToObject(request);
 
-        return this.logRequestFields.reduce((acc: any, key: string) => {
-            acc[key] = info[key];
-            return acc;
-        }, {});
+        return this.fields
+            .reduce((acc: any, key: string) => {
+                acc[key] = info[key];
+                return acc;
+            }, {});
     }
 
     /**
@@ -131,10 +137,15 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
 
             scope = Object.assign(scope, propertySelector(request));
 
-            if (this.env !== Env.PROD) {
-                return JSON.stringify(scope, null, 2);
+            try {
+                if (this.env !== Env.PROD) {
+                    return JSON.stringify(scope, null, 2);
+                }
+                return JSON.stringify(scope);
+            } catch (er) {
+                $log.error({error: er});
             }
-            return JSON.stringify(scope);
+            return "";
         };
     }
 
@@ -144,15 +155,22 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param response
      */
     protected onLogEnd(request: Express.Request, response: Express.Response) {
-        /* istanbul ignore else */
-        if (request.id) {
-            const status = (response as any)._header
-                ? response.statusCode
-                : undefined;
-            request.log.info({status});
-            request.log.debug({status, data: request.getStoredData && request.getStoredData()});
-            this.cleanRequest(request);
-        }
+        setImmediate(() => {
+            /* istanbul ignore else */
+            if (request.id) {
+                if (this.loggerSettings.logRequest) {
+                    request.log.info({status: response.statusCode});
+                }
+
+                if (globalServerSettings.debug) {
+                    request.log.debug({
+                        status: response.statusCode,
+                        data: request.getStoredData && request.getStoredData()
+                    });
+                }
+                this.cleanRequest(request);
+            }
+        });
     }
 
     /**
@@ -160,23 +178,20 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param request
      */
     protected cleanRequest(request: Express.Request) {
-        setImmediate(() => {
-            delete request.id;
-            delete request.tagId;
-            delete request.tsedReqStart;
-            request.log = {
-                info: () => {
-                },
-                debug: () => {
-                },
-                warn: () => {
-                },
-                error: () => {
-                },
-                trace: () => {
-                }
-            };
-        });
-
+        delete request.id;
+        delete request.tagId;
+        delete request.tsedReqStart;
+        request.log = {
+            info: () => {
+            },
+            debug: () => {
+            },
+            warn: () => {
+            },
+            error: () => {
+            },
+            trace: () => {
+            }
+        };
     }
 }

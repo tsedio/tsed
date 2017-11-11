@@ -56,8 +56,9 @@
     "reflect-metadata": "^0.1.8",
     "source-map-support": "^0.5.0",
     "ts-httpexceptions": "^2.2.1",
-    "ts-log-debug": "^3.0.0",
-    "tslib": "^1.7.1"
+    "ts-log-debug": "^3.0.1",
+    "tslib": "^1.7.1",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.1",
