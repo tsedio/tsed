@@ -5,7 +5,7 @@
 import * as Express from "express";
 import {Forbidden} from "ts-httpexceptions";
 import {IMiddleware} from "../";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
 import {EndpointInfo} from "../../filters/decorators/endpointInfo";

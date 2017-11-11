@@ -3,7 +3,7 @@ import {HttpServer} from "../../../../src/core/services/HttpServer";
 import {HttpsServer} from "../../../../src/core/services/HttpsServer";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
 import {ServerLoader} from "../../../../src/server/components/ServerLoader";
-import {SERVER_SETTINGS} from "../../../../src/server/constants/index";
+import {SERVER_SETTINGS} from "../../../../src/config/constants/index";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {

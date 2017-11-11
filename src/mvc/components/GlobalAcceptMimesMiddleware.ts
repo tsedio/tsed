@@ -3,7 +3,7 @@
  */
 /** */
 import {NotAcceptable} from "ts-httpexceptions";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Middleware} from "../decorators/class/middleware";
 import {Request} from "../../filters/decorators/request";
 import {IMiddleware} from "../interfaces/index";

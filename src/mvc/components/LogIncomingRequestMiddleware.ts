@@ -4,11 +4,11 @@
 /** */
 import * as Express from "express";
 import {$log} from "ts-log-debug";
-import {EnvTypes} from "../../core/interfaces";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+import {Env} from "../../core/interfaces";
 import {applyBefore} from "../../core/utils";
 import {Req} from "../../filters/decorators/request";
 import {Res} from "../../filters/decorators/response";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
 import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces";
 
@@ -26,7 +26,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     ];
 
     private AUTO_INCREMENT_ID = 1;
-    private env: EnvTypes;
+    private env: Env;
     private logRequestFields: string[];
 
     constructor(private serverSettingsService: ServerSettingsService) {
@@ -133,7 +133,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
 
             scope = Object.assign(scope, propertySelector(request));
 
-            if (this.env !== EnvTypes.PROD) {
+            if (this.env !== Env.PROD) {
                 return JSON.stringify(scope, null, 2);
             }
             return JSON.stringify(scope);

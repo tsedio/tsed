@@ -133,7 +133,7 @@ new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
-To customize the server settings see [Configuragtion](configuration.md) page.
+To customize the server settings see [Configuration](configuration.md) page.
 
 #### With the methods
 
@@ -274,3 +274,25 @@ export class CalendarCtrl {
 To test your method, just run your `server.ts` and send a http request on `/rest/calendars/1`.
 
 > **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
+
+*** 
+
+Now you can create your application. You can have a look at these topics:
+
+- [Configuration](configuration.md)
+- Features:
+  - [Controllers](docs/controllers.md)
+  - [Services](docs/services.md)
+  - [Middlewares](docs/middlewares.md)
+  - [Converters](docs/converters.md)
+  - [Filters](docs/filters.md)
+  - [Testing](docs/testing.md)
+- [Examples & Guides](guide.md):
+  - [Passport.js](tutorials/passport.md)
+  - [Socket.io](tutorials/socket-io.md)
+  - [Swagger](tutorials/swagger.md)
+  - [Upload files](tutorials/upload-files-with-multer.md)
+  - [Serve static files](tutorials/serve-static-files.md)
+  - [Templating](tutorials/templating.md)
+  - [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
+  - [AWS project](tutorials/aws.md)

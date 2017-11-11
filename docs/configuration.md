@@ -193,5 +193,45 @@ export class Server extends ServerLoader {
 }
 ```
 
+## Get configuration
 
+The configuration can be reused throughout your application in different ways. 
 
+- With dependency injection in [Service](docs/services.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
+- With the decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md).
+
+### From service (DI)
+
+```typescript
+import {ServerSettingsService} from "ts-express-decorators";
+@Service() // or Controller or Middleware
+export class MyService {
+    constructor(ServerSettingsService: ServerSettingsService) {
+        
+    }
+}
+```
+
+### From decorators
+
+Decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) can be used in all classes
+including: [Service](docs/services.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares.md), [Filter](docs/filters.md) and [Converter](docs/converters.md).
+
+[@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) accept an expression as parameters to 
+inspect the configuration object and return the value.
+
+```typescript
+import {Env} from "ts-express-decorators";
+
+export class MyClass {
+    
+    @Constant("env")
+    env: Env;
+    
+    @Value("swagger.path")
+    swaggerPath: string;
+    
+}
+```
+
+> Constant return an Object.freeze() value. 

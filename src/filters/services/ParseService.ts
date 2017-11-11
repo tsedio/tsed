@@ -1,16 +1,14 @@
-import {isEmpty} from "../../core/utils";
-/**
- * @module common/filters
- */
-/** */
+import {getValue, isEmpty} from "../../core/utils";
 import {Service} from "../../di/decorators/service";
+
 /**
  *
  */
 @Service()
 export class ParseService {
 
-    constructor() {}
+    constructor() {
+    }
 
     /**
      * Clone an object.
@@ -26,16 +24,11 @@ export class ParseService {
      * @returns {any}
      */
     eval(expression: string, scope: any, clone: boolean = true): any {
-
         if (isEmpty(expression)) {
             return typeof scope === "object" && clone ? ParseService.clone(scope) : scope;
         }
 
-        let keys: string[] = expression.split(".");
-
-        while ((scope = scope[keys.shift()!]) && keys.length) {
-        }
-
-        return typeof scope === "object" && clone ? ParseService.clone(scope) : scope;
+        const value = getValue(expression, scope);
+        return typeof value === "object" && clone ? ParseService.clone(value) : value;
     }
 }

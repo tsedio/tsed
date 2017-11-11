@@ -7,7 +7,7 @@ import {Inject} from "../../di";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
 import {IComponentScanned} from "../../server/interfaces";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {IControllerOptions} from "../interfaces";

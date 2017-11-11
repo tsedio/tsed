@@ -14,7 +14,7 @@ import {Service} from "../../di/decorators/service";
 import {ControllerProvider} from "../../mvc/class/ControllerProvider";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {ControllerService} from "../../mvc/services/ControllerService";
-import {ServerSettingsService} from "../../server/services/ServerSettingsService";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
 import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
 import {getReducers} from "../utils";

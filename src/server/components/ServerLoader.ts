@@ -7,6 +7,9 @@ import * as Http from "http";
 import * as Https from "https";
 import * as Path from "path";
 import {$log} from "ts-log-debug";
+import {ServerSettingsProvider} from "../../config";
+import {IServerSettings} from "../../config/interfaces/IServerSettings";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Deprecated, ExpressApplication} from "../../core";
 import {HttpServer} from "../../core/services/HttpServer";
 import {HttpsServer} from "../../core/services/HttpsServer";
@@ -15,9 +18,7 @@ import {InjectorService} from "../../di";
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
-import {ServerSettingsProvider} from "../class/ServerSettingsProvider";
-import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle, IServerSettings} from "../interfaces";
-import {ServerSettingsService} from "../services/ServerSettingsService";
+import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -71,7 +72,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     public version: string = require("../../../package.json").version;
     private _expressApp: Express.Application = Express();
     private _settings: ServerSettingsProvider;
-    private _settingsService: ServerSettingsService;
     private _components: IComponentScanned[] = [];
     private _httpServer: Http.Server;
     private _httpsServer: Https.Server;
@@ -82,13 +82,13 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     constructor() {
 
+        this._settings = InjectorService.get<ServerSettingsProvider>(ServerSettingsService);
+        this._settings.authentification = (<any>this).$onAuth || this._settings.authentification;
+
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
         InjectorService.factory(HttpServer, {get: () => this.httpServer});
         InjectorService.factory(HttpsServer, {get: () => this.httpsServer});
-
-        this._settings = new ServerSettingsProvider();
-        this._settings.authentification = (<any>this).$onAuth || this._settings.authentification;
 
         const settings = ServerSettingsProvider.getMetadata(this);
 
@@ -207,9 +207,8 @@ export abstract class ServerLoader implements IServerLifecycle {
     protected async loadSettingsAndInjector() {
 
         $log.debug("Initialize settings");
-        this._settingsService = this.getSettingsService();
 
-        this._settingsService
+        this.getSettingsService()
             .forEach((value, key) => {
                 $log.info(`settings.${key} =>`, value);
             });
@@ -234,8 +233,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      *
      */
     protected getSettingsService(): ServerSettingsService {
-        InjectorService.factory(ServerSettingsService, this.settings.$get());
-        return InjectorService.get<ServerSettingsService>(ServerSettingsService);
+        return this._settings.$get();
     }
 
     /**
@@ -284,7 +282,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param settings
      * @returns {Promise<TResult2|TResult1>}
      */
-    protected startServer(http: any, settings: { https: boolean, address: string | number, port: number }) {
+    protected startServer(http: any, settings: { https: boolean, address: string | number, port: number }) {
         const {address, port, https} = settings;
 
         $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
@@ -310,7 +308,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         /* istanbul ignore else */
         if (this.settings.httpPort) {
-            const settings = this._settingsService.getHttpPort();
+            const settings = this._settings.getHttpPort();
             promises.push(this.startServer(
                 this.httpServer,
                 {https: false, ...settings}
@@ -319,7 +317,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         /* istanbul ignore else */
         if (this.settings.httpsPort) {
-            const settings = this._settingsService.getHttpsPort();
+            const settings = this._settings.getHttpsPort();
             promises.push(this.startServer(
                 this.httpsServer,
                 {https: true, ...settings}

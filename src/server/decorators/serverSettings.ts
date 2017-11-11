@@ -5,8 +5,8 @@
 
 import {Metadata} from "../../core/class/Metadata";
 import {Type} from "../../core/interfaces/Type";
-import {SERVER_SETTINGS} from "../constants/index";
-import {IServerSettings} from "../interfaces/IServerSettings";
+import {SERVER_SETTINGS} from "../../config/constants/index";
+import {IServerSettings} from "../../config/interfaces/IServerSettings";
 
 /**
  * `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.

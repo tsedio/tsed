@@ -167,7 +167,13 @@ export const nameOfClass = (targetClass: any) => {
 export const nameOfSymbol = (sym: symbol): string =>
     sym.toString().replace("Symbol(", "").replace(")", "");
 
-
+/**
+ *
+ * @param out
+ * @param obj
+ * @param {{[p: string]: (collection: any[], value: any) => any}} reducers
+ * @returns {any}
+ */
 export function deepExtends(out: any, obj: any, reducers: { [key: string]: (collection: any[], value: any) => any } = {}): any {
 
     if (obj === undefined || obj === null) {
@@ -291,4 +297,28 @@ export function applyBefore(target: any, name: string, callback: Function) {
         callback(...args);
         return original.apply(this, args);
     };
+}
+
+/**
+ *
+ * @param {string} expression
+ * @param scope
+ * @param defaultValue
+ * @param separator
+ * @returns {any}
+ */
+export function getValue(expression: string, scope: any, defaultValue?: any, separator = ".") {
+    const keys: string[] = expression.split(separator);
+
+    const getValue = (key: string) => {
+        if (isCollection(scope)) {
+            return scope.get(key);
+        }
+        return scope[key];
+    };
+
+    while ((scope = getValue(keys.shift()!)) && keys.length) {
+    }
+
+    return scope === undefined ? defaultValue : scope;
 }
