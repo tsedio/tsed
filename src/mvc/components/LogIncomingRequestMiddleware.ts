@@ -67,10 +67,9 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
 
         const verbose = (req: Express.Request) => this.requestToObject(req);
         const info = (req: Express.Request) => this.minimalRequestPicker(req);
-
         request.log = {
-            info: (obj: any) => $log.info(this.stringify(request, info)(obj)),
-            debug: (obj: any) => $log.debug(this.stringify(request, verbose)(obj)),
+            info: (obj: any) => setImmediate(() => $log.info(this.stringify(request, info)(obj))),
+            debug: (obj: any) => setImmediate(() => $log.debug(this.stringify(request, verbose)(obj))),
             warn: (obj: any) => $log.warn(this.stringify(request, verbose)(obj)),
             error: (obj: any) => $log.error(this.stringify(request, verbose)(obj)),
             trace: (obj: any) => $log.trace(this.stringify(request, verbose)(obj))
@@ -101,7 +100,6 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @returns {Object}
      */
     protected minimalRequestPicker(request: Express.Request): any {
-
         const info = this.requestToObject(request);
 
         return this.logRequestFields.reduce((acc: any, key: string) => {
@@ -162,20 +160,23 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
      * @param request
      */
     protected cleanRequest(request: Express.Request) {
-        delete request.id;
-        delete request.tagId;
-        delete request.tsedReqStart;
-        request.log = {
-            info: () => {
-            },
-            debug: () => {
-            },
-            warn: () => {
-            },
-            error: () => {
-            },
-            trace: () => {
-            }
-        };
+        setImmediate(() => {
+            delete request.id;
+            delete request.tagId;
+            delete request.tsedReqStart;
+            request.log = {
+                info: () => {
+                },
+                debug: () => {
+                },
+                warn: () => {
+                },
+                error: () => {
+                },
+                trace: () => {
+                }
+            };
+        });
+
     }
 }

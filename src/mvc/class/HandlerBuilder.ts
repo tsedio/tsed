@@ -1,4 +1,3 @@
-import {$log} from "ts-log-debug";
 import {ConverterService} from "../../converters/services/ConverterService";
 import {CastError} from "../../core/errors/CastError";
 import {Type} from "../../core/interfaces";
@@ -131,9 +130,7 @@ export class HandlerBuilder {
         locals.next = this.buildNext(request, response, next);
 
         try {
-            if (request.tagId) {
-                $log.debug(request.tagId, "[INVOKE][START]", this.log(request));
-            }
+            this.log(request, {event: "invoke.start"});
 
             const parameters = this.localsToParams(locals);
             const result = await (this.handler)(...parameters);
@@ -160,18 +157,20 @@ export class HandlerBuilder {
      * @returns {string}
      */
     private log(request: Express.Request, o: any = {}) {
-        const target = this.handlerMetadata.target;
-        const injectable = this.handlerMetadata.injectable;
-        const methodName = this.handlerMetadata.methodClassName;
+        if (request.tagId) {
+            const target = this.handlerMetadata.target;
+            const injectable = this.handlerMetadata.injectable;
+            const methodName = this.handlerMetadata.methodClassName;
 
-        return JSON.stringify({
-            type: this.handlerMetadata.type,
-            target: (target ? nameOf(target) : target.name) || "anonymous",
-            methodName,
-            injectable,
-            data: request && request.getStoredData ? request.getStoredData() : undefined,
-            ...o
-        });
+            request.log.debug({
+                type: this.handlerMetadata.type,
+                target: (target ? nameOf(target) : target.name) || "anonymous",
+                methodName,
+                injectable,
+                data: request && request.getStoredData ? request.getStoredData() : undefined,
+                ...o
+            });
+        }
     }
 
     /**
@@ -190,7 +189,7 @@ export class HandlerBuilder {
                 }
 
                 /* istanbul ignore else */
-                $log.debug(request.tagId, "[INVOKE][END  ]", this.log(request, {error}));
+                this.log(request, {event: "invoke.end", error});
                 return next(error);
             } catch (er) {
                 er.originalError = error;
