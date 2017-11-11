@@ -176,20 +176,8 @@ describe("LogIncomingRequestMiddleware", () => {
 
         it("should return an object from the request (1)", () => {
             this.result.should.be.deep.eq({
-                "body": {
-                    "body": "body"
-                },
                 "duration": 2,
-                "headers": {
-                    "headers": "headers"
-                },
                 "method": "method",
-                "params": {
-                    "params": "params"
-                },
-                "query": {
-                    "query": "query"
-                },
                 "reqId": "id",
                 "url": "url"
             });
