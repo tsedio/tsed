@@ -1,14 +1,8 @@
-/**
- * @module common/mvc
- */
-/** */
-
-import {$log} from "ts-log-debug";
+import {globalServerSettings} from "../../config";
 import {nameOf} from "../../core/utils";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
-
 /**
  *
  */
@@ -24,25 +18,16 @@ export class EndpointBuilder {
         (request: any, response: any, next: any) => {
 
             /* istanbul ignore else */
-            if (request.id) {
-                $log.debug(request.tagId, "Endpoint =>", JSON.stringify({
+            if (request.id && globalServerSettings.debug) {
+                request.log.debug({
+                    event: "attach.endpoint",
                     target: nameOf(this.endpoint.target),
                     methodClass: this.endpoint.methodClassName,
                     httpMethod: this.endpoint.httpMethod
-                }));
+                });
             }
 
-            request.getEndpoint = () => this.endpoint;
-
-            request.storeData = function (data: any) {
-                this._responseData = data;
-                return this;
-            };
-
-            request.getStoredData = function () {
-                return this._responseData;
-            };
-
+            request.setEndpoint(this.endpoint);
             next();
         };
 

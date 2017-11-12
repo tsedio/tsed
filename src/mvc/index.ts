@@ -1,7 +1,10 @@
 /**
  * @module common/mvc
  * @preferred
- */ /** */
+ */
+/** */
+import "./utils/extendsRequest";
+
 export * from "./interfaces";
 
 // provide

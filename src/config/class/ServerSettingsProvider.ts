@@ -3,9 +3,10 @@ import {Env, Metadata} from "../../core";
 import {getValue} from "../../core/utils";
 import {SERVER_SETTINGS} from "../constants";
 import {IRouterOptions} from "../interfaces/IRouterOptions";
-import {IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
+import {ILoggerSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 
 const rootDir = process.cwd();
+let REQ_ID = 0;
 
 export class ServerSettingsProvider implements IServerSettings {
 
@@ -21,6 +22,9 @@ export class ServerSettingsProvider implements IServerSettings {
         this.version = "1.0.0";
         this.uploadDir = "${rootDir}/uploads";
         this.debug = false;
+        this.logger = {
+            logRequest: true
+        };
 
         /* istanbul ignore next */
         this.authentification = () => (true);
@@ -314,6 +318,19 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     set validationModelStrict(value: boolean) {
         this.map.set("validationModelStrict", value);
+    }
+
+    get logger(): Partial<ILoggerSettings> {
+        const debug = this.debug;
+        const requestFields = this.get("logRequestFields");
+        return Object.assign({
+            requestFields,
+            debug
+        }, this.map.get("logger"));
+    }
+
+    set logger(value: Partial<ILoggerSettings>) {
+        this.map.set("logger", value);
     }
 
     /**

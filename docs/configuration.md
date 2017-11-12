@@ -64,13 +64,14 @@ new Server.start();
   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
 * `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](tutorials/upload-files-with-multer.md).
-* `mount` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
+* `mount` &lt;[IServerMountDirectories](api/common/config/iservermountdirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
 * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/overview.md), [Middlewares](docs/middlewares/overview.md) or [Converters](docs/converters.md).
-* `serveStatic` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
+* `serveStatic` &lt;[IServerMountDirectories](api/common/config/iservermountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknow, it throw a BadRequest. By default true.
+* `logger`  &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Logger configuration.
 
 ### Logger
 #### Default logger
@@ -81,25 +82,19 @@ Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-
  - [Customize appender (chanel)](https://romakita.github.io/ts-log-debug/#/appenders/custom),
  - [Customize layout](https://romakita.github.io/ts-log-debug/#/layouts/custom)
 
+#### Configuration
 
-#### Shutdown logger
+Some options is provided:
 
-Shutdown return a Promise that will be resolved when ts-log-debug has closed all appenders and finished writing log events. 
-Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
+- `logger.debug` (or `debug`): Enable debug mode. By default debug is false.
+- `logger.logRequest`: Log all incoming request. By default is true and print the configured `logger.requestFields`.
+- `logger.requestFields`: Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
+- `logger.reqIdBuilder`: A function called for each incoming request to create a request id.
 
-```typescript
-import {$log} from "ts-log-debug";
+> It's recommended to disable logRequest in production. Logger have a cost on the performance.
 
-$log
-  .shutdown()
-  .then(() => {
-     console.log("Complete")
-  }); 
-```
+#### Request logger
 
-#### Request and response
-
-By default, the request and response will be logged by Ts.ED. 
 For each Express.Request, a logger will be attached and can be used like here:
 
 ```typescript
@@ -109,7 +104,9 @@ request.log.warn({customData: "test"})
 request.log.error({customData: "test"})
 request.log.trace({customData: "test"})
 ```
-A call with once of this method will generate this log:
+
+A call with once of this method will generate a log according to the `logger.requestFields` configuration:
+
 ```bash
 [2017-09-01 11:12:46.994] [INFO ] [TSED] - {
   "status": 200,
@@ -132,13 +129,13 @@ A call with once of this method will generate this log:
 }
 ```
 
-The log methods is added by the [LogIncomingRequestMiddleware](api/common/mvc/logincomingrequestmiddleware.md).
-
 You can configure this output from configuration:
 
 ```typescript
 @ServerSettings({
-   logRequestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
+   logger: {
+       requestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
+   }
 })
 export class Server extends ServerLoader {
 
@@ -174,6 +171,21 @@ export class CustomLogIncomingRequestMiddleware extends LogIncomingRequestMiddle
         }
     }
 }
+```
+
+#### Shutdown logger
+
+Shutdown return a Promise that will be resolved when ts-log-debug has closed all appenders and finished writing log events. 
+Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
+
+```typescript
+import {$log} from "ts-log-debug";
+
+$log
+  .shutdown()
+  .then(() => {
+     console.log("Complete")
+  }); 
 ```
 
 ### Disable strict model validation

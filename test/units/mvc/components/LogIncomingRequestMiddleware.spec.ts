@@ -27,9 +27,6 @@ describe("LogIncomingRequestMiddleware", () => {
             this.request2.id.should.be.eq("id");
         });
 
-        it("should have a tagId field", () => {
-            this.request.tagId.should.be.eq("[#1]");
-        });
         it("should have a tsedReqStart field", () => {
             this.request.tsedReqStart.should.be.a("date");
         });
@@ -165,7 +162,7 @@ describe("LogIncomingRequestMiddleware", () => {
 
             this.result = this.middleware.minimalRequestPicker(this.request);
 
-            this.middleware.logRequestFields = ["reqId"];
+            this.middleware.fields = ["reqId"];
 
             this.result2 = this.middleware.minimalRequestPicker(this.request2);
         }));
@@ -202,6 +199,27 @@ describe("LogIncomingRequestMiddleware", () => {
             it("should include string as msg property", () => {
                 this.result.should.be.a("string");
                 expect(JSON.parse(this.result)).to.have.property("message", "message");
+            });
+        });
+
+        describe("when json fail", () => {
+            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+                this.request = new FakeRequest();
+                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+                Sinon.stub(this.middleware, "getDuration").returns(2);
+                const none = (req: Express.Request) => {
+                };
+                this.jsonStub = Sinon.stub(JSON, "stringify");
+                this.jsonStub.throws(new Error("JSON"));
+                this.result = this.middleware.stringify(this.request, none)("message");
+            }));
+            after(() => {
+                this.jsonStub.restore();
+            });
+
+            it("should include string as msg property", () => {
+                this.result.should.be.a("string");
+                expect(this.result).to.eq("");
             });
         });
 
@@ -322,7 +340,6 @@ describe("LogIncomingRequestMiddleware", () => {
         }));
 
         it("should have been decorated request", () => {
-            expect(this.request.tagId).to.eq("[#1]");
             expect(this.request.tsedReqStart).to.be.a("date");
             expect(this.request.log).to.be.a("object");
             expect(this.request.log.info).to.be.a("function");
@@ -355,9 +372,9 @@ describe("LogIncomingRequestMiddleware", () => {
             this.middleware.onLogEnd(this.request, this.response);
         }));
 
-        it("should have been called the logger with the right parameters", () => {
+        /*it("should have been called the logger with the right parameters", () => {
             this.request.log.debug.should.be.calledWithExactly({status: undefined, data: "test"});
-        });
+        });*/
 
         it("should clean the request object", () => {
             this.middleware.cleanRequest.should.be.calledWithExactly(this.request);

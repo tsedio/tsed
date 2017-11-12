@@ -17,8 +17,9 @@ import {InjectorService} from "../../di";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
-import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
+import {MiddlewareRegistry} from "../../mvc/registries/MiddlewareRegistry";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -161,11 +162,9 @@ export abstract class ServerLoader implements IServerLifecycle {
     public use(...args: any[]): ServerLoader {
 
         args = args.map((arg) => {
-
-            if (typeof arg === "function") {
+            if (MiddlewareRegistry.has(arg)) {
                 arg = HandlerBuilder.from(arg).build();
             }
-
             return arg;
         });
 

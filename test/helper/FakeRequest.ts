@@ -5,6 +5,7 @@ export class FakeRequest {
     id: number;
     tagId: string;
     _responseData: any;
+    _endpoint: any;
     public accepts = (mime: string) => this.mime === mime;
 
     public log: Express.RequestLogger = {
@@ -86,12 +87,16 @@ export class FakeRequest {
     }
 
     public getEndpoint() {
-        return {
+        return this._endpoint || {
             store: {
                 get: () => {
                 }
             }
         };
+    }
+
+    public setEndpoint(endpoint: any) {
+        this._endpoint = endpoint;
     }
 
     public end() {

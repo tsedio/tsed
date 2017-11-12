@@ -1,4 +1,4 @@
-import {$log} from "ts-log-debug";
+import {globalServerSettings} from "../../config";
 import {ConverterService} from "../../converters/services/ConverterService";
 import {CastError} from "../../core/errors/CastError";
 import {Type} from "../../core/interfaces";
@@ -44,7 +44,6 @@ export class HandlerBuilder {
      * @returns {any}
      */
     public build() {
-
         if (this.handlerMetadata.errorParam) {
             return (err: any, request: any, response: any, next: any) => {
                 return this.invoke({err, request, response, next});
@@ -131,9 +130,7 @@ export class HandlerBuilder {
         locals.next = this.buildNext(request, response, next);
 
         try {
-            if (request.tagId) {
-                $log.debug(request.tagId, "[INVOKE][START]", this.log(request));
-            }
+            this.log(request, {event: "invoke.start"});
 
             const parameters = this.localsToParams(locals);
             const result = await (this.handler)(...parameters);
@@ -160,18 +157,20 @@ export class HandlerBuilder {
      * @returns {string}
      */
     private log(request: Express.Request, o: any = {}) {
-        const target = this.handlerMetadata.target;
-        const injectable = this.handlerMetadata.injectable;
-        const methodName = this.handlerMetadata.methodClassName;
+        if (request.id && globalServerSettings.debug) {
+            const target = this.handlerMetadata.target;
+            const injectable = this.handlerMetadata.injectable;
+            const methodName = this.handlerMetadata.methodClassName;
 
-        return JSON.stringify({
-            type: this.handlerMetadata.type,
-            target: (target ? nameOf(target) : target.name) || "anonymous",
-            methodName,
-            injectable,
-            data: request && request.getStoredData ? request.getStoredData() : undefined,
-            ...o
-        });
+            request.log.debug({
+                type: this.handlerMetadata.type,
+                target: (target ? nameOf(target) : target.name) || "anonymous",
+                methodName,
+                injectable,
+                data: request && request.getStoredData ? request.getStoredData() : undefined,
+                ...o
+            });
+        }
     }
 
     /**
@@ -183,19 +182,14 @@ export class HandlerBuilder {
      */
     private buildNext(request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
         return (error?: any) => {
-            try {
-                next.isCalled = true;
-                if (response.headersSent) {
-                    return;
-                }
-
-                /* istanbul ignore else */
-                $log.debug(request.tagId, "[INVOKE][END  ]", this.log(request, {error}));
-                return next(error);
-            } catch (er) {
-                er.originalError = error;
-                return next(er);
+            next.isCalled = true;
+            if (response.headersSent) {
+                return;
             }
+
+            /* istanbul ignore else */
+            this.log(request, {event: "invoke.end", error});
+            return next(error);
         };
     }
 
@@ -228,17 +222,9 @@ export class HandlerBuilder {
      * @returns {[(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any)]}
      */
     private getInjectableParameters(localScope: IHandlerScope = {} as IHandlerScope): any[] {
-
-        const converterService = InjectorService.get<ConverterService>(ConverterService);
-        const filterService = InjectorService.get<FilterService>(FilterService);
-        const validationService = InjectorService.get<ValidationService>(ValidationService);
-
         return this.handlerMetadata
             .services
             .map((param: ParamMetadata) => {
-
-                let paramValue;
-
                 if (param.name in localScope) {
                     return localScope[param.name];
                 }
@@ -251,41 +237,55 @@ export class HandlerBuilder {
                     return localScope["request"].getStoredData();
                 }
 
-                if (filterService.has(param.service as Type<any>)) {
-                    paramValue = filterService.invokeMethod(
-                        param.service as Type<any>,
-                        param.expression,
-                        localScope.request,
-                        localScope.response
-                    );
-                }
-
-                if (!param.isValidRequiredValue(paramValue)) {
-                    throw new RequiredParamError(param.name, param.expression);
-                }
-
-                try {
-
-                    if (param.useConverter) {
-                        const type = param.type || param.collectionType;
-                        paramValue = converterService.deserialize(paramValue, type, param.collectionType);
-
-                        if (type) {
-                            validationService.validate(paramValue, type, param.collectionType);
-                        }
-                    }
-
-                } catch (err) {
-                    /* istanbul ignore next */
-                    if (err.name === "BAD_REQUEST") {
-                        throw new ParseExpressionError(param.name, param.expression, err.message);
-                    } else {
-                        /* istanbul ignore next */
-                        throw new CastError(err);
-                    }
-                }
-
-                return paramValue;
+                return this.getParamValue(param, localScope);
             });
+    }
+
+    /**
+     *
+     * @param {ParamMetadata} param
+     * @param {IHandlerScope} localScope
+     * @returns {any}
+     */
+    private getParamValue(param: ParamMetadata, localScope: IHandlerScope = {} as IHandlerScope) {
+        let paramValue;
+        const filterService = InjectorService.get<FilterService>(FilterService);
+
+        if (filterService.has(param.service as Type<any>)) {
+            paramValue = filterService.invokeMethod(
+                param.service as Type<any>,
+                param.expression,
+                localScope.request,
+                localScope.response
+            );
+        }
+
+        if (!param.isValidRequiredValue(paramValue)) {
+            throw new RequiredParamError(param.name, param.expression);
+        }
+
+        try {
+            if (param.useConverter) {
+                const converterService = InjectorService.get<ConverterService>(ConverterService);
+                const type = param.type || param.collectionType;
+                paramValue = converterService.deserialize(paramValue, type, param.collectionType);
+
+                if (type) {
+                    const validationService = InjectorService.get<ValidationService>(ValidationService);
+                    validationService.validate(paramValue, type, param.collectionType);
+                }
+            }
+
+        } catch (err) {
+            /* istanbul ignore next */
+            if (err.name === "BAD_REQUEST") {
+                throw new ParseExpressionError(param.name, param.expression, err.message);
+            } else {
+                /* istanbul ignore next */
+                throw new CastError(err);
+            }
+        }
+
+        return paramValue;
     }
 }
