@@ -1,8 +1,6 @@
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
 import {BadRequest} from "ts-httpexceptions";
-
-import "../../../src/ajv";
 import {OverrideService} from "../../di/decorators/overrideService";
 import {JsonSchemesService} from "../../jsonschema/services/JsonSchemesService";
 import {ValidationService} from "../../mvc/services/ValidationService";
