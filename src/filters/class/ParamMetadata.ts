@@ -16,6 +16,12 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      */
     @NotEnumerable()
     protected _useConverter: boolean = true;
+    /**
+     *
+     * @type {boolean}
+     */
+    @NotEnumerable()
+    private _useValidation: boolean = false;
 
     /**
      *
@@ -83,6 +89,22 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      */
     get useConverter(): boolean {
         return this._useConverter;
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    get useValidation(): boolean {
+        return this._useValidation;
+    }
+
+    /**
+     *
+     * @param {boolean} value
+     */
+    set useValidation(value: boolean) {
+        this._useValidation = value;
     }
 
     /**

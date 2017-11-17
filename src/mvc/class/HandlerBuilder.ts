@@ -1,27 +1,26 @@
+import * as Express from "express";
 import {globalServerSettings} from "../../config";
-import {ConverterService} from "../../converters/services/ConverterService";
 import {CastError} from "../../core/errors/CastError";
-import {Type} from "../../core/interfaces";
 import {nameOf} from "../../core/utils";
 import {InjectorService} from "../../di/services/InjectorService";
+import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
-import {ENDPOINT_INFO, RESPONSE_DATA} from "../../filters/constants";
-import {FilterService} from "../../filters/services/FilterService";
+import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
-import {RequiredParamError} from "../errors/RequiredParamError";
-import {IHandlerScope} from "../interfaces/IHandlerScope";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 import {RouterController} from "../services/RouterController";
-import {ValidationService} from "../services/ValidationService";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
-
 
 /**
  * @stable
  */
 export class HandlerBuilder {
+
+    private filters: any[];
+    private _handler: Function;
+    private _rebuildHandler: boolean = false;
 
     constructor(private handlerMetadata: HandlerMetadata) {
     }
@@ -44,15 +43,19 @@ export class HandlerBuilder {
      * @returns {any}
      */
     public build() {
-        if (this.handlerMetadata.errorParam) {
-            return (err: any, request: any, response: any, next: any) => {
-                return this.invoke({err, request, response, next});
-            };
 
+        this.filters = this.handlerMetadata
+            .services
+            .map((param: ParamMetadata) =>
+                new FilterBuilder().build(param)
+            );
+
+        if (this.handlerMetadata.errorParam) {
+            return (err: any, request: any, response: any, next: any) =>
+                this.invoke(request, response, next, err);
         } else {
-            return (request: any, response: any, next: any) => {
-                return this.invoke({request, response, next});
-            };
+            return (request: any, response: any, next: any) =>
+                this.invoke(request, response, next);
         }
     }
 
@@ -65,7 +68,7 @@ export class HandlerBuilder {
 
         /* istanbul ignore next */
         if (!provider) {
-            throw new Error("Middleware component not found in the MiddlewareRegistry");
+            throw new Error(`${nameOf(this.handlerMetadata.target)} middleware component not found in the MiddlewareRegistry`);
         }
 
         return provider.instance.use.bind(provider.instance);
@@ -79,16 +82,15 @@ export class HandlerBuilder {
     private endpointHandler<T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
 
         const provider = ControllerRegistry.get(this.handlerMetadata.target);
-
         /* istanbul ignore next */
         if (!provider) {
             throw new Error("Controller component not found in the ControllerRegistry");
         }
 
         const target = provider.useClass;
+        this._rebuildHandler = !!provider.scope;
 
         if (provider.scope || provider.instance === undefined) {
-
             if (!locals.has(RouterController)) {
                 locals.set(RouterController, new RouterController(provider.router));
             }
@@ -101,52 +103,56 @@ export class HandlerBuilder {
 
     /**
      *
-     * @returns {any}
      */
-    private get handler(): Function {
+    private getHandler(): Function {
+        if (!this._rebuildHandler && this._handler) {
+            return this._handler;
+        }
+
         switch (this.handlerMetadata.type) {
             default:
             case "function":
-                return this.handlerMetadata.target;
-
+                this._handler = this.handlerMetadata.target;
+                break;
             case "middleware":
-                return this.middlewareHandler();
+                this._handler = this.middlewareHandler();
+                break;
 
             case "controller":
-                return this.endpointHandler();
+                this._handler = this.endpointHandler();
+                break;
         }
+
+        return this._handler;
     }
 
     /**
      *
-     * @param locals
      * @returns {Promise<TResult2|TResult1>}
+     * @param request
+     * @param response
+     * @param next
+     * @param err
      */
-    public async invoke(locals: IHandlerScope): Promise<any> {
-
-        const {next, request, response} = locals;
-        next.isCalled = false;
-
-        locals.next = this.buildNext(request, response, next);
+    private async invoke(request: Express.Request, response: Express.Response, next: any, err?: any): Promise<any> {
+        next = this.buildNext(request, response, next);
 
         try {
             this.log(request, {event: "invoke.start"});
-
-            const parameters = this.localsToParams(locals);
-            const result = await (this.handler)(...parameters);
+            const args = this.runFilters(request, response, next, err);
+            const result = await this.getHandler()(...args);
 
             if (!next.isCalled) {
-
                 if (this.handlerMetadata.type !== "function" && result !== undefined) {
-                    locals.request.storeData(result);
+                    request.storeData(result);
                 }
 
                 if (!this.handlerMetadata.nextFunction) {
-                    locals.next();
+                    next();
                 }
             }
         } catch (err) {
-            locals.next(err);
+            next(err);
         }
     }
 
@@ -173,6 +179,7 @@ export class HandlerBuilder {
         }
     }
 
+
     /**
      *
      * @param {Express.Request} request
@@ -180,7 +187,8 @@ export class HandlerBuilder {
      * @param {Express.NextFunction} next
      * @returns {any}
      */
-    private buildNext(request: Express.Request, response: Express.Response, next: Express.NextFunction): any {
+    private buildNext(request: Express.Request, response: Express.Response, next: any): any {
+        next.isCalled = false;
         return (error?: any) => {
             next.isCalled = true;
             if (response.headersSent) {
@@ -195,97 +203,32 @@ export class HandlerBuilder {
 
     /**
      *
-     * @param locals
+     * @param request
+     * @param response
+     * @param next
+     * @param err
      */
-    private localsToParams(locals: IHandlerScope): any[] {
+    private runFilters(request: Express.Request, response: Express.Response, next: Express.NextFunction, err: any) {
+        return this.filters
+            .map((filter: IFilterPreHandler) => {
+                try {
+                    return filter({
+                        request,
+                        response,
+                        next,
+                        err
+                    });
+                } catch (err) {
+                    const param: ParamMetadata = filter.param!;
 
-        if (this.handlerMetadata.injectable) {
-            return this.getInjectableParameters(locals);
-        }
-
-        let parameters: any[] = [locals.request, locals.response];
-
-        if (this.handlerMetadata.errorParam) {
-            parameters.unshift(locals.err);
-        }
-
-        if (this.handlerMetadata.nextFunction) {
-            parameters.push(locals.next);
-        }
-
-        return parameters;
-    }
-
-    /**
-     *
-     * @param localScope
-     * @returns {[(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any),(any|EndpointMetadata|any|any)]}
-     */
-    private getInjectableParameters(localScope: IHandlerScope = {} as IHandlerScope): any[] {
-        return this.handlerMetadata
-            .services
-            .map((param: ParamMetadata) => {
-                if (param.name in localScope) {
-                    return localScope[param.name];
+                    if (param && err.name === "BAD_REQUEST") {
+                        throw new ParseExpressionError(param.name, param.expression, err.message);
+                    } else {
+                        throw new CastError(err);
+                    }
                 }
-
-                if (param.service === ENDPOINT_INFO) {
-                    return localScope["request"].getEndpoint();
-                }
-
-                if (param.service === RESPONSE_DATA) {
-                    return localScope["request"].getStoredData();
-                }
-
-                return this.getParamValue(param, localScope);
             });
     }
-
-    /**
-     *
-     * @param {ParamMetadata} param
-     * @param {IHandlerScope} localScope
-     * @returns {any}
-     */
-    private getParamValue(param: ParamMetadata, localScope: IHandlerScope = {} as IHandlerScope) {
-        let paramValue;
-        const filterService = InjectorService.get<FilterService>(FilterService);
-
-        if (filterService.has(param.service as Type<any>)) {
-            paramValue = filterService.invokeMethod(
-                param.service as Type<any>,
-                param.expression,
-                localScope.request,
-                localScope.response
-            );
-        }
-
-        if (!param.isValidRequiredValue(paramValue)) {
-            throw new RequiredParamError(param.name, param.expression);
-        }
-
-        try {
-            if (param.useConverter) {
-                const converterService = InjectorService.get<ConverterService>(ConverterService);
-                const type = param.type || param.collectionType;
-                paramValue = converterService.deserialize(paramValue, type, param.collectionType);
-
-                if (type) {
-                    const validationService = InjectorService.get<ValidationService>(ValidationService);
-                    validationService.validate(paramValue, type, param.collectionType);
-                }
-            }
-
-        } catch (err) {
-            /* istanbul ignore next */
-            if (err.name === "BAD_REQUEST") {
-                throw new ParseExpressionError(param.name, param.expression, err.message);
-            } else {
-                /* istanbul ignore next */
-                throw new CastError(err);
-            }
-        }
-
-        return paramValue;
-    }
 }
+
+

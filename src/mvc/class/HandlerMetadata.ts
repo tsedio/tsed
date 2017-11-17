@@ -4,11 +4,12 @@
 /** */
 
 import {NotEnumerable} from "../../core/decorators";
+import {ParamMetadata} from "../../filters/class/ParamMetadata";
+import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE} from "../../filters/constants";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {MiddlewareType} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
-import {ParamRegistry} from "../../filters/registries/ParamRegistry";
-import {ParamMetadata} from "../../filters/class/ParamMetadata";
 
 
 export class HandlerMetadata {
@@ -97,6 +98,21 @@ export class HandlerMetadata {
     }
 
     get services(): ParamMetadata[] {
-        return ParamRegistry.getParams(this.target, this.methodClassName);
+
+        if (this.injectable) {
+            return ParamRegistry.getParams(this.target, this.methodClassName);
+        }
+
+        let parameters: any[] = [{service: EXPRESS_REQUEST}, {service: EXPRESS_RESPONSE}];
+
+        if (this.errorParam) {
+            parameters.unshift({service: EXPRESS_ERR});
+        }
+
+        if (this.nextFunction) {
+            parameters.push({service: EXPRESS_NEXT_FN});
+        }
+
+        return parameters;
     }
 }

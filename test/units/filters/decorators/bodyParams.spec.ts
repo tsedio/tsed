@@ -23,7 +23,9 @@ describe("BodyParams", () => {
             .and
             .calledWithExactly(BodyParamsFilter, {
                 expression: "test",
-                useType: Test
+                useType: Test,
+                useConverter: true,
+                useValidation: true
             })
     );
 });

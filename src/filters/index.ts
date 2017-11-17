@@ -27,3 +27,4 @@ export * from "./registries/ParamRegistry";
 
 export * from "./services/FilterService";
 export * from "./services/ParseService";
+export * from "./services/ValidationService";

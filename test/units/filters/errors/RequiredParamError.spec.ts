@@ -1,5 +1,5 @@
 import {assert, expect} from "chai";
-import {RequiredParamError} from "../../../../src/mvc/errors/RequiredParamError";
+import {RequiredParamError} from "../../../../src/filters/errors/RequiredParamError";
 
 describe("RequiredParamError", () => {
 

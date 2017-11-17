@@ -3,7 +3,7 @@ import {ErrorObject} from "ajv";
 import {BadRequest} from "ts-httpexceptions";
 import {OverrideService} from "../../di/decorators/overrideService";
 import {JsonSchemesService} from "../../jsonschema/services/JsonSchemesService";
-import {ValidationService} from "../../mvc/services/ValidationService";
+import {ValidationService} from "../../filters/services/ValidationService";
 
 @OverrideService(ValidationService)
 export class AjvService extends ValidationService {
