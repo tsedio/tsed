@@ -5,7 +5,7 @@
 import {Metadata} from "../../core/class/Metadata";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces/Type";
-import {getInheritedClass} from "../../core/utils";
+import {descriptorOf, getInheritedClass} from "../../core/utils";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 
 /**
@@ -120,28 +120,6 @@ export class EndpointRegistry {
      * @returns {any}
      */
     static store(targetClass: any, methodClassName: string): Store {
-        return Store.from(targetClass, methodClassName, Object.getOwnPropertyDescriptor(targetClass, methodClassName));
-    }
-
-    /**
-     * Store value for an endpoint method.
-     * @param key
-     * @param value
-     * @param targetClass
-     * @param methodClassName
-     */
-    static setMetadata(key: any, value: any, targetClass: any, methodClassName: string) {
-        EndpointRegistry.store(targetClass, methodClassName).set(key, value);
-        return EndpointRegistry;
-    }
-
-    /**
-     * Return the stored value for an endpoint method.
-     * @param key
-     * @param targetClass
-     * @param methodClassName
-     */
-    static getMetadata(key: any, targetClass: any, methodClassName: string) {
-        return EndpointRegistry.store(targetClass, methodClassName).get(key);
+        return Store.from(targetClass, methodClassName, descriptorOf(targetClass, methodClassName));
     }
 }

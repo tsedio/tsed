@@ -6,7 +6,7 @@
 import {Metadata} from "../../core/class/Metadata";
 import {Storable} from "../../core/class/Storable";
 import {Store} from "../../core/class/Store";
-import {Deprecated, NotEnumerable} from "../../core/decorators";
+import {NotEnumerable} from "../../core/decorators";
 import {Type} from "../../core/interfaces";
 import {deepExtends, isArrayOrArrayClass, isPromise} from "../../core/utils";
 import {ENDPOINT_METHODS} from "../constants";
@@ -308,14 +308,5 @@ export class EndpointMetadata extends Storable {
         metadata.path = this.path;
         metadata.type = this._type;
         return metadata;
-    }
-
-    /**
-     * Get value for an endpoint method.
-     * @param key
-     */
-    @Deprecated("Use endpointMetadata.get(key) instead of")
-    public getMetadata(key: any): any {
-        return this.get(key);
     }
 }
