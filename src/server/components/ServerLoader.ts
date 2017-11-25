@@ -13,13 +13,14 @@ import {ServerSettingsService} from "../../config/services/ServerSettingsService
 import {Deprecated, ExpressApplication} from "../../core";
 import {HttpServer} from "../../core/services/HttpServer";
 import {HttpsServer} from "../../core/services/HttpsServer";
+import {isArray, isClass, isString} from "../../core/utils";
 import {InjectorService} from "../../di";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
+import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 import {MiddlewareRegistry} from "../../mvc/registries/MiddlewareRegistry";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
-import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -77,6 +78,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     private _httpServer: Http.Server;
     private _httpsServer: Https.Server;
     private _injectorService: InjectorService;
+    private _scannedPromises: Promise<any>[] = [];
 
     /**
      *
@@ -248,14 +250,13 @@ export abstract class ServerLoader implements IServerLifecycle {
     public async start(): Promise<any> {
         const start = new Date();
         try {
-
             const debug = this.settings.get("debug");
 
             /* istanbul ignore next */
             if (debug && this.settings.env !== "test") {
                 $log.level = "debug";
             }
-
+            await Promise.all(this._scannedPromises);
             await this.callHook("$onInit");
             await this.loadSettingsAndInjector();
             await this.loadMiddlewares();
@@ -405,28 +406,57 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param endpoint
      * @returns {ServerLoader}
      */
-    public scan(path: string, endpoint: string = this._settings.endpoint): ServerLoader {
+    public scan(path: string, endpoint: string = this._settings.endpoint) {
 
         path = Path.resolve(path);
 
-        let files: string[] = require("glob").sync(path);
-        let nbFiles = 0;
+        const files: string[] = require("glob").sync(path);
 
         $log.info(`Scan files : ${path}`);
 
-        this._components = (this._components || [])
-            .concat(files
-                .map((file: string) => {
-                    nbFiles++;
-                    $log.debug(`Import file ${endpoint}:`, file);
-                    const classes: any[] = require(file);
-                    return {file, endpoint, classes};
-                }))
-            .filter(o => !!o);
+        const promises = files
+            .map(async (file: string) => {
+                $log.debug(`Import file ${endpoint}:`, file);
+                const classes: any[] = await import(ServerLoader.file(file));
+                this.addComponents(classes, {endpoint});
+            });
+
+        this._scannedPromises = this._scannedPromises.concat(promises);
 
         return this;
     }
 
+    /**
+     *
+     * @param {string} file
+     * @returns {any}
+     */
+    static file(file: string): string {
+        if (!require.extensions[".ts"]) {
+            file = file.replace(".ts", ".js");
+        }
+        return file;
+    }
+
+    /**
+     * Add classes to the components list
+     * @param classes
+     * @param options
+     */
+    protected addComponents(classes: any, options: { [key: string]: any } = {}): void {
+        classes = Object
+            .keys(classes)
+            .map((key) => classes[key])
+            .filter((clazz) => isClass(clazz));
+
+        const components: any = Object.assign(options, {
+            classes
+        });
+
+        this._components = (this._components || [])
+            .concat([components])
+            .filter(o => !!o);
+    }
 
     /**
      * ServerLoader.onError() is deprecated. Use your own middleware instead of.
@@ -445,11 +475,17 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param path
      * @returns {ServerLoader}
      */
-    public mount(endpoint: string, path: string | string[]): ServerLoader {
+    public mount(endpoint: string, path: any | string | (any | string)[]): ServerLoader {
 
-        [].concat(path as any).forEach((path: string) => {
+        if (isArray(path)) {
+            path.forEach((path: string) => {
+                this.mount(endpoint, path);
+            });
+        } else if (isString(path)) {
             this.scan(path, endpoint);
-        });
+        } else if (isClass(path)) {
+            this.addComponents([path], {endpoint});
+        }
 
         return this;
     }
@@ -525,7 +561,6 @@ export abstract class ServerLoader implements IServerLifecycle {
             }
         };
 
-
         settingsService
             .forEach((value, key, map) => {
 
@@ -534,8 +569,6 @@ export abstract class ServerLoader implements IServerLifecycle {
                     bind(key, value, map);
                 }
             });
-
-
     }
 
     /**

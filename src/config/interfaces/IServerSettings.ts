@@ -7,7 +7,7 @@ import * as Https from "https";
 import {Env} from "../../core/interfaces";
 
 export interface IServerMountDirectories {
-    [endpoint: string]: string | string[];
+    [endpoint: string]: any | string | (any | string)[];
 }
 
 export interface ILoggerSettings {

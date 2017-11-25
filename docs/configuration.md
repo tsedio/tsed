@@ -12,7 +12,7 @@ The default configuration is as follow:
   "httpsPort": 8000,
   "uploadDir": "${rootDir}/uploads",
   "mount": {
-    "/rest": "${rootDir}/controllers/**/*.js"
+    "/rest": "${rootDir}/controllers/**/*.ts" // support ts with ts-node then fallback to js
   },
   "componentsScan": [
     "${rootDir}/middlewares/**/*.js",
@@ -28,6 +28,7 @@ The default configuration is as follow:
 ```
 
 You can customize your configuration as follow:
+
 ```typescript
 // server.ts
 import {ServerLoader, ServerSettings} from "ts-express-decorators";
@@ -39,7 +40,8 @@ import Path = require("path");
      "/rest": "${rootDir}/controllers/current/**/*.js",
      "/rest/v1": [
         "${rootDir}/controllers/v1/users/*.js", 
-        "${rootDir}/controllers/v1/groups/*.js"
+        "${rootDir}/controllers/v1/groups/*.ts", // support ts entry
+        MyController // support manual import
      ]
    }
 })
@@ -51,6 +53,9 @@ export class Server extends ServerLoader {
 import * as Server from "./server";
 new Server.start();
 ```
+> Ts.ED support [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
+ts-node isn't the runtime.
+
 ## Options
 
 * `rootDir` &lt;string&gt;: The root directory where you build run project. By default, it's equal to `process.cwd().

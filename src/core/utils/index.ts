@@ -38,32 +38,63 @@ export function getClassOrSymbol(target: any): any {
  * @returns {boolean}
  */
 export function isPrimitiveOrPrimitiveClass(target: any): boolean {
-
-    const isPrimitive = ["string", "boolean", "number"].indexOf(typeof target);
-
-    if (isPrimitive > -1) {
-        return true;
-    }
-
-    return target instanceof String
-        || target === String
-        || target instanceof Number
-        || target === Number
-        || target instanceof Boolean
-        || target === Boolean;
+    return isString(target)
+        || isNumber(target)
+        || isBoolean(target);
 }
 
+/**
+ *
+ * @param target
+ * @returns {"string" | "number" | "boolean" | "any"}
+ */
 export function primitiveOf(target: any): "string" | "number" | "boolean" | "any" {
-    if (target instanceof String || target === String) {
+    if (isString(target)) {
         return "string";
     }
-    if (target instanceof Number || target === Number) {
+    if (isNumber(target)) {
         return "number";
     }
-    if (target instanceof Boolean || target === Boolean) {
+    if (isBoolean(target)) {
         return "boolean";
     }
     return "any";
+}
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+export function isString(target: any): boolean {
+    return typeof target === "string" || target instanceof String || target === String;
+}
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+export function isNumber(target: any): boolean {
+    return typeof target === "number" || target instanceof Number || target === Number;
+}
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+export function isBoolean(target: any): boolean {
+    return typeof target === "boolean" || target instanceof Boolean || target === Boolean;
+}
+
+/**
+ *
+ * @param target
+ * @returns {Boolean}
+ */
+export function isArray(target: any): boolean {
+    return Array.isArray(target);
 }
 
 /**
@@ -75,7 +106,7 @@ export function isArrayOrArrayClass(target: any): boolean {
     if (target === Array) {
         return true;
     }
-    return Object.prototype.toString.call(target) === "[object Array]";
+    return isArray(target);
 }
 
 /**
@@ -139,7 +170,6 @@ export function isEmpty(value: any): boolean {
  * Get object name
  */
 export const nameOf = (obj: any): string => {
-
     switch (typeof obj) {
         default:
             return "" + obj;
@@ -148,7 +178,6 @@ export const nameOf = (obj: any): string => {
         case "function":
             return nameOfClass(obj);
     }
-
 };
 
 /**
@@ -245,14 +274,29 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
     return out;
 }
 
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
 export function isPromise(target: any): boolean {
     return target === Promise || target instanceof Promise;
 }
 
+/**
+ *
+ * @param target
+ * @returns {any}
+ */
 export function getInheritedClass(target: any): any {
     return Object.getPrototypeOf(target);
 }
 
+/**
+ *
+ * @param {any[]} args
+ * @returns {"parameter" | "property" | "method" | "class"}
+ */
 export function getDecoratorType(args: any[]): "parameter" | "property" | "method" | "class" {
     const [, propertyKey, descriptor] = args;
 
@@ -266,18 +310,35 @@ export function getDecoratorType(args: any[]): "parameter" | "property" | "metho
     return (descriptor && descriptor.value) ? "method" : "class";
 }
 
+/**
+ *
+ * @param target
+ * @param {string} propertyKey
+ * @returns {PropertyDescriptor}
+ */
 export function descriptorOf(target: any, propertyKey: string): PropertyDescriptor {
-    return Object.getOwnPropertyDescriptor(target && target.prototype || target, propertyKey);
+    return Object.getOwnPropertyDescriptor(target && target.prototype || target, propertyKey)!;
 }
 
+/**
+ *
+ * @param target
+ * @param {string} propertyKey
+ * @returns {DecoratorParameters}
+ */
 export function decoratorArgs(target: any, propertyKey: string): DecoratorParameters {
     return [
         target,
         propertyKey,
-        descriptorOf(target, propertyKey)
+        descriptorOf(target, propertyKey)!
     ];
 }
 
+/**
+ *
+ * @param target
+ * @returns {Array}
+ */
 export function ancestorsOf(target: any) {
     const classes = [];
 
@@ -291,6 +352,12 @@ export function ancestorsOf(target: any) {
     return classes;
 }
 
+/**
+ *
+ * @param target
+ * @param {string} name
+ * @param {Function} callback
+ */
 export function applyBefore(target: any, name: string, callback: Function) {
     const original = target[name];
     target[name] = function (...args: any[]) {

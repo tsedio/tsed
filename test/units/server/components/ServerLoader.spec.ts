@@ -1,9 +1,9 @@
+import {SERVER_SETTINGS} from "../../../../src/config/constants/index";
 import {Metadata} from "../../../../src/core/class/Metadata";
 import {HttpServer} from "../../../../src/core/services/HttpServer";
 import {HttpsServer} from "../../../../src/core/services/HttpsServer";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
 import {ServerLoader} from "../../../../src/server/components/ServerLoader";
-import {SERVER_SETTINGS} from "../../../../src/config/constants/index";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {
@@ -130,19 +130,12 @@ describe("ServerLoader", () => {
         });
 
         it("should have classes attributs", () => {
-            expect(this.server._components[0].classes).to.be.an("object");
-            expect(this.server._components[0].classes).to.have.property("FakeCtrl");
-            expect(this.server._components[0].classes.FakeCtrl).to.be.a("function");
+            expect(this.server._components[0].classes[0]).to.be.a("function");
         });
 
         it("should have endpoint attributs", () => {
             expect(this.server._components[0].endpoint).to.eq("/context");
         });
-
-        it("should have file attributs", () => {
-            expect(this.server._components[0].file).to.eq(__dirname + "/data/FakeCtrl.js");
-        });
-
     });
 
     describe("mount()", () => {
@@ -180,6 +173,27 @@ describe("ServerLoader", () => {
                     .calledWithExactly("path/to/*.js", "endpoint")
                     .and
                     .calledWithExactly("path2/to/*.js", "endpoint");
+            });
+        });
+
+        describe("when we give a class", () => {
+            before(() => {
+                this.classTest = class {
+                };
+                this.addComponentsStub = Sinon.stub(this.server, "addComponents");
+
+                this.server.mount("endpoint", [this.classTest]);
+            });
+
+            after(() => {
+                this.addComponentsStub.restore();
+            });
+
+            it("should have been called the addComponents method", () => {
+                this.addComponentsStub.should.be
+                    .calledOnce
+                    .and
+                    .calledWithExactly([this.classTest], {endpoint: "endpoint"});
             });
         });
     });
@@ -310,6 +324,41 @@ describe("ServerLoader", () => {
             this.server.setHttpPort(8080);
             this.server.setHttpsPort(8080);
             this.server.setEndpoint("/rest");
+        });
+    });
+
+    describe("file()", () => {
+        before(() => {
+            this.compilerBackup = require.extensions[".ts"];
+        });
+        after(() => {
+            require.extensions[".ts"] = this.compilerBackup;
+        });
+        describe("when haven't typescript compiler", () => {
+            before(() => {
+                this.compiler = require.extensions[".ts"];
+                delete require.extensions[".ts"];
+            });
+            after(() => {
+                require.extensions[".ts"] = this.compiler;
+            });
+            it("should return file.js", () => {
+                expect(ServerLoader.file("file.ts")).to.eq("file.js");
+            });
+        });
+        describe("when have typescript compiler", () => {
+            before(() => {
+                this.compiler = require.extensions[".ts"];
+                require.extensions[".ts"] = function () {
+                };
+            });
+            after(() => {
+                delete require.extensions[".ts"];
+                require.extensions[".ts"] = this.compiler;
+            });
+            it("should return file.ts", () => {
+                expect(ServerLoader.file("file.ts")).to.eq("file.ts");
+            });
         });
     });
 });
