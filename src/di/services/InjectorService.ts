@@ -453,14 +453,9 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
         );
         $log.debug("\x1B[1mProvider registry built\x1B[22m");
 
-        return Promise
-            .all([
-                this.emit("$onInit"),
-                this.emit("$onInjectorReady") // deprecated
-            ])
-            .then(() => {
-                $log.debug("Injector.load() done...");
-            });
+        return Promise.all([
+            this.emit("$onInit")
+        ]);
     }
 
     /**
