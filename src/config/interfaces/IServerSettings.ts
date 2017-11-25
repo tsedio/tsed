@@ -19,10 +19,6 @@ export interface ILoggerSettings {
 
 export interface IServerSettings {
     rootDir?: string;
-    /**
-     * @deprecated
-     */
-    endpointUrl?: string;
     env?: Env;
     port?: string | number;
     httpPort?: string | number | false;

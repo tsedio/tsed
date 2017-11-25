@@ -21,9 +21,19 @@ export interface IServerLifecycle {
 
     $onServerInitError?(error: any): any;
 
-    $onError?(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void;
-
+    /**
+     * @deprecated
+     * @param {e.Request} request
+     * @param {e.Response} response
+     * @param {e.NextFunction} next
+     * @param authorization
+     * @returns {boolean | void}
+     */
     $onAuth?(request: Express.Request, response: Express.Response, next?: Express.NextFunction, authorization?: any): boolean | void;
 
+    /**
+     * @deprecated
+     * @returns {boolean | void}
+     */
     $onAuth?(): boolean | void;
 }

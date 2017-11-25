@@ -18,7 +18,6 @@ export class ServerSettingsProvider implements IServerSettings {
         this.env = process.env.NODE_ENV as Env || Env.DEV;
         this.port = 8080;
         this.httpsPort = 8000;
-        this.endpointUrl = "/rest";
         this.version = "1.0.0";
         this.uploadDir = "${rootDir}/uploads";
         this.debug = false;
@@ -139,42 +138,6 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     set uploadDir(value: string) {
         this.map.set("uploadDir", value);
-    }
-
-
-    /**
-     * This attribut is deprecated.
-     * @deprecated
-     * @returns {string}
-     */
-    get endpointUrl(): string {
-        return this.map.get("endpointUrl") as string;
-    }
-
-    /**
-     *
-     * @param value
-     */
-    set endpointUrl(value: string) {
-        console.warn("The endpointUrl option is deprecated. Use the mount option instead of. See https://goo.gl/6MPr6q.");
-        this.map.set("endpointUrl", value);
-    }
-
-    /**
-     *
-     * @returns {string}
-     */
-    get endpoint(): string {
-        return this.map.get("endpointUrl");
-    }
-
-    /**
-     *
-     * @param value
-     */
-    set endpoint(value: string) {
-        console.warn("The endpoint option is deprecated. Use the mount option instead of. See https://goo.gl/6MPr6q.");
-        this.map.set("endpointUrl", value);
     }
 
     /**

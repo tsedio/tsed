@@ -78,9 +78,9 @@ export class ControllerService extends ProxyRegistry<ControllerProvider, IContro
         components.forEach(component => {
             Object.keys(component.classes)
                 .map(clazzName => component.classes[clazzName])
-                .filter(clazz => ControllerRegistry.has(clazz))
+                .filter(clazz => component.endpoint && ControllerRegistry.has(clazz))
                 .map(clazz =>
-                    ControllerRegistry.get(clazz)!.pushRouterPath(component.endpoint)
+                    ControllerRegistry.get(clazz)!.pushRouterPath(component.endpoint!)
                 );
         });
     }

@@ -11,8 +11,6 @@ describe("ServerSettingsProvider", () => {
 
         serverSettingsProvider.set("ownConfig", "test");
         serverSettingsProvider.set({"ownConfig2": "test"});
-
-        serverSettingsProvider.endpoint = "/rest";
         serverSettingsProvider.version = "1.0.0";
         serverSettingsProvider.httpsOptions = {test: "/rest"} as any;
         serverSettingsProvider.acceptMimes = ["application/json"];
@@ -28,14 +26,6 @@ describe("ServerSettingsProvider", () => {
     });
     it("should return rootDir", () => {
         expect(this.serverSettingsProvider.rootDir).to.equal(process.cwd());
-    });
-
-    it("should return endpoint", () => {
-        expect(this.serverSettingsService.endpoint).to.equal("/rest");
-    });
-
-    it("should return endpointUrl", () => {
-        expect(this.serverSettingsService.endpointUrl).to.equal("/rest");
     });
 
     it("should return custom keys", () => {

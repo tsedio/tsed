@@ -106,7 +106,6 @@ export class Server extends ServerLoader {
             compress = require('compression'),
             methodOverride = require('method-override');
 
-
         this
             .use(GlobalAcceptMimesMiddleware)
             .use(cookieParser())
@@ -172,7 +171,6 @@ export class Server extends ServerLoader {
             bodyParser = require('body-parser'),
             compress = require('compression'),
             methodOverride = require('method-override');
-
 
         this
             .use(morgan('dev'))
