@@ -1,10 +1,8 @@
-import {$log} from "ts-log-debug";
-import {Store} from "../../core/class/Store";
-import {HeaderParams} from "../../filters/decorators/headerParams";
-import {IResponseHeader} from "../interfaces/IResponseHeader";
-import {IHeadersOptions, IResponseHeaders} from "../interfaces/IResponseHeaders";
-import {mapHeaders} from "../utils/mapHeaders";
-import {UseAfter} from "./method/useAfter";
+import {Store} from "../../../core/class/Store";
+import {IResponseHeader} from "../../interfaces/IResponseHeader";
+import {IHeadersOptions, IResponseHeaders} from "../../interfaces/IResponseHeaders";
+import {mapHeaders} from "../../utils/mapHeaders";
+import {UseAfter} from "./useAfter";
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
@@ -56,13 +54,7 @@ import {UseAfter} from "./method/useAfter";
  */
 export function Header(headerName: string | number | IHeadersOptions, headerValue?: string | number | IResponseHeader) {
 
-    return <T>(target: any, propertyKey: string | symbol, descriptor: number | TypedPropertyDescriptor<T>): void => {
-
-        if (typeof descriptor === "number") {
-            $log.warn("@Header() decorator use on parameter is deprecated. Use HeaderParams instead of");
-            return HeaderParams(headerName as string)(target, propertyKey, descriptor as number);
-        }
-
+    return <T>(target: any, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
         if (headerValue !== undefined) {
             headerName = {[headerName as string]: headerValue};
         }
@@ -80,6 +72,5 @@ export function Header(headerName: string | number | IHeadersOptions, headerValu
             next();
 
         })(target, propertyKey, descriptor);
-
     };
 }
