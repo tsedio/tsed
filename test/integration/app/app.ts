@@ -41,8 +41,7 @@ export class ExampleServer extends ServerLoader {
      * @returns {Server}
      */
     public $onMountingMiddlewares(): void {
-        let morgan = require("morgan"),
-            cookieParser = require("cookie-parser"),
+        let cookieParser = require("cookie-parser"),
             bodyParser = require("body-parser"),
             compress = require("compression"),
             methodOverride = require("method-override"),
