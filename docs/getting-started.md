@@ -153,8 +153,7 @@ export class Server extends ServerLoader {
 
         const appPath: string = Path.resolve(__dirname);
         
-        this.setEndpoint("/rest")                       // Declare your endpoint
-            .scan(appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
+        this.mount("/rest", appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
             .createHttpServer(8000)
             .createHttpsServer({
                 port: 8080
