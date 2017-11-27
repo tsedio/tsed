@@ -363,7 +363,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param endpoint
      * @returns {ServerLoader}
      */
-    @Deprecated("ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of.")
+    @Deprecated("ServerLoader.setEndpoint() is deprecated. Use ServerLoader.mount() instead of. See https://goo.gl/6MPr6q.")
     /* istanbul ignore next */
     public setEndpoint(endpoint: string): ServerLoader {
 
@@ -426,24 +426,13 @@ export abstract class ServerLoader implements IServerLifecycle {
         return this;
     }
 
-    /**
-     *
-     * @param {string} file
-     * @returns {any}
-     */
-    static file(file: string): string {
-        if (!require.extensions[".ts"]) {
-            file = file.replace(".ts", ".js");
-        }
-        return file;
-    }
 
     /**
      * Add classes to the components list
      * @param classes
      * @param options
      */
-    protected addComponents(classes: any, options: { [key: string]: any } = {}): void {
+    public addComponents(classes: any | any[], options: Partial<IComponentScanned> = {}): ServerLoader {
         classes = Object
             .keys(classes)
             .map((key) => classes[key])
@@ -456,6 +445,30 @@ export abstract class ServerLoader implements IServerLifecycle {
         this._components = (this._components || [])
             .concat([components])
             .filter(o => !!o);
+
+        return this;
+    }
+
+    /**
+     * Add classes decorated by `@Controller()` to components container.
+     *
+     * ### Example
+     *
+     * ```typescript
+     * @Controller('/ctrl')
+     * class MyController{
+     * }
+     *
+     * new ServerLoader().addControllers('/rest', [MyController])
+     * ```
+     * ?> If the MyController class isn't decorated, the class will be ignored.
+     *
+     * @param {string} endpoint
+     * @param {any[]} controllers
+     * @returns {ServerLoader}
+     */
+    public addControllers(endpoint: string, controllers: any[]) {
+        return this.addComponents(controllers, {endpoint});
     }
 
     /**
@@ -484,7 +497,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         } else if (isString(path)) {
             this.scan(path, endpoint);
         } else if (isClass(path)) {
-            this.addComponents([path], {endpoint});
+            this.addControllers(endpoint, [path]);
         }
 
         return this;
@@ -625,5 +638,17 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     get httpsServer(): Https.Server {
         return this._httpsServer;
+    }
+
+    /**
+     *
+     * @param {string} file
+     * @returns {any}
+     */
+    static file(file: string): string {
+        if (!require.extensions[".ts"]) {
+            file = file.replace(".ts", ".js");
+        }
+        return file;
     }
 }
