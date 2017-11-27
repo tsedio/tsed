@@ -1,14 +1,18 @@
-# Global error middleware
+# Global Error middleware
 
 `@MiddlewareError()` lets you handle all the errors when you add your middleware in your [ServerLoader](api/common/server/serverloader.md).
-It the recommended way to handle errors across your application.
+
+> You have two to handle error (globally). The first (better) way is to override the default [Global Error Handler](docs/middlewares/override/global-error-handler.md).
+
+?> This method is useful if you want to keep Ts.ED error handler. Your error middleware will be called before Ts.ED error handler.
 
 Create your middleware error:
+
 ```typescript
 import { NextFunction as ExpressNext, Request as ExpressRequest, Response as ExpressResponse } from "express";
-import {MiddlewareError, MiddlewareError, Request, Response, Next, Err} from "ts-express-decorators";
-import {Exception} from "ts-httpexceptions";
-import {$log} from "ts-log-debug";
+import { MiddlewareError, MiddlewareError, Request, Response, Next, Err } from "ts-express-decorators";
+import { Exception } from "ts-httpexceptions";
+import { $log } from "ts-log-debug";
 
 @MiddlewareError()
 export class GlobalErrorHandlerMiddleware implements IMiddlewareError {

@@ -12,32 +12,33 @@ Before using the Passport, we need to install the [Passport.js](https://www.npmj
 npm install --save passport
 ```
 
-### Server configuration
+### Override AuthenticatedMiddleware
 
-The annotation `@Authentification` use a [`ServerLoader.$onAuth()`](api/common/server/serverloader.md) method to check the authentification strategy.
-You can configure this method by adding an `$onAuth()` hook on your `Server` class.
+The annotation [`@Authenticated()`](api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](api/common/mvc/authenticatedmiddleware.md) 
+to check the authentication strategy. By default, this middleware will call the `$onAuth` hook (deprecated) to check if the user is connected or not.
+
+So, create a new file in your middlewares directory and past this code:
 
 ```typescript
-import * as Express from "express";
-import {ServerLoader} from "ts-express-decorators";
-import Path = require("path");
+import {OverrideMiddleware, AuthenticatedMiddleware} from "ts-express-decorators";
+import {Forbidden} from "ts-httpexceptions";
 
-@ServerSettings({
-    rootDir,
-    mount: {
-        "/rest": `${rootDir}/controllers/**/**.js`
-    },
-    componentsScan: [
-        "${rootDir}/middlewares/**/**.js",
-        "${rootDir}/services/**/**.js"
-    ],
-    acceptMimes: ["application/json"],
-    passport: {}, // options to passport.js
-    debug: true
-})
-export class Server extends ServerLoader {
-    public $onAuth(request: Express.Request, response: Express.Response, next, options?: any) {
-        next(request.isAuthenticated()); // provided by passport.js
+@OverrideMiddleware(AuthenticatedMiddleware)
+export class MyAuthenticatedMiddleware implements IMiddleware {
+    public use(@EndpointInfo() endpoint: EndpointMetadata,
+               @Request() request: Express.Request,
+               @Response() response: Express.Response,
+               @Next() next: Express.NextFunction) { // next is optional here
+        
+        // options given to the @Authenticated decorator
+        const options = endpoint.get(AuthenticatedMiddleware) || {};
+        // options => {role: 'admin'}
+        
+        if (!request.isAuthenticated()) { // passport.js
+          throw new Forbidden("Forbidden")  
+        }
+        
+        next();
     }
 }
 ```
@@ -139,7 +140,6 @@ In the PassportCtrl, we need to implement the `Passport.authenticate('signup')` 
 import * as Express from "express";
 import * as Passport from "passport";
 import {BodyParams, Controller, Get, Post, Req, Required, Res} from "ts-express-decorators";
-import {BadRequest} from "ts-httpexceptions";
 import {IUser} from "../../interfaces/User";
 
 @Controller("/passport")
@@ -257,7 +257,6 @@ method to emit the `login` event to each Passport Strategy.
 import * as Express from "express";
 import * as Passport from "passport";
 import {BodyParams, Controller, Get, Post, Req, Required, Res} from "ts-express-decorators";
-import {BadRequest} from "ts-httpexceptions";
 import {IUser} from "../../interfaces/User";
 
 @Controller("/passport")
@@ -338,9 +337,7 @@ Logout is very short, just place this code in the PassportCtrl and it's done:
 
 ```typescript
 import * as Express from "express";
-import * as Passport from "passport";
 import {BodyParams, Controller, Get, Post, Req, Required, Res} from "ts-express-decorators";
-import {BadRequest} from "ts-httpexceptions";
 import {IUser} from "../../interfaces/User";
 
 @Controller("/passport")
@@ -355,3 +352,7 @@ export class PassportCtrl {
 
 > You can find all source of this tutorial on [https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport)
 
+<div class="guide-links">
+<a href="/#/tutorials/ajv">Validation with AJV</a>
+<a href="/#/tutorials/socket-io">Socket.io</a>
+</div>

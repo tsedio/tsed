@@ -250,7 +250,7 @@ export class CalendarCtrl {
     }
 }
 ```
-> For more information about the `CustomMiddleware` see the [Middlewares](docs/middlewares.md) section.
+> For more information about the `CustomMiddleware` see the [Middlewares](docs/middlewares/overview.md) section.
 
 ### Middleware call sequence
 
@@ -363,3 +363,7 @@ export abstract class ChildrenCtrl extends BaseController {
 }
 ```
 
+<div class="guide-links">
+<a href="/#/configuration">Configuration</a>
+<a href="/#/docs/services/overview">Services</a>
+</div>

@@ -47,3 +47,9 @@ export class Server extends ServerLoader {
    }
 }       
 ```
+
+<div class="guide-links">
+<a href="/#/docs/middlewares/call-sequence">call-sequence</a>
+<a href="/#/docs/middlewares/global-error-middleware">Global error middleware</a>
+</div>
+

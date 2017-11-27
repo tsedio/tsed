@@ -1,4 +1,4 @@
-# Lifecycle Hooks
+# Service - Lifecycle Hooks
 
 Ts.ED 2.x introduce a new Lifecycle Hooks on the service that follows the [Lifecycle of the ServerLoader](docs/server-loader/lifecycle-hooks.md).
 This lifecycle hooks that provide visibility into these key life moments and the ability to act when they occur.
@@ -66,4 +66,8 @@ The JavaScript language doesn't have interfaces. Ts.ED can't see TypeScript inte
 Nonetheless, it's good practice to add interfaces to TypeScript directive classes in order to benefit from strong typing and editor tooling.
 
 
+<div class="guide-links">
+<a href="/#/docs/services/overview">Services</a>
+<a href="/#/docs/services/factory">Factory</a>
+</div>
 

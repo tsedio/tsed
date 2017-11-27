@@ -1,6 +1,6 @@
-# Lifecycle Hooks
+# ServerLoader - Lifecycle Hooks
 
-[ServerLoader](docs/server-loader.md) calls a certain number of methods (hooks) during its initialization
+[ServerLoader](api/common/server/serverloader.md) calls a certain number of methods (hooks) during its initialization
 phase (lifecycle). This lifecycle hooks that provide visibility into these key life moments and the ability to act
 when they occur.
 
@@ -27,12 +27,11 @@ a request require an authentication strategy.
 Hook method | Description
 ---|---
 [`$onAuth`](#serverloaderonauthrequest-response-next-auth-void) | Respond when an Endpoint require an authentication strategy before access to the endpoint method.
-[`$onError`](#serverloaderonerrorerror-request-response-next-void) | Respond when an error is intercepted by Express or Ts.ED.
 `$onServerInitError`| Respond when an error is triggered on server initialization.
 
-> $onAuth, $onError and $onServerInitError is a specials hooks.
+> $onAuth and $onServerInitError is a specials hooks.
 
-!> $onAuth and $onError hooks will be removed in future version. It's recommended to use the [@OverrideMiddleware](docs/middlewares/override-middleware.md).
+!> $onAuth hook will be removed in future version. It's recommended to use the [@OverrideMiddleware](docs/middlewares/override-middleware.md).
 
 ### Hooks examples
 
@@ -101,7 +100,7 @@ This hook will be called after all the routes are collected by [`ServerLoader.mo
 or [`ServerLoader.scan()`](api/common/server/serverloader.md). 
 When all routes are collected, [ServerLoader](api/common/server/serverloader.md) build the [controllers](docs/controllers.md) then [ServerLoader](api/common/server/serverloader.md) mount each route to the ExpressApp. 
 
-This hook is the right place to add middlewares before the [Global Handlers Error](docs/global-errors-handler.md). 
+This hook is the right place to add middlewares before the [Global Handlers Error](docs/middlewares/override/global-error-handler.md). 
 
 ```typescript
 class Server extends ServerLoader {
@@ -134,7 +133,7 @@ class Server extends ServerLoader {
 
 ### Specials hooks examples
 
-!> $onAuth and $onError specials hooks will be removed in future version. It's recommended to use the [@OverrideMiddleware](docs/middlewares/override-middleware.md).
+!> $onAuth hook will be removed in future version. It's recommended to use the [@OverrideMiddleware](docs/middlewares/override-middleware.md).
 
 #### ServerLoader.$onAuth(request, response, next, auth?): void
 * **request**: `Express.Request`
@@ -179,51 +178,7 @@ and lets you manage the user's role for example.
 
 > See a complete integration example with [Passport.js](tutorials/passport.md).
 
-***
-
-#### ServerLoader.$onError(error, request, response, next): void
-* **error**: `Object`
-* **request**: `Express.Request`
-* **response**: `Express.Repsonse`
-* **next**: `Express.NextFunction`
-
-All errors are intercepted by the [ServerLoader](docs/server-loader.md). By default, all 
-HTTP Exceptions are automatically sent to the client, and technical error are
-sent as Internal Server Error. 
-
-You can change the default error management by adding your method on `$onError` hook.
-
-This example show you how the default Global Errors Handler work. Customize this hook to manage the errors: 
-
-```typescript
-class Server extends ServerLoader  {
-
-    public $onError(error: any, request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
-
-        if (response.headersSent) {
-            return next(error);
-        }
-
-        if (typeof error === "string") {
-            response.status(404).send(error);
-            return next();
-        }
-
-        if (error instanceof Exception) {
-            response.status(error.status).send(error.message);
-            return next();
-        }
-
-        if (error.name === "CastError" || error.name === "ObjectID" || error.name === "ValidationError") {
-            response.status(400).send("Bad Request");
-            return next();
-        }
-
-        response.status(error.status || 500).send("Internal Error");
-
-        return next();
-        
-    }
-}
-```
-> You can use [`@MiddlewareError()`](docs/middlewares/global-error-middleware.md) to handle all errors too.
+<div class="guide-links">
+<a href="/#/docs/filters">ServeLoader</a>
+<a href="/#/docs/server-loader/versionning">Versioning</a>
+</div>
