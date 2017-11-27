@@ -10,7 +10,6 @@ The default configuration is as follow:
   "port": 8080,
   "debug": false,
   "httpsPort": 8000,
-  "endpointUrl": "/rest",
   "uploadDir": "${rootDir}/uploads",
   "mount": {
     "/rest": "${rootDir}/controllers/**/*.js"
@@ -52,7 +51,7 @@ export class Server extends ServerLoader {
 import * as Server from "./server";
 new Server.start();
 ```
-### Options
+## Options
 
 * `rootDir` &lt;string&gt;: The root directory where you build run project. By default, it's equal to `process.cwd().
 * `env` &lt;Env&gt;: The environment profile. By default the environment profile is equals to `NODE_ENV`.
@@ -73,8 +72,8 @@ new Server.start();
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknow, it throw a BadRequest. By default true.
 * `logger`  &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Logger configuration.
 
-### Logger
-#### Default logger
+## Logger
+### Default logger
 
 Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-debug/). 
 
@@ -82,7 +81,7 @@ Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-
  - [Customize appender (chanel)](https://romakita.github.io/ts-log-debug/#/appenders/custom),
  - [Customize layout](https://romakita.github.io/ts-log-debug/#/layouts/custom)
 
-#### Configuration
+### Configuration
 
 Some options is provided:
 
@@ -93,7 +92,7 @@ Some options is provided:
 
 > It's recommended to disable logRequest in production. Logger have a cost on the performance.
 
-#### Request logger
+### Request logger
 
 For each Express.Request, a logger will be attached and can be used like here:
 
@@ -173,7 +172,7 @@ export class CustomLogIncomingRequestMiddleware extends LogIncomingRequestMiddle
 }
 ```
 
-#### Shutdown logger
+### Shutdown logger
 
 Shutdown return a Promise that will be resolved when ts-log-debug has closed all appenders and finished writing log events. 
 Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
@@ -188,9 +187,9 @@ $log
   }); 
 ```
 
-### Disable strict model validation
+## Disable strict model validation
 
-Since v1.6, [ConverterService](docs/converters.md) check the consistency between the model and the Json object given to the endpoint.
+Since v2.6, [ConverterService](docs/converters.md) check the consistency between the model and the Json object given to the endpoint.
 
 !> When a property is unknown on the model, Ts.Ed throw a BadRequest.
 

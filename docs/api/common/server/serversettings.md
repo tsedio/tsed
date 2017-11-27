@@ -16,7 +16,6 @@ The default configuration is as follow:
    "env": "development",
    "port": 8080,
    "httpsPort": 8000,
-   "endpointUrl": "/rest",
    "uploadDir": "${rootDir}/uploads",
    "mount": {
      "/rest": "${rootDir}/controllers/**/*.js"
