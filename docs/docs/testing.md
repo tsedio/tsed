@@ -58,7 +58,7 @@ import {expect} from "chai";
 import {inject} from "ts-express-decorators/testing";
 import {ParseService} from "ts-express-decorators";
 
-describe('ParseService :', () => {
+describe('ParseService', () => {
 
     it('should clone object', () => {
 
@@ -109,17 +109,13 @@ import {expect} from "chai";
 import {inject} from "ts-express-decorators/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 
-describe('MyCtrl :', () => {
-
+describe('MyCtrl', () => {
     // bootstrap your Server to load all endpoints before run your test
     beforeEach(bootstrap(Server));
 
     it('should do something', inject([ControllerService], (controllerService: ControllerService) => {
-        
         const instance: MyCtrl = controllerService.invoke<MyCtrl>(MyCtrl);
-
         expect(!!instance).to.be.true;
-
     }));
 });
 ```
@@ -133,7 +129,7 @@ import {DbService} from "../services/DbService";
 import {OtherService} from "../services/OtherService";
 
 @Controller('/')
-export default class MyCtrl {
+export class MyCtrl {
    constructor(private dbService: DbService, private otherService: OtherService) {
        
    }
@@ -150,7 +146,7 @@ import {inject} from "ts-express-decorators/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
 
-describe('MyCtrl :', () => {
+describe('MyCtrl', () => {
 
     // bootstrap your Server to load all endpoints before run your test
     beforeEach(bootstrap(Server));
@@ -183,11 +179,6 @@ describe('MyCtrl :', () => {
 
 The converter implementation in Ts.ED for Array type is the following:
 ```typescript
-import ConverterService from "../services/converter";
-import {Converter} from "../decorators/converter";
-import {IConverter} from "../interfaces/Converter";
-import {isArrayOrArrayClass} from "../utils/utils";
-
 @Converter(Array)
 export class ArrayConverter implements IConverter {
 
@@ -215,11 +206,10 @@ export class ArrayConverter implements IConverter {
 And the unit test:
 ```typescript
 import {expect} from "chai";
-import {inject} from 'ts-express-decorators/testing';
+import {inject} from "ts-express-decorators/testing";
 import {ConverterService} from "ts-express-decorators/src";
 
-describe("ArrayConverter :", () => {
-
+describe("ArrayConverter", () => {
     it('should convert data', inject([ConverterService], (converterService: ConverterService) => {
 
         const arrayConverter = converterService.getConverter(Array);
@@ -228,9 +218,7 @@ describe("ArrayConverter :", () => {
 
         expect(arrayConverter.deserialize(1)).to.be.an('array');
         expect(arrayConverter.deserialize([1])).to.be.an('array');
-
     }));
-
 });
 ```
 
@@ -239,12 +227,10 @@ describe("ArrayConverter :", () => {
 `@Middleware()` is similar to the Express middleware with the difference that it is a class and you can use the IoC to inject other services on his constructor.
 
 ```typescript
-import {expect} from "chai";
 import {inject} from 'ts-express-decorators/testing';
 import {AcceptMimeMiddleware} from "ts-express-decorators";
 
 describe('AcceptMimesMiddleware :', () => {
-
     it('should accept mime', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
 
         const middleware = middlewareService.invoke<AcceptMimeMiddleware>(AcceptMimeMiddleware);
@@ -314,21 +300,18 @@ And add `mocha` and `chai` types in your `tsconfig.json`:
 ### Example
 
 ```typescript
-
-import {Server} from "../Server";
 import {ExpressApplication} from "ts-express-decorators";
-import {Done, bootstrap} from "ts-express-decorators/testing";
-import {expect} from "chai";
+import {Done, bootstrap, inject} from "ts-express-decorators/testing";
 import * as SuperTest from "supertest";
+import {expect} from "chai";
+import {Server} from "../Server";
 
 describe("Rest", () => {
     // bootstrap your Server to load all endpoints before run your test
     beforeEach(bootstrap(Server));
 
     describe("GET /rest/calendars", () => {
-       
         it("should do something", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Done) => {
-
             SuperTest(expressApplication)
                 .get("/rest/calendars")
                 .expect(200)
@@ -343,8 +326,7 @@ describe("Rest", () => {
 
                     done();
                 });
- 
-        });
+        }));
     });
 });
 ```
@@ -354,7 +336,7 @@ describe("Rest", () => {
 If you like to disable log output for any reason, you can do it by calling `$log.level` or `$log.stop()`.
 It is useful to suppress logging during unit tests runs so that your passed/failed test summary does not get polluted with information.
 
-```
+```typescript
 import { $log } from "ts-log-debug";
 
 describe('A test that will not print logs :', () => {
@@ -363,6 +345,11 @@ describe('A test that will not print logs :', () => {
         $log.level = "OFF"
     });
 
-    /* you tests heres */
+    /* you tests here */
 });
 ```
+
+<div class="guide-links">
+<a href="/#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
+<a href="/#/tutorials/overview">Tutorials</a>
+</div>

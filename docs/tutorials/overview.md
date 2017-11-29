@@ -1,19 +1,9 @@
 # Guide
 
-## Documentations
-
-* Create custom decorators:
-  * [on a parameter](docs/filters.md)
-  * [on an endpoint method](docs/middlewares/endpoint-middleware.md)
-* [Create a middlewares](docs/middlewares/overview.md)
-* [Create a converters](docs/converters.md)
-
-## Tutorials
-
 * [Passport.js](tutorials/passport.md)
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
-* [Ajv validation](tutorials/ajv.md)
+* [Validation AJV](tutorials/ajv.md)
 * [Upload files](tutorials/upload-files-with-multer.md)
 * [Serve static files](tutorials/serve-static-files.md)
 * [Templating](tutorials/templating.md)

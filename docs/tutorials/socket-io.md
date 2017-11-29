@@ -90,3 +90,8 @@ export class MySocketCtrl {
    }
 }
 ```
+
+<div class="guide-links">
+<a href="/#/tutorials/passport">Passport</a>
+<a href="/#/tutorials/swagger">Swagger</a>
+</div>

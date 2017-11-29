@@ -206,6 +206,7 @@ export class ServerSettingsProvider implements IServerSettings {
      * @param callback
      */
     set authentification(callback: (request?: any, response?: any, next?: any, options?: any) => boolean) {
+        console.warn("The authentification option is deprecated. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
         this.map.set("authentification", callback);
     }
 

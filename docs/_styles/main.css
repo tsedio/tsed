@@ -1,3 +1,12 @@
+/** APP NAV **/
+[data-page="README.md"] .app-nav > ul > li > a {
+    color: white
+}
+
+.app-nav {
+    left: 0px;
+}
+
 .app-nav a.logo {
     float: left;
     z-index: 1;
@@ -11,34 +20,61 @@
     color: white;
 }
 
-section.cover {
-    color: white;
-    background: linear-gradient(to bottom, #4e83cc 0%, #2d5996 50%) !important
-}
-
-section.cover blockquote {
-    color: #FFA700;
-}
-
-section.cover h1 .anchor span {
-    color: white
-}
-
-section.cover .cover-main > p:last-child a {
-    border-color: white;
-    color: white
-}
-
-section.cover .cover-main > p:last-child a:hover {
+.sticky .app-nav {
+    position: fixed;
     background: white;
-    color: #337ab7;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+    margin: 0px;
+    padding: 10px;
+    padding-right: 100px;
 }
 
-section.cover .cover-main > p:last-child a:last-child {
-    color: #111;
-    border-color: #FFA700;
-    background-color: #FFA700;
+[data-page="README.md"].sticky .app-nav > ul > li > a {
+    color: #34495e;
 }
+
+@media only screen and (max-width: 768px) {
+    /* Styles */
+    .app-nav {
+        display: none;
+    }
+}
+
+.sticky .sidebar {
+    top: 52px;
+}
+
+/** Menu **/
+
+.sidebar-toggle {
+    background: rgba(255, 255, 255, 0.9);
+    padding-bottom: 6px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    body.close .sidebar-toggle {
+        display: none;
+    }
+
+    .sidebar-toggle {
+        top: 5px;
+        bottom: auto;
+        left: 5px;
+    }
+
+    body[data-page="README.md"] .sidebar-toggle {
+        background: transparent;
+    }
+
+    body[data-page="README.md"] .sidebar-toggle span {
+        background: white;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3)
+    }
+
+}
+
+/** Github **/
 
 .github-corner svg {
     color: #fff;
@@ -47,6 +83,88 @@ section.cover .cover-main > p:last-child a:last-child {
     height: 80px;
     width: 80px;
 }
+
+.github-corner:hover svg {
+    fill: #337ab7;
+    fill: var(--theme-color, #337ab7);
+}
+
+.sticky .github-corner {
+    position: fixed;
+    z-index: 10;
+}
+
+.sticky .github-corner svg {
+    height: 52px;
+    width: 52px;
+}
+
+/** Cover **/
+
+section.cover {
+    color: white;
+    background: linear-gradient(145deg, #0d47a1, #4e83cc) !important
+    /*background: linear-gradient(to bottom, #4e83cc 0%, ##4e83cc 50%) !important*/
+}
+
+section.cover blockquote {
+    color: white;
+    margin-bottom: 50px;
+}
+
+section.cover blockquote p {
+    line-height: 1.9rem;
+    font-weight: lighter;
+    font-size: 30px;
+}
+
+section.cover h1 {
+    font-size: 100px;
+}
+
+section.cover h1 .anchor span {
+    color: white
+}
+
+section.cover .cover-main > p a.button {
+    background: #FFA700;
+    border: 1px solid #FFA700;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 16.8px;
+    font-size: 1.05rem;
+    letter-spacing: 1.6px;
+    letter-spacing: .1rem;
+    margin-right: 16px;
+    margin-right: 1rem;
+    padding: .75em 32px;
+    padding: .75em 2rem;
+    text-decoration: none;
+    transition: all .15s ease;
+    color: #111;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    margin-bottom: 20px;
+}
+
+section.cover .cover-main > p a.button:hover {
+    opacity: 0.8
+}
+
+section.cover .cover-main > p a.button.white {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    box-shadow: none;
+}
+
+section.cover .cover-main > p a.button.white:hover {
+    opacity: 1;
+    background: white;
+    color: #0074d9;
+}
+
+/** Markdown **/
 
 .markdown-section {
     padding-top: 60px;
@@ -72,7 +190,7 @@ section.cover .cover-main > p:last-child a:last-child {
 
 .api-list li {
     font-size: 14px;
-    margin: 8px 0;
+    margin: 2px 0;
     line-height: 14px;
     padding: 0;
     float: left;
@@ -86,7 +204,17 @@ section.cover .cover-main > p:last-child a:last-child {
 .api-list li a.symbol-container {
     width: 100%;
     margin-bottom: 0;
-    padding: 0 16px 0;
+    padding: 5px 16px;
+    border-radius: 5px;
+}
+
+.api-list li a .symbol {
+    position: relative;
+    top: -1px;
+}
+
+.api-list > p {
+    display: none
 }
 
 a.symbol-container {
@@ -469,4 +597,235 @@ pre code a:hover span {
 
 .markdown-section code {
     white-space: pre;
+}
+
+/** Guide LINKS **/
+
+.guide-links {
+    margin-top: 2em;
+    height: 1em;
+}
+
+.guide-links > a {
+    text-decoration: none;
+    color: #ffa000;
+    font-weight: 600;
+}
+
+.guide-links > a:hover {
+    color: #0074d9;
+}
+
+.guide-links > a:first-child {
+
+}
+
+.guide-links > a:first-child:before {
+    content: "←";
+    color: #34495e;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
+
+.guide-links > a:last-child {
+    float: right
+}
+
+.guide-links > a:last-child:after {
+    content: "→";
+    color: #34495e;
+    text-decoration: none;
+    margin-left: 5px;
+    position: relative;
+    top: -1px;
+}
+
+/** topics */
+
+.topics a {
+    display: inline-block;
+    background: #cfd8dc;
+    border-radius: 5px;
+    padding: 3px 8px;
+    margin: 3px 2px;
+    text-decoration: none;
+    font-size: 80%;
+}
+
+.topics a:hover {
+    background: #0074d9;
+    color: white;
+}
+
+/** page footer **/
+
+.page-footer {
+    background: #e6e6e6;
+}
+
+.page-footer .page-footer-content {
+    position: relative;
+    padding: 40px 50px;
+    padding-right: 105px;
+    background: #DDD;
+}
+
+.page-footer .improve-docs {
+    text-align: center;
+    padding: 10px;
+}
+
+.page-footer a {
+    text-decoration: none;
+    color: #ffa000;
+    font-weight: 600;
+}
+
+.page-footer a:hover {
+    color: #0074d9;
+}
+
+.page-footer p {
+    font-size: 12px;
+}
+
+.page-footer .improve-docs {
+
+}
+
+.page-footer .next-step-header {
+    font-size: 1.25em;
+    color: #0c3645;
+}
+
+.page-footer .github-stars {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+}
+
+/** loader **/
+
+.showbox {
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5%;
+    margin-top: -100px;
+}
+
+.loader {
+    position: relative;
+    margin: 0 auto;
+    width: 100px;
+}
+
+.loader:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.circular {
+    -webkit-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+}
+
+@-webkit-keyframes rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
+}
+
+@-webkit-keyframes color {
+    100%,
+    0% {
+        stroke: #d62d20;
+    }
+    40% {
+        stroke: #0057e7;
+    }
+    66% {
+        stroke: #008744;
+    }
+    80%,
+    90% {
+        stroke: #ffa700;
+    }
+}
+
+@keyframes color {
+    100%,
+    0% {
+        stroke: #d62d20;
+    }
+    40% {
+        stroke: #0057e7;
+    }
+    66% {
+        stroke: #008744;
+    }
+    80%,
+    90% {
+        stroke: #ffa700;
+    }
 }

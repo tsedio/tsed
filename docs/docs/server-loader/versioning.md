@@ -57,4 +57,7 @@ export class Server extends ServerLoader implements IServerLifecycle {
 new Server().start();
 ```
 
-
+<div class="guide-links">
+<a href="/#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
+<a href="/#/docs/testing">Testing</a>
+</div>

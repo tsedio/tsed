@@ -1,0 +1,16 @@
+* [<div class="ps-icon ps-icon-arrow-left"></div>Home](/?id=tsed)
+* [<div class="ps-icon ps-icon-arrow-left"></div>Documentation](docs/_sidebar.md)
+* [Overview](docs/middlewares/overview.md)
+* [Call sequences](docs/middlewares/call-sequence.md)
+* Middlewares
+  * [Global middleware](docs/middlewares/global-middleware.md)
+  * [Global error middleware](docs/middlewares/global-error-middleware.md)
+  * [Endpoint middleware](docs/middlewares/endpoint-middleware.md)
+  * [Endpoint error middleware](docs/middlewares/endpoint-error-middleware.md)
+* [Override middleware](docs/middlewares/override-middleware.md)
+  * [Send response](docs/middlewares/override/send-response.md)
+  * [Authentication](docs/middlewares/override/authentication.md)
+  * [Response view](docs/middlewares/override/response-view.md)
+  * [Global error handler](docs/middlewares/override/global-error-handler.md)
+* [Built-in middlewares](api/index.md?query=keywords_Middleware|type_class)
+

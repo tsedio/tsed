@@ -213,7 +213,7 @@ export class Server extends ServerLoader {
 
 The configuration can be reused throughout your application in different ways. 
 
-- With dependency injection in [Service](docs/services.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
+- With dependency injection in [Service](docs/services/overview.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
 - With the decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md).
 
 ### From service (DI)
@@ -231,7 +231,7 @@ export class MyService {
 ### From decorators
 
 Decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) can be used in all classes
-including: [Service](docs/services.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares.md), [Filter](docs/filters.md) and [Converter](docs/converters.md).
+including: [Service](docs/overview/services.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) and [Converter](docs/converters.md).
 
 [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) accept an expression as parameters to 
 inspect the configuration object and return the value.
@@ -251,3 +251,9 @@ export class MyClass {
 ```
 
 > Constant return an Object.freeze() value. 
+
+
+<div class="guide-links">
+<a href="/#/docs/controllers">Controllers</a>
+<a href="/#/docs/services/overview">Services</a>
+</div>

@@ -58,3 +58,7 @@ class MyCtrl {
 }     
 ```
 
+<div class="guide-links">
+<a href="/#/docs/middlewares/endpoint-middleware">Endpoint middleware</a>
+<a href="/#/docs/middlewares/override-middleware">Override middleware</a>
+</div>

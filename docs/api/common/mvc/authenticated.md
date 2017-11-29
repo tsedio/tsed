@@ -7,11 +7,11 @@
 
 ### Description
 
-Set authentification strategy on your endpoint.
+Set authentication strategy on your endpoint.
 
 ```typescript
 @ControllerProvider('/mypath')
-provide MyCtrl {
+class MyCtrl {
 
   @Get('/')
   @Authenticated({role: 'admin'})

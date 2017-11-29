@@ -70,3 +70,8 @@ export default class OtherService {
      }
 }
 ```
+
+<div class="guide-links">
+<a href="/#/docs/services/lifecycle-hooks">Lifecycle hooks</a>
+<a href="/#/docs/converters">Converters</a>
+</div>

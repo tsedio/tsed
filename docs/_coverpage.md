@@ -3,12 +3,13 @@
 
 # Ts.ED <small class="version">2.15.0</small>
 
-> Use TypeScript decorators to create your Express application
+> A TypeScript Framework on top of Express
 
-* Decorators,
-* Dependency Injection,
-* Rest route and controller, param data injection support.
+<a href="/#/getting-started" class="button">Get Started</a>
+<a href="https://github.com/Romakita/ts-express-decorators/" class="button white">GitHub</a>
 
-[GitHub](https://github.com/Romakita/ts-express-decorators/)
-[Get Started](#tsed)
+* Decorators
+* Rest API
+* Dependency Injection
+* Controller
 

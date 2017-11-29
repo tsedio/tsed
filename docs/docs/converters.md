@@ -1,6 +1,6 @@
 # Converters
 
-The decorator `@JsonProperty` or `@Property` lets you customize serialization and deserialization property when Ts.ED send data as JSON.
+The decorator `@JsonProperty` or `@Property` lets you customize serialization and deserialization property when Ts.ED send or receive data as JSON.
 
 All following decorators use `@Property` metadata to deserialize a Plain Object JavaScript to his Model:
 
@@ -249,3 +249,12 @@ class Foo implements IConverter {
     }
 }
 ```
+
+## Built-in converters
+
+See in [Built-in converters](api/index.md?query=keywords_Converter|type_class) in our API references.
+
+<div class="guide-links">
+<a href="/#/docs/services/overview">Controllers</a>
+<a href="/#/docs/middlewares/overview">Middlewares</a>
+</div>

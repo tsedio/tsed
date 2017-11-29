@@ -73,3 +73,8 @@ export class EventCtrl {
     Start: <%- startDate %>
 </div>
 ```
+
+<div class="guide-links">
+<a href="/#/tutorials/serve-static-files">Serve static files</a>
+<a href="/#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a>
+</div>

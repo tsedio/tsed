@@ -1,5 +1,4 @@
 # Getting started
-
 ## Installation
 
 You can get the latest release using npm:
@@ -82,7 +81,7 @@ You can copy this example of package.json to develop your application:
 
 Ts.ED provide a `ServerLoad` class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](../docs/server-loader.md).
+a new `Server` class that extends [`ServerLoader`](docs/server-loader/_sidebar.md).
 
 #### With decorators
 
@@ -275,24 +274,36 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 
 > **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
-*** 
 
-Now you can create your application. You can have a look at these topics:
+### Ready for More?
 
-- [Configuration](configuration.md)
-- Features:
-  - [Controllers](docs/controllers.md)
-  - [Services](docs/services.md)
-  - [Middlewares](docs/middlewares.md)
-  - [Converters](docs/converters.md)
-  - [Filters](docs/filters.md)
-  - [Testing](docs/testing.md)
-- [Examples & Guides](guide.md):
-  - [Passport.js](tutorials/passport.md)
-  - [Socket.io](tutorials/socket-io.md)
-  - [Swagger](tutorials/swagger.md)
-  - [Upload files](tutorials/upload-files-with-multer.md)
-  - [Serve static files](tutorials/serve-static-files.md)
-  - [Templating](tutorials/templating.md)
-  - [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
-  - [AWS project](tutorials/aws.md)
+We’ve briefly introduced the most basic features of Ts.ED - the rest of this guide will cover them and other advanced features with much finer details, so make sure to read through it all!
+
+<div class="guide-links">
+<a href="/#/configuration">Configuration</a>
+<a href="/#/docs/controllers">Controllers</a>
+</div>
+
+***
+
+### Other topics
+
+<div class="topics">
+  [Controllers](docs/controllers.md)
+  [Services](docs/services/overview.md)
+  [Middlewares](docs/middlewares/overview.md)
+  [Converters](docs/converters.md)
+  [Filters](docs/filters.md)
+  [Testing](docs/testing.md)
+  [Authentication](docs/middlewares/override/authentication.md)
+  [Global Error Handler](docs/middlewares/override/global-error-handler.md)
+  [Guides](tutorials/overview.md)
+  [Passport.js](tutorials/passport.md)
+  [Socket.io](tutorials/socket-io.md)
+  [Swagger](tutorials/swagger.md)
+  [Upload files](tutorials/upload-files-with-multer.md)
+  [Serve static files](tutorials/serve-static-files.md)
+  [Templating](tutorials/templating.md)
+  [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
+  [AWS project](tutorials/aws.md)
+</div>  
