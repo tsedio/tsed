@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="serverloader">ServerLoader</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.14.2/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerLoader }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.15.0/src/server/components/ServerLoader.ts#L0-L0">                server/components/ServerLoader.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -22,9 +22,11 @@
     <span class="token function">setHttpPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">setHttpsPort</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">number</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">setEndpoint</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">scan</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">scan</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
+    <span class="token function">addComponents</span><span class="token punctuation">(</span>classes<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> Partial<<a href="#api/common/server/icomponentscanned"><span class="token">IComponentScanned</span></a>><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">addControllers</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> controllers<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">onError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> path<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
+    <span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> path<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <a href="#api/common/iserversettings"><span class="token">IServerSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/serversettingsprovider"><span class="token">ServerSettingsProvider</span></a><span class="token punctuation">;</span>
@@ -32,6 +34,7 @@
     <span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server<span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">file</span><span class="token punctuation">(</span>file<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 ### Members
@@ -115,7 +118,7 @@ Set the port for https server.
 <div class="method-overview"><pre><code class="typescript-lang"><del><span class="token function">setEndpoint</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></del></code></pre></div>
 Change the global endpoint path.
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">scan</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">scan</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this</code></pre></div>
 Scan and imports all files matching the pattern. See the document on the [Glob](https://www.npmjs.com/package/glob)
 pattern for more information.
 
@@ -146,10 +149,28 @@ const controllerPattern = Path.join(rootDir, 'controllers','**','*.js');
 ```
 
 <hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">addComponents</span><span class="token punctuation">(</span>classes<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> Partial<<a href="#api/common/server/icomponentscanned"><span class="token">IComponentScanned</span></a>><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Add classes to the components list
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">addControllers</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> controllers<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+Add classes decorated by `@Controller()` to components container.
+
+### Example
+
+```typescript
+@Controller('/ctrl')
+class MyController{
+}
+
+new ServerLoader().addControllers('/rest', [MyController])
+```
+?> If the MyController class isn't decorated, the class will be ignored.
+
+<hr />
 <div class="method-overview"><pre><code class="typescript-lang"><del><span class="token function">onError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></del></code></pre></div>
 ServerLoader.onError() is deprecated. Use your own middleware instead of.
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> path<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> path<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/server/serverloader"><span class="token">ServerLoader</span></a></code></pre></div>
 Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
 under the endpoint. See [Versioning Rest API](docs/server-loader/versioning.md) for more informations.
 <hr />
@@ -188,3 +209,5 @@ Return Http.Server instance.
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server</code></pre></div>
 Return Https.Server instance.
+<hr />
+<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">file</span><span class="token punctuation">(</span>file<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
