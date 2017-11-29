@@ -143,7 +143,8 @@ export class ServerSettingsProvider implements IServerSettings {
 
 
     /**
-     *
+     * This attribut is deprecated.
+     * @deprecated
      * @returns {string}
      */
     get endpointUrl(): string {
@@ -155,6 +156,7 @@ export class ServerSettingsProvider implements IServerSettings {
      * @param value
      */
     set endpointUrl(value: string) {
+        console.warn("The endpointUrl option is deprecated. Use the mount option instead of. See https://goo.gl/6MPr6q.");
         this.map.set("endpointUrl", value);
     }
 
@@ -171,6 +173,7 @@ export class ServerSettingsProvider implements IServerSettings {
      * @param value
      */
     set endpoint(value: string) {
+        console.warn("The endpoint option is deprecated. Use the mount option instead of. See https://goo.gl/6MPr6q.");
         this.map.set("endpointUrl", value);
     }
 

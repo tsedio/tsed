@@ -34,6 +34,7 @@ options in your `tsconfig.json` file.
 > **Note** : target can be set to ES2015/ES6.
 
 ### Optional
+
 You can copy this example of package.json to develop your application:
 
 ```json
@@ -50,7 +51,7 @@ You can copy this example of package.json to develop your application:
     "test": "mocha --reporter spec --check-leaks --bail test/",
     "tsc": "tsc --project tsconfig.json",
     "tsc:w": "tsc -w",
-    "start": "concurrently \"npm run tsc:w\" \"nodemon app.js --ignore *.ts\""
+    "start": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node app.ts"
   },
   "author": "",
   "license": "ISC",

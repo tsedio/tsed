@@ -5,6 +5,7 @@ import {Metadata} from "../../core/class/Metadata";
 /** */
 import {Type} from "../../core/interfaces";
 import {InjectorService} from "../services/InjectorService";
+import {descriptorOf} from "../../core/utils";
 
 export function Inject(symbol?: any): Function {
 
@@ -23,7 +24,7 @@ export function Inject(symbol?: any): Function {
             // descriptor and don't overwrite what another decorator might have done to the descriptor.
             /* istanbul ignore next */
             if (descriptor === undefined) {
-                descriptor = Object.getOwnPropertyDescriptor(target, targetKey);
+                descriptor = descriptorOf(target, targetKey);
             }
 
             const originalMethod = descriptor.value;

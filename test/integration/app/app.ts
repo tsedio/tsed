@@ -5,6 +5,7 @@ import "../../../src/swagger";
 import "../../../src/ajv";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import Path = require("path");
+import {RestCtrl} from "./controllers/RestCtrl";
 
 const rootDir = Path.resolve(__dirname);
 
@@ -13,8 +14,12 @@ const rootDir = Path.resolve(__dirname);
     port: 8001,
     httpsPort: 8071,
     mount: {
-        "/rest": "${rootDir}/controllers/**/**.js",
-        "/rest/v1": "${rootDir}/controllers/**/**.js"
+        "/rest": [
+            "${rootDir}/controllers/Base/**.js",
+            "${rootDir}/controllers/calendars/**.ts",
+            RestCtrl
+        ],
+        "/rest/v1": "${rootDir}/controllers/**/**.ts"
     },
 
     componentsScan: [
