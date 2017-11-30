@@ -1,4 +1,4 @@
-# TsExpressDecorators
+# Ts.ED
 
 [![Build Status](https://travis-ci.org/Romakita/ts-express-decorators.svg?branch=master)](https://travis-ci.org/Romakita/ts-express-decorators)
 [![Coverage Status](https://coveralls.io/repos/github/Romakita/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/Romakita/ts-express-decorators?branch=master)
@@ -11,7 +11,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/romakita/ts-express-decorators/badge.svg)](https://snyk.io/test/github/romakita/ts-express-decorators)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-> Build your TypeScript v2 application with Express decorators !
+> A TypeScript Framework on top of Express !
 
 [![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-express-decorators/)
 [![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=6&height=3)](https://nodei.co/npm/ts-express-decorators/)
