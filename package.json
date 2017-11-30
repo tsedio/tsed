@@ -1,7 +1,7 @@
 {
   "name": "ts-express-decorators",
   "version": "2.15.1",
-  "description": "Use TypeScript decorators to create your Express application",
+  "description": "A TypeScript Framework on top of Express",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -31,13 +31,16 @@
     "Controller",
     "Inject",
     "ioc",
+    "di",
     "mvc",
     "swagger",
     "swagger ui",
     "ES2015",
     "ES6",
     "server",
-    "rest"
+    "rest",
+    "api",
+    "validation"
   ],
   "author": "Romain Lenzotti",
   "license": "MIT",
