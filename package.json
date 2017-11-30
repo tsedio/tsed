@@ -89,7 +89,7 @@
     "nyc": "^11.0.3",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
-    "semantic-release": "^8.0.3",
+    "semantic-release": "^7.0.2",
     "sinon": "^4.0.1",
     "sinon-chai": "^2.10.0",
     "supertest": "^3.0.0",
