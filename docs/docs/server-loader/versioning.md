@@ -58,6 +58,6 @@ new Server().start();
 ```
 
 <div class="guide-links">
-<a href="/#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
-<a href="/#/docs/testing">Testing</a>
+<a href="#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
+<a href="#/docs/testing">Testing</a>
 </div>

@@ -179,6 +179,6 @@ and lets you manage the user's role for example.
 > See a complete integration example with [Passport.js](tutorials/passport.md).
 
 <div class="guide-links">
-<a href="/#/docs/filters">ServeLoader</a>
-<a href="/#/docs/server-loader/versionning">Versioning</a>
+<a href="#/docs/filters">ServeLoader</a>
+<a href="#/docs/server-loader/versionning">Versioning</a>
 </div>

@@ -29,6 +29,6 @@ export class CalendarCtrl {
 > If `id` parameter is not an number, the method throw a Bad Request. This will produce a response with status code 400 and "Not a number" message.
 
 <div class="guide-links">
-<a href="/#/tutorials/templating">Templating</a>
-<a href="/#/tutorials/aws">AWS project</a>
+<a href="#/tutorials/templating">Templating</a>
+<a href="#/tutorials/aws">AWS project</a>
 </div>

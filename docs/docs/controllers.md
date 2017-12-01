@@ -364,6 +364,6 @@ export abstract class ChildrenCtrl extends BaseController {
 ```
 
 <div class="guide-links">
-<a href="/#/configuration">Configuration</a>
-<a href="/#/docs/services/overview">Services</a>
+<a href="#/configuration">Configuration</a>
+<a href="#/docs/services/overview">Services</a>
 </div>

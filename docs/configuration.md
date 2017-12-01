@@ -82,9 +82,9 @@ ts-node isn't the runtime.
 
 Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-debug/). 
 
- - [Configuration](https://romakita.github.io/ts-log-debug/#/getting-started?id=installation),
- - [Customize appender (chanel)](https://romakita.github.io/ts-log-debug/#/appenders/custom),
- - [Customize layout](https://romakita.github.io/ts-log-debug/#/layouts/custom)
+ - [Configuration](https://romakita.github.io/ts-log-debug#/getting-started?id=installation),
+ - [Customize appender (chanel)](https://romakita.github.io/ts-log-debug#/appenders/custom),
+ - [Customize layout](https://romakita.github.io/ts-log-debug#/layouts/custom)
 
 ### Configuration
 
@@ -254,6 +254,6 @@ export class MyClass {
 
 
 <div class="guide-links">
-<a href="/#/docs/controllers">Controllers</a>
-<a href="/#/docs/services/overview">Services</a>
+<a href="#/docs/controllers">Controllers</a>
+<a href="#/docs/services/overview">Services</a>
 </div>

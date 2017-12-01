@@ -353,6 +353,6 @@ export class PassportCtrl {
 > You can find all source of this tutorial on [https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport)
 
 <div class="guide-links">
-<a href="/#/tutorials/ajv">Validation with AJV</a>
-<a href="/#/tutorials/socket-io">Socket.io</a>
+<a href="#/tutorials/ajv">Validation with AJV</a>
+<a href="#/tutorials/socket-io">Socket.io</a>
 </div>

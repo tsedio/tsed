@@ -88,6 +88,6 @@ class CustomParseService extends ParseService {
 ```
 
 <div class="guide-links">
-<a href="/#/docs/controllers">Controllers</a>
-<a href="/#/docs/services/lifecycle-hooks">Lifecycle hooks</a>
+<a href="#/docs/controllers">Controllers</a>
+<a href="#/docs/services/lifecycle-hooks">Lifecycle hooks</a>
 </div>

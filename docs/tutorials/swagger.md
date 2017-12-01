@@ -131,6 +131,6 @@ export class Calendar {
 > Credits: Thanks to [vologab](https://github.com/vologab) to his contribution.
 
 <div class="guide-links">
-<a href="/#/tutorials/socket-io">Socket.io</a>
-<a href="/#/tutorials/ajv">Validation with AJV</a>
+<a href="#/tutorials/socket-io">Socket.io</a>
+<a href="#/tutorials/ajv">Validation with AJV</a>
 </div>

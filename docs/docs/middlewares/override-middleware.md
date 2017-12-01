@@ -27,6 +27,6 @@ export class CustomMiddleware extends OriginalMiddlware {
 
 
 <div class="guide-links">
-<a href="/#/docs/middlewares/endpoint-error-middleware">Endpoint error middleware</a>
-<a href="/#/docs/filters">Filters</a>
+<a href="#/docs/middlewares/endpoint-error-middleware">Endpoint error middleware</a>
+<a href="#/docs/filters">Filters</a>
 </div>

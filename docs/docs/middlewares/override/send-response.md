@@ -63,6 +63,6 @@ And that all!
 * [Global error handler](docs/middlewares/override/global-error-handler.md)
 
 <div class="guide-links">
-<a href="/#/docs/converters">Converters</a>
-<a href="/#/docs/filters">Filters</a>
+<a href="#/docs/converters">Converters</a>
+<a href="#/docs/filters">Filters</a>
 </div>

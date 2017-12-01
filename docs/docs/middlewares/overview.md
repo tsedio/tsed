@@ -52,6 +52,6 @@ Signature | Example | Description
 ***
 
 <div class="guide-links">
-<a href="/#/docs/converters">Converters</a>
-<a href="/#/docs/middlewares/call-sequence">Call sequences</a>
+<a href="#/docs/converters">Converters</a>
+<a href="#/docs/middlewares/call-sequence">Call sequences</a>
 </div>

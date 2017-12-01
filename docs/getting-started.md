@@ -280,8 +280,8 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 We’ve briefly introduced the most basic features of Ts.ED - the rest of this guide will cover them and other advanced features with much finer details, so make sure to read through it all!
 
 <div class="guide-links">
-<a href="/#/configuration">Configuration</a>
-<a href="/#/docs/controllers">Controllers</a>
+<a href="#/configuration">Configuration</a>
+<a href="#/docs/controllers">Controllers</a>
 </div>
 
 ***
