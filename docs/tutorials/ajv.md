@@ -82,6 +82,6 @@ export class CalendarModel {
 > All validation decorators are compatible with the Swagger documentation.
 
 <div class="guide-links">
-<a href="/#/tutorials/swagger">Swagger</a>
-<a href="/#/tutorials/upload-files-with-multer">Upload files</a>
+<a href="#/tutorials/swagger">Swagger</a>
+<a href="#/tutorials/upload-files-with-multer">Upload files</a>
 </div>

@@ -67,7 +67,7 @@ Nonetheless, it's good practice to add interfaces to TypeScript directive classe
 
 
 <div class="guide-links">
-<a href="/#/docs/services/overview">Services</a>
-<a href="/#/docs/services/factory">Factory</a>
+<a href="#/docs/services/overview">Services</a>
+<a href="#/docs/services/factory">Factory</a>
 </div>
 

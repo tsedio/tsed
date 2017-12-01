@@ -64,7 +64,7 @@ According to the call sequence scheme, the stack will be there:
 - **Middleware** added in ServerLoader (not called too).
 
 <div class="guide-links">
-<a href="/#/docs/middlewares/overview">Middlewares</a>
-<a href="/#/docs/middlewares/global-middleware">Global middleware</a>
+<a href="#/docs/middlewares/overview">Middlewares</a>
+<a href="#/docs/middlewares/global-middleware">Global middleware</a>
 </div>
 

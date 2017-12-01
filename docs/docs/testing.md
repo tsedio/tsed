@@ -350,6 +350,6 @@ describe('A test that will not print logs :', () => {
 ```
 
 <div class="guide-links">
-<a href="/#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
-<a href="/#/tutorials/overview">Tutorials</a>
+<a href="#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
+<a href="#/tutorials/overview">Tutorials</a>
 </div>

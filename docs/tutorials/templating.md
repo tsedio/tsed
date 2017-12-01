@@ -75,6 +75,6 @@ export class EventCtrl {
 ```
 
 <div class="guide-links">
-<a href="/#/tutorials/serve-static-files">Serve static files</a>
-<a href="/#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a>
+<a href="#/tutorials/serve-static-files">Serve static files</a>
+<a href="#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a>
 </div>

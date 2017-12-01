@@ -211,8 +211,8 @@ class MyCtrl {
 
 
 <div class="guide-links">
-<a href="/#/docs/middlewares/global-error-middleware">Global error middleware</a>
-<a href="/#/docs/middlewares/endpoint-error-middleware">Endpoint error middleware</a>
+<a href="#/docs/middlewares/global-error-middleware">Global error middleware</a>
+<a href="#/docs/middlewares/endpoint-error-middleware">Endpoint error middleware</a>
 </div>
 
 

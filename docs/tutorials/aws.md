@@ -89,6 +89,6 @@ new Server().start();
 > Credits : Thanks to [vetras](https://github.com/vetras) for his contribution.
 
 <div class="guide-links">
-<a href="/#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a>
-<a href="/#/tutorials/passport">Passport.js</a>
+<a href="#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a>
+<a href="#/tutorials/passport">Passport.js</a>
 </div>

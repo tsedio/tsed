@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Romakita/ts-express-decorators.svg?branch=master)](https://travis-ci.org/Romakita/ts-express-decorators)
 [![Coverage Status](https://coveralls.io/repos/github/Romakita/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/Romakita/ts-express-decorators?branch=master)
-[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=100)](https://github.com/ellerbrock/typescript-badges/) 
+[![TypeScript](https://badges.frglfow apsoft.com/typescript/code/typescript.svg?v=100)](https://github.com/ellerbrock/typescript-badges/) 
 [![Package Quality](http://npm.packagequality.com/shield/ts-express-decorators.png)](http://packagequality.com/#?package=ts-express-decorators)
 [![npm version](https://badge.fury.io/js/ts-express-decorators.svg)](https://badge.fury.io/js/ts-express-decorators)
 [![Dependencies](https://david-dm.org/romakita/ts-express-decorators.svg)](https://david-dm.org/romakita/ts-express-decorators#info=dependencies)
@@ -12,9 +12,6 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 > A TypeScript Framework on top of Express !
-
-[![NPM](https://nodei.co/npm/ts-express-decorators.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ts-express-decorators/)
-[![NPM](https://nodei.co/npm-dl/ts-express-decorators.png?months=6&height=3)](https://nodei.co/npm/ts-express-decorators/)
 
 ## What is it
 

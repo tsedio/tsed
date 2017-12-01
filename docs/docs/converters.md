@@ -255,6 +255,6 @@ class Foo implements IConverter {
 See in [Built-in converters](api/index.md?query=keywords_Converter|type_class) in our API references.
 
 <div class="guide-links">
-<a href="/#/docs/services/overview">Controllers</a>
-<a href="/#/docs/middlewares/overview">Middlewares</a>
+<a href="#/docs/services/overview">Controllers</a>
+<a href="#/docs/middlewares/overview">Middlewares</a>
 </div>
