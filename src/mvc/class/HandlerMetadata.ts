@@ -1,8 +1,3 @@
-/**
- * @module common/mvc
- */
-/** */
-
 import {NotEnumerable} from "../../core/decorators";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE} from "../../filters/constants";
@@ -36,6 +31,9 @@ export class HandlerMetadata {
     @NotEnumerable()
     private _nextFunction: boolean;
 
+    @NotEnumerable()
+    private _useClass: any;
+
     constructor(private _target: any, private _methodClassName?: string) {
         this.resolve();
     }
@@ -45,6 +43,8 @@ export class HandlerMetadata {
      */
     private resolve() {
 
+        this._useClass = this._target;
+
         let handler = this._target;
         let target = this._target;
 
@@ -53,7 +53,7 @@ export class HandlerMetadata {
             this._type = "middleware";
             this._errorParam = middleware.type === MiddlewareType.ERROR;
             this._methodClassName = "use";
-            target = middleware.useClass;
+            this._useClass = target = middleware.useClass;
 
         } else if (ControllerRegistry.has(this._target)) {
             this._type = "controller";
@@ -100,7 +100,7 @@ export class HandlerMetadata {
     get services(): ParamMetadata[] {
 
         if (this.injectable) {
-            return ParamRegistry.getParams(this.target, this.methodClassName);
+            return ParamRegistry.getParams(this._useClass, this.methodClassName);
         }
 
         let parameters: any[] = [{service: EXPRESS_REQUEST}, {service: EXPRESS_RESPONSE}];

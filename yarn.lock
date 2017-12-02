@@ -72,11 +72,9 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
-"@types/json-schema@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-4.0.0.tgz#fbf6c078369546bd15ffa78ba7f3f2e170480769"
-  dependencies:
-    "@types/node" "*"
+"@types/json-schema@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-6.0.0.tgz#5842b43db9d199a2dabf6fe52b6d09200e8203bc"
 
 "@types/mime@*":
   version "2.0.0"

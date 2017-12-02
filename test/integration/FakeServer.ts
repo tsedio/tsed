@@ -2,10 +2,11 @@ import * as Express from "express";
 import {GlobalAcceptMimesMiddleware} from "../../src/mvc/components/GlobalAcceptMimesMiddleware";
 import {ServerLoader} from "../../src/server/components/ServerLoader";
 import {ServerSettings} from "../../src/server/decorators/serverSettings";
+import "../../src/swagger";
+import "./app/middlewares/authentication";
 import Path = require("path");
 
 const rootDir = Path.join(Path.resolve(__dirname), "app");
-import "../../src/swagger";
 
 @ServerSettings({
     rootDir,

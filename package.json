@@ -49,7 +49,7 @@
   },
   "homepage": "https://romakita.github.io/ts-express-decorators/#/",
   "dependencies": {
-    "@types/json-schema": "^4.0.0",
+    "@types/json-schema": "^6.0.0",
     "@types/swagger-schema-official": "^2.0.7",
     "glob": "^7.1.2",
     "json-schema": "^0.2.3",

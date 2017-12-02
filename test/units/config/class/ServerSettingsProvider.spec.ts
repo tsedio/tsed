@@ -76,10 +76,6 @@ describe("ServerSettingsProvider", () => {
         expect(this.serverSettingsService.serveStatic).to.deep.equal({"/": "/publics"});
     });
 
-    it("should return authentification", () => {
-        expect(this.serverSettingsService.authentification).to.be.a("function");
-    });
-
     it("should return debug", () => {
         expect(this.serverSettingsService.debug).to.equal(false);
     });

@@ -25,9 +25,6 @@ export class ServerSettingsProvider implements IServerSettings {
             logRequest: true
         };
 
-        /* istanbul ignore next */
-        this.authentification = () => (true);
-
         this.mount = {
             "/rest": "${rootDir}/controllers/**/*.js"
         };
@@ -154,23 +151,6 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     set env(value: Env) {
         this.map.set("env", value);
-    }
-
-    /**
-     *
-     * @returns {Function}
-     */
-    get authentification(): (request?: any, response?: any, next?: any, options?: any) => boolean {
-        return this.map.get("authentification");
-    }
-
-    /**
-     *
-     * @param callback
-     */
-    set authentification(callback: (request?: any, response?: any, next?: any, options?: any) => boolean) {
-        console.warn("The authentication option ($onAuth hooks) is deprecated. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
-        this.map.set("authentification", callback);
     }
 
     /**

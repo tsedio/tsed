@@ -1,5 +1,7 @@
 # Migration
 
+See release note on Github: https://github.com/Romakita/ts-express-decorators/releases
+
 ## From v1.x to v2.x
 
 - ServerLoader.isAuthenticated hooks is removed. Use ServerLoader.$onAuth hook instead of.

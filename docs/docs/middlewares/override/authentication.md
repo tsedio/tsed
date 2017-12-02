@@ -1,7 +1,7 @@
 # Authentication
 
 The annotation [`@Authenticated()`](api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](api/common/mvc/authenticatedmiddleware.md) 
-to check the authentication strategy. By default, this middleware will call the `$onAuth` hook (deprecated) to check if the user is connected or not.
+to check the authentication strategy. 
 
 To customise this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 
 your authentication strategy (with [passport.js for example](tutorials/passport.md)).
