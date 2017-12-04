@@ -71,7 +71,12 @@ export class HandlerBuilder {
             throw new Error(`${nameOf(this.handlerMetadata.target)} middleware component not found in the MiddlewareRegistry`);
         }
 
-        return provider.instance.use.bind(provider.instance);
+        let instance = provider.instance;
+        if (provider.scope) {
+            instance = InjectorService.invoke(provider.useClass, undefined, undefined, true);
+        }
+
+        return instance.use.bind(instance);
     }
 
     /**
@@ -95,7 +100,7 @@ export class HandlerBuilder {
                 locals.set(RouterController, new RouterController(provider.router));
             }
 
-            provider.instance = InjectorService.invoke<T>(target, locals);
+            provider.instance = InjectorService.invoke<T>(target, locals, undefined, true);
         }
 
         return provider.instance[this.handlerMetadata.methodClassName!].bind(provider.instance);

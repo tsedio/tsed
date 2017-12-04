@@ -18,7 +18,7 @@ export class Provider<T> implements IProvider<T> {
     @NotEnumerable()
     protected _type: any;
 
-    constructor(private _provide: any) {
+    constructor(protected _provide: any) {
         this._provide = getClass(this._provide);
         this._useClass = getClass(this._provide);
     }

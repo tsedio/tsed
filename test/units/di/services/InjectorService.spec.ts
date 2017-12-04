@@ -1,8 +1,9 @@
-import * as Chai from "chai";
 import {Inject, InjectorService} from "../../../../src";
+import {Store} from "../../../../src/core/class/Store";
+import {ProviderRegistry} from "../../../../src/di/registries/ProviderRegistry";
 import {inject} from "../../../../src/testing/inject";
+import {expect, Sinon} from "../../../tools";
 
-const expect: Chai.ExpectStatic = Chai.expect;
 
 interface MyFactory {
     method(): string;
@@ -87,27 +88,97 @@ describe("InjectorService", () => {
 
         describe("invoke()", () => {
             it("should invoke a function constructor", inject([InjectorService], (injectorService: InjectorService) => {
-
                 const fnInvokable = function (injectorService: InjectorService) {
                     expect(injectorService).to.be.an.instanceof(InjectorService);
                 };
-
                 injectorService.invoke(fnInvokable, undefined, [InjectorService]);
             }));
 
-            it("should invoke a function constructor with locals dependencies", inject([InjectorService], (injectorService: InjectorService) => {
+            describe("when locals is given", () => {
+                let fnInvokable: any, locals: any;
+                before(() => {
+                    const localService = new LocalService();
+                    locals = new Map();
+                    locals.set(LocalService, localService);
 
-                const localService = new LocalService();
-                const locals = new Map();
-                locals.set(LocalService, localService);
+                    fnInvokable = function (injectorService: InjectorService, localService: LocalService) {
+                        expect(injectorService).to.be.an.instanceof(InjectorService);
+                        expect(localService).to.be.an.instanceof(LocalService);
+                    };
+                });
 
-                const fnInvokable = function (injectorService: InjectorService, localService: LocalService) {
-                    expect(injectorService).to.be.an.instanceof(InjectorService);
-                    expect(localService).to.be.an.instanceof(LocalService);
-                };
+                it("should invoke a function constructor with locals dependencies", inject([InjectorService], (injectorService: InjectorService) => {
+                    injectorService.invoke(fnInvokable, locals, [InjectorService, LocalService]);
+                }));
+            });
 
-                injectorService.invoke(fnInvokable, locals, [InjectorService, LocalService]);
-            }));
+
+            describe("when scope is given", () => {
+                describe("when all classe is correctly decorated with scope", () => {
+                    class T1 {
+                        constructor(service: Se) {
+                            expect(service).to.be.an.instanceof(Se);
+                        }
+                    }
+
+                    class Se {
+                    }
+
+                    before(() => {
+                        Store.from(T1).set("scope", "request");
+                        this.getStub = Sinon.stub(ProviderRegistry, "get").returns({
+                            useClass: Se,
+                            scope: "request"
+                        });
+
+                        this.hasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
+
+                        this.result = InjectorService.invoke(T1, undefined, [Se], true);
+                    });
+                    after(() => {
+                        this.getStub.restore();
+                        this.hasStub.restore();
+                    });
+
+                    it("should invoke with scope", () => {
+                        this.result.should.be.an.instanceof(T1);
+                    });
+                });
+                describe("otherwise", () => {
+                    class T1 {
+                        constructor(service: Se) {
+                            expect(service).to.be.an.instanceof(Se);
+                        }
+                    }
+
+                    class Se {
+                    }
+
+                    before(() => {
+                        Store.from(T1).set("scope", undefined);
+                        this.getStub = Sinon.stub(ProviderRegistry, "get").returns({
+                            useClass: Se,
+                            scope: "request"
+                        });
+
+                        this.hasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
+
+                        try {
+                            InjectorService.invoke(T1, undefined, [Se], true);
+                        } catch (er) {
+                            this.error = er;
+                        }
+                    });
+                    after(() => {
+                        this.getStub.restore();
+                        this.hasStub.restore();
+                    });
+
+                    it("should invoke with scope", () => {
+                        this.error.message.should.be.eq("Service of type Se can not be injected as it is request scoped, while T1 is singleton scoped");
+                    });
+                });
+            });
         });
 
         describe("invokeMethod()", () => {

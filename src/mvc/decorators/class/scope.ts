@@ -1,16 +1,7 @@
-/**
- * @module common/mvc
- */
-/** */
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
-/**
- *
- * @decorator
- * @param scope
- */
-export function Scope(scope: false | "request" = "request") {
+import {Store} from "../../../core/class/Store";
 
-    return (target: any) => {
-        ControllerRegistry.merge(target, {scope});
-    };
+export function Scope(scope: false | "request" = "request") {
+    return Store.decorate((store) => {
+        store.set("scope", scope);
+    });
 }

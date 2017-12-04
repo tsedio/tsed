@@ -1,25 +1,16 @@
-/**
- * @module common/mvc
- */
-/** */
 import * as Express from "express";
+import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 import {NotEnumerable} from "../../core/decorators";
 import {Type} from "../../core/interfaces";
 import {getClass} from "../../core/utils";
-import {Provider} from "../../di/class/Provider";
+import {ProviderStorable} from "../../di/class/ProviderStorable";
 
-import {IControllerOptions, IControllerMiddlewares} from "../interfaces";
+import {IControllerMiddlewares, IControllerOptions} from "../interfaces";
 import {IChildrenController} from "../interfaces/IChildrenController";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
-import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 
-
-
-/**
- *
- */
-export class ControllerProvider extends Provider<any> implements IControllerOptions {
+export class ControllerProvider extends ProviderStorable<any> implements IControllerOptions {
     /**
      * The path for the controller
      */
@@ -42,12 +33,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      */
     @NotEnumerable()
     private _dependencies: IChildrenController[] = [];
-
-    /**
-     *
-     */
-    @NotEnumerable()
-    private _scope: boolean | "request";
 
     @NotEnumerable()
     public router: Express.Router;
@@ -108,22 +93,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
     set dependencies(dependencies: IChildrenController[]) {
         this._dependencies = dependencies;
         this._dependencies.forEach(d => d.$parentCtrl = this);
-    }
-
-    /**
-     * Create a new controler for each per incoming request.
-     * @returns {boolean}
-     */
-    get scope(): boolean | "request" {
-        return this._scope;
-    }
-
-    /**
-     *
-     * @param scope
-     */
-    set scope(scope: boolean | "request") {
-        this._scope = scope;
     }
 
     /**
@@ -207,5 +176,4 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
     public hasParent(): boolean {
         return !!this.provide.$parentCtrl;
     }
-
 }

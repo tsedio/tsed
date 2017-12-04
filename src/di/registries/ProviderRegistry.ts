@@ -1,5 +1,5 @@
 import {Registry} from "../../core/class/Registry";
-import {Provider} from "../class/Provider";
+import {ProviderStorable} from "../class/ProviderStorable";
 import {IProviderOptions} from "../interfaces/IProviderOptions";
 
-export const ProviderRegistry = new Registry<Provider<any>, IProviderOptions<any>>(Provider);
+export const ProviderRegistry = new Registry<ProviderStorable<any>, IProviderOptions<any>>(ProviderStorable);
