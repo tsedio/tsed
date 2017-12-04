@@ -1,7 +1,7 @@
 import "../../../../src/ajv";
 import {AjvService} from "../../../../src/ajv/services/AjvService";
 import {ParseExpressionError} from "../../../../src/mvc/errors/ParseExpressionError";
-import {ValidationService} from "../../../../src/mvc/services/ValidationService";
+import {ValidationService} from "../../../../src/filters/services/ValidationService";
 import {inject} from "../../../../src/testing";
 import {JsonFoo, JsonFoo2} from "../../../helper/classes";
 import {expect} from "../../../tools";

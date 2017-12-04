@@ -19,6 +19,7 @@ describe("ParamMetadata", () => {
         this.paramMetadata.expression = "test";
         this.paramMetadata.type = Test;
         this.paramMetadata.useConverter = true;
+        this.paramMetadata.useValidation = true;
     });
 
     after(() => delete this.paramMetadata);
@@ -45,6 +46,9 @@ describe("ParamMetadata", () => {
 
     it("should return useConverter", () =>
         expect(this.paramMetadata.useConverter).to.eq(true)
+    );
+    it("should return useConverter", () =>
+        expect(this.paramMetadata.useValidation).to.eq(true)
     );
 
     it("should return store", () =>
@@ -130,7 +134,6 @@ describe("ParamMetadata", () => {
         });
 
     });
-
 
     describe("isValidRequiredValue", () => {
         describe("when property is required", () => {

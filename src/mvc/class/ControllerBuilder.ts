@@ -4,13 +4,13 @@
 /** */
 import * as Express from "express";
 import {Type} from "../../core/interfaces/Type";
-import {IRouterOptions} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {ControllerProvider} from "./ControllerProvider";
 
 import {EndpointBuilder} from "./EndpointBuilder";
 import {HandlerBuilder} from "./HandlerBuilder";
+import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 
 export class ControllerBuilder {
 

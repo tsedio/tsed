@@ -23,7 +23,9 @@ describe("QueryParams", () => {
             .and
             .calledWithExactly(QueryParamsFilter, {
                 expression: "test",
-                useType: Test
+                useType: Test,
+                useConverter: true,
+                useValidation: true
             })
     );
 });

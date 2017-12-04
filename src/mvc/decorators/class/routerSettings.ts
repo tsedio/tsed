@@ -2,8 +2,8 @@
  * @module common/mvc
  */
 /** */
-import {IRouterOptions} from "../../interfaces";
 import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {IRouterOptions} from "../../../config/interfaces/IRouterOptions";
 
 /**
  *

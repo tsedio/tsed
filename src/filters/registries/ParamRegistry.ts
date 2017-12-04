@@ -69,7 +69,7 @@ export class ParamRegistry {
      * @param service
      * @param settings
      */
-    static useService(service: symbol, settings: IParamArgs<any>) {
+    static usePreHandler(service: symbol, settings: IParamArgs<any>) {
         const param = ParamRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
         param.service = service;
         param.useConverter = false;
@@ -119,7 +119,7 @@ export class ParamRegistry {
                 }, options);
 
                 if (typeof token === "symbol") {
-                    ParamRegistry.useService(token, settings);
+                    ParamRegistry.usePreHandler(token, settings);
                 } else {
                     ParamRegistry.useFilter(token, settings);
                 }

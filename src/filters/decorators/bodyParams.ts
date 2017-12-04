@@ -1,9 +1,9 @@
-import {ParamRegistry} from "../registries/ParamRegistry";
 /**
  * @module common/filters
  */
 /** */
 import {BodyParamsFilter} from "../components/BodyParamsFilter";
+import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
  * BodyParams return the value from [request.body](http://expressjs.com/en/4x/api.html#req.body) object.
@@ -42,5 +42,10 @@ import {BodyParamsFilter} from "../components/BodyParamsFilter";
  * @returns {Function}
  */
 export function BodyParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(BodyParamsFilter, {expression, useType});
+    return ParamRegistry.decorate(BodyParamsFilter, {
+        expression,
+        useType,
+        useConverter: true,
+        useValidation: true
+    });
 }

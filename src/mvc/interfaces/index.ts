@@ -1,7 +1,7 @@
 /**
  * @module common/mvc
  */ /** */
-export * from "../../filters/interfaces/Arguments";
+
 export * from "./Express";
 export * from "./IControllerOptions";
 export * from "./IControllerRoute";
@@ -10,10 +10,7 @@ export * from "./IMiddlewareError";
 export * from "./IMiddlewareOptions";
 export * from "./IMiddlewareProvider";
 export * from "./IControllerMiddlewares";
-export * from "../../config/interfaces/IRouterOptions";
 export * from "./MiddlewareType";
-export * from "../../config/interfaces/IRouterOptions";
-export * from "../../config/interfaces/IRouterOptions";
 export * from "./PathParamsType";
 export * from "./IChildrenController";
 export * from "./IResponseOptions";

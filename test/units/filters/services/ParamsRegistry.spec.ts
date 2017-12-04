@@ -13,7 +13,7 @@ describe("ParamRegistry", () => {
     describe("decorate()", () => {
         describe("when it used with filter", () => {
             before(() => {
-                this.useServiceStub = Sinon.stub(ParamRegistry, "useService");
+                this.useServiceStub = Sinon.stub(ParamRegistry, "usePreHandler");
                 this.useFilterStub = Sinon.stub(ParamRegistry, "useFilter");
 
                 this.classT = class T {
@@ -39,13 +39,13 @@ describe("ParamRegistry", () => {
                     parameterIndex: 0
                 });
             });
-            it("should not call the useService", () => {
+            it("should not call the usePreHandler", () => {
                 return this.useServiceStub.should.not.be.called;
             });
         });
         describe("when it used with service", () => {
             before(() => {
-                this.useServiceStub = Sinon.stub(ParamRegistry, "useService");
+                this.useServiceStub = Sinon.stub(ParamRegistry, "usePreHandler");
                 this.useFilterStub = Sinon.stub(ParamRegistry, "useFilter");
 
                 this.symbolT = Symbol("serviceT");
@@ -62,7 +62,7 @@ describe("ParamRegistry", () => {
             it("should return a function", () => {
                 expect(this.decorator).to.be.a("function");
             });
-            it("should call the useService with the correct parameters", () => {
+            it("should call the usePreHandler with the correct parameters", () => {
                 this.useServiceStub.should.have.been.calledOnce.and.calledWithExactly(this.symbolT, {
                     expression: "options",
                     target: this.classO,

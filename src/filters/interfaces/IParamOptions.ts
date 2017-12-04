@@ -13,4 +13,5 @@ export interface IParamOptions<T> {
     useType?: Type<T>;
     baseType?: Type<T>;
     useConverter?: boolean;
+    useValidation?: boolean;
 }
