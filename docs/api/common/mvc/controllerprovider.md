@@ -1,16 +1,15 @@
 <header class="symbol-info-header">    <h1 id="controllerprovider">ControllerProvider</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ControllerProvider }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.15.4/src/mvc/class/ControllerProvider.ts#L0-L0">                mvc/class/ControllerProvider.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ControllerProvider }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.16.0/src/mvc/class/ControllerProvider.ts#L0-L0">                mvc/class/ControllerProvider.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
-<pre><code class="typescript-lang"><span class="token keyword">class</span> ControllerProvider <span class="token keyword">extends</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>> <span class="token keyword">implements</span> <a href="#api/common/mvc/icontrolleroptions"><span class="token">IControllerOptions</span></a> <span class="token punctuation">{</span>
+<pre><code class="typescript-lang"><span class="token keyword">class</span> ControllerProvider <span class="token keyword">extends</span> <a href="#api/common/di/providerstorable"><span class="token">ProviderStorable</span></a><<span class="token keyword">any</span>> <span class="token keyword">implements</span> <a href="#api/common/mvc/icontrolleroptions"><span class="token">IControllerOptions</span></a> <span class="token punctuation">{</span>
     router<span class="token punctuation">:</span> Express.Router<span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> routerPaths<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> endpoints<span class="token punctuation">:</span> <a href="#api/common/mvc/endpointmetadata"><span class="token">EndpointMetadata</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     dependencies<span class="token punctuation">:</span> <a href="#api/common/mvc/ichildrencontroller"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    scope<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | "request"<span class="token punctuation">;</span>
     routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     middlewares<span class="token punctuation">:</span> <a href="#api/common/mvc/icontrollermiddlewares"><span class="token">IControllerMiddlewares</span></a><span class="token punctuation">;</span>
@@ -24,6 +23,7 @@
 ### Members
 
 <div class="method-overview"><pre><code class="typescript-lang">router<span class="token punctuation">:</span> Express.Router</code></pre></div>
+Controllers that depend to this controller.
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">path<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
 set path
@@ -33,8 +33,6 @@ set path
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> endpoints<span class="token punctuation">:</span> <a href="#api/common/mvc/endpointmetadata"><span class="token">EndpointMetadata</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">dependencies<span class="token punctuation">:</span> <a href="#api/common/mvc/ichildrencontroller"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">scope<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | "request"</code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a></code></pre></div>
 <hr />
