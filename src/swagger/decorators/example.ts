@@ -8,7 +8,7 @@ import {Schema} from "./schema";
  * @returns {(...args: any[]) => any}
  * @decorator
  */
-export function Example(name: string, description?: string) {
+export function Example(name: string | any, description?: string) {
     return (...args: any[]) => {
         let example;
         if (description) {
@@ -18,18 +18,5 @@ export function Example(name: string, description?: string) {
         }
 
         return Schema({example: example as any})(...args);
-    };
-}
-
-/**
- * Add a example metadata of any type on the decorated element.
- *
- * @param {any} exampleValue
- * @returns {(...args: any[]) => any}
- * @decorator
- */
-export function ExampleAnyType(exampleValue: any, ) {
-    return (...args: any[]) => {
-        return Schema({example: exampleValue})(...args);
     };
 }
