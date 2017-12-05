@@ -545,7 +545,8 @@ describe("HandlerBuilder", () => {
                 this.controllerGetStub = Sinon.stub(ControllerRegistry, "get");
                 this.controllerGetStub.returns({
                     useClass: "providerClass",
-                    instance: this.instance
+                    instance: this.instance,
+                    scope: "singleton"
                 });
                 this.handlerMetadata = {
                     target: "target",
@@ -601,7 +602,8 @@ describe("HandlerBuilder", () => {
                     instance: {
                         use: () => {
                         }
-                    }
+                    },
+                    scope: "singleton"
                 });
                 this.handlerMetadata = {
                     target: "target"

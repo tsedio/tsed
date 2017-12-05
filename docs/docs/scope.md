@@ -14,7 +14,7 @@ This example is available for Middleware and Controller.
 
 ```typescript
 @Middleware()
-@Scope("request") 
+@Scope("request")  // or ProviderScope.REQUEST
 export class TokenMiddleware implements IMiddleware {
     // Inject service into middleware
     constructor(public userDetailsService: UserDetailsService) { }
@@ -39,7 +39,7 @@ For the Service, it's almost the case of the previous example, but you need to k
 
 ```typescript
 @Service()
-@Scope("request") 
+@Scope(ProviderScope.REQUEST) 
 export class UserDetailsService {
    ...
 }

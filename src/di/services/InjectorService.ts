@@ -8,7 +8,7 @@ import {Type} from "../../core/interfaces";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, IProvider, IProviderOptions} from "../interfaces";
+import {IInjectableMethod, IProvider, IProviderOptions, ProviderScope} from "../interfaces";
 import {ProviderRegistry} from "../registries/ProviderRegistry";
 
 /**
@@ -265,7 +265,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
 
                 const provider = ProviderRegistry.get(serviceType)!;
 
-                if (provider.scope === "request") {
+                if (provider.scope === ProviderScope.REQUEST) {
                     if (requiredScope && !parentScope) {
                         throw new InjectionScopeError(provider.useClass, target);
                     }

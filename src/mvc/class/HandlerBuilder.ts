@@ -2,6 +2,7 @@ import * as Express from "express";
 import {globalServerSettings} from "../../config";
 import {CastError} from "../../core/errors/CastError";
 import {nameOf} from "../../core/utils";
+import {ProviderScope} from "../../di/interfaces";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
@@ -72,7 +73,9 @@ export class HandlerBuilder {
         }
 
         let instance = provider.instance;
-        if (provider.scope) {
+        this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
+
+        if (this._rebuildHandler) {
             instance = InjectorService.invoke(provider.useClass, undefined, undefined, true);
         }
 
@@ -93,9 +96,9 @@ export class HandlerBuilder {
         }
 
         const target = provider.useClass;
-        this._rebuildHandler = !!provider.scope;
+        this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
 
-        if (provider.scope || provider.instance === undefined) {
+        if (this._rebuildHandler || provider.instance === undefined) {
             if (!locals.has(RouterController)) {
                 locals.set(RouterController, new RouterController(provider.router));
             }

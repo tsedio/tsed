@@ -1,5 +1,6 @@
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
+import {ProviderScope} from "../interfaces";
 
 import {Provider} from "./Provider";
 
@@ -40,15 +41,15 @@ export class ProviderStorable<T> extends Provider<T> {
      * Get the scope of the provider.
      * @returns {boolean}
      */
-    get scope(): boolean | "request" {
-        return this.store.get("store");
+    get scope(): ProviderScope {
+        return this.store.get("store") || ProviderScope.SINGLETON;
     }
 
     /**
      * Change the scope value of the provider.
      * @param scope
      */
-    set scope(scope: boolean | "request") {
+    set scope(scope: ProviderScope) {
         this.store.set("store", scope);
     }
 }

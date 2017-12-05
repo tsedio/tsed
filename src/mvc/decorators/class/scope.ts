@@ -1,6 +1,13 @@
 import {Store} from "../../../core/class/Store";
+import {ProviderScope} from "../../../di/interfaces";
 
-export function Scope(scope: false | "request" = "request") {
+/**
+ *
+ * @param {"request" | "singleton" | ProviderScope} scope
+ * @returns {Function}
+ * @constructor
+ */
+export function Scope(scope: "request" | "singleton" | ProviderScope = ProviderScope.REQUEST) {
     return Store.decorate((store) => {
         store.set("scope", scope);
     });

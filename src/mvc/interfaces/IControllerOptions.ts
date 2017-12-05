@@ -1,10 +1,11 @@
+import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 /**
  * @module common/mvc
  */
 /** */
 import {Type} from "../../core/interfaces";
+import {ProviderScope} from "../../di/interfaces";
 import {IControllerMiddlewares} from "./IControllerMiddlewares";
-import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 import {PathParamsType} from "./PathParamsType";
 
 /**
@@ -13,7 +14,6 @@ import {PathParamsType} from "./PathParamsType";
 export interface IControllerOptions {
     path?: PathParamsType;
     dependencies?: Type<any>[];
-    scope?: boolean | "request";
     routerOptions?: IRouterOptions;
     middlewares?: IControllerMiddlewares;
 }
