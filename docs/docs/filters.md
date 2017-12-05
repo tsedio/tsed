@@ -110,6 +110,6 @@ describe("BodyParams", () => {
 See in [Built-in filters](api/index.md?query=keywords_Filter|type_class) in our API references.
 
 <div class="guide-links">
-<a href="#/docs/middlewares/overview">Middlewares</a>
+<a href="#/docs/scope">Scope</a>
 <a href="#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
 </div>

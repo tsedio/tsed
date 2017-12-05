@@ -525,7 +525,7 @@ describe("HandlerBuilder", () => {
                 this.controllerGetStub.should.have.been.calledWithExactly("target");
             });
             it("should have called the invoke method", () => {
-                this.invokeStub.should.have.been.calledWithExactly("providerClass", this.locals);
+                this.invokeStub.should.have.been.calledWithExactly("providerClass", this.locals, undefined, true);
             });
             it("should return the handler", () => {
                 this.result.should.have.been.a("function");
@@ -545,7 +545,8 @@ describe("HandlerBuilder", () => {
                 this.controllerGetStub = Sinon.stub(ControllerRegistry, "get");
                 this.controllerGetStub.returns({
                     useClass: "providerClass",
-                    instance: this.instance
+                    instance: this.instance,
+                    scope: "singleton"
                 });
                 this.handlerMetadata = {
                     target: "target",
@@ -601,7 +602,8 @@ describe("HandlerBuilder", () => {
                     instance: {
                         use: () => {
                         }
-                    }
+                    },
+                    scope: "singleton"
                 });
                 this.handlerMetadata = {
                     target: "target"
@@ -636,6 +638,37 @@ describe("HandlerBuilder", () => {
                 assert.throws(() => {
                     this.handlerBuilder.middlewareHandler();
                 }, "target middleware component not found in the MiddlewareRegistry");
+            });
+        });
+
+        describe("with a scope options", () => {
+            before(() => {
+                this.invokeStub = Sinon.stub(InjectorService, "invoke").returns({
+                    use: () => {
+                    }
+                });
+
+                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
+                this.middlewareGetStub.returns({
+                    useClass: "class",
+                    scope: "request"
+                });
+
+                this.handlerMetadata = {
+                    target: "target"
+                };
+                this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
+                this.result = this.handlerBuilder.middlewareHandler();
+            });
+            after(() => {
+                this.middlewareGetStub.restore();
+                this.invokeStub.restore();
+            });
+            it("should return a new instance of middleware", () => {
+                this.invokeStub.should.have.been.calledWithExactly("class", undefined, undefined, true);
+            });
+            it("should return an handler", () => {
+                this.result.should.have.been.a("function");
             });
         });
     });

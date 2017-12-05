@@ -1,5 +1,6 @@
 import * as Express from "express";
 import {$log} from "ts-log-debug";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Type} from "../../core/interfaces";
 import {ExpressApplication} from "../../core/services/ExpressApplication";
@@ -7,12 +8,12 @@ import {Inject} from "../../di";
 import {Service} from "../../di/decorators/service";
 import {InjectorService} from "../../di/services/InjectorService";
 import {IComponentScanned} from "../../server/interfaces";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {IControllerOptions} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {RouterController} from "./RouterController";
+import {ProviderScope} from "../../di/interfaces";
 
 /**
  * ControllerService manage all controllers declared with `@ControllerProvider` decorators.
@@ -119,7 +120,7 @@ export class ControllerService extends ProxyRegistry<ControllerProvider, IContro
 
             const target = provider.useClass;
 
-            if (!provider.scope && provider.instance === undefined) {
+            if (provider.scope === ProviderScope.SINGLETON && provider.instance === undefined) {
                 provider.instance = this.invoke<any>(target);
             }
         });

@@ -2,6 +2,7 @@ import * as Express from "express";
 import {globalServerSettings} from "../../config";
 import {CastError} from "../../core/errors/CastError";
 import {nameOf} from "../../core/utils";
+import {ProviderScope} from "../../di/interfaces";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
@@ -71,7 +72,14 @@ export class HandlerBuilder {
             throw new Error(`${nameOf(this.handlerMetadata.target)} middleware component not found in the MiddlewareRegistry`);
         }
 
-        return provider.instance.use.bind(provider.instance);
+        let instance = provider.instance;
+        this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
+
+        if (this._rebuildHandler) {
+            instance = InjectorService.invoke(provider.useClass, undefined, undefined, true);
+        }
+
+        return instance.use.bind(instance);
     }
 
     /**
@@ -88,14 +96,14 @@ export class HandlerBuilder {
         }
 
         const target = provider.useClass;
-        this._rebuildHandler = !!provider.scope;
+        this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
 
-        if (provider.scope || provider.instance === undefined) {
+        if (this._rebuildHandler || provider.instance === undefined) {
             if (!locals.has(RouterController)) {
                 locals.set(RouterController, new RouterController(provider.router));
             }
 
-            provider.instance = InjectorService.invoke<T>(target, locals);
+            provider.instance = InjectorService.invoke<T>(target, locals, undefined, true);
         }
 
         return provider.instance[this.handlerMetadata.methodClassName!].bind(provider.instance);

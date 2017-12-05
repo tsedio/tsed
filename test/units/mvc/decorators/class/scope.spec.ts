@@ -1,49 +1,31 @@
-import {assert, expect} from "chai";
-import * as Sinon from "sinon";
-import * as Proxyquire from "proxyquire";
-
-const ControllerRegistryStub: any = {
-    merge: Sinon.stub()
-};
-
-const Scope = Proxyquire.load("../../../../../src/mvc/decorators/class/scope", {
-    "../../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
-}).Scope;
+import {Store} from "../../../../../src/core/class/Store";
+import {Scope} from "../../../../../src/mvc/decorators/class/scope";
+import {expect} from "../../../../tools";
 
 class Test {
 
 }
 
 describe("Scope", () => {
-
-    describe("per request", () => {
+    describe("when parameters is given", () => {
         before(() => {
             Scope("request")(Test);
+            this.store = Store.from(Test);
         });
 
-        after(() => {
-
-        });
-
-        it("should call merge method with an object", () => {
-            assert(ControllerRegistryStub.merge.calledWith(Test), "parameters mismatch");
-            expect(ControllerRegistryStub.merge.args[0][1].scope).to.eq("request");
+        it("should set metadata", () => {
+            expect(this.store.get("scope")).to.eq("request");
         });
     });
 
-    describe("no params", () => {
+    describe("when parameters is not given", () => {
         before(() => {
             Scope()(Test);
+            this.store = Store.from(Test);
         });
 
-        after(() => {
-
-        });
-
-        it("should call merge method with an object", () => {
-            assert(ControllerRegistryStub.merge.calledWith(Test), "parameters mismatch");
-            expect(ControllerRegistryStub.merge.args[1][1].scope).to.eq("request");
+        it("should set metadata", () => {
+            expect(this.store.get("scope")).to.eq("request");
         });
     });
-
 });

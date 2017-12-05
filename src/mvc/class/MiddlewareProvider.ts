@@ -1,12 +1,7 @@
-import {Provider} from "../../di/class/Provider";
-/**
- * @module common/mvc
- */
+import {ProviderStorable} from "../../di/class/ProviderStorable";
 import {IMiddlewareOptions, MiddlewareType} from "../interfaces";
-/** */
 
-export class MiddlewareProvider extends Provider<any> implements IMiddlewareOptions {
-
+export class MiddlewareProvider extends ProviderStorable<any> implements IMiddlewareOptions {
     constructor(provide: any) {
         super(provide);
     }

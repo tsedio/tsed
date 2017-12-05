@@ -1,16 +1,14 @@
-/**
- * @module common/mvc
- */
-/** */
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {Store} from "../../../core/class/Store";
+import {ProviderScope} from "../../../di/interfaces";
+
 /**
  *
- * @decorator
- * @param scope
+ * @param {"request" | "singleton" | ProviderScope} scope
+ * @returns {Function}
+ * @constructor
  */
-export function Scope(scope: false | "request" = "request") {
-
-    return (target: any) => {
-        ControllerRegistry.merge(target, {scope});
-    };
+export function Scope(scope: "request" | "singleton" | ProviderScope = ProviderScope.REQUEST) {
+    return Store.decorate((store) => {
+        store.set("scope", scope);
+    });
 }

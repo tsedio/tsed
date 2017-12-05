@@ -1,13 +1,15 @@
 import {$log} from "ts-log-debug";
 import {nameOf} from "../../core";
 import {Metadata} from "../../core/class/Metadata";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Registry} from "../../core/class/Registry";
+import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
-import {IInjectableMethod, IProvider, IProviderOptions} from "../interfaces";
+import {InjectionScopeError} from "../errors/InjectionScopeError";
+import {IInjectableMethod, IProvider, IProviderOptions, ProviderScope} from "../interfaces";
 import {ProviderRegistry} from "../registries/ProviderRegistry";
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -231,13 +233,16 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      * @param target The injectable class to invoke. Class parameters are injected according constructor signature.
      * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
      * @param designParamTypes Optional object. List of injectable types.
+     * @param requiredScope
      * @returns {T} The class constructed.
      */
-    static invoke<T>(target: any, locals: Map<string | Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
+    static invoke<T>(target: any, locals: Map<string | Function, any> = new Map<Function, any>(), designParamTypes?: any[], requiredScope: boolean = false): T {
 
         if (!designParamTypes) {
             designParamTypes = Metadata.getParamTypes(target);
         }
+
+        const parentScope = Store.from(target).get("scope");
 
         const services = designParamTypes
             .map((serviceType: any) => {
@@ -258,6 +263,15 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
                     throw new InjectionError(target, serviceName.toString());
                 }
 
+                const provider = ProviderRegistry.get(serviceType)!;
+
+                if (provider.scope === ProviderScope.REQUEST) {
+                    if (requiredScope && !parentScope) {
+                        throw new InjectionScopeError(provider.useClass, target);
+                    }
+                    return this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+                }
+
                 return this.get(serviceType);
             });
 
@@ -269,7 +283,6 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      * @param target The service to be built.
      */
     static construct<T>(target: Type<any> | symbol): T {
-
         const provider: Provider<any> = ProviderRegistry.get(target)!;
         return this.invoke<any>(provider.useClass);
     }

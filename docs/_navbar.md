@@ -17,6 +17,7 @@
   - [Services](docs/services/overview.md)
   - [Converters](docs/converters.md)
   - [Middlewares](docs/middlewares/overview.md)
+  - [Scope](docs/scope.md)
   - [Filters](docs/filters.md)
   - [ServerLoader](docs/server-loader/_sidebar.md) 
   - [Server configuration](configuration.md)
