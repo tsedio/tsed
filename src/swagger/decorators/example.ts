@@ -8,7 +8,7 @@ import {Schema} from "./schema";
  * @returns {(...args: any[]) => any}
  * @decorator
  */
-export function Example(name: string, description?: string) {
+export function Example(name: string | any, description?: string) {
     return (...args: any[]) => {
         let example;
         if (description) {
