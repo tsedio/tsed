@@ -1,14 +1,45 @@
 # Scope
 
-The [@Scope](docs/api/common/mvc/scope) change the behavior of a [Provider](docs/api/common/di/provider.md) like a Service, Controller or Middleware.
+The scope of a [provider](docs/api/common/di/provider.md) defines the life cycle and visibility of that bean in the contexts in which it is used.
 
-All providers are created one time when the server initialisation (Singleton pattern).
+Ts.ED define two types of scope:
 
-But [@Scope](docs/api/common/mvc/scope) decorator change that. It's mean, your Service, Controller or Middleware will be 
-created each time according to the scope configuration. Actually, the only scope supported is `request`. 
-So for each incoming request, a new instance of the provider will be created.
+- singleton
+- request
 
-## Example
+The scope annotation can be used on the following providers:
+
+- [Service](docs/services/overview.md)
+- [Controller](docs/controllers.md)
+- [Middleware](docs/middlewares/overview.md)
+
+## Singleton scope
+
+Singleton scope is the default behavior of all providers. That means all providers are create on the server initialization.
+
+```typescript
+@Middleware()
+@Scope(ProviderScope.SINGLETON)  // OPTIONAL, leaving this annotation a the same behavior
+export class TokenMiddleware implements IMiddleware {
+    // Inject service into middleware
+    constructor(public userDetailsService: UserDetailsService) { }
+
+    use(@Request() request: Express.Request,
+        @EndpointInfo() endpoint: Endpoint,
+        @Response() response: Express.Response,
+        @Next() next: Express.NextFunction) {
+        ...
+        this.userDetailsService.profile = user;
+        ...
+    }
+}
+```
+
+## Request scope
+
+Request scope will create a new instance of the provider for each incoming request.
+
+### Example
 
 This example is available for Middleware and Controller.
 
@@ -31,7 +62,7 @@ export class TokenMiddleware implements IMiddleware {
 ```
 > In this case, the TokenMiddleware will created for each new request.
 
-## With a Service
+### With a Service
 
 For the Service, it's almost the case of the previous example, but you need to keep in mind this point:
 
