@@ -42,6 +42,7 @@ index.js.map
 !multipartfiles/index.js
 !servestatic/index.js
 !ajv/index.js
+!socketio/index.js
 src/**/*.js
 src/**/*.js.map
 test/**/*.js

@@ -17,7 +17,7 @@ Then add the following configuration in your [ServerLoader](api/common/server/se
 
 ```typescript
 import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/swagger"; // import swagger ts.ed module
+import "ts-express-decorators/swagger"; // import swagger Ts.ED module
 
 @ServerSettings({
     rootDir: __dirname,

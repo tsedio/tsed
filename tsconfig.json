@@ -39,6 +39,7 @@
     "multipartfiles",
     "swagger",
     "servestatic",
+    "socketio",
     "ajv",
     "lib"
   ]

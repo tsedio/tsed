@@ -209,7 +209,7 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
         return obj;
     }
 
-    if (isPrimitiveOrPrimitiveClass(obj) || typeof obj === "function") {
+    if (isPrimitiveOrPrimitiveClass(obj) || typeof obj === "symbol" || typeof obj === "function") {
         return obj;
     }
 
