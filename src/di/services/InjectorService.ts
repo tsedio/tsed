@@ -292,7 +292,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      * @param args List of the parameters to give to each services.
      * @returns {Promise<any[]>} A list of promises.
      */
-    static async emit(eventName: string, ...args: any[]): Promise<any[]> {
+    static async emit(eventName: string, ...args: any[]): Promise<any> {
         const promises: Promise<any>[] = [];
 
         $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
@@ -311,7 +311,18 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             }
         });
 
-        return Promise.all(promises);
+        $log.debug("\x1B[1mCall hook", eventName, " promises built\x1B[22m");
+
+        return Promise
+            .all(promises)
+            .then(() => {
+                $log.debug("\x1B[1mCall hook", eventName, "done...\x1B[22m");
+            })
+            .catch(/* istanbul ignore next */(err) => {
+                /* istanbul ignore next */
+                console.error(err);
+                process.exit(-1);
+            });
     }
 
     /**
@@ -328,8 +339,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             const token = nameOf(provider.provide);
             const useClass = nameOf(provider.useClass);
 
-            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`
-            );
+            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
         });
 
         return registry;
