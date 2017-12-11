@@ -3,7 +3,8 @@ import {nameOf, Registry} from "../../core";
 import {Metadata} from "../../core/class/Metadata";
 import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Store} from "../../core/class/Store";
-import {Type} from "../../core/interfaces";
+import {Env, Type} from "../../core/interfaces";
+import {promiseTimeout} from "../../core/utils";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
@@ -292,13 +293,12 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      * @param args List of the parameters to give to each services.
      * @returns {Promise<any[]>} A list of promises.
      */
-    static async emit(eventName: string, ...args: any[]): Promise<any[]> {
+    static async emit(eventName: string, ...args: any[]): Promise<any> {
         const promises: Promise<any>[] = [];
 
         $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
 
         ProviderRegistry.forEach((provider: IProvider<any>) => {
-
             const service = InjectorService.get<any>(provider.provide);
 
             if (eventName in service) {
@@ -306,12 +306,47 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
                 if (eventName === "$onInjectorReady") {
                     $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
                 }
-                $log.debug("Emit", eventName, "on", nameOf(provider.useClass));
-                promises.push(service[eventName](...args));
+
+                const promise: any = service[eventName](...args);
+
+                /* istanbul ignore next */
+                if (promise && promise.then) {
+                    promises.push(
+                        promiseTimeout(promise, 1000)
+                            .then((result) => InjectorService.checkPromiseStatus(eventName, result, nameOf(provider.useClass)))
+                    );
+                }
             }
         });
 
-        return Promise.all(promises);
+        /* istanbul ignore next */
+        if (promises.length) {
+            $log.debug("\x1B[1mCall hook", eventName, " promises built\x1B[22m");
+
+            return promiseTimeout(Promise.all(promises), 2000)
+                .then((result) => InjectorService.checkPromiseStatus(eventName, result));
+        }
+
+        return Promise.resolve();
+    }
+
+    /**
+     *
+     * @param {string} eventName
+     * @param result
+     * @param {string} service
+     */
+
+    /* istanbul ignore next */
+    private static checkPromiseStatus(eventName: string, result: any, service?: string) {
+        if (!result.ok) {
+            const msg = `Timeout on ${eventName} hook. Promise are unfulfilled ${service ? "on service" + service : ""}`;
+            if (process.env.NODE_ENV === Env.PROD) {
+                throw(msg);
+            } else {
+                setTimeout(() => $log.warn(msg, "In production, the warning will down the server!"), 1000);
+            }
+        }
     }
 
     /**
@@ -328,8 +363,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             const token = nameOf(provider.provide);
             const useClass = nameOf(provider.useClass);
 
-            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`
-            );
+            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
         });
 
         return registry;
