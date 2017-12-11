@@ -9,7 +9,8 @@ import {
     isCollection,
     isEmpty,
     isPrimitiveOrPrimitiveClass,
-    nameOf
+    nameOf,
+    promiseTimeout
 } from "../../../../src/core/utils/index";
 import {expect, Sinon} from "../../../tools";
 
@@ -378,6 +379,34 @@ describe("Utils", () => {
         });
         it("should return the value return by the originalMethod", () => {
             this.result.should.be.eq("returns");
+        });
+    });
+
+    describe("promiseTimeout()", () => {
+        describe("when there is a timeout", () => {
+            before(() => {
+                return this.result = promiseTimeout(new Promise(() => {
+                }), 500);
+            });
+
+            it("should return a response with a no ok", () => {
+                return this.result.should.eventually.deep.eq({
+                    ok: false
+                });
+            });
+        });
+
+        describe("when success", () => {
+            before(() => {
+                return this.result = promiseTimeout(new Promise((resolve) => resolve("test")), 500);
+            });
+
+            it("should return a response with a ok", () => {
+                return this.result.should.eventually.deep.eq({
+                    ok: true,
+                    response: "test"
+                });
+            });
         });
     });
 });
