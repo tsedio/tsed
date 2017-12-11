@@ -223,7 +223,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         const self: any = this;
 
         if (key in this) {
-            $log.debug(`Call hook ${key}()`);
+            $log.debug(`\x1B[1mCall hook ${key}\x1B[22m`);
             return self[key](...args);
         }
 
@@ -259,6 +259,9 @@ export abstract class ServerLoader implements IServerLifecycle {
             await Promise.all(this._scannedPromises);
             await this.callHook("$onInit");
             await this.loadSettingsAndInjector();
+
+            $log.debug("Settings and injector loaded");
+
             await this.loadMiddlewares();
             await this.startServers();
             await this.callHook("$onReady");

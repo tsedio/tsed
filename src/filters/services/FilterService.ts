@@ -24,6 +24,8 @@ export class FilterService extends ProxyRegistry<FilterProvider, IProviderOption
         $log.debug("Build filters");
 
         InjectorService.buildRegistry(FilterRegistry);
+
+        $log.debug("Filters registry built");
     }
 
     /**

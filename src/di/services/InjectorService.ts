@@ -296,6 +296,8 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
     static async emit(eventName: string, ...args: any[]): Promise<any[]> {
         const promises: Promise<any>[] = [];
 
+        $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
+
         ProviderRegistry.forEach((provider: IProvider<any>) => {
 
             const service = InjectorService.get<any>(provider.provide);
@@ -327,7 +329,6 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             const useClass = nameOf(provider.useClass);
 
             $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
-
         });
 
         return registry;
@@ -417,6 +418,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             ProviderRegistry,
             (provider) => provider.instance === undefined || provider.type === "service"
         );
+        $log.debug("\x1B[1mProvider registry built\x1B[22m");
 
         return Promise.all([
             this.emit("$onInit"),
