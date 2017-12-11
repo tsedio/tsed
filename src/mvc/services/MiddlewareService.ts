@@ -34,6 +34,8 @@ export class MiddlewareService extends ProxyRegistry<MiddlewareProvider, IMiddle
         $log.debug("Build middlewares");
 
         InjectorService.buildRegistry(MiddlewareRegistry);
+
+        $log.debug("Middlewares registry built");
     }
 
     /**
