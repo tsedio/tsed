@@ -1,8 +1,7 @@
 import {$log} from "ts-log-debug";
-import {nameOf} from "../../core";
+import {nameOf, Registry} from "../../core";
 import {Metadata} from "../../core/class/Metadata";
 import {ProxyRegistry} from "../../core/class/ProxyRegistry";
-import {Registry} from "../../core/class/Registry";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
 import {Provider} from "../class/Provider";
@@ -307,6 +306,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
                 if (eventName === "$onInjectorReady") {
                     $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
                 }
+                $log.debug("Emit", eventName, "on", nameOf(provider.useClass));
                 promises.push(service[eventName](...args));
             }
         });
@@ -328,7 +328,8 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             const token = nameOf(provider.provide);
             const useClass = nameOf(provider.useClass);
 
-            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
+            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`
+            );
         });
 
         return registry;
@@ -391,14 +392,12 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      * #### Example
      *
      * ```typescript
-     *      import {InjectorService} from "ts-express-decorators";
-     *      import MyService from "./services";
+     * import {InjectorService} from "ts-express-decorators";
+     * import MyService from "./services";
      *
-     *      class OtherService {
+     * class OtherService {
      *    constructor(injectorService: InjectorService) {
-     *
-     *       const exists = injectorService.has(MyService); // true or false
-     *
+     *        const exists = injectorService.has(MyService); // true or false
      *    }
      * }
      * ```
@@ -420,10 +419,14 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
         );
         $log.debug("\x1B[1mProvider registry built\x1B[22m");
 
-        return Promise.all([
-            this.emit("$onInit"),
-            this.emit("$onInjectorReady") // deprecated
-        ]);
+        return Promise
+            .all([
+                this.emit("$onInit"),
+                this.emit("$onInjectorReady") // deprecated
+            ])
+            .then(() => {
+                $log.debug("Injector.load() done...");
+            });
     }
 
     /**
@@ -437,7 +440,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
     }
 
     /**
-     * Add a new service in the registry. This service will be constructed when `InjectorService` will loaded.
+     * Add a new service in the registry. This service will be constructed when `InjectorService`will loaded.
      *
      * #### Example
      *
@@ -464,11 +467,14 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
         InjectorService.set({provide: target, useClass: target, type: "service"});
 
     /**
-     * Add a new factory in `InjectorService` registry.
+     * Add a new factory in
+     `InjectorService`
+     registry.
      *
      * #### Example with symbol definition
      *
-     * ```typescript
+     *
+     ```typescript
      * import {InjectorService} from "ts-express-decorators";
      *
      * export interface IMyFooFactory {
@@ -490,9 +496,12 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      * }
      * ```
      *
-     * > Note: When you use the factory method with Symbol definition, you must use the `@Inject()` decorator to retrieve your factory in another Service. Advice: By convention all factory class name will be prefixed by `Factory`.
+     * > Note: When you use the factory method with Symbol definition, you must use the `@Inject()`
+     * decorator to retrieve your factory in another Service. Advice: By convention all factory class name will be prefixed by
+     * `Factory`.
      *
      * #### Example with class
+     *
      * ```typescript
      * import {InjectorService} from "ts-express-decorators";
      *
