@@ -3,17 +3,16 @@ import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Type} from "../../core/interfaces";
-import {ExpressApplication} from "../../core/services/ExpressApplication";
-import {Inject} from "../../di";
 import {Service} from "../../di/decorators/service";
+import {ProviderScope} from "../../di/interfaces";
 import {InjectorService} from "../../di/services/InjectorService";
 import {IComponentScanned} from "../../server/interfaces";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
+import {ExpressApplication} from "../decorators";
 import {IControllerOptions} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {RouterController} from "./RouterController";
-import {ProviderScope} from "../../di/interfaces";
 
 /**
  * ControllerService manage all controllers declared with `@ControllerProvider` decorators.
@@ -27,7 +26,7 @@ export class ControllerService extends ProxyRegistry<ControllerProvider, IContro
      * @param serverSettings
      */
     constructor(private injectorService: InjectorService,
-                @Inject(ExpressApplication) private expressApplication: ExpressApplication,
+                @ExpressApplication private expressApplication: Express.Application,
                 private serverSettings: ServerSettingsService) {
         super(ControllerRegistry);
     }

@@ -5,8 +5,8 @@
 
 import {globalServerSettings} from "../config";
 import {Env} from "../core/interfaces";
-import {ExpressApplication} from "../core/services/ExpressApplication";
 import {InjectorService} from "../di/services/InjectorService";
+import {ExpressApplication} from "../mvc/decorators";
 
 export function loadInjector() {
     if (!InjectorService.has(ExpressApplication)) {

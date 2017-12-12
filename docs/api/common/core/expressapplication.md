@@ -15,7 +15,7 @@ import {ExpressApplication, Service, Inject} from "ts-express-decorators";
 
 @Service()
 export default class OtherService {
-   constructor(@Inject(ExpressApplication) expressApplication: ExpressApplication){
+   constructor(@ExpressApplication expressApplication: ExpressApplication){
           console.log(myFooFactory.getFoo()); /// "test"
     }
 }

@@ -1,6 +1,6 @@
 import * as Proxyquire from "proxyquire";
-import {ExpressApplication} from "../../../../src/core/services/ExpressApplication";
 import {ServerSettingsService} from "../../../../src/config/services/ServerSettingsService";
+import {ExpressApplication} from "../../../../src/mvc/decorators";
 import {invoke} from "../../../../src/testing/invoke";
 import {Sinon} from "../../../tools";
 

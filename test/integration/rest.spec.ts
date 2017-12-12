@@ -1,5 +1,5 @@
 import * as SuperTest from "supertest";
-import {ExpressApplication} from "../../src/core/services/ExpressApplication";
+import {ExpressApplication} from "../../src/mvc/decorators";
 import {bootstrap} from "../../src/testing";
 import {Done} from "../../src/testing/done";
 import {inject} from "../../src/testing/inject";

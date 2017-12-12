@@ -10,10 +10,5 @@ export * from "./class/Registry";
 export * from "./class/ProxyRegistry";
 export * from "./class/Store";
 
-// Services
-export * from "./services/ExpressApplication";
-export * from "./services/HttpServer";
-export * from "./services/HttpsServer";
-
 // decorators
 export * from "./decorators";
