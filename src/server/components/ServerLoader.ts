@@ -10,16 +10,16 @@ import {$log} from "ts-log-debug";
 import {ServerSettingsProvider} from "../../config";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {Deprecated, ExpressApplication} from "../../core";
-import {HttpServer} from "../../core/services/HttpServer";
-import {HttpsServer} from "../../core/services/HttpsServer";
+import {Deprecated} from "../../core";
 import {isArray, isClass, isString} from "../../core/utils";
 import {InjectorService} from "../../di";
 
-import {GlobalErrorHandlerMiddleware} from "../../mvc";
+import {ExpressApplication, GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 import {MiddlewareRegistry} from "../../mvc/registries/MiddlewareRegistry";
+import {HttpServer} from "../decorators/httpServer";
+import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 
 /**
@@ -90,8 +90,6 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         // Configure the ExpressApplication factory.
         InjectorService.factory(ExpressApplication, this.expressApp);
-        InjectorService.factory(HttpServer, {get: () => this.httpServer});
-        InjectorService.factory(HttpsServer, {get: () => this.httpsServer});
 
         const settings = ServerSettingsProvider.getMetadata(this);
 
@@ -107,6 +105,12 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public createHttpServer(port: string | number): ServerLoader {
         this._httpServer = Http.createServer(<any> this._expressApp);
+
+        const httpServer: any = this._httpServer = Http.createServer(this._expressApp);
+        httpServer.get = () => httpServer;
+
+        InjectorService.factory(HttpServer, httpServer);
+
         this._settings.httpPort = port;
         return this;
     }
@@ -128,7 +132,11 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
-        this._httpsServer = Https.createServer(options, this._expressApp);
+        const httpsServer: any = this._httpsServer = Https.createServer(options, this._expressApp);
+        httpsServer.get = () => httpsServer;
+
+        InjectorService.factory(HttpsServer, httpsServer);
+
         this._settings.httpsPort = options.port;
         return this;
     }

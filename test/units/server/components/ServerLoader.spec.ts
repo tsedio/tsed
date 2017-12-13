@@ -1,9 +1,11 @@
+import * as Http from "http";
+import * as Https from "https";
 import {SERVER_SETTINGS} from "../../../../src/config/constants/index";
 import {Metadata} from "../../../../src/core/class/Metadata";
-import {HttpServer} from "../../../../src/core/services/HttpServer";
-import {HttpsServer} from "../../../../src/core/services/HttpsServer";
-import {InjectorService} from "../../../../src/di/services/InjectorService";
+import {InjectorService} from "../../../../src/di";
+import {HttpServer} from "../../../../src/server";
 import {ServerLoader} from "../../../../src/server/components/ServerLoader";
+import {HttpsServer} from "../../../../src/server/decorators/httpsServer";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {
@@ -34,22 +36,12 @@ describe("ServerLoader", () => {
         this.useStub = Sinon.stub(this.server._expressApp, "use");
         this.setStub = Sinon.stub(this.server._expressApp, "set");
         this.engineStub = Sinon.stub(this.server._expressApp, "engine");
-
-        this.httpServer = InjectorService.get<HttpServer>(HttpServer).get();
-        this.httpsServer = InjectorService.get<HttpsServer>(HttpsServer).get();
     });
 
     after(() => {
         this.useStub.restore();
         this.setStub.restore();
         this.engineStub.restore();
-    });
-
-    it("should add the httpServer in injectorService", () => {
-        this.httpServer.should.be.an("object");
-    });
-    it("should add the httpsServer in injectorService", () => {
-        this.httpsServer.should.be.an("object");
     });
 
     describe("startServer()", () => {
@@ -67,10 +59,6 @@ describe("ServerLoader", () => {
             return this.promise;
         });
 
-        after(() => {
-
-        });
-
         it("should have been called server.listen with the correct params", () => {
             this.createServerStub.listen.should.have.been.calledWithExactly(8080, "0.0.0.0");
         });
@@ -78,6 +66,59 @@ describe("ServerLoader", () => {
         it("should have been called server.on with the correct params", () => {
             this.createServerStub.on.should.have.been.calledWithExactly("listening", Sinon.match.func);
             this.createServerStub.on.should.have.been.calledWithExactly("error", Sinon.match.func);
+        });
+    });
+
+    describe("createHttpsServer", () => {
+        before(() => {
+            this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
+            this.factoryStub = Sinon.stub(InjectorService, "factory");
+            this.server.createHttpsServer({options: "options"});
+            this.factoryStub.getCall(0).args[1].get();
+        });
+        after(() => {
+            this.createServerStub.restore();
+            this.factoryStub.restore();
+            this.server.settings.httpPort = 8080;
+            this.server.settings.httpsPort = 8000;
+        });
+
+        it("should call createServer method", () => {
+            this.createServerStub.should.have.been.calledWithExactly({options: "options"}, this.server._expressApp);
+        });
+
+        it("should call createServer method", () => {
+            this.factoryStub.should.have.been.calledWithExactly(HttpsServer, {server: "server", get: Sinon.match.func});
+        });
+
+        it("should have a getMethod", () => {
+            expect(this.factoryStub.getCall(0).args[1].get()).to.eq(this.factoryStub.getCall(0).args[1]);
+        });
+    });
+
+    describe("createHttpServer", () => {
+        before(() => {
+            this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
+            this.factoryStub = Sinon.stub(InjectorService, "factory");
+            this.server.createHttpServer({options: "options"});
+        });
+        after(() => {
+            this.createServerStub.restore();
+            this.factoryStub.restore();
+            this.server.settings.httpPort = 8080;
+            this.server.settings.httpsPort = 8000;
+        });
+
+        it("should call createServer method", () => {
+            this.createServerStub.should.have.been.calledWithExactly(this.server._expressApp);
+        });
+
+        it("should call createServer method", () => {
+            this.factoryStub.should.have.been.calledWithExactly(HttpServer, {server: "server", get: Sinon.match.func});
+        });
+
+        it("should have a getMethod", () => {
+            expect(this.factoryStub.getCall(0).args[1].get()).to.eq(this.factoryStub.getCall(0).args[1]);
         });
     });
 

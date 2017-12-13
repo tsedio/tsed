@@ -1,12 +1,8 @@
 import {Type} from "../core/interfaces";
-/**
- * @module testing
- */
-/** */
 import {InjectorService} from "../di/services/InjectorService";
 import {loadInjector} from "./loadInjector";
 
-export function invoke(target: Type<any>, providers: { provide: Type<any> | symbol, use: any }[]) {
+export function invoke(target: Type<any>, providers: { provide: any | symbol, use: any }[]) {
 
     loadInjector();
 
