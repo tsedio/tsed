@@ -4,10 +4,10 @@ import {InjectorService} from "../../di/services/InjectorService";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
 import {IFilterScope} from "../interfaces/IFilterScope";
+import {FilterPreHandlers} from "../registries/FilterRegistry";
 import {FilterService} from "../services/FilterService";
 import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";
-import {FilterPreHandlers} from "../registries/FilterRegistry";
 
 export class FilterBuilder {
     constructor() {
@@ -73,6 +73,7 @@ export class FilterBuilder {
                 if (!param.isValidRequiredValue(value)) {
                     throw new RequiredParamError(param.name, param.expression);
                 }
+                return value;
             });
     }
 

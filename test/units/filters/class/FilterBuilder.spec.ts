@@ -101,39 +101,70 @@ describe("FilterBuilder", () => {
     });
     describe("appendRequiredFilter()", () => {
         describe("when param is required", () => {
-            before(() => {
-                this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-                this.pipeStub.returns("filter2");
-                this.isValidRequiredValueStub = Sinon.stub().returns(false);
+            describe("when required but empty", () => {
+                before(() => {
+                    this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+                    this.pipeStub.returns("filter2");
+                    this.isValidRequiredValueStub = Sinon.stub().returns(false);
 
-                this.result = (FilterBuilder as any).appendRequiredFilter("filter", {
-                    required: true,
-                    name: "name",
-                    expression: "expression",
-                    isValidRequiredValue: this.isValidRequiredValueStub
+                    this.result = (FilterBuilder as any).appendRequiredFilter("filter", {
+                        required: true,
+                        name: "name",
+                        expression: "expression",
+                        isValidRequiredValue: this.isValidRequiredValueStub
+                    });
+                    try {
+                        this.pipeStub.getCall(0).args[1]("value");
+                    } catch (er) {
+                        this.error = er;
+                    }
                 });
-                try {
-                    this.pipeStub.getCall(0).args[1]("value");
-                } catch (er) {
-                    this.error = er;
-                }
+                after(() => {
+                    this.pipeStub.restore();
+                });
+                it("should call pipe method", () => {
+                    this.pipeStub.should.be.calledWithExactly("filter", Sinon.match.any);
+                });
+                it("should return a filter wrapped", () => {
+                    expect(this.result).to.eq("filter2");
+                });
+                it("should called isValidRequiredValue", () => {
+                    this.isValidRequiredValueStub.should.calledWithExactly("value");
+                });
+                it("should throw an error", () => {
+                    expect(this.error).to.deep.eq(new RequiredParamError("name", "expression"));
+                });
             });
-            after(() => {
-                this.pipeStub.restore();
-            });
-            it("should call pipe method", () => {
-                this.pipeStub.should.be.calledWithExactly("filter", Sinon.match.any);
-            });
-            it("should return a filter wrapped", () => {
-                expect(this.result).to.eq("filter2");
-            });
-            it("should called isValidRequiredValue", () => {
-                this.isValidRequiredValueStub.should.calledWithExactly("value");
-            });
-            it("should throw an error", () => {
-                expect(this.error).to.deep.eq(new RequiredParamError("name", "expression"));
-            });
+            describe("when required but not empty", () => {
+                before(() => {
+                    this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+                    this.pipeStub.returns("filter2");
+                    this.isValidRequiredValueStub = Sinon.stub().returns(true);
 
+                    this.result = (FilterBuilder as any).appendRequiredFilter("filter", {
+                        required: true,
+                        name: "name",
+                        expression: "expression",
+                        isValidRequiredValue: this.isValidRequiredValueStub
+                    });
+                    this.result2 = this.pipeStub.getCall(0).args[1]("value");
+                });
+                after(() => {
+                    this.pipeStub.restore();
+                });
+                it("should call pipe method", () => {
+                    this.pipeStub.should.be.calledWithExactly("filter", Sinon.match.any);
+                });
+                it("should return a filter wrapped", () => {
+                    expect(this.result).to.eq("filter2");
+                });
+                it("should called isValidRequiredValue", () => {
+                    this.isValidRequiredValueStub.should.calledWithExactly("value");
+                });
+                it("should return a value", () => {
+                    expect(this.result2).to.eq("value");
+                });
+            });
         });
         describe("when param isn't required", () => {
             before(() => {
