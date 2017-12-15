@@ -1,11 +1,12 @@
 import * as Express from "express";
 import {$log} from "ts-log-debug";
-import {ServerLoader, ServerSettings} from "../../../src/index";
-import "../../../src/swagger";
 import "../../../src/ajv";
+import {ServerLoader, ServerSettings} from "../../../src/index";
+import "../../../src/socketio";
+import "../../../src/swagger";
+import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import Path = require("path");
-import {RestCtrl} from "./controllers/RestCtrl";
 
 const rootDir = Path.resolve(__dirname);
 

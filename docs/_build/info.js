@@ -17,6 +17,7 @@ module.exports = {
     "ajv": "ajv",
     "multipartfiles": "multipartfiles",
     "servestatic": "servestatic",
+    "socketio": "socketio",
     "swagger": "swagger",
     "testing": "testing"
   },

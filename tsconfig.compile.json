@@ -18,6 +18,7 @@
     "swagger",
     "servestatic",
     "ajv",
+    "socketio",
     "test",
     "lib"
   ]
