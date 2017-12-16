@@ -28,6 +28,7 @@ export class SocketHandlersBuilder {
         if (instance.$onDisconnect) {
             const handler = this.socketProviderMetadata.handlers["$onDisconnect"] || {};
             handler.eventName = "disconnect";
+            handler.methodClassName = "$onDisconnect";
 
             this.socketProviderMetadata.handlers["$onDisconnect"] = handler;
         }
@@ -93,7 +94,7 @@ export class SocketHandlersBuilder {
             .forEach((propertyKey: string) => {
 
                 const handlerMetadata: ISocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
-                const eventName = handlerMetadata.eventName === "$onDisconnect" ? "disconnect" : handlerMetadata.eventName;
+                const eventName = handlerMetadata.eventName;
 
                 socket.on(eventName, (...parameters: any[]) => {
                     this.invoke(handlerMetadata, parameters, socket, nsp);
