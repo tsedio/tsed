@@ -46,7 +46,8 @@ describe("SocketHandlersBuilder", () => {
             expect(this.builder.socketProviderMetadata).to.deep.eq({
                 "handlers": {
                     "$onDisconnect": {
-                        "eventName": "disconnect"
+                        "eventName": "disconnect",
+                        "methodClassName": "$onDisconnect"
                     }
                 },
                 "injectNamespace": "nsp"
