@@ -31,7 +31,8 @@ export class SocketIOService implements OnServerReady {
 
         if (httpPort) {
             this.io.attach(this.httpServer.get(), config);
-        } else if (httpsPort) {
+        }
+        if (httpsPort) {
             this.io.attach(this.httpsServer.get(), config);
         }
 

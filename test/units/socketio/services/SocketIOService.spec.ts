@@ -39,6 +39,7 @@ describe("SocketIOService", () => {
 
             it("should call attach method", () => {
                 this.socketIOServer.attach.should.have.been.calledWithExactly("httpServer", {config: "config"});
+                this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {config: "config"});
             });
 
             it("should call getWebsocketServices method", () => {
