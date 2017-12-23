@@ -1,7 +1,7 @@
 <!-- _coverpage.md -->
 
 
-# Ts.ED <small class="version">2.18.2</small>
+# Ts.ED <small class="version">2.19.0</small>
 
 > A TypeScript Framework on top of Express
 
