@@ -142,6 +142,21 @@ export class MySocketService {
 }
 ```
 
+### Decorators
+
+- [@Args](api/socketio/args.md) &lt;any|any[]&gt;: List of the parameters sent by the input event.
+- [@Broadcast](api/socketio/broadcast.md).
+- [@BroadcastOther](api/socketio/broadcastother.md).
+- [@Emit](api/socketio/emit.md).
+- [@IO](api/socketio/io.md).
+- [@Input](api/socketio/input.md).
+- [@InputAndEmit](api/socketio/inputandemit.md).
+- [@InputAndBroadcast](api/socketio/inputandbroadcast.md).
+- [@InputAndBroadcastOther](api/socketio/inputandbroadcastother.md).
+- [@Socket](api/socketio/socket.md) &lt;SocketIO.Socket&gt;: Socket instance.
+- [@SocketSession](api/socketio/socketsession.md) &lt;SocketSession&gt;: Socket session.
+- [@Nsp](api/socketio/nsp.md) &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+
 
 <div class="guide-links">
 <a href="#/tutorials/passport">Passport</a>
