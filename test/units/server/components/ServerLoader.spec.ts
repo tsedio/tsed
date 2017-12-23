@@ -359,15 +359,6 @@ describe("ServerLoader", () => {
         });
     });
 
-    describe("deprecated methods", () => {
-        it("should have been called", () => {
-            this.server.onError();
-            this.server.setHttpPort(8080);
-            this.server.setHttpsPort(8080);
-            this.server.setEndpoint("/rest");
-        });
-    });
-
     describe("file()", () => {
         before(() => {
             this.compilerBackup = require.extensions[".ts"];

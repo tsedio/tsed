@@ -9,7 +9,6 @@ export * from "./interfaces";
 
 // provide
 export * from "./class/ControllerProvider";
-export * from "./class/Endpoint";
 export * from "./class/EndpointMetadata";
 export * from "./class/HandlerMetadata";
 

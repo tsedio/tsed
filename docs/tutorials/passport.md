@@ -15,7 +15,7 @@ npm install --save passport
 ### Override AuthenticatedMiddleware
 
 The annotation [`@Authenticated()`](api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](api/common/mvc/authenticatedmiddleware.md) 
-to check the authentication strategy. By default, this middleware will call the `$onAuth` hook (deprecated) to check if the user is connected or not.
+to check the authentication strategy.
 
 So, create a new file in your middlewares directory and past this code:
 
@@ -27,7 +27,6 @@ import {Forbidden} from "ts-httpexceptions";
 export class MyAuthenticatedMiddleware implements IMiddleware {
     public use(@EndpointInfo() endpoint: EndpointMetadata,
                @Request() request: Express.Request,
-               @Response() response: Express.Response,
                @Next() next: Express.NextFunction) { // next is optional here
         
         // options given to the @Authenticated decorator

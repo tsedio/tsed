@@ -15,7 +15,7 @@ export * from "./method/authenticated";
 export * from "./method/contentType";
 
 // Shared
-export * from "./header";
+export * from "./method/header";
 export * from "./required";
 export * from "./allow";
 

@@ -1,8 +1,7 @@
-import * as Sinon from "sinon";
 import {Forbidden} from "ts-httpexceptions";
 import {AuthenticatedMiddleware} from "../../../../src/mvc/components/AuthenticatedMiddleware";
-import {FakeRequest, FakeResponse} from "../../../helper";
-import {assert, expect} from "../../../tools";
+import {FakeResponse} from "../../../helper";
+import {Sinon} from "../../../tools";
 
 class Test {
 
@@ -11,8 +10,6 @@ class Test {
 describe("AuthenticatedMiddleware", () => {
 
     before(() => {
-
-        this.request = new FakeRequest();
         this.response = new FakeResponse();
         this.endpoint = {
             get: Sinon.stub().returns({})
@@ -21,48 +18,51 @@ describe("AuthenticatedMiddleware", () => {
     });
 
     describe("use()", () => {
+        describe("when isAuthenticated exists", () => {
+            describe("authorize", () => {
+                before(() => {
+                    this.request = {
+                        isAuthenticated: Sinon.stub().returns(true)
+                    };
+                    this.nextSpy = Sinon.spy();
+                    this.middleware = new AuthenticatedMiddleware();
+                    this.middleware.use(this.endpoint, this.request, this.nextSpy);
+                });
 
-        describe("authorize", () => {
-            before(() => {
-                this.settingsSpy = {
-                    authentification: Sinon.stub().returns(true)
-                };
-                this.nextSpy = Sinon.spy();
-                this.middleware = new AuthenticatedMiddleware(this.settingsSpy);
-                this.middleware.use(this.endpoint, this.requestStub, this.responseStub, this.nextSpy);
-            });
-            after(() => {
-                delete this.middleware;
-                delete this.settingsSpy;
-                delete this.nextSpy;
-            });
-
-            it("should have called next function", () => {
-                assert(this.nextSpy.called);
+                it("should have called next function", () => {
+                    this.nextSpy.should.have.been.calledWithExactly();
+                });
             });
 
+            describe("unauthorize", () => {
+                before(() => {
+                    this.request = {
+                        isAuthenticated: Sinon.stub().returns(false)
+                    };
+                    this.nextSpy = Sinon.spy();
+                    this.middleware = new AuthenticatedMiddleware();
+                    this.middleware.use(this.endpoint, this.request, this.nextSpy);
+                });
+
+                it("should have called next function", () => {
+                    this.nextSpy.should.have.been.calledWithExactly(new Forbidden("Forbidden"));
+                });
+            });
         });
 
-        describe("unauthorize", () => {
-            before(() => {
-                this.settingsSpy = {
-                    authentification: Sinon.stub().returns(false)
-                };
-                this.nextSpy = Sinon.spy();
-                this.middleware = new AuthenticatedMiddleware(this.settingsSpy);
-                this.middleware.use(this.endpoint, this.requestStub, this.responseStub, this.nextSpy);
-            });
-            after(() => {
-                delete this.middleware;
-                delete this.settingsSpy;
-                delete this.nextSpy;
-            });
+        describe("when isAuthenticated is not exists", () => {
+            describe("authorize", () => {
+                before(() => {
+                    this.request = {};
+                    this.nextSpy = Sinon.spy();
+                    this.middleware = new AuthenticatedMiddleware();
+                    this.middleware.use(this.endpoint, this.request, this.nextSpy);
+                });
 
-            it("should throws Forbidden error", () => {
-                expect(this.nextSpy.args[0][0]).to.be.instanceof(Forbidden);
+                it("should have called next function", () => {
+                    this.nextSpy.should.have.been.calledWithExactly();
+                });
             });
-
         });
-
     });
 });

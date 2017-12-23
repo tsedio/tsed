@@ -7,15 +7,15 @@ You can get the latest release using npm:
 $ npm install --save ts-express-decorators express@4 @types/express
 ```
 
-> **Important!** Ts.ED requires Node >= 4, Express >= 4, TypeScript >= 2.0 and 
+> **Important!** Ts.ED requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 
 ```json
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es6", "dom"],
+    "target": "es2015",
+    "lib": ["es2015"],
     "types": ["reflect-metadata"],
     "module": "commonjs",
     "moduleResolution": "node",
@@ -30,7 +30,7 @@ options in your `tsconfig.json` file.
 }
 ```
 
-> **Note** : target can be set to ES2015/ES6.
+> **Note** : target must be set to ES2015/ES6 (or more).
 
 ### Optional
 
@@ -106,7 +106,6 @@ export class Server extends ServerLoader {
             compress = require('compression'),
             methodOverride = require('method-override');
 
-
         this
             .use(GlobalAcceptMimesMiddleware)
             .use(cookieParser())
@@ -172,7 +171,6 @@ export class Server extends ServerLoader {
             bodyParser = require('body-parser'),
             compress = require('compression'),
             methodOverride = require('method-override');
-
 
         this
             .use(morgan('dev'))

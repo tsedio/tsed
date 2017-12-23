@@ -76,11 +76,6 @@ describe("EndpointMetadata", () => {
         it("should get methodClassName", () =>
             expect(this.endpointMetadata.methodClassName).to.equal("method")
         );
-
-        it("should get metadata", () =>
-            expect(this.endpointMetadata.getMetadata("test")).to.equal("value")
-        );
-
         it("should return the store", () => {
             expect(this.store).to.deep.equal({"test": "value"});
         });
@@ -150,10 +145,6 @@ describe("EndpointMetadata", () => {
 
         it("should get methodClassName", () =>
             expect(this.endpointMetadata.methodClassName).to.equal("methodInherited")
-        );
-
-        it("should get metadata", () =>
-            expect(this.endpointMetadata.getMetadata("test2")).to.equal("value2")
         );
 
         it("should return the store", () => {

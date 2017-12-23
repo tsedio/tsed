@@ -1,12 +1,8 @@
 import {JsonSchemesRegistry} from "../../../../src/jsonschema/registries/JsonSchemesRegistry";
-import {JsonFoo2} from "../../../helper/classes";
+import {JsonAgeModel, JsonFoo2} from "../../../helper/classes";
 import {expect} from "../../../tools";
 
 describe("JsonProperty()", () => {
-
-    before(() => {
-    });
-
     it("should create a schema", () => {
         expect(JsonSchemesRegistry.getSchemaDefinition(JsonFoo2)).to.deep.eq({
             "definitions": {

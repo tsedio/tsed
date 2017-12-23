@@ -1,10 +1,10 @@
 import {assert} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
-import {Store} from "../../../../src/core/class/Store";
-import {FakeRequest} from "../../../helper/FakeRequest";
-import {FakeResponse} from "../../../helper/FakeResponse";
-import {expect} from "../../../tools";
+import {Store} from "../../../../../src/core/class/Store";
+import {FakeRequest} from "../../../../helper/FakeRequest";
+import {FakeResponse} from "../../../../helper/FakeResponse";
+import {expect} from "../../../../tools";
 
 let middleware: any;
 const UseAfterStub: any = function (_middleware_: any) {
@@ -13,8 +13,8 @@ const UseAfterStub: any = function (_middleware_: any) {
     };
 };
 
-const Header = Proxyquire.load("../../../../src/mvc/decorators/header", {
-    "./method/useAfter": {UseAfter: UseAfterStub}
+const Header = Proxyquire.load("../../../../../src/mvc/decorators/method/header", {
+    "./useAfter": {UseAfter: UseAfterStub}
 }).Header;
 
 class Test {

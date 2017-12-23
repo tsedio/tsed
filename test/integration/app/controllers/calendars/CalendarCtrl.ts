@@ -21,15 +21,16 @@ import {
     Use,
     UseAfter
 } from "../../../../../src";
+import {HeaderParams} from "../../../../../src/filters/decorators/headerParams";
 import {MultipartFile} from "../../../../../src/multipartfiles/decorators/multipartFile";
 import {Deprecated} from "../../../../../src/swagger/decorators/deprecated";
 import {Description} from "../../../../../src/swagger/decorators/description";
+import {Returns} from "../../../../../src/swagger/decorators/returns";
 import {Security} from "../../../../../src/swagger/decorators/security";
 import {CalendarModel} from "../../models/Calendar";
 import {MongooseService} from "../../services/MongooseService";
 import {BaseController} from "../base/BaseController";
 import {EventCtrl} from "./EventCtrl";
-import {Returns} from "../../../../../src/swagger/decorators/returns";
 
 interface ICalendar {
     id: string;
@@ -221,7 +222,7 @@ export class CalendarCtrl extends BaseController {
     @Get("/middleware")
     @Use(CalendarCtrl.middleware)
     public getWithMiddleware(@Request() request: any,
-                             @Header("authorization") auth: string): any {
+                             @HeaderParams("authorization") auth: string): any {
 
         return {
             user: request.user,
