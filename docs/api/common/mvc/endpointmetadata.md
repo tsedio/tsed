@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="endpointmetadata">EndpointMetadata</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { EndpointMetadata }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.20.0/src/mvc/class/EndpointMetadata.ts#L0-L0">                mvc/class/EndpointMetadata.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { EndpointMetadata }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v3.0.0/src/mvc/class/EndpointMetadata.ts#L0-L0">                mvc/class/EndpointMetadata.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -25,7 +25,6 @@
     <span class="token function">after</span><span class="token punctuation">(</span>args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     <span class="token function">merge</span><span class="token punctuation">(</span>args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     <span class="token function">inherit</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> EndpointMetadata<span class="token punctuation">;</span>
-    <span class="token function">getMetadata</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 ### Description
@@ -89,6 +88,3 @@ Change the type and the collection type from the status code.
 Store all arguments collected via Annotation.
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token function">inherit</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/mvc/endpointmetadata"><span class="token">EndpointMetadata</span></a></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token function">getMetadata</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
-Get value for an endpoint method.

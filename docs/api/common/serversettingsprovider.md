@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="serversettingsprovider">ServerSettingsProvider</h1>    <label class="symbol-info-type-label class">Class</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerSettingsProvider }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/config"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.20.0/src/config/class/ServerSettingsProvider.ts#L0-L0">                config/class/ServerSettingsProvider.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ServerSettingsProvider }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/config"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v3.0.0/src/config/class/ServerSettingsProvider.ts#L0-L0">                config/class/ServerSettingsProvider.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -13,10 +13,7 @@
     httpPort<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
     httpsPort<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
     uploadDir<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    endpointUrl<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     env<span class="token punctuation">:</span> <a href="#api/common/core/env"><span class="token">Env</span></a><span class="token punctuation">;</span>
-    authentification<span class="token punctuation">:</span> <span class="token punctuation">(</span>request?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> response?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> next?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     mount<span class="token punctuation">:</span> <a href="#api/common/iservermountdirectories"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     componentsScan<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     serveStatic<span class="token punctuation">:</span> <a href="#api/common/iservermountdirectories"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
@@ -59,13 +56,7 @@
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">uploadDir<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang">endpointUrl<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
-<hr />
 <div class="method-overview"><pre><code class="typescript-lang">env<span class="token punctuation">:</span> <a href="#api/common/core/env"><span class="token">Env</span></a></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">authentification<span class="token punctuation">:</span> <span class="token punctuation">(</span>request?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> response?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> next?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">mount<span class="token punctuation">:</span> <a href="#api/common/iservermountdirectories"><span class="token">IServerMountDirectories</span></a></code></pre></div>
 <hr />
