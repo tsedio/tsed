@@ -1,19 +1,16 @@
-import {expect} from "chai";
-import * as Proxyquire from "proxyquire";
-import * as Sinon from "sinon";
+import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middlewares/MultipartFileMiddleware";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
-
-const $log = {warn: Sinon.stub()};
-const {MultipartFileMiddleware} = Proxyquire.load("../../../../src/multipartfiles/middlewares/MultipartFileMiddleware", {
-    "ts-log-debug": {$log}
-});
-
+import {$logStub, Sinon} from "../../../tools";
 
 describe("MultipartFileMiddleware", () => {
 
     before(() => {
-        this.middleware = new MultipartFileMiddleware({uploadDir: "/"});
+        this.settings = {
+            uploadDir: "/",
+            get: Sinon.stub().withArgs("multer").returns({options: "options"})
+        };
+        this.middleware = new MultipartFileMiddleware(this.settings);
         this.expressMiddleware = Sinon.stub();
 
         this.middleware.multer = Sinon.stub().returns({
@@ -30,39 +27,31 @@ describe("MultipartFileMiddleware", () => {
         };
     });
 
-    after(() => {
-        delete this.middleware;
-        delete this.request;
-        delete this.response;
-        delete this.fakeEndpoint;
-        delete this.result;
-    });
-
     describe("with multer module", () => {
         before(() => {
             this.middleware.use(this.fakeEndpoint, this.request, this.response, this.nextSpy);
         });
 
         it("should call multer with some options", () => {
-            expect(this.middleware.multer.args[0][0].dest).to.eq("/");
+            this.middleware.multer.should.be.calledWithExactly({dest: "/", options: "options"});
         });
 
         it("should create middleware and call it", () => {
-            expect(this.expressMiddleware.called).to.eq(true);
-            expect(this.expressMiddleware.calledWith(this.request, this.response, this.nextSpy)).to.eq(true);
+            this.expressMiddleware.should.be.calledWithExactly(this.request, this.response, this.nextSpy);
         });
     });
 
     describe("without multer module", () => {
         before(() => {
+            $logStub.reset();
             delete this.middleware.multer;
-            const result = this.middleware.use(this.fakeEndpoint, this.request, this.response, this.nextSpy);
+            this.middleware.use(this.fakeEndpoint, this.request, this.response, this.nextSpy);
         });
 
         it("should emit a warning", () => {
-            expect($log.warn.calledWith(
+            $logStub.warn.should.be.calledWithExactly(
                 "Multer isn't installed ! Run npm install --save multer before using Multipart decorators."
-            )).to.eq(true);
+            );
         });
     });
 });

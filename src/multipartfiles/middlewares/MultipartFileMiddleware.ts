@@ -3,14 +3,14 @@
  */
 /** */
 import {$log} from "ts-log-debug";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+import {EndpointInfo} from "../../filters/decorators/endpointInfo";
+import {Next} from "../../filters/decorators/next";
+import {Req} from "../../filters/decorators/request";
+import {Res} from "../../filters/decorators/response";
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {Middleware} from "../../mvc/decorators";
 import {IMiddleware} from "../../mvc/interfaces";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {EndpointInfo} from "../../filters/decorators/endpointInfo";
-import {Req} from "../../filters/decorators/request";
-import {Next} from "../../filters/decorators/next";
-import {Res} from "../../filters/decorators/response";
 
 /**
  * @private
@@ -47,9 +47,13 @@ export class MultipartFileMiddleware implements IMiddleware {
         @Next() next: Express.NextFunction) {
 
         if (this.multer) {
-            const options = Object.assign({
-                dest: this.serverSettingsService.uploadDir
-            }, endpoint.store.get(MultipartFileMiddleware) || {});
+            const dest = this.serverSettingsService.uploadDir;
+
+            const options = Object.assign(
+                {dest},
+                this.serverSettingsService.get("multer") || {},
+                endpoint.store.get(MultipartFileMiddleware) || {}
+            );
 
             const middleware = this.multer(options);
 
