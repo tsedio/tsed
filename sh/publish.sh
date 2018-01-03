@@ -21,10 +21,7 @@ git commit -m "Travis build: $TRAVIS_BUILD_NUMBER  v$PACKAGE_VERSION [ci skip]"
 git remote add origin-travis https://${GH_TOKEN}@github.com/Romakita/ts-express-decorators.git
 
 echo "Push to origin";
-git push --quiet --set-upstream origin-travis production
-
-echo "Sync master branch"
-git push -f origin-travis production:refs/heads/master
+git push --quiet --set-upstream origin-travis legacy-v2
 
 echo "Publish module"
 
