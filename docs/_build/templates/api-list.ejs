@@ -1,0 +1,19 @@
+<ul class="api-list">
+    <% symbols.forEach((symbol) => { %>
+
+    <li class="api-item" data-symbol="<%- mapSymbolInfo(symbol) %>">
+        <a href="#/api/<%- symbol.module.docPath %>/<%- symbol.symbolName.toLowerCase() %>}"
+           class="symbol-container symbol-type-<%- symbol.symbolType %> symbol-name-<%- symbol.module.docPath.replace('/', '') %>-<%- symbol.symbolName %>"
+           title="<%- symbol.symbolName %>">
+
+            <span class="symbol <%- symbol.symbolType %>"></span>
+            <% if (symbol.hasLabel('deprecated')) { %>
+            <del><%- symbol.symbolName %></del>
+            <% } else { %>
+            <%- symbol.symbolName %>
+            <% } %>
+
+        </a>
+    </li>
+    <% }) %>
+</ul>

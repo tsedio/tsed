@@ -1,0 +1,18 @@
+<aio-select class="aio-<%- label.toLowerCase() %>" label="<%- label %>:">
+    <div class="form-select-menu">
+        <button class="form-select-button">
+            <strong><%- label %>:</strong><span class="symbol all"></span><span class="symbol-text">All</span>
+        </button>
+        <ul class="form-select-dropdown">
+            <li role="button" tabindex="0" class="selected" data-type="">
+                <span class="symbol all"></span>All
+            </li>
+
+            <% items.forEach((item) => { %>
+            <li role="button" tabindex="0" data-value="<%- item.value %>" data-label="<%- item.label %>">
+                <span class="symbol <%- item.value %>"></span><%- item.label %>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</aio-select>

@@ -47,31 +47,34 @@ showExplorer | `true` | Display the search field in the navbar.
 spec |  `{swagger: "2.0"}` | The default information spec. 
 specPath | `${rootDir}/spec/swagger.json` | The path to the swagger.json. This file will be written at the first server starting if it doesn't exist. The data will me merge with the collected data via annotation. 
 
-### Decorators
+## Decorators
 
 These decorators already add a documentation on swagger:
 
-- [Header](api/common/mvc/header.md),
-- [Status](api/common/mvc/status.md),
+<ul class="api-list">
+<li class="api-item" data-symbol="common/mvc;Header;decorator;@;false;false;false;true"><a href="#/api/common/mvc/header" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Header" title="Header"><span class="symbol decorator"></span>Header</a></li>
+<li class="api-item" data-symbol="common/mvc;Status;decorator;@;false;false;false;true"><a href="#/api/common/mvc/status" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Status" title="Status"><span class="symbol decorator"></span>Status</a></li>
+</ul>
 
 In addition, the Ts.ED swagger plugin given some decorators to write documentation:
 
-- [BaseParameter](api/swagger/baseparameter.md),
-- [Deprecated](api/swagger/deprecated.md),
-- [Description](api/swagger/description.md), to set a long text to describe the route,
-- [Example](api/swagger/example.md),
-- [Name](api/swagger/name.md),
-- [Operation](api/swagger/operation.md),
-- [Returns](api/swagger/returns.md) to describe all HTTP codes that method can answer. By default, all routes are configured on status code 200.
-- [ReturnsArray](api/swagger/returnsarray.md),
-- [Schema](api/swagger/schema.md),
-- [Security](api/swagger/security.md),
-- [Summary](api/swagger/summary.md), to set a quick summary on top of the route in Swagger-ui,
-- [Title](api/swagger/title.md).
-
+<ul class="api-list">
+<li class="api-item" data-symbol="swagger;BaseParameter;decorator;@;false;false;false;true"><a href="#/api/swagger/baseparameter" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-BaseParameter" title="BaseParameter"><span class="symbol decorator"></span>BaseParameter</a></li>
+<li class="api-item" data-symbol="swagger;Deprecated;decorator;@;false;false;false;false"><a href="#/api/swagger/deprecated" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Description" title="Deprecated"><span class="symbol decorator"></span>Deprecated</a></li>
+<li class="api-item" data-symbol="swagger;Description;decorator;@;false;false;false;false"><a href="#/api/swagger/description" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Description" title="Description"><span class="symbol decorator"></span>Description</a></li>
+<li class="api-item" data-symbol="swagger;Example;decorator;@;false;false;false;false"><a href="#/api/swagger/example" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Example" title="Example"><span class="symbol decorator"></span>Example</a></li>
+<li class="api-item" data-symbol="swagger;Name;decorator;@;false;false;false;false"><a href="#/api/swagger/name" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Name" title="Name"><span class="symbol decorator"></span>Name</a></li>
+<li class="api-item" data-symbol="swagger;Operation;decorator;@;false;false;false;true"><a href="#/api/swagger/operation" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Operation" title="Operation"><span class="symbol decorator"></span>Operation</a></li>
+<li class="api-item" data-symbol="swagger;Responses;decorator;@;false;false;false;false"><a href="#/api/swagger/responses" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Responses" title="Responses"><span class="symbol decorator"></span>Responses</a></li>
+<li class="api-item" data-symbol="swagger;Returns;decorator;@;false;false;false;false"><a href="#/api/swagger/returns" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Returns" title="Returns"><span class="symbol decorator"></span>Returns</a></li>
+<li class="api-item" data-symbol="swagger;ReturnsArray;decorator;@;false;false;false;false"><a href="#/api/swagger/returnsarray" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-ReturnsArray" title="ReturnsArray"><span class="symbol decorator"></span>ReturnsArray</a></li>
+<li class="api-item" data-symbol="swagger;Schema;decorator;@;false;false;false;false"><a href="#/api/swagger/schema" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Schema" title="Schema"><span class="symbol decorator"></span>Schema</a></li>
+<li class="api-item" data-symbol="swagger;Security;decorator;@;false;false;false;false"><a href="#/api/swagger/security" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Security" title="Security"><span class="symbol decorator"></span>Security</a></li>
+<li class="api-item" data-symbol="swagger;Summary;decorator;@;false;false;false;false"><a href="#/api/swagger/summary" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Summary" title="Summary"><span class="symbol decorator"></span>Summary</a></li>
+<li class="api-item" data-symbol="swagger;Title;decorator;@;false;false;false;false"><a href="#/api/swagger/title" class="symbol-container deprecated symbol-type-decorator symbol-name-swagger-Title" title="Title"><span class="symbol decorator"></span>Title</a></li>
+</ul>
  
 ## Examples
-
 #### Model documentation
 
 One of the feature of Ts.ED is the model definition to serialize or deserialize a 

@@ -83,7 +83,7 @@
     "coveralls": "^3.0.0",
     "docsify-cli": "^4.1.9",
     "docsify-server-renderer": "^4.2.6",
-    "ejs": "^2.5.5",
+    "ejs": "^2.5.7",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fs-extra": "^4.0.0",
