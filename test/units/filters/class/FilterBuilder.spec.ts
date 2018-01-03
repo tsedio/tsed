@@ -191,30 +191,41 @@ describe("FilterBuilder", () => {
                 this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
                 this.pipeStub.returns("filter2");
 
+                this.validationStub = {
+                    validate: Sinon.stub()
+                };
+
                 this.injectorStub = Sinon.stub(InjectorService as any, "get");
-                this.injectorStub.returns({
-                    validate: function () {
-                    }
-                });
+                this.injectorStub.returns(this.validationStub);
 
                 this.result = (FilterBuilder as any).appendValidationFilter("filter", {
                     useValidation: true,
                     type: "type",
                     collectionType: "collection"
                 });
+
+                this.pipeResult = this.pipeStub.getCall(0).args[1]("value");
             });
             after(() => {
                 this.injectorStub.restore();
                 this.pipeStub.restore();
             });
             it("should call pipe method", () => {
-                this.pipeStub.should.be.calledWithExactly("filter", Sinon.match.any, "type", "collection");
+                this.pipeStub.should.have.been.calledWithExactly("filter", Sinon.match.any);
             });
             it("should call injector.get method", () => {
                 this.injectorStub.should.be.calledWithExactly(ValidationService);
             });
             it("should return a filter wrapped", () => {
                 expect(this.result).to.eq("filter2");
+            });
+
+            it("should call function with wrapped validation method", () => {
+                this.validationStub.validate.should.have.been.calledWithExactly("value", "type", "collection");
+            });
+
+            it("should return the value", () => {
+                expect(this.pipeResult).to.eq("value");
             });
         });
         describe("when didn't use validation", () => {
