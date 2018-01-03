@@ -6,6 +6,7 @@
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
 * [Validation with AJV](tutorials/ajv.md)
+* [Custom validator](tutorials/custom-validator.md)
 * [Upload files](tutorials/upload-files-with-multer.md)
 * [Serve static files](tutorials/serve-static-files.md)
 * [Templating](tutorials/templating.md)

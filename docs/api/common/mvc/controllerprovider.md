@@ -10,7 +10,7 @@
     <span class="token keyword">readonly</span> routerPaths<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> endpoints<span class="token punctuation">:</span> <a href="#api/common/mvc/endpointmetadata"><span class="token">EndpointMetadata</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     dependencies<span class="token punctuation">:</span> <a href="#api/common/mvc/ichildrencontroller"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">;</span>
+    routerOptions<span class="token punctuation">:</span> <a href="#api/common/config/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     middlewares<span class="token punctuation">:</span> <a href="#api/common/mvc/icontrollermiddlewares"><span class="token">IControllerMiddlewares</span></a><span class="token punctuation">;</span>
     <span class="token function">pushRouterPath</span><span class="token punctuation">(</span>path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
@@ -34,7 +34,7 @@ set path
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang">dependencies<span class="token punctuation">:</span> <a href="#api/common/mvc/ichildrencontroller"><span class="token">IChildrenController</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre></div>
 <hr />
-<div class="method-overview"><pre><code class="typescript-lang">routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a></code></pre></div>
+<div class="method-overview"><pre><code class="typescript-lang">routerOptions<span class="token punctuation">:</span> <a href="#api/common/config/irouteroptions"><span class="token">IRouterOptions</span></a></code></pre></div>
 <hr />
 <div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">readonly</span> parent<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
 <hr />

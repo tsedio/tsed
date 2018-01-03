@@ -4,11 +4,14 @@ The decorator `@JsonProperty` or `@Property` lets you customize serialization an
 
 All following decorators use `@Property` metadata to deserialize a Plain Object JavaScript to his Model:
 
-- `@PathParams(expression?: string)`, 
-- `@BodyParams(expression?: string)`, 
-- `@CookiesParams(expression?: string)`, 
-- `@QueryParams(expression?: string)`,
-- `@Session(expression?: string)`.
+<ul class="api-list" style="display: block;">
+<li class="api-item" data-symbol="common/filters;BodyParams;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/filters/bodyparams" class="symbol-container deprecated symbol-type-decorator symbol-name-commonfilters-BodyParams" title="BodyParams">            <span class="symbol decorator"></span>            BodyParams        </a></li>
+<li class="api-item" data-symbol="common/filters;Cookies;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/filters/cookies" class="symbol-container deprecated symbol-type-decorator symbol-name-commonfilters-Cookies" title="Cookies">            <span class="symbol decorator"></span>            Cookies        </a></li>
+<li class="api-item" data-symbol="common/filters;CookiesParams;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/filters/cookiesparams" class="symbol-container deprecated symbol-type-decorator symbol-name-commonfilters-CookiesParams" title="CookiesParams">            <span class="symbol decorator"></span>            CookiesParams        </a></li>
+<li class="api-item" data-symbol="common/filters;PathParams;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/filters/pathparams" class="symbol-container deprecated symbol-type-decorator symbol-name-commonfilters-PathParams" title="PathParams">            <span class="symbol decorator"></span>            PathParams        </a></li>
+<li class="api-item" data-symbol="common/filters;QueryParams;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/filters/queryparams" class="symbol-container deprecated symbol-type-decorator symbol-name-commonfilters-QueryParams" title="QueryParams">            <span class="symbol decorator"></span>            QueryParams        </a></li>
+<li class="api-item" data-symbol="common/filters;Session;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/filters/session" class="symbol-container deprecated symbol-type-decorator symbol-name-commonfilters-Session" title="Session">            <span class="symbol decorator"></span>            Session        </a></li>
+</ul>
 
 ## Installation
 
@@ -255,6 +258,6 @@ class Foo implements IConverter {
 See in [Built-in converters](api/index.md?query=keywords_Converter|type_class) in our API references.
 
 <div class="guide-links">
-<a href="#/docs/services/overview">Controllers</a>
+<a href="#/docs/jsonschema">JSON Schema</a>
 <a href="#/docs/middlewares/overview">Middlewares</a>
 </div>

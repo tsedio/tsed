@@ -1,7 +1,7 @@
 import {Property} from "../../src/jsonschema/decorators/jsonProperty";
 import {Required} from "../../src/mvc/decorators";
 import {PropertyName} from "../../src/jsonschema/decorators/propertyName";
-import {MinLength} from "../../src/ajv/decorators/minLength";
+import {MinLength} from "../../src/jsonschema/decorators/minLength";
 import {PropertyType} from "../../src/jsonschema/decorators/propertyType";
 
 export class JsonBaseModel {

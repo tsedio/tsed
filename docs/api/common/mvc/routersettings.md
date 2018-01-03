@@ -3,4 +3,4 @@
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">RouterSettings</span><span class="token punctuation">(</span>routerOptions<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang">function <span class="token function">RouterSettings</span><span class="token punctuation">(</span>routerOptions<span class="token punctuation">:</span> <a href="#api/common/config/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>

@@ -5,6 +5,7 @@
 * [Migration](docs/migration.md)
 * [Controllers](docs/controllers.md)
 * [Services](docs/services/overview.md)
+* [JSON Schema](docs/jsonschema.md)
 * [Converters](docs/converters.md)
 * [Middlewares](docs/middlewares/overview.md)
 * [Scope](docs/scope.md)
