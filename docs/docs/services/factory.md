@@ -73,5 +73,5 @@ export default class OtherService {
 
 <div class="guide-links">
 <a href="#/docs/services/lifecycle-hooks">Lifecycle hooks</a>
-<a href="#/docs/converters">Converters</a>
+<a href="#/docs/jsonschema">JSON Schema</a>
 </div>

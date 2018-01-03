@@ -4,7 +4,7 @@
 ### Overview
 
 <pre><code class="typescript-lang"><span class="token keyword">class</span> AjvService <span class="token keyword">extends</span> <a href="#api/common/filters/validationservice"><span class="token">ValidationService</span></a> <span class="token punctuation">{</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>jsonSchemaService<span class="token punctuation">:</span> <a href="#api/common/jsonschemesservice"><span class="token">JsonSchemesService</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>jsonSchemaService<span class="token punctuation">:</span> <a href="#api/common/jsonschema/jsonschemesservice"><span class="token">JsonSchemesService</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">validate</span><span class="token punctuation">(</span>obj<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> targetType<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> baseType?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 

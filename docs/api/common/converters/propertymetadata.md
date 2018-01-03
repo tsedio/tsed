@@ -1,9 +1,0 @@
-<header class="symbol-info-header">    <h1 id="propertymetadata">PropertyMetadata</h1>    <label class="symbol-info-type-label class">Class</label>    <label class="api-type-label private">private</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { PropertyMetadata }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/lib/converters/class/PropertyMetadata"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v2.8.0/src/converters/class/PropertyMetadata.ts#L0-L0">                converters/class/PropertyMetadata.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
-
-### Overview
-
-<pre><code class="typescript-lang"><span class="token keyword">class</span> PropertyMetadata <span class="token keyword">extends</span> <a href="#api/common/core/storable"><span class="token">Storable</span></a> <span class="token keyword">implements</span> <a href="#api/common/converters/ipropertyoptions"><span class="token">IPropertyOptions</span></a> <span class="token punctuation">{</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-

@@ -28,20 +28,30 @@ export class Server extends ServerLoader {
 
 ### Decorators
 
-The Ts.ED ajv plugin given some decorators to write validate a model:
+Ts.ED given some decorators to write your validation model:
 
-- [Email](api/ajv/email.md),
-- [Enum](api/ajv/enum.md),
-- [ExclusiveMaximum](api/ajv/exclusivemaximum.md),
-- [ExclusiveMinimum](api/ajv/exclusiveminimum.md),
-- [Format](api/ajv/format.md),
-- [Maximum](api/ajv/maximum.md),
-- [MaxItems](api/ajv/maxitems.md),
-- [MaxLength](api/ajv/maxlength.md),
-- [MaxProperties](api/ajv/maxproperties.md),
-- [MultipleOf](api/ajv/multipleof.md),
-- [Pattern](api/ajv/pattern.md),
-- [UniqueItems](api/ajv/uniqueitems.md).
+<ul class="api-list" style="display: block;"><li class="api-item" data-symbol="common/jsonschema;Default;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/default" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Default" title="Default"><span class="symbol decorator"></span>Default</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Email;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/email" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Email" title="Email"><span class="symbol decorator"></span>Email</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Enum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/enum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Enum" title="Enum"><span class="symbol decorator"></span>Enum</a></li>
+<li class="api-item" data-symbol="common/jsonschema;ExclusiveMaximum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/exclusivemaximum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-ExclusiveMaximum" title="ExclusiveMaximum"><span class="symbol decorator"></span>ExclusiveMaximum</a></li>
+<li class="api-item" data-symbol="common/jsonschema;ExclusiveMinimum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/exclusiveminimum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-ExclusiveMinimum" title="ExclusiveMinimum"><span class="symbol decorator"></span>ExclusiveMinimum</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Format;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/format" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Format" title="Format"><span class="symbol decorator"></span>Format</a></li>
+<li class="api-item" data-symbol="common/jsonschema;JsonProperty;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/jsonproperty" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-JsonProperty" title="JsonProperty"><span class="symbol decorator"></span>JsonProperty</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MaxItems;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/maxitems" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MaxItems" title="MaxItems"><span class="symbol decorator"></span>MaxItems</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MaxLength;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/maxlength" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MaxLength" title="MaxLength"><span class="symbol decorator"></span>MaxLength</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MaxProperties;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/maxproperties" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MaxProperties" title="MaxProperties"><span class="symbol decorator"></span>MaxProperties</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Maximum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/maximum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Maximum" title="Maximum"><span class="symbol decorator"></span>Maximum</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MinItems;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/minitems" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MinItems" title="MinItems"><span class="symbol decorator"></span>MinItems</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MinLength;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/minlength" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MinLength" title="MinLength"><span class="symbol decorator"></span>MinLength</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MinProperties;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/minproperties" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MinProperties" title="MinProperties"><span class="symbol decorator"></span>MinProperties</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Minimum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/minimum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Minimum" title="Minimum"><span class="symbol decorator"></span>Minimum</a></li>
+<li class="api-item" data-symbol="common/jsonschema;MultipleOf;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/multipleof" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-MultipleOf" title="MultipleOf"><span class="symbol decorator"></span>MultipleOf</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Pattern;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/pattern" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Pattern" title="Pattern"><span class="symbol decorator"></span>Pattern</a></li>
+<li class="api-item" data-symbol="common/jsonschema;Property;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/property" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Property" title="Property"><span class="symbol decorator"></span>Property</a></li>
+<li class="api-item" data-symbol="common/jsonschema;PropertyName;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/propertyname" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-PropertyName" title="PropertyName"><span class="symbol decorator"></span>PropertyName</a></li>
+<li class="api-item" data-symbol="common/jsonschema;PropertyType;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/propertytype" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-PropertyType" title="PropertyType"><span class="symbol decorator"></span>PropertyType</a></li>
+<li class="api-item" data-symbol="common/jsonschema;UniqueItems;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/uniqueitems" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-UniqueItems" title="UniqueItems"><span class="symbol decorator"></span>UniqueItems</a></li>
+</ul>
  
 ## Examples
 
@@ -51,8 +61,7 @@ A model can used on a method controller along with [@BodyParams](api/common/filt
 be validated by Ajv.
 
 ```typescript
-import {Required} from "ts-express-decorators";
-import {MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "ts-express-decorators/ajv";
+import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "ts-express-decorators";
 
 export class CalendarModel {
     
@@ -83,5 +92,5 @@ export class CalendarModel {
 
 <div class="guide-links">
 <a href="#/tutorials/swagger">Swagger</a>
-<a href="#/tutorials/upload-files-with-multer">Upload files</a>
+<a href="#/tutorials/custom-validator">Custom validator</a>
 </div>

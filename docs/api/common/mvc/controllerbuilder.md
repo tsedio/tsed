@@ -4,7 +4,7 @@
 ### Overview
 
 <pre><code class="typescript-lang"><span class="token keyword">class</span> ControllerBuilder <span class="token punctuation">{</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/mvc/controllerprovider"><span class="token">ControllerProvider</span></a><span class="token punctuation">,</span> defaultRoutersOptions?<span class="token punctuation">:</span> <a href="#api/common/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/mvc/controllerprovider"><span class="token">ControllerProvider</span></a><span class="token punctuation">,</span> defaultRoutersOptions?<span class="token punctuation">:</span> <a href="#api/common/config/irouteroptions"><span class="token">IRouterOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 

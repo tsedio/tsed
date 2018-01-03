@@ -291,6 +291,7 @@ We’ve briefly introduced the most basic features of Ts.ED - the rest of this g
   [Services](docs/services/overview.md)
   [Middlewares](docs/middlewares/overview.md)
   [Scope](docs/scope.md)
+  [JSON Schema](docs/jsonschema.md)
   [Converters](docs/converters.md)
   [Filters](docs/filters.md)
   [Testing](docs/testing.md)

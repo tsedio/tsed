@@ -9,8 +9,10 @@ module.exports = {
   host: `${github}/blob/v${version}/src/`,
   modules: {
     "core": "common/core",
+    "config": "common/config",
     "converters": "common/converters",
     "di": "common/di",
+    "jsonschema": "common/jsonschema",
     "filters": "common/filters",
     "mvc": "common/mvc",
     "server": "common/server",

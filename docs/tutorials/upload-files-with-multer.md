@@ -81,6 +81,6 @@ class MyCtrl {
 ```
 
 <div class="guide-links">
-<a href="#/tutorials/swagger">Swagger</a>
+<a href="#/tutorials/custom-validator">Custom validator</a>
 <a href="#/tutorials/serve-static-files">Serve static files</a>
 </div>

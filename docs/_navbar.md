@@ -19,6 +19,7 @@
   - [Middlewares](docs/middlewares/overview.md)
   - [Scope](docs/scope.md)
   - [Filters](docs/filters.md)
+  - [JSON Schema](docs/jsonschema.md)
   - [ServerLoader](docs/server-loader/_sidebar.md) 
   - [Server configuration](configuration.md)
   - [Testing](docs/testing.md)
