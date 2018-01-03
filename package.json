@@ -111,10 +111,10 @@
   },
   "release": {
     "debug": false,
-    "branch": "production"
+    "branch": "legacy-v2"
   },
   "gflow": {
     "master": "master",
-    "production": "production"
+    "production": "legacy-v2"
   }
 }

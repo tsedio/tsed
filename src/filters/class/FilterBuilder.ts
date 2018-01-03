@@ -115,7 +115,10 @@ export class FilterBuilder {
         }
 
         const validationService = InjectorService.get<ValidationService>(ValidationService);
-        return FilterBuilder.pipe(filter, validationService.validate.bind(validationService), type, collectionType);
+        return FilterBuilder.pipe(filter, (value: any) => {
+            validationService.validate(value, type, collectionType);
+            return value;
+        });
     }
 
     /**
