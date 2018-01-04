@@ -19,11 +19,17 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {boolean} exclusive
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
         propertyMetadata.type = Number;
-        propertyMetadata.schema.maximum = maximum;
-        propertyMetadata.schema.exclusiveMaximum = exclusive;
+
+        if (exclusive) {
+            propertyMetadata.schema.exclusiveMaximum = maximum;
+        } else {
+            propertyMetadata.schema.maximum = maximum;
+        }
     });
 }

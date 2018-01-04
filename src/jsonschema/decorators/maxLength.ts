@@ -20,6 +20,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {number} maxLength
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function MaxLength(maxLength: number) {
 

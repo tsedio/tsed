@@ -17,6 +17,8 @@ import {Minimum} from "./minimum";
  * @param {boolean} exclusiveMinimum
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
     return Minimum(minimum, exclusiveMinimum);

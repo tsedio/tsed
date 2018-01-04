@@ -18,8 +18,7 @@ describe("ExclusiveMinimum", () => {
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.exclusiveMinimum.should.eq(true);
-            this.propertyMetadata.schema.minimum.should.eq(10);
+            this.propertyMetadata.schema.exclusiveMinimum.should.eq(10);
         });
     });
     describe("without explicit parameter", () => {
@@ -36,8 +35,7 @@ describe("ExclusiveMinimum", () => {
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.exclusiveMinimum.should.eq(true);
-            this.propertyMetadata.schema.minimum.should.eq(10);
+            this.propertyMetadata.schema.exclusiveMinimum.should.eq(10);
         });
 
     });

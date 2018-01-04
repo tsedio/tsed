@@ -18,6 +18,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {number} multipleOf
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function MultipleOf(multipleOf: number) {
     if (multipleOf <= 0) {

@@ -37,6 +37,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {string} pattern
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function Pattern(pattern: string | RegExp) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {

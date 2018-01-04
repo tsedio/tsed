@@ -17,8 +17,7 @@ describe("ExclusiveMaximum", () => {
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.exclusiveMaximum.should.eq(true);
-            this.propertyMetadata.schema.maximum.should.eq(10);
+            this.propertyMetadata.schema.exclusiveMaximum.should.eq(10);
         });
     });
 
@@ -36,8 +35,7 @@ describe("ExclusiveMaximum", () => {
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.exclusiveMaximum.should.eq(true);
-            this.propertyMetadata.schema.maximum.should.eq(10);
+            this.propertyMetadata.schema.exclusiveMaximum.should.eq(10);
         });
     });
 });

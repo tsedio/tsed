@@ -19,6 +19,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {number} maxItems
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function MaxItems(maxItems: number) {
 

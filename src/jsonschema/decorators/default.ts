@@ -10,6 +10,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {string | number | boolean | {}} defaultValue
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function Default(defaultValue: string | number | boolean | {}) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {

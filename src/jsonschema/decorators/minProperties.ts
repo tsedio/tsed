@@ -19,6 +19,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {number} minProperties
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function MinProperties(minProperties: number) {
     if (minProperties < 0) {
