@@ -1,27 +1,24 @@
+import {JSONSchema6TypeName} from "json-schema";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
 /**
- * Create an alias of the propertyKey that must be used by the converter.
- *
- * ?> This decorator is used by the Converters to deserialize correctly you model.
- *
- * ## Example
+ * Set the type of the array items.
  *
  * ```typescript
  * class Model {
- *    @PropertyType(String)
+ *    @AllowTypes("string", "integer", "boolean", "array")
  *    property: string[];
  * }
  * ```
  *
- * @param {string} name
  * @returns {Function}
  * @decorator
- * @converters
+ * @param type
+ * @param types
  */
-export function PropertyName(name: string) {
+export function AllowTypes(type: JSONSchema6TypeName, ...types: JSONSchema6TypeName[]) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.name = name;
+        propertyMetadata.schema.type = [type].concat(types);
     });
 }

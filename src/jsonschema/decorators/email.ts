@@ -14,6 +14,8 @@ import {Format} from "./format";
  *
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function Email() {
     return Format("email");

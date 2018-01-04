@@ -18,9 +18,13 @@ export function Converter(...classes: any[]): Function {
 
     return (target: any) => {
 
+        /* istanbul ignore next */
+        if (classes.length === 0) {
+            throw new Error("Converter decorator need at least one type like String, Date, Class, etc...");
+        }
+
         classes.forEach(clazz =>
             Metadata.set(CONVERTER, target, clazz)
         );
-
     };
 }

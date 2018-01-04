@@ -23,6 +23,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {number} minLength
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function MinLength(minLength: number) {
 

@@ -18,4 +18,6 @@ export * from "./decorators/minProperties";
 export * from "./decorators/multipleOf";
 export * from "./decorators/pattern";
 export * from "./decorators/uniqueItems";
+export * from "./decorators/allowTypes";
+export * from "./decorators/any";
 export * from "./services/JsonSchemesService";

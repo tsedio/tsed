@@ -44,6 +44,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @returns {Function}
  * @decorator
  * @param options
+ * @decorator
+ * @converters
  */
 export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {

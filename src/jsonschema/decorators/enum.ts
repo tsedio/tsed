@@ -18,7 +18,9 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  *
  * @param {string | number | boolean | {}} enumValue
  * @returns {Function}
- * @constructor
+ * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function Enum(...enumValue: Array<string | number | boolean | {}>) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {

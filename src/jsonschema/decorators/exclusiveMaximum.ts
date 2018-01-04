@@ -18,6 +18,8 @@ import {Maximum} from "./maximum";
  * @param {boolean} exclusiveMaximum
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function ExclusiveMaximum(maximum: number, exclusiveMaximum: boolean = true) {
     return Maximum(maximum, exclusiveMaximum);

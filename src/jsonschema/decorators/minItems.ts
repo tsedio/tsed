@@ -22,6 +22,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {number} minItems
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function MinItems(minItems: number) {
 

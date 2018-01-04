@@ -22,6 +22,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param {string} format
  * @returns {Function}
  * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function Format(format: string) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {

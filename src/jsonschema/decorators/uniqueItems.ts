@@ -15,7 +15,9 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  *
  * @param {boolean} uniqueItems
  * @returns {Function}
- * @constructor
+ * @decorator
+ * @ajv
+ * @jsonschema
  */
 export function UniqueItems(uniqueItems: boolean = true) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
