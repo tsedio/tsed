@@ -33,11 +33,8 @@ describe("Maximum", () => {
             this.decorateStub.restore();
         });
 
-        it("should store data", () => {
-            this.propertyMetadata.schema.maximum.should.eq(10);
-        });
         it("should store exclusiveMaximum data", () => {
-            this.propertyMetadata.schema.exclusiveMaximum.should.eq(true);
+            this.propertyMetadata.schema.exclusiveMaximum.should.eq(10);
         });
     });
 });

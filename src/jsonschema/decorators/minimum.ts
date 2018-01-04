@@ -23,7 +23,11 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
 export function Minimum(minimum: number, exclusive: boolean = false) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
         propertyMetadata.type = Number;
-        propertyMetadata.schema.minimum = minimum;
-        propertyMetadata.schema.exclusiveMinimum = exclusive;
+
+        if (exclusive) {
+            propertyMetadata.schema.exclusiveMinimum = minimum;
+        } else {
+            propertyMetadata.schema.minimum = minimum;
+        }
     });
 }

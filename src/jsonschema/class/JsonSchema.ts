@@ -1,4 +1,4 @@
-import {JSONSchema4, JSONSchema4Type, JSONSchema4TypeName} from "json-schema";
+import {JSONSchema6, JSONSchema6Type, JSONSchema6TypeName} from "json-schema";
 import {Enumerable, NotEnumerable} from "../../core/decorators";
 import {
     descriptorOf,
@@ -11,7 +11,7 @@ import {
 
 export const JSON_TYPES = ["string", "number", "integer", "boolean", "object", "array", "null", "any"];
 
-export class JsonSchema implements JSONSchema4 {
+export class JsonSchema implements JSONSchema6 {
     @NotEnumerable()
     private _refName: string;
     /**
@@ -22,7 +22,7 @@ export class JsonSchema implements JSONSchema4 {
     $id: string;
 
     @Enumerable()
-    properties: { [key: string]: JSONSchema4 };
+    properties: { [key: string]: JSONSchema6 };
 
     @Enumerable()
     id: string;
@@ -40,7 +40,7 @@ export class JsonSchema implements JSONSchema4 {
     description: string;
 
     @Enumerable()
-    default: JSONSchema4Type;
+    default: JSONSchema6Type;
 
     @Enumerable()
     multipleOf: number;
@@ -49,13 +49,13 @@ export class JsonSchema implements JSONSchema4 {
     maximum: number;
 
     @Enumerable()
-    exclusiveMaximum: boolean;
+    exclusiveMaximum: number;
 
     @Enumerable()
     minimum: number;
 
     @Enumerable()
-    exclusiveMinimum: boolean;
+    exclusiveMinimum: number;
 
     @Enumerable()
     maxLength: number;
@@ -67,10 +67,10 @@ export class JsonSchema implements JSONSchema4 {
     pattern: string;
 
     @Enumerable()
-    additionalItems: boolean | JSONSchema4;
+    additionalItems: boolean | JSONSchema6;
 
     @Enumerable()
-    items: JSONSchema4 | JSONSchema4[];
+    items: JSONSchema6 | JSONSchema6[];
 
     @Enumerable()
     maxItems: number;
@@ -91,34 +91,34 @@ export class JsonSchema implements JSONSchema4 {
     required: any | string[];
 
     @Enumerable()
-    additionalProperties: boolean | JSONSchema4;
+    additionalProperties: boolean | JSONSchema6;
 
     @Enumerable()
-    definitions: { [p: string]: JSONSchema4 };
+    definitions: { [p: string]: JSONSchema6 };
 
     @Enumerable()
-    patternProperties: { [p: string]: JSONSchema4 };
+    patternProperties: { [p: string]: JSONSchema6 };
 
     @Enumerable()
-    dependencies: { [p: string]: JSONSchema4 | string[] };
+    dependencies: { [p: string]: JSONSchema6 | string[] };
 
     @Enumerable()
-    enum: JSONSchema4Type[];
+    enum: JSONSchema6Type[];
 
     @NotEnumerable()
-    private _type: JSONSchema4TypeName | JSONSchema4TypeName[] = "object";
+    private _type: JSONSchema6TypeName | JSONSchema6TypeName[] = "object";
 
     @Enumerable()
-    allOf: JSONSchema4[];
+    allOf: JSONSchema6[];
 
     @Enumerable()
-    anyOf: JSONSchema4[];
+    anyOf: JSONSchema6[];
 
     @Enumerable()
-    oneOf: JSONSchema4[];
+    oneOf: JSONSchema6[];
 
     @Enumerable()
-    not: JSONSchema4;
+    not: JSONSchema6;
 
     @Enumerable()
     extends: string | string[];
@@ -129,11 +129,11 @@ export class JsonSchema implements JSONSchema4 {
     [key: string]: any;
 
     @Enumerable()
-    get type(): any | JSONSchema4TypeName | JSONSchema4TypeName[] {
+    get type(): any | JSONSchema6TypeName | JSONSchema6TypeName[] {
         return this._type;
     }
 
-    set type(value: any | JSONSchema4TypeName | JSONSchema4TypeName[]) {
+    set type(value: any | JSONSchema6TypeName | JSONSchema6TypeName[]) {
         this._refName = nameOf(value);
         this._type = JsonSchema.getJsonType(value);
     }
@@ -170,9 +170,9 @@ export class JsonSchema implements JSONSchema4 {
     /**
      *
      * @param value
-     * @returns {JSONSchema4TypeName | JSONSchema4TypeName[]}
+     * @returns {JSONSchema6TypeName | JSONSchema6TypeName[]}
      */
-    static getJsonType(value: any): JSONSchema4TypeName | JSONSchema4TypeName[] {
+    static getJsonType(value: any): JSONSchema6TypeName | JSONSchema6TypeName[] {
 
         if (isPrimitiveOrPrimitiveClass(value)) {
             if (JSON_TYPES.indexOf(value as string) > -1) {
@@ -198,9 +198,9 @@ export class JsonSchema implements JSONSchema4 {
     /**
      *
      * @param type
-     * @returns {JSONSchema4}
+     * @returns {JSONSchema6}
      */
-    static ref(type: any): JSONSchema4 {
+    static ref(type: any): JSONSchema6 {
         return {
             $ref: `#/definitions/${nameOf(type)}`
         };

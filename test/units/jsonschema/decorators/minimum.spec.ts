@@ -33,11 +33,8 @@ describe("Minimum", () => {
             this.decorateStub.restore();
         });
 
-        it("should store data", () => {
-            this.propertyMetadata.schema.minimum.should.eq(10);
-        });
         it("should store exclusiveMinimum data", () => {
-            this.propertyMetadata.schema.exclusiveMinimum.should.eq(true);
+            this.propertyMetadata.schema.exclusiveMinimum.should.eq(10);
         });
     });
 });
