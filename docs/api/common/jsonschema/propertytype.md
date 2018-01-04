@@ -1,5 +1,5 @@
-<header class="symbol-info-header">    <h1 id="propertytype">PropertyType</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label decorators">decorators</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { PropertyType }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v3.1.0/src/jsonschema/decorators/propertyType.ts#L0-L0">                jsonschema/decorators/propertyType.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<header class="symbol-info-header">    <h1 id="propertytype">PropertyType</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label converters">converters</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { PropertyType }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://romakita.github.io/ts-express-decorators/#//blob/v3.2.0/src/jsonschema/decorators/propertyType.ts#L0-L0">                jsonschema/decorators/propertyType.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -7,11 +7,35 @@
 
 ### Description
 
-Set the type of the array items.
+Set the type of the array items. The possible value is String, Boolean, Number, Date, Object, Class, etc...
+
+?> This decorator is used by the Converters to deserialize correctly you model.
 
 ```typescript
 class Model {
    @PropertyType(String)
    property: string[];
+}
+```
+!> You didn't use the `type Type = string | number` as parameters Type.
+
+Didn't works:
+
+```typescript
+type Type = "string" | "number"
+class Model {
+   @PropertyType(Type)
+   property: Type[];
+}
+```
+
+Works with converter and AJV:
+
+```typescript
+type Type = "string" | "number"
+class Model {
+   @Property()
+   @AllowTypes("string", "number") // for AJV
+   property: Type[];
 }
 ```
