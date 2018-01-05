@@ -26,6 +26,30 @@ export class Server extends ServerLoader {
 }
 ```
 
+The AJV module allows a few setings to be added through the ServerSettings (all are optional):
+
+* *options*, are AJV specific options passed directly to the AJV constructor
+* *errorFormat*, can be used to alter the output produced by the AjvService
+
+The error message could be changed like:
+
+```typescript
+import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import "ts-express-decorators/ajv"; // import ajv ts.ed module
+
+@ServerSettings({
+    rootDir: __dirname,
+     ajv: {
+       errorFormat: (error) => `At ${error.schema[0]}${error.dataPath}, value '${error.data}' ${error.message}`,
+       options: {verbose: true}
+    },
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+
 ### Decorators
 
 Ts.ED given some decorators to write your validation model:
@@ -33,6 +57,7 @@ Ts.ED given some decorators to write your validation model:
 <ul class="api-list" style="display: block;"><li class="api-item" data-symbol="common/jsonschema;Default;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/default" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Default" title="Default"><span class="symbol decorator"></span>Default</a></li>
 <li class="api-item" data-symbol="common/jsonschema;Email;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/email" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Email" title="Email"><span class="symbol decorator"></span>Email</a></li>
 <li class="api-item" data-symbol="common/jsonschema;Enum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/enum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Enum" title="Enum"><span class="symbol decorator"></span>Enum</a></li>
+<li class="api-item" data-symbol="common/jsonschema;EnumArray;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/enumArray" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-EnumArray" title="EnumArray"><span class="symbol decorator"></span>EnumArray</a></li>
 <li class="api-item" data-symbol="common/jsonschema;ExclusiveMaximum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/exclusivemaximum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-ExclusiveMaximum" title="ExclusiveMaximum"><span class="symbol decorator"></span>ExclusiveMaximum</a></li>
 <li class="api-item" data-symbol="common/jsonschema;ExclusiveMinimum;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/exclusiveminimum" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-ExclusiveMinimum" title="ExclusiveMinimum"><span class="symbol decorator"></span>ExclusiveMinimum</a></li>
 <li class="api-item" data-symbol="common/jsonschema;Format;decorator;@;false;false;false;false" style="display: inline-block;"><a href="#/api/common/jsonschema/format" class="symbol-container deprecated symbol-type-decorator symbol-name-commonjsonschema-Format" title="Format"><span class="symbol decorator"></span>Format</a></li>

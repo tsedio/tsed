@@ -4,6 +4,7 @@ export * from "./decorators/propertyType";
 export * from "./decorators/default";
 export * from "./decorators/email";
 export * from "./decorators/enum";
+export * from "./decorators/enumArray";
 export * from "./decorators/exclusiveMaximum";
 export * from "./decorators/exclusiveMinimum";
 export * from "./decorators/format";
