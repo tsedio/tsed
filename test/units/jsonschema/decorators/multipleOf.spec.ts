@@ -1,27 +1,25 @@
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {MultipleOf} from "../../../../src/jsonschema/decorators/multipleOf";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "./utils";
 
 describe("MultipleOf", () => {
     before(() => {
-        this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-        this.propertyMetadata = {
-            schema: {}
-        };
+        this.decorateStub = stubSchemaDecorator();
+        this.schema = new JsonSchema();
         try {
             MultipleOf(0);
         } catch (er) {
             this.error = er;
         }
         MultipleOf(10);
-        this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+        this.decorateStub.getCall(0).args[0](this.schema);
     });
     after(() => {
         this.decorateStub.restore();
     });
 
     it("should store data", () => {
-        this.propertyMetadata.schema.multipleOf.should.eq(10);
+        this.schema.multipleOf.should.eq(10);
     });
 
     it("should throw an error when the given parameters is as negative integer", () => {

@@ -4,8 +4,6 @@ import {DecoratorParameters} from "../../core/interfaces";
 import {Type} from "../../core/interfaces/Type";
 import {ancestorsOf} from "../../core/utils";
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {InjectorService} from "../../di/services/InjectorService";
-import {ConverterService} from "../../converters/services/ConverterService";
 
 export class PropertyRegistry {
     /**

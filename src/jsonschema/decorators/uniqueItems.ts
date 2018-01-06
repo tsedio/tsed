@@ -1,5 +1,5 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {JsonSchema} from "../class/JsonSchema";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.
@@ -13,6 +13,31 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * }
  * ```
  *
+ *  * ```typescript
+ * class Model {
+ *    @PropertyType(String)
+ *    @UniqueItems()
+ *    property: string[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "uniqueItems": true,
+ *       "items": {
+ *         "type": "string"
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @param {boolean} uniqueItems
  * @returns {Function}
  * @decorator
@@ -20,7 +45,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @jsonschema
  */
 export function UniqueItems(uniqueItems: boolean = true) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.uniqueItems = uniqueItems;
+    return decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.uniqueItems = uniqueItems;
     });
 }

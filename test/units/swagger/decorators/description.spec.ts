@@ -1,7 +1,9 @@
 import {Store} from "../../../../src/core/class/Store";
 import {decoratorArgs} from "../../../../src/core/utils";
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {Description} from "../../../../src/swagger/decorators/description";
-import {expect} from "../../../tools";
+import {expect, Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
 
 
 class Test {
@@ -34,12 +36,23 @@ describe("Description()", () => {
         });
     });
 
-    describe("on class", () => {
+    describe("on class and property", () => {
         before(() => {
-            let args = [Test];
-            Description("description")(...args);
-            this.store = Store.from(...args);
+            this.decorator = Sinon.stub();
+            this.decorateStub = stubSchemaDecorator().returns(this.decorator);
+            this.schema = new JsonSchema();
+            Description("description")(Test);
+            this.store = Store.from(Test);
+            this.decorateStub.getCall(0).args[0](this.schema);
         });
+        after(() => {
+            this.decorateStub.restore();
+        });
+
+        it("should store data", () => {
+            this.schema.description.should.be.eq("description");
+        });
+
         it("should set the tag", () => {
             expect(this.store.get("description")).to.deep.eq("description");
         });

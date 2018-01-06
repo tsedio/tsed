@@ -1,6 +1,8 @@
 import {getDecoratorType} from "../../core/utils";
+import * as mod from "../../jsonschema/decorators/title";
 import {BaseParameter} from "./baseParameter";
-import {Schema} from "./schema";
+
+const originalTitleDecorator = mod.Title;
 
 /**
  * Add title metadata on the decorated element.
@@ -27,7 +29,7 @@ import {Schema} from "./schema";
  *
  * ### On property
  *
- * ```typescript
+ ```typescript
  * class Model {
  *    @Title("title")
  *    id: string;
@@ -37,24 +39,36 @@ import {Schema} from "./schema";
  * Will produce:
  *
  * ```json
- * "Model": {
- *   "title": "title",
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "id": {
+ *        "type": "string",
+ *        "title": "title"
+ *     }
+ *   }
  * }
  * ```
  *
  * @param {string} title
  * @returns {(...args: any[]) => any}
  * @decorator
+ * @swagger
  */
-export function Title(title: string) {
+function Title(title: string) {
     return (...args: any[]) => {
-
         const type = getDecoratorType(args);
         switch (type) {
             case "parameter":
                 return BaseParameter({title})(...args);
             default:
-                Schema({title})(...args);
+                originalTitleDecorator(title)(...args);
         }
     };
 }
+
+(mod as any).Title = Title;
+
+export {
+    Title
+};

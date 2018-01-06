@@ -16,7 +16,7 @@ describe("Example()", () => {
             this.store = Store.from(Test, "test");
         });
         it("should set the schema", () => {
-            expect(this.store.get("schema")).to.deep.eq({
+            expect(this.store.get("schema").toObject()).to.deep.eq({
                 "example": {
                     "name": "description"
                 }
@@ -29,7 +29,7 @@ describe("Example()", () => {
             this.store = Store.from(Test, "test2");
         });
         it("should set the schema", () => {
-            expect(this.store.get("schema")).to.deep.eq({
+            expect(this.store.get("schema").toObject()).to.deep.eq({
                 "example": ["s1", "s2"]
             });
         });
@@ -40,7 +40,7 @@ describe("Example()", () => {
             this.store = Store.from(Test, "test3");
         });
         it("should set the schema", () => {
-            expect(this.store.get("schema")).to.deep.eq({
+            expect(this.store.get("schema").toObject()).to.deep.eq({
                 "example": {"k1": { "k2": "vaue" }}
             });
         });

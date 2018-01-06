@@ -17,7 +17,7 @@ describe("Title()", () => {
             this.store = Store.from(Test, "test");
         });
         it("should set the schema", () => {
-            expect(this.store.get("schema")).to.deep.eq({title: "title"});
+            expect(this.store.get("schema").toObject()).to.deep.eq({title: "title"});
         });
     });
     describe("when title is used as parameters decorator", () => {

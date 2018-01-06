@@ -20,8 +20,8 @@ export class FilterBuilder {
     public build(param: ParamMetadata): Function {
         let filter: any = this.initFilter(param);
         filter = FilterBuilder.appendRequiredFilter(filter, param);
-        filter = FilterBuilder.appendConverterFilter(filter, param);
         filter = FilterBuilder.appendValidationFilter(filter, param);
+        filter = FilterBuilder.appendConverterFilter(filter, param);
         return filter;
     }
 

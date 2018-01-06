@@ -1,4 +1,4 @@
-import {Schema} from "./schema";
+import {Schema} from "../../jsonschema/decorators/schema";
 
 /**
  * Add a example metadata on the decorated element.
@@ -7,6 +7,7 @@ import {Schema} from "./schema";
  * @param {string} description
  * @returns {(...args: any[]) => any}
  * @decorator
+ * @swagger
  */
 export function Example(name: string | any, description?: string) {
     return (...args: any[]) => {

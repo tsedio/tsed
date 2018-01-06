@@ -54,7 +54,7 @@ describe("PropertyMetadata", () => {
         });
 
         it("should return schema", () => {
-            expect(this.propertyMetadata.schema).to.deep.eq({"$ref": "#/definitions/Test"});
+            expect(this.propertyMetadata.schema.toJSON()).to.deep.eq({"$ref": "#/definitions/Test"});
         });
     });
 

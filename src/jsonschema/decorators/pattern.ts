@@ -1,5 +1,4 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * The pattern and Pattern Properties keywords use regular expressions to express constraints.
@@ -34,21 +33,68 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * }
  * ```
  *
+ * ### With primitive type
+ *
+ * ```typescript
+ * class Model {
+ *    @Pattern(/^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$/)
+ *    property: string;
+ * }
+ * ```
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "string",
+ *       "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With array type
+ *
+ * ```typescript
+ * class Model {
+ *    @PropertyType(string)
+ *    @Pattern(/^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$/)
+ *    property: string[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "items": {
+ *         "type": "string",
+ *         "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @param {string} pattern
  * @returns {Function}
  * @decorator
  * @ajv
  * @jsonschema
+ * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
-export function Pattern(pattern: string | RegExp) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.type = String;
 
+export function Pattern(pattern: string | RegExp) {
+    return decoratorSchemaFactory((schema) => {
         if (typeof pattern === "object") {
-            propertyMetadata.schema.pattern = pattern.toString().slice(1, -1);
-        } else {
-            propertyMetadata.schema.pattern = pattern;
+            pattern = pattern.toString().slice(1, -1);
         }
 
+        schema.mapper.pattern = pattern;
     });
 }

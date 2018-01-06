@@ -24,12 +24,12 @@ import {BaseParameter} from "./baseParameter";
  * }
  * ```
  *
+ * @param name
  * @returns {Function}
  * @decorator
- * @param name
+ * @swagger
  */
 export function Name(name: string) {
-
     return (...args: any[]) => {
         const type = getDecoratorType(args);
         switch (type) {

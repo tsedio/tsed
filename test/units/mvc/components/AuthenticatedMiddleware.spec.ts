@@ -1,4 +1,5 @@
 import {Forbidden} from "ts-httpexceptions";
+import {BadRequest} from "ts-httpexceptions/lib/clientErrors/BadRequest";
 import {AuthenticatedMiddleware} from "../../../../src/mvc/components/AuthenticatedMiddleware";
 import {FakeResponse} from "../../../helper";
 import {Sinon} from "../../../tools";
@@ -45,7 +46,7 @@ describe("AuthenticatedMiddleware", () => {
                 });
 
                 it("should have called next function", () => {
-                    this.nextSpy.should.have.been.calledWithExactly(new Forbidden("Forbidden"));
+                    this.nextSpy.should.have.been.calledWithExactly(Sinon.match.instanceOf(Forbidden));
                 });
             });
         });

@@ -1,41 +1,37 @@
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {ExclusiveMinimum} from "../../../../src/jsonschema/decorators/exclusiveMinimum";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "./utils";
 
 describe("ExclusiveMinimum", () => {
     describe("without explicit parameter", () => {
 
         before(() => {
-            this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-            this.propertyMetadata = {
-                schema: {}
-            };
+            this.decorateStub = stubSchemaDecorator();
+            this.schema = new JsonSchema();
             ExclusiveMinimum(10, true);
-            this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+            this.decorateStub.getCall(0).args[0](this.schema);
         });
         after(() => {
             this.decorateStub.restore();
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.exclusiveMinimum.should.eq(10);
+            this.schema.exclusiveMinimum.should.eq(10);
         });
     });
     describe("without explicit parameter", () => {
         before(() => {
-            this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-            this.propertyMetadata = {
-                schema: {}
-            };
+            this.decorateStub = stubSchemaDecorator();
+            this.schema = new JsonSchema();
             ExclusiveMinimum(10);
-            this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+            this.decorateStub.getCall(0).args[0](this.schema);
         });
         after(() => {
             this.decorateStub.restore();
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.exclusiveMinimum.should.eq(10);
+            this.schema.exclusiveMinimum.should.eq(10);
         });
 
     });

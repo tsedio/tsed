@@ -1,5 +1,5 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {JsonSchema} from "../class/JsonSchema";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * The value `maxItems` MUST be a non-negative integer.
@@ -16,6 +16,20 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * }
  * ```
  *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "number",
+ *       "maxItems": 10
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @param {number} maxItems
  * @returns {Function}
  * @decorator
@@ -28,7 +42,7 @@ export function MaxItems(maxItems: number) {
         throw new Error("The value of maxItems MUST be a non-negative integer.");
     }
 
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.maxItems = maxItems;
+    return decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.maxItems = maxItems;
     });
 }

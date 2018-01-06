@@ -1,13 +1,11 @@
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {MinLength} from "../../../../src/jsonschema/decorators/minLength";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "./utils";
 
 describe("MinLength", () => {
     before(() => {
-        this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-        this.propertyMetadata = {
-            schema: {}
-        };
+        this.decorateStub = stubSchemaDecorator();
+        this.schema = new JsonSchema();
 
         try {
             MinLength(-10);
@@ -16,14 +14,14 @@ describe("MinLength", () => {
         }
 
         MinLength(10);
-        this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+        this.decorateStub.getCall(0).args[0](this.schema);
     });
     after(() => {
         this.decorateStub.restore();
     });
 
     it("should store data", () => {
-        this.propertyMetadata.schema.minLength.should.eq(10);
+        this.schema.minLength.should.eq(10);
     });
     it("should throw an error when the given parameters is as negative integer", () => {
         this.error.message.should.deep.equal("The value of minLength MUST be a non-negative integer.");

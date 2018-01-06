@@ -20,4 +20,6 @@ export * from "./decorators/pattern";
 export * from "./decorators/uniqueItems";
 export * from "./decorators/allowTypes";
 export * from "./decorators/any";
+export * from "./decorators/schema";
+export * from "./decorators/title";
 export * from "./services/JsonSchemesService";

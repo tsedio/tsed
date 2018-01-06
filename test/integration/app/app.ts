@@ -5,7 +5,7 @@ import "../../../src/socketio";
 import "../../../src/swagger";
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
-// import "./middlewares/authentication";
+
 import Path = require("path");
 
 const rootDir = Path.resolve(__dirname);
@@ -14,6 +14,7 @@ const rootDir = Path.resolve(__dirname);
     rootDir,
     port: 8001,
     httpsPort: 8071,
+    debug: true,
     mount: {
         "/rest": [
             "${rootDir}/controllers/Base/**.js",
@@ -32,7 +33,6 @@ const rootDir = Path.resolve(__dirname);
     serveStatic: {
         "/": "${rootDir}/views"
     },
-    debug: true,
     swagger: {
         path: "/api-doc",
         cssPath: "${rootDir}/spec/style.css",

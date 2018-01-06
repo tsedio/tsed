@@ -1,21 +1,19 @@
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {Email} from "../../../../src/jsonschema/decorators/email";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "./utils";
 
 describe("Email", () => {
     before(() => {
-        this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-        this.propertyMetadata = {
-            schema: {}
-        };
+        this.decorateStub = stubSchemaDecorator();
+        this.schema = new JsonSchema();
         Email();
-        this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+        this.decorateStub.getCall(0).args[0](this.schema);
     });
     after(() => {
         this.decorateStub.restore();
     });
 
     it("should store data", () => {
-        this.propertyMetadata.schema.format.should.eq("email");
+        this.schema.format.should.eq("email");
     });
 });

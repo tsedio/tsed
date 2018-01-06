@@ -1,5 +1,5 @@
 import {JsonSchemesRegistry} from "../../../../src/jsonschema/registries/JsonSchemesRegistry";
-import {JsonAgeModel, JsonFoo2} from "../../../helper/classes";
+import {JsonFoo2} from "../../../helper/classes";
 import {expect} from "../../../tools";
 
 describe("JsonProperty()", () => {

@@ -1,40 +1,36 @@
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {Pattern} from "../../../../src/jsonschema/decorators/pattern";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "./utils";
 
 describe("Pattern", () => {
     describe("with string pattern", () => {
         before(() => {
-            this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-            this.propertyMetadata = {
-                schema: {}
-            };
+            this.decorateStub = stubSchemaDecorator();
+            this.schema = new JsonSchema();
             Pattern("patternValue");
-            this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+            this.decorateStub.getCall(0).args[0](this.schema);
         });
         after(() => {
             this.decorateStub.restore();
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.pattern.should.be.eq("patternValue");
+            this.schema.pattern.should.be.eq("patternValue");
         });
     });
     describe("with regexp pattern", () => {
         before(() => {
-            this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-            this.propertyMetadata = {
-                schema: {}
-            };
+            this.decorateStub = stubSchemaDecorator();
+            this.schema = new JsonSchema();
             Pattern(/abc/);
-            this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+            this.decorateStub.getCall(0).args[0](this.schema);
         });
         after(() => {
             this.decorateStub.restore();
         });
 
         it("should store data", () => {
-            this.propertyMetadata.schema.pattern.should.be.eq("abc");
+            this.schema.pattern.should.be.eq("abc");
         });
     });
 });

@@ -1,5 +1,7 @@
+import {JsonSchema} from "../class/JsonSchema";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * An object instance is valid against `maxProperties` if its number of properties is less than, or equal to, the value of this keyword.
@@ -10,9 +12,23 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(String)
- *    @MaxProperty(10)
- *    property: string[];
+ *    @Any()
+ *    @MaxProperties(10)
+ *    property: any;
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "any",
+ *       "maxProperties": 10
+ *     }
+ *   }
  * }
  * ```
  *
@@ -26,7 +42,7 @@ export function MaxProperties(maxProperties: number) {
     if (maxProperties < 0) {
         throw new Error("The value of maxProperties MUST be a non-negative integer.");
     }
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.maxProperties = maxProperties;
+    return  decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.maxProperties = maxProperties;
     });
 }
