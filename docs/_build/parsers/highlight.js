@@ -21,7 +21,7 @@ const symbolsMatch = (current) => {
   const keys = [];
 
   info.symbols.forEach(o => {
-    if (current !== o.symbolName && o.symbolType !== "function") {
+    if (current !== o.symbolName && o.symbolType !== "function" && o.symbolName !== "") {
       keys.push(o.symbolName);
     }
   });
@@ -31,14 +31,16 @@ const symbolsMatch = (current) => {
 
 module.exports = (content, current) => {
 
+  if (current === "") {
+    return content;
+  }
   content = content
-    .replace(KEYWORDS, "<span class=\"token keyword\">$1</span>")
-    .replace(/(\w+)\(/g, `<span class="token function">$1</span>(`)
-    .replace(TYPES, "<span class=\"token keyword\">$1</span>")
-    .replace(SEPARATOR, "<span class=\"token punctuation\">$1</span>");
+    .replace(KEYWORDS, "<span class=\"token keyword\">$1<\/span>")
+    .replace(/(\w+)\(/g, `<span class="token function">$1<\/span>(`)
+    .replace(TYPES, "<span class=\"token keyword\">$1<\/span>")
+    .replace(SEPARATOR, "<span class=\"token punctuation\">$1<\/span>");
 
   content = content.replace(symbolsMatch(current), replacement);
-
 
   return content;
 };

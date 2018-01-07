@@ -1,5 +1,5 @@
-const {homepage, version} = require("../../package.json");
-const github = homepage.replace("#readme", "");
+const {repository, version} = require("../../package.json");
+const github = repository.url.replace(".git", "");
 const path = require("path");
 const root = path.resolve(path.join(__dirname, "../../"));
 

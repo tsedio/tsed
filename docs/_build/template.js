@@ -29,7 +29,7 @@ const _header = (scope) => {
       }
       return true;
     })
-    .map(item => `<label class="api-type-label ${item.key}">${item.value}</label>`);
+    .map(item => `<label class="api-type-label ${item.key}" title="${item.value}">${item.key}</label>`);
 
   return `
   <header class="symbol-info-header">
