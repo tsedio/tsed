@@ -55,15 +55,21 @@ export class Server extends ServerLoader implements IServerLifecycle {
 Ts.ED use multer to handler file uploads. Single file can be injected like this:
 
 ```typescript
+import {Controller, Post} from "ts-express-decorators";
+import {Multer} from "@types/multer";
+
+type MulterFile = Express.Multer.File;
+
 @Controller('/')
 class MyCtrl {
+    
   @Post('/file')
-  private uploadFile(@MultipartFile() file: Multer.File) {
+  private uploadFile(@MultipartFile() file: MulterFile) {
 
   }
      
   @Post('/file')
-  private uploadFile(@MultipartFile({dest: "/other-dir"}) file: Multer.File) {
+  private uploadFile(@MultipartFile({dest: "/other-dir"}) file: MulterFile) {
          
   }
 }
@@ -71,10 +77,16 @@ class MyCtrl {
 
 For multiple files, just add Array type annotation like this:
 ```typescript
+import {Controller, Post} from "ts-express-decorators";
+import {Multer} from "multer";
+import {MultipartFile} from "ts-express-decorators/multipartfile";
+
+type MulterFile = Express.Multer.File;
+
 @Controller('/')
 class MyCtrl {
   @Post('/files')
-  private uploadFile(@MultipartFile() files: Multer.File[]) {
+  private uploadFile(@MultipartFile() files: MulterFile[]) {
 
   }
 }
