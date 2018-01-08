@@ -1,9 +1,14 @@
-<header class="symbol-info-header">    <h1 id="iswaggersettings">ISwaggerSettings</h1>    <label class="symbol-info-type-label interface">Interface</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ISwaggerSettings }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/swagger"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src/swagger/interfaces/ISwaggerSettings.ts#L0-L0">                swagger/interfaces/ISwaggerSettings.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+<header class="symbol-info-header"><h1 id="iswaggersettings">ISwaggerSettings</h1><label class="symbol-info-type-label interface">Interface</label></header>
+<!-- summary -->
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ISwaggerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators/swagger"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//swagger/interfaces/ISwaggerSettings.ts#L0-L0">/swagger/interfaces/ISwaggerSettings.ts</a></td></tr></tbody></table></section>
+<!-- overview -->
+
 
 ### Overview
 
-<pre><code class="typescript-lang"><span class="token keyword">interface</span> ISwaggerSettings <span class="token punctuation">{</span>
+
+<pre><code class="typescript-lang "><span class="token keyword">interface</span> ISwaggerSettings <span class="token punctuation">{</span>
     path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     cssPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     options?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
@@ -40,19 +45,80 @@
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
+
+<!-- Parameters -->
+
+<!-- Description -->
+
+<!-- Members -->
+
+
+
+
+
+
+
 ### Members
 
-<div class="method-overview"><pre><code class="typescript-lang">path<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">cssPath?<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">options?<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">showExplorer?<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">specPath?<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre></div>
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang">spec?<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">path<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">cssPath?<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">options?<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">showExplorer?<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">specPath?<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">spec?<span class="token punctuation">:</span> <span class="token punctuation">{</span>
      swagger?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
      info?<span class="token punctuation">:</span> Info<span class="token punctuation">;</span>
      externalDocs?<span class="token punctuation">:</span> ExternalDocs<span class="token punctuation">;</span>
@@ -80,4 +146,13 @@
          <span class="token punctuation">[</span>securityDefinitionName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="#api/swagger/security"><span class="token">Security</span></a><span class="token punctuation">;</span>
      <span class="token punctuation">}</span><span class="token punctuation">;</span>
      tags?<span class="token punctuation">:</span> Tag<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
+ <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+</div>
+
+
+
+
+
+
+
+

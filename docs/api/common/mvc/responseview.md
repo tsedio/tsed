@@ -1,9 +1,20 @@
-<header class="symbol-info-header">    <h1 id="responseview">ResponseView</h1>    <label class="symbol-info-type-label decorator">Decorator</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ResponseView }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src/mvc/decorators/method/responseView.ts#L0-L0">                mvc/decorators/method/responseView.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+<header class="symbol-info-header"><h1 id="responseview">ResponseView</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
+<!-- summary -->
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ResponseView }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//mvc/decorators/method/responseView.ts#L0-L0">/mvc/decorators/method/responseView.ts</a></td></tr></tbody></table></section>
+<!-- overview -->
+
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">ResponseView</span><span class="token punctuation">(</span>viewPath<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> viewOptions?<span class="token punctuation">:</span> Object<span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+<pre><code class="typescript-lang ">function <span class="token function">ResponseView</span><span class="token punctuation">(</span>viewPath<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> viewOptions?<span class="token punctuation">:</span> Object<span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+
+<!-- Parameters -->
+
+<!-- Description -->
+
 
 ### Description
 
@@ -21,3 +32,6 @@ For more information, see [Using template engines with Express](http://expressjs
 
 > NOTE: The view argument performs file system operations like reading a file from disk and evaluating Node.js modules,
 and as so for security reasons should not contain input from the end-user.
+
+<!-- Members -->
+

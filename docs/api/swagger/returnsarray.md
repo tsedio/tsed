@@ -1,17 +1,31 @@
-<header class="symbol-info-header">    <h1 id="returnsarray">ReturnsArray</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label swagger" title="swagger">swagger</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ReturnsArray }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators/swagger"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src/swagger/decorators/returnsArray.ts#L0-L0">                swagger/decorators/returnsArray.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+<header class="symbol-info-header"><h1 id="returnsarray">ReturnsArray</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label swagger" title="swagger">swagger</label></header>
+<!-- summary -->
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ReturnsArray }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators/swagger"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//swagger/decorators/returnsArray.ts#L0-L0">/swagger/decorators/returnsArray.ts</a></td></tr></tbody></table></section>
+<!-- overview -->
+
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">ReturnsArray</span><span class="token punctuation">(</span>statusCode<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/swagger/iswaggerresponses"><span class="token">ISwaggerResponses</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+
+<pre><code class="typescript-lang ">function <span class="token function">ReturnsArray</span><span class="token punctuation">(</span>statusCode<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/swagger/iswaggerresponses"><span class="token">ISwaggerResponses</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 function <span class="token function">ReturnsArray</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="#api/swagger/iswaggerresponses"><span class="token">ISwaggerResponses</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 function <span class="token function">ReturnsArray</span><span class="token punctuation">(</span>model<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 function <span class="token function">ReturnsArray</span><span class="token punctuation">(</span>model<span class="token punctuation">:</span> <a href="#api/common/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/swagger/iswaggerresponses"><span class="token">ISwaggerResponses</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
 
+
+<!-- Parameters -->
+
+
 Param | Type | Description
 ---|---|---
-statusCode| <code>number</code> |Code status
-options| <code><a href="#api/swagger/iswaggerresponses"><span class="token">ISwaggerResponses</span></a></code> |Swagger responses documentations
+ statusCode|<code>number</code>|Code status
+ options|<code><a href="#api/swagger/iswaggerresponses"><span class="token">ISwaggerResponses</span></a></code>|Swagger responses documentations
+
+
+
+
+<!-- Description -->
 
 
 ### Description
@@ -95,3 +109,6 @@ This example will produce this documentation in swagger:
   }
 }
 ```
+
+<!-- Members -->
+

@@ -27,6 +27,10 @@ export class Server extends ServerLoader {
 }       
 ```
 
+## Decorators
+
+<ul class="api-list"><li class="api-item" data-symbol="common/di;Inject;decorator;@;false;false;false;false"><a href="#/api/common/di/inject"class="symbol-container symbol-type-decorator symbol-name-commondi-Inject"title="Inject"><span class="symbol decorator"></span>Inject</a></li><li class="api-item" data-symbol="common/di;OverrideService;decorator;@;false;false;false;false"><a href="#/api/common/di/overrideservice"class="symbol-container symbol-type-decorator symbol-name-commondi-OverrideService"title="OverrideService"><span class="symbol decorator"></span>OverrideService</a></li><li class="api-item" data-symbol="common/di;Service;decorator;@;false;false;false;false"><a href="#/api/common/di/service"class="symbol-container symbol-type-decorator symbol-name-commondi-Service"title="Service"><span class="symbol decorator"></span>Service</a></li></ul>
+
 ## Declaring a service
 
 Create a new file in your services folder. Create a new Class definition and add the `@Service()` annotation on your class.
