@@ -1,24 +1,67 @@
 import {JSONSchema6TypeName} from "json-schema";
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {JsonSchema} from "../class/JsonSchema";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * Set the type of the array items.
  *
+ * ## Example
+ * ### With multiple types
+ *
  * ```typescript
  * class Model {
- *    @AllowTypes("string", "integer", "boolean", "array")
- *    property: string[];
+ *    @AllowTypes("string", "number", "boolean", "array")
+ *    property: "string" | "number" | "boolean" | "array";
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": ["string", "number", "boolean", "array"]
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With array of multiple types
+ *
+ * ```typescript
+ * class Model {
+ *    @AllowTypes("string", "number", "boolean", "array")
+ *    property: ("string" | "number" | "boolean" | "array")[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "items": {
+ *          "type": ["string", "number", "boolean", "array"]
+ *       }
+ *     }
+ *   }
  * }
  * ```
  *
  * @returns {Function}
- * @decorator
  * @param type
  * @param types
+ * @decorator
+ * @jsonschema
+ * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function AllowTypes(type: JSONSchema6TypeName, ...types: JSONSchema6TypeName[]) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.type = [type].concat(types);
+    return decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.mapper.type = [type].concat(types);
     });
 }

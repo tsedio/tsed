@@ -1,21 +1,19 @@
+import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
 import {Default} from "../../../../src/jsonschema/decorators/default";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import {stubSchemaDecorator} from "./utils";
 
 describe("Default", () => {
     before(() => {
-        this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-        this.propertyMetadata = {
-            schema: {}
-        };
+        this.decorateStub = stubSchemaDecorator();
+        this.schema = new JsonSchema();
         Default("defaultValue");
-        this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+        this.decorateStub.getCall(0).args[0](this.schema);
     });
     after(() => {
         this.decorateStub.restore();
     });
 
     it("should store data", () => {
-        this.propertyMetadata.schema.default.should.be.eq("defaultValue");
+        this.schema.default.should.be.eq("defaultValue");
     });
 });

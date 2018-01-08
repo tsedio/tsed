@@ -1,5 +1,4 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  *
@@ -12,28 +11,70 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * ?> Omitting this keyword has the same behavior as a value of 0.
  *
  * ## Example
+ * ### With primitive type
  *
  * ```typescript
  * class Model {
  *    @MinLength(10)
- *    property: string;
+ *    property: number;
  * }
  * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "string",
+ *       "maxLength": 10
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With array type
+ *
+ * ```typescript
+ * class Model {
+ *    @MinLength(10)
+ *    @PropertyType(String)
+ *    property: string[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "items": {
+ *          "type": "string",
+ *          "minLength": 10
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+
  *
  * @param {number} minLength
  * @returns {Function}
  * @decorator
  * @ajv
  * @jsonschema
+ * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function MinLength(minLength: number) {
 
     if (minLength < 0) {
         throw new Error("The value of minLength MUST be a non-negative integer.");
     }
-
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.type = String;
-        propertyMetadata.schema.minLength = minLength;
+    return decoratorSchemaFactory((schema) => {
+        schema.mapper.minLength = minLength;
     });
 }

@@ -190,7 +190,6 @@ describe("Rest", () => {
                 .end((err: any, response: any) => {
 
                     let token = response.text;
-
                     expect(token).to.be.an("string");
                     expect(token).to.equal("ts-express-decorators");
                     done();

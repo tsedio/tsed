@@ -7,6 +7,7 @@ import {Storable} from "../../core/class/Storable";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
 import {deepExtends, nameOf} from "../../core/utils";
+import {JsonSchema} from "../../jsonschema/class/JsonSchema";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {swaggerType} from "../utils";
@@ -58,11 +59,15 @@ export class OpenApiPropertiesBuilder {
 
     protected createSchema(model: Storable): Schema {
         let builder;
-        let schema: Schema = model.store.get<Schema>("schema") || {};
+        let schema: any = model.store.get<Schema>("schema") || {};
 
-        if (model.store.get("description")) {
-            schema.description = schema.description || model.store.get("description");
+        if (schema instanceof JsonSchema) {
+            schema = schema.toObject();
         }
+
+        /*if (model.store.get("description")) {
+            schema.description = schema.description || model.store.get("description");
+        }*/
 
         if (model.isClass) {
 
@@ -115,8 +120,13 @@ export class OpenApiPropertiesBuilder {
     }
 
     public getJsonSchema() {
-        const schema = Store.from(this.target).get<Schema>("schema") || {};
-        return schema.toJSON ? schema.toJSON() : schema;
+        let schema = Store.from(this.target).get<Schema>("schema") || {};
+
+        if (schema instanceof JsonSchema) {
+            schema = schema.toObject();
+        }
+
+        return schema;
     }
 
     public get schema(): Schema {

@@ -81,11 +81,11 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  *   }
  * }
  * ```
- *
- * @returns {Function}
- * @decorator
  * @param statusCode Code status
  * @param options Swagger responses documentations
+ * @returns {Function}
+ * @decorator
+ * @swagger
  */
 export function Returns(statusCode: number, options: ISwaggerResponses): any;
 export function Returns(options: ISwaggerResponses): any;

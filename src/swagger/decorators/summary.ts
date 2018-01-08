@@ -17,6 +17,7 @@ import {Operation} from "./operation";
  * @param {string} summary
  * @returns {Function}
  * @decorator
+ * @swagger
  */
 export function Summary(summary: string) {
     return (...args: any[]) => {

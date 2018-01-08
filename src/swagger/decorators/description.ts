@@ -1,5 +1,6 @@
 import {Store} from "../../core/class/Store";
 import {getDecoratorType} from "../../core/utils";
+import {Schema} from "../../jsonschema/decorators/schema";
 import {BaseParameter} from "./baseParameter";
 import {Operation} from "./operation";
 
@@ -47,9 +48,9 @@ import {Operation} from "./operation";
  * @param {string} description
  * @returns {Function}
  * @decorator
+ * @swagger
  */
 export function Description(description: string) {
-
     return (...args: any[]) => {
         const type = getDecoratorType(args);
         switch (type) {
@@ -57,8 +58,10 @@ export function Description(description: string) {
                 return BaseParameter({description})(...args);
             case "method":
                 return Operation({description})(...args);
-            default:
+            case "class":
                 Store.from(...args).set("description", description);
+            default:
+                Schema({description})(...args);
         }
     };
 }

@@ -1,24 +1,39 @@
 import {JSONSchema6TypeName} from "json-schema";
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {JsonSchema} from "../class/JsonSchema";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * Set the type of the array items.
  *
+ * ## Example
+ *
  * ```typescript
  * class Model {
  *    @Any()
- *    // eq. @AllowTypes("any")
  *    property: any;
  * }
  * ```
  *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "any"
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @returns {Function}
- * @decorator
  * @param types
+ * @decorator
+ * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Any(...types: JSONSchema6TypeName[]) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.type = "any";
+    return decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.mapper.type = "any";
     });
 }

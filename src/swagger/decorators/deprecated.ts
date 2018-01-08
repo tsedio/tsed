@@ -19,7 +19,8 @@ import {Operation} from "./operation";
  * ```
  *
  * @returns {Function}
- * @constructor
+ * @decorator
+ * @swagger
  */
 export function Deprecated() {
     return (...args: any[]) => {

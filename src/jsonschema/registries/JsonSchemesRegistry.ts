@@ -1,5 +1,4 @@
 import {JSONSchema4} from "json-schema";
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Registry} from "../../core/class/Registry";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
@@ -8,6 +7,7 @@ import {JsonSchema} from "../class/JsonSchema";
 
 const JSON_SCHEMA_FIELDS = ["additionalItems", "items", "additionalProperties", "properties", "dependencies", "JSONSchema4"];
 
+const toObj = (o: any) => JSON.parse(JSON.stringify(o));
 
 export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
     /**
@@ -20,7 +20,6 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
      */
     property(target: Type<any>, propertyKey: string, type: any, collectionType?: any): JsonSchema {
         if (!this.has(target)) {
-
             this.merge(target, {
                 type: target
             });
@@ -30,8 +29,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
         const schema = this.get(target);
         schema.properties = schema.properties || {};
 
-        const schemaProperty = schema.properties[propertyKey] || {};
-        schema.properties[propertyKey] = this.setPropertyType(schemaProperty, type, collectionType);
+        schema.properties[propertyKey] = JsonSchemaRegistry.createJsonSchema(schema.properties[propertyKey], type, collectionType);
 
         return schema.properties[propertyKey];
     }
@@ -42,31 +40,17 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
      * @param type
      * @param collectionType
      */
-    private setPropertyType(schema: JsonSchema, type: any, collectionType?: any): JsonSchema {
-
-        delete schema.type;
-        delete schema.items;
-        delete schema.$ref;
-        delete schema.additionalProperties;
-
-        const defineType = (type: any) => {
-            return isClass(type) ? JsonSchema.ref(type) : {type: JsonSchema.getJsonType(type)};
-        };
-
-        const subSchema = defineType(type);
-
-        if (collectionType) {
-            if (isArrayOrArrayClass(collectionType)) {
-                schema.type = "array";
-                schema.items = subSchema;
-            } else {
-                schema.additionalProperties = subSchema;
-            }
+    private static createJsonSchema(schema: JsonSchema = new JsonSchema, type: any, collectionType?: any): JsonSchema {
+        if (isClass(type)) {
+            schema = JsonSchema.ref(type);
         } else {
-            Object.assign(schema, subSchema);
+            schema.type = type;
         }
 
-        return schema;
+        if (collectionType) {
+            schema.toCollection(collectionType);
+        }
+        return schema!;
     }
 
     /**
@@ -112,7 +96,9 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
         const schemaDefinition: JSONSchema4 = {};
         const schema = this.get(target);
 
-        deepExtends(schemaDefinition, schema && schema.toJSON());
+        if (schema) {
+            deepExtends(schemaDefinition, toObj(schema));
+        }
 
         schemaDefinition.definitions = {};
 
@@ -149,12 +135,18 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
         return schema;
     }
 
+    /**
+     *
+     * @param {JSONSchema4} schema
+     * @param {{[p: string]: JSONSchema4}} definitions
+     * @returns {JSONSchema4}
+     */
     private cleanRef(schema: JSONSchema4, definitions: { [p: string]: JSONSchema4 }): JSONSchema4 {
         const name = this.getRefName(schema.$ref!);
 
         const refSchema = this.getSchemaByName(name);
         if (refSchema) {
-            definitions[name] = refSchema.toJSON();
+            definitions[name] = toObj(refSchema);
         } else {
             schema.type = "object";
             delete schema.$ref;

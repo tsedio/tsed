@@ -28,6 +28,7 @@ export class EventModel {
 
     @JsonProperty()
     @Required()
+    // @Format("date")
     public endDate: Date;
 
     @JsonProperty("Name")

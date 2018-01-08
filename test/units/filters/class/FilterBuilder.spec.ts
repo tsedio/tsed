@@ -1,11 +1,12 @@
+import {BadRequest} from "ts-httpexceptions/lib/clientErrors/BadRequest";
 import {ConverterService} from "../../../../src/converters/services/ConverterService";
 import {InjectorService} from "../../../../src/di/services/InjectorService";
 import {FilterBuilder} from "../../../../src/filters/class/FilterBuilder";
 import {EXPRESS_RESPONSE} from "../../../../src/filters/constants";
-import {RequiredParamError} from "../../../../src/filters/errors/RequiredParamError";
 import {FilterPreHandlers} from "../../../../src/filters/registries/FilterRegistry";
 import {FilterService} from "../../../../src/filters/services/FilterService";
 import {ValidationService} from "../../../../src/filters/services/ValidationService";
+import {ParseExpressionError} from "../../../../src/mvc/errors/ParseExpressionError";
 import {expect, Sinon} from "../../../tools";
 
 describe("FilterBuilder", () => {
@@ -19,11 +20,11 @@ describe("FilterBuilder", () => {
             this.requiredStub = Sinon.stub(FilterBuilder as any, "appendRequiredFilter");
             this.requiredStub.returns("filter2");
 
-            this.converterStub = Sinon.stub(FilterBuilder as any, "appendConverterFilter");
-            this.converterStub.returns("filter3");
-
             this.validationStub = Sinon.stub(FilterBuilder as any, "appendValidationFilter");
-            this.validationStub.returns("filter4");
+            this.validationStub.returns("filter3");
+
+            this.converterStub = Sinon.stub(FilterBuilder as any, "appendConverterFilter");
+            this.converterStub.returns("filter4");
 
             this.result = this.builder.build("param");
         });
@@ -42,12 +43,12 @@ describe("FilterBuilder", () => {
             this.requiredStub.should.have.been.calledWithExactly("filter", "param");
         });
 
-        it("should call appendConverterFilter", () => {
-            this.converterStub.should.have.been.calledWithExactly("filter2", "param");
+        it("should call appendValidationFilter", () => {
+            this.validationStub.should.have.been.calledWithExactly("filter2", "param");
         });
 
-        it("should call appendValidationFilter", () => {
-            this.validationStub.should.have.been.calledWithExactly("filter3", "param");
+        it("should call appendConverterFilter", () => {
+            this.converterStub.should.have.been.calledWithExactly("filter3", "param");
         });
 
         it("should return the filter", () => {
@@ -132,7 +133,7 @@ describe("FilterBuilder", () => {
                     this.isValidRequiredValueStub.should.calledWithExactly("value");
                 });
                 it("should throw an error", () => {
-                    expect(this.error).to.deep.eq(new RequiredParamError("name", "expression"));
+                    expect(this.error).to.be.instanceOf(BadRequest);
                 });
             });
             describe("when required but not empty", () => {

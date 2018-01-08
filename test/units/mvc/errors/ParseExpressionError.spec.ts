@@ -1,4 +1,4 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import {ParseExpressionError} from "../../../../src/mvc/errors/ParseExpressionError";
 
 describe("ParseExpressionError", () => {
@@ -12,7 +12,7 @@ describe("ParseExpressionError", () => {
     });
 
     it("should have a message", () => {
-        expect(this.errorInstance.message).to.equal("Bad request on parameter request.name.expression. message");
+        expect(this.errorInstance.message).to.equal("Bad request on parameter \"request.name.expression\".\nmessage");
     });
 
     it("should have a name", () => {

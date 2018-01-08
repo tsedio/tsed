@@ -1,5 +1,5 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {JsonSchema} from "../class/JsonSchema";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  *
@@ -19,6 +19,20 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * }
  * ```
  *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "number",
+ *       "minItems": 10
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @param {number} minItems
  * @returns {Function}
  * @decorator
@@ -31,7 +45,7 @@ export function MinItems(minItems: number) {
         throw new Error("The value of minItems MUST be a non-negative integer.");
     }
 
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.minItems = minItems;
+    return decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.minItems = minItems;
     });
 }

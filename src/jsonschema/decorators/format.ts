@@ -1,5 +1,4 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {Schema} from "./schema";
 
 /**
  * The following formats are supported for string validation with `format` keyword:
@@ -19,15 +18,62 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * - **json-pointer**: JSON-pointer according to RFC6901.
  * - **relative-json-pointer**: relative JSON-pointer according to this draft.
  *
+ * ## Example
+ * ### With primitive type
+ *
+ * ```typescript
+ * class Model {
+ *    @Format("email")
+ *    property: string;
+ * }
+ * ```
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "string",
+ *       "format": "email"
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With array type
+ *
+ * ```typescript
+ * class Model {
+ *    @Format("email")
+ *    @PropertyType(String)
+ *    property: string[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "items": {
+ *          "type": "string",
+ *          "format": "email"
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @param {string} format
  * @returns {Function}
  * @decorator
  * @ajv
  * @jsonschema
+ * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Format(format: string) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.type = String;
-        propertyMetadata.schema.format = format;
-    });
+    return Schema({format: format});
 }

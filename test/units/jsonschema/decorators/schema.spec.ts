@@ -1,12 +1,12 @@
 import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {Enum} from "../../../../src/jsonschema/decorators/enum";
+import {Schema} from "../../../../src/jsonschema/decorators/schema";
 import {stubSchemaDecorator} from "./utils";
 
-describe("Enum", () => {
+describe("Schema()", () => {
     before(() => {
         this.decorateStub = stubSchemaDecorator();
         this.schema = new JsonSchema();
-        Enum("0", "1");
+        Schema({description: "description"});
         this.decorateStub.getCall(0).args[0](this.schema);
     });
     after(() => {
@@ -14,6 +14,6 @@ describe("Enum", () => {
     });
 
     it("should store data", () => {
-        this.schema.enum.should.deep.eq(["0", "1"]);
+        this.schema.description.should.be.eq("description");
     });
 });

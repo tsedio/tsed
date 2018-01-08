@@ -1,5 +1,7 @@
+import {JsonSchema} from "../class/JsonSchema";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * An object instance is valid against `minProperties` if its number of properties is greater than, or equal to, the value of this keyword.
@@ -8,11 +10,27 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  *
  * ?> Omitting this keyword has the same behavior as a value of 0.
  *
+ * ## Example
+ *
  * ```typescript
  * class Model {
- *    @PropertyType(String)
- *    @MinProperty(10)
- *    property: string[];
+ *    @Any()
+ *    @MinProperties(10)
+ *    property: any;
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "any",
+ *       "minProperties": 10
+ *     }
+ *   }
  * }
  * ```
  *
@@ -26,7 +44,7 @@ export function MinProperties(minProperties: number) {
     if (minProperties < 0) {
         throw new Error("The value of minProperties MUST be a non-negative integer.");
     }
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.schema.minProperties = minProperties;
+    return  decoratorSchemaFactory((schema: JsonSchema) => {
+        schema.minProperties = minProperties;
     });
 }
