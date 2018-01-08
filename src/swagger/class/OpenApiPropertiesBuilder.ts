@@ -77,14 +77,17 @@ export class OpenApiPropertiesBuilder {
             if (model.isArray) {
                 schema.type = "array";
 
-                if (model.isClass) {
-                    schema.items = {
-                        $ref: `#/definitions/${model.typeName}`
-                    };
-                } else {
-                    schema.items = {
-                        type: swaggerType(model.type)
-                    };
+                // Nobody have defined the items so far.
+                if (!schema.items) {
+                    if (model.isClass) {
+                        schema.items = {
+                            $ref: `#/definitions/${model.typeName}`
+                        };
+                    } else {
+                        schema.items = {
+                            type: swaggerType(model.type)
+                        };
+                    }
                 }
                 return schema;
             }
