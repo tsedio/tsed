@@ -302,7 +302,10 @@
 #### ajv
 
 
-<ul class="api-list"><li class="api-item" data-symbol="ajv;AjvService;service;S;false;false;false;true"><a href="#/api/ajv/ajvservice" class="symbol-container deprecated symbol-type-service symbol-name-ajv-AjvService" title="AjvService">            <span class="symbol service"></span>            AjvService        </a></li></ul>
+<ul class="api-list"><li class="api-item" data-symbol="ajv;AjvService;service;S;false;false;false;true"><a href="#/api/ajv/ajvservice" class="symbol-container deprecated symbol-type-service symbol-name-ajv-AjvService" title="AjvService">            <span class="symbol service"></span>            AjvService        </a></li>
+<li class="api-item" data-symbol="ajv;ErrorFormatter;type;T;false;false;false;true"><a href="#/api/ajv/errorformatter" class="symbol-container deprecated symbol-type-type symbol-name-ajv-ErrorFormatter" title="ErrorFormatter">            <span class="symbol type"></span>            ErrorFormatter        </a></li>
+<li class="api-item" data-symbol="ajv;IAjvOptions;interface;I;false;false;false;false"><a href="#/api/ajv/iajvoptions" class="symbol-container deprecated symbol-type-interface symbol-name-ajv-IAjvOptions" title="IAjvOptions">            <span class="symbol interface"></span>            IAjvOptions        </a></li>
+<li class="api-item" data-symbol="ajv;IAjvSettings;interface;I;false;false;false;false"><a href="#/api/ajv/iajvsettings" class="symbol-container deprecated symbol-type-interface symbol-name-ajv-IAjvSettings" title="IAjvSettings">            <span class="symbol interface"></span>            IAjvSettings        </a></li></ul>
 
 #### multipartfiles
 
