@@ -1,6 +1,24 @@
-<header class="symbol-info-header">    <h1 id="casesensitive">CaseSensitive</h1>    <label class="symbol-info-type-label decorator">Decorator</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { CaseSensitive }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.3.0/src/mvc/decorators/class/caseSensitive.ts#L0-L0">                mvc/decorators/class/caseSensitive.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<header class="symbol-info-header">    <h1 id="casesensitive">CaseSensitive</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label express" title="express">express</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { CaseSensitive }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.0/src/mvc/decorators/class/caseSensitive.ts#L0-L0">                mvc/decorators/class/caseSensitive.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
 <pre><code class="typescript-lang">function <span class="token function">CaseSensitive</span><span class="token punctuation">(</span>caseSensitive<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+### Description
+
+Specify the behavior of the router controller.
+
+```typescript
+@Controller("/")
+@CaseSensitive(true)
+class MyCtrl {
+
+}
+```
+
+Property | Description | Default
+---|---|---
+CaseSensitive | Enable case sensitivity. | Disabled by default, treating “/Foo” and “/foo” as the same.
+MergeParams | Preserve the req.params values from the parent router. If the parent and the child have conflicting param names, the child’s value take precedence. | false
+Strict | Enable strict routing. | Disabled by default, “/foo” and “/foo/” are treated the same by the router.

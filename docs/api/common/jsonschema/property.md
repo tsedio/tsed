@@ -1,5 +1,5 @@
 <header class="symbol-info-header">    <h1 id="property">Property</h1>    <label class="symbol-info-type-label decorator">Decorator</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Property }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.3.0/src/jsonschema/decorators/jsonProperty.ts#L0-L0">                jsonschema/decorators/jsonProperty.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Property }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.0/src/jsonschema/decorators/jsonProperty.ts#L0-L0">                jsonschema/decorators/jsonProperty.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
@@ -7,9 +7,10 @@
 
 ### Description
 
-`@Property()` let you decorate an attribut that can be serialized or deserialized. By default, no parameters are required to use it.
-But in some cases, we need to configure explicitly the JSON attribut name mapped to the provide attribut.
-Here an example of different use cases with `@JsonProperty()`:
+`@Property()` let you decorate an attribute that can be serialized or deserialized. By default, no parameters are required to use it.
+But in some cases, we need to configure explicitly the JSON attribute name mapped to the provide attribute.
+
+Here an example of different use cases with `@Property()`:
 
 ```typescript
 class EventModel {
@@ -17,13 +18,15 @@ class EventModel {
    @Property()
    name: string;
 
-   @Property('startDate')
+   @Property()
+   @Format('date-time')
    startDate: Date;
 
    @Property({name: 'end-date'})
+   @Format('date-time')
    endDate: Date;
 
-   @Property({use: Task})
+   @PropertyType(Task) // eq. @Property({use: Task})
    tasks: TaskModel[];
 }
 
@@ -31,15 +34,58 @@ class TaskModel {
     @Property()
     subject: string;
 
-    @Property()
+    @Minimum(0)  // Property or JsonProperty is not required when a JsonSchema decorator is used
+    @Maximum(100)
     rate: number;
 }
 
 > Theses ES6 collections can be used: Map and Set. Map will be serialized as an object and Set as an array.
-By default Date, Array, Map and Set have a default custom Converter allready embded. But you can override theses (see next part).
+By default Date, Array, Map and Set have a default custom Converter already embed. But you can override theses (see next part).
 
-For the Array, you must add the `{use: type}` option to the decorators.
-`TypeClass` will be used to deserialize each item in the collection stored on the attribut source.
+For the Array, you must use the `@PropertyType` decorator.
+`TypeClass` will be used to deserialize each item in the collection stored on the attribute source.
+
+According to the previous example, the JsonSchema generated will be as follow:
+
+```typescript
+{
+   "type": "object",
+   "properties": {
+      "name": {
+         "type": "string"
+      },
+      "startDate": {
+         "type": "string",
+         "format": "date-time"
+      },
+      "endDate": {
+         "type": "string",
+         "format": "date-time"
+      },
+      "tasks": {
+         "type": "array",
+         "items": {
+            "$ref": "#/definitions/Task"
+         }
+      }
+   },
+   "definitions": {
+     "Task": {
+       "type": "object",
+       "properties": {
+         "subject": {
+            "type": "string",
+         },
+         "rate": {
+            "type": "number"
+            "minimum": 0,
+            "maximum: 100
+         }
+       }
+     }
+   }
+}
+```
 
 @returns {Function}
 @decorator

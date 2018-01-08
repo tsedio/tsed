@@ -1,9 +1,9 @@
-<header class="symbol-info-header">    <h1 id="exclusivemaximum">ExclusiveMaximum</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label jsonschema" title="jsonschema">jsonschema</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ExclusiveMaximum }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.3.0/src/jsonschema/decorators/exclusiveMaximum.ts#L0-L0">                jsonschema/decorators/exclusiveMaximum.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<header class="symbol-info-header">    <h1 id="exclusivemaximum">ExclusiveMaximum</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label jsonschema" title="jsonschema">jsonschema</label><label class="api-type-label auto-map" title="The data will be stored on the right place according to the type and collectionType (primitive or collection).">auto-map</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { ExclusiveMaximum }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.0/src/jsonschema/decorators/exclusiveMaximum.ts#L0-L0">                jsonschema/decorators/exclusiveMaximum.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">ExclusiveMaximum</span><span class="token punctuation">(</span>maximum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> exclusiveMaximum?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang">function <span class="token function">ExclusiveMaximum</span><span class="token punctuation">(</span>maximum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> exclusiveMaximum?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>...parameters<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
 
 ### Description
 
@@ -12,10 +12,52 @@ The value of `exclusiveMaximum` MUST be number, representing an exclusive upper 
 If the instance is a number, then the instance is valid only if it has a value strictly less than (not equal to) `exclusiveMaximum`.
 
 ## Example
+### With primitive type
 
 ```typescript
 class Model {
    @ExclusiveMaximum(10)
    property: number;
+}
+```
+
+Will produce:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "property": {
+      "type": "number",
+      "exclusiveMaximum": 10
+    }
+  }
+}
+```
+
+### With array type
+
+```typescript
+class Model {
+   @ExclusiveMaximum(10)
+   @PropertyType(Number)
+   property: number[];
+}
+```
+
+Will produce:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "property": {
+      "type": "array",
+      "items": {
+         "type": "number",
+         "exclusiveMaximum": 10
+      }
+    }
+  }
 }
 ```

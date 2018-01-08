@@ -1,0 +1,37 @@
+<header class="symbol-info-header">    <h1 id="schema">Schema</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label jsonschema" title="jsonschema">jsonschema</label><label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label swagger" title="swagger">swagger</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Schema }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.0/src/jsonschema/decorators/schema.ts#L0-L0">                jsonschema/decorators/schema.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+### Overview
+
+<pre><code class="typescript-lang">function <span class="token function">Schema</span><span class="token punctuation">(</span>partialSchema<span class="token punctuation">:</span> Partial<<a href="#api/common/jsonschema/jsonschema"><span class="token">JsonSchema</span></a>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>...parameters<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
+
+### Description
+
+Write data formatted to JsonSchema.
+
+## Example
+
+```typescript
+@Schema({title: "test"})
+class Model {
+   @Schema({formatMinimum: "1987-10-24"})
+   @Format("date")
+   birthDate: Date
+}
+```
+
+Will produce:
+
+```json
+{
+  "type": "object",
+  "title": "test",
+  "properties": {
+    "birthdate": {
+       "type": "string",
+       "format": "date",
+       "formatMinimum": "1987-10-24"
+    }
+  }
+}
+```

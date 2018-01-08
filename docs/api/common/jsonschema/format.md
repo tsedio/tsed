@@ -1,9 +1,9 @@
-<header class="symbol-info-header">    <h1 id="format">Format</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label jsonschema" title="jsonschema">jsonschema</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Format }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.3.0/src/jsonschema/decorators/format.ts#L0-L0">                jsonschema/decorators/format.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<header class="symbol-info-header">    <h1 id="format">Format</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label jsonschema" title="jsonschema">jsonschema</label><label class="api-type-label auto-map" title="The data will be stored on the right place according to the type and collectionType (primitive or collection).">auto-map</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Format }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.0/src/jsonschema/decorators/format.ts#L0-L0">                jsonschema/decorators/format.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">Format</span><span class="token punctuation">(</span>format<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang">function <span class="token function">Format</span><span class="token punctuation">(</span>format<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>...parameters<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
 
 ### Description
 
@@ -23,3 +23,52 @@ The following formats are supported for string validation with `format` keyword:
 - **uuid**: Universally Unique IDentifier according to RFC4122.
 - **json-pointer**: JSON-pointer according to RFC6901.
 - **relative-json-pointer**: relative JSON-pointer according to this draft.
+
+## Example
+### With primitive type
+
+```typescript
+class Model {
+   @Format("email")
+   property: string;
+}
+```
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "property": {
+      "type": "string",
+      "format": "email"
+    }
+  }
+}
+```
+
+### With array type
+
+```typescript
+class Model {
+   @Format("email")
+   @PropertyType(String)
+   property: string[];
+}
+```
+
+Will produce:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "property": {
+      "type": "array",
+      "items": {
+         "type": "string",
+         "format": "email"
+      }
+    }
+  }
+}
+```

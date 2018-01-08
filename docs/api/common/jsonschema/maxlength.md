@@ -1,9 +1,9 @@
-<header class="symbol-info-header">    <h1 id="maxlength">MaxLength</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label jsonschema" title="jsonschema">jsonschema</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { MaxLength }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.3.0/src/jsonschema/decorators/maxLength.ts#L0-L0">                jsonschema/decorators/maxLength.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+<header class="symbol-info-header">    <h1 id="maxlength">MaxLength</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label ajv" title="ajv">ajv</label><label class="api-type-label jsonschema" title="jsonschema">jsonschema</label><label class="api-type-label auto-map" title="The data will be stored on the right place according to the type and collectionType (primitive or collection).">auto-map</label>  </header>
+<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { MaxLength }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.0/src/jsonschema/decorators/maxLength.ts#L0-L0">                jsonschema/decorators/maxLength.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">MaxLength</span><span class="token punctuation">(</span>maxLength<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang">function <span class="token function">MaxLength</span><span class="token punctuation">(</span>maxLength<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>...parameters<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
 
 ### Description
 
@@ -14,10 +14,52 @@ The length of a string instance is defined as the number of its characters as de
 !> The value of `maxLength` MUST be a non-negative integer.
 
 ## Example
+### With primitive type
 
 ```typescript
 class Model {
    @MaxLength(10)
-   property: string;
+   property: number;
+}
+```
+
+Will produce:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "property": {
+      "type": "string",
+      "maxLength": 10
+    }
+  }
+}
+```
+
+### With array type
+
+```typescript
+class Model {
+   @MaxLength(10)
+   @PropertyType(String)
+   property: string[];
+}
+```
+
+Will produce:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "property": {
+      "type": "array",
+      "items": {
+         "type": "string",
+         "maxLength": 10
+      }
+    }
+  }
 }
 ```
