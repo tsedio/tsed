@@ -1,9 +1,14 @@
-<header class="symbol-info-header">    <h1 id="metadata">Metadata</h1>    <label class="symbol-info-type-label class">Class</label>    <label class="api-type-label stable" title="stable">stable</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Metadata }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src/core/class/Metadata.ts#L0-L0">                core/class/Metadata.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+<header class="symbol-info-header"><h1 id="metadata">Metadata</h1><label class="symbol-info-type-label class">Class</label><label class="api-type-label stable" title="stable">stable</label></header>
+<!-- summary -->
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Metadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//core/class/Metadata.ts#L0-L0">/core/class/Metadata.ts</a></td></tr></tbody></table></section>
+<!-- overview -->
+
 
 ### Overview
 
-<pre><code class="typescript-lang"><span class="token keyword">class</span> Metadata <span class="token punctuation">{</span>
+
+<pre><code class="typescript-lang "><span class="token keyword">class</span> Metadata <span class="token punctuation">{</span>
     <span class="token keyword">static</span> <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">getOwn</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">getType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
@@ -20,15 +25,37 @@
     <span class="token keyword">static</span> <span class="token function">getOwnParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
+
+<!-- Parameters -->
+
+<!-- Description -->
+
+<!-- Members -->
+
+
+
+
+
+
+
 ### Members
 
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-key| <code>string</code> |A key used to store and retrieve metadata.
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ key|<code>string</code>|A key used to store and retrieve metadata.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata key on the target object or its prototype chain.
 
@@ -58,14 +85,27 @@ result = Metadata.get("custom:annotation", Example, "staticMethod");
 result = Metadata.get("custom:annotation", Example.prototype, "method");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getOwn</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getOwn</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-key| <code>string</code> |A key used to store and retrieve metadata.
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ key|<code>string</code>|A key used to store and retrieve metadata.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata key on the target object or its prototype chain.
 
@@ -95,13 +135,26 @@ result = Metadata.getOwn("custom:annotation", Example, "staticMethod");
 result = Metadata.getOwn("custom:annotation", Example.prototype, "method");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata DESIGN_TYPE on the target object or its prototype chain.
 
@@ -125,13 +178,26 @@ result = Metadata.getType(Example, "staticProperty");
 result = Metadata.getType(Example, "staticMethod");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getOwnType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getOwnType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata DESIGN_TYPE on the target object or its prototype chain.
 
@@ -155,13 +221,26 @@ result = Metadata.getOwnType(Example, "staticProperty");
 result = Metadata.getOwnType(Example, "staticMethod");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getReturnType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getReturnType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata DESIGN_RETURN_TYPE on the target object or its prototype chain.
 
@@ -185,13 +264,26 @@ result = Metadata.getReturnType(Example, "staticProperty");
 result = Metadata.getReturnType(Example, "staticMethod");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getOwnReturnType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getOwnReturnType</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata DESIGN_RETURN_TYPE on the target object or its prototype chain.
 
@@ -215,14 +307,27 @@ result = Metadata.getOwnReturnType(Example, "staticProperty");
 result = Metadata.getOwnReturnType(Example, "staticMethod");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-key| <code>string</code> |A key used to store and retrieve metadata.
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ key|<code>string</code>|A key used to store and retrieve metadata.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets a value indicating whether the target object or its prototype chain has the provided metadata key defined.
 
@@ -252,14 +357,27 @@ result = Metadata.has("custom:annotation", Example, "staticMethod");
 result = Metadata.has("custom:annotation", Example.prototype, "method");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">hasOwn</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">hasOwn</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-key| <code>string</code> |A key used to store and retrieve metadata.
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ key|<code>string</code>|A key used to store and retrieve metadata.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets a value indicating whether the target object or its prototype chain has the provided metadata key defined.
 
@@ -289,14 +407,27 @@ result = Metadata.hasOwn("custom:annotation", Example, "staticMethod");
 result = Metadata.hasOwn("custom:annotation", Example.prototype, "method");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-key| <code>string</code> |A key used to store and retrieve metadata.
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ key|<code>string</code>|A key used to store and retrieve metadata.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Deletes the metadata entry from the target object with the provided key.
 
@@ -326,14 +457,27 @@ result = Metadata.delete("custom:annotation", Example, "staticMethod");
 result = Metadata.delete("custom:annotation", Example.prototype, "method");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">setParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">setParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |The property key for the target.
-value| <code>any</code> |A value that contains attached metadata.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|The property key for the target.
+ value|<code>any</code>|A value that contains attached metadata.
+
+
+
+
 
 Set the metadata value for the provided metadata DESIGN_PARAM_TYPES on the target object or its prototype chain.
 
@@ -363,18 +507,41 @@ result = Metadata.setParamTypes(Example, "staticMethod", [Object]);
 result = Metadata.setParamTypes(Example.prototype, "method", [Object]);
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> getTargetsFromPropertyKey<span class="token punctuation">:</span> <span class="token punctuation">(</span>metadataKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> getTargetsFromPropertyKey<span class="token punctuation">:</span> <span class="token punctuation">(</span>metadataKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+</div>
+
+
 Get all metadata for a metadataKey.
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-key| <code>string</code> |A key used to store and retrieve metadata.
-value| <code>any</code> |A value that contains attached metadata.
-target| <code>any</code> |The target object on which to define metadata.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ key|<code>string</code>|A key used to store and retrieve metadata.
+ value|<code>any</code>|A value that contains attached metadata.
+ target|<code>any</code>|The target object on which to define metadata.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Define a unique metadata entry on the target.
 
@@ -409,13 +576,26 @@ function MyAnnotation(options): PropertyDecorator {
 }
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata DESIGN_PARAM_TYPES on the target object or its prototype chain.
 
@@ -439,13 +619,26 @@ result = Metadata.getParamTypes(Example, "staticProperty");
 result = Metadata.getParamTypes(Example, "staticMethod");
 ```
 
-<hr />
-<div class="method-overview"><pre><code class="typescript-lang"><span class="token keyword">static</span> <span class="token function">getOwnParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre></div>
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getOwnParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+</div>
+
 
 Param | Type | Description
 ---|---|---
-target| <code>any</code> |The target object on which the metadata is defined.
-propertyKey| <code>string &#124; symbol</code> |Optional. The property key for the target.
+ target|<code>any</code>|The target object on which the metadata is defined.
+ propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
+
+
+
+
 
 Gets the metadata value for the provided metadata DESIGN_PARAM_TYPES on the target object or its prototype chain.
 
@@ -468,4 +661,11 @@ result = Metadata.getParamTypes(Example, "staticProperty");
 // method (on constructor)
 result = Metadata.getParamTypes(Example, "staticMethod");
 ```
+
+
+
+
+
+
+
 

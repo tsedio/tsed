@@ -1,14 +1,28 @@
-<header class="symbol-info-header">    <h1 id="cookies">Cookies</h1>    <label class="symbol-info-type-label decorator">Decorator</label>    <label class="api-type-label aliasof" title="CookiesParams">aliasof</label>  </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { Cookies }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src/filters/decorators/cookies.ts#L0-L0">                filters/decorators/cookies.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+<header class="symbol-info-header"><h1 id="cookies">Cookies</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label aliasof" title="CookiesParams">aliasof</label></header>
+<!-- summary -->
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Cookies }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//filters/decorators/cookies.ts#L0-L0">/filters/decorators/cookies.ts</a></td></tr></tbody></table></section>
+<!-- overview -->
+
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">Cookies</span><span class="token punctuation">(</span>expression?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">any</span><span class="token punctuation">,</span> useType?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+<pre><code class="typescript-lang ">function <span class="token function">Cookies</span><span class="token punctuation">(</span>expression?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">any</span><span class="token punctuation">,</span> useType?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+
+<!-- Parameters -->
+
 
 Param | Type | Description
 ---|---|---
-expression| <code>string &#124; any</code> |Optional. The path of the property to get.
-useType| <code>any</code> |Optional. The type of the class that to be used to deserialize the data.
+ expression|<code>string &#124; any</code>|Optional. The path of the property to get.
+ useType|<code>any</code>|Optional. The type of the class that to be used to deserialize the data.
+
+
+
+
+<!-- Description -->
 
 
 ### Description
@@ -42,3 +56,6 @@ class MyCtrl {
 }
 ```
 > For more information on deserialization see [converters](docs/converters.md) page.
+
+<!-- Members -->
+

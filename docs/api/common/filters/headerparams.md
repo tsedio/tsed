@@ -1,13 +1,27 @@
-<header class="symbol-info-header">    <h1 id="headerparams">HeaderParams</h1>    <label class="symbol-info-type-label decorator">Decorator</label>      </header>
-<section class="symbol-info">      <table class="is-full-width">        <tbody>        <tr>          <th>Module</th>          <td>            <div class="lang-typescript">                <span class="token keyword">import</span> { HeaderParams }                 <span class="token keyword">from</span>                 <span class="token string">"ts-express-decorators"</span>                            </div>          </td>        </tr>        <tr>          <th>Source</th>          <td>            <a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src/filters/decorators/headerParams.ts#L0-L0">                filters/decorators/headerParams.ts            </a>        </td>        </tr>                </tbody>      </table>    </section>
+
+<header class="symbol-info-header"><h1 id="headerparams">HeaderParams</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
+<!-- summary -->
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { HeaderParams }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//filters/decorators/headerParams.ts#L0-L0">/filters/decorators/headerParams.ts</a></td></tr></tbody></table></section>
+<!-- overview -->
+
 
 ### Overview
 
-<pre><code class="typescript-lang">function <span class="token function">HeaderParams</span><span class="token punctuation">(</span>expression<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+<pre><code class="typescript-lang ">function <span class="token function">HeaderParams</span><span class="token punctuation">(</span>expression<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+
+
+<!-- Parameters -->
+
 
 Param | Type | Description
 ---|---|---
-expression| <code>string</code> |The path of the property to get.
+ expression|<code>string</code>|The path of the property to get.
+
+
+
+
+<!-- Description -->
 
 
 ### Description
@@ -31,3 +45,6 @@ class MyCtrl {
 }
 ```
 > For more information on deserialization see [converters](docs/converters.md) page.
+
+<!-- Members -->
+

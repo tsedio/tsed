@@ -11,7 +11,7 @@ import {Type} from "../interfaces";
  * ```typescript
  * provide Foo {
  *
- * \@Deprecated("Foo.method: Use Foo.method2 instead")
+ * @Deprecated("Foo.method: Use Foo.method2 instead")
  * public method() {
  *
  * }
@@ -34,7 +34,7 @@ import {Type} from "../interfaces";
  *
  * @param message
  * @returns {Function}
- * @constructor
+ * @decorator
  */
 export function Deprecated(message: string): Function {
 

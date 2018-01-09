@@ -11,8 +11,8 @@
     "coveralls:travis": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",
     "tsc:compile": "rimraf ./lib && tsc --project tsconfig.compile.json",
-    "doc:serve": "concurrently \"tsc --project tsconfig.compile.json -w\" \"docsify serve ./docs\" \"cd docs/_build && nodemon --delay 2.5 -e ts --watch ../../lib build-api.js\"",
-    "doc:build": "cd docs/_build && node build-api.js && cd ../..",
+    "doc:serve": "npm run doc:build && docsify serve ./docs",
+    "doc:build": "npm run tsc:compile && node ./node_modules/docsify-ts-api/bin/tsdoc.js",
     "semantic-release-locale": "semantic-release pre --debug=true",
     "prepublish": "npm run tsc:compile"
   },
@@ -83,10 +83,11 @@
     "coveralls": "^3.0.0",
     "docsify-cli": "^4.1.9",
     "docsify-server-renderer": "^4.2.6",
-    "ejs": "^2.5.5",
+    "docsify-ts-api": "^1.0.0",
+    "ejs": "^2.5.7",
+    "ejs-lint": "^0.3.0",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "fs-extra": "^4.0.0",
     "html-minifier": "^3.5.2",
     "method-override": "^2.3.10",
     "mocha": "^4.0.1",
@@ -116,5 +117,23 @@
   "gflow": {
     "master": "master",
     "production": "production"
+  },
+  "docsifyApi": {
+    "modules": {
+      "core": "common/core",
+      "config": "common/config",
+      "converters": "common/converters",
+      "di": "common/di",
+      "jsonschema": "common/jsonschema",
+      "filters": "common/filters",
+      "mvc": "common/mvc",
+      "server": "common/server",
+      "ajv": "ajv",
+      "multipartfiles": "multipartfiles",
+      "servestatic": "servestatic",
+      "socketio": "socketio",
+      "swagger": "swagger",
+      "testing": "testing"
+    }
   }
 }
