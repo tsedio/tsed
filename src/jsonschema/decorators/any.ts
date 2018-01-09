@@ -21,7 +21,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *   "type": "object",
  *   "properties": {
  *     "property": {
- *       "type": "any"
+ *       "type": ["integer", "number", "string", "boolean", "array", "object", "null"]
  *     }
  *   }
  * }
@@ -34,6 +34,6 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  */
 export function Any(...types: JSONSchema6TypeName[]) {
     return decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.mapper.type = "any";
+        schema.mapper.type = ["integer", "number", "string", "boolean", "array", "object", "null"];
     });
 }
