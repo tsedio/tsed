@@ -18,7 +18,7 @@ export function decoratorSchemaFactory(fn: (schema: JsonSchema, parameters: Deco
                 schema = PropertyRegistry.get(parameters[0], parameters[1]).schema;
                 break;
             case "class":
-                schema = JsonSchemesRegistry.get(parameters[0]);
+                schema = JsonSchemesRegistry.createIfNotExists(parameters[0]);
                 break;
         }
 

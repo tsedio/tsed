@@ -44,7 +44,8 @@
       "name": "RestCtrl"
     },
     {
-      "name": "CalendarCtrl"
+      "name": "CalendarCtrl",
+      "description": "Controller description"
     },
     {
       "name": "FakeCtrl"

@@ -44,6 +44,7 @@ interface ICalendar {
  * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the `/calendars` path.
  */
 @Controller("/calendars", EventCtrl)
+@Description("Controller description")
 export class CalendarCtrl extends BaseController {
 
     constructor(private mongooseService: MongooseService,
