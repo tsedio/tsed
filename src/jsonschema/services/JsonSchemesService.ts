@@ -1,13 +1,16 @@
-import {JSONSchema4} from "json-schema";
+import {JSONSchema4, JSONSchema6} from "json-schema";
+import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {Type} from "../../core/interfaces";
 import {Service} from "../../di/decorators/service";
-import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
-import {ProxyRegistry} from "../../core/class/ProxyRegistry";
 import {JsonSchema} from "../class/JsonSchema";
+import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 
 
 @Service()
 export class JsonSchemesService extends ProxyRegistry<any, JsonSchema> {
+
+    private cache: Map<Type<any>, JSONSchema6> = new Map();
+
     constructor() {
         super(JsonSchemesRegistry);
     }
@@ -17,8 +20,11 @@ export class JsonSchemesService extends ProxyRegistry<any, JsonSchema> {
      * @param {Type<any>} target
      * @returns {JSONSchema4}
      */
-    getSchemaDefinition(target: Type<any>): JSONSchema4 {
-        return JsonSchemesRegistry.getSchemaDefinition(target);
+    getSchemaDefinition(target: Type<any>): JSONSchema6 | undefined {
+        if (!this.cache.has(target)) {
+            this.cache.set(target, JsonSchemesRegistry.getSchemaDefinition(target));
+        }
+        return this.cache.get(target);
     }
 
 }

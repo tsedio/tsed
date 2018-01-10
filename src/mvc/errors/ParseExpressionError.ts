@@ -23,9 +23,6 @@ export class ParseExpressionError extends BadRequest {
      */
     static buildMessage(name: string, expression: string | RegExp | undefined, message?: string) {
         name = name.toLowerCase().replace(/parse|params|filter/gi, "");
-
-        message = (message || "").replace(/{{name}}/gi, name);
-
         return `Bad request on parameter "request.${name}${expression ? "." + expression : ""}".\n${message}`.trim();
     }
 }
