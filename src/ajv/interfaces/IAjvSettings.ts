@@ -1,20 +1,35 @@
-/**
- * @module ajv
- */
-/** */
+import {ErrorObject} from "ajv";
 
+/**
+ *
+ */
 declare interface IServerSettings {
     ajv: IAjvSettings;
 }
 
-export type ErrorFormatter = (error: any) => string;
+/**
+ *
+ */
+export interface AjvErrorObject extends ErrorObject {
+    modelName: string;
+}
 
+/**
+ *
+ */
+export type ErrorFormatter = (error: AjvErrorObject) => string;
+
+/**
+ *
+ */
 export interface IAjvSettings {
     errorFormat?: ErrorFormatter;
-
     options?: IAjvOptions;
 }
 
+/**
+ *
+ */
 export interface IAjvOptions {
     verbose?: boolean;
 }

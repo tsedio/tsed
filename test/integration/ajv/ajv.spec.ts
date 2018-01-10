@@ -31,7 +31,7 @@ describe("AJV", () => {
     }));
 
     describe("Date validation", () => {
-        const errorMsg = "testdate.dateStart should match format \"date-time\" (format)";
+        const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
         class TestDate {
             @Format("date-time")
@@ -60,7 +60,7 @@ describe("AJV", () => {
             runValidation({dateStart: new Date().toISOString()}, TestDate).to.be.true;
         });
         it("should not validate data (4)", () => {
-            runValidation({dateStart: new Date()}, TestDate).to.be.eq("testdate.dateStart should be string (type)");
+            runValidation({dateStart: new Date()}, TestDate).to.be.eq("At TestDate.dateStart should be string");
         });
         it("should not validate data (5)", () => {
             runValidation({dateStart: "test"}, TestDate).to.be.eq(errorMsg);
@@ -89,7 +89,7 @@ describe("AJV", () => {
             });
         });
         it("should not validate data (1)", () => {
-            runValidation({}, TestRequired).to.be.eq("testrequired should have required property \'dateStart\' (required)");
+            runValidation({}, TestRequired).to.be.eq("At TestRequired should have required property 'dateStart'");
         });
 
         it("should validate data (2)", () => {
