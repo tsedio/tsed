@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="controller">Controller</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Controller }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.1/src//mvc/decorators/class/controller.ts#L0-L0">/mvc/decorators/class/controller.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Controller }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.2/src//mvc/decorators/class/controller.ts#L0-L0">/mvc/decorators/class/controller.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

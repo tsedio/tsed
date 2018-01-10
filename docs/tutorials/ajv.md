@@ -26,6 +26,29 @@ export class Server extends ServerLoader {
 }
 ```
 
+The AJV module allows a few setings to be added through the ServerSettings (all are optional):
+
+* *options*, are AJV specific options passed directly to the AJV constructor,
+* *errorFormat*, can be used to alter the output produced by the AjvService.
+
+The error message could be changed like:
+
+```typescript
+import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import "ts-express-decorators/ajv"; // import ajv ts.ed module
+
+@ServerSettings({
+    rootDir: __dirname,
+     ajv: {
+       errorFormat: (error) => `At ${error.modelName}${error.dataPath}, value '${error.data}' ${error.message}`,
+       options: {verbose: true}
+    },
+})
+export class Server extends ServerLoader {
+
+}
+```
+
 ### Decorators
 
 Ts.ED given some decorators to write your validation model:
