@@ -1,8 +1,8 @@
 import {Property} from "../../src/jsonschema/decorators/jsonProperty";
-import {Required} from "../../src/mvc/decorators";
-import {PropertyName} from "../../src/jsonschema/decorators/propertyName";
 import {MinLength} from "../../src/jsonschema/decorators/minLength";
+import {PropertyName} from "../../src/jsonschema/decorators/propertyName";
 import {PropertyType} from "../../src/jsonschema/decorators/propertyType";
+import {Required} from "../../src/mvc/decorators";
 
 export class JsonBaseModel {
 
@@ -112,3 +112,23 @@ export class JsonFoo4 {
     @Required()
     foo: any;
 }
+
+export class Nested {
+    @Property()
+    count?: number;
+}
+
+export class Stuff {
+    @Property()
+    name: string;
+
+    @Property()
+    nested?: Nested;
+}
+
+export class Thingy {
+    @Property()
+    stuff?: Stuff;
+}
+
+

@@ -1,11 +1,11 @@
-import {JSONSchema4} from "json-schema";
+import {JSONSchema4, JSONSchema6} from "json-schema";
 import {Registry} from "../../core/class/Registry";
 import {Store} from "../../core/class/Store";
 import {Type} from "../../core/interfaces";
-import {ancestorsOf, deepExtends, isArrayOrArrayClass, isClass} from "../../core/utils";
+import {ancestorsOf, deepExtends, isClass} from "../../core/utils";
 import {JsonSchema} from "../class/JsonSchema";
 
-const JSON_SCHEMA_FIELDS = ["additionalItems", "items", "additionalProperties", "properties", "dependencies", "JSONSchema4"];
+const JSON_SCHEMA_FIELDS = ["additionalItems", "items", "additionalProperties", "properties", "dependencies"];
 
 const toObj = (o: any) => JSON.parse(JSON.stringify(o));
 
@@ -78,10 +78,10 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
     /**
      *
      * @param {Type<any>} target
-     * @returns {JSONSchema4}
+     * @returns {JSONSchema6}
      */
-    getSchemaDefinition(target: Type<any>): JSONSchema4 {
-        return ancestorsOf(target).reduce((acc: JSONSchema4, target: Type<any>) => {
+    getSchemaDefinition(target: Type<any>): JSONSchema6 {
+        return ancestorsOf(target).reduce((acc: JSONSchema6, target: Type<any>) => {
             deepExtends(acc, this.getSchema(target));
             return acc;
         }, {});
@@ -90,10 +90,10 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
     /**
      *
      * @param {Type<any>} target
-     * @returns {JSONSchema4}
+     * @returns {JSONSchema6}
      */
     private getSchema(target: Type<any>) {
-        const schemaDefinition: JSONSchema4 = {};
+        const schemaDefinition: JSONSchema6 = {};
         const schema = this.get(target);
 
         if (schema) {
@@ -102,7 +102,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
 
         schemaDefinition.definitions = {};
 
-        this.findReferences(schemaDefinition, schemaDefinition.definitions);
+        this.findReferences(schemaDefinition, schemaDefinition.definitions as any);
 
         return schemaDefinition;
     }
@@ -112,23 +112,23 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
      * @param {JsonSchema} schema
      * @param definitions
      */
-    private findReferences(schema: JSONSchema4, definitions: { [p: string]: JSONSchema4 }): JSONSchema4 {
+    private findReferences(schema: JSONSchema6, definitions: { [p: string]: JSONSchema6 }): JSONSchema6 {
         if (schema.$ref) {
-            return this.cleanRef(schema, definitions);
+            return this.getRef(schema, definitions);
         }
 
         JSON_SCHEMA_FIELDS.forEach((key: string) => {
-            if (schema[key]) {
-                const obj = isArrayOrArrayClass(schema[key]) ? [] : {};
-
-                if (schema[key].$ref) {
-                    return this.cleanRef(schema[key], definitions);
+            const value: any = (schema as any)[key];
+            if (value) {
+                if (value.$ref) {
+                    return this.getRef(value, definitions);
                 }
 
-                schema[key] = Object.keys(schema[key]).reduce((acc: any, index: any) => {
-                    schema[key][index] = this.findReferences(schema[key][index], definitions);
-                    return schema[key];
-                }, obj);
+                Object
+                    .keys(value)
+                    .forEach((index: any) => {
+                        this.findReferences(value[index], definitions);
+                    });
             }
         });
 
@@ -138,19 +138,21 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
     /**
      *
      * @param {JSONSchema4} schema
-     * @param {{[p: string]: JSONSchema4}} definitions
+     * @param definitions
      * @returns {JSONSchema4}
      */
-    private cleanRef(schema: JSONSchema4, definitions: { [p: string]: JSONSchema4 }): JSONSchema4 {
-        const name = this.getRefName(schema.$ref!);
+    private getRef(schema: JSONSchema6, definitions: { [p: string]: JSONSchema6 }): JSONSchema6 {
+        const schemaName = this.getRefName(schema.$ref!);
+        const refSchema = this.getSchemaByName(schemaName);
 
-        const refSchema = this.getSchemaByName(name);
         if (refSchema) {
-            definitions[name] = toObj(refSchema);
+            this.findReferences(refSchema!, definitions);
+            definitions[schemaName] = refSchema.toObject();
         } else {
             schema.type = "object";
             delete schema.$ref;
         }
+
         return schema;
     }
 
