@@ -1,9 +1,11 @@
 import {BadRequest} from "ts-httpexceptions";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+import {Store} from "../../core";
 import {Metadata} from "../../core/class/Metadata";
+import {Type} from "../../core/interfaces";
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass} from "../../core/utils";
 import {InjectorService} from "../../di";
 import {Service} from "../../di/decorators/service";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {CONVERTER} from "../constants/index";
@@ -82,7 +84,7 @@ export class ConverterService {
                     if (typeof obj[propertyKey] !== "function") {
                         let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
 
-                        if (this.validationModelStrict && getClass(obj) !== Object && propertyMetadata === undefined) {
+                        if (this.isStrictModelValidation(getClass(obj)) && propertyMetadata === undefined) {
                             throw new UnknowPropertyError(getClass(obj), propertyKey);
                         }
 
@@ -191,8 +193,7 @@ export class ConverterService {
      */
     private convertProperty = (obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata) => {
 
-
-        if (this.validationModelStrict && getClass(instance) !== Object && propertyMetadata === undefined) {
+        if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
             throw new UnknowPropertyError(getClass(instance), propertyName);
         }
 
@@ -220,6 +221,26 @@ export class ConverterService {
             })();
         }
     };
+
+    /**
+     *
+     * @param {Type<any>} target
+     * @returns {boolean}
+     */
+    private isStrictModelValidation(target: Type<any>): boolean {
+
+        if (target !== Object) {
+            const modelStrict = Store.from(target).get("modelStrict");
+
+            if (this.validationModelStrict) {
+                return modelStrict === undefined ? true : modelStrict;
+            } else {
+                return modelStrict === true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      *

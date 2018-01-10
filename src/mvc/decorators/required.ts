@@ -1,6 +1,6 @@
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {Type} from "../../core/interfaces";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
+import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 
 /**
  * Add required annotation for a function argument.
@@ -42,6 +42,7 @@ import {ParamRegistry} from "../../filters/registries/ParamRegistry";
  *
  * @returns {Function}
  * @decorator
+ * @converters
  */
 export function Required(...allowedRequiredValues: any[]): any {
 

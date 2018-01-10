@@ -1,5 +1,5 @@
 
-<header class="symbol-info-header"><h1 id="required">Required</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
+<header class="symbol-info-header"><h1 id="required">Required</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label converters" title="converters">converters</label></header>
 <!-- summary -->
 <section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Required }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.4.2/src//mvc/decorators/required.ts#L0-L0">/mvc/decorators/required.ts</a></td></tr></tbody></table></section>
 <!-- overview -->

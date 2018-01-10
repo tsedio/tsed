@@ -1,18 +1,17 @@
-/**
- * @module common/converters
- */
-/** */
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 import {ConverterService} from "../services/ConverterService";
 
 /**
+ * Converter component for the `Set` Type.
  * @private
- * @converter
+ * @converters
+ * @component
  */
 @Converter(Set)
 export class SetConverter implements IConverter {
-    constructor(private converterService: ConverterService) {}
+    constructor(private converterService: ConverterService) {
+    }
 
     /**
      *
