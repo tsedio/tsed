@@ -1,8 +1,9 @@
 import {ConverterService} from "../../../../src";
+import {Store} from "../../../../src/core";
+import {JsonProperty} from "../../../../src/jsonschema/decorators/jsonProperty";
 import {inject} from "../../../../src/testing/inject";
 import {JsonFoo, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";
-import {JsonProperty} from "../../../../src/jsonschema/decorators/jsonProperty";
 
 class JsonFoo5 {
     @JsonProperty()
@@ -438,6 +439,111 @@ describe("ConverterService", () => {
                     "Property unknowProperty on class JsonFoo4 is not allowed."
                 )
             );
+        });
+
+        describe("isStrictModelValidation()", () => {
+            class Test {
+            }
+
+            describe("when model is an Object", () => {
+                before(() => {
+                    this.converterService.validationModelStrict = true;
+                    this.result = this.converterService.isStrictModelValidation(Object);
+                });
+
+                it("should return false", () => {
+                    expect(this.result).to.be.false;
+                });
+            });
+
+            describe("when validationModelStrict = true", () => {
+                describe("when modelStrict = true", () => {
+                    before(() => {
+                        Store.from(Test).set("modelStrict", true);
+                        this.converterService.validationModelStrict = true;
+                        this.result = this.converterService.isStrictModelValidation(Test);
+                    });
+
+                    it("should return true", () => {
+                        expect(this.result).to.be.true;
+                    });
+                });
+
+                describe("when modelStrict = false", () => {
+                    before(() => {
+                        Store.from(Test).set("modelStrict", false);
+                        this.converterService.validationModelStrict = true;
+                        this.result = this.converterService.isStrictModelValidation(Test);
+                    });
+
+                    it("should return false", () => {
+                        expect(this.result).to.be.false;
+                    });
+                });
+
+                describe("when modelStrict = undefined", () => {
+                    before(() => {
+                        Store.from(Test).set("modelStrict", undefined);
+                        this.converterService.validationModelStrict = true;
+                        this.result = this.converterService.isStrictModelValidation(Test);
+                    });
+
+                    it("should return true", () => {
+                        expect(this.result).to.be.true;
+                    });
+                });
+            });
+
+            describe("when validationModelStrict = false", () => {
+                describe("when modelStrict = true", () => {
+                    before(() => {
+                        Store.from(Test).set("modelStrict", true);
+                        this.converterService.validationModelStrict = false;
+                        this.result = this.converterService.isStrictModelValidation(Test);
+                    });
+
+                    after(() => {
+                        this.converterService.validationModelStrict = true;
+                    });
+
+                    it("should return true", () => {
+                        expect(this.result).to.be.true;
+                    });
+                });
+
+                describe("when modelStrict = false", () => {
+                    before(() => {
+                        Store.from(Test).set("modelStrict", false);
+                        this.converterService.validationModelStrict = false;
+                        this.result = this.converterService.isStrictModelValidation(Test);
+                    });
+
+                    after(() => {
+                        this.converterService.validationModelStrict = true;
+                    });
+
+                    it("should return false", () => {
+                        expect(this.result).to.be.false;
+                    });
+                });
+
+                describe("when modelStrict = undefined", () => {
+                    before(() => {
+                        Store.from(Test).set("modelStrict", undefined);
+                        this.converterService.validationModelStrict = false;
+                        this.result = this.converterService.isStrictModelValidation(Test);
+                    });
+
+                    after(() => {
+                        this.converterService.validationModelStrict = true;
+                    });
+
+                    it("should return false", () => {
+                        expect(this.result).to.be.false;
+                    });
+                });
+            });
+
         });
     });
 });

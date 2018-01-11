@@ -53,6 +53,7 @@ describe("AJV", () => {
         it("should validate data (1)", () => {
             runValidation({}, TestDate).to.be.true;
         });
+
         it("should not validate data (2)", () => {
             runValidation({dateStart: "1987-07-12 01:00:00"}, TestDate).to.be.eq(errorMsg);
         });
@@ -64,6 +65,9 @@ describe("AJV", () => {
         });
         it("should not validate data (5)", () => {
             runValidation({dateStart: "test"}, TestDate).to.be.eq(errorMsg);
+        });
+        it("should validate data (6)", () => {
+            runValidation({other: "test"}, TestDate).to.be.true;
         });
     });
 

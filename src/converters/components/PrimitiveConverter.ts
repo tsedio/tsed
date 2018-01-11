@@ -1,14 +1,12 @@
-/**
- * @module common/converters
- */ /** */
-
 import {BadRequest} from "ts-httpexceptions";
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 
 /**
+ * Converter component for the `String`, `Number` and `Boolean` Types.
  * @private
- * @converter
+ * @converters
+ * @component
  */
 @Converter(String, Number, Boolean)
 export class PrimitiveConverter implements IConverter {
@@ -39,7 +37,7 @@ export class PrimitiveConverter implements IConverter {
 
     }
 
-    serialize(object: String | Number | Boolean): any {
+    serialize(object: String | Number | Boolean): any {
         return object;
     }
 }

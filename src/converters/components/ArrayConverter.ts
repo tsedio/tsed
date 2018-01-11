@@ -1,20 +1,19 @@
-/**
- * @module common/converters
- */ /** */
-
 import {isArrayOrArrayClass} from "../../core/utils";
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 import {ConverterService} from "../services/ConverterService";
 
 /**
+ * Converter component for the `Array` Type.
  * @private
- * @converter
+ * @converters
+ * @component
  */
 @Converter(Array)
 export class ArrayConverter implements IConverter {
 
-    constructor(private converterService: ConverterService) {}
+    constructor(private converterService: ConverterService) {
+    }
 
     /**
      *

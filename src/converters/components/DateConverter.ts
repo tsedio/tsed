@@ -1,13 +1,11 @@
-/**
- * @module common/converters
- */ /** */
-
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 
 /**
+ * Converter component for the `Date` Type.
  * @private
- * @converter
+ * @converters
+ * @component
  */
 @Converter(Date)
 export class DateConverter implements IConverter {

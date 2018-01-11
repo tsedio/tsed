@@ -1,18 +1,17 @@
-/**
- * @module common/converters
- */ /** */
-
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 import {ConverterService} from "../services/ConverterService";
 
 /**
+ * Converter component for the `Map` Type.
  * @private
- * @converter
+ * @converters
+ * @component
  */
 @Converter(Map)
 export class MapConverter implements IConverter {
-    constructor(private converterService: ConverterService) {}
+    constructor(private converterService: ConverterService) {
+    }
 
     /**
      *
@@ -25,7 +24,7 @@ export class MapConverter implements IConverter {
 
         const obj = new Map<string, T>();
 
-        Object.keys(data).forEach(key  => {
+        Object.keys(data).forEach(key => {
 
             obj.set(key, <T>this.converterService.deserialize(data[key], baseType));
 
