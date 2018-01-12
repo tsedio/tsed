@@ -38,7 +38,7 @@ describe("Allow", () => {
         });
     });
 
-    describe.only("when decorators is used as property decorator effects on the jsonschema", () => {
+    describe("when decorators is used as property decorator effects on the jsonschema", () => {
         before(() => {
             this.decoratorStub = stubSchemaDecorator();
             this.schema = new JsonSchema();
