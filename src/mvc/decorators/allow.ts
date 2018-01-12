@@ -1,6 +1,9 @@
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {Type} from "../../core/interfaces";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
+import { decoratorSchemaFactory } from "../../jsonschema/utils/decoratorSchemaFactory";
+import { JsonSchema } from "../../jsonschema/class/JsonSchema";
+
 
 /**
  * Add allowed values when the property or parameters is required.
@@ -29,6 +32,13 @@ import {ParamRegistry} from "../../filters/registries/ParamRegistry";
  */
 export function Allow(...allowedRequiredValues: any[]): any {
 
+    const allowNullInSchema = decoratorSchemaFactory((schema: JsonSchema) => {
+        if (schema && schema.mapper && schema.mapper.$ref) {
+            schema.mapper.oneOf = [{type: "null"}, {$ref: schema.mapper.$ref} ];
+            delete schema.mapper.$ref;
+        }
+    });
+
     return (target: Type<any>, propertyKey: string, parameterIndex?: number): void => {
 
         if (typeof parameterIndex === "number") {
@@ -41,7 +51,11 @@ export function Allow(...allowedRequiredValues: any[]): any {
             propertyMetadata.allowedRequiredValues = allowedRequiredValues;
 
             PropertyRegistry.set(target, propertyKey, propertyMetadata);
-        }
 
+            if (allowedRequiredValues.some((e) => e == null)) {
+                allowNullInSchema(target, propertyKey);
+            }
+        }
     };
 }
+

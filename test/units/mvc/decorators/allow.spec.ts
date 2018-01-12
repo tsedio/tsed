@@ -2,10 +2,13 @@ import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRe
 import {Allow} from "../../../../src/mvc/decorators/allow";
 import {Sinon} from "../../../tools";
 import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import { stubSchemaDecorator } from '../../jsonschema/decorators/utils';
+import { JsonSchema } from '../../../../src/jsonschema/class/JsonSchema';
+import { Schema } from 'swagger-schema-official';
+import { expect } from 'chai';
 
 
 class Test {
-
 }
 
 describe("Allow", () => {
@@ -32,6 +35,39 @@ describe("Allow", () => {
 
         it("should have been stored allowed value on propertyMetadata", () => {
             this.metadata.allowedRequiredValues.should.be.deep.eq([null, ""]);
+        });
+    });
+
+    describe.only("when decorators is used as property decorator effects on the jsonschema", () => {
+        before(() => {
+            this.decoratorStub = stubSchemaDecorator();
+            this.schema = new JsonSchema();
+            this.schema.$ref = "xyz";
+            Allow(null)
+            this.decoratorStub.getCall(0).args[0](this.schema);
+         });
+        after(() => {
+            this.decoratorStub.restore();
+        });
+    
+        it("should remove the original ref", () => {
+            expect(this.schema.$ref).to.be.undefined;
+        });
+        it("should have oneOf property", () => {
+            expect(this.schema).to.have.property('oneOf');
+        });
+        it("should have oneOf with 2 members ", () => {
+            expect(this.schema.oneOf).to.have.length(2);
+        });
+        it("should have oneOf with null type and the original ref", () => {
+            let [e1, e2]  = this.schema.oneOf;
+            if (e1.type) {
+                expect(e1.type).to.equal('null');
+                expect(e2).to.have.property('$ref', "xyz");
+            } else {
+                expect(e2).to.have.property('type','null');
+                expect(e1).to.have.property('$ref', "xyz");
+            }
         });
     });
 

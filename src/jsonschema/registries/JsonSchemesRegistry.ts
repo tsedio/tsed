@@ -5,7 +5,8 @@ import {Type} from "../../core/interfaces";
 import {ancestorsOf, deepExtends, isClass} from "../../core/utils";
 import {JsonSchema} from "../class/JsonSchema";
 
-const JSON_SCHEMA_FIELDS = ["additionalItems", "items", "additionalProperties", "properties", "dependencies"];
+
+const JSON_SCHEMA_FIELDS = ["additionalItems", "items", "additionalProperties", "properties", "dependencies", "oneOf"];
 
 const toObj = (o: any) => JSON.parse(JSON.stringify(o));
 
