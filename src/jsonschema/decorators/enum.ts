@@ -57,6 +57,34 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * }
  * ```
  *
+ * ### With Typescript Enum
+ *
+ * ```typescript
+ * enum SomeEnum {
+ *    ENUM_1 = "enum1",
+ *    ENUM_2 = "enum2"
+ * }
+ *
+ * class Model {
+ *    @Enum(SomeEnum)
+ *    property: SomeEnum;
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *        "type": "string",
+ *        "enum": ["enum1", "enum2"]
+ *     }
+ *   }
+ * }
+ * ```
+ *
  * @param {string | number | boolean | {}} enumValue
  * @param enumValues
  * @returns {Function}
@@ -65,8 +93,31 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @jsonschema
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
-export function Enum(enumValue: JSONSchema6Type, ...enumValues: JSONSchema6Type[]) {
+export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
     return decoratorSchemaFactory((schema) => {
-        schema.mapper.enum = [enumValue].concat(enumValues);
+
+        if (typeof enumValue === "object") {
+            const info = Object.keys(enumValue).reduce((acc: any, key: any) => {
+
+                if (isNaN(+key)) {
+                    const value = enumValue[key];
+                    const type = typeof value;
+
+                    if (acc.type.indexOf(type) === -1) {
+                        acc.type.push(type);
+                    }
+
+                    acc.values.push(value);
+                }
+
+                return acc;
+            }, {type: [], values: []});
+
+            schema.mapper.type = info.type.length === 1 ? info.type[0] : info.type;
+            schema.mapper.enum = info.values;
+        } else {
+            schema.mapper.enum = [enumValue].concat(enumValues);
+        }
+
     });
 }
