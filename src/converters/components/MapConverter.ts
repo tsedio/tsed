@@ -1,5 +1,5 @@
 import {Converter} from "../decorators/converter";
-import {IConverter} from "../interfaces/index";
+import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
 import {ConverterService} from "../services/ConverterService";
 
 /**
@@ -18,15 +18,16 @@ export class MapConverter implements IConverter {
      * @param data
      * @param target
      * @param baseType
+     * @param deserializer
      * @returns {Map<string, T>}
      */
-    deserialize<T>(data: any, target: any, baseType: T): Map<string, T> {
+    deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): Map<string, T> {
 
         const obj = new Map<string, T>();
 
         Object.keys(data).forEach(key => {
 
-            obj.set(key, <T>this.converterService.deserialize(data[key], baseType));
+            obj.set(key, <T>deserializer(data[key], baseType));
 
         });
 
@@ -36,12 +37,13 @@ export class MapConverter implements IConverter {
     /**
      *
      * @param data
+     * @param serializer
      */
-    serialize<T>(data: Map<string, T>): any {
+    serialize<T>(data: Map<string, T>, serializer: ISerializer): any {
         const obj: any = {};
 
         data.forEach((value: T, key: string) =>
-            obj[key] = this.converterService.serialize(value)
+            obj[key] = serializer(value)
         );
 
         return obj;

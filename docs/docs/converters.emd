@@ -186,27 +186,25 @@ For a collection, the converter is a little more complex because we need to know
 #### `Array` converter
 
 ```typescript
-import {ConverterService, Converter, IConverter} from "ts-express-decorators";
+import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "ts-express-decorators";
 
 @Converter(Array)
 export class ArrayConverter implements IConverter {
 
-    constructor(private converterService: ConverterService) {}
-
-    deserialize<T>(data: any[], target: any, baseType?: T): T[] {
+    deserialize<T>(data: any[], target: any, baseType: T, deserializer: IDeserializer): T[] {
          
         if (isArrayOrArrayClass(data)) {
             return (data as Array<any>).map(item =>
-                this.converterService.deserialize(item, baseType)
+                deserializer(item, baseType)
             );
         }
 
         return [data];
     }
 
-    serialize(data: any[]) {
+    serialize(data: any[], serializer: ISerializer) {
         return (data as Array<any>).map(item =>
-            this.converterService.serialize(item)
+            serializer(item)
         );
     }
 }
@@ -217,30 +215,28 @@ export class ArrayConverter implements IConverter {
 #### `Map` converter
 
 ```typescript
-import {ConverterService, Converter, IConverter} from "ts-express-decorators";
+import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "ts-express-decorators";
 
 @Converter(Map)
 export class MapConverter implements IConverter {
-    constructor(private converterService: ConverterService) {}
-
-    deserialize<T>(data: any, target: any, baseType: T): Map<string, T> {
+    deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): Map<string, T> {
 
         const obj = new Map<string, T>();
 
         Object.keys(data).forEach(key  => {
 
-            obj.set(key, <T>this.converterService.deserialize(data[key], baseType));
+            obj.set(key, <T>deserializer(data[key], baseType));
 
         });
 
         return obj;
     }
 
-    serialize<T>(data: Map<string, T>): any {
+    serialize<T>(data: Map<string, T>, serializer: ISerializer): any {
         const obj = {};
 
         data.forEach((value, key) =>
-            obj[key] = this.converterService.serialize(value)
+            obj[key] = serializer(value)
         );
 
         return obj;
@@ -253,18 +249,17 @@ export class MapConverter implements IConverter {
 #### `Set` converter
 
 ```typescript
-import {ConverterService, Converter, IConverter} from "ts-express-decorators";
+import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "ts-express-decorators";
 
 @Converter(Set)
 export class SetConverter implements IConverter {
-    constructor(private converterService: ConverterService) {}
-
-    deserialize<T>(data: any, target: any, baseType: T): Set<T> {
+    
+    deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): Set<T> {
         const obj = new Set<T>();
 
         Object.keys(data).forEach(key => {
 
-            obj.add(<T>this.converterService.deserialize(data[key], baseType));
+            obj.add(<T>deserializer(data[key], baseType));
 
         });
 
@@ -272,11 +267,11 @@ export class SetConverter implements IConverter {
 
     }
 
-    serialize<T>(data: Set<T>): any[] {
+    serialize<T>(data: Set<T>, serializer: ISerializer): any[] {
         const array = [];
 
         data.forEach((value) =>
-            array.push(this.converterService.serialize(value))
+            array.push(serializer(value))
         );
 
         return array;

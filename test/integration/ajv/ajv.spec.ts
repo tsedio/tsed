@@ -1,5 +1,6 @@
 import {AjvService} from "../../../src/ajv/services/AjvService";
 import {globalServerSettings} from "../../../src/config";
+import {ConverterService} from "../../../src/converters";
 import {nameOf} from "../../../src/core/utils";
 import {Format, JsonSchemesService} from "../../../src/jsonschema";
 import {Required} from "../../../src/mvc/decorators";
@@ -9,9 +10,9 @@ import {expect} from "../../tools";
 
 let ajvService: AjvService;
 
-const runValidation = (obj: any, targetType: any): Chai.Assertion => {
+const runValidation = (obj: any, targetType: any, collectionType?: any): Chai.Assertion => {
     try {
-        const result = ajvService.validate(obj, targetType);
+        const result = ajvService.validate(obj, targetType, collectionType);
         return expect(result);
     } catch (err) {
         if (err.name === "BAD_REQUEST") {
@@ -25,8 +26,8 @@ const runValidation = (obj: any, targetType: any): Chai.Assertion => {
 describe("AJV", () => {
 
     let jsonSchemesService: JsonSchemesService;
-    before(inject([JsonSchemesService], (_jsonSchemesService_: JsonSchemesService) => {
-        ajvService = new AjvService(_jsonSchemesService_, globalServerSettings);
+    before(inject([JsonSchemesService, ConverterService], (_jsonSchemesService_: JsonSchemesService, converterService: ConverterService) => {
+        ajvService = new AjvService(_jsonSchemesService_, globalServerSettings, converterService);
         jsonSchemesService = _jsonSchemesService_;
     }));
 
@@ -69,6 +70,71 @@ describe("AJV", () => {
         it("should validate data (6)", () => {
             runValidation({other: "test"}, TestDate).to.be.true;
         });
+    });
+
+    describe("Array of", () => {
+        const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
+
+        class TestDate {
+            @Format("date-time")
+            dateStart: Date;
+        }
+
+        it("should have expected json schema", () => {
+            expect(jsonSchemesService.getSchemaDefinition(TestDate)).to.deep.eq({
+                "definitions": {},
+                "properties": {
+                    "dateStart": {
+                        "format": "date-time",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            });
+        });
+        it("should validate data (1)", () => {
+            runValidation([{}], TestDate, Array).to.be.true;
+        });
+        it("should not validate data (2)", () => {
+            runValidation([{dateStart: "1987-07-12 01:00:00"}], TestDate, Array).to.be.eq(errorMsg);
+        });
+        it("should validate data (3)", () => {
+            runValidation([{dateStart: new Date().toISOString()}], TestDate, Array).to.be.true;
+        });
+    });
+
+    describe("Set of", () => {
+        const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
+
+        class TestDate {
+            @Format("date-time")
+            dateStart: Date;
+        }
+
+        it("should have expected json schema", () => {
+            expect(jsonSchemesService.getSchemaDefinition(TestDate)).to.deep.eq({
+                "definitions": {},
+                "properties": {
+                    "dateStart": {
+                        "format": "date-time",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            });
+        });
+        it("should validate data (1)", () => {
+            runValidation({test: {}}, TestDate, Set).to.be.true;
+        });
+
+        it("should not validate data (2)", () => {
+            runValidation({test: {dateStart: "1987-07-12 01:00:00"}}, TestDate, Set).to.be.eq(errorMsg);
+        });
+
+        it("should validate data (3)", () => {
+            runValidation({test: {dateStart: new Date().toISOString()}}, TestDate, Set).to.be.true;
+        });
+
     });
 
     describe("Required validation", () => {
