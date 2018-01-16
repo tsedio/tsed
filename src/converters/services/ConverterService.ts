@@ -13,7 +13,8 @@ import {ConverterDeserializationError} from "../errors/ConverterDeserializationE
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknowPropertyError} from "../errors/UnknowPropertyError";
-import {IConverter} from "../interfaces/index";
+import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
+
 
 @Service()
 export class ConverterService {
@@ -47,9 +48,18 @@ export class ConverterService {
 
     /**
      * Convert instance to plainObject.
+     *
+     * ### Options
+     *
+     * - `checkRequiredValue`: Disable the required check condition.
+     *
      * @param obj
+     * @param options
      */
-    public serialize(obj: any): any {
+    serialize(obj: any, options: IConverterOptions = {}): any {
+        const {
+            checkRequiredValue = true
+        } = options;
 
         try {
 
@@ -58,10 +68,11 @@ export class ConverterService {
             }
 
             const converter = this.getConverter(obj);
+            const serializer: ISerializer = (o: any) => this.serialize(o, options);
 
             if (converter && converter.serialize) {
                 // deserialize from a custom JsonConverter
-                return converter.serialize(obj);
+                return converter.serialize(obj, serializer);
             }
 
             if (typeof obj.serialize === "function") {
@@ -84,9 +95,7 @@ export class ConverterService {
                     if (typeof obj[propertyKey] !== "function") {
                         let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
 
-                        if (this.isStrictModelValidation(getClass(obj)) && propertyMetadata === undefined) {
-                            throw new UnknowPropertyError(getClass(obj), propertyKey);
-                        }
+                        this.checkStrictModelValidation(obj, propertyKey, propertyMetadata);
 
                         propertyMetadata = propertyMetadata || {} as any;
                         plainObject[propertyMetadata!.name || propertyKey] = this.serialize(obj[propertyKey]);
@@ -94,12 +103,9 @@ export class ConverterService {
                 });
 
                 // Required validation
-                properties.forEach((propertyMetadata: PropertyMetadata) => {
-                    const key = propertyMetadata.name || propertyMetadata.propertyKey;
-                    if (!propertyMetadata.isValidRequiredValue(plainObject[key])) {
-                        throw new RequiredPropertyError(getClass(obj), propertyMetadata.propertyKey);
-                    }
-                });
+                if (checkRequiredValue) {
+                    this.checkRequiredValue(obj, properties);
+                }
 
                 return plainObject;
             }
@@ -119,30 +125,46 @@ export class ConverterService {
 
     /**
      * Convert a plainObject to targetType.
+     *
+     * ### Options
+     *
+     * - `ignoreCallback`: callback called for each object which will be deserialized. The callback can return a boolean to avoid the default converter behavior.
+     * - `checkRequiredValue`: Disable the required check condition.
+     *
      * @param obj Object source that will be deserialized
      * @param targetType Pattern of the object deserialized
      * @param baseType
+     * @param options
      * @returns {any}
      */
-    deserialize(obj: any, targetType: any, baseType?: any): any {
+    deserialize(obj: any, targetType: any, baseType?: any, options: IConverterOptions = {}): any {
+        const {
+            ignoreCallback,
+            checkRequiredValue = true
+        } = options;
 
         try {
+            if (ignoreCallback && ignoreCallback(obj, targetType, baseType)) {
+                return obj;
+            }
 
             if (targetType !== Boolean && (isEmpty(obj) || isEmpty(targetType) || targetType === Object)) {
                 return obj;
             }
 
             const converter = this.getConverter(targetType);
+            const deserializer: IDeserializer = (o: any, targetType: any, baseType: any) =>
+                this.deserialize(o, targetType, baseType, options);
 
             if (converter) {
                 // deserialize from a custom JsonConverter
-                return converter!.deserialize!(obj, targetType, baseType);
+                return converter!.deserialize!(obj, targetType, baseType, deserializer);
             }
 
             /* istanbul ignore next */
             if (isArrayOrArrayClass(obj)) {
                 const converter = this.getConverter(Array);
-                return converter!.deserialize!(obj, Array, baseType);
+                return converter!.deserialize!(obj, Array, baseType, deserializer);
             }
 
             if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
@@ -161,15 +183,13 @@ export class ConverterService {
 
             Object.keys(obj).forEach((propertyName: string) => {
                 const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
-                return this.convertProperty(obj, instance, propertyName, propertyMetadata);
+                return this.convertProperty(obj, instance, propertyName, propertyMetadata, options);
             });
 
             // Required validation
-            properties.forEach((propertyMetadata: PropertyMetadata) => {
-                if (!propertyMetadata.isValidRequiredValue(instance[propertyMetadata.propertyKey])) {
-                    throw new RequiredPropertyError(targetType, propertyMetadata.propertyKey);
-                }
-            });
+            if (checkRequiredValue) {
+                this.checkRequiredValue(instance, properties);
+            }
 
             return instance;
         } catch (err) {
@@ -186,16 +206,29 @@ export class ConverterService {
 
     /**
      *
+     * @param targetType
+     * @returns {any}
+     */
+    getConverter(targetType: any): IConverter | undefined {
+
+        const converter = Metadata.get(CONVERTER, targetType);
+
+        if (converter) {
+            return this.injectorService.invoke(converter);
+        }
+    }
+
+    /**
+     *
      * @param obj
      * @param instance
      * @param {string} propertyName
      * @param {PropertyMetadata} propertyMetadata
+     * @param options
      */
-    private convertProperty = (obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata) => {
+    private convertProperty(obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata, options?: any) {
 
-        if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
-            throw new UnknowPropertyError(getClass(instance), propertyName);
-        }
+        this.checkStrictModelValidation(instance, propertyName, propertyMetadata);
 
         propertyMetadata = propertyMetadata || {} as any;
 
@@ -208,7 +241,8 @@ export class ConverterService {
                 instance[propertyKey] = this.deserialize(
                     propertyValue,
                     propertyMetadata!.isCollection ? propertyMetadata!.collectionType : propertyMetadata!.type,
-                    propertyMetadata!.type
+                    propertyMetadata!.type,
+                    options
                 );
             }
 
@@ -220,7 +254,32 @@ export class ConverterService {
                 throw castedError;
             })();
         }
-    };
+    }
+
+    /**
+     *
+     * @param instance
+     * @param {Map<string | symbol, PropertyMetadata>} properties
+     */
+    private checkRequiredValue(instance: any, properties: Map<string | symbol, PropertyMetadata>) {
+        properties.forEach((propertyMetadata: PropertyMetadata) => {
+            if (!propertyMetadata.isValidRequiredValue(instance[propertyMetadata.propertyKey])) {
+                throw new RequiredPropertyError(getClass(instance), propertyMetadata.propertyKey);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param instance
+     * @param {string} propertyKey
+     * @param {PropertyMetadata | undefined} propertyMetadata
+     */
+    private checkStrictModelValidation(instance: any, propertyKey: string, propertyMetadata: PropertyMetadata | undefined) {
+        if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
+            throw new UnknowPropertyError(getClass(instance), propertyKey);
+        }
+    }
 
     /**
      *
@@ -240,19 +299,5 @@ export class ConverterService {
         }
 
         return false;
-    }
-
-    /**
-     *
-     * @param targetType
-     * @returns {any}
-     */
-    public getConverter(targetType: any): IConverter | undefined {
-
-        const converter = Metadata.get(CONVERTER, targetType);
-
-        if (converter) {
-            return this.injectorService.invoke(converter);
-        }
     }
 }
