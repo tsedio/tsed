@@ -371,8 +371,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     public scan(path: string, endpoint?: string): ServerLoader {
 
         path = Path.resolve(path);
-
-        const files: string[] = require("glob").sync(path);
+        const files: string[] = require("glob").sync(ServerLoader.file(path));
 
         $log.info(`Scan files : ${path}`);
 
@@ -593,7 +592,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     static file(file: string): string {
         if (!require.extensions[".ts"]) {
-            file = file.replace(".ts", ".js");
+            file = file.replace(/\.ts$/i, ".js");
         }
         return file;
     }
