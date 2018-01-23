@@ -3,6 +3,7 @@ import {ErrorObject} from "ajv";
 import {BadRequest} from "ts-httpexceptions";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+import {ConverterService} from "../../converters";
 import {Type} from "../../core/interfaces";
 import {nameOf} from "../../core/utils";
 import {OverrideService} from "../../di/decorators/overrideService";
@@ -17,7 +18,8 @@ export class AjvService extends ValidationService {
     private options: IAjvOptions;
 
     constructor(private jsonSchemaService: JsonSchemesService,
-                private serverSettingsService: ServerSettingsService) {
+                private serverSettingsService: ServerSettingsService,
+                private converterService: ConverterService) {
         super();
 
         const ajvSettings: IAjvSettings = this.serverSettingsService.get("ajv") || {};
@@ -38,12 +40,32 @@ export class AjvService extends ValidationService {
      */
     public validate(obj: any, targetType: any, baseType?: any): boolean {
         let schema = <any>this.jsonSchemaService.getSchemaDefinition(targetType);
+
         if (schema) {
-            const ajv = new Ajv(this.options);
-            const valid = ajv.validate(schema, obj);
-            if (!valid) {
-                throw this.buildErrors(ajv.errors!, targetType);
-            }
+            const collection = baseType ? obj : [obj];
+            const options = {
+                ignoreCallback: (obj: any, type: any) => type === Date,
+                checkRequiredValue: false
+            };
+
+            const test = (obj: any) => {
+                const ajv = new Ajv(this.options);
+                const valid = ajv.validate(schema, obj);
+                if (!valid) {
+                    throw this.buildErrors(ajv.errors!, targetType);
+                }
+            };
+
+            Object
+                .keys(collection)
+                .forEach((key: any) =>
+                    test(this.converterService.deserialize(
+                        collection[key],
+                        targetType,
+                        undefined,
+                        options)
+                    )
+                );
         }
         return true;
     }

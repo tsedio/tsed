@@ -1,14 +1,15 @@
 import "../../../../src/ajv";
 import {AjvService} from "../../../../src/ajv/services/AjvService";
 import {globalServerSettings} from "../../../../src/config";
+import {ConverterService} from "../../../../src/converters";
 import {JsonSchemesService} from "../../../../src/jsonschema";
 import {inject} from "../../../../src/testing";
 import {JsonFoo, JsonFoo2, Nested, Stuff, Thingy} from "../../../helper/classes";
 import {expect} from "../../../tools";
 
 describe("AjvService", () => {
-    before(inject([JsonSchemesService], (jsonSchemesService: JsonSchemesService) => {
-        this.ajvService = new AjvService(jsonSchemesService, globalServerSettings);
+    before(inject([JsonSchemesService, ConverterService], (jsonSchemesService: JsonSchemesService, converterService: ConverterService) => {
+        this.ajvService = new AjvService(jsonSchemesService, globalServerSettings, converterService);
     }));
 
     describe("when there an error", () => {
