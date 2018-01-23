@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="any">Any</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label auto-map" title="The data will be stored on the right place according to the type and collectionType (primitive or collection).">auto-map</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Any }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.7.0/src//jsonschema/decorators/any.ts#L0-L0">/jsonschema/decorators/any.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Any }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.8.0/src//jsonschema/decorators/any.ts#L0-L0">/jsonschema/decorators/any.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
