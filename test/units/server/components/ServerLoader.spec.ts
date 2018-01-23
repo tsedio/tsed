@@ -377,6 +377,10 @@ describe("ServerLoader", () => {
             it("should return file.js", () => {
                 expect(ServerLoader.file("file.ts")).to.eq("file.js");
             });
+
+            it("should return file.ts.js and manipulate only the file extension", () => {
+                expect(ServerLoader.file("file.ts.ts")).to.eq("file.ts.js");
+            });
         });
         describe("when have typescript compiler", () => {
             before(() => {
