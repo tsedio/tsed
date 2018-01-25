@@ -26,13 +26,13 @@ export class ServerSettingsProvider implements IServerSettings {
         };
 
         this.mount = {
-            "/rest": "${rootDir}/controllers/**/*.js"
+            "/rest": "${rootDir}/controllers/**/*.ts"
         };
 
         this.componentsScan = [
-            "${rootDir}/mvc/**/*.js",
-            "${rootDir}/services/**/*.js",
-            "${rootDir}/converters/**/*.js"
+            "${rootDir}/mvc/**/*.ts",
+            "${rootDir}/services/**/*.ts",
+            "${rootDir}/converters/**/*.ts"
         ];
 
     }
