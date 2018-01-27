@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="middlewareservice">MiddlewareService</h1><label class="symbol-info-type-label service">Service</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MiddlewareService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.8.1/src//mvc/services/MiddlewareService.ts#L0-L0">/mvc/services/MiddlewareService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MiddlewareService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.0/src//mvc/services/MiddlewareService.ts#L0-L0">/mvc/services/MiddlewareService.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
