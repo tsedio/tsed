@@ -11,6 +11,10 @@
 * [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
 * [AWS project](tutorials/aws.md)
 
+## Starter
+
+* [Node Api Starter](https://github.com/scopsy/node-typescript-starter) by [Scopsy](https://github.com/scopsy)
+
 ## Examples 
 
 Some examples are available along these links :
