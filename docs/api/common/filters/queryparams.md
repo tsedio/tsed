@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="queryparams">QueryParams</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { QueryParams }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.0/src//filters/decorators/queryParams.ts#L0-L0">/filters/decorators/queryParams.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { QueryParams }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.1/src//filters/decorators/queryParams.ts#L0-L0">/filters/decorators/queryParams.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

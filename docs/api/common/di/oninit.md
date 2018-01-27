@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="oninit">OnInit</h1><label class="symbol-info-type-label interface">Interface</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OnInit }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.0/src//di/interfaces/OnInit.ts#L0-L0">/di/interfaces/OnInit.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OnInit }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.1/src//di/interfaces/OnInit.ts#L0-L0">/di/interfaces/OnInit.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

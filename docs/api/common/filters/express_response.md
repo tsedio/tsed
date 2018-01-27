@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="express_response">EXPRESS_RESPONSE</h1><label class="symbol-info-type-label const">Constant</label><label class="api-type-label private" title="private">private</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { EXPRESS_RESPONSE }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators/lib/filters/constants/index"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.0/src//filters/constants/index.ts#L0-L0">/filters/constants/index.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { EXPRESS_RESPONSE }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators/lib/filters/constants/index"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.9.1/src//filters/constants/index.ts#L0-L0">/filters/constants/index.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
