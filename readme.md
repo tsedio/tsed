@@ -37,11 +37,11 @@ to write your code.
 
 ## Documentation
 
-Documentation for v2.x beta is available on [https://romakita.github.io/ts-express-decorators](https://romakita.github.io/ts-express-decorators)
+Documentation is available on [https://romakita.github.io/ts-express-decorators](https://romakita.github.io/ts-express-decorators)
 
-## Migrate from 1.x or to 2.x
+## Examples
 
-See [migrate from 1.x to 2.x](https://romakita.github.io/ts-express-decorators/#/docs/migration) section.
+Examples are available on [https://romakita.github.io/ts-express-decorators/#/tutorials/overview](https://romakita.github.io/ts-express-decorators/#/tutorials/overview)
 
 ## Installation
 
@@ -220,6 +220,11 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 * [Vincent178](https://github.com/vincent178)
 * [Vologab](https://github.com/vologab)
 * [lwallent](https://github.com/lwallent)
+* [Ionaru](https://github.com/Ionaru)
+* [jestersimpps](https://github.com/jestersimpps)
+* [jindev](https://github.com/jindev)
+* [Kapulara](https://github.com/Kapulara)
+* [amorgulis](https://github.com/amorgulis)
 
 ## License
 
