@@ -15,9 +15,9 @@ The default configuration is as follow:
     "/rest": "${rootDir}/controllers/**/*.ts" // support ts with ts-node then fallback to js
   },
   "componentsScan": [
-    "${rootDir}/middlewares/**/*.js",
-    "${rootDir}/services/**/*.js",
-    "${rootDir}/converters/**/*.js"
+    "${rootDir}/middlewares/**/*.ts",
+    "${rootDir}/services/**/*.ts",
+    "${rootDir}/converters/**/*.ts"
   ],
   "routers": {
     "mergeParams": false,
