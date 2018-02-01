@@ -1,7 +1,7 @@
 import {Store} from "../../../../src/core/class/Store";
+import {descriptorOf} from "../../../../src/core/utils";
 import {Title} from "../../../../src/swagger/decorators/title";
 import {expect} from "../../../tools";
-import {descriptorOf} from "../../../../src/core/utils";
 
 
 class Test {
@@ -11,6 +11,17 @@ class Test {
 }
 
 describe("Title()", () => {
+
+    describe("when title is used as method decorator", () => {
+        before(() => {
+            Title("title")(Test, "test", descriptorOf(Test, "test"));
+            this.store = Store.from(Test, "test", descriptorOf(Test, "test"));
+        });
+        it("should set the schema", () => {
+            expect(this.store.get("operation")).to.deep.eq({title: "title"});
+        });
+    });
+
     describe("when title is used as property decorator", () => {
         before(() => {
             Title("title")(Test, "test");
