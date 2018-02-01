@@ -1,6 +1,7 @@
 import {getDecoratorType} from "../../core/utils";
 import * as mod from "../../jsonschema/decorators/title";
 import {BaseParameter} from "./baseParameter";
+import {Operation} from "./operation";
 
 const originalTitleDecorator = mod.Title;
 
@@ -50,6 +51,8 @@ const originalTitleDecorator = mod.Title;
  * }
  * ```
  *
+ * > Note: Title can be used on a method but swagger didn't use this key to describe an Operation.
+ *
  * @param {string} title
  * @returns {(...args: any[]) => any}
  * @decorator
@@ -59,6 +62,8 @@ function Title(title: string) {
     return (...args: any[]) => {
         const type = getDecoratorType(args);
         switch (type) {
+            case "method":
+                return Operation({title})(...args);
             case "parameter":
                 return BaseParameter({title})(...args);
             default:
