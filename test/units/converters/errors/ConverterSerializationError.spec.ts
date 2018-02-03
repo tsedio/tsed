@@ -15,7 +15,7 @@ describe("ConverterSerializationError", () => {
     });
 
     it("should have a message", () => {
-        expect(this.errorInstance.message).to.equal("Convertion failed for \"Test\". test");
+        expect(this.errorInstance.message).to.equal("Conversion failed for \"Test\". test");
     });
 
     it("should have a name", () => {

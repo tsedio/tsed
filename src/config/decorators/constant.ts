@@ -1,5 +1,5 @@
-import {globalServerSettings} from "../";
 import {getClass} from "../../core/utils";
+import {globalServerSettings} from "../services/GlobalSerttings";
 
 const clone = (o: any) => JSON.parse(JSON.stringify(o));
 

@@ -7,6 +7,7 @@ describe("UniqueItems", () => {
         this.decorateStub = stubSchemaDecorator();
         this.schema = new JsonSchema();
         UniqueItems(true);
+        UniqueItems();
         this.decorateStub.getCall(0).args[0](this.schema);
     });
     after(() => {

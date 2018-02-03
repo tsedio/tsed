@@ -6,7 +6,6 @@ import {EXPRESS_RESPONSE} from "../../../../src/filters/constants";
 import {FilterPreHandlers} from "../../../../src/filters/registries/FilterRegistry";
 import {FilterService} from "../../../../src/filters/services/FilterService";
 import {ValidationService} from "../../../../src/filters/services/ValidationService";
-import {ParseExpressionError} from "../../../../src/mvc/errors/ParseExpressionError";
 import {expect, Sinon} from "../../../tools";
 
 describe("FilterBuilder", () => {
@@ -86,9 +85,6 @@ describe("FilterBuilder", () => {
             });
             it("should call the injector", () => {
                 this.injectorStub.should.be.calledWithExactly(FilterService);
-            });
-            it("should store param on the filter", () => {
-                this.filter.param.should.eq(this.param);
             });
             it("should call invokeMethod", () => {
                 this.filterServiceStub.invokeMethod.should.have.been.calledWithExactly(

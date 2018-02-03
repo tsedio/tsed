@@ -35,7 +35,7 @@ export function inject(targets: any[], func: Function) {
 
             /* istanbul ignore next */
             if (!InjectorService.has(target)) {
-                InjectorService.construct(target);
+                return InjectorService.invoke(target);
             }
 
             return InjectorService.get(target);

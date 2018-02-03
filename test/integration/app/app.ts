@@ -5,7 +5,6 @@ import "../../../src/socketio";
 import "../../../src/swagger";
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
-
 import Path = require("path");
 
 const rootDir = Path.resolve(__dirname);

@@ -84,7 +84,10 @@ export class AjvService extends ValidationService {
             return this.errorFormatter.call(this, error);
         }).join("\n");
 
-        return new BadRequest(message);
+        const error: any = new BadRequest(message);
+        error.origin! = errors;
+
+        return error;
     }
 
     /**

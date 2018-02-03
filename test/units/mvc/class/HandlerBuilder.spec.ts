@@ -724,7 +724,7 @@ describe("HandlerBuilder", () => {
                 });
             });
             it("should throw error", () => {
-                expect(this.error).to.be.instanceOf(ParseExpressionError);
+                expect(this.error.name).to.eq("BAD_REQUEST");
             });
         });
 

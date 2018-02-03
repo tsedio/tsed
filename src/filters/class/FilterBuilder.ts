@@ -1,6 +1,7 @@
 import {ConverterService} from "../../converters/services/ConverterService";
 import {Type} from "../../core/interfaces";
 import {InjectorService} from "../../di/services/InjectorService";
+import {ParseExpressionError} from "../../mvc/errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
 import {IFilterScope} from "../interfaces/IFilterScope";
@@ -42,7 +43,7 @@ export class FilterBuilder {
 
         // wrap Custom Filter to FilterPreHandler
         const filterService = InjectorService.get<FilterService>(FilterService);
-        const filter: IFilterPreHandler = (locals: IFilterScope) => {
+        return (locals: IFilterScope) => {
             return filterService.invokeMethod(
                 param.service as Type<any>,
                 param.expression,
@@ -50,10 +51,6 @@ export class FilterBuilder {
                 locals.response
             );
         };
-
-        filter.param = param;
-
-        return filter;
     }
 
     /**
@@ -116,7 +113,11 @@ export class FilterBuilder {
 
         const validationService = InjectorService.get<ValidationService>(ValidationService);
         return FilterBuilder.pipe(filter, (value: any) => {
-            validationService.validate(value, type, collectionType);
+            try {
+                validationService.validate(value, type, collectionType);
+            } catch (err) {
+                throw new ParseExpressionError(param.name, param.expression, err.message);
+            }
             return value;
         });
     }
