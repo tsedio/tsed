@@ -1,4 +1,4 @@
-import {globalServerSettings} from "../";
+import {globalServerSettings} from "../services/GlobalSerttings";
 import {getClass} from "../../core/utils";
 
 /**

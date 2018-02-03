@@ -7,7 +7,6 @@ import {InjectorService} from "../../di/services/InjectorService";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
-import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 import {RouterController} from "../services/RouterController";
@@ -227,10 +226,8 @@ export class HandlerBuilder {
                         err
                     });
                 } catch (err) {
-                    const param: ParamMetadata = filter.param!;
-
-                    if (param && err.name === "BAD_REQUEST") {
-                        throw new ParseExpressionError(param.name, param.expression, err.message);
+                    if (err.name === "BAD_REQUEST") {
+                        throw err;
                     } else {
                         throw new CastError(err);
                     }

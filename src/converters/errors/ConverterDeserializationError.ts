@@ -24,6 +24,6 @@ export class ConverterDeserializationError extends InternalServerError {
      * @returns {string}
      */
     static buildMessage(target: Type<any>, obj: any, err: Error) {
-        return `Convertion failed for class "${nameOf(target)}" with object => ${JSON.stringify(obj)}.\n${err.message}`.trim();
+        return `Conversion failed for class "${nameOf(target)}" with object => ${JSON.stringify(obj)}.\n${err.message}`.trim();
     }
 }

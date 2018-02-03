@@ -265,6 +265,10 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
 
                 const provider = ProviderRegistry.get(serviceType)!;
 
+                if (provider.instance === undefined) {
+                    provider.instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+                }
+
                 if (provider.scope === ProviderScope.REQUEST) {
                     if (requiredScope && !parentScope) {
                         throw new InjectionScopeError(provider.useClass, target);

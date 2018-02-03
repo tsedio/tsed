@@ -14,7 +14,7 @@
     "doc:serve": "npm run doc:build && docsify serve ./docs",
     "doc:build": "npm run tsc:compile && node ./node_modules/docsify-ts-api/bin/tsdoc.js",
     "semantic-release-locale": "semantic-release pre --debug=true",
-    "prepublish": "npm run tsc:compile"
+    "prepublishOnly": "npm run tsc:compile"
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,6 @@ import {Service} from "../../di/decorators/service";
 import {JsonSchema} from "../class/JsonSchema";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 
-
 @Service()
 export class JsonSchemesService extends ProxyRegistry<any, JsonSchema> {
 

@@ -15,7 +15,7 @@ describe("ConverterDeserializationError", () => {
     });
 
     it("should have a message", () => {
-        expect(this.errorInstance.message).to.equal("Convertion failed for class \"Test\" with object => {}.\ntest");
+        expect(this.errorInstance.message).to.equal("Conversion failed for class \"Test\" with object => {}.\ntest");
     });
 
     it("should have a name", () => {

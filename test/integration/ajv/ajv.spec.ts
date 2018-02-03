@@ -1,6 +1,4 @@
 import {AjvService} from "../../../src/ajv/services/AjvService";
-import {globalServerSettings} from "../../../src/config";
-import {ConverterService} from "../../../src/converters";
 import {nameOf} from "../../../src/core/utils";
 import {Format, JsonSchemesService} from "../../../src/jsonschema";
 import {Required} from "../../../src/mvc/decorators";
@@ -26,8 +24,8 @@ const runValidation = (obj: any, targetType: any, collectionType?: any): Chai.As
 describe("AJV", () => {
 
     let jsonSchemesService: JsonSchemesService;
-    before(inject([JsonSchemesService, ConverterService], (_jsonSchemesService_: JsonSchemesService, converterService: ConverterService) => {
-        ajvService = new AjvService(_jsonSchemesService_, globalServerSettings, converterService);
+    before(inject([AjvService, JsonSchemesService], (_ajvService_: AjvService, _jsonSchemesService_: JsonSchemesService) => {
+        ajvService = _ajvService_;
         jsonSchemesService = _jsonSchemesService_;
     }));
 

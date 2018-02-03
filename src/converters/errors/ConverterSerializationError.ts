@@ -25,6 +25,6 @@ export class ConverterSerializationError extends InternalServerError {
      * @returns {string}
      */
     static buildMessage(target: Type<any>, err: Error) {
-        return `Convertion failed for "${nameOf(target)}". ${err.message}`.trim();
+        return `Conversion failed for "${nameOf(target)}". ${err.message}`.trim();
     }
 }
