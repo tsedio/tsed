@@ -19,4 +19,22 @@ describe("ParseExpressionError", () => {
         expect(this.errorInstance.name).to.equal("BAD_REQUEST");
     });
 
+    it("should have a dataPath", () => {
+        expect(this.errorInstance.dataPath).to.equal("expression");
+    });
+
+    it("should have a service", () => {
+        expect(this.errorInstance.requestType).to.equal("name");
+    });
+
+    it("should be used with JSON.stringify()", () => {
+        expect(JSON.parse(JSON.stringify(this.errorInstance))).to.deep.equal({
+            "dataPath": "expression",
+            "message": "Bad request on parameter \"request.name.expression\".\nmessage",
+            "name": "BAD_REQUEST",
+            "requestType": "name",
+            "status": 400,
+            "type": "HTTP_EXCEPTION"
+        });
+    });
 });
