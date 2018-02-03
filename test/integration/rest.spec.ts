@@ -270,7 +270,7 @@ describe("Rest", () => {
                 .put("/rest/calendars")
                 .expect(400)
                 .end((err: any, response: any) => {
-                    expect(response.error.text).to.contains("Bad request, parameter request.body.name is required.");
+                    expect(response.error.text).to.contains("Bad request, parameter \"request.body.name\" is required.");
                     done();
                 });
 
@@ -317,7 +317,7 @@ describe("Rest", () => {
                 .expect(400)
                 .end((err: any, response: any) => {
 
-                    expect(response.error.text).to.contains("Bad request, parameter request.body.id is required.");
+                    expect(response.error.text).to.contains("Bad request, parameter \"request.body.id\" is required.");
 
                     done();
                 });
