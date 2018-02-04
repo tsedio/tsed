@@ -22,7 +22,6 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         this.injectedParams = ParamRegistry.getParams(target, methodClassName);
     }
 
-
     build(): this {
         let bodySchema: Schema | undefined = undefined;
         let bodyParam: BodyParameter = {} as BodyParameter;
@@ -98,25 +97,35 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
     }
 
     /**
+     * Create Properties schema from an expression.
+     * @param expression
+     */
+    private createSchemaFromExpression(expression: string = "") {
+        const schema: Schema = {};
+        let current = schema;
+
+        if (!!expression) {
+            const keys = expression.split(".");
+            keys.forEach((key, index) => {
+                current.type = "object";
+                current.properties = current.properties || {};
+                current.properties![key] = <Schema> {};
+                current = current.properties![key];
+            });
+        }
+
+        return {currentProperty: current, schema};
+    }
+
+    /**
      *
      * @param model
      * @returns {Schema}
      */
     protected createSchema(model: ParamMetadata): Schema {
-        const keys = (model.expression as string || "").split(".");
         let builder;
 
-        const output: Schema = {
-            type: "object",
-            properties: {}
-        };
-
-        let current = output;
-
-        keys.forEach((key, index) => {
-            current.properties![key] = <Schema> {type: "object"};
-            current = current.properties![key];
-        });
+        const {currentProperty, schema} = this.createSchemaFromExpression(model.expression as string);
 
         if (model.isClass) {
             builder = new OpenApiPropertiesBuilder(model.type);
@@ -124,14 +133,11 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
 
             deepExtends(this._definitions, builder.definitions);
             deepExtends(this._responses, builder.responses);
-        } else {
-            if (!model.isCollection) {
-                delete current.properties;
-            }
         }
 
-        Object.assign(current, super.createSchema(model));
-        return output;
+        Object.assign(currentProperty, super.createSchema(model));
+
+        return schema;
     }
 
     public completeMissingPathParams(openAPIPath: string): Parameter[] {

@@ -65,10 +65,6 @@ export class OpenApiPropertiesBuilder {
             schema = schema.toObject();
         }
 
-        /*if (model.store.get("description")) {
-            schema.description = schema.description || model.store.get("description");
-        }*/
-
         if (model.isClass) {
 
             builder = new OpenApiPropertiesBuilder(model.type);
