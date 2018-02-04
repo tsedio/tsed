@@ -2,7 +2,7 @@
  * @module swagger
  */
 /** */
-import {BodyParameter, ExternalDocs, Info, Path, QueryParameter, Schema, Security, Tag} from "swagger-schema-official";
+import {BodyParameter, ExternalDocs, Info, Path, QueryParameter, Schema, Security, Tag, Response} from "swagger-schema-official";
 
 declare interface IServerSettings {
     swagger: ISwaggerSettings;
