@@ -1,12 +1,12 @@
 import * as Proxyquire from "proxyquire";
 import {Store} from "../../../../../src/core/class/Store";
-import {AcceptMimesMiddleware} from "../../../../../src/mvc/components/AcceptMimesMiddleware";
+import {AcceptMimesMiddleware} from "../../../../../src/common/mvc/components/AcceptMimesMiddleware";
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
 
-const {AcceptMime} = Proxyquire.load("../../../../../src/mvc/decorators/method/acceptMime", {
+const {AcceptMime} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/acceptMime", {
     "./useBefore": {UseBefore}
 });
 

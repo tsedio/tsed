@@ -1,6 +1,6 @@
 import {Inject, InjectorService} from "../../../../src";
 import {Store} from "../../../../src/core/class/Store";
-import {ProviderRegistry} from "../../../../src/di/registries/ProviderRegistry";
+import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";
 

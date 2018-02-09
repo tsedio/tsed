@@ -6,7 +6,7 @@ import {FakeResponse} from "../../../../helper/FakeResponse";
 const middleware: any = Sinon.stub();
 const UseAfter: any = Sinon.stub().returns(middleware);
 
-const {ContentType} = Proxyquire.load("../../../../../src/mvc/decorators/method/contentType", {
+const {ContentType} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/contentType", {
     "./useAfter": {UseAfter}
 });
 

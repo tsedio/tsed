@@ -1,10 +1,5 @@
-/**
- * @module swagger
- */
-/** */
-
+import {Type} from "@tsed/core";
 import {Header} from "swagger-schema-official";
-import {Type} from "../../core/interfaces";
 
 export interface ISwaggerResponses {
     /**

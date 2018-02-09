@@ -16,14 +16,14 @@ npm install --save swagger-ui-express
 Then add the following configuration in your [ServerLoader](api/common/server/serverloader.md):
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/swagger"; // import swagger Ts.ED module
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/swagger"; // import swagger Ts.ED module
 
 @ServerSettings({
-rootDir: __dirname,
-swagger: {
-path: "/api-docs"
-}
+  rootDir: __dirname,
+  swagger: {
+    path: "/api-docs"
+  }
 })
 export class Server extends ServerLoader {
 
@@ -44,7 +44,7 @@ Key | Example | Description
 path | `/api-doc` |  The url subpath to access to the documentation.
 cssPath | `${rootDir}/spec/style.css` | The path to the CSS file.
 showExplorer | `true` | Display the search field in the navbar.
-spec |  `{swagger: "2.0"}` | The default information spec.
+spec | `{swagger: "2.0"}` | The default information spec.
 specPath | `${rootDir}/spec/swagger.json` | The path to the swagger.json. This file will be written at the first server starting if it doesn't exist. The data will me merge with the collected data via annotation.
 
 ## Decorators
@@ -66,60 +66,57 @@ JSON Object (see [converters section](docs/converters.md)).
 This model can used on a method controller along with [@BodyParams](api/common/filters/bodyparams.md) or other decorators.
 
 ```typescript
-import {JsonProperty} from "ts-express-decorators";
-import {Title, Description, Example} from "ts-express-decorators/swagger";
+import {JsonProperty} from "@tsed/common";
+import {Title, Description, Example} from "@tsed/swagger";
 
 export class CalendarModel {
+  @Title("iD")
+  @Description("Description of calendar model id")
+  @Example("example1", "Description example")
+  @JsonProperty()
+  public id: string;
 
-@Title("iD")
-@Description("Description of calendar model id")
-@Example("example1", "Description example")
-@JsonProperty()
-public id: string;
-
-@JsonProperty()
-public name: string;
+  @JsonProperty()
+  public name: string;
 }
 ```
 
 #### Endpoint documentation
 
 ```typescript
-import {Controller, Get, Post} from "ts-express-decorators";
-import {Summary, Description, Responses,Deprecated, Security} from "ts-express-decorators/swagger";
+import {Controller, Get, Post} from "@tsed/common";
+import {Summary, Description, Responses,Deprecated, Security} from "@tsed/swagger";
 @Controller('/calendars')
 export class Calendar {
-
-@Get('/:id')
-@Summary("Summary of this route")
-@Description("Description of this route")
-@Returns("404", {description: "Not found"})
-async getCalendar(@QueryParam() id: string): Promise
-<CalendarModel> {
-    //...
+    
+    @Get('/:id')
+    @Summary("Summary of this route")
+    @Description("Description of this route")
+    @Returns("404", {description: "Not found"})
+    async getCalendar(@QueryParam() id: string): Promise<CalendarModel> {
+      //...
     }
-
+    
     @Get('/v0/:id')
     @Deprecated()
     @Description("Deprecated route, use /rest/calendars/:id instead of.")
     @Returns("404", {description: "Not found"})
-    getCalendarDeprecated(@QueryParam() id: string): Promise
-    <CalendarModel> {
+    getCalendarDeprecated(@QueryParam() id: string): Promise<CalendarModel> {
+      //...
+    }
+
+    @Post('/')
+    @Security("calendar_auth", "write:calendar", "read:calendar")
+    async createCalendar(): Promise<CalendarModel> {
         //...
-        }}
+    }
+}
+```
+!> To update the swagger.json you need to reload the server before.
 
-        @Post('/')
-        @Security("calendar_auth", "write:calendar", "read:calendar")
-        async createCalendar(): Promise
-        <CalendarModel> {
-            //...
-            }
-            ```
-            !> To update the swagger.json you need to reload the server before.
+> Credits: Thanks to [vologab](https://github.com/vologab) to his contribution.
 
-            > Credits: Thanks to [vologab](https://github.com/vologab) to his contribution.
-
-            <div class="guide-links">
-                <a href="#/tutorials/socket-io">Socket.io</a>
-                <a href="#/tutorials/ajv">Validation with AJV</a>
-            </div>
+<div class="guide-links">
+<a href="#/tutorials/socket-io">Socket.io</a>
+<a href="#/tutorials/ajv">Validation with AJV</a>
+</div>

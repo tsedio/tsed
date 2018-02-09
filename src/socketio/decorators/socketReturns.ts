@@ -1,4 +1,4 @@
-import {Store} from "../../core";
+import {Store} from "@tsed/core";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
 
 export function SocketReturns(eventName: string, type: SocketReturnsTypes) {

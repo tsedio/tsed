@@ -1,7 +1,7 @@
 import {assert, expect} from "chai";
 import {inject} from "../../../../src/testing/inject";
-import {FilterService} from "../../../../src/filters/services/FilterService";
-import {CookiesFilter} from "../../../../src/filters/components/CookiesFilter";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
+import {CookiesFilter} from "../../../../src/common/filters/components/CookiesFilter";
 
 
 describe("CookiesFilter", () => {

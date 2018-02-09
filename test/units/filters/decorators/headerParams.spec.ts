@@ -1,6 +1,6 @@
-import {HeaderParamsFilter} from "../../../../src/filters/components/HeaderParamsFilter";
-import {HeaderParams} from "../../../../src/filters/decorators/headerParams";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {HeaderParamsFilter} from "../../../../src/common/filters/components/HeaderParamsFilter";
+import {HeaderParams} from "../../../../src/common/filters/decorators/headerParams";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

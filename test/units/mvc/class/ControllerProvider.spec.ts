@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
+import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
 
 class Test {
 

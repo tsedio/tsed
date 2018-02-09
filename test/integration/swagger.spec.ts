@@ -1,6 +1,6 @@
 import * as SuperTest from "supertest";
-import {ExpressApplication} from "../../src/mvc/decorators";
-import {bootstrap, inject} from "../../src/testing";
+import {ExpressApplication} from "@tsed/common";
+import {bootstrap, inject} from "@tsed/testing";
 import {expect} from "../tools";
 import {FakeServer} from "./FakeServer";
 

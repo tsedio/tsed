@@ -8,7 +8,7 @@ override some internal Ts.ED middlewares.
 ## Usage
 
 ```typescript
-import {OriginalMiddlware, OverrideMiddleware} from "ts-express-decorators";
+import {OriginalMiddlware, OverrideMiddleware} from "@tsed/common";
 
 @OverrideMiddleware(OriginalMiddlware)
 export class CustomMiddleware extends OriginalMiddlware {

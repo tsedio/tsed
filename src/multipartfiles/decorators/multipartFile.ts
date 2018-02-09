@@ -1,10 +1,6 @@
+import {ParamRegistry, UseBefore} from "@tsed/common";
+import {descriptorOf, Metadata, Store, Type} from "@tsed/core";
 import * as multer from "multer";
-import {Metadata} from "../../core/class/Metadata";
-import {Store} from "../../core/class/Store";
-import {Type} from "../../core/interfaces";
-import {descriptorOf} from "../../core/utils";
-import {ParamRegistry} from "../../filters/registries/ParamRegistry";
-import {UseBefore} from "../../mvc/decorators/method/useBefore";
 import {MultipartFileFilter} from "../filters/MultipartFileFilter";
 import {MultipartFilesFilter} from "../filters/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
@@ -13,7 +9,7 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * Define a parameter as Multipart file.
  *
  * ```typescript
- * import {Controller, Post} from "ts-express-decorators";
+ * import {Controller, Post} from "@tsed/common";
  * import {Multer} from "@types/multer";
  *
  * type MulterFile = Express.Multer.File;

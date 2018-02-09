@@ -1,5 +1,5 @@
-import {PropertyMetadata} from "../../../../src/jsonschema/class/PropertyMetadata";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
+import {PropertyMetadata} from "../../../../src/common/jsonschema/class/PropertyMetadata";
+import {PropertyRegistry} from "../../../../src/common/jsonschema/registries/PropertyRegistry";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

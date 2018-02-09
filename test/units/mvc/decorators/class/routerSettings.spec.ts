@@ -5,19 +5,19 @@ import * as Sinon from "sinon";
 const ControllerRegistryStub: any = {
     merge: Sinon.stub()
 };
-const {RouterSettings} = Proxyquire.load("../../../../../src/mvc/decorators/class/routerSettings", {
+const {RouterSettings} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/routerSettings", {
     "../../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
 });
 
-const {Strict} = Proxyquire.load("../../../../../src/mvc/decorators/class/strict", {
+const {Strict} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/strict", {
     "./routerSettings": {RouterSettings}
 });
 
-const {CaseSensitive} = Proxyquire.load("../../../../../src/mvc/decorators/class/caseSensitive", {
+const {CaseSensitive} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/caseSensitive", {
     "./routerSettings": {RouterSettings}
 });
 
-const {MergeParams} = Proxyquire.load("../../../../../src/mvc/decorators/class/mergeParams", {
+const {MergeParams} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/mergeParams", {
     "./routerSettings": {RouterSettings}
 });
 

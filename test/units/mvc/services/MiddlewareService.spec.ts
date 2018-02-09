@@ -1,7 +1,7 @@
 import {assert, expect} from "../../../tools";
 
-import {MiddlewareProvider} from "../../../../src/mvc/class/MiddlewareProvider";
-import {MiddlewareService} from "../../../../src/mvc/services/MiddlewareService";
+import {MiddlewareProvider} from "../../../../src/common/mvc/class/MiddlewareProvider";
+import {MiddlewareService} from "../../../../src/common/mvc/services/MiddlewareService";
 import {inject} from "../../../../src/testing/inject";
 
 

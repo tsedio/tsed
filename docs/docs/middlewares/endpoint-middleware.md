@@ -5,7 +5,7 @@ Middleware for an endpoint lets you manage request and response directly on a me
 create a middleware to do something on request or response like that:
 
 ```typescript
-import {IMiddleware, Middleware, Request, ServerSettingsService} from "ts-express-decorators";
+import {IMiddleware, Middleware, Request, ServerSettingsService} from "@tsed/common";
 import {NotAcceptable} from "ts-httpexceptions";
 
 @Middleware()
@@ -31,7 +31,7 @@ export class AcceptMimesMiddleware implements IMiddleware {
 Then, add your middleware on your endpoint controller's:
 
 ```typescript
-import {Controller, Get} from "ts-express-decorators";
+import {Controller, Get} from "@tsed/common";
 
 @Controller('/test')
 @UseBefore(AcceptMimesMiddleware) // global to the controller
@@ -54,7 +54,7 @@ To do that we'll proposed a new decorator that take the configuration and wrap t
 
 ```typescript
 // decorators/accept-mimes.ts
-import {Store, UseBefore} from "ts-express-decorators";
+import {Store, UseBefore} from "@tsed/common";
 import AcceptMimesMiddleware from "../middlewares/accept-mimes";
 
 export function AcceptMimes(...mimes: string[]) {
@@ -82,7 +82,7 @@ export function AcceptMimes(...mimes: string[]) {
 
 ```typescript
 // middlewares/accept-mimes.ts
-import {IMiddleware, Middleware, EndpointInfo, Endpoint, Request} from "ts-express-decorators";
+import {IMiddleware, Middleware, EndpointInfo, Endpoint, Request} from "@tsed/common";
 import {NotAcceptable} from "ts-httpexceptions";
 
 @Middleware()
@@ -104,7 +104,7 @@ export default class AcceptMimesMiddleware implements IMiddleware {
 #### 3) Use the decorator on you method Controller
 
 ```typescript
-import {Controller, Get} from "ts-express-decorators";
+import {Controller, Get} from "@tsed/common";
 import {AcceptMimes} from "../decorators/accept-mimes";
 
 @Controller('/test')
@@ -126,7 +126,7 @@ Here the code of the middleware:
 ```typescript
 // middlewares/response-view.ts
 
-import {IMiddleware, Middleware, ResponseData, Response, EndpointInfo, Endpoint} from "ts-express-decorators";
+import {IMiddleware, Middleware, ResponseData, Response, EndpointInfo, Endpoint} from "@tsed/common";
 import {InternalServerError} from "ts-httpexceptions";
 
 @Middleware()
@@ -168,7 +168,7 @@ export default class ResponseViewMiddleware implements IMiddleware {
 And his decorator:
 ```typescript
 // middlewares/response-view.ts
-import {Endpoint, Store, UseAfter} from "ts-express-decorators";
+import {Endpoint, Store, UseAfter} from "@tsed/common";
 import ResponseViewMiddleware from "../middlewares/response-view";
 
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
@@ -196,7 +196,7 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
 Finally, we can use this decorator on a controller:
 
 ```typescript
-import {Controller, Get} from "ts-express-decorators";
+import {Controller, Get} from "@tsed/common";
 import {ResponseView} from "../decorators/response-view";
 
 @Controller('/test')

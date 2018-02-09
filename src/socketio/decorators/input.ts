@@ -1,4 +1,4 @@
-import {Store} from "../../core";
+import {Store} from "@tsed/core";
 
 /**
  * Attach the decorated method to the socket event.

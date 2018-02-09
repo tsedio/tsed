@@ -1,8 +1,5 @@
-import {JsonProperty} from "../../../../src";
-import {Description} from "../../../../src/swagger/decorators/description";
-import {Example} from "../../../../src/swagger/decorators/example";
-import {Title} from "../../../../src/swagger/decorators/title";
-import {Required} from "../../../../src/mvc/decorators";
+import {JsonProperty, Required} from "@tsed/common";
+import {Description, Example, Title} from "@tsed/swagger";
 
 export class CalendarModel {
 

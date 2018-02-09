@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {MaxLength} from "../../../../src/jsonschema/decorators/maxLength";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {MaxLength} from "../../../../src/common/jsonschema/decorators/maxLength";
 import {stubSchemaDecorator} from "./utils";
 
 describe("MaxLength", () => {

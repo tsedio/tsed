@@ -1,6 +1,6 @@
-import {PathParamsFilter} from "../../../../src/filters/components/PathParamsFilter";
-import {PathParams} from "../../../../src/filters/decorators/pathParams";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {PathParamsFilter} from "../../../../src/common/filters/components/PathParamsFilter";
+import {PathParams} from "../../../../src/common/filters/decorators/pathParams";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

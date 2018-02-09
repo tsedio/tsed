@@ -1,5 +1,5 @@
 import {assert, expect} from "chai";
-import {UnknowFilterError} from "../../../../src/filters/errors/UnknowFilterError";
+import {UnknowFilterError} from "../../../../src/common/filters/errors/UnknowFilterError";
 
 describe("UnknowFilterError", () => {
 

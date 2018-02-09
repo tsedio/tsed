@@ -1,6 +1,5 @@
-import {Store} from "../../core/class/Store";
-import {Type} from "../../core/interfaces";
-import {mapReturnedResponse} from "../../mvc/utils/mapReturnedResponse";
+import {Store, Type} from "@tsed/core";
+import {mapReturnedResponse} from "../../common/mvc/utils/mapReturnedResponse";
 import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
 
 /**

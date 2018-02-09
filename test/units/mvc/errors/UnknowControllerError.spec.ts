@@ -1,5 +1,5 @@
 import {assert, expect} from "chai";
-import {UnknowControllerError} from "../../../../src/mvc/errors/UnknowControllerError";
+import {UnknowControllerError} from "../../../../src/common/mvc/errors/UnknowControllerError";
 
 describe("UnknowControllerError", () => {
 

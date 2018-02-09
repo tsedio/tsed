@@ -205,7 +205,8 @@
                 </p>
 
                 <div class="next-step-header">License</div>
-                <p>Released under the <a href="#/license">MIT License</a> - © Copyright 2016 - 2017 - Documentation generated with <a href="https://docsify.js.org/#/">docsify</a>.</p>
+                <p>Released under the <a href="#/license">MIT License</a> - © Copyright 2016 - 2017 - Documentation
+                    generated with <a href="https://docsify.js.org/#/">docsify</a>.</p>
                 <div class="github-stars">
                     <iframe src="https://ghbtns.com/github-btn.html?user=romakita&amp;repo=ts-express-decorators&amp;type=watch&amp;count=true"
                             allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
@@ -217,13 +218,13 @@
 
 </body>
 <script>
-  var footer = document.querySelector('footer')
+  var footer = document.querySelector('footer');
   var homeHtml = document.querySelector('.home-page').innerHTML
     .split('\n')
     .map(o => o.trim())
     .filter(o => !!o)
     .join(' ')
-    .trim()
+    .trim();
 
   window.$docsify = {
     name: 'Ts.ED',
@@ -249,39 +250,39 @@
     plugins: [
       function (hook, vm) {
         hook.ready(function () {
-          var url = 'http://github.com/Romakita/ts-express-decorators/blob/master/docs/' + vm.route.file
+          var url = 'http://github.com/Romakita/ts-express-decorators/blob/master/docs/' + vm.route.file;
 
-          document.querySelector('main .content').appendChild(footer)
+          document.querySelector('main .content').appendChild(footer);
 
-          var improveLink = document.querySelector('.improve-docs-link')
+          var improveLink = document.querySelector('.improve-docs-link');
           if (improveLink) {
-            improveLink.href = url
+            improveLink.href = url;
           }
-        })
+        });
 
         hook.beforeEach(function (html) {
-          var url = 'http://github.com/Romakita/ts-express-decorators/blob/master/docs/' + vm.route.file
+          var url = 'http://github.com/Romakita/ts-express-decorators/blob/master/docs/' + vm.route.file;
 
           if (vm.route.path === '/') {
-            return homeHtml
+            return homeHtml;
           }
 
-          var improveLink = document.querySelector('.improve-docs-link')
+          var improveLink = document.querySelector('.improve-docs-link');
 
           if (improveLink) {
-            improveLink.href = url
+            improveLink.href = url;
           }
 
-          return html
-        })
+          return html;
+        });
       }
     ]
-  }
+  };
 </script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/docsify.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/zoom-image.min.js"></script>
-<script src="//unpkg.com/docsify/lib/plugins/ga.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/ga.min.js"></script>
 <script src="_plugins/api-search.js"></script>
 
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>

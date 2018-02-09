@@ -14,7 +14,7 @@ So to do that, you must create a class and annotate it with the [@Filter](api/co
 decorator and in option, implement the [IFilter](api/common/filters/ifilter.md) interface:
 
 ```typescript
-import {Filter, IFilter, ParseService} from "ts-express-decorators";
+import {Filter, IFilter, ParseService} from "@tsed/common";
 
 @Filter()
 export class BodyParamsFilter implements IFilter {
@@ -31,7 +31,7 @@ export class BodyParamsFilter implements IFilter {
 Then create the decorator. This decorator will be used on a controller method.
 
 ```typescript
-import {ParamRegistry} from "ts-express-decorators";
+import {ParamRegistry} from "@tsed/common";
 import {BodyParamsFilter} from "../filters"
 
 export function BodyParams(expression?: string | any, useType?: any): Function {
@@ -46,8 +46,8 @@ export function BodyParams(expression?: string | any, useType?: any): Function {
 #### Filter
 
 ```typescript
-import {FilterService} from "ts-express-decorators";
-import {inject} from "ts-express-decorators/testing";
+import {FilterService} from "@tsed/common";
+import {inject} from "@tsed/testing";
 import {expect} from "chai";
 import {BodyParamsFilter} from "../../filters";
 
@@ -74,7 +74,7 @@ describe("BodyParamsFilter", () => {
 #### Decorator
 
 ```typescript
-import {ParamRegistry} from "ts-express-decorators";
+import {ParamRegistry} from "@tsed/common";
 import * as Chai from "chai";
 import * as Sinon from "sinon";
 Chai.should();

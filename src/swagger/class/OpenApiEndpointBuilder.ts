@@ -1,7 +1,6 @@
+import {deepExtends, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
-import {Store} from "../../core/class/Store";
-import {deepExtends} from "../../core/utils";
-import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
+import {EndpointMetadata} from "@tsed/common";
 import {toSwaggerPath} from "../utils";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";

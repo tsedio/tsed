@@ -31,7 +31,7 @@ You can customize your configuration as follow:
 
 ```typescript
 // server.ts
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 
 @ServerSettings({
@@ -219,7 +219,7 @@ The configuration can be reused throughout your application in different ways.
 ### From service (DI)
 
 ```typescript
-import {ServerSettingsService} from "ts-express-decorators";
+import {ServerSettingsService} from "@tsed/common";
 @Service() // or Controller or Middleware
 export class MyService {
     constructor(ServerSettingsService: ServerSettingsService) {
@@ -237,7 +237,8 @@ including: [Service](docs/overview/services.md), [Controller](docs/controllers.m
 inspect the configuration object and return the value.
 
 ```typescript
-import {Env} from "ts-express-decorators";
+import {Env} from "@tsed/core";
+import {Constant, Value} from "@tsed/common";
 
 export class MyClass {
     

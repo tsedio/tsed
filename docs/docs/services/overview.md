@@ -8,7 +8,7 @@ All services annotated with `@Service()` are constructed one time.
 You must adding the `services` folder on `componentsScan` attribute in your server settings as follow :
  
 ```typescript
-import {ServerLoader} from "ts-express-decorators";
+import {ServerLoader} from "@tsed/common";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
@@ -83,7 +83,7 @@ override some internal Ts.ED service like the [ParseService](api/common/filters/
 
 Example usage:
 ```typescript
-import {OverrideService, ParseService} from "ts-express-decorators"
+import {OverrideService, ParseService} from "@tsed/common"
 
 @OverrideService(ParseService)
 class CustomParseService extends ParseService {

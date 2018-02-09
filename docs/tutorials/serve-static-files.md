@@ -3,16 +3,17 @@
 `@ServerSettings` let you to configure a list of static folders. 
 
 ### Installation
+
 Install the `serve-static` module:
 
 ```bash
-npm install serve-static --save
+npm install --save serve-static @tsed/servestatic
 ```
 
 Then configure your server:
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/servestatic";
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/servestatic";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname)
 

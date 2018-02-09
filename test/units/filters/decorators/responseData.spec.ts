@@ -1,6 +1,6 @@
-import {RESPONSE_DATA} from "../../../../src/filters/constants";
-import {ResponseData} from "../../../../src/filters/decorators/responseData";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {RESPONSE_DATA} from "../../../../src/common/filters/constants";
+import {ResponseData} from "../../../../src/common/filters/decorators/responseData";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

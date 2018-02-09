@@ -1,7 +1,5 @@
-import {PathParams} from "../../../../../src/filters/decorators/pathParams";
-import {Get} from "../../../../../src/mvc/decorators/method/route";
-import {Description} from "../../../../../src/swagger/decorators/description";
-import {Summary} from "../../../../../src/swagger/decorators/summary";
+import {Get, PathParams} from "@tsed/common";
+import {Description, Summary} from "@tsed/swagger";
 
 export class BaseController {
 

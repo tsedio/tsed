@@ -1,4 +1,4 @@
-import {Controller, Get, Render, RouteService} from "../../../../src";
+import {Controller, Get, Render, RouteService} from "@tsed/common";
 
 @Controller("/rest")
 export class RestCtrl {

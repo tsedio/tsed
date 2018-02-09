@@ -5,6 +5,7 @@
     "rootDir": "src/",
     "outDir": "lib/",
     "declarationDir": "lib/",
+    "sourceMap": true,
     "noResolve": false,
     "preserveConstEnums": true
   },
@@ -19,7 +20,7 @@
     "servestatic",
     "ajv",
     "socketio",
-    "test",
-    "lib"
+    "lib",
+    "dist"
   ]
 }

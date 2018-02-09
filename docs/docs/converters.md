@@ -11,7 +11,7 @@ All following decorators use `@Property` metadata to deserialize a Plain Object 
 In first place, you must adding the `converters` folder on `componentsScan` attribute in your server settings as follow :
  
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
@@ -104,7 +104,7 @@ on the object sent in the request, Converters will throw a `BadRequest` because 
 Example: 
 
 ```typescript
-const {InjectorService, ConvertersService, Required, Property} = "ts-express-decorators";
+import {InjectorService, ConvertersService, Required, Property} from "@tsed/common";
 
 InjectorService.load();
 
@@ -127,7 +127,7 @@ It's possible to disable this behavior for a specific Model with the `@ModelStri
 Example:
 
 ```typescript
-const {InjectorService, ConvertersService, ModelStrict, Required, Property} = "ts-express-decorators";
+import {InjectorService, ConvertersService, ModelStrict, Required, Property} from "@tsed/common";
 
 InjectorService.load();
 
@@ -159,7 +159,7 @@ console.log(result) // TaskModel {unknowProperty: "test"}
 Here an example to create a custom converter for the Date type:
 
 ```typescript
-import {IConverter, Converter} from "ts-express-decorators";
+import {IConverter, Converter} from "@tsed/common";
 
 @Converter(Date)
 export class DateConverter implements IConverter {
@@ -186,7 +186,7 @@ For a collection, the converter is a little more complex because we need to know
 #### `Array` converter
 
 ```typescript
-import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "ts-express-decorators";
+import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "@tsed/common";
 
 @Converter(Array)
 export class ArrayConverter implements IConverter {
@@ -215,7 +215,7 @@ export class ArrayConverter implements IConverter {
 #### `Map` converter
 
 ```typescript
-import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "ts-express-decorators";
+import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "@tsed/common";
 
 @Converter(Map)
 export class MapConverter implements IConverter {
@@ -249,7 +249,7 @@ export class MapConverter implements IConverter {
 #### `Set` converter
 
 ```typescript
-import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "ts-express-decorators";
+import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "@tsed/common";
 
 @Converter(Set)
 export class SetConverter implements IConverter {

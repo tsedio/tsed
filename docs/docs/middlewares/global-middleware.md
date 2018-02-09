@@ -5,7 +5,7 @@ Global middlewares lets you manage request and response on [`ServerLoader`](api/
 
 Create your middleware:
 ```typescript
-import {IMiddleware, Middleware, Request, ServerSettingsService} from "ts-express-decorators";
+import {IMiddleware, Middleware, Request, ServerSettingsService} from "@tsed/common";
 import {NotAcceptable} from "ts-httpexceptions";
 
 @Middleware()

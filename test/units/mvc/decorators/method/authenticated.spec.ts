@@ -1,13 +1,13 @@
 import * as Proxyquire from "proxyquire";
 import {Store} from "../../../../../src/core/class/Store";
 import {descriptorOf} from "../../../../../src/core/utils";
-import {AuthenticatedMiddleware} from "../../../../../src/mvc/components/AuthenticatedMiddleware";
+import {AuthenticatedMiddleware} from "../../../../../src/common/mvc/components/AuthenticatedMiddleware";
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
 
-const {Authenticated} = Proxyquire.load("../../../../../src/mvc/decorators/method/authenticated", {
+const {Authenticated} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/authenticated", {
     "./useBefore": {UseBefore}
 });
 

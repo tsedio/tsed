@@ -13,7 +13,7 @@ const UseAfterStub: any = function (_middleware_: any) {
     };
 };
 
-const Header = Proxyquire.load("../../../../../src/mvc/decorators/method/header", {
+const Header = Proxyquire.load("../../../../../src/common/mvc/decorators/method/header", {
     "./useAfter": {UseAfter: UseAfterStub}
 }).Header;
 

@@ -1,6 +1,6 @@
-import {ENDPOINT_INFO} from "../../../../src/filters/constants";
-import {EndpointInfo} from "../../../../src/filters/decorators/endpointInfo";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {ENDPOINT_INFO} from "../../../../src/common/filters/constants";
+import {EndpointInfo} from "../../../../src/common/filters/decorators/endpointInfo";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

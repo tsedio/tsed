@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {Email} from "../../../../src/jsonschema/decorators/email";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {Email} from "../../../../src/common/jsonschema/decorators/email";
 import {stubSchemaDecorator} from "./utils";
 
 describe("Email", () => {

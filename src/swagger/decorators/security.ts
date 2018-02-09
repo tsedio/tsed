@@ -1,4 +1,4 @@
-import {getDecoratorType} from "../../core/utils";
+import {getDecoratorType} from "@tsed/core";
 import {Operation} from "./operation";
 
 /**

@@ -1,4 +1,4 @@
-import {JsonSchemesService} from "../../../../src/jsonschema/services/JsonSchemesService";
+import {JsonSchemesService} from "../../../../src/common/jsonschema/services/JsonSchemesService";
 import {inject} from "../../../../src/testing";
 import {JsonFoo2, Thingy} from "../../../helper/classes";
 import {expect} from "../../../tools";

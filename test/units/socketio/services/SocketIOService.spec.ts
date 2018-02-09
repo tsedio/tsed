@@ -1,6 +1,6 @@
-import {ProviderRegistry} from "../../../../src/di/registries/ProviderRegistry";
-import {HttpServer} from "../../../../src/server/decorators/httpServer";
-import {HttpsServer} from "../../../../src/server/decorators/httpsServer";
+import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
+import {HttpServer} from "../../../../src/common/server/decorators/httpServer";
+import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../src/socketio";
 import {invoke} from "../../../../src/testing";
 import {expect, Sinon} from "../../../tools";

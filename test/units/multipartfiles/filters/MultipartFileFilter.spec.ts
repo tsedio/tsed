@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {FilterService} from "../../../../src/filters/services/FilterService";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
 import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
 import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
 import {inject} from "../../../../src/testing";

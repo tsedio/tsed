@@ -55,8 +55,8 @@ Example of unit test for the `ParseService`:
 
 ```typescript
 import {expect} from "chai";
-import {inject} from "ts-express-decorators/testing";
-import {ParseService} from "ts-express-decorators";
+import {inject} from "@tsed/testing";
+import {ParseService} from "@tsed/common";
 
 describe('ParseService', () => {
 
@@ -82,7 +82,7 @@ Testing asynchronous method is also possible with `Done` function:
 
 ```typescript
 import {expect} from "chai";
-import {inject} from "ts-express-decorators/testing";
+import {inject} from "@tsed/testing";
 import {DbService} from "../services/db";
 
 describe('DbService :', () => {
@@ -106,7 +106,7 @@ describe('DbService :', () => {
 Use `ControllerService` to invoke your controller and test it:
 ```typescript
 import {expect} from "chai";
-import {inject} from "ts-express-decorators/testing";
+import {inject} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 
 describe('MyCtrl', () => {
@@ -124,7 +124,7 @@ describe('MyCtrl', () => {
 
 ```typescript
 // in MyCtrl.ts
-import {Get, Controller} from "ts-express-decorators/testing";
+import {Get, Controller} from "@tsed/testing";
 import {DbService} from "../services/DbService";
 import {OtherService} from "../services/OtherService";
 
@@ -142,7 +142,7 @@ export class MyCtrl {
 
 // in MyCtrl.spec.ts
 import {expect} from "chai";
-import {inject} from "ts-express-decorators/testing";
+import {inject} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
 
@@ -206,8 +206,8 @@ export class ArrayConverter implements IConverter {
 And the unit test:
 ```typescript
 import {expect} from "chai";
-import {inject} from "ts-express-decorators/testing";
-import {ConverterService} from "ts-express-decorators/src";
+import {inject} from "@tsed/testing";
+import {ConverterService} from "@tsed/common";
 
 describe("ArrayConverter", () => {
     it('should convert data', inject([ConverterService], (converterService: ConverterService) => {
@@ -227,8 +227,8 @@ describe("ArrayConverter", () => {
 `@Middleware()` is similar to the Express middleware with the difference that it is a class and you can use the IoC to inject other services on his constructor.
 
 ```typescript
-import {inject} from 'ts-express-decorators/testing';
-import {AcceptMimeMiddleware} from "ts-express-decorators";
+import {inject} from "@tsed/testing";
+import {AcceptMimeMiddleware} from "@tsed/common";
 
 describe('AcceptMimesMiddleware :', () => {
     it('should accept mime', inject([MiddlewareService], (middlewareService: MiddlewareService) => {
@@ -300,8 +300,8 @@ And add `mocha` and `chai` types in your `tsconfig.json`:
 ### Example
 
 ```typescript
-import {ExpressApplication} from "ts-express-decorators";
-import {Done, bootstrap, inject} from "ts-express-decorators/testing";
+import {ExpressApplication} from "@tsed/common";
+import {Done, bootstrap, inject} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {expect} from "chai";
 import {Server} from "../Server";

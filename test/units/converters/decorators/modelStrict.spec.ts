@@ -1,4 +1,4 @@
-import {ModelStrict} from "../../../../src/converters";
+import {ModelStrict} from "../../../../src/common/converters";
 import {Store} from "../../../../src/core/class/Store";
 import {expect} from "../../../tools";
 

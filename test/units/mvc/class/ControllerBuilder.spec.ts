@@ -1,9 +1,9 @@
 import * as Express from "express";
 import * as Proxyquire from "proxyquire";
-import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
-import {EndpointBuilder} from "../../../../src/mvc/class/EndpointBuilder";
+import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
+import {EndpointBuilder} from "../../../../src/common/mvc/class/EndpointBuilder";
 
-import {EndpointRegistry} from "../../../../src/mvc/registries/EndpointRegistry";
+import {EndpointRegistry} from "../../../../src/common/mvc/registries/EndpointRegistry";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "./../../../tools";
 
@@ -21,7 +21,7 @@ const ControllerRegistryStub = {
     get: Sinon.stub().returns(new ControllerProvider(ChildrenTest))
 };
 
-const {ControllerBuilder} = Proxyquire("../../../../src/mvc/class/ControllerBuilder", {
+const {ControllerBuilder} = Proxyquire("../../../../src/common/mvc/class/ControllerBuilder", {
     "./EndpointBuilder": {EndpointBuilder: EndpointBuilderStub},
     "../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
 });
