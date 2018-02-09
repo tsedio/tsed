@@ -1,6 +1,6 @@
-import {EXPRESS_RESPONSE} from "../../../../src/filters/constants";
-import {Res} from "../../../../src/filters/decorators/response";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {EXPRESS_RESPONSE} from "../../../../src/common/filters/constants";
+import {Res} from "../../../../src/common/filters/decorators/response";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

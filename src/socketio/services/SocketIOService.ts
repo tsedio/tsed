@@ -1,14 +1,16 @@
+import {
+    HttpServer,
+    HttpsServer,
+    Inject,
+    OnServerReady,
+    ProviderRegistry,
+    ProviderStorable,
+    ServerSettingsService,
+    Service
+} from "@tsed/common";
+import {nameOf} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {IO} from "../";
-import {ServerSettingsService} from "../../config";
-import {nameOf} from "../../core/utils";
-import {ProviderStorable} from "../../di/class/ProviderStorable";
-import {Inject} from "../../di/decorators/inject";
-import {Service} from "../../di/decorators/service";
-import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
-import {HttpServer} from "../../server/decorators/httpServer";
-import {HttpsServer} from "../../server/decorators/httpsServer";
-import {OnServerReady} from "../../server/interfaces";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
 

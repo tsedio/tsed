@@ -6,7 +6,7 @@ You have two methods to configure all global endpoints for each directories scan
 ### With decorator (Recommended)
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
@@ -31,7 +31,7 @@ new Server().start();
 ### With ServerLoader API
 
 ```typescript
-import {ServerLoader, IServerLifecycle} from "ts-express-decorators";
+import {ServerLoader, IServerLifecycle} from "@tsed/common";
 import Path = require("path");
 
 export class Server extends ServerLoader implements IServerLifecycle {

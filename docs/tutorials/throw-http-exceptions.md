@@ -6,7 +6,7 @@ All exception will be intercepted by the [Global error handler](docs/middlewares
 Here an example:
 
 ```typescript
-import {Controller, Get, PathParams} from "ts-express-decorators";
+import {Controller, Get, PathParams} from "@tsed/common";
 import {BadRequest} from "ts-httpexceptions";
 
 @Controller("/calendars")

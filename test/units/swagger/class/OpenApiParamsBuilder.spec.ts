@@ -1,6 +1,6 @@
 import * as Proxyquire from "proxyquire";
-import {ParamMetadata} from "../../../../src/filters/class/ParamMetadata";
-import {BodyParamsFilter} from "../../../../src/filters/components/BodyParamsFilter";
+import {ParamMetadata} from "../../../../src/common/filters/class/ParamMetadata";
+import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
@@ -12,7 +12,7 @@ param0.type = SwaFoo2;
 const getParams = Sinon.stub().returns([param0]);
 
 const {OpenApiParamsBuilder} = Proxyquire("../../../../src/swagger/class/OpenApiParamsBuilder", {
-    "../../filters/registries/ParamRegistry": {
+    "../../common/filters/registries/ParamRegistry": {
         ParamRegistry: {
             getParams
         }

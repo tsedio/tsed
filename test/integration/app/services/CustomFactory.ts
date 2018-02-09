@@ -1,6 +1,6 @@
 // fooservice.ts
 
-import {InjectorService} from "../../../../src/di/services/InjectorService";
+import {InjectorService} from "@tsed/common";
 export interface ICustomFactory {
     getFoo(): string;
 }

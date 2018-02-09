@@ -1,5 +1,5 @@
-import {MiddlewareProvider} from "../../../../src/mvc/class/MiddlewareProvider";
-import {MiddlewareType} from "../../../../src/mvc/interfaces";
+import {MiddlewareProvider} from "../../../../src/common/mvc/class/MiddlewareProvider";
+import {MiddlewareType} from "../../../../src/common/mvc/interfaces";
 import {expect} from "../../../tools";
 
 class Test {

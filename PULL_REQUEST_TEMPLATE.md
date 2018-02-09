@@ -14,7 +14,7 @@ A few sentences describing the overall goals of the pull request's commits.
 ## Usage example
 Example to use your feature and to improve the documentation after merging your PR:
 ```
-import {} from "ts-express-decorators";
+import {} from "@tsed/common";
 
 ```
 

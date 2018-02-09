@@ -1,7 +1,7 @@
 import {decoratorArgs, descriptorOf} from "../../../../../src/core/utils";
-import {Use} from "../../../../../src/mvc/decorators/method/use";
-import {ControllerRegistry} from "../../../../../src/mvc/registries/ControllerRegistry";
-import {EndpointRegistry} from "../../../../../src/mvc/registries/EndpointRegistry";
+import {Use} from "../../../../../src/common/mvc/decorators/method/use";
+import {ControllerRegistry} from "../../../../../src/common/mvc/registries/ControllerRegistry";
+import {EndpointRegistry} from "../../../../../src/common/mvc/registries/EndpointRegistry";
 import {expect, Sinon} from "../../../../tools";
 
 class Test {

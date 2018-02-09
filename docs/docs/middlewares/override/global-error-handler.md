@@ -8,7 +8,7 @@ You can override this middleware with the decorator [@OverrideMiddleware](docs/a
 
 ```typescript
 import * as Express from "express";
-import {OverrideMiddleware, GlobalErrorHandlerMiddleware, Err, Req, Res} from "ts-express-decorators";
+import {OverrideMiddleware, GlobalErrorHandlerMiddleware, Err, Req, Res} from "@tsed/common";
 
 @OverrideMiddleware(GlobalErrorHandlerMiddleware)
 export class MyGEHMiddleware {

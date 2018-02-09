@@ -1,23 +1,19 @@
-import * as Proxyquire from "proxyquire";
-import * as Sinon from "sinon";
-import {Store} from "../../../../src/core/class/Store";
-import {descriptorOf} from "../../../../src/core/utils";
+import {descriptorOf, Store} from "@tsed/core";
 import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
 import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middlewares/MultipartFileMiddleware";
-import {assert, expect} from "../../../tools";
+import {assert, expect, Sinon} from "../../../tools";
+import Proxyquire = require("proxyquire");
 
 const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
-const EndpointRegistry: any = {setMetadata: Sinon.stub()};
 const Metadata: any = {getParamTypes: Sinon.stub().returns([Object])};
 
 const middleware: any = Sinon.stub();
 const UseBefore: any = Sinon.stub().returns(middleware);
 
 const {MultipartFile} = Proxyquire.load("../../../../src/multipartfiles/decorators/multipartFile", {
-    "../../filters/registries/ParamRegistry": {ParamRegistry},
-    "../../core/class/Metadata": {Metadata},
-    "../../mvc/decorators/method/useBefore": {UseBefore}
+    "@tsed/common": {ParamRegistry, UseBefore},
+    "@tsed/core": {Metadata}
 });
 
 class Test {

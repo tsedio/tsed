@@ -20,7 +20,7 @@ class MyCtrl {
 ## Example
 
 ```typescript
-import {OverrideMiddleware, AuthenticatedMiddleware} from "ts-express-decorators";
+import {OverrideMiddleware, AuthenticatedMiddleware} from "@tsed/common";
 import {Forbidden} from "ts-httpexceptions";
 
 @OverrideMiddleware(AuthenticatedMiddleware)

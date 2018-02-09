@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {AllowTypes} from "../../../../src/jsonschema/decorators/allowTypes";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {AllowTypes} from "../../../../src/common/jsonschema/decorators/allowTypes";
 import {stubSchemaDecorator} from "./utils";
 
 describe("AllowTypes", () => {

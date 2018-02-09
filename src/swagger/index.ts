@@ -7,7 +7,7 @@ export * from "./decorators/name";
 export * from "./decorators/responses";
 export * from "./decorators/returns";
 export * from "./decorators/returnsArray";
-export * from "../jsonschema/decorators/schema";
 export * from "./decorators/security";
 export * from "./decorators/summary";
 export * from "./decorators/title";
+export {Schema} from "@tsed/common";

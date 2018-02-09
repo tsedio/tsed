@@ -1,5 +1,5 @@
-import {getDecoratorType} from "../../core/utils";
-import * as mod from "../../jsonschema/decorators/title";
+import {getDecoratorType} from "@tsed/core";
+import * as mod from "../../common/jsonschema/decorators/title";
 import {BaseParameter} from "./baseParameter";
 import {Operation} from "./operation";
 

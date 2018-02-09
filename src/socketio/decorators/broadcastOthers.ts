@@ -1,5 +1,3 @@
-import {Store} from "../../core";
-import {Type} from "../../core/interfaces";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
 import {SocketReturns} from "./socketReturns";
 

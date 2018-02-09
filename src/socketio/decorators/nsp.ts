@@ -1,4 +1,4 @@
-import {Store} from "../../core";
+import {Store} from "@tsed/core";
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketFilter} from "./socketFilter";
 

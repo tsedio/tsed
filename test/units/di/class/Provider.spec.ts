@@ -1,5 +1,5 @@
 import {assert, expect} from "chai";
-import {Provider} from "../../../../src/di/class/Provider";
+import {Provider} from "../../../../src/common/di/class/Provider";
 
 class T1 {
 }

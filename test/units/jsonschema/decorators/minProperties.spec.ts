@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {MinProperties} from "../../../../src/jsonschema/decorators/minProperties";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {MinProperties} from "../../../../src/common/jsonschema/decorators/minProperties";
 import {stubSchemaDecorator} from "./utils";
 
 describe("MinProperties", () => {

@@ -1,5 +1,5 @@
-import {globalServerSettings} from "../../../../src/config";
-import {Constant} from "../../../../src/config/decorators/constant";
+import {globalServerSettings} from "../../../../src/common/config";
+import {Constant} from "../../../../src/common/config/decorators/constant";
 import {expect, Sinon} from "../../../tools";
 
 const path = require("path");

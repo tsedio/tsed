@@ -1,4 +1,4 @@
-import * as mod from "../../../../src/jsonschema/utils/decoratorSchemaFactory";
+import * as mod from "../../../../src/common/jsonschema/utils/decoratorSchemaFactory";
 import {Sinon} from "../../../tools";
 
 export function stubSchemaDecorator() {

@@ -1,6 +1,6 @@
 import * as Express from "express";
 import {NotAcceptable} from "ts-httpexceptions";
-import {IMiddleware, Middleware, Next, Request} from "../../../../src";
+import {IMiddleware, Middleware, Next, Request} from "@tsed/common";
 
 @Middleware()
 export default class TestAcceptMimeMiddleware implements IMiddleware {

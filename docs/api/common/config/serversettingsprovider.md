@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="serversettingsprovider">ServerSettingsProvider</h1><label class="symbol-info-type-label class">Class</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsProvider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"ts-express-decorators"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.10.2/src//config/class/ServerSettingsProvider.ts#L0-L0">/config/class/ServerSettingsProvider.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsProvider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v3.10.2/src//common/config/class/ServerSettingsProvider.ts#L0-L0">/common/config/class/ServerSettingsProvider.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -18,7 +18,7 @@
     httpPort<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
     httpsPort<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
     uploadDir<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    env<span class="token punctuation">:</span> <a href="#api/common/core/env"><span class="token">Env</span></a><span class="token punctuation">;</span>
+    env<span class="token punctuation">:</span> <a href="#api/core/env"><span class="token">Env</span></a><span class="token punctuation">;</span>
     mount<span class="token punctuation">:</span> <a href="#api/common/config/iservermountdirectories"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     componentsScan<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     serveStatic<span class="token punctuation">:</span> <a href="#api/common/config/iservermountdirectories"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
@@ -149,7 +149,7 @@
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">env<span class="token punctuation">:</span> <a href="#api/common/core/env"><span class="token">Env</span></a></code></pre>
+<pre><code class="typescript-lang ">env<span class="token punctuation">:</span> <a href="#api/core/env"><span class="token">Env</span></a></code></pre>
 </div>
 
 

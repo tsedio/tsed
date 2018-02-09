@@ -1,5 +1,5 @@
 import * as SocketIO from "socket.io";
-import {InjectorService} from "../../di";
+import {InjectorService} from "@tsed/common";
 
 /**
  * @experimental

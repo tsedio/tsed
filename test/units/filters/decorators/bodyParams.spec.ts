@@ -1,6 +1,6 @@
-import {BodyParamsFilter} from "../../../../src/filters/components/BodyParamsFilter";
-import {BodyParams} from "../../../../src/filters/decorators/bodyParams";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
+import {BodyParams} from "../../../../src/common/filters/decorators/bodyParams";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

@@ -1,3 +1,6 @@
+/**
+ * @experimental
+ */
 export enum SocketFilters {
     ARGS = "args",
     SOCKET = "socket",

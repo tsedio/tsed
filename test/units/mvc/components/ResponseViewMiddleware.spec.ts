@@ -1,5 +1,5 @@
 import {MiddlewareService} from "../../../../src";
-import {ResponseViewMiddleware} from "../../../../src/mvc/components/ResponseViewMiddleware";
+import {ResponseViewMiddleware} from "../../../../src/common/mvc/components/ResponseViewMiddleware";
 import {inject} from "../../../../src/testing";
 import {expect, Sinon} from "../../../tools";
 

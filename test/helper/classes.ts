@@ -1,8 +1,8 @@
-import {Property} from "../../src/jsonschema/decorators/jsonProperty";
-import {MinLength} from "../../src/jsonschema/decorators/minLength";
-import {PropertyName} from "../../src/jsonschema/decorators/propertyName";
-import {PropertyType} from "../../src/jsonschema/decorators/propertyType";
-import {Required} from "../../src/mvc/decorators";
+import {Property} from "../../src/common/jsonschema/decorators/jsonProperty";
+import {MinLength} from "../../src/common/jsonschema/decorators/minLength";
+import {PropertyName} from "../../src/common/jsonschema/decorators/propertyName";
+import {PropertyType} from "../../src/common/jsonschema/decorators/propertyType";
+import {Required} from "../../src/common/mvc/decorators";
 
 export class JsonBaseModel {
 

@@ -1,8 +1,8 @@
 import * as SuperTest from "supertest";
-import {ExpressApplication} from "../../src/mvc/decorators";
-import {bootstrap} from "../../src/testing";
-import {Done} from "../../src/testing/done";
-import {inject} from "../../src/testing/inject";
+import {ExpressApplication} from "@tsed/common";
+import {bootstrap} from "@tsed/testing";
+import {Done} from "@tsed/testing";
+import {inject} from "@tsed/testing";
 import {expect} from "../tools";
 import {FakeServer} from "./FakeServer";
 

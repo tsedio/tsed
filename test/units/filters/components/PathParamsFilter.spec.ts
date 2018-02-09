@@ -1,7 +1,7 @@
 import {assert, expect} from "chai";
 import {inject} from "../../../../src/testing/inject";
-import {FilterService} from "../../../../src/filters/services/FilterService";
-import {PathParamsFilter} from "../../../../src/filters/components/PathParamsFilter";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
+import {PathParamsFilter} from "../../../../src/common/filters/components/PathParamsFilter";
 
 
 describe("PathParamsFilter", () => {

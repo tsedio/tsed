@@ -1,6 +1,6 @@
+import {Inject} from "@tsed/common";
+import {Type} from "@tsed/core";
 import {SocketIOServer} from "../";
-import {Type} from "../../core/interfaces";
-import {Inject} from "../../di";
 
 /**
  * Inject the [SocketIO.Server](https://socket.io/docs/server-api/) instance in the decorated parameter.

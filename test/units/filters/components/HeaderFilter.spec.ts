@@ -1,7 +1,7 @@
 import {assert, expect} from "chai";
 import {inject} from "../../../../src/testing/inject";
-import {FilterService} from "../../../../src/filters/services/FilterService";
-import {HeaderParamsFilter} from "../../../../src/filters/components/HeaderParamsFilter";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
+import {HeaderParamsFilter} from "../../../../src/common/filters/components/HeaderParamsFilter";
 
 
 describe("HeaderParamsFilter", () => {

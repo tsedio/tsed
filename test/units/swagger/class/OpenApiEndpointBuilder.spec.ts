@@ -1,5 +1,5 @@
 import {Store} from "../../../../src/core/class/Store";
-import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
+import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {OpenApiEndpointBuilder} from "../../../../src/swagger/class/OpenApiEndpointBuilder";
 import {Sinon} from "../../../tools";
 

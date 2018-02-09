@@ -8,4 +8,4 @@ tslint.json
 .travis.yml
 .gitignore
 .idea
-dts
+packages

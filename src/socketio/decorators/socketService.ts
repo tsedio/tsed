@@ -1,5 +1,5 @@
-import {Store} from "../../core";
-import {Service} from "../../di";
+import {Service} from "@tsed/common";
+import {Store} from "@tsed/core";
 
 /**
  * The decorators `@SocketService()` declare a new socket service (and service) can be injected in other service or controller on there `constructor`.

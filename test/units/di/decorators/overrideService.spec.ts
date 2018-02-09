@@ -1,5 +1,5 @@
-import {OverrideService} from "../../../../src/di/decorators/overrideService";
-import {ProviderRegistry} from "../../../../src/di/registries/ProviderRegistry";
+import {OverrideService} from "../../../../src/common/di/decorators/overrideService";
+import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

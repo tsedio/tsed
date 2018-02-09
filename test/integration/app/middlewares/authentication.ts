@@ -1,12 +1,14 @@
+import {
+    AuthenticatedMiddleware,
+    EndpointInfo,
+    EndpointMetadata,
+    Next,
+    OverrideMiddleware,
+    Req,
+    Res
+} from "@tsed/common";
 import * as Express from "express";
 import {Forbidden} from "ts-httpexceptions";
-import {EndpointInfo} from "../../../../src/filters/decorators/endpointInfo";
-import {Next} from "../../../../src/filters/decorators/next";
-import {Req} from "../../../../src/filters/decorators/request";
-import {Res} from "../../../../src/filters/decorators/response";
-import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
-import {AuthenticatedMiddleware} from "../../../../src/mvc/components/AuthenticatedMiddleware";
-import {OverrideMiddleware} from "../../../../src/mvc/decorators/class/overrideMiddleware";
 
 @OverrideMiddleware(AuthenticatedMiddleware)
 export class CustomAuthMiddleware {

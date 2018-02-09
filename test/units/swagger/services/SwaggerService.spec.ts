@@ -1,8 +1,8 @@
 import * as Fs from "fs";
 import {Store} from "../../../../src/core/class/Store";
-import {InjectorService} from "../../../../src/di/services/InjectorService";
-import {ServerSettingsService} from "../../../../src/config/services/ServerSettingsService";
-import {ExpressApplication} from "../../../../src/mvc/decorators";
+import {InjectorService} from "../../../../src/common/di/services/InjectorService";
+import {ServerSettingsService} from "../../../../src/common/config/services/ServerSettingsService";
+import {ExpressApplication} from "../../../../src/common/mvc/decorators";
 import {SwaggerService} from "../../../../src/swagger/services/SwaggerService";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";

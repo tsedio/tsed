@@ -1,4 +1,4 @@
-import {Service} from "../../../../src/index";
+import {Service} from "@tsed/common";
 
 @Service()
 export class SanitizeService {

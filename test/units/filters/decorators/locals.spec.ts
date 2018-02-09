@@ -1,6 +1,6 @@
-import {LocalsFilter} from "../../../../src/filters/components/LocalsFilter";
-import {Locals} from "../../../../src/filters/decorators/locals";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {LocalsFilter} from "../../../../src/common/filters/components/LocalsFilter";
+import {Locals} from "../../../../src/common/filters/decorators/locals";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

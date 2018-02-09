@@ -5,7 +5,7 @@ import * as Proxyquire from "proxyquire";
 const middleware: any = Sinon.stub();
 const Use: any = Sinon.stub().returns(middleware);
 
-const {All, Get, Post, Put, Delete, Head, Patch} = Proxyquire.load("../../../../../src/mvc/decorators/method/route", {
+const {All, Get, Post, Put, Delete, Head, Patch} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/route", {
     "./use": {Use}
 });
 

@@ -1,6 +1,6 @@
-import {CookiesFilter} from "../../../../src/filters/components/CookiesFilter";
-import {Cookies} from "../../../../src/filters/decorators/cookies";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {CookiesFilter} from "../../../../src/common/filters/components/CookiesFilter";
+import {Cookies} from "../../../../src/common/filters/decorators/cookies";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

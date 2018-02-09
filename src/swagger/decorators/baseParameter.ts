@@ -1,6 +1,5 @@
+import {DecoratorParameters, Store} from "@tsed/core";
 import {BaseParameter} from "swagger-schema-official";
-import {Store} from "../../core/class/Store";
-import {DecoratorParameters} from "../../core/interfaces";
 
 /**
  *

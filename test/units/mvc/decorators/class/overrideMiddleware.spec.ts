@@ -1,5 +1,5 @@
-import {OverrideMiddleware} from "../../../../../src/mvc/decorators/class/overrideMiddleware";
-import {MiddlewareRegistry} from "../../../../../src/mvc/registries/MiddlewareRegistry";
+import {OverrideMiddleware} from "../../../../../src/common/mvc/decorators/class/overrideMiddleware";
+import {MiddlewareRegistry} from "../../../../../src/common/mvc/registries/MiddlewareRegistry";
 import {Sinon} from "../../../../tools";
 
 

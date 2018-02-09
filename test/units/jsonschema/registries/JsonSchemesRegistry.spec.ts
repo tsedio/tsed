@@ -1,4 +1,4 @@
-import {JsonSchemesRegistry} from "../../../../src/jsonschema/registries/JsonSchemesRegistry";
+import {JsonSchemesRegistry} from "../../../../src/common/jsonschema/registries/JsonSchemesRegistry";
 import {JsonFoo2} from "../../../helper/classes";
 import {expect} from "../../../tools";
 

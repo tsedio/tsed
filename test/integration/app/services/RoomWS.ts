@@ -1,4 +1,4 @@
-import {Args, Emit, Input, IO, Nsp, Socket, SocketService} from "../../../../src/socketio";
+import {Args, Emit, Input, IO, Nsp, Socket, SocketService} from "@tsed/socketio";
 
 @SocketService("/room")
 export class RoomWS {

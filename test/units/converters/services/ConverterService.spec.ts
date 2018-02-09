@@ -1,6 +1,6 @@
 import {ConverterService} from "../../../../src";
 import {Store} from "../../../../src/core";
-import {JsonProperty} from "../../../../src/jsonschema/decorators/jsonProperty";
+import {JsonProperty} from "../../../../src/common/jsonschema/decorators/jsonProperty";
 import {inject} from "../../../../src/testing/inject";
 import {JsonFoo, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";

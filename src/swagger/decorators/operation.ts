@@ -1,10 +1,5 @@
-/**
- * @module swagger
- */
-/** */
+import {DecoratorParameters, Store} from "@tsed/core";
 import {Operation} from "swagger-schema-official";
-import {Store} from "../../core/class/Store";
-import {DecoratorParameters} from "../../core/interfaces";
 
 /**
  *

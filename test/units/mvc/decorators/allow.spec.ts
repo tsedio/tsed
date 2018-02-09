@@ -1,8 +1,8 @@
 import {expect} from "chai";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {PropertyRegistry} from "../../../../src/jsonschema/registries/PropertyRegistry";
-import {Allow} from "../../../../src/mvc/decorators/allow";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {PropertyRegistry} from "../../../../src/common/jsonschema/registries/PropertyRegistry";
+import {Allow} from "../../../../src/common/mvc/decorators/allow";
 import {Sinon} from "../../../tools";
 import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
 

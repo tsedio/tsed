@@ -1,15 +1,8 @@
-/**
- * @module swagger
- */
-/** */
+import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Response, Schema} from "swagger-schema-official";
-import {Storable} from "../../core/class/Storable";
-import {Store} from "../../core/class/Store";
-import {Type} from "../../core/interfaces";
-import {deepExtends, nameOf} from "../../core/utils";
-import {JsonSchema} from "../../jsonschema/class/JsonSchema";
-import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
+import {JsonSchema} from "../../common/jsonschema/class/JsonSchema";
+import {PropertyMetadata} from "../../common/jsonschema/class/PropertyMetadata";
+import {PropertyRegistry} from "../../common/jsonschema/registries/PropertyRegistry";
 import {swaggerType} from "../utils";
 
 /**

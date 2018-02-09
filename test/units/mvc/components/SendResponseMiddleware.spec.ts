@@ -1,6 +1,6 @@
 import {MiddlewareService} from "../../../../src";
-import {ConverterService} from "../../../../src/converters/services/ConverterService";
-import {SendResponseMiddleware} from "../../../../src/mvc/components/SendResponseMiddleware";
+import {ConverterService} from "../../../../src/common/converters/services/ConverterService";
+import {SendResponseMiddleware} from "../../../../src/common/mvc/components/SendResponseMiddleware";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";

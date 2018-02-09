@@ -1,8 +1,8 @@
 import * as Express from "express";
 import * as Proxyquire from "proxyquire";
-import {globalServerSettings} from "../../../../src/config";
+import {globalServerSettings} from "../../../../src/common/config";
 
-import {EndpointMetadata} from "../../../../src/mvc/class/EndpointMetadata";
+import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
@@ -17,7 +17,7 @@ const HandlerBuilder = {
     })
 };
 
-const {EndpointBuilder} = Proxyquire("../../../../src/mvc/class/EndpointBuilder", {
+const {EndpointBuilder} = Proxyquire("../../../../src/common/mvc/class/EndpointBuilder", {
     "./HandlerBuilder": {
         HandlerBuilder
     }

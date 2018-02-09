@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {UnknowPropertyError} from "../../../../src/converters/errors/UnknowPropertyError";
+import {UnknowPropertyError} from "../../../../src/common/converters/errors/UnknowPropertyError";
 
 describe("UnknowPropertyError", () => {
 

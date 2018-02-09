@@ -1,11 +1,11 @@
 import * as Proxyquire from "proxyquire";
 import {Store} from "../../../../../src/core/class/Store";
-import {ResponseViewMiddleware} from "../../../../../src/mvc/components/ResponseViewMiddleware";
+import {ResponseViewMiddleware} from "../../../../../src/common/mvc/components/ResponseViewMiddleware";
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 const UseAfter: any = Sinon.stub().returns(middleware);
-const {ResponseView} = Proxyquire.load("../../../../../src/mvc/decorators/method/responseView", {
+const {ResponseView} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/responseView", {
     "./useAfter": {UseAfter}
 });
 
