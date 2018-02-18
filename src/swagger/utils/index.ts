@@ -1,6 +1,6 @@
-import {deepExtends} from "../../core/utils";
-import {JsonSchema} from "../../jsonschema/class/JsonSchema";
-import {PathParamsType} from "../../mvc/interfaces/PathParamsType";
+import {deepExtends} from "@tsed/core";
+import {JsonSchema} from "../../common/jsonschema/class/JsonSchema";
+import {PathParamsType} from "../../common/mvc/interfaces/PathParamsType";
 
 /** */
 

@@ -1,7 +1,7 @@
 import {assert, expect} from "chai";
 import {inject} from "../../../../src/testing/inject";
-import {FilterService} from "../../../../src/filters/services/FilterService";
-import {SessionFilter} from "../../../../src/filters/components/SessionFilter";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
+import {SessionFilter} from "../../../../src/common/filters/components/SessionFilter";
 
 describe("QueryParamsFilter", () => {
 

@@ -1,13 +1,13 @@
 import {expect} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
-import {MiddlewareType} from "../../../../../src/mvc/interfaces";
+import {MiddlewareType} from "../../../../../src/common/mvc/interfaces";
 
 const MiddlewareRegistry: any = {
     merge: Sinon.stub()
 };
 
-const {Middleware} = Proxyquire.load("../../../../../src/mvc/decorators/class/middleware", {
+const {Middleware} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/middleware", {
     "../../registries/MiddlewareRegistry": {MiddlewareRegistry}
 });
 

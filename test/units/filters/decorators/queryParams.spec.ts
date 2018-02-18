@@ -1,6 +1,6 @@
-import {QueryParamsFilter} from "../../../../src/filters/components/QueryParamsFilter";
-import {QueryParams} from "../../../../src/filters/decorators/queryParams";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {QueryParamsFilter} from "../../../../src/common/filters/components/QueryParamsFilter";
+import {QueryParams} from "../../../../src/common/filters/decorators/queryParams";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

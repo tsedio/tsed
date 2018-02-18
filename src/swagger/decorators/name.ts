@@ -1,5 +1,4 @@
-import {Store} from "../../core/class/Store";
-import {getDecoratorType} from "../../core/utils/index";
+import {getDecoratorType, Store} from "@tsed/core";
 import {BaseParameter} from "./baseParameter";
 
 /**

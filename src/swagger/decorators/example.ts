@@ -1,4 +1,4 @@
-import {Schema} from "../../jsonschema/decorators/schema";
+import {Schema} from "../../common/jsonschema/decorators/schema";
 
 /**
  * Add a example metadata on the decorated element.

@@ -1,5 +1,5 @@
+import {IMiddleware, Middleware} from "@tsed/common";
 import * as Express from "express";
-import {IMiddleware, Middleware} from "../../../../src";
 
 @Middleware()
 export class TestMiddleware implements IMiddleware {

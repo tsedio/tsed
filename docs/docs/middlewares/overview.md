@@ -11,7 +11,7 @@ This method can use all parameters decorators as you could see with the [Control
 To begin, you must adding the `middlewares` folder on `componentsScan` attribute in your server settings as follow :
  
 ```typescript
-import {ServerLoader} from "ts-express-decorators";
+import {ServerLoader} from "@tsed/common";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 

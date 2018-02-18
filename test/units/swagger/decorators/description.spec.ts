@@ -1,6 +1,6 @@
 import {Store} from "../../../../src/core/class/Store";
 import {decoratorArgs} from "../../../../src/core/utils";
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
 import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";

@@ -1,0 +1,21 @@
+{
+  "name": "@tsed/ajv",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "AJV package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "tslib": "^1.8.0"
+  },
+  "peerDependencies": {
+    "ajv": "^6.1.1",
+    "@tsed/core": "0.0.0-PLACEHOLDER",
+    "@tsed/common": "0.0.0-PLACEHOLDER"
+  },
+  "devDependencies": {},
+  "private": false,
+  "directories": {
+    "lib": "lib",
+    "src": "src"
+  }
+}

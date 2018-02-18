@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {BodyParamsFilter} from "../../../../src/filters/components/BodyParamsFilter";
-import {FilterService} from "../../../../src/filters/services/FilterService";
+import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
 import {inject} from "../../../../src/testing/inject";
 
 

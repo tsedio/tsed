@@ -48,7 +48,7 @@ Examples are available on [https://romakita.github.io/ts-express-decorators/#/tu
 You can get the latest release using npm:
 
 ```batch
-$ npm install --save ts-express-decorators express@4 @types/express
+$ npm install --save @tsed/core @tsed/common express@4 @types/express
 ```
 
 > **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
@@ -83,7 +83,7 @@ a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
 
 ```typescript
 import * as Express from "express";
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 
 @ServerSettings({
@@ -144,7 +144,7 @@ dependencies. In this case, we haven't a dependencies and the root endpoint is s
 So the controller's url will be `http://host/rest/calendars`.
 
 ```typescript
-import {Controller, Get} from "ts-express-decorators";
+import {Controller, Get} from "@tsed/common";
 import * as Express from "express";
 
 export interface Calendar{

@@ -7,15 +7,15 @@ Socket.io enable real-time bidirectional event-based communication. It works on 
 
 Before using the Socket.io, we need to install the [Socket.io](https://www.npmjs.com/package/socket.io) module.
 
-```
+```bash
 npm install --save socket.io @types/socket.io
 ```
 
 Then add the following configuration in your [ServerLoader](api/common/server/serverloader.md):
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/socketio"; // import socketio Ts.ED module
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/socketio"; // import socketio Ts.ED module
 
 @ServerSettings({
     rootDir: __dirname,
@@ -50,7 +50,7 @@ Example:
 
 ```typescript
 import * as SocketIO from "socket.io";
-import {SocketService, IO, Nsp, Socket, SocketSession} from "ts-express-decorators/socketio";
+import {SocketService, IO, Nsp, Socket, SocketSession} from "@tsed/socketio";
 
 @SocketService("/my-namespace")
 export class MySocketService {

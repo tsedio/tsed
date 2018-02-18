@@ -1,13 +1,21 @@
+import {
+    Authenticated,
+    BodyParams,
+    Controller,
+    Delete,
+    Get,
+    Head,
+    Patch,
+    Post,
+    Put,
+    Required,
+    Response
+} from "@tsed/common";
+import {Responses, Returns, Title} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
-import {BodyParams, Controller, Delete, Get, Head, Patch, Post, Put, Response} from "../../../../../src/index";
-import {Required} from "../../../../../src/mvc/decorators";
-import {Authenticated} from "../../../../../src/mvc/decorators/method/authenticated";
-import {Responses} from "../../../../../src/swagger/decorators/responses";
-import {Returns} from "../../../../../src/swagger/decorators/returns";
 import {EventModel} from "../../models/Event";
 import {BaseController} from "../base/BaseController";
 import {TaskCtrl} from "./TaskCtrl";
-import {Title} from "../../../../../src/swagger/decorators/title";
 
 @Controller({
     path: "/events",

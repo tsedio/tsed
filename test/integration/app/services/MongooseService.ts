@@ -1,4 +1,4 @@
-import {Inject, Service} from "../../../../src";
+import {Inject, Service} from "@tsed/common";
 import {CustomFactory} from "./CustomFactory";
 import {SanitizeService} from "./SanitizeService";
 

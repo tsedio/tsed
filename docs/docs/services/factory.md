@@ -8,7 +8,7 @@ This example show you how you can add a service already constructed like a npm m
 
 ```typescript
 // MyFooFactory.ts
-import {InjectorService} from "ts-express-decorators";
+import {InjectorService} from "@tsed/common";
 
 export interface IMyFooFactory {
    getFoo(): string;
@@ -46,7 +46,7 @@ Some factories are built-in Ts.ED. These factories are :
 ## Inject ExpressApplication
 
 ```typescript
-import {ExpressApplication, Service, Inject} from "ts-express-decorators";
+import {ExpressApplication, Service, Inject} from "@tsed/common";
 
 @Service()
 export default class OtherService {
@@ -61,7 +61,7 @@ export default class OtherService {
 
 ## Inject HttpServer or HttpsServer
 ```typescript
-import {HttpServer, Service, Inject} from "ts-express-decorators";
+import {HttpServer, Service, Inject} from "@tsed/common";
 
 @Service()
 export default class OtherService {

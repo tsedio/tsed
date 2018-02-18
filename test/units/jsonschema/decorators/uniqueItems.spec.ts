@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {UniqueItems} from "../../../../src/jsonschema/decorators/uniqueItems";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {UniqueItems} from "../../../../src/common/jsonschema/decorators/uniqueItems";
 import {stubSchemaDecorator} from "./utils";
 
 describe("UniqueItems", () => {

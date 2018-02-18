@@ -1,5 +1,5 @@
-import {LogIncomingRequestMiddleware} from "../../../../src/mvc/components/LogIncomingRequestMiddleware";
-import {MiddlewareService} from "../../../../src/mvc/services/MiddlewareService";
+import {LogIncomingRequestMiddleware} from "../../../../src/common/mvc/components/LogIncomingRequestMiddleware";
+import {MiddlewareService} from "../../../../src/common/mvc/services/MiddlewareService";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper";
 import {FakeRequest} from "../../../helper/FakeRequest";

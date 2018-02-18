@@ -1,7 +1,7 @@
-import {InjectorService} from "../../../../src/di/services/InjectorService";
-import {ControllerProvider} from "../../../../src/mvc/class/ControllerProvider";
-import {ControllerRegistry} from "../../../../src/mvc/registries/ControllerRegistry";
-import {ControllerService} from "../../../../src/mvc/services/ControllerService";
+import {InjectorService} from "../../../../src/common/di/services/InjectorService";
+import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
+import {ControllerRegistry} from "../../../../src/common/mvc/registries/ControllerRegistry";
+import {ControllerService} from "../../../../src/common/mvc/services/ControllerService";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";
 

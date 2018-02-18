@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {RequiredParamError} from "../../../../src/filters/errors/RequiredParamError";
+import {RequiredParamError} from "../../../../src/common/filters/errors/RequiredParamError";
 
 describe("RequiredParamError", () => {
 

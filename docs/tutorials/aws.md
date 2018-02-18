@@ -24,7 +24,7 @@ You need to create three files:
  
 ```typescript
 // server.js
-import {ServerSettings, ServerLoader} from "ts-express-decorators";
+import {ServerSettings, ServerLoader} from "@tsed/common";
 
 @ServerSettings({ 
    port: 3000,

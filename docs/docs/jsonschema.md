@@ -39,8 +39,8 @@ Here is a basic example of a JSON Schema:
 The previous example can be produced with the Ts.ED decorators:
 
 ```typescript
-import  {Property, Minimum} from "ts-express-decorators";
-import  {Description} from "ts-express-decorators/swagger";
+import  {Property, Minimum} from "@tsed/common";
+import  {Description} from "@tsed/swagger";
 
 class Person {
     @Property()
@@ -87,7 +87,7 @@ This example show you how you can retrieve the json schema of a model with the [
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
 import {BadRequest} from "ts-httpexceptions";
-import {OverrideService, JsonSchemesService, ValidationService} from "ts-express-decorators";
+import {OverrideService, JsonSchemesService, ValidationService} from "@tsed/common";
 
 @OverrideService(ValidationService)
 export class AjvService extends ValidationService {

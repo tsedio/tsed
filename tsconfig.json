@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "module": "commonjs",
     "target": "es2015",
     "sourceMap": true,
@@ -16,19 +17,23 @@
       "es6",
       "dom"
     ],
-    "types": [
-      "node",
-      "chai",
-      "chai-as-promised",
-      "sinon",
-      "sinon-chai",
-      "mocha",
-      "cookie-parser",
-      "express",
-      "reflect-metadata",
-      "supertest",
-      "json-schema"
-    ]
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "@tsed/core": [
+        "./src/core"
+      ],
+      "@tsed/common": [
+        "./src/common"
+      ],
+      "@tsed/common/jsonschema/decorators": [
+        "./src/common/jsonschema/decorators"
+      ],
+      "@tsed/testing": [
+        "./src/testing"
+      ]
+    }
   },
   "include": [
     "src/**/*",
@@ -36,11 +41,7 @@
   ],
   "exclude": [
     "node_modules",
-    "multipartfiles",
-    "swagger",
-    "servestatic",
-    "socketio",
-    "ajv",
-    "lib"
+    "lib",
+    "dist"
   ]
 }

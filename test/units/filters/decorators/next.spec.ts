@@ -1,6 +1,6 @@
-import {EXPRESS_NEXT_FN} from "../../../../src/filters/constants";
-import {Next} from "../../../../src/filters/decorators/next";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {EXPRESS_NEXT_FN} from "../../../../src/common/filters/constants";
+import {Next} from "../../../../src/common/filters/decorators/next";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

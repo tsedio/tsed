@@ -1,0 +1,21 @@
+{
+  "name": "@tsed/swagger",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Swagger package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "tslib": "^1.8.0"
+  },
+  "peerDependencies": {
+    "@tsed/common": "0.0.0-PLACEHOLDER",
+    "@types/swagger-schema-official": "^2.0.7",
+    "swagger-ui-express": "^2.0.15"
+  },
+  "devDependencies": {},
+  "private": false,
+  "directories": {
+    "lib": "lib",
+    "src": "src"
+  }
+}

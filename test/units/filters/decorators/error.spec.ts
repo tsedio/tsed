@@ -1,6 +1,6 @@
-import {EXPRESS_ERR} from "../../../../src/filters/constants";
-import {Err} from "../../../../src/filters/decorators/error";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {EXPRESS_ERR} from "../../../../src/common/filters/constants";
+import {Err} from "../../../../src/common/filters/decorators/error";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {

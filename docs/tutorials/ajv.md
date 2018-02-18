@@ -12,11 +12,11 @@ Before using the validation decorators, we need to install the [ajv](https://www
 npm install --save ajv
 ```
 
-Then import `ts-express-decorators/ajv` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/ajv` in your [ServerLoader](api/common/server/serverloader.md):
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/ajv"; // import ajv ts.ed module
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/ajv"; // import ajv ts.ed module
 
 @ServerSettings({
     rootDir: __dirname
@@ -26,7 +26,7 @@ export class Server extends ServerLoader {
 }
 ```
 
-The AJV module allows a few setings to be added through the ServerSettings (all are optional):
+The AJV module allows a few settings to be added through the ServerSettings (all are optional):
 
 * *options*, are AJV specific options passed directly to the AJV constructor,
 * *errorFormat*, can be used to alter the output produced by the AjvService.
@@ -34,8 +34,8 @@ The AJV module allows a few setings to be added through the ServerSettings (all 
 The error message could be changed like:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/ajv"; // import ajv ts.ed module
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/ajv"; // import ajv ts.ed module
 
 @ServerSettings({
     rootDir: __dirname,
@@ -63,7 +63,7 @@ A model can used on a method controller along with [@BodyParams](api/common/filt
 be validated by Ajv.
 
 ```typescript
-import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "ts-express-decorators";
+import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/common";
 
 export class CalendarModel {
     

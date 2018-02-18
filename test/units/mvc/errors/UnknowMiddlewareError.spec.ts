@@ -1,5 +1,5 @@
 import {assert, expect} from "chai";
-import {UnknowMiddlewareError} from "../../../../src/mvc/errors/UnknowMiddlewareError";
+import {UnknowMiddlewareError} from "../../../../src/common/mvc/errors/UnknowMiddlewareError";
 
 describe("UnknowMiddlewareError", () => {
 

@@ -6,7 +6,7 @@ const ControllerRegistryStub: any = {
     merge: Sinon.stub()
 };
 
-const Controller = Proxyquire.load("../../../../../src/mvc/decorators/class/controller", {
+const Controller = Proxyquire.load("../../../../../src/common/mvc/decorators/class/controller", {
     "../../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
 }).Controller;
 

@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/jsonschema/class/JsonSchema";
-import {MultipleOf} from "../../../../src/jsonschema/decorators/multipleOf";
+import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
+import {MultipleOf} from "../../../../src/common/jsonschema/decorators/multipleOf";
 import {stubSchemaDecorator} from "./utils";
 
 describe("MultipleOf", () => {

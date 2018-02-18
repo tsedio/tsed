@@ -1,6 +1,6 @@
 import {assert, expect} from "chai";
-import {AcceptMimesMiddleware} from "../../../../src/mvc/components/AcceptMimesMiddleware";
-import {MiddlewareService} from "../../../../src/mvc/services/MiddlewareService";
+import {AcceptMimesMiddleware} from "../../../../src/common/mvc/components/AcceptMimesMiddleware";
+import {MiddlewareService} from "../../../../src/common/mvc/services/MiddlewareService";
 import {inject} from "../../../../src/testing";
 import {FakeRequest} from "../../../helper";
 

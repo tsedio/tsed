@@ -1,17 +1,17 @@
-import {getContructor, nameOfClass} from "../../../../src";
-
 import {
     applyBefore,
     deepExtends,
     getClass,
     getClassOrSymbol,
+    getContructor,
     isArrayOrArrayClass,
     isCollection,
     isEmpty,
     isPrimitiveOrPrimitiveClass,
     nameOf,
+    nameOfClass,
     promiseTimeout
-} from "../../../../src/core/utils/index";
+} from "../../../../src/core";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

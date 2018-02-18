@@ -1,5 +1,5 @@
-import {Service} from "../../../../src/di/decorators/service";
-import {InjectorService} from "../../../../src/di/services/InjectorService";
+import {Service} from "../../../../src/common/di/decorators/service";
+import {InjectorService} from "../../../../src/common/di/services/InjectorService";
 import {Sinon} from "../../../tools";
 
 class Test {

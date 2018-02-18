@@ -4,7 +4,7 @@
 You can add the `controllers` folder on `mount` attribute in your server settings as follow :
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
@@ -45,7 +45,7 @@ As you have seen in the previous example, the `mount` attribute is an object tha
 
 You can add more configuration to mount different endpoint associated to a folder. Here is another configuration example:
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 
 @ServerSettings({
@@ -71,7 +71,7 @@ in your method and the controller will be waiting for your promised response bef
 sending a response to the client.
 
 ```typescript
-import {Controller, Get, PathParams} from "ts-express-decorators";
+import {Controller, Get, PathParams} from "@tsed/common";
 
 interface Calendar{
     id: string;
@@ -114,7 +114,7 @@ export class CalendarCtrl {
 `@PathParams` decorator provide quick access to an attribute `Express.request.params`.
 
 ```typescript
-import {Controller, Get, PathParams} from "ts-express-decorators";
+import {Controller, Get, PathParams} from "@tsed/common";
 
 @Controller("/calendars")
 export class CalendarCtrl {
@@ -139,7 +139,7 @@ to get parameters send by the client.
 `@HeaderParams` decorator provide you a quick access to the `Express.request.get()`
 
 ```typescript
-import {Controller, Get, Header, PathParams} from "ts-express-decorators";
+import {Controller, Get, Header, PathParams} from "@tsed/common";
 
 @Controller("/calendars")
 export class CalendarCtrl {
@@ -159,7 +159,7 @@ export class CalendarCtrl {
 
 You can change the status of the response with the `@Status()` decorator.
 ```typescript
-import {Controller, Get, BodyParams, Status} from "ts-express-decorators";
+import {Controller, Get, BodyParams, Status} from "@tsed/common";
 
 interface Calendar{
     id: string;
@@ -189,7 +189,7 @@ You can use a decorator to inject `Express.Request`, `Express.Response` and
 Just use decorator `Request` (or `Req`), `Response` (or `Res`) and `Next` on your method parameters like this :
 
 ```typescript
-import {Controller, Get, Res, Req, Next} from "ts-express-decorators";
+import {Controller, Get, Res, Req, Next} from "@tsed/common";
 import * as Express from "express";
 
 interface ICalendar{
@@ -222,7 +222,7 @@ export class CalendarCtrl {
 
 ### Example
 ```typescript
-import {Controller, Get, PathParams, Use, UseBefore, UseAfter} from "ts-express-decorators";
+import {Controller, Get, PathParams, Use, UseBefore, UseAfter} from "@tsed/common";
 import {BadRequest} from "httpexceptions";
 import {CustomMiddleware, CustomBeforeMdlw} from "../middlewares/middlewares"
 

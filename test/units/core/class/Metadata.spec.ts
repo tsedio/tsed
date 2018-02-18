@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Metadata} from "../../../../src";
+import {Metadata} from "../../../../src/core";
 
 function logger(target: any, method?: any, descriptor?: any) {
 

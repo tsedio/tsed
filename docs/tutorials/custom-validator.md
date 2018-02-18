@@ -11,7 +11,7 @@ In your project, create a new file named `CustomValidationService.ts` and create
 
 ```typescript
 import {BadRequest} from "ts-httpexceptions";
-import {OverrideService, JsonSchemesService, ValidationService} from "ts-express-decorators";
+import {OverrideService, JsonSchemesService, ValidationService} from "@tsed/common";
 
 @OverrideService(ValidationService)
 export class CustomValidationService extends ValidationService {
@@ -39,7 +39,7 @@ export class CustomValidationService extends ValidationService {
 Edit your `server.ts` and import manually your `CustomValidationService`:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import "./services/override/CustomValidationService";
 
 @ServerSettings({

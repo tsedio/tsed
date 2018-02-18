@@ -1,5 +1,5 @@
-import {JsonProperty} from "../../../../../src/jsonschema/decorators/jsonProperty";
-import {Required} from "../../../../../src/mvc/decorators";
+import {JsonProperty} from "../../../../../src/common/jsonschema/decorators/jsonProperty";
+import {Required} from "../../../../../src/common/mvc/decorators";
 import {Description} from "../../../../../src/swagger/decorators/description";
 import {Title} from "../../../../../src/swagger/decorators/title";
 

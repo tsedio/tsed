@@ -1,6 +1,6 @@
-import {FilterProvider} from "../../../../src/filters/class/FilterProvider";
-import {HeaderParamsFilter} from "../../../../src/filters/components/HeaderParamsFilter";
-import {FilterService} from "../../../../src/filters/services/FilterService";
+import {FilterProvider} from "../../../../src/common/filters/class/FilterProvider";
+import {HeaderParamsFilter} from "../../../../src/common/filters/components/HeaderParamsFilter";
+import {FilterService} from "../../../../src/common/filters/services/FilterService";
 import {inject} from "../../../../src/testing";
 
 import {FakeRequest} from "../../../helper";

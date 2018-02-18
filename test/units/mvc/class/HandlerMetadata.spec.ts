@@ -1,6 +1,6 @@
 import * as Proxyquire from "proxyquire";
 import {getClass} from "../../../../src/core/utils";
-import {MiddlewareType} from "../../../../src/mvc/interfaces";
+import {MiddlewareType} from "../../../../src/common/mvc/interfaces";
 import {expect, Sinon} from "../../../tools";
 
 const ParamRegistry = {
@@ -18,7 +18,7 @@ const ControllerRegistry = {
     has: Sinon.stub()
 };
 
-const HandlerMetadata = Proxyquire("../../../../src/mvc/class/HandlerMetadata", {
+const HandlerMetadata = Proxyquire("../../../../src/common/mvc/class/HandlerMetadata", {
     "../../filters/registries/ParamRegistry": {ParamRegistry},
     "../registries/MiddlewareRegistry": {MiddlewareRegistry},
     "../registries/ControllerRegistry": {ControllerRegistry}

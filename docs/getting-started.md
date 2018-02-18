@@ -4,7 +4,15 @@
 You can get the latest release using npm:
 
 ```batch
-$ npm install --save ts-express-decorators express@4 @types/express
+$ npm install --save-dev typescript @types/express
+$ npm install --save express@4 @tsed/core @tsed/common
+```
+
+Recommended:
+
+```bash
+$ npm install --save body-parser compression cookie-parser method-override
+$ npm install --save-dev ts-node nodemon
 ```
 
 > **Important!** Ts.ED requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
@@ -55,20 +63,19 @@ You can copy this example of package.json to develop your application:
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tsed/core": "4.0.0",
+    "@tsed/common": "4.0.0",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-    "express-session": "^1.14.2",
-    "method-override": "^2.3.6",
-    "ts-express-decorators": "2.0.0",
-    "typescript": "^2.4.3"
+    "method-override": "^2.3.6"
   },
   "devDependencies": {
     "@types/express": "^4.0.37",
-    "@types/node": "^8.0.13",
-    "concurrently": "^3.1.0",
-    "nodemon": "^1.11.0"
+    "ts-node": "^3.3.0",
+    "nodemon": "^1.11.0",
+    "typescript": "^2.4.3"
   }
 }
 ```
@@ -86,7 +93,7 @@ a new `Server` class that extends [`ServerLoader`](docs/server-loader/_sidebar.m
 #### With decorators
 
 ```typescript
-import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "ts-express-decorators";
+import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
 import Path = require("path");
 
 @ServerSettings({
@@ -139,8 +146,8 @@ To customize the server settings see [Configuration](configuration.md) page.
 These example is available for all version and use ServerLoader API to configure the server.
 
 ```typescript
-import {ServerLoader, GlobalAcceptMimesMiddleware} from "ts-express-decorators";
-import Path = require("path");
+import {ServerLoader, GlobalAcceptMimesMiddleware} from "@tsed/common";
+import * as Path from "path";
 
 export class Server extends ServerLoader {
     /**
@@ -215,7 +222,7 @@ import {
     Controller, Get, Render, Post, 
     Authenticated, Required, BodyParams,
     Delete
-} from "ts-express-decorators";
+} from "@tsed/common";
 import * as Express from "express";
 
 export interface Calendar{

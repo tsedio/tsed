@@ -1,9 +1,5 @@
-import {Filter} from "../../filters/decorators/filter";
-/**
- * @module multiparfiles
- */
-/** */
-import {IFilter} from "../../filters/interfaces";
+import {Filter} from "../../common/filters/decorators/filter";
+import {IFilter} from "../../common/filters/interfaces";
 /**
  * @private
  * @filter

@@ -1,10 +1,5 @@
-/**
- * @module swagger
- */
-/** */
-
+import {Store} from "@tsed/core";
 import {Response} from "swagger-schema-official";
-import {Store} from "../../core/class/Store";
 
 /**
  *

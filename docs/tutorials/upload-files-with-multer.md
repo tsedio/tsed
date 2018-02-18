@@ -3,7 +3,7 @@
 
 Before using the `@MultipartFile()` you must install [multer](https://github.com/expressjs/multer) module on your project:
 ```bash
-npm install multer @types/multer --save
+npm install --save multer @types/multer 
 ```
 
 ## Configure the File upload directory
@@ -11,8 +11,8 @@ npm install multer @types/multer --save
 By default the directory used is `${projetRoot}/uploads`. You can configure another directory on your `ServerLoader` settings.
 
 ```typescript
-import {ServerLoader, ServerSettings} from "ts-express-decorators";
-import "ts-express-decorators/multipartfiles";
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/multipartfiles";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
@@ -30,7 +30,7 @@ const rootDir = Path.resolve(__dirname);
        // see multer options
    }
 })
-export class Server extends ServerLoader implements IServerLifecycle {
+export class Server extends ServerLoader {
 
 }
 ```
@@ -55,7 +55,7 @@ export class Server extends ServerLoader implements IServerLifecycle {
 Ts.ED use multer to handler file uploads. Single file can be injected like this:
 
 ```typescript
-import {Controller, Post} from "ts-express-decorators";
+import {Controller, Post} from "@tsed/common";
 import {Multer} from "@types/multer";
 
 type MulterFile = Express.Multer.File;
@@ -77,9 +77,9 @@ class MyCtrl {
 
 For multiple files, just add Array type annotation like this:
 ```typescript
-import {Controller, Post} from "ts-express-decorators";
+import {Controller, Post} from "@tsed/common";
 import {Multer} from "multer";
-import {MultipartFile} from "ts-express-decorators/multipartfile";
+import {MultipartFile} from "@tsed/multipartfile";
 
 type MulterFile = Express.Multer.File;
 

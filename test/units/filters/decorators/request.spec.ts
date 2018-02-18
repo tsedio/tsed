@@ -1,6 +1,6 @@
-import {EXPRESS_REQUEST} from "../../../../src/filters/constants";
-import {Req} from "../../../../src/filters/decorators/request";
-import {ParamRegistry} from "../../../../src/filters/registries/ParamRegistry";
+import {EXPRESS_REQUEST} from "../../../../src/common/filters/constants";
+import {Req} from "../../../../src/common/filters/decorators/request";
+import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {
