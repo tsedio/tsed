@@ -3,7 +3,7 @@
 
 You can get the latest release using npm:
 
-```batch
+```bash
 $ npm install --save-dev typescript @types/express
 $ npm install --save express@4 @tsed/core @tsed/common
 ```

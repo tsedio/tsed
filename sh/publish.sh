@@ -9,15 +9,7 @@ echo "██║   ██║██╔══╝  ██║     ██║   ██�
 echo "╚██████╔╝██║     ███████╗╚██████╔╝╚███╔███╔╝    ██║     ╚██████╔╝██████╔╝███████╗██║███████║██║  ██║"
 echo " ╚═════╝ ╚═╝     ╚══════╝ ╚═════╝  ╚══╝╚══╝     ╚═╝      ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚══════╝╚═╝  ╚═╝"
 
-
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis CI"
-
-git checkout production
-git branch --set-upstream-to=origin/production production
-
 # GENERATE RELEASE VERSION
-semantic-release pre
 
 PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 REPOSITORY=$(node -p -e "require('./package.json').repository.url.replace('https://', '')")
@@ -32,8 +24,6 @@ echo "REPOSITORY:      $REPOSITORY"
 echo "RELEASE_BRANCH:  $RELEASE_BRANCH"
 echo "MASTER_BRANCH:   $MASTER_BRANCH"
 echo "TRAVIS BUILD:    $TRAVIS_BUILD_NUMBER"
-
-npm whoami
 
 npm run build:release
 

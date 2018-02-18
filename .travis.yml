@@ -8,7 +8,7 @@ node_js:
   - '6'
 after_success:
   - npm run coveralls:travis
-  - sh ./sh/publish.sh
+  - sh ./sh/prepublish.sh && semantic-release pre && sh ./sh/publish.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
