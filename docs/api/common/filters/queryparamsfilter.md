@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="queryparamsfilter">QueryParamsFilter</h1><label class="symbol-info-type-label class">Class</label><label class="api-type-label private" title="private">private</label><label class="api-type-label filter" title="filter">filter</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { QueryParamsFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/filters/components/QueryParamsFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.0.1/src//common/filters/components/QueryParamsFilter.ts#L0-L0">/common/filters/components/QueryParamsFilter.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { QueryParamsFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/filters/components/QueryParamsFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.0.4/src//common/filters/components/QueryParamsFilter.ts#L0-L0">/common/filters/components/QueryParamsFilter.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

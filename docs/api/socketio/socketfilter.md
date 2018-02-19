@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="socketfilter">SocketFilter</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label private" title="private">private</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { SocketFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio/lib/decorators/socketFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.0.1/src//socketio/decorators/socketFilter.ts#L0-L0">/socketio/decorators/socketFilter.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { SocketFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio/lib/decorators/socketFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.0.4/src//socketio/decorators/socketFilter.ts#L0-L0">/socketio/decorators/socketFilter.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
