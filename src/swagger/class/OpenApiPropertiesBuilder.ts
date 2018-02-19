@@ -1,8 +1,6 @@
+import {JsonSchema, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Response, Schema} from "swagger-schema-official";
-import {JsonSchema} from "../../common/jsonschema/class/JsonSchema";
-import {PropertyMetadata} from "../../common/jsonschema/class/PropertyMetadata";
-import {PropertyRegistry} from "../../common/jsonschema/registries/PropertyRegistry";
 import {swaggerType} from "../utils";
 
 /**

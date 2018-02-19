@@ -1,4 +1,4 @@
-import {InjectorService} from "../common/di/services/InjectorService";
+import {InjectorService} from "@tsed/common";
 import {Done} from "./done";
 import {loadInjector} from "./loadInjector";
 

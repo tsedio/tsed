@@ -1,5 +1,5 @@
+import {InjectorService} from "@tsed/common";
 import {Type} from "@tsed/core";
-import {InjectorService} from "../common/di/services/InjectorService";
 import {loadInjector} from "./loadInjector";
 
 export function invoke(target: Type<any>, providers: { provide: any | symbol, use: any }[]) {

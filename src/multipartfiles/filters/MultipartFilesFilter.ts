@@ -1,5 +1,4 @@
-import {Filter} from "../../common/filters/decorators/filter";
-import {IFilter} from "../../common/filters/interfaces";
+import {Filter, IFilter} from "@tsed/common";
 
 /**
  * @private

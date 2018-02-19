@@ -1,4 +1,4 @@
-import {Schema} from "../../common/jsonschema/decorators/schema";
+import {Schema} from "@tsed/common";
 
 /**
  * Add a example metadata on the decorated element.
