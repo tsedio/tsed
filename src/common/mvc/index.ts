@@ -32,3 +32,6 @@ export * from "./services/RouteService";
 
 // decorators
 export * from "./decorators";
+
+export * from "./utils/mapHeaders";
+export * from "./utils/mapReturnedResponse";

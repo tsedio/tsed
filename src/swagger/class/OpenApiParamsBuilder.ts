@@ -1,8 +1,7 @@
 import {deepExtends, nameOf, Type} from "@tsed/core";
 import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-official";
 
-import {ParamMetadata} from "../../common/filters/class/ParamMetadata";
-import {ParamRegistry} from "../../common/filters/registries/ParamRegistry";
+import {ParamMetadata, ParamRegistry} from "@tsed/common";
 import {swaggerType} from "../utils";
 import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
 
