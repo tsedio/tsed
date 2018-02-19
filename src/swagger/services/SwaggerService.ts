@@ -4,12 +4,9 @@ import * as Fs from "fs";
 import * as PathUtils from "path";
 import {Info, Schema, Spec, Tag} from "swagger-schema-official";
 import {$log} from "ts-log-debug";
-import {ServerSettingsService} from "../../common/config/services/ServerSettingsService";
-import {Service} from "../../common/di/decorators/service";
-import {ControllerProvider} from "../../common/mvc/class/ControllerProvider";
-import {EndpointMetadata} from "../../common/mvc/class/EndpointMetadata";
-import {ExpressApplication} from "../../common/mvc/decorators";
-import {ControllerService} from "../../common/mvc/services/ControllerService";
+import {
+    ServerSettingsService, Service, ControllerProvider, EndpointMetadata, ExpressApplication, ControllerService
+} from "@tsed/common";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
 import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
 import {getReducers} from "../utils";

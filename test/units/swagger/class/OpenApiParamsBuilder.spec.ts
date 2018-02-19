@@ -12,7 +12,7 @@ param0.type = SwaFoo2;
 const getParams = Sinon.stub().returns([param0]);
 
 const {OpenApiParamsBuilder} = Proxyquire("../../../../src/swagger/class/OpenApiParamsBuilder", {
-    "../../common/filters/registries/ParamRegistry": {
+    "@tsed/common": {
         ParamRegistry: {
             getParams
         }
