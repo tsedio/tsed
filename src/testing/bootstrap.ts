@@ -1,5 +1,5 @@
+import {ServerLoader} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {ServerLoader} from "../common/server/components/ServerLoader";
 
 /**
  * Load the server silently without listening port and configure it on test profile.

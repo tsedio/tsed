@@ -1,5 +1,4 @@
 import {Type, isArrayOrArrayClass} from "@tsed/core";
-import {} from "../../../core/utils/index";
 import {IControllerOptions} from "../../interfaces/IControllerOptions";
 import {PathParamsType} from "../../interfaces/PathParamsType";
 import {ControllerRegistry} from "../../registries/ControllerRegistry";

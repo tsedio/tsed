@@ -1,5 +1,5 @@
 import {getDecoratorType, Store} from "@tsed/core";
-import {Schema} from "../../common/jsonschema/decorators/schema";
+import {Schema} from "@tsed/common";
 import {BaseParameter} from "./baseParameter";
 import {Operation} from "./operation";
 

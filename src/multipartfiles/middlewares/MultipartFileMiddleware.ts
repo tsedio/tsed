@@ -1,12 +1,14 @@
+import {
+    EndpointInfo,
+    EndpointMetadata,
+    IMiddleware,
+    Middleware,
+    Next,
+    Req,
+    Res,
+    ServerSettingsService
+} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {ServerSettingsService} from "../../common/config/services/ServerSettingsService";
-import {EndpointInfo} from "../../common/filters/decorators/endpointInfo";
-import {Next} from "../../common/filters/decorators/next";
-import {Req} from "../../common/filters/decorators/request";
-import {Res} from "../../common/filters/decorators/response";
-import {EndpointMetadata} from "../../common/mvc/class/EndpointMetadata";
-import {Middleware} from "../../common/mvc/decorators";
-import {IMiddleware} from "../../common/mvc/interfaces";
 
 /**
  * @private
