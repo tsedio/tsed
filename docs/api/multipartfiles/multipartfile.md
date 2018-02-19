@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="multipartfile">MultipartFile</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label multer" title="multer">multer</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MultipartFile }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.0.0/src//multipartfiles/decorators/multipartFile.ts#L0-L0">/multipartfiles/decorators/multipartFile.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MultipartFile }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.0.1/src//multipartfiles/decorators/multipartFile.ts#L0-L0">/multipartfiles/decorators/multipartFile.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
