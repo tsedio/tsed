@@ -3,7 +3,7 @@ import {Operation, Path, Response} from "swagger-schema-official";
 import {EndpointMetadata} from "@tsed/common";
 import {toSwaggerPath} from "../utils";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
-import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
+import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
 /** */
 
@@ -19,7 +19,7 @@ const getOperationId = (operationId: string) => {
     return operationId;
 };
 
-export class OpenApiEndpointBuilder extends OpenApiPropertiesBuilder {
+export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     private _paths: { [pathName: string]: Path } = {};
 
     constructor(private endpoint: EndpointMetadata, private endpointUrl: string) {

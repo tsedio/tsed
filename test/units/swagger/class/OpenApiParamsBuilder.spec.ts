@@ -269,6 +269,7 @@ describe("OpenApiParamsBuilder", () => {
                         },
                         "foos": {
                             "description": "SwaFoo2.foos description",
+                            "example": "TODO",
                             "items": {
                                 "$ref": "#/definitions/SwaFoo"
                             },

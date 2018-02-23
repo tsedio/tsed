@@ -1,7 +1,5 @@
-import {JsonProperty} from "../../../../../src/common/jsonschema/decorators/jsonProperty";
-import {Required} from "../../../../../src/common/mvc/decorators";
-import {Description} from "../../../../../src/swagger/decorators/description";
-import {Title} from "../../../../../src/swagger/decorators/title";
+import {PropertyType, JsonProperty, Required} from "@tsed/common";
+import {Example, Title, Description} from "@tsed/swagger";
 
 export class SwaNoDecoModel {
     public prop: string;
@@ -66,9 +64,10 @@ export class SwaFoo2 {
     @JsonProperty()
     foo: SwaFoo;
 
+    @PropertyType(SwaFoo)
     @Title("SwaFoo2.foos")
     @Description("SwaFoo2.foos description")
-    @JsonProperty({use: SwaFoo})
+    @Example("TODO")
     foos: SwaFoo[];
 
     @Title("SwaFoo2.theMap")
