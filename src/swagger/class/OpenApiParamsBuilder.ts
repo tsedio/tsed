@@ -3,9 +3,9 @@ import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-of
 
 import {ParamMetadata, ParamRegistry} from "@tsed/common";
 import {swaggerType} from "../utils";
-import {OpenApiPropertiesBuilder} from "./OpenApiPropertiesBuilder";
+import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
-export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
+export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     private _parameters: Parameter[] = [];
     private injectedParams: ParamMetadata[];
     private name: string = "";
@@ -40,7 +40,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
                         bodySchema = deepExtends(bodySchema || {}, this.createSchema(param));
                         bodyParam = baseParam;
                     } else {
-                        const builder = new OpenApiPropertiesBuilder(param.type);
+                        const builder = new OpenApiModelSchemaBuilder(param.type);
                         builder.build();
 
                         deepExtends(this._responses, builder.responses);
@@ -122,7 +122,7 @@ export class OpenApiParamsBuilder extends OpenApiPropertiesBuilder {
         const {currentProperty, schema} = this.createSchemaFromExpression(model.expression as string);
 
         if (model.isClass) {
-            builder = new OpenApiPropertiesBuilder(model.type);
+            builder = new OpenApiModelSchemaBuilder(model.type);
             builder.build();
 
             deepExtends(this._definitions, builder.definitions);

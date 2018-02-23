@@ -26,7 +26,6 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
 
         const schema = this.get(target);
         schema.properties = schema.properties || {};
-
         schema.properties[propertyKey] = JsonSchemaRegistry.createJsonSchema(schema.properties[propertyKey], type, collectionType);
 
         return schema.properties[propertyKey];
@@ -40,7 +39,14 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
      */
     private static createJsonSchema(schema: JsonSchema = new JsonSchema, type: any, collectionType?: any): JsonSchema {
         if (isClass(type)) {
-            schema = JsonSchema.ref(type);
+            schema = Object
+                .keys(schema.toObject())
+                .reduce((newSchema: any, key: string) => {
+                    if (!(key === "type" || key === "items" || key === "additionalProperties")) {
+                        newSchema[key] = schema[key];
+                    }
+                    return newSchema;
+                }, JsonSchema.ref(type));
         } else {
             schema.type = type;
         }

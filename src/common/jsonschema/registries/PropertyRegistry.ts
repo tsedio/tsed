@@ -93,7 +93,7 @@ export class PropertyRegistry {
     static decorate(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
         return (...parameters: any[]): any => {
             const propertyMetadata = PropertyRegistry.get(parameters[0], parameters[1]);
-            const result = fn(propertyMetadata, parameters as DecoratorParameters);
+            const result: any = fn(propertyMetadata, parameters as DecoratorParameters);
             if (typeof result === "function") {
                 result(...parameters);
             }

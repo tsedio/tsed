@@ -1,4 +1,3 @@
-
 import {$log} from "ts-log-debug";
 import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/ajv";

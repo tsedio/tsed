@@ -2,14 +2,16 @@ import {JsonSchema, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Response, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
+import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
+import {OpenApiResponses} from "../interfaces/OpenApiResponses";
 
 /**
- * Builder a Schema from a target.
+ * Build a Schema from a given Model.
  */
-export class OpenApiPropertiesBuilder {
+export class OpenApiModelSchemaBuilder {
 
-    protected _definitions: { [definitionsName: string]: Schema } = {};
-    protected _responses: { [responseName: string]: Response } = {};
+    protected _definitions: OpenApiDefinitions = {};
+    protected _responses: OpenApiResponses = {};
     protected _schema: Schema;
 
     constructor(private target: Type<any>) {
@@ -17,14 +19,16 @@ export class OpenApiPropertiesBuilder {
     }
 
     /**
-     *
-     * @returns {OpenApiSchemaBuilder}
+     * Build the Schema and his properties.
+     * @returns {OpenApiModelSchemaBuilder}
      */
     build(): this {
 
         const properties = PropertyRegistry.getProperties(this.target);
         const store = Store.from(this.target);
-        const schema: Schema = this.getJsonSchema() || {};
+        const schema: Schema = this.getClassSchema();
+        schema.type = "object";
+        schema.properties = {};
 
         if (store.get("description")) {
             schema.description = schema.description || store.get("description");
@@ -33,9 +37,6 @@ export class OpenApiPropertiesBuilder {
         if (schema.required && schema.required.length) {
             this._responses[400] = {description: "Missing required parameter"};
         }
-
-        schema.type = "object";
-        schema.properties = {};
 
         properties.forEach((property: PropertyMetadata) => {
             const propertyKey = property.name || property.propertyKey;
@@ -48,6 +49,11 @@ export class OpenApiPropertiesBuilder {
         return this;
     }
 
+    /**
+     *
+     * @param {Storable} model
+     * @returns {Schema}
+     */
     protected createSchema(model: Storable): Schema {
         let builder;
         let schema: any = model.store.get<Schema>("schema") || {};
@@ -58,7 +64,7 @@ export class OpenApiPropertiesBuilder {
 
         if (model.isClass) {
 
-            builder = new OpenApiPropertiesBuilder(model.type);
+            builder = new OpenApiModelSchemaBuilder(model.type);
             builder.build();
 
             deepExtends(this._definitions, builder.definitions);
@@ -99,6 +105,7 @@ export class OpenApiPropertiesBuilder {
 
         if (model.isClass) {
             schema.$ref = `#/definitions/${model.typeName}`;
+            delete schema.type;
             return schema;
         }
 
@@ -106,8 +113,12 @@ export class OpenApiPropertiesBuilder {
         return schema;
     }
 
-    public getJsonSchema() {
-        let schema = Store.from(this.target).get<Schema>("schema") || {};
+    /**
+     * Return the stored Schema of the class if exists. Otherwise, return an empty Schema.
+     * @returns {any}
+     */
+    protected getClassSchema(): Schema {
+        let schema: Schema = Store.from(this.target).get<Schema>("schema") || {};
 
         if (schema instanceof JsonSchema) {
             schema = schema.toObject();
@@ -120,11 +131,16 @@ export class OpenApiPropertiesBuilder {
         return this._schema;
     }
 
-    public get definitions(): { [p: string]: Schema } {
+    public get definitions(): OpenApiDefinitions {
         return this._definitions;
     }
 
-    public get responses(): { [responseName: string]: Response } {
+    public get responses(): OpenApiResponses {
         return this._responses;
     }
 }
+
+/**
+ * @deprecated
+ */
+export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {}

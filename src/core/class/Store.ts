@@ -84,7 +84,7 @@ export class Store {
     static decorate(fn: (store: Store, parameters: DecoratorParameters) => void): Function {
         return (...parameters: any[]): any => {
             const store = Store.from(...parameters);
-            const result = fn(store, parameters as DecoratorParameters);
+            const result: any = fn(store, parameters as DecoratorParameters);
             if (typeof result === "function") {
                 result(...parameters);
             }

@@ -13,7 +13,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
 
     constructor(target: any, propertyKey: any) {
         super(target, propertyKey);
-        JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType);
+        this.store.set("schema", JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType));
     }
 
     /**
@@ -22,7 +22,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
      */
     set type(value: Type<any>) {
         this._type = value || Object;
-        JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType);
+        this.store.set("schema", JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType));
     }
 
     /**
@@ -33,11 +33,11 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
         return this._type;
     }
 
+    /**
+     *
+     * @returns {JsonSchema}
+     */
     get schema(): JsonSchema {
-        if (!this.store.has("schema")) {
-            const schema = JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType);
-            this.store.set("schema", schema);
-        }
         return this.store.get("schema");
     }
 

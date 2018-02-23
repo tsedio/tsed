@@ -21,7 +21,7 @@ export function decoratorSchemaFactory(fn: (schema: JsonSchema, parameters: Deco
                 break;
         }
 
-        const result = fn(schema!, parameters as DecoratorParameters);
+        const result: any = fn(schema!, parameters as DecoratorParameters);
         if (typeof result === "function") {
             result(...parameters);
         }
