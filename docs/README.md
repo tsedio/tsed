@@ -1,3 +1,0 @@
-# HOME
-
-See index.html

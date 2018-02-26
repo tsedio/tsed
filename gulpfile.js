@@ -10,4 +10,4 @@ const gulp = require('gulp');
 loadTasks(tasks, plugins);
 
 gulp.task('build', runSeq('copy:files', 'tsc', 'copy:src', ['copy:packages', 'write-pkg', 'copy:readme']));
-gulp.task('build:doc', runSeq('tsc', 'copy:src', 'doc'));
+gulp.task('build:doc', runSeq('tsc', 'copy:src', 'sass:doc', 'doc'));

@@ -1,7 +1,4 @@
 
-# Documentation {docsify-ignore}
-
-* [<div class="ps-icon ps-icon-arrow-left"></div>Home](/?id=tsed)
 * [Passport.js](tutorials/passport.md)
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
@@ -12,4 +9,9 @@
 * [Templating](tutorials/templating.md)
 * [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
 * [AWS project](tutorials/aws.md)
+
+*** 
+
+* [<div class="ps-icon ps-icon-github-alt"></div> Contribute](contributing.md)
+* [<div class="ps-icon ps-icon-file"></div> License](license.md) 
 

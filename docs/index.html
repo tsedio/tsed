@@ -5,285 +5,59 @@
     <title>Ts.ED - TypeScript Express Decorators</title>
     <meta name="description" content="Use TypeScript decorators to create your Express application and Rest API. Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provide a lot of decorators
     to write your code.">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@latest/lib/themes/buble.css" title="buble">
-    <link rel="stylesheet" href="_styles/ps-icon-pack.css" title="buble">
-    <link rel="stylesheet" href="_styles/main.css">
-    <link rel="stylesheet" href="_styles/home.css">
     <style>
-        .not-visible {
-            display: none
+        #app {
+            opacity: 0;
         }
     </style>
+
+
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Inconsolata-Bold" rel="stylesheet">
+    <link rel="stylesheet" href="_styles/ps-icon-pack.css">
+    <link rel="stylesheet" href="_styles/main.css">
+
 </head>
 <body>
+
+<div id="app-navbar">
+    <navbar :settings="settings"></navbar>
+</div>
+
 <div id="app">
-    <div class="showbox">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-            </svg>
-        </div>
-    </div>
-    <div class="not-visible">
-        <header>
-            <nav class="app-nav">
-                <ul>
-                    <li>
-                        <div class="ps-icon ps-icon-arrow-right"></div>
-                        <a href="#/getting-started">Getting started</a></li>
-                    <li>
-                        <div class="ps-icon ps-icon-cookie"></div>
-                        <a href="#/tutorials/overview">Guide</a>
-                        <ul>
-                            <li><a href="#/tutorials/passport">Passport.js</a></li>
-                            <li><a href="#/tutorials/socket-io">Socket.io</a></li>
-                            <li><a href="#/tutorials/swagger">Swagger</a></li>
-                            <li><a href="#/tutorials/ajv">Validation with AJV</a></li>
-                            <li><a href="#/tutorials/upload-files-with-multer">Upload files</a></li>
-                            <li><a href="#/tutorials/serve-static-files">Serve static files</a></li>
-                            <li><a href="#/tutorials/templating">Templating</a></li>
-                            <li><a href="#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a></li>
-                            <li><a href="#/tutorials/aws">AWS project</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="ps-icon ps-icon-book-tag"></div>
-                        <a href="#/docs/_sidebar">Documentation</a>
-                        <ul>
-                            <li><a href="#/configuration">Configuration</a></li>
-                            <li><a href="#/docs/migration">Migration</a></li>
-                            <li><a href="#/docs/controllers">Controllers</a></li>
-                            <li><a href="#/docs/services/overview">Services</a></li>
-                            <li><a href="#/docs/converters">Converters</a></li>
-                            <li><a href="#/docs/middlewares/overview">Middlewares</a></li>
-                            <li><a href="#/docs/filters">Filters</a></li>
-                            <li><a href="#/docs/server-loader/_sidebar">ServerLoader</a></li>
-                            <li><a href="#/configuration">Server configuration</a></li>
-                            <li><a href="#/docs/testing">Testing</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="ps-icon ps-icon-puzzle"></div>
-                        <a href="#/api/index">API references</a></li>
-                </ul>
-            </nav>
-        </header>
-        <article class="home-page">
 
-            <div class="what-is-it">
-                <h2>What is it?</h2>
+</div>
 
-                <p>
-                    Ts.ED is a framework on top of Express to write your application with TypeScript (or ES6).
-                    It provide a lot of decorators and guideline to write your code.
-                </p>
-            </div>
-
-
-            <div id="highlights">
-                <div class="inner">
-                    <div class="point">
-                        <h2>Rest API</h2>
-                        <p>
-                            Create your Rest API easily and create different version path of your API
-                        </p>
-                    </div>
-
-                    <div class="point">
-                        <h2>Configuration</h2>
-                        <p>
-                            Didn't waste your time with configuration, the server is preconfigured to start quickly!
-                        </p>
-                    </div>
-
-
-                    <div class="point">
-                        <h2>Class based</h2>
-                        <p>
-                            Define class as Controller, Model, Service (DI), Filter, Middleware, Converter etc...
-                        </p>
-                    </div>
-
-                    <div class="point">
-                        <h2>Decorators</h2>
-                        <p>
-                            A lot of decorators are provided to structure your code and define route and method.
-                        </p>
-                    </div>
-
-                    <div class="point">
-                        <h2>Testing</h2>
-                        <p>
-                            Test or not to test? Isn't a question.
-                            Ts.ED embed some features to test your code!
-                        </p>
-                    </div>
-
-                    <div class="point">
-                        <h2>And more</h2>
-                        <p>
-                            Find some guide to integrate
-                            <a href="#/tutorials/swagger">Swagger</a>,
-                            <a href="#/tutorials/ajv">AJV validation</a>,
-                            <a href="#/tutorials/passport">Passport</a>,
-                            <a href="#/tutorials/socket-io">Socket.io</a>,
-                            <a href="#/tutorials/templating">Templating</a>, etc...
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-            <h2>Contributors</h2>
-
-            <div class="contributors">
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/1763311?s=460&v=4">
-                    <a href="https://github.com/Romakita" target="_blank">Romain Lenzotti</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/12495269?s=460&v=4">
-                    <a href="https://github.com/lwallent" target="_blank">lwallent</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/10982772?s=460&v=4">
-                    <a href="https://github.com/Vologab" target="_blank">Vologab</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/2183720?s=460&v=4">
-                    <a href="https://github.com/Vincent178" target="_blank">Vincent178</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/252961?s=460&v=4">
-                    <a href="https://github.com/alexproca" target="_blank">AlexProca</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/3472373?s=460&v=4">
-                    <a href="https://github.com/Ionaru" target="_blank">Ionaru</a>
-                </div>
-
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/6909198?s=460&v=4">
-                    <a href="https://github.com/jestersimpps" target="_blank">jestersimpps</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/8207396?s=460&v=4">
-                    <a href="https://github.com/jindev" target="_blank">jindev</a>
-                </div>
-                <div class="contributors-badge">
-                    <img src="https://avatars0.githubusercontent.com/u/8872447?s=460&v=4">
-                    <a href="https://github.com/scopsy" target="_blank">scopsy</a>
-                </div>
-
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/1766076?s=460&v=4">
-                    <a href="https://github.com/Kapulara" target="_blank">Kapulara</a>
-                </div>
-
-                <div class="contributors-badge">
-                    <img src="https://avatars2.githubusercontent.com/u/10342824?s=460&v=4">
-                    <a href="https://github.com/amorgulis" target="_blank">amorgulis</a>
-                </div>
-            </div>
-        </article>
-        <footer class="page-footer">
-            <div class="improve-docs">
-                <p>Caught a mistake or want to contribute to the documentation?
-                    <a class="improve-docs-link"
-                       href="http://github.com/Romakita/ts-express-decorators/blob/master/docs/README.md">
-                        Edit this page on Github
-                    </a>
-                </p>
-            </div>
-            <div class="page-footer-content">
-                <div class="next-step-header">Contribute</div>
-                <p>Help shape the future of Ts.Ed by joining our team
-                    and send us pull requests via our
-                    <a href="https://github.com/romakita/ts-express-decorators">GitHub repository!</a>
-                </p>
-
-                <div class="next-step-header">License</div>
-                <p>Released under the <a href="#/license">MIT License</a> - © Copyright 2016 - 2017 - Documentation
-                    generated with <a href="https://docsify.js.org/#/">docsify</a>.</p>
-                <div class="github-stars">
-                    <iframe src="https://ghbtns.com/github-btn.html?user=romakita&amp;repo=ts-express-decorators&amp;type=watch&amp;count=true"
-                            allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-                </div>
-            </div>
-        </footer>
+<div class="showbox">
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+        </svg>
     </div>
 </div>
 
 </body>
-<script>
-  var footer = document.querySelector('footer');
-  var homeHtml = document.querySelector('.home-page').innerHTML
-    .split('\n')
-    .map(o => o.trim())
-    .filter(o => !!o)
-    .join(' ')
-    .trim();
+<script src="/config.js"></script>
+<script src="/fr/config.js"></script>
 
-  window.$docsify = {
-    name: 'Ts.ED',
-    repo: 'http://github.com/romakita/ts-express-decorators',
-    auto2top: true,
-    coverpage: true,
-    executeScript: true,
-    loadSidebar: true,
-    loadNavbar: true,
-    maxLevel: 4,
-    subMaxLevel: 2,
-    ga: 'UA-35240348-1',
-    search: {
-      noData: {
-        '/': 'No results!'
-      },
-      paths: 'auto',
-      placeholder: {
-        '/': 'Search'
-      }
-    },
-    formatUpdated: '{MM}/{DD} {HH}:{mm}',
-    plugins: [
-      function (hook, vm) {
-        hook.ready(function () {
-          var url = 'http://github.com/Romakita/ts-express-decorators/blob/master/docs/' + vm.route.file;
-
-          document.querySelector('main .content').appendChild(footer);
-
-          var improveLink = document.querySelector('.improve-docs-link');
-          if (improveLink) {
-            improveLink.href = url;
-          }
-        });
-
-        hook.beforeEach(function (html) {
-          var url = 'http://github.com/Romakita/ts-express-decorators/blob/master/docs/' + vm.route.file;
-
-          if (vm.route.path === '/') {
-            return homeHtml;
-          }
-
-          var improveLink = document.querySelector('.improve-docs-link');
-
-          if (improveLink) {
-            improveLink.href = url;
-          }
-
-          return html;
-        });
-      }
-    ]
-  };
-</script>
-<script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/docsify.min.js"></script>
+<script src="//unpkg.com/vue/dist/vue.min.js"></script>
+<script src="/_scripts/fetch.js"></script>
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/zoom-image.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/ga.min.js"></script>
-<script src="_plugins/api-search.js"></script>
+<script src="/_plugins/cover.js"></script>
+<script src="/_plugins/app-navbar.js"></script>
+<script src="/_plugins/navbar.js"></script>
+<script src="/_plugins/link-local.js"></script>
+<script src="/_plugins/footer.js"></script>
+<script src="/_plugins/api-search.js"></script>
+<script src="/_plugins/github-contributors.js"></script>
+<script src="/_plugins/github-edit-page.js"></script>
+<script src="/_plugins/github-stars.js"></script>
+<script src="/_plugins/github-repository.js"></script>
 
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-markdown.min.js"></script>

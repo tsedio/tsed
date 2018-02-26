@@ -1,0 +1,418 @@
+$sq-size: 75px;
+$cover-background-color: #3872cc !default;
+$cover-color-light1: #4f89e3 !default;
+$cover-color-light2: #4781db !default;
+$cover-color-dark1: $cover-background-color !default;
+$cover-color-dark2: #3a74ce !default;
+$cover-color-dark3: #326cc6 !default;
+
+section.cover {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: none;
+  .cover-main {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: -20px 16px 0;
+    text-align: center;
+    z-index: 1;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  p {
+    line-height: 24px;
+    line-height: 1.5rem;
+    margin: 1em 0;
+  }
+  h1 {
+    color: inherit;
+    font-size: 40px;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 10px 0 40px;
+    margin: .625rem 0 2.5rem;
+    position: relative;
+    text-align: center;
+    a {
+      display: block;
+    }
+    small {
+      bottom: -7px;
+      bottom: -.4375rem;
+      font-size: 16px;
+      font-size: 1rem;
+      position: absolute;
+    }
+  }
+  blockquote {
+    font-size: 24px;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  ul {
+    line-height: 1.8;
+    list-style-type: none;
+    margin: 1em auto;
+    max-width: 500px;
+    padding: 0;
+  }
+  .cover-main > p:last-child a {
+    border-color: $primary-color;
+    @include border(1px solid $primary-color, --primary-color);
+    border-radius: 2rem;
+    box-sizing: border-box;
+    @include color($primary-color, --primary-color);
+    display: inline-block;
+    font-size: 16.8px;
+    font-size: 1.05rem;
+    letter-spacing: 1.6px;
+    letter-spacing: .1rem;
+    margin: 8px 16px;
+    margin: .5rem 1rem;
+    padding: .75em 32px;
+    padding: .75em 2rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    &:last-child {
+      @include background-color($primary-color, --primary-color);
+      color: #fff;
+      &:hover {
+        color: inherit;
+        opacity: 0.8;
+      }
+    }
+    &:hover {
+      color: inherit;
+    }
+  }
+  blockquote > p > a {
+    @include border-bottom(2px solid $primary-color, --primary-color);
+    transition: color 0.3s;
+    &:hover {
+      @include color($primary-color, --primary-color);
+    }
+  }
+  &.show {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  &.has-mask .mask {
+    background-color: #fff;
+    opacity: .8;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+section.cover {
+  color: white;
+  background: $cover-background-color !important;
+  blockquote {
+    color: white;
+    margin-bottom: 50px;
+    p {
+      line-height: 1.9rem;
+      font-weight: lighter;
+      font-size: 30px;
+    }
+  }
+  h1 {
+    font-size: 100px;
+    font-weight: 300;
+    .anchor span {
+      color: white;
+    }
+  }
+
+  .cover-main > p a.button {
+    @include background-color($secondary-color, --secondary-color);
+    @include border(1px solid $secondary-color, --secondary-color);
+    border-radius: 2rem;
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 180px;
+    font-size: 16.8px;
+    font-size: 1.05rem;
+    letter-spacing: 1.6px;
+    letter-spacing: .1rem;
+    margin-right: 16px;
+    margin-right: 1rem;
+    padding: .75em 32px;
+    padding: .75em 2rem;
+    text-decoration: none;
+    transition: all .15s ease;
+    color: #111;
+    @include box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.26));
+    margin-bottom: 20px;
+    &:hover {
+      opacity: 0.8;
+    }
+    &.white {
+      border: 1px solid white;
+      background: transparent;
+      color: white;
+      box-shadow: none;
+      &:hover {
+        opacity: 1;
+        background: white;
+        @include color($primary-color, --primary-color);
+      }
+    }
+  }
+}
+
+@mixin sq-big($color1, $w: 3, $h: 3) {
+  position: absolute;
+  width: calc(#{$sq-size} * #{$w});
+  height: calc(#{$sq-size} * #{$h});
+  background: $color1;
+}
+
+@mixin sq-variant($color1) {
+  position: absolute;
+  width: $sq-size;
+  height: $sq-size;
+  background: $color1;
+}
+
+@mixin sq-variant2($color1, $color2) {
+  position: absolute;
+  width: $sq-size;
+  height: $sq-size;
+  background: $color1;
+  transform: skew(45deg);
+  transform-origin: 0 0;
+  overflow: hidden;
+  &:before {
+    content: "";
+    right: -37px;
+    position: absolute;
+    width: $sq-size;
+    height: $sq-size;
+    background: $color2;
+    transform: skew(-45deg);
+  }
+}
+
+@mixin sq-variant3($color1) {
+  position: absolute;
+  width: $sq-size;
+  height: $sq-size;
+  background: $color1;
+  transform: skew(0, 45deg);
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+
+@mixin sq-variant4($color1, $color2) {
+  @include sq-big($color1, 1, 1);
+  &:before {
+    content: "";
+    position: absolute;
+    width: $sq-size;
+    top: 0;
+    bottom: 0;
+    background: $color2;
+    transform: skew(45deg);
+    transform-origin: 0 0;
+  }
+}
+
+section.cover.show {
+
+  .cover-bg {
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 350px;
+    overflow: hidden;
+    transform: scale3d(1, 1, 1);
+
+    &.cover-bg-2 {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: unset;
+      transform: scaleX(-1);
+    }
+
+    > div {
+      position: absolute;
+      transform: rotate(45deg) skew(-15deg, -15deg);
+      top: 50%;
+      margin-top: -400px;
+      left: 315px;
+    }
+
+    .sq-1 {
+      left: 0px;
+      top: calc(#{$sq-size} * 1);
+      z-index: 3;
+
+      @include sq-big($cover-color-light1);
+
+      .sqv-1 {
+        left: $sq-size;
+        top: calc(#{$sq-size} * 1);
+        @include sq-variant($cover-color-light2);
+      }
+
+      .sqv-2 {
+        left: calc(#{$sq-size} * 1);
+        top: calc(#{$sq-size} * 1);
+        @include sq-variant2($cover-color-dark1, $cover-color-dark2);
+      }
+    }
+
+    .sq-2 {
+      z-index: 2;
+      left: calc(#{$sq-size} * 2);
+      top: calc(#{$sq-size} * 2);
+      @include sq-big($cover-color-light2);
+
+      .sqv-1 {
+        left: calc(#{$sq-size} * 1);
+        top: calc(#{$sq-size} * 0);
+        @include sq-variant3($cover-color-dark1);
+      }
+
+      .sqv-2 {
+        left: calc(#{$sq-size} * 0);
+        top: calc(#{$sq-size} * 2);
+        @include sq-variant2($cover-color-dark2, $cover-color-dark1);
+      }
+    }
+    .sq-3 {
+      z-index: 1;
+      left: calc(#{$sq-size} * 3);
+      top: calc(#{$sq-size} * 4);
+      @include sq-big($cover-color-dark1);
+
+      .sqv-1 {
+        left: calc(#{$sq-size} * 0);
+        top: calc(#{$sq-size} * 1);
+        @include sq-variant2($cover-color-light2, $cover-color-light2);
+      }
+
+      .sqv-2 {
+        content: '';
+        position: absolute;
+        left: calc(#{$sq-size} * 2);
+        top: calc(#{$sq-size} * 0);
+        width: $sq-size;
+        height: $sq-size;
+        background: $cover-color-dark2;
+      }
+    }
+
+    .sq-4 {
+      z-index: 2;
+      left: calc(#{$sq-size} * 5);
+      top: calc(#{$sq-size} * 5);
+      @include sq-big($cover-color-light2);
+
+    }
+
+    .sq-5 {
+      z-index: 2;
+      left: calc(#{$sq-size} * 4);
+      top: calc(#{$sq-size} * 6);
+      @include sq-big($cover-color-dark1, 2, 3);
+
+      .sqv-1 {
+        left: calc(#{$sq-size} * 1);
+        top: calc(#{$sq-size} * 0);
+        @include sq-variant2($cover-color-dark2, $cover-color-light1);
+      }
+    }
+
+    .sq-6 {
+      z-index: 2;
+      left: calc(#{$sq-size} * 6);
+      top: calc(#{$sq-size} * 8);
+      @include sq-big($cover-color-dark1, 3, 2);
+
+      .sqv-1 {
+        left: calc(#{$sq-size} * 1);
+        top: calc(#{$sq-size} * -1);
+        @include sq-big($cover-color-light2, 1, 3);
+      }
+
+      .sqv-2 {
+        left: calc(#{$sq-size} * 0);
+        top: calc(#{$sq-size} * 1);
+        @include sq-variant4($cover-color-light1, $cover-color-dark1);
+
+        &:before {
+          top: -1px;
+          bottom: -1px;
+        }
+      }
+
+      .sqv-3 {
+        overflow: hidden;
+        left: calc(#{$sq-size} * 2);
+        top: calc(#{$sq-size} * 0);
+        @include sq-variant4($cover-color-dark3, $cover-color-light1);
+      }
+    }
+  }
+
+  @media only screen and (min-width: 1355px) {
+    .cover-bg {
+      transform: scale(1.49);
+      width: 550px;
+
+      &.cover-bg-2 {
+        transform: scale(-1.49, 1.49);
+      }
+
+      > div {
+        left: 415px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 425px) {
+    .cover-bg {
+
+      &.cover-bg-2 {
+      }
+
+      > div {
+        left: 420px;
+        margin-top: -300px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 375px) {
+    .cover-bg {
+
+      &.cover-bg-2 {
+      }
+
+      > div {
+        left: 440px;
+        margin-top: -300px;
+      }
+    }
+  }
+}
+
