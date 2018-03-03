@@ -89,12 +89,12 @@ describe("OpenApiParamsBuilder", () => {
         });
     });
 
-    describe("createSchema()", () => {
+    describe("createSchemaFromBodyParam()", () => {
         describe("when is a string", () => {
             before(() => {
                 this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-                this.result = this.builder.createSchema({
+                this.result = this.builder.createSchemaFromBodyParam({
                     expression: "t1.t2.t3",
                     type: String,
                     isClass: false,
@@ -132,7 +132,7 @@ describe("OpenApiParamsBuilder", () => {
             before(() => {
                 this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-                this.result = this.builder.createSchema({
+                this.result = this.builder.createSchemaFromBodyParam({
                     expression: "event",
                     type: String,
                     isClass: false,
@@ -165,7 +165,7 @@ describe("OpenApiParamsBuilder", () => {
             before(() => {
                 this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-                this.result = this.builder.createSchema({
+                this.result = this.builder.createSchemaFromBodyParam({
                     expression: "event",
                     type: Test,
                     isClass: true,
@@ -190,6 +190,71 @@ describe("OpenApiParamsBuilder", () => {
             });
         });
 
+    });
+
+    describe("createSchemaFromQueryParam", () => {
+        describe("when there is a string", () => {
+            before(() => {
+                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+                this.result = this.builder.createSchemaFromQueryParam({
+                    expression: "t1",
+                    type: String,
+                    isClass: false,
+                    isCollection: false,
+                    isArray: false
+                });
+            });
+            it("should return the right schema", () => {
+                this.result.should.deep.equal({
+                    type: "string"
+                });
+            });
+        });
+
+        describe("when there is an array of string", () => {
+            before(() => {
+                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+                this.result = this.builder.createSchemaFromQueryParam({
+                    expression: "t1",
+                    type: String,
+                    isClass: false,
+                    isCollection: true,
+                    isArray: true
+                });
+            });
+            it("should return the right schema", () => {
+                this.result.should.deep.equal({
+                    type: "array",
+                    items: {
+                        type: "string"
+                    }
+                });
+            });
+        });
+
+        describe("when there is an object of string", () => {
+            before(() => {
+                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+                this.result = this.builder.createSchemaFromQueryParam({
+                    expression: "t1",
+                    type: String,
+                    isClass: false,
+                    isCollection: true,
+                    isArray: false
+                });
+            });
+            it("should return the right schema", () => {
+                this.result.should.deep.equal({
+                    type: "object",
+                    additionalProperties: {
+                        type: "string"
+                    }
+                });
+            });
+        });
     });
 
     describe("integration", () => {
