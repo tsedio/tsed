@@ -1,5 +1,5 @@
-import {Store} from "../../../../src/core/class/Store";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
+import {Store} from "../../../../src/core/class/Store";
 import {OpenApiEndpointBuilder} from "../../../../src/swagger/class/OpenApiEndpointBuilder";
 import {Sinon} from "../../../tools";
 
@@ -10,7 +10,11 @@ class Test {
 describe("OpenApiParamsBuilder", () => {
     before(() => {
         this.endpointMetadata = new EndpointMetadata(Test, "test");
-        this.builder = new OpenApiEndpointBuilder(this.endpointMetadata, "/test");
+        this.builder = new OpenApiEndpointBuilder(
+            this.endpointMetadata,
+            "/test",
+            {path: "/", "method": "get"}
+        );
         // this.builder.build();
     });
 

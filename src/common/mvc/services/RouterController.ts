@@ -2,6 +2,7 @@ import * as Express from "express";
 
 /**
  * RouteController give the express Router use by the decorated controller.
+ * @deprecated Use ExpressRouter insteadof.
  */
 export class RouterController {
 
@@ -11,6 +12,7 @@ export class RouterController {
 
     /**
      * Return the Express.Router.
+     * @deprecated Use ExpressRouter insteadof.
      * @returns {Express.Router}
      */
     public getRouter(): Express.Router {

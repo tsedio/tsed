@@ -50,31 +50,63 @@ describe("EndpointBuilder", () => {
 
     describe("build()", () => {
 
-        describe("use", () => {
+        describe("with use method", () => {
 
-            before(() => {
-                this.middlewares = this.endpointBuilder.build();
+            describe("when there is no path", () => {
+                before(() => {
+                    this.router.get.reset();
+                    this.router.use.reset();
+                    this.middlewares = this.endpointBuilder.build();
+                });
+
+                it("should build middlewares", () => {
+                    expect(this.middlewares).to.be.an("array").and.have.length(3);
+                });
+
+                it("should call HandlerBuilder", () => {
+                    expect(HandlerBuilder.from.called).to.eq(true);
+                });
+
+                it("should call use method", () =>
+                    this.router.use.should.have.been.calledOnce
+                );
+
+                it("should call with args", () => {
+                    this.router.use.should.have.been.calledWithExactly(...this.middlewares);
+                });
             });
 
-            it("should build middlewares", () => {
-                expect(this.middlewares).to.be.an("array").and.have.length(3);
+            describe("when there is a path", () => {
+                before(() => {
+                    this.router.get.reset();
+                    this.router.use.reset();
+                    this.endpointMetadata.path = "/";
+                    this.middlewares = this.endpointBuilder.build();
+                });
+
+                it("should build middlewares", () => {
+                    expect(this.middlewares).to.be.an("array").and.have.length(3);
+                });
+
+                it("should call HandlerBuilder", () => {
+                    expect(HandlerBuilder.from.called).to.eq(true);
+                });
+
+                it("should call use method", () =>
+                    this.router.use.should.have.been.calledOnce
+                );
+
+                it("should call with args", () => {
+                    this.router.use.should.have.been.calledWithExactly(...["/"].concat(this.middlewares));
+                });
             });
 
-            it("should call HandlerBuilder", () => {
-                expect(HandlerBuilder.from.called).to.eq(true);
-            });
-
-            it("should call use method", () =>
-                this.router.use.should.have.been.calledOnce
-            );
-
-            it("should call with args", () => {
-                this.router.use.should.have.been.calledWithExactly(...this.middlewares);
-            });
         });
 
-        describe("get", () => {
+        describe("with get method", () => {
             before(() => {
+                this.router.get.reset();
+                this.router.use.reset();
                 this.endpointMetadata.httpMethod = "get";
                 this.endpointMetadata.path = "/";
             });

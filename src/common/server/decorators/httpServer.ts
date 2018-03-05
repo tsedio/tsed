@@ -6,7 +6,7 @@ export interface IHttpFactory {
     (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
 
     /**
-     * deprecated
+     * @deprecated
      * @returns {"https".Server}
      */
     get(): Http.Server;
@@ -28,7 +28,7 @@ export type HttpServer = Http.Server & IHttpFactory;
  * }
  * ```
  *
- * > Note: TypeScript transform and store `ExpressApplication` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
+ * > Note: TypeScript transform and store `HttpServer` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
  *
  * @param {Type<any>} target
  * @param {string} targetKey

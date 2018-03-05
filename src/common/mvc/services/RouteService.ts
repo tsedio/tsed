@@ -83,22 +83,23 @@ export class RouteService {
 
         ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
 
-            if (endpoint.hasHttpMethod()) {
+            endpoint.pathsMethods.forEach(({path, method}) => {
+                if (!!method) {
 
-                const className = nameOf(ctrl.provide),
-                    methodClassName = endpoint.methodClassName,
-                    parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
+                    const className = nameOf(ctrl.provide),
+                        methodClassName = endpoint.methodClassName,
+                        parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
 
-                routes.push({
-                    method: endpoint.httpMethod,
-                    name: `${className}.${methodClassName}()`,
-                    url: `${endpointUrl}${endpoint.path || ""}`,
-                    className,
-                    methodClassName,
-                    parameters
-                });
-
-            }
+                    routes.push({
+                        method,
+                        name: `${className}.${methodClassName}()`,
+                        url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
+                        className,
+                        methodClassName,
+                        parameters
+                    });
+                }
+            });
         });
     };
 

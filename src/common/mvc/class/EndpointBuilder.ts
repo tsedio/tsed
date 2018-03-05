@@ -37,11 +37,17 @@ export class EndpointBuilder {
      * @param middlewares
      */
     private routeMiddlewares(middlewares: any[]) {
-        if (this.endpoint.hasHttpMethod() && this.router[this.endpoint.httpMethod]) {
-            this.router[this.endpoint.httpMethod](this.endpoint.path, ...middlewares);
-        } else {
-            const args: any[] = [this.endpoint.path].concat(middlewares).filter(o => !!o);
-            this.router.use(...args);
+        this.endpoint.pathsMethods.forEach(({path, method}) => {
+            if (!!method && this.router[method]) {
+                this.router[method](path, ...middlewares);
+            } else {
+                const args: any[] = [path].concat(middlewares);
+                this.router.use(...args);
+            }
+        });
+
+        if (!this.endpoint.pathsMethods.length) {
+            this.router.use(...middlewares);
         }
     }
 

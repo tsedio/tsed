@@ -28,6 +28,7 @@ export * from "./components/SendResponseMiddleware";
 export * from "./services/ControllerService";
 export * from "./services/MiddlewareService";
 export * from "./services/RouterController";
+export * from "./services/ExpressRouter";
 export * from "./services/RouteService";
 
 // decorators
