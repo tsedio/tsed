@@ -9,6 +9,7 @@ import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
 import {CastError} from "../errors/CastError";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
+import {ExpressRouter} from "../services/ExpressRouter";
 import {RouterController} from "../services/RouterController";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
@@ -98,8 +99,9 @@ export class HandlerBuilder {
         this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
 
         if (this._rebuildHandler || provider.instance === undefined) {
-            if (!locals.has(RouterController)) {
+            if (!locals.has(ExpressRouter)) {
                 locals.set(RouterController, new RouterController(provider.router));
+                locals.set(ExpressRouter, provider.router);
             }
 
             provider.instance = InjectorService.invoke<T>(target, locals, undefined, true);

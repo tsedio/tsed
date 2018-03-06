@@ -1,12 +1,12 @@
-import {$log} from "ts-log-debug";
-import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/ajv";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/socketio";
 import "@tsed/swagger";
+import * as Path from "path";
+import {$log} from "ts-log-debug";
 
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
-import * as Path from "path";
 
 const rootDir = Path.resolve(__dirname);
 

@@ -1,5 +1,6 @@
 import {deepExtends, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
-import {ENDPOINT_METHODS} from "../constants";
+import {EXPRESS_METHODS} from "../constants";
+import {ExpressPathMethod} from "../interfaces/ExpressPathMethod";
 import {PathParamsType} from "../interfaces/PathParamsType";
 
 
@@ -43,13 +44,13 @@ export class EndpointMetadata extends Storable {
     /**
      * HTTP method required.
      */
-    @NotEnumerable()
-    private _httpMethod: string;
+    // @NotEnumerable()
+    // private _httpMethod: string;
     /**
      * Route strategy.
      */
     @NotEnumerable()
-    private _path: PathParamsType;
+    private _pathsMethods: ExpressPathMethod[] = [];
     /**
      * Endpoint inherited from parent class.
      */
@@ -112,34 +113,46 @@ export class EndpointMetadata extends Storable {
 
     /**
      *
+     * @deprecated pathsMethods
      * @returns {string}
      */
     get httpMethod(): string {
-        return this._httpMethod;
+        return this._pathsMethods[0] && this._pathsMethods[0].method!;
     }
 
     /**
      *
+     * @deprecated
      * @param value
      */
     set httpMethod(value: string) {
-        this._httpMethod = value;
+
+        if (!this._pathsMethods[0]) {
+            this._pathsMethods[0] = {};
+        }
+
+        this._pathsMethods[0].method = value;
     }
 
     /**
      *
+     * @deprecated use pathsMethods instead of.
      * @returns {PathParamsType}
      */
     get path(): PathParamsType {
-        return this._path;
+        return this._pathsMethods[0] && this._pathsMethods[0].path!;
     }
 
     /**
      *
+     * @deprecated
      * @param value
      */
     set path(value: PathParamsType) {
-        this._path = value;
+        if (!this._pathsMethods[0]) {
+            this._pathsMethods[0] = {};
+        }
+        this._pathsMethods[0].path = value;
     }
 
     get inheritedEndpoint(): EndpointMetadata {
@@ -152,6 +165,14 @@ export class EndpointMetadata extends Storable {
 
     set type(type: Type<any>) {
         this._type = type;
+    }
+
+    /**
+     *
+     * @returns {ExpressPathMethod[]}
+     */
+    get pathsMethods(): ExpressPathMethod[] {
+        return this._pathsMethods;
     }
 
     /**
@@ -187,10 +208,11 @@ export class EndpointMetadata extends Storable {
 
     /**
      *
+     * @deprecated
      * @returns {boolean}
      */
     public hasHttpMethod(): boolean {
-        return !!this._httpMethod;
+        return !!(this._pathsMethods[0] && this._pathsMethods[0].method);
     }
 
     /**
@@ -261,23 +283,26 @@ export class EndpointMetadata extends Storable {
      * @param args
      */
     public merge(args: any[]): this {
+        const expressMethods: any = {};
 
-        let filteredArg = args
+        const filteredArg = args
             .filter((arg: any) => {
+                if (typeof arg === "string" && EXPRESS_METHODS.indexOf(arg) > -1) {
+                    expressMethods.method = arg;
+                    return false;
+                }
 
-                if (typeof arg === "string") {
-
-                    if (ENDPOINT_METHODS.indexOf(arg) > -1) {
-                        this.httpMethod = arg;
-                    } else {
-                        this.path = arg;
-                    }
-
+                if (typeof arg === "string" || arg instanceof RegExp) {
+                    expressMethods.path = arg;
                     return false;
                 }
 
                 return !!arg;
             });
+
+        if (expressMethods.method || expressMethods.path) {
+            this._pathsMethods.push(expressMethods);
+        }
 
         this.middlewares = this._middlewares.concat(filteredArg);
 

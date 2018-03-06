@@ -3,7 +3,7 @@
  * @private
  * @type {string}
  */
-export const ENDPOINT_METHODS = [
+export const EXPRESS_METHODS = [
     "all", "checkout", "connect",
     "copy", "delete", "get",
     "head", "lock", "merge",

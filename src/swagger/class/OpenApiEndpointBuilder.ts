@@ -1,9 +1,10 @@
+import {EndpointMetadata} from "@tsed/common";
 import {deepExtends, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
-import {EndpointMetadata} from "@tsed/common";
+import {ExpressPathMethod} from "../../common/mvc/interfaces/ExpressPathMethod";
 import {toSwaggerPath} from "../utils";
-import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
+import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 
 /** */
 
@@ -22,13 +23,13 @@ const getOperationId = (operationId: string) => {
 export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     private _paths: { [pathName: string]: Path } = {};
 
-    constructor(private endpoint: EndpointMetadata, private endpointUrl: string) {
+    constructor(private endpoint: EndpointMetadata, private endpointUrl: string, private pathMethod: ExpressPathMethod) {
         super(endpoint.target);
     }
 
     build(): this {
 
-        const openAPIPath = ("" + toSwaggerPath(`${this.endpointUrl}${this.endpoint.path || ""}`)).trim();
+        const openAPIPath = toSwaggerPath(this.endpointUrl, this.pathMethod.path);
         const produces = this.endpoint.get("produces") || [];
         const consumes = this.endpoint.get("consumes") || [];
         const responses = this.endpoint.get("responses") || {};
@@ -57,7 +58,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
 
         deepExtends(operation, this.endpoint.get("operation") || {});
 
-        path[this.endpoint.httpMethod] = operation;
+        path[this.pathMethod.method!] = operation;
 
         responses[this.endpoint.get("statusCode") || "200"] = {description: "Success"};
 

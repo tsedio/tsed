@@ -11,6 +11,7 @@ import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressApplication} from "../decorators";
 import {IControllerOptions} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
+import {ExpressRouter} from "./ExpressRouter";
 import {RouterController} from "./RouterController";
 
 /**
@@ -91,10 +92,12 @@ export class ControllerService extends ProxyRegistry<ControllerProvider, IContro
      * @param designParamTypes
      * @returns {T}
      */
-    public invoke<T>(target: any, locals: Map<Type<any>, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
+    public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
 
-        if (!locals.has(RouterController)) {
-            locals.set(RouterController, new RouterController(Express.Router()));
+        if (!locals.has(ExpressRouter)) {
+            const router = Express.Router();
+            locals.set(RouterController, new RouterController(router));
+            locals.set(ExpressRouter, router);
         }
 
         return this.injectorService.invoke<T>(target.provide || target, locals, designParamTypes);

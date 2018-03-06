@@ -1,26 +1,36 @@
-import {deepExtends} from "@tsed/core";
 import {JsonSchema, PathParamsType} from "@tsed/common";
+import {deepExtends} from "@tsed/core";
 
 /** */
 
-export function toSwaggerPath(expressPath: PathParamsType): PathParamsType {
-    if (typeof expressPath === "string") {
-        let params = expressPath.match(/:[\w]+/g);
+export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
 
-        let openAPIPath = expressPath;
-        if (params) {
-            let swagerParams = params.map(x => {
-                return "{" + x.replace(":", "") + "}";
-            });
-
-            openAPIPath = params.reduce((acc, el, ix) => {
-                return acc.replace(el, swagerParams[ix]);
-            }, expressPath);
-        }
-        return openAPIPath;
-    } else {
-        return expressPath;
+    if (path instanceof RegExp) {
+        path = path.toString()
+            .replace(/^\//, "")
+            .replace(/\/$/, "")
+            .replace(/\\/, "");
     }
+
+    const completePath = "" + base + path;
+
+    // if (typeof expressPath === "string") {
+    let params = completePath.match(/:[\w]+/g);
+
+    let openAPIPath = completePath;
+    if (params) {
+        let swaggerParams = params.map(x => {
+            return "{" + x.replace(":", "") + "}";
+        });
+
+        openAPIPath = params.reduce((acc, el, ix) => {
+            return acc.replace(el, swaggerParams[ix]);
+        }, completePath);
+    }
+
+    return ("" + openAPIPath)
+        .replace(/\/\//gi, "/")
+        .trim();
 }
 
 export function swaggerType(type: any): string {

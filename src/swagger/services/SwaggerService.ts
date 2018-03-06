@@ -1,12 +1,17 @@
+import {
+    ControllerProvider,
+    ControllerService,
+    EndpointMetadata,
+    ExpressApplication,
+    ServerSettingsService,
+    Service
+} from "@tsed/common";
 import {deepExtends, nameOf, Store} from "@tsed/core";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
 import {Info, Schema, Spec, Tag} from "swagger-schema-official";
 import {$log} from "ts-log-debug";
-import {
-    ServerSettingsService, Service, ControllerProvider, EndpointMetadata, ExpressApplication, ControllerService
-} from "@tsed/common";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
 import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
 import {getReducers} from "../utils";
@@ -172,14 +177,16 @@ export class SwaggerService {
             );
 
         ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
+            endpoint.pathsMethods.forEach((pathMethod) => {
+                /* istanbul ignore else */
+                if (!!pathMethod.method) {
+                    const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod)
+                        .build();
 
-            /* istanbul ignore else */
-            if (endpoint.hasHttpMethod()) {
-                const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl).build();
-
-                deepExtends(paths, builder.paths);
-                deepExtends(definitions, builder.definitions);
-            }
+                    deepExtends(paths, builder.paths);
+                    deepExtends(definitions, builder.definitions);
+                }
+            });
         });
     }
 
