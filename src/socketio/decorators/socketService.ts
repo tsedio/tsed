@@ -1,5 +1,6 @@
 import {Service} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
 
 /**
  * The decorators `@SocketService()` declare a new socket service (and service) can be injected in other service or controller on there `constructor`.
@@ -7,14 +8,13 @@ import {Store} from "@tsed/core";
  *
  * > `@SocketService()` use the `reflect-metadata` to collect and inject service on controllers or other services.
  *
- * @experimental
  * @param {string} namespace
  * @returns {Function}
  * @decorator
  */
 export function SocketService(namespace = "/") {
     return Store.decorate((store: Store) => {
-        store.merge("socketIO", {namespace});
+        store.merge("socketIO", {namespace, type: SocketProviderTypes.SERVICE});
         return Service();
     });
 }

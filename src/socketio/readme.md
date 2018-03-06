@@ -75,11 +75,49 @@ export class MySocketService {
 
 > @SocketService inherit from @Service decorator. That means, a SocketService can be injected to another Service, Controller or Middleware.
 
+Example:
+
+```typescript
+import * as SocketIO from "socket.io";
+import {SocketService, Nsp} from "@tsed/socketio";
+
+@SocketService()
+export class MySocketService {
+     @Nsp nsp: SocketIO.Namespace;
+
+     helloAll() {
+         this.nsp.emit('hi', 'everyone!');
+     }
+}
+```
+Then, you can inject your socket service into another Service, Controller, etc... as following:
+
+```typescript
+import {Controller, Get} from "@tsed/common";
+import {MySocketService} from "../services/MySocketService";
+
+@Controller("/")
+export class MyCtrl {
+   
+    constructor(private mySocketService: MySocketService) {
+         
+    }
+
+    @Get("/allo")
+    allo() {
+         this.mySocketService.helloAll(); 
+         return "is sent";
+    }
+}
+```
+
 ### Declaring an Input Event
 
 [@Input](api/socketio/input.md) decorator declare a method as a new handler for a specific `event`.
 
 ```typescript
+import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
+
 @SocketService("/my-namespace")
 export class MySocketService {
     @Input("eventName")
@@ -102,6 +140,8 @@ You have a many choice to send a response to your client. Ts.ED offer some decor
 Example:
 
 ```typescript
+import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
+
 @SocketService("/my-namespace")
 export class MySocketService {
     @Input("eventName")
@@ -120,11 +160,98 @@ export class MySocketService {
 Ts.ED create a new session for each socket.
 
 ```typescript
+import {SocketService, Input, Emit, Args, SocketSession} from "@tsed/socketio";
+
 @SocketService("/my-namespace")
 export class MySocketService {
     @Input("eventName")
     @Emit("responseEventName") // or Broadcast or BroadcastOthers
     async myMethod(@Args(0) userName: string, @SocketSession session: SocketSession) {
+
+        const user = session.get("user") || {}
+        user.name = userName;
+
+        session.set("user", user);
+
+        return user;
+    }
+}
+```
+
+### Middlewares
+
+A middleware can be also used on a `SocketService` either on a class or on a method.
+
+Here an example of a middleware:
+
+```typescript
+import {ConverterService} from "@tsed/common";
+import {SocketMiddleware, Args} from "@tsed/socketio";
+import {User} from "../models/User";
+
+@SocketMiddleware()
+export class UserConverterSocketMiddleware {
+    constructor(private converterService: ConverterService) {
+    }
+    async use(@Args() args: any[]) {
+        
+        let [user] = args;
+        // update Arguments
+        user = ConverterService.deserialize(user, User);
+
+        return [user];
+    }
+}
+```
+> The user instance will be forwarded to the next middleware and to your decorated method.
+
+You can also declare a middleware to handle an error with `@SocketMiddlewareError`.
+Here an example:
+
+```typescript
+import {SocketMiddleware, Args} from "@tsed/socketio";
+
+@SocketMiddlewareError()
+export class ErrorHandlerSocketMiddleware {
+    async use(@SocketErr err: any, @Socket socket: SocketIO.Socket) {
+        console.error(err);
+        socket.emit("error", {message: "An error has occured"})
+    }
+}
+```
+
+Then, two decorators are provided to attach your middleware on the right place:
+
+- `@SocketUseBefore` will call your middleware before the class method,
+- `@SocketUseAfter` will call your middleware after the class method.
+
+Both decorators can be used as a class decorator or as a method decorator.
+The call sequences is the following for each event request:
+
+- Middlewares attached with `@SocketUseBefore` on class,
+- Middlewares attached with `@SocketUseBefore` on method,
+- The method,
+- Send response if the method is decorated with `@Emit`, `@Broadcast` or `@BroadcastOther`,
+- Middlewares attached with `@SocketUseAfter` on method, 
+- Middlewares attached with `@SocketUseAfter` on class.
+
+Middlewares chain use the `Promise` to run it. If one of this middlewares/method emit an error, the first middleware error will be called.
+
+```typescript
+import {SocketService, SocketUseAfter, SocketUseBefore, Emit, Input, Args, SocketSession} from "@tsed/socketio";
+import {UserConverterSocketMiddleware, ErrorHandlerSocketMiddleware} from "../middlewares";
+import {User} from "../models/User";
+
+@SocketService("/my-namespace")
+@SocketUseBefore(UserConverterSocketMiddleware) // global version
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class MySocketService {
+    
+    @Input("eventName")
+    @Emit("responseEventName") // or Broadcast or BroadcastOthers
+    @SocketUseBefore(UserConverterSocketMiddleware)
+    @SocketUseAfter(ErrorHandlerSocketMiddleware)
+    async myMethod(@Args(0) userName: User) {
 
         const user = session.get("user") || {}
         user.name = userName;

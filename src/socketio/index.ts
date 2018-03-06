@@ -21,6 +21,9 @@ export * from "./decorators/broadcastOthers";
 export * from "./decorators/inputAndEmit";
 export * from "./decorators/inputAndBroadcast";
 export * from "./decorators/inputAndBroadcastOthers";
+export * from "./decorators/socketUseAfter";
+export * from "./decorators/socketUseBefore";
+export * from "./decorators/socketErr";
 
 // service
 export * from "./services/SocketIOServer";

@@ -14,12 +14,11 @@ export type SocketSession = Map<string, any>;
  *
  *   @Input("event")
  *   myMethod(@SocketSession session: Map) {
- *
+ *     console.log(session);
  *   }
  * }
  * ```
  *
- * @experimental
  * @param target
  * @param {string} propertyKey
  * @param {number} index

@@ -15,7 +15,8 @@ describe("SocketService", () => {
 
         it("should set metadata", () => {
             expect(this.store.get("socketIO")).to.deep.eq({
-                namespace: "/namespace"
+                namespace: "/namespace",
+                "type": "service"
             });
         });
     });
@@ -30,7 +31,8 @@ describe("SocketService", () => {
 
         it("should set metadata", () => {
             expect(this.store.get("socketIO")).to.deep.eq({
-                namespace: "/"
+                namespace: "/",
+                "type": "service"
             });
         });
     });

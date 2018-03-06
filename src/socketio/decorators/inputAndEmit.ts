@@ -17,7 +17,6 @@ import {Input} from "./input";
  * }
  * ```
  *
- * @experimental
  * @decorator
  * @param eventName
  */

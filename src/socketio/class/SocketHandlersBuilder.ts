@@ -1,4 +1,4 @@
-import {ProviderStorable} from "@tsed/common";
+import {MiddlewareRegistry, MiddlewareType, ProviderStorable} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
@@ -60,10 +60,10 @@ export class SocketHandlersBuilder {
         });
 
         if (instance.$onConnection) {
-            const config = this.socketProviderMetadata.handlers.$onConnection;
+            const config = this.socketProviderMetadata.handlers.$onConnection || {};
             config.methodClassName = "$onConnection";
 
-            this.invoke(config, [], socket, nsp);
+            this.invoke(instance, config, {socket, nsp});
         }
     }
 
@@ -95,43 +95,142 @@ export class SocketHandlersBuilder {
             .forEach((propertyKey: string) => {
 
                 const handlerMetadata: ISocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
-                const eventName = handlerMetadata.eventName;
+                const eventName: string = handlerMetadata.eventName!;
 
-                socket.on(eventName, (...parameters: any[]) => {
-                    this.invoke(handlerMetadata, parameters, socket, nsp);
-                });
+                if (eventName) {
+                    socket.on(eventName, (...args) => {
+                        this.runQueue(handlerMetadata, args, socket, nsp);
+                    });
+                }
             });
     }
 
     /**
      *
-     * @returns {Promise<any>}
-     * @param handlerMetadata
+     * @param {ISocketHandlerMetadata} handlerMetadata
      * @param args
-     * @param socket
-     * @param nsp
+     * @param {SocketIO.Socket} socket
+     * @param {SocketIO.Namespace} nsp
+     * @returns {(parameters) => Promise<void>}
      */
-    private async invoke(handlerMetadata: ISocketHandlerMetadata, args: any[], socket: SocketIO.Socket, nsp: SocketIO.Namespace): Promise<void> {
+    private async runQueue(handlerMetadata: ISocketHandlerMetadata, args: any[], socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+        let promise: any = Promise.resolve(args);
+        const {useBefore, useAfter} = this.socketProviderMetadata;
+        const scope = {
+            args,
+            socket,
+            nsp
+        };
 
-        try {
-            const {instance} = this.provider;
-            const {methodClassName, returns} = handlerMetadata;
-            const scope: any = {args, socket, nsp};
-            const parameters = this.buildParameters(handlerMetadata.parameters, scope);
-
-
-            const result = await instance[methodClassName](...parameters);
-
-            if (returns) {
-                SocketHandlersBuilder.sendResponse(returns.eventName, returns.type, result, scope);
-            }
-        } catch (er) {
-            /* istanbul ignore next */
-            $log.error(handlerMetadata.eventName, er);
-            /* istanbul ignore next */
-            process.exit(-1);
+        if (useBefore) {
+            useBefore.forEach(async (target) => {
+                promise = this.bindMiddleware(target, scope, promise);
+            });
         }
 
+        if (handlerMetadata.useBefore) {
+            handlerMetadata.useBefore.forEach((target) =>
+                promise = this.bindMiddleware(target, scope, promise)
+            );
+        }
+
+        promise = promise
+            .then(() =>
+                this.invoke(this.provider.instance, handlerMetadata, scope)
+            )
+            .then(SocketHandlersBuilder.bindResponseMiddleware(handlerMetadata, scope));
+
+        if (handlerMetadata.useAfter) {
+            handlerMetadata.useAfter.forEach((target) =>
+                promise = this.bindMiddleware(target, scope, promise)
+            );
+        }
+
+        if (useAfter) {
+            useAfter.forEach((target) =>
+                promise = this.bindMiddleware(target, scope, promise)
+            );
+        }
+
+        return promise
+            .catch((er: any) => {
+                /* istanbul ignore next */
+                $log.error(handlerMetadata.eventName, er);
+                /* istanbul ignore next */
+                process.exit(-1);
+            });
+    }
+
+    /**
+     *
+     * @param {ISocketHandlerMetadata} handlerMetadata
+     * @param scope
+     * @returns {(data) => void}
+     */
+    private static bindResponseMiddleware(handlerMetadata: ISocketHandlerMetadata, scope: any) {
+        const {returns} = handlerMetadata;
+        return (response: any): void => {
+            if (returns) {
+                switch (returns.type) {
+                    case SocketReturnsTypes.BROADCAST:
+                        scope.nsp.emit(returns.eventName, response);
+                        break;
+                    case SocketReturnsTypes.BROADCAST_OTHERS:
+                        scope.socket.broadcast.emit(returns.eventName, response);
+                        break;
+                    case SocketReturnsTypes.EMIT:
+                        scope.socket.emit(returns.eventName, response);
+                        break;
+                }
+            }
+        };
+    }
+
+    /**
+     *
+     * @param target
+     * @param scope
+     * @param promise
+     * @returns {(args: any[]) => Promise<any[]>}
+     */
+    private bindMiddleware(target: any, scope: any, promise: Promise<any>): Promise<any> {
+        const middlewareProvider = MiddlewareRegistry.get(target);
+
+        if (middlewareProvider) {
+            const instance = middlewareProvider.instance;
+            const handlerMetadata: ISocketProviderMetadata = Store.from(instance).get("socketIO");
+
+            if (middlewareProvider.type === MiddlewareType.ERROR) {
+                return promise
+                    .catch((error: any) =>
+                        this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope})
+                    );
+            }
+
+            return promise
+                .then(() =>
+                    this.invoke(instance, handlerMetadata.handlers.use, scope)
+                )
+                .then((result: any) => {
+                    if (result) {
+                        scope.args = [].concat(result);
+                    }
+                });
+        }
+
+        return promise;
+    }
+
+    /**
+     *
+     * @returns {Promise<any>}
+     * @param instance
+     * @param handlerMetadata
+     * @param scope
+     */
+    private async invoke(instance: any, handlerMetadata: ISocketHandlerMetadata, scope: any): Promise<any> {
+        const {methodClassName, parameters} = handlerMetadata;
+        return await instance[methodClassName](...this.buildParameters(parameters, scope));
     }
 
     /**
@@ -141,7 +240,6 @@ export class SocketHandlersBuilder {
      * @returns {any[]}
      */
     private buildParameters(parameters: { [key: number ]: ISocketParamMetadata }, scope: any): any[] {
-        const store = Store.from(this.provider.instance);
         return Object
             .keys(parameters || [])
             .map(
@@ -163,32 +261,14 @@ export class SocketHandlersBuilder {
                         case SocketFilters.NSP:
                             return scope.nsp;
 
+                        case SocketFilters.ERR:
+                            return scope.error;
+
                         case SocketFilters.SESSION :
                             return this.provider.instance._nspSession.get(scope.socket.id);
                     }
                 }
             );
-    }
-
-    /**
-     *
-     * @param {string} eventName
-     * @param {SocketReturnsTypes} type
-     * @param response
-     * @param scope
-     */
-    private static sendResponse(eventName: string, type: SocketReturnsTypes, response: any, scope: any) {
-        switch (type) {
-            case SocketReturnsTypes.BROADCAST:
-                scope.nsp.emit(eventName, response);
-                break;
-            case SocketReturnsTypes.BROADCAST_OTHERS:
-                scope.socket.broadcast.emit(eventName, response);
-                break;
-            case SocketReturnsTypes.EMIT:
-                scope.socket.emit(eventName, response);
-                break;
-        }
     }
 }
 

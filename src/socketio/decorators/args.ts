@@ -24,7 +24,6 @@ import {SocketFilter} from "./socketFilter";
  * }
  * ```
  *
- * @experimental
  * @decorator
  * @param mapIndex
  */

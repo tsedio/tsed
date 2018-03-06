@@ -16,7 +16,6 @@ import {Store} from "@tsed/core";
  * }
  * ```
  *
- * @experimental
  * @decorator
  * @param eventName
  */

@@ -1,11 +1,22 @@
 import {ISocketHandlerMetadata} from "./ISocketHandlerMetadata";
 
 /**
- * @experimental
+ *
+ */
+export enum SocketProviderTypes {
+    SERVICE = "service",
+    MIDDLEWARE = "middleware",
+}
+
+/**
+ *
  */
 export interface ISocketProviderMetadata {
-    namespace: string;
-    injectNamespace: string;
+    type: SocketProviderTypes;
+    namespace?: string;
+    injectNamespace?: string;
+    useBefore?: any[];
+    useAfter?: any[];
     handlers: {
         [propertyKey: string]: ISocketHandlerMetadata
     };
