@@ -1,14 +1,14 @@
 # Getting started
 ## Installation
 
-You can get the latest release using npm:
+You can get the latest version of Ts.ED using the following npm command:
 
 ```bash
 $ npm install --save-dev typescript @types/express
 $ npm install --save express@4 @tsed/core @tsed/common
 ```
 
-Recommended:
+The following modules are also recommended:
 
 ```bash
 $ npm install --save body-parser compression cookie-parser method-override
@@ -279,7 +279,7 @@ We’ve briefly introduced the most basic features of Ts.ED - the rest of this g
   [Services](docs/services/overview.md)
   [Middlewares](docs/middlewares/overview.md)
   [Scope](docs/scope.md)
-  [JSON Schema](docs/jsonschema.md)
+  [Model](docs/model.md)
   [Converters](docs/converters.md)
   [Filters](docs/filters.md)
   [Testing](docs/testing.md)
