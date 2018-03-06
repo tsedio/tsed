@@ -10,7 +10,7 @@
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> SocketIOServer <span class="token keyword">extends</span> SocketIO.Server <span class="token punctuation">{</span>
 <span class="token punctuation">}</span>
-<span class="token keyword">const</span> SocketIOServer<span class="token punctuation">:</span> symbol<span class="token punctuation">;</span></code></pre>
+<span class="token keyword">const</span> SocketIOServer<span class="token punctuation">:</span> unique symbol<span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

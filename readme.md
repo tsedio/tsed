@@ -10,6 +10,7 @@
 [![img](https://david-dm.org/romakita/ts-express-decorators/peer-status.svg)](https://david-dm.org/romakita/ts-express-decorators/#info=peerDependenciess)
 [![Known Vulnerabilities](https://snyk.io/test/github/romakita/ts-express-decorators/badge.svg)](https://snyk.io/test/github/romakita/ts-express-decorators)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![backers](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)
 
 > A TypeScript Framework on top of Express !
 
@@ -214,17 +215,21 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 > **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
 ## Contributors
+Please read [contributing guidelines here](./CONTRIBUTING.md).
 
-* [Romain Lenzotti](https://github.com/romakita)
-* [AlexProca](https://github.com/alexproca)
-* [Vincent178](https://github.com/vincent178)
-* [Vologab](https://github.com/vologab)
-* [lwallent](https://github.com/lwallent)
-* [Ionaru](https://github.com/Ionaru)
-* [jestersimpps](https://github.com/jestersimpps)
-* [jindev](https://github.com/jindev)
-* [Kapulara](https://github.com/Kapulara)
-* [amorgulis](https://github.com/amorgulis)
+<a href="https://github.com/romakita/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
+
+<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
 
 ## License
 

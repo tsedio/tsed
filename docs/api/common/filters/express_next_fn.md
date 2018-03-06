@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">const</span> EXPRESS_NEXT_FN<span class="token punctuation">:</span> symbol<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">const</span> EXPRESS_NEXT_FN<span class="token punctuation">:</span> unique symbol<span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

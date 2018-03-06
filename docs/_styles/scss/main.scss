@@ -1,0 +1,37 @@
+$primary-color: #0074d9 !default;
+$secondary-color: #FFA700 !default;
+$navbar-sticky-background: #34495e !default;
+$navbar-height: 70px !default;
+$navbar-sticky-height: 52px !default;
+$sidebar-width: 256px !default;
+
+$cover-background-color: #3872cc !default;
+// $cover-color2: #4e83cc !default;
+
+$cover-color-light1: #4f89e3 !default;
+$cover-color-light2: #4781db !default;
+$cover-color-dark1: $cover-background-color !default;
+$cover-color-dark2: #3a74ce !default;
+$cover-color-dark3: #326cc6 !default;
+
+@import "mixins/background.scss";
+@import "mixins/border.scss";
+@import "mixins/box-shadow.scss";
+@import "mixins/color.scss";
+@import "_base.scss";
+@import "_markdown-section.scss";
+@import "_api.scss";
+@import "_cover.scss";
+@import "_contributors.scss";
+@import "_form.scss";
+@import "_footer.scss";
+@import "_guide-links.scss";
+@import "_home.scss";
+@import "_loader.scss";
+@import "_symbols.scss";
+@import "_sidebar.scss";
+@import "_topics.scss";
+@import "_nav.scss";
+@import "_sidebar-toggle.scss";
+@import "_progress.scss";
+@import "_token.scss";

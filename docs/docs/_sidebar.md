@@ -1,7 +1,3 @@
-
-# Documentation {docsify-ignore}
-
-* [<div class="ps-icon ps-icon-arrow-left"></div>Home](/?id=tsed)
 * [Migration](docs/migration.md)
 * [Controllers](docs/controllers.md)
 * [Services](docs/services/overview.md)
@@ -14,3 +10,8 @@
   * [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md)
   * [Versioning Rest API](docs/server-loader/versioning.md)    
 * [Testing](docs/testing.md)
+
+*** 
+
+* [<div class="ps-icon ps-icon-github-alt"></div> Contribute](contributing.md)
+* [<div class="ps-icon ps-icon-file"></div> License](license.md) 

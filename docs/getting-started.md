@@ -80,13 +80,12 @@ You can copy this example of package.json to develop your application:
 }
 ```
 
-> Use the command `npm start` to start you server with the Typescript auto compilation and the nodemon task.
- Nodemon restart automatically your server when a file is modified.
+> Then use the command `npm install && npm start` to start your server.
 
 ## Quick start
 ### Create your express server
 
-Ts.ED provide a `ServerLoad` class to configure your 
+Ts.ED provide a `ServerLoader` class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](docs/server-loader/_sidebar.md).
 
@@ -142,8 +141,6 @@ new Server().start();
 To customize the server settings see [Configuration](configuration.md) page.
 
 #### With the methods
-
-These example is available for all version and use ServerLoader API to configure the server.
 
 ```typescript
 import {ServerLoader, GlobalAcceptMimesMiddleware} from "@tsed/common";
@@ -208,10 +205,10 @@ new Server().start();
 
 ## Create your first controller
 
-Create a new `calendarCtrl.ts` in your controllers directory (by default `root/controllers`).
+Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/controllers`).
 All controllers declared with `@Controller` decorators is considered as an Express router. 
 An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it's a part of path, and entire exposed url depend on the Server configuration (see [Configuragtion](configuration.md)) 
+More precisely, it's a part of path, and entire exposed url depend on the Server configuration (see [Configuration](configuration.md)) 
 and the [controllers dependencies](docs/controllers.md). 
 
 In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
@@ -223,7 +220,6 @@ import {
     Authenticated, Required, BodyParams,
     Delete
 } from "@tsed/common";
-import * as Express from "express";
 
 export interface Calendar{
     id: string;
@@ -233,24 +229,9 @@ export interface Calendar{
 @Controller("/calendars")
 export class CalendarCtrl {
 
-    /**
-     * Example of classic call. Use `@Get` for routing a request to your method.
-     * In this case, this route "/calendars/:id" are mounted on the "rest/" path.
-     *
-     * By default, the response is sent with status 200 and is serialized in JSON.
-     *
-     * @param request
-     * @param response
-     * @returns {{id: any, name: string}}
-     */
-    @Get("/:id")
-    async get(request: Express.Request, response: Express.Response): Promise<Calendar> {
-        return {id: request.params.id, name: "test"};
-    }
-
     @Get("/")
-    @Render("calendars/index") // Render "calendars/index" file using Express.Response.render
-    async renderCalendars(request: Express.Request, response: Express.Response): Promise<Array<Calendar>> {
+    @Render("calendars/index")
+    async renderCalendars(): Promise<Array<Calendar>> {
         return [{id: '1', name: "test"}];
     }
     
@@ -274,10 +255,10 @@ export class CalendarCtrl {
     }
 }
 ```
+> **Note** : Decorators `@Get`, `@Post`, `@Delete`, `@Put`, etc..., supports dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
-To test your method, just run your `server.ts` and send a http request on `/rest/calendars/1`.
+To test your method, just run your `server.ts` and send a HTTP request on `/rest/calendars/1`.
 
-> **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
 
 ### Ready for More?

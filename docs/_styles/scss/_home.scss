@@ -1,0 +1,87 @@
+[data-page*="_home"] .content {
+  padding-top: 30px;
+}
+
+[data-page*="_home"] .markdown-section {
+  padding-top: 0px;
+}
+
+[data-page*="_home"] .markdown-section h2 {
+  text-align: center;
+}
+
+[data-page*="_home"] .markdown-section h2 {
+  color: #FFA700;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  [data-page*="_home"] .markdown-section h2:before {
+    content: "—";
+    color: #337ab7;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+}
+
+.markdown-section #highlights {
+  background-color: #fff;
+  padding-bottom: 70px;
+}
+
+.markdown-section #highlights .inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.markdown-section #highlights .point {
+  width: 33%;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 2em;
+}
+
+.markdown-section #highlights h2 {
+  color: #337ab7;
+  font-size: 1.4em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0.5em 0;
+}
+
+.markdown-section #highlights .point p {
+  margin-top: 10px;
+  color: #7f8c8d;
+  word-spacing: 0.05em;
+  line-height: 20px;
+}
+
+.markdown-section #highlights .point p a {
+  color: #8f8c8d;
+  text-decoration: none;
+}
+
+.markdown-section #highlights .point p a:hover {
+  color: #FFA700;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .markdown-section #highlights .point {
+    width: 90%;
+  }
+}
+
+.what-is-it {
+  margin-bottom: 70px;
+}
+
+.markdown-section .what-is-it p {
+  text-align: center;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}

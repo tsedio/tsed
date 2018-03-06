@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">const</span> RESPONSE_DATA<span class="token punctuation">:</span> symbol<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">const</span> RESPONSE_DATA<span class="token punctuation">:</span> unique symbol<span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

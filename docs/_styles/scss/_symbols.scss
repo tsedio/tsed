@@ -1,0 +1,128 @@
+a.symbol-container {
+  width: 30%;
+  color: #546e7a;
+  display: inline-block;
+  line-height: 16px;
+  padding: 0 16px 0;
+  text-decoration: none;
+  transition: all .3s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.symbol-container:hover {
+  background: #eceff1;
+  color: #2196f3;
+}
+
+.symbol {
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(10, 16, 20, 0.24);
+  color: #fff;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+  width: 16px;
+  margin-right: 8px;
+  &.class {
+    background: #2196f3;
+    &:before {
+      content: "C";
+    }
+  }
+  &.interface {
+    background: #009688;
+    &:before {
+      content: "I";
+    }
+  }
+  &.decorator {
+    background: #1565c0;
+    &:before {
+      content: "@";
+    }
+  }
+  &.type {
+    background: #7cb342;
+    &:before {
+      content: "T";
+    }
+  }
+  &.service {
+    background: #d81b60;
+    &:before {
+      content: "S";
+    }
+  }
+  &.function {
+    background: #4caf50;
+    &:before {
+      content: "F";
+    }
+  }
+  &.const {
+    background: #6e6e6e;
+    &:before {
+      content: "K";
+    }
+  }
+  &.enum {
+    background: #ffa000;
+    &:before {
+      content: "E";
+    }
+  }
+}
+
+
+.symbol-info-header {
+  label {
+    border-radius: 4px;
+    padding: 4px 16px;
+    display: inline;
+    font-size: 14px;
+    color: #fff;
+    margin: 0 8px 0 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    background: #6e6e6e;
+  }
+  h1 {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 8px 0;
+  }
+  label.symbol-info-type-label {
+    &.class {
+      background: #2196f3;
+    }
+    &.interface {
+      background: #009688;
+    }
+    &.decorator {
+      background: #1565c0;
+    }
+    &.type {
+      background: #7cb342;
+    }
+    &.service {
+      background: #d81b60;
+    }
+    &.function {
+      background: #4caf50;
+    }
+    &.const {
+      background: #6e6e6e;
+    }
+    &.enum {
+      background: #ffa000;
+    }
+  }
+}
+

@@ -1,0 +1,24 @@
+@mixin border($value, $cssVarName) {
+  border: $value;
+  border: var($cssVarName, $value);
+}
+
+@mixin border-bottom($value, $cssVarName) {
+  border-bottom: $value;
+  border-bottom: var($cssVarName, $value);
+}
+
+@mixin border-top($value, $cssVarName) {
+  border-top: $value;
+  border-top: var($cssVarName, $value);
+}
+
+@mixin border-right($value, $cssVarName) {
+  border-right: $value;
+  border-right: var($cssVarName, $value);
+}
+
+@mixin border-left($value, $cssVarName) {
+  border-left: $value;
+  border-left: var($cssVarName, $value);
+}

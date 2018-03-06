@@ -1,0 +1,77 @@
+
+.github-corner {
+  display: none;
+  border-bottom: 0;
+  position: fixed;
+  right: 0;
+  text-decoration: none;
+  top: 0;
+  z-index: 1
+}
+
+.github-corner svg {
+  color: #fff;
+  fill: #0074d9;
+  fill: var(--theme-color, #0074d9);
+  height: 80px;
+  width: 80px
+}
+
+.github-corner:hover .octo-arm {
+  -webkit-animation: a .56s ease-in-out;
+  animation: a .56s ease-in-out
+}
+
+.github-corner {
+  svg {
+    color: #fff;
+    fill: #FFA700;
+    fill: var(--theme-color, #FFA700);
+    height: 80px;
+    width: 80px;
+  }
+  &:hover svg {
+    fill: #337ab7;
+    fill: var(--theme-color, #337ab7);
+  }
+}
+
+.sticky .github-corner {
+  position: fixed;
+  z-index: 10;
+  svg {
+    height: 52px;
+    width: 52px;
+  }
+}
+
+
+@-webkit-keyframes a {
+  0%, to {
+    -webkit-transform: rotate(0);
+    transform: rotate(0)
+  }
+  20%, 60% {
+    -webkit-transform: rotate(-25deg);
+    transform: rotate(-25deg)
+  }
+  40%, 80% {
+    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg)
+  }
+}
+
+@keyframes a {
+  0%, to {
+    -webkit-transform: rotate(0);
+    transform: rotate(0)
+  }
+  20%, 60% {
+    -webkit-transform: rotate(-25deg);
+    transform: rotate(-25deg)
+  }
+  40%, 80% {
+    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg)
+  }
+}
