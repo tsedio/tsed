@@ -109,6 +109,28 @@ export class CalendarCtrl {
 }
 ```
 
+## Multiple routes (Alias)
+
+Ts.ED let you define multiple routes on the same method controller, with same verb like `GET` or `POST`, or with another
+verb like this:
+
+```typescript
+import {Controller, Get, Post, PathParams} from "@tsed/common";
+
+@Controller("/calendars")
+export class CalendarCtrl {
+
+    @Get("/:id")
+    @Get("/alias/:id")
+    @Post("/:id/complexAlias")
+    async get(
+        @PathParams("id") id: string
+    ): Promise<any> {
+        return {};
+    }    
+}
+```
+
 ## Input parameters
 
 `@PathParams` decorator provide quick access to an attribute `Express.request.params`.
@@ -139,7 +161,7 @@ to get parameters send by the client.
 `@HeaderParams` decorator provide you a quick access to the `Express.request.get()`
 
 ```typescript
-import {Controller, Get, Header, PathParams} from "@tsed/common";
+import {Controller, Get, HeaderParams, PathParams} from "@tsed/common";
 
 @Controller("/calendars")
 export class CalendarCtrl {
@@ -181,7 +203,6 @@ export class CalendarCtrl {
 }
 ```
 
-
 ## Response and Request
 
 You can use a decorator to inject `Express.Request`, `Express.Response` and
@@ -215,6 +236,28 @@ export class CalendarCtrl {
     }
 }
 ```
+
+## Router
+
+Each controller has an [Express.Router](http://expressjs.com/en/guide/routing.html) instance associated with it.
+The [ExpressRouter](/api/common/mvc/expressrouter.md) decorator is here to inject this instance to your controller.
+
+```typescript
+import {Controller, Get, ExpressRouter} from "@tsed/common";
+
+@Controller("/calendars")
+export class CalendarCtrl {
+    
+    constructor(@ExpressRouter router: ExpressRouter) {
+        router.get('/', this.myMethod)
+    }
+    
+    myMethod(req, res, next){
+        
+    }
+}
+```
+> In this case, injection on the method isn't available.
 
 ## Custom middleware
 
