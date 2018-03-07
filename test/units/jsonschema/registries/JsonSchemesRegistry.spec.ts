@@ -49,6 +49,9 @@ describe("JsonSchemesRegistry", () => {
                     "nameModel": {
                         "$ref": "#/definitions/JsonNameModel"
                     },
+                    "password": {
+                        "type": "string"
+                    },
                     "object": {
                         "type": "object"
                     },

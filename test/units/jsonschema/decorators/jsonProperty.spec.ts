@@ -67,6 +67,9 @@ describe("JsonProperty()", () => {
                 "object": {
                     "type": "object"
                 },
+                "password": {
+                    "type": "string"
+                },
                 "nameModel": {
                     "$ref": "#/definitions/JsonNameModel"
                 },

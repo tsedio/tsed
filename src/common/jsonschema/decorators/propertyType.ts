@@ -5,7 +5,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
 /**
  * Set the type of the array items. The possible value is String, Boolean, Number, Date, Object, Class, etc...
  *
- * ?> This decorator is used by the Converters to deserialize correctly you model.
+ * ?> This decorator is used by the Converters to deserialize correctly your model.
  *
  * ```typescript
  * class Model {

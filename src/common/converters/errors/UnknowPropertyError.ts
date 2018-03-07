@@ -6,7 +6,7 @@ import {BadRequest} from "ts-httpexceptions";
  */
 export class UnknowPropertyError extends BadRequest {
 
-    constructor(target: Type<any>, propertyName: string) {
+    constructor(target: Type<any>, propertyName: string | symbol) {
         super(UnknowPropertyError.buildMessage(target, propertyName));
     }
 
@@ -16,7 +16,7 @@ export class UnknowPropertyError extends BadRequest {
      * @param target
      * @param propertyName
      */
-    static buildMessage(target: Type<any>, propertyName: string) {
+    static buildMessage(target: Type<any>, propertyName: string | symbol) {
         return `Property ${propertyName} on class ${nameOf(target)} is not allowed.`;
     }
 }

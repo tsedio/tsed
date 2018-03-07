@@ -72,6 +72,9 @@ describe("JsonSchemesService", () => {
                     "object": {
                         "type": "object"
                     },
+                    "password": {
+                        "type": "string"
+                    },
                     "test": {
                         "minLength": 3,
                         "type": "string"

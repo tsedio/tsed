@@ -27,7 +27,7 @@ export class ConverterService {
      * @param propertyKey
      * @returns {undefined|V|string|any|T|IDBRequest}
      */
-    static getPropertyMetadata(properties: Map<string | symbol, PropertyMetadata>, propertyKey: string): PropertyMetadata | undefined {
+    static getPropertyMetadata(properties: Map<string | symbol, PropertyMetadata>, propertyKey: string | symbol): PropertyMetadata | undefined {
 
         if (properties.has(propertyKey)) {
             return properties.get(propertyKey);
@@ -87,12 +87,11 @@ export class ConverterService {
 
                 const plainObject: any = isArrayOrArrayClass(obj) ? [] : {};
                 const properties = PropertyRegistry.getProperties(obj);
+                const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
 
-                Object.keys(obj).forEach(propertyKey => {
+                keys.forEach(propertyKey => {
                     if (typeof obj[propertyKey] !== "function") {
                         let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
-
-                        this.checkStrictModelValidation(obj, propertyKey, propertyMetadata);
 
                         propertyMetadata = propertyMetadata || {} as any;
                         plainObject[propertyMetadata!.name || propertyKey] = this.serialize(obj[propertyKey]);
@@ -272,7 +271,7 @@ export class ConverterService {
      * @param {string} propertyKey
      * @param {PropertyMetadata | undefined} propertyMetadata
      */
-    private checkStrictModelValidation(instance: any, propertyKey: string, propertyMetadata: PropertyMetadata | undefined) {
+    private checkStrictModelValidation(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
         if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
             throw new UnknowPropertyError(getClass(instance), propertyKey);
         }

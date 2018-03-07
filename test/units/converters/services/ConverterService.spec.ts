@@ -1,6 +1,6 @@
 import {ConverterService} from "../../../../src";
-import {Store} from "../../../../src/core";
 import {JsonProperty} from "../../../../src/common/jsonschema/decorators/jsonProperty";
+import {Store} from "../../../../src/core";
 import {inject} from "../../../../src/testing/inject";
 import {JsonFoo, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";
@@ -442,17 +442,6 @@ describe("ConverterService", () => {
                         this.converterService.serialize(foo4);
                     },
                     "Property foo on class JsonFoo4 is required."
-                )
-            );
-
-            it("should emit a BadRequest when attribute is not allowed", () =>
-                assert.throws(
-                    () => {
-                        const foo4: any = new JsonFoo4();
-                        foo4.unknowProperty = "test";
-                        this.converterService.serialize(foo4);
-                    },
-                    "Property unknowProperty on class JsonFoo4 is not allowed."
                 )
             );
         });

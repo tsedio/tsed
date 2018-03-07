@@ -1,4 +1,4 @@
-import {JsonProperty, Required} from "@tsed/common";
+import {JsonProperty, IgnoreProperty, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {
@@ -34,6 +34,9 @@ export class EventModel {
 
     @JsonProperty({use: Task})
     public tasks: Task[];
+
+    @IgnoreProperty()
+    public _id: string;
 
 }
 

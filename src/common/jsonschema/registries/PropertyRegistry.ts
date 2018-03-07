@@ -30,7 +30,9 @@ export class PropertyRegistry {
 
         ancestorsOf(target).forEach((klass) => {
             this.getOwnProperties(klass).forEach((v: PropertyMetadata, k: string | symbol) => {
-                map.set(k, v);
+                if (!v.ignoreProperty) {
+                    map.set(k, v);
+                }
             });
         });
 

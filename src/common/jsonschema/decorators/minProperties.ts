@@ -1,6 +1,4 @@
 import {JsonSchema} from "../class/JsonSchema";
-import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
@@ -44,7 +42,7 @@ export function MinProperties(minProperties: number) {
     if (minProperties < 0) {
         throw new Error("The value of minProperties MUST be a non-negative integer.");
     }
-    return  decoratorSchemaFactory((schema: JsonSchema) => {
+    return decoratorSchemaFactory((schema: JsonSchema) => {
         schema.minProperties = minProperties;
     });
 }

@@ -55,19 +55,88 @@ export class PersonsCtrl {
      @Post("/")
      save(@BodyParams() person: Person): Person {
           console.log(person instanceof Person); // true
-          return person; // event will be serialized according to your annotation on EventModel class.
+          return person; // will be serialized according to your annotation on Person class.
      } 
 
      //OR
      @Post("/")
      save(@BodyParams('person') person: Person): Person {
           console.log(person instanceof Person); // true
-          return person; // event will be serialized according to your annotation on EventModel class.
+          return person; // will be serialized according to your annotation on Person class.
      }
 }
 ```
 > Dans cet exemple, le modèle Person est utilisé à la fois en type d'entrée et de sortie.
 
+## Sérialisation
+
+Lorsque vous utilisez un modèle de classe en paramètre de retour, le service Converters utilisera le Schema JSON
+de la classe pour sérialiser l'objet.
+
+Voici un exemple de modèle dont certains champs ne sont volontairement pas annotés :
+```typescript
+class User {
+    _id: string;
+    
+    @Property()
+    firstName: string;
+    
+    @Property()
+    lastName: string;
+    
+    password: string;
+}
+```
+
+Et notre controlleur :
+
+```typescript
+import {Post, Controller, BodyParams} from "@tsed/common";
+import {Person} from "../models/Person";
+
+@Controller("/")
+export class UsersCtrl {
+
+    @Get("/")
+    get(): User {
+        const user = new User();
+        user._id = "12345";
+        user.firstName = "John";
+        user.lastName = "Doe";
+        user.password = "secretpassword";
+          return 
+    }
+}
+```
+
+Notre objet `User` sérialisé sera le suivant:
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+> Les champs non annoté ne seront pas recopié dans l'objet final.
+
+Vous pouvez aussi explicitement indiqué au service Converters que le champ ne doit pas être sérialisé avec le decorateur
+`@IgnoreProperty`.
+
+```typescript
+class User {
+    @NotSerialize()
+    _id: string;
+    
+    @Property()
+    firstName: string;
+    
+    @Property()
+    lastName: string;
+    
+    @IgnoreProperty()
+    password: string;
+}
+```
 
 ## Les convertisseurs de type
 

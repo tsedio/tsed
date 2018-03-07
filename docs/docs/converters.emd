@@ -51,18 +51,87 @@ export class PersonsCtrl {
      @Post("/")
      save(@BodyParams() person: Person): Person {
           console.log(person instanceof Person); // true
-          return person; // event will be serialized according to your annotation on EventModel class.
+          return person; // will be serialized according to your annotation on Person class.
      } 
 
      //OR
      @Post("/")
      save(@BodyParams('person') person: Person): Person {
           console.log(person instanceof Person); // true
-          return person; // event will be serialized according to your annotation on EventModel class.
+          return person; // will be serialized according to your annotation on Person class.
      }
 }
 ```
 > In this example, Person model is used both as input and output types.
+
+## Sérialisation
+
+When you use a class model as a return parameter, the Converters service will use the JSON Schema
+of the class to serialize the JSON object.
+
+Here is an example of a model whose fields are not voluntarily annotated:
+```typescript
+class User {
+    _id: string;
+    
+    @Property()
+    firstName: string;
+    
+    @Property()
+    lastName: string;
+    
+    password: string;
+}
+```
+
+And our controller:
+
+```typescript
+import {Post, Controller, BodyParams} from "@tsed/common";
+import {Person} from "../models/Person";
+
+@Controller("/")
+export class UsersCtrl {
+
+    @Get("/")
+    get(): User {
+        const user = new User();
+        user._id = "12345";
+        user.firstName = "John";
+        user.lastName = "Doe";
+        user.password = "secretpassword";
+          return 
+    }
+}
+```
+
+Our serialized `User` object will be:
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+> Non-annotated fields will not be copied into the final object.
+
+You can also explicitly tell the Converters service that the field should not be serialized with the decorator `@IgnoreProperty`.
+
+```typescript
+class User {
+    @NotSerialize()
+    _id: string;
+    
+    @Property()
+    firstName: string;
+    
+    @Property()
+    lastName: string;
+    
+    @IgnoreProperty()
+    password: string;
+}
+```
 
 ## Type converters
 
