@@ -49,6 +49,7 @@ describe("PropertyRegistry", () => {
             PropertyRegistry.get(Children, "test");
             PropertyRegistry.get(Parent, "id");
             PropertyRegistry.get(Parent, "name");
+            PropertyRegistry.get(Parent, "_id").ignoreProperty = true;
         });
 
         describe("when is the Parent class", () => {
@@ -82,6 +83,10 @@ describe("PropertyRegistry", () => {
 
             it("should have a property name metadata from Parent class", () => {
                 expect(this.result.get("name").targetName).to.eq("Parent");
+            });
+
+            it("should not have a property _id metadata from Parent class (because ignoreProperty is used)", () => {
+                expect(this.result.has("_id")).to.be.false;
             });
         });
 

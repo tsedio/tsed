@@ -49,6 +49,12 @@ describe("JsonProperty()", () => {
                     },
                     "type": "array"
                 },
+                "foos2": {
+                    "items": {
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
                 "mapOfString": {
                     "additionalProperties": {
                         "type": "string"
@@ -60,6 +66,9 @@ describe("JsonProperty()", () => {
                 },
                 "object": {
                     "type": "object"
+                },
+                "password": {
+                    "type": "string"
                 },
                 "nameModel": {
                     "$ref": "#/definitions/JsonNameModel"

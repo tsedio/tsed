@@ -1,6 +1,6 @@
 import {ConverterService} from "../../../../src";
-import {Store} from "../../../../src/core";
 import {JsonProperty} from "../../../../src/common/jsonschema/decorators/jsonProperty";
+import {Store} from "../../../../src/core";
 import {inject} from "../../../../src/testing/inject";
 import {JsonFoo, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";
@@ -125,6 +125,9 @@ describe("ConverterService", () => {
                             test: "2"
                         }
                     ],
+                    foos2: {
+                        test: "15"
+                    },
                     theMap: {
                         f1: {test: "1"}
                     },
@@ -158,14 +161,27 @@ describe("ConverterService", () => {
             });
 
             describe("Array", () => {
-                it("should have an attribut that is deserialized as an Array", () =>
-                    expect(this.foo2.foos).to.be.an("array")
-                );
+                describe("when data is an array", () => {
+                    it("should have an attribut that is deserialized as an Array", () =>
+                        expect(this.foo2.foos).to.be.an("array")
+                    );
 
-                it(
-                    "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
-                        expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo)
-                );
+                    it(
+                        "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
+                            expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo)
+                    );
+                });
+
+                describe("when data is a object", () => {
+                    it("should have an attribut that is deserialized as an Array", () =>
+                        expect(this.foo2.foos2).to.be.an("array")
+                    );
+
+                    it(
+                        "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
+                            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo)
+                    );
+                });
             });
 
             describe("Map", () => {
@@ -426,17 +442,6 @@ describe("ConverterService", () => {
                         this.converterService.serialize(foo4);
                     },
                     "Property foo on class JsonFoo4 is required."
-                )
-            );
-
-            it("should emit a BadRequest when attribute is not allowed", () =>
-                assert.throws(
-                    () => {
-                        const foo4: any = new JsonFoo4();
-                        foo4.unknowProperty = "test";
-                        this.converterService.serialize(foo4);
-                    },
-                    "Property unknowProperty on class JsonFoo4 is not allowed."
                 )
             );
         });

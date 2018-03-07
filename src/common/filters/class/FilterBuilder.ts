@@ -85,15 +85,13 @@ export class FilterBuilder {
             return filter;
         }
 
-        const type = param.type || param.collectionType;
-        const {collectionType} = param;
         const converterService = InjectorService.get<ConverterService>(ConverterService);
 
         return FilterBuilder.pipe(
             filter,
             converterService.deserialize.bind(converterService),
-            type,
-            collectionType
+            param.collectionType || param.type,
+            param.type
         );
     }
 
@@ -116,6 +114,7 @@ export class FilterBuilder {
             try {
                 validationService.validate(value, type, collectionType);
             } catch (err) {
+                console.error(err);
                 throw new ParseExpressionError(param.name, param.expression, err.message);
             }
             return value;

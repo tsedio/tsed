@@ -22,3 +22,4 @@ export * from "./allowTypes";
 export * from "./any";
 export * from "./schema";
 export * from "./title";
+export * from "./ignoreProperty";

@@ -1,4 +1,5 @@
-import {Controller, ExpressRouter, Get, Render, RouteService} from "@tsed/common";
+import {Controller, ExpressRouter, Get, PathParams, QueryParams, Render, RouteService} from "@tsed/common";
+import {Returns, Summary} from "@tsed/swagger";
 
 @Controller("/rest")
 export class RestCtrl {

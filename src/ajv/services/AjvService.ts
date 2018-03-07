@@ -42,7 +42,7 @@ export class AjvService extends ValidationService {
     public validate(obj: any, targetType: any, baseType?: any): boolean {
         let schema = <any>this.jsonSchemaService.getSchemaDefinition(targetType);
 
-        if (schema) {
+        if (schema && !(obj === null || obj === undefined)) {
             const collection = baseType ? obj : [obj];
             const options = {
                 ignoreCallback: (obj: any, type: any) => type === Date,

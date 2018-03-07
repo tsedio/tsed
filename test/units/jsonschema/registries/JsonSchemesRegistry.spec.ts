@@ -30,6 +30,13 @@ describe("JsonSchemesRegistry", () => {
                         },
                         "type": "array"
                     },
+
+                    "foos2": {
+                        "items": {
+                            "$ref": "#/definitions/JsonFoo"
+                        },
+                        "type": "array"
+                    },
                     "mapOfString": {
                         "additionalProperties": {
                             "type": "string"
@@ -41,6 +48,9 @@ describe("JsonSchemesRegistry", () => {
                     },
                     "nameModel": {
                         "$ref": "#/definitions/JsonNameModel"
+                    },
+                    "password": {
+                        "type": "string"
                     },
                     "object": {
                         "type": "object"

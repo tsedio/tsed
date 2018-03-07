@@ -11,6 +11,9 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
     @NotEnumerable()
     private _allowedRequiredValues: any[] = [];
 
+    @NotEnumerable()
+    private _ignoreProperty: boolean = false;
+
     constructor(target: any, propertyKey: any) {
         super(target, propertyKey);
         this.store.set("schema", JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType));
@@ -71,6 +74,22 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
      */
     set allowedRequiredValues(value: any[]) {
         this._allowedRequiredValues = value;
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    get ignoreProperty(): boolean {
+        return this._ignoreProperty;
+    }
+
+    /**
+     *
+     * @param {boolean} value
+     */
+    set ignoreProperty(value: boolean) {
+        this._ignoreProperty = value;
     }
 
     isValidRequiredValue(value: any): boolean {

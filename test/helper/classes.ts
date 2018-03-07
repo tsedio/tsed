@@ -1,3 +1,4 @@
+import {IgnoreProperty} from "@tsed/common";
 import {Property} from "../../src/common/jsonschema/decorators/jsonProperty";
 import {MinLength} from "../../src/common/jsonschema/decorators/minLength";
 import {PropertyName} from "../../src/common/jsonschema/decorators/propertyName";
@@ -77,6 +78,9 @@ export class JsonFoo2 {
     foos: JsonFoo[];
 
     @PropertyType(JsonFoo)
+    foos2: JsonFoo[];
+
+    @PropertyType(JsonFoo)
     theMap: Map<string, JsonFoo>;
 
     @PropertyType(JsonFoo)
@@ -93,6 +97,9 @@ export class JsonFoo2 {
 
     @Property()
     ageModel: JsonAgeModel;
+
+    @IgnoreProperty()
+    password: string;
 
     method() {
 
