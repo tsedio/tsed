@@ -59,9 +59,9 @@ window.$docsify = {
         label: 'Documentation',
         childrens: [
           { url: '#/configuration', label: 'Configuration' },
-          { url: '#/docs/migration', label: 'Migration' },
           { url: '#/docs/controllers', label: 'Controllers' },
           { url: '#/docs/services/overview', label: 'Services' },
+          { url: '#/docs/model', label: 'Models' },
           { url: '#/docs/converters', label: 'Converters' },
           { url: '#/docs/middlewares/overview', label: 'Middlewares' },
           { url: '#/docs/scope', label: 'Scope' },

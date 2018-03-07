@@ -30,9 +30,9 @@ $docsify.addLanguages({
       label: 'Documentation',
       childrens: [
         { url: '#/fr/configuration', label: 'Configuration' },
-        { url: '#/fr/docs/migration', label: 'Migration' },
         { url: '#/fr/docs/controllers', label: 'Controlleurs' },
         { url: '#/fr/docs/services/overview', label: 'Services' },
+        { url: '#/fr/docs/model', label: 'Modèle' },
         { url: '#/fr/docs/converters', label: 'Converters' },
         { url: '#/fr/docs/middlewares/overview', label: 'Middlewares' },
         { url: '#/fr/docs/scope', label: 'Scope' },
