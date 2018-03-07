@@ -2,19 +2,19 @@
 
 Le service Converters est responsable de la sérialisation et de la déserialisation des objets.
 
-Il a deux modes de fonctionnement:
+Il a deux modes de fonctionnement :
 
 - Le premier utilise les [modèles de classe](fr/docs/model.md) pour 
-convertir un object en classe (et inversement). 
-- Le second se base sur l'objet JSON lui-même pour fournir un object avec les bons types. Par exemple la déserialisation des dates.
+convertir un objet en classe (et inversement). 
+- Le second se base sur l'objet JSON lui-même pour fournir un objet avec les bons types. Par exemple la déserialisation des dates.
 
-Le service Converters est utilisé par les décorateurs suivants:
+Le service Converters est utilisé par les décorateurs suivants :
 
 <ul class="api-list"><li class="api-item" data-symbol="common/filters;BodyParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/bodyparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-BodyParams"title="BodyParams"><span class="symbol decorator"></span>BodyParams</a></li><li class="api-item" data-symbol="common/filters;Cookies;decorator;@;false;false;false;false"><a href="#/api/common/filters/cookies"class="symbol-container symbol-type-decorator symbol-name-commonfilters-Cookies"title="Cookies"><span class="symbol decorator"></span>Cookies</a></li><li class="api-item" data-symbol="common/filters;CookiesParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/cookiesparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-CookiesParams"title="CookiesParams"><span class="symbol decorator"></span>CookiesParams</a></li><li class="api-item" data-symbol="common/filters;PathParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/pathparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-PathParams"title="PathParams"><span class="symbol decorator"></span>PathParams</a></li><li class="api-item" data-symbol="common/filters;QueryParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/queryparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-QueryParams"title="QueryParams"><span class="symbol decorator"></span>QueryParams</a></li><li class="api-item" data-symbol="common/filters;Session;decorator;@;false;false;false;false"><a href="#/api/common/filters/session"class="symbol-container symbol-type-decorator symbol-name-commonfilters-Session"title="Session"><span class="symbol decorator"></span>Session</a></li></ul>
 
 ## Decorateurs
 
-<ul class="api-list"><li class="api-item" data-symbol="common/converters;Converter;decorator;@;false;false;false;false"><a href="#/api/common/converters/converter"class="symbol-container symbol-type-decorator symbol-name-commonconverters-Converter"title="Converter"><span class="symbol decorator"></span>Converter</a></li><li class="api-item" data-symbol="common/converters;ModelStrict;decorator;@;false;false;false;false"><a href="#/api/common/converters/modelstrict"class="symbol-container symbol-type-decorator symbol-name-commonconverters-ModelStrict"title="ModelStrict"><span class="symbol decorator"></span>ModelStrict</a></li><li class="api-item" data-symbol="common/jsonschema;PropertyName;decorator;@;false;false;false;false"><a href="#/api/common/jsonschema/propertyname"class="symbol-container symbol-type-decorator symbol-name-commonjsonschema-PropertyName"title="PropertyName"><span class="symbol decorator"></span>PropertyName</a></li><li class="api-item" data-symbol="common/jsonschema;PropertyType;decorator;@;false;false;false;false"><a href="#/api/common/jsonschema/propertytype"class="symbol-container symbol-type-decorator symbol-name-commonjsonschema-PropertyType"title="PropertyType"><span class="symbol decorator"></span>PropertyType</a></li><li class="api-item" data-symbol="common/mvc;Required;decorator;@;false;false;false;false"><a href="#/api/common/mvc/required"class="symbol-container symbol-type-decorator symbol-name-commonmvc-Required"title="Required"><span class="symbol decorator"></span>Required</a></li></ul>
+<ul class="api-list"><li class="api-item" data-symbol="common/converters;Converter;decorator;@;false;false;false;false"><a href="#/api/common/converters/converter"class="symbol-container symbol-type-decorator symbol-name-commonconverters-Converter"title="Converter"><span class="symbol decorator"></span>Converter</a></li><li class="api-item" data-symbol="common/jsonschema;IgnoreProperty;decorator;@;false;false;false;false"><a href="#/api/common/jsonschema/ignoreproperty"class="symbol-container symbol-type-decorator symbol-name-commonjsonschema-IgnoreProperty"title="IgnoreProperty"><span class="symbol decorator"></span>IgnoreProperty</a></li><li class="api-item" data-symbol="common/converters;ModelStrict;decorator;@;false;false;false;false"><a href="#/api/common/converters/modelstrict"class="symbol-container symbol-type-decorator symbol-name-commonconverters-ModelStrict"title="ModelStrict"><span class="symbol decorator"></span>ModelStrict</a></li><li class="api-item" data-symbol="common/jsonschema;PropertyName;decorator;@;false;false;false;false"><a href="#/api/common/jsonschema/propertyname"class="symbol-container symbol-type-decorator symbol-name-commonjsonschema-PropertyName"title="PropertyName"><span class="symbol decorator"></span>PropertyName</a></li><li class="api-item" data-symbol="common/jsonschema;PropertyType;decorator;@;false;false;false;false"><a href="#/api/common/jsonschema/propertytype"class="symbol-container symbol-type-decorator symbol-name-commonjsonschema-PropertyType"title="PropertyType"><span class="symbol decorator"></span>PropertyType</a></li><li class="api-item" data-symbol="common/mvc;Required;decorator;@;false;false;false;false"><a href="#/api/common/mvc/required"class="symbol-container symbol-type-decorator symbol-name-commonmvc-Required"title="Required"><span class="symbol decorator"></span>Required</a></li></ul>
 
 ## Usage
 
@@ -41,7 +41,7 @@ class Person {
 }
 ```
 
-> Note: PropertyType permet de spécifier le type de la collection.
+> Note: `@PropertyType` permet de spécifier le type de la collection.
 
 Et son utilisation dans un controlleur:
 
@@ -55,19 +55,88 @@ export class PersonsCtrl {
      @Post("/")
      save(@BodyParams() person: Person): Person {
           console.log(person instanceof Person); // true
-          return person; // event will be serialized according to your annotation on EventModel class.
+          return person; // will be serialized according to your annotation on Person class.
      } 
 
      //OR
      @Post("/")
      save(@BodyParams('person') person: Person): Person {
           console.log(person instanceof Person); // true
-          return person; // event will be serialized according to your annotation on EventModel class.
+          return person; // will be serialized according to your annotation on Person class.
      }
 }
 ```
 > Dans cet exemple, le modèle Person est utilisé à la fois en type d'entrée et de sortie.
 
+## Sérialisation
+
+Lorsque vous utilisez un modèle de classe en paramètre de retour, le service Converters utilisera le Schema JSON
+de la classe pour sérialiser l'objet.
+
+Voici un exemple de modèle dont certains champs ne sont volontairement pas annotés :
+```typescript
+class User {
+    _id: string;
+    
+    @Property()
+    firstName: string;
+    
+    @Property()
+    lastName: string;
+    
+    password: string;
+}
+```
+
+Et notre controlleur :
+
+```typescript
+import {Post, Controller, BodyParams} from "@tsed/common";
+import {Person} from "../models/Person";
+
+@Controller("/")
+export class UsersCtrl {
+
+    @Get("/")
+    get(): User {
+        const user = new User();
+        user._id = "12345";
+        user.firstName = "John";
+        user.lastName = "Doe";
+        user.password = "secretpassword";
+          return 
+    }
+}
+```
+
+Notre objet `User` sérialisé sera le suivant:
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+> Les champs non annoté ne seront pas recopié dans l'objet final.
+
+Vous pouvez aussi explicitement indiqué au service Converters que le champ ne doit pas être sérialisé avec le decorateur
+`@IgnoreProperty`.
+
+```typescript
+class User {
+    @NotSerialize()
+    _id: string;
+    
+    @Property()
+    firstName: string;
+    
+    @Property()
+    lastName: string;
+    
+    @IgnoreProperty()
+    password: string;
+}
+```
 
 ## Les convertisseurs de type
 
@@ -81,7 +150,7 @@ Le service Converters repose sur ensemble de sous-service pour convertir les typ
 
 <ul class="api-list"><li class="api-item" data-symbol="common/converters;ArrayConverter;class;C;false;false;false;true"><a href="#/api/common/converters/arrayconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-ArrayConverter"title="ArrayConverter"><span class="symbol class"></span>ArrayConverter</a></li><li class="api-item" data-symbol="common/converters;DateConverter;class;C;false;false;false;true"><a href="#/api/common/converters/dateconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-DateConverter"title="DateConverter"><span class="symbol class"></span>DateConverter</a></li><li class="api-item" data-symbol="common/converters;MapConverter;class;C;false;false;false;true"><a href="#/api/common/converters/mapconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-MapConverter"title="MapConverter"><span class="symbol class"></span>MapConverter</a></li><li class="api-item" data-symbol="common/converters;PrimitiveConverter;class;C;false;false;false;true"><a href="#/api/common/converters/primitiveconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-PrimitiveConverter"title="PrimitiveConverter"><span class="symbol class"></span>PrimitiveConverter</a></li><li class="api-item" data-symbol="common/converters;SetConverter;class;C;false;false;false;true"><a href="#/api/common/converters/setconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-SetConverter"title="SetConverter"><span class="symbol class"></span>SetConverter</a></li><li class="api-item" data-symbol="common/converters;SymbolConverter;class;C;false;false;false;true"><a href="#/api/common/converters/symbolconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-SymbolConverter"title="SymbolConverter"><span class="symbol class"></span>SymbolConverter</a></li></ul>
 
-### Example
+### Exemple
 
 Voici un exemple de convertisseur de type:
 
@@ -120,6 +189,7 @@ export class PrimitiveConverter implements IConverter {
 ### Créer un convertisseur de type
 
 Ts.ED permet de créer ses propres convertisseur de la même façon que l'exemple précédent.
+
 Pour commencer, il faut ajouter à votre configuration le répertoire où sont stockées
 vos classes dédiées à convertion des types. 
  
@@ -129,12 +199,7 @@ import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
 @ServerSettings({
-   rootDir,
-   mount: {
-      '/rest': `${rootDir}/controllers/**/**.js`
-   },
    componentsScan: [
-       `${rootDir}/services/**/**.js`,
        `${rootDir}/converters/**/**.js`
    ]
 })
@@ -267,7 +332,7 @@ class TaskModel {
 }
 ````
 
-Dans ce précis, le service ne lèvera plus d'exception:
+Dans ce case précis, le service ne lèvera plus d'exception:
 
 ```typescript
 import {InjectorService, ConvertersService, ModelStrict, Required, Property} from "@tsed/common";
