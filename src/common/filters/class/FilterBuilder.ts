@@ -114,6 +114,7 @@ export class FilterBuilder {
             try {
                 validationService.validate(value, type, collectionType);
             } catch (err) {
+                console.error(err);
                 throw new ParseExpressionError(param.name, param.expression, err.message);
             }
             return value;
