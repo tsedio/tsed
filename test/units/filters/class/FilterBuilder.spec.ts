@@ -280,7 +280,7 @@ describe("FilterBuilder", () => {
                 this.pipeStub.restore();
             });
             it("should call pipe method", () => {
-                this.pipeStub.should.be.calledWithExactly("filter", Sinon.match.any, "type", "collection");
+                this.pipeStub.should.be.calledWithExactly("filter", Sinon.match.any, "collection", "type");
             });
             it("should call injector.get method", () => {
                 this.injectorStub.should.be.calledWithExactly(ConverterService);

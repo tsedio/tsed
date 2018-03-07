@@ -85,15 +85,13 @@ export class FilterBuilder {
             return filter;
         }
 
-        const type = param.type || param.collectionType;
-        const {collectionType} = param;
         const converterService = InjectorService.get<ConverterService>(ConverterService);
 
         return FilterBuilder.pipe(
             filter,
             converterService.deserialize.bind(converterService),
-            type,
-            collectionType
+            param.collectionType || param.type,
+            param.type
         );
     }
 

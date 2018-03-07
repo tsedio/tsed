@@ -30,6 +30,13 @@ describe("JsonSchemesRegistry", () => {
                         },
                         "type": "array"
                     },
+
+                    "foos2": {
+                        "items": {
+                            "$ref": "#/definitions/JsonFoo"
+                        },
+                        "type": "array"
+                    },
                     "mapOfString": {
                         "additionalProperties": {
                             "type": "string"

@@ -77,6 +77,9 @@ export class JsonFoo2 {
     foos: JsonFoo[];
 
     @PropertyType(JsonFoo)
+    foos2: JsonFoo[];
+
+    @PropertyType(JsonFoo)
     theMap: Map<string, JsonFoo>;
 
     @PropertyType(JsonFoo)

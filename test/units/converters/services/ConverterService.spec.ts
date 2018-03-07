@@ -125,6 +125,9 @@ describe("ConverterService", () => {
                             test: "2"
                         }
                     ],
+                    foos2: {
+                        test: "15"
+                    },
                     theMap: {
                         f1: {test: "1"}
                     },
@@ -158,14 +161,27 @@ describe("ConverterService", () => {
             });
 
             describe("Array", () => {
-                it("should have an attribut that is deserialized as an Array", () =>
-                    expect(this.foo2.foos).to.be.an("array")
-                );
+                describe("when data is an array", () => {
+                    it("should have an attribut that is deserialized as an Array", () =>
+                        expect(this.foo2.foos).to.be.an("array")
+                    );
 
-                it(
-                    "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
-                        expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo)
-                );
+                    it(
+                        "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
+                            expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo)
+                    );
+                });
+
+                describe("when data is a object", () => {
+                    it("should have an attribut that is deserialized as an Array", () =>
+                        expect(this.foo2.foos2).to.be.an("array")
+                    );
+
+                    it(
+                        "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
+                            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo)
+                    );
+                });
             });
 
             describe("Map", () => {

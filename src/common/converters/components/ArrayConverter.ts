@@ -1,4 +1,3 @@
-import {isArrayOrArrayClass} from "@tsed/core";
 import {Converter} from "../decorators/converter";
 import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
 
@@ -19,14 +18,7 @@ export class ArrayConverter implements IConverter {
      * @returns {any[]}
      */
     deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): T[] {
-
-        if (isArrayOrArrayClass(data)) {
-            return (data as Array<any>).map(item =>
-                deserializer!(item, baseType)
-            );
-        }
-
-        return [data];
+        return [].concat(data).map(item => deserializer!(item, baseType));
     }
 
     /**
@@ -36,8 +28,6 @@ export class ArrayConverter implements IConverter {
      * @returns {any[]}
      */
     serialize(data: any[], serializer: ISerializer) {
-        return (data as Array<any>).map(item =>
-            serializer(item)
-        );
+        return [].concat(data as any).map(item => serializer(item));
     }
 }
