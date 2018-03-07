@@ -1,5 +1,6 @@
-import {isArray, isClass, isString} from "@tsed/core";
+import {isClass} from "@tsed/core";
 import * as Express from "express";
+import * as globby from "globby";
 import * as Http from "http";
 import * as Https from "https";
 import * as Path from "path";
@@ -360,21 +361,17 @@ export abstract class ServerLoader implements IServerLifecycle {
      * const controllerPattern = Path.join(rootDir, 'controllers','**','*.js');
      * ```
      *
-     * @param path
+     * @param patterns
      * @param endpoint
      * @returns {ServerLoader}
      */
-    public scan(path: string, endpoint?: string): ServerLoader {
+    public scan(patterns: string | string[], endpoint?: string): ServerLoader {
 
-        path = Path.resolve(path);
-        const files: string[] = require("glob").sync(ServerLoader.file(path));
-
-        $log.info(`Scan files : ${path}`);
-
-        const promises = files
+        const promises = globby
+            .sync(ServerLoader.cleanGlobPatterns(patterns))
             .map(async (file: string) => {
                 $log.debug(`Import file ${endpoint}:`, file);
-                const classes: any[] = await import(ServerLoader.file(file));
+                const classes: any[] = await import(file);
                 this.addComponents(classes, {endpoint});
             });
 
@@ -432,20 +429,22 @@ export abstract class ServerLoader implements IServerLifecycle {
      * Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
      * under the endpoint. See [Versioning Rest API](docs/server-loader/versioning.md) for more informations.
      * @param endpoint
-     * @param path
+     * @param list
      * @returns {ServerLoader}
      */
-    public mount(endpoint: string, path: any | string | (any | string)[]): ServerLoader {
+    public mount(endpoint: string, list: any | string | (any | string)[]): ServerLoader {
 
-        if (isArray(path)) {
-            path.forEach((path: string) => {
-                this.mount(endpoint, path);
+        const patterns = []
+            .concat(list)
+            .filter((item: string) => {
+                if (isClass(item)) {
+                    this.addControllers(endpoint, [item]);
+                    return false;
+                }
+                return true;
             });
-        } else if (isString(path)) {
-            this.scan(path, endpoint);
-        } else if (isClass(path)) {
-            this.addControllers(endpoint, [path]);
-        }
+
+        this.scan(patterns, endpoint);
 
         return this;
     }
@@ -583,13 +582,17 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /**
      *
-     * @param {string} file
      * @returns {any}
+     * @param files
      */
-    static file(file: string): string {
-        if (!require.extensions[".ts"]) {
-            file = file.replace(/\.ts$/i, ".js");
-        }
-        return file;
+    static cleanGlobPatterns(files: string | string[]): string[] {
+        return []
+            .concat(files as any)
+            .map((file: string) => {
+                if (!require.extensions[".ts"]) {
+                    file = file.replace(/\.ts$/i, ".js");
+                }
+                return Path.resolve(file);
+            });
     }
 }

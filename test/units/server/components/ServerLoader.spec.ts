@@ -1,11 +1,11 @@
 import * as Http from "http";
 import * as Https from "https";
 import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
-import {Metadata} from "../../../../src/core/class/Metadata";
 import {InjectorService} from "../../../../src/common/di";
 import {HttpServer} from "../../../../src/common/server";
 import {ServerLoader} from "../../../../src/common/server/components/ServerLoader";
 import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
+import {Metadata} from "../../../../src/core/class/Metadata";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {
@@ -192,7 +192,7 @@ describe("ServerLoader", () => {
             });
 
             it("should have been called the scan method", () => {
-                this.scanStub.should.be.calledOnce.and.calledWithExactly("path/to/*.js", "endpoint");
+                this.scanStub.should.be.calledOnce.and.calledWithExactly(["path/to/*.js"], "endpoint");
             });
 
         });
@@ -208,12 +208,7 @@ describe("ServerLoader", () => {
             });
 
             it("should have been called the scan method", () => {
-                this.scanStub.should.be
-                    .calledTwice
-                    .and
-                    .calledWithExactly("path/to/*.js", "endpoint")
-                    .and
-                    .calledWithExactly("path2/to/*.js", "endpoint");
+                this.scanStub.should.be.calledWithExactly(["path/to/*.js", "path2/to/*.js"], "endpoint");
             });
         });
 
@@ -359,7 +354,7 @@ describe("ServerLoader", () => {
         });
     });
 
-    describe("file()", () => {
+    describe("cleanGlobPatterns()", () => {
         before(() => {
             this.compilerBackup = require.extensions[".ts"];
         });
@@ -375,11 +370,11 @@ describe("ServerLoader", () => {
                 require.extensions[".ts"] = this.compiler;
             });
             it("should return file.js", () => {
-                expect(ServerLoader.file("file.ts")).to.eq("file.js");
+                expect(ServerLoader.cleanGlobPatterns("file.ts")[0]).to.contains("file.js");
             });
 
             it("should return file.ts.js and manipulate only the file extension", () => {
-                expect(ServerLoader.file("file.ts.ts")).to.eq("file.ts.js");
+                expect(ServerLoader.cleanGlobPatterns("file.ts.ts")[0]).to.contains("file.ts.js");
             });
         });
         describe("when have typescript compiler", () => {
@@ -393,7 +388,7 @@ describe("ServerLoader", () => {
                 require.extensions[".ts"] = this.compiler;
             });
             it("should return file.ts", () => {
-                expect(ServerLoader.file("file.ts")).to.eq("file.ts");
+                expect(ServerLoader.cleanGlobPatterns("file.ts")[0]).to.contains("file.ts");
             });
         });
     });
