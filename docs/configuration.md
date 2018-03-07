@@ -77,6 +77,49 @@ ts-node isn't the runtime.
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](docs/converters.md)). By default true.
 * `logger`  &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Logger configuration.
 
+
+## HTTP & HTTPs server
+### Change address
+
+It's possible to change the HTTP and HTTPS server address as follows:
+
+```typescript
+@ServerSettings({
+   httpPort: "127.0.0.1:8081",
+   httpsPort: "127.0.0.2:8082",
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+### Disable HTTP
+
+```typescript
+@ServerSettings({
+   httpPort: false,
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+### Disable HTTPS
+
+```typescript
+@ServerSettings({
+   httpsPort: false,
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+### HTTPs configuration
+
+You see the example [projet HTTPs](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-https)
+
+
 ## Logger
 ### Default logger
 
@@ -192,29 +235,13 @@ $log
   }); 
 ```
 
-## Disable strict model validation
-
-Since v2.6, [ConverterService](docs/converters.md) check the consistency between the model and the Json object given to the endpoint.
-
-!> When a property is unknown on the model, Ts.Ed throw a BadRequest.
-
-You disable this behavior like here:
-
-```typescript
-@ServerSettings({
-   validationModelStrict: false
-})
-export class Server extends ServerLoader {
-
-}
-```
-
 ## Get configuration
 
 The configuration can be reused throughout your application in different ways. 
 
 - With dependency injection in [Service](docs/services/overview.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
 - With the decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md).
+- or with the `GlobalServerSettings` object.
 
 ### From service (DI)
 
@@ -222,7 +249,7 @@ The configuration can be reused throughout your application in different ways.
 import {ServerSettingsService} from "@tsed/common";
 @Service() // or Controller or Middleware
 export class MyService {
-    constructor(ServerSettingsService: ServerSettingsService) {
+    constructor(serverSettingsService: ServerSettingsService) {
         
     }
 }
@@ -231,8 +258,14 @@ export class MyService {
 ### From decorators
 
 Decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) can be used in all classes
-including: [Service](docs/overview/services.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) and [Converter](docs/converters.md).
-
+including: 
+ 
+ - [Service](docs/overview/services.md), 
+ - [Controller](docs/controllers.md),
+ - [Middleware](docs/middlewares/overview.md),
+ - [Filter](docs/filters.md) 
+ - [Converter](docs/converters.md).
+ 
 [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) accept an expression as parameters to 
 inspect the configuration object and return the value.
 
