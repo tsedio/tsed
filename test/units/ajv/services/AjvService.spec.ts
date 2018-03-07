@@ -54,5 +54,13 @@ describe("AjvService", () => {
 
             return this.ajvService.validate(foo2, JsonFoo2);
         });
+
+        it("should not throws errors (null)", () => {
+            return this.ajvService.validate(null, JsonFoo2);
+        });
+
+        it("should not throws errors (undefined)", () => {
+            return this.ajvService.validate(undefined, JsonFoo2);
+        });
     });
 });
