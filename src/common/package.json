@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@types/json-schema": "^6.0.0",
-    "glob": "^7.1.2",
+    "globby": "^8.0.1",
     "json-schema": "^0.2.3",
     "ts-httpexceptions": "^3.0.0",
     "ts-log-debug": "^4.0.1",

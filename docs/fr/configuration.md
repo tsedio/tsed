@@ -42,7 +42,8 @@ import Path = require("path");
      "/rest": "${rootDir}/controllers/current/**/*.js",
      "/rest/v1": [
         "${rootDir}/controllers/v1/users/*.js", 
-        "${rootDir}/controllers/v1/groups/*.ts", // support ts entry
+        "${rootDir}/controllers/v1/groups/**/*.ts", // support ts entry
+        "!${rootDir}/controllers/v0/groups/old/*.ts",
         MyController // support manual import
      ]
    }
