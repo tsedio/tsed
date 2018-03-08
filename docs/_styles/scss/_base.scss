@@ -152,14 +152,3 @@ body.close .content {
 .github-corner {
   display: none;
 }
-
-@media screen and (max-width: 768px) {
-
-  .content {
-    left: 0 !important;
-  }
-  main {
-    height: auto;
-    overflow-x: hidden
-  }
-}

@@ -8,7 +8,7 @@ Vue.component('navbar', {
         <div class="sidebar-toggle" @click="onClick(event)">
             <i></i><i></i><i></i>
         </div>
-        <a href="/">{{settings.name}}</a>
+        <a :href="home">{{settings.name}}</a>
       </div>
       <ul class="app-nav-right">
         <li v-for="item in settings.menu">
@@ -46,7 +46,8 @@ Vue.component('navbar', {
 
   data() {
     return {
-      sticky: false
+      sticky: false,
+      home: window.location.href.split('#')[0] + '#/'
     };
   },
 
@@ -64,14 +65,13 @@ Vue.component('navbar', {
     window.removeEventListener('scroll', (e) => this.updateSticky());
   },
 
-
   methods: {
     onResize() {
-      if (document.documentElement.clientWidth <= 768) {
+      /*if (document.documentElement.clientWidth <= 768) {
         document.body.classList.add('close');
       } else {
         document.body.classList.remove('close');
-      }
+      }*/
     },
 
     onClick(event) {

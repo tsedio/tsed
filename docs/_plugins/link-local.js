@@ -6,7 +6,7 @@
 
       const lang = window.location.hash.split('/')[1];
 
-      if (vm.config.fallbackLanguages.indexOf(lang) >= -1) {
+      if (vm.config.fallbackLanguages.indexOf(lang) > -1) {
         html = html.replace(/href="#\/(.*)"/gi, (link, match) => {
 
           if (link.indexOf('#/' + lang + '/') === -1) {
