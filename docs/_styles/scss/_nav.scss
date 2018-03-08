@@ -8,7 +8,7 @@ $navbar-sticky-height: 52px !default;
   padding-right: 0px;
   right: 0;
   left: 0;
-  z-index: 2;
+  z-index: 4;
   transition: all ease 300ms;
   > * {
     height: $navbar-height;

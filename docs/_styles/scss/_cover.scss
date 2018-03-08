@@ -15,6 +15,9 @@ section.cover {
   background-size: cover;
   height: 100vh;
   display: none;
+  color: white;
+  background: $cover-background-color !important;
+
   .cover-main {
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -37,13 +40,15 @@ section.cover {
   }
   h1 {
     color: inherit;
-    font-size: 40px;
-    font-size: 2.5rem;
     font-weight: 300;
     margin: 10px 0 40px;
     margin: .625rem 0 2.5rem;
     position: relative;
     text-align: center;
+    font-size: 100px;
+    .anchor span {
+      color: white;
+    }
     a {
       display: block;
     }
@@ -59,6 +64,20 @@ section.cover {
     font-size: 24px;
     font-size: 1.5rem;
     text-align: center;
+    color: white;
+    margin-bottom: 50px;
+    p {
+      line-height: 1.9rem;
+      font-weight: lighter;
+      font-size: 30px;
+    }
+    > p > a {
+      @include border-bottom(2px solid $primary-color, --primary-color);
+      transition: color 0.3s;
+      &:hover {
+        @include color($primary-color, --primary-color);
+      }
+    }
   }
   ul {
     line-height: 1.8;
@@ -66,43 +85,12 @@ section.cover {
     margin: 1em auto;
     max-width: 500px;
     padding: 0;
-  }
-  .cover-main > p:last-child a {
-    border-color: $primary-color;
-    @include border(1px solid $primary-color, --primary-color);
-    border-radius: 2rem;
-    box-sizing: border-box;
-    @include color($primary-color, --primary-color);
-    display: inline-block;
-    font-size: 16.8px;
-    font-size: 1.05rem;
-    letter-spacing: 1.6px;
-    letter-spacing: .1rem;
-    margin: 8px 16px;
-    margin: .5rem 1rem;
-    padding: .75em 32px;
-    padding: .75em 2rem;
-    text-decoration: none;
-    transition: all 0.15s ease;
-    &:last-child {
-      @include background-color($primary-color, --primary-color);
-      color: #fff;
-      &:hover {
-        color: inherit;
-        opacity: 0.8;
-      }
-    }
-    &:hover {
-      color: inherit;
+    li {
+      color: $secondary-color;
+      font-weight: bold;
     }
   }
-  blockquote > p > a {
-    @include border-bottom(2px solid $primary-color, --primary-color);
-    transition: color 0.3s;
-    &:hover {
-      @include color($primary-color, --primary-color);
-    }
-  }
+
   &.show {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -116,49 +104,44 @@ section.cover {
     width: 100%;
     height: 100%;
   }
-}
-
-section.cover {
-  color: white;
-  background: $cover-background-color !important;
-  blockquote {
-    color: white;
-    margin-bottom: 50px;
-    p {
-      line-height: 1.9rem;
-      font-weight: lighter;
-      font-size: 30px;
-    }
+  .cover-main > p {
+    margin-bottom: 40px;
   }
-  h1 {
-    font-size: 100px;
-    font-weight: 300;
-    .anchor span {
-      color: white;
-    }
-  }
-
   .cover-main > p a.button {
-    @include background-color($secondary-color, --secondary-color);
-    @include border(1px solid $secondary-color, --secondary-color);
+    background: white;
+    border: 1px solid white;
+    @include box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.26));
+    @include color($primary-color, --primary-color);
+
+    margin-bottom: 20px;
     border-radius: 2rem;
     box-sizing: border-box;
     display: inline-block;
-    min-width: 180px;
     font-size: 16.8px;
     font-size: 1.05rem;
     letter-spacing: 1.6px;
     letter-spacing: .1rem;
-    margin-right: 16px;
-    margin-right: 1rem;
+    margin: 8px 16px;
+    margin: .5rem 1rem;
     padding: .75em 32px;
     padding: .75em 2rem;
     text-decoration: none;
-    transition: all .15s ease;
-    color: #111;
-    @include box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.26));
-    margin-bottom: 20px;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 180px;
+
+    &:last-child {
+      @include background-color($primary-color, --primary-color);
+      color: #fff;
+      &:hover {
+        color: inherit;
+        opacity: 0.8;
+      }
+    }
     &:hover {
+      color: inherit;
       opacity: 0.8;
     }
     &.white {

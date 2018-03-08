@@ -1,3 +1,7 @@
+body > .sidebar-toggle {
+  display: none !important;
+}
+
 .sidebar-toggle {
   cursor: pointer;
   width: 30px;
@@ -39,21 +43,41 @@
   }
 
 }
-
-body:not(.close) .sidebar-toggle {
-  i:nth-child(1) {
-    -webkit-animation: inT 0.8s forwards;
-    animation: inT 0.8s forwards;
-  }
-  i:nth-child(2) {
-    -webkit-animation: inM 0.8s forwards;
-    animation: inM 0.8s forwards;
-  }
-  i:nth-child(3) {
-    -webkit-animation: inBtm 0.8s forwards;
-    animation: inBtm 0.8s forwards;
+@media only screen and (min-width: 769px) {
+  body:not(.close) .sidebar-toggle {
+    i:nth-child(1) {
+      -webkit-animation: inT 0.8s forwards;
+      animation: inT 0.8s forwards;
+    }
+    i:nth-child(2) {
+      -webkit-animation: inM 0.8s forwards;
+      animation: inM 0.8s forwards;
+    }
+    i:nth-child(3) {
+      -webkit-animation: inBtm 0.8s forwards;
+      animation: inBtm 0.8s forwards;
+    }
   }
 }
+@media only screen and (max-width: 768px) {
+  body.close .sidebar-toggle {
+    i:nth-child(1) {
+      -webkit-animation: inT 0.8s forwards;
+      animation: inT 0.8s forwards;
+    }
+    i:nth-child(2) {
+      -webkit-animation: inM 0.8s forwards;
+      animation: inM 0.8s forwards;
+    }
+    i:nth-child(3) {
+      -webkit-animation: inBtm 0.8s forwards;
+      animation: inBtm 0.8s forwards;
+    }
+  }
+}
+/*
+
+ */
 
 @-webkit-keyframes inM {
   50% {
