@@ -7,10 +7,10 @@ module.exports = (gulp, plugins, cb) => {
 
   buildApi({
     root: projectRoot,
-    apiDir: `${projectRoot}/../docs/api`,
-    docsDir: `${projectRoot}/../docs`,
-    srcDir: `${projectRoot}/src`,
-    libDir: `${projectRoot}/lib`
+    apiDir: path.resolve(`${projectRoot}/../docs/api`),
+    docsDir: path.resolve(`${projectRoot}/../docs`),
+    srcDir: path.resolve(`${projectRoot}/../src`),
+    libDir: path.resolve(`${projectRoot}/lib`)
   })
     .then(() => cb);
 };

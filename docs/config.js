@@ -53,7 +53,9 @@ window.$docsify = {
         url: '#/tutorials/overview',
         label: 'Guide',
         childrens: [
+
           { url: '#/tutorials/passport', label: 'Passport.js' },
+          { url: '#/tutorials/mongoose', label: 'Mongoose' },
           { url: '#/tutorials/socket-io', label: 'Socket.io' },
           { url: '#/tutorials/swagger', label: 'Swagger' },
           { url: '#/tutorials/ajv', label: 'Validation with AJV' },

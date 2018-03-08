@@ -148,5 +148,5 @@ export class MySocketService {
 
 <div class="guide-links">
 <a href="#/tutorials/passport">Passport</a>
-<a href="#/tutorials/swagger">Swagger</a>
+<a href="#/tutorials/mongoose">Mongoose</a>
 </div>

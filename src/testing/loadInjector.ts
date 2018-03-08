@@ -1,4 +1,11 @@
-import {ExpressApplication, globalServerSettings, HttpServer, HttpsServer, InjectorService} from "@tsed/common";
+import {
+    ExpressApplication,
+    globalServerSettings,
+    HttpServer,
+    HttpsServer,
+    InjectorService,
+    registerFactory
+} from "@tsed/common";
 import {Env} from "@tsed/core";
 
 export function loadInjector() {
@@ -8,9 +15,10 @@ export function loadInjector() {
             use: () => (app),
             get: () => (app)
         };
-        InjectorService.set(ExpressApplication, app);
-        InjectorService.set(HttpsServer, {});
-        InjectorService.set(HttpServer, {});
+
+        registerFactory(ExpressApplication, app);
+        registerFactory(HttpsServer, {});
+        registerFactory(HttpServer, {});
         globalServerSettings.env = Env.TEST;
     }
 
