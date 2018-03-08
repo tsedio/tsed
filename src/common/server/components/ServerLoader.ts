@@ -368,7 +368,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     public scan(patterns: string | string[], endpoint?: string): ServerLoader {
 
         const promises = globby
-            .sync(ServerLoader.cleanGlobPatterns(patterns))
+            .sync(ServerLoader.cleanGlobPatterns(patterns, this.settings.exclude))
             .map(async (file: string) => {
                 $log.debug(`Import file ${endpoint}:`, file);
                 const classes: any[] = await import(file);
@@ -585,9 +585,10 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {any}
      * @param files
      */
-    static cleanGlobPatterns(files: string | string[]): string[] {
+    static cleanGlobPatterns(files: string | string[], excludes: string[]): string[] {
         return []
             .concat(files as any)
+            .concat(excludes as any)
             .map((file: string) => {
                 if (!require.extensions[".ts"]) {
                     file = file.replace(/\.ts$/i, ".js");

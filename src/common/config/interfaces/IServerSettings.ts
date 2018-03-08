@@ -25,6 +25,7 @@ export interface IServerSettings {
     httpsPort?: string | number | false;
     httpsOptions?: Https.ServerOptions;
     uploadDir?: string;
+    exclude?: string[];
     mount?: IServerMountDirectories;
     componentsScan?: string[];
     serveStatic?: IServerMountDirectories;

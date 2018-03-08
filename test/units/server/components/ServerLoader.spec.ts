@@ -370,11 +370,11 @@ describe("ServerLoader", () => {
                 require.extensions[".ts"] = this.compiler;
             });
             it("should return file.js", () => {
-                expect(ServerLoader.cleanGlobPatterns("file.ts")[0]).to.contains("file.js");
+                expect(ServerLoader.cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.js");
             });
 
             it("should return file.ts.js and manipulate only the file extension", () => {
-                expect(ServerLoader.cleanGlobPatterns("file.ts.ts")[0]).to.contains("file.ts.js");
+                expect(ServerLoader.cleanGlobPatterns("file.ts.ts", ["!**.spec.ts"])[0]).to.contains("file.ts.js");
             });
         });
         describe("when have typescript compiler", () => {
@@ -388,7 +388,7 @@ describe("ServerLoader", () => {
                 require.extensions[".ts"] = this.compiler;
             });
             it("should return file.ts", () => {
-                expect(ServerLoader.cleanGlobPatterns("file.ts")[0]).to.contains("file.ts");
+                expect(ServerLoader.cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
             });
         });
     });
