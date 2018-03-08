@@ -1,8 +1,6 @@
 /**
  * @module common/mvc
  */ /** */
-
-export * from "./Express";
 export * from "./IControllerOptions";
 export * from "./IControllerRoute";
 export * from "./IMiddleware";

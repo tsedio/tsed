@@ -1,0 +1,22 @@
+{
+  "name": "@tsed/mongoose",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Mongoose package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "tslib": "^1.8.0"
+  },
+  "peerDependencies": {
+    "@types/mongoose": "^5.0.6",
+    "@tsed/core": "0.0.0-PLACEHOLDER",
+    "@tsed/common": "0.0.0-PLACEHOLDER",
+    "mongoose": "^5.0.9"
+  },
+  "devDependencies": {},
+  "private": false,
+  "directories": {
+    "lib": "lib",
+    "src": "src"
+  }
+}

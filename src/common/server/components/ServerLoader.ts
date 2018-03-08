@@ -1,3 +1,4 @@
+import {ExpressApplication} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import * as Express from "express";
 import * as globby from "globby";
@@ -11,10 +12,9 @@ import {ServerSettingsService} from "../../config/services/ServerSettingsService
 import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {InjectorService} from "../../di/services/InjectorService";
 
-import {ExpressApplication, GlobalErrorHandlerMiddleware} from "../../mvc";
-import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
+import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
-import {MiddlewareRegistry} from "../../mvc/registries/MiddlewareRegistry";
+import {createExpressApplication} from "../../mvc/decorators/class/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
@@ -69,7 +69,7 @@ $log.level = "info";
 
 export abstract class ServerLoader implements IServerLifecycle {
     public version: string = "0.0.0-PLACEHOLDER";
-    private _expressApp: Express.Application = Express();
+    private _expressApp: ExpressApplication = createExpressApplication();
     private _settings: ServerSettingsProvider;
     private _components: IComponentScanned[] = [];
     private _httpServer: Http.Server;
@@ -83,10 +83,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     constructor() {
 
         this._settings = InjectorService.get<ServerSettingsProvider>(ServerSettingsService);
-
-        // Configure the ExpressApplication factory.
-        registerFactory(ExpressApplication, this.expressApp);
-
         const settings = ServerSettingsProvider.getMetadata(this);
 
         if ((this as any).$onAuth) {
@@ -170,16 +166,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     public use(...args: any[]): ServerLoader {
-
-        args = args.map((arg) => {
-            if (MiddlewareRegistry.has(arg)) {
-                arg = HandlerBuilder.from(arg).build();
-            }
-            return arg;
-        });
-
         this.expressApp.use(...args);
-
         return this;
     }
 

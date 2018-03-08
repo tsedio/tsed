@@ -1,6 +1,7 @@
 
 * [Passport.js](tutorials/passport.md)
 * [Socket.io](tutorials/socket-io.md)
+* [Mongoose](tutorials/mongoose.md)
 * [Swagger](tutorials/swagger.md)
 * [Validation with AJV](tutorials/ajv.md)
 * [Custom validator](tutorials/custom-validator.md)
