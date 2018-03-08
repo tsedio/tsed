@@ -4,7 +4,7 @@
 
 <div class="topics">
 
-[Controllers](fr/docs/controller.md)
+[Controlleurs](fr/docs/controller.md)
 [Services](fr/docs/services/overview.md)
 [Model](fr/docs/model.md)
 [Converters](fr/docs/converters.md)
