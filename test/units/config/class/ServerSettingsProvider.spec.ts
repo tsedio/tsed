@@ -99,7 +99,7 @@ describe("ServerSettingsProvider", () => {
 
 
     it("should return excluded patterns", () => {
-        expect(this.serverSettingsService.exclude).to.deep.equal(["!./**/*.spec.ts"]);
+        expect(this.serverSettingsService.exclude).to.deep.equal(["./**/*.spec.ts"]);
     });
 
     it("should return validationModelStrict", () => {
