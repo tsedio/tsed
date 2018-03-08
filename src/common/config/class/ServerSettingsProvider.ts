@@ -27,7 +27,7 @@ export class ServerSettingsProvider implements IServerSettings {
             "/rest": "${rootDir}/controllers/**/*.ts"
         };
 
-        this.exclude = ["${rootDir}/**/*.spec.ts"];
+        this.exclude = ["**/*.spec.ts", "**/*.spec.js"];
 
         this.componentsScan = [
             "${rootDir}/mvc/**/*.ts",
@@ -285,7 +285,7 @@ export class ServerSettingsProvider implements IServerSettings {
     }
 
     get exclude() {
-        return (this.map.get("exclude") || []).map((s: string) => "!" + s.replace(/^!/, ""));
+        return (this.map.get("exclude") || []);
     }
 
     /**

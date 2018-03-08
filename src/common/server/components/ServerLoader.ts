@@ -89,7 +89,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         const settings = ServerSettingsProvider.getMetadata(this);
 
         if ((this as any).$onAuth) {
-            console.warn("The $onAuth hooks is removed. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
+            $log.warn("The $onAuth hooks is removed. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
         }
 
         if (settings) {
@@ -366,13 +366,19 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     public scan(patterns: string | string[], endpoint?: string): ServerLoader {
-
         const promises = globby
             .sync(ServerLoader.cleanGlobPatterns(patterns, this.settings.exclude))
             .map(async (file: string) => {
                 $log.debug(`Import file ${endpoint}:`, file);
-                const classes: any[] = await import(file);
-                this.addComponents(classes, {endpoint});
+                try {
+                    const classes: any[] = await import(file);
+                    this.addComponents(classes, {endpoint});
+                } catch (er) {
+                    /* istanbul ignore next */
+                    $log.error(er);
+                    /* istanbul ignore next */
+                    process.exit(-1);
+                }
             });
 
         this._scannedPromises = this._scannedPromises.concat(promises);
@@ -481,7 +487,6 @@ export abstract class ServerLoader implements IServerLifecycle {
         if (this.settings.env === "test") {
             $log.stop();
         }
-
         const settingsService = this.getSettingsService();
 
         const bind = (property: string, value: any, map: Map<string, any>) => {
@@ -584,16 +589,20 @@ export abstract class ServerLoader implements IServerLifecycle {
      *
      * @returns {any}
      * @param files
+     * @param excludes
      */
     static cleanGlobPatterns(files: string | string[], excludes: string[]): string[] {
+        excludes = excludes
+            .map((s: string) => "!" + s.replace(/!/gi, ""));
+
         return []
             .concat(files as any)
-            .concat(excludes as any)
             .map((file: string) => {
                 if (!require.extensions[".ts"]) {
                     file = file.replace(/\.ts$/i, ".js");
                 }
                 return Path.resolve(file);
-            });
+            })
+            .concat(excludes as any);
     }
 }
