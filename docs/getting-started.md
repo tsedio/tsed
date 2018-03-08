@@ -289,6 +289,7 @@ We’ve briefly introduced the most basic features of Ts.ED - the rest of this g
   [Passport.js](tutorials/passport.md)
   [Socket.io](tutorials/socket-io.md)
   [Swagger](tutorials/swagger.md)
+  [AJV Validation](tutorials/ajv.md)
   [Upload files](tutorials/upload-files-with-multer.md)
   [Serve static files](tutorials/serve-static-files.md)
   [Templating](tutorials/templating.md)

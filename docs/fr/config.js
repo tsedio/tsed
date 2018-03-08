@@ -16,12 +16,12 @@ $docsify.addLanguages({
         { url: '#/fr/tutorials/passport', label: 'Passport.js' },
         { url: '#/fr/tutorials/socket-io', label: 'Socket.io' },
         { url: '#/fr/tutorials/swagger', label: 'Swagger' },
-        { url: '#/fr/tutorials/ajv', label: 'Validation with AJV' },
+        { url: '#/fr/tutorials/ajv', label: 'Validation avec AJV' },
         { url: '#/fr/tutorials/upload-files-with-multer', label: 'Upload de fichier' },
-        { url: '#/fr/tutorials/serve-static-files', label: 'Serve static files' },
+        { url: '#/fr/tutorials/serve-static-files', label: 'Exposer des fichiers statiques' },
         { url: '#/fr/tutorials/templating', label: 'Templating' },
-        { url: '#/fr/tutorials/throw-http-exceptions', label: 'Throw HTTP exceptions' },
-        { url: '#/fr/tutorials/aws', label: 'AWS project' },
+        { url: '#/fr/tutorials/throw-http-exceptions', label: 'Les erreurs HTTP' },
+        { url: '#/fr/tutorials/aws', label: 'Projet sous AWS' },
       ]
     },
     {
