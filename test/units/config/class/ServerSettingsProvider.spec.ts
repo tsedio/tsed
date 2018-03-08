@@ -16,6 +16,7 @@ describe("ServerSettingsProvider", () => {
         serverSettingsProvider.acceptMimes = ["application/json"];
         serverSettingsProvider.serveStatic = {"/": "/publics"};
         serverSettingsProvider.routers = {mergeParams: true};
+        serverSettingsProvider.exclude = ["./**/*.spec.ts"];
 
         this.serverSettingsService = serverSettingsProvider.$get();
         this.serverSettingsProvider = serverSettingsProvider;
@@ -94,6 +95,11 @@ describe("ServerSettingsProvider", () => {
 
     it("should return env", () => {
         expect(this.serverSettingsService.routers).to.deep.equal({mergeParams: true});
+    });
+
+
+    it("should return excluded patterns", () => {
+        expect(this.serverSettingsService.exclude).to.deep.equal(["!./**/*.spec.ts"]);
     });
 
     it("should return validationModelStrict", () => {

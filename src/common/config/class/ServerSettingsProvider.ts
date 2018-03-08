@@ -1,5 +1,5 @@
+import {Env, getValue, Metadata} from "@tsed/core";
 import * as Https from "https";
-import {Env, Metadata, getValue} from "@tsed/core";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IRouterOptions} from "../interfaces/IRouterOptions";
 import {ILoggerSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
@@ -26,6 +26,8 @@ export class ServerSettingsProvider implements IServerSettings {
         this.mount = {
             "/rest": "${rootDir}/controllers/**/*.ts"
         };
+
+        this.exclude = ["${rootDir}/**/*.spec.ts"];
 
         this.componentsScan = [
             "${rootDir}/mvc/**/*.ts",
@@ -276,6 +278,14 @@ export class ServerSettingsProvider implements IServerSettings {
 
     set logger(value: Partial<ILoggerSettings>) {
         this.map.set("logger", value);
+    }
+
+    set exclude(exclude: string[]) {
+        this.map.set("exclude", exclude);
+    }
+
+    get exclude() {
+        return (this.map.get("exclude") || []).map((s: string) => "!" + s.replace(/^!/, ""));
     }
 
     /**

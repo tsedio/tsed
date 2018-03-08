@@ -77,6 +77,7 @@ new Server.start();
 * `uploadDir` &lt;string&gt: Le dossier temporaire pour le chargement de fichie. Voir [Upload file with Multer](tutorials/upload-files-with-multer.md).
 * `mount` &lt;[IServerMountDirectories](api/common/config/iservermountdirectories.md)&gt;: Monte les controllers en fonction des routes. Chaque routes acceptes une liste de controlleurs (classe) et/ou une liste de patterns Glob.
 * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/overview.md), [Middlewares](docs/middlewares/overview.md) or [Converters](docs/converters.md).
+* `exclude` &lt;string[]&gt;:  Liste de Glob patterns. Exclu les fichiers qui match avec la liste lors du scan des composants avec les options `mount` ou `scanComponents`.
 * `serveStatic` &lt;[IServerMountDirectories](api/common/config/iservermountdirectories.md)&gt;: Monte les répertoires de contenu statiques associés à une route. See more on [Serve Static](tutorials/serve-static-files.md).
 * `swagger` &lt;Object&gt;: Configuration de Swagger. See more on [Swagger](tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Active le mode `debug`. Par défaut: `false`.
