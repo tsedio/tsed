@@ -29,7 +29,18 @@ window.$docsify = {
     { label: 'English', code: 'uk', lang: 'en', default: true }
   ],
   fallbackLanguages: ['en'],
-  footer: {},
+  footer: {
+    'en': {
+      caughtMistake: 'Caught a mistake or want to contribute to the documentation?',
+      editPageOnGithub: 'Edit on Github',
+      contribute: 'Contribute',
+      helpToContribute: 'Help shape the future of Ts.Ed by joining our team and send us pull requests via our',
+      githubRepository: 'GitHub repository!',
+      license: 'License',
+      releaseUnder: 'Released under the',
+      documentationGeneratedWith: 'Documentation generated with'
+    }
+  },
   notFoundPage: {
     '/': '_404.md'
   },
@@ -50,7 +61,7 @@ window.$docsify = {
           { url: '#/tutorials/serve-static-files', label: 'Serve static files' },
           { url: '#/tutorials/templating', label: 'Templating' },
           { url: '#/tutorials/throw-http-exceptions', label: 'Throw HTTP exceptions' },
-          { url: '#/tutorials/aws', label: 'AWS project' },
+          { url: '#/tutorials/aws', label: 'AWS project' }
         ]
       },
       {

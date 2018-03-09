@@ -132,18 +132,12 @@ section.cover {
     display: inline-block;
     min-width: 180px;
 
-    &:last-child {
-      @include background-color($primary-color, --primary-color);
-      color: #fff;
-      &:hover {
-        color: inherit;
-        opacity: 0.8;
-      }
-    }
     &:hover {
-      color: inherit;
-      opacity: 0.8;
+      color: white;
+      @include background-color($secondary-color, --secondary-color);
+      @include border(1px solid $secondary-color, --secondary-color);
     }
+
     &.white {
       border: 1px solid white;
       background: transparent;
@@ -153,8 +147,10 @@ section.cover {
         opacity: 1;
         background: white;
         @include color($primary-color, --primary-color);
+        @include box-shadow(0 2px 5px 0 rgba(0, 0, 0, 0.26));
       }
     }
+
   }
 }
 
