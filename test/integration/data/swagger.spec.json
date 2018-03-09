@@ -102,6 +102,39 @@
         "produces": []
       }
     },
+    "/rest/calendars/events/{eventId}/tasks/hiddenparam": {
+      "get": {
+        "operationId": "TaskCtrl.getHiddenParams_1",
+        "tags": [
+          "TaskCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
     "/rest/calendars/events/": {
       "head": {
         "operationId": "EventCtrl.head_1",
@@ -754,7 +787,6 @@
   },
   "definitions": {
     "Task": {
-      "type": "object",
       "properties": {
         "name": {
           "type": "string"
@@ -762,21 +794,15 @@
         "percent": {
           "type": "number"
         }
-      }
+      },
+      "type": "object"
     },
     "EventModel": {
-      "title": "EventModel Title",
-      "type": "object",
-      "required": [
-        "startDate",
-        "endDate",
-        "name"
-      ],
       "properties": {
         "id": {
           "example": "1FDCHZKH",
-          "title": "iD",
           "description": "Description of event model id",
+          "title": "iD",
           "type": "string"
         },
         "startDate": {
@@ -792,12 +818,19 @@
           "type": "string"
         },
         "tasks": {
-          "type": "array",
           "items": {
             "$ref": "#/definitions/Task"
-          }
+          },
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "startDate",
+        "endDate",
+        "name"
+      ],
+      "title": "EventModel Title",
+      "type": "object"
     },
     "EventCtrlUpdatePayload": {
       "type": "object",
@@ -811,23 +844,23 @@
       }
     },
     "CalendarModel": {
-      "type": "object",
-      "required": [
-        "name"
-      ],
       "properties": {
         "id": {
           "example": {
             "example1": "Description example"
           },
-          "title": "iD",
           "description": "Description of calendar model id",
+          "title": "iD",
           "type": "string"
         },
         "name": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
     },
     "CalendarCtrlSavePayload": {
       "type": "object",

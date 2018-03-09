@@ -41,7 +41,9 @@
     "server",
     "rest",
     "api",
-    "validation"
+    "validation",
+    "socketio",
+    "multer"
   ],
   "author": "Romain Lenzotti",
   "license": "MIT",

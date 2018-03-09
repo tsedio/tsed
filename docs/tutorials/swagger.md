@@ -1,5 +1,4 @@
 # Swagger
-> Experimental feature. You can contribute to improve this feature !
 
 This tutorials show you, how you can configure Swagger-ui with Ts.ED. Swagger use the OpenApi
 to describe a Rest API. Ts.ED operates the existing decorators as well as new decorators to build the
@@ -113,6 +112,44 @@ export class Calendar {
 }
 ```
 !> To update the swagger.json you need to reload the server before.
+
+## Hide a route
+
+`@Hidden` allow to exclude some Controllers, endpoints or parameters from the Swagger decorator.
+
+```typescript
+import {Hidden} from "@tsed/swagger"
+@Controller('/')
+export class Ctrl {
+
+  @Get('/')
+  @Hidden()
+  hiddenRoute(){
+
+  }
+}
+
+@Controller('/')
+@Hidden()
+export class Ctrl {
+  @Get('/')
+  hiddenRoute() {
+
+  }
+  @Get('/2')
+  hiddenRoute2() {
+
+  }
+}
+
+@Controller('/')
+export class Ctrl {
+  @Get('/')
+  hiddenRoute(@Hidden() @QueryParams() param: string){
+
+  }
+}
+```
 
 > Credits: Thanks to [vologab](https://github.com/vologab) to his contribution.
 

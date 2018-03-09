@@ -21,6 +21,9 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
         this._parameters = <Parameter[]> this.injectedParams
             .map((param: ParamMetadata) => {
+                if (param.store.get("hidden")) {
+                    return;
+                }
 
                 const inType = ({
                     "BodyParamsFilter": "body",

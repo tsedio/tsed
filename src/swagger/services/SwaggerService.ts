@@ -80,7 +80,7 @@ export class SwaggerService {
         let tags: Tag[] = [];
 
         this.controllerService.forEach((provider: ControllerProvider) => {
-            if (!provider.hasParent()) {
+            if (!provider.hasParent() && !provider.store.get("hidden")) {
                 provider.routerPaths.forEach(path => {
                     this.buildRoutes(paths, definitions, provider, provider.getEndpointUrl(path));
                 });
@@ -172,11 +172,17 @@ export class SwaggerService {
 
         ctrl.dependencies
             .map(ctrl => this.controllerService.get(ctrl))
-            .forEach((provider: ControllerProvider) =>
-                this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`)
-            );
+            .forEach((provider: ControllerProvider) => {
+                if (!provider.store.get("hidden")) {
+                    this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`);
+                }
+            });
 
         ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
+            if (endpoint.store.get("hidden")) {
+                return;
+            }
+
             endpoint.pathsMethods.forEach((pathMethod) => {
                 /* istanbul ignore else */
                 if (!!pathMethod.method) {

@@ -10,4 +10,5 @@ export * from "./decorators/returnsArray";
 export * from "./decorators/security";
 export * from "./decorators/summary";
 export * from "./decorators/title";
+export * from "./decorators/hidden";
 export {Schema} from "@tsed/common";
