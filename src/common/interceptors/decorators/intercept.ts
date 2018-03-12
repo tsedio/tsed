@@ -1,13 +1,12 @@
 import { Type } from "@tsed/core";
-import { InjectorService } from '../../di/services/InjectorService';
-import { IInterceptor } from './interceptor';
+import { InjectorService } from "../../di/services/InjectorService";
+import { IInterceptor } from "./interceptor";
 
 /**
  * Attaches interceptor to method call and executes the before and after methods
- *  
  * @param interceptors
  */
-export function Intercept(interceptor: Type<IInterceptor>): Function {
+export function Intercept(interceptor: Type<IInterceptor>, options?: any): Function {
   return (target: any, method: string, descriptor: PropertyDescriptor) => {
     const original = descriptor.value;
 
@@ -26,12 +25,12 @@ export function Intercept(interceptor: Type<IInterceptor>): Function {
 
             throw err;
           }
-        });
+        }, options);
       }
 
       return original.apply(this, args);
     };
 
     return descriptor;
-  }
+  };
 }
