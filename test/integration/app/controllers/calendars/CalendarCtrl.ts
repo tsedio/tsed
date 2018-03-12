@@ -25,7 +25,7 @@ import {HeaderParams} from "@tsed/common";
 import {MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
 import {CalendarModel} from "../../models/Calendar";
-import {MongooseService} from "../../services/MongooseService";
+import {TokenService} from "../../services/TokenService";
 import {BaseController} from "../base/BaseController";
 import {EventCtrl} from "./EventCtrl";
 
@@ -44,10 +44,10 @@ interface ICalendar {
 @Description("Controller description")
 export class CalendarCtrl extends BaseController {
 
-    constructor(private mongooseService: MongooseService,
+    constructor(private tokenService: TokenService,
                 private routerController: RouterController) {
 
-        super(mongooseService);
+        super(tokenService);
         const router = this.routerController.getRouter();
 
     }
@@ -75,9 +75,9 @@ export class CalendarCtrl extends BaseController {
     public getToken(@CookiesParams("authorization") authorization: string): string {
 
         if (authorization) {
-            const token = this.mongooseService.token();
+            const token = this.tokenService.token();
             return token;
-            // console.log('TOKEN', this.mongooseService, token);
+            // console.log('TOKEN', this.tokenService, token);
         }
 
         return "";
@@ -85,7 +85,7 @@ export class CalendarCtrl extends BaseController {
 
     @Get("/token/:token")
     public updateToken(@PathParams("token") @Description("Token required to update token") token: string): string {
-        this.mongooseService.token(token);
+        this.tokenService.token(token);
         return "token updated";
     }
 

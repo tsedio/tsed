@@ -3,7 +3,7 @@ import {
     deepExtends,
     getClass,
     getClassOrSymbol,
-    getContructor,
+    getConstructor,
     isArrayOrArrayClass,
     isCollection,
     isEmpty,
@@ -22,12 +22,12 @@ const sym = Symbol("test2");
 
 describe("Utils", () => {
 
-    describe("getContructor()", () => {
+    describe("getConstructor()", () => {
         it("should return the constructor when class is given", () => {
-            expect(getContructor(Test)).to.eq(Test);
+            expect(getConstructor(Test)).to.eq(Test);
         });
         it("should return the constructor when instance is given", () => {
-            expect(getContructor(new Test)).to.eq(Test);
+            expect(getConstructor(new Test)).to.eq(Test);
         });
     });
 

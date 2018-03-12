@@ -251,7 +251,11 @@ export class Metadata {
      *
      */
     static has(key: string, target: any, propertyKey?: string | symbol): boolean {
-        return Reflect.hasMetadata(key, getClass(target), propertyKey!);
+        try {
+            return Reflect.hasMetadata(key, getClass(target), propertyKey!);
+        } catch (er) {
+        }
+        return false;
     }
 
     /**

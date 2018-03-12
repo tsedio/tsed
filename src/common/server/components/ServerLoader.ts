@@ -272,9 +272,7 @@ export abstract class ServerLoader implements IServerLifecycle {
             $log.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
 
         } catch (err) {
-            this.callHook("$onServerInitError", () => {
-                $log.error("HTTP Server error", err);
-            }, err);
+            this.callHook("$onServerInitError", undefined, err);
 
             return Promise.reject(err);
         }

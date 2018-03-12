@@ -325,10 +325,10 @@ describe("ServerLoader", () => {
                 this.$onReadyStub.should.not.have.been.called
             );
 
-            it("should have been called log.error", () => {
+            /*it("should have been called log.error", () => {
                 $logStub.$log.error.should.have.been.calledOnce;
                 $logStub.$log.error.should.have.been.calledWithExactly("HTTP Server error", this.error);
-            });
+            });*/
         });
 
     });

@@ -9,7 +9,7 @@ import {DecoratorParameters} from "../interfaces";
  * Get the provide constructor.
  * @param targetClass
  */
-export const getContructor = (targetClass: any): Function =>
+export const getConstructor = (targetClass: any): Function =>
     typeof targetClass === "function"
         ? targetClass
         : targetClass.constructor;

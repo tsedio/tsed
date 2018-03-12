@@ -3,7 +3,7 @@ import {CustomFactory} from "./CustomFactory";
 import {SanitizeService} from "./SanitizeService";
 
 @Service()
-export class MongooseService {
+export class TokenService {
 
     private _token: string = "EMPTY";
 
