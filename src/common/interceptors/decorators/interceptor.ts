@@ -4,11 +4,11 @@ export interface IInterceptorContext {
     target: any;
     method: string;
     args: any[];
-    proceed: <T>(err?: Error) => T;
+    proceed: <T = any>(err?: Error) => T;
 }
 
 export interface IInterceptor {
-    aroundInvoke: <T>(ctx: IInterceptorContext) => T;
+    aroundInvoke: (ctx: IInterceptorContext, options?: any) => any;
 }
 
 export function Interceptor(): Function {
