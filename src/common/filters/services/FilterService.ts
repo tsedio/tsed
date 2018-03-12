@@ -1,7 +1,7 @@
-import {$log} from "ts-log-debug";
 import {ProxyRegistry, Type} from "@tsed/core";
+import {$log} from "ts-log-debug";
 import {Service} from "../../di/decorators/service";
-import {IProviderOptions} from "../../di/interfaces";
+import {IProvider} from "../../di/interfaces/IProvider";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterProvider} from "../class/FilterProvider";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
@@ -9,7 +9,7 @@ import {IFilter} from "../interfaces";
 import {FilterRegistry} from "../registries/FilterRegistry";
 
 @Service()
-export class FilterService extends ProxyRegistry<FilterProvider, IProviderOptions<any>> {
+export class FilterService extends ProxyRegistry<FilterProvider, IProvider<any>> {
     constructor(private injectorService: InjectorService) {
         super(FilterRegistry);
     }

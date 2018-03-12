@@ -3,8 +3,8 @@ import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, IProvider, IProviderOptions, ProviderScope} from "../interfaces";
-import {ProviderRegistry} from "../registries/ProviderRegistry";
+import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
+import {ProviderRegistry, registerFactory, registerService} from "../registries/ProviderRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -28,7 +28,7 @@ import {ProviderRegistry} from "../registries/ProviderRegistry";
  * > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
  *
  */
-export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptions<any>> {
+export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>> {
     constructor() {
         super(ProviderRegistry);
     }
@@ -552,11 +552,11 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
      *
      */
     static factory = (target: any, instance: any) =>
-        InjectorService.set({provide: target, useClass: target, instance: instance, type: "factory"});
+        registerFactory({provide: target, useClass: target, instance: instance, type: "factory"});
 
 }
 
 /**
  * Create the first service InjectorService
  */
-InjectorService.factory(InjectorService, new InjectorService());
+registerFactory({provide: InjectorService, instance: new InjectorService()});

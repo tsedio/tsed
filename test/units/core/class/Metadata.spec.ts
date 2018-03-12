@@ -42,6 +42,15 @@ class Test2 {
 }
 
 describe("Metadata", () => {
+    describe("has", () => {
+        it("should return false (String)", () => {
+            expect(Metadata.has("testunknow", String)).to.equal(false);
+        });
+
+        it("should return false (bad target)", () => {
+            expect(Metadata.has("testunknow", undefined)).to.equal(false);
+        });
+    });
 
     describe("set", () => {
         it("should set meta on a class", () => {
