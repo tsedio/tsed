@@ -1,4 +1,5 @@
 export * from "./di";
+export * from "./interceptors";
 export * from "./config";
 export * from "./jsonschema";
 export * from "./converters";
