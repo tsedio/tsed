@@ -1,10 +1,10 @@
-import { InjectorService } from '../../di';
+import { InjectorService } from "../../di";
 
 export interface IInterceptorContext {
     target: any;
     method: string;
     args: any[];
-    proceed: <T>(err?: Error) => T
+    proceed: <T>(err?: Error) => T;
 }
 
 export interface IInterceptor {
