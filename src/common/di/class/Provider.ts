@@ -1,5 +1,5 @@
-import {IProvider} from "@tsed/common";
 import {getClass, nameOf, NotEnumerable, Type} from "@tsed/core";
+import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
 
 export class Provider<T> implements IProvider<T> {
