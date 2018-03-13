@@ -1,5 +1,6 @@
 import {IProvider} from "@tsed/common";
 import {getClass, nameOf, NotEnumerable, Type} from "@tsed/core";
+import {ProviderType} from "../interfaces/ProviderType";
 
 export class Provider<T> implements IProvider<T> {
 
@@ -10,7 +11,7 @@ export class Provider<T> implements IProvider<T> {
     protected _instance: T;
 
     @NotEnumerable()
-    protected _type: any = "provider";
+    protected _type: ProviderType | any = ProviderType.PROVIDER;
 
     constructor(protected _provide: any) {
         this._provide = getClass(this._provide);

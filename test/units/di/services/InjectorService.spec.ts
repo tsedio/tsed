@@ -49,7 +49,6 @@ describe("InjectorService", () => {
             it("should set metadata", () => {
                 this.serviceStub.should.have.been.calledWithExactly(Test, {
                     provide: Test,
-                    useClass: Test,
                     type: "service"
                 });
             });

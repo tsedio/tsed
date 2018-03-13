@@ -4,6 +4,7 @@
 /** */
 
 import {Metadata} from "@tsed/core";
+import {registerProvider} from "../../di/registries/ProviderRegistry";
 import {CONVERTER} from "../constants/index";
 
 /**
@@ -22,6 +23,8 @@ export function Converter(...classes: any[]): Function {
         if (classes.length === 0) {
             throw new Error("Converter decorator need at least one type like String, Date, Class, etc...");
         }
+
+        registerProvider({provide: target, type: "converter"});
 
         classes.forEach(clazz =>
             Metadata.set(CONVERTER, target, clazz)

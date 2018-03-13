@@ -3,6 +3,8 @@
  */
 /** */
 import {Type} from "@tsed/core";
+import {ProviderType} from "./ProviderType";
+
 /**
  *
  */
@@ -25,7 +27,8 @@ export interface IProvider<T> {
     /**
      * Provider type
      */
-    type?: any;
+    type?: ProviderType | any;
+
     /**
      *
      */

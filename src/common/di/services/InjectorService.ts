@@ -3,7 +3,7 @@ import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
+import {IInjectableMethod, IProvider, ProviderScope, ProviderType} from "../interfaces";
 import {ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
 
 /**
@@ -442,7 +442,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
 
         this.buildRegistry(
             ProviderRegistry,
-            (provider) => provider.instance === undefined || provider.type === "service"
+            (provider) => provider.instance === undefined || provider.type === ProviderType.SERVICE
         );
         $log.debug("\x1B[1mProvider registry built\x1B[22m");
 
@@ -488,7 +488,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      */
     @Deprecated("Use registerService() util instead of")
     static service(target: any) {
-        return registerService({provide: target, useClass: target, type: "service"});
+        return registerService(target);
     }
 
     /**
@@ -548,7 +548,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      */
     @Deprecated("Use registerFactory() util instead of")
     static factory(target: any, instance: any) {
-        return registerFactory({provide: target, useClass: target, instance: instance, type: "factory"});
+        return registerFactory(target, instance);
     }
 
 }
