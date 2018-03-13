@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="provider">Provider</h1><label class="symbol-info-type-label class">Class</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Provider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.5.1/src//common/di/class/Provider.ts#L0-L0">/common/di/class/Provider.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Provider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.5.2/src//common/di/class/Provider.ts#L0-L0">/common/di/class/Provider.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -12,7 +12,7 @@
     <span class="token keyword">protected</span> _provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _useClass<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> _instance<span class="token punctuation">:</span> T<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>_provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     useClass<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T><span class="token punctuation">;</span>
@@ -72,7 +72,7 @@
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span></code></pre>
 </div>
 
 

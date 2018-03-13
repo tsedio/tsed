@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="injectorservice">InjectorService</h1><label class="symbol-info-type-label service">Service</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { InjectorService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.5.1/src//common/di/services/InjectorService.ts#L0-L0">/common/di/services/InjectorService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { InjectorService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.5.2/src//common/di/services/InjectorService.ts#L0-L0">/common/di/services/InjectorService.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -24,8 +24,8 @@
     <span class="token keyword">static</span> has<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span>><span class="token punctuation">;</span>
     <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> service<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => typeof InjectorService<span class="token punctuation">;</span>
-    <span class="token keyword">static</span> factory<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">service</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">factory</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -331,7 +331,7 @@ Emit an event to all service. See service [lifecycle hooks](docs/services/lifecy
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> typeof <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre>
+<pre><code class="typescript-lang deprecated "><span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> typeof <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre>
 </div>
 
 
@@ -450,8 +450,16 @@ Emit an event to all service. See service [lifecycle hooks](docs/services/lifecy
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> service<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => typeof <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre>
+<pre><code class="typescript-lang deprecated "><span class="token keyword">static</span> <span class="token function">service</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
 </div>
+
+
+Param | Type | Description
+---|---|---
+ target|<code>any</code>|The class to add in registry.
+
+
+
 
 
 Add a new service in the registry. This service will be constructed when `InjectorService`will loaded.
@@ -483,13 +491,11 @@ myFooService.getFoo(); // test
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> factory<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">void</span></code></pre>
+<pre><code class="typescript-lang deprecated "><span class="token keyword">static</span> <span class="token function">factory</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
 </div>
 
 
-Add a new factory in
-`InjectorService`
-registry.
+Add a new factory in `InjectorService` registry.
 
 #### Example with symbol definition
 
@@ -541,7 +547,6 @@ export class OtherService {
      }
 }
 ```
-
 
 
 
