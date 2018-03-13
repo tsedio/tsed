@@ -1,5 +1,4 @@
-import {Service} from "../../../../src/common/di/decorators/service";
-import {InjectorService} from "../../../../src/common/di/services/InjectorService";
+import {ProviderRegistry, Service} from "@tsed/common";
 import {Sinon} from "../../../tools";
 
 class Test {
@@ -7,7 +6,7 @@ class Test {
 
 describe("Service", () => {
     before(() => {
-        this.serviceStub = Sinon.stub(InjectorService, "service");
+        this.serviceStub = Sinon.stub(ProviderRegistry, "merge");
 
         Service()(Test);
     });
@@ -17,6 +16,6 @@ describe("Service", () => {
     });
 
     it("should set metadata", () => {
-        this.serviceStub.should.be.calledWithExactly(Test);
+        this.serviceStub.should.have.been.calledWithExactly(Test, {provide: Test, type: "service"});
     });
 });

@@ -10,7 +10,7 @@ export class Provider<T> implements IProvider<T> {
     protected _instance: T;
 
     @NotEnumerable()
-    protected _type: any;
+    protected _type: any = "provider";
 
     constructor(protected _provide: any) {
         this._provide = getClass(this._provide);

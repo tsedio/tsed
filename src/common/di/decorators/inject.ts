@@ -1,6 +1,12 @@
 import {descriptorOf, Metadata, Type} from "@tsed/core";
 import {InjectorService} from "../services/InjectorService";
 
+/**
+ *
+ * @param symbol
+ * @returns {Function}
+ * @decorator
+ */
 export function Inject(symbol?: any): Function {
 
     return <T>(target: Type<T>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any => {

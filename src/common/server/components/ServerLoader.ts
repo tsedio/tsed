@@ -8,7 +8,8 @@ import {$log} from "ts-log-debug";
 import {ServerSettingsProvider} from "../../config";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {InjectorService} from "../../di";
+import {registerFactory} from "../../di/registries/ProviderRegistry";
+import {InjectorService} from "../../di/services/InjectorService";
 
 import {ExpressApplication, GlobalErrorHandlerMiddleware} from "../../mvc";
 import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
@@ -84,7 +85,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         this._settings = InjectorService.get<ServerSettingsProvider>(ServerSettingsService);
 
         // Configure the ExpressApplication factory.
-        InjectorService.factory(ExpressApplication, this.expressApp);
+        registerFactory(ExpressApplication, this.expressApp);
 
         const settings = ServerSettingsProvider.getMetadata(this);
 
@@ -108,7 +109,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         const httpServer: any = this._httpServer = Http.createServer(this._expressApp);
         httpServer.get = () => httpServer;
 
-        InjectorService.factory(HttpServer, httpServer);
+        registerFactory(HttpServer, httpServer);
 
         this._settings.httpPort = port;
         return this;
@@ -134,7 +135,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         const httpsServer: any = this._httpsServer = Https.createServer(options, this._expressApp);
         httpsServer.get = () => httpsServer;
 
-        InjectorService.factory(HttpsServer, httpsServer);
+        registerFactory(HttpsServer, httpsServer);
 
         this._settings.httpsPort = options.port;
         return this;

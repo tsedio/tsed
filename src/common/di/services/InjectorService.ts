@@ -1,10 +1,10 @@
-import {Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Registry, Store, Type} from "@tsed/core";
+import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Registry, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
 import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
-import {ProviderRegistry, registerFactory, registerService} from "../registries/ProviderRegistry";
+import {ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -372,26 +372,20 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      * Set a new provider from providerSetting.
      * @param provider provide token.
      * @param instance Instance
+     * @deprecated Use registerProvider or registerService or registerFactory instead of
      */
+    @Deprecated("Use registerService(), registerFactory() or registerProvider() util instead of")
     static set(provider: IProvider<any> | any, instance?: any) {
-        let target;
-
-        if (provider["provide"] === undefined) {
-
-            target = provider;
-
-            provider = <IProvider<any>>{
-                provide: target,
-                useClass: target,
-                instance: instance || target,
-                type: "factory"
+        if (!provider.provide) {
+            provider = {
+                provide: provider,
+                type: "factory",
+                useClass: provider,
+                instance: instance || provider
             };
-
-        } else {
-            target = provider.provide;
         }
 
-        ProviderRegistry.merge(provider.provide, provider);
+        registerProvider(provider);
 
         return InjectorService;
     }
@@ -490,19 +484,20 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      * ```
      *
      * @param target The class to add in registry.
+     * @deprecated Use registerService or registerFactory instead of.
      */
-    static service = (target: any) =>
-        InjectorService.set({provide: target, useClass: target, type: "service"});
+    @Deprecated("Use registerService() util instead of")
+    static service(target: any) {
+        return registerService({provide: target, useClass: target, type: "service"});
+    }
 
     /**
-     * Add a new factory in
-     `InjectorService`
-     registry.
+     * Add a new factory in `InjectorService` registry.
      *
      * #### Example with symbol definition
      *
      *
-     ```typescript
+     * ```typescript
      * import {InjectorService} from "@tsed/common";
      *
      * export interface IMyFooFactory {
@@ -549,10 +544,12 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      *      }
      * }
      * ```
-     *
+     * @deprecated Use registerFactory instead of
      */
-    static factory = (target: any, instance: any) =>
-        registerFactory({provide: target, useClass: target, instance: instance, type: "factory"});
+    @Deprecated("Use registerFactory() util instead of")
+    static factory(target: any, instance: any) {
+        return registerFactory({provide: target, useClass: target, instance: instance, type: "factory"});
+    }
 
 }
 

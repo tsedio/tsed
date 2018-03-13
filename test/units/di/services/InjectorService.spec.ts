@@ -1,6 +1,6 @@
 import {Inject, InjectorService} from "../../../../src";
-import {Store} from "../../../../src/core/class/Store";
 import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
+import {Store} from "../../../../src/core/class/Store";
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";
 
@@ -31,9 +31,30 @@ class LocalService {
 }
 
 describe("InjectorService", () => {
-
-
     describe("static members", () => {
+        describe("service()", () => {
+            class Test {
+            }
+
+            before(() => {
+                this.serviceStub = Sinon.stub(ProviderRegistry, "merge");
+
+                InjectorService.service(Test);
+            });
+
+            after(() => {
+                this.serviceStub.restore();
+            });
+
+            it("should set metadata", () => {
+                this.serviceStub.should.have.been.calledWithExactly(Test, {
+                    provide: Test,
+                    useClass: Test,
+                    type: "service"
+                });
+            });
+        });
+
         describe("factory()", () => {
 
             it("should create new Factory", () => {
@@ -46,8 +67,7 @@ describe("InjectorService", () => {
 
         });
 
-        describe("use()", () => {
-
+        describe("set()", () => {
             it("should create new entry", () => {
                 InjectorService.set(myFactory, new (myFactory as any));
             });
@@ -55,7 +75,6 @@ describe("InjectorService", () => {
             it("should inject the Factory", inject([myFactory], (myFactory: MyFactory) => {
                 expect(myFactory.method()).to.equal("test");
             }));
-
         });
     });
 
