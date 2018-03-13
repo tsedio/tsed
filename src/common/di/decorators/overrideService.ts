@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {ProviderRegistry} from "../registries/ProviderRegistry";
+import {registerProvider} from "../registries/ProviderRegistry";
 
 /**
  * Override a service which is already registered in ProviderRegistry.
@@ -9,6 +9,6 @@ import {ProviderRegistry} from "../registries/ProviderRegistry";
  */
 export function OverrideService(targetService: Type<any>): Function {
     return (target: Type<any>): void => {
-        ProviderRegistry.merge(targetService, {useClass: target});
+        registerProvider({provide: targetService, useClass: target});
     };
 }

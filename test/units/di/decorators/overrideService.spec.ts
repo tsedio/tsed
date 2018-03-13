@@ -11,15 +11,17 @@ class Test2 {
 describe("OverrideService", () => {
     before(() => {
         this.mergeStub = Sinon.stub(ProviderRegistry, "merge");
+        this.hasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
 
         OverrideService(Test)(Test2);
     });
 
     after(() => {
         this.mergeStub.restore();
+        this.hasStub.restore();
     });
 
     it("should set metadata", () => {
-        this.mergeStub.should.be.calledWithExactly(Test, {useClass: Test2});
+        this.mergeStub.should.be.calledWithExactly(Test, {provide: Test, useClass: Test2});
     });
 });

@@ -1,5 +1,5 @@
+import {registerFactory} from "@tsed/common";
 import * as SocketIO from "socket.io";
-import {InjectorService} from "@tsed/common";
 
 /**
  * @experimental
@@ -12,4 +12,4 @@ export interface SocketIOServer extends SocketIO.Server {
  */
 export const SocketIOServer = Symbol("SocketIOServer");
 
-InjectorService.factory(SocketIOServer, SocketIO());
+registerFactory(SocketIOServer, SocketIO());

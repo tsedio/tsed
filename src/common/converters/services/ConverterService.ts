@@ -210,7 +210,7 @@ export class ConverterService {
         const converter = Metadata.get(CONVERTER, targetType);
 
         if (converter) {
-            return this.injectorService.invoke(converter);
+            return this.injectorService.get(converter);
         }
     }
 

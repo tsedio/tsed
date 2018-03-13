@@ -1,7 +1,7 @@
+import {ProviderRegistry} from "@tsed/common";
 import * as Http from "http";
 import * as Https from "https";
 import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
-import {InjectorService} from "../../../../src/common/di";
 import {HttpServer} from "../../../../src/common/server";
 import {ServerLoader} from "../../../../src/common/server/components/ServerLoader";
 import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
@@ -72,9 +72,9 @@ describe("ServerLoader", () => {
     describe("createHttpsServer", () => {
         before(() => {
             this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
-            this.factoryStub = Sinon.stub(InjectorService, "factory");
+            this.factoryStub = Sinon.stub(ProviderRegistry, "merge");
             this.server.createHttpsServer({options: "options"});
-            this.factoryStub.getCall(0).args[1].get();
+            this.factoryStub.getCall(0).args[1].instance.get();
         });
         after(() => {
             this.createServerStub.restore();
@@ -88,18 +88,22 @@ describe("ServerLoader", () => {
         });
 
         it("should call createServer method", () => {
-            this.factoryStub.should.have.been.calledWithExactly(HttpsServer, {server: "server", get: Sinon.match.func});
+            this.factoryStub.should.have.been.calledWithExactly(HttpsServer, {
+                provide: HttpsServer,
+                instance: {server: "server", get: Sinon.match.func},
+                type: "factory"
+            });
         });
 
         it("should have a getMethod", () => {
-            expect(this.factoryStub.getCall(0).args[1].get()).to.eq(this.factoryStub.getCall(0).args[1]);
+            expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
         });
     });
 
     describe("createHttpServer", () => {
         before(() => {
             this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
-            this.factoryStub = Sinon.stub(InjectorService, "factory");
+            this.factoryStub = Sinon.stub(ProviderRegistry, "merge");
             this.server.createHttpServer({options: "options"});
         });
         after(() => {
@@ -114,11 +118,15 @@ describe("ServerLoader", () => {
         });
 
         it("should call createServer method", () => {
-            this.factoryStub.should.have.been.calledWithExactly(HttpServer, {server: "server", get: Sinon.match.func});
+            this.factoryStub.should.have.been.calledWithExactly(HttpServer, {
+                provide: HttpServer,
+                instance: {server: "server", get: Sinon.match.func},
+                type: "factory"
+            });
         });
 
         it("should have a getMethod", () => {
-            expect(this.factoryStub.getCall(0).args[1].get()).to.eq(this.factoryStub.getCall(0).args[1]);
+            expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
         });
     });
 

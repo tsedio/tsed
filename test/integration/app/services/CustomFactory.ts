@@ -1,6 +1,7 @@
 // fooservice.ts
 
-import {InjectorService} from "@tsed/common";
+import {registerFactory} from "@tsed/common";
+
 export interface ICustomFactory {
     getFoo(): string;
 }
@@ -8,6 +9,6 @@ export interface ICustomFactory {
 export type CustomFactory = ICustomFactory;
 export const CustomFactory = Symbol("CustomFactory");
 
-InjectorService.factory(CustomFactory, {
+registerFactory(CustomFactory, {
     getFoo: () => "test"
 });

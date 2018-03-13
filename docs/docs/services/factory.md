@@ -8,7 +8,7 @@ This example show you how you can add a service already constructed like a npm m
 
 ```typescript
 // MyFooFactory.ts
-import {InjectorService} from "@tsed/common";
+import {registerFactory} from "@tsed/common";
 
 export interface IMyFooFactory {
    getFoo(): string;
@@ -17,7 +17,7 @@ export interface IMyFooFactory {
 export type MyFooFactory = IMyFooFactory;
 export const MyFooFactory = Symbol("MyFooFactory");
 
-InjectorService.factory(MyFooFactory, {
+registerFactory(MyFooFactory, {
      getFoo:  () => "test"
 });
 ```
@@ -73,5 +73,5 @@ export default class OtherService {
 
 <div class="guide-links">
 <a href="#/docs/services/lifecycle-hooks">Lifecycle hooks</a>
-<a href="#/docs/jsonschema">JSON Schema</a>
+<a href="#/docs/services/provider">Provider</a>
 </div>

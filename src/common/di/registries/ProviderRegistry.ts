@@ -1,6 +1,7 @@
 import {Registry} from "@tsed/core";
 import {ProviderStorable} from "../class/ProviderStorable";
 import {IProvider} from "../interfaces";
+import {ProviderType} from "../interfaces/ProviderType";
 
 export const ProviderRegistry = new Registry<ProviderStorable<any>, IProvider<any>>(ProviderStorable);
 
@@ -75,7 +76,7 @@ export function registerFactory(provider: any | IProvider<any>, instance?: any):
         };
     }
 
-    provider = Object.assign({useClass: provider.provide, instance}, provider, {type: "factory"});
+    provider = Object.assign({instance}, provider, {type: ProviderType.FACTORY});
     registerProvider(provider);
 }
 
@@ -114,7 +115,7 @@ export function registerService(provider: any | IProvider<any>): void {
         };
     }
 
-    provider = Object.assign({useClass: provider.provide}, provider, {type: "service"});
+    provider = Object.assign(provider, {type: ProviderType.SERVICE});
     registerProvider(provider);
 }
 
@@ -123,5 +124,10 @@ export function registerService(provider: any | IProvider<any>): void {
  * @param {IProvider<any>} provider
  */
 export function registerProvider(provider: IProvider<any>): void {
+
+    if (!provider.provide) {
+        throw new Error("Provider.provide is required");
+    }
+
     ProviderRegistry.merge(provider.provide, provider);
 }

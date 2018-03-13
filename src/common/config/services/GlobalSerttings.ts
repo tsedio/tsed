@@ -1,8 +1,8 @@
-import {InjectorService} from "../../di/services/InjectorService";
+import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {ServerSettingsProvider} from "../class/ServerSettingsProvider";
 import {ServerSettingsService} from "./ServerSettingsService";
 
 export const globalServerSettings = new ServerSettingsProvider();
 export const GlobalServerSettings = globalServerSettings;
 
-InjectorService.factory(ServerSettingsService, globalServerSettings);
+registerFactory(ServerSettingsService, globalServerSettings);
