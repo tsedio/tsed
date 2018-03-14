@@ -3,6 +3,7 @@
  * @preferred
  */
 /** */
+import "./interfaces/Express";
 import "./utils/extendsRequest";
 
 export * from "./interfaces";
