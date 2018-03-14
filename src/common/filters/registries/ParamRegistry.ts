@@ -135,7 +135,8 @@ export class ParamRegistry {
             target,
             useType,
             useConverter,
-            useValidation
+            useValidation,
+            required
         } = options;
 
         const param = ParamRegistry.get(target, propertyKey, parameterIndex);
@@ -148,6 +149,10 @@ export class ParamRegistry {
         param.service = service;
         param.expression = expression!;
         param.useValidation = !!useValidation;
+
+        if (required) {
+            param.required = required;
+        }
 
         if (useType) {
             param.type = useType;
