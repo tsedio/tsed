@@ -3,8 +3,9 @@
  */
 /** */
 
-import * as Https from "https";
 import {Env} from "@tsed/core";
+import * as Https from "https";
+import {ProviderScope} from "../../di/interfaces";
 
 export interface IServerMountDirectories {
     [endpoint: string]: any | string | (any | string)[];
@@ -34,6 +35,7 @@ export interface IServerSettings {
     logRequestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
     validationModelStrict?: boolean;
     logger?: Partial<ILoggerSettings>;
+    controllerScope?: ProviderScope;
 
     [key: string]: any;
 }

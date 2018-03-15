@@ -84,6 +84,7 @@ new Server.start();
 * `routers` &lt;object&gt;: Configuration globale d'Express.Router. Voir la [documentation Express](http://expressjs.com/en/api.html#express.router).
 * `validationModelStrict` &lt;boolean&gt;: Active la validation stricte des modèles au niveau du service Converters (voir [Converters](docs/converters.md)). Par défaut: `true`.
 * `logger` &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Configuration du logger.
+* `controllerScope` &lt;`request`|`singleton`&gt;: Configure le scope par défaut des controlleurs. Défault: `singleton`. Voir le [Scope](docs/scope.md).
 
 ## Serveur HTTP & HTTPs
 ### Changement d'adresse

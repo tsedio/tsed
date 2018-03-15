@@ -1,5 +1,6 @@
 import {Env, getValue, Metadata} from "@tsed/core";
 import * as Https from "https";
+import {ProviderScope} from "../../di/interfaces/ProviderScope";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IRouterOptions} from "../interfaces/IRouterOptions";
 import {ILoggerSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
@@ -19,6 +20,7 @@ export class ServerSettingsProvider implements IServerSettings {
         this.version = "1.0.0";
         this.uploadDir = "${rootDir}/uploads";
         this.debug = false;
+        this.controllerScope = ProviderScope.SINGLETON;
         this.logger = {
             logRequest: true
         };
@@ -286,6 +288,14 @@ export class ServerSettingsProvider implements IServerSettings {
 
     get exclude() {
         return (this.map.get("exclude") || []);
+    }
+
+    set controllerScope(scope: ProviderScope) {
+        this.map.set("scope", scope);
+    }
+
+    get controllerScope(): ProviderScope {
+        return this.map.get("scope");
     }
 
     /**
