@@ -95,7 +95,13 @@ export class ControllerService extends ProxyRegistry<ControllerProvider, IContro
     public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
 
         if (!locals.has(ExpressRouter)) {
-            const router = Express.Router();
+            let router;
+            if (this.registry.has(target)) {
+                router = this.registry.get(target)!.router;
+            } else {
+                router = Express.Router();
+            }
+
             locals.set(RouterController, new RouterController(router));
             locals.set(ExpressRouter, router);
         }

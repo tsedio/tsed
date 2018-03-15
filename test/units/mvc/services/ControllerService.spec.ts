@@ -1,3 +1,4 @@
+import {ExpressRouter} from "@tsed/common";
 import {InjectorService} from "../../../../src/common/di/services/InjectorService";
 import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
 import {ControllerRegistry} from "../../../../src/common/mvc/registries/ControllerRegistry";
@@ -138,17 +139,60 @@ describe("ControllerService", () => {
     });
 
     describe("invoke()", () => {
-        before(inject([ControllerService], (controllerService: ControllerService) => {
-            this.locals = new Map();
-            this.fakeService = {fake: Sinon.stub()};
-            this.locals.set(TestService, this.fakeService);
+        describe("when the controller hasn't a configured provider", () => {
 
-            this.controller = controllerService.invoke(Test, this.locals, [TestService]);
-            this.controller.test();
-        }));
+            class Test2 {
+            }
 
-        it("should call the fake service", () =>
-            this.fakeService.fake.should.have.been.called
-        );
+            before(inject([ControllerService], (controllerService: ControllerService) => {
+
+                this.hasStub = Sinon.stub((controllerService as any).registry, "has").returns(false);
+                this.invokeStub = Sinon.stub((controllerService as any).injectorService, "invoke");
+
+                controllerService.invoke(Test2);
+                this.map = this.invokeStub.getCall(0).args[1];
+            }));
+
+            after(() => {
+                this.hasStub.restore();
+                this.invokeStub.restore();
+            });
+
+            it("should call the fake service", () =>
+                this.invokeStub.should.have.been.calledWithExactly(Test2, Sinon.match.any, undefined)
+            );
+            it("should store route in the locals map", () => {
+                expect(this.map.get(ExpressRouter)).to.be.a("function");
+            });
+        });
+
+        describe("when the controller has a configured provider", () => {
+
+            class Test2 {
+            }
+
+            before(inject([ControllerService], (controllerService: ControllerService) => {
+
+                this.hasStub = Sinon.stub((controllerService as any).registry, "has").returns(true);
+                this.getStub = Sinon.stub((controllerService as any).registry, "get").returns({router: "router"});
+                this.invokeStub = Sinon.stub((controllerService as any).injectorService, "invoke");
+
+                controllerService.invoke(Test2);
+                this.map = this.invokeStub.getCall(0).args[1];
+            }));
+
+            after(() => {
+                this.hasStub.restore();
+                this.getStub.restore();
+                this.invokeStub.restore();
+            });
+
+            it("should call the fake service", () =>
+                this.invokeStub.should.have.been.calledWithExactly(Test2, Sinon.match.any, undefined)
+            );
+            it("should store route in the locals map", () => {
+                expect(this.map.get(ExpressRouter)).to.be.eq("router");
+            });
+        });
     });
 });
