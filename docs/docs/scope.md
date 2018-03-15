@@ -4,8 +4,8 @@ The scope of a [provider](docs/api/common/di/provider.md) defines the life cycle
 
 Ts.ED define two types of scope:
 
-- singleton
-- request
+- `singleton`,
+- `request`
 
 The scope annotation can be used on the following providers:
 

@@ -1,5 +1,5 @@
 import {getClass} from "@tsed/core";
-import {globalServerSettings} from "../services/GlobalSerttings";
+import {globalServerSettings} from "../services/GlobalSettings";
 
 const clone = (o: any) => {
     if (o) {

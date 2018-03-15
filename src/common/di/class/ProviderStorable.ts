@@ -1,4 +1,5 @@
 import {Store, Type} from "@tsed/core";
+import {globalServerSettings} from "../../config/services/GlobalSettings";
 import {ProviderScope} from "../interfaces";
 
 import {Provider} from "./Provider";
@@ -41,7 +42,7 @@ export class ProviderStorable<T> extends Provider<T> {
      * @returns {boolean}
      */
     get scope(): ProviderScope {
-        return this.store.get("store") || ProviderScope.SINGLETON;
+        return this.store.get("scope") || globalServerSettings.controllerScope;
     }
 
     /**
@@ -49,6 +50,6 @@ export class ProviderStorable<T> extends Provider<T> {
      * @param scope
      */
     set scope(scope: ProviderScope) {
-        this.store.set("store", scope);
+        this.store.set("scope", scope);
     }
 }

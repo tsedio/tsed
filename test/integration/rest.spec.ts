@@ -1,8 +1,6 @@
-import * as SuperTest from "supertest";
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap} from "@tsed/testing";
-import {Done} from "@tsed/testing";
-import {inject} from "@tsed/testing";
+import {bootstrap, Done, inject} from "@tsed/testing";
+import * as SuperTest from "supertest";
 import {expect} from "../tools";
 import {FakeServer} from "./FakeServer";
 
@@ -356,5 +354,56 @@ describe("Rest", () => {
                 });
         });
 
+    });
+
+    describe("GET /rest/user/:id", () => {
+
+        const send = (id: string) =>
+            new Promise((resolve, reject) => {
+                this.app
+                    .get(`/rest/user/${id}`)
+                    .expect(200)
+                    .end((err: any, response: any) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({id, ...JSON.parse(response.text)});
+                        }
+                    });
+            });
+
+
+        it("should respond with the right userid", () => {
+            const promises = [];
+
+            promises.push(send("0"));
+            promises.push(send("1"));
+            promises.push(send("2"));
+
+            return Promise
+                .all(promises)
+                .then((responses) => {
+                    expect(responses).to.deep.eq([
+                        {
+                            "id": "0",
+                            "idCtrl": "0",
+                            "idSrv": "0",
+                            "userId": "0"
+                        },
+                        {
+                            "id": "1",
+                            "idCtrl": "1",
+                            "idSrv": "1",
+                            "userId": "1"
+                        },
+                        {
+                            "id": "2",
+                            "idCtrl": "2",
+                            "idSrv": "2",
+                            "userId": "2"
+                        }
+                    ]);
+                });
+        });
     });
 });
