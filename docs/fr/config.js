@@ -6,7 +6,7 @@ $docsify.addLanguages({
   label: 'Français',
   searchNoData: 'Aucun résultat !',
   searchPlaceholder: 'Rechercher',
-  navbar:  [
+  navbar: [
     { icon: 'ps-icon ps-icon-arrow-right', url: '#/fr/getting-started', label: 'Commencer' },
     {
       icon: 'ps-icon ps-icon-cookie',
@@ -14,6 +14,7 @@ $docsify.addLanguages({
       label: 'Guide',
       childrens: [
         { url: '#/fr/tutorials/passport', label: 'Passport.js' },
+        { url: '#/fr/tutorials/mongoose', label: 'Mongoose' },
         { url: '#/fr/tutorials/socket-io', label: 'Socket.io' },
         { url: '#/fr/tutorials/swagger', label: 'Swagger' },
         { url: '#/fr/tutorials/ajv', label: 'Validation avec AJV' },
@@ -21,7 +22,7 @@ $docsify.addLanguages({
         { url: '#/fr/tutorials/serve-static-files', label: 'Exposer des fichiers statiques' },
         { url: '#/fr/tutorials/templating', label: 'Templating' },
         { url: '#/fr/tutorials/throw-http-exceptions', label: 'Les erreurs HTTP' },
-        { url: '#/fr/tutorials/aws', label: 'Projet sous AWS' },
+        { url: '#/fr/tutorials/aws', label: 'Projet sous AWS' }
       ]
     },
     {
@@ -52,6 +53,6 @@ $docsify.addLanguages({
     githubRepository: 'GitHub !',
     license: 'Licence',
     releaseUnder: 'Publié sous',
-    documentationGeneratedWith: 'Documentation généré avec',
+    documentationGeneratedWith: 'Documentation généré avec'
   }
 });

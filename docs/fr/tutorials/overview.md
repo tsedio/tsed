@@ -1,21 +1,28 @@
 # Guide
 
-* [Passport.js](tutorials/passport.md)
+## Packages
+
+* [Mongoose](tutorials/mongose.md)
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
-* [Validation avec AJV](tutorials/ajv.md)
+* [AJV - Validation](tutorials/ajv.md)
+* [Multer - upload de fichier](tutorials/upload-files-with-multer.md)
+* [ServeStatic - Exposer des fichiers statiques](tutorials/serve-static-files.md)
+
+## Guide avancées
+
+* [Passport.js](tutorials/passport.md)
 * [Custom validator](tutorials/custom-validator.md)
-* [Upload de fichier](tutorials/upload-files-with-multer.md)
-* [Exposer des fichiers statiques](tutorials/serve-static-files.md)
 * [Templating](tutorials/templating.md)
 * [Les erreurs HTTP](tutorials/throw-http-exceptions.md)
 * [Projet AWS](tutorials/aws.md)
 
-## Starter
+## Starters
 
+* [Projet de démarrage](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-basic)
 * [Node Api Starter](https://github.com/scopsy/node-typescript-starter) by [Scopsy](https://github.com/scopsy)
 
-## Exemples 
+## Ressources 
 
 **Projets compatible v4.0.0 and more**
 

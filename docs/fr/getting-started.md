@@ -286,6 +286,7 @@ Nous avons brièvement exposé les possibilités du framework Ts.ED. Les guides 
   [Guides](tutorials/overview.md)
   [Passport.js](tutorials/passport.md)
   [Socket.io](tutorials/socket-io.md)
+  [Mongoose](tutorials/mongoose.md)
   [Swagger](tutorials/swagger.md)
   [Validation avec AJV](tutorials/ajv.md)
   [Upload de fichiers](tutorials/upload-files-with-multer.md)

@@ -1,6 +1,8 @@
 /**
  *
  */
+import {Type} from "@tsed/core";
+
 export interface IDeserializer {
     (obj: any, targetType: any, baseType?: any): any;
 }
@@ -23,6 +25,7 @@ export interface ISerializer {
  *
  */
 export interface IConverterOptions {
+    type?: Type<any>;
     ignoreCallback?: IConverterIgnoreCB;
     checkRequiredValue?: boolean;
 }

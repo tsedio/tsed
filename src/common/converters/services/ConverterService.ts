@@ -54,10 +54,6 @@ export class ConverterService {
      * @param options
      */
     serialize(obj: any, options: IConverterOptions = {}): any {
-        const {
-            checkRequiredValue = true
-        } = options;
-
         try {
 
             if (isEmpty(obj)) {
@@ -65,7 +61,8 @@ export class ConverterService {
             }
 
             const converter = this.getConverter(obj);
-            const serializer: ISerializer = (o: any) => this.serialize(o, options);
+            const serializer: ISerializer = (o: any, opt?: any) =>
+                this.serialize(o, Object.assign({}, options, opt));
 
             if (converter && converter.serialize) {
                 // deserialize from a custom JsonConverter
@@ -74,7 +71,7 @@ export class ConverterService {
 
             if (typeof obj.serialize === "function") {
                 // deserialize from serialize method
-                return obj.serialize();
+                return obj.serialize(options);
             }
 
             if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
@@ -84,26 +81,7 @@ export class ConverterService {
 
             // Default converter
             if (!isPrimitiveOrPrimitiveClass(obj)) {
-
-                const plainObject: any = isArrayOrArrayClass(obj) ? [] : {};
-                const properties = PropertyRegistry.getProperties(obj);
-                const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
-
-                keys.forEach(propertyKey => {
-                    if (typeof obj[propertyKey] !== "function") {
-                        let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
-
-                        propertyMetadata = propertyMetadata || {} as any;
-                        plainObject[propertyMetadata!.name || propertyKey] = this.serialize(obj[propertyKey]);
-                    }
-                });
-
-                // Required validation
-                if (checkRequiredValue) {
-                    this.checkRequiredValue(obj, properties);
-                }
-
-                return plainObject;
+                return this.serializeClass(obj, options);
             }
 
         } catch (err) {
@@ -117,6 +95,40 @@ export class ConverterService {
 
         /* istanbul ignore next */
         return obj;
+    }
+
+    /**
+     *
+     * @param obj
+     * @param {IConverterOptions} options
+     * @returns {any}
+     */
+    serializeClass(obj: any, options: IConverterOptions = {}) {
+        const {
+            checkRequiredValue = true
+        } = options;
+
+        const plainObject: any = {};
+        const properties = PropertyRegistry.getProperties(options.type || obj);
+        const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
+
+        keys.forEach(propertyKey => {
+            if (typeof obj[propertyKey] !== "function") {
+                let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
+
+                propertyMetadata = propertyMetadata || {} as any;
+                plainObject[propertyMetadata!.name || propertyKey] = this.serialize(obj[propertyKey], {
+                    checkRequiredValue
+                });
+            }
+        });
+
+        // Required validation
+        if (checkRequiredValue) {
+            this.checkRequiredValue(obj, properties);
+        }
+
+        return plainObject;
     }
 
     /**
@@ -172,7 +184,6 @@ export class ConverterService {
                 return instance;
             }
 
-
             // Default converter
             const instance = new targetType();
             const properties = PropertyRegistry.getProperties(targetType);
@@ -207,10 +218,12 @@ export class ConverterService {
      */
     getConverter(targetType: any): IConverter | undefined {
 
-        const converter = Metadata.get(CONVERTER, targetType);
+        if (Metadata.has(CONVERTER, targetType)) {
+            const converter = Metadata.get(CONVERTER, targetType);
 
-        if (converter) {
-            return this.injectorService.get(converter);
+            if (converter) {
+                return this.injectorService.get(converter);
+            }
         }
     }
 
