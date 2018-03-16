@@ -2,9 +2,9 @@
 
 ## Packages
 
-* [Mongoose](tutorials/mongose.md)
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
+* [Mongoose](tutorials/mongose.md)
 * [AJV - Validation](tutorials/ajv.md)
 * [Multer - upload de fichier](tutorials/upload-files-with-multer.md)
 * [ServeStatic - Exposer des fichiers statiques](tutorials/serve-static-files.md)
@@ -12,7 +12,7 @@
 ## Guide avancées
 
 * [Passport.js](tutorials/passport.md)
-* [Custom validator](tutorials/custom-validator.md)
+* [Validation customisé](tutorials/custom-validator.md)
 * [Templating](tutorials/templating.md)
 * [Les erreurs HTTP](tutorials/throw-http-exceptions.md)
 * [Projet AWS](tutorials/aws.md)
@@ -29,6 +29,7 @@
 * [Projet de démarrage](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-basic)
 * [Https](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-https)
 * [Authentification avec Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport)
+* [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
 
 **Projects compatible for v2.0.0 and more**
 

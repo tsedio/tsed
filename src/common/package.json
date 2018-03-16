@@ -47,6 +47,7 @@
   },
   "peerDependencies": {
     "@types/express": "^4",
+    "@tsed/core": "0.0.0-PLACEHOLDER",
     "express": "^4"
   },
   "devDependencies": {},

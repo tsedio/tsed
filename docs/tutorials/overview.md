@@ -1,15 +1,27 @@
 # Guide
 
-* [Passport.js](tutorials/passport.md)
+## Packages
+
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
-* [Validation AJV](tutorials/ajv.md)
+* [Mongoose](tutorials/mongose.md)
+* [AJV - Validation](tutorials/ajv.md)
+* [Multer - upload de fichier](tutorials/upload-files-with-multer.md)
+* [ServeStatic](tutorials/serve-static-files.md)
+
+## Advanced guides
+
+* [Passport.js](tutorials/passport.md)
 * [Custom validator](tutorials/custom-validator.md)
-* [Upload files](tutorials/upload-files-with-multer.md)
-* [Serve static files](tutorials/serve-static-files.md)
 * [Templating](tutorials/templating.md)
 * [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
 * [AWS project](tutorials/aws.md)
+
+## Starters
+
+* [Quick start project](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-basic)
+* [Node Api Starter](https://github.com/scopsy/node-typescript-starter) by [Scopsy](https://github.com/scopsy)
+
 
 ## Starter
 
@@ -24,6 +36,7 @@ Some examples are available along these links :
 * [Basics usages](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-basic)
 * [Https](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-https)
 * [Authentication with Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport)
+* [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
 
 **Projects examples for v2.0.0 and more**
 
