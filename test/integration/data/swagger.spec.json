@@ -80,12 +80,12 @@
             "in": "path",
             "name": "eventId",
             "type": "string",
-            "required": false
+            "required": true
           },
           {
             "name": "test",
             "in": "path",
-            "required": false,
+            "required": true,
             "type": "string"
           }
         ],
@@ -93,6 +93,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
           },
           "403": {
             "description": "Forbidden"
@@ -348,14 +351,14 @@
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": false,
+            "required": true,
             "description": "The resource"
           },
           {
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false,
+            "required": true,
             "description": "Id of the resource"
           }
         ],
@@ -363,6 +366,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
           }
         },
         "security": [],
@@ -422,7 +428,7 @@
             "in": "path",
             "name": "token",
             "type": "string",
-            "required": false,
+            "required": true,
             "description": "Token required to update token"
           }
         ],
@@ -430,6 +436,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
           }
         },
         "security": [],
@@ -474,13 +483,16 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false
+            "required": true
           }
         ],
         "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
           }
         },
         "security": [],
@@ -498,13 +510,16 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false
+            "required": true
           }
         ],
         "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
           }
         },
         "security": [],
@@ -744,14 +759,14 @@
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": false,
+            "required": true,
             "description": "The resource"
           },
           {
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false,
+            "required": true,
             "description": "Id of the resource"
           }
         ],
@@ -759,6 +774,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
           }
         },
         "security": [],

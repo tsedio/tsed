@@ -23,7 +23,8 @@ describe("PathParams", () => {
             .and
             .calledWithExactly(PathParamsFilter, {
                 expression: "test",
-                useType: Test
+                useType: Test,
+                required: true
             })
     );
 });
