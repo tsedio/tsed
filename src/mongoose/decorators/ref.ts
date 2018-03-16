@@ -1,7 +1,6 @@
 import {Store} from "@tsed/core";
 import {Schema} from "mongoose";
-import {PropertyMetadata} from "../../common/jsonschema/class/PropertyMetadata";
-import {PropertyRegistry} from "../../common/jsonschema/registries/PropertyRegistry";
+import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
 
 export type Ref<T> = T | string;
 
