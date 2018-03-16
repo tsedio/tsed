@@ -301,6 +301,9 @@ class UserService {
 }
 ```
 
+!> Vous pouvez récupérer le projet exemple [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
+
+
 <div class="guide-links">
 <a href="#/tutorials/socket-io">Socket.io</a>
 <a href="#/tutorials/swagger">Swagger</a>
