@@ -19,7 +19,21 @@
     ],
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "paths": {
+      "@tsed/core": [
+        "./src/core"
+      ],
+      "@tsed/common": [
+        "./src/common"
+      ],
+      "@tsed/common/jsonschema/decorators": [
+        "./src/common/jsonschema/decorators"
+      ],
+      "@tsed/testing": [
+        "./src/testing"
+      ]
+    }
   },
   "include": [
     "src/**/*",

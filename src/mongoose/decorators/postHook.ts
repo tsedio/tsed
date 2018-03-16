@@ -1,4 +1,4 @@
-import {getDecoratorType} from "../../core/utils";
+import {getDecoratorType} from "@tsed/core";
 import {MongoosePostErrorHookCB, MongoosePostHookCB} from "../interfaces/MongooseModelOptions";
 import {applySchemaOptions} from "../utils/schemaOptions";
 

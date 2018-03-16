@@ -1,6 +1,5 @@
+import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {SchemaTypeOpts} from "mongoose";
-import {PropertyMetadata} from "../../common/jsonschema/class/PropertyMetadata";
-import {PropertyRegistry} from "../../common/jsonschema/registries/PropertyRegistry";
 
 /**
  * Attach a schema on property class.
