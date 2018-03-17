@@ -81,11 +81,49 @@ export class MySocketService {
 
 > @SocketService inherit from @Service decorator. That means, a SocketService can be injected to another Service, Controller or Middleware.
 
+Example:
+
+```typescript
+import * as SocketIO from "socket.io";
+import {SocketService, Nsp} from "@tsed/socketio";
+
+@SocketService()
+export class MySocketService {
+     @Nsp nsp: SocketIO.Namespace;
+
+     helloAll() {
+         this.nsp.emit('hi', 'everyone!');
+     }
+}
+```
+Then, you can inject your socket service into another Service, Controller, etc... as following:
+
+```typescript
+import {Controller, Get} from "@tsed/common";
+import {MySocketService} from "../services/MySocketService";
+
+@Controller("/")
+export class MyCtrl {
+   
+    constructor(private mySocketService: MySocketService) {
+         
+    }
+
+    @Get("/allo")
+    allo() {
+         this.mySocketService.helloAll(); 
+         return "is sent";
+    }
+}
+```
+
 ### Declaring an Input Event
 
 [@Input](api/socketio/input.md) decorator declare a method as a new handler for a specific `event`.
 
 ```typescript
+import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
+
 @SocketService("/my-namespace")
 export class MySocketService {
     @Input("eventName")
@@ -108,6 +146,8 @@ You have a many choice to send a response to your client. Ts.ED offer some decor
 Example:
 
 ```typescript
+import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
+
 @SocketService("/my-namespace")
 export class MySocketService {
     @Input("eventName")
@@ -126,6 +166,8 @@ export class MySocketService {
 Ts.ED create a new session for each socket.
 
 ```typescript
+import {SocketService, Input, Emit, Args, SocketSession} from "@tsed/socketio";
+
 @SocketService("/my-namespace")
 export class MySocketService {
     @Input("eventName")
@@ -142,9 +184,91 @@ export class MySocketService {
 }
 ```
 
+### Middlewares
+
+A middleware can be also used on a `SocketService` either on a class or on a method.
+
+Here an example of a middleware:
+
+```typescript
+import {ConverterService} from "@tsed/common";
+import {SocketMiddleware, Args} from "@tsed/socketio";
+import {User} from "../models/User";
+
+@SocketMiddleware()
+export class UserConverterSocketMiddleware {
+    constructor(private converterService: ConverterService) {
+    }
+    async use(@Args() args: any[]) {
+        
+        let [user] = args;
+        // update Arguments
+        user = ConverterService.deserialize(user, User);
+
+        return [user];
+    }
+}
+```
+> The user instance will be forwarded to the next middleware and to your decorated method.
+
+You can also declare a middleware to handle an error with `@SocketMiddlewareError`.
+Here an example:
+
+```typescript
+import {SocketMiddlewareError, SocketErr, Socket, Args} from "@tsed/socketio";
+
+@SocketMiddlewareError()
+export class ErrorHandlerSocketMiddleware {
+    async use(@SocketErr() err: any, @Socket socket: SocketIO.Socket) {
+        console.error(err);
+        socket.emit("error", {message: "An error has occured"})
+    }
+}
+```
+
+Two decorators are provided to attach your middleware on the right place:
+
+- `@SocketUseBefore` will call your middleware before the class method,
+- `@SocketUseAfter` will call your middleware after the class method.
+
+Both decorators can be used as a class decorator or as a method decorator.
+The call sequences is the following for each event request:
+
+- Middlewares attached with `@SocketUseBefore` on class,
+- Middlewares attached with `@SocketUseBefore` on method,
+- The method,
+- Send response if the method is decorated with `@Emit`, `@Broadcast` or `@BroadcastOther`,
+- Middlewares attached with `@SocketUseAfter` on method, 
+- Middlewares attached with `@SocketUseAfter` on class.
+
+Middlewares chain use the `Promise` to run it. If one of this middlewares/method emit an error, the first middleware error will be called.
+
+```typescript
+import {SocketService, SocketUseAfter, SocketUseBefore, Emit, Input, Args} from "@tsed/socketio";
+import {UserConverterSocketMiddleware, ErrorHandlerSocketMiddleware} from "../middlewares";
+import {User} from "../models/User";
+
+@SocketService("/my-namespace")
+@SocketUseBefore(UserConverterSocketMiddleware) // global version
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class MySocketService {
+    
+    @Input("eventName")
+    @Emit("responseEventName") // or Broadcast or BroadcastOthers
+    @SocketUseBefore(UserConverterSocketMiddleware)
+    @SocketUseAfter(ErrorHandlerSocketMiddleware)
+    async myMethod(@Args(0) user: User) {
+
+        console.log(user);
+
+        return user;
+    }
+}
+```
+
 ## Decorators
 
-<ul class="api-list"><li class="api-item" data-symbol="socketio;Args;decorator;@;false;false;true;false"><a href="#/api/socketio/args"class="symbol-container symbol-type-decorator symbol-name-socketio-Args"title="Args"><span class="symbol decorator"></span>Args</a></li><li class="api-item" data-symbol="socketio;Broadcast;decorator;@;false;false;true;false"><a href="#/api/socketio/broadcast"class="symbol-container symbol-type-decorator symbol-name-socketio-Broadcast"title="Broadcast"><span class="symbol decorator"></span>Broadcast</a></li><li class="api-item" data-symbol="socketio;BroadcastOthers;decorator;@;false;false;true;false"><a href="#/api/socketio/broadcastothers"class="symbol-container symbol-type-decorator symbol-name-socketio-BroadcastOthers"title="BroadcastOthers"><span class="symbol decorator"></span>BroadcastOthers</a></li><li class="api-item" data-symbol="socketio;Emit;decorator;@;false;false;true;false"><a href="#/api/socketio/emit"class="symbol-container symbol-type-decorator symbol-name-socketio-Emit"title="Emit"><span class="symbol decorator"></span>Emit</a></li><li class="api-item" data-symbol="socketio;IO;decorator;@;false;false;true;false"><a href="#/api/socketio/io"class="symbol-container symbol-type-decorator symbol-name-socketio-IO"title="IO"><span class="symbol decorator"></span>IO</a></li><li class="api-item" data-symbol="socketio;Input;decorator;@;false;false;true;false"><a href="#/api/socketio/input"class="symbol-container symbol-type-decorator symbol-name-socketio-Input"title="Input"><span class="symbol decorator"></span>Input</a></li><li class="api-item" data-symbol="socketio;InputAndBroadcast;decorator;@;false;false;true;false"><a href="#/api/socketio/inputandbroadcast"class="symbol-container symbol-type-decorator symbol-name-socketio-InputAndBroadcast"title="InputAndBroadcast"><span class="symbol decorator"></span>InputAndBroadcast</a></li><li class="api-item" data-symbol="socketio;InputAndBroadcastOthers;decorator;@;false;false;true;false"><a href="#/api/socketio/inputandbroadcastothers"class="symbol-container symbol-type-decorator symbol-name-socketio-InputAndBroadcastOthers"title="InputAndBroadcastOthers"><span class="symbol decorator"></span>InputAndBroadcastOthers</a></li><li class="api-item" data-symbol="socketio;InputAndEmit;decorator;@;false;false;true;false"><a href="#/api/socketio/inputandemit"class="symbol-container symbol-type-decorator symbol-name-socketio-InputAndEmit"title="InputAndEmit"><span class="symbol decorator"></span>InputAndEmit</a></li><li class="api-item" data-symbol="socketio;Nsp;decorator;@;false;false;true;false"><a href="#/api/socketio/nsp"class="symbol-container symbol-type-decorator symbol-name-socketio-Nsp"title="Nsp"><span class="symbol decorator"></span>Nsp</a></li><li class="api-item" data-symbol="socketio;Socket;decorator;@;false;false;true;false"><a href="#/api/socketio/socket"class="symbol-container symbol-type-decorator symbol-name-socketio-Socket"title="Socket"><span class="symbol decorator"></span>Socket</a></li><li class="api-item" data-symbol="socketio;SocketFilter;decorator;@;false;false;false;true"><a href="#/api/socketio/socketfilter"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketFilter"title="SocketFilter"><span class="symbol decorator"></span>SocketFilter</a></li><li class="api-item" data-symbol="socketio;SocketReturns;decorator;@;false;false;false;true"><a href="#/api/socketio/socketreturns"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketReturns"title="SocketReturns"><span class="symbol decorator"></span>SocketReturns</a></li><li class="api-item" data-symbol="socketio;SocketService;decorator;@;false;false;true;false"><a href="#/api/socketio/socketservice"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketService"title="SocketService"><span class="symbol decorator"></span>SocketService</a></li><li class="api-item" data-symbol="socketio;SocketSession;decorator;@;false;false;true;false"><a href="#/api/socketio/socketsession"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketSession"title="SocketSession"><span class="symbol decorator"></span>SocketSession</a></li></ul>
+<ul class="api-list"><li class="api-item" data-symbol="socketio;Args;decorator;@;false;false;false;false"><a href="#/api/socketio/args"class="symbol-container symbol-type-decorator symbol-name-socketio-Args"title="Args"><span class="symbol decorator"></span>Args</a></li><li class="api-item" data-symbol="socketio;Broadcast;decorator;@;false;false;false;false"><a href="#/api/socketio/broadcast"class="symbol-container symbol-type-decorator symbol-name-socketio-Broadcast"title="Broadcast"><span class="symbol decorator"></span>Broadcast</a></li><li class="api-item" data-symbol="socketio;BroadcastOthers;decorator;@;false;false;false;false"><a href="#/api/socketio/broadcastothers"class="symbol-container symbol-type-decorator symbol-name-socketio-BroadcastOthers"title="BroadcastOthers"><span class="symbol decorator"></span>BroadcastOthers</a></li><li class="api-item" data-symbol="socketio;Emit;decorator;@;false;false;false;false"><a href="#/api/socketio/emit"class="symbol-container symbol-type-decorator symbol-name-socketio-Emit"title="Emit"><span class="symbol decorator"></span>Emit</a></li><li class="api-item" data-symbol="socketio;IO;decorator;@;false;false;false;false"><a href="#/api/socketio/io"class="symbol-container symbol-type-decorator symbol-name-socketio-IO"title="IO"><span class="symbol decorator"></span>IO</a></li><li class="api-item" data-symbol="socketio;Input;decorator;@;false;false;false;false"><a href="#/api/socketio/input"class="symbol-container symbol-type-decorator symbol-name-socketio-Input"title="Input"><span class="symbol decorator"></span>Input</a></li><li class="api-item" data-symbol="socketio;InputAndBroadcast;decorator;@;false;false;false;false"><a href="#/api/socketio/inputandbroadcast"class="symbol-container symbol-type-decorator symbol-name-socketio-InputAndBroadcast"title="InputAndBroadcast"><span class="symbol decorator"></span>InputAndBroadcast</a></li><li class="api-item" data-symbol="socketio;InputAndBroadcastOthers;decorator;@;false;false;false;false"><a href="#/api/socketio/inputandbroadcastothers"class="symbol-container symbol-type-decorator symbol-name-socketio-InputAndBroadcastOthers"title="InputAndBroadcastOthers"><span class="symbol decorator"></span>InputAndBroadcastOthers</a></li><li class="api-item" data-symbol="socketio;InputAndEmit;decorator;@;false;false;false;false"><a href="#/api/socketio/inputandemit"class="symbol-container symbol-type-decorator symbol-name-socketio-InputAndEmit"title="InputAndEmit"><span class="symbol decorator"></span>InputAndEmit</a></li><li class="api-item" data-symbol="socketio;Nsp;decorator;@;false;false;false;false"><a href="#/api/socketio/nsp"class="symbol-container symbol-type-decorator symbol-name-socketio-Nsp"title="Nsp"><span class="symbol decorator"></span>Nsp</a></li><li class="api-item" data-symbol="socketio;Socket;decorator;@;false;false;true;false"><a href="#/api/socketio/socket"class="symbol-container symbol-type-decorator symbol-name-socketio-Socket"title="Socket"><span class="symbol decorator"></span>Socket</a></li><li class="api-item" data-symbol="socketio;SocketErr;decorator;@;false;false;false;false"><a href="#/api/socketio/socketerr"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketErr"title="SocketErr"><span class="symbol decorator"></span>SocketErr</a></li><li class="api-item" data-symbol="socketio;SocketFilter;decorator;@;false;false;false;true"><a href="#/api/socketio/socketfilter"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketFilter"title="SocketFilter"><span class="symbol decorator"></span>SocketFilter</a></li><li class="api-item" data-symbol="socketio;SocketMiddleware;decorator;@;false;false;true;true"><a href="#/api/socketio/socketmiddleware"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketMiddleware"title="SocketMiddleware"><span class="symbol decorator"></span>SocketMiddleware</a></li><li class="api-item" data-symbol="socketio;SocketMiddlewareError;decorator;@;false;false;true;true"><a href="#/api/socketio/socketmiddlewareerror"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketMiddlewareError"title="SocketMiddlewareError"><span class="symbol decorator"></span>SocketMiddlewareError</a></li><li class="api-item" data-symbol="socketio;SocketReturns;decorator;@;false;false;false;true"><a href="#/api/socketio/socketreturns"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketReturns"title="SocketReturns"><span class="symbol decorator"></span>SocketReturns</a></li><li class="api-item" data-symbol="socketio;SocketService;decorator;@;false;false;false;false"><a href="#/api/socketio/socketservice"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketService"title="SocketService"><span class="symbol decorator"></span>SocketService</a></li><li class="api-item" data-symbol="socketio;SocketSession;decorator;@;false;false;false;false"><a href="#/api/socketio/socketsession"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketSession"title="SocketSession"><span class="symbol decorator"></span>SocketSession</a></li><li class="api-item" data-symbol="socketio;SocketUseAfter;decorator;@;false;false;true;false"><a href="#/api/socketio/socketuseafter"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketUseAfter"title="SocketUseAfter"><span class="symbol decorator"></span>SocketUseAfter</a></li><li class="api-item" data-symbol="socketio;SocketUseBefore;decorator;@;false;false;true;false"><a href="#/api/socketio/socketusebefore"class="symbol-container symbol-type-decorator symbol-name-socketio-SocketUseBefore"title="SocketUseBefore"><span class="symbol decorator"></span>SocketUseBefore</a></li></ul>
 
 <div class="guide-links">
 <a href="#/tutorials/passport">Passport</a>
