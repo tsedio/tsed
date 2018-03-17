@@ -103,6 +103,7 @@ describe("buildMongooseSchema", () => {
 
                 const map = new Map();
                 map.set("test", this.propertyMetadata);
+                map.set("_id", {});
 
                 const map2 = new Map();
                 map2.set("test2", {
@@ -152,6 +153,10 @@ describe("buildMongooseSchema", () => {
                         ]
                     }
                 });
+            });
+
+            it("should not have an _id", () => {
+                expect(this.result._id).to.eq(undefined);
             });
         });
 
