@@ -21,7 +21,6 @@ import {SocketFilter} from "./socketFilter";
  * }
  * ```
  *
- * @experimental
  * @param target
  * @param {string} propertyKey
  * @param {number} index

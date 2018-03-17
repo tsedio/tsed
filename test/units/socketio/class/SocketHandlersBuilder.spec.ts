@@ -1,3 +1,5 @@
+import {MiddlewareRegistry, MiddlewareType} from "@tsed/common";
+import {Store} from "@tsed/core";
 import {SocketHandlersBuilder} from "../../../../src/socketio/class/SocketHandlersBuilder";
 import {SocketFilters} from "../../../../src/socketio/interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../../../../src/socketio/interfaces/SocketReturnsTypes";
@@ -125,7 +127,10 @@ describe("SocketHandlersBuilder", () => {
         });
 
         it("should add metadata when $onConnection exists", () => {
-            this.invokeStub.should.have.been.calledWithExactly({methodClassName: "$onConnection"}, [], this.socketStub, this.nspStub);
+            this.invokeStub.should.have.been.calledWithExactly(this.provider.instance, {methodClassName: "$onConnection"}, {
+                socket: this.socketStub,
+                nsp: this.nspStub
+            });
         });
     });
 
@@ -189,18 +194,18 @@ describe("SocketHandlersBuilder", () => {
                 on: Sinon.stub()
             };
             const builder: any = new SocketHandlersBuilder(this.provider);
-            this.invokeStub = Sinon.stub(builder, "invoke");
+            this.runQueueStub = Sinon.stub(builder, "runQueue");
 
             builder.buildHandlers(this.socketStub, "ws");
             this.socketStub.on.getCall(0).args[1]("arg1");
         });
 
-        it("should called socket.on() method", () => {
+        it("should call socket.on() method", () => {
             this.socketStub.on.should.have.been.calledWithExactly("eventName", Sinon.match.func);
         });
 
-        it("should called invoke method", () => {
-            this.invokeStub.should.have.been.calledWithExactly(this.metadata.handlers.testHandler, ["arg1"], this.socketStub, "ws");
+        it("should call runQueue method", () => {
+            this.runQueueStub.should.have.been.calledWithExactly(this.metadata.handlers.testHandler, ["arg1"], this.socketStub, "ws");
         });
     });
 
@@ -219,6 +224,7 @@ describe("SocketHandlersBuilder", () => {
                     }
                 }
             };
+
             this.provider = {
                 store: {
                     get: Sinon.stub().returns(this.metadata)
@@ -230,32 +236,18 @@ describe("SocketHandlersBuilder", () => {
 
             const builder: any = new SocketHandlersBuilder(this.provider);
             this.buildParametersStub = Sinon.stub(builder, "buildParameters").returns(["argMapped"]);
-            this.sendResponseStub = Sinon.stub(SocketHandlersBuilder as any, "sendResponse");
 
-            builder.invoke(this.metadata.handlers.testHandler, ["arg1"], "socket", "nsp");
-        });
-        after(() => {
-            this.sendResponseStub.restore();
+            builder.invoke(this.provider.instance, this.metadata.handlers.testHandler, {scope: "scope"});
         });
 
         it("should call buildParameters", () => {
             this.buildParametersStub.should.have.been.calledWithExactly(["param"], {
-                nsp: "nsp",
-                socket: "socket",
-                args: ["arg1"]
+                scope: "scope"
             });
         });
 
         it("should call the method instance", () => {
             this.provider.instance.testHandler.should.have.been.calledWithExactly("argMapped");
-        });
-
-        it("should call SocketHandlersBuilder.sendResponse method", () => {
-            this.sendResponseStub.should.have.been.calledWithExactly("returnEventName", "type", "response", {
-                nsp: "nsp",
-                socket: "socket",
-                args: ["arg1"]
-            });
         });
     });
 
@@ -362,6 +354,31 @@ describe("SocketHandlersBuilder", () => {
             });
         });
 
+        describe("when ERROR", () => {
+            before(() => {
+                this.provider = {
+                    store: {
+                        get: Sinon.stub().returns(this.metadata)
+                    },
+                    instance: {
+                        testHandler: Sinon.stub().returns("response")
+                    }
+                };
+
+                const builder: any = new SocketHandlersBuilder(this.provider);
+
+                this.result = builder.buildParameters({
+                    0: {
+                        filter: SocketFilters.ERR
+                    }
+                }, {error: "error"});
+            });
+
+            it("should return a list of parameters", () => {
+                expect(this.result).to.deep.eq(["error"]);
+            });
+        });
+
         describe("when SESSION", () => {
             before(() => {
                 const map = new Map();
@@ -393,19 +410,22 @@ describe("SocketHandlersBuilder", () => {
 
     });
 
-    describe("sendResponse()", () => {
+    describe("bindResponseMiddleware()", () => {
         describe("when BROADCAST", () => {
             before(() => {
                 this.nspStub = {
                     emit: Sinon.stub()
                 };
 
-                (SocketHandlersBuilder as any).sendResponse(
-                    "eventName",
-                    SocketReturnsTypes.BROADCAST,
-                    {response: "response"},
+                (SocketHandlersBuilder as any).bindResponseMiddleware(
+                    {
+                        returns: {
+                            type: SocketReturnsTypes.BROADCAST,
+                            eventName: "eventName"
+                        }
+                    },
                     {nsp: this.nspStub}
-                );
+                )({response: "response"});
             });
             it("should call the ws.emit method", () => {
                 this.nspStub.emit.should.have.been.calledWithExactly("eventName", {response: "response"});
@@ -419,12 +439,15 @@ describe("SocketHandlersBuilder", () => {
                     }
                 };
 
-                (SocketHandlersBuilder as any).sendResponse(
-                    "eventName",
-                    SocketReturnsTypes.BROADCAST_OTHERS,
-                    {response: "response"},
+                (SocketHandlersBuilder as any).bindResponseMiddleware(
+                    {
+                        returns: {
+                            type: SocketReturnsTypes.BROADCAST_OTHERS,
+                            eventName: "eventName"
+                        }
+                    },
                     {socket: this.socketStub}
-                );
+                )({response: "response"});
             });
             it("should call the socket.broadcast.emit method", () => {
                 this.socketStub.broadcast.emit.should.have.been.calledWithExactly("eventName", {response: "response"});
@@ -437,16 +460,264 @@ describe("SocketHandlersBuilder", () => {
                     emit: Sinon.stub()
                 };
 
-                (SocketHandlersBuilder as any).sendResponse(
-                    "eventName",
-                    SocketReturnsTypes.EMIT,
-                    {response: "response"},
+                (SocketHandlersBuilder as any).bindResponseMiddleware(
+                    {
+                        returns: {
+                            type: SocketReturnsTypes.EMIT,
+                            eventName: "eventName"
+                        }
+                    },
                     {socket: this.socketStub}
-                );
+                )({response: "response"});
             });
             it("should call the socket.emit method", () => {
                 this.socketStub.emit.should.have.been.calledWithExactly("eventName", {response: "response"});
             });
         });
+    });
+
+    describe("runQueue()", () => {
+        before(() => {
+            this.provider = {
+                store: {
+                    get: Sinon.stub().returns({
+                        useBefore: [{target: "target before global"}],
+                        useAfter: [{target: "target after global"}]
+                    })
+                },
+                instance: {instance: "instance"}
+            };
+
+            this.handlerMetadata = {
+                useBefore: [
+                    {target: "target before"}
+                ],
+                useAfter: [
+                    {target: "target after"}
+                ]
+            };
+
+            this.bindResponseMiddlewareStub = Sinon.stub(SocketHandlersBuilder as any, "bindResponseMiddleware");
+
+            this.builder = new SocketHandlersBuilder(this.provider);
+
+            this.invokeStub = Sinon.stub(this.builder, "invoke");
+            this.bindMiddlewareStub = Sinon.stub(this.builder, "bindMiddleware");
+            this.bindMiddlewareStub.onCall(0).returns(Promise.resolve());
+            this.bindMiddlewareStub.onCall(1).returns(Promise.resolve());
+            this.bindMiddlewareStub.onCall(2).returns(Promise.resolve());
+            this.bindMiddlewareStub.onCall(3).returns(Promise.resolve());
+
+            return this.builder.runQueue(this.handlerMetadata, ["arg1"], "socket", "nsp");
+        });
+
+        after(() => {
+            this.bindResponseMiddlewareStub.restore();
+        });
+
+        it("should call bindMiddleware (handler before global)", () => {
+            this.bindMiddlewareStub.getCall(0).should.have.been.calledWithExactly(
+                {target: "target before global"},
+                {
+                    args: ["arg1"],
+                    socket: "socket",
+                    nsp: "nsp"
+                },
+                Sinon.match.instanceOf(Promise)
+            );
+        });
+
+        it("should call bindMiddleware (handler before)", () => {
+            this.bindMiddlewareStub.getCall(1).should.have.been.calledWithExactly(
+                {target: "target before"},
+                {
+                    args: ["arg1"],
+                    socket: "socket",
+                    nsp: "nsp"
+                },
+                Sinon.match.instanceOf(Promise)
+            );
+        });
+
+        it("should invoke method instance", () => {
+            this.builder.invoke.should.have.been.calledWithExactly(this.provider.instance, this.handlerMetadata, {
+                args: ["arg1"],
+                socket: "socket",
+                nsp: "nsp"
+            });
+        });
+
+        it("should call SocketHandlersBuilder.bindResponseMiddleware", () => {
+            this.bindResponseMiddlewareStub.should.have.been.calledWithExactly(this.handlerMetadata, {
+                args: ["arg1"],
+                socket: "socket",
+                nsp: "nsp"
+            });
+        });
+
+        it("should call bindMiddleware (handler after)", () => {
+            this.bindMiddlewareStub.getCall(2).should.have.been.calledWithExactly(
+                {target: "target after"},
+                {
+                    args: ["arg1"],
+                    socket: "socket",
+                    nsp: "nsp"
+                },
+                Sinon.match.instanceOf(Promise)
+            );
+        });
+
+        it("should call bindMiddleware (handler after global)", () => {
+            this.bindMiddlewareStub.getCall(3).should.have.been.calledWithExactly(
+                {target: "target after global"},
+                {
+                    args: ["arg1"],
+                    socket: "socket",
+                    nsp: "nsp"
+                },
+                Sinon.match.instanceOf(Promise)
+            );
+        });
+    });
+
+    describe("bindMiddleware()", () => {
+
+        describe("middleware is not registered", () => {
+            class Test {
+            }
+
+            before(() => {
+                this.instance = new Test;
+                this.provider = {
+                    store: {
+                        get: Sinon.stub()
+                    }
+                };
+
+                Store.from(Test).set("socketIO", {
+                    handlers: {
+                        use: "use"
+                    }
+                });
+
+                this.getStub = Sinon.stub(MiddlewareRegistry as any, "get").returns(false);
+
+                this.scope = {scope: "scope"};
+
+                this.builder = new SocketHandlersBuilder(this.provider);
+                this.invokeStub = Sinon.stub(this.builder, "invoke");
+
+                return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
+            });
+            after(() => {
+                this.getStub.restore();
+            });
+
+            it("should call Middleware.get", () => {
+                this.getStub.should.have.been.calledWithExactly({target: "target"});
+            });
+
+            it("should invoke method", () => {
+                return this.invokeStub.should.not.have.been.called;
+            });
+        });
+
+        describe("middleware", () => {
+            class Test {
+            }
+
+            before(() => {
+                this.instance = new Test;
+                this.provider = {
+                    store: {
+                        get: Sinon.stub()
+                    }
+                };
+
+                Store.from(Test).set("socketIO", {
+                    handlers: {
+                        use: "use"
+                    }
+                });
+
+                this.getStub = Sinon.stub(MiddlewareRegistry as any, "get").returns({
+                    instance: this.instance,
+                    type: MiddlewareType.MIDDLEWARE
+                });
+
+                this.scope = {scope: "scope"};
+
+                this.builder = new SocketHandlersBuilder(this.provider);
+                this.invokeStub = Sinon.stub(this.builder, "invoke").returns({result: "result"});
+                return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
+            });
+            after(() => {
+                this.getStub.restore();
+            });
+
+            it("should call Middleware.get", () => {
+                this.getStub.should.have.been.calledWithExactly({target: "target"});
+            });
+
+            it("should invoke method", () => {
+                this.invokeStub.should.have.been.calledWithExactly(
+                    this.instance,
+                    "use",
+                    this.scope
+                );
+            });
+
+            it("should store args", () => {
+                expect(this.scope.args).to.deep.eq([{result: "result"}]);
+            });
+        });
+
+        describe("middleware error", () => {
+            class Test {
+            }
+
+            before(() => {
+                this.instance = new Test;
+                this.provider = {
+                    store: {
+                        get: Sinon.stub()
+                    }
+                };
+
+                Store.from(Test).set("socketIO", {
+                    handlers: {
+                        use: "use"
+                    }
+                });
+
+                this.getStub = Sinon.stub(MiddlewareRegistry as any, "get").returns({
+                    instance: this.instance,
+                    type: MiddlewareType.ERROR
+                });
+
+                this.scope = {scope: "scope"};
+                this.error = new Error("test");
+
+                this.builder = new SocketHandlersBuilder(this.provider);
+                this.invokeStub = Sinon.stub(this.builder, "invoke").returns(Promise.resolve());
+                return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
+            });
+            after(() => {
+                this.getStub.restore();
+            });
+
+            it("should call Middleware.get", () => {
+                this.getStub.should.have.been.calledWithExactly({target: "target"});
+            });
+
+            it("should invoke method", () => {
+                this.invokeStub.should.have.been.calledWithExactly(
+                    this.instance,
+                    "use",
+                    {error: this.error, ...this.scope}
+                );
+            });
+        });
+
     });
 });

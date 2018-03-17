@@ -1,9 +1,10 @@
 /**
- * @experimental
+ *
  */
 export enum SocketFilters {
     ARGS = "args",
     SOCKET = "socket",
     NSP = "nsp",
-    SESSION = "session"
+    SESSION = "session",
+    ERR = "error"
 }

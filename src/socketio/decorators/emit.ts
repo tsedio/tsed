@@ -20,7 +20,6 @@ import {SocketReturns} from "./socketReturns";
  * }
  * ```
  *
- * @experimental
  * @decorator
  * @param eventName
  */

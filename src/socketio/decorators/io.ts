@@ -14,7 +14,6 @@ import {SocketIOServer} from "../";
  * }
  * ```
  *
- * @experimental
  * @param target
  * @param targetKey
  * @param descriptor

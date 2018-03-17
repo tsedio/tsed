@@ -102,7 +102,8 @@ describe("SocketIOService", () => {
             this.forEachStub = Sinon.stub(ProviderRegistry, "forEach");
             this.providerStub = {
                 store: {
-                    has: Sinon.stub().returns(true)
+                    has: Sinon.stub().returns(true),
+                    get: Sinon.stub().returns({namespace: "/"})
                 }
             };
 
