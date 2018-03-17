@@ -1,6 +1,8 @@
 import {JsonSchemesRegistry, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import * as mongoose from "mongoose";
 
+const MONGOOSE_RESERVED_KEYS = ["_id"];
+
 const clean = (src: any) => Object
     .keys(src)
     .reduce((obj: any, k: any) => {
@@ -42,6 +44,11 @@ export function buildMongooseSchema(target: any): mongoose.SchemaDefinition {
 
     if (properties) {
         properties.forEach((propertyMetadata: PropertyMetadata, propertyKey: string) => {
+
+            if (MONGOOSE_RESERVED_KEYS.indexOf(propertyKey) > -1) {
+                return;
+            }
+
             let definition = {
                 required: propertyMetadata.required
             };
