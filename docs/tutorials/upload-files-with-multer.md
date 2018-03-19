@@ -79,7 +79,7 @@ For multiple files, just add Array type annotation like this:
 ```typescript
 import {Controller, Post} from "@tsed/common";
 import {Multer} from "multer";
-import {MultipartFile} from "@tsed/multipartfile";
+import {MultipartFile} from "@tsed/multipartfiles";
 
 type MulterFile = Express.Multer.File;
 

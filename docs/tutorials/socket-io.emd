@@ -203,7 +203,7 @@ export class UserConverterSocketMiddleware {
         
         let [user] = args;
         // update Arguments
-        user = ConverterService.deserialize(user, User);
+        user = this.converterService.deserialize(user, User);
 
         return [user];
     }
@@ -215,11 +215,11 @@ You can also declare a middleware to handle an error with `@SocketMiddlewareErro
 Here an example:
 
 ```typescript
-import {SocketMiddlewareError, SocketErr, Socket, Args} from "@tsed/socketio";
+import {SocketMiddlewareError, SocketErr, SocketEventName, Socket, Args} from "@tsed/socketio";
 
 @SocketMiddlewareError()
 export class ErrorHandlerSocketMiddleware {
-    async use(@SocketErr() err: any, @Socket socket: SocketIO.Socket) {
+    async use(@SocketEventName eventName: string, @SocketErr err: any, @Socket socket: SocketIO.Socket) {
         console.error(err);
         socket.emit("error", {message: "An error has occured"})
     }
