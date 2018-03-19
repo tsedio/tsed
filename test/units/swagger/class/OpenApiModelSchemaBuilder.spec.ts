@@ -1,9 +1,9 @@
+import {JsonSchema, PropertyRegistry} from "@tsed/common";
+import {Store} from "@tsed/core";
 import {OpenApiModelSchemaBuilder} from "../../../../src/swagger/class/OpenApiModelSchemaBuilder";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
 import {SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
-import {JsonSchema, PropertyRegistry} from "@tsed/common";
-import {Store} from "@tsed/core";
 
 describe("OpenApiModelSchemaBuilder", () => {
 
@@ -88,6 +88,19 @@ describe("OpenApiModelSchemaBuilder", () => {
                             "type": "string"
                         }
                     },
+                    "mapAny": {
+                        "additionalProperties": {
+                            "type": [
+                                "integer",
+                                "number",
+                                "string",
+                                "boolean",
+                                "array",
+                                "object",
+                                "null"
+                            ]
+                        }
+                    },
                     "uint": {
                         "type": "number"
                     }
@@ -167,6 +180,20 @@ describe("OpenApiModelSchemaBuilder", () => {
                             "description": "SwaFoo2.theSet description",
                             "title": "SwaFoo2.theSet"
                         },
+
+                        "mapAny": {
+                            "additionalProperties": {
+                                "type": [
+                                    "integer",
+                                    "number",
+                                    "string",
+                                    "boolean",
+                                    "array",
+                                    "object",
+                                    "null"
+                                ]
+                            }
+                        },
                         "mapOfString": {
                             "additionalProperties": {
                                 "type": "string"
@@ -219,7 +246,7 @@ describe("OpenApiModelSchemaBuilder", () => {
             this.getPropertiesStub = Sinon.stub(PropertyRegistry, "getProperties")
                 .returns([
                     {name: "test"},
-                    {propertyKey: "test2"},
+                    {propertyKey: "test2"}
                 ]);
             this.storeStub = Sinon.stub(Store, "from").returns({
                 get: Sinon.stub().returns("description")

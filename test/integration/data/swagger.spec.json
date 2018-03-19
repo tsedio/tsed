@@ -805,6 +805,19 @@
           "title": "iD",
           "type": "string"
         },
+        "mapAny": {
+          "additionalProperties": {
+            "type": [
+              "integer",
+              "number",
+              "string",
+              "boolean",
+              "array",
+              "object",
+              "null"
+            ]
+          }
+        },
         "startDate": {
           "example": {
             "example1": "2017-10-15T17:05:58.106Z"

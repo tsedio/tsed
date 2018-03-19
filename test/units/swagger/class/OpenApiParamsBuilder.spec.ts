@@ -346,6 +346,19 @@ describe("OpenApiParamsBuilder", () => {
                                 "type": "string"
                             }
                         },
+                        "mapAny": {
+                            "additionalProperties": {
+                                "type": [
+                                    "integer",
+                                    "number",
+                                    "string",
+                                    "boolean",
+                                    "array",
+                                    "object",
+                                    "null"
+                                ]
+                            }
+                        },
                         "nameModel": {
                             "$ref": "#/definitions/SwaNameModel"
                         },

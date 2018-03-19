@@ -1,5 +1,5 @@
-import {PropertyType, JsonProperty, Required} from "@tsed/common";
-import {Example, Title, Description} from "@tsed/swagger";
+import {Any, JsonProperty, PropertyType, Required} from "@tsed/common";
+import {Description, Example, Title} from "@tsed/swagger";
 
 export class SwaNoDecoModel {
     public prop: string;
@@ -91,6 +91,9 @@ export class SwaFoo2 {
 
     @JsonProperty()
     ageModel: SwaAgeModel;
+
+    @Any()
+    mapAny: Map<string, any>;
 
     method() {
 

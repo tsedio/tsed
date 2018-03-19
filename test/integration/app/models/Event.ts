@@ -1,4 +1,4 @@
-import {JsonProperty, IgnoreProperty, Required} from "@tsed/common";
+import {Any, IgnoreProperty, JsonProperty, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {
@@ -37,6 +37,10 @@ export class EventModel {
 
     @IgnoreProperty()
     public _id: string;
+
+
+    @Any()
+    public mapAny: Map<string, any>;
 
 }
 
