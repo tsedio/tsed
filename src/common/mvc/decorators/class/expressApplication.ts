@@ -57,23 +57,20 @@ export function ExpressApplication(target: Type<any>, targetKey: string, descrip
  *
  */
 export function createExpressApplication(): ExpressApplication {
-    const expressApp = new Proxy(Express(), {
-        get(target: any, propertyKey: string | symbol) {
-            if (propertyKey === "use") {
-                return function (...args: any[]) {
-                    args = args.map((arg) => {
-                        if (MiddlewareRegistry.has(arg)) {
-                            arg = HandlerBuilder.from(arg).build();
-                        }
-                        return arg;
-                    });
 
-                    return target[propertyKey](...args);
-                };
+    const expressApp = Express();
+    const originalUse = expressApp.use;
+
+    expressApp.use = function (...args: any[]) {
+        args = args.map((arg) => {
+            if (MiddlewareRegistry.has(arg)) {
+                arg = HandlerBuilder.from(arg).build();
             }
-            return target[propertyKey];
-        }
-    });
+            return arg;
+        });
+
+        return originalUse.call(this, ...args);
+    };
 
     registerFactory(ExpressApplication, expressApp);
     return expressApp;

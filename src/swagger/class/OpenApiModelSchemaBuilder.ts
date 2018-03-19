@@ -1,9 +1,9 @@
 import {JsonSchema, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
-import {Response, Schema} from "swagger-schema-official";
-import {swaggerType} from "../utils";
+import {Schema} from "swagger-schema-official";
 import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
+import {swaggerType} from "../utils";
 
 /**
  * Build a Schema from a given Model.
@@ -83,7 +83,7 @@ export class OpenApiModelSchemaBuilder {
                         };
                     } else {
                         schema.items = {
-                            type: swaggerType(model.type)
+                            type: schema.items && schema.items.type || swaggerType(model.type)
                         };
                     }
                 }
@@ -98,7 +98,7 @@ export class OpenApiModelSchemaBuilder {
             }
 
             schema.additionalProperties = {
-                type: swaggerType(model.type)
+                type: schema.additionalProperties && schema.additionalProperties.type || swaggerType(model.type)
             };
             return schema;
         }
@@ -109,7 +109,7 @@ export class OpenApiModelSchemaBuilder {
             return schema;
         }
 
-        schema.type = swaggerType(model.type);
+        schema.type = schema.type || swaggerType(model.type);
         return schema;
     }
 
@@ -143,4 +143,5 @@ export class OpenApiModelSchemaBuilder {
 /**
  * @deprecated
  */
-export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {}
+export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {
+}
