@@ -10,7 +10,7 @@ import {SocketFilter} from "./socketFilter";
  * @SocketMiddlewareError()
  * export class MyMiddleware {
  *
- *   myMethod(@SocketErr() err: any, @Args() arguments: any[]) {
+ *   myMethod(@SocketErr err: any, @Args() arguments: any[]) {
  *
  *   }
  * }

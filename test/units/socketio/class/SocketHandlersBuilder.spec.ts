@@ -1,5 +1,5 @@
-import {MiddlewareRegistry, MiddlewareType} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {MiddlewareRegistry, MiddlewareType} from "../../../../src/common/mvc";
 import {SocketHandlersBuilder} from "../../../../src/socketio/class/SocketHandlersBuilder";
 import {SocketFilters} from "../../../../src/socketio/interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../../../../src/socketio/interfaces/SocketReturnsTypes";
@@ -379,6 +379,31 @@ describe("SocketHandlersBuilder", () => {
             });
         });
 
+        describe("when EVENT_NAME", () => {
+            before(() => {
+                this.provider = {
+                    store: {
+                        get: Sinon.stub().returns(this.metadata)
+                    },
+                    instance: {
+                        testHandler: Sinon.stub().returns("response")
+                    }
+                };
+
+                const builder: any = new SocketHandlersBuilder(this.provider);
+
+                this.result = builder.buildParameters({
+                    0: {
+                        filter: SocketFilters.EVENT_NAME
+                    }
+                }, {eventName: "eventName"});
+            });
+
+            it("should return a list of parameters", () => {
+                expect(this.result).to.deep.eq(["eventName"]);
+            });
+        });
+
         describe("when SESSION", () => {
             before(() => {
                 const map = new Map();
@@ -489,6 +514,7 @@ describe("SocketHandlersBuilder", () => {
             };
 
             this.handlerMetadata = {
+                eventName: "eventName",
                 useBefore: [
                     {target: "target before"}
                 ],
@@ -519,6 +545,7 @@ describe("SocketHandlersBuilder", () => {
             this.bindMiddlewareStub.getCall(0).should.have.been.calledWithExactly(
                 {target: "target before global"},
                 {
+                    eventName: "eventName",
                     args: ["arg1"],
                     socket: "socket",
                     nsp: "nsp"
@@ -531,6 +558,7 @@ describe("SocketHandlersBuilder", () => {
             this.bindMiddlewareStub.getCall(1).should.have.been.calledWithExactly(
                 {target: "target before"},
                 {
+                    eventName: "eventName",
                     args: ["arg1"],
                     socket: "socket",
                     nsp: "nsp"
@@ -541,6 +569,7 @@ describe("SocketHandlersBuilder", () => {
 
         it("should invoke method instance", () => {
             this.builder.invoke.should.have.been.calledWithExactly(this.provider.instance, this.handlerMetadata, {
+                eventName: "eventName",
                 args: ["arg1"],
                 socket: "socket",
                 nsp: "nsp"
@@ -549,6 +578,7 @@ describe("SocketHandlersBuilder", () => {
 
         it("should call SocketHandlersBuilder.bindResponseMiddleware", () => {
             this.bindResponseMiddlewareStub.should.have.been.calledWithExactly(this.handlerMetadata, {
+                eventName: "eventName",
                 args: ["arg1"],
                 socket: "socket",
                 nsp: "nsp"
@@ -559,6 +589,7 @@ describe("SocketHandlersBuilder", () => {
             this.bindMiddlewareStub.getCall(2).should.have.been.calledWithExactly(
                 {target: "target after"},
                 {
+                    eventName: "eventName",
                     args: ["arg1"],
                     socket: "socket",
                     nsp: "nsp"
@@ -571,6 +602,7 @@ describe("SocketHandlersBuilder", () => {
             this.bindMiddlewareStub.getCall(3).should.have.been.calledWithExactly(
                 {target: "target after global"},
                 {
+                    eventName: "eventName",
                     args: ["arg1"],
                     socket: "socket",
                     nsp: "nsp"

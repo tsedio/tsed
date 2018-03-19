@@ -16,7 +16,7 @@ import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
  *
  * @SocketMiddlewareError()
  * export class ErrorHandlerSocketMiddleware {
- *    async use(@SocketErr() err: any, @Socket socket: SocketIO.Socket) {
+ *    async use(@SocketEventName, @SocketErr err: any, @Socket socket: SocketIO.Socket) {
  *        console.error(err);
  *        socket.emit("error", {message: "An error has occured"})
  *    }

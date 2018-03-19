@@ -119,7 +119,8 @@ export class SocketHandlersBuilder {
         const scope = {
             args,
             socket,
-            nsp
+            nsp,
+            eventName: handlerMetadata.eventName
         };
 
         if (useBefore) {
@@ -254,6 +255,9 @@ export class SocketHandlersBuilder {
                             }
 
                             return scope.args;
+
+                        case SocketFilters.EVENT_NAME :
+                            return scope.eventName;
 
                         case SocketFilters.SOCKET :
                             return scope.socket;

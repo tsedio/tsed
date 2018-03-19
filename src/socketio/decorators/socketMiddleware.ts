@@ -20,7 +20,7 @@ import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
  *
  *         let [user] = args;
  *         // update Arguments
- *         user = ConverterService.deserialize(user, User);
+ *         user = this.converterService.deserialize(user, User);
  *
  *         return [user];
  *     }
