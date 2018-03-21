@@ -48,7 +48,7 @@ npm install
 Run build process
 
 ```bash
-npm run tsc:compile
+npm run build
 ```
 
 ### Test

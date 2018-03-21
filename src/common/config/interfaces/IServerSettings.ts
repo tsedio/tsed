@@ -15,6 +15,7 @@ export interface ILoggerSettings {
     debug?: boolean;
     requestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
     logRequest?: boolean;
+    jsonIndentation?: number;
     reqIdBuilder: () => number;
 }
 

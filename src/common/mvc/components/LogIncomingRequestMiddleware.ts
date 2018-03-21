@@ -23,13 +23,11 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     ];
 
     private AUTO_INCREMENT_ID = 1;
-    private env: Env;
     private loggerSettings: ILoggerSettings;
     private fields: string[];
     private reqIdBuilder: () => number;
 
     constructor(private serverSettingsService: ServerSettingsService) {
-        this.env = serverSettingsService.env;
         this.loggerSettings = serverSettingsService.logger as ILoggerSettings;
         this.reqIdBuilder = this.loggerSettings.reqIdBuilder || (() => this.AUTO_INCREMENT_ID++);
         this.fields = this.loggerSettings.requestFields || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
@@ -129,14 +127,9 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
             if (typeof scope === "string") {
                 scope = {message: scope};
             }
-
             scope = Object.assign(scope, propertySelector(request));
-
             try {
-                if (this.env !== Env.PROD) {
-                    return JSON.stringify(scope, null, 2);
-                }
-                return JSON.stringify(scope);
+                return JSON.stringify(scope, null, this.loggerSettings.jsonIndentation);
             } catch (er) {
                 $log.error({error: er});
             }
