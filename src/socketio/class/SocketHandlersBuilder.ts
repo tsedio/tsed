@@ -8,6 +8,8 @@ import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
 
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
+import {getNspSession} from "../registries/NspSessionRegistry";
+
 
 /**
  * @experimental
@@ -36,7 +38,7 @@ export class SocketHandlersBuilder {
 
         nsp.on("connection", (socket) => this.onConnection(socket, nsp));
 
-        instance._nspSession = new Map();
+        instance._nspSession = getNspSession(this.socketProviderMetadata.namespace!);
         instance[this.socketProviderMetadata.injectNamespace || "nsp"] = nsp;
 
         if (instance.$onNamespaceInit) {

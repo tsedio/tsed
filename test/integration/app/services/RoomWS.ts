@@ -1,10 +1,20 @@
-import {Args, Emit, Input, IO, Nsp, Socket, SocketService, SocketUseAfter, SocketUseBefore} from "@tsed/socketio";
+import {
+    Args,
+    Emit,
+    Input,
+    IO,
+    Nsp,
+    Socket,
+    SocketService,
+    SocketSession,
+    SocketUseAfter,
+    SocketUseBefore
+} from "@tsed/socketio";
 import {ConverterUserSocketMiddleware} from "../middlewares/ConverterUserSocketMiddleware";
 import {ErrorHandlerSocketMiddleware} from "../middlewares/ErrorHandlerSocketMiddleware";
-import {ThrowErrorSocketMiddleware} from "../middlewares/ThrowErrorSocketMiddleware";
-import {User} from "../models/User";
 
 @SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
 export class RoomWS {
     constructor(@IO private io: SocketIO.Server) {
 
@@ -21,8 +31,9 @@ export class RoomWS {
     @Input("eventName")
     @Emit("eventTest")
     @SocketUseBefore(ConverterUserSocketMiddleware)
-    async myMethod(@Args(0) user: User, @Socket socket: SocketIO.Socket, @Nsp nsp: SocketIO.Namespace) {
-        return "my Message " + user.name;
+    async myMethod(@SocketSession session: Map<any, any>) {
+        console.log("session", session.get("test"));
+        return "my Message " + session.get("test");
     }
 
     @Input("eventError")
@@ -37,8 +48,6 @@ export class RoomWS {
 
     @Input("eventError2")
     @Emit("eventTest")
-    @SocketUseBefore(ThrowErrorSocketMiddleware)
-    @SocketUseAfter(ErrorHandlerSocketMiddleware)
     async myError2(@Args(0) userName: string, @Socket socket: SocketIO.Socket, @Nsp nsp: SocketIO.Namespace) {
         return "my Message " + userName;
         // return "my Message " + userName;
