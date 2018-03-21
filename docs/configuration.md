@@ -139,6 +139,7 @@ Some options is provided:
 - `logger.logRequest`: Log all incoming request. By default is true and print the configured `logger.requestFields`.
 - `logger.requestFields`: Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
 - `logger.reqIdBuilder`: A function called for each incoming request to create a request id.
+- `logger.jsonIndentation`: The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
 
 > It's recommended to disable logRequest in production. Logger have a cost on the performance.
 
