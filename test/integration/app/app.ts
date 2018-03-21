@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {ProviderScope, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/socketio";
 import "@tsed/swagger";
 import * as Path from "path";
@@ -38,7 +38,8 @@ const rootDir = Path.resolve(__dirname);
         cssPath: "${rootDir}/spec/style.css",
         showExplorer: true,
         spec: require(`${rootDir}/spec/swagger.default.json`)
-    }
+    },
+    controllerScope: ProviderScope.REQUEST
 })
 export class ExampleServer extends ServerLoader {
 
@@ -78,4 +79,6 @@ export class ExampleServer extends ServerLoader {
 }
 
 if (process.env.NODE_ENV !== "test")
-    new ExampleServer().start();
+    new ExampleServer().start().catch((er) => {
+        console.error(er);
+    });

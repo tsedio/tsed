@@ -1,4 +1,5 @@
-import {Type, nameOf} from "@tsed/core";
+import {nameOf, Type} from "@tsed/core";
+
 /**
  * @private
  */
@@ -6,7 +7,7 @@ export class InjectionError extends Error {
 
     name = "INJECTION_ERROR";
 
-    constructor(target: Type<any>, serviceName: string) {
-        super(`Service ${nameOf(target)} > ${serviceName} not found.`);
+    constructor(target: Type<any>, serviceName: string, message = "not found") {
+        super(`Service ${nameOf(target)} > ${serviceName} ${message}.`);
     }
 }

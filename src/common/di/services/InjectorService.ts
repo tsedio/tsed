@@ -238,10 +238,15 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
         }
 
         const parentScope = Store.from(target).get("scope");
+        /* istanbul ignore next */
+        const injectionFailedError = (er: any, serviceName: string) => {
+            const error = new InjectionError(target, serviceName.toString(), "injection failed");
+            (error as any).origin = er;
+            throw error;
+        };
 
         const services = designParamTypes
             .map((serviceType: any) => {
-
                 const serviceName = typeof serviceType === "function" ? nameOf(serviceType) : serviceType;
 
                 /* istanbul ignore next */
@@ -261,17 +266,31 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
                 const provider = ProviderRegistry.get(serviceType)!;
 
                 if (provider.instance === undefined) {
-                    provider.instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+
+                    try {
+                        provider.instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+                    } catch (er) {
+                        /* istanbul ignore next */
+                        throw injectionFailedError(er, serviceName);
+                    }
                 }
 
-                if (provider.scope === ProviderScope.REQUEST) {
+                if (provider.scope === ProviderScope.REQUEST && provider.type !== ProviderType.FACTORY) {
                     if (requiredScope && !parentScope) {
                         throw new InjectionScopeError(provider.useClass, target);
                     }
-                    return this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+
+                    try {
+                        return this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+                    } catch (er) {
+                        /* istanbul ignore next */
+                        throw injectionFailedError(er, serviceName);
+                    }
                 }
 
                 return this.get(serviceType);
+
+
             });
 
         return new target(...services);
