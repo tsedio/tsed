@@ -225,6 +225,8 @@ describe("LogIncomingRequestMiddleware", () => {
 
         describe("when dev", () => {
             before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+                this.stringify = Sinon.spy(JSON, "stringify") 
+
                 this.request = {
                     id: "id",
                     method: "method",
@@ -241,7 +243,13 @@ describe("LogIncomingRequestMiddleware", () => {
                 const verbose = (req: Express.Request) => this.middleware.requestToObject(req);
                 this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
-
+            after(() => {
+                this.stringify.restore();
+            });
+            it("should have default 2 spaces ", () => {
+                expect(this.stringify.args[0]).to.have.length(3);
+                expect(this.stringify.args[0][2]).to.eq(2);
+            });
             it("should stringify the request", () => {
                 this.result.should.be.a("string");
                 expect(JSON.parse(this.result)).to.deep.eq({
@@ -267,6 +275,8 @@ describe("LogIncomingRequestMiddleware", () => {
         });
         describe("when prod", () => {
             before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+                this.stringify = Sinon.spy(JSON, "stringify") 
+
                 this.request = {
                     id: "id",
                     method: "method",
@@ -278,12 +288,18 @@ describe("LogIncomingRequestMiddleware", () => {
                 };
 
                 this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
-                this.middleware.env = "production";
+                this.middleware.loggerSettings.jsonIndentation = 0;
                 Sinon.stub(this.middleware, "getDuration").returns(2);
                 const verbose = (req: Express.Request) => this.middleware.requestToObject(req);
                 this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
-
+            after(() => {
+                this.stringify.restore();
+            });
+            it("should have no replacer or spaces as default", () => {
+                expect(this.stringify.args[0]).to.have.length(3);
+                expect(this.stringify.args[0][2]).to.eq(0);
+            });
             it("should stringify the request", () => {
                 this.result.should.be.a("string");
                 expect(JSON.parse(this.result)).to.deep.eq({
@@ -308,6 +324,7 @@ describe("LogIncomingRequestMiddleware", () => {
             });
         });
     });
+
     describe("cleanRequest()", () => {
         before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
             this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);

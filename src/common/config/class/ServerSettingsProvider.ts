@@ -22,7 +22,8 @@ export class ServerSettingsProvider implements IServerSettings {
         this.debug = false;
         this.controllerScope = ProviderScope.SINGLETON;
         this.logger = {
-            logRequest: true
+            logRequest: true,
+            jsonIndentation: (this.env === Env.PROD) ? 0 : 2
         };
 
         this.mount = {
