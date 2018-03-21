@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="overridemiddleware">OverrideMiddleware</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label decorators" title="decorators">decorators</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OverrideMiddleware }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.10.0/src//common/mvc/decorators/class/overrideMiddleware.ts#L0-L0">/common/mvc/decorators/class/overrideMiddleware.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OverrideMiddleware }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.10.1/src//common/mvc/decorators/class/overrideMiddleware.ts#L0-L0">/common/mvc/decorators/class/overrideMiddleware.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
