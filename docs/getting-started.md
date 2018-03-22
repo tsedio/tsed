@@ -282,6 +282,7 @@ We’ve briefly introduced the most basic features of Ts.ED - the rest of this g
   [Model](docs/model.md)
   [Converters](docs/converters.md)
   [Filters](docs/filters.md)
+  [Interceptors](docs/interceptors.md)
   [Testing](docs/testing.md)
   [Authentication](docs/middlewares/override/authentication.md)
   [Global Error Handler](docs/middlewares/override/global-error-handler.md)

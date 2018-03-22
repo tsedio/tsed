@@ -79,7 +79,7 @@ window.$docsify = {
           { url: '#/docs/middlewares/overview', label: 'Middlewares' },
           { url: '#/docs/scope', label: 'Scope' },
           { url: '#/docs/filters', label: 'Filters' },
-          { url: '#/docs/jsonschema', label: 'JSON Schema' },
+          { url: '#/docs/interceptors', label: 'Interceptors' },
           { url: '#/docs/server-loader/_sidebar', label: 'ServerLoader' },
           { url: '#/docs/testing', label: 'Testing' }
         ]

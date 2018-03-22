@@ -144,6 +144,7 @@
         "filters": "common/filters",
         "jsonschema": "common/jsonschema",
         "mvc": "common/mvc",
+        "interceptors": "common/interceptors",
         "server": "common/server"
       },
       "ajv": "ajv",

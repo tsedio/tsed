@@ -1,5 +1,4 @@
 # Filters
-> Beta feature. Need improvement. You can contribute !
 
 Filters feature lets you create a custom decorators that will be 
 used on the methods parameters like [@BodyParams](api/common/mvc/bodyparams.md) 
@@ -111,5 +110,5 @@ See in [Built-in filters](api/index.md?query=keywords_Filter|type_class) in our 
 
 <div class="guide-links">
 <a href="#/docs/scope">Scope</a>
-<a href="#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
+<a href="#/docs/interceptors">Interceptors</a>
 </div>

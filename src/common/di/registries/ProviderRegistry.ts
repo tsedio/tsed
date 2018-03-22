@@ -1,7 +1,6 @@
 import {Provider} from "../class/Provider";
 import {Providers} from "../class/Providers";
-import {IProvider} from "../interfaces";
-import {ProviderType} from "../interfaces/ProviderType";
+import {IProvider, ProviderType, TypedProvidersRegistry} from "../interfaces";
 
 /**
  *
@@ -12,7 +11,7 @@ export const GlobalProviders = new Providers();
  *
  * @type {Providers}
  */
-export const ProviderRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
+export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}

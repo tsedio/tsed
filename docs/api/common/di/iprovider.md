@@ -12,7 +12,7 @@
     provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     useClass?<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T><span class="token punctuation">;</span>
     instance?<span class="token punctuation">:</span> T<span class="token punctuation">;</span>
-    type?<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation">;</span>
+    type<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
@@ -71,7 +71,7 @@ Class to instantiate for the `token`.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">type?<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span></code></pre>
+<pre><code class="typescript-lang ">type<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span></code></pre>
 </div>
 
 

@@ -5,6 +5,7 @@
 * [Middlewares](docs/middlewares/overview.md)
 * [Scope](docs/scope.md)
 * [Filters](docs/filters.md)
+* [Interceptors](docs/interceptors.md)
 * [ServerLoader](docs/server-loader/_sidebar.md)
   * [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md)
   * [Versioning Rest API](docs/server-loader/versioning.md)    

@@ -6,7 +6,7 @@ import {GlobalProviders} from "../../di/registries/ProviderRegistry";
 import {MiddlewareType} from "../interfaces/MiddlewareType";
 
 /**
- * @deprecated
+ *
  * @type {Registry<Provider<any>, Provider>}
  */
 export const MiddlewareRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
@@ -22,7 +22,7 @@ const middlewareRegisterFn = GlobalProviders.createRegisterFn(ProviderType.MIDDL
  * #### Example
  *
  * ```typescript
- * import {registerService, InjectorService} from "@tsed/common";
+ * import {registerMiddleware, InjectorService} from "@tsed/common";
  *
  * export default class FooMiddleware {
  *     constructor(){}
@@ -57,7 +57,7 @@ export function registerMiddleware(provider: any | IProvider<any>, instance?: an
  * #### Example
  *
  * ```typescript
- * import {registerService, InjectorService} from "@tsed/common";
+ * import {registerMiddlewareError, InjectorService} from "@tsed/common";
  *
  * export default class FooMiddleware {
  *     constructor(){}

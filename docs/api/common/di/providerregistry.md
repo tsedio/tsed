@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">const</span> ProviderRegistry<span class="token punctuation">:</span> <a href="#api/core/registry"><span class="token">Registry</span></a><<a href="#api/common/di/providerstorable"><span class="token">ProviderStorable</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>>><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">const</span> ProviderRegistry<span class="token punctuation">:</span> <a href="#api/common/di/typedprovidersregistry"><span class="token">TypedProvidersRegistry</span></a><span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

@@ -43,6 +43,7 @@ body > .sidebar-toggle {
   }
 
 }
+
 @media only screen and (min-width: 769px) {
   body:not(.close) .sidebar-toggle {
     i:nth-child(1) {
@@ -59,6 +60,7 @@ body > .sidebar-toggle {
     }
   }
 }
+
 @media only screen and (max-width: 768px) {
   body.close .sidebar-toggle {
     i:nth-child(1) {
@@ -75,6 +77,7 @@ body > .sidebar-toggle {
     }
   }
 }
+
 /*
 
  */

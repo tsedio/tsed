@@ -1,8 +1,3 @@
-/**
- * @module common/di
- * @preferred
- */
-/** */
 export * from "./class/Provider";
 export * from "./class/ProviderStorable";
 export * from "./interfaces";

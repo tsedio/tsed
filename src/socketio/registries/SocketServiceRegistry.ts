@@ -2,13 +2,13 @@
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
-import {GlobalProviders, Provider} from "@tsed/common";
+import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
 
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
-export const SocketServiceRegistry = GlobalProviders.createRegistry("socketService", Provider, {
+export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("socketService", Provider, {
     injectable: true,
     buildable: true
 });
@@ -18,7 +18,7 @@ export const SocketServiceRegistry = GlobalProviders.createRegistry("socketServi
  * #### Example
  *
  * ```typescript
- * import {registerService, InjectorService} from "@tsed/common";
+ * import {registerSocketService, InjectorService} from "@tsed/common";
  *
  * export default class MyFooService {
  *     constructor(){}

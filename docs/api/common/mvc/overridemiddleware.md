@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">OverrideMiddleware</span><span class="token punctuation">(</span>targetMiddleware<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> & <a href="#api/common/mvc/imiddleware"><span class="token">IMiddleware</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">const</span> OverrideMiddleware<span class="token punctuation">:</span> typeof <a href="#api/common/di/overrideprovider"><span class="token">OverrideProvider</span></a><span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

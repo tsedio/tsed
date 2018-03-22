@@ -1,6 +1,6 @@
 import {Registry, Type} from "@tsed/core";
 import {RegistryKey} from "../../../core/class/Registry";
-import {IProvider} from "../interfaces/IProvider";
+import {IProvider, TypedProvidersRegistry} from "../interfaces";
 import {RegistrySettings} from "../interfaces/RegistrySettings";
 import {Provider} from "./Provider";
 
@@ -22,7 +22,7 @@ export class Providers extends Registry<Provider<any>, IProvider<any>> {
      * @param options
      * @returns {Registry<Provider<any>, IProvider<any>>}
      */
-    createRegistry(type: string, model: Type<Provider<any>>, options: Partial<RegistrySettings> = {}) {
+    createRegistry(type: string, model: Type<Provider<any>>, options: Partial<RegistrySettings> = {}): TypedProvidersRegistry {
         const registry = new Registry<Provider<any>, IProvider<any>>(model, {
             onCreate: this.set.bind(this)
         });
@@ -78,7 +78,7 @@ export class Providers extends Registry<Provider<any>, IProvider<any>> {
      * @param {string | RegistryKey} target
      * @returns {Registry<Provider<any>, IProvider<any>>}
      */
-    getRegistry(target: string | RegistryKey): Registry<Provider<any>, IProvider<any>> {
+    getRegistry(target: string | RegistryKey): TypedProvidersRegistry {
         return this.getRegistrySettings(target).registry;
     }
 }

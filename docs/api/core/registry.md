@@ -9,18 +9,19 @@
 
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> Registry<T<span class="token punctuation">,</span> O> <span class="token punctuation">{</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_class<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> _map<span class="token punctuation">:</span> Map<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> T><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_class<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> <a href="#api/core/registryhook"><span class="token">RegistryHook</span></a><T><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> size<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-    <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T | undefined<span class="token punctuation">;</span>
-    <span class="token function">createIfNotExists</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
-    <span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> metadata<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
-    <span class="token function">entries</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<span class="token punctuation">[</span><a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> T<span class="token punctuation">]</span>><span class="token punctuation">;</span>
-    <span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol><span class="token punctuation">;</span>
-    <span class="token function">merge</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> options<span class="token punctuation">:</span> Partial<O><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> T | undefined<span class="token punctuation">;</span>
+    <span class="token function">createIfNotExists</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+    <span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> metadata<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
+    <span class="token function">entries</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<span class="token punctuation">[</span><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> T<span class="token punctuation">]</span>><span class="token punctuation">;</span>
+    <span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a>><span class="token punctuation">;</span>
+    <span class="token function">merge</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> options<span class="token punctuation">:</span> Partial<O><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    <span class="token function">forEach</span><span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> T<span class="token punctuation">,</span> key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map<<a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> T><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    <span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token function">forEach</span><span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> T<span class="token punctuation">,</span> key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> T><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token function">values</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<T><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
@@ -35,21 +36,22 @@
 
 
 
-### Constructor
+
+
+### Members
 
 
 
-<pre><code class="typescript-lang "><span class="token keyword">constructor</span><span class="token punctuation">(</span>_class<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T><span class="token punctuation">)</span></code></pre>
-
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> _map<span class="token punctuation">:</span> Map<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> T></code></pre>
+</div>
 
 
 Internal Map
 
 
 
-
-
-### Members
+<hr/>
 
 
 
@@ -65,13 +67,13 @@ Internal Map
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T | undefined</code></pre>
+<pre><code class="typescript-lang "><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> T | undefined</code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
- key|<code><a href="#api/core/type"><span class="token">Type</span></a><any> &#124; symbol</code>|Required. The key of the element to return from the Map object.
+ key|<code><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a></code>|Required. The key of the element to return from the Map object.
 
 
 
@@ -86,7 +88,7 @@ The get() method returns a specified element from a Map object.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">createIfNotExists</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
+<pre><code class="typescript-lang "><span class="token function">createIfNotExists</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
 </div>
 
 
@@ -97,7 +99,7 @@ The get() method returns a specified element from a Map object.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang "><span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 </div>
 
 
@@ -110,13 +112,13 @@ The has() method returns a boolean indicating whether an element with the specif
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> metadata<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> this</code></pre>
+<pre><code class="typescript-lang "><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> metadata<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> this</code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
- key|<code><a href="#api/core/type"><span class="token">Type</span></a><any> &#124; symbol</code>|Required. The key of the element to add to the Map object.
+ key|<code><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a></code>|Required. The key of the element to add to the Map object.
  metadata|<code>T</code>|Required. The value of the element to add to the Map object.
 
 
@@ -132,7 +134,7 @@ The set() method adds or updates an element with a specified key and value to a 
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">entries</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<span class="token punctuation">[</span><a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> T<span class="token punctuation">]</span>></code></pre>
+<pre><code class="typescript-lang "><span class="token function">entries</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<span class="token punctuation">[</span><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> T<span class="token punctuation">]</span>></code></pre>
 </div>
 
 
@@ -145,7 +147,7 @@ The entries() method returns a new Iterator object that contains the [key, value
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol></code></pre>
+<pre><code class="typescript-lang "><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> IterableIterator<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a>></code></pre>
 </div>
 
 
@@ -158,7 +160,7 @@ The keys() method returns a new Iterator object that contains the keys for each 
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">merge</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> options<span class="token punctuation">:</span> Partial<O><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
+<pre><code class="typescript-lang "><span class="token function">merge</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> options<span class="token punctuation">:</span> Partial<O><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
 </div>
 
 
@@ -182,13 +184,13 @@ The clear() method removes all elements from a Map object.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang "><span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
- key|<code><a href="#api/core/type"><span class="token">Type</span></a><any> &#124; symbol</code>|Required. The key of the element to remove from the Map object.
+ key|<code><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a></code>|Required. The key of the element to remove from the Map object.
 
 
 
@@ -203,7 +205,7 @@ The delete() method removes the specified element from a Map object.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">forEach</span><span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> T<span class="token punctuation">,</span> key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map<<a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">,</span> T><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
+<pre><code class="typescript-lang "><span class="token function">forEach</span><span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> T<span class="token punctuation">,</span> key<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> T><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
 </div>
 
 

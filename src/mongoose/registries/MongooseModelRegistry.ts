@@ -2,35 +2,35 @@
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
-import {GlobalProviders, Provider} from "@tsed/common";
+import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
 
-export const MongooseModelRegistry = GlobalProviders.createRegistry("mongooseModel", Provider, {
+export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("mongooseModel", Provider, {
     injectable: true,
     buildable: false
 });
 /**
- * Add a new model in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.
+ * Add a new model in the `ProviderRegistry`. This model will be built when `InjectorService` will be loaded.
  *
  * #### Example
  *
  * ```typescript
  * import {registerModel, InjectorService} from "@tsed/common";
  *
- * export default class MyFooService {
+ * export default class MyModel {
  *     constructor(){}
  *     getFoo() {
  *         return "test";
  *     }
  * }
  *
- * registerModel({provide: MyFooService});
+ * registerModel({provide: MyModel});
  * // or
- * registerModel(MyFooService);
+ * registerModel(MyModel);
  *
  * InjectorService.load();
  *
- * const myFooService = InjectorService.get<MyFooService>(MyFooService);
- * myFooService.getFoo(); // test
+ * const myModel = InjectorService.get<MyModel>(MyModel);
+ * myModel.getFoo(); // test
  * ```
  *
  * @param provider Provider configuration.

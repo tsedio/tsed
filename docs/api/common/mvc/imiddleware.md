@@ -9,7 +9,7 @@
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> IMiddleware <span class="token punctuation">{</span>
-    use?<span class="token punctuation">:</span> Function<span class="token punctuation">;</span>
+    <span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span> | <span class="token keyword">any</span> | Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -30,7 +30,7 @@
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">use?<span class="token punctuation">:</span> Function</code></pre>
+<pre><code class="typescript-lang "><span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span> | <span class="token keyword">any</span> | Promise<<span class="token keyword">any</span>></code></pre>
 </div>
 
 

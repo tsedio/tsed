@@ -12,6 +12,9 @@
     FACTORY = "factory"<span class="token punctuation">,</span>
     SERVICE = "service"<span class="token punctuation">,</span>
     PROVIDER = "provider"<span class="token punctuation">,</span>
+    <a href="#api/common/converters/converter"><span class="token">CONVERTER</span></a> = "converter"<span class="token punctuation">,</span>
+    FILTER = "filter"<span class="token punctuation">,</span>
+    MIDDLEWARE = "middleware"<span class="token punctuation">,</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -55,6 +58,39 @@
 
 <div class="method-overview">
 <pre><code class="typescript-lang ">PROVIDER = "provider"<span class="token punctuation">,</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><a href="#api/common/converters/converter"><span class="token">CONVERTER</span></a> = "converter"<span class="token punctuation">,</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">FILTER = "filter"<span class="token punctuation">,</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">MIDDLEWARE = "middleware"<span class="token punctuation">,</span></code></pre>
 </div>
 
 

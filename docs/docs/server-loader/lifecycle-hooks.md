@@ -116,6 +116,6 @@ class Server extends ServerLoader {
 > If you want integrate Socket.io, you can see the tutorials ["How to integrate Socket.io"](tutorials/socket-io.md).
 
 <div class="guide-links">
-<a href="#/docs/filters">ServeLoader</a>
+<a href="#/docs/interceptors">Interceptors</a>
 <a href="#/docs/server-loader/versionning">Versioning</a>
 </div>
