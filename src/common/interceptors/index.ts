@@ -1,7 +1,2 @@
-import Intercept from "./Intercept";
-import Interceptor from "./Interceptor";
-
-export {
-    Intercept,
-    Interceptor,
-};
+export * from "./Intercept";
+export * from "./Interceptor";

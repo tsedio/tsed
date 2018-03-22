@@ -11,7 +11,7 @@ export interface IInterceptor {
   aroundInvoke: (ctx: IInterceptorContext, options?: any) => any;
 }
 
-export default function Interceptor(): Function {
+export function Interceptor(): Function {
   return (target: any): void => {
     InjectorService.service(target);
     return target;

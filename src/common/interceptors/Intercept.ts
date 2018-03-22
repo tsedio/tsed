@@ -1,13 +1,12 @@
 import { Type } from "@tsed/core";
-import { InjectorService } from "@tsed/common";
-import { IInterceptor } from "./Interceptor";
+import { InjectorService, IInterceptor } from "@tsed/common";
 
 /**
  * Attaches interceptor to method call and executes the before and after methods
  *
  * @param interceptor
  */
-export default function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?: any): Function {
+export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?: any): Function {
   return (target: any, method: string, descriptor: PropertyDescriptor) => {
     const original = descriptor.value;
 
