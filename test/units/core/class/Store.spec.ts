@@ -16,12 +16,17 @@ class FakeMetadata {
     }
 }
 
+
+class SuperFake extends FakeMetadata {
+
+}
+
 describe("Store", () => {
     describe("constructor", () => {
         describe("when metadata should be store on class", () => {
 
             before(() => {
-                this.spyGet = Sinon.spy(Metadata, "get");
+                this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata]);
                 this.store2 = new Store([FakeMetadata]);
                 this.store3 = new Store([class {
@@ -49,7 +54,7 @@ describe("Store", () => {
 
         describe("when metadata should be store on method", () => {
             before(() => {
-                this.spyGet = Sinon.spy(Metadata, "get");
+                this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", {
                     value: function () {
                     }
@@ -67,7 +72,7 @@ describe("Store", () => {
         describe("when metadata should be store on property (1)", () => {
 
             before(() => {
-                this.spyGet = Sinon.spy(Metadata, "get");
+                this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get"]);
             });
             after(() => {
@@ -82,7 +87,7 @@ describe("Store", () => {
         describe("when metadata should be store on property (2)", () => {
 
             before(() => {
-                this.spyGet = Sinon.spy(Metadata, "get");
+                this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", {
                     set: function () {
                     }
@@ -100,7 +105,7 @@ describe("Store", () => {
         describe("when metadata should be store on property (3)", () => {
 
             before(() => {
-                this.spyGet = Sinon.spy(Metadata, "get");
+                this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", {
                     get: function () {
                     }
@@ -117,7 +122,7 @@ describe("Store", () => {
 
         describe("when metadata should be store on parameters", () => {
             before(() => {
-                this.spyGet = Sinon.spy(Metadata, "get");
+                this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", 0]);
             });
             after(() => {
@@ -296,6 +301,19 @@ describe("Store", () => {
             this.cbStub.should.be.calledOnce
                 .and
                 .calledWithExactly(...this.parameters);
+        });
+    });
+
+    describe("inheritance", () => {
+        before(() => {
+            Store.from(FakeMetadata).set("sc", {test: "test"});
+            Store.from(SuperFake).set("sc", {test: "test2"});
+            this.r1 = Store.from(SuperFake).get("sc");
+            this.r2 = Store.from(FakeMetadata).get("sc");
+        });
+
+        it("should haven't the same sc", () => {
+            expect(this.r1).to.not.deep.equal(this.r2);
         });
     });
 });

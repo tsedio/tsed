@@ -1,9 +1,9 @@
-import {JsonSchema, PropertyRegistry} from "@tsed/common";
+import {JsonSchema, JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {OpenApiModelSchemaBuilder} from "../../../../src/swagger/class/OpenApiModelSchemaBuilder";
 import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
-import {SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
+import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
 
 describe("OpenApiModelSchemaBuilder", () => {
 
@@ -12,7 +12,6 @@ describe("OpenApiModelSchemaBuilder", () => {
             this.schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
             this.schemaBuilder.build();
         });
-
 
         it("should not fail", () => {
             let builder = new OpenApiModelSchemaBuilder(SwaNoDecoModel);
@@ -23,7 +22,6 @@ describe("OpenApiModelSchemaBuilder", () => {
 
             expect(build).to.not.throw();
         });
-
 
         it("should create a schema", () => {
             expect(this.schemaBuilder.schema).to.deep.eq({
@@ -240,6 +238,31 @@ describe("OpenApiModelSchemaBuilder", () => {
         });
     });
 
+    describe("inheritance integration", () => {
+        before(() => {
+            this.schemaBuilder = new OpenApiModelSchemaBuilder(ChildModelB);
+            this.schemaBuilder.build();
+        });
+
+        it("should create a schema", () => {
+            expect(this.schemaBuilder.schema).to.deep.eq({
+                "properties": {
+                    "childPropertyB": {
+                        "type": "string"
+                    },
+                    "parentProperty": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "parentProperty",
+                    "childPropertyB"
+                ],
+                "type": "object"
+            });
+        });
+    });
+
     describe("build()", () => {
         before(() => {
 
@@ -303,23 +326,18 @@ describe("OpenApiModelSchemaBuilder", () => {
 
     describe("getClassSchema()", () => {
         before(() => {
-            this.jsonSchema = new JsonSchema();
-            this.jsonSchema.type = "string";
-
-            this.storeFromStub = Sinon
-                .stub(Store, "from")
-                .returns({
-                    get: Sinon.stub().returns(this.jsonSchema)
-                });
-
+            this.registryStub = Sinon.stub(JsonSchemesRegistry, "getSchemaDefinition").returns({type: "string"});
             this.schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
             this.result = this.schemaBuilder.getClassSchema();
         });
 
         after(() => {
-            this.storeFromStub.restore();
+            this.registryStub.restore();
         });
 
+        it("should call getSchemaDefinition", () => {
+            this.registryStub.should.have.been.calledWithExactly(SwaFoo2);
+        });
         it("should return the schema", () => {
             expect(this.result).to.deep.eq({type: "string"});
         });

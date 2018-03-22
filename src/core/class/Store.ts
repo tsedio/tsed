@@ -220,10 +220,10 @@ export class Store {
     private _storeGet(key: string, ...args: any[]): StoreMap {
         const registry = Metadata as any;
 
-        if (!registry.has(key, ...args)) {
+        if (!registry.hasOwn(key, ...args)) {
             registry.set(key, new Map<string, any>(), ...args);
         }
 
-        return registry.get(key, ...args);
+        return registry.getOwn(key, ...args);
     }
 }
