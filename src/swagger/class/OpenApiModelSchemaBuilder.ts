@@ -1,4 +1,4 @@
-import {JsonSchema, PropertyMetadata, PropertyRegistry} from "@tsed/common";
+import {JsonSchema, JsonSchemesRegistry, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Schema} from "swagger-schema-official";
 import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
@@ -118,13 +118,10 @@ export class OpenApiModelSchemaBuilder {
      * @returns {any}
      */
     protected getClassSchema(): Schema {
-        let schema: Schema = Store.from(this.target).get<Schema>("schema") || {};
+        const schema = JsonSchemesRegistry.getSchemaDefinition(this.target) || {};
+        delete schema.definitions;
 
-        if (schema instanceof JsonSchema) {
-            schema = schema.toObject();
-        }
-
-        return schema;
+        return schema as Schema;
     }
 
     public get schema(): Schema {

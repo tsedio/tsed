@@ -109,3 +109,19 @@ class SwaFoo3 {
 export class Ctrl {
 
 }
+
+
+export class ParentModel {
+    @Required()
+    parentProperty: string;
+}
+
+export class ChildModelA extends ParentModel {
+    @Required()
+    childPropertyA: string;
+}
+
+export class ChildModelB extends ParentModel {
+    @Required()
+    childPropertyB: string;
+}
