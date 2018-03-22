@@ -65,7 +65,7 @@ export function PreHook(method: string, fn?: MongoosePreHookSyncCB<any> | Mongoo
         }
 
         options = options || {};
-        
+
         applySchemaOptions(args[0], {
             pre: [Object.assign(options, {
                 method,
