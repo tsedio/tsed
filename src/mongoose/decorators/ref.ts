@@ -1,6 +1,7 @@
 import {Store} from "@tsed/core";
 import {Schema} from "mongoose";
 import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 
 export type Ref<T> = T | string;
 
@@ -34,9 +35,9 @@ export type Ref<T> = T | string;
 export function Ref(type: any) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
         propertyMetadata.type = type;
-        propertyMetadata.store.merge("mongooseSchema", {
+        propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
             type: Schema.Types.ObjectId,
-            ref: Store.from(type).get("mongooseModelName")
+            ref: Store.from(type).get(MONGOOSE_MODEL_NAME)
         });
     });
 }
