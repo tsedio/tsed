@@ -1,6 +1,7 @@
 import {Store} from "@tsed/core";
 import {Schema} from "mongoose";
 import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
+import {MONGOOSE_MODEL_NAME} from "../constants";
 
 export type Ref<T> = T | string;
 
@@ -36,7 +37,7 @@ export function Ref(type: any) {
         propertyMetadata.type = type;
         propertyMetadata.store.merge("mongooseSchema", {
             type: Schema.Types.ObjectId,
-            ref: Store.from(type).get("mongooseModelName")
+            ref: Store.from(type).get(MONGOOSE_MODEL_NAME)
         });
     });
 }
