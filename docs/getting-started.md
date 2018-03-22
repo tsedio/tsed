@@ -240,7 +240,7 @@ export class CalendarCtrl {
     async post(
         @Required() @BodyParams("calendar") calendar: Calendar
     ): Promise<Calendar> {
-        return new Promise((resolve: Function, reject: Function) => {
+        return new Promise<Calendar>((resolve: Function, reject: Function) => {
             calendar.id = "1";
             resolve(calendar);
         });
@@ -248,7 +248,7 @@ export class CalendarCtrl {
     
     @Delete("/")
     @Authenticated()
-    async post(
+    async deleteItem(
         @BodyParams("calendar.id") @Required() id: string 
     ): Promise<Calendar> {
         return {id, name: "calendar"};
