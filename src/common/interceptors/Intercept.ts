@@ -15,12 +15,12 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
         const i = InjectorService.get<IInterceptor>(interceptor);
 
         return i.aroundInvoke({
-          target: this,
+          target,
           method,
           args,
           proceed: (err?: Error) => {
             if (!err) {
-              return original.apply(this, args);
+              return original.apply(target, args);
             }
 
             throw err;
@@ -28,7 +28,7 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
         }, options);
       }
 
-      return original.apply(this, args);
+      return original.apply(target, args);
     };
 
     return descriptor;
