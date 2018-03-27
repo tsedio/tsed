@@ -150,10 +150,6 @@ describe("SwaggerService", () => {
                 this.expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
                 this.expressApplication.get.should.be.calledWithExactly("/path", {setup: "setup"});
             });
-            it("should write spec.json", () => {
-                this.writeFileSyncStub.should.be.calledOnce;
-                this.writeFileSyncStub.should.be.calledWithExactly("/path/to/spec", JSON.stringify({spec: "test"}, null, 2));
-            });
         });
 
     });
