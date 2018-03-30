@@ -38,6 +38,10 @@ export class SocketIOService implements OnServerReady {
             this.io.attach(this.httpsServer.get(), config);
         }
 
+        if (config.adapter) {
+            this.io.adapter(config.adapter);
+        }
+
         this.getWebsocketServices().forEach(provider => this.bindProvider(provider));
 
         this.printSocketEvents();
