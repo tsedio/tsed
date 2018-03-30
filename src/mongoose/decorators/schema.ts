@@ -1,5 +1,6 @@
 import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {SchemaTypeOpts} from "mongoose";
+import {MONGOOSE_SCHEMA} from "../constants";
 
 /**
  * Attach a schema on property class.
@@ -11,6 +12,6 @@ import {SchemaTypeOpts} from "mongoose";
  */
 export function Schema(definition: SchemaTypeOpts<any>) {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.store.merge("mongooseSchema", definition);
+        propertyMetadata.store.merge(MONGOOSE_SCHEMA, definition);
     });
 }

@@ -1,6 +1,7 @@
 import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {buildMongooseSchema, mapProps} from "../../../../src/mongoose/utils/buildMongooseSchema";
 import {expect, Sinon} from "../../../tools";
+import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
 
 describe("buildMongooseSchema", () => {
 
@@ -68,7 +69,7 @@ describe("buildMongooseSchema", () => {
             });
 
             it("should call store.get", () => {
-                this.propertyMetadata.store.get.should.have.been.calledWithExactly("mongooseSchema");
+                this.propertyMetadata.store.get.should.have.been.calledWithExactly(MONGOOSE_SCHEMA);
             });
 
             it("should return a schema", () => {
@@ -139,7 +140,7 @@ describe("buildMongooseSchema", () => {
             });
 
             it("should call store.get", () => {
-                this.propertyMetadata.store.get.should.have.been.calledWithExactly("mongooseSchema");
+                this.propertyMetadata.store.get.should.have.been.calledWithExactly(MONGOOSE_SCHEMA);
             });
 
             it("should return a schema", () => {

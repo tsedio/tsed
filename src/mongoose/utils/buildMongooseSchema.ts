@@ -1,5 +1,6 @@
 import {JsonSchemesRegistry, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import * as mongoose from "mongoose";
+import {MONGOOSE_SCHEMA} from "../constants";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
 
@@ -63,7 +64,7 @@ export function buildMongooseSchema(target: any): mongoose.SchemaDefinition {
                 );
             }
 
-            definition = clean(Object.assign(definition, propertyMetadata.store.get("mongooseSchema") || {}));
+            definition = clean(Object.assign(definition, propertyMetadata.store.get(MONGOOSE_SCHEMA) || {}));
 
             mSchema[propertyKey] = propertyMetadata.isArray ? [definition] : definition;
         });
