@@ -27,7 +27,7 @@ export class SocketIOService implements OnServerReady {
     }
 
     $onServerReady() {
-        const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO");
+        const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
         const httpPort = this.serverSettingsService.httpPort;
         const httpsPort = this.serverSettingsService.httpsPort;
 
@@ -36,6 +36,10 @@ export class SocketIOService implements OnServerReady {
         }
         if (httpsPort) {
             this.io.attach(this.httpsServer.get(), config);
+        }
+
+        if (config.adapter) {
+            this.io.adapter(config.adapter);
         }
 
         this.getWebsocketServices().forEach(provider => this.bindProvider(provider));

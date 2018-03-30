@@ -11,7 +11,7 @@ describe("SocketIOService", () => {
             let socketIOService: any;
 
             before(() => {
-                this.socketIOServer = {attach: Sinon.stub()};
+                this.socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
                 this.httpServer = {get: Sinon.stub().returns("httpServer")};
                 this.httpsServer = {get: Sinon.stub().returns("httpsServer")};
 
@@ -27,7 +27,7 @@ describe("SocketIOService", () => {
 
                 this.getWebsocketServicesStub.returns([{provider: "provider"}]);
 
-                socketIOService.serverSettingsService.set("socketIO", {config: "config"});
+                socketIOService.serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
                 socketIOService.$onServerReady();
             });
 
@@ -38,8 +38,14 @@ describe("SocketIOService", () => {
             });
 
             it("should call attach method", () => {
-                this.socketIOServer.attach.should.have.been.calledWithExactly("httpServer", {config: "config"});
-                this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {config: "config"});
+                this.socketIOServer.attach.should.have.been.calledWithExactly("httpServer", {
+                    adapter: "adapter",
+                    config: "config"
+                });
+                this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {
+                    adapter: "adapter",
+                    config: "config"
+                });
             });
 
             it("should call getWebsocketServices method", () => {
@@ -48,6 +54,10 @@ describe("SocketIOService", () => {
 
             it("should call bind provider method", () => {
                 this.bindProviderStub.should.have.been.calledWithExactly({provider: "provider"});
+            });
+
+            it("should call io.adaptater", () => {
+                this.socketIOServer.adapter.should.have.been.calledWithExactly("adapter");
             });
         });
         describe("with https server", () => {
