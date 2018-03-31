@@ -15,14 +15,9 @@ describe("SocketHandlersBuilder", () => {
                 },
                 instance: {
                     $onDisconnect: Sinon.stub(),
+                    $onConnection: Sinon.stub(),
                     $onNamespaceInit: Sinon.stub()
                 }
-            };
-            this.nspStub = {
-                on: Sinon.stub()
-            };
-            this.socketStub = {
-                on: Sinon.stub()
             };
 
             this.builder = new SocketHandlersBuilder(this.provider);
@@ -33,20 +28,16 @@ describe("SocketHandlersBuilder", () => {
                 }
             };
 
-            this.onConnectionStub = Sinon.stub(this.builder, "onConnection");
-
             this.builder.build(this.nspStub);
-
-            this.nspStub.on.getCall(0).args[1](this.socketStub);
-        });
-
-        after(() => {
-            this.onConnectionStub.restore();
         });
 
         it("should create metadata when $onDisconnect exists", () => {
             expect(this.builder.socketProviderMetadata).to.deep.eq({
                 "handlers": {
+                    "$onConnection": {
+                        "eventName": "connection",
+                        "methodClassName": "$onConnection"
+                    },
                     "$onDisconnect": {
                         "eventName": "disconnect",
                         "methodClassName": "$onDisconnect"
@@ -54,14 +45,6 @@ describe("SocketHandlersBuilder", () => {
                 },
                 "injectNamespace": "nsp"
             });
-        });
-
-        it("should call ws.on('connection') method", () => {
-            this.nspStub.on.should.have.been.calledWithExactly("connection", Sinon.match.func);
-        });
-
-        it("should call onConnection method", () => {
-            this.onConnectionStub.should.have.been.calledWithExactly(this.socketStub, this.nspStub);
         });
 
         it("should call $onNamespaceInit hook", () => {
@@ -96,18 +79,18 @@ describe("SocketHandlersBuilder", () => {
             this.builder.socketProviderMetadata = {
                 injectNamespace: "nsp",
                 handlers: {
-                    $onConnection: {}
+                    $onConnection: {
+                        eventName: "onConnection"
+                    }
                 }
             };
 
             this.invokeStub = Sinon.stub(this.builder, "invoke");
             this.buildHandlersStub = Sinon.stub(this.builder, "buildHandlers");
             this.createSessionStub = Sinon.stub(this.builder, "createSession");
-            this.destroySessionStub = Sinon.stub(this.builder, "destroySession");
+            // this.destroySessionStub = Sinon.stub(this.builder, "destroySession");
 
             this.builder.onConnection(this.socketStub, this.nspStub);
-
-            this.socketStub.on.getCall(0).args[1]();
         });
 
         it("should call the buildHandlers method", () => {
@@ -118,16 +101,50 @@ describe("SocketHandlersBuilder", () => {
             this.createSessionStub.should.have.been.calledWithExactly(this.socketStub);
         });
 
-        it("should register disconnect event", () => {
-            this.socketStub.on.should.have.been.calledWithExactly("disconnect", Sinon.match.func);
+        it("should add metadata when $onConnection exists", () => {
+            this.invokeStub.should.have.been.calledWithExactly(this.provider.instance, {eventName: "onConnection"}, {
+                socket: this.socketStub,
+                nsp: this.nspStub
+            });
+        });
+    });
+    describe("onDisconnect", () => {
+        before(() => {
+            this.provider = {
+                store: {
+                    get: Sinon.stub()
+                },
+                instance: {
+                    $onDisconnect: Sinon.stub()
+                }
+            };
+            this.nspStub = {nsp: "nsp"};
+            this.socketStub = {
+                on: Sinon.stub()
+            };
+
+            this.builder = new SocketHandlersBuilder(this.provider);
+            this.builder.socketProviderMetadata = {
+                injectNamespace: "nsp",
+                handlers: {
+                    $onDisconnect: {
+                        eventName: "onDisconnect"
+                    }
+                }
+            };
+
+            this.invokeStub = Sinon.stub(this.builder, "invoke");
+            this.destroySessionStub = Sinon.stub(this.builder, "destroySession");
+
+            this.builder.onDisconnect(this.socketStub, this.nspStub);
         });
 
         it("should call the createSession method", () => {
             this.destroySessionStub.should.have.been.calledWithExactly(this.socketStub);
         });
 
-        it("should add metadata when $onConnection exists", () => {
-            this.invokeStub.should.have.been.calledWithExactly(this.provider.instance, {methodClassName: "$onConnection"}, {
+        it("should add metadata when $onDisconnect exists", () => {
+            this.invokeStub.should.have.been.calledWithExactly(this.provider.instance, {eventName: "onDisconnect"}, {
                 socket: this.socketStub,
                 nsp: this.nspStub
             });
