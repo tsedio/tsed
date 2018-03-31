@@ -21,11 +21,11 @@ export class RoomWS {
     }
 
     $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
-
+        console.log("connection1");
     }
 
     $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
-
+        console.log("disconnect1");
     }
 
     @Input("eventName")
@@ -51,5 +51,103 @@ export class RoomWS {
     async myError2(@Args(0) userName: string, @Socket socket: SocketIO.Socket, @Nsp nsp: SocketIO.Namespace) {
         return "my Message " + userName;
         // return "my Message " + userName;
+    }
+}
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS2 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+        console.log("connection2");
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+        console.log("disconnect2");
+    }
+}
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS3 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+}
+
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS4 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+}
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS5 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+}
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS6 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+}
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS8 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+}
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS9 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+}
+
+
+@SocketService("/room")
+@SocketUseAfter(ErrorHandlerSocketMiddleware)
+export class RoomWS10 {
+    $onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
+    }
+
+    $onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+
     }
 }
