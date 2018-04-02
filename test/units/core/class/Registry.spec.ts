@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {Registry} from "../../../../src/core/class/Registry";
+import {Sinon} from "../../../tools";
 
 class FakeMetadata {
     attr1: any;
@@ -14,7 +15,7 @@ class FakeMetadata {
 }
 
 describe("Registry", () => {
-    describe("constructor", () => {
+    describe("constructor()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -25,7 +26,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("set", () => {
+    describe("set()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -37,7 +38,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("has", () => {
+    describe("has()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -56,7 +57,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("get", () => {
+    describe("get()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -71,7 +72,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("entries", () => {
+    describe("entries()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -87,7 +88,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("keys", () => {
+    describe("keys()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -103,7 +104,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("clear", () => {
+    describe("clear()", () => {
         it("should add a metadata", () => {
             this.registry.set(this.clazz, {test: true});
             expect(this.registry.size).to.equal(1);
@@ -115,7 +116,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("clear", () => {
+    describe("delete()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -132,7 +133,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("forEach", () => {
+    describe("forEach()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -150,7 +151,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("values", () => {
+    describe("values()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -166,7 +167,7 @@ describe("Registry", () => {
         });
     });
 
-    describe("merge", () => {
+    describe("merge()", () => {
         before(() => {
             this.registry = new Registry(FakeMetadata);
             this.clazz = class {
@@ -183,6 +184,84 @@ describe("Registry", () => {
             expect(this.registry.get(this.clazz).attr1).to.equal(1);
             expect(this.registry.get(this.clazz).attr2).to.equal(2);
             expect(this.registry.get(this.clazz).target).to.equal(this.clazz);
+        });
+    });
+
+    describe("createIfNotExists()", () => {
+        describe("when Registry is not configured with hook options", () => {
+            before(() => {
+                this.registry = new Registry(FakeMetadata);
+                this.hasStub = Sinon.stub(this.registry, "has").returns(false);
+                this.setStub = Sinon.stub(this.registry, "set");
+                this.getStub = Sinon.stub(this.registry, "get").returns("instance");
+                this.clazz = class {
+                };
+
+                this.result = this.registry.createIfNotExists("key");
+            });
+
+            after(() => {
+                this.hasStub.restore();
+                this.setStub.restore();
+                this.getStub.restore();
+            });
+
+            it("should call Registry.has()", () => {
+                this.hasStub.should.have.been.calledWithExactly("key");
+            });
+
+            it("should call Registry.set()", () => {
+                this.setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+            });
+
+            it("should call Registry.get()", () => {
+                this.getStub.should.have.been.calledWithExactly("key");
+            });
+
+            it("should return an instance of FakeMetadata", () => {
+                expect(this.result).to.eq("instance");
+            });
+        });
+        describe("when Registry is configured with hook options", () => {
+            before(() => {
+                this.hooks = {
+                    onCreate: Sinon.stub()
+                };
+                this.registry = new Registry(FakeMetadata, this.hooks);
+                this.hasStub = Sinon.stub(this.registry, "has").returns(false);
+                this.setStub = Sinon.stub(this.registry, "set");
+                this.getStub = Sinon.stub(this.registry, "get").returns("instance");
+                this.clazz = class {
+                };
+
+                this.result = this.registry.createIfNotExists("key");
+            });
+
+            after(() => {
+                this.hasStub.restore();
+                this.setStub.restore();
+                this.getStub.restore();
+            });
+
+            it("should call Registry.has()", () => {
+                this.hasStub.should.have.been.calledWithExactly("key");
+            });
+
+            it("should call Registry.set()", () => {
+                this.setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+            });
+
+            it("should call Registry.get()", () => {
+                this.getStub.should.have.been.calledWithExactly("key");
+            });
+
+            it("should return an instance of FakeMetadata", () => {
+                expect(this.result).to.eq("instance");
+            });
+
+            it("should call the onCreate hook", () => {
+                this.hooks.onCreate.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+            });
         });
     });
 });

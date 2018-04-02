@@ -1,4 +1,4 @@
-import {ProviderRegistry} from "@tsed/common";
+import {GlobalProviders, ProviderType} from "@tsed/common";
 import * as Http from "http";
 import * as Https from "https";
 import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
@@ -72,7 +72,7 @@ describe("ServerLoader", () => {
     describe("createHttpsServer", () => {
         before(() => {
             this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
-            this.factoryStub = Sinon.stub(ProviderRegistry, "merge");
+            this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
             this.server.createHttpsServer({options: "options"});
             this.factoryStub.getCall(0).args[1].instance.get();
         });
@@ -103,7 +103,7 @@ describe("ServerLoader", () => {
     describe("createHttpServer", () => {
         before(() => {
             this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
-            this.factoryStub = Sinon.stub(ProviderRegistry, "merge");
+            this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
             this.server.createHttpServer({options: "options"});
         });
         after(() => {

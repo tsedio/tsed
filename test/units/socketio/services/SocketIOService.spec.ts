@@ -1,9 +1,8 @@
-import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
+import {invoke} from "@tsed/testing";
 import {HttpServer} from "../../../../src/common/server/decorators/httpServer";
 import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../src/socketio";
-import {invoke} from "../../../../src/testing";
-import {expect, Sinon} from "../../../tools";
+import {Sinon} from "../../../tools";
 
 describe("SocketIOService", () => {
     describe("$onServerReady()", () => {
@@ -103,30 +102,6 @@ describe("SocketIOService", () => {
             it("should call bind provider method", () => {
                 this.bindProviderStub.should.have.been.calledWithExactly({provider: "provider"});
             });
-        });
-    });
-
-    describe("getWebsocketServices()", () => {
-        before(() => {
-            const service = new SocketIOService({} as any, {} as any, {} as any, {} as any);
-            this.forEachStub = Sinon.stub(ProviderRegistry, "forEach");
-            this.providerStub = {
-                store: {
-                    has: Sinon.stub().returns(true),
-                    get: Sinon.stub().returns({namespace: "/"})
-                }
-            };
-
-            this.result = service.getWebsocketServices();
-            this.forEachStub.getCall(0).args[0](this.providerStub);
-        });
-
-        after(() => {
-            this.forEachStub.restore();
-        });
-
-        it("should returns a list of socket provider", () => {
-            expect(this.result).to.deep.eq([this.providerStub]);
         });
     });
 

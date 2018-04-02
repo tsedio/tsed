@@ -27,7 +27,7 @@ export interface IProvider<T> {
     /**
      * Provider type
      */
-    type?: ProviderType | any;
+    type: ProviderType | any;
 
     /**
      *

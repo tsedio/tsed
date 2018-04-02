@@ -1,4 +1,4 @@
-import {ProviderRegistry, Service} from "@tsed/common";
+import {GlobalProviders, ProviderType, Service} from "@tsed/common";
 import {Sinon} from "../../../tools";
 
 class Test {
@@ -6,7 +6,7 @@ class Test {
 
 describe("Service", () => {
     before(() => {
-        this.serviceStub = Sinon.stub(ProviderRegistry, "merge");
+        this.serviceStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.SERVICE), "merge");
 
         Service()(Test);
     });
@@ -16,6 +16,10 @@ describe("Service", () => {
     });
 
     it("should set metadata", () => {
-        this.serviceStub.should.have.been.calledWithExactly(Test, {provide: Test, type: "service"});
+        this.serviceStub.should.have.been.calledWithExactly(Test, {
+            instance: undefined,
+            provide: Test,
+            type: ProviderType.SERVICE
+        });
     });
 });
