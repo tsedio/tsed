@@ -1,24 +1,13 @@
 import {expect} from "chai";
-import {FilterService} from "../../../../src/common/filters/services/FilterService";
-import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
-import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
+import {MultipartFileFilter} from "../../../../src/multipartfiles/components/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../../../src/multipartfiles/components/MultipartFilesFilter";
 import {inject} from "../../../../src/testing";
 
 describe("MultipartFileFilter", () => {
 
-    before(inject([FilterService], (filterService: FilterService) => {
-        this.filterService = filterService;
-        this.filter = filterService.invoke<MultipartFileFilter>(MultipartFileFilter);
+    before(inject([MultipartFileFilter], (filter: MultipartFileFilter) => {
+        this.filter = filter;
     }));
-
-    after(() => {
-        delete this.filterService;
-        delete this.filter;
-    });
-
-    it("should instance of", () => {
-        expect(this.filter).to.be.an.instanceof(MultipartFileFilter);
-    });
 
     describe("transform()", () => {
         before(() => {
@@ -34,19 +23,9 @@ describe("MultipartFileFilter", () => {
 
 describe("MultipartFilesFilter", () => {
 
-    before(inject([FilterService], (filterService: FilterService) => {
-        this.filterService = filterService;
-        this.filter = filterService.invoke<MultipartFilesFilter>(MultipartFilesFilter);
+    before(inject([MultipartFilesFilter], (filter: MultipartFilesFilter) => {
+        this.filter = filter;
     }));
-
-    after(() => {
-        delete this.filterService;
-        delete this.filter;
-    });
-
-    it("should instance of", () => {
-        expect(this.filter).to.be.an.instanceof(MultipartFilesFilter);
-    });
 
     describe("transform()", () => {
         before(() => {

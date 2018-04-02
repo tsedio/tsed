@@ -1,30 +1,18 @@
-import {assert, expect} from "chai";
-import {inject} from "../../../../src/testing/inject";
-import {FilterService} from "../../../../src/common/filters/services/FilterService";
+import {expect} from "chai";
 import {QueryParamsFilter} from "../../../../src/common/filters/components/QueryParamsFilter";
+import {inject} from "../../../../src/testing/inject";
 
 
 describe("QueryParamsFilter", () => {
 
-    before(inject([FilterService], (filterService: FilterService) => {
-        this.filterService = filterService;
-        this.bodyParamsFilter = filterService.invoke<QueryParamsFilter>(QueryParamsFilter);
+    before(inject([QueryParamsFilter], (filter: QueryParamsFilter) => {
+        this.filter = filter;
     }));
-
-    after(() => {
-        delete this.filterService;
-        delete this.bodyParamsFilter;
-    });
-
-    it("should instance of", () => {
-        expect(this.bodyParamsFilter).to.be.an.instanceof(QueryParamsFilter);
-    });
 
     describe("transform()", () => {
         before(() => {
-            this.result = this.bodyParamsFilter.transform("test", {query: {test: "test"}});
+            this.result = this.filter.transform("test", {query: {test: "test"}});
         });
-        after(() => delete this.result);
 
         it("should transform expression", () => {
             expect(this.result).to.equal("test");

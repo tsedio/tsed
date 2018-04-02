@@ -1,11 +1,16 @@
-import {GlobalProviders} from "@tsed/common";
 import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Registry, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
 import {IInjectableMethod, IProvider, ProviderScope, ProviderType} from "../interfaces";
-import {ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
+import {
+    GlobalProviders,
+    ProviderRegistry,
+    registerFactory,
+    registerProvider,
+    registerService
+} from "../registries/ProviderRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -264,13 +269,13 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
                     throw new InjectionError(target, serviceName.toString());
                 }
 
-                const settings = GlobalProviders.getRegistrySettings(serviceType);
-                const provider = settings.registry.get(serviceType)!;
+                // const settings = GlobalProviders.getRegistrySettings(serviceType);
+                const provider = ProviderRegistry.get(serviceType)!;
 
                 /* istanbul ignore next */
-                if (!settings.injectable) {
-                    throw new InjectionError(target, serviceName.toString(), "not injectable");
-                }
+                // if (!settings.injectable) {
+                //    throw new InjectionError(target, serviceName.toString(), "not injectable");
+                // }
 
                 if (provider.instance === undefined) {
 

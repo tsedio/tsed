@@ -1,19 +1,17 @@
-import {expect} from "chai";
 import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
-import {FilterService} from "../../../../src/common/filters/services/FilterService";
 import {inject} from "../../../../src/testing/inject";
+import {expect} from "../../../tools";
 
 
 describe("BodyParamsFilter", () => {
 
-    before(inject([FilterService], (filterService: FilterService) => {
-        this.filterService = filterService;
-        this.bodyParamsFilter = filterService.invoke<BodyParamsFilter>(BodyParamsFilter);
+    before(inject([BodyParamsFilter], (filter: BodyParamsFilter) => {
+        this.filter = filter;
     }));
 
     describe("transform()", () => {
         before(() => {
-            this.result = this.bodyParamsFilter.transform("test", {body: {test: "test"}});
+            this.result = this.filter.transform("test", {body: {test: "test"}});
         });
 
         it("should transform expression", () => {

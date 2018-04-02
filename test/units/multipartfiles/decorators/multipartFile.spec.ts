@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MultipartFileFilter} from "../../../../src/multipartfiles/filters/MultipartFileFilter";
-import {MultipartFilesFilter} from "../../../../src/multipartfiles/filters/MultipartFilesFilter";
+import {MultipartFileFilter} from "../../../../src/multipartfiles/components/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../../../src/multipartfiles/components/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middlewares/MultipartFileMiddleware";
 import {assert, expect, Sinon} from "../../../tools";
 import Proxyquire = require("proxyquire");

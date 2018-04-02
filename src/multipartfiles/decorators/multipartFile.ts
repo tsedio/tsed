@@ -1,8 +1,8 @@
 import {ParamRegistry, UseBefore} from "@tsed/common";
 import {descriptorOf, Metadata, Store, Type} from "@tsed/core";
 import * as multer from "multer";
-import {MultipartFileFilter} from "../filters/MultipartFileFilter";
-import {MultipartFilesFilter} from "../filters/MultipartFilesFilter";
+import {MultipartFileFilter} from "../components/MultipartFileFilter";
+import {MultipartFilesFilter} from "../components/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
 
 /**
