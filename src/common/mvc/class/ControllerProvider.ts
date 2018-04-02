@@ -1,14 +1,14 @@
 import {getClass, NotEnumerable, Type} from "@tsed/core";
 import * as Express from "express";
 import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
-import {ProviderStorable} from "../../di/class/ProviderStorable";
+import {Provider} from "../../di/class/Provider";
 
 import {IControllerMiddlewares, IControllerOptions} from "../interfaces";
 import {IChildrenController} from "../interfaces/IChildrenController";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
 
-export class ControllerProvider extends ProviderStorable<any> implements IControllerOptions {
+export class ControllerProvider extends Provider<any> implements IControllerOptions {
     /**
      * The path for the controller
      */

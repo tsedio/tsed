@@ -1,4 +1,4 @@
-import {MiddlewareRegistry, MiddlewareType, ProviderStorable} from "@tsed/common";
+import {MiddlewareRegistry, MiddlewareType, Provider} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
@@ -17,7 +17,7 @@ import {getNspSession} from "../registries/NspSessionRegistry";
 export class SocketHandlersBuilder {
     private socketProviderMetadata: ISocketProviderMetadata;
 
-    constructor(private provider: ProviderStorable<any>) {
+    constructor(private provider: Provider<any>) {
         this.socketProviderMetadata = this.provider.store.get("socketIO");
     }
 

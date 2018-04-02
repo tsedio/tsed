@@ -1,4 +1,6 @@
-import {getClass, nameOf, NotEnumerable, Type} from "@tsed/core";
+import {getClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
+import {globalServerSettings} from "../../config/services/GlobalSettings";
+import {ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
 
@@ -13,9 +15,13 @@ export class Provider<T> implements IProvider<T> {
     @NotEnumerable()
     protected _type: ProviderType | any = ProviderType.PROVIDER;
 
+    @NotEnumerable()
+    private _store: Store;
+
     constructor(protected _provide: any) {
         this._provide = getClass(this._provide);
         this._useClass = getClass(this._provide);
+        this._store = Store.from(this._provide);
     }
 
     /**
@@ -47,6 +53,7 @@ export class Provider<T> implements IProvider<T> {
      * @param value
      */
     set useClass(value: Type<T>) {
+        this._store = Store.from(value);
         this._useClass = value;
     }
 
@@ -84,5 +91,29 @@ export class Provider<T> implements IProvider<T> {
 
     get className() {
         return nameOf(this.provide);
+    }
+
+    /**
+     *
+     * @returns {Store}
+     */
+    public get store(): Store {
+        return this._store;
+    }
+
+    /**
+     * Get the scope of the provider.
+     * @returns {boolean}
+     */
+    get scope(): ProviderScope {
+        return this.store.get("scope") || globalServerSettings.controllerScope;
+    }
+
+    /**
+     * Change the scope value of the provider.
+     * @param scope
+     */
+    set scope(scope: ProviderScope) {
+        this.store.set("scope", scope);
     }
 }
