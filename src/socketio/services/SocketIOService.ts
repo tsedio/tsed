@@ -3,8 +3,8 @@ import {
     HttpsServer,
     Inject,
     OnServerReady,
+    Provider,
     ProviderRegistry,
-    ProviderStorable,
     ServerSettingsService,
     Service
 } from "@tsed/common";
@@ -56,10 +56,10 @@ export class SocketIOService implements OnServerReady {
 
     /**
      *
-     * @returns {ProviderStorable<any>[]}
+     * @returns {Provider<any>[]}
      */
-    public getWebsocketServices(): ProviderStorable<any>[] {
-        const websockets: ProviderStorable<any>[] = [];
+    public getWebsocketServices(): Provider<any>[] {
+        const websockets: Provider<any>[] = [];
 
         ProviderRegistry.forEach((provider) => {
             if (provider.store.has("socketIO") && provider.store.get("socketIO").namespace !== undefined) {
@@ -99,9 +99,9 @@ export class SocketIOService implements OnServerReady {
 
     /**
      *
-     * @param {ProviderStorable<any>} provider
+     * @param {Provider<any>} provider
      */
-    private bindProvider(provider: ProviderStorable<any>) {
+    private bindProvider(provider: Provider<any>) {
         const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
 
         const nspConfig = this.getNsp(wsConfig.namespace);

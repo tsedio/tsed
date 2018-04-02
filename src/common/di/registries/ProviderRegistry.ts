@@ -1,9 +1,9 @@
 import {Registry} from "@tsed/core";
-import {ProviderStorable} from "../class/ProviderStorable";
+import {Provider} from "../class/Provider";
 import {IProvider} from "../interfaces";
 import {ProviderType} from "../interfaces/ProviderType";
 
-export const ProviderRegistry = new Registry<ProviderStorable<any>, IProvider<any>>(ProviderStorable);
+export const ProviderRegistry = new Registry<Provider<any>, IProvider<any>>(Provider);
 
 /**
  * Add a new factory in the `ProviderRegistry`.
@@ -123,7 +123,7 @@ export function registerService(provider: any | IProvider<any>): void {
  * Register a provider configuration.
  * @param {IProvider<any>} provider
  */
-export function registerProvider(provider: IProvider<any>): void {
+export function registerProvider(provider: Partial<IProvider<any>>): void {
 
     if (!provider.provide) {
         throw new Error("Provider.provide is required");
@@ -131,3 +131,31 @@ export function registerProvider(provider: IProvider<any>): void {
 
     ProviderRegistry.merge(provider.provide, provider);
 }
+
+/**
+ *
+ * @param target
+ * @returns {boolean}
+ */
+/*export function hasProvider(target: any): boolean {
+    return ProviderRegistry.has(target);
+}*/
+
+
+/**
+ *
+ * @param target
+ * @returns {Provider<T>}
+ */
+/*export function getProvider<T>(target: any): Provider<T> {
+    return ProviderRegistry.get(target)!;
+}*/
+
+/**
+ *
+ * @param target
+ * @returns {T}
+ */
+/*export function getInstanceProvider<T>(target: any): T {
+    return ProviderRegistry.get(target)!.instance;
+}*/
