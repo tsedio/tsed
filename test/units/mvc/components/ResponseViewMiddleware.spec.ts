@@ -1,11 +1,10 @@
-import {MiddlewareService} from "../../../../src";
 import {ResponseViewMiddleware} from "../../../../src/common/mvc/components/ResponseViewMiddleware";
 import {inject} from "../../../../src/testing";
 import {expect, Sinon} from "../../../tools";
 
 describe("ResponseViewMiddleware :", () => {
 
-    before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+    before(inject([ResponseViewMiddleware], (middleware: ResponseViewMiddleware) => {
 
         this.response = {
             status: () => {
@@ -24,7 +23,7 @@ describe("ResponseViewMiddleware :", () => {
             }
         };
 
-        this.middleware = middlewareService.invoke<ResponseViewMiddleware>(ResponseViewMiddleware);
+        this.middleware = middleware;
     }));
 
     describe("when header isn't sent", () => {

@@ -2,13 +2,13 @@ import {nameOf} from "@tsed/core";
 import * as Express from "express";
 import {globalServerSettings} from "../../config";
 import {ProviderScope} from "../../di/interfaces";
+import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
 import {CastError} from "../errors/CastError";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 import {ExpressRouter} from "../services/ExpressRouter";
 import {RouterController} from "../services/RouterController";
 import {EndpointMetadata} from "./EndpointMetadata";
@@ -65,7 +65,7 @@ export class HandlerBuilder {
      * @returns {any}
      */
     private middlewareHandler(): Function {
-        const provider = MiddlewareRegistry.get(this.handlerMetadata.target);
+        const provider = ProviderRegistry.get(this.handlerMetadata.target);
 
         /* istanbul ignore next */
         if (!provider) {

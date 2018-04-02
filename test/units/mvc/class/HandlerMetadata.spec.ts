@@ -1,28 +1,9 @@
-import * as Proxyquire from "proxyquire";
-import {getClass} from "../../../../src/core/utils";
+import {ControllerRegistry, ParamRegistry, ProviderRegistry, ProviderType} from "../../../../src/common";
+import {HandlerMetadata} from "../../../../src/common/mvc/class/HandlerMetadata";
 import {MiddlewareType} from "../../../../src/common/mvc/interfaces";
+import {getClass} from "../../../../src/core/utils";
 import {expect, Sinon} from "../../../tools";
 
-const ParamRegistry = {
-    isInjectable: Sinon.stub(),
-    hasNextFunction: Sinon.stub(),
-    getParams: Sinon.stub().returns([])
-};
-
-const MiddlewareRegistry = {
-    has: Sinon.stub(),
-    get: Sinon.stub()
-};
-
-const ControllerRegistry = {
-    has: Sinon.stub()
-};
-
-const HandlerMetadata = Proxyquire("../../../../src/common/mvc/class/HandlerMetadata", {
-    "../../filters/registries/ParamRegistry": {ParamRegistry},
-    "../registries/MiddlewareRegistry": {MiddlewareRegistry},
-    "../registries/ControllerRegistry": {ControllerRegistry}
-}).HandlerMetadata;
 
 class Test {
     use(req: any, res: any, next: any) {
@@ -32,6 +13,7 @@ class Test {
     test(req: any, res: any, next: any) {
     }
 }
+
 class Test2 {
     use(err: any, req: any, res: any, next: any) {
 
@@ -41,20 +23,20 @@ class Test2 {
 describe("HandlerMetadata", () => {
     describe("from function", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(false);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(false);
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(false);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(false);
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata((req: any, res: any, next: any) => {
             });
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
         });
 
         it("shouldn't be injectable", () => {
@@ -80,20 +62,20 @@ describe("HandlerMetadata", () => {
 
     describe("from function err", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(false);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(false);
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(false);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(false);
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata((err: any, req: any, res: any, next: any) => {
             });
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
         });
 
         it("shouldn't be injectable", () => {
@@ -119,20 +101,20 @@ describe("HandlerMetadata", () => {
 
     describe("from function with nextFn", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(false);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(false);
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(false);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(false);
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata((req: any, res: any) => {
             });
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
         });
 
         it("shouldn't be injectable", () => {
@@ -158,19 +140,19 @@ describe("HandlerMetadata", () => {
 
     describe("from endpoint without injection", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(false);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(false);
-            ControllerRegistry.has.returns(true);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(false);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(false);
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(true);
 
             this.handlerMetadata = new HandlerMetadata(Test, "test");
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
         });
 
         it("shouldn't be injectable", () => {
@@ -196,19 +178,19 @@ describe("HandlerMetadata", () => {
 
     describe("from endpoint with injection", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(true);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(false);
-            ControllerRegistry.has.returns(true);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(true);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(false);
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(true);
 
             this.handlerMetadata = new HandlerMetadata(Test, "test");
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
         });
 
         it("should be injectable", () => {
@@ -234,21 +216,29 @@ describe("HandlerMetadata", () => {
 
     describe("from middleware with injection", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(true);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({useClass: getClass(Test), type: MiddlewareType.MIDDLEWARE});
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(true);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
+            this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                useClass: getClass(Test),
+                type: ProviderType.MIDDLEWARE,
+                store: {
+                    get() {
+                        return MiddlewareType.MIDDLEWARE;
+                    }
+                }
+            });
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            MiddlewareRegistry.get.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
+            this.providerGetStub.restore();
         });
 
         it("should be injectable", () => {
@@ -282,21 +272,29 @@ describe("HandlerMetadata", () => {
 
     describe("from middleware without injection", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(false);
-            ParamRegistry.hasNextFunction.returns(false);
-            MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({useClass: getClass(Test), type: MiddlewareType.MIDDLEWARE});
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(false);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(false);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
+            this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                useClass: getClass(Test),
+                type: ProviderType.MIDDLEWARE,
+                store: {
+                    get() {
+                        return MiddlewareType.MIDDLEWARE;
+                    }
+                }
+            });
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            MiddlewareRegistry.get.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
+            this.providerGetStub.restore();
         });
 
         it("shouldn't be injectable", () => {
@@ -330,21 +328,29 @@ describe("HandlerMetadata", () => {
 
     describe("from middlewareError with injection", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(true);
-            ParamRegistry.hasNextFunction.returns(true);
-            MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({useClass: getClass(Test), type: MiddlewareType.ERROR});
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(true);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
+            this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                useClass: getClass(Test),
+                type: ProviderType.MIDDLEWARE,
+                store: {
+                    get() {
+                        return MiddlewareType.ERROR;
+                    }
+                }
+            });
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            MiddlewareRegistry.get.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
+            this.providerGetStub.restore();
         });
 
         it("should be injectable", () => {
@@ -377,21 +383,29 @@ describe("HandlerMetadata", () => {
     });
     describe("from middlewareError without injection", () => {
         before(() => {
-            ParamRegistry.isInjectable.returns(false);
-            ParamRegistry.hasNextFunction.returns(false);
-            MiddlewareRegistry.has.returns(true);
-            MiddlewareRegistry.get.returns({useClass: getClass(Test2), type: MiddlewareType.ERROR});
-            ControllerRegistry.has.returns(false);
+            this.isInjectableStub = Sinon.stub(ParamRegistry, "isInjectable").returns(false);
+            this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(false);
+            this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
+            this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                useClass: getClass(Test2),
+                type: ProviderType.MIDDLEWARE,
+                store: {
+                    get() {
+                        return MiddlewareType.ERROR;
+                    }
+                }
+            });
+            this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test2);
         });
 
         after(() => {
-            ParamRegistry.isInjectable.reset();
-            ParamRegistry.hasNextFunction.reset();
-            MiddlewareRegistry.has.reset();
-            MiddlewareRegistry.get.reset();
-            ControllerRegistry.has.reset();
+            this.isInjectableStub.restore();
+            this.hasNextFunctionStub.restore();
+            this.providerHasStub.restore();
+            this.controllerHasStub.restore();
+            this.providerGetStub.restore();
         });
 
         it("shouldn't be injectable", () => {

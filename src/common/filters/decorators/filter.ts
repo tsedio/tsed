@@ -1,4 +1,3 @@
-import {Type} from "@tsed/core";
 import {registerFilter} from "../registries/FilterRegistry";
 
 /**
@@ -9,7 +8,5 @@ import {registerFilter} from "../registries/FilterRegistry";
  * @decorator
  */
 export function Filter(): Function {
-    return <T>(target: Type<T>) => {
-        registerFilter(target, {provide: target, useClass: target});
-    };
+    return registerFilter;
 }

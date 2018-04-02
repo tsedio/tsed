@@ -1,23 +1,18 @@
-import {MiddlewareService} from "../../../../src";
-import {ConverterService} from "../../../../src/common/converters/services/ConverterService";
 import {SendResponseMiddleware} from "../../../../src/common/mvc/components/SendResponseMiddleware";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";
 
 describe("SendResponseMiddleware", () => {
-    before(inject([ConverterService, MiddlewareService], (converterService: ConverterService, middlewareService: MiddlewareService) => {
-        this.serializeStub = Sinon.stub(converterService, "serialize");
-        this.middleware = middlewareService.invoke<SendResponseMiddleware>(SendResponseMiddleware);
+    before(inject([SendResponseMiddleware], (middleware: SendResponseMiddleware) => {
+        this.middleware = middleware;
+        this.serializeStub = Sinon.stub(this.middleware.converterService as any, "serialize");
     }));
-
-    after(() => {
-        this.serializeStub.restore();
-    });
 
     describe("with boolean value", () => {
         before(() => {
             this.fakeResponse = new FakeResponse();
+
             this.middleware.use(true, this.fakeResponse as any);
         });
 
@@ -54,7 +49,6 @@ describe("SendResponseMiddleware", () => {
             expect(this.fakeResponse._body).to.equal("1");
         });
     });
-
 
     describe("with null value", () => {
         before(() => {

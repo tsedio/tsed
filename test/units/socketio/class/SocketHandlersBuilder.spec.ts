@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
-import {MiddlewareRegistry, MiddlewareType} from "../../../../src/common/mvc";
+import {ProviderRegistry, ProviderType} from "../../../../src/common/di";
+import {MiddlewareType} from "../../../../src/common/mvc";
 import {SocketHandlersBuilder} from "../../../../src/socketio/class/SocketHandlersBuilder";
 import {SocketFilters} from "../../../../src/socketio/interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../../../../src/socketio/interfaces/SocketReturnsTypes";
@@ -649,7 +650,7 @@ describe("SocketHandlersBuilder", () => {
                     }
                 });
 
-                this.getStub = Sinon.stub(MiddlewareRegistry as any, "get").returns(false);
+                this.getStub = Sinon.stub(ProviderRegistry as any, "get").returns(false);
 
                 this.scope = {scope: "scope"};
 
@@ -689,9 +690,14 @@ describe("SocketHandlersBuilder", () => {
                     }
                 });
 
-                this.getStub = Sinon.stub(MiddlewareRegistry as any, "get").returns({
+                this.getStub = Sinon.stub(ProviderRegistry as any, "get").returns({
                     instance: this.instance,
-                    type: MiddlewareType.MIDDLEWARE
+                    type: ProviderType.MIDDLEWARE,
+                    store: {
+                        get() {
+                            return MiddlewareType.MIDDLEWARE;
+                        }
+                    }
                 });
 
                 this.scope = {scope: "scope"};
@@ -704,7 +710,7 @@ describe("SocketHandlersBuilder", () => {
                 this.getStub.restore();
             });
 
-            it("should call Middleware.get", () => {
+            it("should call ProviderRegistry.get", () => {
                 this.getStub.should.have.been.calledWithExactly({target: "target"});
             });
 
@@ -739,9 +745,14 @@ describe("SocketHandlersBuilder", () => {
                     }
                 });
 
-                this.getStub = Sinon.stub(MiddlewareRegistry as any, "get").returns({
+                this.getStub = Sinon.stub(ProviderRegistry as any, "get").returns({
                     instance: this.instance,
-                    type: MiddlewareType.ERROR
+                    type: ProviderType.MIDDLEWARE,
+                    store: {
+                        get() {
+                            return MiddlewareType.ERROR;
+                        }
+                    }
                 });
 
                 this.scope = {scope: "scope"};
@@ -755,7 +766,7 @@ describe("SocketHandlersBuilder", () => {
                 this.getStub.restore();
             });
 
-            it("should call Middleware.get", () => {
+            it("should call ProviderRegistry.get", () => {
                 this.getStub.should.have.been.calledWithExactly({target: "target"});
             });
 
@@ -767,6 +778,5 @@ describe("SocketHandlersBuilder", () => {
                 );
             });
         });
-
     });
 });

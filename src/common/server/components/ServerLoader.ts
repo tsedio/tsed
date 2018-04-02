@@ -1,4 +1,3 @@
-import {ExpressApplication} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import * as Express from "express";
 import * as globby from "globby";
@@ -14,7 +13,7 @@ import {InjectorService} from "../../di/services/InjectorService";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
-import {createExpressApplication} from "../../mvc/decorators/class/expressApplication";
+import {createExpressApplication, ExpressApplication} from "../../mvc/decorators/class/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";

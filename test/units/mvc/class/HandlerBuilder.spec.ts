@@ -1,13 +1,13 @@
 import {BadRequest} from "ts-httpexceptions";
 import "../../../../src/ajv";
 import {globalServerSettings} from "../../../../src/common/config";
+import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
 import {InjectorService} from "../../../../src/common/di/services/InjectorService";
 import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
 import {CastError} from "../../../../src/common/mvc/errors/CastError";
 import {ControllerRegistry} from "../../../../src/common/mvc/registries/ControllerRegistry";
-import {MiddlewareRegistry} from "../../../../src/common/mvc/registries/MiddlewareRegistry";
 import {RouterController} from "../../../../src/common/mvc/services/RouterController";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
@@ -596,7 +596,7 @@ describe("HandlerBuilder", () => {
     describe("middlewareHandler()", () => {
         describe("when middleware is known", () => {
             before(() => {
-                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
+                this.middlewareGetStub = Sinon.stub(ProviderRegistry, "get");
                 this.middlewareGetStub.returns({
                     instance: {
                         use: () => {
@@ -613,7 +613,7 @@ describe("HandlerBuilder", () => {
             after(() => {
                 this.middlewareGetStub.restore();
             });
-            it("should have called the MiddlewareRegistry.get method", () => {
+            it("should have called the ProviderRegistry.get method", () => {
                 this.middlewareGetStub.should.have.been.calledWithExactly("target");
             });
             it("should return the handler", () => {
@@ -623,7 +623,7 @@ describe("HandlerBuilder", () => {
 
         describe("when middleware is unknown", () => {
             before(() => {
-                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
+                this.middlewareGetStub = Sinon.stub(ProviderRegistry, "get");
                 this.middlewareGetStub.returns(undefined);
                 this.handlerMetadata = {
                     target: "target"
@@ -647,7 +647,7 @@ describe("HandlerBuilder", () => {
                     }
                 });
 
-                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
+                this.middlewareGetStub = Sinon.stub(ProviderRegistry, "get");
                 this.middlewareGetStub.returns({
                     useClass: "class",
                     scope: "request"
