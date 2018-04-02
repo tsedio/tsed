@@ -4,9 +4,13 @@ import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 import {Provider} from "../../di/class/Provider";
 
 import {IControllerMiddlewares, IControllerOptions} from "../interfaces";
-import {IChildrenController} from "../interfaces/IChildrenController";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
+
+
+export interface IChildrenController extends Type<any> {
+    $parentCtrl?: ControllerProvider;
+}
 
 export class ControllerProvider extends Provider<any> implements IControllerOptions {
     /**

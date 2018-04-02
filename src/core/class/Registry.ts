@@ -6,6 +6,23 @@ import {Type} from "../interfaces";
 
 import {getClass, getClassOrSymbol} from "../utils";
 
+export interface RegistryHook<T> {
+    /**
+     *
+     * @param {RegistryKey} key
+     * @param {T} item
+     */
+    onCreate?(key: RegistryKey, item: T): void;
+
+    /**
+     *
+     * @param {RegistryKey} key
+     */
+    // onDelete?(key: RegistryKey): void;
+}
+
+export type RegistryKey = Type<any> | symbol;
+
 /**
  *
  * @private
@@ -15,9 +32,9 @@ export class Registry<T, O> {
      * Internal Map
      * @type {Array}
      */
-    private _map: Map<Type<any> | symbol, T> = new Map<Type<any> | symbol, T>();
+    protected _map: Map<RegistryKey, T> = new Map();
 
-    constructor(private _class: Type<T>) {
+    constructor(private _class: Type<T>, private options: RegistryHook<T> = {}) {
         this._class = getClass(this._class);
     }
 
@@ -34,7 +51,7 @@ export class Registry<T, O> {
      * @param key Required. The key of the element to return from the Map object.
      * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
      */
-    get(key: Type<any> | symbol): T | undefined {
+    get(key: RegistryKey): T | undefined {
         return this._map.get(getClassOrSymbol(key));
     }
 
@@ -42,9 +59,13 @@ export class Registry<T, O> {
      *
      * @param key
      */
-    createIfNotExists(key: Type<any> | symbol): T {
+    createIfNotExists(key: RegistryKey): T {
         if (!this.has(key)) {
-            this.set(key, new this._class(key));
+            const item = new this._class(key);
+            this.set(key, item);
+            if (this.options && this.options.onCreate) {
+                this.options.onCreate(key, item);
+            }
         }
         return this.get(key)!;
     }
@@ -54,7 +75,7 @@ export class Registry<T, O> {
      * @param key
      * @returns {boolean}
      */
-    has(key: Type<any> | symbol): boolean {
+    has(key: RegistryKey): boolean {
         return this._map.has(getClassOrSymbol(key));
     }
 
@@ -64,7 +85,7 @@ export class Registry<T, O> {
      * @param metadata Required. The value of the element to add to the Map object.
      * @returns {Registry}
      */
-    set(key: Type<any> | symbol, metadata: T): this {
+    set(key: RegistryKey, metadata: T): this {
         this._map.set(getClassOrSymbol(key), metadata);
         return this;
     }
@@ -73,7 +94,7 @@ export class Registry<T, O> {
      * The entries() method returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    entries(): IterableIterator<[Type<any> | symbol, T]> {
+    entries(): IterableIterator<[RegistryKey, T]> {
         return this._map.entries();
     }
 
@@ -81,7 +102,7 @@ export class Registry<T, O> {
      * The keys() method returns a new Iterator object that contains the keys for each element in the Map object in insertion order.
      * @returns {IterableIterator} A new Map iterator object.
      */
-    keys(): IterableIterator<Type<any> | symbol> {
+    keys(): IterableIterator<RegistryKey> {
         return this._map.keys();
     }
 
@@ -90,7 +111,7 @@ export class Registry<T, O> {
      * @param target
      * @param options
      */
-    merge(target: Type<any> | symbol, options: Partial<O>): void {
+    merge(target: RegistryKey, options: Partial<O>): void {
 
         const meta: T & { [key: string]: any } = this.createIfNotExists(target);
 
@@ -113,8 +134,14 @@ export class Registry<T, O> {
      * @param key Required. The key of the element to remove from the Map object.
      * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
      */
-    delete(key: Type<any> | symbol): boolean {
-        return this._map.delete(getClassOrSymbol(key));
+    delete(key: RegistryKey): boolean {
+        const sbl = getClassOrSymbol(key);
+
+        // if (this.options && this.options.onDelete) {
+        //      this.options.onDelete(sbl);
+        // }
+
+        return this._map.delete(sbl);
     }
 
     /**
@@ -136,7 +163,7 @@ export class Registry<T, O> {
      * forEach executes the callback function once for each element in the Map object; it does not return a value.
      *
      */
-    forEach(callbackfn: (value: T, key: Type<any>, map: Map<Type<any> | symbol, T>) => void, thisArg?: any): void {
+    forEach(callbackfn: (value: T, key: Type<any>, map: Map<RegistryKey, T>) => void, thisArg?: any): void {
         this._map.forEach(callbackfn);
     }
 

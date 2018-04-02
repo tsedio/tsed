@@ -1,3 +1,4 @@
+import {GlobalProviders} from "@tsed/common";
 import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Registry, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
@@ -259,11 +260,17 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
                 }
 
                 /* istanbul ignore next */
-                if (!this.has(serviceType)) {
+                if (!ProviderRegistry.has(serviceType)) {
                     throw new InjectionError(target, serviceName.toString());
                 }
 
-                const provider = ProviderRegistry.get(serviceType)!;
+                const settings = GlobalProviders.getRegistrySettings(serviceType);
+                const provider = settings.registry.get(serviceType)!;
+
+                /* istanbul ignore next */
+                if (!settings.injectable) {
+                    throw new InjectionError(target, serviceName.toString(), "not injectable");
+                }
 
                 if (provider.instance === undefined) {
 
@@ -316,8 +323,8 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
 
         $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
 
-        ProviderRegistry.forEach((provider: IProvider<any>) => {
-            const service = InjectorService.get<any>(provider.provide);
+        GlobalProviders.forEach((provider) => {
+            const service = provider.instance;
 
             if (eventName in service) {
                 /* istanbul ignore next */
@@ -459,15 +466,32 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      */
     static async load() {
 
-        this.buildRegistry(
-            ProviderRegistry,
-            (provider) => provider.instance === undefined || provider.type === ProviderType.SERVICE
-        );
+        this.build();
         $log.debug("\x1B[1mProvider registry built\x1B[22m");
 
         return Promise.all([
             this.emit("$onInit")
         ]);
+    }
+
+    /**
+     *
+     */
+    static build() {
+        GlobalProviders.forEach((provider, key) => {
+            const token = nameOf(provider.provide);
+            const settings = GlobalProviders.getRegistrySettings(key);
+
+            if (settings.buildable) {
+                provider.instance = InjectorService.invoke(provider.useClass);
+
+                const useClass = nameOf(provider.useClass);
+
+                $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
+            } else {
+                $log.debug(nameOf(provider.provide), "loaded");
+            }
+        });
     }
 
     /**

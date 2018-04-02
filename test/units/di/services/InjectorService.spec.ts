@@ -1,3 +1,4 @@
+import {GlobalProviders, ProviderType} from "@tsed/common";
 import {Inject, InjectorService} from "../../../../src";
 import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
 import {Store} from "../../../../src/core/class/Store";
@@ -37,7 +38,7 @@ describe("InjectorService", () => {
             }
 
             before(() => {
-                this.serviceStub = Sinon.stub(ProviderRegistry, "merge");
+                this.serviceStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.SERVICE), "merge");
 
                 InjectorService.service(Test);
             });
@@ -48,6 +49,7 @@ describe("InjectorService", () => {
 
             it("should set metadata", () => {
                 this.serviceStub.should.have.been.calledWithExactly(Test, {
+                    instance: undefined,
                     provide: Test,
                     type: "service"
                 });

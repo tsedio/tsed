@@ -1,19 +1,11 @@
-import {
-    HttpServer,
-    HttpsServer,
-    Inject,
-    OnServerReady,
-    Provider,
-    ProviderRegistry,
-    ServerSettingsService,
-    Service
-} from "@tsed/common";
+import {HttpServer, HttpsServer, Inject, OnServerReady, Provider, ServerSettingsService, Service} from "@tsed/common";
 import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
-import {IO} from "../";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
+import {IO} from "../decorators/IO";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
+import {SocketServiceRegistry} from "../registries/SocketServiceRegistry";
 
 /**
  *
@@ -59,15 +51,7 @@ export class SocketIOService implements OnServerReady {
      * @returns {Provider<any>[]}
      */
     public getWebsocketServices(): Provider<any>[] {
-        const websockets: Provider<any>[] = [];
-
-        ProviderRegistry.forEach((provider) => {
-            if (provider.store.has("socketIO") && provider.store.get("socketIO").namespace !== undefined) {
-                websockets.push(provider);
-            }
-        });
-
-        return websockets;
+        return Array.from(SocketServiceRegistry.values());
     }
 
     /**
@@ -115,8 +99,7 @@ export class SocketIOService implements OnServerReady {
      * @param logger
      */
     private printSocketEvents(logger: { info: (s: any) => void } = $log) {
-        const list = this
-            .getWebsocketServices()
+        const list = this.getWebsocketServices()
             .reduce((acc: any[], provider) => {
                 const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
 

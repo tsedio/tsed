@@ -1,7 +1,7 @@
 import {Model} from "../../../../src/mongoose/decorators";
 import * as modUtil from "../../../../src/mongoose/utils";
-import * as register from "../../../../src/mongoose/utils/registerModel";
-import {registerModel} from "../../../../src/mongoose/utils/registerModel";
+import * as register from "../../../../src/mongoose/registries/MongooseModelRegistry";
+import {registerModel} from "../../../../src/mongoose/registries/MongooseModelRegistry";
 import * as apply from "../../../../src/mongoose/utils/schemaOptions";
 import {Sinon} from "../../../tools";
 
