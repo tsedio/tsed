@@ -1,32 +1,9 @@
-import {expect} from "chai";
-import * as Proxyquire from "proxyquire";
-import * as Sinon from "sinon";
-import {MiddlewareType} from "../../../../../src/common/mvc/interfaces";
-
-const MiddlewareRegistry: any = {
-    merge: Sinon.stub()
-};
-
-const {MiddlewareError} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/middlewareError", {
-    "../../registries/MiddlewareRegistry": {MiddlewareRegistry}
-});
-
-class Test {
-
-}
+import {MiddlewareError, registerMiddlewareError} from "@tsed/common";
+import {expect} from "../../../../tools";
 
 describe("MiddlewareError", () => {
-
-    before(() => {
-        MiddlewareError()(Test);
-    });
-
-    after(() => {
-
-    });
-
-    it("should called with some parameters", () => {
-        expect(MiddlewareRegistry.merge.calledWith(Test, {type: MiddlewareType.ERROR})).to.eq(true);
+    it("should use registerMiddlewareError", () => {
+        expect(MiddlewareError()).to.eq(registerMiddlewareError);
     });
 
 });

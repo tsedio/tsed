@@ -1,13 +1,12 @@
 import {assert, expect} from "chai";
 import {AcceptMimesMiddleware} from "../../../../src/common/mvc/components/AcceptMimesMiddleware";
-import {MiddlewareService} from "../../../../src/common/mvc/services/MiddlewareService";
 import {inject} from "../../../../src/testing";
 import {FakeRequest} from "../../../helper";
 
 describe("AcceptMimesMiddleware", () => {
 
-    before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        this.middleware = middlewareService.invoke<AcceptMimesMiddleware>(AcceptMimesMiddleware);
+    before(inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
+        this.middleware = middleware;
         this.request = new FakeRequest();
         this.request.mime = "application/json";
     }));

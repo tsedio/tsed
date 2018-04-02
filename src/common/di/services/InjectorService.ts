@@ -1,4 +1,4 @@
-import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Registry, Store, Type} from "@tsed/core";
+import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
@@ -377,26 +377,6 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
                 setTimeout(() => $log.warn(msg, "In production, the warning will down the server!"), 1000);
             }
         }
-    }
-
-    /**
-     * @hidden
-     * @param registry
-     * @param callback
-     */
-    static buildRegistry(registry: Registry<Provider<any>, any>, callback: (provider: Provider<any>) => boolean = () => true): Registry<Provider<any>, any> {
-        registry.forEach(provider => {
-            if (typeof callback && callback(provider)) {
-                provider.instance = InjectorService.invoke(provider.useClass);
-            }
-
-            const token = nameOf(provider.provide);
-            const useClass = nameOf(provider.useClass);
-
-            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
-        });
-
-        return registry;
     }
 
     /**

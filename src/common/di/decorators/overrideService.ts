@@ -1,5 +1,4 @@
-import {Type} from "@tsed/core";
-import {registerProvider} from "../registries/ProviderRegistry";
+import {OverrideProvider} from "./overrideProvider";
 
 /**
  * Override a service which is already registered in ProviderRegistry.
@@ -7,8 +6,4 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * @decorators
  * @param targetService
  */
-export function OverrideService(targetService: Type<any>): Function {
-    return (target: Type<any>): void => {
-        registerProvider({provide: targetService, useClass: target});
-    };
-}
+export const OverrideService = OverrideProvider;

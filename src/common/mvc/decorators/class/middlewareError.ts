@@ -1,5 +1,4 @@
-import {MiddlewareType} from "../../interfaces";
-import {MiddlewareRegistry} from "../../registries/MiddlewareRegistry";
+import {registerMiddlewareError} from "../../registries/MiddlewareRegistry";
 
 /**
  *
@@ -7,11 +6,5 @@ import {MiddlewareRegistry} from "../../registries/MiddlewareRegistry";
  * @decorator
  */
 export function MiddlewareError(): Function {
-
-    return (target: any): void => {
-
-        MiddlewareRegistry.merge(target, {type: MiddlewareType.ERROR});
-
-        return target;
-    };
+    return registerMiddlewareError;
 }

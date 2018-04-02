@@ -1,4 +1,4 @@
-import {MiddlewareRegistry, MiddlewareType, Provider} from "@tsed/common";
+import {MiddlewareType, Provider, ProviderRegistry, ProviderType} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
@@ -211,28 +211,31 @@ export class SocketHandlersBuilder {
      * @returns {(args: any[]) => Promise<any[]>}
      */
     private bindMiddleware(target: any, scope: any, promise: Promise<any>): Promise<any> {
-        const middlewareProvider = MiddlewareRegistry.get(target);
+        const provider = ProviderRegistry.get(target);
 
-        if (middlewareProvider) {
-            const instance = middlewareProvider.instance;
+        if (provider) {
+            const instance = provider.instance;
             const handlerMetadata: ISocketProviderMetadata = Store.from(instance).get("socketIO");
 
-            if (middlewareProvider.type === MiddlewareType.ERROR) {
-                return promise
-                    .catch((error: any) =>
-                        this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope})
-                    );
-            }
+            if (provider.type === ProviderType.MIDDLEWARE) {
+                if (provider.store.get("middlewareType") === MiddlewareType.ERROR) {
+                    return promise
+                        .catch((error: any) =>
+                            this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope})
+                        );
+                }
 
-            return promise
-                .then(() =>
-                    this.invoke(instance, handlerMetadata.handlers.use, scope)
-                )
-                .then((result: any) => {
-                    if (result) {
-                        scope.args = [].concat(result);
-                    }
-                });
+
+                return promise
+                    .then(() =>
+                        this.invoke(instance, handlerMetadata.handlers.use, scope)
+                    )
+                    .then((result: any) => {
+                        if (result) {
+                            scope.args = [].concat(result);
+                        }
+                    });
+            }
         }
 
         return promise;

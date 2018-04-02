@@ -3,5 +3,6 @@ export enum ProviderType {
     SERVICE = "service",
     PROVIDER = "provider",
     CONVERTER = "converter",
-    FILTER = "filter"
+    FILTER = "filter",
+    MIDDLEWARE = "middleware"
 }
