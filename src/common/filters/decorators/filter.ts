@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {FilterRegistry} from "../registries/FilterRegistry";
+import {registerFilter} from "../registries/FilterRegistry";
 
 /**
  * Filter decorator declare a class as new Filter component.
@@ -9,10 +9,7 @@ import {FilterRegistry} from "../registries/FilterRegistry";
  * @decorator
  */
 export function Filter(): Function {
-
     return <T>(target: Type<T>) => {
-
-        FilterRegistry.merge(target, {provide: target, useClass: target});
-
+        registerFilter(target, {provide: target, useClass: target});
     };
 }

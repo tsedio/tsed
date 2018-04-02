@@ -1,24 +1,13 @@
-import {assert, expect} from "chai";
-import {inject} from "../../../../src/testing/inject";
-import {FilterService} from "../../../../src/common/filters/services/FilterService";
 import {CookiesFilter} from "../../../../src/common/filters/components/CookiesFilter";
+import {inject} from "../../../../src/testing/inject";
+import {expect} from "../../../tools";
 
 
 describe("CookiesFilter", () => {
 
-    before(inject([FilterService], (filterService: FilterService) => {
-        this.filterService = filterService;
-        this.filter = filterService.invoke<CookiesFilter>(CookiesFilter);
+    before(inject([CookiesFilter], (filter: CookiesFilter) => {
+        this.filter = filter;
     }));
-
-    after(() => {
-        delete this.filterService;
-        delete this.filter;
-    });
-
-    it("should instance of", () => {
-        expect(this.filter).to.be.an.instanceof(CookiesFilter);
-    });
 
     describe("transform()", () => {
         before(() => {
