@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">class</span> ControllerProvider <span class="token keyword">extends</span> <a href="#api/common/di/providerstorable"><span class="token">ProviderStorable</span></a><<span class="token keyword">any</span>> <span class="token keyword">implements</span> <a href="#api/common/mvc/icontrolleroptions"><span class="token">IControllerOptions</span></a> <span class="token punctuation">{</span>
+<pre><code class="typescript-lang "><span class="token keyword">class</span> ControllerProvider <span class="token keyword">extends</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>> <span class="token keyword">implements</span> <a href="#api/common/mvc/icontrolleroptions"><span class="token">IControllerOptions</span></a> <span class="token punctuation">{</span>
     router<span class="token punctuation">:</span> Express.Router<span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>

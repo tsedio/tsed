@@ -6,7 +6,7 @@ import {GlobalProviders} from "../../di/registries/ProviderRegistry";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
 
 /**
- * @deprecated
+ *
  * @type {Registry<Provider, IProvider<any>>}
  */
 export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
@@ -15,12 +15,12 @@ export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER
 });
 
 /**
- * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.
+ * Add a new filter in the `ProviderRegistry`. This filter will be built when `InjectorService` will be loaded.
  *
  * #### Example
  *
  * ```typescript
- * import {registerService, InjectorService} from "@tsed/common";
+ * import {registerFilter, InjectorService} from "@tsed/common";
  *
  * export default class MyFooFilter {
  *     constructor(){}
@@ -36,7 +36,7 @@ export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER
  * InjectorService.load();
  *
  * const myFooService = InjectorService.get<MyFooFilter>(MyFooFilter);
- * MyFooFilter.getFoo(); // test
+ * myFooFilter.getFoo(); // test
  * ```
  *
  * @param provider Provider configuration.

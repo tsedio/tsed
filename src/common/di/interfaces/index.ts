@@ -4,3 +4,4 @@ export * from "./OnInit";
 export * from "./OnInjectorReady";
 export * from "./ProviderScope";
 export * from "./ProviderType";
+export * from "./TypedProvidersRegistry";

@@ -9,7 +9,7 @@ import {registerConverter} from "../registries/ConverterRegistries";
 
 /**
  * `@Converter(...targetTypes)` let you to define some converters for a certain type/Class.
- * It usefull for a generic conversion.
+ * It useful for a generic conversion.
  *
  * @param classes
  * @returns {(customConverter?:any)=>undefined}

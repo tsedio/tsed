@@ -8,18 +8,10 @@
 ### Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">registerService</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <span class="token keyword">any</span> | <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">const</span> registerService<span class="token punctuation">:</span> <span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->
-
-
-Param | Type | Description
----|---|---
- provider|<code>any &#124; <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><any></code>|Provider configuration.
-
-
-
 
 <!-- Description -->
 

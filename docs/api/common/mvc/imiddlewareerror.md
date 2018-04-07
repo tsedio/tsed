@@ -8,8 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">interface</span> IMiddlewareError <span class="token punctuation">{</span>
-    use?<span class="token punctuation">:</span> Function<span class="token punctuation">;</span>
+<pre><code class="typescript-lang "><span class="token keyword">interface</span> IMiddlewareError <span class="token keyword">extends</span> <a href="#api/common/mvc/imiddleware"><span class="token">IMiddleware</span></a> <span class="token punctuation">{</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -18,25 +17,4 @@
 <!-- Description -->
 
 <!-- Members -->
-
-
-
-
-
-
-
-### Members
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang ">use?<span class="token punctuation">:</span> Function</code></pre>
-</div>
-
-
-
-
-
-
-
 

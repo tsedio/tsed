@@ -19,6 +19,8 @@
     instance<span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     type<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> className<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> store<span class="token punctuation">:</span> <a href="#api/core/store"><span class="token">Store</span></a><span class="token punctuation">;</span>
+    scope<span class="token punctuation">:</span> <a href="#api/common/di/providerscope"><span class="token">ProviderScope</span></a><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -130,6 +132,30 @@
 <pre><code class="typescript-lang "><span class="token keyword">readonly</span> className<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 </div>
 
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> store<span class="token punctuation">:</span> <a href="#api/core/store"><span class="token">Store</span></a></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">scope<span class="token punctuation">:</span> <a href="#api/common/di/providerscope"><span class="token">ProviderScope</span></a></code></pre>
+</div>
+
+
+Change the scope value of the provider.
 
 
 

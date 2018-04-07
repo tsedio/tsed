@@ -18,11 +18,11 @@
     <span class="token keyword">static</span> invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<<span class="token keyword">string</span> | Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> requiredScope?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     <span class="token keyword">static</span> construct<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">buildRegistry</span><span class="token punctuation">(</span>registry<span class="token punctuation">:</span> <a href="#api/core/registry"><span class="token">Registry</span></a><<a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> callback?<span class="token punctuation">:</span> <span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/core/registry"><span class="token">Registry</span></a><<a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> typeof InjectorService<span class="token punctuation">;</span>
     get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     <span class="token keyword">static</span> has<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span>><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">service</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">factory</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
@@ -320,17 +320,6 @@ Emit an event to all service. See service [lifecycle hooks](docs/services/lifecy
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">buildRegistry</span><span class="token punctuation">(</span>registry<span class="token punctuation">:</span> <a href="#api/core/registry"><span class="token">Registry</span></a><<a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> callback?<span class="token punctuation">:</span> <span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/core/registry"><span class="token">Registry</span></a><<a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> <span class="token keyword">any</span>></code></pre>
-</div>
-
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
 <pre><code class="typescript-lang deprecated "><span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> typeof <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre>
 </div>
 
@@ -420,6 +409,17 @@ class OtherService {
 
 
 Initialize injectorService and load all services/factories.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
+</div>
+
 
 
 

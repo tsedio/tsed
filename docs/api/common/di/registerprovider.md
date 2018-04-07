@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">registerProvider</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">registerProvider</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> Partial<<a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->
