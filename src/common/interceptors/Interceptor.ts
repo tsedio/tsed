@@ -1,4 +1,4 @@
-import { InjectorService } from "@tsed/common";
+import { InjectorService } from "../di/services/InjectorService";
 
 export interface IInterceptorContext<T = any> {
   target: T;
