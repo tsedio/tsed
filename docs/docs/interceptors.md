@@ -7,11 +7,11 @@ Creating and consuming an interceptor is two-step process.
 
 ## Interceptor class
 
-To create interceptor class you need to implement he ```IInterceptor``` interface and implement the
-```aroundInvoke(ctx: IInterceptorContext)``` method, and use the ```@Interceptor()``` annotaiton to register your interceptor class. Inside your ```src/interceptors/MyInterceptor.ts``` folder create the following simple interceptor.
+To create interceptor class you need to implement he `IInterceptor` interface and implement the
+`aroundInvoke(ctx: IInterceptorContext)` method, and use the `@Interceptor()` annotaiton to register your interceptor class. Inside your `src/interceptors/MyInterceptor.ts` folder create the following simple interceptor.
 
-```ts
-import { IInterceptor, IInterceptorContext, Interceptor } from 'ts-express-decorators';
+```typescript
+import { IInterceptor, IInterceptorContext, Interceptor } from '@tsed/common';
 
 @Interceptor()
 export class MyInterceptor implements IInterceptor {
@@ -43,10 +43,10 @@ export class MyInterceptor implements IInterceptor {
 
 ## Use the interceptor
 
-Now that your interceptor logic is in place you can use it in any other service. You need to use the ```@Intercept(InterceptorClass, opts)``` annotation to register which interceptor should be used for the specific method you want to intercept. An example service in ```src/services/MyService.ts```
+Now that your interceptor logic is in place you can use it in any other service. You need to use the `@Intercept(InterceptorClass, opts)` annotation to register which interceptor should be used for the specific method you want to intercept. An example service in `src/services/MyService.ts`:
 
-```ts
-import { Intercept } from 'ts-express-decorators';
+```typescript
+import { Intercept } from '@tsed/common';
 import { MyInterceptor } from '../interceptors/MyInterceptor';
 
 export class MyService {
@@ -60,9 +60,9 @@ export class MyService {
 }
 ```
 
-If the service method is executed like ```myServiceInstance.mySimpleMethod()``` we will get the following output:
+If the service method is executed like `myServiceInstance.mySimpleMethod()` we will get the following output:
 
-```
+```bash
 the method mySimpleMethod will be executed with args and static data simple data
 the simple method is executed
 the method was executed, and returned undefined
