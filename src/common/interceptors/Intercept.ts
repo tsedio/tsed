@@ -1,5 +1,5 @@
 import { Type } from "@tsed/core";
-import { InjectorService } from "../../di/services/InjectorService";
+import { InjectorService } from "../di/services/InjectorService";
 import { IInterceptor } from "./Interceptor";
 
 /**
