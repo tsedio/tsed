@@ -3,7 +3,7 @@ import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
-import {IO} from "../decorators/IO";
+import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
 import {SocketServiceRegistry} from "../registries/SocketServiceRegistry";
 
