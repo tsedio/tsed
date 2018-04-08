@@ -138,4 +138,19 @@ export class Thingy {
     stuff?: Stuff;
 }
 
+export class Circular {
+    @Property()
+    parent: Circular;
+}
 
+export class Dependency {
+    @Property()
+    dep: any;
+}
+
+export class IndirectCircular {
+    @Property()
+    parent: Dependency;
+}
+
+PropertyType(IndirectCircular)(Dependency, "dep");
