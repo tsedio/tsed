@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="modelstrict">ModelStrict</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label conveters" title="conveters">conveters</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ModelStrict }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.0/src//common/converters/decorators/modelStrict.ts#L0-L0">/common/converters/decorators/modelStrict.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ModelStrict }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.1/src//common/converters/decorators/modelStrict.ts#L0-L0">/common/converters/decorators/modelStrict.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
