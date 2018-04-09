@@ -1,3 +1,4 @@
+import {Store} from "@tsed/core";
 import {ControllerRegistry, ParamRegistry, ProviderRegistry, ProviderType} from "../../../../src/common";
 import {HandlerMetadata} from "../../../../src/common/mvc/class/HandlerMetadata";
 import {MiddlewareType} from "../../../../src/common/mvc/interfaces";
@@ -220,14 +221,12 @@ describe("HandlerMetadata", () => {
             this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
             this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
             this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                provide: getClass(Test),
                 useClass: getClass(Test),
-                type: ProviderType.MIDDLEWARE,
-                store: {
-                    get() {
-                        return MiddlewareType.MIDDLEWARE;
-                    }
-                }
+                type: ProviderType.MIDDLEWARE
             });
+
+            Store.from(Test).set("middlewareType", MiddlewareType.MIDDLEWARE);
             this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
@@ -276,14 +275,13 @@ describe("HandlerMetadata", () => {
             this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(false);
             this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
             this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                provide: getClass(Test),
                 useClass: getClass(Test),
-                type: ProviderType.MIDDLEWARE,
-                store: {
-                    get() {
-                        return MiddlewareType.MIDDLEWARE;
-                    }
-                }
+                type: ProviderType.MIDDLEWARE
             });
+
+            Store.from(Test).set("middlewareType", MiddlewareType.MIDDLEWARE);
+
             this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
@@ -332,14 +330,13 @@ describe("HandlerMetadata", () => {
             this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(true);
             this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
             this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                provide: getClass(Test),
                 useClass: getClass(Test),
-                type: ProviderType.MIDDLEWARE,
-                store: {
-                    get() {
-                        return MiddlewareType.ERROR;
-                    }
-                }
+                type: ProviderType.MIDDLEWARE
             });
+
+            Store.from(Test).set("middlewareType", MiddlewareType.ERROR);
+
             this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test);
@@ -387,14 +384,13 @@ describe("HandlerMetadata", () => {
             this.hasNextFunctionStub = Sinon.stub(ParamRegistry, "hasNextFunction").returns(false);
             this.providerHasStub = Sinon.stub(ProviderRegistry, "has").returns(true);
             this.providerGetStub = Sinon.stub(ProviderRegistry, "get").returns({
+                provide: getClass(Test),
                 useClass: getClass(Test2),
-                type: ProviderType.MIDDLEWARE,
-                store: {
-                    get() {
-                        return MiddlewareType.ERROR;
-                    }
-                }
+                type: ProviderType.MIDDLEWARE
             });
+
+            Store.from(Test).set("middlewareType", MiddlewareType.ERROR);
+
             this.controllerHasStub = Sinon.stub(ControllerRegistry, "has").returns(false);
 
             this.handlerMetadata = new HandlerMetadata(Test2);

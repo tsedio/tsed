@@ -1,4 +1,4 @@
-import {NotEnumerable} from "@tsed/core";
+import {NotEnumerable, Store} from "@tsed/core";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
@@ -57,7 +57,7 @@ export class HandlerMetadata {
 
             if (provider.type === ProviderType.MIDDLEWARE) {
                 this._type = "middleware";
-                this._errorParam = provider.store.get("middlewareType") === MiddlewareType.ERROR;
+                this._errorParam = Store.from(provider.provide).get("middlewareType") === MiddlewareType.ERROR;
                 this._methodClassName = "use";
                 this._useClass = target = provider.useClass;
             }
