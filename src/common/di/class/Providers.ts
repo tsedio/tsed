@@ -1,5 +1,4 @@
-import {Registry, Type} from "@tsed/core";
-import {RegistryKey} from "../../../core/class/Registry";
+import {Registry, Type, RegistryKey} from "@tsed/core";
 import {IProvider, TypedProvidersRegistry} from "../interfaces";
 import {RegistrySettings} from "../interfaces/RegistrySettings";
 import {Provider} from "./Provider";
