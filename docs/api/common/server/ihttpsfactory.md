@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="ihttpsfactory">IHttpsFactory</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label private" title="private">private</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IHttpsFactory }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/server/decorators/httpsServer"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.1/src//common/server/decorators/httpsServer.ts#L0-L0">/common/server/decorators/httpsServer.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IHttpsFactory }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/server/decorators/httpsServer"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.2/src//common/server/decorators/httpsServer.ts#L0-L0">/common/server/decorators/httpsServer.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
