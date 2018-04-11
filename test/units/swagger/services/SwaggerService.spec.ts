@@ -116,6 +116,7 @@ describe("SwaggerService", () => {
                 this.getStub = Sinon.stub(this.settingsService, "get").returns({
                     path: "/path",
                     specPath: "/path/to/spec",
+                    outFile: "/path/to/specOut",
                     showExplorer: true,
                     options: {options: "true"}
                 });
@@ -149,6 +150,10 @@ describe("SwaggerService", () => {
                 this.expressApplication.get.should.be.calledWithExactly("/path/swagger.json", Sinon.match.func);
                 this.expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
                 this.expressApplication.get.should.be.calledWithExactly("/path", {setup: "setup"});
+            });
+            it("should write spec.json", () => {
+                this.writeFileSyncStub.should.be.calledOnce;
+                this.writeFileSyncStub.should.be.calledWithExactly("/path/to/specOut", JSON.stringify({spec: "test"}, null, 2));
             });
         });
 

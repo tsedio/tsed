@@ -53,6 +53,10 @@ export class SwaggerService {
 
             this.expressApplication.use(path, this.middleware().serve);
             this.expressApplication.get(path, this.middleware().setup(spec, conf.showExplorer, conf.options || {}, cssContent));
+
+            if (conf.outFile) {
+                Fs.writeFileSync(conf.outFile, JSON.stringify(spec, null, 2));
+            }
         }
 
     }
