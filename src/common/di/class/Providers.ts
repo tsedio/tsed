@@ -1,4 +1,4 @@
-import {Registry, Type, RegistryKey} from "@tsed/core";
+import {Registry, RegistryKey, Type} from "@tsed/core";
 import {IProvider, TypedProvidersRegistry} from "../interfaces";
 import {RegistrySettings} from "../interfaces/RegistrySettings";
 import {Provider} from "./Provider";
@@ -41,7 +41,16 @@ export class Providers extends Registry<Provider<any>, IProvider<any>> {
      * @returns {RegistrySettings | undefined}
      */
     getRegistrySettings(target: string | RegistryKey): RegistrySettings {
-        const type: string = typeof target === "string" ? target : this.get(target)!.type;
+        let type: string = "provider";
+
+        if (typeof target === "string") {
+            type = target;
+        } else {
+            const provider = this.get(target);
+            if (provider) {
+                type = provider.type;
+            }
+        }
 
         if (this._registries.has(type)) {
             return this._registries.get(type)!;

@@ -5,7 +5,6 @@ import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE} from "../../filters/constants";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {MiddlewareType} from "../interfaces";
-import {ControllerRegistry} from "../registries/ControllerRegistry";
 
 
 export class HandlerMetadata {
@@ -52,8 +51,8 @@ export class HandlerMetadata {
         let target = this._target;
 
         if (ProviderRegistry.has(this._target)) {
-
             const provider = ProviderRegistry.get(this._target)!;
+            this._type = provider.type;
 
             if (provider.type === ProviderType.MIDDLEWARE) {
                 this._type = "middleware";
@@ -61,10 +60,6 @@ export class HandlerMetadata {
                 this._methodClassName = "use";
                 this._useClass = target = provider.useClass;
             }
-        }
-
-        if (ControllerRegistry.has(this._target)) {
-            this._type = "controller";
         }
 
         if (this._methodClassName) {
@@ -78,7 +73,6 @@ export class HandlerMetadata {
             this._errorParam = handler.length === 4;
             this._nextFunction = handler.length >= 3;
         }
-
     }
 
     get type() {

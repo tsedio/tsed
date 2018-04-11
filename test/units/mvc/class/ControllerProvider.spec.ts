@@ -13,7 +13,6 @@ describe("ControllerProvider", () => {
     before(() => {
         this.ControllerProvider = new ControllerProvider(Test);
         this.ControllerProvider.path = "/";
-        this.ControllerProvider.pushRouterPath("/");
         this.ControllerProvider.dependencies = [Test2];
         this.ControllerProvider.scope = "request";
         this.ControllerProvider.routerOptions = {};
@@ -30,10 +29,6 @@ describe("ControllerProvider", () => {
 
     it("should get path", () =>
         expect(this.ControllerProvider.path).to.equal("/")
-    );
-
-    it("should get routerPaths", () =>
-        expect(this.ControllerProvider.routerPaths).to.be.an("array").and.have.length(1)
     );
 
     it("should get endpoints", () =>

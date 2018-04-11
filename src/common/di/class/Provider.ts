@@ -106,7 +106,11 @@ export class Provider<T> implements IProvider<T> {
      * @returns {boolean}
      */
     get scope(): ProviderScope {
-        return this.store.get("scope") || globalServerSettings.controllerScope;
+        if (this.type === ProviderType.CONTROLLER) {
+            return this.store.get("scope") || globalServerSettings.controllerScope;
+        }
+
+        return this.store.get("scope");
     }
 
     /**

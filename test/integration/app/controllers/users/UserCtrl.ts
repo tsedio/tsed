@@ -1,9 +1,9 @@
-import {Controller, Get, PathParams, Scope} from "@tsed/common";
+import {Controller, Get, PathParams, ProviderScope, Scope} from "@tsed/common";
 import {Hidden} from "../../../../../src/swagger";
 import {UserService} from "../../services/UserService";
 
 @Controller("/user")
-@Scope("request")
+@Scope(ProviderScope.REQUEST)
 @Hidden()
 export class UserCtrl {
 
