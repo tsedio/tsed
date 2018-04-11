@@ -1,4 +1,5 @@
-import {Type, isArrayOrArrayClass} from "@tsed/core";
+import {registerController} from "@tsed/common";
+import {isArrayOrArrayClass, Type} from "@tsed/core";
 import {IControllerOptions} from "../../interfaces/IControllerOptions";
 import {PathParamsType} from "../../interfaces/PathParamsType";
 import {ControllerRegistry} from "../../registries/ControllerRegistry";
@@ -29,6 +30,9 @@ import {ControllerRegistry} from "../../registries/ControllerRegistry";
  */
 export function Controller(path: PathParamsType | IControllerOptions, ...dependencies: Type<any>[]): Function {
     return (target: any): void => {
+
+        registerController(target);
+
         if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
             ControllerRegistry.merge(target, {path: (path as PathParamsType), dependencies});
         } else {

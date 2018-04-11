@@ -23,11 +23,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      */
     @NotEnumerable()
     private _routerOptions: IRouterOptions;
-    /**
-     * The path for the RouterController when the controller will be mounted to the Express Application.
-     */
-    @NotEnumerable()
-    private _routerPaths: string[] = [];
+
     /**
      * Controllers that depend to this controller.
      * @type {Array}
@@ -65,11 +61,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      */
     set path(value: string) {
         this._path = value;
-    }
-
-
-    get routerPaths(): string[] {
-        return this._routerPaths;
     }
 
     /**
@@ -140,14 +131,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
         Object.keys(middlewares).forEach((key: string) => {
             concat(key, this._middlewares, middlewares);
         });
-    }
-
-    /**
-     *
-     * @param {string} path
-     */
-    public pushRouterPath(path: string) {
-        this._routerPaths.push(path);
     }
 
     /**

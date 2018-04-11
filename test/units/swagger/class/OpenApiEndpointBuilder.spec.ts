@@ -13,7 +13,8 @@ describe("OpenApiParamsBuilder", () => {
         this.builder = new OpenApiEndpointBuilder(
             this.endpointMetadata,
             "/test",
-            {path: "/", "method": "get"}
+            {path: "/", "method": "get"},
+            (s: any) => s
         );
         // this.builder.build();
     });
