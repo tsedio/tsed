@@ -1,12 +1,12 @@
-import * as Express from "express";
 import {Type} from "@tsed/core";
+import * as Express from "express";
+import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {ControllerProvider} from "./ControllerProvider";
 
 import {EndpointBuilder} from "./EndpointBuilder";
 import {HandlerBuilder} from "./HandlerBuilder";
-import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
 
 export class ControllerBuilder {
 
@@ -33,16 +33,16 @@ export class ControllerBuilder {
 
         ctrl.dependencies
             .forEach((child: Type<any>) => {
-                const ctrlMeta = ControllerRegistry.get(child);
+                const provider = ControllerRegistry.get(child) as ControllerProvider;
 
                 /* istanbul ignore next */
-                if (!ctrlMeta) {
+                if (!provider) {
                     throw new Error("Controller component not found in the ControllerRegistry");
                 }
 
-                const ctrlBuilder = new ControllerBuilder(ctrlMeta, this.defaultRoutersOptions).build();
+                const ctrlBuilder = new ControllerBuilder(provider, this.defaultRoutersOptions).build();
 
-                this.provider.router.use(ctrlMeta.path, ctrlBuilder.provider.router);
+                this.provider.router.use(provider.path, ctrlBuilder.provider.router);
             });
 
 

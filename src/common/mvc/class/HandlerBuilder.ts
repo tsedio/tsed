@@ -8,9 +8,6 @@ import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
 import {CastError} from "../errors/CastError";
-import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {ExpressRouter} from "../services/ExpressRouter";
-import {RouterController} from "../services/RouterController";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
 
@@ -62,52 +59,28 @@ export class HandlerBuilder {
 
     /**
      *
+     * @param locals
      * @returns {any}
      */
-    private middlewareHandler(): Function {
+    private buildHandler<T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
+
         const provider = ProviderRegistry.get(this.handlerMetadata.target);
 
         /* istanbul ignore next */
         if (!provider) {
-            throw new Error(`${nameOf(this.handlerMetadata.target)} middleware component not found in the MiddlewareRegistry`);
-        }
-
-        let instance = provider.instance;
-        this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
-
-        if (this._rebuildHandler) {
-            instance = InjectorService.invoke(provider.useClass, undefined, undefined, true);
-        }
-
-        return instance.use.bind(instance);
-    }
-
-    /**
-     *
-     * @param locals
-     * @returns {any}
-     */
-    private endpointHandler<T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
-
-        const provider = ControllerRegistry.get(this.handlerMetadata.target);
-        /* istanbul ignore next */
-        if (!provider) {
-            throw new Error("Controller component not found in the ControllerRegistry");
+            throw new Error(`${nameOf(this.handlerMetadata.target)} component not found in the ProviderRegistry`);
         }
 
         const target = provider.useClass;
+        let instance = provider.instance;
+
         this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
 
-        if (this._rebuildHandler || provider.instance === undefined) {
-            if (!locals.has(ExpressRouter)) {
-                locals.set(RouterController, new RouterController(provider.router));
-                locals.set(ExpressRouter, provider.router);
-            }
-
-            provider.instance = InjectorService.invoke<T>(target, locals, undefined, true);
+        if (this._rebuildHandler || instance === undefined) {
+            instance = InjectorService.invoke<T>(target, locals, undefined, true);
         }
 
-        return provider.instance[this.handlerMetadata.methodClassName!].bind(provider.instance);
+        return instance[this.handlerMetadata.methodClassName!].bind(instance);
     }
 
     /**
@@ -124,11 +97,8 @@ export class HandlerBuilder {
                 this._handler = this.handlerMetadata.target;
                 break;
             case "middleware":
-                this._handler = this.middlewareHandler();
-                break;
-
             case "controller":
-                this._handler = this.endpointHandler();
+                this._handler = this.buildHandler();
                 break;
         }
 

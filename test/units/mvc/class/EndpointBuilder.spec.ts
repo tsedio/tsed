@@ -1,27 +1,13 @@
 import * as Express from "express";
-import * as Proxyquire from "proxyquire";
 import {globalServerSettings} from "../../../../src/common/config";
+import {EndpointBuilder} from "../../../../src/common/mvc/class/EndpointBuilder";
 
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
+import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";
-
-
-const HandlerBuilder = {
-    from: Sinon.stub().returns({
-        build: Sinon.stub().returns(() => {
-
-        })
-    })
-};
-
-const {EndpointBuilder} = Proxyquire("../../../../src/common/mvc/class/EndpointBuilder", {
-    "./HandlerBuilder": {
-        HandlerBuilder
-    }
-});
 
 class Test {
     method() {
@@ -33,6 +19,13 @@ describe("EndpointBuilder", () => {
 
     before(inject([], () => {
         this.router = Express.Router();
+        this.builder = {
+            build: Sinon.stub().returns(() => {
+
+            })
+        };
+        this.fromStub = Sinon.stub(HandlerBuilder, "from").returns(this.builder);
+
         Sinon.stub(this.router, "use");
         Sinon.stub(this.router, "get");
 
@@ -43,6 +36,7 @@ describe("EndpointBuilder", () => {
     after(() => {
         this.router.get.restore();
         this.router.use.restore();
+        this.fromStub.restore();
         delete this.router;
         delete this.endpointMetadata;
         delete this.endpointBuilder;
@@ -64,7 +58,7 @@ describe("EndpointBuilder", () => {
                 });
 
                 it("should call HandlerBuilder", () => {
-                    expect(HandlerBuilder.from.called).to.eq(true);
+                    return this.fromStub.should.have.been.called;
                 });
 
                 it("should call use method", () =>
@@ -89,7 +83,7 @@ describe("EndpointBuilder", () => {
                 });
 
                 it("should call HandlerBuilder", () => {
-                    expect(HandlerBuilder.from.called).to.eq(true);
+                    return this.fromStub.should.have.been.called;
                 });
 
                 it("should call use method", () =>
@@ -116,7 +110,7 @@ describe("EndpointBuilder", () => {
             });
 
             it("should call HandlerBuilder", () => {
-                expect(HandlerBuilder.from.called).to.eq(true);
+                return this.fromStub.should.have.been.called;
             });
 
             it("should call get method", () =>

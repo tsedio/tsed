@@ -8,22 +8,14 @@ import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 
 /** */
 
-const OPERATION_IDS: any = {};
-
-const getOperationId = (operationId: string) => {
-    if (OPERATION_IDS[operationId] !== undefined) {
-        OPERATION_IDS[operationId]++;
-        operationId = operationId + "_" + OPERATION_IDS[operationId];
-    } else {
-        OPERATION_IDS[operationId] = 0;
-    }
-    return operationId;
-};
 
 export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     private _paths: { [pathName: string]: Path } = {};
 
-    constructor(private endpoint: EndpointMetadata, private endpointUrl: string, private pathMethod: ExpressPathMethod) {
+    constructor(private endpoint: EndpointMetadata,
+                private endpointUrl: string,
+                private pathMethod: ExpressPathMethod,
+                private getOperationId: Function) {
         super(endpoint.target);
     }
 
@@ -34,7 +26,8 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
         const consumes = this.endpoint.get("consumes") || [];
         const responses = this.endpoint.get("responses") || {};
         const security = this.endpoint.get("security") || [];
-        const operationId = getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
+
+        const operationId = this.getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
         const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
 
         openApiParamsBuilder

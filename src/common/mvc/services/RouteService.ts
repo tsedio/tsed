@@ -24,47 +24,20 @@ export class RouteService {
     }
 
     /**
-     * Get all routes builded by TsExpressDecorators and mounted on Express application.
+     * Get all routes built by TsExpressDecorators and mounted on Express application.
      * @returns {IControllerRoute[]}
      */
     public getRoutes(): IControllerRoute[] {
 
         let routes: IControllerRoute[] = [];
 
-        this.controllerService.forEach((provider: ControllerProvider) => {
-            if (!provider.hasParent()) {
-
-                provider.routerPaths.forEach(path => {
-                    this.buildRoutes(routes, provider, provider.getEndpointUrl(path));
-                });
-
-
-            }
+        this.controllerService.routes.forEach((config: { route: string, provider: ControllerProvider }) => {
+            this.buildRoutes(routes, config.provider, config.route);
         });
 
         return routes;
     }
 
-    /**
-     * Sort controllers infos.
-     * @param routeA
-     * @param routeB
-     * @returns {number}
-     */
-    private sort = (routeA: IControllerRoute, routeB: IControllerRoute) => {
-
-        /* istanbul ignore next */
-        if (routeA.url > routeB.url) {
-            return 1;
-        }
-
-        /* istanbul ignore next */
-        if (routeA.url < routeB.url) {
-            return -1;
-        }
-        /* istanbul ignore next */
-        return 0;
-    };
     /**
      *
      * @param routes
