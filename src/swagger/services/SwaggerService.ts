@@ -18,6 +18,7 @@ import {getReducers} from "../utils";
 
 @Service()
 export class SwaggerService {
+    private OPERATION_IDS: any = {};
 
     constructor(private controllerService: ControllerService,
                 private serverSettingsService: ServerSettingsService,
@@ -79,12 +80,9 @@ export class SwaggerService {
         const definitions = {};
         let tags: Tag[] = [];
 
-        this.controllerService.forEach((provider: ControllerProvider) => {
-            if (!provider.hasParent() && !provider.store.get("hidden")) {
-                provider.routerPaths.forEach(path => {
-                    this.buildRoutes(paths, definitions, provider, provider.getEndpointUrl(path));
-                });
-
+        this.controllerService.routes.forEach(({provider, route}) => {
+            if (!provider.store.get("hidden")) {
+                this.buildRoutes(paths, definitions, provider, route);
                 tags.push(this.buildTags(provider));
             }
         });
@@ -186,7 +184,7 @@ export class SwaggerService {
             endpoint.pathsMethods.forEach((pathMethod) => {
                 /* istanbul ignore else */
                 if (!!pathMethod.method) {
-                    const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod)
+                    const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod, this.getOperationId)
                         .build();
 
                     deepExtends(paths, builder.paths);
@@ -208,4 +206,14 @@ export class SwaggerService {
             ctrlStore.get("tag") || {}
         );
     }
+
+    private getOperationId = (operationId: string) => {
+        if (this.OPERATION_IDS[operationId] !== undefined) {
+            this.OPERATION_IDS[operationId]++;
+            operationId = operationId + "_" + this.OPERATION_IDS[operationId];
+        } else {
+            this.OPERATION_IDS[operationId] = 0;
+        }
+        return operationId;
+    };
 }

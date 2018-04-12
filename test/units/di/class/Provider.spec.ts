@@ -1,8 +1,9 @@
-import {assert, expect} from "chai";
 import {Provider} from "../../../../src/common/di/class/Provider";
+import {expect} from "../../../tools";
 
 class T1 {
 }
+
 class T2 {
 }
 
@@ -47,6 +48,4 @@ describe("Provider", () => {
             expect(this.provider.type).to.equal("typeTest");
         });
     });
-
-
 });

@@ -8,7 +8,7 @@ describe("ServerSettingsProvider", () => {
     describe("Test ENV", () => {
 
         before(() => {
-            
+
             const serverSettingsProvider = new ServerSettingsProvider();
             serverSettingsProvider.env = Env.TEST;
 
@@ -96,12 +96,16 @@ describe("ServerSettingsProvider", () => {
             expect(this.serverSettingsProvider.env).to.equal("test");
         });
 
-        it("should return env", () => {
+        it("should return version", () => {
             expect(this.serverSettingsService.version).to.equal("1.0.0");
         });
 
-        it("should return env", () => {
+        it("should return routers", () => {
             expect(this.serverSettingsService.routers).to.deep.equal({mergeParams: true});
+        });
+
+        it("should return controllerScope", () => {
+            expect(this.serverSettingsService.controllerScope).to.equal("singleton");
         });
 
 

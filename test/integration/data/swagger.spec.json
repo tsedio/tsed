@@ -46,9 +46,6 @@
     {
       "name": "CalendarCtrl",
       "description": "Controller description"
-    },
-    {
-      "name": "FakeCtrl"
     }
   ],
   "paths": {

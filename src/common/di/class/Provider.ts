@@ -1,5 +1,4 @@
 import {getClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
-import {globalServerSettings} from "../../config/services/GlobalSettings";
 import {ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
@@ -89,6 +88,10 @@ export class Provider<T> implements IProvider<T> {
         this._type = value;
     }
 
+    /**
+     *
+     * @returns {string}
+     */
     get className() {
         return nameOf(this.provide);
     }
@@ -106,7 +109,7 @@ export class Provider<T> implements IProvider<T> {
      * @returns {boolean}
      */
     get scope(): ProviderScope {
-        return this.store.get("scope") || globalServerSettings.controllerScope;
+        return this.store.get("scope");
     }
 
     /**
