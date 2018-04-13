@@ -1,24 +1,23 @@
-import {
-    HttpServer,
-    HttpsServer,
-    Inject,
-    OnServerReady,
-    ProviderRegistry,
-    ProviderStorable,
-    ServerSettingsService,
-    Service
-} from "@tsed/common";
+import {HttpServer, HttpsServer, Inject, OnServerReady, Provider, ServerSettingsService, Service} from "@tsed/common";
 import {nameOf} from "@tsed/core";
+import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
-import {IO} from "../";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
+import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
+import {SocketServiceRegistry} from "../registries/SocketServiceRegistry";
 
 /**
  *
  */
 @Service()
 export class SocketIOService implements OnServerReady {
+    /**
+     *
+     * @type {Map<any, any>}
+     */
+    private namespaces: Map<string, { nsp: SocketIO.Namespace, instances: any }> = new Map();
+
     constructor(@Inject(HttpServer) private httpServer: HttpServer,
                 @Inject(HttpsServer) private httpsServer: HttpsServer,
                 @IO private io: SocketIO.Server,
@@ -27,7 +26,7 @@ export class SocketIOService implements OnServerReady {
     }
 
     $onServerReady() {
-        const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO");
+        const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
         const httpPort = this.serverSettingsService.httpPort;
         const httpsPort = this.serverSettingsService.httpsPort;
 
@@ -38,6 +37,10 @@ export class SocketIOService implements OnServerReady {
             this.io.attach(this.httpsServer.get(), config);
         }
 
+        if (config.adapter) {
+            this.io.adapter(config.adapter);
+        }
+
         this.getWebsocketServices().forEach(provider => this.bindProvider(provider));
 
         this.printSocketEvents();
@@ -45,29 +48,50 @@ export class SocketIOService implements OnServerReady {
 
     /**
      *
-     * @returns {ProviderStorable<any>[]}
+     * @returns {Provider<any>[]}
      */
-    public getWebsocketServices(): ProviderStorable<any>[] {
-        const websockets: ProviderStorable<any>[] = [];
-
-        ProviderRegistry.forEach((provider) => {
-            if (provider.store.has("socketIO") && provider.store.get("socketIO").namespace !== undefined) {
-                websockets.push(provider);
-            }
-        });
-
-        return websockets;
+    public getWebsocketServices(): Provider<any>[] {
+        return Array.from(SocketServiceRegistry.values());
     }
 
     /**
      *
-     * @param {ProviderStorable<any>} provider
+     * @param {string} namespace
+     * @returns {SocketIO.Namespace}
      */
-    private bindProvider(provider: ProviderStorable<any>) {
-        const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
-        const ws = this.io.of(wsConfig.namespace!);
+    public getNsp(namespace: string = "/"): { nsp: SocketIO.Namespace, instances: any[] } {
+        if (!this.namespaces.has(namespace)) {
+            const conf = {nsp: this.io.of(namespace), instances: []};
 
-        new SocketHandlersBuilder(provider).build(ws);
+            this.namespaces.set(namespace, conf);
+
+            conf.nsp.on("connection", (socket) => {
+                conf.instances.forEach((builder: SocketHandlersBuilder) => {
+                    builder.onConnection(socket, conf.nsp);
+                });
+
+                socket.on("disconnect", () => {
+                    conf.instances.forEach((builder: SocketHandlersBuilder) => {
+                        builder.onDisconnect(socket, conf.nsp);
+                    });
+                });
+            });
+        }
+
+        return this.namespaces.get(namespace)!;
+    }
+
+    /**
+     *
+     * @param {Provider<any>} provider
+     */
+    private bindProvider(provider: Provider<any>) {
+        const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
+
+        const nspConfig = this.getNsp(wsConfig.namespace);
+        const builder = new SocketHandlersBuilder(provider).build(nspConfig.nsp);
+
+        nspConfig.instances.push(builder);
     }
 
     /**
@@ -75,14 +99,13 @@ export class SocketIOService implements OnServerReady {
      * @param logger
      */
     private printSocketEvents(logger: { info: (s: any) => void } = $log) {
-        const list = this
-            .getWebsocketServices()
+        const list = this.getWebsocketServices()
             .reduce((acc: any[], provider) => {
                 const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
 
                 if (namespace) {
                     Object.keys(handlers)
-                        .filter(key => key !== "$onConnection")
+                        .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
                         .forEach((key: string) => {
                             const handler = handlers[key];
                             acc.push({

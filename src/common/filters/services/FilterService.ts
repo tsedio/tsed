@@ -1,30 +1,16 @@
-import {ProxyRegistry, Type} from "@tsed/core";
-import {$log} from "ts-log-debug";
+import {Deprecated, ProxyRegistry, Type} from "@tsed/core";
+import {Provider} from "../../di/class/Provider";
 import {Service} from "../../di/decorators/service";
 import {IProvider} from "../../di/interfaces/IProvider";
 import {InjectorService} from "../../di/services/InjectorService";
-import {FilterProvider} from "../class/FilterProvider";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
 import {IFilter} from "../interfaces";
 import {FilterRegistry} from "../registries/FilterRegistry";
 
 @Service()
-export class FilterService extends ProxyRegistry<FilterProvider, IProvider<any>> {
+export class FilterService extends ProxyRegistry<Provider<any>, IProvider<any>> {
     constructor(private injectorService: InjectorService) {
         super(FilterRegistry);
-    }
-
-    /**
-     *
-     */
-    $onInit() {
-
-        /* istanbul ignore next */
-        $log.debug("Build filters");
-
-        InjectorService.buildRegistry(FilterRegistry);
-
-        $log.debug("Filters registry built");
     }
 
     /**
@@ -32,33 +18,44 @@ export class FilterService extends ProxyRegistry<FilterProvider, IProvider<any>>
      * @param target
      * @returns {ControllerProvider}
      */
-    static get = (target: Type<any>): FilterProvider | undefined =>
-        FilterRegistry.get(target);
+    @Deprecated("Feature removed")
+    /* istanbul ignore next */
+    static get(target: Type<any>): Provider<any> | undefined {
+        return FilterRegistry.get(target);
+    }
 
     /**
      *
+     * @deprecated
      * @param target
      * @param provider
      */
-    static set(target: Type<any>, provider: FilterProvider) {
+    @Deprecated("Feature removed")
+    /* istanbul ignore next */
+    static set(target: Type<any>, provider: Provider<any>) {
         FilterRegistry.set(target, provider);
         return this;
     }
 
     /**
-     *
+     * @deprecated
      * @param target
      */
-    static has = (target: Type<any>): boolean =>
-        FilterRegistry.has(target);
+    @Deprecated("Feature removed")
+    /* istanbul ignore next */
+    static has(target: Type<any>): boolean {
+        return FilterRegistry.has(target);
+    }
 
     /**
-     *
+     * @deprecated
      * @param target
      * @param locals
      * @param designParamTypes
      * @returns {T}
      */
+    @Deprecated("Use injectorService.invoke instead of")
+    /* istanbul ignore next */
     invoke<T extends IFilter>(target: Type<T>, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
         return this.injectorService.invoke<T>(target, locals, designParamTypes);
     }
@@ -70,21 +67,13 @@ export class FilterService extends ProxyRegistry<FilterProvider, IProvider<any>>
      * @returns {any}
      */
     invokeMethod<T extends IFilter>(target: Type<T>, ...args: any[]): any {
+        const instance = this.injectorService.get(target);
 
-        if (!this.has(target)) {
+        if (!instance || !instance.transform) {
             throw new UnknowFilterError(target);
         }
 
-        const provider = this.get(target);
-
-        /* istanbul ignore next */
-        if (!provider) {
-            throw new Error("Target component not found in the registry");
-        }
-
-        const instance = provider.instance || this.invoke(provider.useClass);
-
-        return instance.transform(...args);
+        const [expression, request, response] = args;
+        return instance.transform(expression, request, response);
     }
-
 }

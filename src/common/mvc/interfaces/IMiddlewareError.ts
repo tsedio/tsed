@@ -1,8 +1,9 @@
 /**
  *
  */
-export interface IMiddlewareError {
-    use?: Function;
+import {IMiddleware} from "./IMiddleware";
+
+export interface IMiddlewareError extends IMiddleware {
 }
 
 

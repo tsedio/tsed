@@ -1,9 +1,8 @@
-import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
+import {invoke} from "@tsed/testing";
 import {HttpServer} from "../../../../src/common/server/decorators/httpServer";
 import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../src/socketio";
-import {invoke} from "../../../../src/testing";
-import {expect, Sinon} from "../../../tools";
+import {Sinon} from "../../../tools";
 
 describe("SocketIOService", () => {
     describe("$onServerReady()", () => {
@@ -11,7 +10,7 @@ describe("SocketIOService", () => {
             let socketIOService: any;
 
             before(() => {
-                this.socketIOServer = {attach: Sinon.stub()};
+                this.socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
                 this.httpServer = {get: Sinon.stub().returns("httpServer")};
                 this.httpsServer = {get: Sinon.stub().returns("httpsServer")};
 
@@ -27,7 +26,7 @@ describe("SocketIOService", () => {
 
                 this.getWebsocketServicesStub.returns([{provider: "provider"}]);
 
-                socketIOService.serverSettingsService.set("socketIO", {config: "config"});
+                socketIOService.serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
                 socketIOService.$onServerReady();
             });
 
@@ -38,8 +37,14 @@ describe("SocketIOService", () => {
             });
 
             it("should call attach method", () => {
-                this.socketIOServer.attach.should.have.been.calledWithExactly("httpServer", {config: "config"});
-                this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {config: "config"});
+                this.socketIOServer.attach.should.have.been.calledWithExactly("httpServer", {
+                    adapter: "adapter",
+                    config: "config"
+                });
+                this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {
+                    adapter: "adapter",
+                    config: "config"
+                });
             });
 
             it("should call getWebsocketServices method", () => {
@@ -48,6 +53,10 @@ describe("SocketIOService", () => {
 
             it("should call bind provider method", () => {
                 this.bindProviderStub.should.have.been.calledWithExactly({provider: "provider"});
+            });
+
+            it("should call io.adaptater", () => {
+                this.socketIOServer.adapter.should.have.been.calledWithExactly("adapter");
             });
         });
         describe("with https server", () => {
@@ -96,27 +105,48 @@ describe("SocketIOService", () => {
         });
     });
 
-    describe("getWebsocketServices()", () => {
+    describe("getNsp()", () => {
         before(() => {
-            const service = new SocketIOService({} as any, {} as any, {} as any, {} as any);
-            this.forEachStub = Sinon.stub(ProviderRegistry, "forEach");
-            this.providerStub = {
-                store: {
-                    has: Sinon.stub().returns(true),
-                    get: Sinon.stub().returns({namespace: "/"})
-                }
+            this.namespace = {
+                on: Sinon.stub()
+            };
+            this.ioStub = {
+                of: Sinon.stub().returns(this.namespace)
+            };
+            this.instance = {
+                onConnection: Sinon.stub(),
+                onDisconnect: Sinon.stub()
+            };
+            this.socket = {
+                on: Sinon.stub()
             };
 
-            this.result = service.getWebsocketServices();
-            this.forEachStub.getCall(0).args[0](this.providerStub);
+            const service = new SocketIOService({} as any, {} as any, this.ioStub, {} as any);
+            const nspConf = service.getNsp("/");
+            nspConf.instances.push(this.instance);
+
+            this.namespace.on.getCall(0).args[1](this.socket);
+            this.socket.on.getCall(0).args[1]();
         });
 
-        after(() => {
-            this.forEachStub.restore();
+        it("should call io.of and create namespace", () => {
+            this.ioStub.of.should.have.been.calledWithExactly("/");
         });
 
-        it("should returns a list of socket provider", () => {
-            expect(this.result).to.deep.eq([this.providerStub]);
+        it("should call namespace.on", () => {
+            this.namespace.on.should.have.been.calledWithExactly("connection", Sinon.match.func);
+        });
+
+        it("should call builder.onConnection", () => {
+            this.instance.onConnection.should.have.been.calledWithExactly(this.socket, this.namespace);
+        });
+
+        it("should call socket.on when socket is disconnected", () => {
+            this.socket.on.should.have.been.calledWithExactly("disconnect", Sinon.match.func);
+        });
+
+        it("should call builder.onDisconnect", () => {
+            this.instance.onDisconnect.should.have.been.calledWithExactly(this.socket, this.namespace);
         });
     });
 });

@@ -1,6 +1,6 @@
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {createModel, createSchema} from "../utils";
-import {registerModel} from "../utils/registerModel";
+import {registerModel} from "../registries/MongooseModelRegistry";
 import {applySchemaOptions} from "../utils/schemaOptions";
 
 

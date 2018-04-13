@@ -1,9 +1,15 @@
 # Interceptors
+> Beta feature. Need improvement. You can contribute !
 
 Creating and consuming an interceptor is two-step process.
 
 1. Create and annotate the interceptor class that will intercept calls to service methods
 2. Decide which methods will be intercepted by which interceptor
+
+## Decorators
+
+<ul class="api-list"><li class="api-item" data-symbol="common/interceptors;Intercept;decorator;@;false;false;false;false"><a href="#/api/common/interceptors/intercept"class="symbol-container symbol-type-decorator symbol-name-commoninterceptors-Intercept"title="Intercept"><span class="symbol decorator"></span>Intercept</a></li><li class="api-item" data-symbol="common/interceptors;Interceptor;decorator;@;false;false;false;false"><a href="#/api/common/interceptors/interceptor"class="symbol-container symbol-type-decorator symbol-name-commoninterceptors-Interceptor"title="Interceptor"><span class="symbol decorator"></span>Interceptor</a></li></ul>
+
 
 ## Interceptor class
 
@@ -67,3 +73,8 @@ the method mySimpleMethod will be executed with args and static data simple data
 the simple method is executed
 the method was executed, and returned undefined
 ```
+
+<div class="guide-links">
+<a href="#/docs/filters">Filters</a>
+<a href="#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
+</div>

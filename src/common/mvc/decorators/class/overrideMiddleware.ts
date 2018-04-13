@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
+import {OverrideProvider} from "../../../di/decorators/overrideProvider";
 import {IMiddleware} from "../../interfaces";
-import {MiddlewareRegistry} from "../../registries/MiddlewareRegistry";
 
 /**
  * Override a middleware which is already registered in MiddlewareRegistry.
@@ -30,9 +30,4 @@ import {MiddlewareRegistry} from "../../registries/MiddlewareRegistry";
  * @returns {Function}
  * @decorators
  */
-export function OverrideMiddleware(targetMiddleware: Type<any> & IMiddleware): Function {
-    return (target: any): void => {
-        MiddlewareRegistry.merge(targetMiddleware, {useClass: target});
-        return target;
-    };
-}
+export const OverrideMiddleware = OverrideProvider;

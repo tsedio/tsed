@@ -10,11 +10,5 @@ import {registerService} from "../registries/ProviderRegistry";
  * @decorator
  */
 export function Service(): Function {
-
-    return (target: any): void => {
-
-        registerService(target);
-
-        return target;
-    };
+    return registerService;
 }

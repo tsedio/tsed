@@ -1,14 +1,18 @@
 import {getClass, NotEnumerable, Type} from "@tsed/core";
 import * as Express from "express";
 import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
-import {ProviderStorable} from "../../di/class/ProviderStorable";
+import {Provider} from "../../di/class/Provider";
 
 import {IControllerMiddlewares, IControllerOptions} from "../interfaces";
-import {IChildrenController} from "../interfaces/IChildrenController";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
 
-export class ControllerProvider extends ProviderStorable<any> implements IControllerOptions {
+
+export interface IChildrenController extends Type<any> {
+    $parentCtrl?: ControllerProvider;
+}
+
+export class ControllerProvider extends Provider<any> implements IControllerOptions {
     /**
      * The path for the controller
      */
@@ -19,11 +23,7 @@ export class ControllerProvider extends ProviderStorable<any> implements IContro
      */
     @NotEnumerable()
     private _routerOptions: IRouterOptions;
-    /**
-     * The path for the RouterController when the controller will be mounted to the Express Application.
-     */
-    @NotEnumerable()
-    private _routerPaths: string[] = [];
+
     /**
      * Controllers that depend to this controller.
      * @type {Array}
@@ -61,11 +61,6 @@ export class ControllerProvider extends ProviderStorable<any> implements IContro
      */
     set path(value: string) {
         this._path = value;
-    }
-
-
-    get routerPaths(): string[] {
-        return this._routerPaths;
     }
 
     /**
@@ -136,14 +131,6 @@ export class ControllerProvider extends ProviderStorable<any> implements IContro
         Object.keys(middlewares).forEach((key: string) => {
             concat(key, this._middlewares, middlewares);
         });
-    }
-
-    /**
-     *
-     * @param {string} path
-     */
-    public pushRouterPath(path: string) {
-        this._routerPaths.push(path);
     }
 
     /**

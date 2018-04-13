@@ -240,7 +240,7 @@ export class CalendarCtrl {
     async post(
         @Required() @BodyParams("calendar") calendar: Calendar
     ): Promise<Calendar> {
-        return new Promise((resolve: Function, reject: Function) => {
+        return new Promise<Calendar>((resolve: Function, reject: Function) => {
             calendar.id = "1";
             resolve(calendar);
         });
@@ -248,7 +248,7 @@ export class CalendarCtrl {
     
     @Delete("/")
     @Authenticated()
-    async post(
+    async deleteItem(
         @BodyParams("calendar.id") @Required() id: string 
     ): Promise<Calendar> {
         return {id, name: "calendar"};
@@ -282,6 +282,7 @@ We’ve briefly introduced the most basic features of Ts.ED - the rest of this g
   [Model](docs/model.md)
   [Converters](docs/converters.md)
   [Filters](docs/filters.md)
+  [Interceptors](docs/interceptors.md)
   [Testing](docs/testing.md)
   [Authentication](docs/middlewares/override/authentication.md)
   [Global Error Handler](docs/middlewares/override/global-error-handler.md)

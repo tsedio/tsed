@@ -1,9 +1,33 @@
-import {Registry} from "@tsed/core";
-import {ProviderStorable} from "../class/ProviderStorable";
-import {IProvider} from "../interfaces";
-import {ProviderType} from "../interfaces/ProviderType";
+import {Provider} from "../class/Provider";
+import {Providers} from "../class/Providers";
+import {IProvider, ProviderType, TypedProvidersRegistry} from "../interfaces";
 
-export const ProviderRegistry = new Registry<ProviderStorable<any>, IProvider<any>>(ProviderStorable);
+/**
+ *
+ * @type {Providers}
+ */
+export const GlobalProviders = new Providers();
+/**
+ *
+ * @type {Providers}
+ */
+export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
+/**
+ *
+ * @type {Registry<Provider<any>, IProvider<any>>}
+ */
+GlobalProviders.createRegistry(ProviderType.SERVICE, Provider, {
+    injectable: true,
+    buildable: true
+});
+/**
+ *`
+ * @type {Registry<Provider<any>, IProvider<any>>}
+ */
+GlobalProviders.createRegistry(ProviderType.FACTORY, Provider, {
+    injectable: true,
+    buildable: false
+});
 
 /**
  * Add a new factory in the `ProviderRegistry`.
@@ -68,18 +92,7 @@ export const ProviderRegistry = new Registry<ProviderStorable<any>, IProvider<an
  * ```
  *
  */
-export function registerFactory(provider: any | IProvider<any>, instance?: any): void {
-
-    if (!provider.provide) {
-        provider = {
-            provide: provider
-        };
-    }
-
-    provider = Object.assign({instance}, provider, {type: ProviderType.FACTORY});
-    registerProvider(provider);
-}
-
+export const registerFactory = GlobalProviders.createRegisterFn(ProviderType.FACTORY);
 /**
  * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.
  *
@@ -89,11 +102,11 @@ export function registerFactory(provider: any | IProvider<any>, instance?: any):
  * import {registerService, InjectorService} from "@tsed/common";
  *
  * export default class MyFooService {
-     *     constructor(){}
-     *     getFoo() {
-     *         return "test";
-     *     }
-     * }
+ *     constructor(){}
+ *     getFoo() {
+ *         return "test";
+ *     }
+ * }
  *
  * registerService({provide: MyFooService});
  * // or
@@ -107,23 +120,13 @@ export function registerFactory(provider: any | IProvider<any>, instance?: any):
  *
  * @param provider Provider configuration.
  */
-export function registerService(provider: any | IProvider<any>): void {
-
-    if (!provider.provide) {
-        provider = {
-            provide: provider
-        };
-    }
-
-    provider = Object.assign(provider, {type: ProviderType.SERVICE});
-    registerProvider(provider);
-}
+export const registerService = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
 
 /**
  * Register a provider configuration.
  * @param {IProvider<any>} provider
  */
-export function registerProvider(provider: IProvider<any>): void {
+export function registerProvider(provider: Partial<IProvider<any>>): void {
 
     if (!provider.provide) {
         throw new Error("Provider.provide is required");

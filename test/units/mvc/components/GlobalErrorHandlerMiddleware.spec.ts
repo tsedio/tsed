@@ -1,6 +1,6 @@
 import * as Sinon from "sinon";
 import {BadRequest} from "ts-httpexceptions/lib";
-import {GlobalErrorHandlerMiddleware, MiddlewareService} from "../../../../src";
+import {GlobalErrorHandlerMiddleware} from "../../../../src";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
@@ -8,8 +8,8 @@ import {expect} from "../../../tools";
 
 
 describe("GlobalErrorHandlerMiddleware", () => {
-    before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-        this.middleware = middlewareService.invoke<GlobalErrorHandlerMiddleware>(GlobalErrorHandlerMiddleware);
+    before(inject([GlobalErrorHandlerMiddleware], (middleware: GlobalErrorHandlerMiddleware) => {
+        this.middleware = middleware;
     }));
 
     after(() => {

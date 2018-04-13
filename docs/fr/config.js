@@ -38,7 +38,7 @@ $docsify.addLanguages({
         { url: '#/fr/docs/middlewares/overview', label: 'Middlewares' },
         { url: '#/fr/docs/scope', label: 'Scope' },
         { url: '#/fr/docs/filters', label: 'Filters' },
-        { url: '#/fr/docs/jsonschema', label: 'JSON Schema' },
+        { url: '#/fr/docs/interceptors', label: 'Interceptors' },
         { url: '#/fr/docs/server-loader/_sidebar', label: 'ServerLoader' },
         { url: '#/fr/docs/testing', label: 'Testing' }
       ]

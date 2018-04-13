@@ -1,14 +1,13 @@
+import {ProviderType} from "@tsed/common";
 import {BadRequest} from "ts-httpexceptions";
 import "../../../../src/ajv";
 import {globalServerSettings} from "../../../../src/common/config";
+import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
 import {InjectorService} from "../../../../src/common/di/services/InjectorService";
 import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
 import {CastError} from "../../../../src/common/mvc/errors/CastError";
-import {ControllerRegistry} from "../../../../src/common/mvc/registries/ControllerRegistry";
-import {MiddlewareRegistry} from "../../../../src/common/mvc/registries/MiddlewareRegistry";
-import {RouterController} from "../../../../src/common/mvc/services/RouterController";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {$logStub, assert, expect, restore, Sinon} from "../../../tools";
@@ -457,42 +456,48 @@ describe("HandlerBuilder", () => {
                 this.handlerBuilder.getHandler().should.eq("target");
             });
         });
-        describe("middleware", () => {
+        describe("component (middleware)", () => {
             before(() => {
                 this.handlerMetadata = {
-                    type: "middleware",
+                    type: ProviderType.MIDDLEWARE,
                     target: "target"
                 };
                 this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-                this.middlewareHandlerStub = Sinon.stub(this.handlerBuilder, "middlewareHandler");
-                this.middlewareHandlerStub.returns("handlerMiddleware");
+                this.buildHandlerStub = Sinon.stub(this.handlerBuilder, "buildHandler");
+                this.buildHandlerStub.returns("handlerMiddleware");
                 this.result = this.handlerBuilder.getHandler();
             });
 
             it("should have called the middlewareHandler method", () => {
-                return this.middlewareHandlerStub.should.have.been.called;
+                return this.buildHandlerStub.should.have.been.called;
             });
 
             it("should return the function handler", () => {
                 this.result.should.eq("handlerMiddleware");
             });
         });
-        describe("controller", () => {
+        describe("component (controller)", () => {
             before(() => {
                 this.handlerMetadata = {
-                    type: "controller",
+                    type: ProviderType.CONTROLLER,
                     target: "target"
                 };
                 this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-                Sinon.stub(this.handlerBuilder, "endpointHandler").returns("endpointHandler");
+                this.buildHandlerStub = Sinon.stub(this.handlerBuilder, "buildHandler");
+                this.buildHandlerStub.returns("endpointHandler");
+                this.result = this.handlerBuilder.getHandler();
             });
+            it("should have called the middlewareHandler method", () => {
+                return this.buildHandlerStub.should.have.been.called;
+            });
+
             it("should return the function handler", () => {
-                this.handlerBuilder.getHandler().should.eq("endpointHandler");
+                this.result.should.eq("endpointHandler");
             });
         });
     });
-    describe("endpointHandler()", () => {
-        describe("when the controller is known", () => {
+    describe("buildHandler()", () => {
+        describe("when component is known", () => {
             before(() => {
                 this.instance = {
                     method: () => {
@@ -501,7 +506,7 @@ describe("HandlerBuilder", () => {
                 this.invokeStub = Sinon.stub(InjectorService, "invoke");
                 this.invokeStub.returns(this.instance);
 
-                this.controllerGetStub = Sinon.stub(ControllerRegistry, "get");
+                this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
                 this.controllerGetStub.returns({
                     useClass: "providerClass"
                 });
@@ -512,7 +517,7 @@ describe("HandlerBuilder", () => {
                 this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
 
                 this.locals = new Map<string | Function, any>();
-                this.result = this.handlerBuilder.endpointHandler(this.locals);
+                this.result = this.handlerBuilder.buildHandler(this.locals);
             });
 
             after(() => {
@@ -520,7 +525,7 @@ describe("HandlerBuilder", () => {
                 this.invokeStub.restore();
             });
 
-            it("should have called the ControllerRegistry.get method", () => {
+            it("should have called the ProviderRegistry.get method", () => {
                 this.controllerGetStub.should.have.been.calledWithExactly("target");
             });
             it("should have called the invoke method", () => {
@@ -529,11 +534,8 @@ describe("HandlerBuilder", () => {
             it("should return the handler", () => {
                 this.result.should.have.been.a("function");
             });
-            it("should have a RouterController stored in the locals", () => {
-                expect(this.locals.has(RouterController)).to.be.true;
-            });
         });
-        describe("when the controller is known and instance is already built", () => {
+        describe("when component is known and instance is already built", () => {
             before(() => {
                 this.instance = {
                     method: () => {
@@ -541,7 +543,7 @@ describe("HandlerBuilder", () => {
                 };
                 this.invokeStub = Sinon.stub(InjectorService, "invoke");
 
-                this.controllerGetStub = Sinon.stub(ControllerRegistry, "get");
+                this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
                 this.controllerGetStub.returns({
                     useClass: "providerClass",
                     instance: this.instance,
@@ -552,7 +554,7 @@ describe("HandlerBuilder", () => {
                     methodClassName: "method"
                 };
                 this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-                this.result = this.handlerBuilder.endpointHandler();
+                this.result = this.handlerBuilder.buildHandler();
             });
 
             after(() => {
@@ -560,7 +562,7 @@ describe("HandlerBuilder", () => {
                 this.invokeStub.restore();
             });
 
-            it("should have called the ControllerRegistry.get method", () => {
+            it("should have called the ProviderRegistry.get method", () => {
                 this.controllerGetStub.should.have.been.calledWithExactly("target");
             });
             it("should not have called the invoke method", () => {
@@ -570,11 +572,11 @@ describe("HandlerBuilder", () => {
                 this.result.should.have.been.a("function");
             });
         });
-        describe("when the controller is unknown", () => {
+        describe("when component is unknown", () => {
             before(() => {
                 this.invokeStub = Sinon.stub(InjectorService, "invoke");
 
-                this.controllerGetStub = Sinon.stub(ControllerRegistry, "get");
+                this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
                 this.controllerGetStub.returns(undefined);
                 this.handlerMetadata = {
                     target: "target",
@@ -589,88 +591,11 @@ describe("HandlerBuilder", () => {
             });
 
             it("should throw an exception", () => {
-                assert.throws(() => this.handlerBuilder.endpointHandler(), "Controller component not found in the ControllerRegistry");
+                assert.throws(() => this.handlerBuilder.buildHandler(), "target component not found in the ProviderRegistry");
             });
         });
     });
-    describe("middlewareHandler()", () => {
-        describe("when middleware is known", () => {
-            before(() => {
-                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
-                this.middlewareGetStub.returns({
-                    instance: {
-                        use: () => {
-                        }
-                    },
-                    scope: "singleton"
-                });
-                this.handlerMetadata = {
-                    target: "target"
-                };
-                this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-                this.result = this.handlerBuilder.middlewareHandler();
-            });
-            after(() => {
-                this.middlewareGetStub.restore();
-            });
-            it("should have called the MiddlewareRegistry.get method", () => {
-                this.middlewareGetStub.should.have.been.calledWithExactly("target");
-            });
-            it("should return the handler", () => {
-                this.result.should.have.been.a("function");
-            });
-        });
 
-        describe("when middleware is unknown", () => {
-            before(() => {
-                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
-                this.middlewareGetStub.returns(undefined);
-                this.handlerMetadata = {
-                    target: "target"
-                };
-                this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-            });
-            after(() => {
-                this.middlewareGetStub.restore();
-            });
-            it("should throw an error", () => {
-                assert.throws(() => {
-                    this.handlerBuilder.middlewareHandler();
-                }, "target middleware component not found in the MiddlewareRegistry");
-            });
-        });
-
-        describe("with a scope options", () => {
-            before(() => {
-                this.invokeStub = Sinon.stub(InjectorService, "invoke").returns({
-                    use: () => {
-                    }
-                });
-
-                this.middlewareGetStub = Sinon.stub(MiddlewareRegistry, "get");
-                this.middlewareGetStub.returns({
-                    useClass: "class",
-                    scope: "request"
-                });
-
-                this.handlerMetadata = {
-                    target: "target"
-                };
-                this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-                this.result = this.handlerBuilder.middlewareHandler();
-            });
-            after(() => {
-                this.middlewareGetStub.restore();
-                this.invokeStub.restore();
-            });
-            it("should return a new instance of middleware", () => {
-                this.invokeStub.should.have.been.calledWithExactly("class", undefined, undefined, true);
-            });
-            it("should return an handler", () => {
-                this.result.should.have.been.a("function");
-            });
-        });
-    });
     describe("runFilters()", () => {
         describe("when success", () => {
             before(() => {

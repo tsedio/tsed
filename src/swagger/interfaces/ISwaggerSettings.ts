@@ -20,6 +20,7 @@ export interface ISwaggerSettings {
     options?: any;
     showExplorer?: boolean;
     specPath?: string;
+    outFile?: string;
     spec?: {
         swagger?: string;
         info?: Info;

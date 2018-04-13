@@ -280,6 +280,7 @@ Nous avons brièvement exposé les possibilités du framework Ts.ED. Les guides 
   [Modèle](docs/model.md)
   [Converters](docs/converters.md)
   [Filters](docs/filters.md)
+  [Interceptors](docs/interceptors.md)
   [Test](docs/testing.md)
   [Authentification](docs/middlewares/override/authentication.md)
   [Gestion global des erreurs](docs/middlewares/override/global-error-handler.md)

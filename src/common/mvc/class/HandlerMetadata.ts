@@ -1,10 +1,10 @@
-import {NotEnumerable} from "@tsed/core";
+import {NotEnumerable, Store} from "@tsed/core";
+import {ProviderType} from "../../di/interfaces/ProviderType";
+import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE} from "../../filters/constants";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {MiddlewareType} from "../interfaces";
-import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
 
 
 export class HandlerMetadata {
@@ -30,7 +30,9 @@ export class HandlerMetadata {
      */
     @NotEnumerable()
     private _nextFunction: boolean;
-
+    /**
+     *
+     */
     @NotEnumerable()
     private _useClass: any;
 
@@ -48,15 +50,16 @@ export class HandlerMetadata {
         let handler = this._target;
         let target = this._target;
 
-        if (MiddlewareRegistry.has(this._target)) {
-            const middleware = MiddlewareRegistry.get(this._target)!;
-            this._type = "middleware";
-            this._errorParam = middleware.type === MiddlewareType.ERROR;
-            this._methodClassName = "use";
-            this._useClass = target = middleware.useClass;
+        if (ProviderRegistry.has(this._target)) {
+            const provider = ProviderRegistry.get(this._target)!;
+            this._type = provider.type;
 
-        } else if (ControllerRegistry.has(this._target)) {
-            this._type = "controller";
+            if (provider.type === ProviderType.MIDDLEWARE) {
+                this._type = "middleware";
+                this._errorParam = Store.from(provider.provide).get("middlewareType") === MiddlewareType.ERROR;
+                this._methodClassName = "use";
+                this._useClass = target = provider.useClass;
+            }
         }
 
         if (this._methodClassName) {
@@ -70,7 +73,6 @@ export class HandlerMetadata {
             this._errorParam = handler.length === 4;
             this._nextFunction = handler.length >= 3;
         }
-
     }
 
     get type() {

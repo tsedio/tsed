@@ -2,6 +2,7 @@ import {Store} from "../../../../src/core/class/Store";
 import {descriptorOf} from "../../../../src/core/utils";
 import {Unique} from "../../../../src/mongoose/decorators";
 import {expect} from "../../../tools";
+import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
 
 describe("@Unique()", () => {
     class Test {
@@ -13,7 +14,7 @@ describe("@Unique()", () => {
     });
 
     it("should set metadata", () => {
-        expect(this.store.get("mongooseSchema")).to.deep.eq({
+        expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
             unique: true
         });
     });

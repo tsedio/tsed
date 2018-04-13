@@ -1,60 +1,55 @@
-import {ProxyRegistry, Type} from "@tsed/core";
-import {$log} from "ts-log-debug";
+import {Deprecated, ProxyRegistry, Type} from "@tsed/core";
+import {Provider} from "../../di/class/Provider";
 import {Service} from "../../di/decorators/service";
+import {IProvider} from "../../di/interfaces/IProvider";
+import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
 import {InjectorService} from "../../di/services/InjectorService";
-import {MiddlewareProvider} from "../class/MiddlewareProvider";
 import {UnknowMiddlewareError} from "../errors/UnknowMiddlewareError";
-import {IMiddleware, IMiddlewareOptions} from "../interfaces";
-
-import {MiddlewareRegistry} from "../registries/MiddlewareRegistry";
-
+import {IMiddleware} from "../interfaces";
 
 /**
- *
+ * @deprecated This service will be removed in a future release. Use ProviderRegistry directly.
  */
 @Service()
-export class MiddlewareService extends ProxyRegistry<MiddlewareProvider, IMiddlewareOptions> {
+export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<any>> {
     constructor(private injectorService: InjectorService) {
-        super(MiddlewareRegistry);
-    }
-
-    /**
-     *
-     */
-    $onInit() {
-
-        /* istanbul ignore next */
-        $log.debug("Build middlewares");
-
-        InjectorService.buildRegistry(MiddlewareRegistry);
-
-        $log.debug("Middlewares registry built");
+        super(ProviderRegistry);
     }
 
     /**
      *
      * @param target
-     * @returns {ControllerProvider}
+     * @returns {Provider}
+     * @deprecated
      */
-    static get = (target: Type<any>): MiddlewareProvider | undefined =>
-        MiddlewareRegistry.get(target);
+    @Deprecated("removed feature")
+    /* istanbul ignore next */
+    static get(target: Type<any>): Provider<any> | undefined {
+        return ProviderRegistry.get(target);
+    }
 
     /**
      *
      * @param target
      * @param provider
      */
-    static set(target: Type<any>, provider: MiddlewareProvider) {
-        MiddlewareRegistry.set(target, provider);
+    @Deprecated("removed feature")
+    /* istanbul ignore next */
+    static set(target: Type<any>, provider: Provider<any>) {
+        ProviderRegistry.set(target, provider);
         return this;
     }
 
     /**
      *
      * @param target
+     * @deprecated
      */
-    static has = (target: Type<any>): boolean =>
-        MiddlewareRegistry.has(target);
+    @Deprecated("removed feature")
+    /* istanbul ignore next */
+    static has(target: Type<any>): boolean {
+        return ProviderRegistry.has(target);
+    }
 
     /**
      *
@@ -63,18 +58,8 @@ export class MiddlewareService extends ProxyRegistry<MiddlewareProvider, IMiddle
      * @param designParamTypes
      * @returns {T}
      */
-    // static invoke<T extends IMiddleware>(target: Type<T>, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
-    //    const provider = MiddlewareRegistry.get(target);
-    //    return InjectorService.invoke<T>(provider.useClass);
-    // }
-
-    /**
-     *
-     * @param target
-     * @param locals
-     * @param designParamTypes
-     * @returns {T}
-     */
+    @Deprecated("removed feature")
+    /* istanbul ignore next */
     invoke<T extends IMiddleware>(target: Type<T>, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
         return this.injectorService.invoke<T>(target, locals, designParamTypes);
     }
@@ -85,15 +70,15 @@ export class MiddlewareService extends ProxyRegistry<MiddlewareProvider, IMiddle
      * @param args
      * @returns {any}
      */
+    @Deprecated("removed feature")
+    /* istanbul ignore next */
     invokeMethod<T extends IMiddleware>(target: Type<T>, ...args: any[]) {
 
-        const provider = this.get(target);
+        const instance = this.injectorService.get<T>(target);
 
-        if (!provider) {
+        if (!instance || !instance.use) {
             throw new UnknowMiddlewareError(target);
         }
-
-        const instance = provider.instance || this.invoke(provider.useClass);
 
         return instance.use(...args);
     }

@@ -1,9 +1,8 @@
 import {Type} from "@tsed/core";
 import * as Express from "express";
 import {Inject} from "../../../di/decorators/inject";
-import {registerFactory} from "../../../di/registries/ProviderRegistry";
+import {ProviderRegistry, registerFactory} from "../../../di/registries/ProviderRegistry";
 import {HandlerBuilder} from "../../class/HandlerBuilder";
-import {MiddlewareRegistry} from "../../registries/MiddlewareRegistry";
 
 declare global {
     namespace Express {
@@ -63,7 +62,7 @@ export function createExpressApplication(): ExpressApplication {
 
     expressApp.use = function (...args: any[]) {
         args = args.map((arg) => {
-            if (MiddlewareRegistry.has(arg)) {
+            if (ProviderRegistry.has(arg)) {
                 arg = HandlerBuilder.from(arg).build();
             }
             return arg;

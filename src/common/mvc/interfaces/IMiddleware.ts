@@ -1,6 +1,7 @@
 /**
  *
  */
+
 export interface IMiddleware {
-    use?: Function;
+    use(...args: any[]): void | any | Promise<any>;
 }

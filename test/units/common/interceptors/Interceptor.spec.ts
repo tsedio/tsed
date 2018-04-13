@@ -1,20 +1,25 @@
-import { Intercept, IInterceptor, InjectorService, IInterceptorContext, Interceptor } from "@tsed/common";
-import { Sinon, expect } from "../../../tools";
+import {GlobalProviders, Interceptor, ProviderType} from "@tsed/common";
+import {Sinon} from "../../../tools";
+
+class Test {
+}
 
 describe("@Interceptor", () => {
-    class ServiceTest implements IInterceptor { aroundInvoke() { } }
-
     before(() => {
-        this.serviceStub = Sinon.stub(InjectorService, 'service');
+        this.serviceStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.INTERCEPTOR), "merge");
+
+        Interceptor()(Test);
     });
 
     after(() => {
         this.serviceStub.restore();
     });
 
-    it('should register an interceptor class as a service', () => {
-        const returned = Interceptor()(ServiceTest);
-        this.serviceStub.should.have.been.calledWithExactly(ServiceTest);
-        expect(returned).to.equal(ServiceTest);
+    it("should set metadata", () => {
+        this.serviceStub.should.have.been.calledWithExactly(Test, {
+            instance: undefined,
+            provide: Test,
+            type: ProviderType.INTERCEPTOR
+        });
     });
 });

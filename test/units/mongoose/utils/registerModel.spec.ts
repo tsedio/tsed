@@ -1,5 +1,5 @@
-import {ProviderRegistry} from "@tsed/common";
-import {registerModel} from "../../../../src/mongoose/utils";
+import {MongooseModelRegistry} from "../../../../src/mongoose";
+import {registerModel} from "../../../../src/mongoose/registries/MongooseModelRegistry";
 import {Sinon} from "../../../tools";
 
 describe("registerModel()", () => {
@@ -8,8 +8,7 @@ describe("registerModel()", () => {
         }
 
         before(() => {
-            this.mergeStub = Sinon.stub(ProviderRegistry, "merge");
-
+            this.mergeStub = Sinon.stub(MongooseModelRegistry, "merge");
             registerModel(Test, {model: "model"});
         });
 
@@ -21,8 +20,7 @@ describe("registerModel()", () => {
             this.mergeStub.should.have.been.calledWithExactly(Test, {
                 instance: {model: "model"},
                 provide: Test,
-                type: "factory",
-                useClass: Test
+                type: "mongooseModel"
             });
         });
     });
@@ -32,7 +30,7 @@ describe("registerModel()", () => {
         }
 
         before(() => {
-            this.mergeStub = Sinon.stub(ProviderRegistry, "merge");
+            this.mergeStub = Sinon.stub(MongooseModelRegistry, "merge");
 
             registerModel({provide: Test, instance: {model: "model"}});
         });
@@ -45,10 +43,8 @@ describe("registerModel()", () => {
             this.mergeStub.should.have.been.calledWithExactly(Test, {
                 instance: {model: "model"},
                 provide: Test,
-                type: "factory",
-                useClass: Test
+                type: "mongooseModel"
             });
         });
     });
-
 });

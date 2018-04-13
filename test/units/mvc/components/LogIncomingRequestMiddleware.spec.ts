@@ -1,5 +1,4 @@
 import {LogIncomingRequestMiddleware} from "../../../../src/common/mvc/components/LogIncomingRequestMiddleware";
-import {MiddlewareService} from "../../../../src/common/mvc/services/MiddlewareService";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper";
 import {FakeRequest} from "../../../helper/FakeRequest";
@@ -8,19 +7,25 @@ import {$logStub, expect, Sinon} from "../../../tools";
 describe("LogIncomingRequestMiddleware", () => {
 
     describe("configureRequest()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-            this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
+            this.middleware = middleware;
+            Sinon.stub(this.middleware, "reqIdBuilder").returns("1");
+
             this.request = {};
             this.request2 = {id: "id"};
             this.middleware.configureRequest(this.request);
             this.middleware.configureRequest(this.request2);
-            Sinon.stub(this.middleware, "requestToObject").returns({"reqId": "1"});
+
             this.request.log.debug({custom: "c"});
             this.request.log.info({custom: "c"});
             this.request.log.warn({custom: "c"});
             this.request.log.error({custom: "c"});
             this.request.log.trace({custom: "c"});
         }));
+
+        after(() => {
+            this.middleware.reqIdBuilder.restore();
+        });
 
         it("should have a id field", () => {
             this.request.id.should.be.eq("1");
@@ -52,8 +57,8 @@ describe("LogIncomingRequestMiddleware", () => {
         });
     });
     describe("getDuration()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-            this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
+            this.middleware = middleware;
             this.request = {tsedReqStart: new Date()};
         }));
 
@@ -62,7 +67,7 @@ describe("LogIncomingRequestMiddleware", () => {
         });
     });
     describe("requestToObject()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
             this.request = {
                 id: "id",
                 method: "method",
@@ -82,13 +87,17 @@ describe("LogIncomingRequestMiddleware", () => {
                 params: {params: "params"}
             };
 
-            this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+            this.middleware = middleware;
 
             Sinon.stub(this.middleware, "getDuration").returns(2);
 
             this.result = this.middleware.requestToObject(this.request);
             this.result2 = this.middleware.requestToObject(this.request2);
         }));
+
+        after(() => {
+            this.middleware.getDuration.restore();
+        });
 
         it("should have been called getDuration with the right parameters", () => {
             this.middleware.getDuration.should.be.calledWithExactly(this.request);
@@ -136,7 +145,7 @@ describe("LogIncomingRequestMiddleware", () => {
         });
     });
     describe("minimalRequestPicker()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
             this.request = {
                 id: "id",
                 method: "method",
@@ -156,7 +165,7 @@ describe("LogIncomingRequestMiddleware", () => {
                 params: {params: "params"}
             };
 
-            this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+            this.middleware = middleware;
 
             Sinon.stub(this.middleware, "getDuration").returns(2);
 
@@ -166,6 +175,11 @@ describe("LogIncomingRequestMiddleware", () => {
 
             this.result2 = this.middleware.minimalRequestPicker(this.request2);
         }));
+
+
+        after(() => {
+            this.middleware.getDuration.restore();
+        });
 
         it("should have been called getDuration with the right parameters", () => {
             this.middleware.getDuration.should.be.calledWithExactly(this.request);
@@ -187,14 +201,18 @@ describe("LogIncomingRequestMiddleware", () => {
     });
     describe("stringify()", () => {
         describe("when passed a string", () => {
-            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+            before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
                 this.request = new FakeRequest();
-                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+                this.middleware = middleware;
                 Sinon.stub(this.middleware, "getDuration").returns(2);
                 const none = (req: Express.Request) => {
                 };
                 this.result = this.middleware.stringify(this.request, none)("message");
             }));
+
+            after(() => {
+                this.middleware.getDuration.restore();
+            });
 
             it("should include string as msg property", () => {
                 this.result.should.be.a("string");
@@ -203,9 +221,9 @@ describe("LogIncomingRequestMiddleware", () => {
         });
 
         describe("when json fail", () => {
-            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
+            before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
                 this.request = new FakeRequest();
-                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+                this.middleware = middleware;
                 Sinon.stub(this.middleware, "getDuration").returns(2);
                 const none = (req: Express.Request) => {
                 };
@@ -213,7 +231,10 @@ describe("LogIncomingRequestMiddleware", () => {
                 this.jsonStub.throws(new Error("JSON"));
                 this.result = this.middleware.stringify(this.request, none)("message");
             }));
+
+
             after(() => {
+                this.middleware.getDuration.restore();
                 this.jsonStub.restore();
             });
 
@@ -224,9 +245,7 @@ describe("LogIncomingRequestMiddleware", () => {
         });
 
         describe("when dev", () => {
-            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-                this.stringify = Sinon.spy(JSON, "stringify") 
-
+            before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
                 this.request = {
                     id: "id",
                     method: "method",
@@ -237,18 +256,15 @@ describe("LogIncomingRequestMiddleware", () => {
                     params: {params: "params"}
                 };
 
-                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+                this.middleware = middleware;
 
                 Sinon.stub(this.middleware, "getDuration").returns(2);
                 const verbose = (req: Express.Request) => this.middleware.requestToObject(req);
                 this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
+
             after(() => {
-                this.stringify.restore();
-            });
-            it("should have default 2 spaces ", () => {
-                expect(this.stringify.args[0]).to.have.length(3);
-                expect(this.stringify.args[0][2]).to.eq(2);
+                this.middleware.getDuration.restore();
             });
             it("should stringify the request", () => {
                 this.result.should.be.a("string");
@@ -274,9 +290,7 @@ describe("LogIncomingRequestMiddleware", () => {
             });
         });
         describe("when prod", () => {
-            before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-                this.stringify = Sinon.spy(JSON, "stringify") 
-
+            before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
                 this.request = {
                     id: "id",
                     method: "method",
@@ -287,19 +301,17 @@ describe("LogIncomingRequestMiddleware", () => {
                     params: {params: "params"}
                 };
 
-                this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
-                this.middleware.loggerSettings.jsonIndentation = 0;
+                this.middleware = middleware;
+                this.middleware.env = "production";
                 Sinon.stub(this.middleware, "getDuration").returns(2);
                 const verbose = (req: Express.Request) => this.middleware.requestToObject(req);
                 this.result = this.middleware.stringify(this.request, verbose)({scope: "scope"});
             }));
+
             after(() => {
-                this.stringify.restore();
+                this.middleware.getDuration.restore();
             });
-            it("should have no replacer or spaces as default", () => {
-                expect(this.stringify.args[0]).to.have.length(3);
-                expect(this.stringify.args[0][2]).to.eq(0);
-            });
+
             it("should stringify the request", () => {
                 this.result.should.be.a("string");
                 expect(JSON.parse(this.result)).to.deep.eq({
@@ -326,8 +338,8 @@ describe("LogIncomingRequestMiddleware", () => {
     });
 
     describe("cleanRequest()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-            this.middleware = middlewareService.invoke<any>(LogIncomingRequestMiddleware);
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
+            this.middleware = middleware;
             this.request = {request: "request"};
             this.middleware.configureRequest(this.request);
             this.middleware.cleanRequest(this.request);
@@ -346,8 +358,8 @@ describe("LogIncomingRequestMiddleware", () => {
         });
     });
     describe("use()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-            this.middleware = middlewareService.invoke<LogIncomingRequestMiddleware>(LogIncomingRequestMiddleware);
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
+            this.middleware = middleware;
             this.request = new FakeRequest();
             this.response = new FakeResponse();
             this.request.mime = "application/json";
@@ -367,8 +379,8 @@ describe("LogIncomingRequestMiddleware", () => {
         });
     });
     describe("onLogEnd()", () => {
-        before(inject([MiddlewareService], (middlewareService: MiddlewareService) => {
-            this.middleware = middlewareService.invoke<LogIncomingRequestMiddleware>(LogIncomingRequestMiddleware);
+        before(inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
+            this.middleware = middleware;
             this.request = {
                 id: "id",
                 method: "method",
@@ -388,6 +400,9 @@ describe("LogIncomingRequestMiddleware", () => {
 
             this.middleware.onLogEnd(this.request, this.response);
         }));
+        after(() => {
+            this.middleware.cleanRequest.restore();
+        });
 
         /*it("should have been called the logger with the right parameters", () => {
             this.request.log.debug.should.be.calledWithExactly({status: undefined, data: "test"});

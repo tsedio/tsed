@@ -1,10 +1,16 @@
-import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Registry, Store, Type} from "@tsed/core";
+import {Deprecated, Env, getClass, Metadata, nameOf, promiseTimeout, ProxyRegistry, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, IProvider, ProviderScope, ProviderType} from "../interfaces";
-import {ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
+import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
+import {
+    GlobalProviders,
+    ProviderRegistry,
+    registerFactory,
+    registerProvider,
+    registerService
+} from "../registries/ProviderRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -29,6 +35,7 @@ import {ProviderRegistry, registerFactory, registerProvider, registerService} fr
  *
  */
 export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>> {
+
     constructor() {
         super(ProviderRegistry);
     }
@@ -54,8 +61,8 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      * @param designParamTypes Optional object. List of injectable types.
      * @returns {T} The class constructed.
      */
-    public invoke<T>(target: any, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
-        return InjectorService.invoke<T>(target, locals, designParamTypes);
+    public invoke<T>(target: any, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[], requiredScope: boolean = false): T {
+        return InjectorService.invoke<T>(target, locals, designParamTypes, requiredScope);
     }
 
     /**
@@ -232,74 +239,89 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      * @returns {T} The class constructed.
      */
     static invoke<T>(target: any, locals: Map<string | Function, any> = new Map<Function, any>(), designParamTypes?: any[], requiredScope: boolean = false): T {
+        const {onInvoke} = GlobalProviders.getRegistrySettings(target);
+        const provider = GlobalProviders.get(target);
+        const parentScope = Store.from(target).get("scope");
 
         if (!designParamTypes) {
             designParamTypes = Metadata.getParamTypes(target);
         }
 
-        const parentScope = Store.from(target).get("scope");
-        /* istanbul ignore next */
-        const injectionFailedError = (er: any, serviceName: string) => {
-            const error = new InjectionError(target, serviceName.toString(), "injection failed");
-            (error as any).origin = er;
-            throw error;
-        };
+        if (provider && onInvoke) {
+            onInvoke(provider, locals, designParamTypes);
+        }
 
         const services = designParamTypes
-            .map((serviceType: any) => {
-                const serviceName = typeof serviceType === "function" ? nameOf(serviceType) : serviceType;
-
-                /* istanbul ignore next */
-                if (locals.has(serviceName)) {
-                    return locals.get(serviceName);
-                }
-
-                if (locals.has(serviceType)) {
-                    return locals.get(serviceType);
-                }
-
-                /* istanbul ignore next */
-                if (!this.has(serviceType)) {
-                    throw new InjectionError(target, serviceName.toString());
-                }
-
-                const provider = ProviderRegistry.get(serviceType)!;
-
-                if (provider.instance === undefined) {
-
-                    try {
-                        provider.instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
-                    } catch (er) {
-                        /* istanbul ignore next */
-                        throw injectionFailedError(er, serviceName);
-                    }
-                }
-
-                if (provider.scope === ProviderScope.REQUEST && provider.type !== ProviderType.FACTORY) {
-                    if (requiredScope && !parentScope) {
-                        throw new InjectionScopeError(provider.useClass, target);
-                    }
-
-                    try {
-                        return this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
-                    } catch (er) {
-                        /* istanbul ignore next */
-                        throw injectionFailedError(er, serviceName);
-                    }
-                }
-
-                return this.get(serviceType);
-
-
-            });
+            .map((serviceType) =>
+                this.mapServices({
+                    serviceType,
+                    target,
+                    locals,
+                    requiredScope,
+                    parentScope
+                })
+            );
 
         return new target(...services);
     }
 
     /**
+     *
+     * @returns {any}
+     * @param options
+     */
+    private static mapServices(options: any) {
+        const {serviceType, target, locals, parentScope, requiredScope} = options;
+        const serviceName = typeof serviceType === "function" ? nameOf(serviceType) : serviceType;
+        const localService = locals.get(serviceName) || locals.get(serviceType);
+
+        if (localService) {
+            $log.debug(nameOf(target), "from cache");
+            return localService;
+        }
+
+        const provider = GlobalProviders.get(serviceType);
+
+        if (!provider) {
+            throw new InjectionError(target, serviceName.toString());
+        }
+
+        const {buildable, injectable} = GlobalProviders.getRegistrySettings(provider.type);
+        const scopeReq = provider.scope === ProviderScope.REQUEST;
+
+        if (!injectable) {
+            throw new InjectionError(target, serviceName.toString(), "not injectable");
+        }
+
+        if (!buildable || (provider.instance && !scopeReq)) {
+            return provider.instance;
+        }
+
+        if (scopeReq && requiredScope && !parentScope) {
+            $log.error("====>", nameOf(serviceName), nameOf(getClass(provider.instance)), provider, requiredScope, parentScope);
+            throw new InjectionScopeError(provider.useClass, target);
+        }
+
+        try {
+            const instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
+
+            if (!scopeReq) {
+                locals.set(provider.provide, instance);
+            }
+            return instance;
+        } catch (er) {
+            const error = new InjectionError(target, serviceName.toString(), "injection failed");
+            (error as any).origin = er;
+            throw error;
+        }
+    }
+
+    /**
      * Construct the service with his dependencies.
      * @param target The service to be built.
+     * @deprecated
      */
+    @Deprecated("removed feature")
     static construct<T>(target: Type<any> | symbol): T {
         const provider: Provider<any> = ProviderRegistry.get(target)!;
         return this.invoke<any>(provider.useClass);
@@ -316,8 +338,8 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
 
         $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
 
-        ProviderRegistry.forEach((provider: IProvider<any>) => {
-            const service = InjectorService.get<any>(provider.provide);
+        GlobalProviders.forEach((provider) => {
+            const service = provider.instance;
 
             if (eventName in service) {
                 /* istanbul ignore next */
@@ -365,26 +387,6 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
                 setTimeout(() => $log.warn(msg, "In production, the warning will down the server!"), 1000);
             }
         }
-    }
-
-    /**
-     * @hidden
-     * @param registry
-     * @param callback
-     */
-    static buildRegistry(registry: Registry<Provider<any>, any>, callback: (provider: Provider<any>) => boolean = () => true): Registry<Provider<any>, any> {
-        registry.forEach(provider => {
-            if (typeof callback && callback(provider)) {
-                provider.instance = InjectorService.invoke(provider.useClass);
-            }
-
-            const token = nameOf(provider.provide);
-            const useClass = nameOf(provider.useClass);
-
-            $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
-        });
-
-        return registry;
     }
 
     /**
@@ -459,15 +461,44 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
      */
     static async load() {
 
-        this.buildRegistry(
-            ProviderRegistry,
-            (provider) => provider.instance === undefined || provider.type === ProviderType.SERVICE
-        );
+        // containers
+        const containers = new Map();
+        GlobalProviders.forEach((p, k) => containers.set(k, p));
+
+        this.build(containers);
         $log.debug("\x1B[1mProvider registry built\x1B[22m");
 
         return Promise.all([
             this.emit("$onInit")
         ]);
+    }
+
+    /**
+     *
+     */
+    static build(container: Map<Type<any>, Provider<any>>) {
+        const locals = new Map();
+
+        container
+            .forEach((provider, key) => {
+                const token = nameOf(provider.provide);
+                const settings = GlobalProviders.getRegistrySettings(key);
+
+                if (settings.buildable) {
+                    if (!locals.has(provider.provide)) {
+                        provider.instance = this.invoke(provider.useClass, locals);
+                        locals.set(provider.provide, provider.instance);
+                    }
+
+                    if (provider.instance) {
+                        const useClass = nameOf(provider.useClass);
+                        $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
+                    }
+
+                } else {
+                    $log.debug(nameOf(provider.provide), "loaded");
+                }
+            });
     }
 
     /**

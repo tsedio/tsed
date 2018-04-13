@@ -1,29 +1,29 @@
 import {HookDoneFunction, HookErrorCallback, HookNextFunction, NativeError, Schema, SchemaOptions} from "mongoose";
-import {MongooseModel} from "./MongooseModel";
+import {MongooseDocument} from "./MongooseDocument";
 
 /**
  *
  */
 export interface MongoosePreHookAsyncCB<T> {
-    (doc: MongooseModel<T>, next: HookNextFunction, done: HookDoneFunction): any;
+    (doc: MongooseDocument<T>, next: HookNextFunction, done: HookDoneFunction): any;
 }
 
 export interface MongoosePreHookSyncCB<T> {
-    (doc: MongooseModel<T>, next: HookNextFunction): any;
+    (doc: MongooseDocument<T>, next: HookNextFunction): any;
 }
 
 /**
  *
  */
 export interface MongoosePostErrorHookCB<T> {
-    (error: any, doc: MongooseModel<T>, next: (err?: NativeError) => void): void;
+    (error: any, doc: MongooseDocument<T>, next: (err?: NativeError) => void): void;
 }
 
 /**
  *
  */
 export interface MongoosePostHookCB<T> {
-    (doc: MongooseModel<T>, next: (err?: NativeError) => void): void;
+    (doc: MongooseDocument<T>, next: (err?: NativeError) => void): void;
 }
 
 /**

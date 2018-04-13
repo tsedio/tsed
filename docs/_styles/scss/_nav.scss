@@ -10,6 +10,7 @@ $navbar-sticky-height: 52px !default;
   left: 0;
   z-index: 4;
   transition: all ease 300ms;
+
   > * {
     height: $navbar-height;
     transition: all ease 300ms;
@@ -21,8 +22,6 @@ $navbar-sticky-height: 52px !default;
       display: block;
       height: $navbar-height;
       line-height: $navbar-height;
-      width: calc(#{$sidebar-width} - 60px);
-      margin-left: 60px;
       color: #34495e;
       font-size: 30px;
       font-weight: 300;
@@ -74,6 +73,7 @@ $navbar-sticky-height: 52px !default;
         height: 100%;
         border-top: 4px solid transparent;
         border-bottom: 4px solid transparent;
+        cursor: pointer;
 
         .ps-icon {
           position: relative;
@@ -212,17 +212,18 @@ $navbar-sticky-height: 52px !default;
 }
 
 [data-page*="_home.html"] .app-nav {
-  .app-nav-left {
+  .app-nav-left.logo {
     display: none;
   }
   &.sticky {
-    .app-nav-left {
+    .app-nav-left.logo {
       display: block;
       .sidebar-toggle {
         display: none;
       }
       a {
         margin-left: 10px;
+        text-align: left;
       }
     }
   }
@@ -237,10 +238,25 @@ $navbar-sticky-height: 52px !default;
   }
 }
 
+@media only screen and (min-width: 769px) {
+  .app-nav {
+    > .app-nav-left.logo {
+      .sidebar-toggle {
+        display: none;
+      }
+      a {
+        margin-left: 0px;
+        text-align: center;
+        width: $sidebar-width;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .app-nav {
-    > .app-nav-left {
-      display:block;
+    > .app-nav-left.logo {
+      display: block;
       .sidebar-toggle {
         display: block;
       }
@@ -265,7 +281,6 @@ $navbar-sticky-height: 52px !default;
 
   }
 }
-
 
 @-webkit-keyframes slideInDown {
   from {

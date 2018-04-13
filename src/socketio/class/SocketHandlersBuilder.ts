@@ -1,4 +1,4 @@
-import {MiddlewareRegistry, MiddlewareType, ProviderStorable} from "@tsed/common";
+import {MiddlewareType, Provider, ProviderRegistry, ProviderType} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io";
 import {$log} from "ts-log-debug";
@@ -17,7 +17,7 @@ import {getNspSession} from "../registries/NspSessionRegistry";
 export class SocketHandlersBuilder {
     private socketProviderMetadata: ISocketProviderMetadata;
 
-    constructor(private provider: ProviderStorable<any>) {
+    constructor(private provider: Provider<any>) {
         this.socketProviderMetadata = this.provider.store.get("socketIO");
     }
 
@@ -27,23 +27,34 @@ export class SocketHandlersBuilder {
      */
     public build(nsp: SocketIO.Namespace) {
         const {instance} = this.provider;
+        const {injectNamespace} = this.socketProviderMetadata;
 
-        if (instance.$onDisconnect) {
-            const handler = this.socketProviderMetadata.handlers["$onDisconnect"] || {};
-            handler.eventName = "disconnect";
-            handler.methodClassName = "$onDisconnect";
-
-            this.socketProviderMetadata.handlers["$onDisconnect"] = handler;
+        if (instance.$onConnection) {
+            this.buildHook("$onConnection", "connection");
         }
 
-        nsp.on("connection", (socket) => this.onConnection(socket, nsp));
+        if (instance.$onDisconnect) {
+            this.buildHook("$onDisconnect", "disconnect");
+        }
 
         instance._nspSession = getNspSession(this.socketProviderMetadata.namespace!);
-        instance[this.socketProviderMetadata.injectNamespace || "nsp"] = nsp;
+        instance[injectNamespace || "nsp"] = nsp;
 
         if (instance.$onNamespaceInit) {
             instance.$onNamespaceInit(nsp);
         }
+        return this;
+    }
+
+    private buildHook(hook: string, eventName: string) {
+        const handlers = this.socketProviderMetadata.handlers || {};
+
+        handlers[hook] = Object.assign(handlers[hook] || {}, {
+            eventName,
+            methodClassName: hook
+        });
+
+        this.socketProviderMetadata.handlers = handlers;
     }
 
     /**
@@ -51,22 +62,25 @@ export class SocketHandlersBuilder {
      * @param {SocketIO.Socket} socket
      * @param {SocketIO.Namespace} nsp
      */
-    private onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+    public onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
         const {instance} = this.provider;
 
         this.buildHandlers(socket, nsp);
         this.createSession(socket);
 
-        socket.on("disconnect", () => {
-            this.destroySession(socket);
-        });
-
         if (instance.$onConnection) {
-            const config = this.socketProviderMetadata.handlers.$onConnection || {};
-            config.methodClassName = "$onConnection";
-
-            this.invoke(instance, config, {socket, nsp});
+            this.invoke(instance, this.socketProviderMetadata.handlers.$onConnection, {socket, nsp});
         }
+    }
+
+    public onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+        const {instance} = this.provider;
+
+        if (instance.$onDisconnect) {
+            this.invoke(instance, this.socketProviderMetadata.handlers.$onDisconnect, {socket, nsp});
+        }
+
+        this.destroySession(socket);
     }
 
     /**
@@ -93,7 +107,7 @@ export class SocketHandlersBuilder {
     private buildHandlers(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
         Object
             .keys(this.socketProviderMetadata.handlers)
-            .filter(key => key !== "$onConnection")
+            .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
             .forEach((propertyKey: string) => {
 
                 const handlerMetadata: ISocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
@@ -197,28 +211,31 @@ export class SocketHandlersBuilder {
      * @returns {(args: any[]) => Promise<any[]>}
      */
     private bindMiddleware(target: any, scope: any, promise: Promise<any>): Promise<any> {
-        const middlewareProvider = MiddlewareRegistry.get(target);
+        const provider = ProviderRegistry.get(target);
 
-        if (middlewareProvider) {
-            const instance = middlewareProvider.instance;
+        if (provider) {
+            const instance = provider.instance;
             const handlerMetadata: ISocketProviderMetadata = Store.from(instance).get("socketIO");
 
-            if (middlewareProvider.type === MiddlewareType.ERROR) {
-                return promise
-                    .catch((error: any) =>
-                        this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope})
-                    );
-            }
+            if (provider.type === ProviderType.MIDDLEWARE) {
+                if (provider.store.get("middlewareType") === MiddlewareType.ERROR) {
+                    return promise
+                        .catch((error: any) =>
+                            this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope})
+                        );
+                }
 
-            return promise
-                .then(() =>
-                    this.invoke(instance, handlerMetadata.handlers.use, scope)
-                )
-                .then((result: any) => {
-                    if (result) {
-                        scope.args = [].concat(result);
-                    }
-                });
+
+                return promise
+                    .then(() =>
+                        this.invoke(instance, handlerMetadata.handlers.use, scope)
+                    )
+                    .then((result: any) => {
+                        if (result) {
+                            scope.args = [].concat(result);
+                        }
+                    });
+            }
         }
 
         return promise;
@@ -233,7 +250,7 @@ export class SocketHandlersBuilder {
      */
     private async invoke(instance: any, handlerMetadata: ISocketHandlerMetadata, scope: any): Promise<any> {
         const {methodClassName, parameters} = handlerMetadata;
-        return await instance[methodClassName](...this.buildParameters(parameters, scope));
+        return await instance[methodClassName](...this.buildParameters(parameters!, scope));
     }
 
     /**

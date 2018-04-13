@@ -150,8 +150,11 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
         const refSchema = this.getSchemaByName(schemaName);
 
         if (refSchema) {
-            this.findReferences(refSchema!, definitions);
-            definitions[schemaName] = refSchema.toObject();
+            if (!definitions[schemaName]) {
+                definitions[schemaName] = {};
+                this.findReferences(refSchema!, definitions);
+                definitions[schemaName] = refSchema.toObject();
+            }
         } else {
             schema.type = "object";
             delete schema.$ref;

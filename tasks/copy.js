@@ -12,7 +12,7 @@ module.exports = {
   files(gulp) {
     return gulp
       .src([
-        'README.md',
+        './readme.md',
         '.npmignore',
         'LICENSE'
       ], { base: '.' })

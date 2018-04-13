@@ -9,7 +9,7 @@ export interface ISocketHandlerMetadata {
     methodClassName: string;
     useBefore?: any[];
     useAfter?: any[];
-    parameters: { [key: number]: ISocketParamMetadata };
+    parameters?: { [key: number]: ISocketParamMetadata };
     returns?: {
         type: SocketReturnsTypes;
         eventName: string;

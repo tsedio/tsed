@@ -4,12 +4,12 @@
 /** */
 
 import {Metadata} from "@tsed/core";
-import {registerProvider} from "../../di/registries/ProviderRegistry";
 import {CONVERTER} from "../constants/index";
+import {registerConverter} from "../registries/ConverterRegistries";
 
 /**
  * `@Converter(...targetTypes)` let you to define some converters for a certain type/Class.
- * It usefull for a generic conversion.
+ * It useful for a generic conversion.
  *
  * @param classes
  * @returns {(customConverter?:any)=>undefined}
@@ -24,7 +24,7 @@ export function Converter(...classes: any[]): Function {
             throw new Error("Converter decorator need at least one type like String, Date, Class, etc...");
         }
 
-        registerProvider({provide: target, type: "converter"});
+        registerConverter({provide: target, type: "converter"});
 
         classes.forEach(clazz =>
             Metadata.set(CONVERTER, target, clazz)
