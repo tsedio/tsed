@@ -17,12 +17,12 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
         const i = InjectorService.get<IInterceptor>(interceptor);
 
         return i.aroundInvoke({
-          target,
+          target: this,
           method,
           args,
           proceed: (err?: Error) => {
             if (!err) {
-              return original.apply(target, args);
+              return original.apply(this, args);
             }
 
             throw err;
