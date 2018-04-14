@@ -19,12 +19,12 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
 
                 return instance
                     .aroundInvoke({
-                        target,
+                        target: this,
                         method,
                         args,
                         proceed: (err?: Error) => {
                             if (!err) {
-                                return original.apply(target, args);
+                                return original.apply(this, args);
                             }
 
                             throw err;
@@ -32,7 +32,7 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
                     }, options);
             }
 
-            return original.apply(target, args);
+            return original.apply(this, args);
         };
 
         return descriptor;
