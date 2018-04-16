@@ -51,7 +51,7 @@ describe("@Intercept", () => {
         this.interceptor.aroundInvoke.getCall(0).args[0].proceed();
 
         this.interceptor.aroundInvoke.should.have.been.calledWithExactly({
-            target: this.serviceInstance,
+            target: Sinon.match.any,
             method: "method",
             args: ["arg1"],
             proceed: Sinon.match.func
