@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="filterservice">FilterService</h1><label class="symbol-info-type-label service">Service</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { FilterService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.4/src//common/filters/services/FilterService.ts#L0-L0">/common/filters/services/FilterService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { FilterService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.5/src//common/filters/services/FilterService.ts#L0-L0">/common/filters/services/FilterService.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
