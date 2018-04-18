@@ -74,7 +74,7 @@ export class ConverterService {
                 return obj.serialize(options);
             }
 
-            if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
+            if (typeof obj.toJSON === "function") {
                 // deserialize from serialize method
                 return obj.toJSON();
             }

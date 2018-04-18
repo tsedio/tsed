@@ -389,54 +389,6 @@ describe("ConverterService", () => {
                 expect(this.foo.theSet[0]).to.be.an("object");
                 expect(this.foo.theSet[0].test).to.equals("test");
             });
-
-            describe("use toJson()", () => {
-                before(() => {
-                    this.fooJson = JSON.parse(JSON.stringify(this.foo2));
-                });
-                after(() => delete this.fooJSON);
-
-                it("should have an attribut with date type", () => {
-                    expect(this.fooJson.dateStart)
-                        .to.be.a("string")
-                        .and.to.equals(this.foo2.dateStart.toISOString());
-                });
-
-                it("should have an attribut Name (because metadata said Name instead of name)", () => {
-                    expect(this.fooJson.Name).to.be.a("string").and.to.equals("Test");
-                });
-
-                it("should haven't an attribut name (because metadata said Name instead of name)", () => {
-                    expect(this.fooJson.name).to.equals(undefined);
-                });
-
-                it("should have an attribut with array type", () =>
-                    expect(this.fooJson.foos).to.be.an("array")
-                );
-
-                it("should have an attribut with array type and an item serialized", () => {
-                    expect(this.fooJson.foos[0]).to.be.an("object");
-                    expect(this.fooJson.foos[0].test).to.equals("test");
-                });
-
-                it("should have an attribut with Map type", () => {
-                    expect(this.fooJson.theMap).to.be.an("object");
-                });
-
-                it("should have an attribut with Map type and an item serialized", () => {
-                    expect(this.fooJson.theMap.newKey).to.be.an("object");
-                    expect(this.fooJson.theMap.newKey.test).to.equals("test");
-                });
-
-                it("should have an attribut with Set type", () => {
-                    expect(this.fooJson.theSet).to.be.an("array");
-                });
-
-                it("should have an attribut with Set type and an item serialized", () => {
-                    expect(this.fooJson.theSet[0]).to.be.an("object");
-                    expect(this.fooJson.theSet[0].test).to.equals("test");
-                });
-            });
         });
 
         describe("class Foo3", () => {

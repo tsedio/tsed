@@ -104,18 +104,6 @@ export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
                 propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
             }
         }
-
-        return (target: any) => {
-            if (!target.constructor.prototype.toJSON) {
-
-                target.constructor.prototype.toJSON = function () {
-                    return InjectorService
-                        .invoke<ConverterService>(ConverterService)
-                        .serialize(this);
-                };
-                target.constructor.prototype.toJSON.$ignore = true;
-            }
-        };
     });
 }
 
