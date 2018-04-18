@@ -1,26 +1,6 @@
-import {assert, expect} from "chai";
-import * as Proxyquire from "proxyquire";
-import * as Sinon from "sinon";
-
-const ControllerRegistryStub: any = {
-    merge: Sinon.stub()
-};
-const {RouterSettings} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/routerSettings", {
-    "../../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
-});
-
-const {Strict} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/strict", {
-    "./routerSettings": {RouterSettings}
-});
-
-const {CaseSensitive} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/caseSensitive", {
-    "./routerSettings": {RouterSettings}
-});
-
-const {MergeParams} = Proxyquire.load("../../../../../src/common/mvc/decorators/class/mergeParams", {
-    "./routerSettings": {RouterSettings}
-});
-
+import {CaseSensitive, MergeParams, Strict} from "@tsed/common";
+import {Store} from "@tsed/core";
+import {expect} from "../../../../tools";
 
 class Test {
 
@@ -28,9 +8,9 @@ class Test {
 
 describe("RouterSettings", () => {
     describe("MergeParams", () => {
-
         before(() => {
             MergeParams(true)(Test);
+            this.store = Store.from(Test).get("routerOptions");
         });
 
         after(() => {
@@ -38,44 +18,38 @@ describe("RouterSettings", () => {
         });
 
         it("should call merge method for mergeParams options", () => {
-            assert(ControllerRegistryStub.merge.calledWith(Test), "parameters mismatch");
-            expect(ControllerRegistryStub.merge.args[0][1].routerOptions.mergeParams).to.eq(true);
+            expect(this.store.mergeParams).to.eq(true);
         });
-
     });
 
     describe("CaseSensitive", () => {
-
         before(() => {
             CaseSensitive(true)(Test);
+            this.store = Store.from(Test).get("routerOptions");
         });
 
         after(() => {
 
         });
 
-        it("should call merge method for caseSensitive options", () => {
-            assert(ControllerRegistryStub.merge.calledWith(Test), "parameters mismatch");
-            expect(ControllerRegistryStub.merge.args[1][1].routerOptions.caseSensitive).to.eq(true);
+        it("should call merge method for mergeParams options", () => {
+            expect(this.store.caseSensitive).to.eq(true);
         });
-
     });
 
     describe("Strict", () => {
 
         before(() => {
             Strict(true)(Test);
+            this.store = Store.from(Test).get("routerOptions");
         });
 
         after(() => {
 
         });
 
-        it("should call merge method for strict options", () => {
-            assert(ControllerRegistryStub.merge.calledWith(Test), "parameters mismatch");
-            expect(ControllerRegistryStub.merge.args[2][1].routerOptions.strict).to.eq(true);
+        it("should call merge method for mergeParams options", () => {
+            expect(this.store.strict).to.eq(true);
         });
-
     });
-
 });

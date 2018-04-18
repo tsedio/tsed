@@ -4,7 +4,7 @@ import {
     Controller,
     Delete,
     Get,
-    Head,
+    Head, MergeParams,
     Patch,
     Post,
     Put,
@@ -21,6 +21,7 @@ import {TaskCtrl} from "./TaskCtrl";
     path: "/events",
     dependencies: [TaskCtrl]
 })
+@MergeParams()
 export class EventCtrl extends BaseController {
     /**
      *
