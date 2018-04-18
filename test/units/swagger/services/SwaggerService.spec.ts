@@ -1,10 +1,8 @@
+import {ExpressApplication, InjectorService, ServerSettingsService} from "@tsed/common";
+import {Store} from "@tsed/core";
+import {inject} from "@tsed/testing";
 import * as Fs from "fs";
-import {Store} from "../../../../src/core/class/Store";
-import {InjectorService} from "../../../../src/common/di/services/InjectorService";
-import {ServerSettingsService} from "../../../../src/common/config/services/ServerSettingsService";
-import {ExpressApplication} from "../../../../src/common/mvc/decorators";
-import {SwaggerService} from "../../../../src/swagger/services/SwaggerService";
-import {inject} from "../../../../src/testing/inject";
+import {SwaggerService} from "../../../../src/swagger";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

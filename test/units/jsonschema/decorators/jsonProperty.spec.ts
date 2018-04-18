@@ -14,6 +14,15 @@ describe("JsonProperty()", () => {
                     },
                     "type": "object"
                 },
+
+                "JsonFoo1": {
+                    "properties": {
+                        "test": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "JsonNameModel": {
                     "properties": {
                         "name": {
@@ -51,7 +60,7 @@ describe("JsonProperty()", () => {
                 },
                 "foos2": {
                     "items": {
-                        "type": "object"
+                        "$ref": "#/definitions/JsonFoo1"
                     },
                     "type": "array"
                 },
@@ -79,12 +88,12 @@ describe("JsonProperty()", () => {
                 },
                 "theMap": {
                     "additionalProperties": {
-                        "type": "object"
+                        "$ref": "#/definitions/JsonFoo1"
                     }
                 },
                 "theSet": {
                     "additionalProperties": {
-                        "type": "object"
+                        "$ref": "#/definitions/JsonFoo1"
                     }
                 },
                 "uint": {

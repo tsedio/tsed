@@ -33,7 +33,7 @@ describe("JsonSchemesRegistry", () => {
 
                     "foos2": {
                         "items": {
-                            "$ref": "#/definitions/JsonFoo"
+                            "$ref": "#/definitions/JsonFoo1"
                         },
                         "type": "array"
                     },
@@ -61,12 +61,12 @@ describe("JsonSchemesRegistry", () => {
                     },
                     "theMap": {
                         "additionalProperties": {
-                            "$ref": "#/definitions/JsonFoo"
+                            "$ref": "#/definitions/JsonFoo1"
                         }
                     },
                     "theSet": {
                         "additionalProperties": {
-                            "$ref": "#/definitions/JsonFoo"
+                            "$ref": "#/definitions/JsonFoo1"
                         }
                     },
                     "uint": {
