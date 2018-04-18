@@ -34,54 +34,55 @@ export class SwaggerService {
      *
      */
     $afterRoutesInit() {
-        const conf = this.serverSettingsService.get<ISwaggerSettings>("swagger");
         const host = this.serverSettingsService.getHttpPort();
-        const path = conf && conf.path || "/docs";
 
-        $log.info(`Swagger Json is available on http://${host.address}:${host.port}${path}/swagger.json`);
-        this.expressApplication.get(`${path}/swagger.json`, this.onRequest);
+        []
+            .concat(this.serverSettingsService.get("swagger"))
+            .filter(o => !!o)
+            .forEach((conf: ISwaggerSettings) => {
+                const path = conf && conf.path;
+                const doc = conf && conf.doc;
+                const spec = this.getOpenAPISpec(conf);
+                const router = Express.Router();
 
-        if (conf) {
-            let cssContent;
+                let cssContent;
 
-            if (conf.cssPath) {
-                cssContent = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(conf.cssPath)), {encoding: "utf8"});
-            }
+                if (conf.cssPath) {
+                    cssContent = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(conf.cssPath)), {encoding: "utf8"});
+                }
 
-            const spec = this.getOpenAPISpec();
+                router.get("/swagger.json", (req: any, res: any) => res.status(200).json(spec));
 
-            $log.info(`Swagger UI is available on http://${host.address}:${host.port}${path}`);
+                $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
+                $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}`);
 
-            this.expressApplication.use(path, this.middleware().serve);
-            this.expressApplication.get(path, this.middleware().setup(spec, conf.showExplorer, conf.options || {}, cssContent));
+                router.use(this.middleware().serve);
+                router.get("/", this.middleware().setup(spec, conf.showExplorer, conf.options || {}, cssContent));
 
-            if (conf.outFile) {
-                Fs.writeFileSync(conf.outFile, JSON.stringify(spec, null, 2));
-            }
-        }
+                if (conf.outFile) {
+                    Fs.writeFileSync(conf.outFile, JSON.stringify(spec, null, 2));
+                }
 
+                this.expressApplication.use(path, router);
+            });
     }
-
-    private onRequest = (req: any, res: any, next: any) => {
-        if (req.url.indexOf("swagger.json") > -1) {
-            const content = this.getOpenAPISpec();
-            res.status(200).json(content);
-            next();
-        }
-    };
 
     /**
      *
      * @returns {Spec}
      */
-    public getOpenAPISpec(): Spec {
-        const defaultSpec = this.getDefaultSpec();
+    public getOpenAPISpec(conf: ISwaggerSettings): Spec {
+        const defaultSpec = this.getDefaultSpec(conf);
         const paths: ISwaggerPaths = {};
         const definitions = {};
+        const doc = conf.doc;
         let tags: Tag[] = [];
 
         this.controllerService.routes.forEach(({provider, route}) => {
-            if (!provider.store.get("hidden")) {
+            const hidden = provider.store.get("hidden");
+            const docs = provider.store.get("docs") || [];
+
+            if (!doc && !hidden || doc && docs.indexOf(doc) > -1) {
                 this.buildRoutes(paths, definitions, provider, route);
                 tags.push(this.buildTags(provider));
             }
@@ -114,7 +115,7 @@ export class SwaggerService {
      * Return the global api information.
      * @returns {Info}
      */
-    public getDefaultSpec(): Spec {
+    public getDefaultSpec(conf: ISwaggerSettings): Spec {
         const {version} = this.serverSettingsService;
         const consumes = this.serverSettingsService.acceptMimes;
         const produces = ["application/json"];
@@ -123,7 +124,7 @@ export class SwaggerService {
                 info: {},
                 securityDefinitions: {}
             }, specPath
-        } = this.serverSettingsService.get<ISwaggerSettings>("swagger") || {} as any;
+        } = conf || {} as any;
         let specPathContent = {};
 
         if (specPath) {

@@ -51,7 +51,7 @@
   "paths": {
     "/rest/html": {
       "get": {
-        "operationId": "RestCtrl.render_1",
+        "operationId": "RestCtrl.render",
         "tags": [
           "RestCtrl"
         ],
@@ -68,7 +68,7 @@
     },
     "/rest/calendars/events/{eventId}/tasks/": {
       "get": {
-        "operationId": "TaskCtrl.get_1",
+        "operationId": "TaskCtrl.get",
         "tags": [
           "TaskCtrl"
         ],
@@ -101,7 +101,7 @@
     },
     "/rest/calendars/events/{eventId}/tasks/hiddenparam": {
       "get": {
-        "operationId": "TaskCtrl.getHiddenParams_1",
+        "operationId": "TaskCtrl.getHiddenParams",
         "tags": [
           "TaskCtrl"
         ],
@@ -134,7 +134,7 @@
     },
     "/rest/calendars/events/": {
       "head": {
-        "operationId": "EventCtrl.head_1",
+        "operationId": "EventCtrl.head",
         "tags": [
           "EventCtrl"
         ],
@@ -149,7 +149,7 @@
         "produces": []
       },
       "get": {
-        "operationId": "EventCtrl.query_1",
+        "operationId": "EventCtrl.query",
         "tags": [
           "EventCtrl"
         ],
@@ -166,7 +166,7 @@
     },
     "/rest/calendars/events/{id}": {
       "patch": {
-        "operationId": "EventCtrl.patch_1",
+        "operationId": "EventCtrl.patch",
         "tags": [
           "EventCtrl"
         ],
@@ -203,7 +203,7 @@
         "produces": []
       },
       "get": {
-        "operationId": "EventCtrl.find_1",
+        "operationId": "EventCtrl.find",
         "tags": [
           "EventCtrl"
         ],
@@ -225,7 +225,7 @@
         "produces": []
       },
       "put": {
-        "operationId": "EventCtrl.save_1",
+        "operationId": "EventCtrl.save",
         "tags": [
           "EventCtrl"
         ],
@@ -258,7 +258,7 @@
         "produces": []
       },
       "delete": {
-        "operationId": "EventCtrl.remove_1",
+        "operationId": "EventCtrl.remove",
         "tags": [
           "EventCtrl"
         ],
@@ -282,7 +282,7 @@
     },
     "/rest/calendars/events/list": {
       "post": {
-        "operationId": "EventCtrl.update_1",
+        "operationId": "EventCtrl.update",
         "tags": [
           "EventCtrl"
         ],
@@ -318,7 +318,7 @@
         "produces": []
       },
       "get": {
-        "operationId": "EventCtrl.index_1",
+        "operationId": "EventCtrl.index",
         "tags": [
           "EventCtrl"
         ],
@@ -336,7 +336,7 @@
     },
     "/rest/calendars/events/{resources}/test/{id}": {
       "get": {
-        "operationId": "EventCtrl.getTest_1",
+        "operationId": "EventCtrl.getTest",
         "tags": [
           "EventCtrl"
         ],
@@ -369,7 +369,7 @@
     },
     "/rest/calendars/classic/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findClassic_1",
+        "operationId": "CalendarCtrl.findClassic",
         "tags": [
           "CalendarCtrl"
         ],
@@ -393,7 +393,7 @@
     },
     "/rest/calendars/token": {
       "get": {
-        "operationId": "CalendarCtrl.getToken_1",
+        "operationId": "CalendarCtrl.getToken",
         "tags": [
           "CalendarCtrl"
         ],
@@ -410,7 +410,7 @@
     },
     "/rest/calendars/token/{token}": {
       "get": {
-        "operationId": "CalendarCtrl.updateToken_1",
+        "operationId": "CalendarCtrl.updateToken",
         "tags": [
           "CalendarCtrl"
         ],
@@ -435,7 +435,7 @@
     },
     "/rest/calendars/annotation/test/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findWithAnnotation_1",
+        "operationId": "CalendarCtrl.findWithAnnotation",
         "tags": [
           "CalendarCtrl"
         ],
@@ -462,7 +462,7 @@
     },
     "/rest/calendars/annotation/promised/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findWithPromise_1",
+        "operationId": "CalendarCtrl.findWithPromise",
         "tags": [
           "CalendarCtrl"
         ],
@@ -486,7 +486,7 @@
     },
     "/rest/calendars/annotation/status/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findAndChangeStatusCode_1",
+        "operationId": "CalendarCtrl.findAndChangeStatusCode",
         "tags": [
           "CalendarCtrl"
         ],
@@ -510,7 +510,7 @@
     },
     "/rest/calendars/query": {
       "get": {
-        "operationId": "CalendarCtrl.getQuery_1",
+        "operationId": "CalendarCtrl.getQuery",
         "tags": [
           "CalendarCtrl"
         ],
@@ -534,7 +534,7 @@
     },
     "/rest/calendars/": {
       "put": {
-        "operationId": "CalendarCtrl.save_1",
+        "operationId": "CalendarCtrl.save",
         "tags": [
           "CalendarCtrl"
         ],
@@ -564,7 +564,7 @@
         "produces": []
       },
       "delete": {
-        "operationId": "CalendarCtrl.remove_1",
+        "operationId": "CalendarCtrl.remove",
         "tags": [
           "CalendarCtrl"
         ],
@@ -608,7 +608,7 @@
     },
     "/rest/calendars/middleware": {
       "get": {
-        "operationId": "CalendarCtrl.getWithMiddleware_1",
+        "operationId": "CalendarCtrl.getWithMiddleware",
         "tags": [
           "CalendarCtrl"
         ],
@@ -632,7 +632,7 @@
     },
     "/rest/calendars/mvc": {
       "get": {
-        "operationId": "CalendarCtrl.testStackMiddlewares_1",
+        "operationId": "CalendarCtrl.testStackMiddlewares",
         "tags": [
           "CalendarCtrl"
         ],
@@ -652,7 +652,7 @@
     },
     "/rest/calendars/middlewares2": {
       "get": {
-        "operationId": "CalendarCtrl.testUseAfter_1",
+        "operationId": "CalendarCtrl.testUseAfter",
         "tags": [
           "CalendarCtrl"
         ],
@@ -672,7 +672,7 @@
     },
     "/rest/calendars/headers": {
       "get": {
-        "operationId": "CalendarCtrl.testResponseHeader_1",
+        "operationId": "CalendarCtrl.testResponseHeader",
         "tags": [
           "CalendarCtrl"
         ],
@@ -698,7 +698,7 @@
     },
     "/rest/calendars/documents": {
       "post": {
-        "operationId": "CalendarCtrl.testMultipart_1",
+        "operationId": "CalendarCtrl.testMultipart",
         "tags": [
           "CalendarCtrl"
         ],
@@ -715,7 +715,7 @@
     },
     "/rest/calendars/documents/1": {
       "post": {
-        "operationId": "CalendarCtrl.testMultipart2_1",
+        "operationId": "CalendarCtrl.testMultipart2",
         "tags": [
           "CalendarCtrl"
         ],
@@ -732,7 +732,7 @@
     },
     "/rest/calendars/{resources}/test/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.getTest_1",
+        "operationId": "CalendarCtrl.getTest",
         "tags": [
           "CalendarCtrl"
         ],
@@ -765,7 +765,7 @@
     },
     "/rest/calendars/list": {
       "get": {
-        "operationId": "CalendarCtrl.index_1",
+        "operationId": "CalendarCtrl.index",
         "tags": [
           "CalendarCtrl"
         ],

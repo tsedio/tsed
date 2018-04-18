@@ -14,7 +14,7 @@ const rootDir = Path.resolve(__dirname);
     rootDir,
     port: 8001,
     httpsPort: 8071,
-    debug: true,
+    debug: false,
     mount: {
         "/rest": [
             "${rootDir}/controllers/Base/**.js",
@@ -33,12 +33,21 @@ const rootDir = Path.resolve(__dirname);
     serveStatic: {
         "/": "${rootDir}/views"
     },
-    swagger: {
-        path: "/api-doc",
-        cssPath: "${rootDir}/spec/style.css",
-        showExplorer: true,
-        spec: require(`${rootDir}/spec/swagger.default.json`)
-    },
+    swagger: [
+        {
+            path: "/api-doc",
+            cssPath: "${rootDir}/spec/style.css",
+            showExplorer: true,
+            spec: require(`${rootDir}/spec/swagger.default.json`)
+        },
+        {
+            path: "/hidden-doc",
+            doc: "hidden",
+            cssPath: "${rootDir}/spec/style.css",
+            showExplorer: true,
+            spec: require(`${rootDir}/spec/swagger.default.json`)
+        }
+    ],
     controllerScope: ProviderScope.REQUEST
 })
 export class ExampleServer extends ServerLoader {
