@@ -1,5 +1,4 @@
-import {getDecoratorType, Type} from "@tsed/core";
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {getDecoratorType, Store, Type} from "@tsed/core";
 import {EndpointRegistry} from "../../registries/EndpointRegistry";
 
 /**
@@ -32,10 +31,8 @@ export function UseAfter(...args: any[]): Function {
             return descriptor;
         }
 
-        ControllerRegistry.merge(target, {
-            middlewares: {
-                useAfter: args
-            }
+        Store.from(target).merge("middlewares", {
+            useAfter: args
         });
     };
 }

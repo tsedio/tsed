@@ -11,7 +11,11 @@ import {HandlerBuilder} from "./HandlerBuilder";
 export class ControllerBuilder {
 
     constructor(private provider: ControllerProvider, private defaultRoutersOptions: IRouterOptions = {}) {
-        this.provider.router = Express.Router(Object.assign({}, defaultRoutersOptions, this.provider.routerOptions));
+        this.provider.router = Express.Router(Object.assign(
+            {},
+            defaultRoutersOptions,
+            this.provider.routerOptions
+        ));
     }
 
     /**

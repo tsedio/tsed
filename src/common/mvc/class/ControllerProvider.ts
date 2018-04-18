@@ -18,11 +18,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      */
     @NotEnumerable()
     private _path: string;
-    /**
-     *
-     */
-    @NotEnumerable()
-    private _routerOptions: IRouterOptions;
 
     /**
      * Controllers that depend to this controller.
@@ -34,13 +29,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
 
     @NotEnumerable()
     public router: Express.Router;
-
-    @NotEnumerable()
-    private _middlewares: IControllerMiddlewares = {
-        useBefore: [],
-        use: [],
-        useAfter: []
-    };
 
     constructor(provide: any) {
         super(provide);
@@ -93,7 +81,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      * @returns {IRouterOptions}
      */
     get routerOptions(): IRouterOptions {
-        return this._routerOptions;
+        return this.store.get("routerOptions");
     }
 
     /**
@@ -109,7 +97,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      * @param value
      */
     set routerOptions(value: IRouterOptions) {
-        this._routerOptions = value;
+        this.store.set("routerOptions", value);
     }
 
     /**
@@ -117,7 +105,11 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      * @returns {any[]}
      */
     get middlewares(): IControllerMiddlewares {
-        return this._middlewares;
+        return Object.assign({
+            use: [],
+            useAfter: [],
+            useBefore: []
+        }, this.store.get("middlewares") || {});
     }
 
     /**
@@ -125,12 +117,13 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
      * @param middlewares
      */
     set middlewares(middlewares: IControllerMiddlewares) {
-
+        const mdlwrs = this.middlewares;
         const concat = (key: string, a: any, b: any) => a[key] = a[key].concat(b[key]);
 
         Object.keys(middlewares).forEach((key: string) => {
-            concat(key, this._middlewares, middlewares);
+            concat(key, mdlwrs, middlewares);
         });
+        this.store.set("middlewares", mdlwrs);
     }
 
     /**

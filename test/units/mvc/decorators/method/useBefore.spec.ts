@@ -1,7 +1,7 @@
-import {decoratorArgs, descriptorOf} from "../../../../../src/core/utils";
+import {Store} from "@tsed/core";
 import {UseBefore} from "../../../../../src/common/mvc/decorators/method/useBefore";
-import {ControllerRegistry} from "../../../../../src/common/mvc/registries/ControllerRegistry";
 import {EndpointRegistry} from "../../../../../src/common/mvc/registries/EndpointRegistry";
+import {decoratorArgs, descriptorOf} from "../../../../../src/core/utils";
 import {expect, Sinon} from "../../../../tools";
 
 class Test {
@@ -35,22 +35,13 @@ describe("UseBefore()", () => {
 
     describe("when the decorator is use on a class", () => {
         before(() => {
-            this.controllerMergeStub = Sinon.stub(ControllerRegistry, "merge");
-
             this.returns = UseBefore(function () {
             })(Test);
-        });
 
-        after(() => {
-            this.controllerMergeStub.restore();
+            this.store = Store.from(Test).get("middlewares");
         });
-
         it("should add the middleware on the use stack", () => {
-            this.controllerMergeStub.should.be.calledWithExactly(Test, {
-                middlewares: {
-                    useBefore: [Sinon.match.func]
-                }
-            });
+            expect(this.store.useBefore[0]).to.be.a("function");
         });
         it("should return nothing", () => {
             expect(this.returns).to.eq(undefined);
