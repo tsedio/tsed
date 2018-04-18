@@ -19,6 +19,14 @@ describe("JsonSchemesService", () => {
                         },
                         "type": "object"
                     },
+                    "JsonFoo1": {
+                        "properties": {
+                            "test": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
                     "JsonNameModel": {
                         "properties": {
                             "name": {
@@ -53,7 +61,7 @@ describe("JsonSchemesService", () => {
 
                     "foos2": {
                         "items": {
-                            "type": "object"
+                            "$ref": "#/definitions/JsonFoo1"
                         },
                         "type": "array"
                     },
@@ -81,12 +89,12 @@ describe("JsonSchemesService", () => {
                     },
                     "theMap": {
                         "additionalProperties": {
-                            "type": "object"
+                            "$ref": "#/definitions/JsonFoo1"
                         }
                     },
                     "theSet": {
                         "additionalProperties": {
-                            "type": "object"
+                            "$ref": "#/definitions/JsonFoo1"
                         }
                     },
                     "uint": {

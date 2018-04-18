@@ -815,6 +815,11 @@
             ]
           }
         },
+        "tasksMap": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Task"
+          }
+        },
         "startDate": {
           "example": {
             "example1": "2017-10-15T17:05:58.106Z"

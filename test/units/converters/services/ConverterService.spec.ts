@@ -2,7 +2,7 @@ import {ConverterService} from "../../../../src";
 import {JsonProperty} from "../../../../src/common/jsonschema/decorators/jsonProperty";
 import {Store} from "../../../../src/core";
 import {inject} from "../../../../src/testing/inject";
-import {JsonFoo, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
+import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";
 
 class JsonFoo5 {
@@ -179,7 +179,7 @@ describe("ConverterService", () => {
 
                     it(
                         "should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
-                            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo)
+                            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo1)
                     );
                 });
             });

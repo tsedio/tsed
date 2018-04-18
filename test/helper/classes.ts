@@ -50,6 +50,11 @@ export class JsonFoo {
     }
 }
 
+export class JsonFoo1 {
+    @Property()
+    test: string;
+}
+
 export class JsonFoo2 {
     @Property()
     @Required()
@@ -77,14 +82,14 @@ export class JsonFoo2 {
     @PropertyType(JsonFoo)
     foos: JsonFoo[];
 
-    @PropertyType(JsonFoo)
-    foos2: JsonFoo[];
+    @PropertyType(JsonFoo1)
+    foos2: JsonFoo1[];
 
-    @PropertyType(JsonFoo)
-    theMap: Map<string, JsonFoo>;
+    @PropertyType(JsonFoo1)
+    theMap: Map<string, JsonFoo1>;
 
-    @PropertyType(JsonFoo)
-    theSet: Set<JsonFoo>;
+    @PropertyType(JsonFoo1)
+    theSet: Set<JsonFoo1>;
 
     @PropertyType(String)
     mapOfString: Map<string, string>;

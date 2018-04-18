@@ -72,7 +72,7 @@ export class SwaFoo2 {
 
     @Title("SwaFoo2.theMap")
     @Description("SwaFoo2.theMap description")
-    @JsonProperty({use: SwaFoo})
+    @PropertyType(SwaFoo)
     theMap: Map<string, SwaFoo>;
 
     @Title("SwaFoo2.theSet")

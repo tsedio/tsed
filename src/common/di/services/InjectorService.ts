@@ -1,6 +1,6 @@
-import {ServerSettingsService} from "@tsed/common";
 import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
