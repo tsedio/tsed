@@ -340,7 +340,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
         GlobalProviders.forEach((provider) => {
             const service = provider.instance;
 
-            if (eventName in service) {
+            if (service && eventName in service) {
                 /* istanbul ignore next */
                 if (eventName === "$onInjectorReady") {
                     $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
