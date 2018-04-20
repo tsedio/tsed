@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="socketreturns">SocketReturns</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label private" title="private">private</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { SocketReturns }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio/lib/decorators/socketReturns"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.8/src//socketio/decorators/socketReturns.ts#L0-L0">/socketio/decorators/socketReturns.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { SocketReturns }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio/lib/decorators/socketReturns"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.14.0/src//socketio/decorators/socketReturns.ts#L0-L0">/socketio/decorators/socketReturns.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

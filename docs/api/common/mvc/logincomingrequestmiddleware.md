@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="logincomingrequestmiddleware">LogIncomingRequestMiddleware</h1><label class="symbol-info-type-label class">Class</label><label class="api-type-label private" title="private">private</label><label class="api-type-label middleware" title="middleware">middleware</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { LogIncomingRequestMiddleware }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/mvc/components/LogIncomingRequestMiddleware"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.8/src//common/mvc/components/LogIncomingRequestMiddleware.ts#L0-L0">/common/mvc/components/LogIncomingRequestMiddleware.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { LogIncomingRequestMiddleware }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/mvc/components/LogIncomingRequestMiddleware"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.14.0/src//common/mvc/components/LogIncomingRequestMiddleware.ts#L0-L0">/common/mvc/components/LogIncomingRequestMiddleware.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
