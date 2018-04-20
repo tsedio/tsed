@@ -16,6 +16,7 @@ declare interface IServerSettings {
 
 export interface ISwaggerSettings {
     path: string;
+    doc?: string;
     cssPath?: string;
     options?: any;
     showExplorer?: boolean;

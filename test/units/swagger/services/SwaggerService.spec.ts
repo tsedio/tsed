@@ -1,6 +1,7 @@
 import {ExpressApplication, InjectorService, ServerSettingsService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
+import * as Express from "express";
 import * as Fs from "fs";
 import {SwaggerService} from "../../../../src/swagger";
 import {expect, Sinon} from "../../../tools";
@@ -11,7 +12,11 @@ class Test {
 
 describe("SwaggerService", () => {
     before(inject([InjectorService, ServerSettingsService], (injectorService: InjectorService, settingsService: ServerSettingsService) => {
+        this.routerInstance = {
+            use: Sinon.stub(), get: Sinon.stub()
+        };
 
+        this.routerStub = Sinon.stub(Express, "Router").returns(this.routerInstance);
         this.expressApplication = {use: Sinon.stub(), get: Sinon.stub()};
         this.settingsService = settingsService;
 
@@ -20,6 +25,10 @@ describe("SwaggerService", () => {
 
         this.swaggerService = injectorService.invoke(SwaggerService, locals);
     }));
+
+    after(() => {
+        this.routerStub.restore();
+    });
 
     describe("$afterRoutesInit()", () => {
 
@@ -54,10 +63,10 @@ describe("SwaggerService", () => {
             it("should call swagger-middleware.setup with the right parameters", () => {
                 this.middlewareStub.setup.should.be.calledWithExactly({spec: "test"}, undefined, {}, ".cssContent");
             });
-            it("should call Express.get", () => {
-                this.expressApplication.get.should.be.calledWithExactly("/docs/swagger.json", Sinon.match.func);
-                this.expressApplication.use.should.be.calledWithExactly("/docs", Sinon.match.func);
-                this.expressApplication.get.should.be.calledWithExactly("/docs", {setup: "setup"});
+            it("should call Express.Router.get", () => {
+                this.routerInstance.get.should.be.calledWithExactly("/swagger.json", Sinon.match.func);
+                this.routerInstance.use.should.be.calledWithExactly(Sinon.match.func);
+                this.routerInstance.get.should.be.calledWithExactly("/", {setup: "setup"});
             });
         });
 
@@ -96,10 +105,10 @@ describe("SwaggerService", () => {
             it("should call swagger-middleware.setup with the right parameters", () => {
                 this.middlewareStub.setup.should.be.calledWithExactly({spec: "test"}, true, {options: "true"}, undefined);
             });
-            it("should call Express.get", () => {
-                this.expressApplication.get.should.be.calledWithExactly("/path/swagger.json", Sinon.match.func);
-                this.expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
-                this.expressApplication.get.should.be.calledWithExactly("/path", {setup: "setup"});
+            it("should call Express.Router.get", () => {
+                this.routerInstance.get.should.be.calledWithExactly("/swagger.json", Sinon.match.func);
+                this.routerInstance.use.should.be.calledWithExactly(Sinon.match.func);
+                this.routerInstance.get.should.be.calledWithExactly("/", {setup: "setup"});
             });
 
             it("should not write spec.json", () => {
@@ -144,10 +153,10 @@ describe("SwaggerService", () => {
             it("should call swagger-middleware.setup with the right parameters", () => {
                 this.middlewareStub.setup.should.be.calledWithExactly({spec: "test"}, true, {options: "true"}, undefined);
             });
-            it("should call Express.use", () => {
-                this.expressApplication.get.should.be.calledWithExactly("/path/swagger.json", Sinon.match.func);
-                this.expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
-                this.expressApplication.get.should.be.calledWithExactly("/path", {setup: "setup"});
+            it("should call Express.Router.use", () => {
+                this.routerInstance.get.should.be.calledWithExactly("/swagger.json", Sinon.match.func);
+                this.routerInstance.use.should.be.calledWithExactly(Sinon.match.func);
+                this.routerInstance.get.should.be.calledWithExactly("/", {setup: "setup"});
             });
             it("should write spec.json", () => {
                 this.writeFileSyncStub.should.be.calledOnce;
@@ -161,14 +170,7 @@ describe("SwaggerService", () => {
 
         describe("when specPath is given", () => {
             before(() => {
-                this.getStub = Sinon.stub(this.settingsService, "get");
-                this.getStub.withArgs("swagger").returns({specPath: __dirname + "/data/spec.json"});
-
-                return this.result = this.swaggerService.getDefaultSpec();
-            });
-
-            after(() => {
-                this.getStub.restore();
+                return this.result = this.swaggerService.getDefaultSpec({specPath: __dirname + "/data/spec.json"});
             });
 
             it("should return default spec", () => {
@@ -178,14 +180,7 @@ describe("SwaggerService", () => {
 
         describe("when nothing is given", () => {
             before(() => {
-                this.getStub = Sinon.stub(this.settingsService, "get");
-                this.getStub.withArgs("swagger").returns({});
-
-                return this.result = this.swaggerService.getDefaultSpec();
-            });
-
-            after(() => {
-                this.getStub.restore();
+                return this.result = this.swaggerService.getDefaultSpec({});
             });
 
             it("should return default spec", () => {
@@ -212,14 +207,7 @@ describe("SwaggerService", () => {
 
         describe("when some info is given", () => {
             before(() => {
-                this.getStub = Sinon.stub(this.settingsService, "get");
-                this.getStub.withArgs("swagger").returns({spec: {info: {}}});
-
-                return this.result = this.swaggerService.getDefaultSpec();
-            });
-
-            after(() => {
-                this.getStub.restore();
+                return this.result = this.swaggerService.getDefaultSpec({spec: {info: {}}});
             });
 
             it("should return default spec", () => {
@@ -294,6 +282,16 @@ describe("SwaggerService", () => {
     describe("readSpecPath", () => {
         it("should return an empty object", () => {
             expect(this.swaggerService.readSpecPath("/swa.json")).to.deep.eq({});
+        });
+    });
+
+    describe("getOperationId()", () => {
+        it("should return the right id", () => {
+            expect(this.swaggerService.getOperationId("operation")).to.deep.eq("operation");
+        });
+
+        it("should return the right id with increment", () => {
+            expect(this.swaggerService.getOperationId("operation")).to.deep.eq("operation_1");
         });
     });
 });

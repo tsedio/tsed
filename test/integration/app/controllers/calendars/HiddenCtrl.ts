@@ -1,8 +1,9 @@
 import {Controller, Get, PathParams} from "@tsed/common";
-import {Hidden} from "../../../../../src/swagger";
+import {Docs, Hidden} from "../../../../../src/swagger";
 
 @Controller("/hidden")
 @Hidden()
+@Docs("hidden")
 export class HiddenCtrl {
 
     @Get("/")

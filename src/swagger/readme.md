@@ -21,9 +21,9 @@ const rootDir = Path.resolve(__dirname)
 
 @ServerSettings({
   rootDir,
-  swagger: {
+  swagger: [{
       path: "/api-docs"
-  }
+  }]
 })
 export class Server extends ServerLoader {
 
@@ -35,6 +35,7 @@ Normally, Swagger-ui is ready. You can start your server and check if it work fi
 
 > Note: Ts.ED will print the swagger url in the console.
 
+
 ### Swagger options
 
 Some options is available to configure Swagger-ui, Ts.ED and the default spec information.
@@ -42,12 +43,56 @@ Some options is available to configure Swagger-ui, Ts.ED and the default spec in
 Key | Example | Description
 ---|---|---
 path | `/api-doc` |  The url subpath to access to the documentation.
+doc | `hidden-doc` |  The documentation key used by `@Docs` decorator to create several swagger documentations.
 cssPath | `${rootDir}/spec/style.css` | The path to the CSS file.
 showExplorer | `true` | Display the search field in the navbar.
 spec | `{swagger: "2.0"}` | The default information spec.
 specPath | `${rootDir}/spec/swagger.base.json` | Load the base spec documentation from the specified path.
 outFile | `${rootDir}/spec/swagger.json` | Write the `swagger.json` spec documentation on the specified path.
 
+### Multi documentations
+
+It also possible to create several swagger documentations with `doc` option:
+
+```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/swagger"; // import swagger Ts.ED module
+
+@ServerSettings({
+  rootDir: __dirname,
+  swagger: [
+    {
+      path: "/api-docs-v1",
+      doc: 'api-v1'
+    },
+    {
+      path: "/api-docs-v2",
+      doc: 'api-v2'
+    }
+  ]
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+Then use `@Docs` decorators on your controllers to specify where the controllers should be displayed.
+
+```typescript
+import {Controller} from "@tsed/common";
+import {Docs} from "@tsed/swagger";
+
+@Controller('/calendars')
+@Docs('api-v2') // display this controllers only for api-docs-v2
+export class CalendarCtrlV2 {
+}
+// OR 
+@Controller('/calendars')
+@Docs('api-v2', 'api-v1')  // display this controllers for api-docs-v2 and api-docs-v1
+export class CalendarCtrl {
+
+}
+``` 
 
 ## Examples
 #### Model documentation

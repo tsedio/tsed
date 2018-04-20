@@ -1,5 +1,6 @@
 export * from "./services/SwaggerService";
 export * from "./interfaces";
+export * from "./decorators/docs";
 export * from "./decorators/baseParameter";
 export * from "./decorators/deprecated";
 export * from "./decorators/description";
