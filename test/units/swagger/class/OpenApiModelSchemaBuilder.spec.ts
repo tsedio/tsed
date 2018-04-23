@@ -68,6 +68,7 @@ describe("OpenApiModelSchemaBuilder", () => {
                         "type": "string"
                     },
                     "theMap": {
+                        "type": "object",
                         "additionalProperties": {
                             "$ref": "#/definitions/SwaFoo"
                         },
@@ -75,6 +76,7 @@ describe("OpenApiModelSchemaBuilder", () => {
                         "title": "SwaFoo2.theMap"
                     },
                     "theSet": {
+                        "type": "object",
                         "additionalProperties": {
                             "$ref": "#/definitions/SwaFoo"
                         },
@@ -82,11 +84,13 @@ describe("OpenApiModelSchemaBuilder", () => {
                         "title": "SwaFoo2.theSet"
                     },
                     "mapOfString": {
+                        "type": "object",
                         "additionalProperties": {
                             "type": "string"
                         }
                     },
                     "mapAny": {
+                        "type": "object",
                         "additionalProperties": {
                             "type": [
                                 "integer",
@@ -165,6 +169,7 @@ describe("OpenApiModelSchemaBuilder", () => {
                             "type": "string"
                         },
                         "theMap": {
+                            "type": "object",
                             "additionalProperties": {
                                 "$ref": "#/definitions/SwaFoo"
                             },
@@ -172,6 +177,7 @@ describe("OpenApiModelSchemaBuilder", () => {
                             "title": "SwaFoo2.theMap"
                         },
                         "theSet": {
+                            "type": "object",
                             "additionalProperties": {
                                 "$ref": "#/definitions/SwaFoo"
                             },
@@ -180,6 +186,7 @@ describe("OpenApiModelSchemaBuilder", () => {
                         },
 
                         "mapAny": {
+                            "type": "object",
                             "additionalProperties": {
                                 "type": [
                                     "integer",
@@ -193,6 +200,7 @@ describe("OpenApiModelSchemaBuilder", () => {
                             }
                         },
                         "mapOfString": {
+                            "type": "object",
                             "additionalProperties": {
                                 "type": "string"
                             }
