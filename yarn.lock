@@ -6148,9 +6148,9 @@ supports-color@^5.1.0, supports-color@^5.2.0:
   dependencies:
     has-flag "^3.0.0"
 
-swagger-ui-express@^2.0.11:
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-2.0.15.tgz#fba85a357b40c0d629e942537199987b8085587d"
+swagger-ui-express@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-3.0.8.tgz#75b4a4271f50ec40c774b7e66e08778db267049f"
 
 syntax-error@^1.1.6:
   version "1.4.0"
