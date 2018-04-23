@@ -26,8 +26,44 @@ export class SwaggerService {
 
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     private middleware() {
         return require("swagger-ui-express");
+    }
+
+    /**
+     *
+     * @param {string} path
+     * @param host
+     * @param options
+     * @returns {(req: any, res: any, next: any) => void}
+     */
+    private buildSwaggerOptions(path: string, host: any, options: any) {
+        const swaggerInitPath = require.resolve("swagger-ui-express/swagger-ui-init.js");
+        const swaggerInitJS = Fs.readFileSync(swaggerInitPath, {encoding: "utf8"});
+
+        return (req: any, res: any, next: any) => {
+
+            if (req.url === "/swagger-ui-init.js") {
+                res.set("Content-Type", "application/javascript");
+
+                const json = JSON.stringify({
+                    customOptions: options || {},
+                    swaggerUrl: `${req.protocol}://${host.address}:${host.port}${path}/swagger.json`
+                });
+
+                const content = swaggerInitJS.toString().replace(
+                    "<% swaggerOptions %>",
+                    "var options = " + json);
+
+                res.send(content);
+            } else {
+                next();
+            }
+        };
     }
 
     /**
@@ -40,15 +76,14 @@ export class SwaggerService {
             .concat(this.serverSettingsService.get("swagger"))
             .filter(o => !!o)
             .forEach((conf: ISwaggerSettings) => {
-                const path = conf && conf.path;
-                const doc = conf && conf.doc;
+                const {path = "/", doc, options = {}, outFile, showExplorer} = conf;
                 const spec = this.getOpenAPISpec(conf);
                 const router = Express.Router();
 
-                let cssContent;
+                let customCss;
 
                 if (conf.cssPath) {
-                    cssContent = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(conf.cssPath)), {encoding: "utf8"});
+                    customCss = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(conf.cssPath)), {encoding: "utf8"});
                 }
 
                 router.get("/swagger.json", (req: any, res: any) => res.status(200).json(spec));
@@ -56,11 +91,16 @@ export class SwaggerService {
                 $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
                 $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}`);
 
+                router.use(this.buildSwaggerOptions(path, host, options));
                 router.use(this.middleware().serve);
-                router.get("/", this.middleware().setup(spec, conf.showExplorer, conf.options || {}, cssContent));
+                router.get("/", this.middleware().setup(null, {
+                    swaggerOptions: options,
+                    explorer: showExplorer,
+                    customCss
+                }));
 
-                if (conf.outFile) {
-                    Fs.writeFileSync(conf.outFile, JSON.stringify(spec, null, 2));
+                if (outFile) {
+                    Fs.writeFileSync(outFile, JSON.stringify(spec, null, 2));
                 }
 
                 this.expressApplication.use(path, router);
