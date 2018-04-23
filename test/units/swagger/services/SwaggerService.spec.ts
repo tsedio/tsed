@@ -19,7 +19,6 @@ describe("SwaggerService", () => {
         this.routerStub = Sinon.stub(Express, "Router").returns(this.routerInstance);
         this.expressApplication = {use: Sinon.stub(), get: Sinon.stub()};
         this.settingsService = settingsService;
-        this.settingsService.host;
 
         const locals = new Map();
         locals.set(ExpressApplication, this.expressApplication);

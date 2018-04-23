@@ -91,12 +91,14 @@ export class OpenApiModelSchemaBuilder {
             }
 
             if (model.isClass) {
+                schema.type = schema.type || swaggerType(model.type);
                 schema.additionalProperties = {
                     $ref: `#/definitions/${model.typeName}`
                 };
                 return schema;
             }
 
+            schema.type = schema.type || swaggerType(model.type);
             schema.additionalProperties = {
                 type: schema.additionalProperties && schema.additionalProperties.type || swaggerType(model.type)
             };
