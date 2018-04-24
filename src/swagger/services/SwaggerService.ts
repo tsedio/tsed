@@ -52,7 +52,7 @@ export class SwaggerService {
 
                 const json = JSON.stringify({
                     customOptions: options || {},
-                    swaggerUrl: `${req.protocol}://${host.address}:${host.port}${path}/swagger.json`
+                    swaggerUrl: `${path}/swagger.json`
                 });
 
                 const content = swaggerInitJS.toString().replace(

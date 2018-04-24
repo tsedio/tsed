@@ -69,7 +69,7 @@ describe("SwaggerService", () => {
             });
 
             it("should send javascript file content", () => {
-                this.res.send.should.have.been.calledWithExactly("var options = {\"customOptions\":{\"options\":\"options\"},\"swaggerUrl\":\"http://0.0.0.0:8080/path/swagger.json\"}");
+                this.res.send.should.have.been.calledWithExactly("var options = {\"customOptions\":{\"options\":\"options\"},\"swaggerUrl\":\"/path/swagger.json\"}");
             });
         });
 
