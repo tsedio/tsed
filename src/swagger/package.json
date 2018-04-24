@@ -10,7 +10,7 @@
   "peerDependencies": {
     "@tsed/common": "0.0.0-PLACEHOLDER",
     "@types/swagger-schema-official": "^2.0.7",
-    "swagger-ui-express": "^2.0.15"
+    "swagger-ui-express": "^3.0.8"
   },
   "devDependencies": {},
   "private": false,

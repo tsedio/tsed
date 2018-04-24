@@ -57,7 +57,8 @@ export class SwaggerService {
 
                 const content = swaggerInitJS.toString().replace(
                     "<% swaggerOptions %>",
-                    "var options = " + json);
+                    "var options = " + json
+                );
 
                 res.send(content);
             } else {
