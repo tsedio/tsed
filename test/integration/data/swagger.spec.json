@@ -803,6 +803,7 @@
           "type": "string"
         },
         "mapAny": {
+          "type": "object",
           "additionalProperties": {
             "type": [
               "integer",
@@ -816,6 +817,7 @@
           }
         },
         "tasksMap": {
+          "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/Task"
           }

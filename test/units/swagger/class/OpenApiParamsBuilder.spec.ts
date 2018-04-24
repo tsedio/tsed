@@ -148,6 +148,7 @@ describe("OpenApiParamsBuilder", () => {
                 expect(this.result).to.deep.eq({
                     "properties": {
                         "event": {
+                            "type": "object",
                             "additionalProperties": {
                                 "type": "string"
                             }
@@ -342,11 +343,13 @@ describe("OpenApiParamsBuilder", () => {
                             "type": "array"
                         },
                         "mapOfString": {
+                            "type": "object",
                             "additionalProperties": {
                                 "type": "string"
                             }
                         },
                         "mapAny": {
+                            "type": "object",
                             "additionalProperties": {
                                 "type": [
                                     "integer",
@@ -368,6 +371,7 @@ describe("OpenApiParamsBuilder", () => {
                             "type": "string"
                         },
                         "theMap": {
+                            "type": "object",
                             "additionalProperties": {
                                 "$ref": "#/definitions/SwaFoo"
                             },
@@ -375,6 +379,7 @@ describe("OpenApiParamsBuilder", () => {
                             "title": "SwaFoo2.theMap"
                         },
                         "theSet": {
+                            "type": "object",
                             "additionalProperties": {
                                 "$ref": "#/definitions/SwaFoo"
                             },
