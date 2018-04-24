@@ -8,7 +8,6 @@ Before using the Swagger, we need to install the [swagger-ui-express](https://ww
 
 ```bash
 npm install --save-dev @types/swagger-schema-official 
-npm install --save swagger-ui-express @tsed/swagger
 ```
 
 Then add the following configuration in your [ServerLoader](api/common/server/serverloader.md):
@@ -45,10 +44,13 @@ Key | Example | Description
 path | `/api-doc` |  The url subpath to access to the documentation.
 doc | `hidden-doc` |  The documentation key used by `@Docs` decorator to create several swagger documentations.
 cssPath | `${rootDir}/spec/style.css` | The path to the CSS file.
+jsPath | `${rootDir}/spec/main.js` | The path to the JS file.
 showExplorer | `true` | Display the search field in the navbar.
 spec | `{swagger: "2.0"}` | The default information spec.
 specPath | `${rootDir}/spec/swagger.base.json` | Load the base spec documentation from the specified path.
 outFile | `${rootDir}/spec/swagger.json` | Write the `swagger.json` spec documentation on the specified path.
+hidden | `true` | Hide the documentation in the dropdown explorer list.
+options | Swagger-UI options | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md)
 
 ### Multi documentations
 
@@ -150,6 +152,41 @@ export class Calendar {
 }
 ```
 !> To update the swagger.json you need to reload the server before.
+
+
+
+## Import Javascript
+
+It possible to import a Javascript in the Swagger-ui documentation. This script let you customize the swagger-ui instance. 
+
+
+```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/swagger"; // import swagger Ts.ED module
+
+@ServerSettings({
+  rootDir: __dirname,
+  swagger: [
+    {
+      path: "/api-docs",
+      jsPath: "/spec/main.js"
+    }
+  ]
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+In your JavaScript file, you can handle Swagger-ui configuration and the instance:
+
+```javascript
+console.log(SwaggerUIBuilder.config); //Swagger-ui config
+
+document.addEventListener('swagger.init', (evt) => {
+    console.log(SwaggerUIBuilder.ui); //Swagger-ui instance
+});
+```
 
 ## Documentation
 

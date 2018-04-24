@@ -2,7 +2,7 @@ const { buildApi } = require('docsify-ts-api');
 const path = require('path');
 const runSeq = require('./utils/runSeq');
 
-module.exports = (gulp, plugins, cb) => {
+module.exports = (gulp, cb) => {
   const projectRoot = path.join(process.cwd(), 'dist');
 
   buildApi({
