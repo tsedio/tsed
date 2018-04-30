@@ -16,6 +16,9 @@ import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
 import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
 import {getReducers} from "../utils";
 
+const swaggerUiPath = require("swagger-ui-dist").absolutePath();
+const ejs = require("ejs");
+
 @Service()
 export class SwaggerService {
     private OPERATION_IDS: any = {};
@@ -28,84 +31,114 @@ export class SwaggerService {
 
     /**
      *
-     * @returns {any}
-     */
-    private middleware() {
-        return require("swagger-ui-express");
-    }
-
-    /**
-     *
-     * @param {string} path
-     * @param host
-     * @param options
-     * @returns {(req: any, res: any, next: any) => void}
-     */
-    private buildSwaggerOptions(path: string, host: any, options: any) {
-        const swaggerInitPath = require.resolve("swagger-ui-express/swagger-ui-init.js");
-        const swaggerInitJS = Fs.readFileSync(swaggerInitPath, {encoding: "utf8"});
-
-        return (req: any, res: any, next: any) => {
-
-            if (req.url === "/swagger-ui-init.js") {
-                res.set("Content-Type", "application/javascript");
-
-                const json = JSON.stringify({
-                    customOptions: options || {},
-                    swaggerUrl: `${path}/swagger.json`
-                });
-
-                const content = swaggerInitJS.toString().replace(
-                    "<% swaggerOptions %>",
-                    "var options = " + json
-                );
-
-                res.send(content);
-            } else {
-                next();
-            }
-        };
-    }
-
-    /**
-     *
      */
     $afterRoutesInit() {
         const host = this.serverSettingsService.getHttpPort();
+        const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
 
-        []
-            .concat(this.serverSettingsService.get("swagger"))
-            .filter(o => !!o)
+        const urls: any[] = swagger.reduce((acc: any[], conf) => {
+            const {path = "/", doc, hidden} = conf;
+            if (!hidden) {
+                acc.push({url: `${path}/swagger.json`, name: doc || path});
+            }
+            return acc;
+        }, []);
+
+
+        swagger
             .forEach((conf: ISwaggerSettings) => {
-                const {path = "/", doc, options = {}, outFile, showExplorer} = conf;
+                const {path = "/", doc, options = {}, outFile, showExplorer, cssPath, jsPath} = conf;
                 const spec = this.getOpenAPISpec(conf);
-                const router = Express.Router();
+                const scope = {
+                    spec,
+                    url: `${path}/swagger.json`,
+                    urls,
+                    showExplorer,
+                    cssPath,
+                    jsPath,
+                    swaggerOptions: options
+                };
 
-                let customCss;
-
-                if (conf.cssPath) {
-                    customCss = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(conf.cssPath)), {encoding: "utf8"});
-                }
-
-                router.get("/swagger.json", (req: any, res: any) => res.status(200).json(spec));
-
-                $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
-                $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}`);
-
-                router.use(this.buildSwaggerOptions(path, host, options));
-                router.use(this.middleware().serve);
-                router.get("/", this.middleware().setup(null, {
-                    swaggerOptions: options,
-                    explorer: showExplorer,
-                    customCss
-                }));
+                this.expressApplication.use(path, this.createRouter(conf, scope));
 
                 if (outFile) {
                     Fs.writeFileSync(outFile, JSON.stringify(spec, null, 2));
                 }
 
-                this.expressApplication.use(path, router);
+                $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
+                $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}`);
             });
+    }
+
+    /**
+     *
+     * @param {ISwaggerSettings} conf
+     * @param scope
+     */
+    private createRouter(conf: ISwaggerSettings, scope: any) {
+        const {cssPath, jsPath} = conf;
+        const router = Express.Router();
+
+        router.get("/swagger.json", (req: any, res: any) => res.status(200).json(scope.spec));
+        router.get("/", this.middlewareIndex(scope));
+        router.use(Express.static(swaggerUiPath));
+
+        if (cssPath) {
+            router.get("/main.css", this.middlewareCss(cssPath));
+        }
+
+        if (jsPath) {
+            router.get("/main.js", this.middlewareJs(jsPath));
+        }
+
+        return router;
+    }
+
+    /**
+     *
+     * @param scope
+     * @returns {(req: any, res: any) => any}
+     */
+    private middlewareIndex(scope: any) {
+        /* istanbul ignore next */
+        return (req: any, res: any) =>
+            ejs.renderFile(__dirname + "/../views/index.ejs", scope, {}, (err: any, str: string) => {
+                console.log(err);
+                if (err) {
+                    $log.error(err);
+                    res.status(500).send(err.message);
+                } else {
+                    res.send(str);
+                }
+            });
+    }
+
+    /**
+     *
+     * @param {e.Router} router
+     * @param {string} path
+     */
+    private middlewareCss(path: string) {
+        /* istanbul ignore next */
+        return (req: any, res: any) => {
+            const content = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(path)), {encoding: "utf8"});
+            res.set("Content-Type", "text/css");
+            res.status(200).send(content);
+        };
+    }
+
+    /**
+     *
+     * @param {e.Router} router
+     * @param {string} path
+     */
+    private middlewareJs(path: string) {
+        /* istanbul ignore next */
+        return (req: any, res: any) => {
+            const content = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(path)), {encoding: "utf8"});
+            res.set("Content-Type", "application/javascript");
+            res.status(200).send(content);
+        };
     }
 
     /**

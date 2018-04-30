@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 
-module.exports = (tasks, ...args) => {
+module.exports = (tasks) => {
 
   /**
    *
@@ -8,7 +8,13 @@ module.exports = (tasks, ...args) => {
    * @param task
    * @returns {*}
    */
-  const addTask = (taskName, task) => gulp.task(taskName, (cb) => task(gulp, ...args, cb));
+  const addTask = (taskName, task) => gulp.task(taskName, (cb) => {
+    const r = task(gulp, cb);
+    if (task.length === 1 && !r) {
+      cb();
+    }
+    return r;
+  });
   /**
    *
    * @param tasks

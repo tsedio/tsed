@@ -12,11 +12,6 @@ class Test {
 
 describe("SwaggerService", () => {
     before(inject([InjectorService, ServerSettingsService], (injectorService: InjectorService, settingsService: ServerSettingsService) => {
-        this.routerInstance = {
-            use: Sinon.stub(), get: Sinon.stub()
-        };
-
-        this.routerStub = Sinon.stub(Express, "Router").returns(this.routerInstance);
         this.expressApplication = {use: Sinon.stub(), get: Sinon.stub()};
         this.settingsService = settingsService;
 
@@ -27,308 +22,172 @@ describe("SwaggerService", () => {
     }));
 
     after(() => {
-        this.routerStub.restore();
-    });
-
-    describe("buildSwaggerOptions()", () => {
-        describe("when requested url is /swagger-ui-init.js", () => {
-            before(() => {
-
-                this.next = Sinon.stub();
-                this.res = {
-                    set: Sinon.stub(),
-                    send: Sinon.stub()
-                };
-
-                this.req = {
-                    url: "/swagger-ui-init.js",
-                    protocol: "http"
-                };
-
-                this.readFileSyncStub = Sinon.stub(Fs, "readFileSync").returns("<% swaggerOptions %>");
-
-                const mdlw = this.swaggerService
-                    .buildSwaggerOptions(
-                        "/path",
-                        {address: "0.0.0.0", port: 8080},
-                        {options: "options"}
-                    );
-
-                mdlw(this.req, this.res, this.next);
-            });
-
-            after(() => {
-                this.readFileSyncStub.restore();
-            });
-
-            it("should call fs.readFileSync", () => {
-                this.readFileSyncStub.should.have.been.calledWithExactly(require.resolve("swagger-ui-express/swagger-ui-init.js"), {encoding: "utf8"});
-            });
-            it("should set content-type", () => {
-                this.res.set.should.have.been.calledWithExactly("Content-Type", "application/javascript");
-            });
-
-            it("should send javascript file content", () => {
-                this.res.send.should.have.been.calledWithExactly("var options = {\"customOptions\":{\"options\":\"options\"},\"swaggerUrl\":\"/path/swagger.json\"}");
-            });
-        });
-
-        describe("when requested url is not /swagger-ui-init.js", () => {
-            before(() => {
-                this.next = Sinon.stub();
-                this.res = {
-                    set: Sinon.stub(),
-                    send: Sinon.stub()
-                };
-
-                this.req = {
-                    url: "",
-                    protocol: "http"
-                };
-
-                this.readFileSyncStub = Sinon.stub(Fs, "readFileSync").returns("<% swaggerOptions %>");
-                const mdlw = this.swaggerService
-                    .buildSwaggerOptions(
-                        "/path",
-                        {address: "0.0.0.0", port: 8080},
-                        {options: "options"}
-                    );
-
-                mdlw(this.req, this.res, this.next);
-            });
-
-            after(() => {
-                this.readFileSyncStub.restore();
-            });
-
-            it("should call fs.readFileSync", () => {
-                this.readFileSyncStub.should.have.been.calledWithExactly(require.resolve("swagger-ui-express/swagger-ui-init.js"), {encoding: "utf8"});
-            });
-            it("should set content-type", () => {
-                return this.res.set.should.not.have.been.called;
-            });
-
-            it("should send javascript file content", () => {
-                return this.res.send.should.not.have.been.called;
-            });
-        });
     });
 
     describe("$afterRoutesInit()", () => {
         before(() => {
+            this.config = [
+                {
+                    path: "/doc1",
+                    doc: "doc1",
+                    options: "options",
+                    outFile: "/path/outFile",
+                    showExplorer: true,
+                    cssPath: "cssPath",
+                    jsPath: "jsPath",
+                    hidden: false
+                },
+                {
+                    path: "/doc2",
+                    doc: "doc2",
+                    options: "options",
+                    outFile: null,
+                    showExplorer: false,
+                    cssPath: "cssPath",
+                    jsPath: "jsPath",
+                    hidden: true
+                }
+            ];
             this.getHttpPortStub = Sinon.stub(this.settingsService, "getHttpPort").returns({
                 address: "0.0.0.0",
                 port: 8080
             });
+            this.getStub = Sinon.stub(this.settingsService, "get").returns(this.config);
+            this.getOpenAPISpecStub = Sinon.stub(this.swaggerService, "getOpenAPISpec").returns({spec: "spec"});
+            this.createRouterStub = Sinon.stub(this.swaggerService, "createRouter").returns({router: "router"});
+            this.writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
+
+            this.swaggerService.$afterRoutesInit();
         });
         after(() => {
             this.getHttpPortStub.restore();
+            this.getOpenAPISpecStub.restore();
+            this.createRouterStub.restore();
+            this.writeFileSyncStub.restore();
+            this.expressApplication.use.reset();
         });
-        describe("when cssPath is given", () => {
-            before(() => {
-                this.writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
-                this.readFileSyncStub = Sinon.stub(Fs, "readFileSync").returns(".cssContent");
-                this.getStub = Sinon.stub(this.settingsService, "get").returns({cssPath: "/path/to/css"});
-                this.getOpenAPISpecStub = Sinon.stub(this.swaggerService, "getOpenAPISpec");
-                this.middlewareStub = {
-                    setup: Sinon.stub().returns({setup: "setup"}),
-                    serve: Sinon.stub()
-                };
 
-                Sinon.stub(this.swaggerService, "middleware").returns(this.middlewareStub);
-                Sinon.stub(this.swaggerService, "buildSwaggerOptions").returns({
-                    swaggerOptions: "swaggerOptions"
-                });
+        it("it should call getHttpPort()", () => {
+            return this.getHttpPortStub.should.have.been.called;
+        });
 
-                this.getOpenAPISpecStub.returns({spec: "test"});
+        it("it should call serviceSetting.get()", () => {
+            return this.getStub.should.have.been.calledWithExactly("swagger");
+        });
 
-                return this.swaggerService.$afterRoutesInit();
+        it("it should call getOpenAPISpec()", () => {
+            this.getOpenAPISpecStub.getCall(0).should.have.been.calledWithExactly(this.config[0]);
+            this.getOpenAPISpecStub.getCall(1).should.have.been.calledWithExactly(this.config[1]);
+        });
+
+        it("it should call createRouter()", () => {
+            this.createRouterStub.getCall(0).should.have.been.calledWithExactly(this.config[0], {
+                spec: {spec: "spec"},
+                url: "/doc1/swagger.json",
+                urls: [{url: "/doc1/swagger.json", name: "doc1"}],
+                showExplorer: true,
+                cssPath: "cssPath",
+                jsPath: "jsPath",
+                swaggerOptions: "options"
             });
 
-            after(() => {
-                this.writeFileSyncStub.restore();
-                this.readFileSyncStub.restore();
-                this.getStub.restore();
-                this.getOpenAPISpecStub.restore();
-                this.swaggerService.middleware.restore();
-                this.swaggerService.buildSwaggerOptions.restore();
-            });
-
-            it("should read cssFile", () => {
-                this.readFileSyncStub.should.be.calledWithExactly("/path/to/css", {encoding: "utf8"});
-            });
-
-            it("should call buildSwaggerOptions", () => {
-                this.swaggerService.buildSwaggerOptions.should.have.been.calledWithExactly(
-                    "/",
-                    {
-                        address: "0.0.0.0",
-                        port: 8080
-                    },
-                    {}
-                );
-            });
-
-            it("should call swagger-middleware.setup with the right parameters", () => {
-                this.middlewareStub.setup.should.be.calledWithExactly(null, {
-                    customCss: ".cssContent",
-                    explorer: undefined,
-                    swaggerOptions: {}
-                });
-            });
-            it("should call Express.Router.get", () => {
-                this.routerInstance.get.should.be.calledWithExactly("/swagger.json", Sinon.match.func);
-                this.routerInstance.use.should.be.calledWithExactly(Sinon.match.func);
-                this.routerInstance.use.should.be.calledWithExactly({
-                    swaggerOptions: "swaggerOptions"
-                });
-                this.routerInstance.get.should.be.calledWithExactly("/", {setup: "setup"});
+            this.createRouterStub.getCall(1).should.have.been.calledWithExactly(this.config[1], {
+                spec: {spec: "spec"},
+                url: "/doc2/swagger.json",
+                urls: [{url: "/doc1/swagger.json", name: "doc1"}],
+                showExplorer: false,
+                cssPath: "cssPath",
+                jsPath: "jsPath",
+                swaggerOptions: "options"
             });
         });
 
-        describe("when path and options is given", () => {
-            before(() => {
-                this.writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
-                this.readFileSyncStub = Sinon.stub(Fs, "readFileSync").returns(".cssContent");
-                this.getStub = Sinon.stub(this.settingsService, "get").returns({
-                    path: "/path",
-                    showExplorer: true,
-                    options: {options: "true"}
-                });
-                this.getOpenAPISpecStub = Sinon.stub(this.swaggerService, "getOpenAPISpec");
-                this.middlewareStub = {
-                    setup: Sinon.stub().returns({setup: "setup"}),
-                    serve: Sinon.stub()
-                };
-
-                Sinon.stub(this.swaggerService, "middleware").returns(this.middlewareStub);
-                Sinon.stub(this.swaggerService, "buildSwaggerOptions").returns({
-                    swaggerOptions: "swaggerOptions"
-                });
-
-                this.getOpenAPISpecStub.returns({spec: "test"});
-
-                return this.swaggerService.$afterRoutesInit();
-            });
-
-            after(() => {
-                this.writeFileSyncStub.restore();
-                this.readFileSyncStub.restore();
-                this.swaggerService.buildSwaggerOptions.restore();
-                this.getStub.restore();
-                this.getOpenAPISpecStub.restore();
-                this.swaggerService.middleware.restore();
-            });
-
-            it("should not read cssFile", () => {
-                this.readFileSyncStub.should.not.be.called;
-            });
-
-            it("should call buildSwaggerOptions", () => {
-                this.swaggerService.buildSwaggerOptions.should.have.been.calledWithExactly(
-                    "/path",
-                    {
-                        address: "0.0.0.0",
-                        port: 8080
-                    },
-                    {options: "true"}
-                );
-            });
-
-            it("should call swagger-middleware.setup with the right parameters", () => {
-                this.middlewareStub.setup.should.be.calledWithExactly(null, {
-                    customCss: undefined,
-                    explorer: true,
-                    swaggerOptions: {options: "true"}
-                });
-            });
-            it("should call Express.Router.get", () => {
-                this.routerInstance.get.should.be.calledWithExactly("/swagger.json", Sinon.match.func);
-                this.routerInstance.use.should.be.calledWithExactly(Sinon.match.func);
-                this.routerInstance.get.should.be.calledWithExactly("/", {setup: "setup"});
-                this.routerInstance.use.should.be.calledWithExactly({
-                    swaggerOptions: "swaggerOptions"
-                });
-            });
-
-            it("should not write spec.json", () => {
-                this.writeFileSyncStub.should.not.be.called;
-            });
+        it("it should call expressApp.use", () => {
+            this.expressApplication.use.getCall(0).should.have.been.calledWithExactly("/doc1", {router: "router"});
+            this.expressApplication.use.getCall(1).should.have.been.calledWithExactly("/doc2", {router: "router"});
         });
 
-        describe("when specPath is given", () => {
-            before(() => {
-                this.writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
-                this.readFileSyncStub = Sinon.stub(Fs, "readFileSync").returns(".cssContent");
-                this.getStub = Sinon.stub(this.settingsService, "get").returns({
-                    path: "/path",
-                    specPath: "/path/to/spec",
-                    outFile: "/path/to/specOut",
-                    showExplorer: true,
-                    options: {options: "true"}
-                });
-                this.getOpenAPISpecStub = Sinon.stub(this.swaggerService, "getOpenAPISpec");
-                this.middlewareStub = {
-                    setup: Sinon.stub().returns({setup: "setup"}),
-                    serve: Sinon.stub()
-                };
-
-                Sinon.stub(this.swaggerService, "middleware").returns(this.middlewareStub);
-                Sinon.stub(this.swaggerService, "buildSwaggerOptions").returns({
-                    swaggerOptions: "swaggerOptions"
-                });
-
-                this.getOpenAPISpecStub.returns({spec: "test"});
-
-                return this.swaggerService.$afterRoutesInit();
-            });
-
-            after(() => {
-                this.writeFileSyncStub.restore();
-                this.readFileSyncStub.restore();
-                this.getStub.restore();
-                this.getOpenAPISpecStub.restore();
-                this.swaggerService.middleware.restore();
-                this.swaggerService.buildSwaggerOptions.restore();
-            });
-
-            it("should not read cssFile", () => {
-                this.readFileSyncStub.should.not.be.called;
-            });
-
-            it("should call buildSwaggerOptions", () => {
-                this.swaggerService.buildSwaggerOptions.should.have.been.calledWithExactly(
-                    "/path",
-                    {
-                        address: "0.0.0.0",
-                        port: 8080
-                    },
-                    {options: "true"}
-                );
-            });
-
-            it("should call swagger-middleware.setup with the right parameters", () => {
-                this.middlewareStub.setup.should.be.calledWithExactly(null, {
-                    customCss: undefined,
-                    explorer: true,
-                    swaggerOptions: {options: "true"}
-                });
-            });
-            it("should call Express.Router.use", () => {
-                this.routerInstance.get.should.be.calledWithExactly("/swagger.json", Sinon.match.func);
-                this.routerInstance.use.should.be.calledWithExactly(Sinon.match.func);
-                this.routerInstance.get.should.be.calledWithExactly("/", {setup: "setup"});
-            });
-            it("should write spec.json", () => {
-                this.writeFileSyncStub.should.be.calledOnce;
-                this.writeFileSyncStub.should.be.calledWithExactly("/path/to/specOut", JSON.stringify({spec: "test"}, null, 2));
-                this.routerInstance.use.should.be.calledWithExactly({
-                    swaggerOptions: "swaggerOptions"
-                });
-            });
+        it("should write spec.json", () => {
+            this.writeFileSyncStub.should.be.calledOnce;
+            this.writeFileSyncStub.should.be.calledWithExactly("/path/outFile", JSON.stringify({spec: "spec"}, null, 2));
         });
-
     });
+
+    describe("createRouter()", () => {
+        before(() => {
+            this.routerInstance = {get: Sinon.stub(), use: Sinon.stub()};
+            this.routerStub = Sinon.stub(Express, "Router").returns(this.routerInstance);
+            this.staticStub = Sinon.stub(Express, "static").returns("statics");
+            this.middelwareIndexStub = Sinon.stub(this.swaggerService, "middlewareIndex").returns("indexMdlw");
+            this.middelwareCsstub = Sinon.stub(this.swaggerService, "middlewareCss").returns("cssMdlw");
+            this.middelwareJstub = Sinon.stub(this.swaggerService, "middlewareJs").returns("jsMdlw");
+
+            this.swaggerService.createRouter({cssPath: "cssPath", jsPath: "jsPath"}, {scope: "scope"});
+        });
+        after(() => {
+            this.routerStub.restore();
+            this.staticStub.restore();
+            this.middelwareIndexStub.restore();
+            this.middelwareCsstub.restore();
+            this.middelwareJstub.restore();
+        });
+
+        it("should call Express.Router", () => {
+            return this.routerStub.should.have.been.called;
+        });
+
+        it("should call router.get", () => {
+            this.routerInstance.get.should.have.been.calledWithExactly("/swagger.json", Sinon.match.func);
+            this.routerInstance.get.should.have.been.calledWithExactly("/", "indexMdlw");
+            this.routerInstance.get.should.have.been.calledWithExactly("/main.js", "jsMdlw");
+            this.routerInstance.get.should.have.been.calledWithExactly("/main.css", "cssMdlw");
+        });
+
+        it("should call router.use", () => {
+            this.routerInstance.use.should.have.been.calledWithExactly("statics");
+        });
+
+        it("should call Express.use", () => {
+            this.staticStub.should.have.been.calledWithExactly(Sinon.match("swagger-ui-dist"));
+        });
+
+        it("should call this.middlewareIndex", () => {
+            this.middelwareIndexStub.should.have.been.calledWithExactly({scope: "scope"});
+        });
+        it("should call this.middlewareCss", () => {
+            this.middelwareCsstub.should.have.been.calledWithExactly("cssPath");
+        });
+        it("should call this.middlewareJs", () => {
+            this.middelwareJstub.should.have.been.calledWithExactly("jsPath");
+        });
+    });
+
+    describe("middlewareIndex()", () => {
+        before(() => {
+            this.result = this.swaggerService.middlewareIndex({scope: "scope"});
+        });
+        it("should return a function", () => {
+            expect(this.result).to.be.a("function");
+        });
+    });
+
+    describe("middlewareJs()", () => {
+        before(() => {
+            this.result = this.swaggerService.middlewareJs("pathJs");
+        });
+        it("should return a function", () => {
+            expect(this.result).to.be.a("function");
+        });
+    });
+    describe("middlewareCss()", () => {
+        before(() => {
+            this.result = this.swaggerService.middlewareJs("pathCss");
+        });
+        it("should return a function", () => {
+            expect(this.result).to.be.a("function");
+        });
+    });
+
 
     describe("getDefaultSpec()", () => {
 
