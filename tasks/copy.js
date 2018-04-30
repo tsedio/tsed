@@ -78,6 +78,17 @@ module.exports = {
           .on('end', resolve);
       }));
 
+      promises.push(new Promise((resolve, reject) => {
+        gutil.log('Copy views', gutil.colors.cyan(`'${pkg}'`));
+        gulp
+          .src(['src/' + pkg + '/views/**'], { base: './src/' + pkg  })
+          .pipe(replace('0.0.0-PLACEHOLDER', version))
+          .pipe(gulp.dest('dist/packages/' + pkg + '/lib'))
+          .pipe(gulp.dest('dist/lib/' + pkg))
+          .on('error', reject)
+          .on('end', resolve);
+      }));
+
     });
 
     return Promise.all(promises);
