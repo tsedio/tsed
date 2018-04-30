@@ -109,7 +109,6 @@
     "proxyquire": "^1.8.0",
     "read-package-json": "^2.0.12",
     "require-dir": "^1.0.0",
-    "run-sequence": "^2.2.1",
     "semantic-release": "^7.0.2",
     "sinon": "^4.1.2",
     "sinon-chai": "^2.14.0",
