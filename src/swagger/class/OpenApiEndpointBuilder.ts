@@ -1,7 +1,6 @@
-import {EndpointMetadata} from "@tsed/common";
+import {EndpointMetadata, PathParamsType} from "@tsed/common";
 import {deepExtends, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
-import {ExpressPathMethod} from "../../common/mvc/interfaces/ExpressPathMethod";
 import {toSwaggerPath} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
@@ -14,7 +13,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
 
     constructor(private endpoint: EndpointMetadata,
                 private endpointUrl: string,
-                private pathMethod: ExpressPathMethod,
+                private pathMethod: { path?: PathParamsType, method?: string },
                 private getOperationId: Function) {
         super(endpoint.target);
     }
