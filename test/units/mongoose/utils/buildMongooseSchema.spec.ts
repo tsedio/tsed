@@ -149,6 +149,7 @@ describe("buildMongooseSchema", () => {
                         "required": true,
                         "test2": [
                             {
+                                "required": false,
                                 "type": String
                             }
                         ]
