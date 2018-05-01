@@ -101,6 +101,34 @@ export class Server extends ServerLoader {
 }
 ```
 
+
+### Port aléatoire
+
+L'assignation de port aléatoire peut être activé en configurant la valeur 0. L'assignement du port sera délégué à l'OS.
+
+```typescript
+@ServerSettings({
+   httpPort: "127.0.0.1:0",
+   httpsPort: "127.0.0.2:0",
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+Ou :
+
+```typescript
+@ServerSettings({
+   httpPort: 0,
+   httpsPort: 0,
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+
 ### Désactiver HTTP
 
 ```typescript

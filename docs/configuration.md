@@ -95,6 +95,32 @@ export class Server extends ServerLoader {
 }
 ```
 
+### Random port
+
+Random port assignement can be enable with the value "0". The port assignment will be delegate to the OS.
+
+```typescript
+@ServerSettings({
+   httpPort: "127.0.0.1:0",
+   httpsPort: "127.0.0.2:0",
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+Or: 
+
+```typescript
+@ServerSettings({
+   httpPort: 0,
+   httpsPort: 0,
+})
+export class Server extends ServerLoader {
+
+}
+```
+
 ### Disable HTTP
 
 ```typescript

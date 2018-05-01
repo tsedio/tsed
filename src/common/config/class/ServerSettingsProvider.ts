@@ -413,9 +413,25 @@ export class ServerSettingsProvider implements IServerSettings {
 
     /**
      *
+     * @param settings
+     */
+    setHttpPort(settings: { address: string, port: number }) {
+        this.map.set("httpPort", `${settings.address}:${settings.port}`);
+    }
+
+    /**
+     *
      * @returns {string|number}
      */
     getHttpsPort(): { address: string, port: number } {
         return ServerSettingsProvider.buildAddressAndPort(this.map.get("httpsPort"));
+    }
+
+    /**
+     *
+     * @param settings
+     */
+    setHttpsPort(settings: { address: string, port: number }) {
+        this.map.set("httpsPort", `${settings.address}:${settings.port}`);
     }
 }
