@@ -56,6 +56,10 @@ import {SocketService, IO, Nsp, Socket, SocketSession} from "@tsed/socketio";
 export class MySocketService {
 
     @Nsp nsp: SocketIO.Namespace;
+    
+    @Nsp("/my-other-namespace") 
+    nspOther: SocketIO.Namespace; // communication between two namespace
+
 
     constructor(@IO private io: SocketIO.Server) {}
     /**

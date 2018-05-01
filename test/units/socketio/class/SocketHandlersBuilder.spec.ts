@@ -23,17 +23,23 @@ describe("SocketHandlersBuilder", () => {
 
             this.builder = new SocketHandlersBuilder(this.provider);
             this.builder.socketProviderMetadata = {
-                injectNamespace: "nsp",
+                namespace: "/",
+                injectNamespaces: [{propertyKey: "key1"}, {propertyKey: "key2", nsp: "/test"}],
                 handlers: {
                     $onDisconnect: {}
                 }
             };
 
-            this.builder.build(this.nspStub);
+            this.nsps = new Map();
+            this.nsps.set("/", "namespace1");
+            this.nsps.set("/test", "namespace2");
+
+            this.builder.build(this.nsps);
         });
 
         it("should create metadata when $onDisconnect exists", () => {
             expect(this.builder.socketProviderMetadata).to.deep.eq({
+                "namespace": "/",
                 "handlers": {
                     "$onConnection": {
                         "eventName": "connection",
@@ -44,21 +50,37 @@ describe("SocketHandlersBuilder", () => {
                         "methodClassName": "$onDisconnect"
                     }
                 },
-                "injectNamespace": "nsp"
+                "injectNamespaces": [
+                    {
+                        "propertyKey": "key1"
+                    },
+                    {
+                        "nsp": "/test",
+                        "propertyKey": "key2"
+                    }
+                ]
             });
         });
 
         it("should call $onNamespaceInit hook", () => {
-            this.provider.instance.$onNamespaceInit.should.have.been.calledWithExactly(this.nspStub);
+            this.provider.instance.$onNamespaceInit.should.have.been.calledWithExactly("namespace1");
+        });
+
+        it("should add namespace1", () => {
+            expect(this.provider.instance.key1).to.deep.eq("namespace1");
+        });
+
+        it("should add namespace2", () => {
+            expect(this.provider.instance.key2).to.deep.eq("namespace2");
+        });
+
+        it("should add default nsp", () => {
+            expect(this.provider.instance.nsp).to.deep.eq("namespace1");
         });
 
         it("should init the nspSession", () => {
             expect(this.provider.instance._nspSession).to.be.instanceOf(Map);
         });
-
-        it("should inject the socket.Namespace instance", () => (
-            expect(this.provider.instance.nsp).to.deep.eq(this.nspStub)
-        ));
     });
 
     describe("onConnection", () => {

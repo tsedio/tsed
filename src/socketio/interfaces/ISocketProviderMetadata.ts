@@ -14,7 +14,7 @@ export enum SocketProviderTypes {
 export interface ISocketProviderMetadata {
     type: SocketProviderTypes;
     namespace?: string;
-    injectNamespace?: string;
+    injectNamespaces?: {propertyKey: string, nsp: string}[];
     useBefore?: any[];
     useAfter?: any[];
     handlers: {

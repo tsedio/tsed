@@ -40,7 +40,25 @@ describe("Nsp", () => {
 
         it("should set metadata", () => {
             expect(this.store.get("socketIO")).to.deep.eq({
-                injectNamespace: "test"
+                injectNamespaces: [{propertyKey: "test"}]
+            });
+        });
+    });
+
+
+    describe("when it used as property decorator with parameters", () => {
+        class Test {
+            @Nsp("/test")
+            property: any;
+        }
+
+        before(() => {
+            this.store = Store.from(Test);
+        });
+
+        it("should set metadata", () => {
+            expect(this.store.get("socketIO")).to.deep.eq({
+                injectNamespaces: [{propertyKey: "property", nsp: "/test"}]
             });
         });
     });
