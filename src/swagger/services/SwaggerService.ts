@@ -59,8 +59,8 @@ export class SwaggerService {
                     swaggerOptions: options
                 };
 
+                this.expressApplication.get(path, this.middlewareRedirect(path));
                 this.expressApplication.use(path, this.createRouter(conf, scope));
-
                 if (outFile) {
                     Fs.writeFileSync(outFile, JSON.stringify(spec, null, 2));
                 }
@@ -79,8 +79,8 @@ export class SwaggerService {
         const {cssPath, jsPath} = conf;
         const router = Express.Router();
 
-        router.get("/swagger.json", (req: any, res: any) => res.status(200).json(scope.spec));
         router.get("/", this.middlewareIndex(scope));
+        router.get("/swagger.json", (req: any, res: any) => res.status(200).json(scope.spec));
         router.use(Express.static(swaggerUiPath));
 
         if (cssPath) {
@@ -94,6 +94,17 @@ export class SwaggerService {
         return router;
     }
 
+    private middlewareRedirect(path: string) {
+        /* istanbul ignore next */
+        return (req: any, res: any, next: any) => {
+            if (req.url === path && !req.url.match(/\/$/)) {
+                res.redirect(path + "/");
+            } else {
+                next();
+            }
+        };
+    }
+
     /**
      *
      * @param scope
@@ -103,7 +114,6 @@ export class SwaggerService {
         /* istanbul ignore next */
         return (req: any, res: any) =>
             ejs.renderFile(__dirname + "/../views/index.ejs", scope, {}, (err: any, str: string) => {
-                console.log(err);
                 if (err) {
                     $log.error(err);
                     res.status(500).send(err.message);
@@ -111,6 +121,7 @@ export class SwaggerService {
                     res.send(str);
                 }
             });
+
     }
 
     /**
