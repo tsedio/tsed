@@ -3,7 +3,8 @@ import {Store} from "../../../../src/core/class/Store";
 import {expect} from "../../../tools";
 
 class Test {
-  method(arg1: any, arg2: any) {}
+  method(arg1: any, arg2: any) {
+  }
 }
 
 describe("PropertyMetadata", () => {
@@ -15,20 +16,27 @@ describe("PropertyMetadata", () => {
       this.propertyMetadata.allowedRequiredValues = [null, ""];
     });
 
-    after(() => delete this.propertyMetadata);
-
-    it("should return the required value", () =>
+    it("should return the required value", () => {
       expect(this.propertyMetadata.required)
         .to.be.a("boolean")
-        .and.to.eq(true));
+        .and.to.eq(true);
+    });
 
-    it("should return collectionType", () => expect(this.propertyMetadata.collectionType).to.eq(undefined));
+    it("should return collectionType", () => {
+      expect(this.propertyMetadata.collectionType).to.eq(undefined);
+    });
 
-    it("should return type", () => expect(this.propertyMetadata.type).to.eq(Test));
+    it("should return type", () => {
+      expect(this.propertyMetadata.type).to.eq(Test);
+    });
 
-    it("should return collectionName", () => expect(this.propertyMetadata.collectionName).to.eq(""));
+    it("should return collectionName", () => {
+      expect(this.propertyMetadata.collectionName).to.eq("");
+    });
 
-    it("should return typeName", () => expect(this.propertyMetadata.typeName).to.eq("Test"));
+    it("should return typeName", () => {
+      expect(this.propertyMetadata.typeName).to.eq("Test");
+    });
 
     it("should return isCollection", () => {
       expect(this.propertyMetadata.isCollection).to.eq(false);
@@ -55,17 +63,17 @@ describe("PropertyMetadata", () => {
         this.propertyMetadata.required = true;
       });
       it("should return true (value 0)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
       });
 
       it("should return false (value '')", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue("")).to.be.false;
+        expect(this.propertyMetadata.isValidRequiredValue("")).to.be.false;
       });
       it("should return false (value null)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.false;
+        expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.false;
       });
       it("should return false (value undefined)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.false;
+        expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.false;
       });
     });
 
@@ -76,17 +84,17 @@ describe("PropertyMetadata", () => {
         this.propertyMetadata.required = true;
       });
       it("should return true (value 0)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
       });
 
       it("should return false (value '')", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue("")).to.be.false;
+        expect(this.propertyMetadata.isValidRequiredValue("")).to.be.false;
       });
       it("should return true (value null)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.true;
       });
       it("should return false (value undefined)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.false;
+        expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.false;
       });
     });
 
@@ -97,17 +105,17 @@ describe("PropertyMetadata", () => {
         this.propertyMetadata.required = false;
       });
       it("should return true (value 0)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
       });
 
       it("should return true (value '')", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue("")).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue("")).to.be.true;
       });
       it("should return true (value null)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.true;
       });
       it("should return true (value undefined)", () => {
-        return expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.true;
+        expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.true;
       });
     });
   });
@@ -120,17 +128,17 @@ describe("PropertyMetadata", () => {
         this.propertyMetadata.required = true;
       });
       it("should return false (value 0)", () => {
-        return expect(this.propertyMetadata.isRequired(0)).to.be.false;
+        expect(this.propertyMetadata.isRequired(0)).to.be.false;
       });
 
       it("should return true (value '')", () => {
-        return expect(this.propertyMetadata.isRequired("")).to.be.true;
+        expect(this.propertyMetadata.isRequired("")).to.be.true;
       });
       it("should return true (value null)", () => {
-        return expect(this.propertyMetadata.isRequired(null)).to.be.true;
+        expect(this.propertyMetadata.isRequired(null)).to.be.true;
       });
       it("should return true (value undefined)", () => {
-        return expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
+        expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
       });
     });
 
@@ -141,17 +149,17 @@ describe("PropertyMetadata", () => {
         this.propertyMetadata.required = true;
       });
       it("should return false (value 0)", () => {
-        return expect(this.propertyMetadata.isRequired(0)).to.be.false;
+        expect(this.propertyMetadata.isRequired(0)).to.be.false;
       });
 
       it("should return true (value '')", () => {
-        return expect(this.propertyMetadata.isRequired("")).to.be.true;
+        expect(this.propertyMetadata.isRequired("")).to.be.true;
       });
       it("should return false (value null)", () => {
-        return expect(this.propertyMetadata.isRequired(null)).to.be.false;
+        expect(this.propertyMetadata.isRequired(null)).to.be.false;
       });
       it("should return true (value undefined)", () => {
-        return expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
+        expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
       });
     });
 
@@ -162,17 +170,17 @@ describe("PropertyMetadata", () => {
         this.propertyMetadata.required = false;
       });
       it("should return false (value 0)", () => {
-        return expect(this.propertyMetadata.isRequired(0)).to.be.false;
+        expect(this.propertyMetadata.isRequired(0)).to.be.false;
       });
 
       it("should return false (value '')", () => {
-        return expect(this.propertyMetadata.isRequired("")).to.be.false;
+        expect(this.propertyMetadata.isRequired("")).to.be.false;
       });
       it("should return false (value null)", () => {
-        return expect(this.propertyMetadata.isRequired(null)).to.be.false;
+        expect(this.propertyMetadata.isRequired(null)).to.be.false;
       });
       it("should return false (value undefined)", () => {
-        return expect(this.propertyMetadata.isRequired(undefined)).to.be.false;
+        expect(this.propertyMetadata.isRequired(undefined)).to.be.false;
       });
     });
   });

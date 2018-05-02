@@ -8,7 +8,7 @@
 ### Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">Args</span><span class="token punctuation">(</span>mapIndex?<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">Args</span><span class="token punctuation">(</span>mapIndex?<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> useType?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

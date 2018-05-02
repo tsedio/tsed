@@ -4,7 +4,8 @@ import {expect} from "../../../tools";
 
 describe("Args", () => {
   describe("without parameters", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       Args()(Test, "test", 0);
@@ -17,8 +18,8 @@ describe("Args", () => {
           test: {
             parameters: {
               "0": {
-                mapIndex: undefined,
-                filter: "args"
+                filter: "args",
+                useConverter: false
               }
             }
           }
@@ -28,7 +29,8 @@ describe("Args", () => {
   });
 
   describe("with parameters", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       Args(1)(Test, "test", 1);
@@ -41,8 +43,11 @@ describe("Args", () => {
           test: {
             parameters: {
               "1": {
+                collectionType: undefined,
+                filter: "args",
                 mapIndex: 1,
-                filter: "args"
+                type: undefined,
+                useConverter: true
               }
             }
           }

@@ -1,9 +1,11 @@
 import {expect} from "chai";
 import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
 
-class Test {}
+class Test {
+}
 
-class Test2 {}
+class Test2 {
+}
 
 describe("ControllerProvider", () => {
   before(() => {
@@ -19,24 +21,31 @@ describe("ControllerProvider", () => {
     };
   });
 
-  it("should have type field to equals to controller", () => expect(this.ControllerProvider.type).to.equal("controller"));
+  it("should have type field to equals to controller", () => {
+    expect(this.ControllerProvider.type).to.equal("controller");
+  });
 
-  it("should get path", () => expect(this.ControllerProvider.path).to.equal("/"));
+  it("should get path", () => {
+    expect(this.ControllerProvider.path).to.equal("/");
+  });
 
-  it("should get endpoints", () =>
+  it("should get endpoints", () => {
     expect(this.ControllerProvider.endpoints)
       .to.be.an("array")
-      .and.have.length(0));
+      .and.have.length(0);
+  });
 
-  it("should get dependencies", () =>
+  it("should get dependencies", () => {
     expect(this.ControllerProvider.dependencies)
       .to.be.an("array")
-      .and.have.length(1));
+      .and.have.length(1);
+  });
 
-  it("should have a dependency witch have $parentCtrl attributs", () =>
+  it("should have a dependency witch have $parentCtrl attributs", () => {
     expect(this.ControllerProvider.dependencies[0])
       .to.equals(Test2)
-      .and.have.property("$parentCtrl"));
+      .and.have.property("$parentCtrl");
+  });
 
   it("should get a scope", () => {
     expect(this.ControllerProvider.scope).to.eq("request");

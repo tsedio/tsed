@@ -20,7 +20,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
       this.builder.socketProviderMetadata = {
         namespace: "/",
         injectNamespaces: [{propertyKey: "key1"}, {propertyKey: "key2", nsp: "/test"}],
@@ -97,7 +97,7 @@ describe("SocketHandlersBuilder", () => {
         on: Sinon.stub()
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
       this.builder.socketProviderMetadata = {
         injectNamespace: "nsp",
         handlers: {
@@ -149,7 +149,7 @@ describe("SocketHandlersBuilder", () => {
         on: Sinon.stub()
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
       this.builder.socketProviderMetadata = {
         injectNamespace: "nsp",
         handlers: {
@@ -192,7 +192,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
       this.builder.createSession({id: "id"});
     });
 
@@ -214,12 +214,12 @@ describe("SocketHandlersBuilder", () => {
 
       this.provider.instance._nspSession.set("id", new Map());
 
-      this.builder = new SocketHandlersBuilder(this.provider);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
       this.builder.destroySession({id: "id"});
     });
 
     it("should destroy session for the socket", () => {
-      return expect(this.provider.instance._nspSession.get("id")).to.be.undefined;
+      expect(this.provider.instance._nspSession.get("id")).to.be.undefined;
     });
   });
 
@@ -240,7 +240,7 @@ describe("SocketHandlersBuilder", () => {
       this.socketStub = {
         on: Sinon.stub()
       };
-      const builder: any = new SocketHandlersBuilder(this.provider);
+      const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
       this.runQueueStub = Sinon.stub(builder, "runQueue");
 
       builder.buildHandlers(this.socketStub, "ws");
@@ -281,7 +281,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(this.provider);
+      const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
       this.buildParametersStub = Sinon.stub(builder, "buildParameters").returns(["argMapped"]);
 
       builder.invoke(this.provider.instance, this.metadata.handlers.testHandler, {scope: "scope"});
@@ -310,7 +310,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -338,7 +338,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -367,7 +367,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -395,7 +395,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -423,7 +423,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -451,7 +451,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -483,7 +483,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -587,10 +587,13 @@ describe("SocketHandlersBuilder", () => {
 
       this.bindResponseMiddlewareStub = Sinon.stub(SocketHandlersBuilder as any, "bindResponseMiddleware");
 
-      this.builder = new SocketHandlersBuilder(this.provider);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
 
       this.invokeStub = Sinon.stub(this.builder, "invoke");
       this.bindMiddlewareStub = Sinon.stub(this.builder, "bindMiddleware");
+      this.deserializeStub = Sinon.stub(this.builder, "deserialize");
+
+
       this.bindMiddlewareStub.onCall(0).returns(Promise.resolve());
       this.bindMiddlewareStub.onCall(1).returns(Promise.resolve());
       this.bindMiddlewareStub.onCall(2).returns(Promise.resolve());
@@ -601,6 +604,7 @@ describe("SocketHandlersBuilder", () => {
 
     after(() => {
       this.bindResponseMiddlewareStub.restore();
+      this.deserializeStub.restore();
     });
 
     it("should call bindMiddleware (handler before global)", () => {
@@ -672,11 +676,21 @@ describe("SocketHandlersBuilder", () => {
         Sinon.match.instanceOf(Promise)
       );
     });
+
+    it("should call deserialize()", () => {
+      this.deserializeStub.should.have.been.calledWithExactly(this.handlerMetadata, {
+        eventName: "eventName",
+        args: ["arg1"],
+        socket: "socket",
+        nsp: "nsp"
+      });
+    });
   });
 
   describe("bindMiddleware()", () => {
     describe("middleware is not registered", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         this.instance = new Test();
@@ -696,7 +710,7 @@ describe("SocketHandlersBuilder", () => {
 
         this.scope = {scope: "scope"};
 
-        this.builder = new SocketHandlersBuilder(this.provider);
+        this.builder = new SocketHandlersBuilder(this.provider, {} as any);
         this.invokeStub = Sinon.stub(this.builder, "invoke");
 
         return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
@@ -715,7 +729,8 @@ describe("SocketHandlersBuilder", () => {
     });
 
     describe("middleware", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         this.instance = new Test();
@@ -743,7 +758,7 @@ describe("SocketHandlersBuilder", () => {
 
         this.scope = {scope: "scope"};
 
-        this.builder = new SocketHandlersBuilder(this.provider);
+        this.builder = new SocketHandlersBuilder(this.provider, {} as any);
         this.invokeStub = Sinon.stub(this.builder, "invoke").returns({result: "result"});
 
         return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
@@ -766,7 +781,8 @@ describe("SocketHandlersBuilder", () => {
     });
 
     describe("middleware error", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         this.instance = new Test();
@@ -795,7 +811,7 @@ describe("SocketHandlersBuilder", () => {
         this.scope = {scope: "scope"};
         this.error = new Error("test");
 
-        this.builder = new SocketHandlersBuilder(this.provider);
+        this.builder = new SocketHandlersBuilder(this.provider, {} as any);
         this.invokeStub = Sinon.stub(this.builder, "invoke").returns(Promise.resolve());
 
         return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
@@ -811,6 +827,38 @@ describe("SocketHandlersBuilder", () => {
       it("should invoke method", () => {
         this.invokeStub.should.have.been.calledWithExactly(this.instance, "use", {error: this.error, ...this.scope});
       });
+    });
+  });
+
+  describe("deserialize()", () => {
+    before(() => {
+      this.provider = {
+        store: {
+          get: Sinon.stub()
+        }
+      };
+      const parameters: any[] = [{
+        filter: SocketFilters.ARGS,
+        useConverter: true,
+        mapIndex: 0,
+        type: String,
+        collectionType: Array
+      }];
+      const scope: any = {
+        args: ["any"]
+      };
+
+      this.converterService = {
+        deserialize: Sinon.stub().returns("value")
+      };
+
+      this.builder = new SocketHandlersBuilder(this.provider, this.converterService as any);
+
+      this.result = this.builder.deserialize({parameters} as any, scope as any);
+    });
+
+    it("should call ConverterService.deserialize", () => {
+      this.converterService.deserialize.should.have.been.calledWithExactly("any", String, Array);
     });
   });
 });

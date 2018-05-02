@@ -73,7 +73,7 @@ describe("PropertyRegistry", () => {
         this.result = PropertyRegistry.getProperties(Parent);
       });
       it("should have a property name metadata from Parent class", () => {
-        return expect(this.result.has("test")).to.be.false;
+        expect(this.result.has("test")).to.be.false;
       });
 
       it("should have a property id metadata from Children class", () => {

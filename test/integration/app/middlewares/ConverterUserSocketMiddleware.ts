@@ -14,7 +14,7 @@ export class ConverterUserSocketMiddleware {
     @SocketSession session: Map<string, any>
   ) {
     session.set("test", "test2");
-    const user = this.converterService.deserialize({name: userName}, User);
+    const user = this.converterService.deserialize({name: userName, }, User);
     $log.info("User =>", user);
 
     return [user];

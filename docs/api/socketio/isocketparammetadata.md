@@ -11,6 +11,9 @@
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> ISocketParamMetadata <span class="token punctuation">{</span>
     filter<span class="token punctuation">:</span> <a href="#api/socketio/socketfilters"><span class="token">SocketFilters</span></a><span class="token punctuation">;</span>
     mapIndex?<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    useConverter?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    type?<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    collectionType?<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -43,6 +46,39 @@
 
 <div class="method-overview">
 <pre><code class="typescript-lang ">mapIndex?<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">useConverter?<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">type?<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">collectionType?<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>></code></pre>
 </div>
 
 

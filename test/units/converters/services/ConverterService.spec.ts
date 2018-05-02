@@ -17,8 +17,6 @@ describe("ConverterService", () => {
     })
   );
 
-  after(() => delete this.converterService);
-
   describe("deserialize()", () => {
     describe("primitive", () => {
       it("should convert boolean to Boolean", () => {
@@ -78,7 +76,9 @@ describe("ConverterService", () => {
     });
 
     describe("object", () => {
-      it("should convert object", () => expect(this.converterService.deserialize({}, Object)).to.be.an("object"));
+      it("should convert object", () => {
+        expect(this.converterService.deserialize({}, Object)).to.be.an("object");
+      });
 
       it(
         "should convert a date",
@@ -99,9 +99,9 @@ describe("ConverterService", () => {
         );
       });
 
-      after(() => delete this.foo);
-
-      it("should be an instance of Foo", () => expect(this.foo).to.be.instanceof(JsonFoo));
+      it("should be an instance of Foo", () => {
+        expect(this.foo).to.be.instanceof(JsonFoo);
+      });
 
       it("should have method named 'method'", () => {
         expect(this.foo.method).to.be.a("function");
@@ -148,11 +148,13 @@ describe("ConverterService", () => {
         );
       });
 
-      after(() => delete this.foo2);
+      it("should be an instance of Foo2", () => {
+        expect(this.foo2).to.be.instanceof(JsonFoo2);
+      });
 
-      it("should be an instance of Foo2", () => expect(this.foo2).to.be.instanceof(JsonFoo2));
-
-      it("should preserve method", () => expect(this.foo2.method).to.be.a("function"));
+      it("should preserve method", () => {
+        expect(this.foo2.method).to.be.a("function");
+      });
 
       it("should have some attributs", () => {
         expect(this.foo2.dateStart).to.be.instanceof(Date);
@@ -168,22 +170,30 @@ describe("ConverterService", () => {
 
       describe("Array", () => {
         describe("when data is an array", () => {
-          it("should have an attribut that is deserialized as an Array", () => expect(this.foo2.foos).to.be.an("array"));
+          it("should have an attribut that is deserialized as an Array", () => {
+            expect(this.foo2.foos).to.be.an("array");
+          });
 
-          it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
-            expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo));
+          it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () => {
+            expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo);
+          });
         });
 
         describe("when data is a object", () => {
-          it("should have an attribut that is deserialized as an Array", () => expect(this.foo2.foos2).to.be.an("array"));
+          it("should have an attribut that is deserialized as an Array", () => {
+            expect(this.foo2.foos2).to.be.an("array");
+          });
 
-          it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () =>
-            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo1));
+          it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () => {
+            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo1);
+          });
         });
       });
 
       describe("Map", () => {
-        it("should have an attribut that is deserialized as a Map", () => expect(this.foo2.theMap).to.be.instanceof(Map));
+        it("should have an attribut that is deserialized as a Map", () => {
+          expect(this.foo2.theMap).to.be.instanceof(Map);
+        });
 
         it("should have an attribut that is deserialized as a Map and have a method", () => {
           expect(this.foo2.theMap.get("f1")).to.be.an("object");
@@ -192,7 +202,9 @@ describe("ConverterService", () => {
       });
 
       describe("Set", () => {
-        it("should have an attribut that is deserialized as a Set", () => expect(this.foo2.theSet).to.be.instanceof(Set));
+        it("should have an attribut that is deserialized as a Set", () => {
+          expect(this.foo2.theSet).to.be.instanceof(Set);
+        });
 
         it("should have an attribut that is deserialized as a Set and have a method", () => {
           this.foo2.theSet.forEach((item: any) => {
@@ -204,8 +216,9 @@ describe("ConverterService", () => {
     });
 
     describe("deserialization error", () => {
-      it("should emit a BadRequest when the number parsing failed", () =>
-        assert.throws(() => this.converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number."));
+      it("should emit a BadRequest when the number parsing failed", () => {
+        assert.throws(() => this.converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.");
+      });
     });
 
     describe("when validationModelStrict is enabled", () => {
@@ -301,34 +314,51 @@ describe("ConverterService", () => {
 
   describe("serialize()", () => {
     describe("primitive", () => {
-      it("should convert empty string to string", () => expect(this.converterService.serialize("")).to.be.a("string"));
-      it("should convert undefined to undefined", () => expect(this.converterService.serialize(undefined)).to.equals(undefined));
-      it("should convert boolean to a boolean", () =>
+      it("should convert empty string to string", () => {
+        expect(this.converterService.serialize("")).to.be.a("string");
+      });
+      it("should convert undefined to undefined", () => {
+        expect(this.converterService.serialize(undefined)).to.equals(undefined);
+      });
+      it("should convert boolean to a boolean", () => {
         expect(this.converterService.serialize(true))
           .to.be.a("boolean")
-          .and.to.equal(true));
-      it("should convert number to a number", () =>
+          .and.to.equal(true);
+      });
+      it("should convert number to a number", () => {
         expect(this.converterService.serialize(1))
           .to.be.a("number")
-          .and.to.equal(1));
-      it("should convert string to a string", () =>
+          .and.to.equal(1);
+      });
+      it("should convert string to a string", () => {
         expect(this.converterService.serialize("1"))
           .to.be.a("string")
-          .and.to.equal("1"));
+          .and.to.equal("1");
+      });
     });
 
     describe("object", () => {
-      it("should convert object to an object", () => expect(this.converterService.serialize({})).to.be.an("object"));
+      it("should convert object to an object", () => {
+        expect(this.converterService.serialize({})).to.be.an("object");
+      });
 
-      it("should convert date to a string", () => expect(this.converterService.serialize(new Date())).to.be.a("string"));
+      it("should convert date to a string", () => {
+        expect(this.converterService.serialize(new Date())).to.be.a("string");
+      });
     });
 
     describe("array", () => {
-      it("should convert array to an array (1)", () => expect(this.converterService.serialize([null])).to.deep.eq([null]));
+      it("should convert array to an array (1)", () => {
+        expect(this.converterService.serialize([null])).to.deep.eq([null]);
+      });
 
-      it("should convert array to an array (2)", () => expect(this.converterService.serialize([1])).to.deep.eq([1]));
+      it("should convert array to an array (2)", () => {
+        expect(this.converterService.serialize([1])).to.deep.eq([1]);
+      });
 
-      it("should convert array to an array (3)", () => expect(this.converterService.serialize([{test: "1"}])).to.deep.eq([{test: "1"}]));
+      it("should convert array to an array (3)", () => {
+        expect(this.converterService.serialize([{test: "1"}])).to.deep.eq([{test: "1"}]);
+      });
     });
 
     describe("class Foo2", () => {
@@ -375,7 +405,9 @@ describe("ConverterService", () => {
         expect(this.foo.name).to.equals(undefined);
       });
 
-      it("should have an attribut with array type", () => expect(this.foo.foos).to.be.an("array"));
+      it("should have an attribut with array type", () => {
+        expect(this.foo.foos).to.be.an("array");
+      });
 
       it("should have an attribut with array type and an item serialized", () => {
         expect(this.foo.foos[0]).to.be.an("object");
@@ -404,7 +436,6 @@ describe("ConverterService", () => {
         before(() => {
           this.fooJson = JSON.parse(JSON.stringify(this.foo2));
         });
-        after(() => delete this.fooJSON);
 
         it("should have an attribut with date type", () => {
           expect(this.fooJson.dateStart)
@@ -422,7 +453,9 @@ describe("ConverterService", () => {
           expect(this.fooJson.name).to.equals(undefined);
         });
 
-        it("should have an attribut with array type", () => expect(this.fooJson.foos).to.be.an("array"));
+        it("should have an attribut with array type", () => {
+          expect(this.fooJson.foos).to.be.an("array");
+        });
 
         it("should have an attribut with array type and an item serialized", () => {
           expect(this.fooJson.foos[0]).to.be.an("object");
@@ -450,8 +483,9 @@ describe("ConverterService", () => {
     });
 
     describe("class Foo3", () => {
-      before(() => (this.foo = this.converterService.serialize(new JsonFoo3())));
-      after(() => delete this.foo);
+      before(() => {
+        this.foo = this.converterService.serialize(new JsonFoo3());
+      });
 
       it("should use toJSON method", () => {
         expect(this.foo).to.be.an("object");
@@ -467,7 +501,8 @@ describe("ConverterService", () => {
     });
 
     describe("isStrictModelValidation()", () => {
-      class Test {}
+      class Test {
+      }
 
       describe("when model is an Object", () => {
         before(() => {

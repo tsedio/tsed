@@ -13,7 +13,6 @@ describe("CookiesFilter", () => {
     before(() => {
       this.result = this.filter.transform("test", {cookies: {test: "test"}});
     });
-    after(() => delete this.result);
 
     it("should transform expression", () => {
       expect(this.result).to.equal("test");
