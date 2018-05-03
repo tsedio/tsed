@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="serversettingsprovider">ServerSettingsProvider</h1><label class="symbol-info-type-label class">Class</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsProvider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.15.2/src//common/config/class/ServerSettingsProvider.ts#L0-L0">/common/config/class/ServerSettingsProvider.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsProvider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.16.0/src//common/config/class/ServerSettingsProvider.ts#L0-L0">/common/config/class/ServerSettingsProvider.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -39,10 +39,18 @@
         address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
         port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">setHttpPort</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token function">getHttpsPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
         address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
         port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">setHttpsPort</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -352,10 +360,38 @@
 
 
 <div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">setHttpPort</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+     port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
 <pre><code class="typescript-lang "><span class="token function">getHttpsPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
      address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
      port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
  <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">setHttpsPort</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+     port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
 </div>
 
 
