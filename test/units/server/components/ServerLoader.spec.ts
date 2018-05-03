@@ -49,12 +49,13 @@ describe("ServerLoader", () => {
 
             this.createServerStub = {
                 on: Sinon.stub(),
-                listen: Sinon.stub()
+                listen: Sinon.stub(),
+                address: Sinon.stub().returns({port: 8080})
             };
+
             this.createServerStub.on.returns(this.createServerStub);
             this.promise = this.server.startServer(this.createServerStub, {address: "0.0.0.0", port: 8080});
             this.createServerStub.on.getCall(0).args[1]();
-
 
             return this.promise;
         });
@@ -247,7 +248,10 @@ describe("ServerLoader", () => {
         describe("when success", () => {
             before(() => {
                 $logStub.$log.info.reset();
-                this.startServerStub = Sinon.stub(this.server, "startServer").returns(Promise.resolve());
+                this.startServerStub = Sinon.stub(this.server, "startServer").returns(Promise.resolve({
+                    address: "0.0.0.0",
+                    port: 8080
+                }));
                 this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
                 this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
                 this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.resolve());

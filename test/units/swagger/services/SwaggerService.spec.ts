@@ -24,7 +24,7 @@ describe("SwaggerService", () => {
     after(() => {
     });
 
-    describe("$afterRoutesInit()", () => {
+    describe("$onServerReady()", () => {
         before(() => {
             this.config = [
                 {
@@ -53,6 +53,43 @@ describe("SwaggerService", () => {
                 port: 8080
             });
             this.getStub = Sinon.stub(this.settingsService, "get").returns(this.config);
+            this.swaggerService.$onServerReady();
+        });
+        after(() => {
+            this.getHttpPortStub.restore();
+            this.getStub.restore();
+        });
+
+        it("it should call getHttpPort()", () => {
+            return this.getHttpPortStub.should.have.been.called;
+        });
+    });
+
+    describe("$afterRoutesInit()", () => {
+        before(() => {
+            this.config = [
+                {
+                    path: "/doc1",
+                    doc: "doc1",
+                    options: "options",
+                    outFile: "/path/outFile",
+                    showExplorer: true,
+                    cssPath: "cssPath",
+                    jsPath: "jsPath",
+                    hidden: false
+                },
+                {
+                    path: "/doc2",
+                    doc: "doc2",
+                    options: "options",
+                    outFile: null,
+                    showExplorer: false,
+                    cssPath: "cssPath",
+                    jsPath: "jsPath",
+                    hidden: true
+                }
+            ];
+            this.getStub = Sinon.stub(this.settingsService, "get").returns(this.config);
             this.getOpenAPISpecStub = Sinon.stub(this.swaggerService, "getOpenAPISpec").returns({spec: "spec"});
             this.createRouterStub = Sinon.stub(this.swaggerService, "createRouter").returns({router: "router"});
             this.writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
@@ -60,15 +97,11 @@ describe("SwaggerService", () => {
             this.swaggerService.$afterRoutesInit();
         });
         after(() => {
-            this.getHttpPortStub.restore();
+            this.getStub.restore();
             this.getOpenAPISpecStub.restore();
             this.createRouterStub.restore();
             this.writeFileSyncStub.restore();
             this.expressApplication.use.reset();
-        });
-
-        it("it should call getHttpPort()", () => {
-            return this.getHttpPortStub.should.have.been.called;
         });
 
         it("it should call serviceSetting.get()", () => {

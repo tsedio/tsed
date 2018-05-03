@@ -33,7 +33,6 @@ export class SwaggerService {
      *
      */
     $afterRoutesInit() {
-        const host = this.serverSettingsService.getHttpPort();
         const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
 
         const urls: any[] = swagger.reduce((acc: any[], conf) => {
@@ -43,7 +42,6 @@ export class SwaggerService {
             }
             return acc;
         }, []);
-
 
         swagger
             .forEach((conf: ISwaggerSettings) => {
@@ -64,9 +62,17 @@ export class SwaggerService {
                 if (outFile) {
                     Fs.writeFileSync(outFile, JSON.stringify(spec, null, 2));
                 }
+            });
+    }
 
+    $onServerReady() {
+        const host = this.serverSettingsService.getHttpPort();
+        const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
+        swagger
+            .forEach((conf: ISwaggerSettings) => {
+                const {path = "/", doc} = conf;
                 $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
-                $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}`);
+                $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}/`);
             });
     }
 

@@ -271,7 +271,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @param settings
      * @returns {Promise<TResult2|TResult1>}
      */
-    protected startServer(http: any, settings: { https: boolean, address: string | number, port: number }) {
+    protected startServer(http: Http.Server | Https.Server, settings: { https: boolean, address: string | number, port: number }): Promise<{ address: string, port: number }> {
         const {address, port, https} = settings;
 
         $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
@@ -281,10 +281,12 @@ export abstract class ServerLoader implements IServerLifecycle {
                 .on("error", reject);
         })
             .then(() => {
-                $log.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
+                const port = http.address().port;
+                $log.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${port}`);
+                return {address: settings.address as string, port};
             });
 
-        http.listen(port, address);
+        http.listen(port, address as any);
         return promise;
     }
 
@@ -296,21 +298,33 @@ export abstract class ServerLoader implements IServerLifecycle {
         const promises: Promise<any>[] = [];
 
         /* istanbul ignore else */
-        if (this.settings.httpPort) {
+        if (this.settings.httpPort as any !== false) {
             const settings = this._settings.getHttpPort();
-            promises.push(this.startServer(
-                this.httpServer,
-                {https: false, ...settings}
-            ));
+            promises.push(
+                this
+                    .startServer(
+                        this.httpServer,
+                        {https: false, ...settings}
+                    )
+                    .then((settings) => {
+                        this._settings.setHttpPort(settings);
+                    })
+            );
         }
 
         /* istanbul ignore else */
-        if (this.settings.httpsPort) {
+        if (this.settings.httpsPort as any !== false) {
             const settings = this._settings.getHttpsPort();
-            promises.push(this.startServer(
-                this.httpsServer,
-                {https: true, ...settings}
-            ));
+            promises.push(
+                this
+                    .startServer(
+                        this.httpsServer,
+                        {https: true, ...settings}
+                    )
+                    .then((settings) => {
+                        this._settings.setHttpsPort(settings);
+                    })
+            );
         }
 
         return Promise.all<any>(promises);
@@ -487,7 +501,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
                 case "httpPort":
                     /* istanbul ignore else */
-                    if (value && this._httpServer === undefined) {
+                    if (value !== false && this._httpServer === undefined) {
                         this.createHttpServer(value);
                     }
 
@@ -496,7 +510,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 case "httpsPort":
 
                     /* istanbul ignore else */
-                    if (value && this._httpsServer === undefined) {
+                    if (value !== false && this._httpsServer === undefined) {
                         this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
                     }
 
@@ -508,7 +522,7 @@ export abstract class ServerLoader implements IServerLifecycle {
             .forEach((value, key, map) => {
 
                 /* istanbul ignore else */
-                if (value) {
+                if (value !== undefined) {
                     bind(key, value, map);
                 }
             });
