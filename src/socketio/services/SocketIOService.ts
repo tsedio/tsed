@@ -50,7 +50,7 @@ export class SocketIOService implements OnServerReady {
      *
      * @returns {Provider<any>[]}
      */
-    public getWebsocketServices(): Provider<any>[] {
+    protected getWebsocketServices(): Provider<any>[] {
         return Array.from(SocketServiceRegistry.values());
     }
 
@@ -85,11 +85,17 @@ export class SocketIOService implements OnServerReady {
      *
      * @param {Provider<any>} provider
      */
-    private bindProvider(provider: Provider<any>) {
+    protected bindProvider(provider: Provider<any>) {
         const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
 
         const nspConfig = this.getNsp(wsConfig.namespace);
-        const builder = new SocketHandlersBuilder(provider).build(nspConfig.nsp);
+        const nsps = new Map();
+
+        this.namespaces.forEach((value, nsp) => {
+            nsps.set(nsp, value.nsp);
+        });
+
+        const builder = new SocketHandlersBuilder(provider).build(nsps);
 
         nspConfig.instances.push(builder);
     }
@@ -98,7 +104,7 @@ export class SocketIOService implements OnServerReady {
      *
      * @param logger
      */
-    private printSocketEvents(logger: { info: (s: any) => void } = $log) {
+    protected printSocketEvents(logger: { info: (s: any) => void } = $log) {
         const list = this.getWebsocketServices()
             .reduce((acc: any[], provider) => {
                 const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");

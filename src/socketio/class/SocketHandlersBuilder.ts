@@ -25,9 +25,14 @@ export class SocketHandlersBuilder {
      *
      * @returns {any}
      */
-    public build(nsp: SocketIO.Namespace) {
+    public build(nsps: Map<string, SocketIO.Namespace>) {
         const {instance} = this.provider;
-        const {injectNamespace} = this.socketProviderMetadata;
+        const {
+            injectNamespaces = [],
+            namespace = "/"
+        } = this.socketProviderMetadata;
+
+        const nsp = nsps.get(namespace);
 
         if (instance.$onConnection) {
             this.buildHook("$onConnection", "connection");
@@ -37,8 +42,13 @@ export class SocketHandlersBuilder {
             this.buildHook("$onDisconnect", "disconnect");
         }
 
-        instance._nspSession = getNspSession(this.socketProviderMetadata.namespace!);
-        instance[injectNamespace || "nsp"] = nsp;
+        instance._nspSession = getNspSession(namespace!);
+
+        injectNamespaces.forEach((setting) => {
+            instance[setting.propertyKey] = nsps.get(setting.nsp || namespace);
+        });
+
+        instance["nsp"] = nsp;
 
         if (instance.$onNamespaceInit) {
             instance.$onNamespaceInit(nsp);
@@ -46,6 +56,11 @@ export class SocketHandlersBuilder {
         return this;
     }
 
+    /**
+     *
+     * @param {string} hook
+     * @param {string} eventName
+     */
     private buildHook(hook: string, eventName: string) {
         const handlers = this.socketProviderMetadata.handlers || {};
 
@@ -259,7 +274,7 @@ export class SocketHandlersBuilder {
      * @param scope
      * @returns {any[]}
      */
-    private buildParameters(parameters: { [key: number ]: ISocketParamMetadata }, scope: any): any[] {
+    private buildParameters(parameters: { [key: number]: ISocketParamMetadata }, scope: any): any[] {
         return Object
             .keys(parameters || [])
             .map(
