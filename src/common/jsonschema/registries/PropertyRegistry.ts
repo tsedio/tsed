@@ -75,7 +75,7 @@ export class PropertyRegistry {
         const property = this.get(target, propertyKey);
 
         property.required = true;
-        property.allowedRequiredValues = allowedRequiredValues;
+        property.allowedRequiredValues = allowedRequiredValues.concat(property.allowedRequiredValues);
 
         this.set(target, propertyKey, property);
         this.get(target, propertyKey).store.merge("responses", {
