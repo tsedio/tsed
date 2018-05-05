@@ -1,5 +1,5 @@
-import {Store} from "../../../../src/core/class/Store";
 import {PropertyMetadata} from "../../../../src/common/jsonschema/class/PropertyMetadata";
+import {Store} from "../../../../src/core/class/Store";
 import {expect} from "../../../tools";
 
 class Test {
@@ -119,6 +119,71 @@ describe("PropertyMetadata", () => {
             });
             it("should return true (value undefined)", () => {
                 return expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.true;
+            });
+        });
+    });
+
+    describe("isRequired", () => {
+        describe("when property is required", () => {
+            before(() => {
+                this.propertyMetadata = new PropertyMetadata(Test, "test");
+                this.propertyMetadata.allowedRequiredValues = [];
+                this.propertyMetadata.required = true;
+            });
+            it("should return false (value 0)", () => {
+                return expect(this.propertyMetadata.isRequired(0)).to.be.false;
+            });
+
+            it("should return true (value '')", () => {
+                return expect(this.propertyMetadata.isRequired("")).to.be.true;
+            });
+            it("should return true (value null)", () => {
+                return expect(this.propertyMetadata.isRequired(null)).to.be.true;
+            });
+            it("should return true (value undefined)", () => {
+                return expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
+            });
+        });
+
+        describe("when property is required and have allowed values", () => {
+            before(() => {
+                this.propertyMetadata = new PropertyMetadata(Test, "test");
+                this.propertyMetadata.allowedRequiredValues = [null];
+                this.propertyMetadata.required = true;
+            });
+            it("should return false (value 0)", () => {
+                return expect(this.propertyMetadata.isRequired(0)).to.be.false;
+            });
+
+            it("should return true (value '')", () => {
+                return expect(this.propertyMetadata.isRequired("")).to.be.true;
+            });
+            it("should return false (value null)", () => {
+                return expect(this.propertyMetadata.isRequired(null)).to.be.false;
+            });
+            it("should return true (value undefined)", () => {
+                return expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
+            });
+        });
+
+        describe("when property is not required", () => {
+            before(() => {
+                this.propertyMetadata = new PropertyMetadata(Test, "test");
+                this.propertyMetadata.allowedRequiredValues = [];
+                this.propertyMetadata.required = false;
+            });
+            it("should return false (value 0)", () => {
+                return expect(this.propertyMetadata.isRequired(0)).to.be.false;
+            });
+
+            it("should return false (value '')", () => {
+                return expect(this.propertyMetadata.isRequired("")).to.be.false;
+            });
+            it("should return false (value null)", () => {
+                return expect(this.propertyMetadata.isRequired(null)).to.be.false;
+            });
+            it("should return false (value undefined)", () => {
+                return expect(this.propertyMetadata.isRequired(undefined)).to.be.false;
             });
         });
     });

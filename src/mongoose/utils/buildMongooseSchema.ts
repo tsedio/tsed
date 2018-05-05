@@ -54,6 +54,10 @@ export function buildMongooseSchema(target: any): mongoose.SchemaDefinition {
 
             let definition = {
                 required: propertyMetadata.required
+                    ? function () {
+                        return propertyMetadata.isRequired(this[propertyKey]);
+                    }
+                    : false
             };
 
             if (propertyMetadata.isClass) {

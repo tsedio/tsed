@@ -33,9 +33,13 @@ import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFact
 export function Allow(...allowedRequiredValues: any[]): any {
 
     const allowNullInSchema = decoratorSchemaFactory((schema: JsonSchema) => {
-        if (schema && schema.mapper && schema.mapper.$ref) {
-            schema.mapper.oneOf = [{type: "null"}, {$ref: schema.mapper.$ref}];
-            delete schema.mapper.$ref;
+        if (schema && schema.mapper) {
+            if (schema.mapper.$ref) {
+                schema.mapper.oneOf = [{type: "null"}, {$ref: schema.mapper.$ref}];
+                delete schema.mapper.$ref;
+            } else {
+                schema.mapper.type = [].concat(schema.type, ["null"] as any);
+            }
         }
     });
 

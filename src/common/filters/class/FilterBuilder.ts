@@ -69,7 +69,7 @@ export class FilterBuilder {
         return FilterBuilder.pipe(
             filter,
             (value: any) => {
-                if (!param.isValidRequiredValue(value)) {
+                if (param.isRequired(value)) {
                     throw new RequiredParamError(param.name, param.expression);
                 }
 

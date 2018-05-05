@@ -1,15 +1,23 @@
-import {Controller, Get, PathParams, ProviderScope, Scope} from "@tsed/common";
-import {Hidden} from "../../../../../src/swagger";
+import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Scope, Status} from "@tsed/common";
+import {Docs, Hidden} from "../../../../../src/swagger";
+import {User} from "../../models/User";
 import {UserService} from "../../services/UserService";
 
 @Controller("/user")
 @Scope(ProviderScope.REQUEST)
 @Hidden()
+@Docs("hidden")
 export class UserCtrl {
 
     userId: string;
 
     constructor(public userService: UserService) {
+    }
+
+    @Post("/")
+    @Status(201)
+    async createUser(@BodyParams() userData: User) {
+        return await this.userService.create(userData);
     }
 
     @Get("/:user")

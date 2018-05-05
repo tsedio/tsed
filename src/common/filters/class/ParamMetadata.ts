@@ -1,4 +1,4 @@
-import {Storable, NotEnumerable, Type, nameOf} from "@tsed/core";
+import {nameOf, NotEnumerable, Storable, Type} from "@tsed/core";
 import {IParamOptions} from "../interfaces";
 
 export class ParamMetadata extends Storable implements IParamOptions<any> {
@@ -140,6 +140,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      * This method use `EntityDescription.required` and `allowedRequiredValues` to validate the value.
      * @param value
      * @returns {boolean}
+     * @deprecated
      */
     isValidRequiredValue(value: any): boolean {
         if (this.required) {
@@ -151,6 +152,17 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
         }
 
         return true;
+    }
+
+    /**
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    isRequired(value: any): boolean {
+        return this.required
+            && [undefined, null, ""].indexOf(value) > -1
+            && this.allowedRequiredValues.indexOf(value) === -1;
     }
 
     /**
