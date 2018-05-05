@@ -356,6 +356,52 @@ describe("Rest", () => {
 
     });
 
+    describe("POST /rest/user/", () => {
+        it("should allow creation", (done) => {
+            this.app
+                .post(`/rest/user/`)
+                .send({name: "test", email: null, password: null})
+                .expect(201)
+                .end((err: any, response: any) => {
+                    expect(JSON.parse(response.text)).to.deep.eq({name: "test", email: null, password: null});
+                    done();
+                });
+        });
+
+        it("should return an error when email is empty", (done) => {
+            this.app
+                .post(`/rest/user/`)
+                .send({name: "test", email: "", password: null})
+                .expect(400)
+                .end((err: any, response: any) => {
+                    expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At User.email should match format \"email\"");
+                    done();
+                });
+        });
+
+        it("should return an error when password is empty", (done) => {
+            this.app
+                .post(`/rest/user/`)
+                .send({name: "test", email: "test@test.fr", password: ""})
+                .expect(400)
+                .end((err: any, response: any) => {
+                    expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At User.password should NOT be shorter than 6 characters");
+                    done();
+                });
+        });
+
+        it("should allow creation (2)", (done) => {
+            this.app
+                .post(`/rest/user/`)
+                .send({name: "test", email: "test@test.fr", password: "test1267"})
+                .expect(400)
+                .end((err: any, response: any) => {
+                    expect(JSON.parse(response.text)).to.deep.eq({name: "test", email: "test@test.fr", password: "test1267"});
+                    done();
+                });
+        });
+    });
+
     describe("GET /rest/user/:id", () => {
 
         const send = (id: string) =>

@@ -92,6 +92,12 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
         this._ignoreProperty = value;
     }
 
+    /**
+     *
+     * @param value
+     * @returns {boolean}
+     * @deprecated
+     */
     isValidRequiredValue(value: any): boolean {
         if (this.required) {
             if (value === undefined || value === null || value === "") {
@@ -102,5 +108,16 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
         }
 
         return true;
+    }
+
+    /**
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    isRequired(value: any): boolean {
+        return this.required
+            && [undefined, null, ""].indexOf(value) > -1
+            && this.allowedRequiredValues.indexOf(value) === -1;
     }
 }

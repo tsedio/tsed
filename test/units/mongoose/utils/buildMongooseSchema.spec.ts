@@ -1,7 +1,7 @@
 import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
+import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
 import {buildMongooseSchema, mapProps} from "../../../../src/mongoose/utils/buildMongooseSchema";
 import {expect, Sinon} from "../../../tools";
-import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
 
 describe("buildMongooseSchema", () => {
 
@@ -73,14 +73,10 @@ describe("buildMongooseSchema", () => {
             });
 
             it("should return a schema", () => {
-                expect(this.result).to.deep.eq({
-                    test: {
-                        "maxlength": 9,
-                        "minLength": 1,
-                        "required": true,
-                        "type": String
-                    }
-                });
+                expect(this.result.test.maxlength).to.eq(9);
+                expect(this.result.test.minLength).to.eq(1);
+                expect(this.result.test.required).to.be.a("function");
+                expect(this.result.test.type).to.eq(String);
             });
         });
         describe("when property is a class", () => {
@@ -144,17 +140,14 @@ describe("buildMongooseSchema", () => {
             });
 
             it("should return a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "test": {
-                        "required": true,
-                        "test2": [
-                            {
-                                "required": false,
-                                "type": String
-                            }
-                        ]
+                expect(this.result.test.required).to.be.a("function");
+                expect(this.result.test.required).to.be.a("function");
+                expect(this.result.test.test2).deep.eq([
+                    {
+                        "required": false,
+                        "type": String
                     }
-                });
+                ]);
             });
 
             it("should not have an _id", () => {

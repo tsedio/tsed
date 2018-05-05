@@ -3,7 +3,7 @@ import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Schema} from "swagger-schema-official";
 import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
-import {swaggerType} from "../utils";
+import {swaggerApplyType, swaggerType} from "../utils";
 
 /**
  * Build a Schema from a given Model.
@@ -75,7 +75,6 @@ export class OpenApiModelSchemaBuilder {
             if (model.isArray) {
                 schema.type = "array";
 
-                // Nobody have defined the items so far.
                 if (!schema.items) {
                     if (model.isClass) {
                         schema.items = {
@@ -91,8 +90,9 @@ export class OpenApiModelSchemaBuilder {
                 return schema;
             }
 
+            schema.type = schema.type || "object";
+
             if (model.isClass) {
-                schema.type = schema.type || "object";
                 schema.additionalProperties = {
                     $ref: `#/definitions/${model.typeName}`
                 };
@@ -100,9 +100,8 @@ export class OpenApiModelSchemaBuilder {
                 return schema;
             }
 
-            schema.type = schema.type || "object";
             schema.additionalProperties = {
-                type: schema.additionalProperties && schema.additionalProperties.type || swaggerType(model.type)
+                type: swaggerType(schema.additionalProperties && schema.additionalProperties.type || model.type)
             };
 
             return schema;
@@ -115,7 +114,7 @@ export class OpenApiModelSchemaBuilder {
             return schema;
         }
 
-        schema.type = schema.type || swaggerType(model.type);
+        swaggerApplyType(schema, schema.type || model.type);
 
         return schema;
     }

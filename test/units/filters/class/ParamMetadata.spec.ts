@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {ParamMetadata} from "../../../../src";
-import {Store} from "../../../../src/core/class/Store";
+import {ParamMetadata} from "../../../../src/common/filters/class/ParamMetadata";
 import {EXPRESS_ERR} from "../../../../src/common/filters/constants";
+import {Store} from "../../../../src/core/class/Store";
 
 class Test {
     method(arg1: any, arg2: any) {
@@ -196,6 +196,72 @@ describe("ParamMetadata", () => {
             });
             it("should return true (value undefined)", () => {
                 return expect(this.paramMetadata.isValidRequiredValue(undefined)).to.be.true;
+            });
+        });
+    });
+
+
+    describe("isRequired", () => {
+        describe("when property is required", () => {
+            before(() => {
+                this.paramMetadata = new ParamMetadata(Test, "test");
+                this.paramMetadata.allowedRequiredValues = [];
+                this.paramMetadata.required = true;
+            });
+            it("should return false (value 0)", () => {
+                return expect(this.paramMetadata.isRequired(0)).to.be.false;
+            });
+
+            it("should return true (value '')", () => {
+                return expect(this.paramMetadata.isRequired("")).to.be.true;
+            });
+            it("should return true (value null)", () => {
+                return expect(this.paramMetadata.isRequired(null)).to.be.true;
+            });
+            it("should return true (value undefined)", () => {
+                return expect(this.paramMetadata.isRequired(undefined)).to.be.true;
+            });
+        });
+
+        describe("when property is required and have allowed values", () => {
+            before(() => {
+                this.paramMetadata = new ParamMetadata(Test, "test");
+                this.paramMetadata.allowedRequiredValues = [null];
+                this.paramMetadata.required = true;
+            });
+            it("should return false (value 0)", () => {
+                return expect(this.paramMetadata.isRequired(0)).to.be.false;
+            });
+
+            it("should return true (value '')", () => {
+                return expect(this.paramMetadata.isRequired("")).to.be.true;
+            });
+            it("should return false (value null)", () => {
+                return expect(this.paramMetadata.isRequired(null)).to.be.false;
+            });
+            it("should return true (value undefined)", () => {
+                return expect(this.paramMetadata.isRequired(undefined)).to.be.true;
+            });
+        });
+
+        describe("when property is not required", () => {
+            before(() => {
+                this.paramMetadata = new ParamMetadata(Test, "test");
+                this.paramMetadata.allowedRequiredValues = [];
+                this.paramMetadata.required = false;
+            });
+            it("should return false (value 0)", () => {
+                return expect(this.paramMetadata.isRequired(0)).to.be.false;
+            });
+
+            it("should return false (value '')", () => {
+                return expect(this.paramMetadata.isRequired("")).to.be.false;
+            });
+            it("should return false (value null)", () => {
+                return expect(this.paramMetadata.isRequired(null)).to.be.false;
+            });
+            it("should return false (value undefined)", () => {
+                return expect(this.paramMetadata.isRequired(undefined)).to.be.false;
             });
         });
     });

@@ -102,13 +102,13 @@ describe("FilterBuilder", () => {
                 before(() => {
                     this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
                     this.pipeStub.returns("filter2");
-                    this.isValidRequiredValueStub = Sinon.stub().returns(false);
+                    this.isRequiredStub = Sinon.stub().returns(true);
 
                     this.result = (FilterBuilder as any).appendRequiredFilter("filter", {
                         required: true,
                         name: "name",
                         expression: "expression",
-                        isValidRequiredValue: this.isValidRequiredValueStub
+                        isRequired: this.isRequiredStub
                     });
                     try {
                         this.pipeStub.getCall(0).args[1]("value");
@@ -125,8 +125,8 @@ describe("FilterBuilder", () => {
                 it("should return a filter wrapped", () => {
                     expect(this.result).to.eq("filter2");
                 });
-                it("should called isValidRequiredValue", () => {
-                    this.isValidRequiredValueStub.should.calledWithExactly("value");
+                it("should called isRequired", () => {
+                    this.isRequiredStub.should.calledWithExactly("value");
                 });
                 it("should throw an error", () => {
                     expect(this.error).to.be.instanceOf(BadRequest);
@@ -136,13 +136,13 @@ describe("FilterBuilder", () => {
                 before(() => {
                     this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
                     this.pipeStub.returns("filter2");
-                    this.isValidRequiredValueStub = Sinon.stub().returns(true);
+                    this.isRequiredStub = Sinon.stub().returns(false);
 
                     this.result = (FilterBuilder as any).appendRequiredFilter("filter", {
                         required: true,
                         name: "name",
                         expression: "expression",
-                        isValidRequiredValue: this.isValidRequiredValueStub
+                        isRequired: this.isRequiredStub
                     });
                     this.result2 = this.pipeStub.getCall(0).args[1]("value");
                 });
@@ -155,8 +155,8 @@ describe("FilterBuilder", () => {
                 it("should return a filter wrapped", () => {
                     expect(this.result).to.eq("filter2");
                 });
-                it("should called isValidRequiredValue", () => {
-                    this.isValidRequiredValueStub.should.calledWithExactly("value");
+                it("should called isRequiredStub", () => {
+                    this.isRequiredStub.should.calledWithExactly("value");
                 });
                 it("should return a value", () => {
                     expect(this.result2).to.eq("value");
