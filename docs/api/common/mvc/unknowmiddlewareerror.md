@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="unknowmiddlewareerror">UnknowMiddlewareError</h1><label class="symbol-info-type-label class">Class</label><label class="api-type-label private" title="private">private</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { UnknowMiddlewareError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/mvc/errors/UnknowMiddlewareError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.17.0/src//common/mvc/errors/UnknowMiddlewareError.ts#L0-L0">/common/mvc/errors/UnknowMiddlewareError.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { UnknowMiddlewareError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/mvc/errors/UnknowMiddlewareError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.17.1/src//common/mvc/errors/UnknowMiddlewareError.ts#L0-L0">/common/mvc/errors/UnknowMiddlewareError.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
