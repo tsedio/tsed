@@ -145,7 +145,7 @@ export class ParamRegistry {
         const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
         if (typeof expression !== "string") {
-            useType = <any>expression;
+            useType = expression as any;
             expression = undefined;
         }
 

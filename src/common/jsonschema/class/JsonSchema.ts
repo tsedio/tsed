@@ -162,13 +162,13 @@ export class JsonSchema implements JSONSchema6 {
     [key: string]: any;
 
     constructor() {
-        this._proxy = new Proxy<JsonSchema>(this, <any> {
+        this._proxy = new Proxy<JsonSchema>(this, {
             set(schema: JsonSchema, propertyKey: any, value: any) {
                 schema.mapValue(propertyKey, value);
 
                 return true;
             }
-        });
+        } as any);
     }
 
     /**

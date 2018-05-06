@@ -96,11 +96,11 @@ export class RouteService {
 
                 const method = route.method.toUpperCase();
 
-                route.method = <any>{
+                route.method = {
                     length: method.length, toString: () => {
                         return colorize(method, mapColor[method]);
                     }
-                };
+                } as any;
 
                 return route;
             });

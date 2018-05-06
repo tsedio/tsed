@@ -60,7 +60,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
      * @returns {symbol}
      */
     get service(): Type<any> | symbol {
-        return <any>this._service;
+        return this._service as any;
     }
 
     /**

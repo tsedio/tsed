@@ -99,7 +99,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     public createHttpServer(port: string | number): ServerLoader {
-        this._httpServer = Http.createServer(<any> this._expressApp);
+        this._httpServer = Http.createServer(this._expressApp as any);
 
         const httpServer: any = this._httpServer = Http.createServer(this._expressApp);
         httpServer.get = () => httpServer;

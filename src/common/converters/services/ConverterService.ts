@@ -176,7 +176,7 @@ export class ConverterService {
                 return converter!.deserialize!(obj, Array, baseType, deserializer);
             }
 
-            if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
+            if ((targetType as any).prototype && typeof (targetType as any).prototype.deserialize === "function") {
                 // deserialize from method
 
                 const instance = new targetType();

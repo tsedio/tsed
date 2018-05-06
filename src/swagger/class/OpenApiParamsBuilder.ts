@@ -19,7 +19,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         let bodySchema: Schema | undefined = undefined;
         let bodyParam: BodyParameter = {} as BodyParameter;
 
-        this._parameters = <Parameter[]> this.injectedParams
+        this._parameters = this.injectedParams
             .map((param: ParamMetadata) => {
                 if (param.store.get("hidden")) {
                     return;
@@ -76,7 +76,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
                         });
                 }
             })
-            .filter(o => !!o);
+            .filter(o => !!o) as Parameter[];
 
         if (bodySchema && bodyParam) {
             const model = `${this.name}Payload`;
@@ -98,7 +98,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
      */
     private createBaseParameter(inType: string, param: ParamMetadata): BaseParameter {
         const baseParam: BaseParameter = {
-            name: (inType === "body") ? "body" : <string>param.expression,
+            name: (inType === "body") ? "body" : param.expression as string,
             in: inType,
             required: !!param.required,
             description: ""
@@ -125,7 +125,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
             keys.forEach((key, index) => {
                 current.type = "object";
                 current.properties = current.properties || {};
-                current.properties![key] = <Schema> {};
+                current.properties![key] = {} as Schema;
                 current = current.properties![key];
             });
         }

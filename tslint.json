@@ -34,6 +34,7 @@
         ],
         "prefer-const": true,
         "newline-before-return": true,
+        "no-angle-bracket-type-assertion": true,
         "typedef-whitespace": [
             true,
             {

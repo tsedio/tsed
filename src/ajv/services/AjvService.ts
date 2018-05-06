@@ -40,7 +40,7 @@ export class AjvService extends ValidationService {
      * @returns {boolean}
      */
     public validate(obj: any, targetType: any, baseType?: any): boolean {
-        const schema = <any>this.jsonSchemaService.getSchemaDefinition(targetType);
+        const schema = this.jsonSchemaService.getSchemaDefinition(targetType) as any;
 
         if (schema && !(obj === null || obj === undefined)) {
             const collection = baseType ? obj : [obj];
