@@ -149,6 +149,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
                 }
             }
         }
+
         return true;
     }
 

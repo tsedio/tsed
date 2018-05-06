@@ -165,6 +165,7 @@ export class JsonSchema implements JSONSchema6 {
         this._proxy = new Proxy<JsonSchema>(this, <any> {
             set(schema: JsonSchema, propertyKey: any, value: any) {
                 schema.mapValue(propertyKey, value);
+
                 return true;
             }
         });
@@ -236,6 +237,7 @@ export class JsonSchema implements JSONSchema6 {
                 return "collection";
             }
         }
+
         return this.type;
     }
 
@@ -328,6 +330,7 @@ export class JsonSchema implements JSONSchema6 {
      */
     merge(obj: any): this {
         deepExtends(this, obj);
+
         return this;
     }
 
@@ -342,6 +345,7 @@ export class JsonSchema implements JSONSchema6 {
             if (JSON_TYPES.indexOf(value as string) > -1) {
                 return value;
             }
+
             return primitiveOf(value);
         }
 
@@ -349,6 +353,7 @@ export class JsonSchema implements JSONSchema6 {
             if (value !== Array) {
                 return value;
             }
+
             return "array";
         }
 
@@ -367,6 +372,7 @@ export class JsonSchema implements JSONSchema6 {
     static ref(type: any): JsonSchema {
         const schema = new JsonSchema();
         schema.$ref = `#/definitions/${nameOf(type)}`;
+
         return schema;
     }
 }

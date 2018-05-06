@@ -36,6 +36,7 @@ export abstract class ProxyRegistry<T, I> {
      */
     public set(target: Type<any> | symbol, provider: I) {
         this.registry.merge(target, provider);
+
         return this;
     }
 

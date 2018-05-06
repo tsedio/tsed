@@ -70,6 +70,7 @@ export class ParamRegistry {
         param.useConverter = false;
 
         ParamRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
+
         return this;
     }
 

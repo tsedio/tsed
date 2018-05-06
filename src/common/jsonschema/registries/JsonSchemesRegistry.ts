@@ -45,6 +45,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
                     if (!(key === "type" || key === "items" || key === "additionalProperties")) {
                         newSchema[key] = schema[key];
                     }
+
                     return newSchema;
                 }, JsonSchema.ref(type));
         } else {
@@ -54,6 +55,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
         if (collectionType) {
             schema.toCollection(collectionType);
         }
+
         return schema!;
     }
 
@@ -76,6 +78,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
                 required.splice(required.indexOf(propertyKey), 1);
             }
         }
+
         return (schema.required || []).some((p: string) => p === propertyKey);
     }
 
@@ -87,6 +90,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
     getSchemaDefinition(target: Type<any>): JSONSchema6 {
         return ancestorsOf(target).reduce((acc: JSONSchema6, target: Type<any>) => {
             deepExtends(acc, this.getSchema(target));
+
             return acc;
         }, {});
     }
@@ -184,6 +188,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
                 currentSchema = schema;
             }
         });
+
         return currentSchema;
     }
 }

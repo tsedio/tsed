@@ -53,6 +53,7 @@ export class SocketHandlersBuilder {
         if (instance.$onNamespaceInit) {
             instance.$onNamespaceInit(nsp);
         }
+
         return this;
     }
 
@@ -201,6 +202,7 @@ export class SocketHandlersBuilder {
      */
     private static bindResponseMiddleware(handlerMetadata: ISocketHandlerMetadata, scope: any) {
         const {returns} = handlerMetadata;
+
         return (response: any): void => {
             if (returns) {
                 switch (returns.type) {
@@ -265,6 +267,7 @@ export class SocketHandlersBuilder {
      */
     private async invoke(instance: any, handlerMetadata: ISocketHandlerMetadata, scope: any): Promise<any> {
         const {methodClassName, parameters} = handlerMetadata;
+
         return await instance[methodClassName](...this.buildParameters(parameters!, scope));
     }
 

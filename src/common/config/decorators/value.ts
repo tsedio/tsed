@@ -37,6 +37,7 @@ export function Value(expression: any) {
 
                 get: function () {
                     value = value !== undefined ? value : globalServerSettings.get(expression);
+
                     return value;
                 },
 

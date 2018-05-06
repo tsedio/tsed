@@ -25,6 +25,7 @@ export function decoratorSchemaFactory(fn: (schema: JsonSchema, parameters: Deco
         if (typeof result === "function") {
             result(...parameters);
         }
+
         return parameters[2];
     };
 }

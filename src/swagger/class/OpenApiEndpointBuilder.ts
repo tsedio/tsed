@@ -72,6 +72,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
         const ctrlStore = Store.from(clazz);
         const tag = ctrlStore.get("tag");
         const name = ctrlStore.get("name");
+
         return name || tag && tag.name || this.endpoint.targetName;
     }
 

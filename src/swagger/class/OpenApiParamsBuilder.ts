@@ -44,6 +44,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
                         if (param.expression) {
                             bodySchema = deepExtends(bodySchema || {}, this.createSchemaFromBodyParam(param));
                             bodyParam = baseParam;
+
                             return;
                         }
 
@@ -106,6 +107,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         if (param.required) {
             this._responses[400] = {description: "Missing required parameter"};
         }
+
         // override defaults with baseParameter
         return deepExtends(baseParam, param.store.get("baseParameter") || {});
     }
@@ -190,6 +192,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
             .filter(keyPath => {
                 if (keyPath.match(/{/)) {
                     const name = keyPath.replace(/{|}/, "");
+
                     return !this._parameters.find(o => o["in"] === "path" && o.name === name);
                 }
             })

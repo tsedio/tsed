@@ -70,6 +70,7 @@ export function MaxLength(maxLength: number) {
     if (maxLength < 0) {
         throw new Error("The value of maxLength MUST be a non-negative integer.");
     }
+
     return decoratorSchemaFactory((schema) => {
         schema.mapper.maxLength = maxLength;
     });

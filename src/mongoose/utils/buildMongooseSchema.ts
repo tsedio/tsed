@@ -10,6 +10,7 @@ const clean = (src: any) => Object
         if (src[k] !== undefined) {
             obj[k] = src[k];
         }
+
         return obj;
     }, {});
 

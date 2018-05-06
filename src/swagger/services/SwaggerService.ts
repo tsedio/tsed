@@ -40,6 +40,7 @@ export class SwaggerService {
             if (!hidden) {
                 acc.push({url: `${path}/swagger.json`, name: doc || path});
             }
+
             return acc;
         }, []);
 
@@ -199,6 +200,7 @@ export class SwaggerService {
                 return JSON.parse(json);
             }
         }
+
         return {};
     }
 
@@ -306,6 +308,7 @@ export class SwaggerService {
         } else {
             this.OPERATION_IDS[operationId] = 0;
         }
+
         return operationId;
     };
 }

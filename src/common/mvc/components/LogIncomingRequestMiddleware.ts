@@ -103,6 +103,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
         return this.fields
             .reduce((acc: any, key: string) => {
                 acc[key] = info[key];
+
                 return acc;
             }, {});
     }
@@ -133,6 +134,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
             } catch (er) {
                 $log.error({error: er});
             }
+
             return "";
         };
     }

@@ -23,6 +23,7 @@ export class FilterBuilder {
         filter = FilterBuilder.appendRequiredFilter(filter, param);
         filter = FilterBuilder.appendValidationFilter(filter, param);
         filter = FilterBuilder.appendConverterFilter(filter, param);
+
         return filter;
     }
 
@@ -43,6 +44,7 @@ export class FilterBuilder {
 
         // wrap Custom Filter to FilterPreHandler
         const filterService = InjectorService.get<FilterService>(FilterService);
+
         return (locals: IFilterScope) => {
             return filterService.invokeMethod(
                 param.service as Type<any>,
@@ -70,6 +72,7 @@ export class FilterBuilder {
                 if (!param.isValidRequiredValue(value)) {
                     throw new RequiredParamError(param.name, param.expression);
                 }
+
                 return value;
             });
     }
@@ -110,12 +113,14 @@ export class FilterBuilder {
         }
 
         const validationService = InjectorService.get<ValidationService>(ValidationService);
+
         return FilterBuilder.pipe(filter, (value: any) => {
             try {
                 validationService.validate(value, type, collectionType);
             } catch (err) {
                 throw new ParseExpressionError(param.name, param.expression, err.message);
             }
+
             return value;
         });
     }

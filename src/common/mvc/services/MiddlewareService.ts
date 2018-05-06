@@ -37,6 +37,7 @@ export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<an
     /* istanbul ignore next */
     static set(target: Type<any>, provider: Provider<any>) {
         ProviderRegistry.set(target, provider);
+
         return this;
     }
 

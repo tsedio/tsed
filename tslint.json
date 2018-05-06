@@ -25,14 +25,15 @@
         ],
         "semicolon": [
             true,
-          "always",
-          "ignore-bound-class-methods"
+            "always",
+            "ignore-bound-class-methods"
         ],
         "triple-equals": [
             true,
             "allow-null-check"
         ],
         "prefer-const": true,
+        "newline-before-return": true,
         "typedef-whitespace": [
             true,
             {

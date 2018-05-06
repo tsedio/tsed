@@ -42,6 +42,7 @@ export function getReducers(): { [key: string]: (collection: any[], value: any) 
         if (collection.indexOf(value) === -1) {
             collection.push(value);
         }
+
         return collection;
     };
 

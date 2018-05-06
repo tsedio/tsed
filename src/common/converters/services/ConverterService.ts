@@ -172,6 +172,7 @@ export class ConverterService {
             /* istanbul ignore next */
             if (isArrayOrArrayClass(obj)) {
                 const converter = this.getConverter(Array);
+
                 return converter!.deserialize!(obj, Array, baseType, deserializer);
             }
 
@@ -190,6 +191,7 @@ export class ConverterService {
 
             Object.keys(obj).forEach((propertyName: string) => {
                 const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
+
                 return this.convertProperty(obj, instance, propertyName, propertyMetadata, options);
             });
 

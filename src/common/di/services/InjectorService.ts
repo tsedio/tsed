@@ -307,6 +307,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
             if (!scopeReq) {
                 locals.set(provider.provide, instance);
             }
+
             return instance;
         } catch (er) {
             const error = new InjectionError(target, serviceName.toString(), "injection failed");
@@ -323,6 +324,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
     @Deprecated("removed feature")
     static construct<T>(target: Type<any> | symbol): T {
         const provider: Provider<any> = ProviderRegistry.get(target)!;
+
         return this.invoke<any>(provider.useClass);
     }
 

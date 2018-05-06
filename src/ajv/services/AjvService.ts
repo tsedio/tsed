@@ -68,6 +68,7 @@ export class AjvService extends ValidationService {
                     )
                 );
         }
+
         return true;
     }
 
@@ -82,6 +83,7 @@ export class AjvService extends ValidationService {
 
         const message = errors.map((error: AjvErrorObject) => {
             error.modelName = nameOf(targetType);
+
             return this.errorFormatter.call(this, error);
         }).join("\n");
 
@@ -101,6 +103,7 @@ export class AjvService extends ValidationService {
         if (this.options.verbose) {
             value = `, value "${error.data}"`;
         }
+
         return `At ${error.modelName}${error.dataPath}${value} ${error.message}`;
     }
 }

@@ -26,6 +26,7 @@ export function inject(targets: any[], func: Function) {
 
             if (target === Done) {
                 isDoneInjected = true;
+
                 return done;
             }
 
