@@ -160,7 +160,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
         let locals: Map<any, any> = new Map<any, any>();
 
         if (options instanceof Array) {
-            designParamTypes = options as Array<any>;
+            designParamTypes = options as any[];
         } else {
             designParamTypes = options.designParamTypes;
             target = options.target;
