@@ -129,7 +129,7 @@ export class SocketIOService implements OnServerReady {
 
         $log.info("Socket events mounted:");
 
-        let str = $log.drawTable(list, {
+        const str = $log.drawTable(list, {
             padding: 1,
             header: {
                 namespace: "Namespace",

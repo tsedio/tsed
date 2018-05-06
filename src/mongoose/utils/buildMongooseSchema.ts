@@ -14,7 +14,8 @@ const clean = (src: any) => Object
     }, {});
 
 export function mapProps(jsonProps: any = {}) {
-    let {pattern, minimum, maximum, minLength, maxLength} = jsonProps;
+    const { minimum, maximum, minLength, maxLength} = jsonProps;
+    let { pattern } = jsonProps;
     const enumProp = jsonProps["enum"];
     const defaultProp = jsonProps["default"];
 

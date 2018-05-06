@@ -128,14 +128,17 @@ export class ParamRegistry {
      * @param options
      */
     static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
-        let {
+        const {
             propertyKey,
             parameterIndex,
-            expression,
             target,
-            useType,
             useConverter,
             useValidation
+        } = options;
+
+        let {
+            expression,
+            useType
         } = options;
 
         const param = ParamRegistry.get(target, propertyKey, parameterIndex);

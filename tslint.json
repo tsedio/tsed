@@ -28,10 +28,11 @@
           "always",
           "ignore-bound-class-methods"
         ],
-      "triple-equals": [
+        "triple-equals": [
             true,
             "allow-null-check"
         ],
+        "prefer-const": true,
         "typedef-whitespace": [
             true,
             {
@@ -42,10 +43,7 @@
                 "variable-declaration": "nospace"
             }
         ],
-        "variable-name": [
-            true,
-            "ban-keywords"
-        ],
+        "variable-name": [true, "ban-keywords"],
         "whitespace": [
             true,
             "check-branch",

@@ -36,7 +36,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
                     return;
                 }
 
-                let baseParam: BaseParameter = this.createBaseParameter(inType, param);
+                const baseParam: BaseParameter = this.createBaseParameter(inType, param);
 
                 // Next assign type/schema:
                 switch (inType) {
@@ -96,7 +96,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
      * @returns {BaseParameter}
      */
     private createBaseParameter(inType: string, param: ParamMetadata): BaseParameter {
-        let baseParam: BaseParameter = {
+        const baseParam: BaseParameter = {
             name: (inType === "body") ? "body" : <string>param.expression,
             in: inType,
             required: !!param.required,

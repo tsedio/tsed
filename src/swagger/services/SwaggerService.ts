@@ -167,7 +167,7 @@ export class SwaggerService {
         const paths: ISwaggerPaths = {};
         const definitions = {};
         const doc = conf.doc;
-        let tags: Tag[] = [];
+        const tags: Tag[] = [];
 
         this.controllerService.routes.forEach(({provider, route}) => {
             const hidden = provider.store.get("hidden");
