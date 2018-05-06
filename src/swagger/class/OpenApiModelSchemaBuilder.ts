@@ -83,7 +83,7 @@ export class OpenApiModelSchemaBuilder {
                         };
                     } else {
                         schema.items = {
-                            type: schema.items && schema.items.type || swaggerType(model.type)
+                            type: swaggerType(model.type)
                         };
                     }
                 }
