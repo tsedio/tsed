@@ -354,6 +354,7 @@ describe("HandlerBuilder", () => {
 
                 this.getHandlerStub = Sinon.stub(handlerBuilder, "getHandler").returns((...args: any[]) => {
                     this.nextSpy.isCalled = true;
+
                     return this.handlerStub(...args);
                 });
 

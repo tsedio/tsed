@@ -19,6 +19,7 @@ export class CustomAuthMiddleware {
 
         if (request.get("authorization") !== "token") {
             next(new Forbidden("Forbidden"));
+
             return;
         }
 

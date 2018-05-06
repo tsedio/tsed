@@ -4,6 +4,7 @@ import {FakeResponse} from "../../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
+// tslint:disable-next-line: variable-name
 const UseAfter: any = Sinon.stub().returns(middleware);
 
 const {Status} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/status", {

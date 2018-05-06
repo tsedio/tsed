@@ -92,7 +92,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @decorator
  * @converters
  */
-export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
+export function JsonProperty(options?: IPropertyOptions | string): Function {
     return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
         if (typeof options === "string") {
             propertyMetadata.name = options as string;

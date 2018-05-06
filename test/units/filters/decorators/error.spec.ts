@@ -3,9 +3,6 @@ import {Err} from "../../../../src/common/filters/decorators/error";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
 
 describe("Err", () => {
 

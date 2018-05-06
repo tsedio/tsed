@@ -13,7 +13,7 @@ class Test {
 describe("Name()", () => {
     describe("on param", () => {
         before(() => {
-            let args = [Test, "test", 0];
+            const args = [Test, "test", 0];
             Name("name")(...args);
             this.store = Store.from(...args);
         });
@@ -24,8 +24,8 @@ describe("Name()", () => {
 
     describe("on method", () => {
         it("should throw an error", () => {
-            let args = decoratorArgs(Test, "test");
-            let fn = Name("name");
+            const args = decoratorArgs(Test, "test");
+            const fn = Name("name");
             expect(() => fn(...args)).to.throw();
 
         });
@@ -34,7 +34,7 @@ describe("Name()", () => {
     describe("on ctrl", () => {
         before(() => {
             ControllerRegistry.createIfNotExists(Test);
-            let args = [Test];
+            const args = [Test];
             Name("name")(...args);
             this.store = Store.from(...args);
         });

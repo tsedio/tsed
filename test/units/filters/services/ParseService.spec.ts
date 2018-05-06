@@ -57,13 +57,13 @@ describe("ParseService :", () => {
 
     it("should eval expression with a scope and return a new object", inject([ParseService], (parserService: ParseService) => {
 
-        let scope = {
+        const scope = {
             test: {
                 foo: "yes"
             }
         };
 
-        let value = parserService.eval("test", scope);
+        const value = parserService.eval("test", scope);
 
         expect(value.foo).to.equal("yes");
 

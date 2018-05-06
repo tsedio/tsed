@@ -6,7 +6,6 @@ import {DecoratorParameters} from "../interfaces";
 import {deepExtends, descriptorOf, getDecoratorType, nameOf} from "../utils";
 
 import {Metadata} from "./Metadata";
-import {Registry} from "./Registry";
 
 export const CLASS_STORE = "tsed:class:store";
 export const METHOD_STORE = "tsed:method:store";
@@ -98,7 +97,7 @@ export class Store {
      * @param key Required. The key of the element to return from the Map object.
      * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
      */
-    get<T>(key: any): any {
+    get(key: any): any {
         return this._map.get(nameOf(key));
     }
 

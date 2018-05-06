@@ -11,12 +11,15 @@ let ajvService: AjvService;
 const runValidation = (obj: any, targetType: any, collectionType?: any): Chai.Assertion => {
     try {
         const result = ajvService.validate(obj, targetType, collectionType);
+
         return expect(result);
     } catch (err) {
         if (err.name === "BAD_REQUEST") {
             const message = "" + new ParseExpressionError(nameOf(targetType), undefined, err.message);
+
             return expect(message.split("\n")[1]);
         }
+
         return expect("" + err);
     }
 };

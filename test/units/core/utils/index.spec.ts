@@ -267,6 +267,7 @@ describe("Utils", () => {
                                 if (collection.indexOf(value) === -1) {
                                     collection.push(value);
                                 }
+
                                 return collection;
                             }
                         })

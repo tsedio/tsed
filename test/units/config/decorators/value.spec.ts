@@ -2,8 +2,8 @@ import {globalServerSettings} from "../../../../src/common/config";
 import {Value} from "../../../../src/common/config/decorators/value";
 import {expect, Sinon} from "../../../tools";
 
-const path = require("path");
-const root = path.resolve(__dirname + "./../");
+// const path = require("path");
+// const root = path.resolve(__dirname + "./../");
 
 
 class TestConstant {

@@ -3,10 +3,6 @@ import {Locals} from "../../../../src/common/filters/decorators/locals";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
-
 describe("Locals", () => {
 
     before(() => {

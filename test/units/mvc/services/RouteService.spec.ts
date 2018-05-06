@@ -16,6 +16,7 @@ describe("RouteService", () => {
     it("should inject RouteService and print routes", inject([RouteService], (routeService: RouteService) => {
         let str = "";
 
+        // tslint:disable-next-line: no-unused-variable
         const routes = routeService.printRoutes({
             info: (...args: any[]) => (str += args.join(" "))
         });

@@ -3,9 +3,6 @@ import {EndpointInfo} from "../../../../src/common/filters/decorators/endpointIn
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
 
 describe("EndpointInfo", () => {
 

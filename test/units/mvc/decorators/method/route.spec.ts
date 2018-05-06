@@ -1,17 +1,14 @@
-import {assert, expect} from "chai";
+import {assert} from "chai";
 import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
 
 const middleware: any = Sinon.stub();
+// tslint:disable-next-line: variable-name
 const Use: any = Sinon.stub().returns(middleware);
 
 const {All, Get, Post, Put, Delete, Head, Patch} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/route", {
     "./use": {Use}
 });
-
-class Test {
-
-}
 
 describe("Route decorators", () => {
     describe("All", () => {

@@ -1,6 +1,4 @@
-import {Registry} from "@tsed/core";
 import {Provider} from "../../di/class/Provider";
-import {IProvider} from "../../di/interfaces/IProvider";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {GlobalProviders} from "../../di/registries/ProviderRegistry";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";

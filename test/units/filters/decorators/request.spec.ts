@@ -3,10 +3,6 @@ import {Req} from "../../../../src/common/filters/decorators/request";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
-
 describe("Request", () => {
 
     before(() => {

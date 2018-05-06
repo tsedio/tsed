@@ -223,7 +223,7 @@ describe("EndpointMetadata", () => {
                             }
                         }
                     }
-                }
+                };
                 this.storeGetStub.withArgs("responses").returns(this.responses);
 
                 this.result = this.endpointMetadata.statusResponse(200);

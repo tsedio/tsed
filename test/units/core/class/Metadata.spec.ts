@@ -12,6 +12,7 @@ class Test {
     @logger
     attribut: string = "";
 
+    // tslint:disable-next-line: no-unused-variable
     constructor(private type?: string) {
     }
 

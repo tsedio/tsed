@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "gulp mount:packages",
     "clean": "gulp clean:workspace",
-    "tslint": "tslint \"src/**/*.ts?(x)\" --exclude \"**/node_modules/**\"",
+    "tslint": "tslint --project tsconfig.json",
     "test": "npm run clean && npm run tsc && npm run tslint && cross-env NODE_ENV=test nyc --reporter=html --reporter=text _mocha --recursive",
     "coveralls:travis": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",

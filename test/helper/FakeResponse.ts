@@ -24,6 +24,7 @@ export class FakeResponse {
      */
     public status(value: number) {
         this._status = value;
+
         return this;
     }
 
@@ -52,6 +53,7 @@ export class FakeResponse {
     public json(value: any) {
         this._json = value;
         this._body = JSON.stringify(value);
+
         return this;
     }
 
@@ -63,6 +65,7 @@ export class FakeResponse {
      */
     public setHeader(key: string, value: string): FakeResponse {
         this._headers += `${key}:${value}\n`;
+
         return this;
     }
 

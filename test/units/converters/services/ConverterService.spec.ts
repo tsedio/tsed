@@ -87,7 +87,7 @@ describe("ConverterService", () => {
                 this.foo = this.converterService.deserialize({
                     test: 1,
                     foo: "test"
-                }, <any>JsonFoo);
+                }, JsonFoo as any);
             });
 
             after(() => delete this.foo);
@@ -227,7 +227,7 @@ describe("ConverterService", () => {
                             test: 1,
                             foo: "test",
                             notPropertyAllowed: "tst"
-                        }, <any>JsonFoo4),
+                        }, JsonFoo4 as any),
                     "Property notPropertyAllowed on class JsonFoo4 is not allowed."
                 );
             });
@@ -253,7 +253,7 @@ describe("ConverterService", () => {
                     test: 1,
                     foo: "test",
                     notPropertyAllowed: "tst"
-                }, <any>JsonFoo5)).to.deep.eq(foo);
+                }, JsonFoo5 as any)).to.deep.eq(foo);
             });
         });
 

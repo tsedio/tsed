@@ -1,7 +1,6 @@
 import {JsonSchema, JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {OpenApiModelSchemaBuilder} from "../../../../src/swagger/class/OpenApiModelSchemaBuilder";
-import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
 import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
 
@@ -14,9 +13,9 @@ describe("OpenApiModelSchemaBuilder", () => {
         });
 
         it("should not fail", () => {
-            let builder = new OpenApiModelSchemaBuilder(SwaNoDecoModel);
+            const builder = new OpenApiModelSchemaBuilder(SwaNoDecoModel);
 
-            let build = () => {
+            const build = () => {
                 builder.build();
             };
 

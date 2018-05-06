@@ -56,7 +56,7 @@ export class OpenApiModelSchemaBuilder {
      */
     protected createSchema(model: Storable): Schema {
         let builder;
-        let schema: any = model.store.get<Schema>("schema") || {};
+        let schema: any = model.store.get("schema") as Schema || {};
 
         if (schema instanceof JsonSchema) {
             schema = schema.toObject();

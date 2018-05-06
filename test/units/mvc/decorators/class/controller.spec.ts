@@ -2,6 +2,7 @@ import {assert, expect} from "chai";
 import * as Sinon from "sinon";
 import * as Proxyquire from "proxyquire";
 
+// tslint:disable-next-line: variable-name
 const ControllerRegistryStub: any = {
     merge: Sinon.stub()
 };

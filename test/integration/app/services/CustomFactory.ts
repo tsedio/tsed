@@ -7,6 +7,7 @@ export interface ICustomFactory {
 }
 
 export type CustomFactory = ICustomFactory;
+// tslint:disable-next-line: variable-name
 export const CustomFactory = Symbol("CustomFactory");
 
 registerFactory(CustomFactory, {

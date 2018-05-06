@@ -13,10 +13,12 @@ class Test {
 class ChildrenTest {
 }
 
+// tslint:disable-next-line
 const EndpointBuilderStub = Sinon.spy(function () {
     return Sinon.createStubInstance(EndpointBuilder);
 });
 
+// tslint:disable-next-line: variable-name
 const ControllerRegistryStub = {
     get: Sinon.stub().returns(new ControllerProvider(ChildrenTest))
 };
@@ -110,12 +112,9 @@ describe("ControllerBuilder", () => {
             this.controllerProvider = new ControllerProvider(Test);
             this.controllerProvider.path = "/test";
 
-            this.mdlw1 = function () {
-            };
-            this.mdlw2 = function () {
-            };
-            this.mdlw3 = function () {
-            };
+            this.mdlw1 = () => {};
+            this.mdlw2 = () => {};
+            this.mdlw3 = () => {};
 
             this.controllerProvider.middlewares = {
                 useBefore: [this.mdlw1],

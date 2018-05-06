@@ -1,4 +1,4 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import {Deprecated} from "../../../../src/core/decorators/deprecated";
 
 class Test {

@@ -3,10 +3,6 @@ import {ResponseData} from "../../../../src/common/filters/decorators/responseDa
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
-
 describe("ResponseData", () => {
 
     before(() => {
