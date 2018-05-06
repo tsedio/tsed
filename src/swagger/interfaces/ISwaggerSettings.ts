@@ -47,7 +47,7 @@ export interface ISwaggerSettings {
         definitions?: { [definitionsName: string]: Schema };
         parameters?: { [parameterName: string]: BodyParameter | QueryParameter };
         responses?: { [responseName: string]: Response };
-        security?: Array<{ [securityDefinitionName: string]: string[] }>;
+        security?: { [securityDefinitionName: string]: string[] }[];
         securityDefinitions?: { [securityDefinitionName: string]: Security };
         tags?: Tag[];
     };

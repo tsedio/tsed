@@ -40,7 +40,7 @@ export class AjvService extends ValidationService {
      * @returns {boolean}
      */
     public validate(obj: any, targetType: any, baseType?: any): boolean {
-        let schema = <any>this.jsonSchemaService.getSchemaDefinition(targetType);
+        const schema = this.jsonSchemaService.getSchemaDefinition(targetType) as any;
 
         if (schema && !(obj === null || obj === undefined)) {
             const collection = baseType ? obj : [obj];
@@ -68,6 +68,7 @@ export class AjvService extends ValidationService {
                     )
                 );
         }
+
         return true;
     }
 
@@ -82,6 +83,7 @@ export class AjvService extends ValidationService {
 
         const message = errors.map((error: AjvErrorObject) => {
             error.modelName = nameOf(targetType);
+
             return this.errorFormatter.call(this, error);
         }).join("\n");
 
@@ -101,6 +103,7 @@ export class AjvService extends ValidationService {
         if (this.options.verbose) {
             value = `, value "${error.data}"`;
         }
+
         return `At ${error.modelName}${error.dataPath}${value} ${error.message}`;
     }
 }

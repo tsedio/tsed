@@ -62,6 +62,7 @@ export class ControllerService extends ProxyRegistry<ControllerProvider, IContro
     @Deprecated("removed feature")
     static set(target: Type<any>, provider: ControllerProvider) {
         ControllerRegistry.set(target, provider);
+
         return this;
     }
 

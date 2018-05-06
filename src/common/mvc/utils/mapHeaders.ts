@@ -17,6 +17,7 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
             options.type = options.type || type;
 
             newHeaders[key] = options;
+
             return newHeaders;
         }, {});
 }

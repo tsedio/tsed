@@ -26,7 +26,7 @@ export class SetConverter implements IConverter {
 
         Object.keys(data).forEach(key => {
 
-            obj.add(<T>deserializer(data[key], baseType));
+            obj.add(deserializer(data[key], baseType) as T);
 
         });
 

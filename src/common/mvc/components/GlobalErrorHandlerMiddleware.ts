@@ -27,11 +27,13 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
                 }
             });
             response.status(error.status).send(toHTML(error.message));
+
             return;
         }
 
         if (typeof error === "string") {
             response.status(404).send(toHTML(error));
+
             return;
         }
 

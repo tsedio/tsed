@@ -32,6 +32,7 @@ export class HandlerBuilder {
         if (obj instanceof EndpointMetadata) { // Endpoint
             return new HandlerBuilder(new HandlerMetadata(obj.target, obj.methodClassName));
         }
+
         // Middleware
         return new HandlerBuilder(new HandlerMetadata(obj));
     }
@@ -168,6 +169,7 @@ export class HandlerBuilder {
      */
     private buildNext(request: Express.Request, response: Express.Response, next: any): any {
         next.isCalled = false;
+
         return (error?: any) => {
             next.isCalled = true;
             if (response.headersSent) {
@@ -176,6 +178,7 @@ export class HandlerBuilder {
 
             /* istanbul ignore else */
             this.log(request, {event: "invoke.end", error});
+
             return next(error);
         };
     }

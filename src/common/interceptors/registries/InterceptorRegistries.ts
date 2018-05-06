@@ -6,6 +6,7 @@ import {GlobalProviders} from "../../di/registries/ProviderRegistry";
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
+// tslint:disable-next-line: variable-name
 export const InterceptorRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider, {
     injectable: true,
     buildable: true

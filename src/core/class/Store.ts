@@ -88,6 +88,7 @@ export class Store {
             if (typeof result === "function") {
                 result(...parameters);
             }
+
             return parameters[2];
         };
     }
@@ -118,6 +119,7 @@ export class Store {
      */
     set(key: any, metadata: any): Store {
         this._map.set(nameOf(key), metadata);
+
         return this;
     }
 
@@ -199,6 +201,7 @@ export class Store {
         }
 
         this.set(key, value);
+
         return this;
     }
 

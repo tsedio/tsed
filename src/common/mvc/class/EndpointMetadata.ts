@@ -203,6 +203,7 @@ export class EndpointMetadata extends Storable {
         if (endpointValue !== undefined) {
             meta = deepExtends(meta, endpointValue);
         }
+
         return meta;
     }
 
@@ -265,6 +266,7 @@ export class EndpointMetadata extends Storable {
      */
     public before(args: any[]): this {
         this._beforeMiddlewares = this._beforeMiddlewares.concat(args);
+
         return this;
     }
 
@@ -275,6 +277,7 @@ export class EndpointMetadata extends Storable {
      */
     public after(args: any[]): this {
         this._afterMiddlewares = this._afterMiddlewares.concat(args);
+
         return this;
     }
 
@@ -289,11 +292,13 @@ export class EndpointMetadata extends Storable {
             .filter((arg: any) => {
                 if (typeof arg === "string" && EXPRESS_METHODS.indexOf(arg) > -1) {
                     expressMethods.method = arg;
+
                     return false;
                 }
 
                 if (typeof arg === "string" || arg instanceof RegExp) {
                     expressMethods.path = arg;
+
                     return false;
                 }
 
@@ -322,6 +327,7 @@ export class EndpointMetadata extends Storable {
         metadata.httpMethod = this.httpMethod;
         metadata.path = this.path;
         metadata.type = this._type;
+
         return metadata;
     }
 }

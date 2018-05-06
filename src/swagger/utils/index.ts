@@ -15,11 +15,11 @@ export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
     const completePath = "" + base + path;
 
     // if (typeof expressPath === "string") {
-    let params = completePath.match(/:[\w]+/g);
+    const params = completePath.match(/:[\w]+/g);
 
     let openAPIPath = completePath;
     if (params) {
-        let swaggerParams = params.map(x => {
+        const swaggerParams = params.map(x => {
             return "{" + x.replace(":", "") + "}";
         });
 
@@ -42,6 +42,7 @@ export function getReducers(): { [key: string]: (collection: any[], value: any) 
         if (collection.indexOf(value) === -1) {
             collection.push(value);
         }
+
         return collection;
     };
 

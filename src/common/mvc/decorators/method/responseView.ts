@@ -26,6 +26,7 @@ import {UseAfter} from "./useAfter";
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
     return Store.decorate((store: Store) => {
         store.set(ResponseViewMiddleware, {viewPath, viewOptions});
+
         return UseAfter(ResponseViewMiddleware);
     });
 }

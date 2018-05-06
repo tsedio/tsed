@@ -9,6 +9,7 @@ import {MiddlewareType} from "../interfaces/MiddlewareType";
  *
  * @type {Registry<Provider<any>, Provider>}
  */
+// tslint:disable-next-line: variable-name
 export const MiddlewareRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
     injectable: true,
     buildable: true

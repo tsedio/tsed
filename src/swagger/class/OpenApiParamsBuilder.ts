@@ -19,7 +19,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         let bodySchema: Schema | undefined = undefined;
         let bodyParam: BodyParameter = {} as BodyParameter;
 
-        this._parameters = <Parameter[]> this.injectedParams
+        this._parameters = this.injectedParams
             .map((param: ParamMetadata) => {
                 if (param.store.get("hidden")) {
                     return;
@@ -36,7 +36,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
                     return;
                 }
 
-                let baseParam: BaseParameter = this.createBaseParameter(inType, param);
+                const baseParam: BaseParameter = this.createBaseParameter(inType, param);
 
                 // Next assign type/schema:
                 switch (inType) {
@@ -44,6 +44,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
                         if (param.expression) {
                             bodySchema = deepExtends(bodySchema || {}, this.createSchemaFromBodyParam(param));
                             bodyParam = baseParam;
+
                             return;
                         }
 
@@ -75,7 +76,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
                         });
                 }
             })
-            .filter(o => !!o);
+            .filter(o => !!o) as Parameter[];
 
         if (bodySchema && bodyParam) {
             const model = `${this.name}Payload`;
@@ -96,8 +97,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
      * @returns {BaseParameter}
      */
     private createBaseParameter(inType: string, param: ParamMetadata): BaseParameter {
-        let baseParam: BaseParameter = {
-            name: (inType === "body") ? "body" : <string>param.expression,
+        const baseParam: BaseParameter = {
+            name: (inType === "body") ? "body" : param.expression as string,
             in: inType,
             required: !!param.required,
             description: ""
@@ -106,6 +107,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         if (param.required) {
             this._responses[400] = {description: "Missing required parameter"};
         }
+
         // override defaults with baseParameter
         return deepExtends(baseParam, param.store.get("baseParameter") || {});
     }
@@ -123,7 +125,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
             keys.forEach((key, index) => {
                 current.type = "object";
                 current.properties = current.properties || {};
-                current.properties![key] = <Schema> {};
+                current.properties![key] = {} as Schema;
                 current = current.properties![key];
             });
         }
@@ -190,6 +192,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
             .filter(keyPath => {
                 if (keyPath.match(/{/)) {
                     const name = keyPath.replace(/{|}/, "");
+
                     return !this._parameters.find(o => o["in"] === "path" && o.name === name);
                 }
             })

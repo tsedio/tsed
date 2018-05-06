@@ -22,6 +22,7 @@ import {UseBefore} from "./useBefore";
 export function AcceptMime(...mimes: string[]): Function {
     return Store.decorate((store: Store, parameters: DecoratorParameters) => {
         store.set(AcceptMimesMiddleware, mimes);
+
         return UseBefore(AcceptMimesMiddleware);
     });
 }

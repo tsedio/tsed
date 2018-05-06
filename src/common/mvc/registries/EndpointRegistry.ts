@@ -36,6 +36,7 @@ export class EndpointRegistry {
         if (!this.hasEndpoints(target)) {
             Metadata.set(EndpointRegistry.name, [], target);
         }
+
         return Metadata.getOwn(EndpointRegistry.name, target);
     }
 
@@ -80,6 +81,7 @@ export class EndpointRegistry {
      */
     static useBefore(target: Type<any>, targetKey: string, args: any[]) {
         this.get(target, targetKey).before(args);
+
         return this;
     }
 
@@ -92,6 +94,7 @@ export class EndpointRegistry {
      */
     static use(target: Type<any>, targetKey: string, args: any[]) {
         this.get(target, targetKey).merge(args);
+
         return this;
     }
 
@@ -103,6 +106,7 @@ export class EndpointRegistry {
      */
     static useAfter(target: Type<any>, targetKey: string, args: any[]) {
         this.get(target, targetKey).after(args);
+
         return this;
     }
 

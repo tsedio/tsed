@@ -172,10 +172,11 @@ export class ConverterService {
             /* istanbul ignore next */
             if (isArrayOrArrayClass(obj)) {
                 const converter = this.getConverter(Array);
+
                 return converter!.deserialize!(obj, Array, baseType, deserializer);
             }
 
-            if ((<any>targetType).prototype && typeof (<any>targetType).prototype.deserialize === "function") {
+            if ((targetType as any).prototype && typeof (targetType as any).prototype.deserialize === "function") {
                 // deserialize from method
 
                 const instance = new targetType();
@@ -190,6 +191,7 @@ export class ConverterService {
 
             Object.keys(obj).forEach((propertyName: string) => {
                 const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
+
                 return this.convertProperty(obj, instance, propertyName, propertyMetadata, options);
             });
 

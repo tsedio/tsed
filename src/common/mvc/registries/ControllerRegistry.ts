@@ -5,6 +5,7 @@ import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressRouter} from "../services/ExpressRouter";
 import {RouterController} from "../services/RouterController";
 
+// tslint:disable-next-line: variable-name
 export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
     injectable: false,
     buildable: true,

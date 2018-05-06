@@ -6,4 +6,5 @@ import {OverrideProvider} from "./overrideProvider";
  * @decorators
  * @param targetService
  */
+// tslint:disable-next-line: variable-name
 export const OverrideService = OverrideProvider;

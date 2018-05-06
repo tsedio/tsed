@@ -6,11 +6,13 @@ import {IProvider, ProviderType, TypedProvidersRegistry} from "../interfaces";
  *
  * @type {Providers}
  */
+// tslint:disable-next-line: variable-name
 export const GlobalProviders = new Providers();
 /**
  *
  * @type {Providers}
  */
+// tslint:disable-next-line: variable-name
 export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
 /**
  *

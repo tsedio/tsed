@@ -99,7 +99,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      * @returns {ServerLoader}
      */
     public createHttpServer(port: string | number): ServerLoader {
-        this._httpServer = Http.createServer(<any> this._expressApp);
+        this._httpServer = Http.createServer(this._expressApp as any);
 
         const httpServer: any = this._httpServer = Http.createServer(this._expressApp);
         httpServer.get = () => httpServer;
@@ -107,6 +107,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         registerFactory(HttpServer, httpServer);
 
         this._settings.httpPort = port;
+
         return this;
     }
 
@@ -133,6 +134,7 @@ export abstract class ServerLoader implements IServerLifecycle {
         registerFactory(HttpsServer, httpsServer);
 
         this._settings.httpsPort = options.port;
+
         return this;
     }
 
@@ -166,6 +168,7 @@ export abstract class ServerLoader implements IServerLifecycle {
      */
     public use(...args: any[]): ServerLoader {
         this.expressApp.use(...args);
+
         return this;
     }
 
@@ -210,6 +213,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         $log.info("Build services");
         this._injectorService = InjectorService.get<InjectorService>(InjectorService);
+
         return this.injectorService.load();
     }
 
@@ -218,6 +222,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         if (key in this) {
             $log.debug(`\x1B[1mCall hook ${key}\x1B[22m`);
+
             return self[key](...args);
         }
 
@@ -283,10 +288,12 @@ export abstract class ServerLoader implements IServerLifecycle {
             .then(() => {
                 const port = http.address().port;
                 $log.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${port}`);
+
                 return {address: settings.address as string, port};
             });
 
         http.listen(port, address as any);
+
         return promise;
     }
 
@@ -444,8 +451,10 @@ export abstract class ServerLoader implements IServerLifecycle {
             .filter((item: string) => {
                 if (isClass(item)) {
                     this.addControllers(endpoint, [item]);
+
                     return false;
                 }
+
                 return true;
             });
 
@@ -600,6 +609,7 @@ export abstract class ServerLoader implements IServerLifecycle {
                 if (!require.extensions[".ts"]) {
                     file = file.replace(/\.ts$/i, ".js");
                 }
+
                 return Path.resolve(file);
             })
             .concat(excludes as any);

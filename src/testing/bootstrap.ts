@@ -21,9 +21,7 @@ export function bootstrap(server: any, ...args: any[]) {
 
             server.$$instance = instance;
 
-            (instance as any).startServers = function () {
-                return Promise.resolve();
-            };
+            (instance as any).startServers = () => Promise.resolve();
 
             instance.start().then(() => done());
         } else {

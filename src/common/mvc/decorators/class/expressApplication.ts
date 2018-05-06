@@ -65,6 +65,7 @@ export function createExpressApplication(): ExpressApplication {
             if (ProviderRegistry.has(arg)) {
                 arg = HandlerBuilder.from(arg).build();
             }
+
             return arg;
         });
 
@@ -72,5 +73,6 @@ export function createExpressApplication(): ExpressApplication {
     };
 
     registerFactory(ExpressApplication, expressApp);
+
     return expressApp;
 }
