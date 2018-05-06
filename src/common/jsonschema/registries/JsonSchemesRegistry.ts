@@ -193,4 +193,5 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
     }
 }
 
+// tslint:disable-next-line: variable-name
 export const JsonSchemesRegistry = new JsonSchemaRegistry(JsonSchema);

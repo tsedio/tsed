@@ -11,4 +11,5 @@ export enum Env {
  * Fallback
  * @type {Env}
  */
+// tslint:disable-next-line: variable-name
 export const EnvTypes = Env;

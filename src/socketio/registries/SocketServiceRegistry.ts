@@ -8,6 +8,7 @@ import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
+// tslint:disable-next-line: variable-name
 export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("socketService", Provider, {
     injectable: true,
     buildable: true
