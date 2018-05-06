@@ -1,7 +1,6 @@
 import * as Proxyquire from "proxyquire";
 import {ParamMetadata} from "../../../../src/common/filters/class/ParamMetadata";
 import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
-import {Description} from "../../../../src/swagger/decorators/description";
 import {expect, Sinon} from "../../../tools";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
 

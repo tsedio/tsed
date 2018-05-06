@@ -100,12 +100,6 @@ export class SwaFoo2 {
     }
 }
 
-class SwaFoo3 {
-    toJSON() {
-        return {};
-    }
-}
-
 export class Ctrl {
 
 }

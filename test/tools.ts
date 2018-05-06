@@ -11,6 +11,7 @@ Chai.use(ChaiAsPromised);
 
 const expect = Chai.expect;
 const assert = Chai.assert;
+// tslint:disable-next-line: variable-name
 const Sinon = SinonLib;
 
 export interface LogStub {
@@ -25,13 +26,14 @@ export interface LogStub {
     trace: LogStub;
 }
 
-const $logStub: LogStub = <any> {
+const $logStub: LogStub = {
     $log: $log as any,
     info: Sinon.stub(),
     debug: Sinon.stub(),
     error: Sinon.stub(),
     warn: Sinon.stub(),
     trace: Sinon.stub(),
+    // tslint:disable-next-line
     stub: function () {
         this.info = Sinon.stub($log, "info");
         this.debug = Sinon.stub($log, "debug");
@@ -39,6 +41,7 @@ const $logStub: LogStub = <any> {
         this.warn = Sinon.stub($log, "warn");
         this.trace = Sinon.stub($log, "trace");
     },
+    // tslint:disable-next-line
     restore: function () {
         this.info.restore();
         this.debug.restore();
@@ -46,6 +49,7 @@ const $logStub: LogStub = <any> {
         this.warn.restore();
         this.trace.restore();
     },
+    // tslint:disable-next-line
     reset: function () {
         this.info.reset();
         this.debug.reset();
@@ -53,7 +57,7 @@ const $logStub: LogStub = <any> {
         this.warn.reset();
         this.trace.reset();
     }
-};
+} as any;
 
 $logStub.stub();
 

@@ -1,4 +1,4 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import {TemplateRenderingError} from "../../../../src/common/mvc/errors/TemplateRenderingError";
 
 describe("TemplateRenderingError", () => {

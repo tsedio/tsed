@@ -24,7 +24,7 @@ class TestService {
     }
 }
 
-const pushRouterPath = Sinon.stub();
+// const pushRouterPath = Sinon.stub();
 
 describe("ControllerService", () => {
 

@@ -1,4 +1,4 @@
-import {applyBefore, Env} from "@tsed/core";
+import {applyBefore} from "@tsed/core";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {globalServerSettings} from "../../config";
@@ -27,6 +27,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     private fields: string[];
     private reqIdBuilder: () => number;
 
+    // tslint:disable-next-line: no-unused-variable
     constructor(private serverSettingsService: ServerSettingsService) {
         this.loggerSettings = serverSettingsService.logger as ILoggerSettings;
         this.reqIdBuilder = this.loggerSettings.reqIdBuilder || (() => this.AUTO_INCREMENT_ID++);

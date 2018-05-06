@@ -16,6 +16,7 @@ import {ErrorHandlerSocketMiddleware} from "../middlewares/ErrorHandlerSocketMid
 @SocketService("/room")
 @SocketUseAfter(ErrorHandlerSocketMiddleware)
 export class RoomWS {
+    // tslint:disable-next-line: no-unused-variable
     constructor(@IO private io: SocketIO.Server) {
 
     }
@@ -33,6 +34,7 @@ export class RoomWS {
     @SocketUseBefore(ConverterUserSocketMiddleware)
     async myMethod(@SocketSession session: Map<any, any>) {
         console.log("session", session.get("test"));
+
         return "my Message " + session.get("test");
     }
 

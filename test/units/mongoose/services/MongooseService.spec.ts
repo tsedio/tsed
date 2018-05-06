@@ -86,6 +86,7 @@ describe("MongooseService", () => {
             return mongooseService.connect("key", "mongodb://test", {"options": "options"})
                 .then(() => {
                     this.result = mongooseService.connect("key", "mongodb://test", {"options": "options"});
+
                     return this.result;
                 });
         }));

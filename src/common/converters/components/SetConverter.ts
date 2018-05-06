@@ -1,6 +1,5 @@
 import {Converter} from "../decorators/converter";
 import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
-import {ConverterService} from "../services/ConverterService";
 
 /**
  * Converter component for the `Set` Type.
@@ -10,8 +9,6 @@ import {ConverterService} from "../services/ConverterService";
  */
 @Converter(Set)
 export class SetConverter implements IConverter {
-    constructor(private converterService: ConverterService) {
-    }
 
     /**
      *

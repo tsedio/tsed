@@ -1,4 +1,4 @@
-import {getClassOrSymbol, Registry} from "@tsed/core";
+import {getClassOrSymbol} from "@tsed/core";
 import {Provider} from "../../di/class/Provider";
 import {IProvider} from "../../di/interfaces/IProvider";
 import {ProviderType} from "../../di/interfaces/ProviderType";

@@ -1,12 +1,8 @@
 import {Forbidden} from "ts-httpexceptions";
-import {BadRequest} from "ts-httpexceptions/lib/clientErrors/BadRequest";
 import {AuthenticatedMiddleware} from "../../../../src/common/mvc/components/AuthenticatedMiddleware";
 import {FakeResponse} from "../../../helper";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
 
 describe("AuthenticatedMiddleware", () => {
 

@@ -726,6 +726,7 @@ describe("SocketHandlersBuilder", () => {
 
                 this.builder = new SocketHandlersBuilder(this.provider);
                 this.invokeStub = Sinon.stub(this.builder, "invoke").returns({result: "result"});
+
                 return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
             });
             after(() => {
@@ -782,6 +783,7 @@ describe("SocketHandlersBuilder", () => {
 
                 this.builder = new SocketHandlersBuilder(this.provider);
                 this.invokeStub = Sinon.stub(this.builder, "invoke").returns(Promise.resolve());
+
                 return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
             });
             after(() => {

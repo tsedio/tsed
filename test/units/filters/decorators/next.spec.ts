@@ -3,10 +3,6 @@ import {Next} from "../../../../src/common/filters/decorators/next";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
-
 describe("Next", () => {
 
     before(() => {

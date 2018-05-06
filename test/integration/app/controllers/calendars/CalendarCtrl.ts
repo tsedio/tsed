@@ -16,7 +16,6 @@ import {
     Request,
     Required,
     Response,
-    RouterController,
     Status,
     Use,
     UseAfter
@@ -44,11 +43,9 @@ interface ICalendar {
 @Description("Controller description")
 export class CalendarCtrl extends BaseController {
 
-    constructor(private tokenService: TokenService,
-                private routerController: RouterController) {
+    constructor(private tokenService: TokenService) {
 
         super(tokenService);
-        const router = this.routerController.getRouter();
 
     }
 
@@ -68,6 +65,7 @@ export class CalendarCtrl extends BaseController {
         const model = new CalendarModel();
         model.id = request.params.id;
         model.name = "test";
+
         return model;
     }
 
@@ -76,6 +74,7 @@ export class CalendarCtrl extends BaseController {
 
         if (authorization) {
             const token = this.tokenService.token();
+
             return token;
             // console.log('TOKEN', this.tokenService, token);
         }
@@ -86,6 +85,7 @@ export class CalendarCtrl extends BaseController {
     @Get("/token/:token")
     public updateToken(@PathParams("token") @Description("Token required to update token") token: string): string {
         this.tokenService.token(token);
+
         return "token updated";
     }
 
@@ -208,6 +208,7 @@ export class CalendarCtrl extends BaseController {
         const model = new CalendarModel();
         model.id = id;
         model.name = "test";
+
         return model;
     }
 

@@ -5,10 +5,13 @@ import {MultipartFileMiddleware} from "../../../../src/multipartfiles/middleware
 import {assert, expect, Sinon} from "../../../tools";
 import Proxyquire = require("proxyquire");
 
+// tslint:disable-next-line: variable-name
 const ParamRegistry: any = {useService: Sinon.stub(), useFilter: Sinon.stub()};
+// tslint:disable-next-line: variable-name
 const Metadata: any = {getParamTypes: Sinon.stub().returns([Object])};
 
 const middleware: any = Sinon.stub();
+// tslint:disable-next-line: variable-name
 const UseBefore: any = Sinon.stub().returns(middleware);
 
 const {MultipartFile} = Proxyquire.load("../../../../src/multipartfiles/decorators/multipartFile", {

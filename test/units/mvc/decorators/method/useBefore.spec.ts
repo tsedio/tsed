@@ -16,8 +16,7 @@ describe("UseBefore()", () => {
         before(() => {
             this.endpointRegistryStub = Sinon.stub(EndpointRegistry, "useBefore");
 
-            this.returns = UseBefore(function () {
-            })(...decoratorArgs(Test, "test"));
+            this.returns = UseBefore(() => {})(...decoratorArgs(Test, "test"));
         });
 
         after(() => {
@@ -35,8 +34,7 @@ describe("UseBefore()", () => {
 
     describe("when the decorator is use on a class", () => {
         before(() => {
-            this.returns = UseBefore(function () {
-            })(Test);
+            this.returns = UseBefore(() => {})(Test);
 
             this.store = Store.from(Test).get("middlewares");
         });

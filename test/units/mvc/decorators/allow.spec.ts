@@ -59,7 +59,7 @@ describe("Allow", () => {
             expect(this.schema.oneOf).to.have.length(2);
         });
         it("should have oneOf with null type and the original ref", () => {
-            let [e1, e2] = this.schema.oneOf;
+            const [e1, e2] = this.schema.oneOf;
             if (e1.type) {
                 expect(e1.type).to.equal("null");
                 expect(e2).to.have.property("$ref", "xyz");

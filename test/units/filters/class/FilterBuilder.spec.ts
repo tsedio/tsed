@@ -232,8 +232,7 @@ describe("FilterBuilder", () => {
 
                 this.injectorStub = Sinon.stub(InjectorService as any, "get");
                 this.injectorStub.returns({
-                    validate: function () {
-                    }
+                    validate: () => {}
                 });
 
                 this.result = (FilterBuilder as any).appendValidationFilter("filter", {
@@ -265,8 +264,7 @@ describe("FilterBuilder", () => {
 
                 this.injectorStub = Sinon.stub(InjectorService as any, "get");
                 this.injectorStub.returns({
-                    deserialize: function () {
-                    }
+                    deserialize: () => {}
                 });
 
                 this.result = (FilterBuilder as any).appendConverterFilter("filter", {
@@ -296,8 +294,7 @@ describe("FilterBuilder", () => {
 
                 this.injectorStub = Sinon.stub(InjectorService as any, "get");
                 this.injectorStub.returns({
-                    deserialize: function () {
-                    }
+                    deserialize: () => {}
                 });
 
                 this.result = (FilterBuilder as any).appendConverterFilter("filter", {
