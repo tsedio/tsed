@@ -40,9 +40,7 @@ export function Constant(expression: string): any {
         if (delete target[propertyKey]) {
             const descriptor = {
 
-                get: function () {
-                    return clone(globalServerSettings.get(expression));
-                },
+                get: () => clone(globalServerSettings.get(expression)),
 
                 enumerable: true,
                 configurable: true

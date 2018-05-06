@@ -35,6 +35,8 @@
         "prefer-const": true,
         "newline-before-return": true,
         "no-angle-bracket-type-assertion": true,
+        "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
+        "arrow-return-shorthand": true,
         "typedef-whitespace": [
             true,
             {
