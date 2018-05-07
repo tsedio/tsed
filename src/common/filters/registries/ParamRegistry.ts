@@ -70,6 +70,7 @@ export class ParamRegistry {
         param.useConverter = false;
 
         ParamRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
+
         return this;
     }
 
@@ -128,20 +129,23 @@ export class ParamRegistry {
      * @param options
      */
     static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
-        let {
+        const {
             propertyKey,
             parameterIndex,
-            expression,
             target,
-            useType,
             useConverter,
             useValidation
+        } = options;
+
+        let {
+            expression,
+            useType
         } = options;
 
         const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
         if (typeof expression !== "string") {
-            useType = <any>expression;
+            useType = expression as any;
             expression = undefined;
         }
 

@@ -105,7 +105,7 @@ export class HandlerMetadata {
             return ParamRegistry.getParams(this._useClass, this.methodClassName);
         }
 
-        let parameters: any[] = [{service: EXPRESS_REQUEST}, {service: EXPRESS_RESPONSE}];
+        const parameters: any[] = [{service: EXPRESS_REQUEST}, {service: EXPRESS_RESPONSE}];
 
         if (this.errorParam) {
             parameters.unshift({service: EXPRESS_ERR});

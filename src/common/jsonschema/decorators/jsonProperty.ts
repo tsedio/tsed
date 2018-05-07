@@ -100,7 +100,7 @@ export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
         else if (typeof options === "object") {
             propertyMetadata.name = options.name as string;
 
-            if (!isEmpty((<IPropertyOptions>options).use)) {
+            if (!isEmpty((options as IPropertyOptions).use)) {
                 propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
             }
         }

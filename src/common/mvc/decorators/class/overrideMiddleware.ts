@@ -30,4 +30,5 @@ import {IMiddleware} from "../../interfaces";
  * @returns {Function}
  * @decorators
  */
+// tslint:disable-next-line: variable-name
 export const OverrideMiddleware = OverrideProvider;

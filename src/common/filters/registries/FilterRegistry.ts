@@ -9,6 +9,7 @@ import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
  *
  * @type {Registry<Provider, IProvider<any>>}
  */
+// tslint:disable-next-line: variable-name
 export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
     injectable: true,
     buildable: true
@@ -46,4 +47,5 @@ export const registerFilter = GlobalProviders.createRegisterFn(ProviderType.FILT
  *
  * @type {Map<any, any>}
  */
+// tslint:disable-next-line: variable-name
 export const FilterPreHandlers: Map<symbol, IFilterPreHandler> = new Map();

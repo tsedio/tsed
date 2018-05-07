@@ -259,6 +259,7 @@ export class ServerSettingsProvider implements IServerSettings {
      */
     get validationModelStrict(): boolean {
         const value = this.map.get("validationModelStrict");
+
         return value === undefined ? true : value;
     }
 
@@ -273,6 +274,7 @@ export class ServerSettingsProvider implements IServerSettings {
     get logger(): Partial<ILoggerSettings> {
         const debug = this.debug;
         const requestFields = this.get("logRequestFields");
+
         return Object.assign({
             requestFields,
             debug
@@ -333,6 +335,7 @@ export class ServerSettingsProvider implements IServerSettings {
         this.forEach((value, key) => {
             this.map.set(key, this.resolve(value));
         });
+
         return this;
     }
 
@@ -400,6 +403,7 @@ export class ServerSettingsProvider implements IServerSettings {
         if (typeof value === "string") {
             return value.replace(/\${rootDir}/, this.rootDir);
         }
+
         return value;
     }
 

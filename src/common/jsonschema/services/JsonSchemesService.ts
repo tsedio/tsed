@@ -22,6 +22,7 @@ export class JsonSchemesService extends ProxyRegistry<any, JsonSchema> {
         if (!this.cache.has(target)) {
             this.cache.set(target, JsonSchemesRegistry.getSchemaDefinition(target));
         }
+
         return this.cache.get(target);
     }
 

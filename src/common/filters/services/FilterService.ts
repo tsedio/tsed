@@ -34,6 +34,7 @@ export class FilterService extends ProxyRegistry<Provider<any>, IProvider<any>> 
     /* istanbul ignore next */
     static set(target: Type<any>, provider: Provider<any>) {
         FilterRegistry.set(target, provider);
+
         return this;
     }
 
@@ -74,6 +75,7 @@ export class FilterService extends ProxyRegistry<Provider<any>, IProvider<any>> 
         }
 
         const [expression, request, response] = args;
+
         return instance.transform(expression, request, response);
     }
 }

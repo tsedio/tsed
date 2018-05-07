@@ -10,6 +10,7 @@ export interface SocketIOServer extends SocketIO.Server {
 /**
  *
  */
+// tslint:disable-next-line: variable-name
 export const SocketIOServer = Symbol("SocketIOServer");
 
 registerFactory(SocketIOServer, SocketIO());

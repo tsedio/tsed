@@ -67,6 +67,7 @@ export class Registry<T, O> {
                 this.options.onCreate(key, item);
             }
         }
+
         return this.get(key)!;
     }
 
@@ -87,6 +88,7 @@ export class Registry<T, O> {
      */
     set(key: RegistryKey, metadata: T): this {
         this._map.set(getClassOrSymbol(key), metadata);
+
         return this;
     }
 

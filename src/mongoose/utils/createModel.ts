@@ -19,6 +19,7 @@ export function createModel<T>(target: any, schema: mongoose.Schema, name: strin
     Store.from(target).set(MONGOOSE_MODEL_NAME, name);
     target.prototype.serialize = function (options: IConverterOptions) {
         const {checkRequiredValue, ignoreCallback} = options;
+
         return InjectorService.get<ConverterService>(ConverterService).serializeClass(this, {
             type: getClass(target),
             checkRequiredValue,
@@ -28,6 +29,7 @@ export function createModel<T>(target: any, schema: mongoose.Schema, name: strin
 
     schema.loadClass(target);
     const modelInstance: any = mongoose.model(name, schema, collection, skipInit);
+
     return modelInstance;
     /*
         const proxyModel = new Proxy(modelInstance, {

@@ -6,6 +6,7 @@ import {GlobalProviders} from "../../di/registries/ProviderRegistry";
  * Converter Registry.
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
+// tslint:disable-next-line: variable-name
 export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.CONVERTER, Provider, {
     injectable: true,
     buildable: true

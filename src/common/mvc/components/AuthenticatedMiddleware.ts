@@ -24,6 +24,7 @@ export class AuthenticatedMiddleware implements IMiddleware {
         if (typeof isAuthenticated === "function") {
             if (!isAuthenticated()) {
                 next(new Forbidden("Forbidden"));
+
                 return;
             }
         }

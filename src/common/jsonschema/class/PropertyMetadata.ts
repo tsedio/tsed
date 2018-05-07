@@ -100,6 +100,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
                 }
             }
         }
+
         return true;
     }
 }

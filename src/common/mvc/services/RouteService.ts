@@ -29,7 +29,7 @@ export class RouteService {
      */
     public getRoutes(): IControllerRoute[] {
 
-        let routes: IControllerRoute[] = [];
+        const routes: IControllerRoute[] = [];
 
         this.controllerService.routes.forEach((config: { route: string, provider: ControllerProvider }) => {
             this.buildRoutes(routes, config.provider, config.route);
@@ -96,16 +96,16 @@ export class RouteService {
 
                 const method = route.method.toUpperCase();
 
-                route.method = <any>{
+                route.method = {
                     length: method.length, toString: () => {
                         return colorize(method, mapColor[method]);
                     }
-                };
+                } as any;
 
                 return route;
             });
 
-        let str = $log.drawTable(routes, {
+        const str = $log.drawTable(routes, {
             padding: 1,
             header: {
                 method: "Method",

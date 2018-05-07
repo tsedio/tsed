@@ -10,6 +10,7 @@ export function Configurable(value: boolean = true): Function {
         const descriptor = descriptorOf(target, propertyKey) || {writable: true, enumerable: true};
         descriptor.configurable = value;
         Object.defineProperty(target && target.prototype || target, propertyKey, descriptor);
+
         return descriptor;
     };
 }

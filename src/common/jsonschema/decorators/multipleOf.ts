@@ -65,6 +65,7 @@ export function MultipleOf(multipleOf: number) {
     if (multipleOf <= 0) {
         throw new Error("The value of multipleOf MUST be a number, strictly greater than 0.");
     }
+
     return decoratorSchemaFactory((schema) => {
         schema.mapper.multipleOf = multipleOf;
     });

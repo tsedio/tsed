@@ -255,6 +255,7 @@ export class Metadata {
             return Reflect.hasMetadata(key, getClass(target), propertyKey!);
         } catch (er) {
         }
+
         return false;
     }
 

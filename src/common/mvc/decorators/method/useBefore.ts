@@ -28,6 +28,7 @@ export function UseBefore(...args: any[]): Function {
 
         if (getDecoratorType([target, targetKey, descriptor]) === "method") {
             EndpointRegistry.useBefore(target, targetKey!, args);
+
             return descriptor;
         }
 

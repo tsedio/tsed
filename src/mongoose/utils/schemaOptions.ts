@@ -14,6 +14,7 @@ export function schemaOptions(target: any, options?: MongooseModelOptions) {
         options = deepExtends(store.get(MONGOOSE_SCHEMA_OPTIONS) || {}, options);
         store.set(MONGOOSE_SCHEMA_OPTIONS, options);
     }
+
     return store.get(MONGOOSE_SCHEMA_OPTIONS);
 }
 

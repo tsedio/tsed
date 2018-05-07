@@ -28,6 +28,7 @@ export function UseAfter(...args: any[]): Function {
 
         if (getDecoratorType([target, targetKey, descriptor]) === "method") {
             EndpointRegistry.useAfter(target, targetKey!, args);
+
             return descriptor;
         }
 

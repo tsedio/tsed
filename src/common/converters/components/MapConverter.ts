@@ -27,7 +27,7 @@ export class MapConverter implements IConverter {
 
         Object.keys(data).forEach(key => {
 
-            obj.set(key, <T>deserializer(data[key], baseType));
+            obj.set(key, deserializer(data[key], baseType) as T);
 
         });
 

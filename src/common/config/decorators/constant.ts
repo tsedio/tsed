@@ -5,6 +5,7 @@ const clone = (o: any) => {
     if (o) {
         return Object.freeze(JSON.parse(JSON.stringify(o)));
     }
+
     return undefined;
 };
 
@@ -39,14 +40,13 @@ export function Constant(expression: string): any {
         if (delete target[propertyKey]) {
             const descriptor = {
 
-                get: function () {
-                    return clone(globalServerSettings.get(expression));
-                },
+                get: () => clone(globalServerSettings.get(expression)),
 
                 enumerable: true,
                 configurable: true
             };
             Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
+
             return descriptor;
         }
 

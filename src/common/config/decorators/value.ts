@@ -35,12 +35,9 @@ export function Value(expression: any) {
 
             const descriptor = {
 
-                get: function () {
-                    value = value !== undefined ? value : globalServerSettings.get(expression);
-                    return value;
-                },
+                get: () => value !== undefined ? value : globalServerSettings.get(expression),
 
-                set: function (v: any) {
+                set: (v: any) => {
                     value = v;
                 },
 

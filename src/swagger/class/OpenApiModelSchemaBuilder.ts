@@ -83,10 +83,11 @@ export class OpenApiModelSchemaBuilder {
                         };
                     } else {
                         schema.items = {
-                            type: schema.items && schema.items.type || swaggerType(model.type)
+                            type: swaggerType(model.type)
                         };
                     }
                 }
+
                 return schema;
             }
 
@@ -95,6 +96,7 @@ export class OpenApiModelSchemaBuilder {
                 schema.additionalProperties = {
                     $ref: `#/definitions/${model.typeName}`
                 };
+
                 return schema;
             }
 
@@ -102,16 +104,19 @@ export class OpenApiModelSchemaBuilder {
             schema.additionalProperties = {
                 type: schema.additionalProperties && schema.additionalProperties.type || swaggerType(model.type)
             };
+
             return schema;
         }
 
         if (model.isClass) {
             schema.$ref = `#/definitions/${model.typeName}`;
             delete schema.type;
+
             return schema;
         }
 
         schema.type = schema.type || swaggerType(model.type);
+
         return schema;
     }
 

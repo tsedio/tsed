@@ -4,6 +4,7 @@
  */
 import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
 
+// tslint:disable-next-line: variable-name
 export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("mongooseModel", Provider, {
     injectable: true,
     buildable: false

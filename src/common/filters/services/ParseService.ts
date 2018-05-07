@@ -29,6 +29,7 @@ export class ParseService {
         }
 
         const value = getValue(expression, scope);
+
         return typeof value === "object" && clone ? ParseService.clone(value) : value;
     }
 }

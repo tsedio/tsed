@@ -40,6 +40,7 @@ export class SwaggerService {
             if (!hidden) {
                 acc.push({url: `${path}/swagger.json`, name: doc || path});
             }
+
             return acc;
         }, []);
 
@@ -167,7 +168,7 @@ export class SwaggerService {
         const paths: ISwaggerPaths = {};
         const definitions = {};
         const doc = conf.doc;
-        let tags: Tag[] = [];
+        const tags: Tag[] = [];
 
         this.controllerService.routes.forEach(({provider, route}) => {
             const hidden = provider.store.get("hidden");
@@ -199,6 +200,7 @@ export class SwaggerService {
                 return JSON.parse(json);
             }
         }
+
         return {};
     }
 
@@ -306,6 +308,7 @@ export class SwaggerService {
         } else {
             this.OPERATION_IDS[operationId] = 0;
         }
+
         return operationId;
     };
 }

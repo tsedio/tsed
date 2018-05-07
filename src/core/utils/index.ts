@@ -58,6 +58,7 @@ export function primitiveOf(target: any): "string" | "number" | "boolean" | "any
     if (isBoolean(target)) {
         return "boolean";
     }
+
     return "any";
 }
 
@@ -106,6 +107,7 @@ export function isArrayOrArrayClass(target: any): boolean {
     if (target === Array) {
         return true;
     }
+
     return isArray(target);
 }
 
@@ -221,6 +223,7 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
 
     const defaultReducer = reducers["default"] ? reducers["default"] : (collection: any[], value: any) => {
         collection.push(value);
+
         return collection;
     };
     const set = (key: string | number, value: any) => {
@@ -244,6 +247,7 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
 
         if (isPrimitiveOrPrimitiveClass(value) || typeof value === "function") {
             set(key, value);
+
             return;
         }
 
@@ -256,6 +260,7 @@ export function deepExtends(out: any, obj: any, reducers: { [key: string]: (coll
                 .reduce((collection: any[], value: any) =>
                         reducers[key] ? reducers[key](collection, value) : defaultReducer(collection, value),
                     []));
+
             return;
         }
 
@@ -307,6 +312,7 @@ export function getDecoratorType(args: any[]): "parameter" | "property" | "metho
     if (propertyKey && descriptor === undefined || descriptor && (descriptor.get || descriptor.set)) {
         return "property";
     }
+
     return (descriptor && descriptor.value) ? "method" : "class";
 }
 
@@ -362,6 +368,7 @@ export function applyBefore(target: any, name: string, callback: Function) {
     const original = target[name];
     target[name] = function (...args: any[]) {
         callback(...args);
+
         return original.apply(this, args);
     };
 }
@@ -381,6 +388,7 @@ export function getValue(expression: string, scope: any, defaultValue?: any, sep
         if (isCollection(scope)) {
             return scope.get(key);
         }
+
         return scope[key];
     };
 
@@ -400,6 +408,7 @@ export function promiseTimeout(promise: Promise<any>, time: number = 1000): Prom
     const timeout = (promise: Promise<any>, time: number) => new Promise((resolve) => {
         promise.then((response) => {
             resolve();
+
             return response;
         });
         setTimeout(() => resolve({ok: false}), time);

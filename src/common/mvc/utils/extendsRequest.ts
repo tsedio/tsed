@@ -38,6 +38,7 @@ if (!express.request.setEndpoint) {
          */
         storeData(data: any) {
             this._responseData = data;
+
             return this;
         },
         /**
