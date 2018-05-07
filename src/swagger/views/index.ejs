@@ -49,19 +49,25 @@
 <script>
   const origin = window.origin;
   const initialOptions = <%- JSON.stringify(swaggerOptions) %>;
-  const urls = <%- JSON.stringify(urls) %>.map((o) => {
+  const currentUrl = origin + "<%- url %>";
+  const urls = <%- JSON.stringify(urls) %>
+  .map((o) => {
     if (!o.url.match(/^https?:/)) {
+      const url = origin + o.url;
       return {
         name: o.name,
-        url: origin + o.url
+        url: url,
+        selected: url === currentUrl
       }
     }
     return o;
-  });
+  })
+    .sort((a, b) => {
+      return a.selected ? -1 : 1
+    });
 
   const SwaggerUIBuilder = {
     config: Object.assign({
-      url: origin + "<%- url %>",
       urls: urls,
       dom_id: '#swagger-ui',
       deepLinking: true,
