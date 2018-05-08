@@ -12,136 +12,135 @@ import {SocketServiceRegistry} from "../registries/SocketServiceRegistry";
  */
 @Service()
 export class SocketIOService implements OnServerReady {
-    /**
-     *
-     * @type {Map<any, any>}
-     */
-    private namespaces: Map<string, { nsp: SocketIO.Namespace, instances: any }> = new Map();
+  /**
+   *
+   * @type {Map<any, any>}
+   */
+  private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
-    constructor(@Inject(HttpServer) private httpServer: HttpServer,
-                @Inject(HttpsServer) private httpsServer: HttpsServer,
-                @IO private io: SocketIO.Server,
-                private serverSettingsService: ServerSettingsService) {
+  constructor(
+    @Inject(HttpServer) private httpServer: HttpServer,
+    @Inject(HttpsServer) private httpsServer: HttpsServer,
+    @IO private io: SocketIO.Server,
+    private serverSettingsService: ServerSettingsService
+  ) {}
 
+  $onServerReady() {
+    const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
+    const httpPort = this.serverSettingsService.httpPort;
+    const httpsPort = this.serverSettingsService.httpsPort;
+
+    if (httpPort) {
+      this.io.attach(this.httpServer.get(), config);
+    }
+    if (httpsPort) {
+      this.io.attach(this.httpsServer.get(), config);
     }
 
-    $onServerReady() {
-        const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
-        const httpPort = this.serverSettingsService.httpPort;
-        const httpsPort = this.serverSettingsService.httpsPort;
-
-        if (httpPort) {
-            this.io.attach(this.httpServer.get(), config);
-        }
-        if (httpsPort) {
-            this.io.attach(this.httpsServer.get(), config);
-        }
-
-        if (config.adapter) {
-            this.io.adapter(config.adapter);
-        }
-
-        this.getWebsocketServices().forEach(provider => this.bindProvider(provider));
-
-        this.printSocketEvents();
+    if (config.adapter) {
+      this.io.adapter(config.adapter);
     }
 
-    /**
-     *
-     * @returns {Provider<any>[]}
-     */
-    protected getWebsocketServices(): Provider<any>[] {
-        return Array.from(SocketServiceRegistry.values());
+    this.getWebsocketServices().forEach(provider => this.bindProvider(provider));
+
+    this.printSocketEvents();
+  }
+
+  /**
+   *
+   * @returns {Provider<any>[]}
+   */
+  protected getWebsocketServices(): Provider<any>[] {
+    return Array.from(SocketServiceRegistry.values());
+  }
+
+  /**
+   *
+   * @param {string} namespace
+   * @returns {SocketIO.Namespace}
+   */
+  public getNsp(namespace: string = "/"): {nsp: SocketIO.Namespace; instances: any[]} {
+    if (!this.namespaces.has(namespace)) {
+      const conf = {nsp: this.io.of(namespace), instances: []};
+
+      this.namespaces.set(namespace, conf);
+
+      conf.nsp.on("connection", socket => {
+        conf.instances.forEach((builder: SocketHandlersBuilder) => {
+          builder.onConnection(socket, conf.nsp);
+        });
+
+        socket.on("disconnect", () => {
+          conf.instances.forEach((builder: SocketHandlersBuilder) => {
+            builder.onDisconnect(socket, conf.nsp);
+          });
+        });
+      });
     }
 
-    /**
-     *
-     * @param {string} namespace
-     * @returns {SocketIO.Namespace}
-     */
-    public getNsp(namespace: string = "/"): { nsp: SocketIO.Namespace, instances: any[] } {
-        if (!this.namespaces.has(namespace)) {
-            const conf = {nsp: this.io.of(namespace), instances: []};
+    return this.namespaces.get(namespace)!;
+  }
 
-            this.namespaces.set(namespace, conf);
+  /**
+   *
+   * @param {Provider<any>} provider
+   */
+  protected bindProvider(provider: Provider<any>) {
+    const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
 
-            conf.nsp.on("connection", (socket) => {
-                conf.instances.forEach((builder: SocketHandlersBuilder) => {
-                    builder.onConnection(socket, conf.nsp);
-                });
+    const nspConfig = this.getNsp(wsConfig.namespace);
+    const nsps = new Map();
 
-                socket.on("disconnect", () => {
-                    conf.instances.forEach((builder: SocketHandlersBuilder) => {
-                        builder.onDisconnect(socket, conf.nsp);
-                    });
-                });
+    this.namespaces.forEach((value, nsp) => {
+      nsps.set(nsp, value.nsp);
+    });
+
+    const builder = new SocketHandlersBuilder(provider).build(nsps);
+
+    nspConfig.instances.push(builder);
+  }
+
+  /**
+   *
+   * @param logger
+   */
+  protected printSocketEvents(logger: {info: (s: any) => void} = $log) {
+    const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
+      const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
+
+      if (namespace) {
+        Object.keys(handlers)
+          .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
+          .forEach((key: string) => {
+            const handler = handlers[key];
+            acc.push({
+              namespace,
+              inputEvent: handler.eventName,
+              outputEvent: (handler.returns && handler.returns.eventName) || "",
+              outputType: (handler.returns && handler.returns.type) || "",
+              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
             });
-        }
+          });
+      }
 
-        return this.namespaces.get(namespace)!;
-    }
+      return acc;
+    }, []);
 
-    /**
-     *
-     * @param {Provider<any>} provider
-     */
-    protected bindProvider(provider: Provider<any>) {
-        const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
+    $log.info("Socket events mounted:");
 
-        const nspConfig = this.getNsp(wsConfig.namespace);
-        const nsps = new Map();
+    const str = $log.drawTable(list, {
+      padding: 1,
+      header: {
+        namespace: "Namespace",
+        inputEvent: "Input event",
+        outputEvent: "Output event",
+        outputType: "Output type",
+        name: "Class method"
+      }
+    });
 
-        this.namespaces.forEach((value, nsp) => {
-            nsps.set(nsp, value.nsp);
-        });
+    logger.info("\n" + str.trim());
 
-        const builder = new SocketHandlersBuilder(provider).build(nsps);
-
-        nspConfig.instances.push(builder);
-    }
-
-    /**
-     *
-     * @param logger
-     */
-    protected printSocketEvents(logger: { info: (s: any) => void } = $log) {
-        const list = this.getWebsocketServices()
-            .reduce((acc: any[], provider) => {
-                const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
-
-                if (namespace) {
-                    Object.keys(handlers)
-                        .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
-                        .forEach((key: string) => {
-                            const handler = handlers[key];
-                            acc.push({
-                                namespace,
-                                inputEvent: handler.eventName,
-                                outputEvent: handler.returns && handler.returns.eventName || "",
-                                outputType: handler.returns && handler.returns.type || "",
-                                name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
-                            });
-                        });
-                }
-
-                return acc;
-            }, []);
-
-        $log.info("Socket events mounted:");
-
-        const str = $log.drawTable(list, {
-            padding: 1,
-            header: {
-                namespace: "Namespace",
-                inputEvent: "Input event",
-                outputEvent: "Output event",
-                outputType: "Output type",
-                name: "Class method"
-            }
-        });
-
-        logger.info("\n" + str.trim());
-
-        $log.info("Socket server started...");
-    }
+    $log.info("Socket server started...");
+  }
 }

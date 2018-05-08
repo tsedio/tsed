@@ -7,15 +7,15 @@ import {RouterController} from "../services/RouterController";
 
 // tslint:disable-next-line: variable-name
 export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
-    injectable: false,
-    buildable: true,
+  injectable: false,
+  buildable: true,
 
-    onInvoke(provider: ControllerProvider, locals, designParamTypes) {
-        if (!locals.has(ExpressRouter)) {
-            locals.set(RouterController, new RouterController(provider.router));
-            locals.set(ExpressRouter, provider.router);
-        }
+  onInvoke(provider: ControllerProvider, locals, designParamTypes) {
+    if (!locals.has(ExpressRouter)) {
+      locals.set(RouterController, new RouterController(provider.router));
+      locals.set(ExpressRouter, provider.router);
     }
+  }
 });
 /**
  * Add a new controller in the `ProviderRegistry`. This controller will be built when `InjectorService` will be loaded.

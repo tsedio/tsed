@@ -10,5 +10,5 @@ import {registerInterceptor} from "../registries/InterceptorRegistries";
  * @decorator
  */
 export function Interceptor(): Function {
-    return registerInterceptor;
+  return registerInterceptor;
 }

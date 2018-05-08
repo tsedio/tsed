@@ -2,24 +2,21 @@ import {PropertyType} from "../../../../src/common/jsonschema/decorators/propert
 import {PropertyRegistry} from "../../../../src/common/jsonschema/registries/PropertyRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
+class Test {}
 
 describe("PropertyType", () => {
-    before(() => {
-        this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-        this.propertyMetadata = {
-        };
+  before(() => {
+    this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
+    this.propertyMetadata = {};
 
-        PropertyType(Test);
-        this.decorateStub.getCall(0).args[0](this.propertyMetadata);
-    });
-    after(() => {
-        this.decorateStub.restore();
-    });
+    PropertyType(Test);
+    this.decorateStub.getCall(0).args[0](this.propertyMetadata);
+  });
+  after(() => {
+    this.decorateStub.restore();
+  });
 
-    it("should store data", () => {
-        this.propertyMetadata.type.should.eq(Test);
-    });
+  it("should store data", () => {
+    this.propertyMetadata.type.should.eq(Test);
+  });
 });

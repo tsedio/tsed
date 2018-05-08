@@ -36,5 +36,5 @@ import {Schema} from "./schema";
  * @jsonschema
  */
 export function Default(defaultValue: string | number | boolean | {}) {
-    return Schema({default: defaultValue});
+  return Schema({default: defaultValue});
 }

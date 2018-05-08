@@ -9,12 +9,14 @@ import {IConverter} from "../interfaces/index";
  */
 @Converter(Symbol)
 export class SymbolConverter implements IConverter {
+  deserialize(data: string, target: any): symbol {
+    return Symbol(data);
+  }
 
-    deserialize(data: string, target: any): symbol {
-        return Symbol(data);
-    }
-
-    serialize(object: Symbol): any {
-        return object.toString().replace("Symbol(", "").replace(")", "");
-    }
+  serialize(object: Symbol): any {
+    return object
+      .toString()
+      .replace("Symbol(", "")
+      .replace(")", "");
+  }
 }

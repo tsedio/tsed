@@ -33,5 +33,5 @@ import {PathParamsFilter} from "../components/PathParamsFilter";
  * @returns {Function}
  */
 export function PathParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(PathParamsFilter, {expression, useType});
+  return ParamRegistry.decorate(PathParamsFilter, {expression, useType});
 }

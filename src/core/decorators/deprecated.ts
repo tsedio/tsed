@@ -37,14 +37,11 @@ import {Type} from "../interfaces";
  * @decorator
  */
 export function Deprecated(message: string): Function {
+  return (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+    const originalMethod = descriptor.value;
 
-    return (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+    descriptor.value = require("util").deprecate(originalMethod, message);
 
-        const originalMethod = descriptor.value;
-
-        descriptor.value = require("util").deprecate(originalMethod, message);
-
-        return descriptor;
-    };
-
+    return descriptor;
+  };
 }

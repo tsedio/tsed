@@ -52,17 +52,16 @@ import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
  * @experimental
  */
 export function SocketMiddlewareError(): Function {
-    return (target: Type<any>) => {
+  return (target: Type<any>) => {
+    Store.from(target).merge("socketIO", {
+      type: SocketProviderTypes.MIDDLEWARE,
+      handlers: {
+        use: {
+          methodClassName: "use"
+        }
+      }
+    });
 
-        Store.from(target).merge("socketIO", {
-            type: SocketProviderTypes.MIDDLEWARE,
-            handlers: {
-                use: {
-                    methodClassName: "use"
-                }
-            }
-        });
-
-        return MiddlewareError()(target);
-    };
+    return MiddlewareError()(target);
+  };
 }

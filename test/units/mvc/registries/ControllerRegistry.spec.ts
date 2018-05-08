@@ -2,27 +2,26 @@ import {ControllerProvider, ExpressRouter, GlobalProviders, ProviderType, Router
 import {expect} from "../../../tools";
 
 describe("ControllerRegistry", () => {
-    class Test {
-    }
+  class Test {}
 
-    before(() => {
-        const settings = GlobalProviders.getRegistrySettings(ProviderType.CONTROLLER);
+  before(() => {
+    const settings = GlobalProviders.getRegistrySettings(ProviderType.CONTROLLER);
 
-        this.locals = new Map();
-        this.provider = new ControllerProvider(Test);
-        this.provider.router = "router";
-        settings.onInvoke!(this.provider, this.locals, []);
-    });
+    this.locals = new Map();
+    this.provider = new ControllerProvider(Test);
+    this.provider.router = "router";
+    settings.onInvoke!(this.provider, this.locals, []);
+  });
 
-    it("should store RouterController (deprecated)", () => {
-        expect(this.locals.has(RouterController)).to.eq(true);
-    });
+  it("should store RouterController (deprecated)", () => {
+    expect(this.locals.has(RouterController)).to.eq(true);
+  });
 
-    it("should store ExpressRouter", () => {
-        expect(this.locals.has(ExpressRouter)).to.eq(true);
-    });
+  it("should store ExpressRouter", () => {
+    expect(this.locals.has(ExpressRouter)).to.eq(true);
+  });
 
-    it("should return ExpressRouter", () => {
-        expect(this.locals.get(ExpressRouter)).to.eq("router");
-    });
+  it("should return ExpressRouter", () => {
+    expect(this.locals.get(ExpressRouter)).to.eq("router");
+  });
 });

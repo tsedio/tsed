@@ -70,12 +70,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function MinLength(minLength: number) {
+  if (minLength < 0) {
+    throw new Error("The value of minLength MUST be a non-negative integer.");
+  }
 
-    if (minLength < 0) {
-        throw new Error("The value of minLength MUST be a non-negative integer.");
-    }
-
-    return decoratorSchemaFactory((schema) => {
-        schema.mapper.minLength = minLength;
-    });
+  return decoratorSchemaFactory(schema => {
+    schema.mapper.minLength = minLength;
+  });
 }

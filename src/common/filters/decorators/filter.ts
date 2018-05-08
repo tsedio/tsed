@@ -8,5 +8,5 @@ import {registerFilter} from "../registries/FilterRegistry";
  * @decorator
  */
 export function Filter(): Function {
-    return registerFilter;
+  return registerFilter;
 }

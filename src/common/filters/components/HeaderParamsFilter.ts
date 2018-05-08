@@ -11,11 +11,9 @@ import {IFilter} from "../interfaces";
  */
 @Filter()
 export class HeaderParamsFilter implements IFilter {
+  constructor() {}
 
-    constructor() {
-    }
-
-    transform(expression: string, request: any, response: any) {
-        return request.get(expression);
-    }
+  transform(expression: string, request: any, response: any) {
+    return request.get(expression);
+  }
 }

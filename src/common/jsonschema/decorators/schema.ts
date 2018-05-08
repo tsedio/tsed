@@ -39,7 +39,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @returns {Function}
  */
 export function Schema(partialSchema: Partial<JsonSchema>) {
-    return decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.merge(partialSchema);
-    });
+  return decoratorSchemaFactory((schema: JsonSchema) => {
+    schema.merge(partialSchema);
+  });
 }

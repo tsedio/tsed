@@ -8,7 +8,7 @@ import {ProviderScope} from "../../../di/interfaces";
  * @constructor
  */
 export function Scope(scope: "request" | "singleton" | ProviderScope = ProviderScope.REQUEST) {
-    return Store.decorate((store) => {
-        store.set("scope", scope);
-    });
+  return Store.decorate(store => {
+    store.set("scope", scope);
+  });
 }

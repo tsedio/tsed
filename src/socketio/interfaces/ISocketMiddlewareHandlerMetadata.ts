@@ -5,9 +5,9 @@ import {SocketReturnsTypes} from "./SocketReturnsTypes";
  * @experimental
  */
 export interface ISocketMiddlewareHandlerMetadata {
-    parameters: { [key: number]: ISocketParamMetadata };
-    returns?: {
-        type: SocketReturnsTypes;
-        eventName: string;
-    };
+  parameters: {[key: number]: ISocketParamMetadata};
+  returns?: {
+    type: SocketReturnsTypes;
+    eventName: string;
+  };
 }

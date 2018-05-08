@@ -9,7 +9,7 @@ import {BaseParameter} from "swagger-schema-official";
  * @swagger
  */
 export function BaseParameter(baseParameter: BaseParameter | any) {
-    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-        store.merge("baseParameter", baseParameter);
-    });
+  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+    store.merge("baseParameter", baseParameter);
+  });
 }

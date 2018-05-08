@@ -6,5 +6,5 @@ import {registerMiddleware} from "../../registries/MiddlewareRegistry";
  * @decorator
  */
 export function Middleware(): Function {
-    return registerMiddleware;
+  return registerMiddleware;
 }

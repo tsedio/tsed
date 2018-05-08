@@ -59,21 +59,19 @@ const originalTitleDecorator = mod.Title;
  * @swagger
  */
 function Title(title: string) {
-    return (...args: any[]) => {
-        const type = getDecoratorType(args);
-        switch (type) {
-            case "method":
-                return Operation({title})(...args);
-            case "parameter":
-                return BaseParameter({title})(...args);
-            default:
-                originalTitleDecorator(title)(...args);
-        }
-    };
+  return (...args: any[]) => {
+    const type = getDecoratorType(args);
+    switch (type) {
+      case "method":
+        return Operation({title})(...args);
+      case "parameter":
+        return BaseParameter({title})(...args);
+      default:
+        originalTitleDecorator(title)(...args);
+    }
+  };
 }
 
 (mod as any).Title = Title;
 
-export {
-    Title
-};
+export {Title};

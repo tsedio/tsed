@@ -43,7 +43,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function CookiesParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(CookiesFilter, {expression, useType});
+  return ParamRegistry.decorate(CookiesFilter, {expression, useType});
 }
 
 /**
@@ -84,6 +84,5 @@ export function CookiesParams(expression?: string | any, useType?: any): Functio
  * @returns {Function}
  */
 export function Cookies(expression?: string | any, useType?: any): Function {
-    return CookiesParams(expression, useType);
+  return CookiesParams(expression, useType);
 }
-

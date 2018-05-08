@@ -11,128 +11,113 @@ import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";
 
 export class FilterBuilder {
-    constructor() {
+  constructor() {}
 
+  /**
+   *
+   */
+  public build(param: ParamMetadata): Function {
+    let filter: any = this.initFilter(param);
+    filter = FilterBuilder.appendRequiredFilter(filter, param);
+    filter = FilterBuilder.appendValidationFilter(filter, param);
+    filter = FilterBuilder.appendConverterFilter(filter, param);
+
+    return filter;
+  }
+
+  /**
+   *
+   * @param {ParamMetadata} param
+   * @returns {any}
+   */
+  private initFilter(param: ParamMetadata): IFilterPreHandler {
+    if (typeof param.service === "symbol") {
+      const sym = param.service as symbol;
+
+      if (FilterPreHandlers.has(sym)) {
+        return FilterPreHandlers.get(sym)!;
+      }
     }
 
-    /**
-     *
-     */
-    public build(param: ParamMetadata): Function {
-        let filter: any = this.initFilter(param);
-        filter = FilterBuilder.appendRequiredFilter(filter, param);
-        filter = FilterBuilder.appendValidationFilter(filter, param);
-        filter = FilterBuilder.appendConverterFilter(filter, param);
+    // wrap Custom Filter to FilterPreHandler
+    const filterService = InjectorService.get<FilterService>(FilterService);
 
-        return filter;
+    return (locals: IFilterScope) => {
+      return filterService.invokeMethod(param.service as Type<any>, param.expression, locals.request, locals.response);
+    };
+  }
+
+  /**
+   *
+   * @param filter
+   * @param {ParamMetadata} param
+   * @returns {(value: any) => any}
+   */
+  private static appendRequiredFilter(filter: any, param: ParamMetadata): Function {
+    if (!param.required) {
+      return filter;
     }
 
-    /**
-     *
-     * @param {ParamMetadata} param
-     * @returns {any}
-     */
-    private initFilter(param: ParamMetadata): IFilterPreHandler {
+    return FilterBuilder.pipe(filter, (value: any) => {
+      if (param.isRequired(value)) {
+        throw new RequiredParamError(param.name, param.expression);
+      }
 
-        if (typeof param.service === "symbol") {
-            const sym = param.service as symbol;
+      return value;
+    });
+  }
 
-            if (FilterPreHandlers.has(sym)) {
-                return FilterPreHandlers.get(sym)!;
-            }
-        }
-
-        // wrap Custom Filter to FilterPreHandler
-        const filterService = InjectorService.get<FilterService>(FilterService);
-
-        return (locals: IFilterScope) => {
-            return filterService.invokeMethod(
-                param.service as Type<any>,
-                param.expression,
-                locals.request,
-                locals.response
-            );
-        };
+  /**
+   *
+   * @param filter
+   * @param param
+   * @returns {(value: any) => any}
+   */
+  private static appendConverterFilter(filter: any, param: ParamMetadata): Function {
+    if (!param.useConverter) {
+      return filter;
     }
 
-    /**
-     *
-     * @param filter
-     * @param {ParamMetadata} param
-     * @returns {(value: any) => any}
-     */
-    private static appendRequiredFilter(filter: any, param: ParamMetadata): Function {
-        if (!param.required) {
-            return filter;
-        }
+    const converterService = InjectorService.get<ConverterService>(ConverterService);
 
-        return FilterBuilder.pipe(
-            filter,
-            (value: any) => {
-                if (param.isRequired(value)) {
-                    throw new RequiredParamError(param.name, param.expression);
-                }
+    return FilterBuilder.pipe(filter, converterService.deserialize.bind(converterService), param.collectionType || param.type, param.type);
+  }
 
-                return value;
-            });
+  /**
+   *
+   * @param filter
+   * @param param
+   * @returns {(value: any) => any}
+   */
+  private static appendValidationFilter(filter: any, param: ParamMetadata): Function {
+    const type = param.type || param.collectionType;
+    const {collectionType} = param;
+
+    if (!param.useValidation || (param.useValidation && !type)) {
+      return filter;
     }
 
-    /**
-     *
-     * @param filter
-     * @param param
-     * @returns {(value: any) => any}
-     */
-    private static appendConverterFilter(filter: any, param: ParamMetadata): Function {
-        if (!param.useConverter) {
-            return filter;
-        }
+    const validationService = InjectorService.get<ValidationService>(ValidationService);
 
-        const converterService = InjectorService.get<ConverterService>(ConverterService);
+    return FilterBuilder.pipe(filter, (value: any) => {
+      try {
+        validationService.validate(value, type, collectionType);
+      } catch (err) {
+        throw new ParseExpressionError(param.name, param.expression, err.message);
+      }
 
-        return FilterBuilder.pipe(
-            filter,
-            converterService.deserialize.bind(converterService),
-            param.collectionType || param.type,
-            param.type
-        );
-    }
+      return value;
+    });
+  }
 
-    /**
-     *
-     * @param filter
-     * @param param
-     * @returns {(value: any) => any}
-     */
-    private static appendValidationFilter(filter: any, param: ParamMetadata): Function {
-        const type = param.type || param.collectionType;
-        const {collectionType} = param;
-
-        if (!param.useValidation || param.useValidation && !type) {
-            return filter;
-        }
-
-        const validationService = InjectorService.get<ValidationService>(ValidationService);
-
-        return FilterBuilder.pipe(filter, (value: any) => {
-            try {
-                validationService.validate(value, type, collectionType);
-            } catch (err) {
-                throw new ParseExpressionError(param.name, param.expression, err.message);
-            }
-
-            return value;
-        });
-    }
-
-    /**
-     *
-     * @param {Function} filter
-     * @param {Function} newFilter
-     * @param args
-     * @returns {(value: any) => any}
-     */
-    private static pipe(filter: Function, newFilter: Function, ...args: any[]): Function {
-        return (value: any) => newFilter(filter(value), ...args);
-    }
+  /**
+   *
+   * @param {Function} filter
+   * @param {Function} newFilter
+   * @param args
+   * @returns {(value: any) => any}
+   */
+  private static pipe(filter: Function, newFilter: Function, ...args: any[]): Function {
+    return (value: any) => newFilter(filter(value), ...args);
+  }
 }

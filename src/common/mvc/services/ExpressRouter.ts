@@ -6,7 +6,7 @@ import {Inject} from "../../di/decorators/inject";
  *
  */
 export type ExpressRouter = Express.Router & {
-    (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
+  (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
 };
 
 /**
@@ -30,5 +30,5 @@ export type ExpressRouter = Express.Router & {
  * @decorator
  */
 export function ExpressRouter(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
-    return Inject(ExpressRouter)(target, targetKey, descriptor);
+  return Inject(ExpressRouter)(target, targetKey, descriptor);
 }

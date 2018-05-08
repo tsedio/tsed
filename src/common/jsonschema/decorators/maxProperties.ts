@@ -37,11 +37,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @jsonschema
  */
 export function MaxProperties(maxProperties: number) {
-    if (maxProperties < 0) {
-        throw new Error("The value of maxProperties MUST be a non-negative integer.");
-    }
+  if (maxProperties < 0) {
+    throw new Error("The value of maxProperties MUST be a non-negative integer.");
+  }
 
-    return  decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.maxProperties = maxProperties;
-    });
+  return decoratorSchemaFactory((schema: JsonSchema) => {
+    schema.maxProperties = maxProperties;
+  });
 }

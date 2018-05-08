@@ -5,17 +5,16 @@ import {expect} from "../../../tools";
 import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
 
 describe("@Unique()", () => {
-    class Test {
-    }
+  class Test {}
 
-    before(() => {
-        Unique()(Test, "test", descriptorOf(Test, "test"));
-        this.store = Store.from(Test, "test", descriptorOf(Test, "test"));
-    });
+  before(() => {
+    Unique()(Test, "test", descriptorOf(Test, "test"));
+    this.store = Store.from(Test, "test", descriptorOf(Test, "test"));
+  });
 
-    it("should set metadata", () => {
-        expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-            unique: true
-        });
+  it("should set metadata", () => {
+    expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      unique: true
     });
+  });
 });

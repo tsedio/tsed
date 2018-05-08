@@ -30,25 +30,23 @@ import {SocketFilter} from "./socketFilter";
  * @decorator
  */
 export function Nsp(target: any, propertyKey?: string, index?: number): any {
+  if (typeof target === "string") {
+    const nsp = target as string;
 
-    if (typeof target === "string") {
-        const nsp = target as string;
+    return (target: any, propertyKey: string) => {
+      Store.from(target).merge("socketIO", {
+        injectNamespaces: [{propertyKey, nsp}]
+      });
+    };
+  }
 
-        return (target: any, propertyKey: string) => {
-            Store.from(target).merge("socketIO", {
-                injectNamespaces: [{propertyKey, nsp}]
-            });
-        };
-    }
+  if (index === undefined) {
+    Store.from(target).merge("socketIO", {
+      injectNamespaces: [{propertyKey}]
+    });
 
-    if (index === undefined) {
-        Store.from(target).merge("socketIO", {
-            injectNamespaces: [{propertyKey}]
-        });
+    return;
+  }
 
-        return;
-    }
-
-    return SocketFilter(SocketFilters.NSP)(target, propertyKey!, index!);
+  return SocketFilter(SocketFilters.NSP)(target, propertyKey!, index!);
 }
-

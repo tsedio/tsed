@@ -37,12 +37,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @jsonschema
  */
 export function MaxItems(maxItems: number) {
+  if (maxItems < 0) {
+    throw new Error("The value of maxItems MUST be a non-negative integer.");
+  }
 
-    if (maxItems < 0) {
-        throw new Error("The value of maxItems MUST be a non-negative integer.");
-    }
-
-    return decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.maxItems = maxItems;
-    });
+  return decoratorSchemaFactory((schema: JsonSchema) => {
+    schema.maxItems = maxItems;
+  });
 }

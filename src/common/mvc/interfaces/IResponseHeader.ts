@@ -1,6 +1,5 @@
-
 export interface IResponseHeader {
-    value: string | number;
+  value: string | number;
 
-    [key: string]: any;
+  [key: string]: any;
 }

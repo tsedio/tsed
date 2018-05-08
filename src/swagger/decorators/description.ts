@@ -50,17 +50,17 @@ import {Operation} from "./operation";
  * @swagger
  */
 export function Description(description: string) {
-    return (...args: any[]) => {
-        const type = getDecoratorType(args);
-        switch (type) {
-            case "parameter":
-                return BaseParameter({description})(...args);
-            case "method":
-                return Operation({description})(...args);
-            case "class":
-                Store.from(...args).set("description", description);
-            default:
-                Schema({description})(...args);
-        }
-    };
+  return (...args: any[]) => {
+    const type = getDecoratorType(args);
+    switch (type) {
+      case "parameter":
+        return BaseParameter({description})(...args);
+      case "method":
+        return Operation({description})(...args);
+      case "class":
+        Store.from(...args).set("description", description);
+      default:
+        Schema({description})(...args);
+    }
+  };
 }

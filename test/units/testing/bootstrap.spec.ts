@@ -2,52 +2,39 @@ import {bootstrap} from "../../../src/testing";
 import {expect} from "../../tools";
 
 class FakeServer {
-    constructor() {
+  constructor() {}
 
-    }
-
-    start() {
-        return Promise.resolve();
-    }
+  start() {
+    return Promise.resolve();
+  }
 }
 
 describe("bootstrap", () => {
-    it("should mock server for test", (done) => {
+  it("should mock server for test", done => {
+    const fnMocha = bootstrap(FakeServer);
 
-        const fnMocha = bootstrap(FakeServer);
+    expect(fnMocha).to.be.a("function");
 
-        expect(fnMocha).to.be.a("function");
+    fnMocha(() => {
+      expect((FakeServer as any).$$instance).to.be.instanceof(FakeServer);
+      expect((FakeServer as any).$$instance.startServers).to.be.a("function");
+      expect((FakeServer as any).$$instance.startServers().then).to.be.a("function");
 
-        fnMocha(() => {
-
-            expect((FakeServer as any).$$instance).to.be.instanceof(FakeServer);
-            expect((FakeServer as any).$$instance.startServers).to.be.a("function");
-            expect((FakeServer as any).$$instance.startServers().then).to.be.a("function");
-
-            bootstrap(FakeServer)(done);
-
-        });
-
-
+      bootstrap(FakeServer)(done);
     });
+  });
 
-    it("should mock server for test with args", (done) => {
+  it("should mock server for test with args", done => {
+    const fnMocha = bootstrap(FakeServer, ...["test"]);
 
-        const fnMocha = bootstrap(FakeServer, ...["test"]);
+    expect(fnMocha).to.be.a("function");
 
-        expect(fnMocha).to.be.a("function");
+    fnMocha(() => {
+      expect((FakeServer as any).$$instance).to.be.instanceof(FakeServer);
+      expect((FakeServer as any).$$instance.startServers).to.be.a("function");
+      expect((FakeServer as any).$$instance.startServers().then).to.be.a("function");
 
-        fnMocha(() => {
-
-            expect((FakeServer as any).$$instance).to.be.instanceof(FakeServer);
-            expect((FakeServer as any).$$instance.startServers).to.be.a("function");
-            expect((FakeServer as any).$$instance.startServers().then).to.be.a("function");
-
-            bootstrap(FakeServer)(done);
-
-        });
-
-
+      bootstrap(FakeServer)(done);
     });
-
+  });
 });

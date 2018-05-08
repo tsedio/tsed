@@ -4,7 +4,6 @@ import {JsonSchema} from "../../jsonschema/class/JsonSchema";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFactory";
 
-
 /**
  * Add allowed values when the property or parameters is required.
  *
@@ -31,35 +30,32 @@ import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFact
  * @decorator
  */
 export function Allow(...allowedRequiredValues: any[]): any {
+  const allowNullInSchema = decoratorSchemaFactory((schema: JsonSchema) => {
+    if (schema && schema.mapper) {
+      if (schema.mapper.$ref) {
+        schema.mapper.oneOf = [{type: "null"}, {$ref: schema.mapper.$ref}];
+        delete schema.mapper.$ref;
+      } else {
+        schema.mapper.type = [].concat(schema.type, ["null"] as any);
+      }
+    }
+  });
 
-    const allowNullInSchema = decoratorSchemaFactory((schema: JsonSchema) => {
-        if (schema && schema.mapper) {
-            if (schema.mapper.$ref) {
-                schema.mapper.oneOf = [{type: "null"}, {$ref: schema.mapper.$ref}];
-                delete schema.mapper.$ref;
-            } else {
-                schema.mapper.type = [].concat(schema.type, ["null"] as any);
-            }
-        }
-    });
+  return (target: Type<any>, propertyKey: string, parameterIndex?: number): void => {
+    if (typeof parameterIndex === "number") {
+      const paramMetadata = ParamRegistry.get(target, propertyKey, parameterIndex);
+      paramMetadata.allowedRequiredValues = allowedRequiredValues;
 
-    return (target: Type<any>, propertyKey: string, parameterIndex?: number): void => {
+      ParamRegistry.set(target, propertyKey, parameterIndex, paramMetadata);
+    } else {
+      const propertyMetadata = PropertyRegistry.get(target, propertyKey);
+      propertyMetadata.allowedRequiredValues = allowedRequiredValues;
 
-        if (typeof parameterIndex === "number") {
-            const paramMetadata = ParamRegistry.get(target, propertyKey, parameterIndex);
-            paramMetadata.allowedRequiredValues = allowedRequiredValues;
+      PropertyRegistry.set(target, propertyKey, propertyMetadata);
 
-            ParamRegistry.set(target, propertyKey, parameterIndex, paramMetadata);
-        } else {
-            const propertyMetadata = PropertyRegistry.get(target, propertyKey);
-            propertyMetadata.allowedRequiredValues = allowedRequiredValues;
-
-            PropertyRegistry.set(target, propertyKey, propertyMetadata);
-
-            if (allowedRequiredValues.some((e) => e == null)) {
-                allowNullInSchema(target, propertyKey);
-            }
-        }
-    };
+      if (allowedRequiredValues.some(e => e == null)) {
+        allowNullInSchema(target, propertyKey);
+      }
+    }
+  };
 }
-

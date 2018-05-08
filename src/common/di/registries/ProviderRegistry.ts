@@ -19,16 +19,16 @@ export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegis
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
 GlobalProviders.createRegistry(ProviderType.SERVICE, Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 /**
  *`
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
 GlobalProviders.createRegistry(ProviderType.FACTORY, Provider, {
-    injectable: true,
-    buildable: false
+  injectable: true,
+  buildable: false
 });
 
 /**
@@ -129,10 +129,9 @@ export const registerService = GlobalProviders.createRegisterFn(ProviderType.SER
  * @param {IProvider<any>} provider
  */
 export function registerProvider(provider: Partial<IProvider<any>>): void {
+  if (!provider.provide) {
+    throw new Error("Provider.provide is required");
+  }
 
-    if (!provider.provide) {
-        throw new Error("Provider.provide is required");
-    }
-
-    ProviderRegistry.merge(provider.provide, provider);
+  ProviderRegistry.merge(provider.provide, provider);
 }

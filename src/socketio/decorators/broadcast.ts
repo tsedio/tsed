@@ -24,5 +24,5 @@ import {SocketReturns} from "./socketReturns";
  * @param eventName
  */
 export function Broadcast(eventName: string) {
-    return SocketReturns(eventName, SocketReturnsTypes.BROADCAST);
+  return SocketReturns(eventName, SocketReturnsTypes.BROADCAST);
 }

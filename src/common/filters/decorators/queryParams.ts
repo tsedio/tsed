@@ -42,10 +42,10 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function QueryParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(QueryParamsFilter, {
-        expression,
-        useType,
-        useConverter: true,
-        useValidation: true
-    });
+  return ParamRegistry.decorate(QueryParamsFilter, {
+    expression,
+    useType,
+    useConverter: true,
+    useValidation: true
+  });
 }

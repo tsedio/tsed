@@ -24,8 +24,7 @@ import {IRouterOptions} from "../../../config/interfaces/IRouterOptions";
  * @express
  */
 export function RouterSettings(routerOptions: IRouterOptions): Function {
-    return Store.decorate((store) => {
-        store.merge("routerOptions", routerOptions);
-    });
+  return Store.decorate(store => {
+    store.merge("routerOptions", routerOptions);
+  });
 }
-

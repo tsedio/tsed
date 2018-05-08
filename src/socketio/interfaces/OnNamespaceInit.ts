@@ -2,5 +2,5 @@
  *
  */
 export interface OnNamespaceInit {
-    $onNamespaceInit(nsp: SocketIO.Namespace): void;
+  $onNamespaceInit(nsp: SocketIO.Namespace): void;
 }

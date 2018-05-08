@@ -10,8 +10,8 @@ import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
  */
 // tslint:disable-next-line: variable-name
 export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("socketService", Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 /**
  * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.

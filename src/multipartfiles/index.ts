@@ -2,7 +2,7 @@
 import * as multer from "multer";
 
 declare interface IServerSettings {
-    multer?: multer.Options;
+  multer?: multer.Options;
 }
 // tslint:enable: no-unused-variable
 

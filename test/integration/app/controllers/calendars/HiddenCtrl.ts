@@ -5,9 +5,8 @@ import {Docs, Hidden} from "../../../../../src/swagger";
 @Hidden()
 @Docs("hidden")
 export class HiddenCtrl {
-
-    @Get("/")
-    async get(@PathParams("test") value: string, @PathParams("eventId") id: string) {
-        return {value, id};
-    }
+  @Get("/")
+  async get(@PathParams("test") value: string, @PathParams("eventId") id: string) {
+    return {value, id};
+  }
 }

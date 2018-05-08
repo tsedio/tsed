@@ -93,30 +93,26 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function JsonProperty(options?: IPropertyOptions | string): Function {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        if (typeof options === "string") {
-            propertyMetadata.name = options as string;
-        }
-        else if (typeof options === "object") {
-            propertyMetadata.name = options.name as string;
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    if (typeof options === "string") {
+      propertyMetadata.name = options as string;
+    } else if (typeof options === "object") {
+      propertyMetadata.name = options.name as string;
 
-            if (!isEmpty((options as IPropertyOptions).use)) {
-                propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
-            }
-        }
+      if (!isEmpty((options as IPropertyOptions).use)) {
+        propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
+      }
+    }
 
-        return (target: any) => {
-            if (!target.constructor.prototype.toJSON) {
-
-                target.constructor.prototype.toJSON = function () {
-                    return InjectorService
-                        .invoke<ConverterService>(ConverterService)
-                        .serialize(this);
-                };
-                target.constructor.prototype.toJSON.$ignore = true;
-            }
+    return (target: any) => {
+      if (!target.constructor.prototype.toJSON) {
+        target.constructor.prototype.toJSON = function() {
+          return InjectorService.invoke<ConverterService>(ConverterService).serialize(this);
         };
-    });
+        target.constructor.prototype.toJSON.$ignore = true;
+      }
+    };
+  });
 }
 
 /**
@@ -205,5 +201,5 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * @param options
  */
 export function Property(options?: IPropertyOptions | string) {
-    return JsonProperty(options);
+  return JsonProperty(options);
 }

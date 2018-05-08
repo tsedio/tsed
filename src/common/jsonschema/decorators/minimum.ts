@@ -65,11 +65,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
-    return decoratorSchemaFactory((schema) => {
-        if (exclusive) {
-            schema.mapper.exclusiveMinimum = minimum;
-        } else {
-            schema.mapper.minimum = minimum;
-        }
-    });
+  return decoratorSchemaFactory(schema => {
+    if (exclusive) {
+      schema.mapper.exclusiveMinimum = minimum;
+    } else {
+      schema.mapper.minimum = minimum;
+    }
+  });
 }

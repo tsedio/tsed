@@ -7,5 +7,5 @@ import {EXPRESS_ERR} from "../constants";
  * @decorators
  */
 export function Err(): Function {
-    return ParamRegistry.decorate(EXPRESS_ERR);
+  return ParamRegistry.decorate(EXPRESS_ERR);
 }

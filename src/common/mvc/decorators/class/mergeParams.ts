@@ -23,5 +23,5 @@ import {RouterSettings} from "./routerSettings";
  * @express
  */
 export function MergeParams(mergeParams: boolean = true) {
-    return RouterSettings({mergeParams});
+  return RouterSettings({mergeParams});
 }

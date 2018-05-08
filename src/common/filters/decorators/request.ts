@@ -11,7 +11,7 @@ import {EXPRESS_REQUEST} from "../constants";
  * @decorator
  */
 export function Request(): Function {
-    return Req();
+  return Req();
 }
 
 /**
@@ -21,5 +21,5 @@ export function Request(): Function {
  * @alias Request
  */
 export function Req() {
-    return ParamRegistry.decorate(EXPRESS_REQUEST);
+  return ParamRegistry.decorate(EXPRESS_REQUEST);
 }

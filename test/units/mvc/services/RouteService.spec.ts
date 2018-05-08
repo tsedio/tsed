@@ -3,31 +3,33 @@ import {RouteService} from "../../../../src";
 import {inject} from "../../../../src/testing";
 
 describe("RouteService", () => {
+  it(
+    "should inject RouteService and return routes",
+    inject([RouteService], (routeService: RouteService) => {
+      const routes = routeService.getAll();
 
+      expect(routes).to.be.an("array");
+    })
+  );
 
-    it("should inject RouteService and return routes", inject([RouteService], (routeService: RouteService) => {
+  it(
+    "should inject RouteService and print routes",
+    inject([RouteService], (routeService: RouteService) => {
+      let str = "";
 
-        const routes = routeService.getAll();
+      // tslint:disable-next-line: no-unused-variable
+      const routes = routeService.printRoutes({
+        info: (...args: any[]) => (str += args.join(" "))
+      });
 
-        expect(routes).to.be.an("array");
+      expect(!!str).to.be.true;
+    })
+  );
 
-    }));
-
-    it("should inject RouteService and print routes", inject([RouteService], (routeService: RouteService) => {
-        let str = "";
-
-        // tslint:disable-next-line: no-unused-variable
-        const routes = routeService.printRoutes({
-            info: (...args: any[]) => (str += args.join(" "))
-        });
-
-        expect(!!str).to.be.true;
-
-    }));
-
-    it("should inject RouteService and print routes", inject([RouteService], (routeService: RouteService) => {
-
-        routeService.printRoutes();
-
-    }));
+  it(
+    "should inject RouteService and print routes",
+    inject([RouteService], (routeService: RouteService) => {
+      routeService.printRoutes();
+    })
+  );
 });

@@ -9,12 +9,11 @@ import {IConverter} from "../interfaces/index";
  */
 @Converter(Date)
 export class DateConverter implements IConverter {
+  deserialize(data: string): Date {
+    return new Date(data);
+  }
 
-    deserialize(data: string): Date {
-        return new Date(data);
-    }
-
-    serialize(object: Date): any {
-        return object.toISOString();
-    }
+  serialize(object: Date): any {
+    return object.toISOString();
+  }
 }

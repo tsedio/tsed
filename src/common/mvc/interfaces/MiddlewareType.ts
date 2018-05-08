@@ -1,8 +1,7 @@
-
 /**
  *
  */
 export enum MiddlewareType {
-    ERROR,
-    MIDDLEWARE
+  ERROR,
+  MIDDLEWARE
 }

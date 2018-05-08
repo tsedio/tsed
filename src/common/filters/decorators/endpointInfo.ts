@@ -7,5 +7,5 @@ import {ENDPOINT_INFO} from "../constants";
  * @decorator
  */
 export function EndpointInfo(): Function {
-    return ParamRegistry.decorate(ENDPOINT_INFO);
+  return ParamRegistry.decorate(ENDPOINT_INFO);
 }

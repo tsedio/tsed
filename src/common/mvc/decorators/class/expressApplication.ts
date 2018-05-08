@@ -5,11 +5,11 @@ import {ProviderRegistry, registerFactory} from "../../../di/registries/Provider
 import {HandlerBuilder} from "../../class/HandlerBuilder";
 
 declare global {
-    namespace Express {
-        interface Application {
-            use: (middleware: any) => Application;
-        }
+  namespace Express {
+    interface Application {
+      use: (middleware: any) => Application;
     }
+  }
 }
 /**
  * `ExpressApplication` is an alias type to the [Express.Application](http://expressjs.com/fr/4x/api.html#app) interface. It use the util `registerFactory()` and let you to inject [Express.Application](http://expressjs.com/fr/4x/api.html#app) created by [ServerLoader](docs/server-loader/lifecycle-hooks.md).
@@ -49,30 +49,29 @@ export type ExpressApplication = Express.Application;
  * @decorator
  */
 export function ExpressApplication(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
-    return Inject(ExpressApplication)(target, targetKey, descriptor);
+  return Inject(ExpressApplication)(target, targetKey, descriptor);
 }
 
 /**
  *
  */
 export function createExpressApplication(): ExpressApplication {
+  const expressApp = Express();
+  const originalUse = expressApp.use;
 
-    const expressApp = Express();
-    const originalUse = expressApp.use;
+  expressApp.use = function(...args: any[]) {
+    args = args.map(arg => {
+      if (ProviderRegistry.has(arg)) {
+        arg = HandlerBuilder.from(arg).build();
+      }
 
-    expressApp.use = function (...args: any[]) {
-        args = args.map((arg) => {
-            if (ProviderRegistry.has(arg)) {
-                arg = HandlerBuilder.from(arg).build();
-            }
+      return arg;
+    });
 
-            return arg;
-        });
+    return originalUse.call(this, ...args);
+  };
 
-        return originalUse.call(this, ...args);
-    };
+  registerFactory(ExpressApplication, expressApp);
 
-    registerFactory(ExpressApplication, expressApp);
-
-    return expressApp;
+  return expressApp;
 }

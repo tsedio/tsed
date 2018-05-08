@@ -3,10 +3,9 @@ import {HookErrorCallback} from "mongoose";
 import {MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces/MongooseModelOptions";
 import {applySchemaOptions} from "../utils/schemaOptions";
 
-
 export interface PreHookOptions {
-    parallel?: boolean;
-    errorCb?: HookErrorCallback;
+  parallel?: boolean;
+  errorCb?: HookErrorCallback;
 }
 
 /**
@@ -55,22 +54,26 @@ export interface PreHookOptions {
  * @returns {Function}
  * @decorator
  */
-export function PreHook(method: string, fn?: MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any> | PreHookOptions, options?: PreHookOptions): Function {
+export function PreHook(
+  method: string,
+  fn?: MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any> | PreHookOptions,
+  options?: PreHookOptions
+): Function {
+  return (...args: any[]) => {
+    if (getDecoratorType(args) === "method") {
+      options = fn as PreHookOptions;
+      fn = args[0][args[1]].bind(args[0]);
+    }
 
-    return (...args: any[]) => {
+    options = options || {};
 
-        if (getDecoratorType(args) === "method") {
-            options = fn as PreHookOptions;
-            fn = args[0][args[1]].bind(args[0]);
-        }
-
-        options = options || {};
-
-        applySchemaOptions(args[0], {
-            pre: [Object.assign(options, {
-                method,
-                fn: fn as (MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any>)
-            })]
-        });
-    };
+    applySchemaOptions(args[0], {
+      pre: [
+        Object.assign(options, {
+          method,
+          fn: fn as MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any>
+        })
+      ]
+    });
+  };
 }

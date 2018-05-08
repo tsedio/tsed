@@ -7,5 +7,5 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @decorator
  */
 export function ResponseData(): Function {
-    return ParamRegistry.decorate(RESPONSE_DATA);
+  return ParamRegistry.decorate(RESPONSE_DATA);
 }

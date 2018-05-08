@@ -23,5 +23,5 @@ import {RouterSettings} from "./routerSettings";
  * @express
  */
 export function CaseSensitive(caseSensitive: boolean) {
-    return RouterSettings({caseSensitive});
+  return RouterSettings({caseSensitive});
 }

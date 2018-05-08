@@ -3,7 +3,6 @@ import {createModel, createSchema} from "../utils";
 import {registerModel} from "../registries/MongooseModelRegistry";
 import {applySchemaOptions} from "../utils/schemaOptions";
 
-
 /**
  * Define a class a Mongoose Model. The model can be injected to the Service, Controller, Middleware, Converters or Filter with
  * `@Inject` annotation.
@@ -41,11 +40,11 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @mongoose
  */
 export function Model(options: MongooseModelOptions = {}) {
-    return (target: any) => {
-        const schema = createSchema(target, options.schemaOptions);
+  return (target: any) => {
+    const schema = createSchema(target, options.schemaOptions);
 
-        applySchemaOptions(target, options);
+    applySchemaOptions(target, options);
 
-        registerModel(target, createModel(target, schema, options.name, options.collection, options.skipInit));
-    };
+    registerModel(target, createModel(target, schema, options.name, options.collection, options.skipInit));
+  };
 }

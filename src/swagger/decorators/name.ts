@@ -29,16 +29,16 @@ import {BaseParameter} from "./baseParameter";
  * @swagger
  */
 export function Name(name: string) {
-    return (...args: any[]) => {
-        const type = getDecoratorType(args);
-        switch (type) {
-            case "parameter":
-                return BaseParameter({name})(...args);
-            case "class":
-                Store.from(...args).set("name", name);
-                break;
-            default:
-                throw new Error("Name is only supported on parameters and class");
-        }
-    };
+  return (...args: any[]) => {
+    const type = getDecoratorType(args);
+    switch (type) {
+      case "parameter":
+        return BaseParameter({name})(...args);
+      case "class":
+        Store.from(...args).set("name", name);
+        break;
+      default:
+        throw new Error("Name is only supported on parameters and class");
+    }
+  };
 }

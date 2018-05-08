@@ -8,44 +8,39 @@ import {UserService} from "../../services/UserService";
 @Hidden()
 @Docs("hidden")
 export class UserCtrl {
+  userId: string;
 
-    userId: string;
+  constructor(public userService: UserService) {}
 
-    constructor(public userService: UserService) {
-    }
+  @Post("/")
+  @Status(201)
+  async createUser(@BodyParams() userData: User) {
+    return await this.userService.create(userData);
+  }
 
-    @Post("/")
-    @Status(201)
-    async createUser(@BodyParams() userData: User) {
-        return await this.userService.create(userData);
-    }
+  @Get("/:user")
+  async testPerRequest(@PathParams("user") userId: string): Promise<any> {
+    this.userService.user = userId;
+    this.userId = userId;
 
-    @Get("/:user")
-    async testPerRequest(@PathParams("user") userId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (userId === "0") {
+        setTimeout(() => {
+          resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
+        }, 500);
+      }
 
-        this.userService.user = userId;
-        this.userId = userId;
+      if (userId === "1") {
+        setTimeout(() => {
+          resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
+        }, 300);
+      }
 
-        return new Promise((resolve, reject) => {
-
-            if (userId === "0") {
-                setTimeout(() => {
-                    resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
-                }, 500);
-            }
-
-            if (userId === "1") {
-                setTimeout(() => {
-                    resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
-                }, 300);
-            }
-
-            if (userId === "2") {
-                setTimeout(() => {
-                    resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
-                }, 150);
-            }
-
-        });
-    }
+      if (userId === "2") {
+        setTimeout(() => {
+          resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
+        }, 150);
+      }
+    });
+  }
 }

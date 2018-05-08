@@ -22,5 +22,5 @@ import {SocketFilter} from "./socketFilter";
  * @decorator
  */
 export function SocketEventName(target: any, propertyKey: string, index: number): any {
-    return SocketFilter(SocketFilters.EVENT_NAME)(target, propertyKey, index);
+  return SocketFilter(SocketFilters.EVENT_NAME)(target, propertyKey, index);
 }

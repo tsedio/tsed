@@ -14,7 +14,7 @@ import {Use} from "./use";
  * @decorator
  */
 export function All(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["all", path].concat(args));
+  return Use(...["all", path].concat(args));
 }
 
 /**
@@ -31,7 +31,7 @@ export function All(path: string | RegExp | any, ...args: any[]): Function {
  * @decorator
  */
 export function Get(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["get", path].concat(args));
+  return Use(...["get", path].concat(args));
 }
 
 /**
@@ -48,7 +48,7 @@ export function Get(path: string | RegExp | any, ...args: any[]): Function {
  * @decorator
  */
 export function Post(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["post", path].concat(args));
+  return Use(...["post", path].concat(args));
 }
 
 /**
@@ -65,7 +65,7 @@ export function Post(path: string | RegExp | any, ...args: any[]): Function {
  * @decorator
  */
 export function Put(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["put", path].concat(args));
+  return Use(...["put", path].concat(args));
 }
 
 /**
@@ -82,7 +82,7 @@ export function Put(path: string | RegExp | any, ...args: any[]): Function {
  * @decorator
  */
 export function Delete(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["delete", path].concat(args));
+  return Use(...["delete", path].concat(args));
 }
 
 /**
@@ -99,7 +99,7 @@ export function Delete(path: string | RegExp | any, ...args: any[]): Function {
  * @decorator
  */
 export function Head(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["head", path].concat(args));
+  return Use(...["head", path].concat(args));
 }
 
 /**
@@ -116,5 +116,5 @@ export function Head(path: string | RegExp | any, ...args: any[]): Function {
  * @decorator
  */
 export function Patch(path: string | RegExp | any, ...args: any[]): Function {
-    return Use(...["patch", path].concat(args));
+  return Use(...["patch", path].concat(args));
 }

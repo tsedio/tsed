@@ -6,5 +6,5 @@ import {registerMiddlewareError} from "../../registries/MiddlewareRegistry";
  * @decorator
  */
 export function MiddlewareError(): Function {
-    return registerMiddlewareError;
+  return registerMiddlewareError;
 }

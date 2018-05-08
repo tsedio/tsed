@@ -9,28 +9,28 @@ import {ProviderType} from "./ProviderType";
  *
  */
 export interface IProvider<T> {
-    /**
-     * An injection token. (Typically an instance of `Type` or `InjectionToken`, but can be `any`).
-     */
-    provide: any;
+  /**
+   * An injection token. (Typically an instance of `Type` or `InjectionToken`, but can be `any`).
+   */
+  provide: any;
 
-    /**
-     * Class to instantiate for the `token`.
-     */
-    useClass?: Type<T>;
+  /**
+   * Class to instantiate for the `token`.
+   */
+  useClass?: Type<T>;
 
-    /**
-     *
-     */
-    instance?: T;
+  /**
+   *
+   */
+  instance?: T;
 
-    /**
-     * Provider type
-     */
-    type: ProviderType | any;
+  /**
+   * Provider type
+   */
+  type: ProviderType | any;
 
-    /**
-     *
-     */
-    [key: string]: any;
+  /**
+   *
+   */
+  [key: string]: any;
 }

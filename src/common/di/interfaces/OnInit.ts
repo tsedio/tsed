@@ -1,4 +1,3 @@
-
 export interface OnInit {
-    $onInit(): Promise<any> | void;
+  $onInit(): Promise<any> | void;
 }

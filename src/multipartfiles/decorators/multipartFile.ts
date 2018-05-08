@@ -41,29 +41,22 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @multer
  */
 export function MultipartFile(options?: multer.Options): Function {
-    return <T>(target: Type<T>, propertyKey: string, parameterIndex: number): void => {
+  return <T>(target: Type<T>, propertyKey: string, parameterIndex: number): void => {
+    if (typeof parameterIndex === "number") {
+      // create endpoint metadata
+      Store.fromMethod(target, propertyKey).set(MultipartFileMiddleware, options);
 
-        if (typeof parameterIndex === "number") {
+      UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
 
-            // create endpoint metadata
-            Store
-                .fromMethod(target, propertyKey)
-                .set(MultipartFileMiddleware, options);
+      // add filter
+      const filter = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array ? MultipartFilesFilter : MultipartFileFilter;
 
-            UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
-
-            // add filter
-            const filter = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array
-                ? MultipartFilesFilter : MultipartFileFilter;
-
-            ParamRegistry.useFilter(filter, {
-                propertyKey,
-                parameterIndex,
-                target,
-                useConverter: false
-            });
-
-        }
-
-    };
+      ParamRegistry.useFilter(filter, {
+        propertyKey,
+        parameterIndex,
+        target,
+        useConverter: false
+      });
+    }
+  };
 }

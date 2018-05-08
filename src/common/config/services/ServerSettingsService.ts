@@ -3,5 +3,4 @@
  */
 import {ServerSettingsProvider} from "../../config/class/ServerSettingsProvider";
 
-export class ServerSettingsService extends ServerSettingsProvider {
-}
+export class ServerSettingsService extends ServerSettingsProvider {}

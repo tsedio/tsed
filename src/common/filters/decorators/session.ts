@@ -33,5 +33,5 @@ import {SessionFilter} from "../components/SessionFilter";
  * @returns {Function}
  */
 export function Session(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(SessionFilter, {expression, useType});
+  return ParamRegistry.decorate(SessionFilter, {expression, useType});
 }
