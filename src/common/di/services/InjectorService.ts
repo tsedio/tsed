@@ -503,7 +503,9 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
                     $log.debug(nameOf(provider.provide), "loaded");
                 }
 
-                locals.set(provider.provide, provider.instance);
+                if (provider.instance) {
+                    locals.set(provider.provide, provider.instance);
+                }
             });
 
         return locals;
