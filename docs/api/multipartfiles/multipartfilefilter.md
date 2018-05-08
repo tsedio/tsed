@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="multipartfilefilter">MultipartFileFilter</h1><label class="symbol-info-type-label class">Class</label><label class="api-type-label private" title="private">private</label><label class="api-type-label filter" title="filter">filter</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MultipartFileFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles/lib/components/MultipartFileFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.17.3/src//multipartfiles/components/MultipartFileFilter.ts#L0-L0">/multipartfiles/components/MultipartFileFilter.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MultipartFileFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles/lib/components/MultipartFileFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.17.4/src//multipartfiles/components/MultipartFileFilter.ts#L0-L0">/multipartfiles/components/MultipartFileFilter.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
