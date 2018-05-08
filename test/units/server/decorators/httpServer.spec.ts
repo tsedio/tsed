@@ -7,6 +7,7 @@ describe("HttpServer", () => {
     before(() => {
         this.setParamTypesStub = Sinon.stub(Metadata, "setParamTypes");
 
+        // tslint:disable-next-line: no-unused-variable
         class Test {
             constructor(@HttpServer https: HttpServer) {
             }

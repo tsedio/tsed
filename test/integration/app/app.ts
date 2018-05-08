@@ -57,11 +57,10 @@ export class ExampleServer extends ServerLoader {
      * @returns {Server}
      */
     public $onMountingMiddlewares(): void {
-        let cookieParser = require("cookie-parser"),
+        const cookieParser = require("cookie-parser"),
             bodyParser = require("body-parser"),
             compress = require("compression"),
-            methodOverride = require("method-override"),
-            session = require("express-session");
+            methodOverride = require("method-override");
 
         this
             .use(TestAcceptMimeMiddleware)

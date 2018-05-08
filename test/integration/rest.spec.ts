@@ -43,7 +43,7 @@ describe("Rest", () => {
                     if (err) {
                         throw (err);
                     }
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.id).to.equal("1");
@@ -65,7 +65,7 @@ describe("Rest", () => {
                         throw (err);
                     }
 
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.id).to.equal("1");
@@ -86,7 +86,7 @@ describe("Rest", () => {
                     if (err) {
                         throw (err);
                     }
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.id).to.equal("1");
@@ -108,7 +108,7 @@ describe("Rest", () => {
                         throw (err);
                     }
 
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.id).to.equal("1");
@@ -133,7 +133,7 @@ describe("Rest", () => {
                         throw (err);
                     }
 
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.user).to.equal(1);
@@ -153,7 +153,7 @@ describe("Rest", () => {
                 .expect(200)
                 .end((err: any, response: any) => {
 
-                    let token = response.text;
+                    const token = response.text;
 
                     expect(token).to.be.an("string");
                     expect(token).to.equal("token updated");
@@ -171,7 +171,7 @@ describe("Rest", () => {
                 .expect(200)
                 .end((err: any, response: any) => {
 
-                    let token = response.text;
+                    const token = response.text;
 
                     expect(token).to.be.an("string");
                     expect(token).to.equal("newTOKENXD");
@@ -187,7 +187,7 @@ describe("Rest", () => {
                 .expect(200)
                 .end((err: any, response: any) => {
 
-                    let token = response.text;
+                    const token = response.text;
                     expect(token).to.be.an("string");
                     expect(token).to.equal("ts-express-decorators");
                     done();
@@ -207,7 +207,7 @@ describe("Rest", () => {
                         throw (err);
                     }
 
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.id).to.equal(1);
@@ -229,7 +229,7 @@ describe("Rest", () => {
                         throw (err);
                     }
 
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.id).to.equal(10909);
@@ -282,7 +282,7 @@ describe("Rest", () => {
                 .expect(200)
                 .end((err: any, response: any) => {
 
-                    let obj = JSON.parse(response.text);
+                    const obj = JSON.parse(response.text);
 
                     expect(obj).to.be.an("object");
                     expect(obj.name).to.equal("test");

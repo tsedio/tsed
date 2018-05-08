@@ -1,6 +1,6 @@
 import {MiddlewareType, Provider, ProviderRegistry, ProviderType} from "@tsed/common";
 import {Store} from "@tsed/core";
-import * as SocketIO from "socket.io";
+import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
 import {ISocketHandlerMetadata} from "../interfaces/ISocketHandlerMetadata";
 import {ISocketParamMetadata} from "../interfaces/ISocketParamMetadata";

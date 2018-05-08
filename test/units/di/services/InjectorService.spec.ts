@@ -10,9 +10,7 @@ interface MyFactory {
 }
 
 const myFactory = function () {
-    this.method = function () {
-        return "test";
-    };
+    this.method = () => "test";
 };
 
 class InvokeMethodTest {
@@ -23,12 +21,11 @@ class InvokeMethodTest {
     @Inject()
     method(injectorService: InjectorService) {
         expect(this.t).not.to.be.undefined;
+
         return injectorService;
     }
 }
 
-class LocalService {
-}
 
 describe("InjectorService", () => {
     describe("static members", () => {

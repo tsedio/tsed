@@ -1,4 +1,4 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import {ConverterSerializationError} from "../../../../src/common/converters/errors/ConverterSerializationError";
 
 describe("ConverterSerializationError", () => {

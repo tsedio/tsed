@@ -3,9 +3,6 @@ import {HeaderParams} from "../../../../src/common/filters/decorators/headerPara
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
-class Test {
-
-}
 
 describe("HeaderParams", () => {
 

@@ -4,6 +4,7 @@ import {AcceptMimesMiddleware} from "../../../../../src/common/mvc/components/Ac
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
+// tslint:disable-next-line: variable-name
 const UseBefore: any = Sinon.stub().returns(middleware);
 
 const {AcceptMime} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/acceptMime", {

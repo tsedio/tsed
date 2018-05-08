@@ -83,6 +83,7 @@ export class FakeRequest {
 
     public storeData(data: any) {
         this._responseData = data;
+
         return this;
     }
 

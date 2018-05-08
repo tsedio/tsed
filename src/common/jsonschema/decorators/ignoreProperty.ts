@@ -1,4 +1,3 @@
-import {Type} from "@tsed/core";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 

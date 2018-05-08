@@ -10,7 +10,7 @@ import {deepExtends, nameOf, Store} from "@tsed/core";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
-import {Info, Schema, Spec, Tag} from "swagger-schema-official";
+import {Schema, Spec, Tag} from "swagger-schema-official";
 import {$log} from "ts-log-debug";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
 import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
@@ -46,7 +46,7 @@ export class SwaggerService {
 
         swagger
             .forEach((conf: ISwaggerSettings) => {
-                const {path = "/", doc, options = {}, outFile, showExplorer, cssPath, jsPath} = conf;
+                const {path = "/", options = {}, outFile, showExplorer, cssPath, jsPath} = conf;
                 const spec = this.getOpenAPISpec(conf);
                 const scope = {
                     spec,

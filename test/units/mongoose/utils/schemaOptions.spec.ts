@@ -34,7 +34,7 @@ describe("schemaOptions", () => {
             before(() => {
                 this.ctx = {op: "op"};
                 const stub = this.stub = Sinon.stub();
-                const hook = buildPreHook(function (t: any, next: any) {
+                const hook = buildPreHook((t: any, next: any) => {
                     stub(t, next);
                 });
 
@@ -50,7 +50,7 @@ describe("schemaOptions", () => {
             before(() => {
                 this.ctx = {op: "op"};
                 const stub = this.stub = Sinon.stub();
-                const hook = buildPreHook(function (t: any, next: any, done: any) {
+                const hook = buildPreHook((t: any, next: any, done: any) => {
                     stub(t, next, done);
                 });
 

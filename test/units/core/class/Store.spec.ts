@@ -56,8 +56,7 @@ describe("Store", () => {
             before(() => {
                 this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", {
-                    value: function () {
-                    }
+                    value: () => {}
                 }]);
             });
             after(() => {
@@ -89,8 +88,7 @@ describe("Store", () => {
             before(() => {
                 this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", {
-                    set: function () {
-                    }
+                    set: () => {}
                 }]);
             });
             after(() => {
@@ -107,8 +105,7 @@ describe("Store", () => {
             before(() => {
                 this.spyGet = Sinon.spy(Metadata, "getOwn");
                 this.store = new Store([FakeMetadata, "get", {
-                    get: function () {
-                    }
+                    get: () => {}
                 }]);
             });
             after(() => {

@@ -1,6 +1,5 @@
 import {Converter} from "../decorators/converter";
 import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
-import {ConverterService} from "../services/ConverterService";
 
 /**
  * Converter component for the `Map` Type.
@@ -10,8 +9,6 @@ import {ConverterService} from "../services/ConverterService";
  */
 @Converter(Map)
 export class MapConverter implements IConverter {
-    constructor(private converterService: ConverterService) {
-    }
 
     /**
      *

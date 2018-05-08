@@ -3,14 +3,6 @@ import {OverrideMiddleware} from "../../../../../src/common/mvc/decorators/class
 import {expect} from "../../../../tools";
 
 
-class Test {
-
-}
-
-class MiddlewareTest {
-
-}
-
 describe("OverrideMiddleware", () => {
     it("should use OverrideProvider", () => {
         expect(OverrideMiddleware).to.eq(OverrideProvider);

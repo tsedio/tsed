@@ -2,10 +2,6 @@ import {FilterService} from "../../../../src/common/filters/services/FilterServi
 import {inject} from "../../../../src/testing";
 import {expect, Sinon} from "../../../tools";
 
-class Test {
-
-}
-
 describe("FilterService", () => {
 
     before(inject([FilterService], (filterService: FilterService) => {

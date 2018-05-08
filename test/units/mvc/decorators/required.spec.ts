@@ -1,11 +1,12 @@
 import * as Proxyquire from "proxyquire";
 import {Sinon} from "../../../tools";
 
+// tslint:disable-next-line: variable-name
 const ParamRegistry: any = {
     required: Sinon.stub()
 };
 
-
+// tslint:disable-next-line: variable-name
 const PropertyRegistry: any = {
     required: Sinon.stub()
 };

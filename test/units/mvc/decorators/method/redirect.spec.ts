@@ -4,6 +4,7 @@ import * as Proxyquire from "proxyquire";
 import {FakeResponse} from "../../../../helper/FakeResponse";
 
 const middleware: any = Sinon.stub();
+// tslint:disable-next-line: variable-name
 const UseAfter: any = Sinon.stub().returns(middleware);
 
 const {Redirect} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/redirect", {

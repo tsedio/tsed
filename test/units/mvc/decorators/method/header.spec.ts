@@ -7,10 +7,11 @@ import {FakeResponse} from "../../../../helper/FakeResponse";
 import {expect} from "../../../../tools";
 
 let middleware: any;
-const UseAfterStub: any = function (_middleware_: any) {
+// tslint:disable-next-line: variable-name
+const UseAfterStub: any = (_middleware_: any) => {
     middleware = _middleware_;
-    return () => {
-    };
+
+    return () => {};
 };
 
 const Header = Proxyquire.load("../../../../../src/common/mvc/decorators/method/header", {

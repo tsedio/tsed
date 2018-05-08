@@ -1,4 +1,4 @@
-import {Err, MiddlewareError, Next, Req, Res} from "@tsed/common";
+import {Err, MiddlewareError, Next} from "@tsed/common";
 import {getClass, nameOf} from "@tsed/core";
 import * as Express from "express";
 import {BadRequest} from "ts-httpexceptions";

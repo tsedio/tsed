@@ -7,9 +7,6 @@ class Test {
     }
 }
 
-class TestFilter {
-}
-
 describe("PropertyMetadata", () => {
     describe("getter / setter", () => {
         before(() => {

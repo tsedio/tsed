@@ -1,6 +1,6 @@
 import {HttpServer, HttpsServer, Inject, OnServerReady, Provider, ServerSettingsService, Service} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import * as SocketIO from "socket.io";
+import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";

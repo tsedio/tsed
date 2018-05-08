@@ -4,6 +4,7 @@ import {ResponseViewMiddleware} from "../../../../../src/common/mvc/components/R
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
+// tslint:disable-next-line: variable-name
 const UseAfter: any = Sinon.stub().returns(middleware);
 const {ResponseView} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/responseView", {
     "./useAfter": {UseAfter}

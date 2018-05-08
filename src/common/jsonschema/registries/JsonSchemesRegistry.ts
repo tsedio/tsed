@@ -1,5 +1,5 @@
 import {ancestorsOf, deepExtends, isClass, Registry, Store, Type} from "@tsed/core";
-import {JSONSchema4, JSONSchema6} from "json-schema";
+import {JSONSchema6} from "json-schema";
 import {JsonSchema} from "../class/JsonSchema";
 
 

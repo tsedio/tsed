@@ -256,6 +256,7 @@ describe("ServerLoader", () => {
                 this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
                 this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.resolve());
                 this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
+
                 return this.server.start();
             });
 
@@ -392,8 +393,7 @@ describe("ServerLoader", () => {
         describe("when have typescript compiler", () => {
             before(() => {
                 this.compiler = require.extensions[".ts"];
-                require.extensions[".ts"] = function () {
-                };
+                require.extensions[".ts"] = () => {};
             });
             after(() => {
                 delete require.extensions[".ts"];

@@ -16,7 +16,7 @@ describe("Description()", () => {
 
     describe("on method", () => {
         before(() => {
-            let args = decoratorArgs(Test, "test");
+            const args = decoratorArgs(Test, "test");
             Description("description")(...args);
             this.store = Store.from(...args);
         });
@@ -27,7 +27,7 @@ describe("Description()", () => {
 
     describe("on param", () => {
         before(() => {
-            let args = [Test, "test", 0];
+            const args = [Test, "test", 0];
             Description("description")(...args);
             this.store = Store.from(...args);
         });
