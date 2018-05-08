@@ -3,6 +3,7 @@ import {GlobalAcceptMimesMiddleware} from "../../src/common/mvc/components/Globa
 import {ServerLoader} from "../../src/common/server/components/ServerLoader";
 import {ServerSettings} from "../../src/common/server/decorators/serverSettings";
 import "../../src/swagger";
+import "../../src/ajv";
 import "./app/middlewares/authentication";
 import Path = require("path");
 

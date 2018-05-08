@@ -33,10 +33,39 @@ export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
         .trim();
 }
 
+/**
+ *
+ * @param type
+ * @returns {string | string[]}
+ */
 export function swaggerType(type: any): string {
-    return JsonSchema.getJsonType(type) as string;
+    return JsonSchema.getJsonType(type) as any;
 }
 
+/**
+ * Filter the null type, unsupported by swagger and apply the right type on schema.
+ * @param schema
+ * @param type
+ */
+export function swaggerApplyType(schema: any, type: any) {
+    const types = []
+        .concat(swaggerType(type) as any)
+        .filter((type) => {
+            if (type === "null") {
+                schema.nullable = true;
+            }
+
+            return type;
+        })
+        .map((type) => String(type));
+
+    schema.type = types[0];
+}
+
+/**
+ *
+ * @returns {{[p: string]: (collection: any[], value: any) => any}}
+ */
 export function getReducers(): { [key: string]: (collection: any[], value: any) => any } {
     const defaultReducer = (collection: any[], value: any) => {
         if (collection.indexOf(value) === -1) {

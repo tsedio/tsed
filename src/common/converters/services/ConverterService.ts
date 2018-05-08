@@ -274,7 +274,7 @@ export class ConverterService {
      */
     private checkRequiredValue(instance: any, properties: Map<string | symbol, PropertyMetadata>) {
         properties.forEach((propertyMetadata: PropertyMetadata) => {
-            if (!propertyMetadata.isValidRequiredValue(instance[propertyMetadata.propertyKey])) {
+            if (propertyMetadata.isRequired(instance[propertyMetadata.propertyKey])) {
                 throw new RequiredPropertyError(getClass(instance), propertyMetadata.propertyKey);
             }
         });
