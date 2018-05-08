@@ -7,6 +7,7 @@ import {$log} from "ts-log-debug";
 
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
+import "./middlewares/authentication";
 
 const rootDir = Path.resolve(__dirname);
 

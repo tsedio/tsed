@@ -8,6 +8,7 @@ import {
     Delete,
     Get,
     Header,
+    HeaderParams,
     Locals,
     PathParams,
     Post,
@@ -20,7 +21,6 @@ import {
     Use,
     UseAfter
 } from "@tsed/common";
-import {HeaderParams} from "@tsed/common";
 import {MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
 import {CalendarModel} from "../../models/Calendar";
