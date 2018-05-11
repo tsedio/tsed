@@ -1,5 +1,6 @@
 import {getClassOrSymbol} from "@tsed/core";
 import {Provider} from "../../di/class/Provider";
+import {TypedProvidersRegistry} from "../../di/interfaces";
 import {IProvider} from "../../di/interfaces/IProvider";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {GlobalProviders} from "../../di/registries/ProviderRegistry";
@@ -10,7 +11,7 @@ import {MiddlewareType} from "../interfaces/MiddlewareType";
  * @type {Registry<Provider<any>, Provider>}
  */
 // tslint:disable-next-line: variable-name
-export const MiddlewareRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
+export const MiddlewareRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
   injectable: true,
   buildable: true
 });

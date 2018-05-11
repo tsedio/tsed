@@ -1,4 +1,5 @@
 import {Provider} from "../../di/class/Provider";
+import {TypedProvidersRegistry} from "../../di/interfaces";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {GlobalProviders} from "../../di/registries/ProviderRegistry";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
@@ -8,7 +9,7 @@ import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
  * @type {Registry<Provider, IProvider<any>>}
  */
 // tslint:disable-next-line: variable-name
-export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
+export const FilterRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
   injectable: true,
   buildable: true
 });
