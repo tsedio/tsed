@@ -19,14 +19,11 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function Location(location: string): Function {
+  return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
+    return UseAfter((request: any, response: any, next: any) => {
+      response.location(location);
 
-    return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        return UseAfter((request: any, response: any, next: any) => {
-            response.location(location);
-
-            next();
-
-        })(target, targetKey, descriptor);
-    };
+      next();
+    })(target, targetKey, descriptor);
+  };
 }

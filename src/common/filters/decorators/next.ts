@@ -7,5 +7,5 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @decorator
  */
 export function Next(): Function {
-    return ParamRegistry.decorate(EXPRESS_NEXT_FN);
+  return ParamRegistry.decorate(EXPRESS_NEXT_FN);
 }

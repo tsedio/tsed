@@ -23,5 +23,5 @@ import {RouterSettings} from "./routerSettings";
  * @express
  */
 export function Strict(strict: boolean) {
-    return RouterSettings({strict});
+  return RouterSettings({strict});
 }

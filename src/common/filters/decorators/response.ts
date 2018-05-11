@@ -7,7 +7,7 @@ import {EXPRESS_RESPONSE} from "../constants";
  * @decorator
  */
 export function Response(): Function {
-    return Res();
+  return Res();
 }
 
 /**
@@ -17,5 +17,5 @@ export function Response(): Function {
  * @alias Request
  */
 export function Res() {
-    return ParamRegistry.decorate(EXPRESS_RESPONSE);
+  return ParamRegistry.decorate(EXPRESS_RESPONSE);
 }

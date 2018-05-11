@@ -9,26 +9,20 @@ import {$log} from "ts-log-debug";
  * @returns {(done:Function)=>undefined}
  */
 export function bootstrap(server: any, ...args: any[]) {
+  $log.stop();
+  process.env.NODE_ENV = process.env.NODE_ENV || "test";
 
-    $log.stop();
-    process.env.NODE_ENV = process.env.NODE_ENV || "test";
+  return (done: Function) => {
+    if (server.$$instance === undefined) {
+      const instance: ServerLoader = new server(...args);
 
-    return (done: Function) => {
+      server.$$instance = instance;
 
-        if (server.$$instance === undefined) {
+      (instance as any).startServers = () => Promise.resolve();
 
-            const instance: ServerLoader = new server(...args);
-
-            server.$$instance = instance;
-
-            (instance as any).startServers = () => Promise.resolve();
-
-            instance.start().then(() => done());
-        } else {
-            done();
-        }
-
-    };
+      instance.start().then(() => done());
+    } else {
+      done();
+    }
+  };
 }
-
-

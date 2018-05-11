@@ -10,5 +10,5 @@ import {registerService} from "../registries/ProviderRegistry";
  * @decorator
  */
 export function Service(): Function {
-    return registerService;
+  return registerService;
 }

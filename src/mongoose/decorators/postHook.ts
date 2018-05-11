@@ -45,17 +45,18 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @mongoose
  */
 export function PostHook(method: string, fn?: MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>): Function {
-    return (...args: any[]) => {
+  return (...args: any[]) => {
+    if (getDecoratorType(args) === "method") {
+      fn = args[0][args[1]].bind(args[0]);
+    }
 
-        if (getDecoratorType(args) === "method") {
-            fn = args[0][args[1]].bind(args[0]);
+    applySchemaOptions(args[0], {
+      post: [
+        {
+          method,
+          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>
         }
-
-        applySchemaOptions(args[0], {
-            post: [{
-                method,
-                fn: fn as (MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>)
-            }]
-        });
-    };
+      ]
+    });
+  };
 }

@@ -65,5 +65,5 @@ import {Minimum} from "./minimum";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
-    return Minimum(minimum, exclusiveMinimum);
+  return Minimum(minimum, exclusiveMinimum);
 }

@@ -10,12 +10,12 @@ import {buildMongooseSchema} from "./buildMongooseSchema";
  * @returns {"mongoose".Schema}
  */
 export function createSchema(target: Type<any>, options?: mongoose.SchemaOptions): mongoose.Schema {
-    const store = Store.from(target);
+  const store = Store.from(target);
 
-    if (!store.has(MONGOOSE_SCHEMA)) {
-        const definition: mongoose.SchemaDefinition = buildMongooseSchema(target);
-        store.set(MONGOOSE_SCHEMA, new mongoose.Schema(definition, options));
-    }
+  if (!store.has(MONGOOSE_SCHEMA)) {
+    const definition: mongoose.SchemaDefinition = buildMongooseSchema(target);
+    store.set(MONGOOSE_SCHEMA, new mongoose.Schema(definition, options));
+  }
 
-    return store.get(MONGOOSE_SCHEMA);
+  return store.get(MONGOOSE_SCHEMA);
 }

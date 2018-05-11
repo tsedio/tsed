@@ -11,407 +11,387 @@ param0.type = SwaFoo2;
 const getParams = Sinon.stub().returns([param0]);
 
 const {OpenApiParamsBuilder} = Proxyquire("../../../../src/swagger/class/OpenApiParamsBuilder", {
-    "@tsed/common": {
-        ParamRegistry: {
-            getParams
-        }
+  "@tsed/common": {
+    ParamRegistry: {
+      getParams
     }
+  }
 });
 
 describe("OpenApiParamsBuilder", () => {
+  describe("createPropertiesFromExpression()", () => {
+    describe("when the expression is given 't1.t2.t3'", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-    describe("createPropertiesFromExpression()", () => {
-        describe("when the expression is given 't1.t2.t3'", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+        this.result = this.builder.createSchemaFromExpression("t1.t2.t3");
+      });
 
-                this.result = this.builder.createSchemaFromExpression("t1.t2.t3");
-            });
-
-            it("should create a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "currentProperty": {},
-                    "schema": {
-                        "properties": {
-                            "t1": {
-                                "properties": {
-                                    "t2": {
-                                        "properties": {
-                                            "t3": {}
-                                        },
-                                        "type": "object"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "type": "object"
-                    }
-                });
-            });
+      it("should create a schema", () => {
+        expect(this.result).to.deep.eq({
+          currentProperty: {},
+          schema: {
+            properties: {
+              t1: {
+                properties: {
+                  t2: {
+                    properties: {
+                      t3: {}
+                    },
+                    type: "object"
+                  }
+                },
+                type: "object"
+              }
+            },
+            type: "object"
+          }
         });
-
-
-        describe("when the expression is given 'event'", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-                this.result = this.builder.createSchemaFromExpression("event");
-            });
-
-            it("should create a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "currentProperty": {},
-                    "schema": {
-                        "properties": {
-                            "event": {}
-                        },
-                        "type": "object"
-                    }
-                });
-            });
-        });
-
-        describe("when the expression is not given", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-                this.result = this.builder.createSchemaFromExpression();
-            });
-
-            it("should create a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "currentProperty": {},
-                    "schema": {}
-                });
-            });
-        });
+      });
     });
 
-    describe("createSchemaFromBodyParam()", () => {
-        describe("when is a string", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+    describe("when the expression is given 'event'", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-                this.result = this.builder.createSchemaFromBodyParam({
-                    expression: "t1.t2.t3",
-                    type: String,
-                    isClass: false,
-                    isCollection: false,
-                    store: {
-                        get: () => {
-                        }
-                    }
-                });
-            });
+        this.result = this.builder.createSchemaFromExpression("event");
+      });
 
-            it("should create a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "properties": {
-                        "t1": {
-                            "properties": {
-                                "t2": {
-                                    "properties": {
-                                        "t3": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
-                });
-            });
+      it("should create a schema", () => {
+        expect(this.result).to.deep.eq({
+          currentProperty: {},
+          schema: {
+            properties: {
+              event: {}
+            },
+            type: "object"
+          }
         });
+      });
+    });
 
-        describe("when is a string[]", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+    describe("when the expression is not given", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-                this.result = this.builder.createSchemaFromBodyParam({
-                    expression: "event",
-                    type: String,
-                    isClass: false,
-                    isCollection: true,
-                    store: {
-                        get: () => {
-                        }
-                    }
-                });
-            });
+        this.result = this.builder.createSchemaFromExpression();
+      });
 
-            it("should create a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "properties": {
-                        "event": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "type": "object"
-                });
-            });
+      it("should create a schema", () => {
+        expect(this.result).to.deep.eq({
+          currentProperty: {},
+          schema: {}
         });
+      });
+    });
+  });
 
-        describe("when is a Test", () => {
-            class Test {
+  describe("createSchemaFromBodyParam()", () => {
+    describe("when is a string", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+        this.result = this.builder.createSchemaFromBodyParam({
+          expression: "t1.t2.t3",
+          type: String,
+          isClass: false,
+          isCollection: false,
+          store: {
+            get: () => {}
+          }
+        });
+      });
+
+      it("should create a schema", () => {
+        expect(this.result).to.deep.eq({
+          properties: {
+            t1: {
+              properties: {
+                t2: {
+                  properties: {
+                    t3: {
+                      type: "string"
+                    }
+                  },
+                  type: "object"
+                }
+              },
+              type: "object"
             }
-
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-                this.result = this.builder.createSchemaFromBodyParam({
-                    expression: "event",
-                    type: Test,
-                    isClass: true,
-                    isCollection: false,
-                    typeName: "Test",
-                    store: {
-                        get: () => Test
-
-                    }
-                });
-            });
-
-            it("should create a schema", () => {
-                expect(this.result).to.deep.eq({
-                    "properties": {
-                        "event": {
-                            "$ref": "#/definitions/Test"
-                        }
-                    },
-                    "type": "object"
-                });
-            });
+          },
+          type: "object"
         });
-
+      });
     });
 
-    describe("createSchemaFromQueryParam", () => {
-        describe("when there is a string", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+    describe("when is a string[]", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-                this.result = this.builder.createSchemaFromQueryParam({
-                    expression: "t1",
-                    type: String,
-                    isClass: false,
-                    isCollection: false,
-                    isArray: false
-                });
-            });
-            it("should return the right schema", () => {
-                this.result.should.deep.equal({
-                    type: "string"
-                });
-            });
+        this.result = this.builder.createSchemaFromBodyParam({
+          expression: "event",
+          type: String,
+          isClass: false,
+          isCollection: true,
+          store: {
+            get: () => {}
+          }
         });
+      });
 
-        describe("when there is an array of string", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-                this.result = this.builder.createSchemaFromQueryParam({
-                    expression: "t1",
-                    type: String,
-                    isClass: false,
-                    isCollection: true,
-                    isArray: true
-                });
-            });
-            it("should return the right schema", () => {
-                this.result.should.deep.equal({
-                    type: "array",
-                    items: {
-                        type: "string"
-                    }
-                });
-            });
+      it("should create a schema", () => {
+        expect(this.result).to.deep.eq({
+          properties: {
+            event: {
+              type: "object",
+              additionalProperties: {
+                type: "string"
+              }
+            }
+          },
+          type: "object"
         });
-
-        describe("when there is an object of string", () => {
-            before(() => {
-                this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-                this.result = this.builder.createSchemaFromQueryParam({
-                    expression: "t1",
-                    type: String,
-                    isClass: false,
-                    isCollection: true,
-                    isArray: false
-                });
-            });
-            it("should return the right schema", () => {
-                this.result.should.deep.equal({
-                    type: "object",
-                    additionalProperties: {
-                        type: "string"
-                    }
-                });
-            });
-        });
+      });
     });
 
-    describe("integration", () => {
+    describe("when is a Test", () => {
+      class Test {}
 
-        before(() => {
-            this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-            this.builder.build();
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+        this.result = this.builder.createSchemaFromBodyParam({
+          expression: "event",
+          type: Test,
+          isClass: true,
+          isCollection: false,
+          typeName: "Test",
+          store: {
+            get: () => Test
+          }
         });
+      });
 
-
-        it("should create a schema", () => {
-            expect(this.builder.parameters).to.deep.eq([
-                {
-                    "description": "",
-                    "in": "body",
-                    "name": "body",
-                    "required": false,
-                    "schema": {
-                        "$ref": "#/definitions/SwaFoo2"
-                    }
-                }
-            ]);
+      it("should create a schema", () => {
+        expect(this.result).to.deep.eq({
+          properties: {
+            event: {
+              $ref: "#/definitions/Test"
+            }
+          },
+          type: "object"
         });
+      });
+    });
+  });
 
-        it("should create a definitions", () => {
-            expect(this.builder.definitions).to.deep.eq({
-                "SwaAgeModel": {
-                    "properties": {
-                        "age": {
-                            "description": "The age",
-                            "title": "age",
-                            "type": "number"
-                        },
-                        "id": {
-                            "description": "Unique identifier.",
-                            "title": "id",
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "SwaFoo": {
-                    "properties": {
-                        "foo": {
-                            "description": "Description.foo",
-                            "title": "SwaFoo.foo",
-                            "type": "object"
-                        },
-                        "test": {
-                            "description": "Description.test",
-                            "title": "SwaFoo.test",
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
-                },
-                "SwaFoo2": {
-                    "description": "Description Class",
-                    "properties": {
-                        "Name": {
-                            "type": "string"
-                        },
-                        "ageModel": {
-                            "$ref": "#/definitions/SwaAgeModel"
-                        },
-                        "arrayOfString": {
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        },
-                        "dateStart": {
-                            "type": "string"
-                        },
-                        "foo": {
-                            "$ref": "#/definitions/SwaFoo"
-                        },
-                        "foos": {
-                            "description": "SwaFoo2.foos description",
-                            "example": "TODO",
-                            "items": {
-                                "$ref": "#/definitions/SwaFoo"
-                            },
-                            "title": "SwaFoo2.foos",
-                            "type": "array"
-                        },
-                        "mapOfString": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        },
-                        "mapAny": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": [
-                                    "integer",
-                                    "number",
-                                    "string",
-                                    "boolean",
-                                    "array",
-                                    "object",
-                                    "null"
-                                ]
-                            }
-                        },
-                        "nameModel": {
-                            "$ref": "#/definitions/SwaNameModel"
-                        },
-                        "test": {
-                            "description": "Description test",
-                            "title": "Test",
-                            "type": "string"
-                        },
-                        "theMap": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "$ref": "#/definitions/SwaFoo"
-                            },
-                            "description": "SwaFoo2.theMap description",
-                            "title": "SwaFoo2.theMap"
-                        },
-                        "theSet": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "$ref": "#/definitions/SwaFoo"
-                            },
-                            "description": "SwaFoo2.theSet description",
-                            "title": "SwaFoo2.theSet"
-                        },
-                        "uint": {
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "test"
-                    ],
-                    "title": "SwaFoo2",
-                    "type": "object"
-                },
-                "SwaNameModel": {
-                    "properties": {
-                        "id": {
-                            "description": "Unique identifier.",
-                            "title": "id",
-                            "type": "string"
-                        },
-                        "name": {
-                            "description": "The name",
-                            "title": "name",
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            });
+  describe("createSchemaFromQueryParam", () => {
+    describe("when there is a string", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+        this.result = this.builder.createSchemaFromQueryParam({
+          expression: "t1",
+          type: String,
+          isClass: false,
+          isCollection: false,
+          isArray: false
         });
+      });
+      it("should return the right schema", () => {
+        this.result.should.deep.equal({
+          type: "string"
+        });
+      });
     });
 
+    describe("when there is an array of string", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+        this.result = this.builder.createSchemaFromQueryParam({
+          expression: "t1",
+          type: String,
+          isClass: false,
+          isCollection: true,
+          isArray: true
+        });
+      });
+      it("should return the right schema", () => {
+        this.result.should.deep.equal({
+          type: "array",
+          items: {
+            type: "string"
+          }
+        });
+      });
+    });
+
+    describe("when there is an object of string", () => {
+      before(() => {
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+
+        this.result = this.builder.createSchemaFromQueryParam({
+          expression: "t1",
+          type: String,
+          isClass: false,
+          isCollection: true,
+          isArray: false
+        });
+      });
+      it("should return the right schema", () => {
+        this.result.should.deep.equal({
+          type: "object",
+          additionalProperties: {
+            type: "string"
+          }
+        });
+      });
+    });
+  });
+
+  describe("integration", () => {
+    before(() => {
+      this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+      this.builder.build();
+    });
+
+    it("should create a schema", () => {
+      expect(this.builder.parameters).to.deep.eq([
+        {
+          description: "",
+          in: "body",
+          name: "body",
+          required: false,
+          schema: {
+            $ref: "#/definitions/SwaFoo2"
+          }
+        }
+      ]);
+    });
+
+    it("should create a definitions", () => {
+      expect(this.builder.definitions).to.deep.eq({
+        SwaAgeModel: {
+          properties: {
+            age: {
+              description: "The age",
+              title: "age",
+              type: "number"
+            },
+            id: {
+              description: "Unique identifier.",
+              title: "id",
+              type: "string"
+            }
+          },
+          type: "object"
+        },
+        SwaFoo: {
+          properties: {
+            foo: {
+              description: "Description.foo",
+              title: "SwaFoo.foo",
+              type: "object"
+            },
+            test: {
+              description: "Description.test",
+              title: "SwaFoo.test",
+              type: "object"
+            }
+          },
+          type: "object"
+        },
+        SwaFoo2: {
+          description: "Description Class",
+          properties: {
+            Name: {
+              type: "string"
+            },
+            ageModel: {
+              $ref: "#/definitions/SwaAgeModel"
+            },
+            arrayOfString: {
+              items: {
+                type: "string"
+              },
+              type: "array"
+            },
+            dateStart: {
+              type: "string"
+            },
+            foo: {
+              $ref: "#/definitions/SwaFoo"
+            },
+            foos: {
+              description: "SwaFoo2.foos description",
+              example: "TODO",
+              items: {
+                $ref: "#/definitions/SwaFoo"
+              },
+              title: "SwaFoo2.foos",
+              type: "array"
+            },
+            mapOfString: {
+              type: "object",
+              additionalProperties: {
+                type: "string"
+              }
+            },
+            mapAny: {
+              type: "object",
+              additionalProperties: {
+                type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+              }
+            },
+            nameModel: {
+              $ref: "#/definitions/SwaNameModel"
+            },
+            test: {
+              description: "Description test",
+              title: "Test",
+              type: "string"
+            },
+            theMap: {
+              type: "object",
+              additionalProperties: {
+                $ref: "#/definitions/SwaFoo"
+              },
+              description: "SwaFoo2.theMap description",
+              title: "SwaFoo2.theMap"
+            },
+            theSet: {
+              type: "object",
+              additionalProperties: {
+                $ref: "#/definitions/SwaFoo"
+              },
+              description: "SwaFoo2.theSet description",
+              title: "SwaFoo2.theSet"
+            },
+            uint: {
+              type: "number"
+            }
+          },
+          required: ["test"],
+          title: "SwaFoo2",
+          type: "object"
+        },
+        SwaNameModel: {
+          properties: {
+            id: {
+              description: "Unique identifier.",
+              title: "id",
+              type: "string"
+            },
+            name: {
+              description: "The name",
+              title: "name",
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      });
+    });
+  });
 });

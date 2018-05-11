@@ -62,7 +62,7 @@ import {Store} from "@tsed/core";
  * @conveters
  */
 export function ModelStrict(value: boolean) {
-    return Store.decorate((store) => {
-        store.set("modelStrict", value);
-    });
+  return Store.decorate(store => {
+    store.set("modelStrict", value);
+  });
 }

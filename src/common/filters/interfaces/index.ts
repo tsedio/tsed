@@ -1,4 +1,3 @@
-
 export * from "./Arguments";
 export * from "./IFilter";
 export * from "./IFilterScope";

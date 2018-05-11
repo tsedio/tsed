@@ -22,13 +22,13 @@ import {Operation} from "./operation";
  * @swagger
  */
 export function Security(securityDefinitionName: string, ...scopes: string[]) {
-    return (...args: any[]) => {
-        const type = getDecoratorType(args);
-        switch (type) {
-            case "method":
-                return Operation({security: [{[securityDefinitionName]: scopes}]})(...args);
-            default:
-                throw new Error("Security is only supported on method");
-        }
-    };
+  return (...args: any[]) => {
+    const type = getDecoratorType(args);
+    switch (type) {
+      case "method":
+        return Operation({security: [{[securityDefinitionName]: scopes}]})(...args);
+      default:
+        throw new Error("Security is only supported on method");
+    }
+  };
 }

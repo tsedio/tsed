@@ -75,5 +75,5 @@ import {Schema} from "./schema";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Format(format: string) {
-    return Schema({ format });
+  return Schema({format});
 }

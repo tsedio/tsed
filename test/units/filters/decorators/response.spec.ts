@@ -4,19 +4,15 @@ import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegi
 import {Sinon} from "../../../tools";
 
 describe("Response", () => {
+  before(() => {
+    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
+    Res();
+  });
 
-    before(() => {
-        this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-        Res();
-    });
+  after(() => {
+    this.decorateStub.restore();
+  });
 
-    after(() => {
-        this.decorateStub.restore();
-    });
-
-    it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-        this.decorateStub.should.have.been.calledOnce
-            .and
-            .calledWithExactly(EXPRESS_RESPONSE)
-    );
+  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
+    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_RESPONSE));
 });

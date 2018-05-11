@@ -3,13 +3,13 @@ import * as Https from "https";
 import {Inject} from "../../di/decorators/inject";
 
 export interface IHttpsFactory {
-    (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
+  (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
 
-    /**
-     * @deprecated
-     * @returns {"https".Server}
-     */
-    get(): Https.Server;
+  /**
+   * @deprecated
+   * @returns {"https".Server}
+   */
+  get(): Https.Server;
 }
 
 export type HttpsServer = Https.Server & IHttpsFactory;
@@ -37,5 +37,5 @@ export type HttpsServer = Https.Server & IHttpsFactory;
  * @decorator
  */
 export function HttpsServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
-    return Inject(HttpsServer)(target, targetKey, descriptor);
+  return Inject(HttpsServer)(target, targetKey, descriptor);
 }

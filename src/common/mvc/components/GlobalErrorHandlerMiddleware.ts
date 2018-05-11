@@ -11,41 +11,37 @@ import {IMiddlewareError} from "../interfaces";
  */
 @MiddlewareError()
 export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
+  use(@Err() error: any, @Request() request: Express.Request, @Response() response: Express.Response): any {
+    const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
-    use(@Err() error: any,
-        @Request() request: Express.Request,
-        @Response() response: Express.Response): any {
-
-        const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
-
-        if (error instanceof Exception || error.status) {
-            request.log.error({
-                error: {
-                    message: error.message,
-                    stack: error.stack,
-                    status: error.status
-                }
-            });
-            response.status(error.status).send(toHTML(error.message));
-
-            return;
+    if (error instanceof Exception || error.status) {
+      request.log.error({
+        error: {
+          message: error.message,
+          stack: error.stack,
+          status: error.status
         }
+      });
+      response.status(error.status).send(toHTML(error.message));
 
-        if (typeof error === "string") {
-            response.status(404).send(toHTML(error));
-
-            return;
-        }
-
-        request.log.error({
-            error: {
-                status: 500,
-                message: error.message,
-                stack: error.stack
-            }
-        });
-        response.status(error.status || 500).send("Internal Error");
-
-        return;
+      return;
     }
+
+    if (typeof error === "string") {
+      response.status(404).send(toHTML(error));
+
+      return;
+    }
+
+    request.log.error({
+      error: {
+        status: 500,
+        message: error.message,
+        stack: error.stack
+      }
+    });
+    response.status(error.status || 500).send("Internal Error");
+
+    return;
+  }
 }

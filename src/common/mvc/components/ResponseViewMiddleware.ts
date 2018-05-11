@@ -13,44 +13,27 @@ import {IMiddleware} from "../interfaces";
  */
 @Middleware()
 export class ResponseViewMiddleware implements IMiddleware {
+  public use(@ResponseData() data: any, @EndpointInfo() endpoint: EndpointMetadata, @Response() response: Express.Response) {
+    return new Promise((resolve, reject) => {
+      const {viewPath, viewOptions} = endpoint.store.get(ResponseViewMiddleware);
 
-    public use(
-        @ResponseData() data: any,
-        @EndpointInfo() endpoint: EndpointMetadata,
-        @Response() response: Express.Response
-    ) {
+      if (viewPath !== undefined) {
+        if (viewOptions !== undefined) {
+          data = Object.assign({}, data, viewOptions);
+        }
 
-        return new Promise((resolve, reject) => {
-
-            const {viewPath, viewOptions} = endpoint.store.get(ResponseViewMiddleware);
-
-            if (viewPath !== undefined) {
-
-                if (viewOptions !== undefined ) {
-                    data = Object.assign({}, data, viewOptions);
-                }
-
-                response.render(viewPath, data, (err: any, html) => {
-
-                    /* istanbul ignore next */
-                    if (err) {
-
-                        reject(new TemplateRenderingError(
-                            endpoint.target,
-                            endpoint.methodClassName,
-                            err
-                        ));
-
-                    } else {
-                        // request.storeData(html);
-                        resolve(html);
-                    }
-
-                });
-            } else {
-                resolve();
-            }
+        response.render(viewPath, data, (err: any, html) => {
+          /* istanbul ignore next */
+          if (err) {
+            reject(new TemplateRenderingError(endpoint.target, endpoint.methodClassName, err));
+          } else {
+            // request.storeData(html);
+            resolve(html);
+          }
         });
-
-    }
+      } else {
+        resolve();
+      }
+    });
+  }
 }

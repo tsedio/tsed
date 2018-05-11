@@ -24,5 +24,5 @@ import {SocketFilter} from "./socketFilter";
  * @decorator
  */
 export function Socket(target: any, propertyKey: string, index: number): any {
-    return SocketFilter(SocketFilters.SOCKET)(target, propertyKey, index);
+  return SocketFilter(SocketFilters.SOCKET)(target, propertyKey, index);
 }

@@ -13,116 +13,103 @@ import {ControllerService} from "./ControllerService";
  */
 @Service()
 export class RouteService {
+  constructor(private controllerService: ControllerService) {}
 
-    constructor(private controllerService: ControllerService) {
+  public $afterRoutesInit() {
+    $log.info("Routes mounted :");
+    this.printRoutes($log);
+  }
 
-    }
+  /**
+   * Get all routes built by TsExpressDecorators and mounted on Express application.
+   * @returns {IControllerRoute[]}
+   */
+  public getRoutes(): IControllerRoute[] {
+    const routes: IControllerRoute[] = [];
 
-    public $afterRoutesInit() {
-        $log.info("Routes mounted :");
-        this.printRoutes($log);
-    }
+    this.controllerService.routes.forEach((config: {route: string; provider: ControllerProvider}) => {
+      this.buildRoutes(routes, config.provider, config.route);
+    });
 
-    /**
-     * Get all routes built by TsExpressDecorators and mounted on Express application.
-     * @returns {IControllerRoute[]}
-     */
-    public getRoutes(): IControllerRoute[] {
+    return routes;
+  }
 
-        const routes: IControllerRoute[] = [];
+  /**
+   *
+   * @param routes
+   * @param ctrl
+   * @param endpointUrl
+   */
+  private buildRoutes = (routes: any[], ctrl: ControllerProvider, endpointUrl: string) => {
+    // console.log("Build routes =>", ctrl.className, endpointUrl);
 
-        this.controllerService.routes.forEach((config: { route: string, provider: ControllerProvider }) => {
-            this.buildRoutes(routes, config.provider, config.route);
-        });
+    ctrl.dependencies
+      .map(ctrl => this.controllerService.get(ctrl))
+      .forEach((provider: ControllerProvider) => this.buildRoutes(routes, provider, `${endpointUrl}${provider.path}`));
 
-        return routes;
-    }
+    ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
+      endpoint.pathsMethods.forEach(({path, method}) => {
+        if (!!method) {
+          const className = nameOf(ctrl.provide),
+            methodClassName = endpoint.methodClassName,
+            parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
 
-    /**
-     *
-     * @param routes
-     * @param ctrl
-     * @param endpointUrl
-     */
-    private buildRoutes = (routes: any[], ctrl: ControllerProvider, endpointUrl: string) => {
+          routes.push({
+            method,
+            name: `${className}.${methodClassName}()`,
+            url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
+            className,
+            methodClassName,
+            parameters
+          });
+        }
+      });
+    });
+  };
 
-        // console.log("Build routes =>", ctrl.className, endpointUrl);
-
-        ctrl.dependencies
-            .map(ctrl => this.controllerService.get(ctrl))
-            .forEach((provider: ControllerProvider) =>
-                this.buildRoutes(routes, provider, `${endpointUrl}${provider.path}`)
-            );
-
-        ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-
-            endpoint.pathsMethods.forEach(({path, method}) => {
-                if (!!method) {
-
-                    const className = nameOf(ctrl.provide),
-                        methodClassName = endpoint.methodClassName,
-                        parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
-
-                    routes.push({
-                        method,
-                        name: `${className}.${methodClassName}()`,
-                        url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
-                        className,
-                        methodClassName,
-                        parameters
-                    });
-                }
-            });
-        });
+  /**
+   * Print all route mounted in express via Annotation.
+   */
+  public printRoutes(logger: {info: (s: any) => void} = $log): void {
+    const mapColor: {[key: string]: string} = {
+      GET: "green",
+      POST: "yellow",
+      PUT: "blue",
+      DELETE: "red",
+      PATCH: "magenta",
+      ALL: "cyan"
     };
 
-    /**
-     * Print all route mounted in express via Annotation.
-     */
-    public printRoutes(logger: { info: (s: any) => void } = $log): void {
+    const routes = this.getRoutes().map(route => {
+      const method = route.method.toUpperCase();
 
-        const mapColor: { [key: string]: string } = {
-            GET: "green",
-            POST: "yellow",
-            PUT: "blue",
-            DELETE: "red",
-            PATCH: "magenta",
-            ALL: "cyan"
-        };
+      route.method = {
+        length: method.length,
+        toString: () => {
+          return colorize(method, mapColor[method]);
+        }
+      } as any;
 
-        const routes = this
-            .getRoutes()
-            .map(route => {
+      return route;
+    });
 
-                const method = route.method.toUpperCase();
+    const str = $log.drawTable(routes, {
+      padding: 1,
+      header: {
+        method: "Method",
+        url: "Endpoint",
+        name: "Class method"
+      }
+    });
 
-                route.method = {
-                    length: method.length, toString: () => {
-                        return colorize(method, mapColor[method]);
-                    }
-                } as any;
+    logger.info("\n" + str.trim());
+  }
 
-                return route;
-            });
-
-        const str = $log.drawTable(routes, {
-            padding: 1,
-            header: {
-                method: "Method",
-                url: "Endpoint",
-                name: "Class method"
-            }
-        });
-
-        logger.info("\n" + str.trim());
-
-    }
-
-    /**
-     * Return all Routes stored in ControllerProvider manager.
-     * @returns {IControllerRoute[]}
-     */
-    getAll(): IControllerRoute[] {
-        return this.getRoutes();
-    }
+  /**
+   * Return all Routes stored in ControllerProvider manager.
+   * @returns {IControllerRoute[]}
+   */
+  getAll(): IControllerRoute[] {
+    return this.getRoutes();
+  }
 }

@@ -13,9 +13,9 @@ import {registerSocketService} from "../registries/SocketServiceRegistry";
  * @decorator
  */
 export function SocketService(namespace = "/") {
-    return Store.decorate((store: Store, parameters) => {
-        store.merge("socketIO", {namespace, type: SocketProviderTypes.SERVICE});
+  return Store.decorate((store: Store, parameters) => {
+    store.merge("socketIO", {namespace, type: SocketProviderTypes.SERVICE});
 
-        registerSocketService(parameters[0]);
-    });
+    registerSocketService(parameters[0]);
+  });
 }

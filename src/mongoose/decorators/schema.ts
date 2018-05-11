@@ -11,7 +11,7 @@ import {MONGOOSE_SCHEMA} from "../constants";
  * @mongoose
  */
 export function Schema(definition: SchemaTypeOpts<any>) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.store.merge(MONGOOSE_SCHEMA, definition);
-    });
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    propertyMetadata.store.merge(MONGOOSE_SCHEMA, definition);
+  });
 }

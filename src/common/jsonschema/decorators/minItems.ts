@@ -40,12 +40,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @jsonschema
  */
 export function MinItems(minItems: number) {
+  if (minItems < 0) {
+    throw new Error("The value of minItems MUST be a non-negative integer.");
+  }
 
-    if (minItems < 0) {
-        throw new Error("The value of minItems MUST be a non-negative integer.");
-    }
-
-    return decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.minItems = minItems;
-    });
+  return decoratorSchemaFactory((schema: JsonSchema) => {
+    schema.minItems = minItems;
+  });
 }

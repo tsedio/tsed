@@ -24,5 +24,5 @@ import {SocketReturns} from "./socketReturns";
  * @param eventName
  */
 export function Emit(eventName: string) {
-    return SocketReturns(eventName, SocketReturnsTypes.EMIT);
+  return SocketReturns(eventName, SocketReturnsTypes.EMIT);
 }

@@ -11,8 +11,8 @@ import {MiddlewareType} from "../interfaces/MiddlewareType";
  */
 // tslint:disable-next-line: variable-name
 export const MiddlewareRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 
 const middlewareRegisterFn = GlobalProviders.createRegisterFn(ProviderType.MIDDLEWARE);
@@ -45,11 +45,10 @@ const middlewareRegisterFn = GlobalProviders.createRegisterFn(ProviderType.MIDDL
  * @param provider Provider configuration.
  */
 export function registerMiddleware(provider: any | IProvider<any>, instance?: any) {
-    middlewareRegisterFn(provider, instance);
-    GlobalProviders
-        .getRegistry(ProviderType.MIDDLEWARE)!
-        .get(getClassOrSymbol(provider.provide || provider))!
-        .store.set("middlewareType", MiddlewareType.MIDDLEWARE);
+  middlewareRegisterFn(provider, instance);
+  GlobalProviders.getRegistry(ProviderType.MIDDLEWARE)!
+    .get(getClassOrSymbol(provider.provide || provider))!
+    .store.set("middlewareType", MiddlewareType.MIDDLEWARE);
 }
 
 /**
@@ -80,9 +79,8 @@ export function registerMiddleware(provider: any | IProvider<any>, instance?: an
  * @param provider Provider configuration.
  */
 export function registerMiddlewareError(provider: any | IProvider<any>, instance?: any) {
-    middlewareRegisterFn(provider, instance);
-    GlobalProviders
-        .getRegistry(ProviderType.MIDDLEWARE)!
-        .get(getClassOrSymbol(provider.provide || provider))!
-        .store.set("middlewareType", MiddlewareType.ERROR);
+  middlewareRegisterFn(provider, instance);
+  GlobalProviders.getRegistry(ProviderType.MIDDLEWARE)!
+    .get(getClassOrSymbol(provider.provide || provider))!
+    .store.set("middlewareType", MiddlewareType.ERROR);
 }

@@ -7,8 +7,8 @@ import {PathParamsType} from "./PathParamsType";
  *
  */
 export interface IControllerOptions {
-    path?: PathParamsType;
-    dependencies?: Type<any>[];
-    routerOptions?: IRouterOptions;
-    middlewares?: IControllerMiddlewares;
+  path?: PathParamsType;
+  dependencies?: Type<any>[];
+  routerOptions?: IRouterOptions;
+  middlewares?: IControllerMiddlewares;
 }

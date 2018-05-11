@@ -61,7 +61,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function AllowTypes(type: JSONSchema6TypeName, ...types: JSONSchema6TypeName[]) {
-    return decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.mapper.type = [type].concat(types);
-    });
+  return decoratorSchemaFactory((schema: JsonSchema) => {
+    schema.mapper.type = [type].concat(types);
+  });
 }

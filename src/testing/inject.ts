@@ -16,31 +16,27 @@ import {loadInjector} from "./loadInjector";
  * @returns {any}
  */
 export function inject(targets: any[], func: Function) {
+  loadInjector();
 
-    loadInjector();
+  return (done: Function) => {
+    let isDoneInjected = false;
+    const args = targets.map(target => {
+      if (target === Done) {
+        isDoneInjected = true;
 
-    return (done: Function) => {
+        return done;
+      }
 
-        let isDoneInjected = false;
-        const args = targets.map((target) => {
+      /* istanbul ignore next */
+      if (!InjectorService.has(target)) {
+        return InjectorService.invoke(target);
+      }
 
-            if (target === Done) {
-                isDoneInjected = true;
+      return InjectorService.get(target);
+    });
 
-                return done;
-            }
+    func.apply(null, args);
 
-            /* istanbul ignore next */
-            if (!InjectorService.has(target)) {
-                return InjectorService.invoke(target);
-            }
-
-            return InjectorService.get(target);
-        });
-
-        func.apply(null, args);
-
-        if (!isDoneInjected) done();
-    };
-
+    if (!isDoneInjected) done();
+  };
 }

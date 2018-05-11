@@ -31,5 +31,5 @@ import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
  * @returns {Function}
  */
 export function HeaderParams(expression: string): Function {
-    return ParamRegistry.decorate(HeaderParamsFilter, {expression});
+  return ParamRegistry.decorate(HeaderParamsFilter, {expression});
 }

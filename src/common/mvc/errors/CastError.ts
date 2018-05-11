@@ -4,14 +4,13 @@ import {InternalServerError} from "ts-httpexceptions";
  * @private
  */
 export class CastError extends InternalServerError {
-    origin: Error;
-    stack: any;
+  origin: Error;
+  stack: any;
 
-    constructor(err: Error) {
+  constructor(err: Error) {
+    super(err.message);
 
-        super(err.message);
-
-        this.stack = err.stack;
-        this.origin = err;
-    }
+    this.stack = err.stack;
+    this.origin = err;
+  }
 }

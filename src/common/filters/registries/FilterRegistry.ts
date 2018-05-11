@@ -9,8 +9,8 @@ import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
  */
 // tslint:disable-next-line: variable-name
 export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 
 /**

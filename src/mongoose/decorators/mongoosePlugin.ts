@@ -10,11 +10,9 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @mongoose
  */
 export function MongoosePlugin(plugin: (schema: mongoose.Schema, options?: any) => void, options: any): Function {
-    return (target: any) => {
-        applySchemaOptions(target, {
-            plugins: [
-                {plugin, options}
-            ]
-        });
-    };
+  return (target: any) => {
+    applySchemaOptions(target, {
+      plugins: [{plugin, options}]
+    });
+  };
 }

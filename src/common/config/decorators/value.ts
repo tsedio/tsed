@@ -26,26 +26,21 @@ import {globalServerSettings} from "../services/GlobalSettings";
  * @decorator
  */
 export function Value(expression: any) {
+  return (target: any, propertyKey: string) => {
+    if (delete target[propertyKey]) {
+      let value: any;
 
-    return (target: any, propertyKey: string) => {
+      const descriptor = {
+        get: () => (value !== undefined ? value : globalServerSettings.get(expression)),
 
-        if (delete target[propertyKey]) {
+        set: (v: any) => {
+          value = v;
+        },
 
-            let value: any;
-
-            const descriptor = {
-
-                get: () => value !== undefined ? value : globalServerSettings.get(expression),
-
-                set: (v: any) => {
-                    value = v;
-                },
-
-                enumerable: true,
-                configurable: true
-            };
-            Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
-        }
-
-    };
+        enumerable: true,
+        configurable: true
+      };
+      Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
+    }
+  };
 }

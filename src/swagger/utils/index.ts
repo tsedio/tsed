@@ -4,33 +4,31 @@ import {deepExtends} from "@tsed/core";
 /** */
 
 export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
+  if (path instanceof RegExp) {
+    path = path
+      .toString()
+      .replace(/^\//, "")
+      .replace(/\/$/, "")
+      .replace(/\\/, "");
+  }
 
-    if (path instanceof RegExp) {
-        path = path.toString()
-            .replace(/^\//, "")
-            .replace(/\/$/, "")
-            .replace(/\\/, "");
-    }
+  const completePath = "" + base + path;
 
-    const completePath = "" + base + path;
+  // if (typeof expressPath === "string") {
+  const params = completePath.match(/:[\w]+/g);
 
-    // if (typeof expressPath === "string") {
-    const params = completePath.match(/:[\w]+/g);
+  let openAPIPath = completePath;
+  if (params) {
+    const swaggerParams = params.map(x => {
+      return "{" + x.replace(":", "") + "}";
+    });
 
-    let openAPIPath = completePath;
-    if (params) {
-        const swaggerParams = params.map(x => {
-            return "{" + x.replace(":", "") + "}";
-        });
+    openAPIPath = params.reduce((acc, el, ix) => {
+      return acc.replace(el, swaggerParams[ix]);
+    }, completePath);
+  }
 
-        openAPIPath = params.reduce((acc, el, ix) => {
-            return acc.replace(el, swaggerParams[ix]);
-        }, completePath);
-    }
-
-    return ("" + openAPIPath)
-        .replace(/\/\//gi, "/")
-        .trim();
+  return ("" + openAPIPath).replace(/\/\//gi, "/").trim();
 }
 
 /**
@@ -39,7 +37,7 @@ export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
  * @returns {string | string[]}
  */
 export function swaggerType(type: any): string {
-    return JsonSchema.getJsonType(type) as any;
+  return JsonSchema.getJsonType(type) as any;
 }
 
 /**
@@ -48,61 +46,58 @@ export function swaggerType(type: any): string {
  * @param type
  */
 export function swaggerApplyType(schema: any, type: any) {
-    const types = []
-        .concat(swaggerType(type) as any)
-        .filter((type) => {
-            if (type === "null") {
-                schema.nullable = true;
-            }
+  const types = []
+    .concat(swaggerType(type) as any)
+    .filter(type => {
+      if (type === "null") {
+        schema.nullable = true;
+      }
 
-            return type;
-        })
-        .map((type) => String(type));
+      return type;
+    })
+    .map(type => String(type));
 
-    schema.type = types[0];
+  schema.type = types[0];
 }
 
 /**
  *
  * @returns {{[p: string]: (collection: any[], value: any) => any}}
  */
-export function getReducers(): { [key: string]: (collection: any[], value: any) => any } {
-    const defaultReducer = (collection: any[], value: any) => {
-        if (collection.indexOf(value) === -1) {
-            collection.push(value);
-        }
+export function getReducers(): {[key: string]: (collection: any[], value: any) => any} {
+  const defaultReducer = (collection: any[], value: any) => {
+    if (collection.indexOf(value) === -1) {
+      collection.push(value);
+    }
 
-        return collection;
-    };
+    return collection;
+  };
 
-    return {
-        "default": defaultReducer,
-        "security": (collection, value) => {
-            const current = collection.find((current: any): any => {
-                return Object.keys(value).find((key) => !!current[key]);
-            });
+  return {
+    default: defaultReducer,
+    security: (collection, value) => {
+      const current = collection.find((current: any): any => {
+        return Object.keys(value).find(key => !!current[key]);
+      });
 
-            if (current) {
-                deepExtends(current, value, {"default": defaultReducer});
-            } else {
-                collection.push(value);
-            }
+      if (current) {
+        deepExtends(current, value, {default: defaultReducer});
+      } else {
+        collection.push(value);
+      }
 
-            return collection;
-        },
-        "parameters": (collection, value) => {
+      return collection;
+    },
+    parameters: (collection, value) => {
+      const current = collection.find(current => current.in === value.in && current.name === value.name);
 
-            const current = collection.find((current) =>
-                current.in === value.in && current.name === value.name
-            );
+      if (current) {
+        deepExtends(current, value);
+      } else {
+        collection.push(value);
+      }
 
-            if (current) {
-                deepExtends(current, value);
-            } else {
-                collection.push(value);
-            }
-
-            return collection;
-        }
-    };
+      return collection;
+    }
+  };
 }

@@ -9,19 +9,13 @@ import {IMiddleware} from "../interfaces/index";
  */
 @Middleware()
 export class GlobalAcceptMimesMiddleware implements IMiddleware {
+  constructor(private serverSettingsService: ServerSettingsService) {}
 
-    constructor(private serverSettingsService: ServerSettingsService) {
-
-    }
-
-    use(@Request() request: any) {
-
-        this.serverSettingsService
-            .acceptMimes
-            .forEach((mime: any) => {
-                if (!request.accepts(mime)) {
-                    throw new NotAcceptable(mime);
-                }
-            });
-    }
+  use(@Request() request: any) {
+    this.serverSettingsService.acceptMimes.forEach((mime: any) => {
+      if (!request.accepts(mime)) {
+        throw new NotAcceptable(mime);
+      }
+    });
+  }
 }

@@ -9,16 +9,16 @@ import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
  * @decorator
  */
 export function SocketReturns(eventName: string, type: SocketReturnsTypes) {
-    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-        Store.from(target).merge("socketIO", {
-            handlers: {
-                [propertyKey]: {
-                    returns: {
-                        eventName,
-                        type
-                    }
-                }
-            }
-        });
-    };
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    Store.from(target).merge("socketIO", {
+      handlers: {
+        [propertyKey]: {
+          returns: {
+            eventName,
+            type
+          }
+        }
+      }
+    });
+  };
 }

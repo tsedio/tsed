@@ -42,7 +42,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function PropertyType(type: Type<any>) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.type = type;
-    });
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    propertyMetadata.type = type;
+  });
 }

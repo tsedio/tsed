@@ -1,0 +1,10 @@
+{
+  "concurrent": true,
+  "linters": {
+    "*.ts": [
+      "prettier --write",
+      "npm run tslint -- --fix",
+      "git add"
+    ]
+  }
+}

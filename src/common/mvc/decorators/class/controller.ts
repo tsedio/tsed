@@ -29,16 +29,13 @@ import {ControllerRegistry} from "../../registries/ControllerRegistry";
  * @decorator
  */
 export function Controller(path: PathParamsType | IControllerOptions, ...dependencies: Type<any>[]): Function {
-    return (target: any): void => {
+  return (target: any): void => {
+    registerController(target);
 
-        registerController(target);
-
-        if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
-            ControllerRegistry.merge(target, {path: (path as PathParamsType), dependencies});
-        } else {
-            ControllerRegistry.merge(target, path as any);
-        }
-    };
+    if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
+      ControllerRegistry.merge(target, {path: path as PathParamsType, dependencies});
+    } else {
+      ControllerRegistry.merge(target, path as any);
+    }
+  };
 }
-
-

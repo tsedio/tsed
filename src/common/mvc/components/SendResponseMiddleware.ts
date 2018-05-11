@@ -12,20 +12,17 @@ import {IMiddleware} from "../interfaces/index";
  */
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {
+  constructor(private converterService: ConverterService) {}
 
-    constructor(private converterService: ConverterService) {
+  public use(@ResponseData() data: any, @Response() response: Express.Response) {
+    const type = typeof data;
 
+    if (data !== undefined) {
+      if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
+        response.send(String(data));
+      } else {
+        response.json(this.converterService.serialize(data));
+      }
     }
-
-    public use(@ResponseData() data: any, @Response() response: Express.Response) {
-        const type = typeof data;
-
-        if (data !== undefined) {
-            if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
-                response.send(String(data));
-            } else {
-                response.json(this.converterService.serialize(data));
-            }
-        }
-    }
+  }
 }

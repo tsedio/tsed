@@ -62,5 +62,5 @@ import {Format} from "./format";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Email() {
-    return Format("email");
+  return Format("email");
 }

@@ -48,18 +48,15 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function Redirect(status: string | number, location?: string): Function {
-
-    return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
-
-        return UseAfter((request: any, response: any, next: any) => {
-            /* istanbul ignore else */
-            if (typeof status === "string") {
-                response.redirect(status);
-            } else {
-                response.redirect(status, location);
-            }
-            next();
-
-        })(target, targetKey, descriptor);
-    };
+  return <T>(target: Function, targetKey: string, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> => {
+    return UseAfter((request: any, response: any, next: any) => {
+      /* istanbul ignore else */
+      if (typeof status === "string") {
+        response.redirect(status);
+      } else {
+        response.redirect(status, location);
+      }
+      next();
+    })(target, targetKey, descriptor);
+  };
 }

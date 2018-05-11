@@ -1,4 +1,3 @@
-
 export * from "./AfterRoutesInit";
 export * from "./BeforeRoutesInit";
 export * from "./IComponentScanned";

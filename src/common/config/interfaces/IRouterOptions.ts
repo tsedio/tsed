@@ -4,7 +4,7 @@
 /** */
 
 export interface IRouterOptions {
-    caseSensitive?: boolean;
-    mergeParams?: boolean;
-    strict?: boolean;
+  caseSensitive?: boolean;
+  mergeParams?: boolean;
+  strict?: boolean;
 }

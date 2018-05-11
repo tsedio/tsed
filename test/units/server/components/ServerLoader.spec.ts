@@ -9,399 +9,359 @@ import {Metadata} from "../../../../src/core/class/Metadata";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {
+  before(() => {
+    class TestServer extends ServerLoader {
+      $onInit() {}
+
+      $onReady() {}
+
+      $onMountingMiddlewares() {}
+
+      $afterRoutesInit() {}
+    }
+
+    Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
+
+    this.server = new TestServer();
+    this.server.settings.httpPort = 8080;
+    this.server.settings.httpsPort = 8000;
+    this.useStub = Sinon.stub(this.server._expressApp, "use");
+    this.setStub = Sinon.stub(this.server._expressApp, "set");
+    this.engineStub = Sinon.stub(this.server._expressApp, "engine");
+  });
+
+  after(() => {
+    this.useStub.restore();
+    this.setStub.restore();
+    this.engineStub.restore();
+  });
+
+  describe("startServer()", () => {
     before(() => {
-        class TestServer extends ServerLoader {
-            $onInit() {
+      this.createServerStub = {
+        on: Sinon.stub(),
+        listen: Sinon.stub(),
+        address: Sinon.stub().returns({port: 8080})
+      };
 
-            }
+      this.createServerStub.on.returns(this.createServerStub);
+      this.promise = this.server.startServer(this.createServerStub, {address: "0.0.0.0", port: 8080});
+      this.createServerStub.on.getCall(0).args[1]();
 
-            $onReady() {
+      return this.promise;
+    });
 
-            }
+    it("should have been called server.listen with the correct params", () => {
+      this.createServerStub.listen.should.have.been.calledWithExactly(8080, "0.0.0.0");
+    });
 
-            $onMountingMiddlewares() {
+    it("should have been called server.on with the correct params", () => {
+      this.createServerStub.on.should.have.been.calledWithExactly("listening", Sinon.match.func);
+      this.createServerStub.on.should.have.been.calledWithExactly("error", Sinon.match.func);
+    });
+  });
 
-            }
+  describe("createHttpsServer", () => {
+    before(() => {
+      this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
+      this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
+      this.server.createHttpsServer({options: "options"});
+      this.factoryStub.getCall(0).args[1].instance.get();
+    });
+    after(() => {
+      this.createServerStub.restore();
+      this.factoryStub.restore();
+      this.server.settings.httpPort = 8080;
+      this.server.settings.httpsPort = 8000;
+    });
 
-            $afterRoutesInit() {
+    it("should call createServer method", () => {
+      this.createServerStub.should.have.been.calledWithExactly({options: "options"}, this.server._expressApp);
+    });
 
-            }
-        }
+    it("should call createServer method", () => {
+      this.factoryStub.should.have.been.calledWithExactly(HttpsServer, {
+        provide: HttpsServer,
+        instance: {server: "server", get: Sinon.match.func},
+        type: "factory"
+      });
+    });
 
-        Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
+    it("should have a getMethod", () => {
+      expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
+    });
+  });
 
-        this.server = new TestServer();
-        this.server.settings.httpPort = 8080;
-        this.server.settings.httpsPort = 8000;
-        this.useStub = Sinon.stub(this.server._expressApp, "use");
-        this.setStub = Sinon.stub(this.server._expressApp, "set");
-        this.engineStub = Sinon.stub(this.server._expressApp, "engine");
+  describe("createHttpServer", () => {
+    before(() => {
+      this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
+      this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
+      this.server.createHttpServer({options: "options"});
+    });
+    after(() => {
+      this.createServerStub.restore();
+      this.factoryStub.restore();
+      this.server.settings.httpPort = 8080;
+      this.server.settings.httpsPort = 8000;
+    });
+
+    it("should call createServer method", () => {
+      this.createServerStub.should.have.been.calledWithExactly(this.server._expressApp);
+    });
+
+    it("should call createServer method", () => {
+      this.factoryStub.should.have.been.calledWithExactly(HttpServer, {
+        provide: HttpServer,
+        instance: {server: "server", get: Sinon.match.func},
+        type: "factory"
+      });
+    });
+
+    it("should have a getMethod", () => {
+      expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
+    });
+  });
+
+  describe("loadMiddlewares()", () => {
+    before(() => {
+      this.useStub.reset();
+      this.$onMountingMiddlewares = Sinon.stub(this.server, "$onMountingMiddlewares").returns(Promise.resolve());
+      this.$afterRoutesInit = Sinon.stub(this.server, "$afterRoutesInit").returns(Promise.resolve());
+
+      this.server.loadSettingsAndInjector();
+
+      this.emitSpy = Sinon.spy(this.server.injectorService, "emit");
+
+      return this.server.loadMiddlewares();
     });
 
     after(() => {
-        this.useStub.restore();
-        this.setStub.restore();
-        this.engineStub.restore();
+      this.useStub.reset();
+      this.$onMountingMiddlewares.restore();
+      this.$afterRoutesInit.restore();
+      this.emitSpy.restore();
     });
 
-    describe("startServer()", () => {
-        before(() => {
+    it("should have been called $onMountingMiddlewares hook", () => this.$onMountingMiddlewares.should.have.been.calledOnce);
 
-            this.createServerStub = {
-                on: Sinon.stub(),
-                listen: Sinon.stub(),
-                address: Sinon.stub().returns({port: 8080})
-            };
+    it("should have been emit $onRoutesInit event", () =>
+      this.emitSpy.should.have.been.calledWithExactly("$onRoutesInit", Sinon.match.array));
+    it("should have been emit $onRoutesInit event", () => this.emitSpy.should.have.been.calledWithExactly("$afterRoutesInit"));
 
-            this.createServerStub.on.returns(this.createServerStub);
-            this.promise = this.server.startServer(this.createServerStub, {address: "0.0.0.0", port: 8080});
-            this.createServerStub.on.getCall(0).args[1]();
+    it("should have been called $afterRoutesInit hook", () => this.$afterRoutesInit.should.have.been.calledOnce);
+  });
 
-            return this.promise;
-        });
-
-        it("should have been called server.listen with the correct params", () => {
-            this.createServerStub.listen.should.have.been.calledWithExactly(8080, "0.0.0.0");
-        });
-
-        it("should have been called server.on with the correct params", () => {
-            this.createServerStub.on.should.have.been.calledWithExactly("listening", Sinon.match.func);
-            this.createServerStub.on.should.have.been.calledWithExactly("error", Sinon.match.func);
-        });
+  describe("scan()", () => {
+    before(() => {
+      this.server.scan(require("path").join(__dirname, "/data/*.js"), "/context");
     });
 
-    describe("createHttpsServer", () => {
-        before(() => {
-            this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
-            this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
-            this.server.createHttpsServer({options: "options"});
-            this.factoryStub.getCall(0).args[1].instance.get();
-        });
-        after(() => {
-            this.createServerStub.restore();
-            this.factoryStub.restore();
-            this.server.settings.httpPort = 8080;
-            this.server.settings.httpsPort = 8000;
-        });
-
-        it("should call createServer method", () => {
-            this.createServerStub.should.have.been.calledWithExactly({options: "options"}, this.server._expressApp);
-        });
-
-        it("should call createServer method", () => {
-            this.factoryStub.should.have.been.calledWithExactly(HttpsServer, {
-                provide: HttpsServer,
-                instance: {server: "server", get: Sinon.match.func},
-                type: "factory"
-            });
-        });
-
-        it("should have a getMethod", () => {
-            expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
-        });
+    it("should require components", () => {
+      expect(this.server._components)
+        .to.be.an("array")
+        .and.length(1);
     });
 
-    describe("createHttpServer", () => {
-        before(() => {
-            this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
-            this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
-            this.server.createHttpServer({options: "options"});
-        });
-        after(() => {
-            this.createServerStub.restore();
-            this.factoryStub.restore();
-            this.server.settings.httpPort = 8080;
-            this.server.settings.httpsPort = 8000;
-        });
-
-        it("should call createServer method", () => {
-            this.createServerStub.should.have.been.calledWithExactly(this.server._expressApp);
-        });
-
-        it("should call createServer method", () => {
-            this.factoryStub.should.have.been.calledWithExactly(HttpServer, {
-                provide: HttpServer,
-                instance: {server: "server", get: Sinon.match.func},
-                type: "factory"
-            });
-        });
-
-        it("should have a getMethod", () => {
-            expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
-        });
+    it("should have classes attributs", () => {
+      expect(this.server._components[0].classes[0]).to.be.a("function");
     });
 
-    describe("loadMiddlewares()", () => {
+    it("should have endpoint attributs", () => {
+      expect(this.server._components[0].endpoint).to.eq("/context");
+    });
+  });
 
-        before(() => {
-            this.useStub.reset();
-            this.$onMountingMiddlewares = Sinon.stub(this.server, "$onMountingMiddlewares").returns(Promise.resolve());
-            this.$afterRoutesInit = Sinon.stub(this.server, "$afterRoutesInit").returns(Promise.resolve());
+  describe("mount()", () => {
+    describe("when we give a single path", () => {
+      before(() => {
+        this.scanStub = Sinon.stub(this.server, "scan");
 
-            this.server.loadSettingsAndInjector();
+        this.server.mount("endpoint", "path/to/*.js");
+      });
 
-            this.emitSpy = Sinon.spy(this.server.injectorService, "emit");
+      after(() => {
+        this.scanStub.restore();
+      });
 
-            return this.server.loadMiddlewares();
-        });
+      it("should have been called the scan method", () => {
+        this.scanStub.should.be.calledOnce.and.calledWithExactly(["path/to/*.js"], "endpoint");
+      });
+    });
+    describe("when we give an array of path", () => {
+      before(() => {
+        this.scanStub = Sinon.stub(this.server, "scan");
 
-        after(() => {
-            this.useStub.reset();
-            this.$onMountingMiddlewares.restore();
-            this.$afterRoutesInit.restore();
-            this.emitSpy.restore();
-        });
+        this.server.mount("endpoint", ["path/to/*.js", "path2/to/*.js"]);
+      });
 
-        it("should have been called $onMountingMiddlewares hook", () =>
-            this.$onMountingMiddlewares.should.have.been.calledOnce
+      after(() => {
+        this.scanStub.restore();
+      });
+
+      it("should have been called the scan method", () => {
+        this.scanStub.should.be.calledWithExactly(["path/to/*.js", "path2/to/*.js"], "endpoint");
+      });
+    });
+
+    describe("when we give a class", () => {
+      before(() => {
+        this.classTest = class {};
+        this.addComponentsStub = Sinon.stub(this.server, "addComponents");
+
+        this.server.mount("endpoint", [this.classTest]);
+      });
+
+      after(() => {
+        this.addComponentsStub.restore();
+      });
+
+      it("should have been called the addComponents method", () => {
+        this.addComponentsStub.should.be.calledOnce.and.calledWithExactly([this.classTest], {endpoint: "endpoint"});
+      });
+    });
+  });
+
+  describe("start()", () => {
+    describe("when success", () => {
+      before(() => {
+        $logStub.$log.info.reset();
+        this.startServerStub = Sinon.stub(this.server, "startServer").returns(
+          Promise.resolve({
+            address: "0.0.0.0",
+            port: 8080
+          })
         );
+        this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
+        this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
+        this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.resolve());
+        this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
 
-        it("should have been emit $onRoutesInit event", () =>
-            this.emitSpy.should.have.been.calledWithExactly("$onRoutesInit", Sinon.match.array)
-        );
-        it("should have been emit $onRoutesInit event", () =>
-            this.emitSpy.should.have.been.calledWithExactly("$afterRoutesInit")
-        );
+        return this.server.start();
+      });
 
-        it("should have been called $afterRoutesInit hook", () =>
-            this.$afterRoutesInit.should.have.been.calledOnce
-        );
+      after(() => {
+        $logStub.$log.info.reset();
+        this.loadSettingsAndInjectorSpy.restore();
+        this.loadMiddlewaresSpy.restore();
+        this.$onInitStub.restore();
+        this.$onReadyStub.restore();
+        this.startServerStub.restore();
+      });
+
+      it("should have been called onInit hook", () => this.$onInitStub.should.have.been.calledOnce);
+      it("should have been called loadSettingsAndInjector", () => this.loadSettingsAndInjectorSpy.should.have.been.calledOnce);
+
+      it("should have been called loadMiddlewares", () => this.loadMiddlewaresSpy.should.have.been.calledOnce);
+
+      it("should have been called $onReady hook", () => this.$onReadyStub.should.have.been.calledOnce);
+
+      it("should have been called startServer() with the right parameters", () => {
+        this.startServerStub.should.have.been.calledTwice;
+        this.startServerStub.should.have.been.calledWithExactly(this.server._httpServer, {
+          address: "0.0.0.0",
+          https: false,
+          port: 8080
+        });
+
+        this.startServerStub.should.have.been.calledWithExactly(this.server._httpsServer, {
+          address: "0.0.0.0",
+          https: true,
+          port: 8000
+        });
+      });
     });
+    describe("when error", () => {
+      before(() => {
+        this.error = new Error("onInit");
+        this.startServerStub = Sinon.stub(this.server, "startServer").returns(Promise.resolve());
+        this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
+        this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
+        this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.reject(this.error));
+        this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
 
-    describe("scan()", () => {
-        before(() => {
-            this.server.scan(require("path").join(__dirname, "/data/*.js"), "/context");
-        });
+        $logStub.$log.error.reset();
 
-        it("should require components", () => {
-            expect(this.server._components)
-                .to.be.an("array")
-                .and.length(1);
-        });
+        return this.server.start().catch((err: any) => {});
+      });
 
-        it("should have classes attributs", () => {
-            expect(this.server._components[0].classes[0]).to.be.a("function");
-        });
+      after(() => {
+        this.loadSettingsAndInjectorSpy.restore();
+        this.loadMiddlewaresSpy.restore();
+        this.$onInitStub.restore();
+        this.$onReadyStub.restore();
+        this.startServerStub.restore();
+        $logStub.$log.error.reset();
+      });
 
-        it("should have endpoint attributs", () => {
-            expect(this.server._components[0].endpoint).to.eq("/context");
-        });
-    });
+      it("should have been called onInit hook", () => this.$onInitStub.should.have.been.calledOnce);
+      it("should have been called loadSettingsAndInjector", () => this.loadSettingsAndInjectorSpy.should.not.have.been.called);
 
-    describe("mount()", () => {
-        describe("when we give a single path", () => {
-            before(() => {
-                this.scanStub = Sinon.stub(this.server, "scan");
+      it("should have been called loadMiddlewares", () => this.loadMiddlewaresSpy.should.not.have.been.called);
 
-                this.server.mount("endpoint", "path/to/*.js");
-            });
+      it("should have been called $onReady hook", () => this.$onReadyStub.should.not.have.been.called);
 
-            after(() => {
-                this.scanStub.restore();
-            });
-
-            it("should have been called the scan method", () => {
-                this.scanStub.should.be.calledOnce.and.calledWithExactly(["path/to/*.js"], "endpoint");
-            });
-
-        });
-        describe("when we give an array of path", () => {
-            before(() => {
-                this.scanStub = Sinon.stub(this.server, "scan");
-
-                this.server.mount("endpoint", ["path/to/*.js", "path2/to/*.js"]);
-            });
-
-            after(() => {
-                this.scanStub.restore();
-            });
-
-            it("should have been called the scan method", () => {
-                this.scanStub.should.be.calledWithExactly(["path/to/*.js", "path2/to/*.js"], "endpoint");
-            });
-        });
-
-        describe("when we give a class", () => {
-            before(() => {
-                this.classTest = class {
-                };
-                this.addComponentsStub = Sinon.stub(this.server, "addComponents");
-
-                this.server.mount("endpoint", [this.classTest]);
-            });
-
-            after(() => {
-                this.addComponentsStub.restore();
-            });
-
-            it("should have been called the addComponents method", () => {
-                this.addComponentsStub.should.be
-                    .calledOnce
-                    .and
-                    .calledWithExactly([this.classTest], {endpoint: "endpoint"});
-            });
-        });
-    });
-
-    describe("start()", () => {
-
-        describe("when success", () => {
-            before(() => {
-                $logStub.$log.info.reset();
-                this.startServerStub = Sinon.stub(this.server, "startServer").returns(Promise.resolve({
-                    address: "0.0.0.0",
-                    port: 8080
-                }));
-                this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
-                this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
-                this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.resolve());
-                this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
-
-                return this.server.start();
-            });
-
-            after(() => {
-                $logStub.$log.info.reset();
-                this.loadSettingsAndInjectorSpy.restore();
-                this.loadMiddlewaresSpy.restore();
-                this.$onInitStub.restore();
-                this.$onReadyStub.restore();
-                this.startServerStub.restore();
-            });
-
-            it("should have been called onInit hook", () =>
-                this.$onInitStub.should.have.been.calledOnce
-            );
-            it("should have been called loadSettingsAndInjector", () =>
-                this.loadSettingsAndInjectorSpy.should.have.been.calledOnce
-            );
-
-            it("should have been called loadMiddlewares", () =>
-                this.loadMiddlewaresSpy.should.have.been.calledOnce
-            );
-
-            it("should have been called $onReady hook", () =>
-                this.$onReadyStub.should.have.been.calledOnce
-            );
-
-            it("should have been called startServer() with the right parameters", () => {
-                this.startServerStub.should.have.been.calledTwice;
-                this.startServerStub.should.have.been.calledWithExactly(this.server._httpServer, {
-                    address: "0.0.0.0",
-                    https: false,
-                    port: 8080
-                });
-
-                this.startServerStub.should.have.been.calledWithExactly(this.server._httpsServer, {
-                    address: "0.0.0.0",
-                    https: true,
-                    port: 8000
-                });
-            });
-        });
-        describe("when error", () => {
-            before(() => {
-                this.error = new Error("onInit");
-                this.startServerStub = Sinon.stub(this.server, "startServer").returns(Promise.resolve());
-                this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
-                this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
-                this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.reject(this.error));
-                this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
-
-                $logStub.$log.error.reset();
-
-                return this.server.start().catch((err: any) => {
-                });
-            });
-
-            after(() => {
-                this.loadSettingsAndInjectorSpy.restore();
-                this.loadMiddlewaresSpy.restore();
-                this.$onInitStub.restore();
-                this.$onReadyStub.restore();
-                this.startServerStub.restore();
-                $logStub.$log.error.reset();
-            });
-
-            it("should have been called onInit hook", () =>
-                this.$onInitStub.should.have.been.calledOnce
-            );
-            it("should have been called loadSettingsAndInjector", () =>
-                this.loadSettingsAndInjectorSpy.should.not.have.been.called
-            );
-
-            it("should have been called loadMiddlewares", () =>
-                this.loadMiddlewaresSpy.should.not.have.been.called
-            );
-
-            it("should have been called $onReady hook", () =>
-                this.$onReadyStub.should.not.have.been.called
-            );
-
-            /*it("should have been called log.error", () => {
+      /*it("should have been called log.error", () => {
                 $logStub.$log.error.should.have.been.calledOnce;
                 $logStub.$log.error.should.have.been.calledWithExactly("HTTP Server error", this.error);
             });*/
-        });
+    });
+  });
 
+  describe("set()", () => {
+    before(() => {
+      this.server.set("view engine", "html");
     });
 
-    describe("set()", () => {
-        before(() => {
-            this.server.set("view engine", "html");
-        });
+    it("should call express.set() with the right parameters", () => {
+      this.setStub.should.have.been.calledWithExactly("view engine", "html");
+    });
+  });
 
-        it("should call express.set() with the right parameters", () => {
-            this.setStub.should.have.been.calledWithExactly("view engine", "html");
-        });
+  describe("engine()", () => {
+    before(() => {
+      this.server.engine("jade", () => {});
     });
 
-    describe("engine()", () => {
-        before(() => {
-            this.server.engine("jade", () => {
-            });
-        });
-
-        it("should call express.engine() with the right parameters", () => {
-            this.engineStub.should.have.been.calledWithExactly("jade", Sinon.match.func);
-        });
+    it("should call express.engine() with the right parameters", () => {
+      this.engineStub.should.have.been.calledWithExactly("jade", Sinon.match.func);
     });
+  });
 
-    describe("cleanGlobPatterns()", () => {
-        before(() => {
-            this.compilerBackup = require.extensions[".ts"];
-        });
-        after(() => {
-            require.extensions[".ts"] = this.compilerBackup;
-        });
-        describe("when haven't typescript compiler", () => {
-            before(() => {
-                this.compiler = require.extensions[".ts"];
-                delete require.extensions[".ts"];
-            });
-            after(() => {
-                require.extensions[".ts"] = this.compiler;
-            });
-            it("should return file.js", () => {
-                expect(ServerLoader.cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.js");
-            });
-
-            it("should return file.ts.js and manipulate only the file extension", () => {
-                expect(ServerLoader.cleanGlobPatterns("file.ts.ts", ["!**.spec.ts"])[0]).to.contains("file.ts.js");
-            });
-        });
-        describe("when have typescript compiler", () => {
-            before(() => {
-                this.compiler = require.extensions[".ts"];
-                require.extensions[".ts"] = () => {};
-            });
-            after(() => {
-                delete require.extensions[".ts"];
-                require.extensions[".ts"] = this.compiler;
-            });
-            it("should return file.ts", () => {
-                expect(ServerLoader.cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
-            });
-        });
+  describe("cleanGlobPatterns()", () => {
+    before(() => {
+      this.compilerBackup = require.extensions[".ts"];
     });
+    after(() => {
+      require.extensions[".ts"] = this.compilerBackup;
+    });
+    describe("when haven't typescript compiler", () => {
+      before(() => {
+        this.compiler = require.extensions[".ts"];
+        delete require.extensions[".ts"];
+      });
+      after(() => {
+        require.extensions[".ts"] = this.compiler;
+      });
+      it("should return file.js", () => {
+        expect(ServerLoader.cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.js");
+      });
+
+      it("should return file.ts.js and manipulate only the file extension", () => {
+        expect(ServerLoader.cleanGlobPatterns("file.ts.ts", ["!**.spec.ts"])[0]).to.contains("file.ts.js");
+      });
+    });
+    describe("when have typescript compiler", () => {
+      before(() => {
+        this.compiler = require.extensions[".ts"];
+        require.extensions[".ts"] = () => {};
+      });
+      after(() => {
+        delete require.extensions[".ts"];
+        require.extensions[".ts"] = this.compiler;
+      });
+      it("should return file.ts", () => {
+        expect(ServerLoader.cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
+      });
+    });
+  });
 });

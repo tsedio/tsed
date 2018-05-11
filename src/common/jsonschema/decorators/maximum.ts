@@ -65,11 +65,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
-    return decoratorSchemaFactory((schema) => {
-        if (exclusive) {
-            schema.mapper.exclusiveMaximum = maximum;
-        } else {
-            schema.mapper.maximum = maximum;
-        }
-    });
+  return decoratorSchemaFactory(schema => {
+    if (exclusive) {
+      schema.mapper.exclusiveMaximum = maximum;
+    } else {
+      schema.mapper.maximum = maximum;
+    }
+  });
 }

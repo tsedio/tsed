@@ -2,5 +2,5 @@ import * as mod from "../../../../src/common/jsonschema/utils/decoratorSchemaFac
 import {Sinon} from "../../../tools";
 
 export function stubSchemaDecorator() {
-    return Sinon.stub(mod, "decoratorSchemaFactory");
+  return Sinon.stub(mod, "decoratorSchemaFactory");
 }

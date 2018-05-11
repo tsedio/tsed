@@ -20,5 +20,5 @@ import {SocketIOServer} from "../services/SocketIOServer";
  * @decorator
  */
 export function IO(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
-    return Inject(SocketIOServer)(target, targetKey, descriptor);
+  return Inject(SocketIOServer)(target, targetKey, descriptor);
 }

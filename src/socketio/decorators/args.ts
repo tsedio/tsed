@@ -28,5 +28,5 @@ import {SocketFilter} from "./socketFilter";
  * @param mapIndex
  */
 export function Args(mapIndex?: number): any {
-    return SocketFilter(SocketFilters.ARGS, mapIndex);
+  return SocketFilter(SocketFilters.ARGS, mapIndex);
 }

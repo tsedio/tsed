@@ -9,7 +9,7 @@ import {Operation} from "swagger-schema-official";
  * @swagger
  */
 export function Operation(operation: Operation | any) {
-    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-        store.merge("operation", operation);
-    });
+  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+    store.merge("operation", operation);
+  });
 }

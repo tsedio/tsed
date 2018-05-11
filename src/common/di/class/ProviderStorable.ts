@@ -3,6 +3,4 @@ import {Provider} from "./Provider";
 /**
  * @deprecated
  */
-export class ProviderStorable<T> extends Provider<T> {
-
-}
+export class ProviderStorable<T> extends Provider<T> {}

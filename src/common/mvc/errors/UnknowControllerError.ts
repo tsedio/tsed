@@ -5,18 +5,17 @@ import {InternalServerError} from "ts-httpexceptions";
  * @private
  */
 export class UnknowControllerError extends InternalServerError {
+  name: "UNKNOW_CONTROLLER_ERROR";
 
-    name: "UNKNOW_CONTROLLER_ERROR";
+  constructor(target: Type<any> | string) {
+    super(UnknowControllerError.buildMessage(target));
+  }
 
-    constructor(target: Type<any> | string) {
-        super(UnknowControllerError.buildMessage(target));
-    }
-
-    /**
-     *
-     * @returns {string}
-     */
-    static buildMessage(target: Type<any> | string) {
-        return `Controller ${nameOf(target)} not found.`;
-    }
+  /**
+   *
+   * @returns {string}
+   */
+  static buildMessage(target: Type<any> | string) {
+    return `Controller ${nameOf(target)} not found.`;
+  }
 }

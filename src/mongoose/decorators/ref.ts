@@ -33,13 +33,13 @@ export type Ref<T> = T | string;
  * @mongoose
  */
 export function Ref(type: string | any) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        if (typeof type !== "string") {
-            propertyMetadata.type = type;
-        }
-        propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
-            type: Schema.Types.ObjectId,
-            ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME)
-        });
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    if (typeof type !== "string") {
+      propertyMetadata.type = type;
+    }
+    propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
+      type: Schema.Types.ObjectId,
+      ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME)
     });
+  });
 }

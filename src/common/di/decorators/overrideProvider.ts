@@ -8,7 +8,7 @@ import {ProviderRegistry} from "../registries/ProviderRegistry";
  * @param originalProvider
  */
 export function OverrideProvider(originalProvider: Type<any>): Function {
-    return (target: Type<any>): void => {
-        ProviderRegistry.get(originalProvider)!.useClass = target;
-    };
+  return (target: Type<any>): void => {
+    ProviderRegistry.get(originalProvider)!.useClass = target;
+  };
 }
