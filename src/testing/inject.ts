@@ -35,8 +35,10 @@ export function inject(targets: any[], func: Function) {
       return InjectorService.get(target);
     });
 
-    func.apply(null, args);
+    const result = func.apply(null, args);
 
     if (!isDoneInjected) done();
+
+    return result;
   };
 }

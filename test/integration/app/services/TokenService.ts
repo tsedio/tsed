@@ -4,10 +4,6 @@ import {Service} from "@tsed/common";
 export class TokenService {
   private _token: string = "EMPTY";
 
-  constructor() {
-    console.log("create TokenService");
-  }
-
   token(token?: string) {
     if (token) {
       this._token = token;

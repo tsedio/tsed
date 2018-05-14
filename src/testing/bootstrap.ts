@@ -1,5 +1,6 @@
-import {ServerLoader} from "@tsed/common";
 import {$log} from "ts-log-debug";
+
+export const servers: Map<any, any> = new Map();
 
 /**
  * Load the server silently without listening port and configure it on test profile.
@@ -13,16 +14,34 @@ export function bootstrap(server: any, ...args: any[]) {
   process.env.NODE_ENV = process.env.NODE_ENV || "test";
 
   return (done: Function) => {
-    if (server.$$instance === undefined) {
-      const instance: ServerLoader = new server(...args);
+    if (!servers.has(server)) {
+      const instance: any = new server(...args);
+      instance.startServers = () => Promise.resolve();
 
-      server.$$instance = instance;
+      const promise = instance.start();
+      servers.set(server, {instance, promise, isDone: false});
 
-      (instance as any).startServers = () => Promise.resolve();
+      promise
+        .then(() => {
+          servers.get(server).isDone = true;
+          done();
+        });
+      /*.catch((er: any) => {
+        servers.get(server).isDone = true;
+        console.error(er);
+        done(er);
 
-      instance.start().then(() => done());
+        return Promise.reject(er);
+      });*/
     } else {
-      done();
+      const conf = servers.get(server);
+
+      /* istanbul ignore else */
+      if (conf.isDone) {
+        done();
+      } else {
+        conf.promise = conf.promise.then(done);
+      }
     }
   };
 }
