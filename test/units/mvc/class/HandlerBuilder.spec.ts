@@ -13,9 +13,11 @@ import {FakeResponse} from "../../../helper/FakeResponse";
 import {$logStub, assert, expect, restore, Sinon} from "../../../tools";
 
 class Test {
-  get() {}
+  get() {
+  }
 
-  use() {}
+  use() {
+  }
 }
 
 describe("HandlerBuilder", () => {
@@ -41,7 +43,8 @@ describe("HandlerBuilder", () => {
     });
     describe("from function", () => {
       before(() => {
-        this.builder = HandlerBuilder.from(() => {});
+        this.builder = HandlerBuilder.from(() => {
+        });
       });
 
       it("should create builder", () => {
@@ -163,10 +166,10 @@ describe("HandlerBuilder", () => {
         expect(this.nextStub.isCalled).to.eq(true);
       });
       it("should have called the info method", () => {
-        return this.infoStub.should.not.have.been.called;
+        this.infoStub.should.not.have.been.called;
       });
       it("should have called the log.debug with the correct parameters", () => {
-        return $logStub.debug.should.not.have.been.called;
+        $logStub.debug.should.not.have.been.called;
       });
     });
   });
@@ -174,7 +177,8 @@ describe("HandlerBuilder", () => {
     before(() => {
       globalServerSettings.debug = true;
       this.metadata = {
-        target: class Test {},
+        target: class Test {
+        },
         type: "type",
         nextFunction: false,
         injectable: false,
@@ -468,7 +472,8 @@ describe("HandlerBuilder", () => {
     describe("when component is known", () => {
       before(() => {
         this.instance = {
-          method: () => {}
+          method: () => {
+          }
         };
         this.invokeStub = Sinon.stub(InjectorService, "invoke");
         this.invokeStub.returns(this.instance);
@@ -505,7 +510,8 @@ describe("HandlerBuilder", () => {
     describe("when component is known and instance is already built", () => {
       before(() => {
         this.instance = {
-          method: () => {}
+          method: () => {
+          }
         };
         this.invokeStub = Sinon.stub(InjectorService, "invoke");
 

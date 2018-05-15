@@ -4,6 +4,7 @@ import "@tsed/socketio";
 import "@tsed/swagger";
 import * as Path from "path";
 import {$log} from "ts-log-debug";
+import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
@@ -17,6 +18,7 @@ const rootDir = Path.resolve(__dirname);
   httpsPort: 8071,
   debug: false,
   mount: {
+    "/": [SocketPageCtrl],
     "/rest": ["${rootDir}/controllers/Base/**.js", "${rootDir}/controllers/calendars/**.ts", RestCtrl],
     "/rest/v1": "${rootDir}/controllers/**/**.ts"
   },

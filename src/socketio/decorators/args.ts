@@ -1,5 +1,5 @@
+import {isCollection, Metadata, Store} from "@tsed/core";
 import {SocketFilters} from "../interfaces/SocketFilters";
-import {SocketFilter} from "./socketFilter";
 
 /**
  * Inject the list of arguments in the decorated parameter.
@@ -26,7 +26,34 @@ import {SocketFilter} from "./socketFilter";
  *
  * @decorator
  * @param mapIndex
+ * @param useType
  */
-export function Args(mapIndex?: number): any {
-  return SocketFilter(SocketFilters.ARGS, mapIndex);
+export function Args(mapIndex?: number, useType?: any): any {
+  return (target: any, propertyKey: string, index: number) => {
+    const store = Store.from(target);
+    const type = Metadata.getParamTypes(target, propertyKey)[index];
+    const param = {
+      filter: SocketFilters.ARGS,
+      useConverter: false
+    };
+
+    if (mapIndex !== undefined) {
+      Object.assign(param, {
+        mapIndex,
+        useConverter: true,
+        type: useType || type,
+        collectionType: isCollection(type) ? type : undefined
+      });
+    }
+
+    return store.merge("socketIO", {
+      handlers: {
+        [propertyKey]: {
+          parameters: {
+            [index]: param
+          }
+        }
+      }
+    });
+  };
 }

@@ -1,8 +1,8 @@
 import {AjvService} from "../../../src/ajv/services/AjvService";
-import {nameOf} from "../../../src/core/utils";
 import {Format, JsonSchemesService} from "../../../src/common/jsonschema";
 import {Required} from "../../../src/common/mvc/decorators";
 import {ParseExpressionError} from "../../../src/common/mvc/errors/ParseExpressionError";
+import {nameOf} from "../../../src/core/utils";
 import {inject} from "../../../src/testing";
 import {expect} from "../../tools";
 

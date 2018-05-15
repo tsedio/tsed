@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {inject} from "../../../../src/testing/inject";
 import {ConverterService} from "../../../../src";
+import {inject} from "../../../../src/testing/inject";
 
 describe("DateConverter", () => {
   before(
@@ -10,12 +10,9 @@ describe("DateConverter", () => {
     })
   );
 
-  after(() => {
-    delete this.dateConverter;
-    delete this.date;
+  it("should do something", () => {
+    expect(!!this.dateConverter).to.be.true;
   });
-
-  it("should do something", () => expect(!!this.dateConverter).to.be.true);
 
   describe("deserialize()", () => {
     it("should deserialize date as string to a Date", () => {
@@ -33,11 +30,10 @@ describe("DateConverter", () => {
       this.dateTest = this.dateConverter.serialize(this.date);
     });
 
-    after(() => delete this.dateTest);
-
-    it("should serialize data to a string", () =>
+    it("should serialize data to a string", () => {
       expect(this.dateTest)
         .to.be.a("string")
-        .and.to.equals(this.date.toISOString()));
+        .and.to.equals(this.date.toISOString());
+    });
   });
 });

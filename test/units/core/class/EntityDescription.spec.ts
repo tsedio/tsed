@@ -2,10 +2,12 @@ import {EntityDescription} from "../../../../src/core/class/EntityDescription";
 import {expect} from "../../../tools";
 
 class Test {
-  method(arg1: any, arg2: any) {}
+  method(arg1: any, arg2: any) {
+  }
 }
 
-class EntityTest extends EntityDescription {}
+class EntityTest extends EntityDescription {
+}
 
 describe("EntityDescription", () => {
   describe("getter / setter", () => {
@@ -16,20 +18,27 @@ describe("EntityDescription", () => {
       this.entityDescription.allowedRequiredValues = [null, ""];
     });
 
-    after(() => delete this.entityDescription);
-
-    it("should return the required value", () =>
+    it("should return the required value", () => {
       expect(this.entityDescription.required)
         .to.be.a("boolean")
-        .and.to.eq(true));
+        .and.to.eq(true);
+    });
 
-    it("should return collectionType", () => expect(this.entityDescription.collectionType).to.eq(undefined));
+    it("should return collectionType", () => {
+      expect(this.entityDescription.collectionType).to.eq(undefined);
+    });
 
-    it("should return type", () => expect(this.entityDescription.type).to.eq(Test));
+    it("should return type", () => {
+      expect(this.entityDescription.type).to.eq(Test);
+    });
 
-    it("should return collectionName", () => expect(this.entityDescription.collectionName).to.eq(""));
+    it("should return collectionName", () => {
+      expect(this.entityDescription.collectionName).to.eq("");
+    });
 
-    it("should return typeName", () => expect(this.entityDescription.typeName).to.eq("Test"));
+    it("should return typeName", () => {
+      expect(this.entityDescription.typeName).to.eq("Test");
+    });
 
     it("should return isCollection", () => {
       expect(this.entityDescription.isCollection).to.eq(false);

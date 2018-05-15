@@ -1,13 +1,16 @@
-import {Metadata} from "../../../../src/core/class/Metadata";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {EndpointRegistry} from "../../../../src/common/mvc/registries/EndpointRegistry";
+import {Metadata} from "../../../../src/core/class/Metadata";
 import {expect, Sinon} from "../../../tools";
 
-class Test {}
+class Test {
+}
 
-class Test2 {}
+class Test2 {
+}
 
-class Test3 extends Test2 {}
+class Test3 extends Test2 {
+}
 
 describe("EndpointMetadata", () => {
   describe("Basic class", () => {
@@ -16,11 +19,16 @@ describe("EndpointMetadata", () => {
 
       this.endpointMetadata.path = "/";
       this.endpointMetadata.httpMethod = "get";
-      this.endpointMetadata.beforeMiddlewares = [() => {}];
-      this.endpointMetadata.middlewares = [() => {}];
-      this.endpointMetadata.afterMiddlewares = [() => {}];
-      this.endpointMetadata.before([() => {}]);
-      this.endpointMetadata.after([() => {}]);
+      this.endpointMetadata.beforeMiddlewares = [() => {
+      }];
+      this.endpointMetadata.middlewares = [() => {
+      }];
+      this.endpointMetadata.afterMiddlewares = [() => {
+      }];
+      this.endpointMetadata.before([() => {
+      }]);
+      this.endpointMetadata.after([() => {
+      }]);
 
       EndpointRegistry.store(Test, "method").set("test", "value");
 
@@ -30,11 +38,17 @@ describe("EndpointMetadata", () => {
       this.endpointMetadata.store.forEach((v: any, k: any) => (this.store[k] = v));
     });
 
-    it("should get path", () => expect(this.endpointMetadata.path).to.equal("/"));
+    it("should get path", () => {
+      expect(this.endpointMetadata.path).to.equal("/");
+    });
 
-    it("should get httpMethod", () => expect(this.endpointMetadata.httpMethod).to.equal("get"));
+    it("should get httpMethod", () => {
+      expect(this.endpointMetadata.httpMethod).to.equal("get");
+    });
 
-    it("should get path", () => expect(this.endpointMetadata.path).to.equal("/"));
+    it("should get path", () => {
+      expect(this.endpointMetadata.path).to.equal("/");
+    });
 
     it("should get beforeMiddlewares", () => {
       expect(this.endpointMetadata.beforeMiddlewares)
@@ -58,9 +72,13 @@ describe("EndpointMetadata", () => {
       expect(this.endpointMetadata.hasHttpMethod()).to.be.true;
     });
 
-    it("should get target", () => expect(this.endpointMetadata.target).to.equal(Test));
+    it("should get target", () => {
+      expect(this.endpointMetadata.target).to.equal(Test);
+    });
 
-    it("should get methodClassName", () => expect(this.endpointMetadata.methodClassName).to.equal("method"));
+    it("should get methodClassName", () => {
+      expect(this.endpointMetadata.methodClassName).to.equal("method");
+    });
     it("should return the store", () => {
       expect(this.store).to.deep.equal({test: "value"});
     });
@@ -71,11 +89,16 @@ describe("EndpointMetadata", () => {
       this.endpointMetadata = new EndpointMetadata(Test2, "methodInherited");
       this.endpointMetadata.path = "/";
       this.endpointMetadata.httpMethod = "get";
-      this.endpointMetadata.beforeMiddlewares = [() => {}];
-      this.endpointMetadata.middlewares = [() => {}];
-      this.endpointMetadata.afterMiddlewares = [() => {}];
-      this.endpointMetadata.before([() => {}]);
-      this.endpointMetadata.after([() => {}]);
+      this.endpointMetadata.beforeMiddlewares = [() => {
+      }];
+      this.endpointMetadata.middlewares = [() => {
+      }];
+      this.endpointMetadata.afterMiddlewares = [() => {
+      }];
+      this.endpointMetadata.before([() => {
+      }]);
+      this.endpointMetadata.after([() => {
+      }]);
 
       EndpointRegistry.store(Test2, "methodInherited").set("test2", "value2");
 
@@ -87,11 +110,17 @@ describe("EndpointMetadata", () => {
       this.endpointMetadataInherited.store.forEach((v: any, k: any) => (this.store[k] = v));
     });
 
-    it("should get path", () => expect(this.endpointMetadataInherited.path).to.equal("/"));
+    it("should get path", () => {
+      expect(this.endpointMetadataInherited.path).to.equal("/");
+    });
 
-    it("should get httpMethod", () => expect(this.endpointMetadataInherited.httpMethod).to.equal("get"));
+    it("should get httpMethod", () => {
+      expect(this.endpointMetadataInherited.httpMethod).to.equal("get");
+    });
 
-    it("should get path", () => expect(this.endpointMetadataInherited.path).to.equal("/"));
+    it("should get path", () => {
+      expect(this.endpointMetadataInherited.path).to.equal("/");
+    });
 
     it("should get beforeMiddlewares", () => {
       expect(this.endpointMetadataInherited.beforeMiddlewares)
@@ -115,11 +144,17 @@ describe("EndpointMetadata", () => {
       expect(this.endpointMetadataInherited.hasHttpMethod()).to.be.true;
     });
 
-    it("should get target", () => expect(this.endpointMetadataInherited.target).to.equal(Test3));
+    it("should get target", () => {
+      expect(this.endpointMetadataInherited.target).to.equal(Test3);
+    });
 
-    it("should have a inherited metadata", () => expect(this.endpointMetadataInherited.inheritedEndpoint.target).to.equal(Test2));
+    it("should have a inherited metadata", () => {
+      expect(this.endpointMetadataInherited.inheritedEndpoint.target).to.equal(Test2);
+    });
 
-    it("should get methodClassName", () => expect(this.endpointMetadata.methodClassName).to.equal("methodInherited"));
+    it("should get methodClassName", () => {
+      expect(this.endpointMetadata.methodClassName).to.equal("methodInherited");
+    });
 
     it("should return the store", () => {
       expect(this.store).to.deep.equal({test2: "value2"});

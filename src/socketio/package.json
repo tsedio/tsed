@@ -9,8 +9,8 @@
   },
   "peerDependencies": {
     "@tsed/common": "0.0.0-PLACEHOLDER",
-    "@types/socket.io": "^1.4.31",
-    "socket.io": "^2.0.4"
+    "@types/socket.io": "^1.4.33",
+    "socket.io": "^2.1.0"
   },
   "devDependencies": {},
   "private": false,

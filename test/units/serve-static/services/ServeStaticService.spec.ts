@@ -91,9 +91,13 @@ describe("ServeStaticService", () => {
         serveStatic.should.be.calledWithExactly("/views");
       });
 
-      it("should not call the middleware", () => middlewareServeStatic.should.not.be.called);
+      it("should not call the middleware", () => {
+        middlewareServeStatic.should.not.be.called;
+      });
 
-      it("should call the next function", () => this.nextSpy.should.be.calledWithExactly());
+      it("should call the next function", () => {
+        this.nextSpy.should.be.calledWithExactly();
+      });
     });
   });
 });

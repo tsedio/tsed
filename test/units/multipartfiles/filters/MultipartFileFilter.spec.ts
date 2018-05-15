@@ -14,7 +14,6 @@ describe("MultipartFileFilter", () => {
     before(() => {
       this.result = this.filter.transform("", {files: [{}]});
     });
-    after(() => delete this.result);
 
     it("should transform expression", () => {
       expect(this.result).to.be.an("object");
@@ -33,7 +32,6 @@ describe("MultipartFilesFilter", () => {
     before(() => {
       this.result = this.filter.transform("", {files: [{}]});
     });
-    after(() => delete this.result);
 
     it("should transform expression", () => {
       expect(this.result).to.be.an("array");

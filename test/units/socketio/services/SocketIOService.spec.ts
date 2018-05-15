@@ -121,7 +121,7 @@ describe("SocketIOService", () => {
         on: Sinon.stub()
       };
 
-      const service = new SocketIOService({} as any, {} as any, this.ioStub, {} as any);
+      const service = new SocketIOService({} as any, {} as any, this.ioStub, {} as any, {} as any);
       const nspConf = service.getNsp("/");
       nspConf.instances.push(this.instance);
 

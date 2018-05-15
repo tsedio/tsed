@@ -138,8 +138,8 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
    *
    * class MyService {
    *      constructor(injectorService: InjectorService) {
-   *          injectorService.invokeMethod(this.method, {
-   *              this,
+   *          injectorService.invokeMethod(this.method.bind(this), {
+   *              target: this,
    *              methodName: 'method'
    *          });
    *      }

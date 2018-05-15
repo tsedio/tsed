@@ -1,4 +1,4 @@
-import {MiddlewareType, Provider, ProviderRegistry, ProviderType} from "@tsed/common";
+import {ConverterService, MiddlewareType, Provider, ProviderRegistry, ProviderType} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
@@ -16,7 +16,10 @@ import {getNspSession} from "../registries/NspSessionRegistry";
 export class SocketHandlersBuilder {
   private socketProviderMetadata: ISocketProviderMetadata;
 
-  constructor(private provider: Provider<any>) {
+  constructor(
+    private provider: Provider<any>,
+    private converterService: ConverterService
+  ) {
     this.socketProviderMetadata = this.provider.store.get("socketIO");
   }
 
@@ -26,7 +29,10 @@ export class SocketHandlersBuilder {
    */
   public build(nsps: Map<string, SocketIO.Namespace>) {
     const {instance} = this.provider;
-    const {injectNamespaces = [], namespace = "/"} = this.socketProviderMetadata;
+    const {
+      injectNamespaces = [],
+      namespace = "/"
+    } = this.socketProviderMetadata;
 
     const nsp = nsps.get(namespace);
 
@@ -40,7 +46,7 @@ export class SocketHandlersBuilder {
 
     instance._nspSession = getNspSession(namespace!);
 
-    injectNamespaces.forEach(setting => {
+    injectNamespaces.forEach((setting) => {
       instance[setting.propertyKey] = nsps.get(setting.nsp || namespace);
     });
 
@@ -117,9 +123,11 @@ export class SocketHandlersBuilder {
    * @param {SocketIO.Namespace} nsp
    */
   private buildHandlers(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
-    Object.keys(this.socketProviderMetadata.handlers)
+    Object
+      .keys(this.socketProviderMetadata.handlers)
       .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
       .forEach((propertyKey: string) => {
+
         const handlerMetadata: ISocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
         const eventName: string = handlerMetadata.eventName!;
 
@@ -149,34 +157,75 @@ export class SocketHandlersBuilder {
       eventName: handlerMetadata.eventName
     };
 
+    promise = promise.then(() => this.deserialize(handlerMetadata, scope));
+
     if (useBefore) {
-      useBefore.forEach(async target => {
+      useBefore.forEach(async (target) => {
         promise = this.bindMiddleware(target, scope, promise);
       });
     }
 
     if (handlerMetadata.useBefore) {
-      handlerMetadata.useBefore.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      handlerMetadata.useBefore.forEach((target) =>
+        promise = this.bindMiddleware(target, scope, promise)
+      );
     }
 
     promise = promise
-      .then(() => this.invoke(this.provider.instance, handlerMetadata, scope))
+      .then(() =>
+        this.invoke(this.provider.instance, handlerMetadata, scope)
+      )
       .then(SocketHandlersBuilder.bindResponseMiddleware(handlerMetadata, scope));
 
     if (handlerMetadata.useAfter) {
-      handlerMetadata.useAfter.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      handlerMetadata.useAfter.forEach((target) =>
+        promise = this.bindMiddleware(target, scope, promise)
+      );
     }
 
     if (useAfter) {
-      useAfter.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      useAfter.forEach((target) =>
+        promise = this.bindMiddleware(target, scope, promise)
+      );
     }
 
-    return promise.catch((er: any) => {
-      /* istanbul ignore next */
-      $log.error(handlerMetadata.eventName, er);
-      /* istanbul ignore next */
-      process.exit(-1);
-    });
+    return promise
+      .catch((er: any) => {
+        /* istanbul ignore next */
+        $log.error(handlerMetadata.eventName, er);
+        /* istanbul ignore next */
+        process.exit(-1);
+      });
+  }
+
+  /**
+   *
+   * @param {ISocketHandlerMetadata} handlerMetadata
+   * @param scope
+   */
+  private deserialize(handlerMetadata: ISocketHandlerMetadata, scope: any) {
+    const {parameters} = handlerMetadata;
+    Object
+      .keys(parameters || [])
+      .forEach((index: any) => {
+        const {
+          filter,
+          useConverter,
+          mapIndex,
+          type,
+          collectionType
+        } = parameters![index];
+        let value = scope.args[mapIndex!];
+
+        if (filter === SocketFilters.ARGS && useConverter) {
+          value = this.converterService.deserialize(
+            value,
+            type,
+            collectionType
+          );
+          scope.args[mapIndex!] = value;
+        }
+      });
   }
 
   /**
@@ -221,14 +270,22 @@ export class SocketHandlersBuilder {
 
       if (provider.type === ProviderType.MIDDLEWARE) {
         if (provider.store.get("middlewareType") === MiddlewareType.ERROR) {
-          return promise.catch((error: any) => this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope}));
+          return promise
+            .catch((error: any) =>
+              this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope})
+            );
         }
 
-        return promise.then(() => this.invoke(instance, handlerMetadata.handlers.use, scope)).then((result: any) => {
-          if (result) {
-            scope.args = [].concat(result);
-          }
-        });
+
+        return promise
+          .then(() =>
+            this.invoke(instance, handlerMetadata.handlers.use, scope)
+          )
+          .then((result: any) => {
+            if (result) {
+              scope.args = [].concat(result);
+            }
+          });
       }
     }
 
@@ -254,33 +311,37 @@ export class SocketHandlersBuilder {
    * @param scope
    * @returns {any[]}
    */
-  private buildParameters(parameters: {[key: number]: ISocketParamMetadata}, scope: any): any[] {
-    return Object.keys(parameters || []).map((index: any) => {
-      const param: ISocketParamMetadata = parameters[index];
+  private buildParameters(parameters: { [key: number]: ISocketParamMetadata }, scope: any): any[] {
+    return Object
+      .keys(parameters || [])
+      .map(
+        (index: any) => {
+          const param: ISocketParamMetadata = parameters[index];
 
-      switch (param.filter) {
-        case SocketFilters.ARGS:
-          if (param.mapIndex !== undefined) {
-            return scope.args[param.mapIndex];
+          switch (param.filter) {
+            case SocketFilters.ARGS:
+
+              if (param.mapIndex !== undefined) {
+                return scope.args[param.mapIndex];
+              }
+
+              return scope.args;
+
+            case SocketFilters.EVENT_NAME :
+              return scope.eventName;
+
+            case SocketFilters.SOCKET :
+              return scope.socket;
+
+            case SocketFilters.NSP:
+              return scope.nsp;
+
+            case SocketFilters.ERR:
+              return scope.error;
+
+            case SocketFilters.SESSION :
+              return this.provider.instance._nspSession.get(scope.socket.id);
           }
-
-          return scope.args;
-
-        case SocketFilters.EVENT_NAME:
-          return scope.eventName;
-
-        case SocketFilters.SOCKET:
-          return scope.socket;
-
-        case SocketFilters.NSP:
-          return scope.nsp;
-
-        case SocketFilters.ERR:
-          return scope.error;
-
-        case SocketFilters.SESSION:
-          return this.provider.instance._nspSession.get(scope.socket.id);
-      }
-    });
+        });
   }
 }
