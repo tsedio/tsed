@@ -21,11 +21,10 @@ export function bootstrap(server: any, ...args: any[]) {
       const promise = instance.start();
       servers.set(server, {instance, promise, isDone: false});
 
-      promise
-        .then(() => {
-          servers.get(server).isDone = true;
-          done();
-        });
+      promise.then(() => {
+        servers.get(server).isDone = true;
+        done();
+      });
       /*.catch((er: any) => {
         servers.get(server).isDone = true;
         console.error(er);

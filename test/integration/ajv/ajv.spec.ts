@@ -14,8 +14,8 @@ const runValidation = (obj: any, targetType: any, collectionType?: any): Chai.As
 
     return expect(result);
   } catch (err) {
-    if (err.name === "BAD_REQUEST") {
-      const message = "" + new ParseExpressionError(nameOf(targetType), undefined, err.message);
+    if (err.name === "AJV_VALIDATION_ERROR") {
+      const message = "" + new ParseExpressionError(nameOf(targetType), undefined, err);
 
       return expect(message.split("\n")[1]);
     }

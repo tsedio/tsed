@@ -2,7 +2,6 @@ import {registerFactory} from "../di/registries/ProviderRegistry";
 import {globalServerSettings} from "./services/GlobalSettings";
 import {ServerSettingsService} from "./services/ServerSettingsService";
 
-export * from "./interfaces/IRouterOptions";
 export * from "./interfaces/IServerSettings";
 export * from "./decorators/constant";
 export * from "./decorators/value";

@@ -1,11 +1,9 @@
 import {expect} from "chai";
 import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
 
-class Test {
-}
+class Test {}
 
-class Test2 {
-}
+class Test2 {}
 
 describe("ControllerProvider", () => {
   before(() => {

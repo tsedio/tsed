@@ -7,7 +7,6 @@ import {InjectorService} from "../../di/services/InjectorService";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
-import {CastError} from "../errors/CastError";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerMetadata} from "./HandlerMetadata";
 
@@ -182,20 +181,12 @@ export class HandlerBuilder {
    */
   private runFilters(request: Express.Request, response: Express.Response, next: Express.NextFunction, err: any) {
     return this.filters.map((filter: IFilterPreHandler) => {
-      try {
-        return filter({
-          request,
-          response,
-          next,
-          err
-        });
-      } catch (err) {
-        if (err.name === "BAD_REQUEST") {
-          throw err;
-        } else {
-          throw new CastError(err);
-        }
-      }
+      return filter({
+        request,
+        response,
+        next,
+        err
+      });
     });
   }
 }

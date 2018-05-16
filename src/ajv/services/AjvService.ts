@@ -2,8 +2,8 @@ import {ConverterService, JsonSchemesService, OverrideService, ServerSettingsSer
 import {nameOf, Type} from "@tsed/core";
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
-import {BadRequest} from "ts-httpexceptions";
 import {$log} from "ts-log-debug";
+import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter, IAjvOptions, IAjvSettings} from "../interfaces/IAjvSettings";
 
 @OverrideService(ValidationService)
@@ -80,10 +80,7 @@ export class AjvService extends ValidationService {
       })
       .join("\n");
 
-    const error: any = new BadRequest(message);
-    error.origin! = errors;
-
-    return error;
+    return new AjvValidationError(message, errors);
   }
 
   /**

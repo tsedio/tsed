@@ -2,8 +2,7 @@ import {bootstrap, servers} from "../../../src/testing";
 import {expect} from "../../tools";
 
 class FakeServer {
-  constructor() {
-  }
+  constructor() {}
 
   start() {
     return Promise.resolve();
@@ -18,7 +17,6 @@ describe("bootstrap", () => {
       instance = servers.get(FakeServer).instance;
     });
     it("should mock server for test (1)", () => {
-      console.log("instance", instance);
       expect(instance).to.be.instanceof(FakeServer);
     });
 
@@ -35,7 +33,6 @@ describe("bootstrap", () => {
     let instance: any;
     before(bootstrap(FakeServer, ...["test"]));
     before(() => {
-      console.log("instance", instance);
       instance = servers.get(FakeServer).instance;
     });
     it("should mock server for test (1)", () => {

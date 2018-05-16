@@ -1,13 +1,4 @@
-import {
-  ConverterService,
-  HttpServer,
-  HttpsServer,
-  Inject,
-  OnServerReady,
-  Provider,
-  ServerSettingsService,
-  Service
-} from "@tsed/common";
+import {ConverterService, HttpServer, HttpsServer, Inject, OnServerReady, Provider, ServerSettingsService, Service} from "@tsed/common";
 import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
@@ -25,15 +16,15 @@ export class SocketIOService implements OnServerReady {
    *
    * @type {Map<any, any>}
    */
-  private namespaces: Map<string, { nsp: SocketIO.Namespace; instances: any }> = new Map();
+  private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
-  constructor(@Inject(HttpServer) private httpServer: HttpServer,
-              @Inject(HttpsServer) private httpsServer: HttpsServer,
-              @IO private io: SocketIO.Server,
-              private serverSettingsService: ServerSettingsService,
-              private converterService: ConverterService) {
-
-  }
+  constructor(
+    @Inject(HttpServer) private httpServer: HttpServer,
+    @Inject(HttpsServer) private httpsServer: HttpsServer,
+    @IO private io: SocketIO.Server,
+    private serverSettingsService: ServerSettingsService,
+    private converterService: ConverterService
+  ) {}
 
   $onServerReady() {
     const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
@@ -69,13 +60,13 @@ export class SocketIOService implements OnServerReady {
    * @param {string} namespace
    * @returns {SocketIO.Namespace}
    */
-  public getNsp(namespace: string = "/"): { nsp: SocketIO.Namespace, instances: any[] } {
+  public getNsp(namespace: string = "/"): {nsp: SocketIO.Namespace; instances: any[]} {
     if (!this.namespaces.has(namespace)) {
       const conf = {nsp: this.io.of(namespace), instances: []};
 
       this.namespaces.set(namespace, conf);
 
-      conf.nsp.on("connection", (socket) => {
+      conf.nsp.on("connection", socket => {
         conf.instances.forEach((builder: SocketHandlersBuilder) => {
           builder.onConnection(socket, conf.nsp);
         });
@@ -114,28 +105,27 @@ export class SocketIOService implements OnServerReady {
    *
    * @param logger
    */
-  protected printSocketEvents(logger: { info: (s: any) => void } = $log) {
-    const list = this.getWebsocketServices()
-      .reduce((acc: any[], provider) => {
-        const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
+  protected printSocketEvents(logger: {info: (s: any) => void} = $log) {
+    const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
+      const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
 
-        if (namespace) {
-          Object.keys(handlers)
-            .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
-            .forEach((key: string) => {
-              const handler = handlers[key];
-              acc.push({
-                namespace,
-                inputEvent: handler.eventName,
-                outputEvent: handler.returns && handler.returns.eventName || "",
-                outputType: handler.returns && handler.returns.type || "",
-                name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
-              });
+      if (namespace) {
+        Object.keys(handlers)
+          .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
+          .forEach((key: string) => {
+            const handler = handlers[key];
+            acc.push({
+              namespace,
+              inputEvent: handler.eventName,
+              outputEvent: (handler.returns && handler.returns.eventName) || "",
+              outputType: (handler.returns && handler.returns.type) || "",
+              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
             });
-        }
+          });
+      }
 
-        return acc;
-      }, []);
+      return acc;
+    }, []);
 
     $log.info("Socket events mounted:");
 

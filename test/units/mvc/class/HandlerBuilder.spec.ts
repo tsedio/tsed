@@ -7,17 +7,14 @@ import {InjectorService} from "../../../../src/common/di/services/InjectorServic
 import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
-import {CastError} from "../../../../src/common/mvc/errors/CastError";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {$logStub, assert, expect, restore, Sinon} from "../../../tools";
 
 class Test {
-  get() {
-  }
+  get() {}
 
-  use() {
-  }
+  use() {}
 }
 
 describe("HandlerBuilder", () => {
@@ -43,8 +40,7 @@ describe("HandlerBuilder", () => {
     });
     describe("from function", () => {
       before(() => {
-        this.builder = HandlerBuilder.from(() => {
-        });
+        this.builder = HandlerBuilder.from(() => {});
       });
 
       it("should create builder", () => {
@@ -177,8 +173,7 @@ describe("HandlerBuilder", () => {
     before(() => {
       globalServerSettings.debug = true;
       this.metadata = {
-        target: class Test {
-        },
+        target: class Test {},
         type: "type",
         nextFunction: false,
         injectable: false,
@@ -472,8 +467,7 @@ describe("HandlerBuilder", () => {
     describe("when component is known", () => {
       before(() => {
         this.instance = {
-          method: () => {
-          }
+          method: () => {}
         };
         this.invokeStub = Sinon.stub(InjectorService, "invoke");
         this.invokeStub.returns(this.instance);
@@ -510,8 +504,7 @@ describe("HandlerBuilder", () => {
     describe("when component is known and instance is already built", () => {
       before(() => {
         this.instance = {
-          method: () => {
-          }
+          method: () => {}
         };
         this.invokeStub = Sinon.stub(InjectorService, "invoke");
 
@@ -647,7 +640,7 @@ describe("HandlerBuilder", () => {
         });
       });
       it("should throw error", () => {
-        expect(this.error.name).to.deep.eq(new CastError(new Error("BadRequest")).name);
+        expect(this.error.name).to.deep.eq(new Error("BadRequest").name);
       });
     });
   });

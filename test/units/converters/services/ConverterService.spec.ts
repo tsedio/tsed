@@ -501,8 +501,7 @@ describe("ConverterService", () => {
     });
 
     describe("isStrictModelValidation()", () => {
-      class Test {
-      }
+      class Test {}
 
       describe("when model is an Object", () => {
         before(() => {

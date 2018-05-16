@@ -1,18 +1,21 @@
 import {BadRequest} from "ts-httpexceptions";
+import {IResponseError} from "../interfaces/IResponseError";
 
 /**
  * @private
  */
-export class ParseExpressionError extends BadRequest {
+export class ParseExpressionError extends BadRequest implements IResponseError {
   dataPath: string;
   requestType: string;
   errorMessage: string;
+  origin: Error;
 
-  constructor(name: string, expression: string | RegExp | undefined, message?: string) {
-    super(ParseExpressionError.buildMessage(name, expression, message));
+  constructor(name: string, expression: string | RegExp | undefined, err: any = {}) {
+    super(ParseExpressionError.buildMessage(name, expression, err.message));
     this.errorMessage = this.message;
     this.dataPath = String(expression) || "";
     this.requestType = name;
+    this.origin! = err.origin || err;
   }
 
   /**

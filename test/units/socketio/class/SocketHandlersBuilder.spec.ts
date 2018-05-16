@@ -593,7 +593,6 @@ describe("SocketHandlersBuilder", () => {
       this.bindMiddlewareStub = Sinon.stub(this.builder, "bindMiddleware");
       this.deserializeStub = Sinon.stub(this.builder, "deserialize");
 
-
       this.bindMiddlewareStub.onCall(0).returns(Promise.resolve());
       this.bindMiddlewareStub.onCall(1).returns(Promise.resolve());
       this.bindMiddlewareStub.onCall(2).returns(Promise.resolve());
@@ -689,8 +688,7 @@ describe("SocketHandlersBuilder", () => {
 
   describe("bindMiddleware()", () => {
     describe("middleware is not registered", () => {
-      class Test {
-      }
+      class Test {}
 
       before(() => {
         this.instance = new Test();
@@ -729,8 +727,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     describe("middleware", () => {
-      class Test {
-      }
+      class Test {}
 
       before(() => {
         this.instance = new Test();
@@ -781,8 +778,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     describe("middleware error", () => {
-      class Test {
-      }
+      class Test {}
 
       before(() => {
         this.instance = new Test();
@@ -837,13 +833,15 @@ describe("SocketHandlersBuilder", () => {
           get: Sinon.stub()
         }
       };
-      const parameters: any[] = [{
-        filter: SocketFilters.ARGS,
-        useConverter: true,
-        mapIndex: 0,
-        type: String,
-        collectionType: Array
-      }];
+      const parameters: any[] = [
+        {
+          filter: SocketFilters.ARGS,
+          useConverter: true,
+          mapIndex: 0,
+          type: String,
+          collectionType: Array
+        }
+      ];
       const scope: any = {
         args: ["any"]
       };

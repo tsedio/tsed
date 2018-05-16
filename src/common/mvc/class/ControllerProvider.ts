@@ -1,6 +1,6 @@
 import {getClass, NotEnumerable, Type} from "@tsed/core";
 import * as Express from "express";
-import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
+import {IRouterSettings} from "../../config/interfaces/IServerSettings";
 import {Provider} from "../../di/class/Provider";
 
 import {IControllerMiddlewares, IControllerOptions} from "../interfaces";
@@ -74,9 +74,9 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
 
   /**
    *
-   * @returns {IRouterOptions}
+   * @returns {IRouterSettings}
    */
-  get routerOptions(): IRouterOptions {
+  get routerOptions(): IRouterSettings {
     return this.store.get("routerOptions");
   }
 
@@ -92,7 +92,7 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
    *
    * @param value
    */
-  set routerOptions(value: IRouterOptions) {
+  set routerOptions(value: IRouterSettings) {
     this.store.set("routerOptions", value);
   }
 

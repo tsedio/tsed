@@ -103,7 +103,7 @@ export class FilterBuilder {
       try {
         validationService.validate(value, type, collectionType);
       } catch (err) {
-        throw new ParseExpressionError(param.name, param.expression, err.message);
+        throw new ParseExpressionError(param.name, param.expression, err);
       }
 
       return value;

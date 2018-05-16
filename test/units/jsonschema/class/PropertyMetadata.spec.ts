@@ -3,8 +3,7 @@ import {Store} from "../../../../src/core/class/Store";
 import {expect} from "../../../tools";
 
 class Test {
-  method(arg1: any, arg2: any) {
-  }
+  method(arg1: any, arg2: any) {}
 }
 
 describe("PropertyMetadata", () => {

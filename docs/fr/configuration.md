@@ -85,6 +85,8 @@ new Server.start();
 * `validationModelStrict` &lt;boolean&gt;: Active la validation stricte des modèles au niveau du service Converters (voir [Converters](docs/converters.md)). Par défaut: `true`.
 * `logger` &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Configuration du logger.
 * `controllerScope` &lt;`request`|`singleton`&gt;: Configure le scope par défaut des controlleurs. Défault: `singleton`. Voir le [Scope](docs/scope.md).
+* `acceptMimes` &lt;string[]&gt;: Configuration des types mimes acceptés par défaut par le serveur.
+* `errors` &lt;[IErrorsSettings](api/common/config/ierrorssettings.md)&gt;: Errors configuration (Voir [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
 
 ## Serveur HTTP & HTTPs
 ### Changement d'adresse
@@ -170,8 +172,9 @@ Le logger par défaut utilisé par Ts.ED est [Ts.LogDebug](https://romakita.gith
 - `logger.logRequest`: Log toutes les requêtes entrantes et affiche les champs configurés avec `logger.requestFields`. Par défaut: `true`.
 - `logger.requestFields`: Liste des champs affichés dans les logs. Valeurs possibles: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
 - `logger.reqIdBuilder`: Fonction qui sera appelée pour chaque rêquête. La fonction doit retourner un id unique qui identifiera la requête.
+- `logger.jsonIndentation`: Le nombre d'espace à utiliser pour l'indentation du JSON affiché dans la log. Défaut: 2 (0 en production).
 
-> Il est recommendé de désactivé les logges en production. Le logger a un coût sur les performances.
+> Il est recommandé de désactivé les logges en production. Le logger a un coût sur les performances.
 
 ### Request logger
 
