@@ -88,8 +88,51 @@ describe("OpenApiModelSchemaBuilder", () => {
           mapAny: {
             type: "object",
             additionalProperties: {
-              type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+              nullable: true,
+              oneOf: [
+                {
+                  type: "integer"
+                },
+                {
+                  type: "number"
+                },
+                {
+                  type: "string"
+                },
+                {
+                  type: "boolean"
+                },
+                {
+                  type: "array"
+                },
+                {
+                  type: "object"
+                }
+              ]
             }
+          },
+          anyValue: {
+            nullable: true,
+            oneOf: [
+              {
+                type: "integer"
+              },
+              {
+                type: "number"
+              },
+              {
+                type: "string"
+              },
+              {
+                type: "boolean"
+              },
+              {
+                type: "array"
+              },
+              {
+                type: "object"
+              }
+            ]
           },
           uint: {
             type: "number"
@@ -174,8 +217,51 @@ describe("OpenApiModelSchemaBuilder", () => {
             mapAny: {
               type: "object",
               additionalProperties: {
-                type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+                nullable: true,
+                oneOf: [
+                  {
+                    type: "integer"
+                  },
+                  {
+                    type: "number"
+                  },
+                  {
+                    type: "string"
+                  },
+                  {
+                    type: "boolean"
+                  },
+                  {
+                    type: "array"
+                  },
+                  {
+                    type: "object"
+                  }
+                ]
               }
+            },
+            anyValue: {
+              nullable: true,
+              oneOf: [
+                {
+                  type: "integer"
+                },
+                {
+                  type: "number"
+                },
+                {
+                  type: "string"
+                },
+                {
+                  type: "boolean"
+                },
+                {
+                  type: "array"
+                },
+                {
+                  type: "object"
+                }
+              ]
             },
             mapOfString: {
               type: "object",

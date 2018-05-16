@@ -84,6 +84,7 @@ export class SwaFoo2 {
   @JsonProperty() ageModel: SwaAgeModel;
 
   @Any() mapAny: Map<string, any>;
+  @Any() anyValue: any;
 
   method() {}
 }

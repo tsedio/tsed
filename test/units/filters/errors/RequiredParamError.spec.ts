@@ -17,22 +17,24 @@ describe("RequiredParamError", () => {
   it("should have a name", () => {
     expect(this.errorInstance.name).to.equal("BAD_REQUEST");
   });
-  it("should have a dataPath", () => {
-    expect(this.errorInstance.dataPath).to.equal("expression");
-  });
-
-  it("should have a service", () => {
-    expect(this.errorInstance.requestType).to.equal("name");
-  });
 
   it("should be used with JSON.stringify()", () => {
     expect(JSON.parse(JSON.stringify(this.errorInstance))).to.deep.equal({
-      dataPath: "expression",
-      errorMessage: "Bad request, parameter \"request.name.expression\" is required.",
       name: "BAD_REQUEST",
-      requestType: "name",
       status: 400,
-      type: "HTTP_EXCEPTION"
+      type: "HTTP_EXCEPTION",
+      errors: [
+        {
+          dataPath: "",
+          keyword: "required",
+          message: "should have required param 'expression'",
+          modelName: "name",
+          params: {
+            missingProperty: "expression"
+          },
+          schemaPath: "#/required"
+        }
+      ]
     });
   });
 });

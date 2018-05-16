@@ -1,3 +1,4 @@
+import {IErrorsSettings, IRouterSettings} from "@tsed/common";
 import {Env, getValue, Metadata} from "@tsed/core";
 import * as Https from "https";
 import {ProviderScope} from "../../di/interfaces/ProviderScope";
@@ -6,7 +7,6 @@ import {ProviderScope} from "../../di/interfaces/ProviderScope";
  */
 import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {SERVER_SETTINGS} from "../constants/index";
-import {IRouterOptions} from "../interfaces/IRouterOptions";
 import {ILoggerSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 
 const rootDir = process.cwd();
@@ -36,6 +36,9 @@ export class ServerSettingsService implements IServerSettings {
       debug: false,
       logRequest: true,
       jsonIndentation: this.env === Env.PROD ? 0 : 2
+    };
+    this.errors = {
+      headerName: "errors"
     };
 
     this.mount = {
@@ -247,17 +250,17 @@ export class ServerSettingsService implements IServerSettings {
 
   /**
    *
-   * @returns {IRouterOptions}
+   * @returns {IRouterSettings}
    */
-  get routers(): IRouterOptions {
+  get routers(): IRouterSettings {
     return this.map.get("routers") || {};
   }
 
   /**
    *
-   * @param {IRouterOptions} options
+   * @param {IRouterSettings} options
    */
-  set routers(options: IRouterOptions) {
+  set routers(options: IRouterSettings) {
     this.map.set("routers", options);
   }
 
@@ -308,6 +311,22 @@ export class ServerSettingsService implements IServerSettings {
 
   get controllerScope(): ProviderScope {
     return this.map.get("scope");
+  }
+
+  /**
+   *
+   * @returns {IRouterSettings}
+   */
+  get errors(): IErrorsSettings {
+    return this.map.get("errors") || {};
+  }
+
+  /**
+   *
+   * @param {IRouterSettings} options
+   */
+  set errors(options: IErrorsSettings) {
+    this.map.set("errors", options);
   }
 
   /**

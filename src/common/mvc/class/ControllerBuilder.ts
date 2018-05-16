@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import * as Express from "express";
-import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
+import {IRouterSettings} from "../../config/interfaces/IServerSettings";
 import {InjectorService} from "../../di/services/InjectorService";
 import {ControllerProvider} from "./ControllerProvider";
 
@@ -8,7 +8,7 @@ import {EndpointBuilder} from "./EndpointBuilder";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class ControllerBuilder {
-  constructor(private provider: ControllerProvider, private defaultRoutersOptions: IRouterOptions = {}) {
+  constructor(private provider: ControllerProvider, private defaultRoutersOptions: IRouterSettings = {}) {
     this.provider.router = Express.Router(Object.assign({}, defaultRoutersOptions, this.provider.routerOptions));
   }
 
