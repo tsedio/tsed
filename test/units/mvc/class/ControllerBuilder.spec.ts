@@ -1,5 +1,6 @@
+import {ControllerRegistry} from "@tsed/common";
 import * as Express from "express";
-import * as Proxyquire from "proxyquire";
+import {ControllerBuilder} from "../../../../src/common/mvc/class/ControllerBuilder";
 import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
 import {EndpointBuilder} from "../../../../src/common/mvc/class/EndpointBuilder";
 
@@ -7,29 +8,28 @@ import {EndpointRegistry} from "../../../../src/common/mvc/registries/EndpointRe
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "./../../../tools";
 
-class Test {}
+class Test {
+}
 
-class ChildrenTest {}
-
-// tslint:disable-next-line
-const EndpointBuilderStub = Sinon.spy(function() {
-  return Sinon.createStubInstance(EndpointBuilder);
-});
-
-// tslint:disable-next-line: variable-name
-const ControllerRegistryStub = {
-  get: Sinon.stub().returns(new ControllerProvider(ChildrenTest))
-};
-
-const {ControllerBuilder} = Proxyquire("../../../../src/common/mvc/class/ControllerBuilder", {
-  "./EndpointBuilder": {EndpointBuilder: EndpointBuilderStub},
-  "../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
-});
+class ChildrenTest {
+}
 
 describe("ControllerBuilder", () => {
+  before(() => {
+    this.controllerRegistryGetStub = Sinon.stub(ControllerRegistry, "get");
+    this.controllerRegistryGetStub.returns(new ControllerProvider(ChildrenTest));
+  });
+
+  after(() => {
+    this.controllerRegistryGetStub.restore();
+  });
+
   describe("without dependencies", () => {
     before(
       inject([], () => {
+
+        this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
         this.controllerProvider = new ControllerProvider(Test);
         this.controllerProvider.path = "/test";
         this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
@@ -39,9 +39,12 @@ describe("ControllerBuilder", () => {
         Sinon.stub(this.controllerProvider.router, "use");
         Sinon.stub(this.controllerProvider.router, "get");
 
-        this.controllerBuilder.build();
+        this.controllerBuilder.build({injector: "injector"});
       })
     );
+    after(() => {
+      this.endpointBuildStub.restore();
+    });
 
     it("should do something", () => {
       expect(!!this.controllerBuilder).to.be.true;
@@ -51,14 +54,17 @@ describe("ControllerBuilder", () => {
       this.controllerProvider.router.get.calledWith("/");
     });
 
-    it("should create new EndpointBuilder", () => {
-      expect(EndpointBuilderStub).to.have.been.calledWithNew;
+    it("should call EndpointBuilder.build()", () => {
+      expect(this.endpointBuildStub).to.have.been.calledWithExactly({injector: "injector"});
     });
   });
 
   describe("with dependencies", () => {
     before(
       inject([], () => {
+
+        this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
         this.controllerProvider = new ControllerProvider(Test);
         this.controllerProvider.path = "/test";
         this.controllerProvider.dependencies = [ChildrenTest];
@@ -69,9 +75,13 @@ describe("ControllerBuilder", () => {
         Sinon.stub(this.controllerProvider.router, "use");
         Sinon.stub(this.controllerProvider.router, "get");
 
-        this.controllerBuilder.build();
+        this.controllerBuilder.build({injector: "injector"});
       })
     );
+
+    after(() => {
+      this.endpointBuildStub.restore();
+    });
 
     it("should do something", () => {
       expect(!!this.controllerBuilder).to.be.true;
@@ -81,24 +91,28 @@ describe("ControllerBuilder", () => {
       this.controllerProvider.router.get.calledWith("/");
     });
 
-    it("should create new EndpointBuilder", () => {
-      expect(EndpointBuilderStub).to.have.been.calledWithNew;
+    it("should call EndpointBuilder.build()", () => {
+      expect(this.endpointBuildStub).to.have.been.calledWithExactly({injector: "injector"});
     });
   });
 
   describe("with default options for the router", () => {
     before(
       inject([], () => {
+
+        this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
         this.controllerProvider = new ControllerProvider(Test);
         this.controllerProvider.path = "/test";
 
         this.expressRouterStub = Sinon.stub(Express, "Router");
 
-        this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"});
+        this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"} as any);
       })
     );
 
     after(() => {
+      this.endpointBuildStub.restore();
       this.expressRouterStub.restore();
     });
 
@@ -110,12 +124,18 @@ describe("ControllerBuilder", () => {
   describe("with middlewares added on Controller", () => {
     before(
       inject([], () => {
+
+        this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
         this.controllerProvider = new ControllerProvider(Test);
         this.controllerProvider.path = "/test";
 
-        this.mdlw1 = () => {};
-        this.mdlw2 = () => {};
-        this.mdlw3 = () => {};
+        this.mdlw1 = () => {
+        };
+        this.mdlw2 = () => {
+        };
+        this.mdlw3 = () => {
+        };
 
         this.controllerProvider.middlewares = {
           useBefore: [this.mdlw1],
@@ -123,7 +143,7 @@ describe("ControllerBuilder", () => {
           useAfter: [this.mdlw3]
         };
 
-        this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"});
+        this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"} as any);
 
         Sinon.stub(this.controllerProvider.router, "use");
         Sinon.stub(this.controllerProvider.router, "get");
@@ -133,6 +153,10 @@ describe("ControllerBuilder", () => {
         this.controllerBuilder.build();
       })
     );
+
+    after(() => {
+      this.endpointBuildStub.restore();
+    });
 
     it("should add the middlewares to the router", () => {
       this.controllerProvider.router.use.should.be.calledWithExactly(Sinon.match.func);

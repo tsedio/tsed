@@ -1,3 +1,4 @@
+import {InjectorService} from "@tsed/common";
 import {Type} from "@tsed/core";
 import * as Express from "express";
 import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
@@ -9,7 +10,10 @@ import {EndpointBuilder} from "./EndpointBuilder";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class ControllerBuilder {
-  constructor(private provider: ControllerProvider, private defaultRoutersOptions: IRouterOptions = {}) {
+  constructor(
+    private provider: ControllerProvider,
+    private defaultRoutersOptions: IRouterOptions = {}
+  ) {
     this.provider.router = Express.Router(Object.assign({}, defaultRoutersOptions, this.provider.routerOptions));
   }
 
@@ -17,20 +21,21 @@ export class ControllerBuilder {
    *
    * @returns {any}
    */
-  build(): this {
+  build(injector: InjectorService): this {
     const ctrl = this.provider;
 
     EndpointRegistry.inherit(this.provider.useClass);
 
-    this.buildMiddlewares(this.provider.middlewares.useBefore!);
+    this.buildMiddlewares(injector, this.provider.middlewares.useBefore!);
 
     ctrl.endpoints.forEach(endpoint => {
-      new EndpointBuilder(endpoint, this.provider.router).build(); // this.provider.middlewares.use
+      new EndpointBuilder(endpoint, this.provider.router).build(injector); // this.provider.middlewares.use
     });
 
-    this.buildMiddlewares(this.provider.middlewares.useAfter!);
+    this.buildMiddlewares(injector, this.provider.middlewares.useAfter!);
 
     ctrl.dependencies.forEach((child: Type<any>) => {
+      // TODO Change by injector.getProvider()
       const provider = ControllerRegistry.get(child) as ControllerProvider;
 
       /* istanbul ignore next */
@@ -38,7 +43,7 @@ export class ControllerBuilder {
         throw new Error("Controller component not found in the ControllerRegistry");
       }
 
-      const ctrlBuilder = new ControllerBuilder(provider, this.defaultRoutersOptions).build();
+      const ctrlBuilder = new ControllerBuilder(provider, this.defaultRoutersOptions).build(injector);
 
       this.provider.router.use(provider.path, ctrlBuilder.provider.router);
     });
@@ -46,9 +51,11 @@ export class ControllerBuilder {
     return this;
   }
 
-  private buildMiddlewares(middlewares: any[]) {
+  private buildMiddlewares(injector: InjectorService, middlewares: any[]) {
     return middlewares
       .filter(o => typeof o === "function")
-      .forEach((middleware: any) => this.provider.router.use(HandlerBuilder.from(middleware).build()));
+      .forEach((middleware: any) =>
+        this.provider.router.use(HandlerBuilder.from(middleware).build(injector))
+      );
   }
 }

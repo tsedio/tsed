@@ -168,6 +168,10 @@ export class EndpointMetadata extends Storable {
     return this._pathsMethods;
   }
 
+  set pathsMethods(paths: ExpressPathMethod[]) {
+    this._pathsMethods = paths;
+  }
+
   /**
    *
    */
@@ -213,7 +217,7 @@ export class EndpointMetadata extends Storable {
    * Change the type and the collection type from the status code.
    * @param {string | number} code
    */
-  public statusResponse(code: string | number): {description: string; headers: any; examples: any} {
+  public statusResponse(code: string | number): { description: string; headers: any; examples: any } {
     const get = (code: number | string) => (this.get("responses") || {})[code] || {};
     let {description, headers, examples} = get(code);
 
@@ -316,8 +320,9 @@ export class EndpointMetadata extends Storable {
     metadata.middlewares = this.middlewares;
     metadata.afterMiddlewares = this.afterMiddlewares;
     metadata.beforeMiddlewares = this.beforeMiddlewares;
-    metadata.httpMethod = this.httpMethod;
-    metadata.path = this.path;
+    metadata.pathsMethods = metadata.pathsMethods;
+    // metadata.httpMethod = this.httpMethod;
+    // metadata.path = this.path;
     metadata.type = this._type;
 
     return metadata;

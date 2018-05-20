@@ -18,8 +18,10 @@ export class HandlerBuilder {
   private filters: any[];
   private _handler: Function;
   private _rebuildHandler: boolean = false;
+  private injector: InjectorService;
 
-  constructor(private handlerMetadata: HandlerMetadata) {}
+  constructor(private handlerMetadata: HandlerMetadata) {
+  }
 
   /**
    *
@@ -40,8 +42,9 @@ export class HandlerBuilder {
    *
    * @returns {any}
    */
-  public build() {
-    this.filters = this.handlerMetadata.services.map((param: ParamMetadata) => new FilterBuilder().build(param));
+  public build(injector: InjectorService) {
+    this.injector = injector;
+    this.filters = this.handlerMetadata.services.map((param: ParamMetadata) => new FilterBuilder(injector).build(param));
 
     if (this.handlerMetadata.errorParam) {
       return (err: any, request: any, response: any, next: any) => this.invoke(request, response, next, err);
@@ -69,7 +72,7 @@ export class HandlerBuilder {
     this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
 
     if (this._rebuildHandler || instance === undefined) {
-      instance = InjectorService.invoke<T>(target, locals, undefined, true);
+      instance = this.injector.invoke<T>(target, locals, undefined, true);
     }
 
     return instance[this.handlerMetadata.methodClassName!].bind(instance);

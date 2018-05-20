@@ -58,7 +58,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>
    */
   public invoke<T>(
     target: any,
-    locals: Map<Function, any> = new Map<Function, any>(),
+    locals: Map<string | Function, any> = new Map<Function, any>(),
     designParamTypes?: any[],
     requiredScope: boolean = false
   ): T {
