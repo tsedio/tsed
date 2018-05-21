@@ -1,11 +1,28 @@
-import {Deprecated, Env, Metadata, nameOf, promiseTimeout, ProxyRegistry, Store, Type} from "@tsed/core";
+import {
+  Deprecated,
+  Env,
+  getClassOrSymbol,
+  Metadata,
+  nameOf,
+  promiseTimeout,
+  ProxyRegistry,
+  Store,
+  Type
+} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
 import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
-import {GlobalProviders, ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
+import {ProviderType} from "../interfaces/ProviderType";
+import {
+  GlobalProviders,
+  ProviderRegistry,
+  registerFactory,
+  registerProvider,
+  registerService
+} from "../registries/ProviderRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -32,6 +49,27 @@ import {GlobalProviders, ProviderRegistry, registerFactory, registerProvider, re
 export class InjectorService extends ProxyRegistry<Provider<any>, IProvider<any>> {
   constructor() {
     super(ProviderRegistry);
+  }
+
+  /**
+   * The getProvider() method returns a specified element from a Map object.
+   * @param key Required. The key of the element to return from the Map object.
+   * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
+   */
+  getProvider(key: Type<any> | any): Provider<any> | undefined {
+    return super.get(getClassOrSymbol(key));
+  }
+
+  /**
+   *
+   * @param {ProviderType} type
+   * @returns {[RegistryKey , Provider<any>][]}
+   */
+  getProviders(type?: ProviderType): Provider<any>[] {
+    return Array
+      .from(ProviderRegistry)
+      .filter(([key, provider]) => type ? provider.type === type : true)
+      .map(([key, provider]) => provider);
   }
 
   /**

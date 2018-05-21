@@ -1,19 +1,19 @@
-import {Deprecated, ProxyRegistry, Type} from "@tsed/core";
+import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import {Provider} from "../../di/class/Provider";
 import {Service} from "../../di/decorators/service";
-import {IProvider} from "../../di/interfaces/IProvider";
+import {ProviderType} from "../../di/interfaces/ProviderType";
 import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
 import {InjectorService} from "../../di/services/InjectorService";
 import {UnknowMiddlewareError} from "../errors/UnknowMiddlewareError";
 import {IMiddleware} from "../interfaces";
 
 /**
- * @deprecated This service will be removed in a future release. Use ProviderRegistry directly.
+ * @deprecated This service will be removed in a future release. Use injectorService directly.
  */
 @Service()
-export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<any>> {
+export class MiddlewareService extends ProxyMap<Type<any> | any, Provider<any>> {
   constructor(private injectorService: InjectorService) {
-    super(ProviderRegistry);
+    super(injectorService, {filter: {type: ProviderType.MIDDLEWARE}});
   }
 
   /**
@@ -22,7 +22,7 @@ export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<an
    * @returns {Provider}
    * @deprecated
    */
-  @Deprecated("removed feature")
+  @Deprecated("static MiddlewareService.get(). Removed feature.")
   /* istanbul ignore next */
   static get(target: Type<any>): Provider<any> | undefined {
     return ProviderRegistry.get(target);
@@ -33,7 +33,7 @@ export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<an
    * @param target
    * @param provider
    */
-  @Deprecated("removed feature")
+  @Deprecated("static MiddlewareService.set(). Removed feature.")
   /* istanbul ignore next */
   static set(target: Type<any>, provider: Provider<any>) {
     ProviderRegistry.set(target, provider);
@@ -46,7 +46,7 @@ export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<an
    * @param target
    * @deprecated
    */
-  @Deprecated("removed feature")
+  @Deprecated("static MiddlewareService.has(). Removed feature.")
   /* istanbul ignore next */
   static has(target: Type<any>): boolean {
     return ProviderRegistry.has(target);
@@ -59,7 +59,7 @@ export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<an
    * @param designParamTypes
    * @returns {T}
    */
-  @Deprecated("removed feature")
+  @Deprecated("MiddlewareService.invoke(). Removed feature. Use injectorService.invoke instead of.")
   /* istanbul ignore next */
   invoke<T extends IMiddleware>(target: Type<T>, locals: Map<Function, any> = new Map<Function, any>(), designParamTypes?: any[]): T {
     return this.injectorService.invoke<T>(target, locals, designParamTypes);
@@ -71,7 +71,7 @@ export class MiddlewareService extends ProxyRegistry<Provider<any>, IProvider<an
    * @param args
    * @returns {any}
    */
-  @Deprecated("removed feature")
+  @Deprecated("MiddlewareService.invokeMethod(). removed feature")
   /* istanbul ignore next */
   invokeMethod<T extends IMiddleware>(target: Type<T>, ...args: any[]) {
     const instance = this.injectorService.get<T>(target);

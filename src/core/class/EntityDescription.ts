@@ -1,9 +1,5 @@
 import {NotEnumerable} from "../decorators";
 import {Type} from "../interfaces";
-/**
- * @module common/core
- */
-/** */
 import {getClass, isArrayOrArrayClass, isClass, isCollection, isDate, isObject, isPrimitiveOrPrimitiveClass, nameOf} from "../utils";
 import {Metadata} from "./Metadata";
 

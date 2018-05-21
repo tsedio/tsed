@@ -321,8 +321,8 @@ export class EndpointMetadata extends Storable {
     metadata.afterMiddlewares = this.afterMiddlewares;
     metadata.beforeMiddlewares = this.beforeMiddlewares;
     metadata.pathsMethods = metadata.pathsMethods;
-    // metadata.httpMethod = this.httpMethod;
-    // metadata.path = this.path;
+    metadata.httpMethod = this.httpMethod;
+    metadata.path = this.path;
     metadata.type = this._type;
 
     return metadata;

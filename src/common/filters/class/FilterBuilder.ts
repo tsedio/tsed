@@ -3,10 +3,11 @@ import {ConverterService} from "../../converters/services/ConverterService";
 import {InjectorService} from "../../di/services/InjectorService";
 import {ParseExpressionError} from "../../mvc/errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
+import {UnknowFilterError} from "../errors/UnknowFilterError";
+import {IFilter} from "../interfaces";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
 import {IFilterScope} from "../interfaces/IFilterScope";
 import {FilterPreHandlers} from "../registries/FilterRegistry";
-import {FilterService} from "../services/FilterService";
 import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";
 
@@ -28,6 +29,24 @@ export class FilterBuilder {
 
   /**
    *
+   * @param {Type<IFilter>} target
+   * @param args
+   * @returns {any}
+   */
+  private invoke(target: Type<IFilter>, ...args: any[]): any {
+    const instance = this.injector.get(target);
+
+    if (!instance || !instance.transform) {
+      throw new UnknowFilterError(target);
+    }
+
+    const [expression, request, response] = args;
+
+    return instance.transform(expression, request, response);
+  }
+
+  /**
+   *
    * @param {ParamMetadata} param
    * @returns {any}
    */
@@ -41,10 +60,8 @@ export class FilterBuilder {
     }
 
     // wrap Custom Filter to FilterPreHandler
-    const filterService = this.injector.get<FilterService>(FilterService);
-
     return (locals: IFilterScope) => {
-      return filterService.invokeMethod(param.service as Type<any>, param.expression, locals.request, locals.response);
+      return this.invoke(param.service as Type<any>, param.expression, locals.request, locals.response);
     };
   }
 

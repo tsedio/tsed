@@ -1,8 +1,8 @@
-import {InjectorService} from "@tsed/common";
 import {Type} from "@tsed/core";
 import * as Express from "express";
 import {Inject} from "../../../di/decorators/inject";
 import {ProviderRegistry, registerFactory} from "../../../di/registries/ProviderRegistry";
+import {InjectorService} from "../../../di/services/InjectorService";
 import {HandlerBuilder} from "../../class/HandlerBuilder";
 
 declare global {
@@ -63,6 +63,7 @@ export function createExpressApplication(): ExpressApplication {
   expressApp.use = function (...args: any[]) {
     args = args.map(arg => {
       if (ProviderRegistry.has(arg)) {
+        // TODO remove this
         arg = HandlerBuilder.from(arg).build(InjectorService.get<InjectorService>(InjectorService));
       }
 

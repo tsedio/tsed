@@ -5,11 +5,75 @@ import {InjectorService} from "../../../../src/common/di/services/InjectorServic
 import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
 import {EXPRESS_RESPONSE} from "../../../../src/common/filters/constants";
 import {FilterPreHandlers} from "../../../../src/common/filters/registries/FilterRegistry";
-import {FilterService} from "../../../../src/common/filters/services/FilterService";
 import {ValidationService} from "../../../../src/common/filters/services/ValidationService";
 import {expect, Sinon} from "../../../tools";
 
 describe("FilterBuilder", () => {
+
+  describe("invoke()", () => {
+
+    describe("when the filter is known", () => {
+      class Test {
+      }
+
+      before(inject([InjectorService], (injector: InjectorService) => {
+        this.builder = new FilterBuilder(injector);
+        this.filter = {
+          transform: Sinon.stub().returns("value")
+        };
+        this.getStub = Sinon.stub(injector, "get").returns(this.filter);
+        this.result = this.builder.invoke(Test, "expression", "request", "response");
+      }));
+
+      after(() => {
+        this.getStub.restore();
+      });
+
+      it("should call injectorService.get", () => {
+        this.getStub.should.have.been.calledWithExactly(Test);
+      });
+
+      it("should call instance.transform", () => {
+        this.filter.transform.should.have.been.calledWithExactly("expression", "request", "response");
+      });
+
+      it("should invoke method from a filter", () => {
+        expect(this.result).to.equal("value");
+      });
+    });
+
+    describe("when the filter is known", () => {
+      class Test {
+      }
+
+      before(inject([InjectorService], (injector: InjectorService) => {
+        this.builder = new FilterBuilder(injector);
+        this.filter = {
+          transform: Sinon.stub().returns("value")
+        };
+        this.getStub = Sinon.stub(injector, "get").returns(undefined);
+
+        try {
+          this.result = this.builder.invoke(Test, "expression", "request", "response");
+        } catch (er) {
+          this.error = er;
+        }
+      }));
+
+      after(() => {
+        this.getStub.restore();
+      });
+
+      it("should call injectorService.get", () => {
+        this.getStub.should.have.been.calledWithExactly(Test);
+      });
+
+      it("should invoke method from a filter", () => {
+        expect(this.result).to.equal("value");
+      });
+    });
+  });
+
   describe("build()", () => {
     before(inject([InjectorService], (injector: InjectorService) => {
       this.builder = new FilterBuilder(injector);
@@ -72,24 +136,16 @@ describe("FilterBuilder", () => {
           },
           expression: "expression"
         };
-        this.filterServiceStub = {
-          invokeMethod: Sinon.stub().returns("filterValue")
-        };
-        this.injectorStub = Sinon.stub(injector, "get");
-        this.injectorStub.returns(this.filterServiceStub);
 
-        this.filter = (new FilterBuilder(injector) as any).initFilter(this.param);
+        this.builder = new FilterBuilder(injector);
+        this.invokeStub = Sinon.stub(this.builder, "invoke").returns("filterValue");
+
+        this.filter = this.builder.initFilter(this.param);
         this.result = this.filter({request: "request", response: "response"});
       }));
 
-      after(() => {
-        this.injectorStub.restore();
-      });
-      it("should call the injector", () => {
-        this.injectorStub.should.be.calledWithExactly(FilterService);
-      });
       it("should call invokeMethod", () => {
-        this.filterServiceStub.invokeMethod.should.have.been.calledWithExactly(
+        this.invokeStub.should.have.been.calledWithExactly(
           this.param.service,
           this.param.expression,
           "request",

@@ -1,10 +1,6 @@
-/**
- * @module common/core
- */
 import "reflect-metadata";
 import {getClass} from "../utils";
 
-/** */
 /**
  * @stable
  */
@@ -253,7 +249,8 @@ export class Metadata {
   static has(key: string, target: any, propertyKey?: string | symbol): boolean {
     try {
       return Reflect.hasMetadata(key, getClass(target), propertyKey!);
-    } catch (er) {}
+    } catch (er) {
+    }
 
     return false;
   }

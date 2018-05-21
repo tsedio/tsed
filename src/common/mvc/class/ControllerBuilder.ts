@@ -1,4 +1,4 @@
-import {InjectorService} from "@tsed/common";
+import {InjectorService} from "../../di/services/InjectorService";
 import {Type} from "@tsed/core";
 import * as Express from "express";
 import {IRouterOptions} from "../../config/interfaces/IRouterOptions";

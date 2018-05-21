@@ -1,8 +1,4 @@
 import {DecoratorParameters} from "../interfaces";
-/**
- * @module common/core
- */
-/** */
 import {deepExtends, descriptorOf, getDecoratorType, nameOf} from "../utils";
 
 import {Metadata} from "./Metadata";

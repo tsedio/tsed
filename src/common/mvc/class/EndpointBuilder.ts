@@ -1,4 +1,4 @@
-import {InjectorService} from "@tsed/common";
+import {InjectorService} from "../../di/services/InjectorService";
 import {nameOf} from "@tsed/core";
 import {globalServerSettings} from "../../config";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";

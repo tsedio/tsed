@@ -1,8 +1,7 @@
-import {registerController} from "@tsed/common";
 import {isArrayOrArrayClass, Type} from "@tsed/core";
 import {IControllerOptions} from "../../interfaces/IControllerOptions";
 import {PathParamsType} from "../../interfaces/PathParamsType";
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {ControllerRegistry, registerController} from "../../registries/ControllerRegistry";
 
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
