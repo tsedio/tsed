@@ -1,12 +1,9 @@
-/**
- * @module common/core
- */
-/** */
 import {NotEnumerable} from "../decorators";
 import {Type} from "../interfaces";
 import {EntityDescription} from "./EntityDescription";
 
 import {Store} from "./Store";
+
 /**
  *
  */

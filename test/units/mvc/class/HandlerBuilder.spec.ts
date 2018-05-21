@@ -1,4 +1,5 @@
 import {ProviderType} from "@tsed/common";
+import {inject} from "@tsed/testing";
 import {BadRequest} from "ts-httpexceptions";
 import "../../../../src/ajv";
 import {globalServerSettings} from "../../../../src/common/config";
@@ -62,7 +63,7 @@ describe("HandlerBuilder", () => {
     });
 
     describe("when is a middleware", () => {
-      before(() => {
+      before(inject([InjectorService], (injector: InjectorService) => {
         this.response = new FakeResponse();
         this.request = new FakeRequest();
         this.nextSpy = Sinon.spy();
@@ -79,9 +80,9 @@ describe("HandlerBuilder", () => {
 
         this.filterBuildStub = Sinon.stub(FilterBuilder.prototype, "build");
 
-        this.middleware = new HandlerBuilder(this.metadata).build();
+        this.middleware = new HandlerBuilder(this.metadata).build(injector);
         this.middleware({request: "request"}, {response: "response"}, "function");
-      });
+      }));
 
       after(() => {
         this.filterBuildStub.restore();
@@ -97,7 +98,7 @@ describe("HandlerBuilder", () => {
     });
 
     describe("when is an error middleware", () => {
-      before(() => {
+      before(inject([InjectorService], (injector: InjectorService) => {
         this.response = new FakeResponse();
         this.request = new FakeRequest();
         this.nextSpy = Sinon.spy();
@@ -112,9 +113,9 @@ describe("HandlerBuilder", () => {
           services: [{param: "param"}]
         };
 
-        this.middleware = new HandlerBuilder(this.metadata).build();
+        this.middleware = new HandlerBuilder(this.metadata).build(injector);
         this.middleware("error", {request: "request"}, {response: "response"}, "function");
-      });
+      }));
 
       after(() => {
         this.filterBuildStub.restore();
@@ -470,12 +471,12 @@ describe("HandlerBuilder", () => {
   });
   describe("buildHandler()", () => {
     describe("when component is known", () => {
-      before(() => {
+      before(inject([InjectorService], (injector: InjectorService) => {
         this.instance = {
           method: () => {
           }
         };
-        this.invokeStub = Sinon.stub(InjectorService, "invoke");
+        this.invokeStub = Sinon.stub(injector, "invoke");
         this.invokeStub.returns(this.instance);
 
         this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
@@ -487,10 +488,11 @@ describe("HandlerBuilder", () => {
           methodClassName: "method"
         };
         this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
+        this.handlerBuilder.injector = injector;
 
         this.locals = new Map<string | Function, any>();
         this.result = this.handlerBuilder.buildHandler(this.locals);
-      });
+      }));
 
       after(() => {
         this.controllerGetStub.restore();

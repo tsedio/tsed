@@ -8,12 +8,13 @@ interface MyFactory {
   method(): string;
 }
 
-const myFactory = function() {
+const myFactory = function () {
   this.method = () => "test";
 };
 
 class InvokeMethodTest {
-  constructor(private t: any) {}
+  constructor(private t: any) {
+  }
 
   @Inject()
   method(injectorService: InjectorService) {
@@ -26,7 +27,8 @@ class InvokeMethodTest {
 describe("InjectorService", () => {
   describe("static members", () => {
     describe("service()", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         this.serviceStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.SERVICE), "merge");
@@ -93,7 +95,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from locals", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           const locals = new Map();
           locals.set(this.symbol, new this.symbol());
@@ -111,7 +114,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (unknow)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           const locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns(undefined);
@@ -120,7 +124,8 @@ describe("InjectorService", () => {
             this.result = (InjectorService as any).mapServices({
               serviceType: this.symbol,
               locals,
-              target: class ServiceTest {}
+              target: class ServiceTest {
+              }
             });
           } catch (er) {
             this.error = er;
@@ -142,7 +147,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (know, buildable, instance undefined)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -162,7 +168,8 @@ describe("InjectorService", () => {
             serviceType: this.symbol,
             locals: this.locals,
             requiredScope: true,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         });
 
@@ -189,7 +196,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (know, instance defined, not buildable)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -209,7 +217,8 @@ describe("InjectorService", () => {
             serviceType: this.symbol,
             locals: this.locals,
             requiredScope: true,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         });
 
@@ -236,7 +245,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (know, instance defined, buildable, SINGLETON)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -257,7 +267,8 @@ describe("InjectorService", () => {
             serviceType: this.symbol,
             locals: this.locals,
             requiredScope: true,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         });
 
@@ -284,7 +295,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (know, instance defined, buildable, REQUEST)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -306,7 +318,8 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: true,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         });
 
@@ -333,7 +346,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (know, instance defined, buildable, SCOPE ERROR)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -356,7 +370,8 @@ describe("InjectorService", () => {
               locals: this.locals,
               requiredScope: true,
               parentScope: false,
-              target: class ServiceTest {}
+              target: class ServiceTest {
+              }
             });
           } catch (er) {
             this.error = er;
@@ -388,7 +403,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (INJECTION ERROR)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -411,7 +427,8 @@ describe("InjectorService", () => {
               locals: this.locals,
               requiredScope: true,
               parentScope: true,
-              target: class ServiceTest {}
+              target: class ServiceTest {
+              }
             });
           } catch (er) {
             this.error = er;
@@ -445,7 +462,8 @@ describe("InjectorService", () => {
 
       describe("when serviceType is a class from registry (NOT INJECTABLE)", () => {
         before(() => {
-          this.symbol = class Test {};
+          this.symbol = class Test {
+          };
 
           this.locals = new Map();
           this.getStub = Sinon.stub(GlobalProviders, "get").returns({
@@ -468,7 +486,8 @@ describe("InjectorService", () => {
               locals: this.locals,
               requiredScope: true,
               parentScope: true,
-              target: class ServiceTest {}
+              target: class ServiceTest {
+              }
             });
           } catch (er) {
             this.error = er;
@@ -498,7 +517,8 @@ describe("InjectorService", () => {
     });
 
     describe("build()", () => {
-      class Test {}
+      class Test {
+      }
 
       describe("when the provider is buildable", () => {
         before(() => {
@@ -609,7 +629,8 @@ describe("InjectorService", () => {
     });
 
     describe("construct()", () => {
-      class Test1 {}
+      class Test1 {
+      }
 
       before(() => {
         InjectorService.set(Test1, {provide: Test1, useClass: Test1, type: "service"});
@@ -617,6 +638,56 @@ describe("InjectorService", () => {
 
       it("should construct provider", () => {
         expect(InjectorService.construct(Test1)).to.be.instanceof(Test1);
+      });
+    });
+
+    describe("getProvider()", () => {
+      before(inject([InjectorService], (injector: InjectorService) => {
+        this.provider = injector.getProvider(InjectorService);
+      }));
+
+      it("should return a provider", () => {
+        expect(this.provider).to.be.instanceOf(Provider);
+      });
+    });
+
+    describe("getProviders()", () => {
+      describe("with type ProviderType.MIDDLEWARE", () => {
+        before(inject([InjectorService], (injector: InjectorService) => {
+          this.providers = injector.getProviders(ProviderType.MIDDLEWARE);
+          this.hasOther = this.providers.find((item: any) => item.type !== ProviderType.MIDDLEWARE);
+        }));
+
+        it("sohuld return a list", () => {
+          expect(this.providers.length > 0).to.be.true;
+        });
+
+        it("sohuld return a list", () => {
+          expect(this.providers[0]).to.be.instanceOf(Provider);
+        });
+
+        it("should have only provider typed as CONVERTER", () => {
+          expect(this.hasOther).to.be.undefined;
+        });
+      });
+
+      describe("without type", () => {
+        before(inject([InjectorService], (injector: InjectorService) => {
+          this.providers = injector.getProviders();
+          this.hasOther = this.providers.find((item: any) => item.type === ProviderType.MIDDLEWARE);
+        }));
+
+        it("sohuld return a list", () => {
+          expect(this.providers.length > 0).to.be.true;
+        });
+
+        it("sohuld return a list", () => {
+          expect(this.providers[0]).to.be.instanceOf(Provider);
+        });
+
+        it("should have only provider typed as CONVERTER", () => {
+          expect(!!this.hasOther).to.be.true;
+        });
       });
     });
 
@@ -629,7 +700,8 @@ describe("InjectorService", () => {
         }
       }
 
-      class TestDep {}
+      class TestDep {
+      }
 
       describe("when designParamsTypes is not given", () => {
         before(

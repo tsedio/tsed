@@ -3,26 +3,46 @@ import {ConverterService} from "../../converters/services/ConverterService";
 import {InjectorService} from "../../di/services/InjectorService";
 import {ParseExpressionError} from "../../mvc/errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
+import {UnknowFilterError} from "../errors/UnknowFilterError";
+import {IFilter} from "../interfaces";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
 import {IFilterScope} from "../interfaces/IFilterScope";
 import {FilterPreHandlers} from "../registries/FilterRegistry";
-import {FilterService} from "../services/FilterService";
 import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";
 
 export class FilterBuilder {
-  constructor() {}
+  constructor(private injector: InjectorService) {
+  }
 
   /**
    *
    */
   public build(param: ParamMetadata): Function {
     let filter: any = this.initFilter(param);
-    filter = FilterBuilder.appendRequiredFilter(filter, param);
-    filter = FilterBuilder.appendValidationFilter(filter, param);
-    filter = FilterBuilder.appendConverterFilter(filter, param);
+    filter = this.appendRequiredFilter(filter, param);
+    filter = this.appendValidationFilter(filter, param);
+    filter = this.appendConverterFilter(filter, param);
 
     return filter;
+  }
+
+  /**
+   *
+   * @param {Type<IFilter>} target
+   * @param args
+   * @returns {any}
+   */
+  private invoke(target: Type<IFilter>, ...args: any[]): any {
+    const instance = this.injector.get(target);
+
+    if (!instance || !instance.transform) {
+      throw new UnknowFilterError(target);
+    }
+
+    const [expression, request, response] = args;
+
+    return instance.transform(expression, request, response);
   }
 
   /**
@@ -40,10 +60,8 @@ export class FilterBuilder {
     }
 
     // wrap Custom Filter to FilterPreHandler
-    const filterService = InjectorService.get<FilterService>(FilterService);
-
     return (locals: IFilterScope) => {
-      return filterService.invokeMethod(param.service as Type<any>, param.expression, locals.request, locals.response);
+      return this.invoke(param.service as Type<any>, param.expression, locals.request, locals.response);
     };
   }
 
@@ -53,7 +71,7 @@ export class FilterBuilder {
    * @param {ParamMetadata} param
    * @returns {(value: any) => any}
    */
-  private static appendRequiredFilter(filter: any, param: ParamMetadata): Function {
+  private appendRequiredFilter(filter: any, param: ParamMetadata): Function {
     if (!param.required) {
       return filter;
     }
@@ -73,12 +91,12 @@ export class FilterBuilder {
    * @param param
    * @returns {(value: any) => any}
    */
-  private static appendConverterFilter(filter: any, param: ParamMetadata): Function {
+  private appendConverterFilter(filter: any, param: ParamMetadata): Function {
     if (!param.useConverter) {
       return filter;
     }
 
-    const converterService = InjectorService.get<ConverterService>(ConverterService);
+    const converterService = this.injector.get<ConverterService>(ConverterService);
 
     return FilterBuilder.pipe(filter, converterService.deserialize.bind(converterService), param.collectionType || param.type, param.type);
   }
@@ -89,7 +107,7 @@ export class FilterBuilder {
    * @param param
    * @returns {(value: any) => any}
    */
-  private static appendValidationFilter(filter: any, param: ParamMetadata): Function {
+  private appendValidationFilter(filter: any, param: ParamMetadata): Function {
     const type = param.type || param.collectionType;
     const {collectionType} = param;
 
@@ -97,7 +115,7 @@ export class FilterBuilder {
       return filter;
     }
 
-    const validationService = InjectorService.get<ValidationService>(ValidationService);
+    const validationService = this.injector.get<ValidationService>(ValidationService);
 
     return FilterBuilder.pipe(filter, (value: any) => {
       try {

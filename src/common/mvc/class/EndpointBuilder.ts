@@ -1,3 +1,4 @@
+import {InjectorService} from "../../di/services/InjectorService";
 import {nameOf} from "@tsed/core";
 import {globalServerSettings} from "../../config";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
@@ -8,25 +9,28 @@ import {HandlerBuilder} from "./HandlerBuilder";
  *
  */
 export class EndpointBuilder {
-  constructor(private endpoint: EndpointMetadata, private router: any) {}
+  constructor(private endpoint: EndpointMetadata, private router: any) {
+  }
 
   /**
    *
    */
-  private onRequest = () => (request: any, response: any, next: any) => {
-    /* istanbul ignore else */
-    if (request.id && globalServerSettings.debug) {
-      request.log.debug({
-        event: "attach.endpoint",
-        target: nameOf(this.endpoint.target),
-        methodClass: this.endpoint.methodClassName,
-        httpMethod: this.endpoint.httpMethod
-      });
-    }
+  private onRequest(endpoint: EndpointMetadata) {
+    return (request: any, response: any, next: any) => {
+      /* istanbul ignore else */
+      if (request.id && globalServerSettings.debug) {
+        request.log.debug({
+          event: "attach.endpoint",
+          target: nameOf(endpoint.target),
+          methodClass: endpoint.methodClassName,
+          httpMethod: request.method
+        });
+      }
 
-    request.setEndpoint(this.endpoint);
-    next();
-  };
+      request.setEndpoint(endpoint);
+      next();
+    };
+  }
 
   /**
    *
@@ -50,9 +54,9 @@ export class EndpointBuilder {
   /**
    *
    * @returns {any[]}
-   * @param invokable
+   * @param injector
    */
-  build() {
+  build(injector: InjectorService) {
     const endpoint = this.endpoint;
 
     let middlewares: any = []
@@ -62,9 +66,9 @@ export class EndpointBuilder {
       .concat(endpoint.afterMiddlewares as any)
       .concat(SendResponseMiddleware as any)
       .filter((item: any) => !!item)
-      .map((middleware: any) => HandlerBuilder.from(middleware).build());
+      .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));
 
-    middlewares = [this.onRequest()].concat(middlewares);
+    middlewares = [this.onRequest(endpoint)].concat(middlewares);
 
     this.routeMiddlewares(middlewares);
 

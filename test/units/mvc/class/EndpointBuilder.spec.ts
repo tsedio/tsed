@@ -20,7 +20,8 @@ describe("EndpointBuilder", () => {
     inject([], () => {
       this.router = Express.Router();
       this.builder = {
-        build: Sinon.stub().returns(() => {})
+        build: Sinon.stub().returns(() => {
+        })
       };
       this.fromStub = Sinon.stub(HandlerBuilder, "from").returns(this.builder);
 
@@ -36,9 +37,6 @@ describe("EndpointBuilder", () => {
     this.router.get.restore();
     this.router.use.restore();
     this.fromStub.restore();
-    delete this.router;
-    delete this.endpointMetadata;
-    delete this.endpointBuilder;
   });
 
   describe("build()", () => {
@@ -47,7 +45,7 @@ describe("EndpointBuilder", () => {
         before(() => {
           this.router.get.reset();
           this.router.use.reset();
-          this.middlewares = this.endpointBuilder.build();
+          this.middlewares = this.endpointBuilder.build({injector: "injector"});
         });
 
         it("should build middlewares", () => {
@@ -64,6 +62,10 @@ describe("EndpointBuilder", () => {
 
         it("should call with args", () => {
           this.router.use.should.have.been.calledWithExactly(...this.middlewares);
+        });
+
+        it("should build handler", () => {
+          this.builder.build.should.have.been.calledWithExactly({injector: "injector"});
         });
       });
 
@@ -89,6 +91,9 @@ describe("EndpointBuilder", () => {
 
         it("should call with args", () => {
           this.router.use.should.have.been.calledWithExactly(...["/"].concat(this.middlewares));
+        });
+        it("should build handler", () => {
+          this.builder.build.should.have.been.calledWithExactly({injector: "injector"});
         });
       });
     });
@@ -126,7 +131,8 @@ describe("EndpointBuilder", () => {
       this.request.id = 1;
       this.response = new FakeResponse();
       Sinon.stub(this.response, "setHeader");
-      this.nextSpy = Sinon.spy(() => {});
+      this.nextSpy = Sinon.spy(() => {
+      });
     });
 
     after(() => {
@@ -136,7 +142,7 @@ describe("EndpointBuilder", () => {
 
     describe("without headersSent", () => {
       before(() => {
-        this.endpointBuilder.onRequest()(this.request, this.response, this.nextSpy);
+        this.endpointBuilder.onRequest(this.endpointMetadata)(this.request, this.response, this.nextSpy);
         this.request.storeData({stored: true});
       });
 
@@ -166,7 +172,7 @@ describe("EndpointBuilder", () => {
         this.response.setHeader.reset();
         this.response.headersSent = true;
 
-        this.endpointBuilder.onRequest()(this.request, this.response, this.nextSpy);
+        this.endpointBuilder.onRequest(this.endpointMetadata)(this.request, this.response, this.nextSpy);
         this.request.storeData({stored: true});
       });
 

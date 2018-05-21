@@ -1,8 +1,3 @@
-/**
- * @module common/core
- */
-/** */
-
 import {DecoratorParameters} from "../interfaces";
 
 /**

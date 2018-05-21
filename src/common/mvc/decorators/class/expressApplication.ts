@@ -2,6 +2,7 @@ import {Type} from "@tsed/core";
 import * as Express from "express";
 import {Inject} from "../../../di/decorators/inject";
 import {ProviderRegistry, registerFactory} from "../../../di/registries/ProviderRegistry";
+import {InjectorService} from "../../../di/services/InjectorService";
 import {HandlerBuilder} from "../../class/HandlerBuilder";
 
 declare global {
@@ -59,10 +60,11 @@ export function createExpressApplication(): ExpressApplication {
   const expressApp = Express();
   const originalUse = expressApp.use;
 
-  expressApp.use = function(...args: any[]) {
+  expressApp.use = function (...args: any[]) {
     args = args.map(arg => {
       if (ProviderRegistry.has(arg)) {
-        arg = HandlerBuilder.from(arg).build();
+        // TODO remove this
+        arg = HandlerBuilder.from(arg).build(InjectorService.get<InjectorService>(InjectorService));
       }
 
       return arg;

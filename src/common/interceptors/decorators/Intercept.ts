@@ -13,8 +13,9 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
   return (target: any, method: string, descriptor: PropertyDescriptor) => {
     const original = descriptor.value;
 
-    descriptor.value = function(...args: any[]) {
+    descriptor.value = function (...args: any[]) {
       if (InjectorService.has(interceptor)) {
+        // TODO replace by injector container
         const instance = InjectorService.get<IInterceptor>(interceptor);
 
         return instance.aroundInvoke(

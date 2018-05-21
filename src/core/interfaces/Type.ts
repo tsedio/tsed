@@ -1,9 +1,4 @@
 /**
- * @module common/core
- */
-/** */
-
-/**
  * An example of a `Type` is `MyCustomComponent` filters, which in JavaScript is be represented by
  * the `MyCustomComponent` constructor function.
  */
