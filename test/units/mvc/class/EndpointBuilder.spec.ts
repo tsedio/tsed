@@ -1,5 +1,4 @@
 import * as Express from "express";
-import {globalServerSettings} from "../../../../src/common/config";
 import {EndpointBuilder} from "../../../../src/common/mvc/class/EndpointBuilder";
 
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
@@ -20,8 +19,7 @@ describe("EndpointBuilder", () => {
     inject([], () => {
       this.router = Express.Router();
       this.builder = {
-        build: Sinon.stub().returns(() => {
-        })
+        build: Sinon.stub().returns(() => {})
       };
       this.fromStub = Sinon.stub(HandlerBuilder, "from").returns(this.builder);
 
@@ -45,7 +43,7 @@ describe("EndpointBuilder", () => {
         before(() => {
           this.router.get.reset();
           this.router.use.reset();
-          this.middlewares = this.endpointBuilder.build({injector: "injector"});
+          this.middlewares = this.endpointBuilder.build({injector: "injector", settings: {debug: true}});
         });
 
         it("should build middlewares", () => {
@@ -65,7 +63,7 @@ describe("EndpointBuilder", () => {
         });
 
         it("should build handler", () => {
-          this.builder.build.should.have.been.calledWithExactly({injector: "injector"});
+          this.builder.build.should.have.been.calledWithExactly({injector: "injector", settings: {debug: true}});
         });
       });
 
@@ -74,7 +72,7 @@ describe("EndpointBuilder", () => {
           this.router.get.reset();
           this.router.use.reset();
           this.endpointMetadata.path = "/";
-          this.middlewares = this.endpointBuilder.build();
+          this.middlewares = this.endpointBuilder.build({injector: "injector", settings: {debug: true}});
         });
 
         it("should build middlewares", () => {
@@ -93,7 +91,7 @@ describe("EndpointBuilder", () => {
           this.router.use.should.have.been.calledWithExactly(...["/"].concat(this.middlewares));
         });
         it("should build handler", () => {
-          this.builder.build.should.have.been.calledWithExactly({injector: "injector"});
+          this.builder.build.should.have.been.calledWithExactly({injector: "injector", settings: {debug: true}});
         });
       });
     });
@@ -104,10 +102,11 @@ describe("EndpointBuilder", () => {
         this.router.use.reset();
         this.endpointMetadata.httpMethod = "get";
         this.endpointMetadata.path = "/";
+        this.result = this.endpointBuilder.build({injector: "injector", settings: {debug: true}});
       });
 
       it("should build middlewares", () => {
-        expect(this.endpointBuilder.build())
+        expect(this.result)
           .to.be.an("array")
           .and.have.length(3);
       });
@@ -126,23 +125,20 @@ describe("EndpointBuilder", () => {
 
   describe("onRequest()", () => {
     before(() => {
-      globalServerSettings.debug = true;
       this.request = new FakeRequest();
       this.request.id = 1;
       this.response = new FakeResponse();
       Sinon.stub(this.response, "setHeader");
-      this.nextSpy = Sinon.spy(() => {
-      });
+      this.nextSpy = Sinon.spy(() => {});
     });
 
     after(() => {
-      globalServerSettings.debug = false;
       this.response.setHeader.restore();
     });
 
     describe("without headersSent", () => {
       before(() => {
-        this.endpointBuilder.onRequest(this.endpointMetadata)(this.request, this.response, this.nextSpy);
+        this.endpointBuilder.onRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
         this.request.storeData({stored: true});
       });
 
@@ -172,7 +168,7 @@ describe("EndpointBuilder", () => {
         this.response.setHeader.reset();
         this.response.headersSent = true;
 
-        this.endpointBuilder.onRequest(this.endpointMetadata)(this.request, this.response, this.nextSpy);
+        this.endpointBuilder.onRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
         this.request.storeData({stored: true});
       });
 

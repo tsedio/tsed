@@ -9,21 +9,21 @@ import {ValidationService} from "../../../../src/common/filters/services/Validat
 import {expect, Sinon} from "../../../tools";
 
 describe("FilterBuilder", () => {
-
   describe("invoke()", () => {
-
     describe("when the filter is known", () => {
       class Test {
       }
 
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.builder = new FilterBuilder(injector);
-        this.filter = {
-          transform: Sinon.stub().returns("value")
-        };
-        this.getStub = Sinon.stub(injector, "get").returns(this.filter);
-        this.result = this.builder.invoke(Test, "expression", "request", "response");
-      }));
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.builder = new FilterBuilder(injector);
+          this.filter = {
+            transform: Sinon.stub().returns("value")
+          };
+          this.getStub = Sinon.stub(injector, "get").returns(this.filter);
+          this.result = this.builder.invoke(Test, "expression", "request", "response");
+        })
+      );
 
       after(() => {
         this.getStub.restore();
@@ -46,19 +46,21 @@ describe("FilterBuilder", () => {
       class Test {
       }
 
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.builder = new FilterBuilder(injector);
-        this.filter = {
-          transform: Sinon.stub().returns("value")
-        };
-        this.getStub = Sinon.stub(injector, "get").returns(undefined);
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.builder = new FilterBuilder(injector);
+          this.filter = {
+            transform: Sinon.stub().returns("value")
+          };
+          this.getStub = Sinon.stub(injector, "get").returns(undefined);
 
-        try {
-          this.result = this.builder.invoke(Test, "expression", "request", "response");
-        } catch (er) {
-          this.error = er;
-        }
-      }));
+          try {
+            this.result = this.builder.invoke(Test, "expression", "request", "response");
+          } catch (er) {
+            this.error = er;
+          }
+        })
+      );
 
       after(() => {
         this.getStub.restore();
@@ -75,23 +77,25 @@ describe("FilterBuilder", () => {
   });
 
   describe("build()", () => {
-    before(inject([InjectorService], (injector: InjectorService) => {
-      this.builder = new FilterBuilder(injector);
+    before(
+      inject([InjectorService], (injector: InjectorService) => {
+        this.builder = new FilterBuilder(injector);
 
-      this.initStub = Sinon.stub(this.builder, "initFilter");
-      this.initStub.returns("filter");
+        this.initStub = Sinon.stub(this.builder, "initFilter");
+        this.initStub.returns("filter");
 
-      this.requiredStub = Sinon.stub(this.builder, "appendRequiredFilter");
-      this.requiredStub.returns("filter2");
+        this.requiredStub = Sinon.stub(this.builder, "appendRequiredFilter");
+        this.requiredStub.returns("filter2");
 
-      this.validationStub = Sinon.stub(this.builder, "appendValidationFilter");
-      this.validationStub.returns("filter3");
+        this.validationStub = Sinon.stub(this.builder, "appendValidationFilter");
+        this.validationStub.returns("filter3");
 
-      this.converterStub = Sinon.stub(this.builder, "appendConverterFilter");
-      this.converterStub.returns("filter4");
+        this.converterStub = Sinon.stub(this.builder, "appendConverterFilter");
+        this.converterStub.returns("filter4");
 
-      this.result = this.builder.build("param");
-    }));
+        this.result = this.builder.build("param");
+      })
+    );
 
     after(() => {
       this.initStub.restore();
@@ -122,58 +126,59 @@ describe("FilterBuilder", () => {
   });
   describe("initFilter()", () => {
     describe("when filter is a symbol", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.result = (new FilterBuilder(injector) as any).initFilter({service: EXPRESS_RESPONSE});
-      }));
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.result = (new FilterBuilder(injector) as any).initFilter({service: EXPRESS_RESPONSE});
+        })
+      );
       it("should return a function", () => {
         expect(this.result).to.eq(FilterPreHandlers.get(EXPRESS_RESPONSE));
       });
     });
     describe("when filter is a class", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.param = {
-          service: class {
-          },
-          expression: "expression"
-        };
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.param = {
+            service: class {
+            },
+            expression: "expression"
+          };
 
-        this.builder = new FilterBuilder(injector);
-        this.invokeStub = Sinon.stub(this.builder, "invoke").returns("filterValue");
+          this.builder = new FilterBuilder(injector);
+          this.invokeStub = Sinon.stub(this.builder, "invoke").returns("filterValue");
 
-        this.filter = this.builder.initFilter(this.param);
-        this.result = this.filter({request: "request", response: "response"});
-      }));
+          this.filter = this.builder.initFilter(this.param);
+          this.result = this.filter({request: "request", response: "response"});
+        })
+      );
 
       it("should call invokeMethod", () => {
-        this.invokeStub.should.have.been.calledWithExactly(
-          this.param.service,
-          this.param.expression,
-          "request",
-          "response"
-        );
+        this.invokeStub.should.have.been.calledWithExactly(this.param.service, this.param.expression, "request", "response");
       });
     });
   });
   describe("appendRequiredFilter()", () => {
     describe("when param is required", () => {
       describe("when required but empty", () => {
-        before(inject([InjectorService], (injector: InjectorService) => {
-          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-          this.pipeStub.returns("filter2");
-          this.isRequiredStub = Sinon.stub().returns(true);
+        before(
+          inject([InjectorService], (injector: InjectorService) => {
+            this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+            this.pipeStub.returns("filter2");
+            this.isRequiredStub = Sinon.stub().returns(true);
 
-          this.result = (new FilterBuilder(injector) as any).appendRequiredFilter("filter", {
-            required: true,
-            name: "name",
-            expression: "expression",
-            isRequired: this.isRequiredStub
-          });
-          try {
-            this.pipeStub.getCall(0).args[1]("value");
-          } catch (er) {
-            this.error = er;
-          }
-        }));
+            this.result = (new FilterBuilder(injector) as any).appendRequiredFilter("filter", {
+              required: true,
+              name: "name",
+              expression: "expression",
+              isRequired: this.isRequiredStub
+            });
+            try {
+              this.pipeStub.getCall(0).args[1]("value");
+            } catch (er) {
+              this.error = er;
+            }
+          })
+        );
         after(() => {
           this.pipeStub.restore();
         });
@@ -191,19 +196,21 @@ describe("FilterBuilder", () => {
         });
       });
       describe("when required but not empty", () => {
-        before(inject([InjectorService], (injector: InjectorService) => {
-          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-          this.pipeStub.returns("filter2");
-          this.isRequiredStub = Sinon.stub().returns(false);
+        before(
+          inject([InjectorService], (injector: InjectorService) => {
+            this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+            this.pipeStub.returns("filter2");
+            this.isRequiredStub = Sinon.stub().returns(false);
 
-          this.result = (new FilterBuilder(injector) as any).appendRequiredFilter("filter", {
-            required: true,
-            name: "name",
-            expression: "expression",
-            isRequired: this.isRequiredStub
-          });
-          this.result2 = this.pipeStub.getCall(0).args[1]("value");
-        }));
+            this.result = (new FilterBuilder(injector) as any).appendRequiredFilter("filter", {
+              required: true,
+              name: "name",
+              expression: "expression",
+              isRequired: this.isRequiredStub
+            });
+            this.result2 = this.pipeStub.getCall(0).args[1]("value");
+          })
+        );
         after(() => {
           this.pipeStub.restore();
         });
@@ -222,13 +229,15 @@ describe("FilterBuilder", () => {
       });
     });
     describe("when param isn't required", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
 
-        this.result = (new FilterBuilder(injector) as any).appendRequiredFilter("filter", {
-          required: false
-        });
-      }));
+          this.result = (new FilterBuilder(injector) as any).appendRequiredFilter("filter", {
+            required: false
+          });
+        })
+      );
       after(() => {
         this.pipeStub.restore();
       });
@@ -242,25 +251,27 @@ describe("FilterBuilder", () => {
   });
   describe("appendValidationFilter()", () => {
     describe("when use validation", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-        this.pipeStub.returns("filter2");
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+          this.pipeStub.returns("filter2");
 
-        this.validationStub = {
-          validate: Sinon.stub()
-        };
+          this.validationStub = {
+            validate: Sinon.stub()
+          };
 
-        this.injectorStub = Sinon.stub(injector, "get");
-        this.injectorStub.returns(this.validationStub);
+          this.injectorStub = Sinon.stub(injector, "get");
+          this.injectorStub.returns(this.validationStub);
 
-        this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
-          useValidation: true,
-          type: "type",
-          collectionType: "collection"
-        });
+          this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
+            useValidation: true,
+            type: "type",
+            collectionType: "collection"
+          });
 
-        this.pipeResult = this.pipeStub.getCall(0).args[1]("value");
-      }));
+          this.pipeResult = this.pipeStub.getCall(0).args[1]("value");
+        })
+      );
       after(() => {
         this.injectorStub.restore();
         this.pipeStub.restore();
@@ -283,23 +294,111 @@ describe("FilterBuilder", () => {
         expect(this.pipeResult).to.eq("value");
       });
     });
-    describe("when didn't use validation", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-        this.pipeStub.returns("filter2");
 
-        this.injectorStub = Sinon.stub(injector, "get");
-        this.injectorStub.returns({
-          validate: () => {
+    describe("when use validation and there have an error", () => {
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+          this.pipeStub.returns("filter2");
+
+          this.validationStub = {
+            validate() {
+              throw new Error("Test");
+            }
+          };
+
+          this.injectorStub = Sinon.stub(injector, "get");
+          this.injectorStub.returns(this.validationStub);
+
+          this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
+            useValidation: true,
+            type: "type",
+            collectionType: "collection",
+            name: "name",
+            expression: "expression"
+          });
+
+          try {
+            this.pipeResult = this.pipeStub.getCall(0).args[1]("value");
+          } catch (er) {
+            this.error = er;
           }
-        });
+        })
+      );
+      after(() => {
+        this.injectorStub.restore();
+        this.pipeStub.restore();
+      });
 
-        this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
-          useValidation: false,
-          type: "type",
-          collectionType: "collection"
-        });
-      }));
+      it("should throw an error", () => {
+        expect(this.error.message).to.equal("Bad request on parameter \"request.name.expression\".\nTest");
+      });
+    });
+
+    describe("when use validation", () => {
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+          this.pipeStub.returns("filter2");
+
+          this.validationStub = {
+            validate: Sinon.stub()
+          };
+
+          this.injectorStub = Sinon.stub(injector, "get");
+          this.injectorStub.returns(this.validationStub);
+
+          this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
+            useValidation: true,
+            type: "type",
+            collectionType: "collection"
+          });
+
+          this.pipeResult = this.pipeStub.getCall(0).args[1]("value");
+        })
+      );
+      after(() => {
+        this.injectorStub.restore();
+        this.pipeStub.restore();
+      });
+      it("should call pipe method", () => {
+        this.pipeStub.should.have.been.calledWithExactly("filter", Sinon.match.any);
+      });
+      it("should call injector.get method", () => {
+        this.injectorStub.should.be.calledWithExactly(ValidationService);
+      });
+      it("should return a filter wrapped", () => {
+        expect(this.result).to.eq("filter2");
+      });
+
+      it("should call function with wrapped validation method", () => {
+        this.validationStub.validate.should.have.been.calledWithExactly("value", "type", "collection");
+      });
+
+      it("should return the value", () => {
+        expect(this.pipeResult).to.eq("value");
+      });
+    });
+
+    describe("when didn't use validation", () => {
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+          this.pipeStub.returns("filter2");
+
+          this.injectorStub = Sinon.stub(injector, "get");
+          this.injectorStub.returns({
+            validate: () => {
+            }
+          });
+
+          this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
+            useValidation: false,
+            type: "type",
+            collectionType: "collection"
+          });
+        })
+      );
       after(() => {
         this.injectorStub.restore();
         this.pipeStub.restore();
@@ -317,22 +416,24 @@ describe("FilterBuilder", () => {
   });
   describe("appendConverterFilter()", () => {
     describe("when use converter", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-        this.pipeStub.returns("filter2");
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+          this.pipeStub.returns("filter2");
 
-        this.injectorStub = Sinon.stub(injector, "get");
-        this.injectorStub.returns({
-          deserialize: () => {
-          }
-        });
+          this.injectorStub = Sinon.stub(injector, "get");
+          this.injectorStub.returns({
+            deserialize: () => {
+            }
+          });
 
-        this.result = (new FilterBuilder(injector) as any).appendConverterFilter("filter", {
-          useConverter: true,
-          type: "type",
-          collectionType: "collection"
-        });
-      }));
+          this.result = (new FilterBuilder(injector) as any).appendConverterFilter("filter", {
+            useConverter: true,
+            type: "type",
+            collectionType: "collection"
+          });
+        })
+      );
       after(() => {
         this.injectorStub.restore();
         this.pipeStub.restore();
@@ -348,22 +449,24 @@ describe("FilterBuilder", () => {
       });
     });
     describe("when didn't use converter", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
-        this.pipeStub.returns("filter2");
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.pipeStub = Sinon.stub(FilterBuilder as any, "pipe");
+          this.pipeStub.returns("filter2");
 
-        this.injectorStub = Sinon.stub(injector, "get");
-        this.injectorStub.returns({
-          deserialize: () => {
-          }
-        });
+          this.injectorStub = Sinon.stub(injector, "get");
+          this.injectorStub.returns({
+            deserialize: () => {
+            }
+          });
 
-        this.result = (new FilterBuilder(injector) as any).appendConverterFilter("filter", {
-          useValidation: false,
-          type: "type",
-          collectionType: "collection"
-        });
-      }));
+          this.result = (new FilterBuilder(injector) as any).appendConverterFilter("filter", {
+            useValidation: false,
+            type: "type",
+            collectionType: "collection"
+          });
+        })
+      );
       after(() => {
         this.injectorStub.restore();
         this.pipeStub.restore();

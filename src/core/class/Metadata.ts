@@ -433,7 +433,7 @@ export class Metadata {
 
   /**
    * Gets the metadata value for the provided metadata DESIGN_PARAM_TYPES on the target object or its prototype chain.
-   * @param target The target object on which the metadata is defined.
+   * @param targetPrototype
    * @param propertyKey The property key for the target.
    * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
    * @example
@@ -449,18 +449,18 @@ export class Metadata {
    * }
    *
    * // on contructor
-   * result = Metadata.getParamTypes(Example);
+   * result = Metadata.getParamTypes(Example.prototype);
    *
    * // property (on constructor)
-   * result = Metadata.getParamTypes(Example, "staticProperty");
+   * result = Metadata.getParamTypes(Example.prototype, "staticProperty");
    *
    * // method (on constructor)
-   * result = Metadata.getParamTypes(Example, "staticMethod");
+   * result = Metadata.getParamTypes(Example.prototype, "staticMethod");
    * ```
    *
    */
-  static getParamTypes(target: any, propertyKey?: string | symbol): any[] {
-    return Reflect.getMetadata(DESIGN_PARAM_TYPES, target, propertyKey!) || [];
+  static getParamTypes(targetPrototype: any, propertyKey?: string | symbol): any[] {
+    return Reflect.getMetadata(DESIGN_PARAM_TYPES, targetPrototype, propertyKey!) || [];
   }
 
   /**

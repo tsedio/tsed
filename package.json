@@ -138,10 +138,6 @@
     "debug": false,
     "branch": "production"
   },
-  "gflow": {
-    "master": "master",
-    "production": "production"
-  },
   "docsifyApi": {
     "scope": "@tsed",
     "modules": {

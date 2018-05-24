@@ -20,7 +20,9 @@ export class SwaggerService {
     private controllerService: ControllerService,
     private serverSettingsService: ServerSettingsService,
     @ExpressApplication private expressApplication: Express.Application
-  ) {}
+  ) {
+    (this as any).rand = Math.random();
+  }
 
   /**
    *
@@ -160,6 +162,8 @@ export class SwaggerService {
     const doc = conf.doc;
     const tags: Tag[] = [];
 
+    this.OPERATION_IDS = {};
+
     this.controllerService.routes.forEach(({provider, route}) => {
       const hidden = provider.store.get("hidden");
       const docs = provider.store.get("docs") || [];
@@ -250,6 +254,7 @@ export class SwaggerService {
   private buildRoutes(paths: ISwaggerPaths, definitions: {[key: string]: Schema}, ctrl: ControllerProvider, endpointUrl: string) {
     ctrl.dependencies.map(ctrl => this.controllerService.get(ctrl)).forEach((provider: ControllerProvider) => {
       if (!provider.store.get("hidden")) {
+        // console.log("dependencies----");
         this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`);
       }
     });
@@ -285,6 +290,12 @@ export class SwaggerService {
   }
 
   private getOperationId = (operationId: string) => {
+    if (operationId.indexOf("EventCtrl.index") > -1) {
+      // console.log("operationId", operationId);
+      // console.log((this as any).rand);
+      // console.log("===================");
+    }
+
     if (this.OPERATION_IDS[operationId] !== undefined) {
       this.OPERATION_IDS[operationId]++;
       operationId = operationId + "_" + this.OPERATION_IDS[operationId];

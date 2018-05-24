@@ -1,4 +1,3 @@
-import {InjectorService} from "@tsed/common";
 import {Done} from "./done";
 import {loadInjector} from "./loadInjector";
 
@@ -16,9 +15,9 @@ import {loadInjector} from "./loadInjector";
  * @returns {any}
  */
 export function inject(targets: any[], func: Function) {
-  loadInjector();
+  return function before(done: Function) {
+    const injector = this.$$injector || loadInjector();
 
-  return (done: Function) => {
     let isDoneInjected = false;
     const args = targets.map(target => {
       if (target === Done) {
@@ -28,11 +27,11 @@ export function inject(targets: any[], func: Function) {
       }
 
       /* istanbul ignore next */
-      if (!InjectorService.has(target)) {
-        return InjectorService.invoke(target);
+      if (!injector.has(target)) {
+        return injector.invoke(target);
       }
 
-      return InjectorService.get(target);
+      return injector.get(target);
     });
 
     const result = func.apply(null, args);

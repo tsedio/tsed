@@ -5,7 +5,6 @@ import * as fs from "fs";
 @Controller("/")
 @Hidden()
 export class SocketPageCtrl {
-
   @Get("/socket")
   @Render("socket")
   public socket() {

@@ -1,8 +1,6 @@
 import {nameOf} from "@tsed/core";
 import * as Express from "express";
-import {globalServerSettings} from "../../config";
 import {ProviderScope} from "../../di/interfaces";
-import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
 import {InjectorService} from "../../di/services/InjectorService";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
@@ -19,9 +17,9 @@ export class HandlerBuilder {
   private _handler: Function;
   private _rebuildHandler: boolean = false;
   private injector: InjectorService;
+  private debug: boolean;
 
-  constructor(private handlerMetadata: HandlerMetadata) {
-  }
+  constructor(private handlerMetadata: HandlerMetadata) {}
 
   /**
    *
@@ -44,6 +42,8 @@ export class HandlerBuilder {
    */
   public build(injector: InjectorService) {
     this.injector = injector;
+    this.debug = injector.settings.debug;
+
     this.filters = this.handlerMetadata.services.map((param: ParamMetadata) => new FilterBuilder(injector).build(param));
 
     if (this.handlerMetadata.errorParam) {
@@ -59,11 +59,11 @@ export class HandlerBuilder {
    * @returns {any}
    */
   private buildHandler<T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
-    const provider = ProviderRegistry.get(this.handlerMetadata.target);
+    const provider = this.injector.getProvider(this.handlerMetadata.target);
 
     /* istanbul ignore next */
     if (!provider) {
-      throw new Error(`${nameOf(this.handlerMetadata.target)} component not found in the ProviderRegistry`);
+      throw new Error(`${nameOf(this.handlerMetadata.target)} component not found in the injector`);
     }
 
     const target = provider.useClass;
@@ -137,7 +137,7 @@ export class HandlerBuilder {
    * @returns {string}
    */
   private log(request: Express.Request, o: any = {}) {
-    if (request.id && globalServerSettings.debug) {
+    if (request.id && this.debug) {
       const target = this.handlerMetadata.target;
       const injectable = this.handlerMetadata.injectable;
       const methodName = this.handlerMetadata.methodClassName;

@@ -3,14 +3,11 @@ import {EndpointRegistry} from "../../../../src/common/mvc/registries/EndpointRe
 import {Metadata} from "../../../../src/core/class/Metadata";
 import {expect, Sinon} from "../../../tools";
 
-class Test {
-}
+class Test {}
 
-class Test2 {
-}
+class Test2 {}
 
-class Test3 extends Test2 {
-}
+class Test3 extends Test2 {}
 
 describe("EndpointMetadata", () => {
   describe("Basic class", () => {
@@ -19,16 +16,11 @@ describe("EndpointMetadata", () => {
 
       this.endpointMetadata.path = "/";
       this.endpointMetadata.httpMethod = "get";
-      this.endpointMetadata.beforeMiddlewares = [() => {
-      }];
-      this.endpointMetadata.middlewares = [() => {
-      }];
-      this.endpointMetadata.afterMiddlewares = [() => {
-      }];
-      this.endpointMetadata.before([() => {
-      }]);
-      this.endpointMetadata.after([() => {
-      }]);
+      this.endpointMetadata.beforeMiddlewares = [() => {}];
+      this.endpointMetadata.middlewares = [() => {}];
+      this.endpointMetadata.afterMiddlewares = [() => {}];
+      this.endpointMetadata.before([() => {}]);
+      this.endpointMetadata.after([() => {}]);
 
       EndpointRegistry.store(Test, "method").set("test", "value");
 
@@ -89,16 +81,11 @@ describe("EndpointMetadata", () => {
       this.endpointMetadata = new EndpointMetadata(Test2, "methodInherited");
       this.endpointMetadata.path = "/";
       this.endpointMetadata.httpMethod = "get";
-      this.endpointMetadata.beforeMiddlewares = [() => {
-      }];
-      this.endpointMetadata.middlewares = [() => {
-      }];
-      this.endpointMetadata.afterMiddlewares = [() => {
-      }];
-      this.endpointMetadata.before([() => {
-      }]);
-      this.endpointMetadata.after([() => {
-      }]);
+      this.endpointMetadata.beforeMiddlewares = [() => {}];
+      this.endpointMetadata.middlewares = [() => {}];
+      this.endpointMetadata.afterMiddlewares = [() => {}];
+      this.endpointMetadata.before([() => {}]);
+      this.endpointMetadata.after([() => {}]);
 
       EndpointRegistry.store(Test2, "methodInherited").set("test2", "value2");
 

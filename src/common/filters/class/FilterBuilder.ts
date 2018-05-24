@@ -12,8 +12,7 @@ import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";
 
 export class FilterBuilder {
-  constructor(private injector: InjectorService) {
-  }
+  constructor(private injector: InjectorService) {}
 
   /**
    *
@@ -34,7 +33,7 @@ export class FilterBuilder {
    * @returns {any}
    */
   private invoke(target: Type<IFilter>, ...args: any[]): any {
-    const instance = this.injector.get(target);
+    const instance = this.injector.get<IFilter>(target);
 
     if (!instance || !instance.transform) {
       throw new UnknowFilterError(target);
@@ -96,7 +95,7 @@ export class FilterBuilder {
       return filter;
     }
 
-    const converterService = this.injector.get<ConverterService>(ConverterService);
+    const converterService = this.injector.get<ConverterService>(ConverterService)!;
 
     return FilterBuilder.pipe(filter, converterService.deserialize.bind(converterService), param.collectionType || param.type, param.type);
   }
@@ -115,7 +114,7 @@ export class FilterBuilder {
       return filter;
     }
 
-    const validationService = this.injector.get<ValidationService>(ValidationService);
+    const validationService = this.injector.get<ValidationService>(ValidationService)!;
 
     return FilterBuilder.pipe(filter, (value: any) => {
       try {

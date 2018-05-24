@@ -1,7 +1,6 @@
 import {applyBefore} from "@tsed/core";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
-import {globalServerSettings} from "../../config";
 import {ILoggerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Req} from "../../filters/decorators/request";
@@ -21,12 +20,14 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
   private loggerSettings: ILoggerSettings;
   private fields: string[];
   private reqIdBuilder: () => number;
+  private debug: boolean;
 
   // tslint:disable-next-line: no-unused-variable
-  constructor(private serverSettingsService: ServerSettingsService) {
+  constructor(serverSettingsService: ServerSettingsService) {
     this.loggerSettings = serverSettingsService.logger as ILoggerSettings;
     this.reqIdBuilder = this.loggerSettings.reqIdBuilder || (() => this.AUTO_INCREMENT_ID++);
     this.fields = this.loggerSettings.requestFields || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
+    this.debug = serverSettingsService.debug;
   }
 
   /**
@@ -146,7 +147,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
           request.log.info({status: response.statusCode});
         }
 
-        if (globalServerSettings.debug) {
+        if (this.debug) {
           request.log.debug({
             status: response.statusCode,
             data: request.getStoredData && request.getStoredData()
@@ -166,11 +167,16 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     delete request.tagId;
     delete request.tsedReqStart;
     request.log = {
-      info: () => {},
-      debug: () => {},
-      warn: () => {},
-      error: () => {},
-      trace: () => {}
+      info: () => {
+      },
+      debug: () => {
+      },
+      warn: () => {
+      },
+      error: () => {
+      },
+      trace: () => {
+      }
     };
   }
 }

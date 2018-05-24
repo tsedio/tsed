@@ -212,7 +212,8 @@ describe("LogIncomingRequestMiddleware", () => {
           this.request = new FakeRequest();
           this.middleware = middleware;
           Sinon.stub(this.middleware, "getDuration").returns(2);
-          const none = (req: Express.Request) => {};
+          const none = (req: Express.Request) => {
+          };
           this.result = this.middleware.stringify(this.request, none)("message");
         })
       );
@@ -233,7 +234,8 @@ describe("LogIncomingRequestMiddleware", () => {
           this.request = new FakeRequest();
           this.middleware = middleware;
           Sinon.stub(this.middleware, "getDuration").returns(2);
-          const none = (req: Express.Request) => {};
+          const none = (req: Express.Request) => {
+          };
           this.jsonStub = Sinon.stub(JSON, "stringify");
           this.jsonStub.throws(new Error("JSON"));
           this.result = this.middleware.stringify(this.request, none)("message");
@@ -413,6 +415,7 @@ describe("LogIncomingRequestMiddleware", () => {
         };
         this.response = {};
         Sinon.stub(this.middleware, "cleanRequest");
+        this.middleware.debug = true;
 
         this.middleware.onLogEnd(this.request, this.response);
       })

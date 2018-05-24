@@ -7,16 +7,14 @@ class FakeMetadata {
   attr1: any;
   attr2: any;
 
-  constructor(public target: any) {
-  }
+  constructor(public target: any) {}
 
   test() {
     return this.target;
   }
 }
 
-class SuperFake extends FakeMetadata {
-}
+class SuperFake extends FakeMetadata {}
 
 describe("Store", () => {
   describe("constructor", () => {
@@ -25,8 +23,7 @@ describe("Store", () => {
         this.spyGet = Sinon.spy(Metadata, "getOwn");
         this.store = new Store([FakeMetadata]);
         this.store2 = new Store([FakeMetadata]);
-        this.store3 = new Store([class {
-        }]);
+        this.store3 = new Store([class {}]);
 
         this.store.set("keyTest", {test: "2"});
       });
@@ -55,8 +52,7 @@ describe("Store", () => {
           FakeMetadata,
           "get",
           {
-            value: () => {
-            }
+            value: () => {}
           }
         ]);
       });
@@ -90,8 +86,7 @@ describe("Store", () => {
           FakeMetadata,
           "get",
           {
-            set: () => {
-            }
+            set: () => {}
           }
         ]);
       });
@@ -111,8 +106,7 @@ describe("Store", () => {
           FakeMetadata,
           "get",
           {
-            get: () => {
-            }
+            get: () => {}
           }
         ]);
       });

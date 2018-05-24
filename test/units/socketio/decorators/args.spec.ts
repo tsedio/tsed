@@ -4,8 +4,7 @@ import {expect} from "../../../tools";
 
 describe("Args", () => {
   describe("without parameters", () => {
-    class Test {
-    }
+    class Test {}
 
     before(() => {
       Args()(Test, "test", 0);
@@ -29,8 +28,7 @@ describe("Args", () => {
   });
 
   describe("with parameters", () => {
-    class Test {
-    }
+    class Test {}
 
     before(() => {
       Args(1)(Test, "test", 1);

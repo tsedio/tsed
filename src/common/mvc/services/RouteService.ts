@@ -13,17 +13,15 @@ import {IControllerRoute} from "../interfaces";
  */
 @Service()
 export class RouteService {
-  private readonly _routes: { route: string; provider: any }[] = [];
+  private readonly _routes: {route: string; provider: any}[] = [];
 
-  constructor(private injectorService: InjectorService) {
-
-  }
+  constructor(private injectorService: InjectorService) {}
 
   /**
    *
    * @returns {{route: string; provider: any}[]}
    */
-  get routes(): { route: string; provider: any }[] {
+  get routes(): {route: string; provider: any}[] {
     return this._routes;
   }
 
@@ -37,7 +35,7 @@ export class RouteService {
    * @returns {number}
    * @param route
    */
-  addRoute(route: { route: string; provider: any }) {
+  addRoute(route: {route: string; provider: any}) {
     return this._routes.push(route);
   }
 
@@ -48,7 +46,7 @@ export class RouteService {
   getRoutes(): IControllerRoute[] {
     const routes: IControllerRoute[] = [];
 
-    this.routes.forEach((config: { route: string; provider: ControllerProvider }) => {
+    this.routes.forEach((config: {route: string; provider: ControllerProvider}) => {
       this.buildRoutes(routes, config.provider, config.route);
     });
 
@@ -91,8 +89,8 @@ export class RouteService {
   /**
    * Print all route mounted in express via Annotation.
    */
-  public printRoutes(logger: { info: (s: any) => void } = $log): void {
-    const mapColor: { [key: string]: string } = {
+  public printRoutes(logger: {info: (s: any) => void} = $log): void {
+    const mapColor: {[key: string]: string} = {
       GET: "green",
       POST: "yellow",
       PUT: "blue",

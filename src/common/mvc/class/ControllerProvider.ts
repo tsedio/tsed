@@ -153,4 +153,15 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
   public hasParent(): boolean {
     return !!this.provide.$parentCtrl;
   }
+
+  clone(): ControllerProvider {
+    const provider = new ControllerProvider(this._provide);
+    provider._type = this._type;
+    provider.useClass = this._useClass;
+    provider._instance = this._instance;
+    provider._path = this._path;
+    provider._dependencies = this._dependencies;
+
+    return provider;
+  }
 }

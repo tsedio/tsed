@@ -7,7 +7,6 @@ export class ThrowErrorSocketMiddleware {
     @Args(0)
     userName: string[]
   ) {
-    console.log("======>");
     throw new Error("Test");
   }
 }

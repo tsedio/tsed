@@ -4,7 +4,6 @@ import {Registry, RegistryKey} from "./Registry";
  * @private
  */
 export abstract class ProxyRegistry<T, I> extends ProxyMap<RegistryKey, T> {
-
   constructor(protected registry: Registry<T, I>) {
     super(registry);
   }

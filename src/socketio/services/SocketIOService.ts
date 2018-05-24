@@ -3,6 +3,7 @@ import {
   HttpServer,
   HttpsServer,
   Inject,
+  InjectorService,
   OnServerReady,
   Provider,
   ServerSettingsService,
@@ -14,7 +15,6 @@ import {$log} from "ts-log-debug";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
-import {SocketServiceRegistry} from "../registries/SocketServiceRegistry";
 
 /**
  *
@@ -25,15 +25,16 @@ export class SocketIOService implements OnServerReady {
    *
    * @type {Map<any, any>}
    */
-  private namespaces: Map<string, { nsp: SocketIO.Namespace; instances: any }> = new Map();
+  private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
-  constructor(@Inject(HttpServer) private httpServer: HttpServer,
-              @Inject(HttpsServer) private httpsServer: HttpsServer,
-              @IO private io: SocketIO.Server,
-              private serverSettingsService: ServerSettingsService,
-              private converterService: ConverterService) {
-
-  }
+  constructor(
+    private injector: InjectorService,
+    @Inject(HttpServer) private httpServer: HttpServer,
+    @Inject(HttpsServer) private httpsServer: HttpsServer,
+    @IO private io: SocketIO.Server,
+    private serverSettingsService: ServerSettingsService,
+    private converterService: ConverterService
+  ) {}
 
   $onServerReady() {
     const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
@@ -41,10 +42,10 @@ export class SocketIOService implements OnServerReady {
     const httpsPort = this.serverSettingsService.httpsPort;
 
     if (httpPort) {
-      this.io.attach(this.httpServer.get(), config);
+      this.io.attach(this.httpServer, config);
     }
     if (httpsPort) {
-      this.io.attach(this.httpsServer.get(), config);
+      this.io.attach(this.httpsServer, config);
     }
 
     if (config.adapter) {
@@ -61,7 +62,7 @@ export class SocketIOService implements OnServerReady {
    * @returns {Provider<any>[]}
    */
   protected getWebsocketServices(): Provider<any>[] {
-    return Array.from(SocketServiceRegistry.values());
+    return Array.from(this.injector.getProviders("socketService"));
   }
 
   /**
@@ -69,13 +70,13 @@ export class SocketIOService implements OnServerReady {
    * @param {string} namespace
    * @returns {SocketIO.Namespace}
    */
-  public getNsp(namespace: string = "/"): { nsp: SocketIO.Namespace, instances: any[] } {
+  public getNsp(namespace: string = "/"): {nsp: SocketIO.Namespace; instances: any[]} {
     if (!this.namespaces.has(namespace)) {
       const conf = {nsp: this.io.of(namespace), instances: []};
 
       this.namespaces.set(namespace, conf);
 
-      conf.nsp.on("connection", (socket) => {
+      conf.nsp.on("connection", socket => {
         conf.instances.forEach((builder: SocketHandlersBuilder) => {
           builder.onConnection(socket, conf.nsp);
         });
@@ -114,28 +115,27 @@ export class SocketIOService implements OnServerReady {
    *
    * @param logger
    */
-  protected printSocketEvents(logger: { info: (s: any) => void } = $log) {
-    const list = this.getWebsocketServices()
-      .reduce((acc: any[], provider) => {
-        const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
+  protected printSocketEvents(logger: {info: (s: any) => void} = $log) {
+    const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
+      const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
 
-        if (namespace) {
-          Object.keys(handlers)
-            .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
-            .forEach((key: string) => {
-              const handler = handlers[key];
-              acc.push({
-                namespace,
-                inputEvent: handler.eventName,
-                outputEvent: handler.returns && handler.returns.eventName || "",
-                outputType: handler.returns && handler.returns.type || "",
-                name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
-              });
+      if (namespace) {
+        Object.keys(handlers)
+          .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
+          .forEach((key: string) => {
+            const handler = handlers[key];
+            acc.push({
+              namespace,
+              inputEvent: handler.eventName,
+              outputEvent: (handler.returns && handler.returns.eventName) || "",
+              outputType: (handler.returns && handler.returns.type) || "",
+              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
             });
-        }
+          });
+      }
 
-        return acc;
-      }, []);
+      return acc;
+    }, []);
 
     $log.info("Socket events mounted:");
 

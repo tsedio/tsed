@@ -114,4 +114,13 @@ export class Provider<T> implements IProvider<T> {
   set scope(scope: ProviderScope) {
     this.store.set("scope", scope);
   }
+
+  clone(): Provider<any> {
+    const provider = new Provider(this._provide);
+    provider._type = this._type;
+    provider.useClass = this._useClass;
+    provider._instance = this._instance;
+
+    return provider;
+  }
 }
