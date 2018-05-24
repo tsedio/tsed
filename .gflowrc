@@ -1,0 +1,17 @@
+{
+  "production": "production",
+  "develop": "master",
+  "charBranchNameSeparator": "_",
+  "remote": "origin",
+  "ignores": [],
+  "syncAfterFinish": false,
+  "postFinish": "",
+  "skipTest": false,
+  "branchTypes": {
+    "feat": "feat",
+    "fix": "fix",
+    "chore": "chore",
+    "docs": "docs"
+  },
+  "refs": {}
+}

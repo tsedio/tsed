@@ -432,7 +432,7 @@ describe("ConverterService", () => {
         expect(this.foo.theSet[0].test).to.equals("test");
       });
 
-      describe("use toJson()", () => {
+      /*describe("use toJson()", () => {
         before(() => {
           this.fooJson = JSON.parse(JSON.stringify(this.foo2));
         });
@@ -479,7 +479,7 @@ describe("ConverterService", () => {
           expect(this.fooJson.theSet[0]).to.be.an("object");
           expect(this.fooJson.theSet[0].test).to.equals("test");
         });
-      });
+      });*/
     });
 
     describe("class Foo3", () => {
@@ -501,8 +501,7 @@ describe("ConverterService", () => {
     });
 
     describe("isStrictModelValidation()", () => {
-      class Test {
-      }
+      class Test {}
 
       describe("when model is an Object", () => {
         before(() => {

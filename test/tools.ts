@@ -64,4 +64,9 @@ $logStub.stub();
 const stub = (t: any): SinonStub => t;
 const restore = (t: any) => t.restore();
 
+process.on("unhandledRejection", (reason, p) => {
+  console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
+  // application specific logging, throwing an error, or other logic here
+});
+
 export {expect, assert, Sinon, SinonChai, $logStub, stub, restore};

@@ -1,9 +1,8 @@
 import {Type} from "@tsed/core";
 import * as Express from "express";
 import {Inject} from "../../../di/decorators/inject";
-import {ProviderRegistry, registerFactory} from "../../../di/registries/ProviderRegistry";
-import {InjectorService} from "../../../di/services/InjectorService";
-import {HandlerBuilder} from "../../class/HandlerBuilder";
+import {registerFactory} from "../../../di/registries/ProviderRegistry";
+
 
 declare global {
   namespace Express {
@@ -53,27 +52,4 @@ export function ExpressApplication(target: Type<any>, targetKey: string, descrip
   return Inject(ExpressApplication)(target, targetKey, descriptor);
 }
 
-/**
- *
- */
-export function createExpressApplication(): ExpressApplication {
-  const expressApp = Express();
-  const originalUse = expressApp.use;
-
-  expressApp.use = function (...args: any[]) {
-    args = args.map(arg => {
-      if (ProviderRegistry.has(arg)) {
-        // TODO remove this
-        arg = HandlerBuilder.from(arg).build(InjectorService.get<InjectorService>(InjectorService));
-      }
-
-      return arg;
-    });
-
-    return originalUse.call(this, ...args);
-  };
-
-  registerFactory(ExpressApplication, expressApp);
-
-  return expressApp;
-}
+registerFactory(ExpressApplication);

@@ -1,6 +1,7 @@
-import {Type} from "@tsed/core";
-import {InjectorService} from "../../di/services/InjectorService";
+import {Store, Type} from "@tsed/core";
+import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
 import {IInterceptor} from "../interfaces/IInterceptor";
+import {interceptorInvokeFactory} from "../utils/interceptorInvokeFactory";
 
 /**
  * Attaches interceptor to method call and executes the before and after methods
@@ -10,33 +11,14 @@ import {IInterceptor} from "../interfaces/IInterceptor";
  * @decorator
  */
 export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?: any): Function {
-  return (target: any, method: string, descriptor: PropertyDescriptor) => {
-    const original = descriptor.value;
-
-    descriptor.value = function (...args: any[]) {
-      if (InjectorService.has(interceptor)) {
-        // TODO replace by injector container
-        const instance = InjectorService.get<IInterceptor>(interceptor);
-
-        return instance.aroundInvoke(
-          {
-            target: this,
-            method,
-            args,
-            proceed: (err?: Error) => {
-              if (!err) {
-                return original.apply(this, args);
-              }
-
-              throw err;
-            }
-          },
-          options
-        );
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    Store.from(target).merge("injectableProperties", {
+      [propertyKey]: {
+        bindingType: "custom",
+        propertyKey,
+        onInvoke: interceptorInvokeFactory(propertyKey, interceptor, options)
       }
-
-      return original.apply(this, args);
-    };
+    } as IInjectableProperties);
 
     return descriptor;
   };

@@ -1,19 +1,14 @@
-import {InjectorService} from "../../di/services/InjectorService";
 import {Type} from "@tsed/core";
 import * as Express from "express";
 import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
-import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {EndpointRegistry} from "../registries/EndpointRegistry";
+import {InjectorService} from "../../di/services/InjectorService";
 import {ControllerProvider} from "./ControllerProvider";
 
 import {EndpointBuilder} from "./EndpointBuilder";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class ControllerBuilder {
-  constructor(
-    private provider: ControllerProvider,
-    private defaultRoutersOptions: IRouterOptions = {}
-  ) {
+  constructor(private provider: ControllerProvider, private defaultRoutersOptions: IRouterOptions = {}) {
     this.provider.router = Express.Router(Object.assign({}, defaultRoutersOptions, this.provider.routerOptions));
   }
 
@@ -23,9 +18,6 @@ export class ControllerBuilder {
    */
   build(injector: InjectorService): this {
     const ctrl = this.provider;
-
-    EndpointRegistry.inherit(this.provider.useClass);
-
     this.buildMiddlewares(injector, this.provider.middlewares.useBefore!);
 
     ctrl.endpoints.forEach(endpoint => {
@@ -35,8 +27,7 @@ export class ControllerBuilder {
     this.buildMiddlewares(injector, this.provider.middlewares.useAfter!);
 
     ctrl.dependencies.forEach((child: Type<any>) => {
-      // TODO Change by injector.getProvider()
-      const provider = ControllerRegistry.get(child) as ControllerProvider;
+      const provider = injector.getProvider(child) as ControllerProvider;
 
       /* istanbul ignore next */
       if (!provider) {
@@ -54,8 +45,6 @@ export class ControllerBuilder {
   private buildMiddlewares(injector: InjectorService, middlewares: any[]) {
     return middlewares
       .filter(o => typeof o === "function")
-      .forEach((middleware: any) =>
-        this.provider.router.use(HandlerBuilder.from(middleware).build(injector))
-      );
+      .forEach((middleware: any) => this.provider.router.use(HandlerBuilder.from(middleware).build(injector)));
   }
 }

@@ -72,7 +72,7 @@ export class FilterService extends ProxyMap<Type<any> | any, Provider<any>> {
    */
   @Deprecated("FilterService.invoke(). Removed feature")
   invokeMethod<T extends IFilter>(target: Type<T>, ...args: any[]): any {
-    const instance = this.injectorService.get(target);
+    const instance = this.injectorService.get<IFilter>(target);
 
     if (!instance || !instance.transform) {
       throw new UnknowFilterError(target);

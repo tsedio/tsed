@@ -16,7 +16,7 @@ export interface RegistryHook<T> {
   // onDelete?(key: RegistryKey): void;
 }
 
-export type RegistryKey = Type<any> | symbol;
+export type RegistryKey = Type<any> | symbol | any;
 
 /**
  * @private
@@ -84,7 +84,7 @@ export class Registry<T, O> extends Map<RegistryKey, T> {
    * @param options
    */
   merge(target: RegistryKey, options: Partial<O>): void {
-    const meta: T & { [key: string]: any } = this.createIfNotExists(target);
+    const meta: T & {[key: string]: any} = this.createIfNotExists(target);
 
     Object.keys(options).forEach(key => {
       meta[key] = (options as any)[key];
@@ -99,7 +99,6 @@ export class Registry<T, O> extends Map<RegistryKey, T> {
    * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
    */
   delete(key: RegistryKey): boolean {
-
     return super.delete(getClassOrSymbol(key));
   }
 }

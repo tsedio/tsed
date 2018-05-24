@@ -1,85 +1,22 @@
-import {globalServerSettings} from "../../../../src/common/config";
-import {Constant} from "../../../../src/common/config/decorators/constant";
-import {expect, Sinon} from "../../../tools";
+import {Constant} from "@tsed/common";
+import {Store} from "@tsed/core";
+import {expect} from "../../../tools";
 
-// const path = require("path");
-// const root = path.resolve(__dirname + "./../");
+class Test {}
 
-class TestConstant {
-  envTest: string;
-  envTest2: string;
-}
-
-describe("Constant()", () => {
-  describe("when constant is defined", () => {
-    before(() => {
-      this.getStub = Sinon.stub(globalServerSettings, "get");
-
-      this.getStub.withArgs("env.test").returns("value");
-      this.getStub.withArgs("env.test2").returns({test: "value"});
-
-      Constant("env.test")(TestConstant, "envTest");
-      Constant("env.test2")(TestConstant, "envTest2");
-
-      this.testConstant = new TestConstant();
-
-      try {
-        this.testConstant.envTest2.test = "value2";
-      } catch (er) {
-        this.error = er;
-      }
-    });
-
-    after(() => {
-      this.getStub.restore();
-    });
-
-    it("should return constants value (string)", () => {
-      expect(this.testConstant.envTest).to.be.eq("value");
-    });
-
-    it("should return constants value (obj)", () => {
-      expect(this.testConstant.envTest2).to.be.deep.eq({test: "value"});
-    });
-
-    it("should throw an error when the property object is rewritten", () => {
-      expect(this.error.message).to.contains("Cannot assign to read only property 'test' of");
-    });
+describe("@Constant()", () => {
+  before(() => {
+    Constant("expression")(Test, "test");
+    this.store = Store.from(Test).get("injectableProperties");
   });
 
-  describe("when constant is not defined", () => {
-    before(() => {
-      this.getStub = Sinon.stub(globalServerSettings, "get");
-
-      this.getStub.withArgs("env.test").returns(undefined);
-      this.getStub.withArgs("env.test2").returns({test: "value"});
-
-      Constant("env.test")(TestConstant, "envTest");
-      Constant("env.test2")(TestConstant, "envTest2");
-
-      this.testConstant = new TestConstant();
-
-      try {
-        this.testConstant.envTest2.test = "value2";
-      } catch (er) {
-        this.error = er;
+  it("should store metadata", () => {
+    expect(this.store).to.deep.eq({
+      test: {
+        bindingType: "constant",
+        propertyKey: "test",
+        expression: "expression"
       }
-    });
-
-    after(() => {
-      this.getStub.restore();
-    });
-
-    it("should return constants value (string)", () => {
-      expect(this.testConstant.envTest).to.be.eq(undefined);
-    });
-
-    it("should return constants value (obj)", () => {
-      expect(this.testConstant.envTest2).to.be.deep.eq({test: "value"});
-    });
-
-    it("should throw an error when the property object is rewritten", () => {
-      expect(this.error.message).to.contains("Cannot assign to read only property 'test' of");
     });
   });
 });

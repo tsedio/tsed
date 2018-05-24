@@ -1,4 +1,5 @@
-import {invoke} from "@tsed/testing";
+import {InjectorService} from "@tsed/common";
+import {inject, invoke} from "@tsed/testing";
 import {HttpServer} from "../../../../src/common/server/decorators/httpServer";
 import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../src/socketio";
@@ -11,8 +12,8 @@ describe("SocketIOService", () => {
 
       before(() => {
         this.socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
-        this.httpServer = {get: Sinon.stub().returns("httpServer")};
-        this.httpsServer = {get: Sinon.stub().returns("httpsServer")};
+        this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
+        this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
 
         socketIOService = invoke(SocketIOService, [
           {provide: HttpServer, use: this.httpServer},
@@ -37,11 +38,11 @@ describe("SocketIOService", () => {
       });
 
       it("should call attach method", () => {
-        this.socketIOServer.attach.should.have.been.calledWithExactly("httpServer", {
+        this.socketIOServer.attach.should.have.been.calledWithExactly(this.httpServer, {
           adapter: "adapter",
           config: "config"
         });
-        this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {
+        this.socketIOServer.attach.should.have.been.calledWithExactly(this.httpsServer, {
           adapter: "adapter",
           config: "config"
         });
@@ -64,8 +65,8 @@ describe("SocketIOService", () => {
 
       before(() => {
         this.socketIOServer = {attach: Sinon.stub()};
-        this.httpServer = {get: Sinon.stub().returns("httpServer")};
-        this.httpsServer = {get: Sinon.stub().returns("httpsServer")};
+        this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
+        this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
 
         socketIOService = invoke(SocketIOService, [
           {provide: HttpServer, use: this.httpServer},
@@ -92,7 +93,7 @@ describe("SocketIOService", () => {
       });
 
       it("should call attach method", () => {
-        this.socketIOServer.attach.should.have.been.calledWithExactly("httpsServer", {config: "config"});
+        this.socketIOServer.attach.should.have.been.calledWithExactly(this.httpsServer, {config: "config"});
       });
 
       it("should call getWebsocketServices method", () => {
@@ -106,28 +107,30 @@ describe("SocketIOService", () => {
   });
 
   describe("getNsp()", () => {
-    before(() => {
-      this.namespace = {
-        on: Sinon.stub()
-      };
-      this.ioStub = {
-        of: Sinon.stub().returns(this.namespace)
-      };
-      this.instance = {
-        onConnection: Sinon.stub(),
-        onDisconnect: Sinon.stub()
-      };
-      this.socket = {
-        on: Sinon.stub()
-      };
+    before(
+      inject([InjectorService], (injector: InjectorService) => {
+        this.namespace = {
+          on: Sinon.stub()
+        };
+        this.ioStub = {
+          of: Sinon.stub().returns(this.namespace)
+        };
+        this.instance = {
+          onConnection: Sinon.stub(),
+          onDisconnect: Sinon.stub()
+        };
+        this.socket = {
+          on: Sinon.stub()
+        };
 
-      const service = new SocketIOService({} as any, {} as any, this.ioStub, {} as any, {} as any);
-      const nspConf = service.getNsp("/");
-      nspConf.instances.push(this.instance);
+        const service = new SocketIOService(injector, {} as any, {} as any, this.ioStub, {} as any, {} as any);
+        const nspConf = service.getNsp("/");
+        nspConf.instances.push(this.instance);
 
-      this.namespace.on.getCall(0).args[1](this.socket);
-      this.socket.on.getCall(0).args[1]();
-    });
+        this.namespace.on.getCall(0).args[1](this.socket);
+        this.socket.on.getCall(0).args[1]();
+      })
+    );
 
     it("should call io.of and create namespace", () => {
       this.ioStub.of.should.have.been.calledWithExactly("/");

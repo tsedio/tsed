@@ -1,7 +1,7 @@
 export interface ProxyMapSettings {
   readonly?: boolean;
   filter?: {
-    [key: string]: any
+    [key: string]: any;
   };
 }
 
@@ -172,7 +172,7 @@ export abstract class ProxyMap<T, I> implements Map<T, I> {
 
     /* istanbul ignore else */
     if (typeof value === "object") {
-      return !!Object.keys(query).find((key) => {
+      return !!Object.keys(query).find(key => {
         /* istanbul ignore else */
         if (value[key] && query[key]) {
           return this.query(value[key], query[key]);

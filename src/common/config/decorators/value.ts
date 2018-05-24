@@ -1,5 +1,5 @@
-import {getClass} from "@tsed/core";
-import {globalServerSettings} from "../services/GlobalSettings";
+import {Store} from "@tsed/core";
+import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
 
 /**
  * Return value from ServerSettingsService.
@@ -27,20 +27,12 @@ import {globalServerSettings} from "../services/GlobalSettings";
  */
 export function Value(expression: any) {
   return (target: any, propertyKey: string) => {
-    if (delete target[propertyKey]) {
-      let value: any;
-
-      const descriptor = {
-        get: () => (value !== undefined ? value : globalServerSettings.get(expression)),
-
-        set: (v: any) => {
-          value = v;
-        },
-
-        enumerable: true,
-        configurable: true
-      };
-      Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
-    }
+    Store.from(target).merge("injectableProperties", {
+      [propertyKey]: {
+        bindingType: "value",
+        propertyKey,
+        expression
+      }
+    } as IInjectableProperties);
   };
 }

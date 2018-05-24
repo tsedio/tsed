@@ -4,12 +4,10 @@ import {expect} from "../../../tools";
 
 describe("@SocketUseBefore", () => {
   describe("when the decorator is used on a class", () => {
-    class Test {
-    }
+    class Test {}
 
     before(() => {
-      this.middleware = () => {
-      };
+      this.middleware = () => {};
       SocketUseBefore(this.middleware)(Test);
     });
 
@@ -21,12 +19,10 @@ describe("@SocketUseBefore", () => {
   });
 
   describe("when the decorator is used on a method", () => {
-    class Test {
-    }
+    class Test {}
 
     before(() => {
-      this.middleware = () => {
-      };
+      this.middleware = () => {};
       SocketUseBefore(this.middleware)(Test, "test", {});
     });
 

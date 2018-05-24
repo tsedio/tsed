@@ -4,7 +4,8 @@ import {ConverterDeserializationError} from "../../../../src/common/converters/e
 describe("ConverterDeserializationError", () => {
   before(() => {
     this.genericError = new Error("test");
-    this.errorInstance = new ConverterDeserializationError(class Test {}, {}, this.genericError);
+    this.errorInstance = new ConverterDeserializationError(class Test {
+    }, {}, this.genericError);
   });
 
   after(() => {

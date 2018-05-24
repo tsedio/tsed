@@ -1,4 +1,4 @@
-import {ServerSettingsProvider} from "../../../../src/common/config/class/ServerSettingsProvider";
+import {ServerSettingsService} from "../../../../src/common/config/services/ServerSettingsService";
 import {GlobalAcceptMimesMiddleware} from "../../../../src/common/mvc/components/GlobalAcceptMimesMiddleware";
 import {inject} from "../../../../src/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
@@ -7,7 +7,7 @@ import {assert, expect} from "../../../tools";
 describe("GlobalAcceptMimesMiddleware", () => {
   before(
     inject([], () => {
-      const settings = new ServerSettingsProvider();
+      const settings = new ServerSettingsService();
       settings.acceptMimes = ["application/json"];
 
       this.middleware = new GlobalAcceptMimesMiddleware(settings);

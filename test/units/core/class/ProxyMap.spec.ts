@@ -1,16 +1,13 @@
 import {ProxyMap} from "../../../../src/core/class/ProxyMap";
 import {expect} from "../../../tools";
 
-class MapImpl extends ProxyMap<any, any> {
-
-}
+class MapImpl extends ProxyMap<any, any> {}
 
 class MapFilteredImpl extends ProxyMap<any, any> {
   constructor(map: any) {
     super(map, {filter: {type: "type1"}});
   }
 }
-
 
 describe("ProxyMap", () => {
   describe("without filtering", () => {

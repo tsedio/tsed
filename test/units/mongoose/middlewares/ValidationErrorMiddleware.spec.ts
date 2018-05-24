@@ -3,25 +3,46 @@ import {ValidationErrorMiddleware} from "../../../../src/mongoose/middlewares/Va
 import {expect, Sinon} from "../../../tools";
 
 describe("ValidationErrorMiddleware", () => {
-  class MongooseError {}
-
-  before(() => {
-    const error = new MongooseError();
-    this.nameOfStub = Sinon.stub(mod, "nameOf").returns("MongooseError");
-    this.nextStub = Sinon.stub();
-    this.middleware = new ValidationErrorMiddleware();
-    try {
-      this.middleware.use(error, this.nextStub);
-    } catch (er) {
-      this.error = er;
+  describe("when success", () => {
+    class MongooseError {
     }
+
+    before(() => {
+      const error = new MongooseError();
+      this.nameOfStub = Sinon.stub(mod, "nameOf").returns("MongooseError");
+      this.nextStub = Sinon.stub();
+      this.middleware = new ValidationErrorMiddleware();
+      try {
+        this.middleware.use(error, this.nextStub);
+      } catch (er) {
+        this.error = er;
+      }
+    });
+
+    after(() => {
+      this.nameOfStub.restore();
+    });
+
+    it("should cast error", () => {
+      expect(this.error.name).to.equal("BAD_REQUEST");
+    });
   });
 
-  after(() => {
-    this.nameOfStub.restore();
-  });
+  describe("when error", () => {
+    before(() => {
+      this.error = new Error();
+      this.nameOfStub = Sinon.stub(mod, "nameOf").returns("Error");
+      this.nextStub = Sinon.stub();
+      this.middleware = new ValidationErrorMiddleware();
+      this.middleware.use(this.error, this.nextStub);
+    });
 
-  it("should cast error", () => {
-    expect(this.error.name).to.equal("BAD_REQUEST");
+    after(() => {
+      this.nameOfStub.restore();
+    });
+
+    it("should call next()", () => {
+      this.nextStub.should.have.been.calledWithExactly(this.error);
+    });
   });
 });

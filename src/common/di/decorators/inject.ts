@@ -1,5 +1,4 @@
-import {descriptorOf, Metadata, Type} from "@tsed/core";
-import {InjectorService} from "../services/InjectorService";
+import {getDecoratorType, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
 
 /**
  *
@@ -8,41 +7,42 @@ import {InjectorService} from "../services/InjectorService";
  * @decorator
  */
 export function Inject(symbol?: any): Function {
-  return <T>(target: Type<T>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any => {
-    if (typeof descriptor === "number") {
-      if (symbol) {
-        const paramTypes = Metadata.getParamTypes(target, targetKey);
+  return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any => {
+    const bindingType = getDecoratorType([target, propertyKey, descriptor], true);
 
-        paramTypes[descriptor] = symbol;
+    switch (bindingType) {
+      case "parameter":
+      case "parameter.constructor":
+        if (symbol) {
+          const paramTypes = Metadata.getParamTypes(target, propertyKey);
 
-        Metadata.setParamTypes(target, targetKey, paramTypes);
-      }
-    } else {
-      // save a reference to the original method this way we keep the values currently in the
-      // descriptor and don't overwrite what another decorator might have done to the descriptor.
-      /* istanbul ignore next */
-      if (descriptor === undefined) {
-        descriptor = descriptorOf(target, targetKey);
-      }
-
-      const originalMethod = descriptor.value;
-
-      descriptor.value = function(locals: Map<Function, string> = new Map<Function, string>()) {
-        /* istanbul ignore next */
-        if (locals instanceof Map === false) {
-          locals = new Map();
+          paramTypes[descriptor as number] = symbol;
+          Metadata.setParamTypes(target, propertyKey, paramTypes);
         }
+        break;
 
-        return InjectorService.invokeMethod(originalMethod!.bind(this), {
-          target,
-          methodName: targetKey,
-          locals
+      case "property":
+        Store.from(target).merge("injectableProperties", {
+          [propertyKey]: {
+            bindingType,
+            propertyKey,
+            useType: symbol || Metadata.getType(target, propertyKey)
+          }
         });
-      };
+        break;
 
-      (descriptor.value as any).$injected = true;
+      case "method":
+        Store.from(target).merge("injectableProperties", {
+          [propertyKey]: {
+            bindingType,
+            propertyKey
+          }
+        });
 
-      return descriptor;
+        return descriptor;
+
+      default:
+        throw new UnsupportedDecoratorType(Inject, [target, propertyKey, descriptor]);
     }
   };
 }
