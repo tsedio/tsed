@@ -2,12 +2,10 @@ import {EntityDescription} from "../../../../src/core/class/EntityDescription";
 import {expect} from "../../../tools";
 
 class Test {
-  method(arg1: any, arg2: any) {
-  }
+  method(arg1: any, arg2: any) {}
 }
 
-class EntityTest extends EntityDescription {
-}
+class EntityTest extends EntityDescription {}
 
 describe("EntityDescription", () => {
   describe("getter / setter", () => {

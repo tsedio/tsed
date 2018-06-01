@@ -73,7 +73,7 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
    *
    * @param components
    */
-  public $onRoutesInit(components: { file: string; endpoint: string; classes: any[] }[]) {
+  public $onRoutesInit(components: {file: string; endpoint: string; classes: any[]}[]) {
     $log.info("Map controllers");
     this.mapComponents(components);
   }
@@ -97,8 +97,7 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
    */
   private mapComponents(components: IComponentScanned[]) {
     components.forEach(component => {
-      Object
-        .keys(component.classes)
+      Object.keys(component.classes)
         .map(clazzName => component.classes[clazzName])
         .filter(clazz => component.endpoint && this.has(clazz))
         .map(clazz => this.get(clazz))
@@ -134,7 +133,7 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
     return this.injectorService.invoke<T>(target.provide || target, locals, designParamTypes);
   }
 
-  get routes(): { route: string; provider: any }[] {
+  get routes(): {route: string; provider: any}[] {
     return this.routeService.routes;
   }
 }

@@ -16,7 +16,7 @@ const rootDir = Path.resolve(__dirname);
   rootDir,
   port: 8001,
   httpsPort: 8071,
-  debug: false,
+  debug: true,
   mount: {
     "/": [SocketPageCtrl],
     "/rest": ["${rootDir}/controllers/Base/**.js", "${rootDir}/controllers/calendars/**.ts", RestCtrl],

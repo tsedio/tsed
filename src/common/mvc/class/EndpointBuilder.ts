@@ -1,6 +1,5 @@
-import {InjectorService} from "../../di/services/InjectorService";
 import {nameOf} from "@tsed/core";
-import {globalServerSettings} from "../../config";
+import {InjectorService} from "../../di/services/InjectorService";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
@@ -9,16 +8,15 @@ import {HandlerBuilder} from "./HandlerBuilder";
  *
  */
 export class EndpointBuilder {
-  constructor(private endpoint: EndpointMetadata, private router: any) {
-  }
+  constructor(private endpoint: EndpointMetadata, private router: any) {}
 
   /**
    *
    */
-  private onRequest(endpoint: EndpointMetadata) {
+  private onRequest(endpoint: EndpointMetadata, debug: boolean) {
     return (request: any, response: any, next: any) => {
       /* istanbul ignore else */
-      if (request.id && globalServerSettings.debug) {
+      if (request.id && debug) {
         request.log.debug({
           event: "attach.endpoint",
           target: nameOf(endpoint.target),
@@ -58,6 +56,7 @@ export class EndpointBuilder {
    */
   build(injector: InjectorService) {
     const endpoint = this.endpoint;
+    const debug = injector.settings.debug;
 
     let middlewares: any = []
       .concat(endpoint.beforeMiddlewares as any)
@@ -68,7 +67,7 @@ export class EndpointBuilder {
       .filter((item: any) => !!item)
       .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));
 
-    middlewares = [this.onRequest(endpoint)].concat(middlewares);
+    middlewares = [this.onRequest(endpoint, debug)].concat(middlewares);
 
     this.routeMiddlewares(middlewares);
 

@@ -9,31 +9,43 @@ export class EndpointRegistry {
    * Retrieve all endpoints from inherited class and store it in the registry.
    * @param {Type<any>} ctrlClass
    */
-  static inherit(ctrlClass: Type<any>) {
+  private static inherit(ctrlClass: Type<any>) {
+    const endpoints: EndpointMetadata[] = [];
     let inheritedClass = getInheritedClass(ctrlClass);
 
     while (inheritedClass && EndpointRegistry.hasEndpoints(inheritedClass)) {
-      this.getEndpoints(inheritedClass).forEach((endpointInheritedClass: EndpointMetadata) => {
+      this.getOwnEndpoints(inheritedClass).forEach((endpointInheritedClass: EndpointMetadata) => {
         const endpoint = endpointInheritedClass.inherit(ctrlClass);
 
-        EndpointRegistry.getEndpoints(ctrlClass).push(endpoint);
+        endpoints.push(endpoint);
       });
 
       inheritedClass = getInheritedClass(inheritedClass);
     }
+
+    return endpoints;
   }
 
   /**
-   * Get endpoints by his target.
+   * Return all endpoints from the given class. This method doesn't return the endpoints from the parent of the given class.
+   * @param {Type<any>} target
+   * @returns {any}
+   */
+  static getOwnEndpoints(target: Type<any>) {
+    if (!this.hasEndpoints(target)) {
+      Metadata.set("endpoints", [], target);
+    }
+
+    return Metadata.getOwn("endpoints", target);
+  }
+
+  /**
+   * Get all endpoints from a given class and his parents.
    * @param {Type<any>} target
    * @returns {EndpointMetadata[]}
    */
   static getEndpoints(target: Type<any>): EndpointMetadata[] {
-    if (!this.hasEndpoints(target)) {
-      Metadata.set(EndpointRegistry.name, [], target);
-    }
-
-    return Metadata.getOwn(EndpointRegistry.name, target);
+    return this.getOwnEndpoints(target).concat(this.inherit(target));
   }
 
   /**
@@ -42,7 +54,7 @@ export class EndpointRegistry {
    * @returns {boolean}
    */
   static hasEndpoints(target: Type<any>) {
-    return Metadata.hasOwn(EndpointRegistry.name, target);
+    return Metadata.hasOwn("endpoints", target);
   }
 
   /**
@@ -53,11 +65,11 @@ export class EndpointRegistry {
   static get(target: Type<any>, method: string): EndpointMetadata {
     if (!this.has(target, method)) {
       const endpoint = new EndpointMetadata(target, method);
-      EndpointRegistry.getEndpoints(target).push(endpoint);
-      Metadata.set(EndpointRegistry.name, endpoint, target, method);
+      this.getOwnEndpoints(target).push(endpoint);
+      Metadata.set("endpoints", endpoint, target, method);
     }
 
-    return Metadata.getOwn(EndpointRegistry.name, target, method);
+    return Metadata.getOwn("endpoints", target, method);
   }
 
   /**
@@ -66,7 +78,7 @@ export class EndpointRegistry {
    * @param method
    */
   static has(target: Type<any>, method: string): boolean {
-    return Metadata.hasOwn(EndpointRegistry.name, target, method);
+    return Metadata.hasOwn("endpoints", target, method);
   }
 
   /**

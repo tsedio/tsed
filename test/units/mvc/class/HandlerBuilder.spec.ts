@@ -2,8 +2,6 @@ import {ProviderType} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import {BadRequest} from "ts-httpexceptions";
 import "../../../../src/ajv";
-import {globalServerSettings} from "../../../../src/common/config";
-import {ProviderRegistry} from "../../../../src/common/di/registries/ProviderRegistry";
 import {InjectorService} from "../../../../src/common/di/services/InjectorService";
 import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
@@ -14,11 +12,9 @@ import {FakeResponse} from "../../../helper/FakeResponse";
 import {$logStub, assert, expect, restore, Sinon} from "../../../tools";
 
 class Test {
-  get() {
-  }
+  get() {}
 
-  use() {
-  }
+  use() {}
 }
 
 describe("HandlerBuilder", () => {
@@ -44,8 +40,7 @@ describe("HandlerBuilder", () => {
     });
     describe("from function", () => {
       before(() => {
-        this.builder = HandlerBuilder.from(() => {
-        });
+        this.builder = HandlerBuilder.from(() => {});
       });
 
       it("should create builder", () => {
@@ -63,26 +58,28 @@ describe("HandlerBuilder", () => {
     });
 
     describe("when is a middleware", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.response = new FakeResponse();
-        this.request = new FakeRequest();
-        this.nextSpy = Sinon.spy();
-        this.stub = Sinon.stub();
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.response = new FakeResponse();
+          this.request = new FakeRequest();
+          this.nextSpy = Sinon.spy();
+          this.stub = Sinon.stub();
 
-        this.metadata = {
-          nextFunction: false,
-          errorParam: false,
-          target: (req: any, res: any) => {
-            this.stub(req, res);
-          },
-          services: [{param: "param"}]
-        };
+          this.metadata = {
+            nextFunction: false,
+            errorParam: false,
+            target: (req: any, res: any) => {
+              this.stub(req, res);
+            },
+            services: [{param: "param"}]
+          };
 
-        this.filterBuildStub = Sinon.stub(FilterBuilder.prototype, "build");
+          this.filterBuildStub = Sinon.stub(FilterBuilder.prototype, "build");
 
-        this.middleware = new HandlerBuilder(this.metadata).build(injector);
-        this.middleware({request: "request"}, {response: "response"}, "function");
-      }));
+          this.middleware = new HandlerBuilder(this.metadata).build(injector);
+          this.middleware({request: "request"}, {response: "response"}, "function");
+        })
+      );
 
       after(() => {
         this.filterBuildStub.restore();
@@ -98,24 +95,26 @@ describe("HandlerBuilder", () => {
     });
 
     describe("when is an error middleware", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.response = new FakeResponse();
-        this.request = new FakeRequest();
-        this.nextSpy = Sinon.spy();
-        this.stub = Sinon.stub();
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.response = new FakeResponse();
+          this.request = new FakeRequest();
+          this.nextSpy = Sinon.spy();
+          this.stub = Sinon.stub();
 
-        this.metadata = {
-          nextFunction: false,
-          errorParam: true,
-          target: (req: any, res: any) => {
-            this.stub(req, res);
-          },
-          services: [{param: "param"}]
-        };
+          this.metadata = {
+            nextFunction: false,
+            errorParam: true,
+            target: (req: any, res: any) => {
+              this.stub(req, res);
+            },
+            services: [{param: "param"}]
+          };
 
-        this.middleware = new HandlerBuilder(this.metadata).build(injector);
-        this.middleware("error", {request: "request"}, {response: "response"}, "function");
-      }));
+          this.middleware = new HandlerBuilder(this.metadata).build(injector);
+          this.middleware("error", {request: "request"}, {response: "response"}, "function");
+        })
+      );
 
       after(() => {
         this.filterBuildStub.restore();
@@ -176,10 +175,8 @@ describe("HandlerBuilder", () => {
   });
   describe("log", () => {
     before(() => {
-      globalServerSettings.debug = true;
       this.metadata = {
-        target: class Test {
-        },
+        target: class Test {},
         type: "type",
         nextFunction: false,
         injectable: false,
@@ -195,10 +192,8 @@ describe("HandlerBuilder", () => {
         }
       };
       const handlerBuilder: any = new HandlerBuilder(this.metadata);
+      (handlerBuilder as any).debug = true;
       handlerBuilder.log(this.request);
-    });
-    after(() => {
-      globalServerSettings.debug = true;
     });
 
     it("should create a log", () => {
@@ -471,36 +466,37 @@ describe("HandlerBuilder", () => {
   });
   describe("buildHandler()", () => {
     describe("when component is known", () => {
-      before(inject([InjectorService], (injector: InjectorService) => {
-        this.instance = {
-          method: () => {
-          }
-        };
-        this.invokeStub = Sinon.stub(injector, "invoke");
-        this.invokeStub.returns(this.instance);
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.instance = {
+            method: () => {}
+          };
+          this.invokeStub = Sinon.stub(injector, "invoke");
+          this.invokeStub.returns(this.instance);
 
-        this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
-        this.controllerGetStub.returns({
-          useClass: "providerClass"
-        });
-        this.handlerMetadata = {
-          target: "target",
-          methodClassName: "method"
-        };
-        this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-        this.handlerBuilder.injector = injector;
+          this.injectorGetProvider = Sinon.stub(injector, "getProvider");
+          this.injectorGetProvider.returns({
+            useClass: "providerClass"
+          });
+          this.handlerMetadata = {
+            target: "target",
+            methodClassName: "method"
+          };
+          this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
+          this.handlerBuilder.injector = injector;
 
-        this.locals = new Map<string | Function, any>();
-        this.result = this.handlerBuilder.buildHandler(this.locals);
-      }));
+          this.locals = new Map<string | Function, any>();
+          this.result = this.handlerBuilder.buildHandler(this.locals);
+        })
+      );
 
       after(() => {
-        this.controllerGetStub.restore();
+        this.injectorGetProvider.restore();
         this.invokeStub.restore();
       });
 
       it("should have called the ProviderRegistry.get method", () => {
-        this.controllerGetStub.should.have.been.calledWithExactly("target");
+        this.injectorGetProvider.should.have.been.calledWithExactly("target");
       });
       it("should have called the invoke method", () => {
         this.invokeStub.should.have.been.calledWithExactly("providerClass", this.locals, undefined, true);
@@ -510,34 +506,37 @@ describe("HandlerBuilder", () => {
       });
     });
     describe("when component is known and instance is already built", () => {
-      before(() => {
-        this.instance = {
-          method: () => {
-          }
-        };
-        this.invokeStub = Sinon.stub(InjectorService, "invoke");
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.instance = {
+            method: () => {}
+          };
+          this.invokeStub = Sinon.stub(injector, "invoke");
+          this.injectorGetProvider = Sinon.stub(injector, "getProvider");
+          this.injectorGetProvider.returns({
+            useClass: "providerClass",
+            instance: this.instance,
+            scope: "singleton"
+          });
 
-        this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
-        this.controllerGetStub.returns({
-          useClass: "providerClass",
-          instance: this.instance,
-          scope: "singleton"
-        });
-        this.handlerMetadata = {
-          target: "target",
-          methodClassName: "method"
-        };
-        this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-        this.result = this.handlerBuilder.buildHandler();
-      });
+          this.handlerMetadata = {
+            target: "target",
+            methodClassName: "method"
+          };
+          this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
+          this.handlerBuilder.injector = injector;
+
+          this.result = this.handlerBuilder.buildHandler();
+        })
+      );
 
       after(() => {
-        this.controllerGetStub.restore();
+        this.injectorGetProvider.restore();
         this.invokeStub.restore();
       });
 
       it("should have called the ProviderRegistry.get method", () => {
-        this.controllerGetStub.should.have.been.calledWithExactly("target");
+        this.injectorGetProvider.should.have.been.calledWithExactly("target");
       });
       it("should not have called the invoke method", () => {
         this.invokeStub.should.not.be.called;
@@ -547,25 +546,28 @@ describe("HandlerBuilder", () => {
       });
     });
     describe("when component is unknown", () => {
-      before(() => {
-        this.invokeStub = Sinon.stub(InjectorService, "invoke");
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.invokeStub = Sinon.stub(injector, "invoke");
 
-        this.controllerGetStub = Sinon.stub(ProviderRegistry, "get");
-        this.controllerGetStub.returns(undefined);
-        this.handlerMetadata = {
-          target: "target",
-          methodClassName: "method"
-        };
-        this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
-      });
+          this.injectorGetProvider = Sinon.stub(injector, "get");
+          this.injectorGetProvider.returns(undefined);
+          this.handlerMetadata = {
+            target: "target",
+            methodClassName: "method"
+          };
+          this.handlerBuilder = new HandlerBuilder(this.handlerMetadata);
+          this.handlerBuilder.injector = injector;
+        })
+      );
 
       after(() => {
-        this.controllerGetStub.restore();
+        this.injectorGetProvider.restore();
         this.invokeStub.restore();
       });
 
       it("should throw an exception", () => {
-        assert.throws(() => this.handlerBuilder.buildHandler(), "target component not found in the ProviderRegistry");
+        assert.throws(() => this.handlerBuilder.buildHandler(), "target component not found in the injector");
       });
     });
   });

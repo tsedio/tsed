@@ -1,19 +1,18 @@
-import {isClass} from "@tsed/core";
+import {Deprecated, isClass} from "@tsed/core";
 import * as Express from "express";
 import * as globby from "globby";
 import * as Http from "http";
 import * as Https from "https";
 import * as Path from "path";
 import {$log} from "ts-log-debug";
-import {ServerSettingsProvider} from "../../config";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {InjectorService} from "../../di/services/InjectorService";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
+import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
-import {createExpressApplication, ExpressApplication} from "../../mvc/decorators/class/expressApplication";
+import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
@@ -68,29 +67,53 @@ $log.level = "info";
 
 export abstract class ServerLoader implements IServerLifecycle {
   public version: string = "0.0.0-PLACEHOLDER";
-  private _expressApp: ExpressApplication = createExpressApplication();
-  private _settings: ServerSettingsProvider;
   private _components: IComponentScanned[] = [];
-  private _httpServer: Http.Server;
-  private _httpsServer: Https.Server;
-  private _injectorService: InjectorService;
+  private _injector: InjectorService;
   private _scannedPromises: Promise<any>[] = [];
 
   /**
    *
    */
   constructor() {
-    this._settings = InjectorService.get<ServerSettingsProvider>(ServerSettingsService);
-    const settings = ServerSettingsProvider.getMetadata(this);
+    this._injector = new InjectorService();
+
+    this.createExpressApplication();
+
+    const settings = ServerSettingsService.getMetadata(this);
 
     if ((this as any).$onAuth) {
       $log.warn("The $onAuth hooks is removed. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
     }
 
     if (settings) {
-      $log.debug("Autoload configuration from metadata");
       this.setSettings(settings);
     }
+  }
+
+  /**
+   *
+   * @returns {Express}
+   */
+  private createExpressApplication(): ServerLoader {
+    const expressApp = Express();
+    const originalUse = expressApp.use;
+    const injector = this.injector;
+
+    expressApp.use = function (...args: any[]) {
+      args = args.map(arg => {
+        if (injector.has(arg)) {
+          arg = HandlerBuilder.from(arg).build(injector);
+        }
+
+        return arg;
+      });
+
+      return originalUse.call(this, ...args);
+    };
+
+    this.injector.forkProvider(ExpressApplication, expressApp);
+
+    return this;
   }
 
   /**
@@ -98,14 +121,14 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public createHttpServer(port: string | number): ServerLoader {
-    this._httpServer = Http.createServer(this._expressApp as any);
-
-    const httpServer: any = (this._httpServer = Http.createServer(this._expressApp));
+    const httpServer: any = Http.createServer(this.expressApp);
+    // TODO to be removed
+    /* istanbul ignore next */
     httpServer.get = () => httpServer;
 
-    registerFactory(HttpServer, httpServer);
+    this.injector.forkProvider(HttpServer, httpServer);
 
-    this._settings.httpPort = port;
+    this.settings.httpPort = port;
 
     return this;
   }
@@ -127,12 +150,14 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
-    const httpsServer: any = (this._httpsServer = Https.createServer(options, this._expressApp));
+    const httpsServer: any = Https.createServer(options, this.expressApp);
+    // TODO to be removed
+    /* istanbul ignore next */
     httpsServer.get = () => httpsServer;
 
-    registerFactory(HttpsServer, httpsServer);
+    this.injector.forkProvider(HttpsServer, httpsServer);
 
-    this._settings.httpsPort = options.port;
+    this.settings.httpsPort = options.port;
 
     return this;
   }
@@ -202,14 +227,13 @@ export abstract class ServerLoader implements IServerLifecycle {
   protected async loadSettingsAndInjector() {
     $log.debug("Initialize settings");
 
-    this.getSettingsService().forEach((value, key) => {
+    this.settings.forEach((value, key) => {
       $log.info(`settings.${key} =>`, value);
     });
 
     $log.info("Build services");
-    this._injectorService = InjectorService.get<InjectorService>(InjectorService);
 
-    return this.injectorService.load();
+    return this.injector.load();
   }
 
   private callHook = (key: string, elseFn = new Function(), ...args: any[]) => {
@@ -227,8 +251,9 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    *
    */
+  @Deprecated("Removed feature. Use ServerLoader.settings")
   protected getSettingsService(): ServerSettingsService {
-    return this._settings.$get();
+    return this.settings;
   }
 
   /**
@@ -238,7 +263,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   public async start(): Promise<any> {
     const start = new Date();
     try {
-      const debug = this.settings.get("debug");
+      const debug = this.settings.debug;
 
       /* istanbul ignore next */
       if (debug && this.settings.env !== "test") {
@@ -254,7 +279,7 @@ export abstract class ServerLoader implements IServerLifecycle {
       await this.startServers();
       await this.callHook("$onReady");
 
-      await this.injectorService.emit("$onServerReady");
+      await this.injector.emit("$onServerReady");
 
       $log.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
     } catch (err) {
@@ -272,8 +297,8 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   protected startServer(
     http: Http.Server | Https.Server,
-    settings: {https: boolean; address: string | number; port: number}
-  ): Promise<{address: string; port: number}> {
+    settings: { https: boolean; address: string | number; port: number }
+  ): Promise<{ address: string; port: number }> {
     const {address, port, https} = settings;
 
     $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
@@ -300,20 +325,20 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /* istanbul ignore else */
     if ((this.settings.httpPort as any) !== false) {
-      const settings = this._settings.getHttpPort();
+      const settings = this.settings.getHttpPort();
       promises.push(
         this.startServer(this.httpServer, {https: false, ...settings}).then(settings => {
-          this._settings.setHttpPort(settings);
+          this.settings.setHttpPort(settings);
         })
       );
     }
 
     /* istanbul ignore else */
     if ((this.settings.httpsPort as any) !== false) {
-      const settings = this._settings.getHttpsPort();
+      const settings = this.settings.getHttpsPort();
       promises.push(
         this.startServer(this.httpsServer, {https: true, ...settings}).then(settings => {
-          this._settings.setHttpsPort(settings);
+          this.settings.setHttpsPort(settings);
         })
       );
     }
@@ -446,12 +471,12 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     this.use(LogIncomingRequestMiddleware);
     await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
-    await this.injectorService.emit("$beforeRoutesInit");
-    await this.injectorService.emit("$onRoutesInit", this._components);
+    await this.injector.emit("$beforeRoutesInit");
+    await this.injector.emit("$onRoutesInit", this._components);
 
     delete this._components; // free memory
 
-    await this.injectorService.emit("$afterRoutesInit");
+    await this.injector.emit("$afterRoutesInit");
 
     await this.callHook("$afterRoutesInit", undefined, this.expressApp);
 
@@ -463,26 +488,24 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    */
   protected setSettings(settings: IServerSettings) {
-    this._settings.set(settings);
+    this.settings.set(settings);
 
     if (this.settings.env === "test") {
       $log.stop();
     }
-    const settingsService = this.getSettingsService();
-
     const bind = (property: string, value: any, map: Map<string, any>) => {
       switch (property) {
         case "mount":
-          Object.keys(settingsService.mount).forEach(key => this.mount(key, value[key]));
+          Object.keys(this.settings.mount).forEach(key => this.mount(key, value[key]));
           break;
 
         case "componentsScan":
-          settingsService.componentsScan.forEach(componentDir => this.scan(componentDir));
+          this.settings.componentsScan.forEach(componentDir => this.scan(componentDir));
           break;
 
         case "httpPort":
           /* istanbul ignore else */
-          if (value !== false && this._httpServer === undefined) {
+          if (value !== false && this.httpServer === undefined) {
             this.createHttpServer(value);
           }
 
@@ -490,7 +513,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         case "httpsPort":
           /* istanbul ignore else */
-          if (value !== false && this._httpsServer === undefined) {
+          if (value !== false && this.httpsServer === undefined) {
             this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
           }
 
@@ -498,7 +521,7 @@ export abstract class ServerLoader implements IServerLifecycle {
       }
     };
 
-    settingsService.forEach((value, key, map) => {
+    this.settings.forEach((value, key, map) => {
       /* istanbul ignore else */
       if (value !== undefined) {
         bind(key, value, map);
@@ -524,10 +547,10 @@ export abstract class ServerLoader implements IServerLifecycle {
    * }
    * ```
    *
-   * @returns {ServerSettingsProvider}
+   * @returns {ServerSettingsService}
    */
-  get settings(): ServerSettingsProvider {
-    return this._settings;
+  get settings(): ServerSettingsService {
+    return this.injector.settings;
   }
 
   /**
@@ -535,15 +558,23 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {core.Express}
    */
   get expressApp(): Express.Application {
-    return this._expressApp;
+    return this.injector.get<ExpressApplication>(ExpressApplication)!;
+  }
+
+  /**
+   * Return the InjectorService initialized by the server.
+   * @returns {InjectorService}
+   */
+  get injectorService(): InjectorService {
+    return this._injector;
   }
 
   /**
    * Return the injectorService initialized by the server.
    * @returns {InjectorService}
    */
-  get injectorService(): InjectorService {
-    return this._injectorService;
+  get injector(): InjectorService {
+    return this._injector;
   }
 
   /**
@@ -551,7 +582,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Http.Server}
    */
   get httpServer(): Http.Server {
-    return this._httpServer;
+    return this.injectorService.get<HttpServer>(HttpServer)!;
   }
 
   /**
@@ -559,7 +590,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Https.Server}
    */
   get httpsServer(): Https.Server {
-    return this._httpsServer;
+    return this.injectorService.get<HttpsServer>(HttpsServer)!;
   }
 
   /**

@@ -6,10 +6,8 @@ import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerPro
 import {ControllerService} from "../../../../src/common/mvc/services/ControllerService";
 import {expect, Sinon} from "../../../tools";
 
-
 class Test {
-  constructor(private testService: TestService) {
-  }
+  constructor(private testService: TestService) {}
 
   test() {
     this.testService.fake();
@@ -17,20 +15,16 @@ class Test {
 }
 
 class TestService {
-  constructor() {
-  }
+  constructor() {}
 
-  fake() {
-  }
+  fake() {}
 }
 
 // const pushRouterPath = Sinon.stub();
 
 describe("ControllerService", () => {
   describe("buildRouters()", () => {
-    class Test {
-
-    }
+    class Test {}
 
     before(() => {
       this.injector = new Map();
@@ -70,9 +64,7 @@ describe("ControllerService", () => {
     });
   });
   describe("mapComponents()", () => {
-    class Test {
-
-    }
+    class Test {}
 
     before(() => {
       this.buildRoutersStub = Sinon.stub(ControllerService.prototype as any, "buildRouters");
@@ -93,7 +85,8 @@ describe("ControllerService", () => {
 
       this.service.mapComponents([
         {
-          endpoint: "endpoint", classes: {
+          endpoint: "endpoint",
+          classes: {
             Test
           }
         }
@@ -172,8 +165,7 @@ describe("ControllerService", () => {
 
   describe("invoke()", () => {
     describe("when the controller hasn't a configured provider", () => {
-      class Test2 {
-      }
+      class Test2 {}
 
       before(
         inject([ControllerService], (controllerService: ControllerService) => {

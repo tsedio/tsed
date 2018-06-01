@@ -1,13 +1,5 @@
-import {getClass} from "@tsed/core";
-import {globalServerSettings} from "../services/GlobalSettings";
-
-const clone = (o: any) => {
-  if (o) {
-    return Object.freeze(JSON.parse(JSON.stringify(o)));
-  }
-
-  return undefined;
-};
+import {Store} from "@tsed/core";
+import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
 
 /**
  * Return value from ServerSettingsService.
@@ -35,16 +27,12 @@ const clone = (o: any) => {
  */
 export function Constant(expression: string): any {
   return (target: any, propertyKey: string) => {
-    if (delete target[propertyKey]) {
-      const descriptor = {
-        get: () => clone(globalServerSettings.get(expression)),
-
-        enumerable: true,
-        configurable: true
-      };
-      Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
-
-      return descriptor;
-    }
+    Store.from(target).merge("injectableProperties", {
+      [propertyKey]: {
+        bindingType: "constant",
+        propertyKey,
+        expression
+      }
+    } as IInjectableProperties);
   };
 }

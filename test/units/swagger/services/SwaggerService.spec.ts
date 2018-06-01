@@ -1,4 +1,4 @@
-import {ExpressApplication, InjectorService, ServerSettingsService} from "@tsed/common";
+import {ExpressApplication, ServerSettingsService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
 import * as Express from "express";
@@ -10,18 +10,15 @@ class Test {}
 
 describe("SwaggerService", () => {
   before(
-    inject([InjectorService, ServerSettingsService], (injectorService: InjectorService, settingsService: ServerSettingsService) => {
-      this.expressApplication = {use: Sinon.stub(), get: Sinon.stub()};
-      this.settingsService = settingsService;
-
-      const locals = new Map();
-      locals.set(ExpressApplication, this.expressApplication);
-
-      this.swaggerService = injectorService.invoke(SwaggerService, locals);
-    })
+    inject(
+      [SwaggerService, ServerSettingsService, ExpressApplication],
+      (swaggerService: SwaggerService, serverSettingsService: ServerSettingsService, expressApp: ExpressApplication) => {
+        this.swaggerService = swaggerService;
+        this.settingsService = serverSettingsService;
+        this.expressApp = expressApp;
+      }
+    )
   );
-
-  after(() => {});
 
   describe("$onServerReady()", () => {
     before(() => {
@@ -88,6 +85,10 @@ describe("SwaggerService", () => {
           hidden: true
         }
       ];
+
+      this.expressGet = Sinon.stub(this.expressApp, "get");
+      this.expressUse = Sinon.stub(this.expressApp, "use");
+
       this.getStub = Sinon.stub(this.settingsService, "get").returns(this.config);
       this.getOpenAPISpecStub = Sinon.stub(this.swaggerService, "getOpenAPISpec").returns({spec: "spec"});
       this.createRouterStub = Sinon.stub(this.swaggerService, "createRouter").returns({router: "router"});
@@ -96,11 +97,12 @@ describe("SwaggerService", () => {
       this.swaggerService.$afterRoutesInit();
     });
     after(() => {
+      this.expressGet.restore();
+      this.expressUse.restore();
       this.getStub.restore();
       this.getOpenAPISpecStub.restore();
       this.createRouterStub.restore();
       this.writeFileSyncStub.restore();
-      this.expressApplication.use.reset();
     });
 
     it("it should call serviceSetting.get()", () => {
@@ -135,8 +137,8 @@ describe("SwaggerService", () => {
     });
 
     it("it should call expressApp.use", () => {
-      this.expressApplication.use.getCall(0).should.have.been.calledWithExactly("/doc1", {router: "router"});
-      this.expressApplication.use.getCall(1).should.have.been.calledWithExactly("/doc2", {router: "router"});
+      this.expressUse.getCall(0).should.have.been.calledWithExactly("/doc1", {router: "router"});
+      this.expressUse.getCall(1).should.have.been.calledWithExactly("/doc2", {router: "router"});
     });
 
     it("should write spec.json", () => {

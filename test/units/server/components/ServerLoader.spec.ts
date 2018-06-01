@@ -1,4 +1,3 @@
-import {GlobalProviders, ProviderType} from "@tsed/common";
 import * as Http from "http";
 import * as Https from "https";
 import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
@@ -11,13 +10,17 @@ import {$logStub, expect, Sinon} from "../../../tools";
 describe("ServerLoader", () => {
   before(() => {
     class TestServer extends ServerLoader {
-      $onInit() {}
+      $onInit() {
+      }
 
-      $onReady() {}
+      $onReady() {
+      }
 
-      $onMountingMiddlewares() {}
+      $onMountingMiddlewares() {
+      }
 
-      $afterRoutesInit() {}
+      $afterRoutesInit() {
+      }
     }
 
     Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
@@ -25,9 +28,11 @@ describe("ServerLoader", () => {
     this.server = new TestServer();
     this.server.settings.httpPort = 8080;
     this.server.settings.httpsPort = 8000;
-    this.useStub = Sinon.stub(this.server._expressApp, "use");
-    this.setStub = Sinon.stub(this.server._expressApp, "set");
-    this.engineStub = Sinon.stub(this.server._expressApp, "engine");
+    this.useStub = Sinon.stub(this.server.expressApp, "use");
+    this.setStub = Sinon.stub(this.server.expressApp, "set");
+    this.engineStub = Sinon.stub(this.server.expressApp, "engine");
+    // deprecated
+    this.server.getSettingsService();
   });
 
   after(() => {
@@ -64,61 +69,44 @@ describe("ServerLoader", () => {
   describe("createHttpsServer", () => {
     before(() => {
       this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
-      this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
+      this.forkProviderStub = Sinon.stub(this.server.injector, "forkProvider");
       this.server.createHttpsServer({options: "options"});
-      this.factoryStub.getCall(0).args[1].instance.get();
     });
     after(() => {
       this.createServerStub.restore();
-      this.factoryStub.restore();
+      this.forkProviderStub.restore();
       this.server.settings.httpPort = 8080;
       this.server.settings.httpsPort = 8000;
     });
 
     it("should call createServer method", () => {
-      this.createServerStub.should.have.been.calledWithExactly({options: "options"}, this.server._expressApp);
+      this.createServerStub.should.have.been.calledWithExactly({options: "options"}, this.server.expressApp);
     });
 
     it("should call createServer method", () => {
-      this.factoryStub.should.have.been.calledWithExactly(HttpsServer, {
-        provide: HttpsServer,
-        instance: {server: "server", get: Sinon.match.func},
-        type: "factory"
-      });
-    });
-
-    it("should have a getMethod", () => {
-      expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
+      this.forkProviderStub.should.have.been.calledWithExactly(HttpsServer, {get: Sinon.match.func, server: "server"});
     });
   });
 
   describe("createHttpServer", () => {
     before(() => {
       this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
-      this.factoryStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.FACTORY), "merge");
+      this.forkProviderStub = Sinon.stub(this.server.injector, "forkProvider");
       this.server.createHttpServer({options: "options"});
     });
     after(() => {
       this.createServerStub.restore();
-      this.factoryStub.restore();
+      this.forkProviderStub.restore();
       this.server.settings.httpPort = 8080;
       this.server.settings.httpsPort = 8000;
     });
 
     it("should call createServer method", () => {
-      this.createServerStub.should.have.been.calledWithExactly(this.server._expressApp);
+      this.createServerStub.should.have.been.calledWithExactly(this.server.expressApp);
     });
 
     it("should call createServer method", () => {
-      this.factoryStub.should.have.been.calledWithExactly(HttpServer, {
-        provide: HttpServer,
-        instance: {server: "server", get: Sinon.match.func},
-        type: "factory"
-      });
-    });
-
-    it("should have a getMethod", () => {
-      expect(this.factoryStub.getCall(0).args[1].instance.get()).to.eq(this.factoryStub.getCall(0).args[1].instance);
+      this.forkProviderStub.should.have.been.calledWithExactly(HttpServer, {get: Sinon.match.func, server: "server"});
     });
   });
 
@@ -205,7 +193,8 @@ describe("ServerLoader", () => {
 
     describe("when we give a class", () => {
       before(() => {
-        this.classTest = class {};
+        this.classTest = class {
+        };
         this.addComponentsStub = Sinon.stub(this.server, "addComponents");
 
         this.server.mount("endpoint", [this.classTest]);
@@ -257,13 +246,13 @@ describe("ServerLoader", () => {
 
       it("should have been called startServer() with the right parameters", () => {
         this.startServerStub.should.have.been.calledTwice;
-        this.startServerStub.should.have.been.calledWithExactly(this.server._httpServer, {
+        this.startServerStub.should.have.been.calledWithExactly(this.server.httpServer, {
           address: "0.0.0.0",
           https: false,
           port: 8080
         });
 
-        this.startServerStub.should.have.been.calledWithExactly(this.server._httpsServer, {
+        this.startServerStub.should.have.been.calledWithExactly(this.server.httpsServer, {
           address: "0.0.0.0",
           https: true,
           port: 8000
@@ -281,7 +270,8 @@ describe("ServerLoader", () => {
 
         $logStub.$log.error.reset();
 
-        return this.server.start().catch((err: any) => {});
+        return this.server.start().catch((err: any) => {
+        });
       });
 
       after(() => {
@@ -319,7 +309,8 @@ describe("ServerLoader", () => {
 
   describe("engine()", () => {
     before(() => {
-      this.server.engine("jade", () => {});
+      this.server.engine("jade", () => {
+      });
     });
 
     it("should call express.engine() with the right parameters", () => {
@@ -353,7 +344,8 @@ describe("ServerLoader", () => {
     describe("when have typescript compiler", () => {
       before(() => {
         this.compiler = require.extensions[".ts"];
-        require.extensions[".ts"] = () => {};
+        require.extensions[".ts"] = () => {
+        };
       });
       after(() => {
         delete require.extensions[".ts"];

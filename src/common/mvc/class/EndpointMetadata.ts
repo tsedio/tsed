@@ -217,7 +217,7 @@ export class EndpointMetadata extends Storable {
    * Change the type and the collection type from the status code.
    * @param {string | number} code
    */
-  public statusResponse(code: string | number): { description: string; headers: any; examples: any } {
+  public statusResponse(code: string | number): {description: string; headers: any; examples: any} {
     const get = (code: number | string) => (this.get("responses") || {})[code] || {};
     let {description, headers, examples} = get(code);
 

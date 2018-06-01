@@ -1,3 +1,4 @@
+import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {Type} from "@tsed/core";
 import * as Http from "http";
 import {Inject} from "../../di/decorators/inject";
@@ -39,3 +40,5 @@ export type HttpServer = Http.Server & IHttpFactory;
 export function HttpServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(HttpServer)(target, targetKey, descriptor);
 }
+
+registerFactory(HttpServer);

@@ -1,7 +1,5 @@
 import {isEmpty, Type} from "@tsed/core";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
-import {ConverterService} from "../../converters/services/ConverterService";
-import {InjectorService} from "../../di/services/InjectorService";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
@@ -103,15 +101,6 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
         propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
       }
     }
-
-    return (target: any) => {
-      if (!target.constructor.prototype.toJSON) {
-        target.constructor.prototype.toJSON = function() {
-          return InjectorService.invoke<ConverterService>(ConverterService).serialize(this);
-        };
-        target.constructor.prototype.toJSON.$ignore = true;
-      }
-    };
   });
 }
 
