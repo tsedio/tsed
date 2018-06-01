@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="endpointmetadata">EndpointMetadata</h1><label class="symbol-info-type-label class">Class</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { EndpointMetadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.18.0/src//common/mvc/class/EndpointMetadata.ts#L0-L0">/common/mvc/class/EndpointMetadata.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { EndpointMetadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.19.0/src//common/mvc/class/EndpointMetadata.ts#L0-L0">/common/mvc/class/EndpointMetadata.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -17,7 +17,7 @@
     path<span class="token punctuation">:</span> <a href="#api/common/mvc/pathparamstype"><span class="token">PathParamsType</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> inheritedEndpoint<span class="token punctuation">:</span> EndpointMetadata<span class="token punctuation">;</span>
     type<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> pathsMethods<span class="token punctuation">:</span> <a href="#api/common/mvc/expresspathmethod"><span class="token">ExpressPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    pathsMethods<span class="token punctuation">:</span> <a href="#api/common/mvc/expresspathmethod"><span class="token">ExpressPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> methodClassName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> store<span class="token punctuation">:</span> <a href="#api/core/store"><span class="token">Store</span></a><span class="token punctuation">;</span>
     <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
@@ -157,7 +157,7 @@ Endpoint inherited from parent class.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> pathsMethods<span class="token punctuation">:</span> <a href="#api/common/mvc/expresspathmethod"><span class="token">ExpressPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">pathsMethods<span class="token punctuation">:</span> <a href="#api/common/mvc/expresspathmethod"><span class="token">ExpressPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 </div>
 
 
