@@ -45,19 +45,28 @@ export function swaggerType(type: any): string {
  * @param schema
  * @param type
  */
-export function swaggerApplyType(schema: any, type: any) {
+export function swaggerApplyType(schema: any, type: any): any {
   const types = []
     .concat(swaggerType(type) as any)
     .filter(type => {
       if (type === "null") {
         schema.nullable = true;
+
+        return false;
       }
 
       return type;
     })
     .map(type => String(type));
 
-  schema.type = types[0];
+  if (types.length === 1) {
+    schema.type = types[0];
+  } else {
+    delete schema.type;
+    schema.oneOf = types.map(type => ({type}));
+  }
+
+  return schema;
 }
 
 /**
@@ -90,6 +99,17 @@ export function getReducers(): {[key: string]: (collection: any[], value: any) =
     },
     parameters: (collection, value) => {
       const current = collection.find(current => current.in === value.in && current.name === value.name);
+
+      if (current) {
+        deepExtends(current, value);
+      } else {
+        collection.push(value);
+      }
+
+      return collection;
+    },
+    oneOf: (collection, value) => {
+      const current = collection.find(current => current.type === value.type);
 
       if (current) {
         deepExtends(current, value);

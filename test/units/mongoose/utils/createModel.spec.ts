@@ -1,4 +1,3 @@
-import {ConverterService, InjectorService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {MONGOOSE_MODEL_NAME} from "../../../../src/mongoose/constants";
@@ -20,17 +19,14 @@ describe("createModel()", () => {
         serializeClass: Sinon.stub()
       };
 
-      this.injectorGetStub = Sinon.stub(InjectorService, "get").returns(this.converterStub);
-
       createModel(Test, this.schema, "name", "collection", true);
 
       this.instance = new Test();
-      this.instance.serialize({checkRequiredValue: "checkRequiredValue", ignoreCallback: "ignoreCallback"});
+      this.instance.serialize({checkRequiredValue: "checkRequiredValue", ignoreCallback: "ignoreCallback"}, this.converterStub);
     });
 
     after(() => {
       this.modelStub.restore();
-      this.injectorGetStub.restore();
     });
 
     it("should store the model name", () => {
@@ -43,10 +39,6 @@ describe("createModel()", () => {
 
     it("should call mongoose.model", () => {
       this.modelStub.should.have.been.calledWithExactly("name", this.schema, "collection", true);
-    });
-
-    it("should call injectorGetStub when class Test is instanced", () => {
-      this.injectorGetStub.should.have.been.calledWithExactly(ConverterService);
     });
 
     it("should converter.serializeClass", () => {
@@ -71,17 +63,14 @@ describe("createModel()", () => {
         serializeClass: Sinon.stub()
       };
 
-      this.injectorGetStub = Sinon.stub(InjectorService, "get").returns(this.converterStub);
-
       createModel(Test, this.schema);
 
       this.instance = new Test();
-      this.instance.serialize({checkRequiredValue: "checkRequiredValue", ignoreCallback: "ignoreCallback"});
+      this.instance.serialize({checkRequiredValue: "checkRequiredValue", ignoreCallback: "ignoreCallback"}, this.converterStub);
     });
 
     after(() => {
       this.modelStub.restore();
-      this.injectorGetStub.restore();
     });
 
     it("should store the model name", () => {
@@ -94,10 +83,6 @@ describe("createModel()", () => {
 
     it("should call mongoose.model", () => {
       this.modelStub.should.have.been.calledWithExactly("Test", this.schema, undefined, undefined);
-    });
-
-    it("should call injectorGetStub when class Test is instanced", () => {
-      this.injectorGetStub.should.have.been.calledWithExactly(ConverterService);
     });
 
     it("should converter.serializeClass", () => {

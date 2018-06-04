@@ -6,7 +6,6 @@ import {InjectorService} from "../../../../src/common/di/services/InjectorServic
 import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
 import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
 import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
-import {CastError} from "../../../../src/common/mvc/errors/CastError";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {$logStub, assert, expect, restore, Sinon} from "../../../tools";
@@ -651,7 +650,7 @@ describe("HandlerBuilder", () => {
         });
       });
       it("should throw error", () => {
-        expect(this.error.name).to.deep.eq(new CastError(new Error("BadRequest")).name);
+        expect(this.error.name).to.deep.eq(new Error("BadRequest").name);
       });
     });
   });

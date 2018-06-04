@@ -3,7 +3,7 @@ import {ParseExpressionError} from "../../../../src/common/mvc/errors/ParseExpre
 
 describe("ParseExpressionError", () => {
   before(() => {
-    this.errorInstance = new ParseExpressionError("name", "expression", "message");
+    this.errorInstance = new ParseExpressionError("name", "expression", {message: "message"});
   });
 
   after(() => {
@@ -33,7 +33,10 @@ describe("ParseExpressionError", () => {
       name: "BAD_REQUEST",
       requestType: "name",
       status: 400,
-      type: "HTTP_EXCEPTION"
+      type: "HTTP_EXCEPTION",
+      origin: {
+        message: "message"
+      }
     });
   });
 });

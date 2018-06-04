@@ -1,5 +1,4 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
-import {BadRequest} from "ts-httpexceptions";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {InjectorService} from "../../di";
 import {Service} from "../../di/decorators/service";
@@ -70,7 +69,7 @@ export class ConverterService {
 
       if (typeof obj.serialize === "function") {
         // deserialize from serialize method
-        return obj.serialize(options);
+        return obj.serialize(options, this);
       }
 
       if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
@@ -83,12 +82,8 @@ export class ConverterService {
         return this.serializeClass(obj, options);
       }
     } catch (err) {
-      if (err.name === "BAD_REQUEST") {
-        throw new BadRequest(err.message);
-      } else {
-        /* istanbul ignore next */
-        throw new ConverterSerializationError(getClass(obj), err);
-      }
+      /* istanbul ignore next */
+      throw err.name === "BAD_REQUEST" ? err : new ConverterSerializationError(getClass(obj), err);
     }
 
     /* istanbul ignore next */
@@ -195,12 +190,7 @@ export class ConverterService {
       return instance;
     } catch (err) {
       /* istanbul ignore next */
-      if (err.name === "BAD_REQUEST") {
-        throw new BadRequest(err.message);
-      } else {
-        /* istanbul ignore next */
-        throw new ConverterDeserializationError(targetType, obj, err);
-      }
+      throw err.name === "BAD_REQUEST" ? err : new ConverterDeserializationError(targetType, obj, err);
     }
   }
 
@@ -247,8 +237,10 @@ export class ConverterService {
     } catch (err) {
       /* istanbul ignore next */
       (() => {
-        const castedError = new Error("For " + String(propertyKey) + " with value " + propertyValue + " \n" + err.message);
+        const castedError: any = new Error("For " + String(propertyKey) + " with value " + propertyValue + " \n" + err.message);
         castedError.stack = err.stack;
+        castedError.origin = err;
+
         throw castedError;
       })();
     }

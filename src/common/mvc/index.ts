@@ -36,7 +36,6 @@ export * from "./services/ExpressRouter";
 export * from "./services/RouteService";
 
 // errors
-export * from "./errors/CastError";
 export * from "./errors/CyclicReferenceError";
 export * from "./errors/ParseExpressionError";
 export * from "./errors/TemplateRenderingError";
