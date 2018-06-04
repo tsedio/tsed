@@ -1,4 +1,12 @@
-import {ExpressApplication, HttpsServer, InjectorService, ServerSettingsService, HandlerBuilder, HttpServer, IHTTPSServerOptions} from "@tsed/common";
+import {
+  ExpressApplication,
+  HttpsServer,
+  InjectorService,
+  ServerSettingsService,
+  HandlerBuilder,
+  HttpServer,
+  IHTTPSServerOptions
+} from "@tsed/common";
 import {Env} from "@tsed/core";
 
 import * as Express from "express";
@@ -10,23 +18,23 @@ import * as Https from "https";
  * @param {InjectorService} injector
  */
 function expressApplication(injector: InjectorService) {
-    const expressApp = Express();
-    const originalUse = expressApp.use;
+  const expressApp = Express();
+  const originalUse = expressApp.use;
 
-    /* istanbul ignore next */
-    expressApp.use = function (...args: any[]) {
-        args = args.map(arg => {
-            if (injector.has(arg)) {
-                arg = HandlerBuilder.from(arg).build(injector!);
-            }
+  /* istanbul ignore next */
+  expressApp.use = function(...args: any[]) {
+    args = args.map(arg => {
+      if (injector.has(arg)) {
+        arg = HandlerBuilder.from(arg).build(injector!);
+      }
 
-            return arg;
-        });
+      return arg;
+    });
 
-        return originalUse.call(this, ...args);
-    };
+    return originalUse.call(this, ...args);
+  };
 
-    injector!.forkProvider(ExpressApplication, expressApp);
+  injector!.forkProvider(ExpressApplication, expressApp);
 }
 
 /**
@@ -34,12 +42,12 @@ function expressApplication(injector: InjectorService) {
  * @returns {ServerLoader}
  */
 function createHttpServer(injector: InjectorService, port: string | number) {
-    const httpServer: any = Http.createServer(injector!.get(ExpressApplication));
-    // TODO to be removed
-    /* istanbul ignore next */
-    httpServer.get = () => httpServer;
+  const httpServer: any = Http.createServer(injector!.get(ExpressApplication));
+  // TODO to be removed
+  /* istanbul ignore next */
+  httpServer.get = () => httpServer;
 
-    injector!.forkProvider(HttpServer, httpServer);
+  injector!.forkProvider(HttpServer, httpServer);
 }
 
 /**
@@ -60,40 +68,40 @@ function createHttpServer(injector: InjectorService, port: string | number) {
  * @returns {ServerLoader}
  */
 function createHttpsServer(injector: InjectorService, options: IHTTPSServerOptions) {
-    const httpsServer: any = Https.createServer(options, injector!.get(ExpressApplication));
+  const httpsServer: any = Https.createServer(options, injector!.get(ExpressApplication));
 
-    // TODO to be removed
-    /* istanbul ignore next */
-    httpsServer.get = () => httpsServer;
+  // TODO to be removed
+  /* istanbul ignore next */
+  httpsServer.get = () => httpsServer;
 
-    injector!.forkProvider(HttpsServer, httpsServer);
+  injector!.forkProvider(HttpsServer, httpsServer);
 }
 
 export function loadInjector() {
-    const injector = new InjectorService();
-    const hasExpress = injector.has(ExpressApplication);
+  const injector = new InjectorService();
+  const hasExpress = injector.has(ExpressApplication);
 
-    if (!hasExpress) {
-        expressApplication(injector);
-    }
+  if (!hasExpress) {
+    expressApplication(injector);
+  }
 
-    if (!injector.has(HttpServer)) {
-        createHttpServer(injector, 8080);
-    }
+  if (!injector.has(HttpServer)) {
+    createHttpServer(injector, 8080);
+  }
 
-    if (!injector.has(HttpsServer)) {
-        createHttpsServer(injector, {port: 8081});
-    }
+  if (!injector.has(HttpsServer)) {
+    createHttpsServer(injector, {port: 8081});
+  }
 
-    if (!hasExpress) {
-        injector.get<ServerSettingsService>(ServerSettingsService)!.env = Env.TEST;
+  if (!hasExpress) {
+    injector.get<ServerSettingsService>(ServerSettingsService)!.env = Env.TEST;
 
-        /* istanbul ignore next */
-        injector.load().catch(err => {
-            console.error(err);
-            process.exit(-1);
-        });
-    }
+    /* istanbul ignore next */
+    injector.load().catch(err => {
+      console.error(err);
+      process.exit(-1);
+    });
+  }
 
-    return injector;
+  return injector;
 }

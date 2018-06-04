@@ -11,129 +11,129 @@ import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";
 
 export class FilterBuilder {
-    constructor(private injector: InjectorService) {}
+  constructor(private injector: InjectorService) {}
 
-    /**
-     *
-     */
-    public build(param: ParamMetadata): Function {
-        let filter: any = this.initFilter(param);
-        filter = this.appendRequiredFilter(filter, param);
-        filter = this.appendValidationFilter(filter, param);
-        filter = this.appendConverterFilter(filter, param);
+  /**
+   *
+   */
+  public build(param: ParamMetadata): Function {
+    let filter: any = this.initFilter(param);
+    filter = this.appendRequiredFilter(filter, param);
+    filter = this.appendValidationFilter(filter, param);
+    filter = this.appendConverterFilter(filter, param);
 
-        return filter;
+    return filter;
+  }
+
+  /**
+   *
+   * @param {Type<IFilter>} target
+   * @param args
+   * @returns {any}
+   */
+  private invoke(target: Type<IFilter>, ...args: any[]): any {
+    const instance = this.injector.get<IFilter>(target);
+
+    if (!instance || !instance.transform) {
+      throw new UnknowFilterError(target);
     }
 
-    /**
-     *
-     * @param {Type<IFilter>} target
-     * @param args
-     * @returns {any}
-     */
-    private invoke(target: Type<IFilter>, ...args: any[]): any {
-        const instance = this.injector.get<IFilter>(target);
+    const [expression, request, response] = args;
 
-        if (!instance || !instance.transform) {
-            throw new UnknowFilterError(target);
-        }
+    return instance.transform(expression, request, response);
+  }
 
-        const [expression, request, response] = args;
+  /**
+   *
+   * @param {ParamMetadata} param
+   * @returns {any}
+   */
+  private initFilter(param: ParamMetadata): IFilterPreHandler {
+    if (typeof param.service === "symbol") {
+      const sym = param.service as symbol;
 
-        return instance.transform(expression, request, response);
+      if (FilterPreHandlers.has(sym)) {
+        return FilterPreHandlers.get(sym)!;
+      }
     }
 
-    /**
-     *
-     * @param {ParamMetadata} param
-     * @returns {any}
-     */
-    private initFilter(param: ParamMetadata): IFilterPreHandler {
-        if (typeof param.service === "symbol") {
-            const sym = param.service as symbol;
+    // wrap Custom Filter to FilterPreHandler
+    return (locals: IFilterScope) => {
+      return this.invoke(param.service as Type<any>, param.expression, locals.request, locals.response);
+    };
+  }
 
-            if (FilterPreHandlers.has(sym)) {
-                return FilterPreHandlers.get(sym)!;
-            }
-        }
-
-        // wrap Custom Filter to FilterPreHandler
-        return (locals: IFilterScope) => {
-            return this.invoke(param.service as Type<any>, param.expression, locals.request, locals.response);
-        };
+  /**
+   *
+   * @param filter
+   * @param {ParamMetadata} param
+   * @returns {(value: any) => any}
+   */
+  private appendRequiredFilter(filter: any, param: ParamMetadata): Function {
+    if (!param.required) {
+      return filter;
     }
 
-    /**
-     *
-     * @param filter
-     * @param {ParamMetadata} param
-     * @returns {(value: any) => any}
-     */
-    private appendRequiredFilter(filter: any, param: ParamMetadata): Function {
-        if (!param.required) {
-            return filter;
-        }
+    return FilterBuilder.pipe(filter, (value: any) => {
+      if (param.isRequired(value)) {
+        throw new RequiredParamError(param.name, param.expression);
+      }
 
-        return FilterBuilder.pipe(filter, (value: any) => {
-            if (param.isRequired(value)) {
-                throw new RequiredParamError(param.name, param.expression);
-            }
+      return value;
+    });
+  }
 
-            return value;
-        });
+  /**
+   *
+   * @param filter
+   * @param param
+   * @returns {(value: any) => any}
+   */
+  private appendConverterFilter(filter: any, param: ParamMetadata): Function {
+    if (!param.useConverter) {
+      return filter;
     }
 
-    /**
-     *
-     * @param filter
-     * @param param
-     * @returns {(value: any) => any}
-     */
-    private appendConverterFilter(filter: any, param: ParamMetadata): Function {
-        if (!param.useConverter) {
-            return filter;
-        }
+    const converterService = this.injector.get<ConverterService>(ConverterService)!;
 
-        const converterService = this.injector.get<ConverterService>(ConverterService)!;
+    return FilterBuilder.pipe(filter, converterService.deserialize.bind(converterService), param.collectionType || param.type, param.type);
+  }
 
-        return FilterBuilder.pipe(filter, converterService.deserialize.bind(converterService), param.collectionType || param.type, param.type);
+  /**
+   *
+   * @param filter
+   * @param param
+   * @returns {(value: any) => any}
+   */
+  private appendValidationFilter(filter: any, param: ParamMetadata): Function {
+    const type = param.type || param.collectionType;
+    const {collectionType} = param;
+
+    if (!param.useValidation || (param.useValidation && !type)) {
+      return filter;
     }
 
-    /**
-     *
-     * @param filter
-     * @param param
-     * @returns {(value: any) => any}
-     */
-    private appendValidationFilter(filter: any, param: ParamMetadata): Function {
-        const type = param.type || param.collectionType;
-        const {collectionType} = param;
+    const validationService = this.injector.get<ValidationService>(ValidationService)!;
 
-        if (!param.useValidation || (param.useValidation && !type)) {
-            return filter;
-        }
+    return FilterBuilder.pipe(filter, (value: any) => {
+      try {
+        validationService.validate(value, type, collectionType);
+      } catch (err) {
+        throw new ParseExpressionError(param.name, param.expression, err.message);
+      }
 
-        const validationService = this.injector.get<ValidationService>(ValidationService)!;
+      return value;
+    });
+  }
 
-        return FilterBuilder.pipe(filter, (value: any) => {
-            try {
-                validationService.validate(value, type, collectionType);
-            } catch (err) {
-                throw new ParseExpressionError(param.name, param.expression, err.message);
-            }
-
-            return value;
-        });
-    }
-
-    /**
-     *
-     * @param {Function} filter
-     * @param {Function} newFilter
-     * @param args
-     * @returns {(value: any) => any}
-     */
-    private static pipe(filter: Function, newFilter: Function, ...args: any[]): Function {
-        return (value: any) => newFilter(filter(value), ...args);
-    }
+  /**
+   *
+   * @param {Function} filter
+   * @param {Function} newFilter
+   * @param args
+   * @returns {(value: any) => any}
+   */
+  private static pipe(filter: Function, newFilter: Function, ...args: any[]): Function {
+    return (value: any) => newFilter(filter(value), ...args);
+  }
 }
