@@ -1,12 +1,17 @@
-import {ExpressApplication, HttpsServer, InjectorService, ServerSettingsService} from "@tsed/common";
+import {
+  ExpressApplication,
+  HttpsServer,
+  InjectorService,
+  ServerSettingsService,
+  HandlerBuilder,
+  HttpServer,
+  IHTTPSServerOptions
+} from "@tsed/common";
 import {Env} from "@tsed/core";
 
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
-import {HandlerBuilder} from "../common/mvc/class/HandlerBuilder";
-import {HttpServer} from "../common/server/decorators/httpServer";
-import {IHTTPSServerOptions} from "../common/server/interfaces";
 
 /**
  *
@@ -17,7 +22,7 @@ function expressApplication(injector: InjectorService) {
   const originalUse = expressApp.use;
 
   /* istanbul ignore next */
-  expressApp.use = function (...args: any[]) {
+  expressApp.use = function(...args: any[]) {
     args = args.map(arg => {
       if (injector.has(arg)) {
         arg = HandlerBuilder.from(arg).build(injector!);
