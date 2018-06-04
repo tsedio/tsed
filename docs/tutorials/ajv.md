@@ -92,6 +92,36 @@ export class CalendarModel {
 
 > All validation decorators are compatible with the Swagger documentation.
 
+## Validation error
+
+When a validation error occur, AJV generate an errors list with a full description like this:
+
+```json
+[
+  {
+    "keyword": "minLength",
+    "dataPath": ".password",
+    "schemaPath": "#/properties/password/minLength",
+    "params": {"limit": 6},
+    "message": "should NOT be shorter than 6 characters",
+    "modelName": "User"
+  }
+]
+```
+
+This information can be retrieved in the response headers:
+
+```
+ connection: keep-alive
+ content-length: 18
+ content-type: text/html; charset=utf-8
+ date: Wed, 16 May 2018 07:32:23 GMT
+ errors: [{"keyword": "minLength","dataPath": ".password", "schemaPath": "#/properties/password/minLength", "params": {"limit": 6}, "message": "should NOT be shorter than 6 characters", "modelName": "User"}]
+ etag: W/"12-Bpa0T7/lBA6+IACzRWwBc4S6NUY"
+ vary: Accept-Encoding
+ x-powered-by: Express
+```
+
 <div class="guide-links">
 <a href="#/tutorials/swagger">Swagger</a>
 <a href="#/tutorials/custom-validator">Custom validator</a>
