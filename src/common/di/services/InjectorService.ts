@@ -17,19 +17,9 @@ import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
 import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
-import {
-  IInjectableProperties,
-  IInjectablePropertyService,
-  IInjectablePropertyValue
-} from "../interfaces/IInjectableProperties";
+import {IInjectableProperties, IInjectablePropertyService, IInjectablePropertyValue} from "../interfaces/IInjectableProperties";
 import {ProviderType} from "../interfaces/ProviderType";
-import {
-  GlobalProviders,
-  ProviderRegistry,
-  registerFactory,
-  registerProvider,
-  registerService
-} from "../registries/ProviderRegistry";
+import {GlobalProviders, ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
 
 let globalInjector: any;
 
@@ -58,6 +48,7 @@ let globalInjector: any;
 export class InjectorService extends Map<RegistryKey, Provider<any>> {
   constructor() {
     super();
+    globalInjector = this;
     this.initInjector();
     this.initSettings();
   }
