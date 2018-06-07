@@ -37,9 +37,10 @@ const middlewareRegisterFn = GlobalProviders.createRegisterFn(ProviderType.MIDDL
  * // or
  * registerMiddleware(FooMiddleware);
  *
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
- * const myFooService = InjectorService.get<FooMiddleware>(FooMiddleware);
+ * const myFooService = injector.get<FooMiddleware>(FooMiddleware);
  * fooMiddleware.use(); // test
  * ```
  *
@@ -71,9 +72,10 @@ export function registerMiddleware(provider: any | IProvider<any>, instance?: an
  * // or
  * registerMiddlewareError(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const fooMiddleware = InjectorService.get<FooMiddleware>(FooMiddleware);
+ * const fooMiddleware = injector.get<FooMiddleware>(FooMiddleware);
  * fooMiddleware.use(); // test
  * ```
  *

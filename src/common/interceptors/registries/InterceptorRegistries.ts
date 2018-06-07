@@ -30,9 +30,10 @@ export const InterceptorRegistry: TypedProvidersRegistry = GlobalProviders.creat
  * // or
  * registerInterceptor(MyInterceptor);
  *
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
- * const myInterceptor = InjectorService.get<MyInterceptor>(MyInterceptor);
+ * const myInterceptor = injector.get<MyInterceptor>(MyInterceptor);
  * myInterceptor.aroundInvoke(); // test
  * ```
  *

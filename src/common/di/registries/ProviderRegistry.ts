@@ -114,9 +114,10 @@ export const registerFactory = GlobalProviders.createRegisterFn(ProviderType.FAC
  * // or
  * registerService(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myFooService = InjectorService.get<MyFooService>(MyFooService);
+ * const myFooService = injector.get<MyFooService>(MyFooService);
  * myFooService.getFoo(); // test
  * ```
  *
