@@ -36,9 +36,10 @@ export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.create
  * // or
  * registerController(MyController);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myController = InjectorService.get<MyController>(MyController);
+ * const myController = injector.get<MyController>(MyController);
  * myController.getFoo(); // test
  * ```
  *

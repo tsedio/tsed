@@ -37,9 +37,10 @@ let globalInjector: any;
  * import MyService3 from "./services/service3";
  *
  * // When all services is imported you can load InjectorService.
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
- * const myService1 = InjectorService.get<MyService1>(MyServcice1);
+ * const myService1 = injector.get<MyService1>(MyServcice1);
  * ```
  *
  * > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
@@ -68,7 +69,9 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    *
    */
   private initSettings() {
-    this.forkProvider(ServerSettingsService, this.invoke<ServerSettingsService>(ServerSettingsService));
+    const provider = GlobalProviders.get(ServerSettingsService)!;
+
+    this.forkProvider(ServerSettingsService, this.invoke<ServerSettingsService>(provider.useClass));
   }
 
   /**
@@ -705,9 +708,10 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * }
    *
    * InjectorService.service(MyFooService);
-   * InjectorService.load();
+   * const injector = new InjectorService();
+   * injector.load();
    *
-   * const myFooService = InjectorService.get<MyFooService>(MyFooService);
+   * const myFooService = injector.get<MyFooService>(MyFooService);
    * myFooService.getFoo(); // test
    * ```
    *

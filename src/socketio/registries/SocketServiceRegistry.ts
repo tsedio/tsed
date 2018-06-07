@@ -32,9 +32,10 @@ export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.cre
  * // or
  * registerSocketService(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myFooService = InjectorService.get<MyFooService>(MyFooService);
+ * const myFooService = injector.get<MyFooService>(MyFooService);
  * myFooService.getFoo(); // test
  * ```
  *

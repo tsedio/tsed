@@ -28,9 +28,10 @@ export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.cre
  * // or
  * registerModel(MyModel);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myModel = InjectorService.get<MyModel>(MyModel);
+ * const myModel = injector.get<MyModel>(MyModel);
  * myModel.getFoo(); // test
  * ```
  *

@@ -33,9 +33,9 @@ export const FilterRegistry: TypedProvidersRegistry = GlobalProviders.createRegi
  * // or
  * registerFilter(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
  *
- * const myFooService = InjectorService.get<MyFooFilter>(MyFooFilter);
+ * const myFooService = injector.get<MyFooFilter>(MyFooFilter);
  * myFooFilter.getFoo(); // test
  * ```
  *

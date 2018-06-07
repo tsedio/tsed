@@ -286,7 +286,9 @@ Voici un exemple de validation `strict`:
 ```typescript
 import {InjectorService, ConvertersService, Required, Property} from "@tsed/common";
 
-InjectorService.load();
+const injector = new InjectorService();
+
+injector.load();
 
 class TaskModel {
     @Required()
@@ -296,7 +298,7 @@ class TaskModel {
     rate: number;
 }
 
-const convertersService = InjectorService.get(ConvertersService);
+const convertersService = injector.get(ConvertersService);
 convertersService.validationModelStrict = true;
 
 convertersService.deserialize({unknowProperty: "test"}, TaskModel); // BadRequest
@@ -337,9 +339,10 @@ Dans ce case précis, le service ne lèvera plus d'exception:
 ```typescript
 import {InjectorService, ConvertersService, ModelStrict, Required, Property} from "@tsed/common";
 
-InjectorService.load();
+const injector = new InjectorService();
+injector.load();
 
-const convertersService = InjectorService.get(ConvertersService);
+const convertersService = injector.get(ConvertersService);
 convertersService.validationModelStrict = true;
 
 const result = convertersService.deserialize({unknowProperty: "test"}, TaskModel);

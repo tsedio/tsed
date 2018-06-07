@@ -30,9 +30,10 @@ export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createR
  * // or
  * registerConverter(MyConverter);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myConverter = InjectorService.get<MyConverter>(MyConverter);
+ * const myConverter = injector.get<MyConverter>(MyConverter);
  * myConverter.serialize(); // test
  * ```
  *
