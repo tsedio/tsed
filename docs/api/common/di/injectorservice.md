@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="injectorservice">InjectorService</h1><label class="symbol-info-type-label service">Service</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { InjectorService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.20.2/src//common/di/services/InjectorService.ts#L0-L0">/common/di/services/InjectorService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { InjectorService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.20.3/src//common/di/services/InjectorService.ts#L0-L0">/common/di/services/InjectorService.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -53,9 +53,10 @@ import MyService2 from "./services/service2";
 import MyService3 from "./services/service3";
 
 // When all services is imported you can load InjectorService.
-InjectorService.load();
+const injector = new InjectorService()
+injector.load();
 
-const myService1 = InjectorService.get<MyService1>(MyServcice1);
+const myService1 = injector.get<MyService1>(MyServcice1);
 ```
 
 > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
@@ -553,9 +554,10 @@ export default class MyFooService {
 }
 
 InjectorService.service(MyFooService);
-InjectorService.load();
+const injector = new InjectorService();
+injector.load();
 
-const myFooService = InjectorService.get<MyFooService>(MyFooService);
+const myFooService = injector.get<MyFooService>(MyFooService);
 myFooService.getFoo(); // test
 ```
 
