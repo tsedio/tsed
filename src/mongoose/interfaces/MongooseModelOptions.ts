@@ -55,12 +55,21 @@ export interface MongoosePluginOptions {
 /**
  *
  */
+export interface MongooseIndexOptions {
+  fields: object;
+  options?: any;
+}
+
+/**
+ *
+ */
 export interface MongooseModelOptions {
   schemaOptions?: SchemaOptions;
   name?: string;
   collection?: string;
   skipInit?: boolean;
   plugins?: MongoosePluginOptions[];
+  indexes?: MongooseIndexOptions[];
   pre?: MongoosePreHook[];
   post?: MongoosePostHook[];
 }
