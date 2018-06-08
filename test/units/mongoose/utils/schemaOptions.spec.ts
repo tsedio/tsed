@@ -66,7 +66,8 @@ describe("schemaOptions", () => {
       this.schema = {
         pre: Sinon.stub(),
         post: Sinon.stub(),
-        plugin: Sinon.stub()
+        plugin: Sinon.stub(),
+        index: Sinon.stub()
       };
 
       Store.from(Test).set(MONGOOSE_SCHEMA, this.schema);
@@ -86,7 +87,8 @@ describe("schemaOptions", () => {
             fn: "fn"
           }
         ],
-        plugins: [{plugin: "plugin", options: "options"}]
+        plugins: [{plugin: "plugin", options: "options"}],
+        indexes: [{fields: "fields", options: "options"}]
       } as any);
     });
 
@@ -100,6 +102,10 @@ describe("schemaOptions", () => {
 
     it("should call schema.plugin", () => {
       this.schema.plugin.should.have.been.calledWithExactly("plugin", "options");
+    });
+
+    it("should call schema.index", () => {
+      this.schema.index.should.have.been.calledWithExactly("fields", "options");
     });
   });
 });
