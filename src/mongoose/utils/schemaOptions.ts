@@ -54,6 +54,10 @@ export function applySchemaOptions(target: any, options: MongooseModelOptions) {
       }
     }
 
+    if (options.indexes) {
+      options.indexes.forEach(item => schema.index(item.fields, item.options));
+    }
+
     if (options.pre) {
       options.pre.forEach(item => schema.pre(item.method, !!item.parallel, buildPreHook(item.fn), item.errorCb));
     }

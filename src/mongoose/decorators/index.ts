@@ -1,6 +1,7 @@
 export * from "./indexed";
 export * from "./model";
 export * from "./mongoosePlugin";
+export * from "./mongooseIndex";
 export * from "./postHook";
 export * from "./preHook";
 export * from "./ref";
