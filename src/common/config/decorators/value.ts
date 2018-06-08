@@ -18,20 +18,25 @@ import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
  *    @Value("swagger.path")
  *    swaggerPath: string;
  *
+ *    @Value("swagger.path", "defaultValue")
+ *    swaggerPath: string;
+ *
  * }
  * ```
  *
  * @param expression
+ * @param defaultValue
  * @returns {(targetClass: any, attributeName: string) => any}
  * @decorator
  */
-export function Value(expression: any) {
+export function Value(expression: any, defaultValue?: any) {
   return (target: any, propertyKey: string) => {
     Store.from(target).merge("injectableProperties", {
       [propertyKey]: {
         bindingType: "value",
         propertyKey,
-        expression
+        expression,
+        defaultValue
       }
     } as IInjectableProperties);
   };

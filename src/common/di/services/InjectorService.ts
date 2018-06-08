@@ -312,8 +312,14 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  private bindValue(instance: any, {propertyKey, expression}: IInjectablePropertyValue) {
-    instance[propertyKey] = this.settings.get(expression);
+  private bindValue(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
+    const descriptor = {
+      get: () => this.settings.get(expression) || defaultValue,
+      set: (value: any) => this.settings.set(expression, value),
+      enumerable: true,
+      configurable: true
+    };
+    Object.defineProperty(instance, propertyKey, descriptor);
   }
 
   /**
@@ -322,13 +328,13 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  private bindConstant(instance: any, {propertyKey, expression}: IInjectablePropertyValue) {
+  private bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
     const clone = (o: any) => {
       if (o) {
         return Object.freeze(JSON.parse(JSON.stringify(o)));
       }
 
-      return undefined;
+      return defaultValue;
     };
 
     const descriptor = {

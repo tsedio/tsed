@@ -5,12 +5,9 @@ import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "../../../tools";
 
 class Test {
+  constructor() {}
 
-  constructor() {
-  }
-
-  @Inject()
-  prop: InjectorService;
+  @Inject() prop: InjectorService;
 
   @Inject()
   test(injectorService: InjectorService) {
@@ -200,8 +197,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         const locals = new Map();
         locals.set(this.symbol, new this.symbol());
@@ -221,8 +217,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         const locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns(undefined);
@@ -231,8 +226,7 @@ describe("InjectorService", () => {
           this.result = this.injector.mapServices({
             serviceType: this.symbol,
             locals,
-            target: class ServiceTest {
-            }
+            target: class ServiceTest {}
           });
         } catch (er) {
           this.error = er;
@@ -256,8 +250,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -277,8 +270,7 @@ describe("InjectorService", () => {
           serviceType: this.symbol,
           locals: this.locals,
           requiredScope: true,
-          target: class ServiceTest {
-          }
+          target: class ServiceTest {}
         });
       });
 
@@ -307,8 +299,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -328,8 +319,7 @@ describe("InjectorService", () => {
           serviceType: this.symbol,
           locals: this.locals,
           requiredScope: true,
-          target: class ServiceTest {
-          }
+          target: class ServiceTest {}
         });
       });
 
@@ -358,8 +348,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -380,8 +369,7 @@ describe("InjectorService", () => {
           serviceType: this.symbol,
           locals: this.locals,
           requiredScope: true,
-          target: class ServiceTest {
-          }
+          target: class ServiceTest {}
         });
       });
 
@@ -410,8 +398,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -433,8 +420,7 @@ describe("InjectorService", () => {
           locals: this.locals,
           requiredScope: true,
           parentScope: true,
-          target: class ServiceTest {
-          }
+          target: class ServiceTest {}
         });
       });
 
@@ -463,8 +449,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -487,8 +472,7 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: false,
-            target: class ServiceTest {
-            }
+            target: class ServiceTest {}
           });
         } catch (er) {
           this.error = er;
@@ -522,8 +506,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -546,8 +529,7 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: true,
-            target: class ServiceTest {
-            }
+            target: class ServiceTest {}
           });
         } catch (er) {
           this.error = er;
@@ -583,8 +565,7 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {
-        };
+        this.symbol = class Test {};
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -607,8 +588,7 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: true,
-            target: class ServiceTest {
-            }
+            target: class ServiceTest {}
           });
         } catch (er) {
           this.error = er;
@@ -638,8 +618,7 @@ describe("InjectorService", () => {
   });
 
   describe("build()", () => {
-    class Test {
-    }
+    class Test {}
 
     describe("when the provider is buildable", () => {
       before(() => {
@@ -736,8 +715,7 @@ describe("InjectorService", () => {
       }
     }
 
-    class TestDep {
-    }
+    class TestDep {}
 
     describe("when designParamsTypes is not given", () => {
       before(
@@ -996,8 +974,7 @@ describe("InjectorService", () => {
   });
 
   describe("invokeMethod()", () => {
-    class InjectTest {
-    }
+    class InjectTest {}
 
     describe("when designParamTypes is given", () => {
       before(
@@ -1127,41 +1104,41 @@ describe("InjectorService", () => {
   });
 
   describe("bindInjectableProperties()", () => {
-    class TestBind {
+    class TestBind {}
 
-    }
+    before(
+      inject([InjectorService], (injector: any) => {
+        this.injector = injector;
+        this.instance = new TestBind();
+        this.injectableProperties = {
+          testMethod: {
+            bindingType: "method"
+          },
+          testProp: {
+            bindingType: "property"
+          },
+          testConst: {
+            bindingType: "constant"
+          },
+          testValue: {
+            bindingType: "value"
+          },
+          testCustom: {
+            bindingType: "custom",
+            onInvoke: Sinon.stub()
+          }
+        };
 
-    before(inject([InjectorService], (injector: any) => {
-      this.injector = injector;
-      this.instance = new TestBind;
-      this.injectableProperties = {
-        testMethod: {
-          bindingType: "method"
-        },
-        testProp: {
-          bindingType: "property"
-        },
-        testConst: {
-          bindingType: "constant"
-        },
-        testValue: {
-          bindingType: "value"
-        },
-        testCustom: {
-          bindingType: "custom",
-          onInvoke: Sinon.stub()
-        }
-      };
+        Store.from(TestBind).set("injectableProperties", this.injectableProperties);
 
-      Store.from(TestBind).set("injectableProperties", this.injectableProperties);
+        Sinon.stub(injector, "bindMethod");
+        Sinon.stub(injector, "bindProperty");
+        Sinon.stub(injector, "bindConstant");
+        Sinon.stub(injector, "bindValue");
 
-      Sinon.stub(injector, "bindMethod");
-      Sinon.stub(injector, "bindProperty");
-      Sinon.stub(injector, "bindConstant");
-      Sinon.stub(injector, "bindValue");
-
-      injector.bindInjectableProperties(this.instance);
-    }));
+        injector.bindInjectableProperties(this.instance);
+      })
+    );
 
     after(() => {
       this.injector.bindMethod.restore();
@@ -1187,27 +1164,32 @@ describe("InjectorService", () => {
     });
 
     it("should call onInvoke", () => {
-      this.injectableProperties.testCustom.onInvoke.should.have.been.calledWithExactly(this.injector, this.instance, this.injectableProperties.testCustom);
+      this.injectableProperties.testCustom.onInvoke.should.have.been.calledWithExactly(
+        this.injector,
+        this.instance,
+        this.injectableProperties.testCustom
+      );
     });
   });
 
   describe("bindMethod()", () => {
     class TestBind {
-      testMethod() {
-      }
+      testMethod() {}
     }
 
-    before(inject([InjectorService], (injector: any) => {
-      this.injector = injector;
-      this.instance = new TestBind;
+    before(
+      inject([InjectorService], (injector: any) => {
+        this.injector = injector;
+        this.instance = new TestBind();
 
-      Sinon.stub(this.injector, "invokeMethod");
-      Sinon.stub(this.instance, "testMethod");
+        Sinon.stub(this.injector, "invokeMethod");
+        Sinon.stub(this.instance, "testMethod");
 
-      this.injector.bindMethod(this.instance, {propertyKey: "testMethod"});
+        this.injector.bindMethod(this.instance, {propertyKey: "testMethod"});
 
-      this.instance.testMethod();
-    }));
+        this.instance.testMethod();
+      })
+    );
 
     after(() => {
       this.injector.invokeMethod.restore();
@@ -1227,18 +1209,19 @@ describe("InjectorService", () => {
   });
 
   describe("bindProperty()", () => {
-    class TestBind {
-    }
+    class TestBind {}
 
-    before(inject([InjectorService], (injector: any) => {
-      this.injector = injector;
-      this.instance = new TestBind;
+    before(
+      inject([InjectorService], (injector: any) => {
+        this.injector = injector;
+        this.instance = new TestBind();
 
-      Sinon.stub(this.injector, "get").returns(injector);
+        Sinon.stub(this.injector, "get").returns(injector);
 
-      this.injector.bindProperty(this.instance, {propertyKey: "testProp", useType: InjectorService});
-      this.result = this.instance.testProp;
-    }));
+        this.injector.bindProperty(this.instance, {propertyKey: "testProp", useType: InjectorService});
+        this.result = this.instance.testProp;
+      })
+    );
 
     after(() => {
       this.injector.get.restore();
@@ -1254,45 +1237,54 @@ describe("InjectorService", () => {
   });
 
   describe("bindValue()", () => {
-    class TestBind {
-    }
+    class TestBind {}
 
-    before(inject([InjectorService], (injector: any) => {
-      this.injector = injector;
-      this.instance = new TestBind;
+    before(
+      inject([InjectorService], (injector: any) => {
+        this.injector = injector;
+        this.instance = new TestBind();
 
-      Sinon.stub(this.injector.settings, "get").returns("value");
+        Sinon.stub(this.injector.settings, "get").returns("value");
+        Sinon.stub(this.injector.settings, "set");
 
-      this.injector.bindValue(this.instance, {propertyKey: "testProp", expression: "expression"});
-      this.result = this.instance.testProp;
-    }));
+        this.injector.bindValue(this.instance, {propertyKey: "testProp", expression: "expression"});
+        this.instance.testProp = "setValue";
+        this.result = this.instance.testProp;
+      })
+    );
 
     after(() => {
       this.injector.settings.get.restore();
+      this.injector.settings.set.restore();
     });
 
     it("should bind the method", () => {
       expect(this.result).to.equal("value");
     });
 
-    it("should call bindMethod()", () => {
+    it("should call get()", () => {
       this.injector.settings.get.should.have.been.calledWithExactly("expression");
+    });
+
+    it("should call set()", () => {
+      this.injector.settings.set.should.have.been.calledWithExactly("expression", "setValue");
     });
   });
 
   describe("bindConstant()", () => {
-    class TestBind {
-    }
+    class TestBind {}
 
-    before(inject([InjectorService], (injector: any) => {
-      this.injector = injector;
-      this.instance = new TestBind;
+    before(
+      inject([InjectorService], (injector: any) => {
+        this.injector = injector;
+        this.instance = new TestBind();
 
-      Sinon.stub(this.injector.settings, "get").returns("value");
+        Sinon.stub(this.injector.settings, "get").returns("value");
 
-      this.injector.bindConstant(this.instance, {propertyKey: "testProp", expression: "expression"});
-      this.result = this.instance.testProp;
-    }));
+        this.injector.bindConstant(this.instance, {propertyKey: "testProp", expression: "expression"});
+        this.result = this.instance.testProp;
+      })
+    );
 
     after(() => {
       this.injector.settings.get.restore();

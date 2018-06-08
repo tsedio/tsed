@@ -1,5 +1,4 @@
-import {IErrorsSettings, IRouterSettings} from "@tsed/common";
-import {Env, getValue, Metadata} from "@tsed/core";
+import {Deprecated, Env, getValue, Metadata, setValue} from "@tsed/core";
 import * as Https from "https";
 import {ProviderScope} from "../../di/interfaces/ProviderScope";
 /**
@@ -7,7 +6,7 @@ import {ProviderScope} from "../../di/interfaces/ProviderScope";
  */
 import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {SERVER_SETTINGS} from "../constants/index";
-import {ILoggerSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
+import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 
 const rootDir = process.cwd();
 /**
@@ -359,6 +358,7 @@ export class ServerSettingsService implements IServerSettings {
    * @deprecated
    * @returns {ServerSettingsService}
    */
+  @Deprecated("Removed feature")
   public $get(): ServerSettingsService {
     this.forEach((value, key) => {
       this.map.set(key, this.resolve(value));
@@ -383,7 +383,7 @@ export class ServerSettingsService implements IServerSettings {
    */
   set(propertyKey: string | IServerSettings, value?: any): ServerSettingsService {
     if (typeof propertyKey === "string") {
-      this.map.set(propertyKey, value);
+      setValue(propertyKey, value, this.map);
     } else {
       const self: any = this;
 

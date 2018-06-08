@@ -15,7 +15,8 @@ describe("@Constant()", () => {
       test: {
         bindingType: "constant",
         propertyKey: "test",
-        expression: "expression"
+        expression: "expression",
+        defaultValue: undefined
       }
     });
   });

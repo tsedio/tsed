@@ -14,6 +14,7 @@ export interface IInjectablePropertyService extends IInjectableProperty {
 export interface IInjectablePropertyValue extends IInjectableProperty {
   bindingType: "value" | "constant";
   expression: string;
+  defaultValue?: any;
 }
 
 export interface IInjectablePropertyCustom extends IInjectableProperty {
