@@ -254,7 +254,6 @@ export class SwaggerService {
   private buildRoutes(paths: ISwaggerPaths, definitions: {[key: string]: Schema}, ctrl: ControllerProvider, endpointUrl: string) {
     ctrl.dependencies.map(ctrl => this.controllerService.get(ctrl)).forEach((provider: ControllerProvider) => {
       if (!provider.store.get("hidden")) {
-        // console.log("dependencies----");
         this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`);
       }
     });
@@ -290,12 +289,6 @@ export class SwaggerService {
   }
 
   private getOperationId = (operationId: string) => {
-    if (operationId.indexOf("EventCtrl.index") > -1) {
-      // console.log("operationId", operationId);
-      // console.log((this as any).rand);
-      // console.log("===================");
-    }
-
     if (this.OPERATION_IDS[operationId] !== undefined) {
       this.OPERATION_IDS[operationId]++;
       operationId = operationId + "_" + this.OPERATION_IDS[operationId];

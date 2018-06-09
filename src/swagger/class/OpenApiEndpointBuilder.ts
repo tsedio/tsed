@@ -1,7 +1,8 @@
 import {EndpointMetadata, PathParamsType} from "@tsed/common";
 import {deepExtends, Store} from "@tsed/core";
-import {Operation, Path, Response} from "swagger-schema-official";
-import {toSwaggerPath} from "../utils";
+import {Operation, Parameter, Path, Response} from "swagger-schema-official";
+import {OpenApiResponses} from "../interfaces/OpenApiResponses";
+import {parseSwaggerPath} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 
@@ -19,36 +20,37 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     super(endpoint.target);
   }
 
+  /**
+   *
+   * @returns {this}
+   */
   build(): this {
-    const openAPIPath = toSwaggerPath(this.endpointUrl, this.pathMethod.path);
-    const produces = this.endpoint.get("produces") || [];
-    const consumes = this.endpoint.get("consumes") || [];
+    parseSwaggerPath(this.endpointUrl, this.pathMethod.path).forEach(({path: endpointPath, pathParams}) => {
+      const builder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName, pathParams);
+
+      builder.build();
+
+      const path: any = this._paths[endpointPath] || {};
+
+      path[this.pathMethod.method!] = this.createOperation(builder.parameters, this.createResponses(builder.responses));
+
+      Object.assign(this._definitions, builder.definitions);
+
+      this._paths[endpointPath] = path;
+    });
+
+    return this;
+  }
+
+  /**
+   *
+   * @param {OpenApiResponses} builderResponses
+   * @returns {OpenApiResponses}
+   */
+  private createResponses(builderResponses: OpenApiResponses): OpenApiResponses {
     const responses = this.endpoint.get("responses") || {};
-    const security = this.endpoint.get("security") || [];
 
-    const operationId = this.getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
-    const openApiParamsBuilder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName);
-
-    openApiParamsBuilder.build().completeMissingPathParams(openAPIPath);
-
-    if (!this._paths[openAPIPath]) this._paths[openAPIPath] = {};
-
-    deepExtends(responses, openApiParamsBuilder.responses);
-
-    const path: any = this._paths[openAPIPath];
-    const operation: Operation = {
-      operationId,
-      tags: [this.getTagName()],
-      parameters: openApiParamsBuilder.parameters,
-      consumes,
-      responses,
-      security,
-      produces
-    };
-
-    deepExtends(operation, this.endpoint.get("operation") || {});
-
-    path[this.pathMethod.method!] = operation;
+    deepExtends(responses, builderResponses);
 
     responses[this.endpoint.get("statusCode") || "200"] = {description: "Success"};
 
@@ -56,9 +58,33 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
       responses[code] = this.createResponse(code, responses[code]);
     });
 
-    Object.assign(this._definitions, openApiParamsBuilder.definitions);
+    return responses;
+  }
 
-    return this;
+  /**
+   *
+   * @returns {Operation}
+   * @param parameters
+   * @param responses
+   */
+  private createOperation(parameters: Parameter[], responses: OpenApiResponses): Operation {
+    const security = this.endpoint.get("security") || [];
+    const operationId = this.getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
+    const produces = this.endpoint.get("produces") || [];
+    const consumes = this.endpoint.get("consumes") || [];
+
+    return deepExtends(
+      {
+        operationId,
+        tags: [this.getTagName()],
+        parameters,
+        consumes,
+        responses,
+        security,
+        produces
+      },
+      this.endpoint.get("operation") || {}
+    );
   }
 
   /**

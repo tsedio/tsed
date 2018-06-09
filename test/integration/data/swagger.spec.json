@@ -66,7 +66,61 @@
         "produces": []
       }
     },
-    "/rest/calendars/events/{eventId}/tasks/": {
+    "/rest/test/{required}": {
+      "get": {
+        "operationId": "RestCtrl.test",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "required",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/test/{required}/{optional}": {
+      "get": {
+        "operationId": "RestCtrl.test_1",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "required",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "optional",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/events/{eventId}/tasks": {
       "get": {
         "operationId": "TaskCtrl.get",
         "tags": [
@@ -77,13 +131,7 @@
             "in": "path",
             "name": "eventId",
             "type": "string",
-            "required": false
-          },
-          {
-            "name": "test",
-            "in": "path",
-            "required": false,
-            "type": "string"
+            "required": true
           }
         ],
         "consumes": [],
@@ -107,16 +155,16 @@
         ],
         "parameters": [
           {
-            "in": "path",
-            "name": "eventId",
-            "type": "string",
-            "required": true
-          },
-          {
             "name": "q",
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true
           }
         ],
         "consumes": [],
@@ -132,7 +180,7 @@
         "produces": []
       }
     },
-    "/rest/calendars/events/": {
+    "/rest/calendars/events": {
       "head": {
         "operationId": "EventCtrl.head",
         "tags": [
@@ -172,12 +220,6 @@
         ],
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "type": "string",
-            "required": true
-          },
-          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -185,6 +227,12 @@
             "schema": {
               "$ref": "#/definitions/EventModel"
             }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
           }
         ],
         "consumes": [],
@@ -231,18 +279,18 @@
         ],
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "type": "string",
-            "required": true
-          },
-          {
             "name": "body",
             "in": "body",
             "required": false,
             "schema": {
               "$ref": "#/definitions/EventModel"
             }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
           }
         ],
         "consumes": [],
@@ -342,18 +390,18 @@
         ],
         "parameters": [
           {
+            "description": "The resource",
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": false,
-            "description": "The resource"
+            "required": true
           },
           {
+            "description": "Id of the resource",
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false,
-            "description": "Id of the resource"
+            "required": true
           }
         ],
         "consumes": [],
@@ -416,11 +464,11 @@
         ],
         "parameters": [
           {
+            "description": "Token required to update token",
             "in": "path",
             "name": "token",
             "type": "string",
-            "required": false,
-            "description": "Token required to update token"
+            "required": true
           }
         ],
         "consumes": [],
@@ -471,7 +519,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false
+            "required": true
           }
         ],
         "consumes": [],
@@ -495,7 +543,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false
+            "required": true
           }
         ],
         "consumes": [],
@@ -532,7 +580,7 @@
         "produces": []
       }
     },
-    "/rest/calendars/": {
+    "/rest/calendars": {
       "put": {
         "operationId": "CalendarCtrl.save",
         "tags": [
@@ -738,18 +786,18 @@
         ],
         "parameters": [
           {
+            "description": "The resource",
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": false,
-            "description": "The resource"
+            "required": true
           },
           {
+            "description": "Id of the resource",
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false,
-            "description": "Id of the resource"
+            "required": true
           }
         ],
         "consumes": [],
@@ -802,8 +850,25 @@
           "title": "iD",
           "type": "string"
         },
+        "startDate": {
+          "example": {
+            "example1": "2017-10-15T17:05:58.106Z"
+          },
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/definitions/Task"
+          },
+          "type": "array"
+        },
         "mapAny": {
-          "type": "object",
           "additionalProperties": {
             "nullable": true,
             "oneOf": [
@@ -826,7 +891,8 @@
                 "type": "object"
               }
             ]
-          }
+          },
+          "type": "object"
         },
         "anyValue": {
           "nullable": true,
@@ -852,28 +918,10 @@
           ]
         },
         "tasksMap": {
-          "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/Task"
-          }
-        },
-        "startDate": {
-          "example": {
-            "example1": "2017-10-15T17:05:58.106Z"
           },
-          "type": "string"
-        },
-        "endDate": {
-          "type": "string"
-        },
-        "Name": {
-          "type": "string"
-        },
-        "tasks": {
-          "items": {
-            "$ref": "#/definitions/Task"
-          },
-          "type": "array"
+          "type": "object"
         }
       },
       "required": [
