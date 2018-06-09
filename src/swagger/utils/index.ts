@@ -3,7 +3,7 @@ import {deepExtends} from "@tsed/core";
 
 /** */
 
-export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
+export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path: string; pathParams: any[]}[] {
   if (path instanceof RegExp) {
     path = path
       .toString()
@@ -12,23 +12,58 @@ export function toSwaggerPath(base: string, path: PathParamsType = ""): string {
       .replace(/\\/, "");
   }
 
-  const completePath = "" + base + path;
+  const params: any[] = [];
+  const paths: any[] = [];
+  let isOptional = false;
+  let current = "";
 
-  // if (typeof expressPath === "string") {
-  const params = completePath.match(/:[\w]+/g);
+  ("" + base + path)
+    .split("/")
+    .filter(o => !!o)
+    .map(key => {
+      const name = key.replace(":", "").replace("?", "");
 
-  let openAPIPath = completePath;
-  if (params) {
-    const swaggerParams = params.map(x => {
-      return "{" + x.replace(":", "") + "}";
+      if (key.indexOf(":") > -1) {
+        const optional = key.indexOf("?") > -1;
+
+        // Append previous config
+        if (optional && !isOptional) {
+          isOptional = true;
+
+          paths.push({
+            path: current,
+            pathParams: [].concat(params as any)
+          });
+        }
+
+        current += "/{" + name + "}";
+
+        params.push({
+          in: "path",
+          name,
+          type: "string",
+          required: true
+        });
+
+        if (optional && isOptional) {
+          paths.push({
+            path: current,
+            pathParams: [].concat(params as any)
+          });
+        }
+      } else {
+        current += "/" + key;
+      }
     });
 
-    openAPIPath = params.reduce((acc, el, ix) => {
-      return acc.replace(el, swaggerParams[ix]);
-    }, completePath);
-  }
-
-  return ("" + openAPIPath).replace(/\/\//gi, "/").trim();
+  return paths.length
+    ? paths
+    : [
+        {
+          path: current,
+          pathParams: [].concat(params as any)
+        }
+      ];
 }
 
 /**

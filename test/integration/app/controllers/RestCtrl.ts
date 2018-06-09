@@ -1,4 +1,4 @@
-import {Controller, ExpressRouter, Get, Render, RouteService} from "@tsed/common";
+import {Controller, ExpressRouter, Get, PathParams, Render, RouteService} from "@tsed/common";
 
 @Controller("/rest")
 export class RestCtrl {
@@ -13,5 +13,11 @@ export class RestCtrl {
   @Render("rest")
   public render() {
     return {endpoints: JSON.parse(JSON.stringify(this.routeService.getAll()))};
+  }
+
+  @Get("/test/:required/:optional?")
+  test(@PathParams("required") requiredParam: string, @PathParams("optional") optionalParam: string) {
+    // your code
+    return " ";
   }
 }

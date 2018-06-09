@@ -1,6 +1,6 @@
 import {ParamMetadata, ParamRegistry} from "@tsed/common";
 import {deepExtends, nameOf, Type} from "@tsed/core";
-import {BaseParameter, BodyParameter, Parameter, Schema} from "swagger-schema-official";
+import {BaseParameter, BodyParameter, Parameter, PathParameter, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
@@ -9,15 +9,20 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
   private injectedParams: ParamMetadata[];
   private name: string = "";
 
-  constructor(target: Type<any>, methodClassName: string) {
+  constructor(target: Type<any>, methodClassName: string, private pathParameters: PathParameter[] = []) {
     super(target);
     this.name = `${nameOf(target)}${methodClassName.charAt(0).toUpperCase() + methodClassName.slice(1)}`;
     this.injectedParams = ParamRegistry.getParams(target, methodClassName);
   }
 
+  /**
+   *
+   * @returns {this}
+   */
   build(): this {
     let bodySchema: Schema | undefined = undefined;
     let bodyParam: BodyParameter = {} as BodyParameter;
+    const pathParams: Map<string, any> = new Map();
 
     this._parameters = this.injectedParams
       .map((param: ParamMetadata) => {
@@ -64,6 +69,11 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
           case "query":
             return Object.assign(baseParam, param.store.get("schema"), this.createSchemaFromQueryParam(param));
 
+          case "path":
+            pathParams.set(param.expression as any, param);
+
+            return false;
+
           default:
             // Apply the schema to be backwards compatible...
             return Object.assign(baseParam, param.store.get("schema"), {
@@ -81,6 +91,20 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       this._parameters.push(bodyParam);
       this._definitions[model] = bodySchema;
     }
+
+    this.pathParameters.forEach(pathParam => {
+      if (pathParams.has(pathParam.name)) {
+        const param = pathParams.get(pathParam.name);
+
+        pathParam = Object.assign(param.store.get("baseParameter") || {}, pathParam, param.store.get("schema"), {
+          type: swaggerType(param.type)
+        });
+
+        this._parameters.push(pathParam);
+      } else {
+        this._parameters.push(pathParam);
+      }
+    });
 
     return this;
   }
@@ -179,27 +203,6 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     return {
       type
     };
-  }
-
-  public completeMissingPathParams(openAPIPath: string): Parameter[] {
-    this._parameters = openAPIPath
-      .split("/")
-      .filter(keyPath => {
-        if (keyPath.match(/{/)) {
-          const name = keyPath.replace(/{|}/, "");
-
-          return !this._parameters.find(o => o["in"] === "path" && o.name === name);
-        }
-      })
-      .map<Parameter>(keyPath => ({
-        in: "path",
-        name: keyPath.replace(/{|}/gi, ""),
-        type: "string",
-        required: keyPath.indexOf("?") === -1
-      }))
-      .concat(this._parameters);
-
-    return this._parameters;
   }
 
   public get parameters(): Parameter[] {
