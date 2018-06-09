@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "4.21.0",
+  "version": "4.22.0",
   "description": "A TypeScript Framework on top of Express",
   "main": "./dist/lib/index.js",
   "typings": "./dist/lib/index.d.ts",
