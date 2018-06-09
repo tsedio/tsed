@@ -15,7 +15,8 @@ describe("@Value()", () => {
       test: {
         bindingType: "value",
         propertyKey: "test",
-        expression: "expression"
+        expression: "expression",
+        defaultValue: undefined
       }
     });
   });

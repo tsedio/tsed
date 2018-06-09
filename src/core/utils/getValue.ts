@@ -19,8 +19,7 @@ export function getValue(expression: string, scope: any, defaultValue?: any, sep
     return scope[key];
   };
 
-  while ((scope = getValue(keys.shift()!)) && keys.length) {
-  }
+  while ((scope = getValue(keys.shift()!)) && keys.length) {}
 
   return scope === undefined ? defaultValue : scope;
 }
