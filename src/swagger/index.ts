@@ -14,4 +14,6 @@ export * from "./decorators/summary";
 export * from "./decorators/title";
 export * from "./decorators/hidden";
 export * from "./decorators/operation";
+export * from "./decorators/produces";
+export * from "./decorators/consumes";
 export {Schema} from "@tsed/common";
