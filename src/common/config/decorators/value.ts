@@ -21,6 +21,13 @@ import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
  *    @Value("swagger.path", "defaultValue")
  *    swaggerPath: string;
  *
+ *    constructor() {
+ *       console.log(this.swaggerPath) // undefined. Not available on constructor
+ *    }
+ *
+ *    $onInit() {
+ *      console.log(this.swaggerPath)  // something
+ *    }
  * }
  * ```
  *

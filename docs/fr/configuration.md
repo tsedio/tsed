@@ -316,11 +316,17 @@ export class MyClass {
     
     @Value("swagger.path")
     swaggerPath: string;
-    
+
+    $onInit() {
+       console.log(this.env);
+    }
 }
 ```
 
-!> `@Constant` retourne une valeur immutable avec `Object.freeze(). 
+!> `@Constant` retourne une valeur immutable avec `Object.freeze().
+
+> Note: Les valeurs des propriétés ne sont pas disponible au constructeur. Utilisez le hook $onInit pour récupérer les valeurs.
+
 
 <div class="guide-links">
 <a href="#/docs/controllers">Controllers</a>

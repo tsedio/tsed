@@ -272,7 +272,6 @@ The configuration can be reused throughout your application in different ways.
 
 - With dependency injection in [Service](docs/services/overview.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
 - With the decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md).
-- or with the `GlobalServerSettings` object (not recommanded).
 
 ### From service (DI)
 
@@ -311,11 +310,16 @@ export class MyClass {
     
     @Value("swagger.path")
     swaggerPath: string;
-    
+
+    $onInit() {
+       console.log(this.env);
+    }
 }
 ```
 
-> Constant return an Object.freeze() value. 
+> Constant return an Object.freeze() value.
+
+> Note: The values for the decorated properties aren't available on constructor. Use $onInit() hook to use the value.
 
 
 <div class="guide-links">
