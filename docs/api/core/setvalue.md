@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="setvalue">setValue</h1><label class="symbol-info-type-label function">Function</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { setValue }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.0/src//core/utils/setValue.ts#L0-L0">/core/utils/setValue.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { setValue }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//core/utils/setValue.ts#L0-L0">/core/utils/setValue.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

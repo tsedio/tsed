@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="constant">Constant</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Constant }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.0/src//common/config/decorators/constant.ts#L0-L0">/common/config/decorators/constant.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Constant }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//common/config/decorators/constant.ts#L0-L0">/common/config/decorators/constant.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -37,6 +37,13 @@ export class MyClass {
    @Value("swagger.path", "defaultValue")
    swaggerPath: string;
 
+   constructor() {
+      console.log(this.swaggerPath) // undefined. Not available on constructor
+   }
+
+   $onInit() {
+     console.log(this.swaggerPath)  // something
+   }
 }
 ```
 
