@@ -1,3 +1,4 @@
+import {ParamTypes} from "@tsed/common";
 import {HeaderParamsFilter} from "../../../../src/common/filters/components/HeaderParamsFilter";
 import {HeaderParams} from "../../../../src/common/filters/decorators/headerParams";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
@@ -15,6 +16,7 @@ describe("HeaderParams", () => {
 
   it("should have been called ParamFilter.decorate method with the correct parameters", () =>
     this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(HeaderParamsFilter, {
-      expression: "test"
+      expression: "test",
+      paramType: ParamTypes.HEADER
     }));
 });

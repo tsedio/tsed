@@ -56,20 +56,17 @@ Ts.ED use multer to handler file uploads. Single file can be injected like this:
 
 ```typescript
 import {Controller, Post} from "@tsed/common";
-import {Multer} from "@types/multer";
-
-type MulterFile = Express.Multer.File;
 
 @Controller('/')
 class MyCtrl {
     
   @Post('/file')
-  private uploadFile(@MultipartFile() file: MulterFile) {
+  private uploadFile(@MultipartFile() file: Express.Multer.File) {
 
   }
      
   @Post('/file')
-  private uploadFile(@MultipartFile({dest: "/other-dir"}) file: MulterFile) {
+  private uploadFile(@MultipartFile({dest: "/other-dir"}) file: Express.Multer.File) {
          
   }
 }
@@ -78,15 +75,12 @@ class MyCtrl {
 For multiple files, just add Array type annotation like this:
 ```typescript
 import {Controller, Post} from "@tsed/common";
-import {Multer} from "multer";
 import {MultipartFile} from "@tsed/multipartfiles";
-
-type MulterFile = Express.Multer.File;
 
 @Controller('/')
 class MyCtrl {
   @Post('/files')
-  private uploadFile(@MultipartFile() files: MulterFile[]) {
+  private uploadFile(@MultipartFile() files: Express.Multer.File[]) {
 
   }
 }

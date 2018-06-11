@@ -1,4 +1,4 @@
-import {ParamRegistry, UseBefore} from "@tsed/common";
+import {ParamRegistry, ParamTypes, UseBefore} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
 import {MultipartFileFilter} from "../components/MultipartFileFilter";
@@ -44,7 +44,9 @@ export function MultipartFile(options?: multer.Options): Function {
   return (target: any, propertyKey: string, parameterIndex: number): void => {
     if (typeof parameterIndex === "number") {
       // create endpoint metadata
-      Store.fromMethod(target, propertyKey).set(MultipartFileMiddleware, options);
+      Store.fromMethod(target, propertyKey)
+        .set(MultipartFileMiddleware, options)
+        .merge("consumes", ["multipart/form-data"]);
 
       UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
 
@@ -55,7 +57,8 @@ export function MultipartFile(options?: multer.Options): Function {
         propertyKey,
         parameterIndex,
         target,
-        useConverter: false
+        useConverter: false,
+        paramType: ParamTypes.FORM_DATA
       });
     }
   };

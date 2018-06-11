@@ -34,7 +34,7 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * - `collection` (String): collection (optional, induced from model name).
  * - `skipInit` (Boolean): skipInit whether to skip initialization (defaults to false).
  *
- * @param {ModelOptions} options
+ * @param {MongooseModelOptions} options
  * @returns {(target: any) => void}
  * @decorator
  * @mongoose

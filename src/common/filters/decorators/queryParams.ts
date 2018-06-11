@@ -1,8 +1,5 @@
 import {QueryParamsFilter} from "../components/QueryParamsFilter";
-/**
- * @module common/filters
- */
-/** */
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
@@ -46,6 +43,7 @@ export function QueryParams(expression?: string | any, useType?: any): Function 
     expression,
     useType,
     useConverter: true,
-    useValidation: true
+    useValidation: true,
+    paramType: ParamTypes.QUERY
   });
 }

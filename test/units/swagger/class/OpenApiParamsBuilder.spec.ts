@@ -1,3 +1,4 @@
+import {ParamTypes} from "@tsed/common";
 import * as Proxyquire from "proxyquire";
 import {ParamMetadata} from "../../../../src/common/filters/class/ParamMetadata";
 import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
@@ -6,6 +7,7 @@ import {Ctrl, SwaFoo2} from "./helpers/classes";
 
 const param0 = new ParamMetadata(Ctrl, "test", 0);
 param0.service = BodyParamsFilter;
+param0.paramType = ParamTypes.BODY;
 param0.type = SwaFoo2;
 
 const getParams = Sinon.stub().returns([param0]);

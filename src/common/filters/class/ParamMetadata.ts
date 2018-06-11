@@ -1,5 +1,6 @@
 import {nameOf, NotEnumerable, Storable, Type} from "@tsed/core";
 import {IParamOptions} from "../interfaces";
+import {ParamTypes} from "../interfaces/ParamTypes";
 
 export class ParamMetadata extends Storable implements IParamOptions<any> {
   /**
@@ -32,6 +33,10 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
    * Required entity.
    */
   @NotEnumerable() protected _required: boolean = false;
+  /**
+   *
+   */
+  @NotEnumerable() private _paramType: ParamTypes;
 
   /**
    *
@@ -128,6 +133,22 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
    */
   set allowedRequiredValues(value: any[]) {
     this._allowedRequiredValues = value;
+  }
+
+  /**
+   *
+   * @returns {ParamTypes}
+   */
+  get paramType(): ParamTypes {
+    return this._paramType;
+  }
+
+  /**
+   *
+   * @param {ParamTypes} value
+   */
+  set paramType(value: ParamTypes) {
+    this._paramType = value;
   }
 
   /**

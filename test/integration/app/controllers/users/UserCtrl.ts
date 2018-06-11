@@ -1,4 +1,5 @@
-import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Scope, Status} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Required, Scope, Status} from "@tsed/common";
+import {MultipartFile} from "../../../../../src/multipartfiles";
 import {Docs, Hidden} from "../../../../../src/swagger";
 import {User} from "../../models/User";
 import {UserService} from "../../services/UserService";
@@ -42,5 +43,15 @@ export class UserCtrl {
         }, 150);
       }
     });
+  }
+
+  @Post("/avatar/:username")
+  test(
+    @MultipartFile() myFile: Express.Multer.File,
+    @Required()
+    @PathParams("username")
+    username: string
+  ) {
+    // Logic ...
   }
 }
