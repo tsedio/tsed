@@ -1,8 +1,5 @@
-/**
- * @module common/filters
- */
-/** */
 import {BodyParamsFilter} from "../components/BodyParamsFilter";
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
@@ -46,6 +43,7 @@ export function BodyParams(expression?: string | any, useType?: any): Function {
     expression,
     useType,
     useConverter: true,
-    useValidation: true
+    useValidation: true,
+    paramType: ParamTypes.BODY
   });
 }

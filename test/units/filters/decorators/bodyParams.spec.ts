@@ -1,3 +1,4 @@
+import {ParamTypes} from "@tsed/common";
 import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
 import {BodyParams} from "../../../../src/common/filters/decorators/bodyParams";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
@@ -20,6 +21,7 @@ describe("BodyParams", () => {
       expression: "test",
       useType: Test,
       useConverter: true,
-      useValidation: true
+      useValidation: true,
+      paramType: ParamTypes.BODY
     }));
 });

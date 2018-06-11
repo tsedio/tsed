@@ -750,8 +750,16 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "required": false,
+            "type": "file"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -767,8 +775,16 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "required": false,
+            "type": "file"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"

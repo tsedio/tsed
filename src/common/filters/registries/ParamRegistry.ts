@@ -123,7 +123,7 @@ export class ParamRegistry {
    * @param options
    */
   static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
-    const {propertyKey, parameterIndex, target, useConverter, useValidation} = options;
+    const {propertyKey, parameterIndex, target, useConverter, useValidation, paramType} = options;
 
     let {expression, useType} = options;
 
@@ -137,6 +137,10 @@ export class ParamRegistry {
     param.service = service;
     param.expression = expression!;
     param.useValidation = !!useValidation;
+
+    if (paramType) {
+      param.paramType = paramType!;
+    }
 
     if (useType) {
       param.type = useType;

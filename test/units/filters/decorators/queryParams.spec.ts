@@ -1,3 +1,4 @@
+import {ParamTypes} from "@tsed/common";
 import {QueryParamsFilter} from "../../../../src/common/filters/components/QueryParamsFilter";
 import {QueryParams} from "../../../../src/common/filters/decorators/queryParams";
 import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
@@ -20,6 +21,7 @@ describe("QueryParams", () => {
       expression: "test",
       useType: Test,
       useConverter: true,
-      useValidation: true
+      useValidation: true,
+      paramType: ParamTypes.QUERY
     }));
 });

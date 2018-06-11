@@ -1,4 +1,4 @@
-import {ParamMetadata, ParamRegistry} from "@tsed/common";
+import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
 import {deepExtends, nameOf, Type} from "@tsed/core";
 import {BaseParameter, BodyParameter, Parameter, PathParameter, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
@@ -30,23 +30,20 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
           return;
         }
 
-        const inType = ({
-          BodyParamsFilter: "body",
-          PathParamsFilter: "path",
-          QueryParamsFilter: "query",
-          HeaderParamsFilter: "header"
-        } as any)[param.name];
+        const inType = param.paramType;
 
-        if (inType === undefined) {
+        /*if (inType === undefined || [ParamTypes.SESSION, ParamTypes.COOKIES, ParamTypes.LOCALS].indexOf(inType) > -1) {
           // not a input paramaters
           return;
-        }
-
-        const baseParam: BaseParameter = this.createBaseParameter(inType, param);
+        }*/
 
         // Next assign type/schema:
         switch (inType) {
-          case "body":
+          default:
+            return;
+          case ParamTypes.BODY:
+            const baseParam: BaseParameter = this.createBaseParameter(param);
+
             if (param.expression) {
               bodySchema = deepExtends(bodySchema || {}, this.createSchemaFromBodyParam(param));
               bodyParam = baseParam;
@@ -66,18 +63,24 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
               }
             });
 
-          case "query":
-            return Object.assign(baseParam, param.store.get("schema"), this.createSchemaFromQueryParam(param));
+          case ParamTypes.QUERY:
+            return Object.assign(this.createBaseParameter(param), param.store.get("schema"), this.createSchemaFromQueryParam(param));
 
-          case "path":
+          case ParamTypes.PATH:
+            this.createBaseParameter(param);
             pathParams.set(param.expression as any, param);
 
             return false;
 
-          default:
+          case ParamTypes.HEADER:
             // Apply the schema to be backwards compatible...
-            return Object.assign(baseParam, param.store.get("schema"), {
+            return Object.assign(this.createBaseParameter(param), param.store.get("schema"), {
               type: swaggerType(param.type)
+            });
+
+          case ParamTypes.FORM_DATA:
+            return Object.assign(this.createBaseParameter(param), param.store.get("schema"), {
+              type: "file"
             });
         }
       })
@@ -111,14 +114,13 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
   /**
    *
-   * @param {string} inType
    * @param {ParamMetadata} param
    * @returns {BaseParameter}
    */
-  private createBaseParameter(inType: string, param: ParamMetadata): BaseParameter {
+  private createBaseParameter(param: ParamMetadata): BaseParameter {
     const baseParam: BaseParameter = {
-      name: inType === "body" ? "body" : (param.expression as string),
-      in: inType,
+      name: param.paramType === ParamTypes.BODY ? ParamTypes.BODY : (param.expression as string),
+      in: param.paramType,
       required: !!param.required,
       description: ""
     };

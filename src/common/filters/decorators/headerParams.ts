@@ -1,9 +1,6 @@
-import {ParamRegistry} from "../registries/ParamRegistry";
-/**
- * @module common/filters
- */
-/** */
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
+import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
  * HeaderParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
@@ -31,5 +28,8 @@ import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
  * @returns {Function}
  */
 export function HeaderParams(expression: string): Function {
-  return ParamRegistry.decorate(HeaderParamsFilter, {expression});
+  return ParamRegistry.decorate(HeaderParamsFilter, {
+    expression,
+    paramType: ParamTypes.HEADER
+  });
 }

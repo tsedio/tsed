@@ -1,6 +1,6 @@
 import {EndpointMetadata, PathParamsType} from "@tsed/common";
 import {deepExtends, Store} from "@tsed/core";
-import {Operation, Parameter, Path, Response} from "swagger-schema-official";
+import {Operation, Path, Response} from "swagger-schema-official";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
 import {parseSwaggerPath} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
@@ -26,13 +26,11 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
    */
   build(): this {
     parseSwaggerPath(this.endpointUrl, this.pathMethod.path).forEach(({path: endpointPath, pathParams}) => {
-      const builder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName, pathParams);
-
-      builder.build();
+      const builder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName, pathParams).build();
 
       const path: any = this._paths[endpointPath] || {};
 
-      path[this.pathMethod.method!] = this.createOperation(builder.parameters, this.createResponses(builder.responses));
+      path[this.pathMethod.method!] = this.createOperation(builder);
 
       Object.assign(this._definitions, builder.definitions);
 
@@ -64,12 +62,11 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
   /**
    *
    * @returns {Operation}
-   * @param parameters
-   * @param responses
+   * @param builder
    */
-  private createOperation(parameters: Parameter[], responses: OpenApiResponses): Operation {
-    const security = this.endpoint.get("security") || [];
+  private createOperation(builder: OpenApiParamsBuilder): Operation {
     const operationId = this.getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
+    const security = this.endpoint.get("security") || [];
     const produces = this.endpoint.get("produces") || [];
     const consumes = this.endpoint.get("consumes") || [];
 
@@ -77,9 +74,9 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
       {
         operationId,
         tags: [this.getTagName()],
-        parameters,
+        parameters: builder.parameters,
         consumes,
-        responses,
+        responses: this.createResponses(builder.responses),
         security,
         produces
       },
