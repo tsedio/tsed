@@ -1,7 +1,7 @@
-import {Type, isArrayOrArrayClass} from "@tsed/core";
+import {isArrayOrArrayClass, Type} from "@tsed/core";
 import {IControllerOptions} from "../../interfaces/IControllerOptions";
 import {PathParamsType} from "../../interfaces/PathParamsType";
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {ControllerRegistry, registerController} from "../../registries/ControllerRegistry";
 
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
@@ -28,13 +28,13 @@ import {ControllerRegistry} from "../../registries/ControllerRegistry";
  * @decorator
  */
 export function Controller(path: PathParamsType | IControllerOptions, ...dependencies: Type<any>[]): Function {
-    return (target: any): void => {
-        if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
-            ControllerRegistry.merge(target, {path: (path as PathParamsType), dependencies});
-        } else {
-            ControllerRegistry.merge(target, path as any);
-        }
-    };
+  return (target: any): void => {
+    registerController(target);
+
+    if (typeof path === "string" || path instanceof RegExp || isArrayOrArrayClass(path)) {
+      ControllerRegistry.merge(target, {path: path as PathParamsType, dependencies});
+    } else {
+      ControllerRegistry.merge(target, path as any);
+    }
+  };
 }
-
-

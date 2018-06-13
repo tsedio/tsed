@@ -1,5 +1,4 @@
-import {getDecoratorType, Type} from "@tsed/core";
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {getDecoratorType, Store, Type} from "@tsed/core";
 import {EndpointRegistry} from "../../registries/EndpointRegistry";
 
 /**
@@ -23,20 +22,15 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  * @decorator
  */
 export function Use(...args: any[]): Function {
+  return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
+    if (getDecoratorType([target, targetKey, descriptor]) === "method") {
+      EndpointRegistry.use(target, targetKey!, args);
 
-    return <T>(target: Type<any>,
-               targetKey?: string,
-               descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
+      return descriptor;
+    }
 
-        if (getDecoratorType([target, targetKey, descriptor]) === "method") {
-            EndpointRegistry.use(target, targetKey!, args);
-            return descriptor;
-        }
-
-        ControllerRegistry.merge(target, {
-            middlewares: {
-                use: args
-            }
-        });
-    };
+    Store.from(target).merge("middlewares", {
+      use: args
+    });
+  };
 }

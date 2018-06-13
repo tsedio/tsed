@@ -66,11 +66,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function MaxLength(maxLength: number) {
+  if (maxLength < 0) {
+    throw new Error("The value of maxLength MUST be a non-negative integer.");
+  }
 
-    if (maxLength < 0) {
-        throw new Error("The value of maxLength MUST be a non-negative integer.");
-    }
-    return decoratorSchemaFactory((schema) => {
-        schema.mapper.maxLength = maxLength;
-    });
+  return decoratorSchemaFactory(schema => {
+    schema.mapper.maxLength = maxLength;
+  });
 }

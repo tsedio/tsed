@@ -6,151 +6,121 @@ import {PropertyType} from "../../src/common/jsonschema/decorators/propertyType"
 import {Required} from "../../src/common/mvc/decorators";
 
 export class JsonBaseModel {
-
-    @Property()
-    public id?: string;
+  @Property() public id?: string;
 }
 
 export class JsonNameModel extends JsonBaseModel {
-
-    @Property()
-    public name: string;
+  @Property() public name: string;
 }
 
 export class JsonAgeModel extends JsonBaseModel {
-
-    @Property()
-    public age: number;
+  @Property() public age: number;
 }
 
-
 export class JsonFoo {
-    test: any;
-    foo: any;
+  test: any;
+  foo: any;
 
-    method() {
-    }
+  method() {}
 
-    deserialize(obj: any) {
-        const self: any = this;
+  deserialize(obj: any) {
+    const self: any = this;
 
-        Object.getOwnPropertyNames(obj).forEach((key) => {
-            if (typeof self[key] !== "function") {
-                self[key] = obj[key];
-            }
-        });
+    Object.getOwnPropertyNames(obj).forEach(key => {
+      if (typeof self[key] !== "function") {
+        self[key] = obj[key];
+      }
+    });
+  }
 
-    }
+  serialize() {
+    return {
+      test: this.test,
+      foo: this.foo
+    };
+  }
+}
 
-    serialize() {
-        return {
-            test: this.test,
-            foo: this.foo
-        };
-    }
+export class JsonFoo1 {
+  @Property() test: string;
 }
 
 export class JsonFoo2 {
-    @Property()
-    @Required()
-    @MinLength(3)
-    test: string;
+  @Property()
+  @Required()
+  @MinLength(3)
+  test: string;
 
+  @Property()
+  @PropertyName("Name")
+  @MinLength(3)
+  name: string;
 
-    @Property()
-    @PropertyName("Name")
-    @MinLength(3)
-    name: string;
+  @Property() dateStart: Date;
 
-    @Property()
-    dateStart: Date;
+  @Property() uint: number;
 
-    @Property()
-    uint: number;
+  @Property() object: any;
 
-    @Property()
-    object: any;
+  @Required() foo: JsonFoo;
 
-    @Required()
-    foo: JsonFoo;
+  @PropertyType(JsonFoo) foos: JsonFoo[];
 
-    @PropertyType(JsonFoo)
-    foos: JsonFoo[];
+  @PropertyType(JsonFoo1) foos2: JsonFoo1[];
 
-    @PropertyType(JsonFoo)
-    foos2: JsonFoo[];
+  @PropertyType(JsonFoo1) theMap: Map<string, JsonFoo1>;
 
-    @PropertyType(JsonFoo)
-    theMap: Map<string, JsonFoo>;
+  @PropertyType(JsonFoo1) theSet: Set<JsonFoo1>;
 
-    @PropertyType(JsonFoo)
-    theSet: Set<JsonFoo>;
+  @PropertyType(String) mapOfString: Map<string, string>;
 
-    @PropertyType(String)
-    mapOfString: Map<string, string>;
+  @PropertyType(String) arrayOfString: string[];
 
-    @PropertyType(String)
-    arrayOfString: string[];
+  @Property() nameModel: JsonNameModel;
 
-    @Property()
-    nameModel: JsonNameModel;
+  @Property() ageModel: JsonAgeModel;
 
-    @Property()
-    ageModel: JsonAgeModel;
+  @IgnoreProperty() password: string;
 
-    @IgnoreProperty()
-    password: string;
-
-    method() {
-
-    }
+  method() {}
 }
 
 export class JsonFoo3 {
-    toJSON() {
-        return {};
-    }
+  toJSON() {
+    return {};
+  }
 }
 
 export class JsonFoo4 {
-    @Property()
-    test: any;
+  @Property() test: any;
 
-    @Required()
-    foo: any;
+  @Required() foo: any;
 }
 
 export class Nested {
-    @Property()
-    count?: number;
+  @Property() count?: number;
 }
 
 export class Stuff {
-    @Property()
-    name: string;
+  @Property() name: string;
 
-    @Property()
-    nested?: Nested;
+  @Property() nested?: Nested;
 }
 
 export class Thingy {
-    @Property()
-    stuff?: Stuff;
+  @Property() stuff?: Stuff;
 }
 
 export class Circular {
-    @Property()
-    parent: Circular;
+  @Property() parent: Circular;
 }
 
 export class Dependency {
-    @Property()
-    dep: any;
+  @Property() dep: any;
 }
 
 export class IndirectCircular {
-    @Property()
-    parent: Dependency;
+  @Property() parent: Dependency;
 }
 
 PropertyType(IndirectCircular)(Dependency, "dep");

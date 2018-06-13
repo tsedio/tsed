@@ -53,24 +53,22 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function Header(headerName: string | number | IHeadersOptions, headerValue?: string | number | IResponseHeader) {
+  return <T>(target: any, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
+    if (headerValue !== undefined) {
+      headerName = {[headerName as string]: headerValue};
+    }
 
-    return <T>(target: any, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): void => {
-        if (headerValue !== undefined) {
-            headerName = {[headerName as string]: headerValue};
-        }
+    // metadata
+    const store = Store.from(target, propertyKey, descriptor);
+    const headers: IResponseHeaders = mapHeaders(headerName as IHeadersOptions);
 
-        // metadata
-        const store = Store.from(target, propertyKey, descriptor);
-        const headers: IResponseHeaders = mapHeaders(headerName as IHeadersOptions);
+    store.merge("response", {headers});
 
-        store.merge("response", {headers});
-
-        return UseAfter((request: any, response: any, next: any) => {
-            Object.keys(headers).forEach((key) => {
-                response.set(key, headers[key].value);
-            });
-            next();
-
-        })(target, propertyKey, descriptor);
-    };
+    return UseAfter((request: any, response: any, next: any) => {
+      Object.keys(headers).forEach(key => {
+        response.set(key, headers[key].value);
+      });
+      next();
+    })(target, propertyKey, descriptor);
+  };
 }

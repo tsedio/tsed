@@ -1,5 +1,5 @@
-import {ParamRegistry, UseBefore} from "@tsed/common";
-import {descriptorOf, Metadata, Store, Type} from "@tsed/core";
+import {ParamRegistry, ParamTypes, UseBefore} from "@tsed/common";
+import {descriptorOf, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
 import {MultipartFileFilter} from "../components/MultipartFileFilter";
 import {MultipartFilesFilter} from "../components/MultipartFilesFilter";
@@ -36,34 +36,30 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * > See the tutorial on the [multer configuration](tutorials/upload-files-with-multer.md).
  *
  * @param options
- * @returns {(target:Type<T>, propertyKey:string, parameterIndex:number)=>void}
+ * @returns Function
  * @decorator
  * @multer
  */
 export function MultipartFile(options?: multer.Options): Function {
-    return <T>(target: Type<T>, propertyKey: string, parameterIndex: number): void => {
+  return (target: any, propertyKey: string, parameterIndex: number): void => {
+    if (typeof parameterIndex === "number") {
+      // create endpoint metadata
+      Store.fromMethod(target, propertyKey)
+        .set(MultipartFileMiddleware, options)
+        .merge("consumes", ["multipart/form-data"]);
 
-        if (typeof parameterIndex === "number") {
+      UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
 
-            // create endpoint metadata
-            Store
-                .fromMethod(target, propertyKey)
-                .set(MultipartFileMiddleware, options);
+      // add filter
+      const filter = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array ? MultipartFilesFilter : MultipartFileFilter;
 
-            UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
-
-            // add filter
-            const filter = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array
-                ? MultipartFilesFilter : MultipartFileFilter;
-
-            ParamRegistry.useFilter(filter, {
-                propertyKey,
-                parameterIndex,
-                target,
-                useConverter: false
-            });
-
-        }
-
-    };
+      ParamRegistry.useFilter(filter, {
+        propertyKey,
+        parameterIndex,
+        target,
+        useConverter: false,
+        paramType: ParamTypes.FORM_DATA
+      });
+    }
+  };
 }

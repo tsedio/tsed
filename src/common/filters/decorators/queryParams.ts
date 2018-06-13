@@ -1,8 +1,5 @@
 import {QueryParamsFilter} from "../components/QueryParamsFilter";
-/**
- * @module common/filters
- */
-/** */
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
@@ -42,10 +39,11 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function QueryParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(QueryParamsFilter, {
-        expression,
-        useType,
-        useConverter: true,
-        useValidation: true
-    });
+  return ParamRegistry.decorate(QueryParamsFilter, {
+    expression,
+    useType,
+    useConverter: true,
+    useValidation: true,
+    paramType: ParamTypes.QUERY
+  });
 }

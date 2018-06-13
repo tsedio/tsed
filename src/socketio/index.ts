@@ -1,8 +1,10 @@
+// tslint:disable: no-unused-variable
 import * as SocketIO from "socket.io";
 
 declare interface IServerSettings {
-    socketIO?: SocketIO.ServerOptions;
+  socketIO?: SocketIO.ServerOptions;
 }
+// tslint:enable: no-unused-variable
 
 // interfaces
 export * from "./interfaces/OnNamespaceInit";
@@ -32,4 +34,3 @@ export * from "./decorators/socketEventName";
 // service
 export * from "./services/SocketIOServer";
 export * from "./services/SocketIOService";
-

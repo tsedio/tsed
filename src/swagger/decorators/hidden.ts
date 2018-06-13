@@ -41,7 +41,7 @@ import {Store} from "@tsed/core";
  * @swagger
  */
 export function Hidden() {
-    return Store.decorate((store) => {
-        store.set("hidden", true);
-    });
+  return Store.decorate(store => {
+    store.set("hidden", true);
+  });
 }

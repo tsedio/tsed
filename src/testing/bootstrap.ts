@@ -1,5 +1,6 @@
-import {ServerLoader} from "@tsed/common";
 import {$log} from "ts-log-debug";
+
+// export const servers: Map<any, any> = new Map();
 
 /**
  * Load the server silently without listening port and configure it on test profile.
@@ -9,28 +10,20 @@ import {$log} from "ts-log-debug";
  * @returns {(done:Function)=>undefined}
  */
 export function bootstrap(server: any, ...args: any[]) {
+  $log.stop();
+  process.env.NODE_ENV = process.env.NODE_ENV || "test";
 
-    $log.stop();
-    process.env.NODE_ENV = process.env.NODE_ENV || "test";
+  return function before(done: any) {
+    const instance = new server(...args);
 
-    return (done: Function) => {
+    instance.startServers = () => Promise.resolve();
 
-        if (server.$$instance === undefined) {
+    // TODO used by inject method
+    this.$$injector = instance.injector;
 
-            const instance: ServerLoader = new server(...args);
-
-            server.$$instance = instance;
-
-            (instance as any).startServers = function () {
-                return Promise.resolve();
-            };
-
-            instance.start().then(() => done());
-        } else {
-            done();
-        }
-
-    };
+    instance
+      .start()
+      .then(done)
+      .catch(done);
+  };
 }
-
-

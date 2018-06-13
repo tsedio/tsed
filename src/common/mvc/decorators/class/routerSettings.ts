@@ -1,5 +1,5 @@
-import {IRouterOptions} from "../../../config/interfaces/IRouterOptions";
-import {ControllerRegistry} from "../../registries/ControllerRegistry";
+import {IRouterSettings} from "../../../config/interfaces/IServerSettings";
+import {Store} from "@tsed/core";
 
 /**
  * Specify the behavior of the router controller.
@@ -23,12 +23,8 @@ import {ControllerRegistry} from "../../registries/ControllerRegistry";
  * @param routerOptions
  * @express
  */
-export function RouterSettings(routerOptions: IRouterOptions): Function {
-
-    return (target: any): void => {
-
-        ControllerRegistry.merge(target, {routerOptions});
-
-    };
+export function RouterSettings(routerOptions: IRouterSettings): Function {
+  return Store.decorate(store => {
+    store.merge("routerOptions", routerOptions);
+  });
 }
-

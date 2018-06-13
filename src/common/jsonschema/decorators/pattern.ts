@@ -90,11 +90,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  */
 
 export function Pattern(pattern: string | RegExp) {
-    return decoratorSchemaFactory((schema) => {
-        if (typeof pattern === "object") {
-            pattern = pattern.toString().slice(1, -1);
-        }
+  return decoratorSchemaFactory(schema => {
+    if (typeof pattern === "object") {
+      pattern = pattern.toString().slice(1, -1);
+    }
 
-        schema.mapper.pattern = pattern;
-    });
+    schema.mapper.pattern = pattern;
+  });
 }

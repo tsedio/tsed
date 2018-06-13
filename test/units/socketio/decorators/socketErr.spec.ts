@@ -3,27 +3,25 @@ import {SocketErr} from "../../../../src/socketio";
 import {expect} from "../../../tools";
 
 describe("@SocketErr", () => {
+  class Test {}
 
-    class Test {
-    }
+  before(() => {
+    SocketErr(Test, "test", 0);
+    this.store = Store.from(Test);
+  });
 
-    before(() => {
-        SocketErr(Test, "test", 0);
-        this.store = Store.from(Test);
-    });
-
-    it("should set metadata", () => {
-        expect(this.store.get("socketIO")).to.deep.eq({
-            "handlers": {
-                "test": {
-                    "parameters": {
-                        "0": {
-                            "filter": "error",
-                            "mapIndex": undefined
-                        }
-                    }
-                }
+  it("should set metadata", () => {
+    expect(this.store.get("socketIO")).to.deep.eq({
+      handlers: {
+        test: {
+          parameters: {
+            "0": {
+              filter: "error",
+              mapIndex: undefined
             }
-        });
+          }
+        }
+      }
     });
+  });
 });

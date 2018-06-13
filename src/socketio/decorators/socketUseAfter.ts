@@ -51,19 +51,19 @@ import {Store, Type} from "@tsed/core";
  * @param middlewares
  */
 export function SocketUseAfter(...middlewares: Type<any>[]) {
-    return (target: any, propertyKey?: string, descriptor?: PropertyDescriptor) => {
-        if (propertyKey) {
-            Store.from(target).merge("socketIO", {
-                handlers: {
-                    [propertyKey]: {
-                        useAfter: middlewares
-                    }
-                }
-            });
-        } else {
-            Store.from(target).merge("socketIO", {
-                useAfter: middlewares
-            });
+  return (target: any, propertyKey?: string, descriptor?: PropertyDescriptor) => {
+    if (propertyKey) {
+      Store.from(target).merge("socketIO", {
+        handlers: {
+          [propertyKey]: {
+            useAfter: middlewares
+          }
         }
-    };
+      });
+    } else {
+      Store.from(target).merge("socketIO", {
+        useAfter: middlewares
+      });
+    }
+  };
 }

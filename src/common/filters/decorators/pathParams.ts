@@ -1,10 +1,6 @@
-/**
- * @module common/filters
- */
-/** */
-
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {PathParamsFilter} from "../components/PathParamsFilter";
+import {ParamRegistry} from "../registries/ParamRegistry";
 
 /**
  * PathParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
@@ -33,5 +29,9 @@ import {PathParamsFilter} from "../components/PathParamsFilter";
  * @returns {Function}
  */
 export function PathParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(PathParamsFilter, {expression, useType});
+  return ParamRegistry.decorate(PathParamsFilter, {
+    expression,
+    useType,
+    paramType: ParamTypes.PATH
+  });
 }

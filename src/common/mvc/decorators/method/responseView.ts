@@ -24,10 +24,11 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
-    return Store.decorate((store: Store) => {
-        store.set(ResponseViewMiddleware, {viewPath, viewOptions});
-        return UseAfter(ResponseViewMiddleware);
-    });
+  return Store.decorate((store: Store) => {
+    store.set(ResponseViewMiddleware, {viewPath, viewOptions});
+
+    return UseAfter(ResponseViewMiddleware);
+  });
 }
 
 /**
@@ -53,5 +54,5 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
  * @alias ResponseView
  */
 export function Render(viewPath: string, viewOptions?: Object): Function {
-    return ResponseView(viewPath, viewOptions);
+  return ResponseView(viewPath, viewOptions);
 }

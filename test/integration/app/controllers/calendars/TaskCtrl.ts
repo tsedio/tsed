@@ -7,20 +7,24 @@ import {Test2Middleware} from "../../middlewares/middleware";
 @UseBefore(Test2Middleware)
 @Authenticated({options: "options"})
 export class TaskCtrl {
+  @Get("/")
+  async get(@PathParams("test") value: string, @PathParams("eventId") id: string) {
+    return {value, id};
+  }
 
-    @Get("/")
-    async get(@PathParams("test") value: string, @PathParams("eventId") id: string) {
-        return {value, id};
-    }
+  @Get("/hidden")
+  @Hidden()
+  async getHidden() {
+    return {};
+  }
 
-    @Get("/hidden")
+  @Get("/hiddenparam")
+  async getHiddenParams(
     @Hidden()
-    async getHidden() {
-        return {};
-    }
-
-    @Get("/hiddenparam")
-    async getHiddenParams(@Hidden() @QueryParams("token") t: string, @QueryParams("q") q: string) {
-        return {};
-    }
+    @QueryParams("token")
+    t: string,
+    @QueryParams("q") q: string
+  ) {
+    return {};
+  }
 }

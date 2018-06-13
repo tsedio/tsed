@@ -28,17 +28,19 @@
     margin-bottom: 1rem;
     overflow: auto;
     width: 100%;
+
+    th {
+      font-weight: 700;
+    }
+    td, th {
+      border: 1px solid #ddd;
+      padding: 6px 13px;
+    }
+    tr {
+      border-top: 1px solid #ccc;
+    }
   }
-  th {
-    font-weight: 700;
-  }
-  td, th {
-    border: 1px solid #ddd;
-    padding: 6px 13px;
-  }
-  tr {
-    border-top: 1px solid #ccc;
-  }
+
   p.tip, tr:nth-child(2n) {
     background-color: #f8f8f8;
   }

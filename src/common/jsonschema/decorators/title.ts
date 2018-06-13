@@ -32,5 +32,5 @@ import {Schema} from "./schema";
  * @jsonschema
  */
 export function Title(title: string) {
-    return Schema({title});
+  return Schema({title});
 }

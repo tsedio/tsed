@@ -6,9 +6,10 @@ import {GlobalProviders} from "../../di/registries/ProviderRegistry";
  * Converter Registry.
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
+// tslint:disable-next-line: variable-name
 export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.CONVERTER, Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 /**
  * Add a new converter in the `ProviderRegistry`. This converter will be built when `InjectorService` will be loaded.
@@ -29,9 +30,10 @@ export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createR
  * // or
  * registerConverter(MyConverter);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myConverter = InjectorService.get<MyConverter>(MyConverter);
+ * const myConverter = injector.get<MyConverter>(MyConverter);
  * myConverter.serialize(); // test
  * ```
  *

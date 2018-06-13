@@ -1,138 +1,139 @@
-import {ProxyRegistry, Type} from "@tsed/core";
+import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Service} from "../../di/decorators/service";
-import {ProviderScope} from "../../di/interfaces";
+import {ProviderType} from "../../di/interfaces/ProviderType";
 import {InjectorService} from "../../di/services/InjectorService";
 import {IComponentScanned} from "../../server/interfaces";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressApplication} from "../decorators";
-import {IControllerOptions} from "../interfaces";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {ExpressRouter} from "./ExpressRouter";
-import {RouterController} from "./RouterController";
+import {RouteService} from "./RouteService";
 
 /**
- * ControllerService manage all controllers declared with `@ControllerProvider` decorators.
+ * @private
  */
 @Service()
-export class ControllerService extends ProxyRegistry<ControllerProvider, IControllerOptions> {
-    /**
-     *
-     * @param expressApplication
-     * @param injectorService
-     * @param serverSettings
-     */
-    constructor(private injectorService: InjectorService,
-                @ExpressApplication private expressApplication: Express.Application,
-                private serverSettings: ServerSettingsService) {
-        super(ControllerRegistry);
-    }
+export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvider> {
+  /**
+   *
+   * @param expressApplication
+   * @param injectorService
+   * @param settings
+   * @param routeService
+   */
+  constructor(
+    private injectorService: InjectorService,
+    @ExpressApplication private expressApplication: Express.Application,
+    private settings: ServerSettingsService,
+    private routeService: RouteService
+  ) {
+    super(injectorService as any, {filter: {type: ProviderType.CONTROLLER}});
 
-    /**
-     *
-     * @param target
-     * @returns {ControllerProvider}
-     */
-    static get(target: Type<any>): ControllerProvider | undefined {
-        return ControllerRegistry.get(target);
-    }
+    this.buildRouters();
+  }
 
-    /**
-     *
-     * @param target
-     */
-    static has(target: Type<any>) {
-        return ControllerRegistry.has(target);
-    }
+  /**
+   *
+   * @param target
+   * @returns {ControllerProvider}
+   * @deprecated
+   */
+  @Deprecated("static ControllerService.get(). Removed feature.")
+  static get(target: Type<any>): ControllerProvider | undefined {
+    return ControllerRegistry.get(target) as ControllerProvider;
+  }
 
-    /**
-     *
-     * @param target
-     * @param provider
-     */
-    static set(target: Type<any>, provider: ControllerProvider) {
-        ControllerRegistry.set(target, provider);
-        return this;
-    }
+  /**
+   *
+   * @param target
+   * @deprecated
+   */
+  @Deprecated("static ControllerService.has(). Removed feature.")
+  static has(target: Type<any>) {
+    return ControllerRegistry.has(target);
+  }
 
-    /**
-     *
-     * @param components
-     */
-    public $onRoutesInit(components: { file: string, endpoint: string, classes: any[] }[]) {
+  /**
+   *
+   * @param target
+   * @param provider
+   * @deprecated
+   */
+  @Deprecated("static ControllerService.set(). Removed feature.")
+  static set(target: Type<any>, provider: ControllerProvider) {
+    ControllerRegistry.set(target, provider);
 
-        $log.info("Build controllers");
+    return this;
+  }
 
-        this.mapComponents(components);
-        this.buildControllers();
-    }
+  /**
+   *
+   * @param components
+   */
+  public $onRoutesInit(components: {file: string; endpoint: string; classes: any[]}[]) {
+    $log.info("Map controllers");
+    this.mapComponents(components);
+  }
 
-    /**
-     *
-     * @param components
-     */
-    public mapComponents(components: IComponentScanned[]) {
-        components.forEach(component => {
-            Object.keys(component.classes)
-                .map(clazzName => component.classes[clazzName])
-                .filter(clazz => component.endpoint && ControllerRegistry.has(clazz))
-                .map(clazz =>
-                    ControllerRegistry.get(clazz)!.pushRouterPath(component.endpoint!)
-                );
+  /**
+   * Build routers and con
+   */
+  private buildRouters() {
+    const defaultRoutersOptions = this.settings.routers;
+
+    this.forEach((provider: ControllerProvider) => {
+      if (!provider.router && !provider.hasParent()) {
+        new ControllerBuilder(provider, defaultRoutersOptions).build(this.injectorService);
+      }
+    });
+  }
+
+  /**
+   *
+   * @param components
+   */
+  private mapComponents(components: IComponentScanned[]) {
+    components.forEach(component => {
+      Object.keys(component.classes)
+        .map(clazzName => component.classes[clazzName])
+        .filter(clazz => component.endpoint && this.has(clazz))
+        .map(clazz => this.get(clazz))
+        .forEach((provider: ControllerProvider) => {
+          if (!provider.hasParent()) {
+            this.mountRouter(component.endpoint!, provider);
+          }
         });
-    }
+    });
+  }
 
-    /**
-     * Invoke a controller from his Class.
-     * @param target
-     * @param locals
-     * @param designParamTypes
-     * @returns {T}
-     */
-    public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
+  /**
+   *
+   * @param {string} endpoint
+   * @param {ControllerProvider} provider
+   */
+  private mountRouter(endpoint: string, provider: ControllerProvider) {
+    const route = provider.getEndpointUrl(endpoint!);
+    this.routeService.addRoute({provider, route});
+    this.expressApplication.use(route, provider.router);
+  }
 
-        if (!locals.has(ExpressRouter)) {
-            let router;
-            if (this.registry.has(target)) {
-                router = this.registry.get(target)!.router;
-            } else {
-                router = Express.Router();
-            }
+  /**
+   * Invoke a controller from his Class.
+   * @param target
+   * @param locals
+   * @param designParamTypes
+   * @returns {T}
+   * @deprecated
+   */
+  @Deprecated("ControllerService.invoke(). Removed feature. Use injectorService.invoke instead of.")
+  public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
+    return this.injectorService.invoke<T>(target.provide || target, locals, designParamTypes);
+  }
 
-            locals.set(RouterController, new RouterController(router));
-            locals.set(ExpressRouter, router);
-        }
-
-        return this.injectorService.invoke<T>(target.provide || target, locals, designParamTypes);
-    }
-
-    /**
-     * Build all controllers and mount routes to the ExpressApplication.
-     */
-    public buildControllers() {
-
-        const defaultRoutersOptions = this.serverSettings.routers;
-        ControllerRegistry.forEach((provider: ControllerProvider) => {
-            if (!provider.hasParent()) {
-                new ControllerBuilder(provider, defaultRoutersOptions).build();
-
-                provider.routerPaths.forEach(path => {
-                    this.expressApplication.use(provider.getEndpointUrl(path), provider.router);
-                });
-
-            }
-
-            const target = provider.useClass;
-
-            if (provider.scope === ProviderScope.SINGLETON && provider.instance === undefined) {
-                provider.instance = this.invoke<any>(target);
-            }
-        });
-
-        return this;
-    }
-
+  get routes(): {route: string; provider: any}[] {
+    return this.routeService.routes;
+  }
 }

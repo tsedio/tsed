@@ -1,7 +1,5 @@
 import {isEmpty, Type} from "@tsed/core";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
-import {ConverterService} from "../../converters/services/ConverterService";
-import {InjectorService} from "../../di/services/InjectorService";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
@@ -92,31 +90,18 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @decorator
  * @converters
  */
-export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        if (typeof options === "string") {
-            propertyMetadata.name = options as string;
-        }
-        else if (typeof options === "object") {
-            propertyMetadata.name = options.name as string;
+export function JsonProperty(options?: IPropertyOptions | string): Function {
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    if (typeof options === "string") {
+      propertyMetadata.name = options as string;
+    } else if (typeof options === "object") {
+      propertyMetadata.name = options.name as string;
 
-            if (!isEmpty((<IPropertyOptions>options).use)) {
-                propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
-            }
-        }
-
-        return (target: any) => {
-            if (!target.constructor.prototype.toJSON) {
-
-                target.constructor.prototype.toJSON = function () {
-                    return InjectorService
-                        .invoke<ConverterService>(ConverterService)
-                        .serialize(this);
-                };
-                target.constructor.prototype.toJSON.$ignore = true;
-            }
-        };
-    });
+      if (!isEmpty((options as IPropertyOptions).use)) {
+        propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
+      }
+    }
+  });
 }
 
 /**
@@ -205,5 +190,5 @@ export function JsonProperty<T>(options?: IPropertyOptions | string): Function {
  * @param options
  */
 export function Property(options?: IPropertyOptions | string) {
-    return JsonProperty(options);
+  return JsonProperty(options);
 }

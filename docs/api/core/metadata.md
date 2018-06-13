@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="metadata">Metadata</h1><label class="symbol-info-type-label class">Class</label><label class="api-type-label stable" title="stable">stable</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Metadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.3/src//core/class/Metadata.ts#L0-L0">/core/class/Metadata.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Metadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//core/class/Metadata.ts#L0-L0">/core/class/Metadata.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -21,7 +21,7 @@
     <span class="token keyword">static</span> <span class="token function">setParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> getTargetsFromPropertyKey<span class="token punctuation">:</span> <span class="token punctuation">(</span>metadataKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span> => <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">getParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">getParamTypes</span><span class="token punctuation">(</span>targetPrototype<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">getOwnParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
@@ -584,13 +584,12 @@ function MyAnnotation(options): PropertyDecorator {
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getParamTypes</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">getParamTypes</span><span class="token punctuation">(</span>targetPrototype<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey?<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
- target|<code>any</code>|The target object on which the metadata is defined.
  propertyKey|<code>string &#124; symbol</code>|Optional. The property key for the target.
 
 
@@ -610,13 +609,13 @@ class Example {
 }
 
 // on contructor
-result = Metadata.getParamTypes(Example);
+result = Metadata.getParamTypes(Example.prototype);
 
 // property (on constructor)
-result = Metadata.getParamTypes(Example, "staticProperty");
+result = Metadata.getParamTypes(Example.prototype, "staticProperty");
 
 // method (on constructor)
-result = Metadata.getParamTypes(Example, "staticMethod");
+result = Metadata.getParamTypes(Example.prototype, "staticMethod");
 ```
 
 

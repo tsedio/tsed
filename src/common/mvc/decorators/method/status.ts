@@ -50,16 +50,16 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function Status(code: number, options: IResponseOptions = {}) {
-    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-        store.set("statusCode", code);
+  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+    store.set("statusCode", code);
 
-        const response = mapReturnedResponse(options);
-        store.merge("response", response);
-        store.merge("responses", {[code]: response});
+    const response = mapReturnedResponse(options);
+    store.merge("response", response);
+    store.merge("responses", {[code]: response});
 
-        return UseAfter((request: any, response: any, next: any) => {
-            response.status(code);
-            next();
-        });
+    return UseAfter((request: any, response: any, next: any) => {
+      response.status(code);
+      next();
     });
+  });
 }

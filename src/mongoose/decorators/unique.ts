@@ -19,5 +19,5 @@ import {Schema} from "./schema";
  * @mongoose
  */
 export function Unique(unique: boolean | any = true) {
-    return Schema({unique});
+  return Schema({unique});
 }

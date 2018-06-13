@@ -1,18 +1,23 @@
-import {Controller, ExpressRouter, Get, PathParams, QueryParams, Render, RouteService} from "@tsed/common";
-import {Returns, Summary} from "@tsed/swagger";
+import {Controller, ExpressRouter, Get, PathParams, Render, RouteService} from "@tsed/common";
 
 @Controller("/rest")
 export class RestCtrl {
-
-    constructor(private routeService: RouteService, @ExpressRouter private router: ExpressRouter) {
-        /*router.get(/(test)/, (res, req) => {
+  // tslint:disable-next-line: no-unused-variable
+  constructor(private routeService: RouteService, @ExpressRouter private router: ExpressRouter) {
+    /*router.get(/(test)/, (res, req) => {
 
         });*/
-    }
+  }
 
-    @Get("/html")
-    @Render("rest")
-    public render() {
-        return {endpoints: JSON.parse(JSON.stringify(this.routeService.getAll()))};
-    }
+  @Get("/html")
+  @Render("rest")
+  public render() {
+    return {endpoints: JSON.parse(JSON.stringify(this.routeService.getAll()))};
+  }
+
+  @Get("/test/:required/:optional?")
+  test(@PathParams("required") requiredParam: string, @PathParams("optional") optionalParam: string) {
+    // your code
+    return " ";
+  }
 }

@@ -20,11 +20,9 @@ import {UseBefore} from "./useBefore";
  * @decorator
  */
 export function Authenticated(options?: any) {
-    return Store.decorate((store: Store) => {
-        store
-            .set(AuthenticatedMiddleware, options)
-            .merge("responses", {"403": {description: "Forbidden"}});
+  return Store.decorate((store: Store) => {
+    store.set(AuthenticatedMiddleware, options).merge("responses", {"403": {description: "Forbidden"}});
 
-        return UseBefore(AuthenticatedMiddleware);
-    });
+    return UseBefore(AuthenticatedMiddleware);
+  });
 }

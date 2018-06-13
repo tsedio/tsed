@@ -1,6 +1,4 @@
-import {Type} from "@tsed/core";
 import {OverrideProvider} from "../../../di/decorators/overrideProvider";
-import {IMiddleware} from "../../interfaces";
 
 /**
  * Override a middleware which is already registered in MiddlewareRegistry.
@@ -30,4 +28,5 @@ import {IMiddleware} from "../../interfaces";
  * @returns {Function}
  * @decorators
  */
+// tslint:disable-next-line: variable-name
 export const OverrideMiddleware = OverrideProvider;

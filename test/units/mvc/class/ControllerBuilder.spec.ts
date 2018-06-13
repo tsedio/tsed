@@ -1,5 +1,6 @@
+import {InjectorService} from "@tsed/common";
 import * as Express from "express";
-import * as Proxyquire from "proxyquire";
+import {ControllerBuilder} from "../../../../src/common/mvc/class/ControllerBuilder";
 import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
 import {EndpointBuilder} from "../../../../src/common/mvc/class/EndpointBuilder";
 
@@ -7,134 +8,153 @@ import {EndpointRegistry} from "../../../../src/common/mvc/registries/EndpointRe
 import {inject} from "../../../../src/testing/inject";
 import {expect, Sinon} from "./../../../tools";
 
-class Test {
-}
+class Test {}
 
-class ChildrenTest {
-}
-
-const EndpointBuilderStub = Sinon.spy(function () {
-    return Sinon.createStubInstance(EndpointBuilder);
-});
-
-const ControllerRegistryStub = {
-    get: Sinon.stub().returns(new ControllerProvider(ChildrenTest))
-};
-
-const {ControllerBuilder} = Proxyquire("../../../../src/common/mvc/class/ControllerBuilder", {
-    "./EndpointBuilder": {EndpointBuilder: EndpointBuilderStub},
-    "../registries/ControllerRegistry": {ControllerRegistry: ControllerRegistryStub}
-});
+class ChildrenTest {}
 
 describe("ControllerBuilder", () => {
+  before(
+    inject([InjectorService], (injector: InjectorService) => {
+      this.injector = injector;
+    })
+  );
 
-    describe("without dependencies", () => {
-        before(inject([], () => {
-            this.controllerProvider = new ControllerProvider(Test);
-            this.controllerProvider.path = "/test";
-            this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
+  describe("without dependencies", () => {
+    before(() => {
+      this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
 
-            EndpointRegistry.use(Test, "test", ["get", "/"]);
+      this.controllerProvider = new ControllerProvider(Test);
+      this.controllerProvider.path = "/test";
 
-            Sinon.stub(this.controllerProvider.router, "use");
-            Sinon.stub(this.controllerProvider.router, "get");
+      this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
 
-            this.controllerBuilder.build();
-        }));
+      EndpointRegistry.use(Test, "test", ["get", "/"]);
 
-        it("should do something", () => {
-            expect(!!this.controllerBuilder).to.be.true;
-        });
+      Sinon.stub(this.controllerProvider.router, "use");
+      Sinon.stub(this.controllerProvider.router, "get");
 
-        it("should build controller (get)", () => {
-            this.controllerProvider.router.get.calledWith("/");
-        });
-
-        it("should create new EndpointBuilder", () => {
-            expect(EndpointBuilderStub).to.have.been.calledWithNew;
-        });
-
+      this.controllerBuilder.build(this.injector);
+    });
+    after(() => {
+      this.endpointBuildStub.restore();
     });
 
-    describe("with dependencies", () => {
-        before(inject([], () => {
-            this.controllerProvider = new ControllerProvider(Test);
-            this.controllerProvider.path = "/test";
-            this.controllerProvider.dependencies = [ChildrenTest];
-            this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
-
-            EndpointRegistry.use(Test, "test", ["get", "/"]);
-
-            Sinon.stub(this.controllerProvider.router, "use");
-            Sinon.stub(this.controllerProvider.router, "get");
-
-            this.controllerBuilder.build();
-        }));
-
-        it("should do something", () => {
-            expect(!!this.controllerBuilder).to.be.true;
-        });
-
-        it("should build controller (get)", () => {
-            this.controllerProvider.router.get.calledWith("/");
-        });
-
-        it("should create new EndpointBuilder", () => {
-            expect(EndpointBuilderStub).to.have.been.calledWithNew;
-        });
-
+    it("should do something", () => {
+      expect(!!this.controllerBuilder).to.be.true;
     });
 
-    describe("with default options for the router", () => {
-        before(inject([], () => {
-            this.controllerProvider = new ControllerProvider(Test);
-            this.controllerProvider.path = "/test";
-
-            this.expressRouterStub = Sinon.stub(Express, "Router");
-
-            this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"});
-        }));
-
-        after(() => {
-            this.expressRouterStub.restore();
-        });
-
-        it("should be called with the router options", () => {
-            this.expressRouterStub.should.be.calledWithExactly({options: "option"});
-        });
-
+    it("should build controller (get)", () => {
+      this.controllerProvider.router.get.calledWith("/");
     });
 
-    describe("with middlewares added on Controller", () => {
-        before(inject([], () => {
-            this.controllerProvider = new ControllerProvider(Test);
-            this.controllerProvider.path = "/test";
-
-            this.mdlw1 = function () {
-            };
-            this.mdlw2 = function () {
-            };
-            this.mdlw3 = function () {
-            };
-
-            this.controllerProvider.middlewares = {
-                useBefore: [this.mdlw1],
-                use: [this.mdlw2],
-                useAfter: [this.mdlw3]
-            };
-
-            this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"});
-
-            Sinon.stub(this.controllerProvider.router, "use");
-            Sinon.stub(this.controllerProvider.router, "get");
-
-            EndpointRegistry.use(Test, "test", ["get", "/"]);
-
-            this.controllerBuilder.build();
-        }));
-
-        it("should add the middlewares to the router", () => {
-            this.controllerProvider.router.use.should.be.calledWithExactly(Sinon.match.func);
-        });
+    it("should call EndpointBuilder.build()", () => {
+      expect(this.endpointBuildStub).to.have.been.calledWithExactly(this.injector);
     });
+  });
+
+  describe("with dependencies", () => {
+    before(
+      inject([], () => {
+        this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
+        this.controllerProvider = new ControllerProvider(Test);
+        this.controllerProvider.path = "/test";
+        this.controllerProvider.dependencies = [ChildrenTest];
+        this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
+
+        EndpointRegistry.use(Test, "test", ["get", "/"]);
+
+        Sinon.stub(this.controllerProvider.router, "use");
+        Sinon.stub(this.controllerProvider.router, "get");
+
+        Sinon.stub(this.injector, "getProvider").returns({
+          middlewares: {
+            useBefore: [],
+            useAfter: []
+          },
+          endpoints: [],
+          dependencies: [],
+          useClass: ChildrenTest,
+          path: "/children"
+        });
+
+        this.controllerBuilder.build(this.injector);
+      })
+    );
+
+    after(() => {
+      this.endpointBuildStub.restore();
+      this.injector.getProvider.restore();
+    });
+
+    it("should do something", () => {
+      expect(!!this.controllerBuilder).to.be.true;
+    });
+
+    it("should build controller (get)", () => {
+      this.controllerProvider.router.get.calledWith("/");
+    });
+
+    it("should call EndpointBuilder.build()", () => {
+      expect(this.endpointBuildStub).to.have.been.calledWithExactly(this.injector);
+    });
+  });
+
+  describe("with default options for the router", () => {
+    before(() => {
+      this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
+      this.controllerProvider = new ControllerProvider(Test);
+      this.controllerProvider.path = "/test";
+
+      this.expressRouterStub = Sinon.stub(Express, "Router");
+
+      this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"} as any);
+    });
+
+    after(() => {
+      this.endpointBuildStub.restore();
+      this.expressRouterStub.restore();
+    });
+
+    it("should be called with the router options", () => {
+      this.expressRouterStub.should.be.calledWithExactly({options: "option"});
+    });
+  });
+
+  describe("with middlewares added on Controller", () => {
+    before(() => {
+      this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
+
+      this.controllerProvider = new ControllerProvider(Test);
+      this.controllerProvider.path = "/test";
+
+      this.mdlw1 = () => {};
+      this.mdlw2 = () => {};
+      this.mdlw3 = () => {};
+
+      this.controllerProvider.middlewares = {
+        useBefore: [this.mdlw1],
+        use: [this.mdlw2],
+        useAfter: [this.mdlw3]
+      };
+
+      this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"} as any);
+
+      Sinon.stub(this.controllerProvider.router, "use");
+      Sinon.stub(this.controllerProvider.router, "get");
+
+      EndpointRegistry.use(Test, "test", ["get", "/"]);
+
+      this.controllerBuilder.build({settings: {debug: true}});
+    });
+
+    after(() => {
+      this.endpointBuildStub.restore();
+    });
+
+    it("should add the middlewares to the router", () => {
+      this.controllerProvider.router.use.should.be.calledWithExactly(Sinon.match.func);
+    });
+  });
 });

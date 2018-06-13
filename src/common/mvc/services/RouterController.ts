@@ -5,17 +5,14 @@ import * as Express from "express";
  * @deprecated Use ExpressRouter insteadof.
  */
 export class RouterController {
+  constructor(private router: Express.Router) {}
 
-    constructor(private router: Express.Router) {
-
-    }
-
-    /**
-     * Return the Express.Router.
-     * @deprecated Use ExpressRouter insteadof.
-     * @returns {Express.Router}
-     */
-    public getRouter(): Express.Router {
-        return this.router;
-    }
+  /**
+   * Return the Express.Router.
+   * @deprecated Use ExpressRouter insteadof.
+   * @returns {Express.Router}
+   */
+  public getRouter(): Express.Router {
+    return this.router;
+  }
 }

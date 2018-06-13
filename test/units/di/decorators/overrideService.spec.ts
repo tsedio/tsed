@@ -3,7 +3,7 @@ import {OverrideService} from "../../../../src/common/di/decorators/overrideServ
 import {expect} from "../../../tools";
 
 describe("OverrideService", () => {
-    it("should use OverrideProvider", () => {
-        expect(OverrideService).to.eq(OverrideProvider);
-    });
+  it("should use OverrideProvider", () => {
+    expect(OverrideService).to.eq(OverrideProvider);
+  });
 });

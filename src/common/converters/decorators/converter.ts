@@ -16,18 +16,14 @@ import {registerConverter} from "../registries/ConverterRegistries";
  * @decorator
  */
 export function Converter(...classes: any[]): Function {
+  return (target: any) => {
+    /* istanbul ignore next */
+    if (classes.length === 0) {
+      throw new Error("Converter decorator need at least one type like String, Date, Class, etc...");
+    }
 
-    return (target: any) => {
+    registerConverter({provide: target, type: "converter"});
 
-        /* istanbul ignore next */
-        if (classes.length === 0) {
-            throw new Error("Converter decorator need at least one type like String, Date, Class, etc...");
-        }
-
-        registerConverter({provide: target, type: "converter"});
-
-        classes.forEach(clazz =>
-            Metadata.set(CONVERTER, target, clazz)
-        );
-    };
+    classes.forEach(clazz => Metadata.set(CONVERTER, target, clazz));
+  };
 }

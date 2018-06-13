@@ -1,29 +1,33 @@
 
 <header class="symbol-info-header"><h1 id="injectorservice">InjectorService</h1><label class="symbol-info-type-label service">Service</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { InjectorService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.3/src//common/di/services/InjectorService.ts#L0-L0">/common/di/services/InjectorService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { InjectorService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//common/di/services/InjectorService.ts#L0-L0">/common/di/services/InjectorService.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">class</span> InjectorService <span class="token keyword">extends</span> <a href="#api/core/proxyregistry"><span class="token">ProxyRegistry</span></a><<a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">,</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>>> <span class="token punctuation">{</span>
+<pre><code class="typescript-lang "><span class="token keyword">class</span> InjectorService <span class="token keyword">extends</span> Map<<a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>>> <span class="token punctuation">{</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
-    <span class="token function">invokeMethod</span><span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> get<span class="token punctuation">:</span> <T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => T<span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">invokeMethod</span><span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T> | symbol | <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T | undefined<span class="token punctuation">;</span>
+    <span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token function">getProvider</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>> | undefined<span class="token punctuation">;</span>
+    <span class="token function">forkProvider</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token function">getProviders</span><span class="token punctuation">(</span>type?<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<<span class="token keyword">string</span> | Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> requiredScope?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+    <span class="token function">invokeMethod</span><span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span>
     <span class="token keyword">static</span> invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<<span class="token keyword">string</span> | Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> requiredScope?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     <span class="token keyword">static</span> construct<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">invokeMethod</span><span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">set</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="#api/common/di/iprovider"><span class="token">IProvider</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> typeof InjectorService<span class="token punctuation">;</span>
-    get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
-    <span class="token keyword">static</span> has<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span>><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">has</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">service</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">factory</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> instance<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
@@ -49,9 +53,10 @@ import MyService2 from "./services/service2";
 import MyService3 from "./services/service3";
 
 // When all services is imported you can load InjectorService.
-InjectorService.load();
+const injector = new InjectorService()
+injector.load();
 
-const myService1 = InjectorService.get<MyService1>(MyServcice1);
+const myService1 = injector.get<MyService1>(MyServcice1);
 ```
 
 > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
@@ -69,14 +74,116 @@ const myService1 = InjectorService.get<MyService1>(MyServcice1);
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T> | symbol | <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T | undefined</code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ target|<code><a href="#api/core/type"><span class="token">Type</span></a><T> &#124; symbol &#124; any</code>|The class or symbol registered in InjectorService.
+
+
+
+
+
+Get a service or factory already constructed from his symbol or class.
+
+#### Example
+
+```typescript
+import {InjectorService} from "@tsed/common";
+import MyService from "./services";
+
+class OtherService {
+     constructor(injectorService: InjectorService) {
+         const myService = injectorService.get<MyService>(MyService);
+     }
+}
+```
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">has</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
+
+The has() method returns a boolean indicating whether an element with the specified key exists or not.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">getProvider</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>> | undefined</code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ key|<code><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a></code>|Required. The key of the element to return from the Map object.
+
+
+
+
+
+The getProvider() method returns a specified element from a Map object.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">forkProvider</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">getProviders</span><span class="token punctuation">(</span>type?<span class="token punctuation">:</span> <a href="#api/common/di/providertype"><span class="token">ProviderType</span></a> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/di/provider"><span class="token">Provider</span></a><<span class="token keyword">any</span>><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<<span class="token keyword">string</span> | Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> requiredScope?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
  target|<code>any</code>|The injectable class to invoke. Class parameters are injected according constructor signature.
- locals|<code>Map<Function</code>|Optional. object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
+ locals|<code>Map<string &#124; Function</code>|Optional. object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
  designParamTypes|<code>any[]</code>|Optional. object. List of injectable types.
 
 
@@ -106,14 +213,14 @@ class OtherService {
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">invokeMethod</span><span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><<span class="token keyword">any</span>> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+<pre><code class="typescript-lang "><span class="token function">invokeMethod</span><span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> options<span class="token punctuation">:</span> <a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><<span class="token keyword">any</span>><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
  handler|<code>any</code>|The injectable method to invoke. Method parameters are injected according method signature.
- options|<code><a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><any> &#124; any[]</code>|Object to configure the invocation.
+ options|<code><a href="#api/common/di/iinjectablemethod"><span class="token">IInjectableMethod</span></a><any></code>|Object to configure the invocation.
 
 
 
@@ -153,8 +260,131 @@ class MyService {
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> get<span class="token punctuation">:</span> <T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => T</code></pre>
+<pre><code class="typescript-lang "><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre>
 </div>
+
+
+Initialize injectorService and load all services/factories.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>></code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ eventName|<code>string</code>|The event name to emit at all services.
+ args|<code>any[]</code>|List of the parameters to give to each services.
+
+
+
+
+
+Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<<span class="token keyword">string</span> | Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> requiredScope?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ target|<code>any</code>|The injectable class to invoke. Class parameters are injected according constructor signature.
+ locals|<code>Map<string &#124; Function</code>|Optional. object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
+ designParamTypes|<code>any[]</code>|Optional. object. List of injectable types.
+
+
+
+
+
+Invoke the class and inject all services that required by the class constructor.
+
+#### Example
+
+```typescript
+import {InjectorService} from "@tsed/common";
+import MyService from "./services";
+
+class OtherService {
+    constructor(injectorService: InjectorService) {
+         const myService = injectorService.invoke<MyService>(MyService);
+     }
+ }
+```
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang deprecated "><span class="token keyword">static</span> construct<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ target|<code><a href="#api/core/type"><span class="token">Type</span></a><any> &#124; symbol</code>|The service to be built.
+
+
+
+
+
+Construct the service with his dependencies.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ eventName|<code>string</code>|The event name to emit at all services.
+ args|<code>any[]</code>|List of the parameters to give to each services.
+
+
+
+
+
+Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">static</span> get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/registrykey"><span class="token">RegistryKey</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
+</div>
+
+
+Param | Type | Description
+---|---|---
+ target|<code><a href="#api/core/registrykey"><span class="token">RegistryKey</span></a></code>|The class or symbol registered in InjectorService.
+
+
+
 
 
 Get a service or factory already constructed from his symbol or class.
@@ -209,8 +439,8 @@ import {InjectorService} from "@tsed/common";
 
 class MyService {
      constructor(injectorService: InjectorService) {
-         injectorService.invokeMethod(this.method, {
-             this,
+         injectorService.invokeMethod(this.method.bind(this), {
+             target: this,
              methodName: 'method'
          });
      }
@@ -219,99 +449,6 @@ class MyService {
 }
 ```
 
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre>
-</div>
-
-
-Initialize injectorService and load all services/factories.
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> invoke<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> locals?<span class="token punctuation">:</span> Map<<span class="token keyword">string</span> | Function<span class="token punctuation">,</span> <span class="token keyword">any</span>><span class="token punctuation">,</span> designParamTypes?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> requiredScope?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
-</div>
-
-
-Param | Type | Description
----|---|---
- target|<code>any</code>|The injectable class to invoke. Class parameters are injected according constructor signature.
- locals|<code>Map<string &#124; Function</code>|Optional. object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
- designParamTypes|<code>any[]</code>|Optional. object. List of injectable types.
-
-
-
-
-
-Invoke the class and inject all services that required by the class constructor.
-
-#### Example
-
-```typescript
-import {InjectorService} from "@tsed/common";
-import MyService from "./services";
-
-class OtherService {
-    constructor(injectorService: InjectorService) {
-         const myService = injectorService.invoke<MyService>(MyService);
-     }
- }
-```
-
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> construct<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><<span class="token keyword">any</span>> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
-</div>
-
-
-Param | Type | Description
----|---|---
- target|<code><a href="#api/core/type"><span class="token">Type</span></a><any> &#124; symbol</code>|The service to be built.
-
-
-
-
-
-Construct the service with his dependencies.
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre>
-</div>
-
-
-Param | Type | Description
----|---|---
- eventName|<code>string</code>|The event name to emit at all services.
- args|<code>any[]</code>|List of the parameters to give to each services.
-
-
-
-
-
-Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
 
 
 
@@ -342,43 +479,16 @@ Set a new provider from providerSetting.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">get<T><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="#api/core/type"><span class="token">Type</span></a><T> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> T</code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">has</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 </div>
 
 
 Param | Type | Description
 ---|---|---
- target|<code><a href="#api/core/type"><span class="token">Type</span></a><T> &#124; symbol</code>|The class or symbol registered in InjectorService.
+ target|<code>any</code>|The service class
 
 
 
-
-
-Get a service or factory already constructed from his symbol or class.
-
-#### Example
-
-```typescript
-import {InjectorService} from "@tsed/common";
-import MyService from "./services";
-
-class OtherService {
-     constructor(injectorService: InjectorService) {
-         const myService = injectorService.get<MyService>(MyService);
-     }
-}
-```
-
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> has<span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> => <span class="token keyword">boolean</span></code></pre>
-</div>
 
 
 Check if the service of factory exists in `InjectorService`.
@@ -404,44 +514,11 @@ class OtherService {
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span>></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre>
 </div>
 
 
 Initialize injectorService and load all services/factories.
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
-</div>
-
-
-
-
-<hr/>
-
-
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>></code></pre>
-</div>
-
-
-Param | Type | Description
----|---|---
- eventName|<code>string</code>|The event name to emit at all services.
- args|<code>any[]</code>|List of the parameters to give to each services.
-
-
-
-
-
-Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
 
 
 
@@ -477,9 +554,10 @@ export default class MyFooService {
 }
 
 InjectorService.service(MyFooService);
-InjectorService.load();
+const injector = new InjectorService();
+injector.load();
 
-const myFooService = InjectorService.get<MyFooService>(MyFooService);
+const myFooService = injector.get<MyFooService>(MyFooService);
 myFooService.getFoo(); // test
 ```
 

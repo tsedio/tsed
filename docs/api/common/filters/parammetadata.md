@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="parammetadata">ParamMetadata</h1><label class="symbol-info-type-label class">Class</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ParamMetadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.3/src//common/filters/class/ParamMetadata.ts#L0-L0">/common/filters/class/ParamMetadata.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ParamMetadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//common/filters/class/ParamMetadata.ts#L0-L0">/common/filters/class/ParamMetadata.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -19,7 +19,9 @@
     useValidation<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     required<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     allowedRequiredValues<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    paramType<span class="token punctuation">:</span> <a href="#api/common/filters/paramtypes"><span class="token">ParamTypes</span></a><span class="token punctuation">;</span>
     <span class="token function">isValidRequiredValue</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token function">isRequired</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token function">toJSON</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
         service<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
         name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
@@ -164,11 +166,33 @@ Set the allowed values when the value is required.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">isValidRequiredValue</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang ">paramType<span class="token punctuation">:</span> <a href="#api/common/filters/paramtypes"><span class="token">ParamTypes</span></a></code></pre>
+</div>
+
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang deprecated "><span class="token function">isValidRequiredValue</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 </div>
 
 
 This method use `EntityDescription.required` and `allowedRequiredValues` to validate the value.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">isRequired</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
 
 
 

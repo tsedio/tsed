@@ -3,11 +3,10 @@ import {SocketMiddleware} from "../../../../src/socketio/decorators/socketMiddle
 
 @SocketMiddleware()
 export class ThrowErrorSocketMiddleware {
-
-    use(@Args(0) userName: string[]) {
-
-        console.log("======>");
-        throw new Error("Test");
-
-    }
+  use(
+    @Args(0)
+    userName: string[]
+  ) {
+    throw new Error("Test");
+  }
 }

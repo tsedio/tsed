@@ -1,23 +1,20 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import {TemplateRenderingError} from "../../../../src/common/mvc/errors/TemplateRenderingError";
 
 describe("TemplateRenderingError", () => {
+  before(() => {
+    this.errorInstance = new TemplateRenderingError(class Target {}, "method", new Error("test"));
+  });
 
-    before(() => {
-        this.errorInstance = new TemplateRenderingError(class Target {
-        }, "method", new Error("test"));
-    });
+  after(() => {
+    delete this.errorInstance;
+  });
 
-    after(() => {
-        delete this.errorInstance;
-    });
+  it("should have a message", () => {
+    expect(this.errorInstance.message).to.equal("Template rendering error : Target.method()\nError: test");
+  });
 
-    it("should have a message", () => {
-        expect(this.errorInstance.message).to.equal("Template rendering error : Target.method()\nError: test");
-    });
-
-    it("should have a name", () => {
-        expect(this.errorInstance.name).to.equal("INTERNAL_SERVER_ERROR");
-    });
-
+  it("should have a name", () => {
+    expect(this.errorInstance.name).to.equal("INTERNAL_SERVER_ERROR");
+  });
 });

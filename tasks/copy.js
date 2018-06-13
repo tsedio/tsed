@@ -1,4 +1,5 @@
-const gutil = require('gulp-util');
+const chalk = require('chalk');
+const logger = require('fancy-log');
 const replace = require('gulp-replace');
 const findPackages = require('./utils/findPackages');
 const all = require('./utils/all');
@@ -57,7 +58,7 @@ module.exports = {
     findPackages().forEach((pkg) => {
 
       promises.push(new Promise((resolve, reject) => {
-        gutil.log('Copy src package', gutil.colors.cyan(`'${pkg}'`));
+        logger('Copy src package', chalk.cyan(`'${pkg}'`));
         gulp
           .src([
             'dist/src/' + pkg + '/**/*'
@@ -69,11 +70,22 @@ module.exports = {
       }));
 
       promises.push(new Promise((resolve, reject) => {
-        gutil.log('Copy lib package', gutil.colors.cyan(`'${pkg}'`));
+        logger('Copy lib package', chalk.cyan(`'${pkg}'`));
         gulp
           .src(['dist/lib/' + pkg + '/**'], { base: './' + 'dist/lib/' + pkg })
           .pipe(replace('0.0.0-PLACEHOLDER', version))
           .pipe(gulp.dest('dist/packages/' + pkg + '/lib'))
+          .on('error', reject)
+          .on('end', resolve);
+      }));
+
+      promises.push(new Promise((resolve, reject) => {
+        logger('Copy views', chalk.cyan(`'${pkg}'`));
+        gulp
+          .src(['src/' + pkg + '/views/**'], { base: './src/' + pkg  })
+          .pipe(replace('0.0.0-PLACEHOLDER', version))
+          .pipe(gulp.dest('dist/packages/' + pkg + '/lib'))
+          .pipe(gulp.dest('dist/lib/' + pkg))
           .on('error', reject)
           .on('end', resolve);
       }));

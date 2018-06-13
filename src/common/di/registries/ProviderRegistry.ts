@@ -6,27 +6,29 @@ import {IProvider, ProviderType, TypedProvidersRegistry} from "../interfaces";
  *
  * @type {Providers}
  */
+// tslint:disable-next-line: variable-name
 export const GlobalProviders = new Providers();
 /**
  *
  * @type {Providers}
  */
+// tslint:disable-next-line: variable-name
 export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
 GlobalProviders.createRegistry(ProviderType.SERVICE, Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 /**
  *`
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
 GlobalProviders.createRegistry(ProviderType.FACTORY, Provider, {
-    injectable: true,
-    buildable: false
+  injectable: true,
+  buildable: false
 });
 
 /**
@@ -112,9 +114,10 @@ export const registerFactory = GlobalProviders.createRegisterFn(ProviderType.FAC
  * // or
  * registerService(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myFooService = InjectorService.get<MyFooService>(MyFooService);
+ * const myFooService = injector.get<MyFooService>(MyFooService);
  * myFooService.getFoo(); // test
  * ```
  *
@@ -127,10 +130,9 @@ export const registerService = GlobalProviders.createRegisterFn(ProviderType.SER
  * @param {IProvider<any>} provider
  */
 export function registerProvider(provider: Partial<IProvider<any>>): void {
+  if (!provider.provide) {
+    throw new Error("Provider.provide is required");
+  }
 
-    if (!provider.provide) {
-        throw new Error("Provider.provide is required");
-    }
-
-    ProviderRegistry.merge(provider.provide, provider);
+  ProviderRegistry.merge(provider.provide, provider);
 }

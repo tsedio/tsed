@@ -1,7 +1,6 @@
 import {ConnectionOptions} from "mongoose";
 
-
 export interface MDBConnection {
-    url:  string;
-    connectionOptions?: ConnectionOptions;
+  url: string;
+  connectionOptions?: ConnectionOptions;
 }

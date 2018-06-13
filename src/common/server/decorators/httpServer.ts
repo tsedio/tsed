@@ -1,15 +1,16 @@
+import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {Type} from "@tsed/core";
 import * as Http from "http";
 import {Inject} from "../../di/decorators/inject";
 
 export interface IHttpFactory {
-    (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
+  (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
 
-    /**
-     * @deprecated
-     * @returns {"https".Server}
-     */
-    get(): Http.Server;
+  /**
+   * @deprecated
+   * @returns {"https".Server}
+   */
+  get(): Http.Server;
 }
 
 export type HttpServer = Http.Server & IHttpFactory;
@@ -37,5 +38,7 @@ export type HttpServer = Http.Server & IHttpFactory;
  * @decorator
  */
 export function HttpServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
-    return Inject(HttpServer)(target, targetKey, descriptor);
+  return Inject(HttpServer)(target, targetKey, descriptor);
 }
+
+registerFactory(HttpServer);

@@ -1,8 +1,4 @@
-/**
- * @module common/filters
- */
-/** */
-
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {CookiesFilter} from "../components/CookiesFilter";
 import {ParamRegistry} from "../registries/ParamRegistry";
 
@@ -43,7 +39,11 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function CookiesParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(CookiesFilter, {expression, useType});
+  return ParamRegistry.decorate(CookiesFilter, {
+    expression,
+    useType,
+    paramType: ParamTypes.COOKIES
+  });
 }
 
 /**
@@ -84,6 +84,5 @@ export function CookiesParams(expression?: string | any, useType?: any): Functio
  * @returns {Function}
  */
 export function Cookies(expression?: string | any, useType?: any): Function {
-    return CookiesParams(expression, useType);
+  return CookiesParams(expression, useType);
 }
-

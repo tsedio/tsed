@@ -6,9 +6,10 @@ import {GlobalProviders} from "../../di/registries/ProviderRegistry";
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
+// tslint:disable-next-line: variable-name
 export const InterceptorRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider, {
-    injectable: true,
-    buildable: true
+  injectable: true,
+  buildable: true
 });
 /**
  * Add a new interceptor in the `ProviderRegistry`. This interceptor will be built when `InjectorService` will be loaded.
@@ -29,9 +30,10 @@ export const InterceptorRegistry: TypedProvidersRegistry = GlobalProviders.creat
  * // or
  * registerInterceptor(MyInterceptor);
  *
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
- * const myInterceptor = InjectorService.get<MyInterceptor>(MyInterceptor);
+ * const myInterceptor = injector.get<MyInterceptor>(MyInterceptor);
  * myInterceptor.aroundInvoke(); // test
  * ```
  *

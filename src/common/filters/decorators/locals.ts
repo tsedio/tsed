@@ -1,3 +1,4 @@
+import {ParamTypes} from "../interfaces/ParamTypes";
 import {LocalsFilter} from "../components/LocalsFilter";
 import {ParamRegistry} from "../registries/ParamRegistry";
 
@@ -27,5 +28,9 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function Locals(expression?: string | any): Function {
-    return ParamRegistry.decorate(LocalsFilter, {expression, useConverter: false});
+  return ParamRegistry.decorate(LocalsFilter, {
+    expression,
+    useConverter: false,
+    paramType: ParamTypes.LOCALS
+  });
 }

@@ -1,5 +1,6 @@
-import {getClassOrSymbol, Registry} from "@tsed/core";
+import {getClassOrSymbol} from "@tsed/core";
 import {Provider} from "../../di/class/Provider";
+import {TypedProvidersRegistry} from "../../di/interfaces";
 import {IProvider} from "../../di/interfaces/IProvider";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {GlobalProviders} from "../../di/registries/ProviderRegistry";
@@ -9,9 +10,10 @@ import {MiddlewareType} from "../interfaces/MiddlewareType";
  *
  * @type {Registry<Provider<any>, Provider>}
  */
-export const MiddlewareRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
-    injectable: true,
-    buildable: true
+// tslint:disable-next-line: variable-name
+export const MiddlewareRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
+  injectable: true,
+  buildable: true
 });
 
 const middlewareRegisterFn = GlobalProviders.createRegisterFn(ProviderType.MIDDLEWARE);
@@ -35,20 +37,20 @@ const middlewareRegisterFn = GlobalProviders.createRegisterFn(ProviderType.MIDDL
  * // or
  * registerMiddleware(FooMiddleware);
  *
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
- * const myFooService = InjectorService.get<FooMiddleware>(FooMiddleware);
+ * const myFooService = injector.get<FooMiddleware>(FooMiddleware);
  * fooMiddleware.use(); // test
  * ```
  *
  * @param provider Provider configuration.
  */
 export function registerMiddleware(provider: any | IProvider<any>, instance?: any) {
-    middlewareRegisterFn(provider, instance);
-    GlobalProviders
-        .getRegistry(ProviderType.MIDDLEWARE)!
-        .get(getClassOrSymbol(provider.provide || provider))!
-        .store.set("middlewareType", MiddlewareType.MIDDLEWARE);
+  middlewareRegisterFn(provider, instance);
+  GlobalProviders.getRegistry(ProviderType.MIDDLEWARE)!
+    .get(getClassOrSymbol(provider.provide || provider))!
+    .store.set("middlewareType", MiddlewareType.MIDDLEWARE);
 }
 
 /**
@@ -70,18 +72,18 @@ export function registerMiddleware(provider: any | IProvider<any>, instance?: an
  * // or
  * registerMiddlewareError(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const fooMiddleware = InjectorService.get<FooMiddleware>(FooMiddleware);
+ * const fooMiddleware = injector.get<FooMiddleware>(FooMiddleware);
  * fooMiddleware.use(); // test
  * ```
  *
  * @param provider Provider configuration.
  */
 export function registerMiddlewareError(provider: any | IProvider<any>, instance?: any) {
-    middlewareRegisterFn(provider, instance);
-    GlobalProviders
-        .getRegistry(ProviderType.MIDDLEWARE)!
-        .get(getClassOrSymbol(provider.provide || provider))!
-        .store.set("middlewareType", MiddlewareType.ERROR);
+  middlewareRegisterFn(provider, instance);
+  GlobalProviders.getRegistry(ProviderType.MIDDLEWARE)!
+    .get(getClassOrSymbol(provider.provide || provider))!
+    .store.set("middlewareType", MiddlewareType.ERROR);
 }

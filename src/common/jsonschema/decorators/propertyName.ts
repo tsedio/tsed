@@ -21,7 +21,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function PropertyName(name: string) {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.name = name;
-    });
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    propertyMetadata.name = name;
+  });
 }

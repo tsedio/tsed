@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="serverloader">ServerLoader</h1><label class="symbol-info-type-label class">Class</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerLoader }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.3/src//common/server/components/ServerLoader.ts#L0-L0">/common/server/components/ServerLoader.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerLoader }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//common/server/components/ServerLoader.ts#L0-L0">/common/server/components/ServerLoader.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -19,20 +19,24 @@
     <span class="token keyword">protected</span> <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="#api/common/config/serversettingsservice"><span class="token">ServerSettingsService</span></a><span class="token punctuation">;</span>
     <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> Http.Server | Https.Server<span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
         address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
         port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token punctuation">{</span>
+        address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+        port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>><span class="token punctuation">;</span>
     <span class="token function">scan</span><span class="token punctuation">(</span>patterns<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">addComponents</span><span class="token punctuation">(</span>classes<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> Partial<<a href="#api/common/server/icomponentscanned"><span class="token">IComponentScanned</span></a>><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">addControllers</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> controllers<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> list<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">any</span>><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <a href="#api/common/config/iserversettings"><span class="token">IServerSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/config/serversettingsprovider"><span class="token">ServerSettingsProvider</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/config/serversettingsservice"><span class="token">ServerSettingsService</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> expressApp<span class="token punctuation">:</span> Express.Application<span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> injector<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server<span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server<span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">cleanGlobPatterns</span><span class="token punctuation">(</span>files<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> excludes<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -209,11 +213,14 @@ Start the express server.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> Http.Server | Https.Server<span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
      https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
      address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
      port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
- <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token keyword">void</span>><span class="token punctuation">;</span></code></pre>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<<span class="token punctuation">{</span>
+     address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+     port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>><span class="token punctuation">;</span></code></pre>
 </div>
 
 
@@ -343,7 +350,7 @@ Initialize configuration of the express app.
 
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/config/serversettingsprovider"><span class="token">ServerSettingsProvider</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="#api/common/config/serversettingsservice"><span class="token">ServerSettingsService</span></a></code></pre>
 </div>
 
 
@@ -363,7 +370,7 @@ export class Server extends ServerLoader {
 }
 ```
 
-@returns {ServerSettingsProvider}
+@returns {ServerSettingsService}
 
 
 
@@ -386,6 +393,19 @@ Return Express Application instance.
 
 <div class="method-overview">
 <pre><code class="typescript-lang "><span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre>
+</div>
+
+
+Return the InjectorService initialized by the server.
+
+
+
+<hr/>
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> injector<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a></code></pre>
 </div>
 
 

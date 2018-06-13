@@ -20,8 +20,9 @@ import {UseBefore} from "./useBefore";
  * @decorator
  */
 export function AcceptMime(...mimes: string[]): Function {
-    return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-        store.set(AcceptMimesMiddleware, mimes);
-        return UseBefore(AcceptMimesMiddleware);
-    });
+  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+    store.set(AcceptMimesMiddleware, mimes);
+
+    return UseBefore(AcceptMimesMiddleware);
+  });
 }

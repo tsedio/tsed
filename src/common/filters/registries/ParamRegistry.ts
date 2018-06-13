@@ -5,170 +5,161 @@ import {IInjectableParamSettings} from "../interfaces";
 import {IParamArgs} from "../interfaces/Arguments";
 
 export class ParamRegistry {
-    /**
-     *
-     * @param target
-     * @param targetKey
-     * @param index
-     * @returns {any}
-     */
-    static get(target: Type<any>, targetKey: string | symbol, index: number): ParamMetadata {
+  /**
+   *
+   * @param target
+   * @param targetKey
+   * @param index
+   * @returns {any}
+   */
+  static get(target: Type<any>, targetKey: string | symbol, index: number): ParamMetadata {
+    const params = this.getParams(target, targetKey);
 
-        const params = this.getParams(target, targetKey);
+    params[index] = params[index] || new ParamMetadata(target, targetKey, index);
 
-        params[index] = params[index] || new ParamMetadata(target, targetKey, index);
+    return params[index];
+  }
 
-        return params[index];
+  /**
+   *
+   * @param target
+   * @param targetKey
+   * @returns {Array}
+   */
+  static getParams = (target: Type<any>, targetKey?: string | symbol): ParamMetadata[] =>
+    Metadata.has(PARAM_METADATA, target, targetKey) ? Metadata.get(PARAM_METADATA, target, targetKey) : [];
 
-    }
+  /**
+   *
+   * @param target
+   * @param targetKey
+   * @param index
+   * @param injectParams
+   */
+  static set(target: Type<any>, targetKey: string | symbol, index: number, injectParams: ParamMetadata): void {
+    const params = Metadata.has(PARAM_METADATA, target, targetKey) ? Metadata.get(PARAM_METADATA, target, targetKey) : [];
 
-    /**
-     *
-     * @param target
-     * @param targetKey
-     * @returns {Array}
-     */
-    static getParams = (target: Type<any>, targetKey?: string | symbol): ParamMetadata[] =>
-        Metadata.has(PARAM_METADATA, target, targetKey)
-            ? Metadata.get(PARAM_METADATA, target, targetKey)
-            : [];
+    params[index] = injectParams;
 
-    /**
-     *
-     * @param target
-     * @param targetKey
-     * @param index
-     * @param injectParams
-     */
-    static set(target: Type<any>, targetKey: string | symbol, index: number, injectParams: ParamMetadata): void {
+    Metadata.set(PARAM_METADATA, params, target, targetKey);
+  }
 
-        const params = Metadata.has(PARAM_METADATA, target, targetKey)
-            ? Metadata.get(PARAM_METADATA, target, targetKey)
-            : [];
+  /**
+   *
+   * @param target
+   * @param method
+   */
+  static isInjectable = (target: any, method: string): boolean => (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
 
-        params[index] = injectParams;
+  /**
+   *
+   * @param service
+   * @param settings
+   */
+  static usePreHandler(service: symbol, settings: IParamArgs<any>) {
+    const param = ParamRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
+    param.service = service;
+    param.useConverter = false;
 
-        Metadata.set(PARAM_METADATA, params, target, targetKey);
-    }
+    ParamRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
 
-    /**
-     *
-     * @param target
-     * @param method
-     */
-    static isInjectable = (target: any, method: string): boolean =>
-        (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
+    return this;
+  }
 
-    /**
-     *
-     * @param service
-     * @param settings
-     */
-    static usePreHandler(service: symbol, settings: IParamArgs<any>) {
-        const param = ParamRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
-        param.service = service;
-        param.useConverter = false;
+  /**
+   *
+   * @param target
+   * @param propertyKey
+   * @param parameterIndex
+   * @param allowedRequiredValues
+   */
+  static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number, allowedRequiredValues: any[] = []) {
+    const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
-        ParamRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
-        return this;
-    }
+    param.required = true;
+    param.allowedRequiredValues = allowedRequiredValues;
 
-    /**
-     *
-     * @param target
-     * @param propertyKey
-     * @param parameterIndex
-     * @param allowedRequiredValues
-     */
-    static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number, allowedRequiredValues: any[] = []) {
-        const param = ParamRegistry.get(target, propertyKey, parameterIndex);
+    ParamRegistry.set(target, propertyKey, parameterIndex, param);
 
-        param.required = true;
-        param.allowedRequiredValues = allowedRequiredValues;
+    ParamRegistry.get(target, propertyKey, parameterIndex).store.merge("responses", {
+      "400": {
+        description: "BadRequest"
+      }
+    });
 
-        ParamRegistry.set(target, propertyKey, parameterIndex, param);
+    return this;
+  }
 
-        ParamRegistry.get(target, propertyKey, parameterIndex).store.merge("responses", {
-            "400": {
-                description: "BadRequest"
-            }
-        });
-
-        return this;
-    }
-
-    /**
-     * Create a parameters decorators
-     * @param token
-     * @param {Partial<IInjectableParamSettings<any>>} options
-     * @returns {Function}
-     */
-    static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
-        return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
-
-            if (typeof parameterIndex === "number") {
-                const settings = Object.assign({
-                    target,
-                    propertyKey,
-                    parameterIndex
-                }, options);
-
-                if (typeof token === "symbol") {
-                    ParamRegistry.usePreHandler(token, settings);
-                } else {
-                    ParamRegistry.useFilter(token, settings);
-                }
-            }
-        };
-    }
-
-    /**
-     *
-     * @param service
-     * @param options
-     */
-    static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
-        let {
-            propertyKey,
-            parameterIndex,
-            expression,
+  /**
+   * Create a parameters decorators
+   * @param token
+   * @param {Partial<IInjectableParamSettings<any>>} options
+   * @returns {Function}
+   */
+  static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
+    return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
+      if (typeof parameterIndex === "number") {
+        const settings = Object.assign(
+          {
             target,
-            useType,
-            useConverter,
-            useValidation
-        } = options;
+            propertyKey,
+            parameterIndex
+          },
+          options
+        );
 
-        const param = ParamRegistry.get(target, propertyKey, parameterIndex);
-
-        if (typeof expression !== "string") {
-            useType = <any>expression;
-            expression = undefined;
+        if (typeof token === "symbol") {
+          ParamRegistry.usePreHandler(token, settings);
+        } else {
+          ParamRegistry.useFilter(token, settings);
         }
+      }
+    };
+  }
 
-        param.service = service;
-        param.expression = expression!;
-        param.useValidation = !!useValidation;
+  /**
+   *
+   * @param service
+   * @param options
+   */
+  static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
+    const {propertyKey, parameterIndex, target, useConverter, useValidation, paramType} = options;
 
-        if (useType) {
-            param.type = useType;
-        }
+    let {expression, useType} = options;
 
-        if (useConverter !== undefined) {
-            param.useConverter = useConverter;
-        }
+    const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
-        ParamRegistry.set(target, propertyKey, parameterIndex, param);
-
-        return param;
+    if (typeof expression !== "string") {
+      useType = expression as any;
+      expression = undefined;
     }
 
-    /**
-     *
-     * @param target
-     * @param propertyKey
-     */
-    static hasNextFunction = (target: Type<any>, propertyKey: string) =>
-        ParamRegistry
-            .getParams(target, propertyKey)
-            .findIndex((p) => p.service === EXPRESS_NEXT_FN) > -1;
+    param.service = service;
+    param.expression = expression!;
+    param.useValidation = !!useValidation;
+
+    if (paramType) {
+      param.paramType = paramType!;
+    }
+
+    if (useType) {
+      param.type = useType;
+    }
+
+    if (useConverter !== undefined) {
+      param.useConverter = useConverter;
+    }
+
+    ParamRegistry.set(target, propertyKey, parameterIndex, param);
+
+    return param;
+  }
+
+  /**
+   *
+   * @param target
+   * @param propertyKey
+   */
+  static hasNextFunction = (target: Type<any>, propertyKey: string) =>
+    ParamRegistry.getParams(target, propertyKey).findIndex(p => p.service === EXPRESS_NEXT_FN) > -1;
 }

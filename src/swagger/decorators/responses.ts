@@ -10,7 +10,7 @@ import {Response} from "swagger-schema-official";
  * @swagger
  */
 export function Responses(status: string | number, response: Response) {
-    return Store.decorate((store: Store) => {
-        store.merge("responses", {[status]: response});
-    });
+  return Store.decorate((store: Store) => {
+    store.merge("responses", {[status]: response});
+  });
 }

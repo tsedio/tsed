@@ -25,5 +25,5 @@ export type SocketSession = Map<string, any>;
  * @decorator
  */
 export function SocketSession(target: any, propertyKey: string, index: number): any {
-    return SocketFilter(SocketFilters.SESSION)(target, propertyKey, index);
+  return SocketFilter(SocketFilters.SESSION)(target, propertyKey, index);
 }

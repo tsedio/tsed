@@ -1,4 +1,4 @@
-import {ConverterService, IConverterOptions, InjectorService} from "@tsed/common";
+import {ConverterService, IConverterOptions} from "@tsed/common";
 import {getClass, nameOf, Store} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {MONGOOSE_MODEL_NAME} from "../constants";
@@ -14,29 +14,26 @@ import {MongooseModel} from "../interfaces/MongooseModel";
  * @param skipInit whether to skip initialization (defaults to false)
  * @returns {Model<T extends Document>}
  */
-export function createModel<T>(target: any, schema: mongoose.Schema, name: string = nameOf(target), collection?: string, skipInit?: boolean): MongooseModel<T> {
+export function createModel<T>(
+  target: any,
+  schema: mongoose.Schema,
+  name: string = nameOf(target),
+  collection?: string,
+  skipInit?: boolean
+): MongooseModel<T> {
+  Store.from(target).set(MONGOOSE_MODEL_NAME, name);
+  target.prototype.serialize = function(options: IConverterOptions, converterService: ConverterService) {
+    const {checkRequiredValue, ignoreCallback} = options;
 
-    Store.from(target).set(MONGOOSE_MODEL_NAME, name);
-    target.prototype.serialize = function (options: IConverterOptions) {
-        const {checkRequiredValue, ignoreCallback} = options;
-        return InjectorService.get<ConverterService>(ConverterService).serializeClass(this, {
-            type: getClass(target),
-            checkRequiredValue,
-            ignoreCallback
-        });
-    };
+    return converterService.serializeClass(this, {
+      type: getClass(target),
+      checkRequiredValue,
+      ignoreCallback
+    });
+  };
 
-    schema.loadClass(target);
-    const modelInstance: any = mongoose.model(name, schema, collection, skipInit);
-    return modelInstance;
-    /*
-        const proxyModel = new Proxy(modelInstance, {
-            construct(target, args) {
-                const obj = {};
-                args[0] = deepExtends(obj, args[0]);
-                return new target(...args);
-            }
-        });*/
+  schema.loadClass(target);
+  const modelInstance: any = mongoose.model(name, schema, collection, skipInit);
 
-    // return proxyModel as any; // proxyModel as any;*/
+  return modelInstance;
 }

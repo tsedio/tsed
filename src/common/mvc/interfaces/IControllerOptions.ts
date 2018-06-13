@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {IRouterOptions} from "../../config/interfaces/IRouterOptions";
+import {IRouterSettings} from "../../config/interfaces/IServerSettings";
 import {IControllerMiddlewares} from "./IControllerMiddlewares";
 import {PathParamsType} from "./PathParamsType";
 
@@ -7,8 +7,8 @@ import {PathParamsType} from "./PathParamsType";
  *
  */
 export interface IControllerOptions {
-    path?: PathParamsType;
-    dependencies?: Type<any>[];
-    routerOptions?: IRouterOptions;
-    middlewares?: IControllerMiddlewares;
+  path?: PathParamsType;
+  dependencies?: Type<any>[];
+  routerOptions?: IRouterSettings;
+  middlewares?: IControllerMiddlewares;
 }

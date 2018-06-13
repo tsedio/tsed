@@ -33,7 +33,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Any(...types: JSONSchema6TypeName[]) {
-    return decoratorSchemaFactory((schema: JsonSchema) => {
-        schema.mapper.type = ["integer", "number", "string", "boolean", "array", "object", "null"];
-    });
+  return decoratorSchemaFactory((schema: JsonSchema) => {
+    schema.mapper.type = ["integer", "number", "string", "boolean", "array", "object", "null"];
+  });
 }

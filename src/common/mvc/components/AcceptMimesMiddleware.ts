@@ -11,17 +11,13 @@ import {IMiddleware} from "../interfaces";
  */
 @Middleware()
 export class AcceptMimesMiddleware implements IMiddleware {
+  public use(@EndpointInfo() endpoint: EndpointMetadata, @Request() request: any): void {
+    const mimes = endpoint.get(AcceptMimesMiddleware) || [];
 
-    public use(@EndpointInfo() endpoint: EndpointMetadata,
-               @Request() request: any): void {
-
-        const mimes = endpoint.get(AcceptMimesMiddleware) || [];
-
-        mimes.forEach((mime: string) => {
-            if (!request.accepts(mime)) {
-                throw new NotAcceptable(mime);
-            }
-        });
-
-    }
+    mimes.forEach((mime: string) => {
+      if (!request.accepts(mime)) {
+        throw new NotAcceptable(mime);
+      }
+    });
+  }
 }

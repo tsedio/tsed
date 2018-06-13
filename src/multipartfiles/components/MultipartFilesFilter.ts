@@ -6,7 +6,7 @@ import {Filter, IFilter} from "@tsed/common";
  */
 @Filter()
 export class MultipartFilesFilter implements IFilter {
-    transform(expression: string, request: any, response: any) {
-        return request["files"];
-    }
+  transform(expression: string, request: any, response: any) {
+    return request["files"];
+  }
 }

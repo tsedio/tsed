@@ -13,7 +13,8 @@ import {Store} from "@tsed/core";
  * ```typescript
  * import {InjectorService, ConvertersService, Required, Property} from "@tsed/common";
  *
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
  * class TaskModel {
  *    @Required()
@@ -23,7 +24,7 @@ import {Store} from "@tsed/core";
  *    rate: number;
  * }
  *
- * const convertersService = InjectorService.get(ConvertersService);
+ * const convertersService = injector.get(ConvertersService);
  * convertersService.validationModelStrict = true;
  *
  * convertersService.deserialize({unknowProperty: "test"}, TaskModel); // BadRequest
@@ -36,7 +37,8 @@ import {Store} from "@tsed/core";
  * ```typescript
  * import {InjectorService, ConvertersService, ModelStrict, Required, Property} from "@tsed/common";
  *
- * InjectorService.load();
+ * const injector = new InjectorService()
+ * injector.load();
  *
  * @ModelStrict(false)
  * class TaskModel {
@@ -49,7 +51,7 @@ import {Store} from "@tsed/core";
  *    [key: string]: any; // recommended
  * }
  *
- * const convertersService = InjectorService.get(ConvertersService);
+ * const convertersService = injector.get(ConvertersService);
  * convertersService.validationModelStrict = true;
  *
  * const result = convertersService.deserialize({unknowProperty: "test"}, TaskModel);
@@ -62,7 +64,7 @@ import {Store} from "@tsed/core";
  * @conveters
  */
 export function ModelStrict(value: boolean) {
-    return Store.decorate((store) => {
-        store.set("modelStrict", value);
-    });
+  return Store.decorate(store => {
+    store.set("modelStrict", value);
+  });
 }

@@ -94,29 +94,29 @@ export function ReturnsArray(options: ISwaggerResponses): any;
 export function ReturnsArray(model: Type<any>): any;
 export function ReturnsArray(model: Type<any>, options: ISwaggerResponses): any;
 export function ReturnsArray(...args: any[]) {
-    const configuration: any = {};
+  const configuration: any = {};
 
-    args.forEach((value: any) => {
-        configuration[typeof value] = value;
-    });
+  args.forEach((value: any) => {
+    configuration[typeof value] = value;
+  });
 
-    const {number: code, object: options = {} as any, "function": type} = configuration;
+  const {number: code, object: options = {} as any, function: type} = configuration;
 
-    if (type) {
-        options.type = type;
+  if (type) {
+    options.type = type;
+  }
+
+  options.collection = Array;
+
+  return Store.decorate((store: Store) => {
+    const response = mapReturnedResponse(options);
+
+    if (code !== undefined) {
+      store.merge("responses", {
+        [code]: response
+      });
+    } else {
+      store.merge("response", response);
     }
-
-    options.collection = Array;
-
-    return Store.decorate((store: Store) => {
-        const response = mapReturnedResponse(options);
-
-        if (code !== undefined) {
-            store.merge("responses", {
-                [code]: response
-            });
-        } else {
-            store.merge("response", response);
-        }
-    });
+  });
 }

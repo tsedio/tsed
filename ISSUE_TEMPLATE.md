@@ -4,7 +4,7 @@
 
 Type | Version
 ---|---
-Bug/Improvement/Question | 2.x
+Bug/Improvement/Question | 4.x
 
 ****
 
@@ -12,7 +12,7 @@ Bug/Improvement/Question | 2.x
 A few sentences describing the overall goals of the issue.
 
 
-## Todos
+## Acceptance criterias
 
 - [ ] Example (log, usecase, etc...)
 - [ ] Ts.ED version (bug/question)

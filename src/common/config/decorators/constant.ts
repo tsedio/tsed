@@ -1,12 +1,5 @@
-import {getClass} from "@tsed/core";
-import {globalServerSettings} from "../services/GlobalSettings";
-
-const clone = (o: any) => {
-    if (o) {
-        return Object.freeze(JSON.parse(JSON.stringify(o)));
-    }
-    return undefined;
-};
+import {Store} from "@tsed/core";
+import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
 
 /**
  * Return value from ServerSettingsService.
@@ -25,30 +18,33 @@ const clone = (o: any) => {
  *    @Value("swagger.path")
  *    swaggerPath: string;
  *
+ *    @Value("swagger.path", "defaultValue")
+ *    swaggerPath: string;
+ *
+ *    constructor() {
+ *       console.log(this.swaggerPath) // undefined. Not available on constructor
+ *    }
+ *
+ *    $onInit() {
+ *      console.log(this.swaggerPath)  // something
+ *    }
  * }
  * ```
  *
  * @param {string} expression
+ * @param defaultValue
  * @returns {(targetClass: any, attributeName: string) => any}
  * @decorator
  */
-export function Constant(expression: string): any {
-
-    return (target: any, propertyKey: string) => {
-
-        if (delete target[propertyKey]) {
-            const descriptor = {
-
-                get: function () {
-                    return clone(globalServerSettings.get(expression));
-                },
-
-                enumerable: true,
-                configurable: true
-            };
-            Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
-            return descriptor;
-        }
-
-    };
+export function Constant(expression: string, defaultValue?: any): any {
+  return (target: any, propertyKey: string) => {
+    Store.from(target).merge("injectableProperties", {
+      [propertyKey]: {
+        bindingType: "constant",
+        propertyKey,
+        expression,
+        defaultValue
+      }
+    } as IInjectableProperties);
+  };
 }

@@ -1,9 +1,9 @@
 import {IResponseHeader} from "./IResponseHeader";
 
 export interface IResponseHeaders {
-    [key: string]: IResponseHeader;
+  [key: string]: IResponseHeader;
 }
 
 export interface IHeadersOptions {
-    [key: string]: number | string | IResponseHeader;
+  [key: string]: number | string | IResponseHeader;
 }

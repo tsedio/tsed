@@ -1,14 +1,14 @@
 
 <header class="symbol-info-header"><h1 id="args">Args</h1><label class="symbol-info-type-label decorator">Decorator</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Args }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.13.3/src//socketio/decorators/args.ts#L0-L0">/socketio/decorators/args.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Args }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.23.1/src//socketio/decorators/args.ts#L0-L0">/socketio/decorators/args.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
 ### Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">Args</span><span class="token punctuation">(</span>mapIndex?<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">Args</span><span class="token punctuation">(</span>mapIndex?<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> useType?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span></code></pre>
 
 
 <!-- Parameters -->

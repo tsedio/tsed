@@ -23,11 +23,12 @@ import {UseAfter} from "./useAfter";
  * @decorator
  */
 export function ContentType(type: string) {
-    return Store.decorate((store: Store) => {
-        store.merge("produces", type);
-        return UseAfter((request: any, response: any, next: any) => {
-            response.type(type);
-            next();
-        });
+  return Store.decorate((store: Store) => {
+    store.merge("produces", type);
+
+    return UseAfter((request: any, response: any, next: any) => {
+      response.type(type);
+      next();
     });
+  });
 }

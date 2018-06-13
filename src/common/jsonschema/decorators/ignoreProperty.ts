@@ -1,4 +1,3 @@
-import {Type} from "@tsed/core";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
@@ -60,7 +59,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function IgnoreProperty() {
-    return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-        propertyMetadata.ignoreProperty = true;
-    });
+  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+    propertyMetadata.ignoreProperty = true;
+  });
 }

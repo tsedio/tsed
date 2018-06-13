@@ -14,6 +14,9 @@ import {SocketFilter} from "./socketFilter";
  *   @Nsp
  *   nsp: SocketIO.Namespace; // will inject SocketIO.Namespace (not available on constructor)
  *
+ *   @Nsp("/my-other-namespace")
+ *   nspOther: SocketIO.Namespace; // communication between two namespace
+ *
  *   @Input("event")
  *   myMethod(@Nsp namespace: SocketIO.Namespace) {
  *
@@ -26,15 +29,24 @@ import {SocketFilter} from "./socketFilter";
  * @param {number} index
  * @decorator
  */
-export function Nsp(target: any, propertyKey: string, index?: number): any {
+export function Nsp(target: any, propertyKey?: string, index?: number): any {
+  if (typeof target === "string") {
+    const nsp = target as string;
 
-    if (index === undefined) {
-        Store.from(target).merge("socketIO", {
-            injectNamespace: propertyKey
-        });
-        return;
-    }
+    return (target: any, propertyKey: string) => {
+      Store.from(target).merge("socketIO", {
+        injectNamespaces: [{propertyKey, nsp}]
+      });
+    };
+  }
 
-    return SocketFilter(SocketFilters.NSP)(target, propertyKey, index!);
+  if (index === undefined) {
+    Store.from(target).merge("socketIO", {
+      injectNamespaces: [{propertyKey}]
+    });
+
+    return;
+  }
+
+  return SocketFilter(SocketFilters.NSP)(target, propertyKey!, index!);
 }
-

@@ -13,6 +13,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "importHelpers": true,
+    "newLine": "LF",
     "lib": [
       "es6",
       "dom"
@@ -26,9 +27,6 @@
       ],
       "@tsed/common": [
         "./src/common"
-      ],
-      "@tsed/common/jsonschema/decorators": [
-        "./src/common/jsonschema/decorators"
       ],
       "@tsed/testing": [
         "./src/testing"

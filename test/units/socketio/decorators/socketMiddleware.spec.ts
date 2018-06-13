@@ -5,34 +5,32 @@ import {SocketProviderTypes} from "../../../../src/socketio/interfaces/ISocketPr
 import {expect, Sinon} from "../../../tools";
 
 describe("@SocketMiddleware", () => {
+  class Test {}
 
-    class Test {
-    }
+  before(() => {
+    this.decoratorStub = Sinon.stub();
+    this.middlewareStub = Sinon.stub(common, "Middleware").returns(this.decoratorStub);
 
-    before(() => {
-        this.decoratorStub = Sinon.stub();
-        this.middlewareStub = Sinon.stub(common, "Middleware").returns(this.decoratorStub);
+    SocketMiddleware()(Test);
+  });
 
-        SocketMiddleware()(Test);
+  after(() => {
+    this.middlewareStub.restore();
+  });
+
+  it("should register the metadata", () => {
+    expect(Store.from(Test).get("socketIO")).to.deep.eq({
+      type: SocketProviderTypes.MIDDLEWARE,
+      handlers: {
+        use: {
+          methodClassName: "use"
+        }
+      }
     });
+  });
 
-    after(() => {
-        this.middlewareStub.restore();
-    });
-
-    it("should register the metadata", () => {
-        expect(Store.from(Test).get("socketIO")).to.deep.eq({
-            type: SocketProviderTypes.MIDDLEWARE,
-            handlers: {
-                use: {
-                    methodClassName: "use"
-                }
-            }
-        });
-    });
-
-    it("should register the middleware", () => {
-        this.middlewareStub.should.have.been.called;
-        this.decoratorStub.should.have.been.calledWithExactly(Test);
-    });
+  it("should register the middleware", () => {
+    this.middlewareStub.should.have.been.called;
+    this.decoratorStub.should.have.been.calledWithExactly(Test);
+  });
 });

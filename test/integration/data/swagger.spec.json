@@ -46,15 +46,12 @@
     {
       "name": "CalendarCtrl",
       "description": "Controller description"
-    },
-    {
-      "name": "FakeCtrl"
     }
   ],
   "paths": {
     "/rest/html": {
       "get": {
-        "operationId": "RestCtrl.render_1",
+        "operationId": "RestCtrl.render",
         "tags": [
           "RestCtrl"
         ],
@@ -69,9 +66,63 @@
         "produces": []
       }
     },
-    "/rest/calendars/events/{eventId}/tasks/": {
+    "/rest/test/{required}": {
       "get": {
-        "operationId": "TaskCtrl.get_1",
+        "operationId": "RestCtrl.test",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "required",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/test/{required}/{optional}": {
+      "get": {
+        "operationId": "RestCtrl.test_1",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "required",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "optional",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "consumes": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "security": [],
+        "produces": []
+      }
+    },
+    "/rest/calendars/events/{eventId}/tasks": {
+      "get": {
+        "operationId": "TaskCtrl.get",
         "tags": [
           "TaskCtrl"
         ],
@@ -80,13 +131,7 @@
             "in": "path",
             "name": "eventId",
             "type": "string",
-            "required": false
-          },
-          {
-            "name": "test",
-            "in": "path",
-            "required": false,
-            "type": "string"
+            "required": true
           }
         ],
         "consumes": [],
@@ -104,22 +149,22 @@
     },
     "/rest/calendars/events/{eventId}/tasks/hiddenparam": {
       "get": {
-        "operationId": "TaskCtrl.getHiddenParams_1",
+        "operationId": "TaskCtrl.getHiddenParams",
         "tags": [
           "TaskCtrl"
         ],
         "parameters": [
           {
-            "in": "path",
-            "name": "eventId",
-            "type": "string",
-            "required": true
-          },
-          {
             "name": "q",
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true
           }
         ],
         "consumes": [],
@@ -135,9 +180,9 @@
         "produces": []
       }
     },
-    "/rest/calendars/events/": {
+    "/rest/calendars/events": {
       "head": {
-        "operationId": "EventCtrl.head_1",
+        "operationId": "EventCtrl.head",
         "tags": [
           "EventCtrl"
         ],
@@ -152,7 +197,7 @@
         "produces": []
       },
       "get": {
-        "operationId": "EventCtrl.query_1",
+        "operationId": "EventCtrl.query",
         "tags": [
           "EventCtrl"
         ],
@@ -169,17 +214,11 @@
     },
     "/rest/calendars/events/{id}": {
       "patch": {
-        "operationId": "EventCtrl.patch_1",
+        "operationId": "EventCtrl.patch",
         "tags": [
           "EventCtrl"
         ],
         "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "type": "string",
-            "required": true
-          },
           {
             "name": "body",
             "in": "body",
@@ -188,6 +227,12 @@
             "schema": {
               "$ref": "#/definitions/EventModel"
             }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
           }
         ],
         "consumes": [],
@@ -206,7 +251,7 @@
         "produces": []
       },
       "get": {
-        "operationId": "EventCtrl.find_1",
+        "operationId": "EventCtrl.find",
         "tags": [
           "EventCtrl"
         ],
@@ -228,17 +273,11 @@
         "produces": []
       },
       "put": {
-        "operationId": "EventCtrl.save_1",
+        "operationId": "EventCtrl.save",
         "tags": [
           "EventCtrl"
         ],
         "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "type": "string",
-            "required": true
-          },
           {
             "name": "body",
             "in": "body",
@@ -246,6 +285,12 @@
             "schema": {
               "$ref": "#/definitions/EventModel"
             }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
           }
         ],
         "consumes": [],
@@ -261,7 +306,7 @@
         "produces": []
       },
       "delete": {
-        "operationId": "EventCtrl.remove_1",
+        "operationId": "EventCtrl.remove",
         "tags": [
           "EventCtrl"
         ],
@@ -285,7 +330,7 @@
     },
     "/rest/calendars/events/list": {
       "post": {
-        "operationId": "EventCtrl.update_1",
+        "operationId": "EventCtrl.update",
         "tags": [
           "EventCtrl"
         ],
@@ -321,7 +366,7 @@
         "produces": []
       },
       "get": {
-        "operationId": "EventCtrl.index_1",
+        "operationId": "EventCtrl.index",
         "tags": [
           "EventCtrl"
         ],
@@ -339,24 +384,24 @@
     },
     "/rest/calendars/events/{resources}/test/{id}": {
       "get": {
-        "operationId": "EventCtrl.getTest_1",
+        "operationId": "EventCtrl.getTest",
         "tags": [
           "EventCtrl"
         ],
         "parameters": [
           {
+            "description": "The resource",
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": false,
-            "description": "The resource"
+            "required": true
           },
           {
+            "description": "Id of the resource",
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false,
-            "description": "Id of the resource"
+            "required": true
           }
         ],
         "consumes": [],
@@ -372,7 +417,7 @@
     },
     "/rest/calendars/classic/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findClassic_1",
+        "operationId": "CalendarCtrl.findClassic",
         "tags": [
           "CalendarCtrl"
         ],
@@ -396,7 +441,7 @@
     },
     "/rest/calendars/token": {
       "get": {
-        "operationId": "CalendarCtrl.getToken_1",
+        "operationId": "CalendarCtrl.getToken",
         "tags": [
           "CalendarCtrl"
         ],
@@ -413,17 +458,17 @@
     },
     "/rest/calendars/token/{token}": {
       "get": {
-        "operationId": "CalendarCtrl.updateToken_1",
+        "operationId": "CalendarCtrl.updateToken",
         "tags": [
           "CalendarCtrl"
         ],
         "parameters": [
           {
+            "description": "Token required to update token",
             "in": "path",
             "name": "token",
             "type": "string",
-            "required": false,
-            "description": "Token required to update token"
+            "required": true
           }
         ],
         "consumes": [],
@@ -438,7 +483,7 @@
     },
     "/rest/calendars/annotation/test/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findWithAnnotation_1",
+        "operationId": "CalendarCtrl.findWithAnnotation",
         "tags": [
           "CalendarCtrl"
         ],
@@ -465,7 +510,7 @@
     },
     "/rest/calendars/annotation/promised/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findWithPromise_1",
+        "operationId": "CalendarCtrl.findWithPromise",
         "tags": [
           "CalendarCtrl"
         ],
@@ -474,7 +519,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false
+            "required": true
           }
         ],
         "consumes": [],
@@ -489,7 +534,7 @@
     },
     "/rest/calendars/annotation/status/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findAndChangeStatusCode_1",
+        "operationId": "CalendarCtrl.findAndChangeStatusCode",
         "tags": [
           "CalendarCtrl"
         ],
@@ -498,7 +543,7 @@
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false
+            "required": true
           }
         ],
         "consumes": [],
@@ -513,7 +558,7 @@
     },
     "/rest/calendars/query": {
       "get": {
-        "operationId": "CalendarCtrl.getQuery_1",
+        "operationId": "CalendarCtrl.getQuery",
         "tags": [
           "CalendarCtrl"
         ],
@@ -535,9 +580,9 @@
         "produces": []
       }
     },
-    "/rest/calendars/": {
+    "/rest/calendars": {
       "put": {
-        "operationId": "CalendarCtrl.save_1",
+        "operationId": "CalendarCtrl.save",
         "tags": [
           "CalendarCtrl"
         ],
@@ -567,7 +612,7 @@
         "produces": []
       },
       "delete": {
-        "operationId": "CalendarCtrl.remove_1",
+        "operationId": "CalendarCtrl.remove",
         "tags": [
           "CalendarCtrl"
         ],
@@ -611,7 +656,7 @@
     },
     "/rest/calendars/middleware": {
       "get": {
-        "operationId": "CalendarCtrl.getWithMiddleware_1",
+        "operationId": "CalendarCtrl.getWithMiddleware",
         "tags": [
           "CalendarCtrl"
         ],
@@ -635,7 +680,7 @@
     },
     "/rest/calendars/mvc": {
       "get": {
-        "operationId": "CalendarCtrl.testStackMiddlewares_1",
+        "operationId": "CalendarCtrl.testStackMiddlewares",
         "tags": [
           "CalendarCtrl"
         ],
@@ -655,7 +700,7 @@
     },
     "/rest/calendars/middlewares2": {
       "get": {
-        "operationId": "CalendarCtrl.testUseAfter_1",
+        "operationId": "CalendarCtrl.testUseAfter",
         "tags": [
           "CalendarCtrl"
         ],
@@ -675,7 +720,7 @@
     },
     "/rest/calendars/headers": {
       "get": {
-        "operationId": "CalendarCtrl.testResponseHeader_1",
+        "operationId": "CalendarCtrl.testResponseHeader",
         "tags": [
           "CalendarCtrl"
         ],
@@ -701,12 +746,20 @@
     },
     "/rest/calendars/documents": {
       "post": {
-        "operationId": "CalendarCtrl.testMultipart_1",
+        "operationId": "CalendarCtrl.testMultipart",
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "required": false,
+            "type": "file"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -718,12 +771,20 @@
     },
     "/rest/calendars/documents/1": {
       "post": {
-        "operationId": "CalendarCtrl.testMultipart2_1",
+        "operationId": "CalendarCtrl.testMultipart2",
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "required": false,
+            "type": "file"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -735,24 +796,24 @@
     },
     "/rest/calendars/{resources}/test/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.getTest_1",
+        "operationId": "CalendarCtrl.getTest",
         "tags": [
           "CalendarCtrl"
         ],
         "parameters": [
           {
+            "description": "The resource",
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": false,
-            "description": "The resource"
+            "required": true
           },
           {
+            "description": "Id of the resource",
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": false,
-            "description": "Id of the resource"
+            "required": true
           }
         ],
         "consumes": [],
@@ -768,7 +829,7 @@
     },
     "/rest/calendars/list": {
       "get": {
-        "operationId": "CalendarCtrl.index_1",
+        "operationId": "CalendarCtrl.index",
         "tags": [
           "CalendarCtrl"
         ],
@@ -805,19 +866,6 @@
           "title": "iD",
           "type": "string"
         },
-        "mapAny": {
-          "additionalProperties": {
-            "type": [
-              "integer",
-              "number",
-              "string",
-              "boolean",
-              "array",
-              "object",
-              "null"
-            ]
-          }
-        },
         "startDate": {
           "example": {
             "example1": "2017-10-15T17:05:58.106Z"
@@ -835,6 +883,61 @@
             "$ref": "#/definitions/Task"
           },
           "type": "array"
+        },
+        "mapAny": {
+          "additionalProperties": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "array"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "type": "object"
+        },
+        "anyValue": {
+          "nullable": true,
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "tasksMap": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Task"
+          },
+          "type": "object"
         }
       },
       "required": [

@@ -45,12 +45,11 @@ import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
  * @converters
  */
 export function Required(...allowedRequiredValues: any[]): any {
-
-    return (target: Type<any>, propertyKey: string, parameterIndex: number): void => {
-        if (typeof parameterIndex === "number") {
-            ParamRegistry.required(target, propertyKey, parameterIndex);
-        } else {
-            PropertyRegistry.required(target, propertyKey, allowedRequiredValues);
-        }
-    };
+  return (target: Type<any>, propertyKey: string, parameterIndex: number): void => {
+    if (typeof parameterIndex === "number") {
+      ParamRegistry.required(target, propertyKey, parameterIndex);
+    } else {
+      PropertyRegistry.required(target, propertyKey, allowedRequiredValues);
+    }
+  };
 }

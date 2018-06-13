@@ -1,5 +1,5 @@
-import {getClass} from "@tsed/core";
-import {globalServerSettings} from "../services/GlobalSettings";
+import {Store} from "@tsed/core";
+import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
 
 /**
  * Return value from ServerSettingsService.
@@ -18,37 +18,33 @@ import {globalServerSettings} from "../services/GlobalSettings";
  *    @Value("swagger.path")
  *    swaggerPath: string;
  *
+ *    @Value("swagger.path", "defaultValue")
+ *    swaggerPath: string;
+ *
+ *    constructor() {
+ *       console.log(this.swaggerPath) // undefined. Not available on constructor
+ *    }
+ *
+ *    $onInit() {
+ *      console.log(this.swaggerPath)  // something
+ *    }
  * }
  * ```
  *
  * @param expression
+ * @param defaultValue
  * @returns {(targetClass: any, attributeName: string) => any}
  * @decorator
  */
-export function Value(expression: any) {
-
-    return (target: any, propertyKey: string) => {
-
-        if (delete target[propertyKey]) {
-
-            let value: any;
-
-            const descriptor = {
-
-                get: function () {
-                    value = value !== undefined ? value : globalServerSettings.get(expression);
-                    return value;
-                },
-
-                set: function (v: any) {
-                    value = v;
-                },
-
-                enumerable: true,
-                configurable: true
-            };
-            Object.defineProperty(getClass(target).prototype, propertyKey, descriptor);
-        }
-
-    };
+export function Value(expression: any, defaultValue?: any) {
+  return (target: any, propertyKey: string) => {
+    Store.from(target).merge("injectableProperties", {
+      [propertyKey]: {
+        bindingType: "value",
+        propertyKey,
+        expression,
+        defaultValue
+      }
+    } as IInjectableProperties);
+  };
 }

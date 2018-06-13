@@ -14,21 +14,18 @@ import {Middleware} from "../decorators/class/middleware";
  */
 @Middleware()
 export class AuthenticatedMiddleware implements IMiddleware {
-    public use(@EndpointInfo() endpoint: EndpointMetadata,
-               @Request() request: Express.Request,
-               @Next() next: Express.NextFunction) {
+  public use(@EndpointInfo() endpoint: EndpointMetadata, @Request() request: Express.Request, @Next() next: Express.NextFunction) {
+    // const options = endpoint.get(AuthenticatedMiddleware) || {};
+    const isAuthenticated = (request as any).isAuthenticated;
 
-        // const options = endpoint.get(AuthenticatedMiddleware) || {};
-        const isAuthenticated = (request as any).isAuthenticated;
+    if (typeof isAuthenticated === "function") {
+      if (!isAuthenticated()) {
+        next(new Forbidden("Forbidden"));
 
-        if (typeof isAuthenticated === "function") {
-            if (!isAuthenticated()) {
-                next(new Forbidden("Forbidden"));
-                return;
-            }
-        }
-
-        next();
-
+        return;
+      }
     }
+
+    next();
+  }
 }

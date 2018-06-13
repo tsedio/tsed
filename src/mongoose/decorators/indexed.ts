@@ -18,5 +18,5 @@ import {Schema} from "./schema";
  * @mongoose
  */
 export function Indexed(index: SchemaTypeOpts.IndexOpts | boolean | string = true) {
-    return Schema({index});
+  return Schema({index});
 }

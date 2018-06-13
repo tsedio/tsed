@@ -79,6 +79,8 @@ ts-node isn't the runtime.
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](docs/converters.md)). By default true.
 * `logger` &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Logger configuration.
 * `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](docs/scope.md).
+* `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
+* `errors` &lt;[IErrorsSettings](api/common/config/ierrorssettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
 
 ## HTTP & HTTPs server
 ### Change address
@@ -89,6 +91,32 @@ It's possible to change the HTTP and HTTPS server address as follows:
 @ServerSettings({
    httpPort: "127.0.0.1:8081",
    httpsPort: "127.0.0.2:8082",
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+### Random port
+
+Random port assignement can be enable with the value "0". The port assignment will be delegate to the OS.
+
+```typescript
+@ServerSettings({
+   httpPort: "127.0.0.1:0",
+   httpsPort: "127.0.0.2:0",
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+Or: 
+
+```typescript
+@ServerSettings({
+   httpPort: 0,
+   httpsPort: 0,
 })
 export class Server extends ServerLoader {
 
@@ -244,7 +272,6 @@ The configuration can be reused throughout your application in different ways.
 
 - With dependency injection in [Service](docs/services/overview.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
 - With the decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md).
-- or with the `GlobalServerSettings` object.
 
 ### From service (DI)
 
@@ -283,11 +310,16 @@ export class MyClass {
     
     @Value("swagger.path")
     swaggerPath: string;
-    
+
+    $onInit() {
+       console.log(this.env);
+    }
 }
 ```
 
-> Constant return an Object.freeze() value. 
+> Constant return an Object.freeze() value.
+
+> Note: The values for the decorated properties aren't available on constructor. Use $onInit() hook to use the value.
 
 
 <div class="guide-links">

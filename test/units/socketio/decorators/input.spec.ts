@@ -3,23 +3,21 @@ import {Input} from "../../../../src/socketio";
 import {expect} from "../../../tools";
 
 describe("Input", () => {
+  class Test {}
 
-    class Test {
-    }
+  before(() => {
+    Input("eventName")(Test, "test", {} as any);
+    this.store = Store.from(Test);
+  });
 
-    before(() => {
-        Input("eventName")(Test, "test", {} as any);
-        this.store = Store.from(Test);
+  it("should set metadata", () => {
+    expect(this.store.get("socketIO")).to.deep.eq({
+      handlers: {
+        test: {
+          eventName: "eventName",
+          methodClassName: "test"
+        }
+      }
     });
-
-    it("should set metadata", () => {
-        expect(this.store.get("socketIO")).to.deep.eq({
-            "handlers": {
-                "test": {
-                    "eventName": "eventName",
-                    "methodClassName": "test"
-                }
-            }
-        });
-    });
+  });
 });

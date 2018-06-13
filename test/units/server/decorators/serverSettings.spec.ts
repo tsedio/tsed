@@ -3,21 +3,18 @@ import {ServerSettings} from "../../../../src/common/server/decorators/serverSet
 import {Metadata} from "../../../../src/core/class/Metadata";
 import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
 
-
-class Test {
-}
+class Test {}
 describe("ServerSettings", () => {
-    before(() => {
-        this.metadataSetStub = Sinon.stub(Metadata, "set");
-        ServerSettings({debug: true})(Test);
-    });
+  before(() => {
+    this.metadataSetStub = Sinon.stub(Metadata, "set");
+    ServerSettings({debug: true})(Test);
+  });
 
-    after(() => {
-        this.metadataSetStub.restore();
-    });
+  after(() => {
+    this.metadataSetStub.restore();
+  });
 
-    it("should call Metadata.set() with the right parameters", () => {
-        this.metadataSetStub.should.have.been.calledWithExactly(SERVER_SETTINGS, {debug: true}, Test);
-    });
-
+  it("should call Metadata.set() with the right parameters", () => {
+    this.metadataSetStub.should.have.been.calledWithExactly(SERVER_SETTINGS, {debug: true}, Test);
+  });
 });

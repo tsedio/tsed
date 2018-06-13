@@ -13,12 +13,9 @@ import {ParseService} from "../services/ParseService";
  */
 @Filter()
 export class SessionFilter implements IFilter {
+  constructor(private parseService: ParseService) {}
 
-    constructor(private parseService: ParseService) {
-
-    }
-
-    transform(expression: string, request: any, response: any) {
-        return this.parseService.eval(expression, request["session"], false);
-    }
+  transform(expression: string, request: any, response: any) {
+    return this.parseService.eval(expression, request["session"], false);
+  }
 }

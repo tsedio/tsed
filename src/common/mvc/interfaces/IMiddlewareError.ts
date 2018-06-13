@@ -3,7 +3,4 @@
  */
 import {IMiddleware} from "./IMiddleware";
 
-export interface IMiddlewareError extends IMiddleware {
-}
-
-
+export interface IMiddlewareError extends IMiddleware {}

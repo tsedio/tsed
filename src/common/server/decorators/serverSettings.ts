@@ -68,11 +68,7 @@ import {IServerSettings} from "../../config/interfaces/IServerSettings";
  * @decorator
  */
 export function ServerSettings(settings: IServerSettings): Function {
-
-    return (target: Type<any>) => {
-
-        Metadata.set(SERVER_SETTINGS, settings, target);
-
-    };
-
+  return (target: Type<any>) => {
+    Metadata.set(SERVER_SETTINGS, settings, target);
+  };
 }

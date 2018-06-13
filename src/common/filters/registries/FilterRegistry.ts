@@ -1,6 +1,5 @@
-import {Registry} from "@tsed/core";
 import {Provider} from "../../di/class/Provider";
-import {IProvider} from "../../di/interfaces/IProvider";
+import {TypedProvidersRegistry} from "../../di/interfaces";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {GlobalProviders} from "../../di/registries/ProviderRegistry";
 import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
@@ -9,9 +8,10 @@ import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
  *
  * @type {Registry<Provider, IProvider<any>>}
  */
-export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
-    injectable: true,
-    buildable: true
+// tslint:disable-next-line: variable-name
+export const FilterRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
+  injectable: true,
+  buildable: true
 });
 
 /**
@@ -33,9 +33,9 @@ export const FilterRegistry = GlobalProviders.createRegistry(ProviderType.FILTER
  * // or
  * registerFilter(MyFooService);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
  *
- * const myFooService = InjectorService.get<MyFooFilter>(MyFooFilter);
+ * const myFooService = injector.get<MyFooFilter>(MyFooFilter);
  * myFooFilter.getFoo(); // test
  * ```
  *
@@ -46,4 +46,5 @@ export const registerFilter = GlobalProviders.createRegisterFn(ProviderType.FILT
  *
  * @type {Map<any, any>}
  */
+// tslint:disable-next-line: variable-name
 export const FilterPreHandlers: Map<symbol, IFilterPreHandler> = new Map();

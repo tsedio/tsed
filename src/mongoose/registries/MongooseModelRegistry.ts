@@ -4,9 +4,10 @@
  */
 import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
 
+// tslint:disable-next-line: variable-name
 export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("mongooseModel", Provider, {
-    injectable: true,
-    buildable: false
+  injectable: true,
+  buildable: false
 });
 /**
  * Add a new model in the `ProviderRegistry`. This model will be built when `InjectorService` will be loaded.
@@ -27,9 +28,10 @@ export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.cre
  * // or
  * registerModel(MyModel);
  *
- * InjectorService.load();
+ * const injector = new InjectorService();
+ * injector.load();
  *
- * const myModel = InjectorService.get<MyModel>(MyModel);
+ * const myModel = injector.get<MyModel>(MyModel);
  * myModel.getFoo(); // test
  * ```
  *

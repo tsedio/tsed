@@ -1,41 +1,23 @@
-import {globalServerSettings} from "../../../../src/common/config";
-import {Value} from "../../../../src/common/config/decorators/value";
-import {expect, Sinon} from "../../../tools";
+import {Value} from "@tsed/common";
+import {Store} from "@tsed/core";
+import {expect} from "../../../tools";
 
-const path = require("path");
-const root = path.resolve(__dirname + "./../");
+class Test {}
 
+describe("@Value()", () => {
+  before(() => {
+    Value("expression")(Test, "test");
+    this.store = Store.from(Test).get("injectableProperties");
+  });
 
-class TestConstant {
-    envTest: string;
-    envTest2: string;
-}
-
-describe("Value()", () => {
-
-    before(() => {
-        this.getStub = Sinon.stub(globalServerSettings, "get");
-
-        this.getStub.withArgs("env.test").returns("value");
-        this.getStub.withArgs("env.test2").returns({test: "value"});
-
-        Value("env.test")(TestConstant, "envTest");
-        Value("env.test2")(TestConstant, "envTest2");
-
-        this.testConstant = new TestConstant();
-        this.testConstant.envTest2 = {test: "value2"};
+  it("should store metadata", () => {
+    expect(this.store).to.deep.eq({
+      test: {
+        bindingType: "value",
+        propertyKey: "test",
+        expression: "expression",
+        defaultValue: undefined
+      }
     });
-    after(() => {
-        this.getStub.restore();
-    });
-
-    it("should return constants value (string)", () => {
-        expect(this.testConstant.envTest).to.be.eq("value");
-    });
-
-    it("should return constants value (obj)", () => {
-        expect(this.testConstant.envTest2).to.be.deep.eq({test: "value2"});
-    });
+  });
 });
-
-
