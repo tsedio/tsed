@@ -47,7 +47,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
    * @returns {boolean}
    */
   get required(): boolean {
-    return JsonSchemesRegistry.required(this.target, this.propertyKey as string);
+    return JsonSchemesRegistry.required(this.target, this.name || (this.propertyKey as string));
   }
 
   /**
@@ -55,7 +55,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
    * @param value
    */
   set required(value: boolean) {
-    JsonSchemesRegistry.required(this.target, this.propertyKey as string, value);
+    JsonSchemesRegistry.required(this.target, this.name || (this.propertyKey as string), value);
   }
 
   /**
