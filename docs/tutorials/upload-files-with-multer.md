@@ -56,17 +56,19 @@ Ts.ED use multer to handler file uploads. Single file can be injected like this:
 
 ```typescript
 import {Controller, Post} from "@tsed/common";
+import {MultipartFile, MulterOptions} from "@tsed/multipartfiles";
 
 @Controller('/')
 class MyCtrl {
     
   @Post('/file')
-  private uploadFile(@MultipartFile() file: Express.Multer.File) {
+  private uploadFile(@MultipartFile('file') file: Express.Multer.File) {
 
   }
      
   @Post('/file')
-  private uploadFile(@MultipartFile({dest: "/other-dir"}) file: Express.Multer.File) {
+  @MulterOptions({dest: "/other-dir"})
+  private uploadFile(@MultipartFile('file') file: Express.Multer.File) {
          
   }
 }
@@ -80,11 +82,12 @@ import {MultipartFile} from "@tsed/multipartfiles";
 @Controller('/')
 class MyCtrl {
   @Post('/files')
-  private uploadFile(@MultipartFile() files: Express.Multer.File[]) {
-
+  private uploadFile(@MultipartFile("files", 4) files: Express.Multer.File[]) {
+    // multiple files with 4 as limits
   }
 }
 ```
+!> Note: Swagger spec (v2.0) doesn't support multiple files.
 
 <div class="guide-links">
 <a href="#/tutorials/custom-validator">Custom validator</a>

@@ -80,6 +80,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
           case ParamTypes.FORM_DATA:
             return Object.assign(this.createBaseParameter(param), param.store.get("schema"), {
+              name: ((param.expression as string) || "").replace(".0", ""),
               type: "file"
             });
         }

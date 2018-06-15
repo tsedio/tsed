@@ -1,11 +1,11 @@
-import {isCollection} from "./ObjectUtils";
+import {isArray, isCollection} from "./ObjectUtils";
 
 export function setValue(expression: string, value: any, scope: any, separator = ".") {
   const keys: string[] = expression.split(separator);
 
   const setValue = (key: string, add: boolean) => {
     if (add) {
-      if (isCollection(scope)) {
+      if (isCollection(scope) && !isArray(scope)) {
         scope.set(key, value);
       } else {
         scope[key] = value;

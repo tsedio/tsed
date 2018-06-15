@@ -22,19 +22,43 @@ describe("MultipartFileFilter", () => {
 });
 
 describe("MultipartFilesFilter", () => {
-  before(
-    inject([MultipartFilesFilter], (filter: MultipartFilesFilter) => {
-      this.filter = filter;
-    })
-  );
+  describe("legacy", () => {
+    before(
+      inject([MultipartFilesFilter], (filter: MultipartFilesFilter) => {
+        this.filter = filter;
+      })
+    );
 
-  describe("transform()", () => {
-    before(() => {
-      this.result = this.filter.transform("", {files: [{}]});
+    describe("transform()", () => {
+      before(() => {
+        this.result = this.filter.transform("", {files: [{}]});
+      });
+
+      it("should transform expression", () => {
+        expect(this.result).to.be.an("array");
+      });
     });
+  });
 
-    it("should transform expression", () => {
-      expect(this.result).to.be.an("array");
+  describe("new feature", () => {
+    before(
+      inject([MultipartFilesFilter], (filter: MultipartFilesFilter) => {
+        this.filter = filter;
+      })
+    );
+
+    describe("transform()", () => {
+      before(() => {
+        this.result = this.filter.transform("test", {
+          files: {
+            test: []
+          }
+        });
+      });
+
+      it("should transform expression", () => {
+        expect(this.result).to.be.an("array");
+      });
     });
   });
 });

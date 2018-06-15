@@ -756,6 +756,7 @@
         "parameters": [
           {
             "in": "formData",
+            "name": "files",
             "required": false,
             "type": "file"
           }
@@ -781,6 +782,7 @@
         "parameters": [
           {
             "in": "formData",
+            "name": "file1",
             "required": false,
             "type": "file"
           }
