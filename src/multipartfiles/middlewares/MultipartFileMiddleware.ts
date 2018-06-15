@@ -1,5 +1,6 @@
 import {EndpointInfo, EndpointMetadata, IMiddleware, Middleware, Next, Req, Res, ServerSettingsService} from "@tsed/common";
-import {$log} from "ts-log-debug";
+import * as Express from "express";
+import * as multer from "multer";
 
 /**
  * @private
@@ -7,16 +8,9 @@ import {$log} from "ts-log-debug";
  */
 @Middleware()
 export class MultipartFileMiddleware implements IMiddleware {
-  private multer: any;
+  private multer: any = multer;
 
-  constructor(private serverSettingsService: ServerSettingsService) {
-    try {
-      /* istanbul ignore else */
-      if (require.resolve("multer")) {
-        this.multer = require("multer");
-      }
-    } catch (er) {}
-  }
+  constructor(private serverSettingsService: ServerSettingsService) {}
 
   /**
    *
@@ -32,20 +26,16 @@ export class MultipartFileMiddleware implements IMiddleware {
     @Res() response: Express.Response,
     @Next() next: Express.NextFunction
   ) {
-    if (this.multer) {
-      const dest = this.serverSettingsService.uploadDir;
+    const dest = this.serverSettingsService.uploadDir;
+    const conf = endpoint.store.get(MultipartFileMiddleware);
+    const options = Object.assign({dest}, this.serverSettingsService.get("multer") || {}, conf.options || {});
 
-      const options = Object.assign(
-        {dest},
-        this.serverSettingsService.get("multer") || {},
-        endpoint.store.get(MultipartFileMiddleware) || {}
-      );
+    if (!conf.any) {
+      const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));
 
-      const middleware = this.multer(options);
-
-      return middleware.any()(request, response, next);
-    } else {
-      $log.warn("Multer isn't installed ! Run npm install --save multer before using Multipart decorators.");
+      return this.multer(options).fields(fields)(request, response, next);
     }
+
+    return this.multer(options).any()(request, response, next);
   }
 }

@@ -1,5 +1,5 @@
 import {ParamRegistry, ParamTypes, UseBefore} from "@tsed/common";
-import {descriptorOf, Metadata, Store} from "@tsed/core";
+import {descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
 import {MultipartFileFilter} from "../components/MultipartFileFilter";
 import {MultipartFilesFilter} from "../components/MultipartFilesFilter";
@@ -10,6 +10,7 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  *
  * ```typescript
  * import {Controller, Post} from "@tsed/common";
+ * import {MulterOptions, MultipartFile} from "@tsed/multipartfiles";
  * import {Multer} from "@types/multer";
  *
  * type MulterFile = Express.Multer.File;
@@ -17,17 +18,24 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @Controller('/')
  * class MyCtrl {
  *   @Post('/file')
- *   private uploadFile(@MultipartFile() file: MulterFile) {
+ *   private uploadFile(@MultipartFile("file1") file: MulterFile) {
  *
  *   }
  *
  *   @Post('/file')
- *   private uploadFile(@MultipartFile({dest: "/other-dir"}) file: MulterFile) {
+ *   @MulterOptions({dest: "/other-dir"})
+ *   private uploadFile(@MultipartFile("file1") file: MulterFile) {
+ *
+ *   }
+ *
+ *   @Post('/file2')
+ *   @MulterOptions({dest: "/other-dir"})
+ *   private uploadFile(@MultipartFile("file1") file: MulterFile, @MultipartFile("file2") file2: MulterFile) {
  *
  *   }
  *
  *   @Post('/files')
- *   private uploadFile(@MultipartFile() files: MulterFile[]) {
+ *   private uploadFile(@MultipartFile("file1") files: MulterFile[]) {
  *
  *   }
  * }
@@ -35,31 +43,73 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  *
  * > See the tutorial on the [multer configuration](tutorials/upload-files-with-multer.md).
  *
- * @param options
+ * @param name
+ * @param maxCount
  * @returns Function
  * @decorator
  * @multer
  */
-export function MultipartFile(options?: multer.Options): Function {
+export function MultipartFile(name?: string | multer.Options, maxCount?: number): Function {
   return (target: any, propertyKey: string, parameterIndex: number): void => {
-    if (typeof parameterIndex === "number") {
-      // create endpoint metadata
-      Store.fromMethod(target, propertyKey)
-        .set(MultipartFileMiddleware, options)
-        .merge("consumes", ["multipart/form-data"]);
+    const type = getDecoratorType([target, propertyKey, parameterIndex], true);
 
-      UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
+    switch (type) {
+      default:
+        throw new Error("MultipartFile is only supported on parameters");
 
-      // add filter
-      const filter = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array ? MultipartFilesFilter : MultipartFileFilter;
+      case "parameter":
+        const store = Store.fromMethod(target, propertyKey);
+        const multiple = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array;
+        const options = typeof name === "object" ? name : undefined;
+        const added = store.has("multipartAdded");
 
-      ParamRegistry.useFilter(filter, {
-        propertyKey,
-        parameterIndex,
-        target,
-        useConverter: false,
-        paramType: ParamTypes.FORM_DATA
-      });
+        name = (typeof name === "object" ? undefined : name)!;
+
+        // create endpoint metadata
+        store.merge("consumes", ["multipart/form-data"]).set("multipartAdded", true);
+
+        if (!added) {
+          // middleware is added
+          UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
+        }
+
+        if (name === undefined) {
+          store.merge(MultipartFileMiddleware, {
+            options,
+            any: true
+          });
+
+          ParamRegistry.useFilter(multiple ? MultipartFilesFilter : MultipartFileFilter, {
+            propertyKey,
+            parameterIndex,
+            target,
+            useConverter: false,
+            paramType: ParamTypes.FORM_DATA
+          });
+        } else {
+          const expression = multiple ? (name as string) : name + ".0";
+
+          store.merge(MultipartFileMiddleware, {
+            fields: [
+              {
+                name,
+                maxCount
+              }
+            ],
+            options
+          });
+
+          ParamRegistry.useFilter(MultipartFilesFilter, {
+            expression,
+            propertyKey,
+            parameterIndex,
+            target,
+            useConverter: false,
+            paramType: ParamTypes.FORM_DATA
+          });
+        }
+
+        break;
     }
   };
 }

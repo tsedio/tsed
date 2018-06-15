@@ -21,7 +21,7 @@ import {Operation} from "./operation";
  */
 export function Consumes(...consumes: string[]) {
   return (...args: any[]) => {
-    const type = getDecoratorType(args);
+    const type = getDecoratorType(args, true);
     switch (type) {
       case "method":
         return Operation({consumes})(...args);

@@ -1,4 +1,3 @@
-import * as Express from "express";
 import {
   Authenticated,
   BodyParams,
@@ -23,6 +22,7 @@ import {
 } from "@tsed/common";
 import {MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
+import * as Express from "express";
 import {CalendarModel} from "../../models/Calendar";
 import {TokenService} from "../../services/TokenService";
 import {BaseController} from "../base/BaseController";
@@ -284,12 +284,14 @@ export class CalendarCtrl extends BaseController {
   }
 
   @Post("/documents")
-  testMultipart(@MultipartFile() files: any[]) {
+  testMultipart(@MultipartFile("files") files: any[]) {
     return files;
   }
 
   @Post("/documents/1")
-  testMultipart2(@MultipartFile() file: any) {
-    return file;
+  testMultipart2(@MultipartFile("file1") file: any) {
+    console.log("====>", file);
+
+    return "DONE";
   }
 }
