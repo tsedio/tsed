@@ -13,8 +13,7 @@
     "@tsed/core": "0.0.0-PLACEHOLDER",
     "@tsed/common": "0.0.0-PLACEHOLDER"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "private": false,
   "directories": {
     "lib": "lib",
