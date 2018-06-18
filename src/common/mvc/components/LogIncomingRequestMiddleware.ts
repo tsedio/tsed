@@ -167,16 +167,11 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     delete request.tagId;
     delete request.tsedReqStart;
     request.log = {
-      info: () => {
-      },
-      debug: () => {
-      },
-      warn: () => {
-      },
-      error: () => {
-      },
-      trace: () => {
-      }
+      info: () => {},
+      debug: () => {},
+      warn: () => {},
+      error: () => {},
+      trace: () => {}
     };
   }
 }

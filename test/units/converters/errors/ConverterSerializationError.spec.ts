@@ -4,8 +4,7 @@ import {ConverterSerializationError} from "../../../../src/common/converters/err
 describe("ConverterSerializationError", () => {
   before(() => {
     this.genericError = new Error("test");
-    this.errorInstance = new ConverterSerializationError(class Test {
-    }, this.genericError);
+    this.errorInstance = new ConverterSerializationError(class Test {}, this.genericError);
   });
 
   after(() => {

@@ -1,7 +1,6 @@
 import {applyBefore} from "@tsed/core";
 import {Sinon} from "../../../tools";
 
-
 describe("applyBefore", () => {
   before(() => {
     this.originalMethod = Sinon.stub();

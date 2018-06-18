@@ -3,12 +3,10 @@ import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect, Sinon} from "../../../tools";
 
 class Test {
-  test() {
-  }
+  test() {}
 }
 
 describe("@Inject()", () => {
-
   describe("used on unsupported decorator type", () => {
     before(() => {
       try {

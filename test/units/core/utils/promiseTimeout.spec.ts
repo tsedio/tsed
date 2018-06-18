@@ -3,8 +3,7 @@ import {promiseTimeout} from "@tsed/core";
 describe("promiseTimeout()", () => {
   describe("when there is a timeout", () => {
     before(() => {
-      return (this.result = promiseTimeout(new Promise(() => {
-      }), 500));
+      return (this.result = promiseTimeout(new Promise(() => {}), 500));
     });
 
     it("should return a response with a no ok", () => {

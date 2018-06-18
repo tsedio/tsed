@@ -10,17 +10,13 @@ import {$logStub, expect, Sinon} from "../../../tools";
 describe("ServerLoader", () => {
   before(() => {
     class TestServer extends ServerLoader {
-      $onInit() {
-      }
+      $onInit() {}
 
-      $onReady() {
-      }
+      $onReady() {}
 
-      $onMountingMiddlewares() {
-      }
+      $onMountingMiddlewares() {}
 
-      $afterRoutesInit() {
-      }
+      $afterRoutesInit() {}
     }
 
     Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
@@ -193,8 +189,7 @@ describe("ServerLoader", () => {
 
     describe("when we give a class", () => {
       before(() => {
-        this.classTest = class {
-        };
+        this.classTest = class {};
         this.addComponentsStub = Sinon.stub(this.server, "addComponents");
 
         this.server.mount("endpoint", [this.classTest]);
@@ -270,8 +265,7 @@ describe("ServerLoader", () => {
 
         $logStub.$log.error.reset();
 
-        return this.server.start().catch((err: any) => {
-        });
+        return this.server.start().catch((err: any) => {});
       });
 
       after(() => {
@@ -309,8 +303,7 @@ describe("ServerLoader", () => {
 
   describe("engine()", () => {
     before(() => {
-      this.server.engine("jade", () => {
-      });
+      this.server.engine("jade", () => {});
     });
 
     it("should call express.engine() with the right parameters", () => {
@@ -344,8 +337,7 @@ describe("ServerLoader", () => {
     describe("when have typescript compiler", () => {
       before(() => {
         this.compiler = require.extensions[".ts"];
-        require.extensions[".ts"] = () => {
-        };
+        require.extensions[".ts"] = () => {};
       });
       after(() => {
         delete require.extensions[".ts"];

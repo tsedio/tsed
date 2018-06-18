@@ -12,8 +12,7 @@ import {
 } from "@tsed/core";
 import {expect} from "../../../tools";
 
-class Test {
-}
+class Test {}
 
 const sym = Symbol("test2");
 

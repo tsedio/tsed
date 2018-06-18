@@ -3,7 +3,6 @@ import * as Express from "express";
 import {Inject} from "../../../di/decorators/inject";
 import {registerFactory} from "../../../di/registries/ProviderRegistry";
 
-
 declare global {
   namespace Express {
     interface Application {

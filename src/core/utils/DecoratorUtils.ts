@@ -7,7 +7,10 @@ import {descriptorOf, getClass, nameOf} from "./ObjectUtils";
  * @param longType
  * @returns {"parameter" | "property" | "property.static" | "method" | "method.static" | "class"}
  */
-export function getDecoratorType(args: any[], longType = false): "parameter" | "parameter.constructor" | "parameter.static" | "property" | "property.static" | "method" | "method.static" | "class" {
+export function getDecoratorType(
+  args: any[],
+  longType = false
+): "parameter" | "parameter.constructor" | "parameter.static" | "property" | "property.static" | "method" | "method.static" | "class" {
   const [target, propertyKey, descriptor] = args;
 
   const staticType = (type: string): any => {
@@ -15,11 +18,11 @@ export function getDecoratorType(args: any[], longType = false): "parameter" | "
       return type;
     }
 
-    return target !== getClass(target) ? type : (type + ".static") as any;
+    return target !== getClass(target) ? type : ((type + ".static") as any);
   };
 
   if (typeof descriptor === "number") {
-    return propertyKey ? staticType("parameter") : (longType ? "parameter.constructor" : "parameter");
+    return propertyKey ? staticType("parameter") : longType ? "parameter.constructor" : "parameter";
   }
 
   if ((propertyKey && descriptor === undefined) || (descriptor && (descriptor.get || descriptor.set))) {
@@ -44,7 +47,7 @@ export class UnsupportedDecoratorType extends Error {
 
     const bindingType = getDecoratorType(args, true);
     const shortBinding = bindingType.split("/")[0];
-    const param = shortBinding === "parameter" ? (".[" + index + "]") : "";
+    const param = shortBinding === "parameter" ? ".[" + index + "]" : "";
     const cstr = shortBinding === "parameter" ? ".constructor" : "";
     const method = propertyKey ? "." + propertyKey : cstr;
 
@@ -53,7 +56,6 @@ export class UnsupportedDecoratorType extends Error {
     return `${decorator.name} cannot used as ${bindingType} at ${path}`;
   }
 }
-
 
 /**
  *
