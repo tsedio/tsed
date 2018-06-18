@@ -198,7 +198,7 @@ export class Store {
    * @param options
    * @param args
    */
-  storeValues(options: { [key: string]: any }) {
+  storeValues(options: {[key: string]: any}) {
     Object.keys(options).forEach(key => this.set(key as any, options[key]));
   }
 

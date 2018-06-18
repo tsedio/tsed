@@ -1,9 +1,7 @@
 import {getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
 import {expect} from "../../../tools";
 
-class Test {
-
-}
+class Test {}
 
 describe("DecoratorUtils", () => {
   describe("getDecoratorType()", () => {
@@ -21,33 +19,51 @@ describe("DecoratorUtils", () => {
       });
 
       it("should return method (instance, getter)", () => {
-        expect(getDecoratorType([Test.prototype, "props", {
-          get: () => {
-
-          }
-        }])).to.equal("property");
+        expect(
+          getDecoratorType([
+            Test.prototype,
+            "props",
+            {
+              get: () => {}
+            }
+          ])
+        ).to.equal("property");
       });
 
       it("should return method (instance, setter)", () => {
-        expect(getDecoratorType([Test.prototype, "props", {
-          set: () => {
-
-          }
-        }])).to.equal("property");
+        expect(
+          getDecoratorType([
+            Test.prototype,
+            "props",
+            {
+              set: () => {}
+            }
+          ])
+        ).to.equal("property");
       });
 
       it("should return method (static)", () => {
-        expect(getDecoratorType([Test, "props", {
-          value: () => {
-          }
-        }])).to.equal("method");
+        expect(
+          getDecoratorType([
+            Test,
+            "props",
+            {
+              value: () => {}
+            }
+          ])
+        ).to.equal("method");
       });
 
       it("should return method (instance)", () => {
-        expect(getDecoratorType([Test.prototype, "props", {
-          value: () => {
-          }
-        }])).to.equal("method");
+        expect(
+          getDecoratorType([
+            Test.prototype,
+            "props",
+            {
+              value: () => {}
+            }
+          ])
+        ).to.equal("method");
       });
 
       it("should return params (static)", () => {
@@ -76,33 +92,63 @@ describe("DecoratorUtils", () => {
       });
 
       it("should return method (instance, getter)", () => {
-        expect(getDecoratorType([Test.prototype, "props", {
-          get: () => {
-
-          }
-        }], true)).to.equal("property");
+        expect(
+          getDecoratorType(
+            [
+              Test.prototype,
+              "props",
+              {
+                get: () => {}
+              }
+            ],
+            true
+          )
+        ).to.equal("property");
       });
 
       it("should return method (instance, setter)", () => {
-        expect(getDecoratorType([Test.prototype, "props", {
-          set: () => {
-
-          }
-        }], true)).to.equal("property");
+        expect(
+          getDecoratorType(
+            [
+              Test.prototype,
+              "props",
+              {
+                set: () => {}
+              }
+            ],
+            true
+          )
+        ).to.equal("property");
       });
 
       it("should return method (static)", () => {
-        expect(getDecoratorType([Test, "props", {
-          value: () => {
-          }
-        }], true)).to.equal("method.static");
+        expect(
+          getDecoratorType(
+            [
+              Test,
+              "props",
+              {
+                value: () => {}
+              }
+            ],
+            true
+          )
+        ).to.equal("method.static");
       });
 
       it("should return method (instance)", () => {
-        expect(getDecoratorType([Test.prototype, "props", {
-          value: () => {
-          }
-        }], true)).to.equal("method");
+        expect(
+          getDecoratorType(
+            [
+              Test.prototype,
+              "props",
+              {
+                value: () => {}
+              }
+            ],
+            true
+          )
+        ).to.equal("method");
       });
 
       it("should return params (static)", () => {
@@ -120,7 +166,6 @@ describe("DecoratorUtils", () => {
   });
 
   describe("UnsupportedDecoratorType", () => {
-
     const createError = (args: any[]) => {
       return new UnsupportedDecoratorType({name: "Decorator"}, args).message;
     };
@@ -138,33 +183,51 @@ describe("DecoratorUtils", () => {
     });
 
     it("should return method (instance, getter)", () => {
-      expect(createError([Test.prototype, "props", {
-        get: () => {
-
-        }
-      }])).to.equal("Decorator cannot used as property at Test.props");
+      expect(
+        createError([
+          Test.prototype,
+          "props",
+          {
+            get: () => {}
+          }
+        ])
+      ).to.equal("Decorator cannot used as property at Test.props");
     });
 
     it("should return method (instance, setter)", () => {
-      expect(createError([Test.prototype, "props", {
-        set: () => {
-
-        }
-      }])).to.equal("Decorator cannot used as property at Test.props");
+      expect(
+        createError([
+          Test.prototype,
+          "props",
+          {
+            set: () => {}
+          }
+        ])
+      ).to.equal("Decorator cannot used as property at Test.props");
     });
 
     it("should return method (static)", () => {
-      expect(createError([Test, "props", {
-        value: () => {
-        }
-      }])).to.equal("Decorator cannot used as method.static at Test.props");
+      expect(
+        createError([
+          Test,
+          "props",
+          {
+            value: () => {}
+          }
+        ])
+      ).to.equal("Decorator cannot used as method.static at Test.props");
     });
 
     it("should return method (instance)", () => {
-      expect(createError([Test.prototype, "props", {
-        value: () => {
-        }
-      }])).to.equal("Decorator cannot used as method at Test.props");
+      expect(
+        createError([
+          Test.prototype,
+          "props",
+          {
+            value: () => {}
+          }
+        ])
+      ).to.equal("Decorator cannot used as method at Test.props");
     });
 
     it("should return params (static)", () => {

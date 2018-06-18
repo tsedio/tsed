@@ -1,18 +1,31 @@
 import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
 import {deepExtends, nameOf, Type} from "@tsed/core";
-import {BaseParameter, BodyParameter, Parameter, PathParameter, Schema} from "swagger-schema-official";
+import {BodyParameter, FormDataParameter, HeaderParameter, Parameter, PathParameter, QueryParameter, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
 export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
   private _parameters: Parameter[] = [];
   private injectedParams: ParamMetadata[];
+  private hasBody: boolean = false;
+  private hasFormData: boolean = false;
   private name: string = "";
 
   constructor(target: Type<any>, methodClassName: string, private pathParameters: PathParameter[] = []) {
     super(target);
     this.name = `${nameOf(target)}${methodClassName.charAt(0).toUpperCase() + methodClassName.slice(1)}`;
-    this.injectedParams = ParamRegistry.getParams(target, methodClassName);
+
+    this.injectedParams = ParamRegistry.getParams(target, methodClassName).filter(param => {
+      if (param.paramType === ParamTypes.BODY) {
+        this.hasBody = true;
+      }
+
+      if (param.paramType === ParamTypes.FORM_DATA) {
+        this.hasFormData = true;
+      }
+
+      return !param.store.get("hidden");
+    });
   }
 
   /**
@@ -20,134 +33,182 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
    * @returns {this}
    */
   build(): this {
-    let bodySchema: Schema | undefined = undefined;
-    let bodyParam: BodyParameter = {} as BodyParameter;
-    const pathParams: Map<string, any> = new Map();
+    this._parameters = [];
 
-    this._parameters = this.injectedParams
-      .map((param: ParamMetadata) => {
-        if (param.store.get("hidden")) {
-          return;
-        }
+    this._parameters = this._parameters.concat(this.getInHeaders(), this.getInPathParams(), this.getInQueryParams());
 
-        const inType = param.paramType;
-
-        /*if (inType === undefined || [ParamTypes.SESSION, ParamTypes.COOKIES, ParamTypes.LOCALS].indexOf(inType) > -1) {
-          // not a input paramaters
-          return;
-        }*/
-
-        // Next assign type/schema:
-        switch (inType) {
-          default:
-            return;
-          case ParamTypes.BODY:
-            const baseParam: BaseParameter = this.createBaseParameter(param);
-
-            if (param.expression) {
-              bodySchema = deepExtends(bodySchema || {}, this.createSchemaFromBodyParam(param));
-              bodyParam = baseParam;
-
-              return;
-            }
-
-            const builder = new OpenApiModelSchemaBuilder(param.type);
-            builder.build();
-
-            deepExtends(this._responses, builder.responses);
-            deepExtends(this._definitions, builder.definitions);
-
-            return Object.assign(baseParam, {
-              schema: {
-                $ref: `#/definitions/${param.typeName}`
-              }
-            });
-
-          case ParamTypes.QUERY:
-            return Object.assign(this.createBaseParameter(param), param.store.get("schema"), this.createSchemaFromQueryParam(param));
-
-          case ParamTypes.PATH:
-            this.createBaseParameter(param);
-            pathParams.set(param.expression as any, param);
-
-            return false;
-
-          case ParamTypes.HEADER:
-            // Apply the schema to be backwards compatible...
-            return Object.assign(this.createBaseParameter(param), param.store.get("schema"), {
-              type: swaggerType(param.type)
-            });
-
-          case ParamTypes.FORM_DATA:
-            return Object.assign(this.createBaseParameter(param), param.store.get("schema"), {
-              name: ((param.expression as string) || "").replace(".0", ""),
-              type: "file"
-            });
-        }
-      })
-      .filter(o => !!o) as Parameter[];
-
-    if (bodySchema && bodyParam) {
-      const model = `${this.name}Payload`;
-      bodyParam.schema = {};
-      bodyParam.schema["$ref"] = `#/definitions/${model}`;
-
-      this._parameters.push(bodyParam);
-      this._definitions[model] = bodySchema;
+    if (this.hasFormData) {
+      this._parameters = this._parameters.concat(this.getInFormData());
+    } else if (this.hasBody) {
+      this._parameters = this._parameters.concat(this.getInBodyParam());
     }
-
-    this.pathParameters.forEach(pathParam => {
-      if (pathParams.has(pathParam.name)) {
-        const param = pathParams.get(pathParam.name);
-
-        pathParam = Object.assign(param.store.get("baseParameter") || {}, pathParam, param.store.get("schema"), {
-          type: swaggerType(param.type)
-        });
-
-        this._parameters.push(pathParam);
-      } else {
-        this._parameters.push(pathParam);
-      }
-    });
 
     return this;
   }
 
   /**
    *
-   * @param {ParamMetadata} param
-   * @returns {BaseParameter}
+   * @returns {HeaderParameter[]}
    */
-  private createBaseParameter(param: ParamMetadata): BaseParameter {
-    const baseParam: BaseParameter = {
-      name: param.paramType === ParamTypes.BODY ? ParamTypes.BODY : (param.expression as string),
-      in: param.paramType,
-      required: !!param.required,
-      description: ""
-    };
+  private getInHeaders(): HeaderParameter[] {
+    return this.injectedParams.filter((param: ParamMetadata) => param.paramType === ParamTypes.HEADER).map(param => {
+      return Object.assign({}, param.store.get("baseParameter"), {
+        in: ParamTypes.HEADER,
+        name: param.expression,
+        type: swaggerType(param.type),
+        required: param.required
+      });
+    });
+  }
 
-    if (param.required) {
-      this._responses[400] = {description: "Missing required parameter"};
+  /**
+   *
+   * @returns {any[]}
+   */
+  private getInFormData(): FormDataParameter[] {
+    return this.injectedParams
+      .filter((param: ParamMetadata) => param.paramType === ParamTypes.BODY || param.paramType === ParamTypes.FORM_DATA)
+      .map(param => {
+        const name = ((param.expression as string) || "").replace(".0", "");
+        const type = param.paramType === ParamTypes.FORM_DATA ? "file" : swaggerType(param.paramType);
+
+        return Object.assign({}, param.store.get("baseParameter"), {
+          in: ParamTypes.FORM_DATA,
+          name,
+          required: param.required,
+          type
+        });
+      });
+  }
+
+  /**
+   *
+   * @returns {ParamMetadata | undefined}
+   */
+  private getInBodyParam(): BodyParameter {
+    const params = this.injectedParams.filter((param: ParamMetadata) => param.paramType === ParamTypes.BODY);
+
+    const param = params.find((param: ParamMetadata) => !param.expression);
+
+    if (param) {
+      const builder = new OpenApiModelSchemaBuilder(param.type);
+      builder.build();
+
+      deepExtends(this._responses, builder.responses);
+      deepExtends(this._definitions, builder.definitions);
+
+      if (param.required) {
+        this.addResponse400();
+      }
+
+      return Object.assign({}, param.store.get("baseParameter"), {
+        in: ParamTypes.BODY,
+        name: ParamTypes.BODY,
+        description: "",
+        required: !!param.required,
+        schema: {
+          $ref: `#/definitions/${param.typeName}`
+        }
+      });
     }
 
-    // override defaults with baseParameter
-    return deepExtends(baseParam, param.store.get("baseParameter") || {});
+    let required = false;
+    const model = `${this.name}Payload`;
+
+    this._definitions[model] = params.reduce((acc: any, param) => {
+      deepExtends(acc, this.createSchemaFromBodyParam(param));
+
+      if (param.required) {
+        this.addResponse400();
+        required = true;
+      }
+
+      return acc;
+    }, {});
+
+    return {
+      in: ParamTypes.BODY,
+      name: ParamTypes.BODY,
+      required,
+      description: "",
+      schema: {
+        $ref: `#/definitions/${model}`
+      }
+    };
+  }
+
+  /**
+   *
+   * @returns {PathParameter[]}
+   */
+  private getInPathParams(): PathParameter[] {
+    const inPathParams: PathParameter[] = [];
+    const pathParams: Map<string, any> = new Map();
+
+    this.injectedParams.forEach((param: ParamMetadata) => {
+      if (param.paramType === ParamTypes.PATH) {
+        pathParams.set(param.expression as any, param);
+      }
+    });
+
+    this.pathParameters.forEach(pathParam => {
+      if (pathParams.has(pathParam.name)) {
+        const param = pathParams.get(pathParam.name);
+
+        pathParam = Object.assign({}, pathParam, param.store.get("baseParameter") || {}, {
+          type: swaggerType(param.type)
+        });
+      }
+
+      inPathParams.push(Object.assign(pathParam, {required: true}));
+    });
+
+    return inPathParams;
+  }
+
+  /**
+   *
+   * @returns {HeaderParameter[]}
+   */
+  private getInQueryParams(): QueryParameter[] {
+    return this.injectedParams.filter((param: ParamMetadata) => param.paramType === ParamTypes.QUERY).map(param => {
+      if (param.required) {
+        this.addResponse400();
+      }
+
+      return Object.assign(
+        {},
+        param.store.get("baseParameter"),
+        {
+          in: ParamTypes.QUERY,
+          name: param.expression,
+          required: !!param.required
+        },
+        this.createSchemaFromQueryParam(param)
+      );
+    });
   }
 
   /**
    * Create Properties schema from an expression.
-   * @param expression
+   * @param param
    */
-  private createSchemaFromExpression(expression: string = "") {
+  private createSchemaFromExpression(param: ParamMetadata) {
     const schema: Schema = {};
     let current = schema;
+    const expression: string = (param.expression as any) || "";
 
     if (!!expression) {
       const keys = expression.split(".");
-      keys.forEach((key, index) => {
+      keys.forEach(key => {
         current.type = "object";
         current.properties = current.properties || {};
         current.properties![key] = {} as Schema;
+
+        if (param.required) {
+          current.required = [key];
+        }
+
         current = current.properties![key];
       });
     }
@@ -157,23 +218,23 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
   /**
    *
-   * @param model
+   * @param param
    * @returns {Schema}
    */
-  protected createSchemaFromBodyParam(model: ParamMetadata): Schema {
+  protected createSchemaFromBodyParam(param: ParamMetadata): Schema {
     let builder;
 
-    const {currentProperty, schema} = this.createSchemaFromExpression(model.expression as string);
+    const {currentProperty, schema} = this.createSchemaFromExpression(param);
 
-    if (model.isClass) {
-      builder = new OpenApiModelSchemaBuilder(model.type);
+    if (param.isClass) {
+      builder = new OpenApiModelSchemaBuilder(param.type);
       builder.build();
 
       deepExtends(this._definitions, builder.definitions);
       deepExtends(this._responses, builder.responses);
     }
 
-    Object.assign(currentProperty, super.createSchema(model));
+    Object.assign(currentProperty, super.createSchema(param));
 
     return schema;
   }
@@ -206,6 +267,10 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     return {
       type
     };
+  }
+
+  private addResponse400() {
+    this._responses[400] = {description: "Missing required parameter"};
   }
 
   public get parameters(): Parameter[] {

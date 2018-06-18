@@ -4,8 +4,7 @@ import {expect, Sinon} from "../../../tools";
 
 describe("ValidationErrorMiddleware", () => {
   describe("when success", () => {
-    class MongooseError {
-    }
+    class MongooseError {}
 
     before(() => {
       const error = new MongooseError();

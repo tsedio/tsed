@@ -12,7 +12,6 @@ describe("Rest", () => {
     })
   );
   describe("integration", () => {
-
     describe("GET /rest", () => {
       it("should return html content", done => {
         this.app

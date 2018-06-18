@@ -11,8 +11,7 @@ import {expect, Sinon} from "../../../tools";
 describe("FilterBuilder", () => {
   describe("invoke()", () => {
     describe("when the filter is known", () => {
-      class Test {
-      }
+      class Test {}
 
       before(
         inject([InjectorService], (injector: InjectorService) => {
@@ -43,8 +42,7 @@ describe("FilterBuilder", () => {
     });
 
     describe("when the filter is known", () => {
-      class Test {
-      }
+      class Test {}
 
       before(
         inject([InjectorService], (injector: InjectorService) => {
@@ -139,8 +137,7 @@ describe("FilterBuilder", () => {
       before(
         inject([InjectorService], (injector: InjectorService) => {
           this.param = {
-            service: class {
-            },
+            service: class {},
             expression: "expression"
           };
 
@@ -388,8 +385,7 @@ describe("FilterBuilder", () => {
 
           this.injectorStub = Sinon.stub(injector, "get");
           this.injectorStub.returns({
-            validate: () => {
-            }
+            validate: () => {}
           });
 
           this.result = (new FilterBuilder(injector) as any).appendValidationFilter("filter", {
@@ -423,8 +419,7 @@ describe("FilterBuilder", () => {
 
           this.injectorStub = Sinon.stub(injector, "get");
           this.injectorStub.returns({
-            deserialize: () => {
-            }
+            deserialize: () => {}
           });
 
           this.result = (new FilterBuilder(injector) as any).appendConverterFilter("filter", {
@@ -456,8 +451,7 @@ describe("FilterBuilder", () => {
 
           this.injectorStub = Sinon.stub(injector, "get");
           this.injectorStub.returns({
-            deserialize: () => {
-            }
+            deserialize: () => {}
           });
 
           this.result = (new FilterBuilder(injector) as any).appendConverterFilter("filter", {

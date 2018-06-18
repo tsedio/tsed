@@ -99,7 +99,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     const originalUse = expressApp.use;
     const injector = this.injector;
 
-    expressApp.use = function (...args: any[]) {
+    expressApp.use = function(...args: any[]) {
       args = args.map(arg => {
         if (injector.has(arg)) {
           arg = HandlerBuilder.from(arg).build(injector);
@@ -297,8 +297,8 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   protected startServer(
     http: Http.Server | Https.Server,
-    settings: { https: boolean; address: string | number; port: number }
-  ): Promise<{ address: string; port: number }> {
+    settings: {https: boolean; address: string | number; port: number}
+  ): Promise<{address: string; port: number}> {
     const {address, port, https} = settings;
 
     $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);

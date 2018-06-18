@@ -83,18 +83,24 @@ describe("deepExtends", () => {
         expect(
           deepExtends(
             {
-              parameters: [{in: "test", name: "get", description: "test"}, {
-                in: "test",
-                name: "post",
-                description: "test"
-              }]
+              parameters: [
+                {in: "test", name: "get", description: "test"},
+                {
+                  in: "test",
+                  name: "post",
+                  description: "test"
+                }
+              ]
             },
             {
-              parameters: [{in: "test", name: "get", description: "test2"}, {
-                in: "test",
-                name: "util",
-                description: "test2"
-              }]
+              parameters: [
+                {in: "test", name: "get", description: "test2"},
+                {
+                  in: "test",
+                  name: "util",
+                  description: "test2"
+                }
+              ]
             },
             {
               parameters: (collection, value) => {

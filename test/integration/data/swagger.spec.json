@@ -155,16 +155,16 @@
         ],
         "parameters": [
           {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "in": "path",
             "name": "eventId",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "type": "string"
           }
         ],
         "consumes": [],
@@ -220,19 +220,19 @@
         ],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "title": "Title event",
-            "schema": {
-              "$ref": "#/definitions/EventModel"
-            }
-          },
-          {
             "in": "path",
             "name": "id",
             "type": "string",
             "required": true
+          },
+          {
+            "title": "Title event",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
           }
         ],
         "consumes": [],
@@ -279,18 +279,18 @@
         ],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/EventModel"
-            }
-          },
-          {
             "in": "path",
             "name": "id",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
           }
         ],
         "consumes": [],
@@ -336,8 +336,8 @@
         ],
         "parameters": [
           {
-            "name": "body",
             "in": "body",
+            "name": "body",
             "required": false,
             "schema": {
               "$ref": "#/definitions/EventCtrlUpdatePayload"
@@ -390,18 +390,18 @@
         ],
         "parameters": [
           {
-            "description": "The resource",
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": true
+            "required": true,
+            "description": "The resource"
           },
           {
-            "description": "Id of the resource",
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": true,
+            "description": "Id of the resource"
           }
         ],
         "consumes": [],
@@ -464,11 +464,11 @@
         ],
         "parameters": [
           {
-            "description": "Token required to update token",
             "in": "path",
             "name": "token",
             "type": "string",
-            "required": true
+            "required": true,
+            "description": "Token required to update token"
           }
         ],
         "consumes": [],
@@ -499,9 +499,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "400": {
-            "description": "Missing required parameter"
           }
         },
         "security": [],
@@ -564,8 +561,8 @@
         ],
         "parameters": [
           {
-            "name": "search",
             "in": "query",
+            "name": "search",
             "required": false,
             "type": "string"
           }
@@ -588,8 +585,8 @@
         ],
         "parameters": [
           {
-            "name": "body",
             "in": "body",
+            "name": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CalendarCtrlSavePayload"
@@ -618,8 +615,8 @@
         ],
         "parameters": [
           {
-            "name": "body",
             "in": "body",
+            "name": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CalendarCtrlRemovePayload"
@@ -662,10 +659,10 @@
         ],
         "parameters": [
           {
-            "name": "authorization",
             "in": "header",
-            "required": false,
-            "type": "string"
+            "name": "authorization",
+            "type": "string",
+            "required": false
           }
         ],
         "consumes": [],
@@ -750,9 +747,6 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "consumes": [
-          "multipart/form-data"
-        ],
         "parameters": [
           {
             "in": "formData",
@@ -760,6 +754,9 @@
             "required": false,
             "type": "file"
           }
+        ],
+        "consumes": [
+          "multipart/form-data"
         ],
         "responses": {
           "200": {
@@ -776,9 +773,6 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "consumes": [
-          "multipart/form-data"
-        ],
         "parameters": [
           {
             "in": "formData",
@@ -786,6 +780,9 @@
             "required": false,
             "type": "file"
           }
+        ],
+        "consumes": [
+          "multipart/form-data"
         ],
         "responses": {
           "200": {
@@ -804,18 +801,18 @@
         ],
         "parameters": [
           {
-            "description": "The resource",
             "in": "path",
             "name": "resources",
             "type": "string",
-            "required": true
+            "required": true,
+            "description": "The resource"
           },
           {
-            "description": "Id of the resource",
             "in": "path",
             "name": "id",
             "type": "string",
-            "required": true
+            "required": true,
+            "description": "Id of the resource"
           }
         ],
         "consumes": [],
@@ -986,7 +983,10 @@
         "name": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "name"
+      ]
     },
     "CalendarCtrlRemovePayload": {
       "type": "object",
@@ -994,7 +994,10 @@
         "id": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "id"
+      ]
     }
   }
 }
