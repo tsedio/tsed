@@ -1,6 +1,7 @@
+import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../../../src/common/config/services/ServerSettingsService";
 import {Env} from "../../../../src/core/interfaces/index";
-import {expect} from "../../../tools";
+import {expect, Sinon} from "../../../tools";
 
 describe("ServerSettingsService", () => {
   describe("Test ENV", () => {
@@ -170,6 +171,43 @@ describe("ServerSettingsService", () => {
 
     it("should have logging jsonIndentaion set to 0", () => {
       expect(this.settings.logger.jsonIndentation).to.equal(0);
+    });
+  });
+
+  describe("set logger format", () => {
+    before(() => {
+      const settings = new ServerSettingsService();
+      this.appendersSetStub = Sinon.stub($log.appenders, "set");
+
+      settings.logger = {
+        format: "format"
+      };
+
+      this.settings = settings;
+    });
+
+    after(() => {
+      this.appendersSetStub.restore();
+    });
+
+    it("should call $log.appenders.set()", () => {
+      this.appendersSetStub.should.have.been.calledWithExactly("stdout", {
+        type: "stdout",
+        levels: ["info", "debug"],
+        layout: {
+          type: "pattern",
+          pattern: "format"
+        }
+      });
+
+      this.appendersSetStub.should.have.been.calledWithExactly("stderr", {
+        levels: ["trace", "fatal", "error", "warn"],
+        type: "stderr",
+        layout: {
+          type: "pattern",
+          pattern: "format"
+        }
+      });
     });
   });
 });

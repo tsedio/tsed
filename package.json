@@ -6,6 +6,7 @@
   "typings": "./dist/lib/index.d.ts",
   "scripts": {
     "precommit": "lint-staged",
+    "postcommit": "git update-index --again",
     "postinstall": "gulp mount:packages",
     "clean": "gulp clean:workspace",
     "tslint": "tslint --project tsconfig.json",

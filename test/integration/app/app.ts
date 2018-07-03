@@ -18,7 +18,9 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   rootDir,
   port: 8001,
   httpsPort: 8071,
-  debug: true,
+  logger: {
+    debug: true
+  },
   mount: {
     "/": [SocketPageCtrl],
     "/rest": ["${rootDir}/controllers/Base/**.js", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl],

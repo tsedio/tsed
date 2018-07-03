@@ -16,6 +16,6 @@ export class UnknowPropertyError extends BadRequest {
    * @param propertyName
    */
   static buildMessage(target: Type<any>, propertyName: string | symbol) {
-    return `Property ${propertyName} on class ${nameOf(target)} is not allowed.`;
+    return `Property ${String(propertyName)} on class ${nameOf(target)} is not allowed.`;
   }
 }

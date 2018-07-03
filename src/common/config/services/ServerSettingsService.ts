@@ -1,5 +1,6 @@
 import {Deprecated, Env, getValue, Metadata, setValue} from "@tsed/core";
 import * as Https from "https";
+import {$log} from "ts-log-debug";
 import {ProviderScope} from "../../di/interfaces/ProviderScope";
 /**
  * `ServerSettingsService` contains all information about [ServerLoader](api/common/server/serverloader.md) configuration.
@@ -294,6 +295,26 @@ export class ServerSettingsService implements IServerSettings {
 
   set logger(value: Partial<ILoggerSettings>) {
     this.map.set("logger", value);
+
+    if (value.format) {
+      $log.appenders.set("stdout", {
+        type: "stdout",
+        levels: ["info", "debug"],
+        layout: {
+          type: "pattern",
+          pattern: value.format
+        }
+      });
+
+      $log.appenders.set("stderr", {
+        levels: ["trace", "fatal", "error", "warn"],
+        type: "stderr",
+        layout: {
+          type: "pattern",
+          pattern: value.format
+        }
+      });
+    }
   }
 
   set exclude(exclude: string[]) {

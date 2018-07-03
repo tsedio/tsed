@@ -39,6 +39,14 @@ export interface ILoggerSettings {
    * @returns {number}
    */
   reqIdBuilder?: () => number;
+  /**
+   * Disable routes table displayed in the logger. By default debug is `false`.
+   */
+  disableRoutesSummary?: boolean;
+  /**
+   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://romakita.github.io/ts-log-debug/).
+   */
+  format?: string;
 }
 
 /**

@@ -1,9 +1,11 @@
-import {InjectorService} from "../../di/services/InjectorService";
 import {nameOf} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
+import {Constant} from "../../config/decorators/constant";
 import {Service} from "../../di/decorators/service";
+import {InjectorService} from "../../di/services/InjectorService";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
+import {AfterRoutesInit} from "../../server/interfaces/AfterRoutesInit";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {IControllerRoute} from "../interfaces";
@@ -12,7 +14,13 @@ import {IControllerRoute} from "../interfaces";
  * `RouteService` is used to provide all routes collected by annotation `@ControllerProvider`.
  */
 @Service()
-export class RouteService {
+export class RouteService implements AfterRoutesInit {
+  /**
+   *
+   */
+  @Constant("logger.disableRoutesSummary", false)
+  disableRoutesSummary: boolean;
+
   private readonly _routes: {route: string; provider: any}[] = [];
 
   constructor(private injectorService: InjectorService) {}
@@ -25,9 +33,14 @@ export class RouteService {
     return this._routes;
   }
 
+  /**
+   *
+   */
   $afterRoutesInit() {
-    $log.info("Routes mounted :");
-    this.printRoutes($log);
+    if (!this.disableRoutesSummary) {
+      $log.info("Routes mounted :");
+      this.printRoutes($log);
+    }
   }
 
   /**

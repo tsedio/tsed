@@ -12,6 +12,7 @@ import {
 import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
+import {Constant} from "../../common/config/decorators/constant";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
@@ -21,6 +22,9 @@ import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
  */
 @Service()
 export class SocketIOService implements OnServerReady {
+  @Constant("logger.disableRoutesSummary", false)
+  disableRoutesSummary: boolean;
+
   /**
    *
    * @type {Map<any, any>}
@@ -54,7 +58,9 @@ export class SocketIOService implements OnServerReady {
 
     this.getWebsocketServices().forEach(provider => this.bindProvider(provider));
 
-    this.printSocketEvents();
+    if (!this.disableRoutesSummary) {
+      this.printSocketEvents();
+    }
   }
 
   /**
