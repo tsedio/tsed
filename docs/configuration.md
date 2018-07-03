@@ -163,11 +163,14 @@ Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-
 
 Some options is provided:
 
-- `logger.debug` (or `debug`): Enable debug mode. By default debug is false.
+- `logger.debug` (or `debug`): Enable debug mode. By default debug is `false`.
 - `logger.logRequest`: Log all incoming request. By default is true and print the configured `logger.requestFields`.
 - `logger.requestFields`: Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
 - `logger.reqIdBuilder`: A function called for each incoming request to create a request id.
 - `logger.jsonIndentation`: The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
+- `logger.disableRoutesSummary`: Disable routes table displayed in the logger. By default debug is `false`.
+- `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://romakita.github.io/ts-log-debug/).
+
 
 > It's recommended to disable logRequest in production. Logger have a cost on the performance.
 

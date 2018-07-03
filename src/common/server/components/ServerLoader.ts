@@ -493,6 +493,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     if (this.settings.env === "test") {
       $log.stop();
     }
+
     const bind = (property: string, value: any, map: Map<string, any>) => {
       switch (property) {
         case "mount":

@@ -15,7 +15,7 @@ export class RequiredPropertyError extends BadRequest implements IResponseError 
       {
         dataPath: "",
         keyword: "required",
-        message: `should have required property '${propertyName}'`,
+        message: `should have required property '${String(propertyName)}'`,
         modelName: nameOf(target),
         params: {
           missingProperty: propertyName
@@ -32,6 +32,6 @@ export class RequiredPropertyError extends BadRequest implements IResponseError 
    * @param propertyName
    */
   static buildMessage(target: Type<any>, propertyName: string | symbol) {
-    return `Property ${propertyName} on class ${nameOf(target)} is required.`;
+    return `Property ${propertyName as string} on class ${nameOf(target)} is required.`;
   }
 }

@@ -173,6 +173,8 @@ Le logger par défaut utilisé par Ts.ED est [Ts.LogDebug](https://romakita.gith
 - `logger.requestFields`: Liste des champs affichés dans les logs. Valeurs possibles: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
 - `logger.reqIdBuilder`: Fonction qui sera appelée pour chaque rêquête. La fonction doit retourner un id unique qui identifiera la requête.
 - `logger.jsonIndentation`: Le nombre d'espace à utiliser pour l'indentation du JSON affiché dans la log. Défaut: 2 (0 en production).
+- `logger.disableRoutesSummary`: Desactive le tableau des routes afficher dans la console. Par défaut: `false`.
+- `logger.format`: Spécifie le format de log. Exemple: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. Voir la [configuration ts-log-debug](https://romakita.github.io/ts-log-debug/).
 
 > Il est recommandé de désactivé les logges en production. Le logger a un coût sur les performances.
 
