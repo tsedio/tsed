@@ -1,14 +1,15 @@
 
 <header class="symbol-info-header"><h1 id="routeservice">RouteService</h1><label class="symbol-info-type-label service">Service</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RouteService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.25.0/src//common/mvc/services/RouteService.ts#L0-L0">/common/mvc/services/RouteService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RouteService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.26.0/src//common/mvc/services/RouteService.ts#L0-L0">/common/mvc/services/RouteService.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
 ### Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">class</span> RouteService <span class="token punctuation">{</span>
+<pre><code class="typescript-lang "><span class="token keyword">class</span> RouteService <span class="token keyword">implements</span> <a href="#api/common/server/afterroutesinit"><span class="token">AfterRoutesInit</span></a> <span class="token punctuation">{</span>
+    disableRoutesSummary<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>injectorService<span class="token punctuation">:</span> <a href="#api/common/di/injectorservice"><span class="token">InjectorService</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> routes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         route<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
@@ -45,6 +46,17 @@
 
 
 ### Members
+
+
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">disableRoutesSummary<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+</div>
+
+
+
+
+<hr/>
 
 
 
