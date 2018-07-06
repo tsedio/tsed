@@ -53,14 +53,14 @@ export class MyGEHMiddleware {
 Then, add your middleware in [`ServerLoader`](api/common/server/serverloader.md):
 
 ```typescript
-import MyGEHMiddleware from './MyGEHMiddleware';
+import {ServerSettings, ServerLoader} from "@tsed/common";
+// Just import the middleware
+import from './MyGEHMiddleware';
 
-...
-export class Server extends ServerLoader {
-   $afterRoutesInit() {
-       this.use(MyGEHMiddleware);
-   }
-}     
+
+@ServerSettings({...})
+export class ServerLoader {
+}
 ```
 
 ### Other examples

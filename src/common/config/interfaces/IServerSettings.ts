@@ -94,11 +94,11 @@ export interface IServerSettings {
   /**
    * Port number for the [HTTP.Server](https://nodejs.org/api/http.html#http_class_http_server).
    */
-  httpPort?: string | number | false;
+  httpPort?: string | number | boolean;
   /**
    * Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class_https_server).
    */
-  httpsPort?: string | number | false;
+  httpsPort?: string | number | boolean;
   /**
    * [Https.ServerOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener)):
    * - `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
