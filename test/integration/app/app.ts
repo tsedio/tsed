@@ -17,7 +17,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
 @ServerSettings({
   rootDir,
   port: 8001,
-  httpsPort: 8071,
+  httpsPort: false,
   logger: {
     debug: true
   },
