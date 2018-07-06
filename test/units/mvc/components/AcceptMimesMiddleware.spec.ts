@@ -1,58 +1,79 @@
-import {assert, expect} from "chai";
 import {AcceptMimesMiddleware} from "../../../../src/common/mvc/components/AcceptMimesMiddleware";
 import {inject} from "../../../../src/testing";
-import {FakeRequest} from "../../../helper";
+import {expect, Sinon} from "../../../tools";
 
 describe("AcceptMimesMiddleware", () => {
-  before(
-    inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
-      this.middleware = middleware;
-      this.request = new FakeRequest();
-      this.request.mime = "application/json";
-    })
-  );
+  describe("when success", () => {
+    before(
+      inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
+        this.middleware = middleware;
 
-  after(() => {
-    delete this.middleware;
-    delete this.request;
-  });
+        const acceptStub = Sinon.stub();
+        acceptStub.withArgs("application/xml").returns(true);
+        acceptStub.withArgs("application/json").returns(false);
 
-  it("should accept mime and return nothing when 'application/json' is configured", () => {
-    expect(
-      this.middleware.use(
-        {
+        this.request = {
+          accepts: acceptStub
+        };
+        this.endpoint = {
           get: () => {
-            return ["application/json"];
+            return ["application/json", "application/xml"];
           }
-        },
-        this.request
-      )
-    ).to.eq(undefined);
+        };
+
+        try {
+          this.result = this.middleware.use(this.endpoint, this.request);
+        } catch (er) {
+          this.error = er;
+        }
+      })
+    );
+
+    it("should accept the type", () => {
+      expect(this.result).to.equal(undefined);
+    });
+
+    it("should call request.accepts methods", () => {
+      this.request.accepts.should.have.been.calledWithExactly("application/json").and.calledWithExactly("application/xml");
+    });
+
+    it("shouldn't emit error", () => {
+      expect(this.error).to.equal(undefined);
+    });
   });
 
-  it("should accept mime and return nothing when nothing is configured", () => {
-    expect(
-      this.middleware.use(
-        {
-          get: (): any => {
-            return undefined;
-          }
-        },
-        this.request
-      )
-    ).to.eq(undefined);
-  });
+  describe("when error", () => {
+    before(
+      inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
+        this.middleware = middleware;
 
-  it("should not accept mime and throw a NotAcceptable error", () => {
-    assert.throws(() => {
-      this.middleware.use(
-        {
+        const acceptStub = Sinon.stub();
+        acceptStub.withArgs("application/xml").returns(false);
+        acceptStub.withArgs("application/json").returns(false);
+
+        this.request = {
+          accepts: acceptStub
+        };
+        this.endpoint = {
           get: () => {
-            return ["application/xml"];
+            return ["application/json", "application/xml"];
           }
-        },
-        this.request
-      );
-    }, "You must accept content-type application/xml");
+        };
+
+        try {
+          this.result = this.middleware.use(this.endpoint, this.request);
+        } catch (er) {
+          this.error = er;
+        }
+      })
+    );
+
+    it("should call request.accepts methods", () => {
+      this.request.accepts.should.have.been.calledWithExactly("application/json").and.calledWithExactly("application/xml");
+    });
+
+    it("shouldn't emit error", () => {
+      expect(this.error.message).to.equal("You must accept content-type application/json, application/xml");
+    });
   });
 });
