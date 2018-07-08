@@ -7,12 +7,12 @@ import {
   OnServerReady,
   Provider,
   ServerSettingsService,
-  Service
+  Service,
+  Constant
 } from "@tsed/common";
 import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
-import {Constant} from "../../common/config/decorators/constant";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
