@@ -2,6 +2,7 @@ import "@tsed/ajv";
 import {ProviderScope, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/socketio";
 import "@tsed/swagger";
+import "@tsed/mongoose";
 import * as Path from "path";
 import {$log} from "ts-log-debug";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";

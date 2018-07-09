@@ -55,7 +55,7 @@ Then, add your middleware in [`ServerLoader`](api/common/server/serverloader.md)
 ```typescript
 import {ServerSettings, ServerLoader} from "@tsed/common";
 // Just import the middleware
-import from './MyGEHMiddleware';
+import './MyGEHMiddleware';
 
 
 @ServerSettings({...})
