@@ -333,11 +333,11 @@ describe("SwaggerService", () => {
 
   describe("getOperationId()", () => {
     it("should return the right id", () => {
-      expect(this.swaggerService.getOperationId("operation")).to.deep.eq("operation");
+      expect(this.swaggerService.getOperationId("class", "operation")).to.deep.eq("class.operation");
     });
 
     it("should return the right id with increment", () => {
-      expect(this.swaggerService.getOperationId("operation")).to.deep.eq("operation_1");
+      expect(this.swaggerService.getOperationId("class", "operation")).to.deep.eq("class.operation_1");
     });
   });
 });

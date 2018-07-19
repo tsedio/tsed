@@ -80,7 +80,7 @@ describe("Mongoose", () => {
     });
   });
 
-  describe("ServiceModel", () => {
+  xdescribe("ServiceModel", () => {
     before(
       inject([ServiceModel, ConverterService], (serviceModel: MongooseModel<ServiceModel>, converterService: ConverterService) => {
         this.result = new serviceModel({

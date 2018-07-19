@@ -72,9 +72,10 @@ export class ConverterService {
         return obj.serialize(options, this);
       }
 
-      if (options.type && !isPrimitiveOrPrimitiveClass(options.type)) {
-        return this.serializeClass(obj, options);
-      }
+      // TODO revert change which break current projects
+      // if (options.type && !isPrimitiveOrPrimitiveClass(options.type)) {
+      //  return this.serializeClass(obj, options);
+      // }
 
       if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
         // deserialize from serialize method
@@ -113,8 +114,9 @@ export class ConverterService {
 
         propertyMetadata = propertyMetadata || ({} as any);
         plainObject[propertyMetadata!.name || propertyKey] = this.serialize(obj[propertyKey], {
-          checkRequiredValue,
-          type: propertyMetadata!.type
+          checkRequiredValue // ,
+          // TODO revert change
+          // type: propertyMetadata!.type
         });
       }
     });

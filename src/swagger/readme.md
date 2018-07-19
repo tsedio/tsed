@@ -51,6 +51,8 @@ specPath | `${rootDir}/spec/swagger.base.json` | Load the base spec documentatio
 outFile | `${rootDir}/spec/swagger.json` | Write the `swagger.json` spec documentation on the specified path.
 hidden | `true` | Hide the documentation in the dropdown explorer list.
 options | Swagger-UI options | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md)
+operationIdFormat | `%c.%m` | Format of operationId field (`%c`: class name, `%m`: method name).
+
 
 ### Multi documentations
 

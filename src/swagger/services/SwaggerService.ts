@@ -288,14 +288,21 @@ export class SwaggerService {
     );
   }
 
-  private getOperationId = (operationId: string) => {
-    if (this.OPERATION_IDS[operationId] !== undefined) {
-      this.OPERATION_IDS[operationId]++;
-      operationId = operationId + "_" + this.OPERATION_IDS[operationId];
-    } else {
+  private getOperationId = (targetName: string, methodName: string) => {
+    const {operationIdFormat = "%c.%m"} = this.serverSettingsService.get("swagger") || {};
+
+    const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
+
+    if (this.OPERATION_IDS[operationId] === undefined) {
       this.OPERATION_IDS[operationId] = 0;
+
+      return operationId;
     }
 
-    return operationId;
+    const id = this.OPERATION_IDS[operationId] + 1;
+
+    this.OPERATION_IDS[operationId] = id;
+
+    return operationId + "_" + id;
   };
 }

@@ -24,6 +24,8 @@ export interface ISwaggerSettings {
   showExplorer?: boolean;
   specPath?: string;
   outFile?: string;
+  operationIdFormat?: string;
+
   spec?: {
     swagger?: string;
     info?: Info;
