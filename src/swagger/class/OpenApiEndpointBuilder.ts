@@ -15,7 +15,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     private endpoint: EndpointMetadata,
     private endpointUrl: string,
     private pathMethod: {path?: PathParamsType; method?: string},
-    private getOperationId: Function
+    private getOperationId: (targetName: string, methodName: string) => string
   ) {
     super(endpoint.target);
   }
@@ -65,7 +65,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
    * @param builder
    */
   private createOperation(builder: OpenApiParamsBuilder): Operation {
-    const operationId = this.getOperationId(`${this.endpoint.targetName}.${this.endpoint.methodClassName}`);
+    const operationId = this.getOperationId(this.endpoint.targetName, this.endpoint.methodClassName);
     const security = this.endpoint.get("security") || [];
     const produces = this.endpoint.get("produces") || [];
     const consumes = this.endpoint.get("consumes") || [];
