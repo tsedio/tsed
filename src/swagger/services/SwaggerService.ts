@@ -14,8 +14,6 @@ const ejs = require("ejs");
 
 @Service()
 export class SwaggerService {
-  private OPERATION_IDS: any = {};
-
   constructor(
     private controllerService: ControllerService,
     private serverSettingsService: ServerSettingsService,
@@ -162,14 +160,14 @@ export class SwaggerService {
     const doc = conf.doc;
     const tags: Tag[] = [];
 
-    this.OPERATION_IDS = {};
+    const getOperationId = this.createOperationIdFormatter(conf);
 
     this.controllerService.routes.forEach(({provider, route}) => {
       const hidden = provider.store.get("hidden");
       const docs = provider.store.get("docs") || [];
 
       if ((!doc && !hidden) || (doc && docs.indexOf(doc) > -1)) {
-        this.buildRoutes(paths, definitions, provider, route);
+        this.buildRoutes(paths, definitions, provider, route, getOperationId);
         tags.push(this.buildTags(provider));
       }
     });
@@ -250,11 +248,18 @@ export class SwaggerService {
    * @param definitions
    * @param ctrl
    * @param endpointUrl
+   * @param getOperationId
    */
-  private buildRoutes(paths: ISwaggerPaths, definitions: {[key: string]: Schema}, ctrl: ControllerProvider, endpointUrl: string) {
+  private buildRoutes(
+    paths: ISwaggerPaths,
+    definitions: {[key: string]: Schema},
+    ctrl: ControllerProvider,
+    endpointUrl: string,
+    getOperationId: (targetName: string, methodName: string) => string
+  ) {
     ctrl.dependencies.map(ctrl => this.controllerService.get(ctrl)).forEach((provider: ControllerProvider) => {
       if (!provider.store.get("hidden")) {
-        this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`);
+        this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId);
       }
     });
 
@@ -266,7 +271,7 @@ export class SwaggerService {
       endpoint.pathsMethods.forEach(pathMethod => {
         /* istanbul ignore else */
         if (!!pathMethod.method) {
-          const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod, this.getOperationId).build();
+          const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod, getOperationId).build();
 
           deepExtends(paths, builder.paths);
           deepExtends(definitions, builder.definitions);
@@ -288,21 +293,30 @@ export class SwaggerService {
     );
   }
 
-  private getOperationId = (targetName: string, methodName: string) => {
-    const {operationIdFormat = "%c.%m"} = this.serverSettingsService.get("swagger") || {};
+  /**
+   *
+   * @param {ISwaggerSettings} conf
+   * @returns {(targetName: string, methodName: string) => (any | string)}
+   */
+  private createOperationIdFormatter = (conf: ISwaggerSettings) => {
+    const OPERATION_IDS: any = {};
 
-    const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
+    return (targetName: string, methodName: string) => {
+      const {operationIdFormat = "%c.%m"} = conf || {};
 
-    if (this.OPERATION_IDS[operationId] === undefined) {
-      this.OPERATION_IDS[operationId] = 0;
+      const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
 
-      return operationId;
-    }
+      if (OPERATION_IDS[operationId] === undefined) {
+        OPERATION_IDS[operationId] = 0;
 
-    const id = this.OPERATION_IDS[operationId] + 1;
+        return operationId;
+      }
 
-    this.OPERATION_IDS[operationId] = id;
+      const id = OPERATION_IDS[operationId] + 1;
 
-    return operationId + "_" + id;
+      OPERATION_IDS[operationId] = id;
+
+      return operationId + "_" + id;
+    };
   };
 }

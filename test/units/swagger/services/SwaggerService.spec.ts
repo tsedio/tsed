@@ -332,12 +332,15 @@ describe("SwaggerService", () => {
   });
 
   describe("getOperationId()", () => {
+    before(() => {
+      this.getOperationId = this.swaggerService.createOperationIdFormatter({operationIdFormat: "%c.%m"});
+    });
     it("should return the right id", () => {
-      expect(this.swaggerService.getOperationId("class", "operation")).to.deep.eq("class.operation");
+      expect(this.getOperationId("class", "operation")).to.deep.eq("class.operation");
     });
 
     it("should return the right id with increment", () => {
-      expect(this.swaggerService.getOperationId("class", "operation")).to.deep.eq("class.operation_1");
+      expect(this.getOperationId("class", "operation")).to.deep.eq("class.operation_1");
     });
   });
 });
