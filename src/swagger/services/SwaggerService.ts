@@ -305,16 +305,17 @@ export class SwaggerService {
       const {operationIdFormat = "%c.%m"} = conf || {};
 
       const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
+      const operationKey = targetName + methodName;
 
-      if (OPERATION_IDS[operationId] === undefined) {
-        OPERATION_IDS[operationId] = 0;
+      if (OPERATION_IDS[operationKey] === undefined) {
+        OPERATION_IDS[operationKey] = 0;
 
         return operationId;
       }
 
-      const id = OPERATION_IDS[operationId] + 1;
+      const id = OPERATION_IDS[operationKey] + 1;
 
-      OPERATION_IDS[operationId] = id;
+      OPERATION_IDS[operationKey] = id;
 
       return operationId + "_" + id;
     };
