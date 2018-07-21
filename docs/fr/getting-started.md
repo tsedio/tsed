@@ -286,6 +286,7 @@ Nous avons brièvement exposé les possibilités du framework Ts.ED. Les guides 
   [Gestion global des erreurs](docs/middlewares/override/global-error-handler.md)
   [Guides](tutorials/overview.md)
   [Passport.js](tutorials/passport.md)
+  [TypeORM](tutorials/typeorm.md)
   [Socket.io](tutorials/socket-io.md)
   [Mongoose](tutorials/mongoose.md)
   [Swagger](tutorials/swagger.md)

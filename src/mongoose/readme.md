@@ -2,6 +2,12 @@
 
 > Experimental feature. You can contribute to improve this feature !
 
+<div align="center">
+<a href="http://mongoosejs.com/">
+<img src="http://mongodb-tools.com/img/mongoose.png" height="128">
+</a>
+</div>
+
 A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/tutorials/mongoose
 
 ## Feature

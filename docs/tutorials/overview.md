@@ -2,9 +2,10 @@
 
 ## Packages
 
+* [TypeORM](tutorials/typeorm.md)
 * [Socket.io](tutorials/socket-io.md)
 * [Swagger](tutorials/swagger.md)
-* [Mongoose](tutorials/mongose.md)
+* [Mongoose](tutorials/mongoose.md)
 * [AJV - Validation](tutorials/ajv.md)
 * [Multer - upload de fichier](tutorials/upload-files-with-multer.md)
 * [ServeStatic](tutorials/serve-static-files.md)

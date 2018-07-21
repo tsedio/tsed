@@ -126,6 +126,7 @@
     "swagger-ui-dist": "^3.13.6",
     "ts-node": "^6.0.3",
     "tslint": "^5.8.0",
+    "typeorm": "^0.2.7",
     "typescript": "^2.5.0"
   },
   "directories": {
@@ -157,6 +158,7 @@
       },
       "ajv": "ajv",
       "mongoose": "mongoose",
+      "typeorm": "typeorm",
       "multipartfiles": "multipartfiles",
       "servestatic": "servestatic",
       "socketio": "socketio",
