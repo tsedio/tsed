@@ -170,7 +170,7 @@ Some options is provided:
 - `logger.jsonIndentation`: The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
 - `logger.disableRoutesSummary`: Disable routes table displayed in the logger. By default debug is `false`.
 - `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://romakita.github.io/ts-log-debug/).
-
+- `logger.ignoreUrlPatterns` (`String` or `RegExp`): List of pattern to ignore logged request according to the `request.url`.
 
 > It's recommended to disable logRequest in production. Logger have a cost on the performance.
 
