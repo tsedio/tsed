@@ -1,5 +1,13 @@
 # @tsed/socketio
+
 > Experimental feature. You can contribute to improve this feature !
+
+<div align="center">
+<a href="https://socket.io/">
+<img src="https://socket.io/assets/img/logo.svg" height="90" style="margin-left:-40px">
+</a>
+</div>
+
 
 A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/tutorials/socket-io
 

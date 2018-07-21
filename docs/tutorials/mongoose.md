@@ -1,6 +1,11 @@
 # Mongoose
 > Experimental feature. You can contribute to improve this feature !
 
+<div align="center">
+<a href="http://mongoosejs.com/">
+<img src="http://mongodb-tools.com/img/mongoose.png" height="128">
+</a>
+</div>
 
 This tutorials show you, how you can use mongoose package with Ts.ED. 
 
@@ -312,6 +317,6 @@ class UserService {
 
 
 <div class="guide-links">
-<a href="#/tutorials/socket-io">Socket.io</a>
+<a href="#/tutorials/typeorm">TypeORM</a>
 <a href="#/tutorials/swagger">Swagger</a>
 </div>

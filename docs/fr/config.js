@@ -14,6 +14,7 @@ $docsify.addLanguages({
       label: 'Guide',
       childrens: [
         { url: '#/fr/tutorials/passport', label: 'Passport.js' },
+        { url: '#/fr/tutorials/typeorm', label: 'TypeORM' },
         { url: '#/fr/tutorials/mongoose', label: 'Mongoose' },
         { url: '#/fr/tutorials/socket-io', label: 'Socket.io' },
         { url: '#/fr/tutorials/swagger', label: 'Swagger' },

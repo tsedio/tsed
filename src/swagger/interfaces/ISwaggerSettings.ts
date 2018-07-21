@@ -4,7 +4,7 @@ export declare interface IServerSettings {
   swagger: ISwaggerSettings;
 }
 
-export declare interface SwaggerUIOptions {
+export interface SwaggerUIOptions {
   configUrl?: string;
   url?: string;
   urls?: {url: string; name: string; primaryName?: string}[];

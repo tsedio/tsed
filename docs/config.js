@@ -55,6 +55,7 @@ window.$docsify = {
         childrens: [
 
           { url: '#/tutorials/passport', label: 'Passport.js' },
+          { url: '#/tutorials/typeorm', label: 'TypeORM' },
           { url: '#/tutorials/mongoose', label: 'Mongoose' },
           { url: '#/tutorials/socket-io', label: 'Socket.io' },
           { url: '#/tutorials/swagger', label: 'Swagger' },

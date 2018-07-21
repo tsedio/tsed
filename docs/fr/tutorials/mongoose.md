@@ -1,7 +1,15 @@
 # Mongoose
 > Fonctionnalité expérimentale. Vous pouvez contribuer pour améliorer cette fonctionnalité !
 
-Ce tutoriel vous montre comment configurer et utiliser mongoose avec Ts.ED. 
+<div align="center">
+<a href="http://mongoosejs.com/">
+<img src="http://mongodb-tools.com/img/mongoose.png" height="128">
+</a>
+</div>
+
+Ce tutoriel vous montre comment configurer et utiliser mongoose avec Ts.ED.
+
+## Feature
 
 Actuellement, `@tsed/mongoose` permet de configurer une ou plusieurs connexion de base de données MongoDB via 
 la configuration `@ServerSettings`.
