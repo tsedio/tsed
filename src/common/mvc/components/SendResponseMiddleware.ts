@@ -1,9 +1,9 @@
 import * as Express from "express";
 import {ConverterService} from "../../converters/services/ConverterService";
-
-import {Middleware} from "../decorators/class/middleware";
 import {Response} from "../../filters/decorators/response";
 import {ResponseData} from "../../filters/decorators/responseData";
+
+import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces/index";
 
 /**
@@ -12,7 +12,7 @@ import {IMiddleware} from "../interfaces/index";
  */
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {
-  constructor(private converterService: ConverterService) {}
+  constructor(protected converterService: ConverterService) {}
 
   public use(@ResponseData() data: any, @Response() response: Express.Response) {
     const type = typeof data;
