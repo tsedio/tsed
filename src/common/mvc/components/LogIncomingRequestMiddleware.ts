@@ -59,14 +59,25 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     request.id = String(request.id ? request.id : this.reqIdBuilder());
     request.tsedReqStart = new Date();
 
+    const {ignoreUrlPatterns = []} = this.loggerSettings;
+
+    const regs = ignoreUrlPatterns.map((pattern: string | RegExp) => (typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern));
+
     const verbose = (req: Express.Request) => this.requestToObject(req);
     const info = (req: Express.Request) => this.minimalRequestPicker(req);
+
+    const run = (cb: Function) => {
+      const match = regs.find(reg => !!request.url.match(reg));
+
+      return !match && cb();
+    };
+
     request.log = {
-      info: (obj: any) => $log.info(this.stringify(request, info)(obj)),
-      debug: (obj: any) => $log.debug(this.stringify(request, verbose)(obj)),
-      warn: (obj: any) => $log.warn(this.stringify(request, verbose)(obj)),
-      error: (obj: any) => $log.error(this.stringify(request, verbose)(obj)),
-      trace: (obj: any) => $log.trace(this.stringify(request, verbose)(obj))
+      info: (obj: any) => run(() => $log.info(this.stringify(request, info)(obj))),
+      debug: (obj: any) => run(() => $log.debug(this.stringify(request, verbose)(obj))),
+      warn: (obj: any) => run(() => $log.warn(this.stringify(request, verbose)(obj))),
+      error: (obj: any) => run(() => $log.error(this.stringify(request, verbose)(obj))),
+      trace: (obj: any) => run(() => $log.trace(this.stringify(request, verbose)(obj)))
     };
   }
 

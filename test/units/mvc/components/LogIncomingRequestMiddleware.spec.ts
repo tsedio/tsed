@@ -1,3 +1,4 @@
+import {ServerSettingsService} from "@tsed/common";
 import {LogIncomingRequestMiddleware} from "../../../../src/common/mvc/components/LogIncomingRequestMiddleware";
 import {inject} from "../../../../src/testing/inject";
 import {FakeResponse} from "../../../helper";
@@ -6,55 +7,165 @@ import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("LogIncomingRequestMiddleware", () => {
   describe("configureRequest()", () => {
-    before(
-      inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
-        this.middleware = middleware;
-        Sinon.stub(this.middleware, "reqIdBuilder").returns("1");
+    describe("when ignorePattern isn't configured", () => {
+      before(
+        inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
+          $logStub.reset();
 
-        this.request = {};
-        this.request2 = {id: "id"};
-        this.middleware.configureRequest(this.request);
-        this.middleware.configureRequest(this.request2);
+          this.middleware = middleware;
+          Sinon.stub(this.middleware, "reqIdBuilder").returns("1");
 
-        this.request.log.debug({custom: "c"});
-        this.request.log.info({custom: "c"});
-        this.request.log.warn({custom: "c"});
-        this.request.log.error({custom: "c"});
-        this.request.log.trace({custom: "c"});
-      })
-    );
+          this.request = {};
+          this.request2 = {id: "id"};
+          this.middleware.configureRequest(this.request);
+          this.middleware.configureRequest(this.request2);
 
-    after(() => {
-      this.middleware.reqIdBuilder.restore();
+          this.request.log.debug({custom: "c"});
+          this.request.log.info({custom: "c"});
+          this.request.log.warn({custom: "c"});
+          this.request.log.error({custom: "c"});
+          this.request.log.trace({custom: "c"});
+        })
+      );
+
+      after(() => {
+        this.middleware.reqIdBuilder.restore();
+      });
+
+      it("should have a id field", () => {
+        this.request.id.should.be.eq("1");
+        this.request2.id.should.be.eq("id");
+      });
+
+      it("should have a tsedReqStart field", () => {
+        this.request.tsedReqStart.should.be.a("date");
+      });
+
+      it("should have a log.info method", () => {
+        $logStub.info.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.debug method", () => {
+        $logStub.debug.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.trace method", () => {
+        $logStub.trace.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.error method", () => {
+        $logStub.error.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.warn method", () => {
+        $logStub.warn.should.be.calledWithExactly(Sinon.match.string);
+      });
     });
 
-    it("should have a id field", () => {
-      this.request.id.should.be.eq("1");
-      this.request2.id.should.be.eq("id");
+    describe("when ignorePattern is configured", () => {
+      before(
+        inject([LogIncomingRequestMiddleware, ServerSettingsService], (middleware: LogIncomingRequestMiddleware) => {
+          $logStub.reset();
+
+          this.middleware = middleware;
+          this.middleware.loggerSettings.ignoreUrlPatterns = ["/test"];
+          Sinon.stub(this.middleware, "reqIdBuilder").returns("1");
+
+          this.request = {url: "/test"};
+          this.middleware.configureRequest(this.request);
+
+          this.request.log.debug({custom: "c"});
+          this.request.log.info({custom: "c"});
+          this.request.log.warn({custom: "c"});
+          this.request.log.error({custom: "c"});
+          this.request.log.trace({custom: "c"});
+        })
+      );
+
+      after(() => {
+        this.middleware.reqIdBuilder.restore();
+      });
+
+      it("should have a id field", () => {
+        this.request.id.should.be.eq("1");
+      });
+
+      it("should have a tsedReqStart field", () => {
+        this.request.tsedReqStart.should.be.a("date");
+      });
+
+      it("shouldn't have a log.info method", () => {
+        $logStub.info.should.not.be.called;
+      });
+
+      it("shouldn't have a log.debug method", () => {
+        $logStub.debug.should.not.be.called;
+      });
+
+      it("shouldn't have a log.trace method", () => {
+        $logStub.trace.should.not.be.called;
+      });
+
+      it("shouldn't have a log.error method", () => {
+        $logStub.error.should.not.be.called;
+      });
+
+      it("shouldn't have a log.warn method", () => {
+        $logStub.warn.should.not.be.called;
+      });
     });
 
-    it("should have a tsedReqStart field", () => {
-      this.request.tsedReqStart.should.be.a("date");
-    });
+    describe("when ignorePattern is configured (2)", () => {
+      before(
+        inject([LogIncomingRequestMiddleware, ServerSettingsService], (middleware: LogIncomingRequestMiddleware) => {
+          $logStub.reset();
 
-    it("should have a log.info method", () => {
-      $logStub.info.should.be.calledWithExactly(Sinon.match.string);
-    });
+          this.middleware = middleware;
+          this.middleware.loggerSettings.ignoreUrlPatterns = ["/test"];
+          Sinon.stub(this.middleware, "reqIdBuilder").returns("1");
 
-    it("should have a log.debug method", () => {
-      $logStub.debug.should.be.calledWithExactly(Sinon.match.string);
-    });
+          this.request = {url: "/rest"};
+          this.middleware.configureRequest(this.request);
 
-    it("should have a log.trace method", () => {
-      $logStub.trace.should.be.calledWithExactly(Sinon.match.string);
-    });
+          this.request.log.debug({custom: "c"});
+          this.request.log.info({custom: "c"});
+          this.request.log.warn({custom: "c"});
+          this.request.log.error({custom: "c"});
+          this.request.log.trace({custom: "c"});
+        })
+      );
 
-    it("should have a log.error method", () => {
-      $logStub.error.should.be.calledWithExactly(Sinon.match.string);
-    });
+      after(() => {
+        this.middleware.reqIdBuilder.restore();
+      });
 
-    it("should have a log.warn method", () => {
-      $logStub.warn.should.be.calledWithExactly(Sinon.match.string);
+      it("should have a id field", () => {
+        this.request.id.should.be.eq("1");
+      });
+
+      it("should have a tsedReqStart field", () => {
+        this.request.tsedReqStart.should.be.a("date");
+      });
+
+      it("should have a log.info method", () => {
+        $logStub.info.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.debug method", () => {
+        $logStub.debug.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.trace method", () => {
+        $logStub.trace.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.error method", () => {
+        $logStub.error.should.be.calledWithExactly(Sinon.match.string);
+      });
+
+      it("should have a log.warn method", () => {
+        $logStub.warn.should.be.calledWithExactly(Sinon.match.string);
+      });
     });
   });
   describe("getDuration()", () => {

@@ -27,6 +27,10 @@ export interface ILoggerSettings {
    */
   requestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
   /**
+   * List of regexp to ignore log.
+   */
+  ignoreUrlPatterns?: string[];
+  /**
    * Log all incoming request. By default is true and print the configured `logger.requestFields`.
    */
   logRequest?: boolean;
@@ -118,7 +122,7 @@ export interface IServerSettings {
   /**
    * List of directories to scan [Services](docs/services/overview.md), [Middlewares](docs/middlewares/overview.md) or [Converters](docs/converters.md).
    */
-  componentsScan?: string[];
+  componentsScan?: (string | RegExp)[];
   /**
    * List of glob patterns. Exclude all files which matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
    */
