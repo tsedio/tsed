@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="onroutesinit">OnRoutesInit</h1><label class="symbol-info-type-label interface">Interface</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OnRoutesInit }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.28.0/src//common/server/interfaces/OnRoutesInit.ts#L0-L0">/common/server/interfaces/OnRoutesInit.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OnRoutesInit }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.29.0/src//common/server/interfaces/OnRoutesInit.ts#L0-L0">/common/server/interfaces/OnRoutesInit.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 

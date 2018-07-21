@@ -3,7 +3,7 @@
 
 <div align="center">
 <a href="https://socket.io/">
-<img src="https://socket.io/assets/img/logo.svg" height="80" style="margin-left:-40px">
+<img src="https://socket.io/assets/img/logo.svg" height="90" style="margin-left:-40px">
 </a>
 </div>
 
