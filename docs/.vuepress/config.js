@@ -47,6 +47,7 @@ module.exports = {
               { link: '/tutorials/serve-static-files.html', text: 'Serve static files' },
               { link: '/tutorials/templating.html', text: 'Templating' },
               { link: '/tutorials/throw-http-exceptions.html', text: 'Throw HTTP exceptions' },
+              { link: '/tutorials/not-found-page.html', text: 'Customize 404' },
               { link: '/tutorials/aws.html', text: 'AWS project' }
             ]
           },
@@ -127,6 +128,7 @@ module.exports = {
               'serve-static-files',
               'templating',
               'throw-http-exceptions',
+              'not-found-page',
               'aws'
             ]
           }]
@@ -144,6 +146,7 @@ module.exports = {
           '/tutorials/serve-static-files',
           '/tutorials/templating',
           '/tutorials/throw-http-exceptions',
+          '/tutorials/not-found-page',
           '/tutorials/aws',
           '/docs/controllers',
           '/docs/services',
