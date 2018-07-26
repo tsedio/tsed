@@ -50,4 +50,4 @@ export class Server extends ServerLoader {
 }
 ```
 
-> Now your custom validation service will be used when a model must be validated.
+Now your custom validation service will be used when a model must be validated.

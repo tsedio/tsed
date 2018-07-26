@@ -5,7 +5,7 @@ meta:
  - name: keywords
    content: ts.ed express typescript typeorm node.js javascript decorators
 ---
-# TypeORM <Badge text="beta" type="warn"/>
+# TypeORM <Badge text="beta" type="warn"/> <Badge text="Contributors are welcome" />
 
 <Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="128" />
 
@@ -161,3 +161,7 @@ export class UsersCtrl {
     }
 }
 ```
+
+::: tip
+You can find a working example on [TypeORM here](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-typeorm).
+:::

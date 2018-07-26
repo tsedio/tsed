@@ -5,9 +5,13 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *
  * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
  *
- * !> The value `minItems` MUST be a non-negative integer.
+ * ::: warning
+ * The value `minItems` MUST be a non-negative integer.
+ * :::
  *
- * ?> Omitting this keyword has the same behavior as a value of 0.
+ * ::: tip
+ * Omitting this keyword has the same behavior as a value of 0.
+ * :::
  *
  * ## Example
  *

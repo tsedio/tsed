@@ -37,6 +37,7 @@ module.exports = {
             text: 'Guide',
             type: 'links',
             items: [
+              { link: '/tutorials/', text: 'Examples' },
               { link: '/tutorials/passport.html', text: 'Passport.js' },
               { link: '/tutorials/typeorm.html', text: 'TypeORM' },
               { link: '/tutorials/mongoose.html', text: 'Mongoose' },

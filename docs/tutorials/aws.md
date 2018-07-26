@@ -90,7 +90,10 @@ import {Server} from "./server.js";
 
 new Server().start();
 ```
-> You can see an example provided by the AWS Team on this: [github repository](https://github.com/awslabs/aws-serverless-express/tree/master/example).
+::: tip Example
+You can see an example provided by the AWS Team on this [github repository](https://github.com/awslabs/aws-serverless-express/tree/master/example).
+:::
 
-
-> Credits : Thanks to [vetras](https://github.com/vetras) for his contribution.
+::: tip Credits
+Thanks to [vetras](https://github.com/vetras) for his contribution.
+:::

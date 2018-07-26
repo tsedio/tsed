@@ -4,7 +4,9 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
 /**
  * Create an alias of the propertyKey that must be used by the converter.
  *
- * ?> This decorator is used by the Converters to deserialize correctly you model.
+ * ::: tip
+ * This decorator is used by the Converters to deserialize correctly you model.
+ * :::
  *
  * ## Example
  *

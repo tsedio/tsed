@@ -5,7 +5,7 @@ meta:
  - name: keywords
    content: ts.ed express typescript mongoose node.js javascript decorators
 ---
-# Mongoose <Badge text="beta" type="warn"/>
+# Mongoose <Badge text="beta" type="warn"/> <Badge text="Contributors are welcome" />
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
 
@@ -21,7 +21,9 @@ All databases will be initialized when the server starts during the server's `On
 - Add a plugin, PreHook method and PostHook on your model.
 - Inject a Model to a Service, Controller, Middleware, etc...
 
-?> Note: `@tsed/mongoose` use the JsonSchema and his decorators to generate the mongoose schema.
+::: tip Note
+`@tsed/mongoose` use the JsonSchema and his decorators to generate the mongoose schema.
+:::
 
 ## Installation
 
@@ -314,4 +316,6 @@ class UserService {
     }
 }
 ```
-!> You can find the [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose) example project.
+::: tip
+You can find a working example on [Mongoose & Swagger here](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose).
+:::

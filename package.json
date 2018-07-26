@@ -8,7 +8,7 @@
     "precommit": "lint-staged",
     "postcommit": "git update-index --again",
     "postinstall": "gulp repo:bootstrap",
-    "semantic-release": "semantic-release && docs:publish",
+    "semantic-release": "semantic-release && gulp docs:publish",
     "semantic-release:dry-run": "semantic-release --dry-run",
     "travis-deploy-once": "travis-deploy-once",
     "clean": "gulp clean:workspace",

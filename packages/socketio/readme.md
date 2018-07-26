@@ -164,7 +164,9 @@ export class MySocketService {
 ```
 > The method accept a promise as returned value.
 
-!> Return value is only possible when the method is decorated by [@Emit](api/socketio/emit.md), [@Broadcast](api/socketio/broadcast.md) and [@BroadcastOthers](api/socketio/broadcastothers.md).
+::: warning
+Return value is only possible when the method is decorated by [@Emit](api/socketio/emit.md), [@Broadcast](api/socketio/broadcast.md) and [@BroadcastOthers](api/socketio/broadcastothers.md).
+:::
 
 ### Socket Session
 
