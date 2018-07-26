@@ -106,7 +106,7 @@ export class SwaggerModule implements AfterRoutesInit, OnServerReady {
   private middlewareIndex(scope: any) {
     /* istanbul ignore next */
     return (req: any, res: any) =>
-      ejs.renderFile(__dirname + "/../views/index.ejs", scope, {}, (err: any, str: string) => {
+      ejs.renderFile(__dirname + "/views/index.ejs", scope, {}, (err: any, str: string) => {
         if (err) {
           $log.error(err);
           res.status(500).send(err.message);
