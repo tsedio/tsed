@@ -41,11 +41,17 @@
   },
   "tags": [
     {
+      "description": "Controller description",
+      "name": "CalendarCtrl"
+    },
+    {
+      "name": "EventCtrl"
+    },
+    {
       "name": "RestCtrl"
     },
     {
-      "name": "CalendarCtrl",
-      "description": "Controller description"
+      "name": "TaskCtrl"
     }
   ],
   "paths": {

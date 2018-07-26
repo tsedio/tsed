@@ -158,7 +158,7 @@ export class SwaggerService {
     const paths: ISwaggerPaths = {};
     const definitions = {};
     const doc = conf.doc;
-    const tags: Tag[] = [];
+    let tags: Tag[] = [];
 
     const getOperationId = this.createOperationIdFormatter(conf);
 
@@ -167,10 +167,11 @@ export class SwaggerService {
       const docs = provider.store.get("docs") || [];
 
       if ((!doc && !hidden) || (doc && docs.indexOf(doc) > -1)) {
-        this.buildRoutes(paths, definitions, provider, route, getOperationId);
-        tags.push(this.buildTags(provider));
+        tags = tags.concat(this.buildRoutes(paths, definitions, provider, route, getOperationId));
       }
     });
+
+    tags = tags.sort((a: Tag, b: Tag) => (a.name < b.name ? -1 : 1));
 
     return deepExtends(
       defaultSpec,
@@ -256,10 +257,12 @@ export class SwaggerService {
     ctrl: ControllerProvider,
     endpointUrl: string,
     getOperationId: (targetName: string, methodName: string) => string
-  ) {
+  ): Tag[] {
+    let tags: Tag[] = [];
+
     ctrl.dependencies.map(ctrl => this.controllerService.get(ctrl)).forEach((provider: ControllerProvider) => {
       if (!provider.store.get("hidden")) {
-        this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId);
+        tags = tags.concat(this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId));
       }
     });
 
@@ -278,8 +281,14 @@ export class SwaggerService {
         }
       });
     });
+
+    return ctrl.endpoints.length ? tags.concat(this.buildTags(ctrl)) : tags;
   }
 
+  /**
+   *
+   * @param ctrl
+   */
   private buildTags(ctrl: ControllerProvider): Tag {
     const clazz = ctrl.useClass;
     const ctrlStore = Store.from(clazz);
