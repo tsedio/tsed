@@ -66,15 +66,15 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
    */
   private createOperation(builder: OpenApiParamsBuilder): Operation {
     const operationId = this.getOperationId(this.endpoint.targetName, this.endpoint.methodClassName);
-    const security = this.endpoint.get("security") || [];
-    const produces = this.endpoint.get("produces") || [];
-    const consumes = this.endpoint.get("consumes") || [];
+    const security = this.endpoint.get("security");
+    const produces = this.endpoint.get("produces");
+    const consumes = this.endpoint.get("consumes");
 
     return deepExtends(
       {
         operationId,
         tags: [this.getTagName()],
-        parameters: builder.parameters,
+        parameters: builder.parameters.length ? builder.parameters : undefined,
         consumes,
         responses: this.createResponses(builder.responses),
         security,
