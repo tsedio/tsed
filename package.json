@@ -98,7 +98,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fancy-log": "^1.3.2",
-    "gflow": "^3.0.4",
+    "gflow": "^3.0.5",
     "gulp": "^4.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-exec": "^3.0.1",

@@ -5016,7 +5016,7 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gflow@^3.0.4:
+gflow@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/gflow/-/gflow-3.0.5.tgz#499b9a35f7088d1b9f2814a87b9b325992e1a9e9"
   dependencies:
