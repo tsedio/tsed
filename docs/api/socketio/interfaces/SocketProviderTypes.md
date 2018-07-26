@@ -6,7 +6,7 @@ meta:
 ---
 # SocketProviderTypes <Badge text="Enum" type="enum"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { SocketProviderTypes }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio/interfaces/ISocketProviderMetadata"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//socketio/interfaces/ISocketProviderMetadata.ts#L0-L0">/socketio/interfaces/ISocketProviderMetadata.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { SocketProviderTypes }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/socketio/interfaces/ISocketProviderMetadata"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//socketio/interfaces/ISocketProviderMetadata.ts#L0-L0">/socketio/interfaces/ISocketProviderMetadata.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

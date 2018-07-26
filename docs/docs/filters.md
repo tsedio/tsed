@@ -1,16 +1,16 @@
 # Filters
 
 Filters feature lets you create a custom decorators that will be 
-used on the methods parameters like [@BodyParams](/api/common/mvc/bodyparams.md)
-or [@Locals](/api/common/mvc/locals.md).
+used on the methods parameters like [@BodyParams](/api/common/filters/decorators/BodyParams.md)
+or [@Locals](/api/common/filters/decorators/Locals.md).
 
 ### Example
 
 This example show you, how you can implement a filter and decorator to use these, on a method Controller.
 In this case, we need to retrieve the body content from an Express.Request.
 
-So to do that, you must create a class and annotate it with the [@Filter](/api/common/filters/filter.md)
-decorator and in option, implement the [IFilter](/api/common/filters/ifilter.md) interface:
+So to do that, you must create a class and annotate it with the [@Filter](/api/common/filters/decorators/Filter.md)
+decorator and in option, implement the [IFilter](/api/common/filters/interface/IFilter.md) interface:
 
 ```typescript
 import {Filter, IFilter, ParseService} from "@tsed/common";
@@ -38,7 +38,7 @@ export function BodyParams(expression?: string | any, useType?: any): Function {
 }
 ```
 
-> To link the decorator with BodyParamsFilter, you must used the [ParamRegistry](/api/common/mvc/paramregistry.md) API.
+> To link the decorator with BodyParamsFilter, you must used the [ParamRegistry](/api/common/filters/registries/ParamRegistry.md) API.
 
 ### Test
 

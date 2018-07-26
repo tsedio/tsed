@@ -2,14 +2,14 @@
 
 As you see in the previous section, a middleware can be use on different context:
 
-- [ServerLoader](/docs/server-loader/_sidebar.md),
+- [ServerLoader](/docs/server-loader.md),
 - [Controller](/docs/controllers.md),
 - [Endpoint](/docs/controllers.md).
 
 Middleware associated to a controller or endpoint as a same constraint that an endpoint.
 It'll be played only when the url request match with the path associated to the controller and his endpoint method.
 
-When a request is sent to the server all middlewares added in the [ServerLoader](/docs/server-loader/_sidebar.md), [Controller](/docs/controllers.md) or Endpoint with decorators
+When a request is sent to the server all middlewares added in the [ServerLoader](/docs/server-loader.md), [Controller](/docs/controllers.md) or Endpoint with decorators
  will be called while a response isn't sent by one of the middleware in the stack.
 
 <img src="./../../assets/middleware-call-sequence.png" style="max-width:400px">

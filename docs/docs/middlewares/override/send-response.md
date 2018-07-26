@@ -1,6 +1,6 @@
 # Override Send response
 
-There is the current implementation of the [SendResponseMiddleware](/api/common/mvc/sendresponsemiddleware.md):
+There is the current implementation of the [SendResponseMiddleware](/api/common/mvc/components/SendResponseMiddleware.md):
 
 ```typescript
 @Middleware()
@@ -34,7 +34,7 @@ export class SendResponseMiddleware implements IMiddleware {
 
 But for some reason, this implementation isn't enough to meet your needs.
 
-With [@OverrideMiddleware](/api/common/mvc/overridemiddleware.md) it's possible to change the default implementation like
+With [@OverrideMiddleware](/api/common/mvc/decorators/class/OverrideMiddleware.md) it's possible to change the default implementation like
 this:
 
 

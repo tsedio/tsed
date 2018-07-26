@@ -79,7 +79,7 @@ ts-node isn't the runtime.
 * `mount` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
 * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
 * `exclude` &lt;string[]&gt;: List of glob patterns. Exclude all files which matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
-* `serveStatic` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServermountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
+* `serveStatic` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](/tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
@@ -87,7 +87,7 @@ ts-node isn't the runtime.
 * `logger` &lt;[ILoggerSettings](/api/common/config/interfaces/ILoggerSettings.md)&gt;: Logger configuration.
 * `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/scope.md).
 * `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
-* `errors` &lt;[IErrorsSettings](/api/common/config/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
+* `errors` &lt;[IErrorsSettings](/api/common/config/interfaces/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
 
 ## HTTP & HTTPs server
 ### Change address
@@ -306,7 +306,7 @@ including:
  - [Filter](/docs/filters.md)
  - [Converter](/docs/converters.md).
  
-[@Constant](/api/common/config/constant.md) and [@Value](/api/common/config/decorators/Value.md) accept an expression as parameters to
+[@Constant](/api/common/config/decorators/Constant.md) and [@Value](/api/common/config/decorators/Value.md) accept an expression as parameters to
 inspect the configuration object and return the value.
 
 ```typescript

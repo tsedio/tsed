@@ -6,7 +6,7 @@ meta:
 ---
 # AjvValidationError <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { AjvValidationError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/ajv/errors/AjvValidationError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//ajv/errors/AjvValidationError.ts#L0-L0">/ajv/errors/AjvValidationError.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { AjvValidationError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/ajv/errors/AjvValidationError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//ajv/errors/AjvValidationError.ts#L0-L0">/ajv/errors/AjvValidationError.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

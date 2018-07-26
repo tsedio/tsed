@@ -6,47 +6,82 @@ meta:
 ---
 # JsonSchema <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { JsonSchema }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/jsonschema/class/JsonSchema.ts#L0-L0">/common/jsonschema/class/JsonSchema.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { JsonSchema }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/jsonschema/class/JsonSchema.ts#L0-L0">/common/jsonschema/class/JsonSchema.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> JsonSchema <span class="token keyword">implements</span> JSONSchema6 <span class="token punctuation">{</span>
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> $id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @AutoMapKey $ref<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> $schema<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> title<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> default<span class="token punctuation">:</span> JSONSchema6Type<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> additionalItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | JSONSchema6<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> items<span class="token punctuation">:</span> JsonSchema<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> maxItems<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> minItems<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> uniqueItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> maxProperties<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> minProperties<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> required<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> additionalProperties<span class="token punctuation">:</span> JsonSchema<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> allOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> anyOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> oneOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> not<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">extends</span><span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  @AutoMapKey multipleOf<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey maximum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey exclusiveMaximum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey minimum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey exclusiveMinimum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey maxLength<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey minLength<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-  @AutoMapKey pattern<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @AutoMapKey format<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  @AutoMapKey <span class="token keyword">enum</span><span class="token punctuation">:</span> JSONSchema6Type<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  $id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  $ref<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  $schema<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  title<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  default<span class="token punctuation">:</span> JSONSchema6Type<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  additionalItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | JSONSchema6<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  items<span class="token punctuation">:</span> JsonSchema<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  maxItems<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  minItems<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  uniqueItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  maxProperties<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  minProperties<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  required<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  additionalProperties<span class="token punctuation">:</span> JsonSchema<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  allOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  anyOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  oneOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  not<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">extends</span><span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  multipleOf<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  maximum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  exclusiveMaximum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  minimum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  exclusiveMinimum<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  maxLength<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  minLength<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  pattern<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  format<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  @AutoMapKey
+  <span class="token keyword">enum</span><span class="token punctuation">:</span> JSONSchema6Type<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
   <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
   <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     this._proxy<span class="token punctuation"> = </span>new Proxy&lt<span class="token punctuation">;</span>JsonSchema&gt<span class="token punctuation">;</span><span class="token punctuation">(</span>this<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -219,7 +254,24 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> $id<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">$id<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
 
@@ -253,7 +305,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> id<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -270,7 +322,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey $ref<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">id<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
 
@@ -287,7 +339,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> $schema<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
 
 </div>
 
@@ -304,7 +356,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> title<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">$ref<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
 
@@ -321,7 +373,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> description<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -338,7 +390,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> default<span class="token punctuation">:</span> JSONSchema6Type</code></pre>
+<pre><code class="typescript-lang ">$schema<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
 
 </div>
 
@@ -355,7 +407,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> additionalItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | JSONSchema6</code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -372,7 +424,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> items<span class="token punctuation">:</span> <a href="/api/common/jsonschema/class/JsonSchema.html"><span class="token">JsonSchema</span></a></code></pre>
+<pre><code class="typescript-lang ">title<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
 
@@ -389,7 +441,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> maxItems<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -406,7 +458,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> minItems<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">description<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
 
@@ -423,7 +475,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> uniqueItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -440,7 +492,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> maxProperties<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">default<span class="token punctuation">:</span> JSONSchema6Type</code></pre>
 
 </div>
 
@@ -457,7 +509,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> minProperties<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -474,7 +526,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> required<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">additionalItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span> | JSONSchema6</code></pre>
 
 </div>
 
@@ -491,7 +543,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> additionalProperties<span class="token punctuation">:</span> <a href="/api/common/jsonschema/class/JsonSchema.html"><span class="token">JsonSchema</span></a></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -508,7 +560,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> allOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">items<span class="token punctuation">:</span> <a href="/api/common/jsonschema/class/JsonSchema.html"><span class="token">JsonSchema</span></a></code></pre>
 
 </div>
 
@@ -525,7 +577,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> anyOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -542,7 +594,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> oneOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">maxItems<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
 
 </div>
 
@@ -559,7 +611,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> not<span class="token punctuation">:</span> JSONSchema6</code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -576,7 +628,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">extends</span><span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">minItems<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
 
 </div>
 
@@ -593,7 +645,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey multipleOf<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -610,7 +662,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey maximum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">uniqueItems<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 
 </div>
 
@@ -627,7 +679,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey exclusiveMaximum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -644,7 +696,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey minimum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">maxProperties<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
 
 </div>
 
@@ -661,7 +713,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey exclusiveMinimum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -678,7 +730,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey maxLength<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">minProperties<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
 
 </div>
 
@@ -695,7 +747,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey minLength<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -712,7 +764,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey pattern<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">required<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 
 </div>
 
@@ -729,7 +781,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey format<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -746,7 +798,585 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@AutoMapKey <span class="token keyword">enum</span><span class="token punctuation">:</span> JSONSchema6Type<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">additionalProperties<span class="token punctuation">:</span> <a href="/api/common/jsonschema/class/JsonSchema.html"><span class="token">JsonSchema</span></a></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">allOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">anyOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">oneOf<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">not<span class="token punctuation">:</span> JSONSchema6</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Enumerable.html"><span class="token">Enumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">extends</span><span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">multipleOf<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">maximum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">exclusiveMaximum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">minimum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">exclusiveMinimum<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">maxLength<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">minLength<span class="token punctuation">:</span> <span class="token keyword">number</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">pattern<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">format<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@AutoMapKey</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">enum</span><span class="token punctuation">:</span> JSONSchema6Type<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 
 </div>
 

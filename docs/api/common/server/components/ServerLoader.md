@@ -6,7 +6,7 @@ meta:
 ---
 # ServerLoader <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerLoader }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/server/components/ServerLoader.ts#L0-L0">/common/server/components/ServerLoader.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerLoader }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/server/components/ServerLoader.ts#L0-L0">/common/server/components/ServerLoader.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -128,10 +128,7 @@ ServerLoader provider all method to instantiate an ExpressServer.
 
 It provide some features :
 
-* [Lifecycle hooks](/docs/services.md/lifecycle-hooks),
-* [Versioning Api](/docs/server-loader/versioning.md),
-* [Authentication strategy](/docs/server-loader/authentication.md).
-* [Global errors handler](/docs/server-loader/global-error-handler.md),
+* [Lifecycle hooks](/docs/server-loader.md#lifecycle-hooks),
 * Middleware importation,
 * Scan directory. You can specify controllers and services directory in your project,
 
