@@ -1,5 +1,5 @@
 import {Inject, Scope, Service} from "@tsed/common";
-import {MongooseModel} from "../../../../packages/mongoose/interfaces";
+import {MongooseModel} from "../../../../packages/mongoose/src/interfaces";
 import {User} from "../models/User";
 
 @Service()

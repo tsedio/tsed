@@ -1,6 +1,6 @@
-import {ServerSettingsService} from "@tsed/common";
 import * as Express from "express";
 import {Exception} from "ts-httpexceptions";
+import {ServerSettingsService} from "../../config";
 import {Err} from "../../filters/decorators/error";
 import {Request} from "../../filters/decorators/request";
 import {Response} from "../../filters/decorators/response";

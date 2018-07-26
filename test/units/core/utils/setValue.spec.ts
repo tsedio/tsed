@@ -1,4 +1,4 @@
-import {setValue} from "../../../../packages/core/utils/setValue";
+import {setValue} from "../../../../packages/core/src/utils/setValue";
 import {expect} from "../../../tools";
 
 describe("setValue()", () => {

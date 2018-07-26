@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {CyclicReferenceError} from "../../../../packages/common/mvc/errors/CyclicReferenceError";
+import {CyclicReferenceError} from "../../../../packages/common/src/mvc/errors/CyclicReferenceError";
 
 describe("CyclicReferenceError", () => {
   before(() => {

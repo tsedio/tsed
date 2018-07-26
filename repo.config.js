@@ -6,8 +6,8 @@ module.exports = {
   outputDir: "./dist",
 
   pkgTemplate: (pkgName, {repository, bugs, author, license, gitHead, contributors}) => ({
-    main: "./index.js",
-    typings: "./index.d.ts",
+    main: "lib/index.js",
+    typings: "lib/index.d.ts",
     repository,
     bugs,
     homepage: `https://github.com/Romakita/ts-express-decorators/src/${pkgName}`,
@@ -15,5 +15,39 @@ module.exports = {
     contributors,
     license,
     gitHead
-  })
+  }),
+
+  tsdoc: {
+    rootDir: process.cwd(),
+    packagesDir: "packages/",
+    scanPatterns: [
+      "<rootDir>/packages/**/lib/**/*.d.ts",
+      "!node_modules"
+    ],
+    outputDir: "<rootDir>/docs/api",
+    baseUrl: "/api",
+    jsonOutputDir: "<rootDir>/docs/.vuepress/public",
+    scope: "@tsed",
+    modules: {
+      "core": "core",
+      "common": {
+        "config": "common/config",
+        "converters": "common/converters",
+        "di": "common/di",
+        "filters": "common/filters",
+        "jsonschema": "common/jsonschema",
+        "mvc": "common/mvc",
+        "interceptors": "common/interceptors",
+        "server": "common/server"
+      },
+      "ajv": "ajv",
+      "mongoose": "mongoose",
+      "typeorm": "typeorm",
+      "multipartfiles": "multipartfiles",
+      "servestatic": "servestatic",
+      "socketio": "socketio",
+      "swagger": "swagger",
+      "testing": "testing"
+    }
+  }
 };

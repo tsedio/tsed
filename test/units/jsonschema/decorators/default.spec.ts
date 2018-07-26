@@ -1,6 +1,6 @@
 import {Property} from "@tsed/common";
-import {Default} from "../../../../packages/common/jsonschema/decorators/default";
-import {PropertyRegistry} from "../../../../packages/common/jsonschema/registries/PropertyRegistry";
+import {Default} from "../../../../packages/common/src/jsonschema/decorators/default";
+import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
 import {expect} from "../../../tools";
 
 describe("Default", () => {

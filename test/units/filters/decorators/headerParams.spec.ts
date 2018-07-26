@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {HeaderParamsFilter} from "../../../../packages/common/filters/components/HeaderParamsFilter";
-import {HeaderParams} from "../../../../packages/common/filters/decorators/headerParams";
-import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
+import {HeaderParamsFilter} from "../../../../packages/common/src/filters/components/HeaderParamsFilter";
+import {HeaderParams} from "../../../../packages/common/src/filters/decorators/headerParams";
+import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("HeaderParams", () => {

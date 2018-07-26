@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {RouteService} from "../../../../packages/common";
-import {inject} from "../../../../packages/testing";
+import {RouteService} from "../../../../packages/common/src";
+import {inject} from "../../../../packages/testing/src";
 
 describe("RouteService", () => {
   it("should inject RouteService and return routes", inject([RouteService], (routeService: RouteService) => {

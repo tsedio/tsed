@@ -1,11 +1,11 @@
 import {inject} from "@tsed/testing";
 import {BadRequest} from "ts-httpexceptions/lib/clientErrors/BadRequest";
-import {ConverterService} from "../../../../packages/common/converters/services/ConverterService";
-import {InjectorService} from "../../../../packages/common/di/services/InjectorService";
-import {FilterBuilder} from "../../../../packages/common/filters/class/FilterBuilder";
-import {EXPRESS_RESPONSE} from "../../../../packages/common/filters/constants";
-import {FilterPreHandlers} from "../../../../packages/common/filters/registries/FilterRegistry";
-import {ValidationService} from "../../../../packages/common/filters/services/ValidationService";
+import {ConverterService} from "../../../../packages/common/src/converters/services/ConverterService";
+import {InjectorService} from "../../../../packages/common/src/di/services/InjectorService";
+import {FilterBuilder} from "../../../../packages/common/src/filters/class/FilterBuilder";
+import {EXPRESS_RESPONSE} from "../../../../packages/common/src/filters/constants";
+import {FilterPreHandlers} from "../../../../packages/common/src/filters/registries/FilterRegistry";
+import {ValidationService} from "../../../../packages/common/src/filters/services/ValidationService";
 import {expect, Sinon} from "../../../tools";
 
 describe("FilterBuilder", () => {

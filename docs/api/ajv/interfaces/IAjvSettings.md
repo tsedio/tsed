@@ -2,19 +2,19 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation IAjvSettings interface
+   description: api typescript node.js documentation IAjvSettings decorator
 ---
-# IAjvSettings <Badge text="Interface" type="interface"/>
+# IAjvSettings <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IAjvSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/ajv"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//ajv/interfaces/IAjvSettings.ts#L0-L0">/ajv/interfaces/IAjvSettings.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IAjvSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/ajv/src/interfaces/IAjvSettings"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/ajv/src/interfaces/IAjvSettings.ts#L0-L0">/packages/ajv/src/interfaces/IAjvSettings.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> IAjvSettings <span class="token punctuation">{</span>
-  errorFormat?<span class="token punctuation">:</span> <a href="/api/ajv/interfaces/ErrorFormatter.html"><span class="token">ErrorFormatter</span></a><span class="token punctuation">;</span>
-  options?<span class="token punctuation">:</span> <a href="/api/ajv/interfaces/IAjvOptions.html"><span class="token">IAjvOptions</span></a><span class="token punctuation">;</span>
+    errorFormat?<span class="token punctuation">:</span> <a href="/api/ajv/interfaces/ErrorFormatter.html"><span class="token">ErrorFormatter</span></a><span class="token punctuation">;</span>
+    options?<span class="token punctuation">:</span> <a href="/api/ajv/interfaces/IAjvOptions.html"><span class="token">IAjvOptions</span></a><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 

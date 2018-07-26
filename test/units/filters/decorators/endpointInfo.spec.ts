@@ -1,6 +1,6 @@
-import {ENDPOINT_INFO} from "../../../../packages/common/filters/constants";
-import {EndpointInfo} from "../../../../packages/common/filters/decorators/endpointInfo";
-import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
+import {ENDPOINT_INFO} from "../../../../packages/common/src/filters/constants";
+import {EndpointInfo} from "../../../../packages/common/src/filters/decorators/endpointInfo";
+import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("EndpointInfo", () => {

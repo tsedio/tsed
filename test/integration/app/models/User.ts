@@ -1,6 +1,6 @@
 import {Allow, Email, MinLength, Property, Required} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
-import {Indexed, Model, Unique} from "../../../../packages/mongoose/decorators";
+import {Indexed, Model, Unique} from "../../../../packages/mongoose/src/decorators";
 
 @Hidden()
 @Model()

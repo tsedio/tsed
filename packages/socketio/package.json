@@ -2,8 +2,8 @@
   "name": "@tsed/socketio",
   "version": "0.0.0-PLACEHOLDER",
   "description": "Socket.io package for Ts.ED framework",
-  "main": "./index.js",
-  "typings": "./index.d.ts",
+  "main": "./src/index.js",
+  "typings": "./src/index.ts",
   "dependencies": {
     "tslib": "^1.8.0"
   },

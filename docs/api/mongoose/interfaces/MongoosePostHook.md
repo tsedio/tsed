@@ -2,19 +2,19 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation MongoosePostHook interface
+   description: api typescript node.js documentation MongoosePostHook decorator
 ---
-# MongoosePostHook <Badge text="Interface" type="interface"/>
+# MongoosePostHook <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MongoosePostHook }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//mongoose/interfaces/MongooseModelOptions.ts#L0-L0">/mongoose/interfaces/MongooseModelOptions.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MongoosePostHook }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose/src/interfaces/MongooseModelOptions"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/mongoose/src/interfaces/MongooseModelOptions.ts#L0-L0">/packages/mongoose/src/interfaces/MongooseModelOptions.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> MongoosePostHook <span class="token punctuation">{</span>
-  method<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  fn<span class="token punctuation">:</span> <a href="/api/mongoose/interfaces/MongoosePostHookCB.html"><span class="token">MongoosePostHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> | <a href="/api/mongoose/interfaces/MongoosePostErrorHookCB.html"><span class="token">MongoosePostErrorHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
+    method<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    fn<span class="token punctuation">:</span> <a href="/api/mongoose/interfaces/MongoosePostHookCB.html"><span class="token">MongoosePostHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> | <a href="/api/mongoose/interfaces/MongoosePostErrorHookCB.html"><span class="token">MongoosePostErrorHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 

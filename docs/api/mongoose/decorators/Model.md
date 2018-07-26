@@ -6,22 +6,13 @@ meta:
 ---
 # Model <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Model }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//mongoose/decorators/model.ts#L0-L0">/mongoose/decorators/model.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Model }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/mongoose/src/decorators/model.ts#L0-L0">/packages/mongoose/src/decorators/model.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">Model</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="/api/mongoose/interfaces/MongooseModelOptions.html"><span class="token">MongooseModelOptions</span></a><span class="token punctuation"> = </span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  return <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> schema<span class="token punctuation"> = </span><span class="token function">createSchema</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> options.schemaOptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token function">applySchemaOptions</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token function">registerModel</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> <span class="token function">createModel</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> schema<span class="token punctuation">,</span> options.name<span class="token punctuation">,</span> options.collection<span class="token punctuation">,</span> options.skipInit<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">Model</span><span class="token punctuation">(</span>options?<span class="token punctuation">:</span> <a href="/api/mongoose/interfaces/MongooseModelOptions.html"><span class="token">MongooseModelOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
 
 
 

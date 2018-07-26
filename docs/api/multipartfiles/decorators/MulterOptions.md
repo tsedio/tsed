@@ -6,29 +6,13 @@ meta:
 ---
 # MulterOptions <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MulterOptions }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//multipartfiles/decorators/multerOptions.ts#L0-L0">/multipartfiles/decorators/multerOptions.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MulterOptions }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/multipartfiles/src/decorators/multerOptions.ts#L0-L0">/packages/multipartfiles/src/decorators/multerOptions.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">MulterOptions</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> Multer.Options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  return <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> descriptor<span class="token punctuation">:</span> PropertyDescriptor<span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> type<span class="token punctuation"> = </span><span class="token function">getDecoratorType</span><span class="token punctuation">(</span><span class="token punctuation">[</span>target<span class="token punctuation">,</span> propertyKey<span class="token punctuation">,</span> descriptor<span class="token punctuation">]</span><span class="token punctuation">,</span> true<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    switch <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      default<span class="token punctuation">:</span>
-        throw new <span class="token function">Error</span><span class="token punctuation">(</span>"MulterOptions is only supported on method"<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      case "method"<span class="token punctuation">:</span>
-        <a href="/api/core/class/Store.html"><span class="token">Store</span></a>.<span class="token function">fromMethod</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> propertyKey<span class="token punctuation">)</span>.<span class="token function">merge</span><span class="token punctuation">(</span><a href="/api/multipartfiles/middlewares/MultipartFileMiddleware.html"><span class="token">MultipartFileMiddleware</span></a><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-          options
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        return descriptor<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">MulterOptions</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> Multer.Options<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> descriptor<span class="token punctuation">:</span> PropertyDescriptor<span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> PropertyDescriptor<span class="token punctuation">;</span></code></pre>
 
 
 

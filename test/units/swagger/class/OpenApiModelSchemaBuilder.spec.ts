@@ -1,6 +1,6 @@
 import {JsonSchema, JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {OpenApiModelSchemaBuilder} from "../../../../packages/swagger/class/OpenApiModelSchemaBuilder";
+import {OpenApiModelSchemaBuilder} from "../../../../packages/swagger/src/class/OpenApiModelSchemaBuilder";
 import {expect, Sinon} from "../../../tools";
 import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
 

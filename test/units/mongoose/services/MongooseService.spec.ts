@@ -1,7 +1,7 @@
 import {ServerSettingsService} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import * as Mongoose from "mongoose";
-import {MongooseService} from "../../../../packages/mongoose";
+import {MongooseService} from "../../../../packages/mongoose/src";
 import {Sinon} from "../../../tools";
 
 describe("MongooseService", () => {

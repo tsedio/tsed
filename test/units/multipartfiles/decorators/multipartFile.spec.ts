@@ -1,10 +1,10 @@
 import {ParamRegistry, ParamTypes} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
-import {EndpointRegistry} from "../../../../packages/common/mvc/registries/EndpointRegistry";
-import {MultipartFile} from "../../../../packages/multipartfiles";
-import {MultipartFileFilter} from "../../../../packages/multipartfiles/components/MultipartFileFilter";
-import {MultipartFilesFilter} from "../../../../packages/multipartfiles/components/MultipartFilesFilter";
-import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/middlewares/MultipartFileMiddleware";
+import {EndpointRegistry} from "../../../../packages/common/src/mvc/registries/EndpointRegistry";
+import {MultipartFile} from "../../../../packages/multipartfiles/src";
+import {MultipartFileFilter} from "../../../../packages/multipartfiles/src/components/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../../../packages/multipartfiles/src/components/MultipartFilesFilter";
+import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/src/middlewares/MultipartFileMiddleware";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

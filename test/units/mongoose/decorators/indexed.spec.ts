@@ -1,8 +1,8 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {descriptorOf} from "../../../../packages/core/utils";
-import {Indexed} from "../../../../packages/mongoose/decorators";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Indexed} from "../../../../packages/mongoose/src/decorators";
 import {expect} from "../../../tools";
-import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/constants";
+import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
 
 describe("@Indexed()", () => {
   class Test {}

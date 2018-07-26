@@ -2,44 +2,28 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation ISwaggerSettings interface
+   description: api typescript node.js documentation ISwaggerSettings decorator
 ---
-# ISwaggerSettings <Badge text="Interface" type="interface"/>
+# ISwaggerSettings <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ISwaggerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//swagger/interfaces/ISwaggerSettings.ts#L0-L0">/swagger/interfaces/ISwaggerSettings.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ISwaggerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger/src/interfaces/ISwaggerSettings"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/swagger/src/interfaces/ISwaggerSettings.ts#L0-L0">/packages/swagger/src/interfaces/ISwaggerSettings.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> ISwaggerSettings <span class="token punctuation">{</span>
-  path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  hidden?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  doc?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  cssPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  jsPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  options?<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/SwaggerUIOptions.html"><span class="token">SwaggerUIOptions</span></a><span class="token punctuation">;</span>
-  showExplorer?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-  specPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  outFile?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  operationIdFormat?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-  spec?<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    swagger?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    info?<span class="token punctuation">:</span> Info<span class="token punctuation">;</span>
-    externalDocs?<span class="token punctuation">:</span> ExternalDocs<span class="token punctuation">;</span>
-    host?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    basePath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    schemes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    consumes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    produces?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    paths?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>pathName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> Path<span class="token punctuation">}</span><span class="token punctuation">;</span>
-    definitions?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>definitionsName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="/api/common/jsonschema/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">}</span><span class="token punctuation">;</span>
-    parameters?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>parameterName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> BodyParameter | QueryParameter<span class="token punctuation">}</span><span class="token punctuation">;</span>
-    responses?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>responseName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="/api/common/filters/decorators/Response.html"><span class="token">Response</span></a><span class="token punctuation">}</span><span class="token punctuation">;</span>
-    security?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>securityDefinitionName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    securityDefinitions?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>securityDefinitionName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="/api/swagger/decorators/Security.html"><span class="token">Security</span></a><span class="token punctuation">}</span><span class="token punctuation">;</span>
-    tags?<span class="token punctuation">:</span> Tag<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    path<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    hidden?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    doc?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    cssPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    jsPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    options?<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/ISwaggerUIOptions.html"><span class="token">ISwaggerUIOptions</span></a><span class="token punctuation">;</span>
+    showExplorer?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    specPath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    outFile?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    operationIdFormat?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    spec?<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/ISwaggerSpec.html"><span class="token">ISwaggerSpec</span></a><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -140,7 +124,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">options?<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/SwaggerUIOptions.html"><span class="token">SwaggerUIOptions</span></a></code></pre>
+<pre><code class="typescript-lang ">options?<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/ISwaggerUIOptions.html"><span class="token">ISwaggerUIOptions</span></a></code></pre>
 
 </div>
 
@@ -225,23 +209,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">spec?<span class="token punctuation">:</span> <span class="token punctuation">{</span>
- swagger?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
- info?<span class="token punctuation">:</span> Info<span class="token punctuation">;</span>
- externalDocs?<span class="token punctuation">:</span> ExternalDocs<span class="token punctuation">;</span>
- host?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
- basePath?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
- schemes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- consumes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- produces?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- paths?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>pathName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> Path<span class="token punctuation">}</span><span class="token punctuation">;</span>
- definitions?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>definitionsName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="/api/common/jsonschema/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">}</span><span class="token punctuation">;</span>
- parameters?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>parameterName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> BodyParameter | QueryParameter<span class="token punctuation">}</span><span class="token punctuation">;</span>
- responses?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>responseName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="/api/common/filters/decorators/Response.html"><span class="token">Response</span></a><span class="token punctuation">}</span><span class="token punctuation">;</span>
- security?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>securityDefinitionName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- securityDefinitions?<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>securityDefinitionName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <a href="/api/swagger/decorators/Security.html"><span class="token">Security</span></a><span class="token punctuation">}</span><span class="token punctuation">;</span>
- tags?<span class="token punctuation">:</span> Tag<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang ">spec?<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/ISwaggerSpec.html"><span class="token">ISwaggerSpec</span></a></code></pre>
 
 </div>
 

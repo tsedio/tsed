@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/constants";
-import {applySchemaOptions, buildPreHook, schemaOptions} from "../../../../packages/mongoose/utils/schemaOptions";
+import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
+import {applySchemaOptions, buildPreHook, schemaOptions} from "../../../../packages/mongoose/src/utils/schemaOptions";
 import {expect, Sinon} from "../../../tools";
 
 describe("schemaOptions", () => {

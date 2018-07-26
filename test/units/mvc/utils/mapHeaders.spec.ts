@@ -1,4 +1,4 @@
-import {mapHeaders} from "../../../../packages/common/mvc/utils/mapHeaders";
+import {mapHeaders} from "../../../../packages/common/src/mvc/utils/mapHeaders";
 import {expect} from "../../../tools";
 
 describe("mapHeaders", () => {

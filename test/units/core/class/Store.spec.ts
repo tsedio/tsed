@@ -1,6 +1,6 @@
-import {Metadata} from "../../../../packages/core/class/Metadata";
-import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../../../packages/core/class/Store";
-import {descriptorOf} from "../../../../packages/core/utils";
+import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../../../packages/core/src/class/Store";
+import {descriptorOf} from "../../../../packages/core/src/utils";
 import {expect, Sinon} from "../../../tools";
 
 class FakeMetadata {

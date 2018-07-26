@@ -1,5 +1,5 @@
 import {Any, JsonProperty, PropertyType, Required} from "@tsed/common";
-import {Description, Example, Title} from "@tsed/swagger";
+import {Description, Example, Title} from "../../../../../packages/swagger/src";
 
 export class SwaNoDecoModel {
   public prop: string;
@@ -47,15 +47,19 @@ export class SwaFoo2 {
   @Required()
   test: string = "";
 
-  @JsonProperty("Name") name: string;
+  @JsonProperty("Name")
+  name: string;
 
-  @JsonProperty() dateStart: Date;
+  @JsonProperty()
+  dateStart: Date;
 
-  @JsonProperty() uint: number;
+  @JsonProperty()
+  uint: number;
 
   object: any;
 
-  @JsonProperty() foo: SwaFoo;
+  @JsonProperty()
+  foo: SwaFoo;
 
   @PropertyType(SwaFoo)
   @Title("SwaFoo2.foos")
@@ -79,12 +83,16 @@ export class SwaFoo2 {
   @JsonProperty({use: String})
   arrayOfString: string[];
 
-  @JsonProperty() nameModel: SwaNameModel;
+  @JsonProperty()
+  nameModel: SwaNameModel;
 
-  @JsonProperty() ageModel: SwaAgeModel;
+  @JsonProperty()
+  ageModel: SwaAgeModel;
 
-  @Any() mapAny: Map<string, any>;
-  @Any() anyValue: any;
+  @Any()
+  mapAny: Map<string, any>;
+  @Any()
+  anyValue: any;
 
   method() {}
 }
@@ -92,13 +100,16 @@ export class SwaFoo2 {
 export class Ctrl {}
 
 export class ParentModel {
-  @Required() parentProperty: string;
+  @Required()
+  parentProperty: string;
 }
 
 export class ChildModelA extends ParentModel {
-  @Required() childPropertyA: string;
+  @Required()
+  childPropertyA: string;
 }
 
 export class ChildModelB extends ParentModel {
-  @Required() childPropertyB: string;
+  @Required()
+  childPropertyB: string;
 }

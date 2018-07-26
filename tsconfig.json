@@ -23,19 +23,19 @@
     ],
     "paths": {
       "@tsed/core": [
-        "./packages/core"
+        "./packages/core/src"
       ],
       "@tsed/common": [
-        "./packages/common"
+        "./packages/common/src"
       ],
       "@tsed/testing": [
-        "./packages/testing"
+        "./packages/testing/src"
       ]
     }
   },
   "include": [
     "packages/**/*",
-    "test/**/*"
+    "test"
   ],
   "exclude": [
     "node_modules",

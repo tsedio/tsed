@@ -2,8 +2,8 @@
   "name": "@tsed/swagger",
   "version": "0.0.0-PLACEHOLDER",
   "description": "Swagger package for Ts.ED framework",
-  "main": "./index.js",
-  "typings": "./index.d.ts",
+  "main": "./src/index.js",
+  "typings": "./src/index.ts",
   "dependencies": {
     "ejs": "^2.5.9",
     "swagger-ui-dist": "^3.13.6",

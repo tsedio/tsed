@@ -1,3 +1,3 @@
-import {Controller} from "../../../../../packages/common/mvc/decorators/class/controller";
+import {Controller} from "../../../../../packages/common/src/mvc/decorators/class/controller";
 @Controller("/")
 export class FakeCtrl {}

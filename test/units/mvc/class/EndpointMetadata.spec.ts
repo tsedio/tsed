@@ -1,6 +1,6 @@
-import {EndpointMetadata} from "../../../../packages/common/mvc/class/EndpointMetadata";
-import {EndpointRegistry} from "../../../../packages/common/mvc/registries/EndpointRegistry";
-import {Metadata} from "../../../../packages/core/class/Metadata";
+import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
+import {EndpointRegistry} from "../../../../packages/common/src/mvc/registries/EndpointRegistry";
+import {Metadata} from "../../../../packages/core/src/class/Metadata";
 import {expect, Sinon} from "../../../tools";
 
 class Test {}

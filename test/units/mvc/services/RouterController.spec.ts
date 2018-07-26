@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {RouterController} from "../../../../packages/common/mvc/services/RouterController";
+import {RouterController} from "../../../../packages/common/src/mvc/services/RouterController";
 
 describe("RouterController", () => {
   before(() => {

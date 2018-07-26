@@ -6,7 +6,7 @@ const middleware: any = Sinon.stub();
 // tslint:disable-next-line: variable-name
 const Use: any = Sinon.stub().returns(middleware);
 
-const {All, Get, Post, Put, Delete, Head, Patch} = Proxyquire.load("../../../../../packages/common/mvc/decorators/method/route", {
+const {All, Get, Post, Put, Delete, Head, Patch} = Proxyquire.load("../../../../../packages/common/src/mvc/decorators/method/route", {
   "./use": {Use}
 });
 

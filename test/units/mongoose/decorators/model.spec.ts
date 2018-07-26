@@ -1,7 +1,7 @@
-import {Model} from "../../../../packages/mongoose/decorators";
-import * as register from "../../../../packages/mongoose/registries/MongooseModelRegistry";
-import * as modUtil from "../../../../packages/mongoose/utils";
-import * as apply from "../../../../packages/mongoose/utils/schemaOptions";
+import {Model} from "../../../../packages/mongoose/src/decorators";
+import * as register from "../../../../packages/mongoose/src/registries/MongooseModelRegistry";
+import * as modUtil from "../../../../packages/mongoose/src/utils";
+import * as apply from "../../../../packages/mongoose/src/utils/schemaOptions";
 import {Sinon} from "../../../tools";
 
 describe("@Model()", () => {

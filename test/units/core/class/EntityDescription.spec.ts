@@ -1,4 +1,4 @@
-import {EntityDescription} from "../../../../packages/core/class/EntityDescription";
+import {EntityDescription} from "../../../../packages/core/src/class/EntityDescription";
 import {expect} from "../../../tools";
 
 class Test {

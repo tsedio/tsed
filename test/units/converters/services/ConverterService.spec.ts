@@ -1,7 +1,7 @@
-import {ConverterService} from "../../../../packages/common/converters";
-import {JsonProperty} from "../../../../packages/common/jsonschema/decorators/jsonProperty";
-import {Store} from "../../../../packages/core";
-import {inject} from "../../../../packages/testing/inject";
+import {ConverterService} from "../../../../packages/common/src/converters";
+import {JsonProperty} from "../../../../packages/common/src/jsonschema/decorators/jsonProperty";
+import {Store} from "../../../../packages/core/src";
+import {inject} from "../../../../packages/testing/src/inject";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";
 

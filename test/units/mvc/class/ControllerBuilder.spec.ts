@@ -1,11 +1,11 @@
 import {InjectorService} from "@tsed/common";
 import * as Express from "express";
-import {ControllerBuilder} from "../../../../packages/common/mvc/class/ControllerBuilder";
-import {ControllerProvider} from "../../../../packages/common/mvc/class/ControllerProvider";
-import {EndpointBuilder} from "../../../../packages/common/mvc/class/EndpointBuilder";
+import {ControllerBuilder} from "../../../../packages/common/src/mvc/class/ControllerBuilder";
+import {ControllerProvider} from "../../../../packages/common/src/mvc/class/ControllerProvider";
+import {EndpointBuilder} from "../../../../packages/common/src/mvc/class/EndpointBuilder";
 
-import {EndpointRegistry} from "../../../../packages/common/mvc/registries/EndpointRegistry";
-import {inject} from "../../../../packages/testing/inject";
+import {EndpointRegistry} from "../../../../packages/common/src/mvc/registries/EndpointRegistry";
+import {inject} from "../../../../packages/testing/src/inject";
 import {expect, Sinon} from "./../../../tools";
 
 class Test {}

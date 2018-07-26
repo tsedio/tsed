@@ -1,5 +1,5 @@
-import {PostHook} from "../../../../packages/mongoose/decorators";
-import * as mod from "../../../../packages/mongoose/utils/schemaOptions";
+import {PostHook} from "../../../../packages/mongoose/src/decorators";
+import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
 import {Sinon} from "../../../tools";
 
 describe("@PostHook()", () => {

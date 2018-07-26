@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../packages/common/jsonschema/class/JsonSchema";
-import {MaxItems} from "../../../../packages/common/jsonschema/decorators/maxItems";
+import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
+import {MaxItems} from "../../../../packages/common/src/jsonschema/decorators/maxItems";
 import {stubSchemaDecorator} from "./utils";
 
 describe("MaxItems", () => {

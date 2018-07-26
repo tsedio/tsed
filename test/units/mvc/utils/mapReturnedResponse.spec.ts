@@ -1,4 +1,4 @@
-import {mapReturnedResponse} from "../../../../packages/common/mvc/utils/mapReturnedResponse";
+import {mapReturnedResponse} from "../../../../packages/common/src/mvc/utils/mapReturnedResponse";
 import {expect} from "../../../tools";
 
 describe("mapReturnedResponse", () => {

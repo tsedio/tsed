@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {ParseService} from "../../../../packages/common";
-import {Done, inject} from "../../../../packages/testing";
+import {ParseService} from "../../../../packages/common/src";
+import {Done, inject} from "../../../../packages/testing/src";
 
 describe("ParseService :", () => {
   it("should clone object", () => {

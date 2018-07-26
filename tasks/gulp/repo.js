@@ -63,16 +63,16 @@ module.exports = {
    */
   async bootstrap() {
     findPackages()
-      .filter((packageName) => packageName !== 'legacy')
+      .filter((packageName) => packageName !== "legacy")
       .map(pkgName => {
-      logger("Mount package", chalk.cyan(`'${pkgName}'`));
+        logger("Mount package", chalk.cyan(`'${pkgName}'`));
 
-      sync("npm", ["link", `./${path.join(packagesDir, pkgName)}`], {
-        stdio: "inherit"
+        sync("npm", ["link", `./${path.join(packagesDir, pkgName)}`], {
+          stdio: "inherit"
+        });
+
+        return undefined;
       });
-
-      return undefined;
-    });
   },
 
   /**
@@ -108,25 +108,29 @@ module.exports = {
 
   async compile(g = gulp) {
     const {version} = await readPackage();
-    const tsProject = ts.createProject("./tsconfig.compile.json", {
-      "declaration": true,
-      "noResolve": false,
-      "preserveConstEnums": true
+
+    const promises = findPackages().map(pkgName => {
+      logger("Compile package", chalk.cyan(`'${npmScope}/${pkgName}'`) + "...");
+
+      const tsProject = ts.createProject("./tsconfig.compile.json", {
+        "declaration": true,
+        "noResolve": false,
+        "preserveConstEnums": true
+      });
+
+      return toPromise(g
+        .src([`${packagesDir}/${pkgName}/src/**/*.ts`])
+        .pipe(sourcemaps.init())
+        .pipe(tsProject())
+        .pipe(sourcemaps.write(".", {sourceRoot: "../src"}))
+        .pipe(replace(versionPlaceholder, version))
+        .pipe(gulp.dest(`${packagesDir}/${pkgName}/lib`)))
+        .then(() => {
+          logger("Finished compile package", chalk.cyan(`'${npmScope}/${pkgName}'`));
+        });
     });
 
-    const stream = tsProject.src()
-      .pipe(sourcemaps.init())
-      .pipe(tsProject())
-      .once("error", function() {
-        this.once("finish", () => {
-          cb("Failed with errors");
-        });
-      })
-      .pipe(sourcemaps.write(".", {sourceRoot: "./"}))
-      .pipe(replace(versionPlaceholder, version))
-      .pipe(g.dest(packagesDir));
-
-    return toPromise(stream);
+    return Promise.all(promises);
   },
   /**
    *
@@ -137,7 +141,12 @@ module.exports = {
     const {version} = await readPackage();
 
     const stream = g
-      .src([`${packagesDir}/**`, `!${packagesDir}/**/node_modules/**`], {base: packagesDir})
+      .src([
+        `${packagesDir}/**`,
+        `${packagesDir}/**/.npmignore`,
+        `!${packagesDir}/**/src/**/*.{js,js.map,d.ts}`,
+        `!${packagesDir}/**/node_modules/**`
+      ], {base: packagesDir})
       .pipe(replace(versionPlaceholder, version))
       .pipe(g.dest(`./${path.join(outputDir)}`));
 

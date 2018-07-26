@@ -1,9 +1,9 @@
 import * as Express from "express";
-import {GlobalAcceptMimesMiddleware} from "../../packages/common/mvc/components/GlobalAcceptMimesMiddleware";
-import {ServerLoader} from "../../packages/common/server/components/ServerLoader";
-import {ServerSettings} from "../../packages/common/server/decorators/serverSettings";
-import "../../packages/swagger";
-import "../../packages/ajv";
+import {GlobalAcceptMimesMiddleware} from "../../packages/common/src/mvc/components/GlobalAcceptMimesMiddleware";
+import {ServerLoader} from "../../packages/common/src/server/components/ServerLoader";
+import {ServerSettings} from "../../packages/common/src/server/decorators/serverSettings";
+import "../../packages/swagger/src";
+import "../../packages/ajv/src";
 import "./app/middlewares/authentication";
 import Path = require("path");
 

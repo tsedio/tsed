@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {Emit} from "../../../../packages/socketio";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {Emit} from "../../../../packages/socketio/src";
 import {expect} from "../../../tools";
 
 describe("Emit", () => {

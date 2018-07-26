@@ -2,31 +2,17 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation nameOf function
+   description: api typescript node.js documentation nameOf decorator
 ---
-# nameOf <Badge text="Function" type="function"/>
+# nameOf <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { nameOf }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//core/utils/ObjectUtils.ts#L0-L0">/core/utils/ObjectUtils.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { nameOf }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/core/src/utils/ObjectUtils.ts#L0-L0">/packages/core/src/utils/ObjectUtils.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">nameOf</span><span class="token punctuation">(</span>obj<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span> <span class="token punctuation">{</span>
-  switch <span class="token punctuation">(</span>typeof obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    default<span class="token punctuation">:</span>
-      return "" + obj<span class="token punctuation">;</span>
-    case "symbol"<span class="token punctuation">:</span>
-      return <span class="token function"><a href="/api/core/utils/nameOfSymbol.html"><span class="token">nameOfSymbol</span></a></span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    case "function"<span class="token punctuation">:</span>
-      return <span class="token function">nameOfClass</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-/**
- * <a href="/api/common/mvc/decorators/method/Get.html"><span class="token">Get</span></a> the provide name.
- * @param targetClass
- */</code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">nameOf</span><span class="token punctuation">(</span>obj<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span></code></pre>
 
 
 

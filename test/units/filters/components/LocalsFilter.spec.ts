@@ -1,5 +1,5 @@
-import {LocalsFilter} from "../../../../packages/common/filters/components/LocalsFilter";
-import {inject} from "../../../../packages/testing/inject";
+import {LocalsFilter} from "../../../../packages/common/src/filters/components/LocalsFilter";
+import {inject} from "../../../../packages/testing/src/inject";
 import {expect} from "../../../tools";
 
 describe("LocalsFilter", () => {
