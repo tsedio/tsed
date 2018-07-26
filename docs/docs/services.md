@@ -139,6 +139,19 @@ export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterR
 }
 ```
 
+Since <Badge text="v4.31.0+" />, it also possible to handle `$onDestroy` hook when a service or a controller is
+annotated with `@Scope('request')`:
+
+```typescript
+@Service()
+@Scope('request')
+export class MyService implements OnDestroy {
+  $onDestroy() {
+    console.log('Service destroyed');
+  }
+}
+```
+
 Hook | Purpose and Timing
 ---|---
 $onInit | Respond after Injector have initialized all Services in the registry.
@@ -146,7 +159,7 @@ $beforeRoutesInit | Respond before loading the controllers. The middlewares and
 $onRoutesInit | Launch the build of the controllers. This hook provide a list of component scanned by componentsScan.
 $afterRoutesInit | Respond after the controllers build.
 $onServerReady | Respond when the server is ready. At this step, HttpServer or/and HttpsServer object is available. The server listen the port.
-
+$onDestroy | Respond when a Service or Controller is destroyed (uniquely when class is annoted with `@Scope('request')`.
 
 ::: tip Interfaces are optional
 
