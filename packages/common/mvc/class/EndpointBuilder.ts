@@ -1,4 +1,4 @@
-import {nameOf} from "@tsed/core";
+import {applyBefore, nameOf} from "@tsed/core";
 import {InjectorService} from "../../di/services/InjectorService";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {EndpointMetadata} from "./EndpointMetadata";
@@ -13,21 +13,49 @@ export class EndpointBuilder {
   /**
    *
    */
-  private onRequest(endpoint: EndpointMetadata, debug: boolean) {
+  private bindRequest(endpoint: EndpointMetadata, debug: boolean) {
     return (request: any, response: any, next: any) => {
       /* istanbul ignore else */
       if (request.id && debug) {
         request.log.debug({
-          event: "attach.endpoint",
+          event: "bind.request",
           target: nameOf(endpoint.target),
           methodClass: endpoint.methodClassName,
           httpMethod: request.method
         });
       }
 
+      request.createContainer();
       request.setEndpoint(endpoint);
+
+      applyBefore(response, "end", () => this.unbindRequest(endpoint, debug, request));
+
       next();
     };
+  }
+
+  private unbindRequest(endpoint: EndpointMetadata, debug: boolean, request: any) {
+    /* istanbul ignore next */
+    if (request.id && debug) {
+      request.log.debug({
+        event: "unbind.request",
+        target: nameOf(endpoint.target),
+        methodClass: endpoint.methodClassName,
+        httpMethod: request.method
+      });
+    }
+
+    try {
+      request.destroyContainer();
+      request.destroyEndpoint();
+    } catch (error) {
+      request.log.error({
+        error: {
+          message: "Unable to clean request. " + error.message,
+          stack: error.stack
+        }
+      });
+    }
   }
 
   /**
@@ -67,7 +95,7 @@ export class EndpointBuilder {
       .filter((item: any) => !!item)
       .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));
 
-    middlewares = [this.onRequest(endpoint, debug)].concat(middlewares);
+    middlewares = [this.bindRequest(endpoint, debug)].concat(middlewares);
 
     this.routeMiddlewares(middlewares);
 

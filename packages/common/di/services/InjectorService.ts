@@ -229,10 +229,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
     try {
       const instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
-
-      if (!scopeReq) {
-        locals.set(provider.provide, instance);
-      }
+      locals.set(provider.provide, instance);
 
       return instance;
     } catch (er) {

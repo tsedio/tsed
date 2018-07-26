@@ -72,6 +72,7 @@ export class HandlerBuilder {
 
     if (this._rebuildHandler || instance === undefined) {
       instance = this.injector.invoke<T>(target, locals, undefined, true);
+      locals.set(this.handlerMetadata.target, instance);
     }
 
     return instance[this.handlerMetadata.methodClassName!].bind(instance);
@@ -80,7 +81,7 @@ export class HandlerBuilder {
   /**
    *
    */
-  private getHandler(): Function {
+  private getHandler(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
     if (!this._rebuildHandler && this._handler) {
       return this._handler;
     }
@@ -92,7 +93,7 @@ export class HandlerBuilder {
         break;
       case "middleware":
       case "controller":
-        this._handler = this.buildHandler();
+        this._handler = this.buildHandler(locals);
         break;
     }
 
@@ -113,7 +114,7 @@ export class HandlerBuilder {
     try {
       this.log(request, {event: "invoke.start"});
       const args = this.runFilters(request, response, next, err);
-      const result = await this.getHandler()(...args);
+      const result = await this.getHandler(request.getContainer())(...args);
 
       if (!next.isCalled) {
         if (this.handlerMetadata.type !== "function" && result !== undefined) {

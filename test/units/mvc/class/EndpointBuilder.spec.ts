@@ -123,7 +123,7 @@ describe("EndpointBuilder", () => {
     });
   });
 
-  describe("onRequest()", () => {
+  describe("bindRequest()", () => {
     before(() => {
       this.request = new FakeRequest();
       this.request.id = 1;
@@ -138,7 +138,7 @@ describe("EndpointBuilder", () => {
 
     describe("without headersSent", () => {
       before(() => {
-        this.endpointBuilder.onRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
+        this.endpointBuilder.bindRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
         this.request.storeData({stored: true});
       });
 
@@ -168,7 +168,7 @@ describe("EndpointBuilder", () => {
         this.response.setHeader.reset();
         this.response.headersSent = true;
 
-        this.endpointBuilder.onRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
+        this.endpointBuilder.bindRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
         this.request.storeData({stored: true});
       });
 

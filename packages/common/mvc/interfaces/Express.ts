@@ -21,7 +21,24 @@ declare global {
       /**
        *
        */
+      getContainer(): any;
+
+      /**
+       *
+       */
+      createContainer(): void;
+
+      /**
+       *
+       */
+      destroyContainer(): void;
+
+      /**
+       *
+       */
       getEndpoint(): EndpointMetadata;
+
+      destroyEndpoint(): void;
 
       /**
        *

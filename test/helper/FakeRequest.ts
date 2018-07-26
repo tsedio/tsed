@@ -96,5 +96,11 @@ export class FakeRequest {
     this._endpoint = endpoint;
   }
 
+  public destroyEndpoint() {}
+
+  public createContainer() {}
+
+  public destroyContainer() {}
+
   public end() {}
 }

@@ -848,7 +848,6 @@ describe("InjectorService", () => {
         expect(this.result.args).to.deep.eq([this.dep]);
       });
     });
-
     describe("when onInvoke is empty", () => {
       before(
         inject([InjectorService], (injectorService: InjectorService) => {
@@ -907,7 +906,6 @@ describe("InjectorService", () => {
         expect(this.result.args).to.deep.eq([this.dep]);
       });
     });
-
     describe("when provider didn't exists", () => {
       before(
         inject([InjectorService], (injectorService: InjectorService) => {
