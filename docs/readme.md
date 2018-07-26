@@ -8,9 +8,9 @@ meta:
  - name: keywords
    content: TS.ED express typescript javascript es6 decorators mvc model ioc service model middleware socket.io swagger typeorm mongoose ajv
 actionText: Get Started →
-actionLink: /guide/
+actionLink: /getting-started.html
 repoText: Github
-repoLink: /guide/
+repoLink: https://github.com/romakita/ts-express-decorators
 heroText: TS.ED
 heroDescription: A TypeScript Framework on top of Express
 heroTerms:
