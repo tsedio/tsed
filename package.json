@@ -10,6 +10,7 @@
     "postinstall": "gulp repo:bootstrap",
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run",
+    "travis-deploy-once": "travis-deploy-once",
     "clean": "gulp clean:workspace",
     "tslint": "tslint --project tsconfig.json",
     "test": "npm run clean && npm run tsc && npm run tslint && cross-env NODE_ENV=test nyc --reporter=html --reporter=text _mocha --recursive",
