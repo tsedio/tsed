@@ -124,6 +124,7 @@
     "socket.io-client": "^2.1.0",
     "supertest": "^3.0.0",
     "swagger-ui-dist": "^3.13.6",
+    "travis-deploy-once": "^5.0.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.8.0",
     "typeorm": "^0.2.7",
