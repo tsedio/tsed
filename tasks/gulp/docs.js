@@ -69,7 +69,7 @@ module.exports = {
   },
 
   async publish() {
-    const currentBranch = gflow.git.currentBranchName();
+    const currentBranch = process.env.BRANCH;
 
     if (currentBranch !== branch) {
       console.log(
