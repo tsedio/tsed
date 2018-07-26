@@ -1,5 +1,3 @@
-import {isCollection, isArray} from "./ObjectUtils";
-
 /**
  *
  * @param {string} expression
@@ -12,7 +10,7 @@ export function getValue(expression: string, scope: any, defaultValue?: any, sep
   const keys: string[] = expression.split(separator);
 
   const getValue = (key: string) => {
-    if (isCollection(scope) && !isArray(scope)) {
+    if (typeof scope.get === "function") {
       return scope.get(key);
     }
 

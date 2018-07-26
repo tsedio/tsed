@@ -152,7 +152,14 @@ export function isObject(target: any): boolean {
  * @returns {boolean}
  */
 export function isClass(target: any) {
-  return !isPrimitiveOrPrimitiveClass(target) && !isObject(target) && !isDate(target) && target !== undefined && !isPromise(target);
+  return (
+    !isPrimitiveOrPrimitiveClass(target) &&
+    !isObject(target) &&
+    !isDate(target) &&
+    target !== undefined &&
+    !isPromise(target) &&
+    target.prototype
+  );
 }
 
 /**

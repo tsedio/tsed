@@ -1,11 +1,9 @@
-import {isArray, isCollection} from "./ObjectUtils";
-
 export function setValue(expression: string, value: any, scope: any, separator = ".") {
   const keys: string[] = expression.split(separator);
 
   const setValue = (key: string, add: boolean) => {
     if (add) {
-      if (isCollection(scope) && !isArray(scope)) {
+      if (typeof scope.set === "function") {
         scope.set(key, value);
       } else {
         scope[key] = value;
@@ -14,7 +12,7 @@ export function setValue(expression: string, value: any, scope: any, separator =
       return false;
     }
 
-    if (isCollection(scope)) {
+    if (typeof scope.set === "function") {
       if (!scope.has(key)) {
         scope.set(key, {});
       }
