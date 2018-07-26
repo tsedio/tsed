@@ -6,7 +6,7 @@ import * as PathUtils from "path";
 import {Schema, Spec, Tag} from "swagger-schema-official";
 import {$log} from "ts-log-debug";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
-import {ISwaggerPaths, ISwaggerSettings} from "../interfaces";
+import {ISwaggerPaths, ISwaggerSettings, ISwaggerSpec} from "../interfaces";
 import {getReducers} from "../utils";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
@@ -202,15 +202,15 @@ export class SwaggerService {
    */
   public getDefaultSpec(conf: ISwaggerSettings): Spec {
     const {version} = this.serverSettingsService;
-    const consumes = this.serverSettingsService.acceptMimes;
-    const produces = ["application/json"];
-    const {
-      spec = {
+    const spec: ISwaggerSpec =
+      conf.spec ||
+      ({
         info: {},
         securityDefinitions: {}
-      },
-      specPath
-    } = conf || ({} as any);
+      } as any);
+
+    const specPath = conf.specPath;
+
     let specPathContent = {};
 
     if (specPath) {
@@ -224,6 +224,7 @@ export class SwaggerService {
     return deepExtends(
       {
         swagger: "2.0",
+        ...spec,
         info: {
           version: versionInfo || version,
           title,
@@ -232,8 +233,8 @@ export class SwaggerService {
           contact,
           license
         },
-        consumes,
-        produces,
+        consumes: this.serverSettingsService.acceptMimes.concat(spec.consumes || []),
+        produces: spec.produces || ["application/json"],
         securityDefinitions: spec.securityDefinitions || {}
       },
       specPathContent,

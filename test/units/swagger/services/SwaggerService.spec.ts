@@ -233,6 +233,33 @@ describe("SwaggerService", () => {
       });
     });
 
+    describe("when spec is given with produces fields", () => {
+      before(() => {
+        return (this.result = this.swaggerService.getDefaultSpec({
+          spec: {
+            produces: ["application/json", "application/octet-stream", "application/xml"]
+          }
+        }));
+      });
+
+      it("should return default spec", () => {
+        this.result.should.be.deep.equals({
+          swagger: "2.0",
+          info: {
+            contact: undefined,
+            description: "",
+            license: undefined,
+            termsOfService: "",
+            title: "Api documentation",
+            version: "1.0.0"
+          },
+          produces: ["application/json", "application/octet-stream", "application/xml"],
+          consumes: ["application/json"],
+          securityDefinitions: {}
+        });
+      });
+    });
+
     describe("when nothing is given", () => {
       before(() => {
         return (this.result = this.swaggerService.getDefaultSpec({}));
