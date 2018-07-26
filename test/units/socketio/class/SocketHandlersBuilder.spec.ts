@@ -1,5 +1,7 @@
+import {InjectorService} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {ProviderRegistry, ProviderType} from "../../../../src/common/di";
+import {inject} from "@tsed/testing";
+import {ProviderType} from "../../../../src/common/di";
 import {MiddlewareType} from "../../../../src/common/mvc";
 import {SocketHandlersBuilder} from "../../../../src/socketio/class/SocketHandlersBuilder";
 import {SocketFilters} from "../../../../src/socketio/interfaces/SocketFilters";
@@ -20,7 +22,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.builder.socketProviderMetadata = {
         namespace: "/",
         injectNamespaces: [{propertyKey: "key1"}, {propertyKey: "key2", nsp: "/test"}],
@@ -97,7 +99,7 @@ describe("SocketHandlersBuilder", () => {
         on: Sinon.stub()
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.builder.socketProviderMetadata = {
         injectNamespace: "nsp",
         handlers: {
@@ -149,7 +151,7 @@ describe("SocketHandlersBuilder", () => {
         on: Sinon.stub()
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.builder.socketProviderMetadata = {
         injectNamespace: "nsp",
         handlers: {
@@ -192,7 +194,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.builder.createSession({id: "id"});
     });
 
@@ -214,7 +216,7 @@ describe("SocketHandlersBuilder", () => {
 
       this.provider.instance._nspSession.set("id", new Map());
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.builder.destroySession({id: "id"});
     });
 
@@ -240,7 +242,7 @@ describe("SocketHandlersBuilder", () => {
       this.socketStub = {
         on: Sinon.stub()
       };
-      const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+      const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.runQueueStub = Sinon.stub(builder, "runQueue");
 
       builder.buildHandlers(this.socketStub, "ws");
@@ -281,7 +283,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+      const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
       this.buildParametersStub = Sinon.stub(builder, "buildParameters").returns(["argMapped"]);
 
       builder.invoke(this.provider.instance, this.metadata.handlers.testHandler, {scope: "scope"});
@@ -310,7 +312,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -338,7 +340,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -367,7 +369,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -395,7 +397,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -423,7 +425,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -451,7 +453,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -483,7 +485,7 @@ describe("SocketHandlersBuilder", () => {
           }
         };
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any);
+        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
         this.result = builder.buildParameters(
           {
@@ -587,7 +589,7 @@ describe("SocketHandlersBuilder", () => {
 
       this.bindResponseMiddlewareStub = Sinon.stub(SocketHandlersBuilder as any, "bindResponseMiddleware");
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any);
+      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
 
       this.invokeStub = Sinon.stub(this.builder, "invoke");
       this.bindMiddlewareStub = Sinon.stub(this.builder, "bindMiddleware");
@@ -690,29 +692,31 @@ describe("SocketHandlersBuilder", () => {
     describe("middleware is not registered", () => {
       class Test {}
 
-      before(() => {
-        this.instance = new Test();
-        this.provider = {
-          store: {
-            get: Sinon.stub()
-          }
-        };
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.instance = new Test();
+          this.provider = {
+            store: {
+              get: Sinon.stub()
+            }
+          };
 
-        Store.from(Test).set("socketIO", {
-          handlers: {
-            use: "use"
-          }
-        });
+          Store.from(Test).set("socketIO", {
+            handlers: {
+              use: "use"
+            }
+          });
 
-        this.getStub = Sinon.stub(ProviderRegistry as any, "get").returns(false);
+          this.getStub = Sinon.stub(injector as any, "getProvider").returns(false);
 
-        this.scope = {scope: "scope"};
+          this.scope = {scope: "scope"};
 
-        this.builder = new SocketHandlersBuilder(this.provider, {} as any);
-        this.invokeStub = Sinon.stub(this.builder, "invoke");
+          this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
+          this.invokeStub = Sinon.stub(this.builder, "invoke");
 
-        return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
-      });
+          return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
+        })
+      );
       after(() => {
         this.getStub.restore();
       });
@@ -729,37 +733,39 @@ describe("SocketHandlersBuilder", () => {
     describe("middleware", () => {
       class Test {}
 
-      before(() => {
-        this.instance = new Test();
-        this.provider = {
-          store: {
-            get: Sinon.stub()
-          }
-        };
-
-        Store.from(Test).set("socketIO", {
-          handlers: {
-            use: "use"
-          }
-        });
-
-        this.getStub = Sinon.stub(ProviderRegistry as any, "get").returns({
-          instance: this.instance,
-          type: ProviderType.MIDDLEWARE,
-          store: {
-            get() {
-              return MiddlewareType.MIDDLEWARE;
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.instance = new Test();
+          this.provider = {
+            store: {
+              get: Sinon.stub()
             }
-          }
-        });
+          };
 
-        this.scope = {scope: "scope"};
+          Store.from(Test).set("socketIO", {
+            handlers: {
+              use: "use"
+            }
+          });
 
-        this.builder = new SocketHandlersBuilder(this.provider, {} as any);
-        this.invokeStub = Sinon.stub(this.builder, "invoke").returns({result: "result"});
+          this.getStub = Sinon.stub(injector as any, "getProvider").returns({
+            instance: this.instance,
+            type: ProviderType.MIDDLEWARE,
+            store: {
+              get() {
+                return MiddlewareType.MIDDLEWARE;
+              }
+            }
+          });
 
-        return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
-      });
+          this.scope = {scope: "scope"};
+
+          this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
+          this.invokeStub = Sinon.stub(this.builder, "invoke").returns({result: "result"});
+
+          return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
+        })
+      );
       after(() => {
         this.getStub.restore();
       });
@@ -780,38 +786,40 @@ describe("SocketHandlersBuilder", () => {
     describe("middleware error", () => {
       class Test {}
 
-      before(() => {
-        this.instance = new Test();
-        this.provider = {
-          store: {
-            get: Sinon.stub()
-          }
-        };
-
-        Store.from(Test).set("socketIO", {
-          handlers: {
-            use: "use"
-          }
-        });
-
-        this.getStub = Sinon.stub(ProviderRegistry as any, "get").returns({
-          instance: this.instance,
-          type: ProviderType.MIDDLEWARE,
-          store: {
-            get() {
-              return MiddlewareType.ERROR;
+      before(
+        inject([InjectorService], (injector: InjectorService) => {
+          this.instance = new Test();
+          this.provider = {
+            store: {
+              get: Sinon.stub()
             }
-          }
-        });
+          };
 
-        this.scope = {scope: "scope"};
-        this.error = new Error("test");
+          Store.from(Test).set("socketIO", {
+            handlers: {
+              use: "use"
+            }
+          });
 
-        this.builder = new SocketHandlersBuilder(this.provider, {} as any);
-        this.invokeStub = Sinon.stub(this.builder, "invoke").returns(Promise.resolve());
+          this.getStub = Sinon.stub(injector as any, "getProvider").returns({
+            instance: this.instance,
+            type: ProviderType.MIDDLEWARE,
+            store: {
+              get() {
+                return MiddlewareType.ERROR;
+              }
+            }
+          });
 
-        return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
-      });
+          this.scope = {scope: "scope"};
+          this.error = new Error("test");
+
+          this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
+          this.invokeStub = Sinon.stub(this.builder, "invoke").returns(Promise.resolve());
+
+          return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
+        })
+      );
       after(() => {
         this.getStub.restore();
       });
@@ -850,7 +858,7 @@ describe("SocketHandlersBuilder", () => {
         deserialize: Sinon.stub().returns("value")
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, this.converterService as any);
+      this.builder = new SocketHandlersBuilder(this.provider, this.converterService as any, {} as any);
 
       this.result = this.builder.deserialize({parameters} as any, scope as any);
     });

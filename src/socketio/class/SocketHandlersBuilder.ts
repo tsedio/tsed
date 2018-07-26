@@ -1,4 +1,4 @@
-import {ConverterService, MiddlewareType, Provider, ProviderRegistry, ProviderType} from "@tsed/common";
+import {ConverterService, InjectorService, MiddlewareType, Provider, ProviderType} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
@@ -16,7 +16,7 @@ import {getNspSession} from "../registries/NspSessionRegistry";
 export class SocketHandlersBuilder {
   private socketProviderMetadata: ISocketProviderMetadata;
 
-  constructor(private provider: Provider<any>, private converterService: ConverterService) {
+  constructor(private provider: Provider<any>, private converterService: ConverterService, private injector: InjectorService) {
     this.socketProviderMetadata = this.provider.store.get("socketIO");
   }
 
@@ -152,9 +152,7 @@ export class SocketHandlersBuilder {
     promise = promise.then(() => this.deserialize(handlerMetadata, scope));
 
     if (useBefore) {
-      useBefore.forEach(async target => {
-        promise = this.bindMiddleware(target, scope, promise);
-      });
+      useBefore.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
     }
 
     if (handlerMetadata.useBefore) {
@@ -233,7 +231,7 @@ export class SocketHandlersBuilder {
    * @returns {(args: any[]) => Promise<any[]>}
    */
   private bindMiddleware(target: any, scope: any, promise: Promise<any>): Promise<any> {
-    const provider = ProviderRegistry.get(target);
+    const provider = this.injector.getProvider(target);
 
     if (provider) {
       const instance = provider.instance;

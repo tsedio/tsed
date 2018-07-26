@@ -112,7 +112,7 @@ export class SocketIOService implements OnServerReady {
       nsps.set(nsp, value.nsp);
     });
 
-    const builder = new SocketHandlersBuilder(provider, this.converterService).build(nsps);
+    const builder = new SocketHandlersBuilder(provider, this.converterService, this.injector).build(nsps);
 
     nspConfig.instances.push(builder);
   }
