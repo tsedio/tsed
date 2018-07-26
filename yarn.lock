@@ -5016,9 +5016,9 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gflow@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/gflow/-/gflow-3.0.6.tgz#978f779337f4f62889f9d7902efb0aeb13111e46"
+gflow@3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/gflow/-/gflow-3.0.8.tgz#3c17bb35bff6c84165afe23f833c346192e6ac4f"
   dependencies:
     any-observable "^0.2.0"
     chalk "^2.3.0"

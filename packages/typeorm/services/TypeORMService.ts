@@ -16,17 +16,19 @@ export class TypeORMService {
    * @returns {Promise<"mongoose".Connection>}
    */
   async createConnection(id: string, settings: ConnectionOptions): Promise<any> {
-    if (this.has(id)) {
-      return await this.get(id)!;
+    const key = settings.name || id;
+
+    if (key && this.has(key)) {
+      return await this.get(key)!;
     }
 
-    $log.info(`Create connection to typeorm database: ${id}`);
+    $log.info(`Create connection with typeorm to database: ${key}`);
     $log.debug(`options: ${JSON.stringify(settings)}`);
 
     try {
-      const connection = await createConnection(settings);
-      $log.info(`Connected to typeorm database: ${id}`);
-      this._instances.set(id, connection);
+      const connection = await createConnection(settings!);
+      $log.info(`Connected with typeorm to database: ${key}`);
+      this._instances.set(key || "default", connection);
 
       return connection;
     } catch (err) {

@@ -10,9 +10,7 @@ export class TypeORMModule implements OnInit {
   constructor(private typeORMService: TypeORMService) {}
 
   $onInit(): Promise<any> | void {
-    const promises = Object.keys(this.settings).map(key => {
-      return this.typeORMService.createConnection(key, this.settings[key]);
-    });
+    const promises = Object.keys(this.settings).map(key => this.typeORMService.createConnection(key, this.settings[key]));
 
     return Promise.all(promises);
   }
