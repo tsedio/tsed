@@ -20,22 +20,21 @@ export class TypeORMService {
       return await this.get(id)!;
     }
 
-    $log.info(`Connect to typeorm database: ${id}`);
+    $log.info(`Create connection to typeorm database: ${id}`);
     $log.debug(`options: ${JSON.stringify(settings)}`);
 
-    return (
-      createConnection(settings)
-        .then((connection: Connection) => {
-          this._instances.set(id, connection);
-        })
-        /* istanbul ignore next */
-        .catch(err => {
-          /* istanbul ignore next */
-          $log.error(err);
-          /* istanbul ignore next */
-          process.exit();
-        })
-    );
+    try {
+      const connection = await createConnection(settings);
+      $log.info(`Connected to typeorm database: ${id}`);
+      this._instances.set(id, connection);
+
+      return connection;
+    } catch (err) {
+      /* istanbul ignore next */
+      $log.error(err);
+      /* istanbul ignore next */
+      process.exit();
+    }
   }
 
   /**

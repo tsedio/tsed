@@ -11810,9 +11810,9 @@ vuepress-html-webpack-plugin@^3.2.0:
     toposort "^1.0.0"
     util.promisify "1.0.0"
 
-vuepress-theme-tsed@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-1.3.2.tgz#46a1aed4fc17f99dcad6fdd9c1e91e0e03700870"
+vuepress-theme-tsed@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-1.3.3.tgz#d6272f4bcbd6822931c00962cb7122d0541116d2"
   dependencies:
     include-media "^1.4.9"
     node-sass "^4.9.3"

@@ -61,7 +61,7 @@ export class UsersService implement AfterRoutesInit {
     }
 
     $afterRoutesInit() {
-        this.connection = typeORMService.get("db1");
+        this.connection = this.typeORMService.get("db1");
     }
 
     async create(user: User): Promise<User> {
@@ -69,14 +69,14 @@ export class UsersService implement AfterRoutesInit {
         // do something
         ...
         // Then save
-        await connection.manager.save(user);
+        await this.connection.manager.save(user);
         console.log("Saved a new user with id: " + user.id);
 
         return user;
     }
 
     async find(): Promise<User[]> {
-        const users = await connection.manager.find(User);
+        const users = await this.connection.manager.find(User);
         console.log("Loaded users: ", users);
 
         return users;
@@ -135,15 +135,15 @@ export class UsersCtrl {
     }
 
     @Post("/")
-    create(@BodyParams() user: User): Promise<Users> {
+    create(@BodyParams() user: User): Promise<User> {
 
         return this.usersService.create(user);
     }
 
     @Get("/")
-    getList(): Promise<Users> {
+    getList(): Promise<User[]> {
 
-        return this.usersService.find(user);
+        return this.usersService.find();
     }
 }
 ```

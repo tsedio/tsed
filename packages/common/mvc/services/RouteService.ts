@@ -30,7 +30,7 @@ export class RouteService implements AfterRoutesInit {
    * @returns {{route: string; provider: any}[]}
    */
   get routes(): {route: string; provider: any}[] {
-    return this._routes;
+    return this._routes || [];
   }
 
   /**
