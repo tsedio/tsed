@@ -69,8 +69,8 @@ module.exports = {
   },
 
   async publish() {
-    const currentBranch = process.env.BRANCH;
-
+    const currentBranch = process.env.TRAVIS_BRANCH;
+    
     if (currentBranch !== branch) {
       console.log(
         `This test run was triggered on the branch ${currentBranch}, while docs is configured to only publish from ${
