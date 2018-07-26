@@ -2,9 +2,11 @@ import {getClass, nameOf} from "@tsed/core";
 import {Args, Emit, Input, IO, Nsp, Socket, SocketService, SocketSession, SocketUseAfter, SocketUseBefore} from "@tsed/socketio";
 import {ConverterUserSocketMiddleware} from "../middlewares/ConverterUserSocketMiddleware";
 import {ErrorHandlerSocketMiddleware} from "../middlewares/ErrorHandlerSocketMiddleware";
+import {AuthSocketMiddleware} from "../middlewares/AuthSocketMiddleware";
 import {User} from "../models/User";
 
 @SocketService("/room")
+@SocketUseBefore(AuthSocketMiddleware)
 @SocketUseAfter(ErrorHandlerSocketMiddleware)
 export class RoomWS {
   // tslint:disable-next-line: no-unused-variable
