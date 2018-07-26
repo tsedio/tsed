@@ -1,4 +1,4 @@
-import {ControllerProvider, ExpressRouter, GlobalProviders, ProviderType, RouterController} from "@tsed/common";
+import {ControllerProvider, ExpressRouter, GlobalProviders, ProviderType} from "@tsed/common";
 import {expect} from "../../../tools";
 
 describe("ControllerRegistry", () => {
@@ -11,10 +11,6 @@ describe("ControllerRegistry", () => {
     this.provider = new ControllerProvider(Test);
     this.provider.router = "router";
     settings.onInvoke!(this.provider, this.locals, []);
-  });
-
-  it("should store RouterController (deprecated)", () => {
-    expect(this.locals.has(RouterController)).to.eq(true);
   });
 
   it("should store ExpressRouter", () => {

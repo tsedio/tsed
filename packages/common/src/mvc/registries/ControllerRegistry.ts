@@ -1,7 +1,6 @@
 import {TypedProvidersRegistry, ProviderType, GlobalProviders} from "@tsed/di";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressRouter} from "../services/ExpressRouter";
-import {RouterController} from "../services/RouterController";
 
 // tslint:disable-next-line: variable-name
 export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
@@ -10,7 +9,6 @@ export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.create
 
   onInvoke(provider: ControllerProvider, locals, designParamTypes) {
     if (!locals.has(ExpressRouter)) {
-      locals.set(RouterController, new RouterController(provider.router));
       locals.set(ExpressRouter, provider.router);
     }
   }
