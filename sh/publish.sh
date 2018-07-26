@@ -13,8 +13,8 @@ echo " ╚═════╝ ╚═╝     ╚══════╝ ╚═══
 
 PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 REPOSITORY=$(node -p -e "require('./package.json').repository.url.replace('https://', '')")
-RELEASE_BRANCH=$(node -p -e "require('./package.json').gflow.production")
-MASTER_BRANCH=$(node -p -e "require('./package.json').gflow.master")
+RELEASE_BRANCH="production"
+MASTER_BRANCH="master"
 
 # Rewrite package.json with the right indentation
 node -p -e "require('fs').writeFileSync('./package.json', JSON.stringify(require('./package.json'), null, 2), {})"
