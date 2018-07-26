@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Metadata} from "../../../../src/core";
+import {Metadata} from "../../../../packages/core";
 
 function logger(target: any, method?: any, descriptor?: any) {
   return descriptor;
@@ -7,7 +7,8 @@ function logger(target: any, method?: any, descriptor?: any) {
 
 @logger
 class Test {
-  @logger attribut: string = "";
+  @logger
+  attribut: string = "";
 
   // tslint:disable-next-line: no-unused-variable
   constructor(private type?: string) {}

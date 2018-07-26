@@ -1,14 +1,14 @@
 import * as Proxyquire from "proxyquire";
-import {Store} from "../../../../../src/core/class/Store";
-import {descriptorOf} from "../../../../../src/core/utils";
-import {AuthenticatedMiddleware} from "../../../../../src/common/mvc/components/AuthenticatedMiddleware";
+import {Store} from "../../../../../packages/core/class/Store";
+import {descriptorOf} from "../../../../../packages/core/utils";
+import {AuthenticatedMiddleware} from "../../../../../packages/common/mvc/components/AuthenticatedMiddleware";
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 // tslint:disable-next-line: variable-name
 const UseBefore: any = Sinon.stub().returns(middleware);
 
-const {Authenticated} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/authenticated", {
+const {Authenticated} = Proxyquire.load("../../../../../packages/common/mvc/decorators/method/authenticated", {
   "./useBefore": {UseBefore}
 });
 

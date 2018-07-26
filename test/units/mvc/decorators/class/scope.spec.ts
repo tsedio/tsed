@@ -1,5 +1,5 @@
-import {Store} from "../../../../../src/core/class/Store";
-import {Scope} from "../../../../../src/common/mvc/decorators/class/scope";
+import {Store} from "../../../../../packages/core/class/Store";
+import {Scope} from "../../../../../packages/common/mvc/decorators/class/scope";
 import {expect} from "../../../../tools";
 
 class Test {}

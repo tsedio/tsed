@@ -1,6 +1,6 @@
 {
   "include": [
-    "src/**/*.js"
+    "packages/**/*.js"
   ],
   "exclude": [
     "**/index.ts",

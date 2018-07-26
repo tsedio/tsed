@@ -1,8 +1,8 @@
 import {Controller, Get, InjectorService, ParseService, Service} from "@tsed/common";
 import {bootstrap, inject} from "@tsed/testing";
 import {expect} from "chai";
-import {AcceptMimesMiddleware} from "../../src/common/mvc/components/AcceptMimesMiddleware";
-import {Hidden} from "../../src/swagger";
+import {AcceptMimesMiddleware} from "../../packages/common/mvc/components/AcceptMimesMiddleware";
+import {Hidden} from "../../packages/swagger";
 import {Sinon} from "../tools";
 import {CalendarCtrl} from "./app/controllers/calendars/CalendarCtrl";
 import {FakeServer} from "./FakeServer";
@@ -33,16 +33,13 @@ describe("Example Test", () => {
       expect(ParseService.clone(source)).not.to.be.equal(source);
     });
 
-    it(
-      "should evaluate expression with a scope and return value",
-      inject([ParseService], (parserService: ParseService) => {
-        expect(
-          parserService.eval("test", {
-            test: "yes"
-          })
-        ).to.equal("yes");
-      })
-    );
+    it("should evaluate expression with a scope and return value", inject([ParseService], (parserService: ParseService) => {
+      expect(
+        parserService.eval("test", {
+          test: "yes"
+        })
+      ).to.equal("yes");
+    }));
   });
 
   describe("DbService", () => {
@@ -95,47 +92,41 @@ describe("Example Test", () => {
     // bootstrap your Server to load all endpoints before run your test
     before(bootstrap(FakeServer));
 
-    it(
-      "should do something",
-      inject([InjectorService], (injector: InjectorService) => {
-        // create locals map
-        const locals = new Map<any, any>();
+    it("should do something", inject([InjectorService], (injector: InjectorService) => {
+      // create locals map
+      const locals = new Map<any, any>();
 
-        // replace DbService by a faker
-        locals.set(DbService, {
-          getData: () => {
-            return "test";
-          }
-        });
+      // replace DbService by a faker
+      locals.set(DbService, {
+        getData: () => {
+          return "test";
+        }
+      });
 
-        // give the locals map to the invoke method
-        const instance: MyCtrl = injector.invoke<MyCtrl>(MyCtrl, locals);
+      // give the locals map to the invoke method
+      const instance: MyCtrl = injector.invoke<MyCtrl>(MyCtrl, locals);
 
-        // and test it
-        expect(!!instance).to.be.true;
-        expect(instance.getData()).to.equals("test");
-      })
-    );
+      // and test it
+      expect(!!instance).to.be.true;
+      expect(instance.getData()).to.equals("test");
+    }));
   });
 
   describe("AcceptMimesMiddleware", () => {
-    it(
-      "should accept mime",
-      inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
-        const request: any = {
-          accepts: Sinon.stub().returns(true)
-        };
-        request.mime = "application/json";
+    it("should accept mime", inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
+      const request: any = {
+        accepts: Sinon.stub().returns(true)
+      };
+      request.mime = "application/json";
 
-        middleware.use(
-          {
-            get: () => {
-              return ["application/json"];
-            }
-          } as any,
-          request as any
-        );
-      })
-    );
+      middleware.use(
+        {
+          get: () => {
+            return ["application/json"];
+          }
+        } as any,
+        request as any
+      );
+    }));
   });
 });

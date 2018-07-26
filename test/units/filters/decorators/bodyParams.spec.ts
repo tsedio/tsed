@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {BodyParamsFilter} from "../../../../src/common/filters/components/BodyParamsFilter";
-import {BodyParams} from "../../../../src/common/filters/decorators/bodyParams";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {BodyParamsFilter} from "../../../../packages/common/filters/components/BodyParamsFilter";
+import {BodyParams} from "../../../../packages/common/filters/decorators/bodyParams";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {}

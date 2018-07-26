@@ -1,6 +1,6 @@
-import "../../../../src/ajv";
-import {AjvService} from "../../../../src/ajv/services/AjvService";
-import {inject} from "../../../../src/testing";
+import "../../../../packages/ajv";
+import {AjvService} from "../../../../packages/ajv/services/AjvService";
+import {inject} from "../../../../packages/testing";
 import {JsonFoo, JsonFoo2, Nested, Stuff, Thingy} from "../../../helper/classes";
 import {expect} from "../../../tools";
 

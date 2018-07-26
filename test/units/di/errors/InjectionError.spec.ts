@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {InjectionError} from "../../../../src/common/di/errors/InjectionError";
+import {InjectionError} from "../../../../packages/common/di/errors/InjectionError";
 
 describe("InjectionError", () => {
   before(() => {

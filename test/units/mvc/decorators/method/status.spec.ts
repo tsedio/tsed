@@ -1,5 +1,5 @@
 import * as Proxyquire from "proxyquire";
-import {Store} from "../../../../../src/core/class/Store";
+import {Store} from "../../../../../packages/core/class/Store";
 import {FakeResponse} from "../../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../../tools";
 
@@ -7,7 +7,7 @@ const middleware: any = Sinon.stub();
 // tslint:disable-next-line: variable-name
 const UseAfter: any = Sinon.stub().returns(middleware);
 
-const {Status} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/status", {
+const {Status} = Proxyquire.load("../../../../../packages/common/mvc/decorators/method/status", {
   "./useAfter": {UseAfter}
 });
 

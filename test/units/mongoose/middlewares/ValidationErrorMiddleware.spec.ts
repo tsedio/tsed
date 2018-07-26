@@ -1,5 +1,5 @@
-import * as mod from "../../../../src/core/utils";
-import {ValidationErrorMiddleware} from "../../../../src/mongoose/middlewares/ValidationErrorMiddleware";
+import * as mod from "../../../../packages/core/utils";
+import {ValidationErrorMiddleware} from "../../../../packages/mongoose/middlewares/ValidationErrorMiddleware";
 import {expect, Sinon} from "../../../tools";
 
 describe("ValidationErrorMiddleware", () => {

@@ -1,6 +1,6 @@
 import {$log} from "ts-log-debug";
-import {Socket, SocketErr} from "../../../../src/socketio";
-import {SocketMiddlewareError} from "../../../../src/socketio/decorators/socketMiddlewareError";
+import {Socket, SocketErr} from "../../../../packages/socketio";
+import {SocketMiddlewareError} from "../../../../packages/socketio/decorators/socketMiddlewareError";
 
 @SocketMiddlewareError()
 export class ErrorHandlerSocketMiddleware {

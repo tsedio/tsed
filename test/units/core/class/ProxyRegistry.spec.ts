@@ -1,5 +1,5 @@
-import {ProxyRegistry} from "../../../../src/core/class/ProxyRegistry";
-import {Registry} from "../../../../src/core/class/Registry";
+import {ProxyRegistry} from "../../../../packages/core/class/ProxyRegistry";
+import {Registry} from "../../../../packages/core/class/Registry";
 import {expect} from "../../../tools";
 
 class FakeMetadata {

@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {PathParamsFilter} from "../../../../src/common/filters/components/PathParamsFilter";
-import {PathParams} from "../../../../src/common/filters/decorators/pathParams";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {PathParamsFilter} from "../../../../packages/common/filters/components/PathParamsFilter";
+import {PathParams} from "../../../../packages/common/filters/decorators/pathParams";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {}

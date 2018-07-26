@@ -7,7 +7,7 @@ const middleware: any = Sinon.stub();
 // tslint:disable-next-line: variable-name
 const UseAfter: any = Sinon.stub().returns(middleware);
 
-const {Location} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/location", {
+const {Location} = Proxyquire.load("../../../../../packages/common/mvc/decorators/method/location", {
   "./useAfter": {UseAfter}
 });
 

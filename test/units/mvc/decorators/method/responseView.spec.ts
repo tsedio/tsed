@@ -1,12 +1,12 @@
 import * as Proxyquire from "proxyquire";
-import {Store} from "../../../../../src/core/class/Store";
-import {ResponseViewMiddleware} from "../../../../../src/common/mvc/components/ResponseViewMiddleware";
+import {Store} from "../../../../../packages/core/class/Store";
+import {ResponseViewMiddleware} from "../../../../../packages/common/mvc/components/ResponseViewMiddleware";
 import {expect, Sinon} from "../../../../tools";
 
 const middleware: any = Sinon.stub();
 // tslint:disable-next-line: variable-name
 const UseAfter: any = Sinon.stub().returns(middleware);
-const {ResponseView} = Proxyquire.load("../../../../../src/common/mvc/decorators/method/responseView", {
+const {ResponseView} = Proxyquire.load("../../../../../packages/common/mvc/decorators/method/responseView", {
   "./useAfter": {UseAfter}
 });
 

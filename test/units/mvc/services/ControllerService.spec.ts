@@ -1,9 +1,9 @@
 import {ProviderType} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import * as Express from "express";
-import {ControllerBuilder} from "../../../../src/common/mvc/class/ControllerBuilder";
-import {ControllerProvider} from "../../../../src/common/mvc/class/ControllerProvider";
-import {ControllerService} from "../../../../src/common/mvc/services/ControllerService";
+import {ControllerBuilder} from "../../../../packages/common/mvc/class/ControllerBuilder";
+import {ControllerProvider} from "../../../../packages/common/mvc/class/ControllerProvider";
+import {ControllerService} from "../../../../packages/common/mvc/services/ControllerService";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

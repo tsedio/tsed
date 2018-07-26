@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {SessionFilter} from "../../../../src/common/filters/components/SessionFilter";
-import {inject} from "../../../../src/testing/inject";
+import {SessionFilter} from "../../../../packages/common/filters/components/SessionFilter";
+import {inject} from "../../../../packages/testing/inject";
 
 describe("QueryParamsFilter", () => {
   before(

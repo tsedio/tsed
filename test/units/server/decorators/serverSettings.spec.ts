@@ -1,7 +1,7 @@
 import {Sinon} from "../../../tools";
-import {ServerSettings} from "../../../../src/common/server/decorators/serverSettings";
-import {Metadata} from "../../../../src/core/class/Metadata";
-import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
+import {ServerSettings} from "../../../../packages/common/server/decorators/serverSettings";
+import {Metadata} from "../../../../packages/core/class/Metadata";
+import {SERVER_SETTINGS} from "../../../../packages/common/config/constants/index";
 
 class Test {}
 describe("ServerSettings", () => {

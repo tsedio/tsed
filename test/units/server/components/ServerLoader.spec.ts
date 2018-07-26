@@ -1,10 +1,10 @@
 import * as Http from "http";
 import * as Https from "https";
-import {SERVER_SETTINGS} from "../../../../src/common/config/constants/index";
-import {HttpServer} from "../../../../src/common/server";
-import {ServerLoader} from "../../../../src/common/server/components/ServerLoader";
-import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
-import {Metadata} from "../../../../src/core/class/Metadata";
+import {SERVER_SETTINGS} from "../../../../packages/common/config/constants/index";
+import {HttpServer} from "../../../../packages/common/server";
+import {ServerLoader} from "../../../../packages/common/server/components/ServerLoader";
+import {HttpsServer} from "../../../../packages/common/server/decorators/httpsServer";
+import {Metadata} from "../../../../packages/core/class/Metadata";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {

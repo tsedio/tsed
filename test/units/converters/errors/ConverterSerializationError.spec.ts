@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ConverterSerializationError} from "../../../../src/common/converters/errors/ConverterSerializationError";
+import {ConverterSerializationError} from "../../../../packages/common/converters/errors/ConverterSerializationError";
 
 describe("ConverterSerializationError", () => {
   before(() => {

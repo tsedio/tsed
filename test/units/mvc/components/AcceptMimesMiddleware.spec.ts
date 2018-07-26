@@ -1,5 +1,5 @@
-import {AcceptMimesMiddleware} from "../../../../src/common/mvc/components/AcceptMimesMiddleware";
-import {inject} from "../../../../src/testing";
+import {AcceptMimesMiddleware} from "../../../../packages/common/mvc/components/AcceptMimesMiddleware";
+import {inject} from "../../../../packages/testing";
 import {expect, Sinon} from "../../../tools";
 
 describe("AcceptMimesMiddleware", () => {

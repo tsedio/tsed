@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {ParamMetadata} from "../../../../src/common/filters/class/ParamMetadata";
-import {EXPRESS_ERR} from "../../../../src/common/filters/constants";
-import {Store} from "../../../../src/core/class/Store";
+import {ParamMetadata} from "../../../../packages/common/filters/class/ParamMetadata";
+import {EXPRESS_ERR} from "../../../../packages/common/filters/constants";
+import {Store} from "../../../../packages/core/class/Store";
 
 class Test {
   method(arg1: any, arg2: any) {}

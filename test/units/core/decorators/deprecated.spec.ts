@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Deprecated} from "../../../../src/core/decorators/deprecated";
+import {Deprecated} from "../../../../packages/core/decorators/deprecated";
 
 class Test {
   test() {}

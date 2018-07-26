@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
-import {UseAfter} from "../../../../../src/common/mvc/decorators/method/useAfter";
-import {EndpointRegistry} from "../../../../../src/common/mvc/registries/EndpointRegistry";
-import {decoratorArgs, descriptorOf} from "../../../../../src/core/utils";
+import {UseAfter} from "../../../../../packages/common/mvc/decorators/method/useAfter";
+import {EndpointRegistry} from "../../../../../packages/common/mvc/registries/EndpointRegistry";
+import {decoratorArgs, descriptorOf} from "../../../../../packages/core/utils";
 import {expect, Sinon} from "../../../../tools";
 
 class Test {

@@ -1,6 +1,6 @@
-import {Store} from "../../../../src/core/class/Store";
-import {descriptorOf} from "../../../../src/core/utils";
-import {Security} from "../../../../src/swagger/decorators/security";
+import {Store} from "../../../../packages/core/class/Store";
+import {descriptorOf} from "../../../../packages/core/utils";
+import {Security} from "../../../../packages/swagger/decorators/security";
 import {expect, assert} from "../../../tools";
 
 class Test {

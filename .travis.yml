@@ -1,13 +1,16 @@
 language: node_js
+cache:
+  directories:
+  - ~/.npm
 notifications:
-  email: false
+  email: true
 node_js:
   - 'node'
   - '9'
   - '8'
 after_success:
-  - npm run coveralls:travis
-  - sh ./sh/prepublish.sh && semantic-release pre && sh ./sh/publish.sh
+- npm run travis-deploy-once "npm run semantic-release"
+- npm run travis-coveralls
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

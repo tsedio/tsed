@@ -1,5 +1,5 @@
-import {CookiesFilter} from "../../../../src/common/filters/components/CookiesFilter";
-import {inject} from "../../../../src/testing/inject";
+import {CookiesFilter} from "../../../../packages/common/filters/components/CookiesFilter";
+import {inject} from "../../../../packages/testing/inject";
 import {expect} from "../../../tools";
 
 describe("CookiesFilter", () => {

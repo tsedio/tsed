@@ -1,9 +1,9 @@
 import * as Express from "express";
-import {EndpointBuilder} from "../../../../src/common/mvc/class/EndpointBuilder";
+import {EndpointBuilder} from "../../../../packages/common/mvc/class/EndpointBuilder";
 
-import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
-import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
-import {inject} from "../../../../src/testing/inject";
+import {EndpointMetadata} from "../../../../packages/common/mvc/class/EndpointMetadata";
+import {HandlerBuilder} from "../../../../packages/common/mvc/class/HandlerBuilder";
+import {inject} from "../../../../packages/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";

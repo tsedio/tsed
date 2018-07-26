@@ -1,6 +1,6 @@
-import {ServerSettingsService} from "../../../../src/common/config/services/ServerSettingsService";
-import {GlobalAcceptMimesMiddleware} from "../../../../src/common/mvc/components/GlobalAcceptMimesMiddleware";
-import {inject} from "../../../../src/testing/inject";
+import {ServerSettingsService} from "../../../../packages/common/config/services/ServerSettingsService";
+import {GlobalAcceptMimesMiddleware} from "../../../../packages/common/mvc/components/GlobalAcceptMimesMiddleware";
+import {inject} from "../../../../packages/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {assert, expect} from "../../../tools";
 

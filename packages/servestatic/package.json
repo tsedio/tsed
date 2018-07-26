@@ -1,0 +1,16 @@
+{
+  "name": "@tsed/servestatic",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Serve-static package for Ts.ED framework",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  },
+  "peerDependencies": {
+    "@tsed/common": "0.0.0-PLACEHOLDER",
+    "serve-static": "^1.13.2"
+  },
+  "devDependencies": {},
+  "private": false
+}

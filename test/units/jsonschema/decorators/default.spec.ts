@@ -1,11 +1,12 @@
 import {Property} from "@tsed/common";
-import {Default} from "../../../../src/common/jsonschema/decorators/default";
-import {PropertyRegistry} from "../../../../src/common/jsonschema/registries/PropertyRegistry";
+import {Default} from "../../../../packages/common/jsonschema/decorators/default";
+import {PropertyRegistry} from "../../../../packages/common/jsonschema/registries/PropertyRegistry";
 import {expect} from "../../../tools";
 
 describe("Default", () => {
   class Test {
-    @Property() property: String;
+    @Property()
+    property: String;
   }
 
   describe("value (0)", () => {

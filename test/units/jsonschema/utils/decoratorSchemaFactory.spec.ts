@@ -1,6 +1,6 @@
-import {JsonSchemesRegistry} from "../../../../src/common/jsonschema/registries/JsonSchemesRegistry";
-import {PropertyRegistry} from "../../../../src/common/jsonschema/registries/PropertyRegistry";
-import {decoratorSchemaFactory} from "../../../../src/common/jsonschema/utils/decoratorSchemaFactory";
+import {JsonSchemesRegistry} from "../../../../packages/common/jsonschema/registries/JsonSchemesRegistry";
+import {PropertyRegistry} from "../../../../packages/common/jsonschema/registries/PropertyRegistry";
+import {decoratorSchemaFactory} from "../../../../packages/common/jsonschema/utils/decoratorSchemaFactory";
 import {Sinon} from "../../../tools";
 
 class Test {}

@@ -1,6 +1,6 @@
 import {BadRequest} from "ts-httpexceptions/lib";
-import {GlobalErrorHandlerMiddleware} from "../../../../src";
-import {inject} from "../../../../src/testing/inject";
+import {GlobalErrorHandlerMiddleware} from "../../../../packages/common";
+import {inject} from "../../../../packages/testing/inject";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";

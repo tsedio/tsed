@@ -1,5 +1,5 @@
-import {ConverterService} from "../../../../src";
-import {inject} from "../../../../src/testing/inject";
+import {ConverterService} from "../../../../packages/common/converters";
+import {inject} from "../../../../packages/testing/inject";
 import {expect, Sinon} from "../../../tools";
 
 describe("ArrayConverter", () => {

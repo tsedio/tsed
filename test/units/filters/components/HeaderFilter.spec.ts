@@ -1,5 +1,5 @@
-import {HeaderParamsFilter} from "../../../../src/common/filters/components/HeaderParamsFilter";
-import {inject} from "../../../../src/testing/inject";
+import {HeaderParamsFilter} from "../../../../packages/common/filters/components/HeaderParamsFilter";
+import {inject} from "../../../../packages/testing/inject";
 import {expect} from "../../../tools";
 
 describe("HeaderParamsFilter", () => {

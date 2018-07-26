@@ -1,6 +1,6 @@
-import {Provider} from "../../../../src/common/di/class/Provider";
-import {Providers} from "../../../../src/common/di/class/Providers";
-import {Registry} from "../../../../src/core/class/Registry";
+import {Provider} from "../../../../packages/common/di/class/Provider";
+import {Providers} from "../../../../packages/common/di/class/Providers";
+import {Registry} from "../../../../packages/core/class/Registry";
 import {expect, Sinon} from "../../../tools";
 
 describe("Providers", () => {

@@ -1,8 +1,8 @@
-import {Store} from "../../../../src/core/class/Store";
-import {descriptorOf} from "../../../../src/core/utils";
-import {Unique} from "../../../../src/mongoose/decorators";
+import {Store} from "../../../../packages/core/class/Store";
+import {descriptorOf} from "../../../../packages/core/utils";
+import {Unique} from "../../../../packages/mongoose/decorators";
 import {expect} from "../../../tools";
-import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
+import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/constants";
 
 describe("@Unique()", () => {
   class Test {}

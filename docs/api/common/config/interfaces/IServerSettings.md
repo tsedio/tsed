@@ -6,33 +6,33 @@ meta:
 ---
 # IServerSettings <Badge text="Interface" type="interface"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IServerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//common/config/interfaces/IServerSettings.ts#L0-L0">/common/config/interfaces/IServerSettings.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IServerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/config/interfaces/IServerSettings.ts#L0-L0">/common/config/interfaces/IServerSettings.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> IServerSettings <span class="token punctuation">{</span>
-    rootDir?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    env?<span class="token punctuation">:</span> <a href="/api/core/interfaces/Env.html"><span class="token">Env</span></a><span class="token punctuation">;</span>
-    port?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
-    httpPort?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    httpsPort?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    httpsOptions?<span class="token punctuation">:</span> Https.ServerOptions<span class="token punctuation">;</span>
-    uploadDir?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    mount?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
-    componentsScan?<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token keyword">string</span> | RegExp<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    exclude?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    serveStatic?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
-    acceptMimes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    debug?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    logRequestFields?<span class="token punctuation">:</span> <span class="token punctuation">(</span>"reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration"<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    validationModelStrict?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    logger?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/config/interfaces/ILoggerSettings.html"><span class="token">ILoggerSettings</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    errors?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/config/interfaces/IErrorsSettings.html"><span class="token">IErrorsSettings</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    controllerScope?<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a><span class="token punctuation">;</span>
-    routers?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IRouterSettings.html"><span class="token">IRouterSettings</span></a><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+  rootDir?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  env?<span class="token punctuation">:</span> <a href="/api/core/interfaces/Env.html"><span class="token">Env</span></a><span class="token punctuation">;</span>
+  port?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
+  httpPort?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  httpsPort?<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span> | <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  httpsOptions?<span class="token punctuation">:</span> Https.ServerOptions<span class="token punctuation">;</span>
+  uploadDir?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  mount?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
+  componentsScan?<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token keyword">string</span> | RegExp<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  exclude?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  serveStatic?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
+  acceptMimes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  debug?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  logRequestFields?<span class="token punctuation">:</span> <span class="token punctuation">(</span>"reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration"<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  validationModelStrict?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  logger?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/config/interfaces/ILoggerSettings.html"><span class="token">ILoggerSettings</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
+  errors?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/config/interfaces/IErrorsSettings.html"><span class="token">IErrorsSettings</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
+  controllerScope?<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a><span class="token punctuation">;</span>
+  routers?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IRouterSettings.html"><span class="token">IRouterSettings</span></a><span class="token punctuation">;</span>
+  <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 

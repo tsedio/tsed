@@ -1,6 +1,6 @@
 import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Required, Scope, Status} from "@tsed/common";
-import {MultipartFile} from "../../../../../src/multipartfiles";
-import {Docs, Hidden} from "../../../../../src/swagger";
+import {MultipartFile} from "../../../../../packages/multipartfiles";
+import {Docs, Hidden} from "../../../../../packages/swagger";
 import {User} from "../../models/User";
 import {UserService} from "../../services/UserService";
 

@@ -1,6 +1,6 @@
-import {RESPONSE_DATA} from "../../../../src/common/filters/constants";
-import {ResponseData} from "../../../../src/common/filters/decorators/responseData";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {RESPONSE_DATA} from "../../../../packages/common/filters/constants";
+import {ResponseData} from "../../../../packages/common/filters/decorators/responseData";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("ResponseData", () => {
