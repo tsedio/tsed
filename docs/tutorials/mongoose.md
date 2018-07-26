@@ -1,3 +1,10 @@
+---
+meta:
+ - name: description
+   content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
+ - name: keywords
+   content: ts.ed express typescript mongoose node.js javascript decorators
+---
 # Mongoose <Badge text="beta" type="warn"/>
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>

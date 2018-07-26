@@ -1,5 +1,13 @@
+---
+meta:
+ - name: description
+   content: Use Swagger with Express, TypeScript and Ts.ED. Swagger open source and pro tools have helped millions of API developers, teams, and organizations deliver great APIs.
+ - name: keywords
+   content: ts.ed express typescript swagger node.js javascript decorators
+---
 # Swagger
-> Experimental feature. You can contribute to improve this feature !
+
+<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" height="128" />
 
 This tutorials show you, how you can configure Swagger-ui with Ts.ED. Swagger use the OpenApi
 to describe a Rest API. Ts.ED operates the existing decorators as well as new decorators to build the

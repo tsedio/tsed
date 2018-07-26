@@ -3,7 +3,7 @@ meta:
  - name: description
    content: Use AJV with Express, TypeScript and Ts.ED. AJV allows you to validate your data models from a JsonSchema.
  - name: keywords
-   content: ts.ed express typescript socket.io websocket node.js javascript decorators jsonschema class models
+   content: ts.ed express typescript ajv node.js javascript decorators jsonschema class models
 ---
 
 # AJV <Badge text="beta" type="warn"/>
