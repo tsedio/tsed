@@ -1,7 +1,7 @@
 
 <header class="symbol-info-header"><h1 id="multeroptions">MulterOptions</h1><label class="symbol-info-type-label decorator">Decorator</label><label class="api-type-label multer" title="multer">multer</label></header>
 <!-- summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MulterOptions }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.29.1/src//multipartfiles/decorators/multerOptions.ts#L0-L0">/multipartfiles/decorators/multerOptions.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MulterOptions }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//multipartfiles/decorators/multerOptions.ts#L0-L0">/multipartfiles/decorators/multerOptions.ts</a></td></tr></tbody></table></section>
 <!-- overview -->
 
 
@@ -18,7 +18,7 @@
 
 ### Description
 
-Define a parameter as Multipart file.
+Define multer option for all MultipartFile
 
 ```typescript
 import {Controller, Post} from "@tsed/common";
@@ -30,12 +30,13 @@ type MulterFile = Express.Multer.File;
 @Controller('/')
 class MyCtrl {
   @Post('/file')
-  private uploadFile(@MultipartFile("file1", 2) file: MulterFile) {
+  private uploadFile(@MultipartFile("file1") file: MulterFile) {
 
   }
 
   @Post('/file')
-  private uploadFile(@MultipartFile("file1", {dest: "/other-dir"}) file: MulterFile) {
+  @MulterOptions({dest: "/other-dir"})
+  private uploadFile(@MultipartFile("file1") file: MulterFile) {
 
   }
 
