@@ -1,6 +1,7 @@
-import {EndpointInfo, EndpointMetadata, IMiddleware, Middleware, Next, Req, Res, ServerSettingsService} from "@tsed/common";
+import {EndpointInfo, EndpointMetadata, IMiddleware, Middleware, Req, Res, ServerSettingsService} from "@tsed/common";
 import * as Express from "express";
 import * as multer from "multer";
+import {BadRequest} from "ts-httpexceptions";
 
 /**
  * @private
@@ -17,25 +18,25 @@ export class MultipartFileMiddleware implements IMiddleware {
    * @param endpoint
    * @param request
    * @param response
-   * @param next
    * @returns {any}
    */
-  use(
-    @EndpointInfo() endpoint: EndpointMetadata,
-    @Req() request: Express.Request,
-    @Res() response: Express.Response,
-    @Next() next: Express.NextFunction
-  ) {
+  use(@EndpointInfo() endpoint: EndpointMetadata, @Req() request: Express.Request, @Res() response: Express.Response) {
     const dest = this.serverSettingsService.uploadDir;
     const conf = endpoint.store.get(MultipartFileMiddleware);
     const options = Object.assign({dest}, this.serverSettingsService.get("multer") || {}, conf.options || {});
 
-    if (!conf.any) {
-      const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));
+    return new Promise((resolve, reject) => {
+      const onResponse = (err: any) => (err ? reject(err) : resolve());
 
-      return this.multer(options).fields(fields)(request, response, next);
-    }
+      if (!conf.any) {
+        const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));
 
-    return this.multer(options).any()(request, response, next);
+        return this.multer(options).fields(fields)(request, response, onResponse);
+      }
+
+      return this.multer(options).any()(request, response, onResponse);
+    }).catch(er => {
+      throw er.code ? new BadRequest(`${er.message} ${er.field || ""}`.trim()) : er;
+    });
   }
 }

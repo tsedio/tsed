@@ -3,7 +3,7 @@ import * as Multer from "multer";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
 
 /**
- * Define a parameter as Multipart file.
+ * Define multer option for all MultipartFile
  *
  * ```typescript
  * import {Controller, Post} from "@tsed/common";
@@ -15,12 +15,13 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @Controller('/')
  * class MyCtrl {
  *   @Post('/file')
- *   private uploadFile(@MultipartFile("file1", 2) file: MulterFile) {
+ *   private uploadFile(@MultipartFile("file1") file: MulterFile) {
  *
  *   }
  *
  *   @Post('/file')
- *   private uploadFile(@MultipartFile("file1", {dest: "/other-dir"}) file: MulterFile) {
+ *   @MulterOptions({dest: "/other-dir"})
+ *   private uploadFile(@MultipartFile("file1") file: MulterFile) {
  *
  *   }
  *

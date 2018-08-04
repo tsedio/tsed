@@ -67,6 +67,14 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
 
         // create endpoint metadata
         store.merge("consumes", ["multipart/form-data"]).set("multipartAdded", true);
+        store
+          .merge("responses", {
+            "400": {
+              description: `<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]
+                            Example: File too long file1`
+            }
+          })
+          .set("multipartAdded", true);
 
         if (!added) {
           // middleware is added
