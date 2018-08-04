@@ -761,6 +761,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]\n                            Example: File too long file1"
           }
         },
         "security": [],
@@ -787,6 +790,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]\n                            Example: File too long file1"
           }
         },
         "security": [],

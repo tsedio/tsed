@@ -9,3 +9,4 @@ declare interface IServerSettings {
 
 export * from "./decorators/multipartFile";
 export * from "./decorators/multerOptions";
+export * from "./decorators/multerFileSize";

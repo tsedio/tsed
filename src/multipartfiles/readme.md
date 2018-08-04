@@ -76,6 +76,7 @@ class MyCtrl {
 
   @Post('/file')
   @MulterOptions({dest: "/other-dir"})
+  @MulterFileSize(1024) // (unit: Ko). Applied for all fields
   private uploadFile(@MultipartFile("file1") file1: MulterFile, @MultipartFile("file2") file2: MulterFile) {
 
   }

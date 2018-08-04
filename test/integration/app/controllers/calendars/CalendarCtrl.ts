@@ -20,7 +20,7 @@ import {
   Use,
   UseAfter
 } from "@tsed/common";
-import {MultipartFile} from "@tsed/multipartfiles";
+import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
 import * as Express from "express";
 import {CalendarModel} from "../../models/Calendar";
@@ -289,6 +289,7 @@ export class CalendarCtrl extends BaseController {
   }
 
   @Post("/documents/1")
+  @MulterFileSize(2048)
   testMultipart2(@MultipartFile("file1") file: any) {
     console.log("====>", file);
 
