@@ -1,6 +1,6 @@
 # @tsed/multipartfiles
 
-A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/tutorials/upload-file-with-multer
+A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/upload-file-with-multer
 
 ## Installation
 

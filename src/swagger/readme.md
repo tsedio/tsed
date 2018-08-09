@@ -1,6 +1,6 @@
 # @tsed/swagger
 
-A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/tutorials/swagger
+A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/swagger
 
 ## Installation
 
@@ -192,7 +192,7 @@ document.addEventListener('swagger.init', (evt) => {
 
 ## Documentation
 
-See our documentation https://romakita.github.io/ts-express-decorators/#/api/index
+See our documentation https://tsed.io/#/api/index
 
 
 ## Contributors

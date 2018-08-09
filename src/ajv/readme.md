@@ -2,7 +2,7 @@
 
 > Experimental feature. You can contribute to improve this feature !
 
-A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/tutorials/ajv
+A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/ajv
 
 ## Installation
 
@@ -29,7 +29,7 @@ export class Server extends ServerLoader {
 
 ### Decorators
 
-See our API documentation on https://romakita.github.io/ts-express-decorators/#/api/index
+See our API documentation on https://tsed.io/#/api/index
 
 ## Example
 

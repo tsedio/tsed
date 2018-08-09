@@ -54,7 +54,7 @@
   "bugs": {
     "url": "https://github.com/Romakita/ts-express-decorators/issues"
   },
-  "homepage": "https://romakita.github.io/ts-express-decorators/#/",
+  "homepage": "http://tsed.io/",
   "dependencies": {
     "@types/json-schema": "^6.0.0",
     "globby": "^8.0.1",
