@@ -9,7 +9,7 @@
 </div>
 
 
-A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/tutorials/socket-io
+A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/socket-io
 
 Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
@@ -276,7 +276,7 @@ export class MySocketService {
 
 ## Documentation
 
-See our documentation https://romakita.github.io/ts-express-decorators/#/api/index
+See our documentation https://tsed.io/#/api/index
 
 ## Contributors
 Please read [contributing guidelines here](./CONTRIBUTING.md).

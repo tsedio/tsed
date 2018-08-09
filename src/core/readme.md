@@ -1,6 +1,6 @@
 # @tsed/core
 
-A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/
+A package of Ts.ED framework. See website: https://tsed.io/
 
 # Installation
 

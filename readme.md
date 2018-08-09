@@ -38,11 +38,11 @@ to write your code.
 
 ## Documentation
 
-Documentation is available on [https://romakita.github.io/ts-express-decorators](https://romakita.github.io/ts-express-decorators)
+Documentation is available on [https://tsed.io](https://tsed.io)
 
 ## Examples
 
-Examples are available on [https://romakita.github.io/ts-express-decorators/#/tutorials/overview](https://romakita.github.io/ts-express-decorators/#/tutorials/overview)
+Examples are available on [https://tsed.io/#/tutorials/overview](https://tsed.io/#/tutorials/overview)
 
 ## Installation
 

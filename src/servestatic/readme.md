@@ -1,6 +1,6 @@
 # @tsed/servestatic
 
-A package of Ts.ED framework. See website: https://romakita.github.io/ts-express-decorators/#/serve-static-files
+A package of Ts.ED framework. See website: https://tsed.io/#/serve-static-files
 
 ## Installation
 
