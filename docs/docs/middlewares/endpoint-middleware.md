@@ -42,7 +42,7 @@ class MyCtrl {
 }     
 ```
 
-> See [middleware call sequence](docs/middlewares/call-sequence.md) for more information.
+> See [middleware call sequence](/docs/middlewares/call-sequence.md) for more information.
 
 ### Create your own decorator
 
@@ -208,12 +208,4 @@ class MyCtrl {
    }
 }  
 ```
-
-
-<div class="guide-links">
-<a href="#/docs/middlewares/global-error-middleware">Global error middleware</a>
-<a href="#/docs/middlewares/endpoint-error-middleware">Endpoint error middleware</a>
-</div>
-
-
 

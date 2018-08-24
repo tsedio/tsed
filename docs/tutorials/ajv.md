@@ -1,7 +1,18 @@
-# AJV Validation
-> Experimental feature. You can contribute to improve this feature !
+---
+meta:
+ - name: description
+   content: Use AJV with Express, TypeScript and Ts.ED. AJV allows you to validate your data models from a JsonSchema.
+ - name: keywords
+   content: ts.ed express typescript socket.io websocket node.js javascript decorators jsonschema class models
+---
 
-This tutorials show you, how you can validation decorators with Ts.ED. Validation feature use [Ajv](https://github.com/epoberezkin/ajv)
+# AJV <Badge text="beta" type="warn"/>
+
+<Banner src="https://ajv.js.org/images/ajv_logo.png" href="https://ajv.js.org/" height="100" />
+
+This tutorials show you, how you can validate your data with decorators.
+
+Validation feature use [Ajv](https://github.com/epoberezkin/ajv)
  and [json-schema](http://json-schema.org/latest/json-schema-validation.html) to perform the model validation.
 
 ## Installation
@@ -12,7 +23,7 @@ Before using the validation decorators, we need to install the [ajv](https://www
 npm install --save ajv
 ```
 
-Then import `@tsed/ajv` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/ajv` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -49,7 +60,7 @@ export class Server extends ServerLoader {
 }
 ```
 
-### Decorators
+## Decorators
 
 Ts.ED given some decorators to write your validation model:
 
@@ -59,7 +70,7 @@ Ts.ED given some decorators to write your validation model:
 
 #### Model validation
 
-A model can used on a method controller along with [@BodyParams](api/common/filters/bodyparams.md) or other decorators, and will
+A model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators, and will
 be validated by Ajv.
 
 ```typescript
@@ -121,8 +132,3 @@ This information can be retrieved in the response headers:
  vary: Accept-Encoding
  x-powered-by: Express
 ```
-
-<div class="guide-links">
-<a href="#/tutorials/swagger">Swagger</a>
-<a href="#/tutorials/custom-validator">Custom validator</a>
-</div>

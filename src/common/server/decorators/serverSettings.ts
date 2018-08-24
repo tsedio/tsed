@@ -25,6 +25,7 @@ import {IServerSettings} from "../../config/interfaces/IServerSettings";
  * ```
  *
  * You can customize your configuration as follow:
+ *
  * ```typescript
  * import {ServerLoader, ServerSettings} from "@tsed/common";
  * import Path = require("path");
@@ -56,10 +57,10 @@ import {IServerSettings} from "../../config/interfaces/IServerSettings";
  *   * `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
  *   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
  *   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
- * * `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](tutorials/upload-files-with-multer.md).
- * * `mount` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
- * * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/ovierview.md), [Middlewares](docs/middlewares/ovierview.md) or [Converters](docs/converters.md).
- * * `serveStatic` &lt;[IServerMountDirectories](api/common/server/iservermountdirectories.md)&gt;: Objet to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
+ * * `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md).
+ * * `mount` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
+ * * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
+ * * `serveStatic` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Objet to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
  * * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
  * * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknow, it throw a BadRequest. By default true.
  *

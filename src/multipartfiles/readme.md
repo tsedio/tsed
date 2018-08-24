@@ -10,7 +10,7 @@ Before using the `@MultipartFile()` you must install [multer](https://github.com
 npm install --save @types/multer @tsed/multipartfiles
 ```
 
-Then import `@tsed/multipartfiles` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/multipartfiles` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";

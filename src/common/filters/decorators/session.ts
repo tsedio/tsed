@@ -26,7 +26,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  *    }
  * }
  * ```
- * > For more information on deserialization see [converters](docs/converters.md) page.
+ * > For more information on deserialization see [converters](/docs/converters.md) page.
  *
  * @param expression The path of the property to get.
  * @param useType The type of the class that to be used to deserialize the data.

@@ -1,7 +1,0 @@
-* [<div class="ps-icon ps-icon-arrow-right"></div> Getting started](getting-started.md)
-* [<div class="ps-icon ps-icon-row-setting"></div> Configuration](configuration.md)
-* [<div class="ps-icon ps-icon-cookie"></div> Guide](tutorials/overview.md)
-* [<div class="ps-icon ps-icon-book-tag"></div> Documentation](docs/overview.md)
-* [<div class="ps-icon ps-icon-code"></div> API references](api/index.md)
-* [<div class="ps-icon ps-icon-github-alt"></div> Contribute](contributing.md)
-* [<div class="ps-icon ps-icon-file"></div> License](license.md)

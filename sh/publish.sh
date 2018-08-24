@@ -48,4 +48,11 @@ npm run publish:release
 # COMMIT RELEASE
 semantic-release post
 
+cd docs/.vuepress/dist
+git add -A
+git commit -m "Deploy documentation $PACKAGE_VERSION [ci skip]"
+
+git push -f https://${GH_TOKEN}@${REPOSITORY} master:gh-pages
+
 echo "Done"
+

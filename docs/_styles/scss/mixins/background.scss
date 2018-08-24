@@ -1,4 +1,0 @@
-@mixin background-color($value, $cssVarName) {
-  background-color: $value;
-  background-color: var($cssVarName, $value);
-}

@@ -1,3 +1,10 @@
+---
+sidebar: auto
+prev: false
+next: /configuration.html
+otherTopics: true
+---
+
 # Getting started
 ## Installation
 
@@ -87,7 +94,7 @@ You can copy this example of package.json to develop your application:
 
 Ts.ED provide a `ServerLoader` class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](docs/server-loader/_sidebar.md).
+a new `Server` class that extends [`ServerLoader`](/docs/server-loader/_sidebar.md).
 
 #### With decorators
 
@@ -209,7 +216,7 @@ Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/c
 All controllers declared with `@Controller` decorators is considered as an Express router. 
 An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
 More precisely, it's a part of path, and entire exposed url depend on the Server configuration (see [Configuration](configuration.md)) 
-and the [controllers dependencies](docs/controllers.md). 
+and the [controllers dependencies](/docs/controllers.md).
 
 In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
@@ -259,43 +266,6 @@ export class CalendarCtrl {
 
 To test your method, just run your `server.ts` and send a HTTP request on `/rest/calendars/1`.
 
-
-
 ### Ready for More?
 
 We’ve briefly introduced the most basic features of Ts.ED - the rest of this guide will cover them and other advanced features with much finer details, so make sure to read through it all!
-
-<div class="guide-links">
-<a href="#/configuration">Configuration</a>
-<a href="#/docs/controllers">Controllers</a>
-</div>
-
-***
-
-### Other topics
-
-<div class="topics">
-  [Controllers](docs/controllers.md)
-  [Services](docs/services/overview.md)
-  [Middlewares](docs/middlewares/overview.md)
-  [Scope](docs/scope.md)
-  [Model](docs/model.md)
-  [Converters](docs/converters.md)
-  [Filters](docs/filters.md)
-  [Interceptors](docs/interceptors.md)
-  [Testing](docs/testing.md)
-  [Authentication](docs/middlewares/override/authentication.md)
-  [Global Error Handler](docs/middlewares/override/global-error-handler.md)
-  [Guides](tutorials/overview.md)
-  [Passport.js](tutorials/passport.md)
-  [TypeORM](tutorials/typeorm.md)
-  [Mongoose](tutorials/mongoose.md)
-  [Socket.io](tutorials/socket-io.md)
-  [Swagger](tutorials/swagger.md)
-  [AJV Validation](tutorials/ajv.md)
-  [Upload files](tutorials/upload-files-with-multer.md)
-  [Serve static files](tutorials/serve-static-files.md)
-  [Templating](tutorials/templating.md)
-  [Throw HTTP exceptions](tutorials/throw-http-exceptions.md)
-  [AWS project](tutorials/aws.md)
-</div>  

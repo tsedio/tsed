@@ -112,7 +112,7 @@ export interface IServerSettings {
    */
   httpsOptions?: Https.ServerOptions;
   /**
-   * The temporary directory to upload the documents. See more on [Upload file with Multer](tutorials/upload-files-with-multer.md)
+   * The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md)
    */
   uploadDir?: string;
   /**
@@ -120,7 +120,7 @@ export interface IServerSettings {
    */
   mount?: IServerMountDirectories;
   /**
-   * List of directories to scan [Services](docs/services/overview.md), [Middlewares](docs/middlewares/overview.md) or [Converters](docs/converters.md).
+   * List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
    */
   componentsScan?: (string | RegExp)[];
   /**
@@ -128,7 +128,7 @@ export interface IServerSettings {
    */
   exclude?: string[];
   /**
-   * Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
+   * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
    */
   serveStatic?: IServerMountDirectories;
   /**
@@ -145,7 +145,7 @@ export interface IServerSettings {
   logRequestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
   /**
    * Use a strict validation when a model is used by the converter.
-   * When a property is unknown, it throw a `BadRequest` (see [Converters](docs/converters.md)).
+   * When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)).
    * By default true.
    */
   validationModelStrict?: boolean;
@@ -160,7 +160,7 @@ export interface IServerSettings {
   /**
    * Configure the default scope of the controllers.
    *
-   * - Default: `singleton`. See [Scope](docs/scope.md).
+   * - Default: `singleton`. See [Scope](/docs/scope.md).
    * - Values: `singleton`, `request`.
    */
   controllerScope?: ProviderScope;

@@ -1,0 +1,5289 @@
+{
+  "version": "4.30.0",
+  "scope": "@tsed",
+  "symbolTypes": [
+    {
+      "value": "decorator",
+      "label": "Decorator",
+      "code": "@"
+    },
+    {
+      "value": "class",
+      "label": "Class",
+      "code": "C"
+    },
+    {
+      "value": "enum",
+      "label": "Enum",
+      "code": "E"
+    },
+    {
+      "value": "function",
+      "label": "Function",
+      "code": "F"
+    },
+    {
+      "value": "interface",
+      "label": "Interface",
+      "code": "I"
+    },
+    {
+      "value": "const",
+      "label": "Constant",
+      "code": "K"
+    },
+    {
+      "value": "service",
+      "label": "Service",
+      "code": "S"
+    },
+    {
+      "value": "type",
+      "label": "Type alias",
+      "code": "T"
+    }
+  ],
+  "symbolStatus": [
+    {
+      "value": "stable",
+      "label": "Stable"
+    },
+    {
+      "value": "deprecated",
+      "label": "Deprecated"
+    },
+    {
+      "value": "experimental",
+      "label": "Experimental"
+    },
+    {
+      "value": "private",
+      "label": "Private"
+    },
+    {
+      "value": "public",
+      "label": "Public"
+    }
+  ],
+  "modules": {
+    "@tsed/ajv": {
+      "symbols": [
+        {
+          "path": "/api/ajv/errors/AjvValidationError",
+          "symbolName": "AjvValidationError",
+          "module": "@tsed/ajv",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/ajv/interfaces/AjvErrorObject",
+          "symbolName": "AjvErrorObject",
+          "module": "@tsed/ajv",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/ajv/interfaces/ErrorFormatter",
+          "symbolName": "ErrorFormatter",
+          "module": "@tsed/ajv",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/ajv/interfaces/IAjvSettings",
+          "symbolName": "IAjvSettings",
+          "module": "@tsed/ajv",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/ajv/interfaces/IAjvOptions",
+          "symbolName": "IAjvOptions",
+          "module": "@tsed/ajv",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/ajv/services/AjvService",
+          "symbolName": "AjvService",
+          "module": "@tsed/ajv",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/ajv"
+    },
+    "@tsed/common/config": {
+      "symbols": [
+        {
+          "path": "/api/common/config/constants/SERVER_SETTINGS",
+          "symbolName": "SERVER_SETTINGS",
+          "module": "@tsed/common/config",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/decorators/Constant",
+          "symbolName": "Constant",
+          "module": "@tsed/common/config",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/decorators/Value",
+          "symbolName": "Value",
+          "module": "@tsed/common/config",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/interfaces/IServerMountDirectories",
+          "symbolName": "IServerMountDirectories",
+          "module": "@tsed/common/config",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/interfaces/ILoggerSettings",
+          "symbolName": "ILoggerSettings",
+          "module": "@tsed/common/config",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/interfaces/IErrorsSettings",
+          "symbolName": "IErrorsSettings",
+          "module": "@tsed/common/config",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/interfaces/IRouterSettings",
+          "symbolName": "IRouterSettings",
+          "module": "@tsed/common/config",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/interfaces/IServerSettings",
+          "symbolName": "IServerSettings",
+          "module": "@tsed/common/config",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/services/globalServerSettings",
+          "symbolName": "globalServerSettings",
+          "module": "@tsed/common/config",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated",
+            "private"
+          ]
+        },
+        {
+          "path": "/api/common/config/services/GlobalServerSettings",
+          "symbolName": "GlobalServerSettings",
+          "module": "@tsed/common/config",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated",
+            "private"
+          ]
+        },
+        {
+          "path": "/api/common/config/services/ServerSettingsService",
+          "symbolName": "ServerSettingsService",
+          "module": "@tsed/common/config",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated"
+          ]
+        },
+        {
+          "path": "/api/common/config/services/ServerSettingsProvider",
+          "symbolName": "ServerSettingsProvider",
+          "module": "@tsed/common/config",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated"
+          ]
+        }
+      ],
+      "name": "@tsed/common/config"
+    },
+    "@tsed/swagger": {
+      "symbols": [
+        {
+          "path": "/api/swagger/interfaces/IServerSettings",
+          "symbolName": "IServerSettings",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Deprecated",
+          "symbolName": "Deprecated",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/class/OpenApiEndpointBuilder",
+          "symbolName": "OpenApiEndpointBuilder",
+          "module": "@tsed/swagger",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/class/OpenApiModelSchemaBuilder",
+          "symbolName": "OpenApiModelSchemaBuilder",
+          "module": "@tsed/swagger",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/class/OpenApiPropertiesBuilder",
+          "symbolName": "OpenApiPropertiesBuilder",
+          "module": "@tsed/swagger",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "deprecated",
+            "private"
+          ]
+        },
+        {
+          "path": "/api/swagger/class/OpenApiParamsBuilder",
+          "symbolName": "OpenApiParamsBuilder",
+          "module": "@tsed/swagger",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/BaseParameter",
+          "symbolName": "BaseParameter",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Consumes",
+          "symbolName": "Consumes",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Description",
+          "symbolName": "Description",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Docs",
+          "symbolName": "Docs",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Example",
+          "symbolName": "Example",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Hidden",
+          "symbolName": "Hidden",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Name",
+          "symbolName": "Name",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Operation",
+          "symbolName": "Operation",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Produces",
+          "symbolName": "Produces",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Responses",
+          "symbolName": "Responses",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Returns",
+          "symbolName": "Returns",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/ReturnsArray",
+          "symbolName": "ReturnsArray",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Security",
+          "symbolName": "Security",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/decorators/Summary",
+          "symbolName": "Summary",
+          "module": "@tsed/swagger",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/interfaces/ISwaggerPaths",
+          "symbolName": "ISwaggerPaths",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/interfaces/ISwaggerResponses",
+          "symbolName": "ISwaggerResponses",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/interfaces/SwaggerUIOptions",
+          "symbolName": "SwaggerUIOptions",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/interfaces/ISwaggerSettings",
+          "symbolName": "ISwaggerSettings",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/interfaces/OpenApiDefinitions",
+          "symbolName": "OpenApiDefinitions",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/interfaces/OpenApiResponses",
+          "symbolName": "OpenApiResponses",
+          "module": "@tsed/swagger",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/services/SwaggerService",
+          "symbolName": "SwaggerService",
+          "module": "@tsed/swagger",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/utils/parseSwaggerPath",
+          "symbolName": "parseSwaggerPath",
+          "module": "@tsed/swagger",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/utils/swaggerType",
+          "symbolName": "swaggerType",
+          "module": "@tsed/swagger",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/utils/swaggerApplyType",
+          "symbolName": "swaggerApplyType",
+          "module": "@tsed/swagger",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/swagger/utils/getReducers",
+          "symbolName": "getReducers",
+          "module": "@tsed/swagger",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/swagger"
+    },
+    "@tsed/common/converters": {
+      "symbols": [
+        {
+          "path": "/api/common/converters/components/ArrayConverter",
+          "symbolName": "ArrayConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "converters",
+            "component",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/components/DateConverter",
+          "symbolName": "DateConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "converters",
+            "component",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/components/MapConverter",
+          "symbolName": "MapConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "converters",
+            "component",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/components/PrimitiveConverter",
+          "symbolName": "PrimitiveConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "converters",
+            "component",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/components/SetConverter",
+          "symbolName": "SetConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "converters",
+            "component",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/components/SymbolConverter",
+          "symbolName": "SymbolConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "converters",
+            "component",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/constants/CONVERTER",
+          "symbolName": "CONVERTER",
+          "module": "@tsed/common/converters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/constants/PROPERTIES_METADATA",
+          "symbolName": "PROPERTIES_METADATA",
+          "module": "@tsed/common/converters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/decorators/Converter",
+          "symbolName": "Converter",
+          "module": "@tsed/common/converters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/decorators/ModelStrict",
+          "symbolName": "ModelStrict",
+          "module": "@tsed/common/converters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "conveters",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/errors/ConverterDeserializationError",
+          "symbolName": "ConverterDeserializationError",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/errors/ConverterSerializationError",
+          "symbolName": "ConverterSerializationError",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/errors/RequiredPropertyError",
+          "symbolName": "RequiredPropertyError",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/errors/UnknowPropertyError",
+          "symbolName": "UnknowPropertyError",
+          "module": "@tsed/common/converters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/IDeserializer",
+          "symbolName": "IDeserializer",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/IConverterIgnoreCB",
+          "symbolName": "IConverterIgnoreCB",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/ISerializer",
+          "symbolName": "ISerializer",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/IConverterOptions",
+          "symbolName": "IConverterOptions",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/IConverter",
+          "symbolName": "IConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/IJsonMetadata",
+          "symbolName": "IJsonMetadata",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/interfaces/IPropertyOptions",
+          "symbolName": "IPropertyOptions",
+          "module": "@tsed/common/converters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/registries/ConverterRegistry",
+          "symbolName": "ConverterRegistry",
+          "module": "@tsed/common/converters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/registries/registerConverter",
+          "symbolName": "registerConverter",
+          "module": "@tsed/common/converters",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/converters/services/ConverterService",
+          "symbolName": "ConverterService",
+          "module": "@tsed/common/converters",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/converters"
+    },
+    "@tsed/common/di": {
+      "symbols": [
+        {
+          "path": "/api/common/di/class/Provider",
+          "symbolName": "Provider",
+          "module": "@tsed/common/di",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/class/Providers",
+          "symbolName": "Providers",
+          "module": "@tsed/common/di",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/class/ProviderStorable",
+          "symbolName": "ProviderStorable",
+          "module": "@tsed/common/di",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "deprecated"
+          ]
+        },
+        {
+          "path": "/api/common/di/decorators/Inject",
+          "symbolName": "Inject",
+          "module": "@tsed/common/di",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/decorators/OverrideProvider",
+          "symbolName": "OverrideProvider",
+          "module": "@tsed/common/di",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/decorators/OverrideService",
+          "symbolName": "OverrideService",
+          "module": "@tsed/common/di",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/decorators/Service",
+          "symbolName": "Service",
+          "module": "@tsed/common/di",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/errors/InjectionError",
+          "symbolName": "InjectionError",
+          "module": "@tsed/common/di",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/errors/InjectionScopeError",
+          "symbolName": "InjectionScopeError",
+          "module": "@tsed/common/di",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IInjectableMethod",
+          "symbolName": "IInjectableMethod",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IInjectableProperty",
+          "symbolName": "IInjectableProperty",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IInjectablePropertyService",
+          "symbolName": "IInjectablePropertyService",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IInjectablePropertyValue",
+          "symbolName": "IInjectablePropertyValue",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IInjectablePropertyCustom",
+          "symbolName": "IInjectablePropertyCustom",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IInjectableProperties",
+          "symbolName": "IInjectableProperties",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/IProvider",
+          "symbolName": "IProvider",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/OnInit",
+          "symbolName": "OnInit",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/OnInjectorReady",
+          "symbolName": "OnInjectorReady",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/ProviderScope",
+          "symbolName": "ProviderScope",
+          "module": "@tsed/common/di",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/ProviderType",
+          "symbolName": "ProviderType",
+          "module": "@tsed/common/di",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/RegistrySettings",
+          "symbolName": "RegistrySettings",
+          "module": "@tsed/common/di",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/interfaces/TypedProvidersRegistry",
+          "symbolName": "TypedProvidersRegistry",
+          "module": "@tsed/common/di",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/registries/GlobalProviders",
+          "symbolName": "GlobalProviders",
+          "module": "@tsed/common/di",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/registries/ProviderRegistry",
+          "symbolName": "ProviderRegistry",
+          "module": "@tsed/common/di",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/registries/registerFactory",
+          "symbolName": "registerFactory",
+          "module": "@tsed/common/di",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/registries/registerService",
+          "symbolName": "registerService",
+          "module": "@tsed/common/di",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/registries/registerProvider",
+          "symbolName": "registerProvider",
+          "module": "@tsed/common/di",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/di/services/InjectorService",
+          "symbolName": "InjectorService",
+          "module": "@tsed/common/di",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/di"
+    },
+    "@tsed/common/filters": {
+      "symbols": [
+        {
+          "path": "/api/common/filters/class/FilterBuilder",
+          "symbolName": "FilterBuilder",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/class/ParamMetadata",
+          "symbolName": "ParamMetadata",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/BodyParamsFilter",
+          "symbolName": "BodyParamsFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/CookiesFilter",
+          "symbolName": "CookiesFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/HeaderParamsFilter",
+          "symbolName": "HeaderParamsFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/LocalsFilter",
+          "symbolName": "LocalsFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/PathParamsFilter",
+          "symbolName": "PathParamsFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/QueryParamsFilter",
+          "symbolName": "QueryParamsFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/components/SessionFilter",
+          "symbolName": "SessionFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/PARAM_METADATA",
+          "symbolName": "PARAM_METADATA",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/EXPRESS_NEXT_FN",
+          "symbolName": "EXPRESS_NEXT_FN",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/EXPRESS_ERR",
+          "symbolName": "EXPRESS_ERR",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/EXPRESS_REQUEST",
+          "symbolName": "EXPRESS_REQUEST",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/EXPRESS_RESPONSE",
+          "symbolName": "EXPRESS_RESPONSE",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/RESPONSE_DATA",
+          "symbolName": "RESPONSE_DATA",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/constants/ENDPOINT_INFO",
+          "symbolName": "ENDPOINT_INFO",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/BodyParams",
+          "symbolName": "BodyParams",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/CookiesParams",
+          "symbolName": "CookiesParams",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Cookies",
+          "symbolName": "Cookies",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "aliasof",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/EndpointInfo",
+          "symbolName": "EndpointInfo",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Err",
+          "symbolName": "Err",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Filter",
+          "symbolName": "Filter",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/HeaderParams",
+          "symbolName": "HeaderParams",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Locals",
+          "symbolName": "Locals",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Next",
+          "symbolName": "Next",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/PathParams",
+          "symbolName": "PathParams",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/QueryParams",
+          "symbolName": "QueryParams",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Request",
+          "symbolName": "Request",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Req",
+          "symbolName": "Req",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "alias",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Response",
+          "symbolName": "Response",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Res",
+          "symbolName": "Res",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "alias",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/ResponseData",
+          "symbolName": "ResponseData",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/decorators/Session",
+          "symbolName": "Session",
+          "module": "@tsed/common/filters",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/errors/RequiredParamError",
+          "symbolName": "RequiredParamError",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/errors/UnknowFilterError",
+          "symbolName": "UnknowFilterError",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IClassArgs",
+          "symbolName": "IClassArgs",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IMethodArgs",
+          "symbolName": "IMethodArgs",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IAttributArgs",
+          "symbolName": "IAttributArgs",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IParamArgs",
+          "symbolName": "IParamArgs",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IFilter",
+          "symbolName": "IFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IFilterPreHandler",
+          "symbolName": "IFilterPreHandler",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IFilterScope",
+          "symbolName": "IFilterScope",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IInjectableParamSettings",
+          "symbolName": "IInjectableParamSettings",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/IParamOptions",
+          "symbolName": "IParamOptions",
+          "module": "@tsed/common/filters",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/interfaces/ParamTypes",
+          "symbolName": "ParamTypes",
+          "module": "@tsed/common/filters",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/registries/FilterRegistry",
+          "symbolName": "FilterRegistry",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/registries/registerFilter",
+          "symbolName": "registerFilter",
+          "module": "@tsed/common/filters",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/registries/FilterPreHandlers",
+          "symbolName": "FilterPreHandlers",
+          "module": "@tsed/common/filters",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/registries/ParamRegistry",
+          "symbolName": "ParamRegistry",
+          "module": "@tsed/common/filters",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/services/FilterService",
+          "symbolName": "FilterService",
+          "module": "@tsed/common/filters",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated"
+          ]
+        },
+        {
+          "path": "/api/common/filters/services/ParseService",
+          "symbolName": "ParseService",
+          "module": "@tsed/common/filters",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/filters/services/ValidationService",
+          "symbolName": "ValidationService",
+          "module": "@tsed/common/filters",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/filters"
+    },
+    "@tsed/common/interceptors": {
+      "symbols": [
+        {
+          "path": "/api/common/interceptors/decorators/Intercept",
+          "symbolName": "Intercept",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/interceptors/decorators/Interceptor",
+          "symbolName": "Interceptor",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/interceptors/interfaces/IInterceptor",
+          "symbolName": "IInterceptor",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/interceptors/interfaces/IInterceptorContext",
+          "symbolName": "IInterceptorContext",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/interceptors/registries/InterceptorRegistry",
+          "symbolName": "InterceptorRegistry",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/interceptors/registries/registerInterceptor",
+          "symbolName": "registerInterceptor",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/interceptors/utils/interceptorInvokeFactory",
+          "symbolName": "interceptorInvokeFactory",
+          "module": "@tsed/common/interceptors",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/interceptors"
+    },
+    "@tsed/common/jsonschema": {
+      "symbols": [
+        {
+          "path": "/api/common/jsonschema/class/JSON_TYPES",
+          "symbolName": "JSON_TYPES",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/class/AUTO_MAP_KEYS",
+          "symbolName": "AUTO_MAP_KEYS",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/class/JsonSchema",
+          "symbolName": "JsonSchema",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/class/PropertyMetadata",
+          "symbolName": "PropertyMetadata",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/AllowTypes",
+          "symbolName": "AllowTypes",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Any",
+          "symbolName": "Any",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Default",
+          "symbolName": "Default",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Email",
+          "symbolName": "Email",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Enum",
+          "symbolName": "Enum",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/ExclusiveMaximum",
+          "symbolName": "ExclusiveMaximum",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/ExclusiveMinimum",
+          "symbolName": "ExclusiveMinimum",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Format",
+          "symbolName": "Format",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/IgnoreProperty",
+          "symbolName": "IgnoreProperty",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "converters",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/JsonProperty",
+          "symbolName": "JsonProperty",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Property",
+          "symbolName": "Property",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Maximum",
+          "symbolName": "Maximum",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MaxItems",
+          "symbolName": "MaxItems",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MaxLength",
+          "symbolName": "MaxLength",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MaxProperties",
+          "symbolName": "MaxProperties",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Minimum",
+          "symbolName": "Minimum",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MinItems",
+          "symbolName": "MinItems",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MinLength",
+          "symbolName": "MinLength",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MinProperties",
+          "symbolName": "MinProperties",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/MultipleOf",
+          "symbolName": "MultipleOf",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Pattern",
+          "symbolName": "Pattern",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "auto-map",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/PropertyName",
+          "symbolName": "PropertyName",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "converters",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/PropertyType",
+          "symbolName": "PropertyType",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "converters",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Schema",
+          "symbolName": "Schema",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "jsonschema",
+            "ajv",
+            "swagger",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/Title",
+          "symbolName": "Title",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/decorators/UniqueItems",
+          "symbolName": "UniqueItems",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "ajv",
+            "jsonschema",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/registries/JsonSchemaRegistry",
+          "symbolName": "JsonSchemaRegistry",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/registries/JsonSchemesRegistry",
+          "symbolName": "JsonSchemesRegistry",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/registries/PropertyRegistry",
+          "symbolName": "PropertyRegistry",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/services/JsonSchemesService",
+          "symbolName": "JsonSchemesService",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/jsonschema/utils/decoratorSchemaFactory",
+          "symbolName": "decoratorSchemaFactory",
+          "module": "@tsed/common/jsonschema",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/jsonschema"
+    },
+    "@tsed/mongoose": {
+      "symbols": [
+        {
+          "path": "/api/mongoose/decorators/Schema",
+          "symbolName": "Schema",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/constants/MONGOOSE_SCHEMA",
+          "symbolName": "MONGOOSE_SCHEMA",
+          "module": "@tsed/mongoose",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/constants/MONGOOSE_SCHEMA_OPTIONS",
+          "symbolName": "MONGOOSE_SCHEMA_OPTIONS",
+          "module": "@tsed/mongoose",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/constants/MONGOOSE_MODEL_NAME",
+          "symbolName": "MONGOOSE_MODEL_NAME",
+          "module": "@tsed/mongoose",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/Indexed",
+          "symbolName": "Indexed",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/Model",
+          "symbolName": "Model",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/MongooseIndex",
+          "symbolName": "MongooseIndex",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/MongoosePlugin",
+          "symbolName": "MongoosePlugin",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/PostHook",
+          "symbolName": "PostHook",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/PreHookOptions",
+          "symbolName": "PreHookOptions",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/PreHook",
+          "symbolName": "PreHook",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/Ref",
+          "symbolName": "Ref",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/Select",
+          "symbolName": "Select",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/decorators/Unique",
+          "symbolName": "Unique",
+          "module": "@tsed/mongoose",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "mongoose",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MDBConnection",
+          "symbolName": "MDBConnection",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongooseDocument",
+          "symbolName": "MongooseDocument",
+          "module": "@tsed/mongoose",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongooseModel",
+          "symbolName": "MongooseModel",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePreHookAsyncCB",
+          "symbolName": "MongoosePreHookAsyncCB",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePreHookSyncCB",
+          "symbolName": "MongoosePreHookSyncCB",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePostErrorHookCB",
+          "symbolName": "MongoosePostErrorHookCB",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePostHookCB",
+          "symbolName": "MongoosePostHookCB",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePreHook",
+          "symbolName": "MongoosePreHook",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePostHook",
+          "symbolName": "MongoosePostHook",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongoosePluginOptions",
+          "symbolName": "MongoosePluginOptions",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongooseIndexOptions",
+          "symbolName": "MongooseIndexOptions",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/interfaces/MongooseModelOptions",
+          "symbolName": "MongooseModelOptions",
+          "module": "@tsed/mongoose",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/middlewares/ValidationErrorMiddleware",
+          "symbolName": "ValidationErrorMiddleware",
+          "module": "@tsed/mongoose",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/registries/MongooseModelRegistry",
+          "symbolName": "MongooseModelRegistry",
+          "module": "@tsed/mongoose",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/registries/registerModel",
+          "symbolName": "registerModel",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/services/MongooseService",
+          "symbolName": "MongooseService",
+          "module": "@tsed/mongoose",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/mapProps",
+          "symbolName": "mapProps",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/buildMongooseSchema",
+          "symbolName": "buildMongooseSchema",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/createModel",
+          "symbolName": "createModel",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/createSchema",
+          "symbolName": "createSchema",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/schemaOptions",
+          "symbolName": "schemaOptions",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/buildPreHook",
+          "symbolName": "buildPreHook",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/mongoose/utils/applySchemaOptions",
+          "symbolName": "applySchemaOptions",
+          "module": "@tsed/mongoose",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/mongoose"
+    },
+    "@tsed/common/mvc": {
+      "symbols": [
+        {
+          "path": "/api/common/mvc/class/ControllerBuilder",
+          "symbolName": "ControllerBuilder",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/class/IChildrenController",
+          "symbolName": "IChildrenController",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/class/ControllerProvider",
+          "symbolName": "ControllerProvider",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/class/EndpointBuilder",
+          "symbolName": "EndpointBuilder",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/class/EndpointMetadata",
+          "symbolName": "EndpointMetadata",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/class/HandlerBuilder",
+          "symbolName": "HandlerBuilder",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/class/HandlerMetadata",
+          "symbolName": "HandlerMetadata",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/AcceptMimesMiddleware",
+          "symbolName": "AcceptMimesMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "middleware",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/AuthenticatedMiddleware",
+          "symbolName": "AuthenticatedMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "middleware",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/GlobalAcceptMimesMiddleware",
+          "symbolName": "GlobalAcceptMimesMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "middleware",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/GlobalErrorHandlerMiddleware",
+          "symbolName": "GlobalErrorHandlerMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "middleware",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/LogIncomingRequestMiddleware",
+          "symbolName": "LogIncomingRequestMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "middleware",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/ResponseViewMiddleware",
+          "symbolName": "ResponseViewMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "middleware",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/components/SendResponseMiddleware",
+          "symbolName": "SendResponseMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "middleware",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/constants/EXPRESS_METHODS",
+          "symbolName": "EXPRESS_METHODS",
+          "module": "@tsed/common/mvc",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "private",
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/Allow",
+          "symbolName": "Allow",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/CaseSensitive",
+          "symbolName": "CaseSensitive",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "express",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/Controller",
+          "symbolName": "Controller",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/ExpressApplication",
+          "symbolName": "ExpressApplication",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/MergeParams",
+          "symbolName": "MergeParams",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "express",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/Middleware",
+          "symbolName": "Middleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/MiddlewareError",
+          "symbolName": "MiddlewareError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/OverrideMiddleware",
+          "symbolName": "OverrideMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/RouterSettings",
+          "symbolName": "RouterSettings",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "express",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/Scope",
+          "symbolName": "Scope",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "constructor",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/class/Strict",
+          "symbolName": "Strict",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "express",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/AcceptMime",
+          "symbolName": "AcceptMime",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Authenticated",
+          "symbolName": "Authenticated",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/ContentType",
+          "symbolName": "ContentType",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Header",
+          "symbolName": "Header",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Location",
+          "symbolName": "Location",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Redirect",
+          "symbolName": "Redirect",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/ResponseView",
+          "symbolName": "ResponseView",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Render",
+          "symbolName": "Render",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "alias",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/All",
+          "symbolName": "All",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Get",
+          "symbolName": "Get",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Post",
+          "symbolName": "Post",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Put",
+          "symbolName": "Put",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Delete",
+          "symbolName": "Delete",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Head",
+          "symbolName": "Head",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Patch",
+          "symbolName": "Patch",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Status",
+          "symbolName": "Status",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/Use",
+          "symbolName": "Use",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/UseAfter",
+          "symbolName": "UseAfter",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/method/UseBefore",
+          "symbolName": "UseBefore",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/decorators/Required",
+          "symbolName": "Required",
+          "module": "@tsed/common/mvc",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "converters",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/errors/CyclicReferenceError",
+          "symbolName": "CyclicReferenceError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/errors/ParseExpressionError",
+          "symbolName": "ParseExpressionError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/errors/TemplateRenderingError",
+          "symbolName": "TemplateRenderingError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/errors/UnknowControllerError",
+          "symbolName": "UnknowControllerError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/errors/UnknowMiddlewareError",
+          "symbolName": "UnknowMiddlewareError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/ExpressPathMethod",
+          "symbolName": "ExpressPathMethod",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IControllerMiddlewares",
+          "symbolName": "IControllerMiddlewares",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IControllerOptions",
+          "symbolName": "IControllerOptions",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IControllerRoute",
+          "symbolName": "IControllerRoute",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IMiddleware",
+          "symbolName": "IMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IMiddlewareError",
+          "symbolName": "IMiddlewareError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IResponseError",
+          "symbolName": "IResponseError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IResponseHeader",
+          "symbolName": "IResponseHeader",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IResponseHeaders",
+          "symbolName": "IResponseHeaders",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IHeadersOptions",
+          "symbolName": "IHeadersOptions",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/IResponseOptions",
+          "symbolName": "IResponseOptions",
+          "module": "@tsed/common/mvc",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/MiddlewareType",
+          "symbolName": "MiddlewareType",
+          "module": "@tsed/common/mvc",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/interfaces/PathParamsType",
+          "symbolName": "PathParamsType",
+          "module": "@tsed/common/mvc",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/registries/ControllerRegistry",
+          "symbolName": "ControllerRegistry",
+          "module": "@tsed/common/mvc",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/registries/registerController",
+          "symbolName": "registerController",
+          "module": "@tsed/common/mvc",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/registries/EndpointRegistry",
+          "symbolName": "EndpointRegistry",
+          "module": "@tsed/common/mvc",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/registries/MiddlewareRegistry",
+          "symbolName": "MiddlewareRegistry",
+          "module": "@tsed/common/mvc",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/registries/registerMiddleware",
+          "symbolName": "registerMiddleware",
+          "module": "@tsed/common/mvc",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/registries/registerMiddlewareError",
+          "symbolName": "registerMiddlewareError",
+          "module": "@tsed/common/mvc",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/services/ControllerService",
+          "symbolName": "ControllerService",
+          "module": "@tsed/common/mvc",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/services/MiddlewareService",
+          "symbolName": "MiddlewareService",
+          "module": "@tsed/common/mvc",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/services/RouterController",
+          "symbolName": "RouterController",
+          "module": "@tsed/common/mvc",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "deprecated"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/services/RouteService",
+          "symbolName": "RouteService",
+          "module": "@tsed/common/mvc",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/utils/extendsRequest",
+          "symbolName": "extendsRequest",
+          "module": "@tsed/common/mvc",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/utils/mapHeaders",
+          "symbolName": "mapHeaders",
+          "module": "@tsed/common/mvc",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/mvc/utils/mapReturnedResponse",
+          "symbolName": "mapReturnedResponse",
+          "module": "@tsed/common/mvc",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/mvc"
+    },
+    "@tsed/common/server": {
+      "symbols": [
+        {
+          "path": "/api/common/server/components/ServerLoader",
+          "symbolName": "ServerLoader",
+          "module": "@tsed/common/server",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/decorators/IHttpFactory",
+          "symbolName": "IHttpFactory",
+          "module": "@tsed/common/server",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/decorators/HttpServer",
+          "symbolName": "HttpServer",
+          "module": "@tsed/common/server",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/decorators/IHttpsFactory",
+          "symbolName": "IHttpsFactory",
+          "module": "@tsed/common/server",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/decorators/HttpsServer",
+          "symbolName": "HttpsServer",
+          "module": "@tsed/common/server",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/decorators/ServerSettings",
+          "symbolName": "ServerSettings",
+          "module": "@tsed/common/server",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/AfterRoutesInit",
+          "symbolName": "AfterRoutesInit",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/BeforeRoutesInit",
+          "symbolName": "BeforeRoutesInit",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/IComponentScanned",
+          "symbolName": "IComponentScanned",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/IHTTPSServerOptions",
+          "symbolName": "IHTTPSServerOptions",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/IServerLifecycle",
+          "symbolName": "IServerLifecycle",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/OnRoutesInit",
+          "symbolName": "OnRoutesInit",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/interfaces/OnServerReady",
+          "symbolName": "OnServerReady",
+          "module": "@tsed/common/server",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/common/server"
+    },
+    "@tsed/core": {
+      "symbols": [
+        {
+          "path": "/api/core/class/EntityDescription",
+          "symbolName": "EntityDescription",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/Metadata",
+          "symbolName": "Metadata",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/ProxyMapSettings",
+          "symbolName": "ProxyMapSettings",
+          "module": "@tsed/core",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/ProxyMap",
+          "symbolName": "ProxyMap",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/ProxyRegistry",
+          "symbolName": "ProxyRegistry",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/RegistryHook",
+          "symbolName": "RegistryHook",
+          "module": "@tsed/core",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/RegistryKey",
+          "symbolName": "RegistryKey",
+          "module": "@tsed/core",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/Registry",
+          "symbolName": "Registry",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/Storable",
+          "symbolName": "Storable",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/CLASS_STORE",
+          "symbolName": "CLASS_STORE",
+          "module": "@tsed/core",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/METHOD_STORE",
+          "symbolName": "METHOD_STORE",
+          "module": "@tsed/core",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/PROPERTY_STORE",
+          "symbolName": "PROPERTY_STORE",
+          "module": "@tsed/core",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/PARAM_STORE",
+          "symbolName": "PARAM_STORE",
+          "module": "@tsed/core",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/StoreMap",
+          "symbolName": "StoreMap",
+          "module": "@tsed/core",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/class/Store",
+          "symbolName": "Store",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/Configurable",
+          "symbolName": "Configurable",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/Deprecated",
+          "symbolName": "Deprecated",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/Enumerable",
+          "symbolName": "Enumerable",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/NotConfigurable",
+          "symbolName": "NotConfigurable",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/NotEnumerable",
+          "symbolName": "NotEnumerable",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/Readonly",
+          "symbolName": "Readonly",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/decorators/Writable",
+          "symbolName": "Writable",
+          "module": "@tsed/core",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/interfaces/DecoratorParameters",
+          "symbolName": "DecoratorParameters",
+          "module": "@tsed/core",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/interfaces/Env",
+          "symbolName": "Env",
+          "module": "@tsed/core",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/interfaces/EnvTypes",
+          "symbolName": "EnvTypes",
+          "module": "@tsed/core",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/interfaces/Type",
+          "symbolName": "Type",
+          "module": "@tsed/core",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/applyBefore",
+          "symbolName": "applyBefore",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/getDecoratorType",
+          "symbolName": "getDecoratorType",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/UnsupportedDecoratorType",
+          "symbolName": "UnsupportedDecoratorType",
+          "module": "@tsed/core",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/decoratorArgs",
+          "symbolName": "decoratorArgs",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/deepExtends",
+          "symbolName": "deepExtends",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/getValue",
+          "symbolName": "getValue",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/getConstructor",
+          "symbolName": "getConstructor",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/getClass",
+          "symbolName": "getClass",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/classOf",
+          "symbolName": "classOf",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "alias",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/getClassOrSymbol",
+          "symbolName": "getClassOrSymbol",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isPrimitiveOrPrimitiveClass",
+          "symbolName": "isPrimitiveOrPrimitiveClass",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/primitiveOf",
+          "symbolName": "primitiveOf",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isString",
+          "symbolName": "isString",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isNumber",
+          "symbolName": "isNumber",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isBoolean",
+          "symbolName": "isBoolean",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isArray",
+          "symbolName": "isArray",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isArrayOrArrayClass",
+          "symbolName": "isArrayOrArrayClass",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isCollection",
+          "symbolName": "isCollection",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isDate",
+          "symbolName": "isDate",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isObject",
+          "symbolName": "isObject",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isClass",
+          "symbolName": "isClass",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isEmpty",
+          "symbolName": "isEmpty",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/isPromise",
+          "symbolName": "isPromise",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/getInheritedClass",
+          "symbolName": "getInheritedClass",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/ancestorsOf",
+          "symbolName": "ancestorsOf",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/nameOf",
+          "symbolName": "nameOf",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/nameOfClass",
+          "symbolName": "nameOfClass",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/nameOfSymbol",
+          "symbolName": "nameOfSymbol",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/descriptorOf",
+          "symbolName": "descriptorOf",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/prototypeOf",
+          "symbolName": "prototypeOf",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/promiseTimeout",
+          "symbolName": "promiseTimeout",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/core/utils/setValue",
+          "symbolName": "setValue",
+          "module": "@tsed/core",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/core"
+    },
+    "@tsed/multipartfiles": {
+      "symbols": [
+        {
+          "path": "/api/multipartfiles/components/MultipartFileFilter",
+          "symbolName": "MultipartFileFilter",
+          "module": "@tsed/multipartfiles",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/multipartfiles/components/MultipartFilesFilter",
+          "symbolName": "MultipartFilesFilter",
+          "module": "@tsed/multipartfiles",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "filter",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/multipartfiles/decorators/MulterFileSize",
+          "symbolName": "MulterFileSize",
+          "module": "@tsed/multipartfiles",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "multer",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/multipartfiles/decorators/MulterOptions",
+          "symbolName": "MulterOptions",
+          "module": "@tsed/multipartfiles",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "multer",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/multipartfiles/decorators/MultipartFile",
+          "symbolName": "MultipartFile",
+          "module": "@tsed/multipartfiles",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "multer",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/multipartfiles/middlewares/MultipartFileMiddleware",
+          "symbolName": "MultipartFileMiddleware",
+          "module": "@tsed/multipartfiles",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "private",
+            "middleware",
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/multipartfiles"
+    },
+    "@tsed/servestatic": {
+      "symbols": [
+        {
+          "path": "/api/servestatic/services/ServeStaticService",
+          "symbolName": "ServeStaticService",
+          "module": "@tsed/servestatic",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/servestatic"
+    },
+    "@tsed/socketio": {
+      "symbols": [
+        {
+          "path": "/api/socketio/class/SocketHandlersBuilder",
+          "symbolName": "SocketHandlersBuilder",
+          "module": "@tsed/socketio",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "experimental",
+            "private"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/Args",
+          "symbolName": "Args",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/Broadcast",
+          "symbolName": "Broadcast",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/BroadcastOthers",
+          "symbolName": "BroadcastOthers",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/Emit",
+          "symbolName": "Emit",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/Input",
+          "symbolName": "Input",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/InputAndBroadcast",
+          "symbolName": "InputAndBroadcast",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/InputAndBroadcastOthers",
+          "symbolName": "InputAndBroadcastOthers",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/InputAndEmit",
+          "symbolName": "InputAndEmit",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/IO",
+          "symbolName": "IO",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/Nsp",
+          "symbolName": "Nsp",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/Socket",
+          "symbolName": "Socket",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "experimental",
+            "decorator"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketErr",
+          "symbolName": "SocketErr",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketEventName",
+          "symbolName": "SocketEventName",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "experimental",
+            "decorator"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketFilter",
+          "symbolName": "SocketFilter",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketMiddleware",
+          "symbolName": "SocketMiddleware",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "experimental"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketMiddlewareError",
+          "symbolName": "SocketMiddlewareError",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "experimental"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketReturns",
+          "symbolName": "SocketReturns",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketService",
+          "symbolName": "SocketService",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketSession",
+          "symbolName": "SocketSession",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketUseAfter",
+          "symbolName": "SocketUseAfter",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "experimental"
+          ]
+        },
+        {
+          "path": "/api/socketio/decorators/SocketUseBefore",
+          "symbolName": "SocketUseBefore",
+          "module": "@tsed/socketio",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "decorator",
+            "experimental"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/ISocketHandlerMetadata",
+          "symbolName": "ISocketHandlerMetadata",
+          "module": "@tsed/socketio",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/ISocketMiddlewareHandlerMetadata",
+          "symbolName": "ISocketMiddlewareHandlerMetadata",
+          "module": "@tsed/socketio",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "experimental"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/ISocketParamMetadata",
+          "symbolName": "ISocketParamMetadata",
+          "module": "@tsed/socketio",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/SocketProviderTypes",
+          "symbolName": "SocketProviderTypes",
+          "module": "@tsed/socketio",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/ISocketProviderMetadata",
+          "symbolName": "ISocketProviderMetadata",
+          "module": "@tsed/socketio",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/OnNamespaceInit",
+          "symbolName": "OnNamespaceInit",
+          "module": "@tsed/socketio",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/SocketFilters",
+          "symbolName": "SocketFilters",
+          "module": "@tsed/socketio",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/interfaces/SocketReturnsTypes",
+          "symbolName": "SocketReturnsTypes",
+          "module": "@tsed/socketio",
+          "symbolType": "enum",
+          "symbolLabel": "Enum",
+          "symbolCode": "E",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/registries/getNspSession",
+          "symbolName": "getNspSession",
+          "module": "@tsed/socketio",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/registries/SocketServiceRegistry",
+          "symbolName": "SocketServiceRegistry",
+          "module": "@tsed/socketio",
+          "symbolType": "const",
+          "symbolLabel": "Constant",
+          "symbolCode": "K",
+          "status": [
+            "type",
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/registries/registerSocketService",
+          "symbolName": "registerSocketService",
+          "module": "@tsed/socketio",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/services/SocketIOServer",
+          "symbolName": "SocketIOServer",
+          "module": "@tsed/socketio",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/socketio/services/SocketIOService",
+          "symbolName": "SocketIOService",
+          "module": "@tsed/socketio",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/socketio"
+    },
+    "@tsed/testing": {
+      "symbols": [
+        {
+          "path": "/api/testing/bootstrap",
+          "symbolName": "bootstrap",
+          "module": "@tsed/testing",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/testing/Done",
+          "symbolName": "Done",
+          "module": "@tsed/testing",
+          "symbolType": "type",
+          "symbolLabel": "Type alias",
+          "symbolCode": "T",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/testing/inject",
+          "symbolName": "inject",
+          "module": "@tsed/testing",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/testing/invoke",
+          "symbolName": "invoke",
+          "module": "@tsed/testing",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/testing/loadInjector",
+          "symbolName": "loadInjector",
+          "module": "@tsed/testing",
+          "symbolType": "function",
+          "symbolLabel": "Function",
+          "symbolCode": "F",
+          "status": [
+            "private",
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/testing"
+    },
+    "@tsed/typeorm": {
+      "symbols": [
+        {
+          "path": "/api/typeorm/services/TypeORMService",
+          "symbolName": "TypeORMService",
+          "module": "@tsed/typeorm",
+          "symbolType": "service",
+          "symbolLabel": "Service",
+          "symbolCode": "S",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/typeorm/TypeORMModule",
+          "symbolName": "TypeORMModule",
+          "module": "@tsed/typeorm",
+          "symbolType": "class",
+          "symbolLabel": "Class",
+          "symbolCode": "C",
+          "status": [
+            "stable"
+          ]
+        }
+      ],
+      "name": "@tsed/typeorm"
+    }
+  }
+}

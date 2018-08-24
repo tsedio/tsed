@@ -1,6 +1,6 @@
 # Scope
 
-The scope of a [provider](docs/api/common/di/provider.md) defines the life cycle and visibility of that bean in the contexts in which it is used.
+The scope of a [provider](/docs/provider.md) defines the life cycle and visibility of that bean in the contexts in which it is used.
 
 Ts.ED define two types of scope:
 
@@ -9,9 +9,9 @@ Ts.ED define two types of scope:
 
 The scope annotation can be used on the following providers:
 
-- [Service](docs/services/overview.md)
-- [Controller](docs/controllers.md)
-- [Middleware](docs/middlewares/overview.md)
+- [Service](/docs/services.md)
+- [Controller](/docs/controllers.md)
+- [Middleware](/docs/middlewares.md)
 
 ## Singleton scope
 
@@ -66,7 +66,9 @@ export class TokenMiddleware implements IMiddleware {
 
 For the Service, it's almost the case of the previous example, but you need to keep in mind this point:
 
-!> `@Scope` on service work only if the provider that uses it's annotated by `@Scope` decorator too.
+::: warning
+`@Scope` on service work only if the provider that uses it's annotated by `@Scope` decorator too.
+:::
 
 ```typescript
 @Service()
@@ -91,9 +93,6 @@ export class TokenMiddleware implements IMiddleware {
     }
 }
 ```
-!> <sup>(1)</sup> Leaving out `@Scope("request")` on `TokenMiddleware` will give an [InjectionScopeError](api/common/di/injectionscopeerror.md).
-
-<div class="guide-links">
-<a href="#/docs/middlewares/overview">Middlewares</a>
-<a href="#/docs/filters">Filters</a>
-</div>
+::: warning
+<sup>(1)</sup> Leaving out `@Scope("request")` on `TokenMiddleware` will give an [InjectionScopeError](/api/common/di/errors/InjectionScopeError.md).
+:::

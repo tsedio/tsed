@@ -458,7 +458,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   }
 
   /**
-   * Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
+   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
    * @param eventName The event name to emit at all services.
    * @param args List of the parameters to give to each services.
    * @returns {Promise<any[]>} A list of promises.
@@ -564,7 +564,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   }
 
   /**
-   * Emit an event to all service. See service [lifecycle hooks](docs/services/lifecycle-hooks.md).
+   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
    * @param eventName The event name to emit at all services.
    * @param args List of the parameters to give to each services.
    * @returns {Promise<any[]>} A list of promises.

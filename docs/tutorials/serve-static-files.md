@@ -28,8 +28,3 @@ export class Server extends ServerLoader {
 }
 ```
 > Note: serveStatic attributes supports multiple directories
-
-<div class="guide-links">
-<a href="#/tutorials/upload-file-with-multer">Upload files</a>
-<a href="#/tutorials/templating">Templating</a>
-</div>

@@ -22,7 +22,7 @@ To begin, install the TypeORM module for TS.ED:
 npm install --save @tsed/typeorm
 ```
 
-Then import `@tsed/typeorm` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/typeorm` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -118,8 +118,8 @@ export class User {
 }
 ```
 
-Now, the model is correctly defined and can be used with a [Controller](docs/controllers.md), [AJV validation](tutorials/ajv.md),
-[Swagger](tutorials/swagger.md) and [TypeORM](https://github.com/typeorm/typeorm).
+Now, the model is correctly defined and can be used with a [Controller](/docs/controllers.md), [AJV validation](/tutorials/ajv.md),
+[Swagger](/tutorials/swagger.md) and [TypeORM](https://github.com/typeorm/typeorm).
 
 We can use this model with a Controller like that:
 
@@ -146,8 +146,3 @@ export class UsersCtrl {
     }
 }
 ```
-
-<div class="guide-links">
-<a href="#/tutorials/socket-io">Socket.io</a>
-<a href="#/tutorials/Mongoose">Mongoose</a>
-</div>

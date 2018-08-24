@@ -10,7 +10,7 @@ Install the `serve-static` module:
 npm install --save serve-static @tsed/servestatic
 ```
 
-Then import `@tsed/servestatic` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/servestatic` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";

@@ -21,7 +21,7 @@ Before using the Socket.io, we need to install the [Socket.io](https://www.npmjs
 npm install --save socket.io @types/socket.io @tsed/socketio
 ```
 
-Then add the following configuration in your [ServerLoader](api/common/server/serverloader.md):
+Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -124,7 +124,7 @@ export class MyCtrl {
 
 ### Declaring an Input Event
 
-[@Input](api/socketio/input.md) decorator declare a method as a new handler for a specific `event`.
+[@Input](api/socketio/decorators/Input.md) decorator declare a method as a new handler for a specific `event`.
 
 ```typescript
 import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
