@@ -230,7 +230,6 @@ export interface Calendar{
 export class CalendarCtrl {
 
     @Get("/")
-    @Render("calendars/index")
     async renderCalendars(): Promise<Array<Calendar>> {
         return [{id: '1', name: "test"}];
     }
