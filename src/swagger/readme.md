@@ -10,7 +10,7 @@ Before using the Swagger, we need to install the [swagger-ui-express](https://ww
 npm install --save-dev @types/swagger-schema-official 
 ```
 
-Then add the following configuration in your [ServerLoader](api/common/server/serverloader.md):
+Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -104,7 +104,7 @@ export class CalendarCtrl {
 One of the feature of Ts.ED is the model definition to serialize or deserialize a
 JSON Object (see [converters section](docs/converters.md)).
 
-This model can used on a method controller along with [@BodyParams](api/common/filters/bodyparams.md) or other decorators.
+This model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators.
 
 ```typescript
 import {JsonProperty} from "@tsed/common";

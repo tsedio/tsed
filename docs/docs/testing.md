@@ -345,9 +345,4 @@ describe('A test that will not print logs :', () => {
 
 In addiction, you can use some library like Sinon and Chai-promised for your unit test. To help you, here the `tools.ts` code used by the unit test for Ts.ED:
 
-<gist repo="Romakita" id="a95fe9d491f453d038b5bec0cbe72e8f" filename="tools.ts"></gist>
-
-<div class="guide-links">
-<a href="#/docs/server-loader/lifecycle-hooks">ServerLoader</a>
-<a href="#/tutorials/overview">Tutorials</a>
-</div>
+<Gist repo="Romakita" id="a95fe9d491f453d038b5bec0cbe72e8f" filename="tools.ts"></Gist>

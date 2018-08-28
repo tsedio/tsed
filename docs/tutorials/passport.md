@@ -1,10 +1,20 @@
+---
+meta:
+ - name: description
+   content: Use Passport.js with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
+ - name: keywords
+   content: ts.ed express typescript passport.js node.js javascript decorators
+---
 # Passport.js
 
-> Passport is authentication middleware for Node.js. 
+<Banner class="--darken" src="http://www.passportjs.org/images/logo.svg" height="128" href="http://www.passportjs.org/"></Banner>
+
+> Passport is authentication middleware for Node.js.
+
 Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
 A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.
   
-### Installation
+## Installation
 
 Before using the Passport, we need to install the [Passport.js](https://www.npmjs.com/package/passport) and the Passport-local.
 
@@ -12,9 +22,9 @@ Before using the Passport, we need to install the [Passport.js](https://www.npmj
 npm install --save passport
 ```
 
-### Override AuthenticatedMiddleware
+## Override AuthenticatedMiddleware
 
-The annotation [`@Authenticated()`](api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](api/common/mvc/authenticatedmiddleware.md) 
+The annotation [`@Authenticated()`](/api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/authenticatedmiddleware.md)
 to check the authentication strategy.
 
 So, create a new file in your middlewares directory and past this code:
@@ -42,12 +52,12 @@ export class MyAuthenticatedMiddleware implements IMiddleware {
 }
 ```
 
-### Local strategy
+## Local strategy
 
 Now, we need to expose some routes to enable the login, the signup and the logout. To do that, 
 we'll use the passport-local strategy and we create a passport service and a passport controller.
 
-#### The PassportLocalService
+### The PassportLocalService
 
 In the service directory, we'll create the `PassportLocalServices.ts` and write this code:
 
@@ -81,9 +91,9 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 }
 ```
 > We use the hook service licecycle to autoloading some actions when the server start. 
-See the [service lifecycle](docs/services/lifecyle-hooks.md) for more informations.
+See the [service lifecycle](/docs/services/lifecyle-hooks.md) for more informations.
 
-#### Passport controller
+### Passport controller
 
 We'll need to prepare some routes. To work it, the Passport need 3 routes:
 
@@ -128,7 +138,7 @@ export class PassportCtrl {
 }
 ```
 
-#### Signup
+### Signup
 
 We will use Passport to register the signup action with the LocalStrategy. Passport will call back the handler when the 
 the PassportCtrl call the `Passport.authenticate('signup')` method.
@@ -247,7 +257,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 > We'll not implement the userService. We'll assume that it'll do what is expected.
 
 
-#### Login
+### Login
 
 Implement login is the same principle that the signup. In the controller we need to use the `Passport.authenticate("login")`
 method to emit the `login` event to each Passport Strategy.
@@ -330,7 +340,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 }
 ```
 
-#### Logout
+### Logout
 
 Logout is very short, just place this code in the PassportCtrl and it's done:
 
@@ -350,8 +360,3 @@ export class PassportCtrl {
 ```
 
 > You can find all source of this tutorial on [https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport)
-
-<div class="guide-links">
-<a href="#/tutorials/ajv">Validation with AJV</a>
-<a href="#/tutorials/socket-io">Socket.io</a>
-</div>

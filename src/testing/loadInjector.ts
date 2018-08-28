@@ -53,7 +53,7 @@ function createHttpServer(injector: InjectorService, port: string | number) {
 /**
  * Create a new HTTPs server.
  *
- * `options` <IHTTPSServerOptions>:
+ * `options` {IHTTPSServerOptions}:
  *
  * - `port` &lt;number&gt;: Port number,
  * - `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.

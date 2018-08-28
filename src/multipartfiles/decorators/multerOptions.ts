@@ -38,7 +38,7 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * }
  * ```
  *
- * > See the tutorial on the [multer configuration](tutorials/upload-files-with-multer.md).
+ * > See the tutorial on the [multer configuration](/tutorials/multer.md).
  * @param {multer.Options} options
  * @returns {(target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor}
  * @decorator

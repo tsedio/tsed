@@ -1,3 +1,10 @@
+---
+prev: /getting-started.html
+next: false
+sidebar: auto
+otherTopics: true
+---
+
 # Configuration
 
 `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
@@ -68,19 +75,19 @@ ts-node isn't the runtime.
   * `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
-* `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](tutorials/upload-files-with-multer.md).
-* `mount` &lt;[IServerMountDirectories](api/common/config/iservermountdirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
-* `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](docs/services/overview.md), [Middlewares](docs/middlewares/overview.md) or [Converters](docs/converters.md).
+* `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md).
+* `mount` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
+* `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
 * `exclude` &lt;string[]&gt;: List of glob patterns. Exclude all files which matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
-* `serveStatic` &lt;[IServerMountDirectories](api/common/config/iservermountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](tutorials/serve-static-files.md).
-* `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](tutorials/swagger.md).
+* `serveStatic` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServermountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
+* `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](/tutorials/swagger.md).
 * `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
-* `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](docs/converters.md)). By default true.
-* `logger` &lt;[ILoggerSettings](api/common/config/iloggersettings.md)&gt;: Logger configuration.
-* `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](docs/scope.md).
+* `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)). By default true.
+* `logger` &lt;[ILoggerSettings](/api/common/config/interfaces/ILoggerSettings.md)&gt;: Logger configuration.
+* `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/scope.md).
 * `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
-* `errors` &lt;[IErrorsSettings](api/common/config/ierrorssettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
+* `errors` &lt;[IErrorsSettings](/api/common/config/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
 
 ## HTTP & HTTPs server
 ### Change address
@@ -273,8 +280,8 @@ $log
 
 The configuration can be reused throughout your application in different ways. 
 
-- With dependency injection in [Service](docs/services/overview.md), [Controller](docs/controllers.md), [Middleware](docs/middlewares/overview.md), [Filter](docs/filters.md) or [Converter](docs/converters.md).
-- With the decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md).
+- With dependency injection in [Service](/docs/services.md), [Controller](/docs/controllers.md), [Middleware](/docs/middlewares.md), [Filter](/docs/filters.md) or [Converter](/docs/converters.md).
+- With the decorators [@Constant](/api/common/config/decorators/Constant.md) and [@Value](/api/common/config/decorators/Value.md).
 
 ### From service (DI)
 
@@ -290,16 +297,16 @@ export class MyService {
 
 ### From decorators
 
-Decorators [@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) can be used in all classes
+Decorators [@Constant](/api/common/config/decorators/Constant.md) and [@Value](/api/common/config/decorators/Value.md) can be used in all classes
 including: 
  
- - [Service](docs/overview/services.md), 
- - [Controller](docs/controllers.md),
- - [Middleware](docs/middlewares/overview.md),
- - [Filter](docs/filters.md) 
- - [Converter](docs/converters.md).
+ - [Service](/docs/services.md),
+ - [Controller](/docs/controllers.md),
+ - [Middleware](/docs/middlewares.md),
+ - [Filter](/docs/filters.md)
+ - [Converter](/docs/converters.md).
  
-[@Constant](api/common/config/constant.md) and [@Value](api/common/config/value.md) accept an expression as parameters to 
+[@Constant](/api/common/config/constant.md) and [@Value](/api/common/config/decorators/Value.md) accept an expression as parameters to
 inspect the configuration object and return the value.
 
 ```typescript
@@ -323,9 +330,3 @@ export class MyClass {
 > Constant return an Object.freeze() value.
 
 > Note: The values for the decorated properties aren't available on constructor. Use $onInit() hook to use the value.
-
-
-<div class="guide-links">
-<a href="#/docs/controllers">Controllers</a>
-<a href="#/docs/services/overview">Services</a>
-</div>

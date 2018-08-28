@@ -1,6 +1,6 @@
-# Send response
+# Override Send response
 
-There is the current implementation of the [SendResponseMiddleware](api/common/mvc/sendresponsemiddleware.md):
+There is the current implementation of the [SendResponseMiddleware](/api/common/mvc/sendresponsemiddleware.md):
 
 ```typescript
 @Middleware()
@@ -34,7 +34,7 @@ export class SendResponseMiddleware implements IMiddleware {
 
 But for some reason, this implementation isn't enough to meet your needs.
 
-With [@OverrideMiddleware](api/common/mvc/overridemiddleware.md) it's possible to change the default implementation like
+With [@OverrideMiddleware](/api/common/mvc/overridemiddleware.md) it's possible to change the default implementation like
 this:
 
 
@@ -55,14 +55,3 @@ export class MySendResponseMiddleware extends SendResponseMiddleware {
 ```
 
 And that all!
-
-### Other examples
-
-* [Authentication](docs/middlewares/override/authentication.md)
-* [Response view](docs/middlewares/override/response-view.md)
-* [Global error handler](docs/middlewares/override/global-error-handler.md)
-
-<div class="guide-links">
-<a href="#/docs/converters">Converters</a>
-<a href="#/docs/filters">Filters</a>
-</div>

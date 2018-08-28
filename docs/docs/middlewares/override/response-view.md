@@ -1,6 +1,6 @@
-# Response view
+# Override Response view
 
-There is the current implementation of the [ResponseViewMiddleware](api/common/mvc/responseviewmiddleware.md):
+There is the current implementation of the [ResponseViewMiddleware](/api/common/mvc/responseviewmiddleware.md):
 
 ```typescript
 @Middleware()
@@ -50,7 +50,7 @@ export class ResponseViewMiddleware implements IMiddleware {
 
 But for some reason, this implementation isn't enough to meet your needs.
 
-With [@OverrideMiddleware](api/common/mvc/overridemiddleware.md) it's possible to change the default implementation like
+With [@OverrideMiddleware](/api/common/mvc/overridemiddleware.md) it's possible to change the default implementation like
 this:
 
 
@@ -68,14 +68,3 @@ export class MyResponseViewMiddleware extends ResponseViewMiddleware {
 ```
 
 And that all!
-
-### Other examples
-
-* [Authentication](docs/middlewares/override/authentication.md)
-* [Response view](docs/middlewares/override/response-view.md)
-* [Global error handler](docs/middlewares/override/global-error-handler.md)
-
-<div class="guide-links">
-<a href="#/docs/converters">Converters</a>
-<a href="#/docs/filters">Filters</a>
-</div>

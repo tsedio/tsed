@@ -4,13 +4,14 @@ The Converters service is responsible for serializing and deserializing objects.
 
 It has two modes of operation:
 
-- The first uses the [class models](fr/docs/model.md) for
+- The first uses the [class models](/docs/model.md) for
   convert an object into a class (and vice versa).
 - The second is based on the JSON object itself to provide an object with the right types. For example the deserialization of dates.
 
 
 The Converters service is used by the following decorators:
-<ul class="api-list"><li class="api-item" data-symbol="common/filters;BodyParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/bodyparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-BodyParams"title="BodyParams"><span class="symbol decorator"></span>BodyParams</a></li><li class="api-item" data-symbol="common/filters;Cookies;decorator;@;false;false;false;false"><a href="#/api/common/filters/cookies"class="symbol-container symbol-type-decorator symbol-name-commonfilters-Cookies"title="Cookies"><span class="symbol decorator"></span>Cookies</a></li><li class="api-item" data-symbol="common/filters;CookiesParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/cookiesparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-CookiesParams"title="CookiesParams"><span class="symbol decorator"></span>CookiesParams</a></li><li class="api-item" data-symbol="common/filters;PathParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/pathparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-PathParams"title="PathParams"><span class="symbol decorator"></span>PathParams</a></li><li class="api-item" data-symbol="common/filters;QueryParams;decorator;@;false;false;false;false"><a href="#/api/common/filters/queryparams"class="symbol-container symbol-type-decorator symbol-name-commonfilters-QueryParams"title="QueryParams"><span class="symbol decorator"></span>QueryParams</a></li><li class="api-item" data-symbol="common/filters;Session;decorator;@;false;false;false;false"><a href="#/api/common/filters/session"class="symbol-container symbol-type-decorator symbol-name-commonfilters-Session"title="Session"><span class="symbol decorator"></span>Session</a></li></ul>
+
+<ApiList query="['BodyParams', 'Cookies', 'CookiesParams', 'PathParams', 'QueryParams', 'Session'].indexOf(symbolName) > -1" />
 
 ## Usage
 
@@ -64,7 +65,7 @@ export class PersonsCtrl {
 ```
 > In this example, Person model is used both as input and output types.
 
-## Sérialisation
+## Serialisation
 
 When you use a class model as a return parameter, the Converters service will use the JSON Schema
 of the class to serialize the JSON object.
@@ -143,7 +144,7 @@ The Converters service relies on a subservice set to convert the following types
 
 > Set and Map types will be converted into an JSON object (instead of Array).
 
-<ul class="api-list"><li class="api-item" data-symbol="common/converters;ArrayConverter;class;C;false;false;false;true"><a href="#/api/common/converters/arrayconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-ArrayConverter"title="ArrayConverter"><span class="symbol class"></span>ArrayConverter</a></li><li class="api-item" data-symbol="common/converters;DateConverter;class;C;false;false;false;true"><a href="#/api/common/converters/dateconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-DateConverter"title="DateConverter"><span class="symbol class"></span>DateConverter</a></li><li class="api-item" data-symbol="common/converters;MapConverter;class;C;false;false;false;true"><a href="#/api/common/converters/mapconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-MapConverter"title="MapConverter"><span class="symbol class"></span>MapConverter</a></li><li class="api-item" data-symbol="common/converters;PrimitiveConverter;class;C;false;false;false;true"><a href="#/api/common/converters/primitiveconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-PrimitiveConverter"title="PrimitiveConverter"><span class="symbol class"></span>PrimitiveConverter</a></li><li class="api-item" data-symbol="common/converters;SetConverter;class;C;false;false;false;true"><a href="#/api/common/converters/setconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-SetConverter"title="SetConverter"><span class="symbol class"></span>SetConverter</a></li><li class="api-item" data-symbol="common/converters;SymbolConverter;class;C;false;false;false;true"><a href="#/api/common/converters/symbolconverter"class="symbol-container symbol-type-class symbol-name-commonconverters-SymbolConverter"title="SymbolConverter"><span class="symbol class"></span>SymbolConverter</a></li></ul>
+<ApiList query="module === '@tsed/common/converters' && status.indexOf('component') > -1" />
 
 ### Example
 
@@ -232,7 +233,9 @@ export class ArrayConverter implements IConverter {
 }
 ```
 
-?> Note that this example will replace the default Ts.ED converter.
+::: tip Note
+This example will replace the default Ts.ED converter.
+:::
 
 It is therefore quite possible to replace all converters with your own classes (especially the Date).
 
@@ -344,10 +347,7 @@ const result = convertersService.deserialize({unknowProperty: "test"}, TaskModel
 console.log(result) // TaskModel {unknowProperty: "test"}
 ```
 
-?> If you have disabled `strict` validation at the global level, you can use the `@ModelStrict(true)` decorator
- to enable validation for a specific model.
-
-<div class="guide-links">
-<a href="#/docs/model">Model</a>
-<a href="#/docs/middlewares/overview">Middlewares</a>
-</div>
+::: tip
+If you have disabled `strict` validation at the global level, you can use the `@ModelStrict(true)` decorator
+to enable validation for a specific model.
+:::

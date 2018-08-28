@@ -13,7 +13,7 @@ npm install --save ajv
 npm install --save @tsed/ajv
 ```
 
-Then import `@tsed/ajv` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/ajv` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -33,7 +33,7 @@ See our API documentation on https://tsed.io/#/api/index
 
 ## Example
 
-A model can used on a method controller along with [@BodyParams](api/common/filters/bodyparams.md) or other decorators, and will
+A model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators, and will
 be validated by Ajv.
 
 ```typescript

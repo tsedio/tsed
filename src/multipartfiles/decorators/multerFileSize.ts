@@ -20,7 +20,7 @@ import {MulterOptions} from "./multerOptions";
  * }
  * ```
  *
- * > See the tutorial on the [multer configuration](tutorials/upload-files-with-multer.md).
+ * > See the tutorial on the [multer configuration](/tutorials/multer.md).
  * @param fileSize
  * @returns {(target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor}
  * @decorator

@@ -9,8 +9,10 @@ export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.cre
   injectable: true,
   buildable: false
 });
+
 /**
- * Add a new model in the `ProviderRegistry`. This model will be built when `InjectorService` will be loaded.
+ * Add a new model in the `ProviderRegistry`.
+ * This model will be built when `InjectorService` will be loaded.
  *
  * #### Example
  *

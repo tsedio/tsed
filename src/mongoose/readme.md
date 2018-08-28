@@ -31,7 +31,7 @@ npm install --save mongoose
 npm install --save @tsed/mongoose
 ```
 
-Then import `@tsed/mongoose` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/mongoose` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";

@@ -1,10 +1,10 @@
-# Global error handler
+# Override Global error handler
 
-All errors are intercepted by the [GlobalErrorHandlerMiddleware](docs/api/common/mvc/globalerrorhandlermiddleware.md). 
+All errors are intercepted by the [GlobalErrorHandlerMiddleware](/api/common/mvc/components/GlobalErrorHandlerMiddleware.md).
 By default, all HTTP Exceptions are automatically sent to the client, and technical error are
 sent as Internal Server Error. 
 
-You can override this middleware with the decorator [@OverrideMiddleware](docs/api/common/mvc/globalerrorhandlermiddleware.md).
+You can override this middleware with the decorator [@OverrideMiddleware](/api/common/mvc/components/GlobalErrorHandlerMiddleware.md).
 
 ```typescript
 import * as Express from "express";
@@ -50,7 +50,7 @@ export class MyGEHMiddleware {
 }
 ```
 
-Then, add your middleware in [`ServerLoader`](api/common/server/serverloader.md):
+Then, add your middleware in [`ServerLoader`](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerSettings, ServerLoader} from "@tsed/common";
@@ -62,14 +62,3 @@ import './MyGEHMiddleware';
 export class ServerLoader {
 }
 ```
-
-### Other examples
-
-* [Send response](docs/middlewares/override/send-response.md)
-* [Authentication](docs/middlewares/override/authentication.md)
-* [Response view](docs/middlewares/override/response-view.md)
-
-<div class="guide-links">
-<a href="#/docs/converters">Converters</a>
-<a href="#/docs/filters">Filters</a>
-</div>

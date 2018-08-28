@@ -1,3 +1,10 @@
+---
+meta:
+ - name: description
+   content: Guide to deploy your Ts.ED application on AWS.
+ - name: keywords
+   content: ts.ed express typescript aws node.js javascript decorators
+---
 # AWS
 
 Amazon Web Services is one possible way host your Node.js application.
@@ -87,8 +94,3 @@ new Server().start();
 
 
 > Credits : Thanks to [vetras](https://github.com/vetras) for his contribution.
-
-<div class="guide-links">
-<a href="#/tutorials/throw-http-exceptions">Throw HTTP exceptions</a>
-<a href="#/tutorials/passport">Passport.js</a>
-</div>

@@ -1,4 +1,29 @@
-# Contributing 
+---
+layout: contributing
+pageClass: contributingpage
+heroText: TS.ED
+heroVersion: community
+heroDescription: Become contributors
+contributors:
+ title: Our<br /><b>Contributors</b>
+backers:
+ title: Our<br /><b>Backers</b>
+ details: Thank you to all our backers! 🙏
+ src: https://opencollective.com/tsed/tiers/backer.svg?width=890
+ link: https://opencollective.com/tsed#backers
+ button:
+   text: Become backers
+   link: https://opencollective.com/tsed#backers
+sponsors:
+ title: Our<br /><b>sponsors</b>
+ details: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+ src: https://opencollective.com/tsed/tiers/sponsor.svg?width=890
+ link: https://opencollective.com/tsed#sponsor
+ button:
+   text: Become sponsor
+   link: https://opencollective.com/tsed#sponsor
+---
+# Contributing
 ## Introduction
 
 First, thank you for considering contributing to Ts.ED! It's people like you that make the open source community such a great community! 😊
@@ -81,7 +106,7 @@ This command rebase your branch feature from the production branch, run the test
 git commit -m "feat(domain): Your message"
 gflow push
 ```
-> To write your commit message see https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit
+> To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 
 When your feature is ready to review, you can open a PR on Ts.ED github.
 
@@ -107,30 +132,15 @@ the Api documentation. To preview your comments on a class you can run this comm
 npm run doc:serve
 ```
 
-### Guidelines
+***
 
-- Ts.ED follow the git flow to generate a release note. To write your commit message see https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit
+## Guidelines
+
+- Ts.ED follow the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 - Please try to combine multiple commits before pushing
 - Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
 - Please keep the test coverage at 100%. Write additional unit tests if necessary
 - Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or includes significant architecture changes,
 - Feel free to ask for help from other members of the Ts.ED team
-
-## Credits
-### Contributors
-
-<a href="https://github.com/romakita/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
-
-### Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
-
-<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
-
-### Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
 
 <!-- This `CONTRIBUTING.md` is based on @nayafia's template https://github.com/nayafia/contributing-template -->

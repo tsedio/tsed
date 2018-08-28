@@ -3,7 +3,7 @@ import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {ProviderScope} from "../../di/interfaces/ProviderScope";
 /**
- * `ServerSettingsService` contains all information about [ServerLoader](api/common/server/serverloader.md) configuration.
+ * `ServerSettingsService` contains all information about [ServerLoader](/api/common/server/components/ServerLoader.md) configuration.
  */
 import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {SERVER_SETTINGS} from "../constants/index";

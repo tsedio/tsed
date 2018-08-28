@@ -1,10 +1,10 @@
-# Authentication
+# Override Authentication
 
-The annotation [`@Authenticated()`](api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](api/common/mvc/authenticatedmiddleware.md) 
+The annotation [`@Authenticated()`](/api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/authenticatedmiddleware.md)
 to check the authentication strategy. 
 
 To customise this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 
-your authentication strategy (with [passport.js for example](tutorials/passport.md)).
+your authentication strategy (with [passport.js for example](/tutorials/passport.md)).
 
 ## Use case
 
@@ -42,14 +42,3 @@ export class MyAuthenticatedMiddleware implements IMiddleware {
     }
 }
 ```
-
-### Other examples
-
-* [Send response](docs/middlewares/override/send-response.md)
-* [Response view](docs/middlewares/override/response-view.md)
-* [Global error handler](docs/middlewares/override/global-error-handler.md)
-
-<div class="guide-links">
-<a href="#/docs/converters">Converters</a>
-<a href="#/docs/filters">Filters</a>
-</div>

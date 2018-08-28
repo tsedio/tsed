@@ -1,11 +1,13 @@
-# Mongoose
-> Experimental feature. You can contribute to improve this feature !
+---
+meta:
+ - name: description
+   content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
+ - name: keywords
+   content: ts.ed express typescript mongoose node.js javascript decorators
+---
+# Mongoose <Badge text="beta" type="warn"/>
 
-<div align="center">
-<a href="http://mongoosejs.com/">
-<img src="http://mongodb-tools.com/img/mongoose.png" height="128">
-</a>
-</div>
+<Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
 
 This tutorials show you, how you can use mongoose package with Ts.ED. 
 
@@ -30,7 +32,7 @@ npm install --save mongoose
 npm install --save @tsed/mongoose
 ```
 
-Then import `@tsed/mongoose` in your [ServerLoader](api/common/server/serverloader.md):
+Then import `@tsed/mongoose` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -105,8 +107,7 @@ export class MyService {
 
 Ts.ED give some decorators and service to write your code:
 
-<ul class="api-list"><li class="api-item" data-symbol="mongoose;Indexed;decorator;@;false;false;false;false"><a href="#/api/mongoose/indexed"class="symbol-container symbol-type-decorator symbol-name-mongoose-Indexed"title="Indexed"><span class="symbol decorator"></span>Indexed</a></li><li class="api-item" data-symbol="mongoose;Model;decorator;@;false;false;false;false"><a href="#/api/mongoose/model"class="symbol-container symbol-type-decorator symbol-name-mongoose-Model"title="Model"><span class="symbol decorator"></span>Model</a></li><li class="api-item" data-symbol="mongoose;MongooseIndex;decorator;@;false;false;false;false"><a href="#/api/mongoose/mongooseindex"class="symbol-container symbol-type-decorator symbol-name-mongoose-MongooseIndex"title="MongooseIndex"><span class="symbol decorator"></span>MongooseIndex</a></li><li class="api-item" data-symbol="mongoose;MongoosePlugin;decorator;@;false;false;false;false"><a href="#/api/mongoose/mongooseplugin"class="symbol-container symbol-type-decorator symbol-name-mongoose-MongoosePlugin"title="MongoosePlugin"><span class="symbol decorator"></span>MongoosePlugin</a></li><li class="api-item" data-symbol="mongoose;PostHook;decorator;@;false;false;false;false"><a href="#/api/mongoose/posthook"class="symbol-container symbol-type-decorator symbol-name-mongoose-PostHook"title="PostHook"><span class="symbol decorator"></span>PostHook</a></li><li class="api-item" data-symbol="mongoose;Ref;decorator;@;false;false;false;false"><a href="#/api/mongoose/ref"class="symbol-container symbol-type-decorator symbol-name-mongoose-Ref"title="Ref"><span class="symbol decorator"></span>Ref</a></li><li class="api-item" data-symbol="mongoose;Schema;decorator;@;false;false;false;false"><a href="#/api/mongoose/schema"class="symbol-container symbol-type-decorator symbol-name-mongoose-Schema"title="Schema"><span class="symbol decorator"></span>Schema</a></li><li class="api-item" data-symbol="mongoose;Select;decorator;@;false;false;false;false"><a href="#/api/mongoose/select"class="symbol-container symbol-type-decorator symbol-name-mongoose-Select"title="Select"><span class="symbol decorator"></span>Select</a></li><li class="api-item" data-symbol="mongoose;Unique;decorator;@;false;false;false;false"><a href="#/api/mongoose/unique"class="symbol-container symbol-type-decorator symbol-name-mongoose-Unique"title="Unique"><span class="symbol decorator"></span>Unique</a></li></ul>
-
+<ApiList query="labels.indexOf('mongoose') > -1 || module === '@tsed/mongoose' && symbolType === 'decorator'" />
 
 ## Declaring a Model
 
@@ -314,9 +315,3 @@ class UserService {
 }
 ```
 !> You can find the [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose) example project.
-
-
-<div class="guide-links">
-<a href="#/tutorials/typeorm">TypeORM</a>
-<a href="#/tutorials/swagger">Swagger</a>
-</div>

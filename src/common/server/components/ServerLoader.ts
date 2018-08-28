@@ -22,10 +22,10 @@ import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../inter
  *
  * It provide some features :
  *
- * * [Lifecycle hooks](docs/server-loader/lifecycle-hooks.md),
- * * [Versioning Api](docs/server-loader/versioning.md),
- * * [Authentication strategy](docs/server-loader/authentication.md).
- * * [Global errors handler](docs/server-loader/global-error-handler.md),
+ * * [Lifecycle hooks](/docs/services.md/lifecycle-hooks),
+ * * [Versioning Api](/docs/server-loader/versioning.md),
+ * * [Authentication strategy](/docs/server-loader/authentication.md).
+ * * [Global errors handler](/docs/server-loader/global-error-handler.md),
  * * Middleware importation,
  * * Scan directory. You can specify controllers and services directory in your project,
  *
@@ -136,7 +136,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Create a new HTTPs server.
    *
-   * `options` <IHTTPSServerOptions>:
+   * `options` {IHTTPSServerOptions}:
    *
    * - `port` &lt;number&gt;: Port number,
    * - `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
@@ -442,7 +442,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
   /**
    * Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
-   * under the endpoint. See [Versioning Rest API](docs/server-loader/versioning.md) for more informations.
+   * under the endpoint. See [Versioning Rest API](/docs/server-loader.md#versioning) for more information.
    * @param endpoint
    * @param list
    * @returns {ServerLoader}
@@ -531,15 +531,16 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
-   * Return the settings configured by the decorator [@ServerSettings](api/common/server/decorators/serversettings.md).
+   * Return the settings configured by the decorator [@ServerSettings](/api/common/server/decorators/ServerSettings.md).
    *
+   * ```typescript
    * @ServerSettings({
    *    rootDir: Path.resolve(__dirname),
    *    port: 8000,
    *    httpsPort: 8080,
    *    mount: {
    *      "/rest": "${rootDir}/controllers/**\/*.js"
-   * }
+   *    }
    * })
    * export class Server extends ServerLoader {
    *     $onInit(){

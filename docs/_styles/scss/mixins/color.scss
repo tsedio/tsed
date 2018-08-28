@@ -1,4 +1,0 @@
-@mixin color($value, $cssVarName) {
-  color: $value;
-  color: var($cssVarName, $value);
-}
