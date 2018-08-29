@@ -883,8 +883,8 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.0.0.tgz#9163742ac35c12d3602dece74317643b35db6a80"
 
 "@typedproject/ts-doc@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-3.1.0.tgz#aa28027e6dd9d3a46ff8102f7d3aeb5a576b9c16"
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-3.1.1.tgz#c1de79460c284ed0d45e9afffee91148321f1dd3"
   dependencies:
     chalk "^2.4.1"
     ejs "^2.5.7"
@@ -1012,9 +1012,13 @@
   dependencies:
     "@types/express" "*"
 
-"@types/node@*", "@types/node@^10.9.2":
+"@types/node@*":
   version "10.9.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.2.tgz#f0ab8dced5cd6c56b26765e1c0d9e4fdcc9f2a00"
+
+"@types/node@^10.9.2":
+  version "10.9.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.3.tgz#85f288502503ade0b3bfc049fe1777b05d0327d5"
 
 "@types/proxyquire@^1.3.27":
   version "1.3.28"
@@ -3176,13 +3180,13 @@ colors@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
 
-colors@^1.1.0, colors@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.0.tgz#5f20c9fef6945cb1134260aab33bfbdc8295e04e"
-
 colors@^1.1.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.2.tgz#2df8ff573dfbf255af562f8ce7181d6b971a359b"
+
+colors@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.0.tgz#5f20c9fef6945cb1134260aab33bfbdc8295e04e"
 
 colors@~1.1.2:
   version "1.1.2"
@@ -5119,7 +5123,7 @@ glob@7.0.x:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@7.1.2, glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.1.2, glob@~7.1.1:
+glob@7.1.2, glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@~7.1.1:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
@@ -5140,7 +5144,7 @@ glob@^6.0.4:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.1.1, glob@~7.1.2:
+glob@^7.1.1, glob@^7.1.2, glob@~7.1.2:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   dependencies:
@@ -7585,7 +7589,7 @@ mkdirp@0.3.0:
 
 mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
+  resolved "http://registry.npmjs.org/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
 
@@ -10526,7 +10530,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.4.0, source-map-support@^0.4.15:
+source-map-support@^0.4.15:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
   dependencies:
@@ -10761,15 +10765,6 @@ stream-to-observable@^0.2.0:
   resolved "https://registry.yarnpkg.com/stream-to-observable/-/stream-to-observable-0.2.0.tgz#59d6ea393d87c2c0ddac10aa0d561bc6ba6f0e10"
   dependencies:
     any-observable "^0.2.0"
-
-streamroller@^0.5.0:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-0.5.2.tgz#2bfe650c25b6a90ab25515a90bb5b9b94e398f0f"
-  dependencies:
-    date-format "^1.1.0"
-    debug "^2.6.8"
-    mkdirp "^0.5.1"
-    readable-stream "^2.3.0"
 
 streamroller@^0.7.0:
   version "0.7.0"
@@ -11279,17 +11274,7 @@ ts-httpexceptions@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/ts-httpexceptions/-/ts-httpexceptions-3.1.0.tgz#a7916517409ddcc6bd7eeb3d70b0b15a8ae9df22"
 
-ts-log-debug@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-3.0.1.tgz#ca7bfcf6812ff3a97fdbeb8419056a188beba8f0"
-  dependencies:
-    colors "^1.1.0"
-    date-format "^1.1.0"
-    semver "^5.3.0"
-    source-map-support "^0.4.0"
-    streamroller "^0.5.0"
-
-ts-log-debug@^4.0.1:
+ts-log-debug@^4.0.1, ts-log-debug@^4.0.2:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-4.0.4.tgz#1b5f63ddda2f8447da741ead5128fad808152df0"
   dependencies:
@@ -11299,18 +11284,6 @@ ts-log-debug@^4.0.1:
     source-map-support "^0.5.6"
     streamroller "^0.7.0"
     tslib "^1.9.3"
-
-ts-log-debug@^4.0.2:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-4.0.3.tgz#0d7ae986bed06a7f720ecd4be11cbb176681fab2"
-  dependencies:
-    colors "^1.1.0"
-    date-format "^1.1.0"
-    semver "^5.3.0"
-    source-map-support "^0.4.0"
-    streamroller "^0.5.0"
-    ts-log-debug "^3.0.1"
-    tslib "^1.8.0"
 
 ts-node@^7.0.1:
   version "7.0.1"
@@ -11549,8 +11522,8 @@ unique-string@^1.0.0:
     crypto-random-string "^1.0.0"
 
 universalify@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.1.tgz#fa71badd4437af4c148841e3b3b165f9e9e590b7"
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
