@@ -22,7 +22,7 @@ module.exports = {
 
   async build() {
     await module.exports.buildApi();
-    await execa("vuepress", ["dev", "docs"], {stdio: 'inherit'});
+    await execa("vuepress", ["build", "docs"], {stdio: 'inherit'});
   },
 
   async serve() {

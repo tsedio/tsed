@@ -1,6 +1,6 @@
 # Override Authentication
 
-The annotation [`@Authenticated()`](/api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/authenticatedmiddleware.md)
+The annotation [`@Authenticated()`](/api/common/mvc/decorators/method/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
 to check the authentication strategy. 
 
 To customise this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 

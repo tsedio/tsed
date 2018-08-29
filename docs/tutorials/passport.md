@@ -24,7 +24,7 @@ npm install --save passport
 
 ## Override AuthenticatedMiddleware
 
-The annotation [`@Authenticated()`](/api/common/mvc/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/authenticatedmiddleware.md)
+The annotation [`@Authenticated()`](/api/common/mvc/decorators/Authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
 to check the authentication strategy.
 
 So, create a new file in your middlewares directory and past this code:
@@ -91,7 +91,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 }
 ```
 > We use the hook service licecycle to autoloading some actions when the server start. 
-See the [service lifecycle](/docs/services/lifecyle-hooks.md) for more informations.
+See the [service lifecycle](/docs/services.md#lifecyle-hooks) for more informations.
 
 ### Passport controller
 

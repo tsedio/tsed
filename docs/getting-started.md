@@ -94,7 +94,7 @@ You can copy this example of package.json to develop your application:
 
 Ts.ED provide a `ServerLoader` class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](/docs/server-loader/_sidebar.md).
+a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
 #### With decorators
 

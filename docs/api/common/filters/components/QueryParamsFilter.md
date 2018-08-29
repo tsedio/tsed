@@ -6,7 +6,7 @@ meta:
 ---
 # QueryParamsFilter <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { QueryParamsFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/filters/components/QueryParamsFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/filters/components/QueryParamsFilter.ts#L0-L0">/common/filters/components/QueryParamsFilter.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { QueryParamsFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/filters/components/QueryParamsFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/filters/components/QueryParamsFilter.ts#L0-L0">/common/filters/components/QueryParamsFilter.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

@@ -6,17 +6,20 @@ meta:
 ---
 # Provider <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Provider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/di/class/Provider.ts#L0-L0">/common/di/class/Provider.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Provider }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/di/class/Provider.ts#L0-L0">/common/di/class/Provider.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> Provider&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span> <span class="token keyword">implements</span> <a href="/api/common/di/interfaces/IProvider.html"><span class="token">IProvider</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">protected</span> _useClass<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">protected</span> _instance<span class="token punctuation">:</span> T<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation"> = </span><a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a>.PROVIDER<span class="token punctuation">;</span>
-  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">protected</span> _useClass<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">protected</span> _instance<span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation"> = </span><a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a>.PROVIDER<span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">protected</span> _provide<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     this._provide<span class="token punctuation"> = </span><span class="token function">getClass</span><span class="token punctuation">(</span>this._provide<span class="token punctuation">)</span><span class="token punctuation">;</span>
     this._useClass<span class="token punctuation"> = </span><span class="token function">getClass</span><span class="token punctuation">(</span>this._provide<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -81,7 +84,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">protected</span> _useClass<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 </div>
 
@@ -98,7 +101,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">protected</span> _instance<span class="token punctuation">:</span> T</code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> _useClass<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span></code></pre>
 
 </div>
 
@@ -115,7 +118,58 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation"> = </span><a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a>.PROVIDER</code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> _instance<span class="token punctuation">:</span> T</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/NotEnumerable.html"><span class="token">NotEnumerable</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> _type<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a> | <span class="token keyword">any</span><span class="token punctuation"> = </span><a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a>.PROVIDER</code></pre>
 
 </div>
 

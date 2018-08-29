@@ -1,6 +1,6 @@
 # Override a Middleware
 
-The decorator [@OverrideMiddleware](/api/common/mvc/overridemiddleware.md) gives you the ability to
+The decorator [@OverrideMiddleware](/api/common/mvc/decorators/OverrideMiddleware.md) gives you the ability to
 override some internal Ts.ED middlewares.
 
 > All Ts.ED middlewares can be overrided. You can find the complete list [here](/api/index.md?query=keywords_Middleware|type_class).
