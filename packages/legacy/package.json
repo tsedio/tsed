@@ -1,0 +1,49 @@
+{
+  "name": "ts-express-decorators",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "A TypeScript Framework on top of Express",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "private": false,
+  "keywords": [
+    "Express",
+    "TypeScript",
+    "typescript",
+    "Decorator",
+    "decorators",
+    "decorator",
+    "express",
+    "Controller",
+    "Inject",
+    "ioc",
+    "di",
+    "mvc",
+    "swagger",
+    "swagger ui",
+    "ES2015",
+    "ES6",
+    "server",
+    "rest",
+    "api",
+    "validation"
+  ],
+  "author": "Romain Lenzotti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Romakita/ts-express-decorators/issues"
+  },
+  "homepage": "http://tsed.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Romakita/ts-express-decorators.git"
+  },
+  "dependencies": {
+    "@tsed/core": "0.0.0-PLACEHOLDER",
+    "@tsed/common": "0.0.0-PLACEHOLDER"
+  },
+  "peerDependencies": {},
+  "devDependencies": {},
+  "directories": {
+    "src": "src"
+  }
+}

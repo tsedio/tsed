@@ -1,5 +1,5 @@
-import {Metadata} from "../../../../src/core/class/Metadata";
-import {HttpServer} from "../../../../src/common/server";
+import {Metadata} from "../../../../packages/core/class/Metadata";
+import {HttpServer} from "../../../../packages/common/server";
 import {Sinon} from "../../../tools";
 
 describe("HttpServer", () => {

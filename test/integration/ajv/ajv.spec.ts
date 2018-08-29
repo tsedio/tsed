@@ -1,9 +1,9 @@
-import {AjvService} from "../../../src/ajv/services/AjvService";
-import {Format, JsonSchemesService} from "../../../src/common/jsonschema";
-import {Required} from "../../../src/common/mvc/decorators";
-import {ParseExpressionError} from "../../../src/common/mvc/errors/ParseExpressionError";
-import {nameOf} from "../../../src/core/utils";
-import {inject} from "../../../src/testing";
+import {AjvService} from "../../../packages/ajv/services/AjvService";
+import {Format, JsonSchemesService} from "../../../packages/common/jsonschema";
+import {Required} from "../../../packages/common/mvc/decorators";
+import {ParseExpressionError} from "../../../packages/common/mvc/errors/ParseExpressionError";
+import {nameOf} from "../../../packages/core/utils";
+import {inject} from "../../../packages/testing";
 import {expect} from "../../tools";
 
 let ajvService: AjvService;
@@ -37,7 +37,8 @@ describe("AJV", () => {
     const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
     class TestDate {
-      @Format("date-time") dateStart: Date;
+      @Format("date-time")
+      dateStart: Date;
     }
 
     it("should have expected json schema", () => {
@@ -77,7 +78,8 @@ describe("AJV", () => {
     const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
     class TestDate {
-      @Format("date-time") dateStart: Date;
+      @Format("date-time")
+      dateStart: Date;
     }
 
     it("should have expected json schema", () => {
@@ -107,7 +109,8 @@ describe("AJV", () => {
     const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
     class TestDate {
-      @Format("date-time") dateStart: Date;
+      @Format("date-time")
+      dateStart: Date;
     }
 
     it("should have expected json schema", () => {
@@ -137,7 +140,8 @@ describe("AJV", () => {
 
   describe("Required validation", () => {
     class TestRequired {
-      @Required() dateStart: Date;
+      @Required()
+      dateStart: Date;
     }
 
     it("should have expected json schema", () => {

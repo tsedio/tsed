@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {SessionFilter} from "../../../../src/common/filters/components/SessionFilter";
-import {Session} from "../../../../src/common/filters/decorators/session";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {SessionFilter} from "../../../../packages/common/filters/components/SessionFilter";
+import {Session} from "../../../../packages/common/filters/decorators/session";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {}

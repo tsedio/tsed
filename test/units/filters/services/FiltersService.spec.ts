@@ -1,5 +1,5 @@
-import {FilterService} from "../../../../src/common/filters/services/FilterService";
-import {inject} from "../../../../src/testing";
+import {FilterService} from "../../../../packages/common/filters/services/FilterService";
+import {inject} from "../../../../packages/testing";
 import {expect, Sinon} from "../../../tools";
 
 describe("FilterService", () => {

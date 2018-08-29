@@ -6,15 +6,15 @@ meta:
 ---
 # MiddlewareType <Badge text="Enum" type="enum"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MiddlewareType }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//common/mvc/interfaces/MiddlewareType.ts#L0-L0">/common/mvc/interfaces/MiddlewareType.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MiddlewareType }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/mvc/interfaces/MiddlewareType.ts#L0-L0">/common/mvc/interfaces/MiddlewareType.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">enum</span> MiddlewareType <span class="token punctuation">{</span>
-    ERROR<span class="token punctuation"> = </span>0<span class="token punctuation">,</span>
-    MIDDLEWARE<span class="token punctuation"> = </span>1
+  ERROR<span class="token punctuation">,</span>
+  MIDDLEWARE
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -30,7 +30,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">ERROR<span class="token punctuation"> = </span>0<span class="token punctuation">,</span></code></pre>
+<pre><code class="typescript-lang ">ERROR<span class="token punctuation">,</span></code></pre>
 
 </div>
 
@@ -47,7 +47,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">MIDDLEWARE<span class="token punctuation"> = </span>1</code></pre>
+<pre><code class="typescript-lang ">MIDDLEWARE</code></pre>
 
 </div>
 

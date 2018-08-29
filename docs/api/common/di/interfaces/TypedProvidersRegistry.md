@@ -6,7 +6,7 @@ meta:
 ---
 # TypedProvidersRegistry <Badge text="Type alias" type="type"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { TypedProvidersRegistry }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/di/interfaces/TypedProvidersRegistry"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//common/di/interfaces/TypedProvidersRegistry.ts#L0-L0">/common/di/interfaces/TypedProvidersRegistry.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { TypedProvidersRegistry }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/di/interfaces/TypedProvidersRegistry"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/di/interfaces/TypedProvidersRegistry.ts#L0-L0">/common/di/interfaces/TypedProvidersRegistry.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

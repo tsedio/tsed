@@ -1,12 +1,13 @@
-import {ConverterService} from "../../../../src";
-import {JsonProperty} from "../../../../src/common/jsonschema/decorators/jsonProperty";
-import {Store} from "../../../../src/core";
-import {inject} from "../../../../src/testing/inject";
+import {ConverterService} from "../../../../packages/common/converters";
+import {JsonProperty} from "../../../../packages/common/jsonschema/decorators/jsonProperty";
+import {Store} from "../../../../packages/core";
+import {inject} from "../../../../packages/testing/inject";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
 import {assert, expect} from "../../../tools";
 
 class JsonFoo5 {
-  @JsonProperty() test: any;
+  @JsonProperty()
+  test: any;
   foo: any;
 }
 
@@ -80,12 +81,9 @@ describe("ConverterService", () => {
         expect(this.converterService.deserialize({}, Object)).to.be.an("object");
       });
 
-      it(
-        "should convert a date",
-        inject([ConverterService], (converterService: ConverterService) => {
-          expect(converterService.deserialize(new Date().toISOString(), Date)).to.be.instanceof(Date);
-        })
-      );
+      it("should convert a date", inject([ConverterService], (converterService: ConverterService) => {
+        expect(converterService.deserialize(new Date().toISOString(), Date)).to.be.instanceof(Date);
+      }));
     });
 
     describe("class Foo", () => {

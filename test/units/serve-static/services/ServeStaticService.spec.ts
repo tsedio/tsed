@@ -1,14 +1,14 @@
 import * as Proxyquire from "proxyquire";
-import {ServerSettingsService} from "../../../../src/common/config/services/ServerSettingsService";
-import {ExpressApplication} from "../../../../src/common/mvc/decorators";
-import {invoke} from "../../../../src/testing/invoke";
+import {ServerSettingsService} from "../../../../packages/common/config/services/ServerSettingsService";
+import {ExpressApplication} from "../../../../packages/common/mvc/decorators";
+import {invoke} from "../../../../packages/testing/invoke";
 import {Sinon} from "../../../tools";
 
 const middlewareServeStatic = Sinon.stub();
 const serveStatic = Sinon.stub();
 serveStatic.withArgs("/views").returns(middlewareServeStatic);
 
-const {ServeStaticService} = Proxyquire("../../../../src/servestatic/services/ServeStaticService", {
+const {ServeStaticService} = Proxyquire("../../../../packages/servestatic/services/ServeStaticService", {
   "serve-static": serveStatic
 });
 const expressApplication = {

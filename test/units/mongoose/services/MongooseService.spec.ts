@@ -1,7 +1,7 @@
 import {ServerSettingsService} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import * as Mongoose from "mongoose";
-import {MongooseService} from "../../../../src/mongoose";
+import {MongooseService} from "../../../../packages/mongoose";
 import {Sinon} from "../../../tools";
 
 describe("MongooseService", () => {
@@ -90,11 +90,21 @@ describe("MongooseService", () => {
       inject([MongooseService], (mongooseService: any) => {
         this.connectStub = Sinon.stub(Mongoose, "connect").returns(Promise.resolve("mongooseinstance"));
 
-        return mongooseService.connect("key", "mongodb://test", {options: "options"}).then(() => {
-          this.result = mongooseService.connect("key", "mongodb://test", {options: "options"});
+        return mongooseService
+          .connect(
+            "key",
+            "mongodb://test",
+            {options: "options"}
+          )
+          .then(() => {
+            this.result = mongooseService.connect(
+              "key",
+              "mongodb://test",
+              {options: "options"}
+            );
 
-          return this.result;
-        });
+            return this.result;
+          });
       })
     );
 

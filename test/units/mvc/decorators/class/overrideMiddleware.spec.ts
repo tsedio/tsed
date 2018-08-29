@@ -1,5 +1,5 @@
-import {OverrideProvider} from "../../../../../src/common/di/decorators/overrideProvider";
-import {OverrideMiddleware} from "../../../../../src/common/mvc/decorators/class/overrideMiddleware";
+import {OverrideProvider} from "../../../../../packages/common/di/decorators/overrideProvider";
+import {OverrideMiddleware} from "../../../../../packages/common/mvc/decorators/class/overrideMiddleware";
 import {expect} from "../../../../tools";
 
 describe("OverrideMiddleware", () => {

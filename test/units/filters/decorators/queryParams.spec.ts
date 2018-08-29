@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {QueryParamsFilter} from "../../../../src/common/filters/components/QueryParamsFilter";
-import {QueryParams} from "../../../../src/common/filters/decorators/queryParams";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {QueryParamsFilter} from "../../../../packages/common/filters/components/QueryParamsFilter";
+import {QueryParams} from "../../../../packages/common/filters/decorators/queryParams";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {}

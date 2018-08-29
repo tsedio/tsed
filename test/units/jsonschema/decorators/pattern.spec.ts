@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../src/common/jsonschema/class/JsonSchema";
-import {Pattern} from "../../../../src/common/jsonschema/decorators/pattern";
+import {JsonSchema} from "../../../../packages/common/jsonschema/class/JsonSchema";
+import {Pattern} from "../../../../packages/common/jsonschema/decorators/pattern";
 import {stubSchemaDecorator} from "./utils";
 
 describe("Pattern", () => {

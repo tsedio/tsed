@@ -1,6 +1,6 @@
-import {EXPRESS_REQUEST} from "../../../../src/common/filters/constants";
-import {Req} from "../../../../src/common/filters/decorators/request";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {EXPRESS_REQUEST} from "../../../../packages/common/filters/constants";
+import {Req} from "../../../../packages/common/filters/decorators/request";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("Request", () => {

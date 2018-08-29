@@ -1,5 +1,5 @@
-import {ResponseViewMiddleware} from "../../../../src/common/mvc/components/ResponseViewMiddleware";
-import {inject} from "../../../../src/testing";
+import {ResponseViewMiddleware} from "../../../../packages/common/mvc/components/ResponseViewMiddleware";
+import {inject} from "../../../../packages/testing";
 import {expect, Sinon} from "../../../tools";
 
 describe("ResponseViewMiddleware :", () => {

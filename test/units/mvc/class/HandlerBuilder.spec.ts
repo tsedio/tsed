@@ -1,11 +1,11 @@
 import {ProviderType} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import {BadRequest} from "ts-httpexceptions";
-import "../../../../src/ajv";
-import {InjectorService} from "../../../../src/common/di/services/InjectorService";
-import {FilterBuilder} from "../../../../src/common/filters/class/FilterBuilder";
-import {EndpointMetadata} from "../../../../src/common/mvc/class/EndpointMetadata";
-import {HandlerBuilder} from "../../../../src/common/mvc/class/HandlerBuilder";
+import "../../../../packages/ajv";
+import {InjectorService} from "../../../../packages/common/di/services/InjectorService";
+import {FilterBuilder} from "../../../../packages/common/filters/class/FilterBuilder";
+import {EndpointMetadata} from "../../../../packages/common/mvc/class/EndpointMetadata";
+import {HandlerBuilder} from "../../../../packages/common/mvc/class/HandlerBuilder";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {$logStub, assert, expect, restore, Sinon} from "../../../tools";

@@ -1,5 +1,5 @@
-import {PreHook} from "../../../../src/mongoose/decorators";
-import * as mod from "../../../../src/mongoose/utils/schemaOptions";
+import {PreHook} from "../../../../packages/mongoose/decorators";
+import * as mod from "../../../../packages/mongoose/utils/schemaOptions";
 import {Sinon} from "../../../tools";
 
 describe("@PreHook()", () => {

@@ -1,8 +1,8 @@
 import {InjectorService} from "@tsed/common";
 import {inject, invoke} from "@tsed/testing";
-import {HttpServer} from "../../../../src/common/server/decorators/httpServer";
-import {HttpsServer} from "../../../../src/common/server/decorators/httpsServer";
-import {SocketIOServer, SocketIOService} from "../../../../src/socketio";
+import {HttpServer} from "../../../../packages/common/server/decorators/httpServer";
+import {HttpsServer} from "../../../../packages/common/server/decorators/httpsServer";
+import {SocketIOServer, SocketIOService} from "../../../../packages/socketio";
 import {Sinon} from "../../../tools";
 
 describe("SocketIOService", () => {

@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import * as mongoose from "mongoose";
-import {MONGOOSE_MODEL_NAME} from "../../../../src/mongoose/constants";
-import {createModel} from "../../../../src/mongoose/utils";
+import {MONGOOSE_MODEL_NAME} from "../../../../packages/mongoose/constants";
+import {createModel} from "../../../../packages/mongoose/utils";
 import {expect, Sinon} from "../../../tools";
 
 describe("createModel()", () => {

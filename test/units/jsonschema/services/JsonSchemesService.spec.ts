@@ -1,5 +1,5 @@
-import {JsonSchemesService} from "../../../../src/common/jsonschema/services/JsonSchemesService";
-import {inject} from "../../../../src/testing";
+import {JsonSchemesService} from "../../../../packages/common/jsonschema/services/JsonSchemesService";
+import {inject} from "../../../../packages/testing";
 import {Circular, IndirectCircular, JsonFoo2, Thingy} from "../../../helper/classes";
 import {expect} from "../../../tools";
 

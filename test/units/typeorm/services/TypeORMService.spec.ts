@@ -1,6 +1,6 @@
 import {inject} from "@tsed/testing";
 import * as TypeORM from "typeorm";
-import {TypeORMService} from "../../../../src/typeorm/services/TypeORMService";
+import {TypeORMService} from "../../../../packages/typeorm/services/TypeORMService";
 import {Sinon} from "../../../tools";
 
 describe("TypeORMService", () => {

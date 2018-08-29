@@ -1,20 +1,23 @@
 import {IgnoreProperty} from "@tsed/common";
-import {Property} from "../../src/common/jsonschema/decorators/jsonProperty";
-import {MinLength} from "../../src/common/jsonschema/decorators/minLength";
-import {PropertyName} from "../../src/common/jsonschema/decorators/propertyName";
-import {PropertyType} from "../../src/common/jsonschema/decorators/propertyType";
-import {Required} from "../../src/common/mvc/decorators";
+import {Property} from "../../packages/common/jsonschema/decorators/jsonProperty";
+import {MinLength} from "../../packages/common/jsonschema/decorators/minLength";
+import {PropertyName} from "../../packages/common/jsonschema/decorators/propertyName";
+import {PropertyType} from "../../packages/common/jsonschema/decorators/propertyType";
+import {Required} from "../../packages/common/mvc/decorators";
 
 export class JsonBaseModel {
-  @Property() public id?: string;
+  @Property()
+  public id?: string;
 }
 
 export class JsonNameModel extends JsonBaseModel {
-  @Property() public name: string;
+  @Property()
+  public name: string;
 }
 
 export class JsonAgeModel extends JsonBaseModel {
-  @Property() public age: number;
+  @Property()
+  public age: number;
 }
 
 export class JsonFoo {
@@ -42,7 +45,8 @@ export class JsonFoo {
 }
 
 export class JsonFoo1 {
-  @Property() test: string;
+  @Property()
+  test: string;
 }
 
 export class JsonFoo2 {
@@ -56,31 +60,44 @@ export class JsonFoo2 {
   @MinLength(3)
   name: string;
 
-  @Property() dateStart: Date;
+  @Property()
+  dateStart: Date;
 
-  @Property() uint: number;
+  @Property()
+  uint: number;
 
-  @Property() object: any;
+  @Property()
+  object: any;
 
-  @Required() foo: JsonFoo;
+  @Required()
+  foo: JsonFoo;
 
-  @PropertyType(JsonFoo) foos: JsonFoo[];
+  @PropertyType(JsonFoo)
+  foos: JsonFoo[];
 
-  @PropertyType(JsonFoo1) foos2: JsonFoo1[];
+  @PropertyType(JsonFoo1)
+  foos2: JsonFoo1[];
 
-  @PropertyType(JsonFoo1) theMap: Map<string, JsonFoo1>;
+  @PropertyType(JsonFoo1)
+  theMap: Map<string, JsonFoo1>;
 
-  @PropertyType(JsonFoo1) theSet: Set<JsonFoo1>;
+  @PropertyType(JsonFoo1)
+  theSet: Set<JsonFoo1>;
 
-  @PropertyType(String) mapOfString: Map<string, string>;
+  @PropertyType(String)
+  mapOfString: Map<string, string>;
 
-  @PropertyType(String) arrayOfString: string[];
+  @PropertyType(String)
+  arrayOfString: string[];
 
-  @Property() nameModel: JsonNameModel;
+  @Property()
+  nameModel: JsonNameModel;
 
-  @Property() ageModel: JsonAgeModel;
+  @Property()
+  ageModel: JsonAgeModel;
 
-  @IgnoreProperty() password: string;
+  @IgnoreProperty()
+  password: string;
 
   method() {}
 }
@@ -92,35 +109,44 @@ export class JsonFoo3 {
 }
 
 export class JsonFoo4 {
-  @Property() test: any;
+  @Property()
+  test: any;
 
-  @Required() foo: any;
+  @Required()
+  foo: any;
 }
 
 export class Nested {
-  @Property() count?: number;
+  @Property()
+  count?: number;
 }
 
 export class Stuff {
-  @Property() name: string;
+  @Property()
+  name: string;
 
-  @Property() nested?: Nested;
+  @Property()
+  nested?: Nested;
 }
 
 export class Thingy {
-  @Property() stuff?: Stuff;
+  @Property()
+  stuff?: Stuff;
 }
 
 export class Circular {
-  @Property() parent: Circular;
+  @Property()
+  parent: Circular;
 }
 
 export class Dependency {
-  @Property() dep: any;
+  @Property()
+  dep: any;
 }
 
 export class IndirectCircular {
-  @Property() parent: Dependency;
+  @Property()
+  parent: Dependency;
 }
 
 PropertyType(IndirectCircular)(Dependency, "dep");

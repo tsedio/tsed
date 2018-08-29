@@ -6,16 +6,34 @@ meta:
 ---
 # RequiredParamError <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RequiredParamError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/lib/filters/errors/RequiredParamError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//common/filters/errors/RequiredParamError.ts#L0-L0">/common/filters/errors/RequiredParamError.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RequiredParamError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/filters/errors/RequiredParamError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/filters/errors/RequiredParamError.ts#L0-L0">/common/filters/errors/RequiredParamError.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> RequiredParamError <span class="token keyword">extends</span> BadRequest <span class="token keyword">implements</span> <a href="/api/common/mvc/interfaces/IResponseError.html"><span class="token">IResponseError</span></a> <span class="token punctuation">{</span>
-    errors<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> expression<span class="token punctuation">:</span> <span class="token keyword">string</span> | RegExp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> expression<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  errors<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> expression<span class="token punctuation">:</span> <span class="token keyword">string</span> | RegExp<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">super</span><span class="token punctuation">(</span>RequiredParamError.<span class="token function">buildMessage</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> "" + expression<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> type<span class="token punctuation"> = </span>name.<span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>.<span class="token function">replace</span><span class="token punctuation">(</span>/parse|params|filter/gi<span class="token punctuation">,</span> ""<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    this.errors<span class="token punctuation"> = </span><span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        dataPath<span class="token punctuation">:</span> ""<span class="token punctuation">,</span>
+        keyword<span class="token punctuation">:</span> <span class="token string">"required"</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> `should have required param '$<span class="token punctuation">{</span>expression<span class="token punctuation">}</span>'`<span class="token punctuation">,</span>
+        modelName<span class="token punctuation">:</span> type<span class="token punctuation">,</span>
+        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          missingProperty<span class="token punctuation">:</span> expression
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        schemaPath<span class="token punctuation">:</span> "#/required"
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> expression<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation"> = </span>name.<span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>.<span class="token function">replace</span><span class="token punctuation">(</span>/parse|params|filter/gi<span class="token punctuation">,</span> ""<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    return `Bad request<span class="token punctuation">,</span> parameter "request.$<span class="token punctuation">{</span>name<span class="token punctuation">}</span>.$<span class="token punctuation">{</span>expression<span class="token punctuation">}</span>" is required.`<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -48,7 +66,10 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> expression<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> expression<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ name<span class="token punctuation"> = </span>name.<span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>.<span class="token function">replace</span><span class="token punctuation">(</span>/parse|params|filter/gi<span class="token punctuation">,</span> ""<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ return `Bad request<span class="token punctuation">,</span> parameter "request.$<span class="token punctuation">{</span>name<span class="token punctuation">}</span>.$<span class="token punctuation">{</span>expression<span class="token punctuation">}</span>" is required.`<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 

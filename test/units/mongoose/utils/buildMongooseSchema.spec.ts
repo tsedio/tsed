@@ -1,6 +1,6 @@
 import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
-import {MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
-import {buildMongooseSchema, mapProps} from "../../../../src/mongoose/utils/buildMongooseSchema";
+import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/constants";
+import {buildMongooseSchema, mapProps} from "../../../../packages/mongoose/utils/buildMongooseSchema";
 import {expect, Sinon} from "../../../tools";
 
 describe("buildMongooseSchema", () => {

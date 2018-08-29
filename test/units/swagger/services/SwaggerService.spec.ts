@@ -3,7 +3,7 @@ import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
 import * as Express from "express";
 import * as Fs from "fs";
-import {SwaggerService} from "../../../../src/swagger";
+import {SwaggerService} from "../../../../packages/swagger";
 import {expect, Sinon} from "../../../tools";
 
 class Test {}

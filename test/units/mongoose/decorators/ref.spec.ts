@@ -1,8 +1,8 @@
 import {Schema} from "mongoose";
-import {Store} from "../../../../src/core/class/Store";
-import {descriptorOf} from "../../../../src/core/utils";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../../../src/mongoose/constants";
-import {Ref} from "../../../../src/mongoose/decorators";
+import {Store} from "../../../../packages/core/class/Store";
+import {descriptorOf} from "../../../../packages/core/utils";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../../../packages/mongoose/constants";
+import {Ref} from "../../../../packages/mongoose/decorators";
 import {expect} from "../../../tools";
 
 describe("@Ref()", () => {

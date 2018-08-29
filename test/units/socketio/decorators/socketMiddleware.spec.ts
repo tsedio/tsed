@@ -1,7 +1,7 @@
 import * as common from "@tsed/common";
 import {Store} from "@tsed/core";
-import {SocketMiddleware} from "../../../../src/socketio/decorators/socketMiddleware";
-import {SocketProviderTypes} from "../../../../src/socketio/interfaces/ISocketProviderMetadata";
+import {SocketMiddleware} from "../../../../packages/socketio/decorators/socketMiddleware";
+import {SocketProviderTypes} from "../../../../packages/socketio/interfaces/ISocketProviderMetadata";
 import {expect, Sinon} from "../../../tools";
 
 describe("@SocketMiddleware", () => {

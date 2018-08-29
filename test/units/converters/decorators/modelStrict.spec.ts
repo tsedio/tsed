@@ -1,5 +1,5 @@
-import {ModelStrict} from "../../../../src/common/converters";
-import {Store} from "../../../../src/core/class/Store";
+import {ModelStrict} from "../../../../packages/common/converters";
+import {Store} from "../../../../packages/core/class/Store";
 import {expect} from "../../../tools";
 
 class Test {}

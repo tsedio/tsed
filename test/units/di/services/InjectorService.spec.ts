@@ -1,13 +1,14 @@
 import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType, ServerSettingsService} from "@tsed/common";
 import {Metadata, Store} from "@tsed/core";
-import {InjectorService} from "../../../../src";
-import {inject} from "../../../../src/testing/inject";
+import {InjectorService} from "../../../../packages/common/di";
+import {inject} from "../../../../packages/testing/inject";
 import {expect, Sinon} from "../../../tools";
 
 class Test {
   constructor() {}
 
-  @Inject() prop: InjectorService;
+  @Inject()
+  prop: InjectorService;
 
   @Inject()
   test(injectorService: InjectorService) {

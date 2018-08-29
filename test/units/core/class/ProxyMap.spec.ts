@@ -1,4 +1,4 @@
-import {ProxyMap} from "../../../../src/core/class/ProxyMap";
+import {ProxyMap} from "../../../../packages/core/class/ProxyMap";
 import {expect} from "../../../tools";
 
 class MapImpl extends ProxyMap<any, any> {}

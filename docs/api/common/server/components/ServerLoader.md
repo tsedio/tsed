@@ -6,46 +6,169 @@ meta:
 ---
 # ServerLoader <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerLoader }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//common/server/components/ServerLoader.ts#L0-L0">/common/server/components/ServerLoader.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerLoader }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/server/components/ServerLoader.ts#L0-L0">/common/server/components/ServerLoader.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">abstract</span> <span class="token keyword">class</span> ServerLoader <span class="token keyword">implements</span> <a href="/api/common/server/interfaces/IServerLifecycle.html"><span class="token">IServerLifecycle</span></a> <span class="token punctuation">{</span>
-    version<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">createHttpServer</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">createHttpsServer</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="/api/common/server/interfaces/IHTTPSServerOptions.html"><span class="token">IHTTPSServerOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> val<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a><span class="token punctuation">;</span>
-    <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> Http.Server | Https.Server<span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-        address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
-        port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token punctuation">{</span>
-        address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-        port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    <span class="token function">scan</span><span class="token punctuation">(</span>patterns<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">addComponents</span><span class="token punctuation">(</span>classes<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/server/interfaces/IComponentScanned.html"><span class="token">IComponentScanned</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">addControllers</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> controllers<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> list<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> expressApp<span class="token punctuation">:</span> Express.Application<span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="/api/common/di/services/InjectorService.html"><span class="token">InjectorService</span></a><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> injector<span class="token punctuation">:</span> <a href="/api/common/di/services/InjectorService.html"><span class="token">InjectorService</span></a><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server<span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server<span class="token punctuation">;</span>
-    <span class="token keyword">static</span> <span class="token function">cleanGlobPatterns</span><span class="token punctuation">(</span>files<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> excludes<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+  <span class="token keyword">public</span> version<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation"> = </span>"4.30.1"<span class="token punctuation">;</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    this._injector<span class="token punctuation"> = </span>new <span class="token function"><a href="/api/common/di/services/InjectorService.html"><span class="token">InjectorService</span></a></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    this.<span class="token function">createExpressApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> settings<span class="token punctuation"> = </span><a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a>.<span class="token function">getMetadata</span><span class="token punctuation">(</span>this<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    if <span class="token punctuation">(</span><span class="token punctuation">(</span>this <span class="token keyword">as</span> <span class="token keyword">any</span><span class="token punctuation">)</span>.$onAuth<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      $log.<span class="token function">warn</span><span class="token punctuation">(</span>"The $onAuth hooks is removed. <a href="/api/common/mvc/decorators/method/Use.html"><span class="token">Use</span></a> <a href="/api/common/mvc/decorators/class/OverrideMiddleware.html"><span class="token">OverrideMiddleware</span></a> method instead of. See https<span class="token punctuation">:</span>//goo.gl/fufBTE."<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    if <span class="token punctuation">(</span>settings<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      this.<span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">private</span> <span class="token function">createExpressApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> expressApp<span class="token punctuation"> = </span><span class="token function">Express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> originalUse<span class="token punctuation"> = </span>expressApp.use<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> injector<span class="token punctuation"> = </span>this.injector<span class="token punctuation">;</span>
+    expressApp.use<span class="token punctuation"> = </span><span class="token function">function</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      args<span class="token punctuation"> = </span>args.<span class="token function">map</span><span class="token punctuation">(</span>arg =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+        if <span class="token punctuation">(</span>injector.<span class="token function">has</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          arg<span class="token punctuation"> = </span><a href="/api/common/mvc/class/HandlerBuilder.html"><span class="token">HandlerBuilder</span></a>.<span class="token keyword">from</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span>.<span class="token function">build</span><span class="token punctuation">(</span>injector<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        return arg<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      return originalUse.<span class="token function">call</span><span class="token punctuation">(</span>this<span class="token punctuation">,</span> ...args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    this.injector.<span class="token function">forkProvider</span><span class="token punctuation">(</span><a href="/api/common/mvc/decorators/class/ExpressApplication.html"><span class="token">ExpressApplication</span></a><span class="token punctuation">,</span> expressApp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token function">createHttpServer</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> httpServer<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation"> = </span>Http.<span class="token function">createServer</span><span class="token punctuation">(</span>this.expressApp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    // TODO to be removed
+    /* istanbul ignore next */
+    httpServer.get<span class="token punctuation"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> httpServer<span class="token punctuation">;</span>
+    this.injector.<span class="token function">forkProvider</span><span class="token punctuation">(</span><a href="/api/common/server/decorators/HttpServer.html"><span class="token">HttpServer</span></a><span class="token punctuation">,</span> httpServer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    this.settings.httpPort<span class="token punctuation"> = </span>port<span class="token punctuation">;</span>
+    return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token function">createHttpsServer</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="/api/common/server/interfaces/IHTTPSServerOptions.html"><span class="token">IHTTPSServerOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> httpsServer<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation"> = </span>Https.<span class="token function">createServer</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> this.expressApp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    // TODO to be removed
+    /* istanbul ignore next */
+    httpsServer.get<span class="token punctuation"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> httpsServer<span class="token punctuation">;</span>
+    this.injector.<span class="token function">forkProvider</span><span class="token punctuation">(</span><a href="/api/common/server/decorators/HttpsServer.html"><span class="token">HttpsServer</span></a><span class="token punctuation">,</span> httpsServer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    this.settings.httpsPort<span class="token punctuation"> = </span>options.port<span class="token punctuation">;</span>
+    return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader <span class="token punctuation">{</span>
+    this.expressApp.<span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> val<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader <span class="token punctuation">{</span>
+    this.expressApp.<span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> ServerLoader <span class="token punctuation">{</span>
+    this.expressApp.<span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">,</span> fn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">protected</span> async <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    $log.<span class="token function">debug</span><span class="token punctuation">(</span>"Initialize settings"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    this.settings.<span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> key<span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+      $log.<span class="token function">info</span><span class="token punctuation">(</span>`settings.$<span class="token punctuation">{</span>key<span class="token punctuation">}</span> =&gt<span class="token punctuation">;</span>`<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    $log.<span class="token function">info</span><span class="token punctuation">(</span>"Build services"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    return this.injector.<span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">private</span> callHook<span class="token punctuation"> = </span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> elseFn<span class="token punctuation"> = </span>new <span class="token function">Function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> self<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation"> = </span>this<span class="token punctuation">;</span>
+    if <span class="token punctuation">(</span>key in this<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      $log.<span class="token function">debug</span><span class="token punctuation">(</span>`\x1B<span class="token punctuation">[</span>1mCall hook $<span class="token punctuation">{</span>key<span class="token punctuation">}</span>\x1B<span class="token punctuation">[</span>22m`<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      return self<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">(</span>...args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    return <span class="token function">elseFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  @<span class="token function"><a href="/api/core/decorators/Deprecated.html"><span class="token">Deprecated</span></a></span><span class="token punctuation">(</span>"Removed feature. <a href="/api/common/mvc/decorators/method/Use.html"><span class="token">Use</span></a> ServerLoader.settings"<span class="token punctuation">)</span>
+  <span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a> <span class="token punctuation">{</span>
+    return this.settings<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> async <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> start<span class="token punctuation"> = </span>new <span class="token keyword">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    try <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> debug<span class="token punctuation"> = </span>this.settings.debug<span class="token punctuation">;</span>
+      /* istanbul ignore next */
+      if <span class="token punctuation">(</span>debug && this.settings.env !== <span class="token string">"test"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        $log.level<span class="token punctuation"> = </span><span class="token string">"debug"</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      await Promise.<span class="token function">all</span><span class="token punctuation">(</span>this._scannedPromises<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      await this.<span class="token function">callHook</span><span class="token punctuation">(</span>"$onInit"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      await this.<span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      $log.<span class="token function">debug</span><span class="token punctuation">(</span>"Settings and injector loaded"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      await this.<span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      await this.<span class="token function">startServers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      await this.<span class="token function">callHook</span><span class="token punctuation">(</span>"$onReady"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      await this.injector.<span class="token function">emit</span><span class="token punctuation">(</span>"$onServerReady"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      $log.<span class="token function">info</span><span class="token punctuation">(</span>`Started in $<span class="token punctuation">{</span>new <span class="token keyword">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>.<span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> - start.<span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span> ms`<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> catch <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      this.<span class="token function">callHook</span><span class="token punctuation">(</span>"$onServerInitError"<span class="token punctuation">,</span> undefined<span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      return Promise.<span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>
+    http<span class="token punctuation">:</span> Http.Server | Https.Server<span class="token punctuation">,</span>
+    settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span> address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span> port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">}</span></code></pre>
 
+
+
+<!-- Description -->
+## Description
+
+::: v-pre
+
+ServerLoader provider all method to instantiate an ExpressServer.
+
+It provide some features :
+
+* [Lifecycle hooks](/docs/services.md/lifecycle-hooks),
+* [Versioning Api](/docs/server-loader/versioning.md),
+* [Authentication strategy](/docs/server-loader/authentication.md).
+* [Global errors handler](/docs/server-loader/global-error-handler.md),
+* Middleware importation,
+* Scan directory. You can specify controllers and services directory in your project,
+
+```typescript
+// In server.ts
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import Path = require("path");
+@ServerSettings({
+   rootDir: Path.resolve(__dirname),
+   port: 8000,
+   httpsPort: 8080,
+   mount: {
+     "/rest": "${rootDir}/controllers/**/*.js"
+   }
+})
+export class Server extends ServerLoader {
+
+    $onReady(){
+        console.log('Server started...');
+    }
+
+    $onServerInitError(err){
+        console.error(err);
+    }
+}
+
+// In app.ts
+import Server from "./server";
+new Server()
+    .start()
+    .then(() => console.log('started'))
+    .catch(er => console.error(er));
+
+```
+
+
+:::
 
 
 <!-- Members -->
@@ -59,7 +182,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">version<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">public</span> version<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation"> = </span>"4.30.1"</code></pre>
 
 </div>
 
@@ -76,7 +199,47 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">createHttpServer</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">private</span> <span class="token function">createExpressApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a> <span class="token punctuation">{</span>
+ <span class="token keyword">const</span> expressApp<span class="token punctuation"> = </span><span class="token function">Express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token keyword">const</span> originalUse<span class="token punctuation"> = </span>expressApp.use<span class="token punctuation">;</span>
+ <span class="token keyword">const</span> injector<span class="token punctuation"> = </span>this.injector<span class="token punctuation">;</span>
+ expressApp.use<span class="token punctuation"> = </span><span class="token function">function</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   args<span class="token punctuation"> = </span>args.<span class="token function">map</span><span class="token punctuation">(</span>arg =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+     if <span class="token punctuation">(</span>injector.<span class="token function">has</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       arg<span class="token punctuation"> = </span><a href="/api/common/mvc/class/HandlerBuilder.html"><span class="token">HandlerBuilder</span></a>.<span class="token keyword">from</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span>.<span class="token function">build</span><span class="token punctuation">(</span>injector<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span>
+     return arg<span class="token punctuation">;</span>
+   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   return originalUse.<span class="token function">call</span><span class="token punctuation">(</span>this<span class="token punctuation">,</span> ...args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">;</span>
+ this.injector.<span class="token function">forkProvider</span><span class="token punctuation">(</span><a href="/api/common/mvc/decorators/class/ExpressApplication.html"><span class="token">ExpressApplication</span></a><span class="token punctuation">,</span> expressApp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">public</span> <span class="token function">createHttpServer</span><span class="token punctuation">(</span>port<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a> <span class="token punctuation">{</span>
+ <span class="token keyword">const</span> httpServer<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation"> = </span>Http.<span class="token function">createServer</span><span class="token punctuation">(</span>this.expressApp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ // TODO to be removed
+ /* istanbul ignore next */
+ httpServer.get<span class="token punctuation"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> httpServer<span class="token punctuation">;</span>
+ this.injector.<span class="token function">forkProvider</span><span class="token punctuation">(</span><a href="/api/common/server/decorators/HttpServer.html"><span class="token">HttpServer</span></a><span class="token punctuation">,</span> httpServer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ this.settings.httpPort<span class="token punctuation"> = </span>port<span class="token punctuation">;</span>
+ return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -97,7 +260,15 @@ Create a new HTTP server with the provided `port`.
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">createHttpsServer</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="/api/common/server/interfaces/IHTTPSServerOptions.html"><span class="token">IHTTPSServerOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">public</span> <span class="token function">createHttpsServer</span><span class="token punctuation">(</span>options<span class="token punctuation">:</span> <a href="/api/common/server/interfaces/IHTTPSServerOptions.html"><span class="token">IHTTPSServerOptions</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a> <span class="token punctuation">{</span>
+ <span class="token keyword">const</span> httpsServer<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation"> = </span>Https.<span class="token function">createServer</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> this.expressApp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ // TODO to be removed
+ /* istanbul ignore next */
+ httpsServer.get<span class="token punctuation"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> httpsServer<span class="token punctuation">;</span>
+ this.injector.<span class="token function">forkProvider</span><span class="token punctuation">(</span><a href="/api/common/server/decorators/HttpsServer.html"><span class="token">HttpsServer</span></a><span class="token punctuation">,</span> httpsServer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ this.settings.httpsPort<span class="token punctuation"> = </span>options.port<span class="token punctuation">;</span>
+ return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -137,7 +308,10 @@ See more info on [httpsOptions](https://nodejs.org/api/tls.html#tls_tls_createse
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">public</span> <span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a> <span class="token punctuation">{</span>
+ this.expressApp.<span class="token function">use</span><span class="token punctuation">(</span>...args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -181,7 +355,10 @@ export class Server extends ServerLoader {
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> val<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">public</span> <span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> val<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a> <span class="token punctuation">{</span>
+ this.expressApp.<span class="token function">set</span><span class="token punctuation">(</span>setting<span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -202,7 +379,10 @@ Proxy to express set
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">public</span> <span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a> <span class="token punctuation">{</span>
+ this.expressApp.<span class="token function">engine</span><span class="token punctuation">(</span>ext<span class="token punctuation">,</span> fn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ return this<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -223,7 +403,14 @@ Proxy to express engine
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> async <span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ $log.<span class="token function">debug</span><span class="token punctuation">(</span>"Initialize settings"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ this.settings.<span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> key<span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+   $log.<span class="token function">info</span><span class="token punctuation">(</span>`settings.$<span class="token punctuation">{</span>key<span class="token punctuation">}</span> =&gt<span class="token punctuation">;</span>`<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ $log.<span class="token function">info</span><span class="token punctuation">(</span>"Build services"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ return this.injector.<span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -240,7 +427,14 @@ Proxy to express engine
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">private</span> callHook<span class="token punctuation"> = </span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> elseFn<span class="token punctuation"> = </span>new <span class="token function">Function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+ <span class="token keyword">const</span> self<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation"> = </span>this<span class="token punctuation">;</span>
+ if <span class="token punctuation">(</span>key in this<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   $log.<span class="token function">debug</span><span class="token punctuation">(</span>`\x1B<span class="token punctuation">[</span>1mCall hook $<span class="token punctuation">{</span>key<span class="token punctuation">}</span>\x1B<span class="token punctuation">[</span>22m`<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   return self<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">(</span>...args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+ return <span class="token function">elseFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 
 </div>
 
@@ -257,7 +451,64 @@ Proxy to express engine
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang ">@<span class="token function"><a href="/api/core/decorators/Deprecated.html"><span class="token">Deprecated</span></a></span><span class="token punctuation">(</span>"Removed feature. <a href="/api/common/mvc/decorators/method/Use.html"><span class="token">Use</span></a> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a>.settings"<span class="token punctuation">)</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">getSettingsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a> <span class="token punctuation">{</span>
+ return this.settings<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token keyword">public</span> async <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
+ <span class="token keyword">const</span> start<span class="token punctuation"> = </span>new <span class="token keyword">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ try <span class="token punctuation">{</span>
+   <span class="token keyword">const</span> debug<span class="token punctuation"> = </span>this.settings.debug<span class="token punctuation">;</span>
+   /* istanbul ignore next */
+   if <span class="token punctuation">(</span>debug && this.settings.env !== <span class="token string">"test"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     $log.level<span class="token punctuation"> = </span><span class="token string">"debug"</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+   await Promise.<span class="token function">all</span><span class="token punctuation">(</span>this._scannedPromises<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   await this.<span class="token function">callHook</span><span class="token punctuation">(</span>"$onInit"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   await this.<span class="token function">loadSettingsAndInjector</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   $log.<span class="token function">debug</span><span class="token punctuation">(</span>"Settings and injector loaded"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   await this.<span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   await this.<span class="token function">startServers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   await this.<span class="token function">callHook</span><span class="token punctuation">(</span>"$onReady"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   await this.injector.<span class="token function">emit</span><span class="token punctuation">(</span>"$onServerReady"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   $log.<span class="token function">info</span><span class="token punctuation">(</span>`Started in $<span class="token punctuation">{</span>new <span class="token keyword">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>.<span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> - start.<span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span> ms`<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span> catch <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   this.<span class="token function">callHook</span><span class="token punctuation">(</span>"$onServerInitError"<span class="token punctuation">,</span> undefined<span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   return Promise.<span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
 
 </div>
 
@@ -278,14 +529,7 @@ Start the express server.
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span> Http.Server | Https.Server<span class="token punctuation">,</span> settings<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-     https<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-     address<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">;</span>
-     port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
- <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token punctuation">{</span>
-     address<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-     port<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
- <span class="token punctuation">}</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">startServer</span><span class="token punctuation">(</span></code></pre>
 
 </div>
 
@@ -306,313 +550,7 @@ Create a new server from settings parameters.
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">scan</span><span class="token punctuation">(</span>patterns<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> endpoint?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
-
-</div>
-
-
-
-Scan and imports all files matching the pattern. See the document on the [Glob](https://www.npmjs.com/package/glob)
-pattern for more information.
-
-#### Example
-
-```typescript
-import {ServerLoader} from "@tsed/common";
-import Path = require("path");
-
-export class Server extends ServerLoader {
-
-   constructor() {
-       super();
-
-       let appPath = Path.resolve(__dirname);
-
-       this.scan(appPath + "/controllers/**/**.js")
-  }
-}
-```
-
-Theses pattern scan all files in the directories controllers, services recursively.
-
-!> On windows on can have an issue with the Glob pattern and the /. To solve it, build your path pattern with the module Path.
-
-```typescript
-const controllerPattern = Path.join(rootDir, 'controllers','**','*.js');
-```
-
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">addComponents</span><span class="token punctuation">(</span>classes<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> options?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/server/interfaces/IComponentScanned.html"><span class="token">IComponentScanned</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
-
-</div>
-
-
-
-Add classes to the components list
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">addControllers</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> controllers<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
-
-</div>
-
-
-
-Add classes decorated by `@Controller()` to components container.
-
-### Example
-
-```typescript
-@Controller('/ctrl')
-class MyController{
-}
-
-new ServerLoader().addControllers('/rest', [MyController])
-```
-?> If the MyController class isn't decorated, the class will be ignored.
-
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">mount</span><span class="token punctuation">(</span>endpoint<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> list<span class="token punctuation">:</span> <span class="token keyword">any</span> | <span class="token keyword">string</span> | <span class="token punctuation">(</span><span class="token keyword">any</span> | <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/server/components/ServerLoader.html"><span class="token">ServerLoader</span></a></code></pre>
-
-</div>
-
-
-
-Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
-under the endpoint. See [Versioning Rest API](/docs/server-loader.md#versioning) for more information.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">loadMiddlewares</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span></code></pre>
-
-</div>
-
-
-
-Initialize configuration of the express app.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">setSettings</span><span class="token punctuation">(</span>settings<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
-
-</div>
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> settings<span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a></code></pre>
-
-</div>
-
-
-
-Return the settings configured by the decorator [@ServerSettings](/api/common/server/decorators/ServerSettings.md).
-
-```typescript
-@ServerSettings({
-   rootDir: Path.resolve(__dirname),
-   port: 8000,
-   httpsPort: 8080,
-   mount: {
-     "/rest": "${rootDir}/controllers/**/*.js"
-   }
-})
-export class Server extends ServerLoader {
-    $onInit(){
-        console.log(this.settings); // {rootDir, port, httpsPort,...}
-    }
-}
-```
-
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> expressApp<span class="token punctuation">:</span> Express.Application</code></pre>
-
-</div>
-
-
-
-Return Express Application instance.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> injectorService<span class="token punctuation">:</span> <a href="/api/common/di/services/InjectorService.html"><span class="token">InjectorService</span></a></code></pre>
-
-</div>
-
-
-
-Return the InjectorService initialized by the server.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> injector<span class="token punctuation">:</span> <a href="/api/common/di/services/InjectorService.html"><span class="token">InjectorService</span></a></code></pre>
-
-</div>
-
-
-
-Return the injectorService initialized by the server.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> httpServer<span class="token punctuation">:</span> Http.Server</code></pre>
-
-</div>
-
-
-
-Return Http.Server instance.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> httpsServer<span class="token punctuation">:</span> Https.Server</code></pre>
-
-</div>
-
-
-
-Return Https.Server instance.
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">cleanGlobPatterns</span><span class="token punctuation">(</span>files<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> excludes<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre><code class="typescript-lang ">http<span class="token punctuation">:</span> Http.Server | Https.Server<span class="token punctuation">,</span></code></pre>
 
 </div>
 

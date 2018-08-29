@@ -1,5 +1,5 @@
-import {MongooseModelRegistry} from "../../../../src/mongoose";
-import {registerModel} from "../../../../src/mongoose/registries/MongooseModelRegistry";
+import {MongooseModelRegistry} from "../../../../packages/mongoose";
+import {registerModel} from "../../../../packages/mongoose/registries/MongooseModelRegistry";
 import {Sinon} from "../../../tools";
 
 describe("registerModel()", () => {

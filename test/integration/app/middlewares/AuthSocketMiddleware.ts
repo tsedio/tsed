@@ -1,5 +1,5 @@
-import {Args, SocketSession} from "../../../../src/socketio";
-import {SocketMiddleware} from "../../../../src/socketio/decorators/socketMiddleware";
+import {Args, SocketSession} from "../../../../packages/socketio";
+import {SocketMiddleware} from "../../../../packages/socketio/decorators/socketMiddleware";
 
 @SocketMiddleware()
 export class AuthSocketMiddleware {

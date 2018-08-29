@@ -23,18 +23,18 @@
     ],
     "paths": {
       "@tsed/core": [
-        "./src/core"
+        "./packages/core"
       ],
       "@tsed/common": [
-        "./src/common"
+        "./packages/common"
       ],
       "@tsed/testing": [
-        "./src/testing"
+        "./packages/testing"
       ]
     }
   },
   "include": [
-    "src/**/*",
+    "packages/**/*",
     "test/**/*"
   ],
   "exclude": [

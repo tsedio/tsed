@@ -1,5 +1,5 @@
 import {Controller, Get, PathParams} from "@tsed/common";
-import {Docs, Hidden} from "../../../../../src/swagger";
+import {Docs, Hidden} from "../../../../../packages/swagger";
 
 @Controller("/hidden")
 @Hidden()

@@ -1,11 +1,5 @@
-const tasks = require('require-dir')('./tasks/');
-const loadTasks = require('./tasks/utils/loadTasks');
-const gulp = require('gulp');
-
+const tasks = require('require-dir')('./tasks/gulp');
+const loadTasks = require('./tasks/gulp/utils/loadTasks');
 
 // LOAD TASKS
-
 loadTasks(tasks);
-
-gulp.task('build', gulp.series('copy:files', 'tsc', 'copy:src', gulp.parallel('copy:packages', 'write-pkg', 'copy:readme')));
-gulp.task('build:doc', gulp.series('tsc', 'copy:src', 'doc'));

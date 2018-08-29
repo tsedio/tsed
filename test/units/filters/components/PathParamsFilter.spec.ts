@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {PathParamsFilter} from "../../../../src/common/filters/components/PathParamsFilter";
-import {inject} from "../../../../src/testing/inject";
+import {PathParamsFilter} from "../../../../packages/common/filters/components/PathParamsFilter";
+import {inject} from "../../../../packages/testing/inject";
 
 describe("PathParamsFilter", () => {
   before(

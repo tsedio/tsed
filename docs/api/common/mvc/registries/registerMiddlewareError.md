@@ -6,21 +6,19 @@ meta:
 ---
 # registerMiddlewareError <Badge text="Function" type="function"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { registerMiddlewareError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.0/src//common/mvc/registries/MiddlewareRegistry.ts#L0-L0">/common/mvc/registries/MiddlewareRegistry.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { registerMiddlewareError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.1/src//common/mvc/registries/MiddlewareRegistry.ts#L0-L0">/common/mvc/registries/MiddlewareRegistry.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">registerMiddlewareError</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <span class="token keyword">any</span> | <a href="/api/common/di/interfaces/IProvider.html"><span class="token">IProvider</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span></code></pre>
-
-
-
-
-<!-- Params -->
-Param | Type | Description
----|---|---
- provider|<code>any &#124; &lt;a href="/api/common/di/interfaces/IProvider.html"&gt;&lt;span class="token"&gt;IProvider&lt;/span&gt;&lt;/a&gt;&lt;any&gt;</code>|Provider configuration. 
+<pre><code class="typescript-lang ">function <span class="token function">registerMiddlewareError</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <span class="token keyword">any</span> | <a href="/api/common/di/interfaces/IProvider.html"><span class="token">IProvider</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> instance?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">middlewareRegisterFn</span><span class="token punctuation">(</span>provider<span class="token punctuation">,</span> instance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <a href="/api/common/di/registries/GlobalProviders.html"><span class="token">GlobalProviders</span></a>.<span class="token function">getRegistry</span><span class="token punctuation">(</span><a href="/api/common/di/interfaces/ProviderType.html"><span class="token">ProviderType</span></a>.MIDDLEWARE<span class="token punctuation">)</span>!
+    .<span class="token function">get</span><span class="token punctuation">(</span><span class="token function">getClassOrSymbol</span><span class="token punctuation">(</span>provider.provide || provider<span class="token punctuation">)</span><span class="token punctuation">)</span>!
+    .store.<span class="token function">set</span><span class="token punctuation">(</span>"middlewareType"<span class="token punctuation">,</span> <a href="/api/common/mvc/interfaces/MiddlewareType.html"><span class="token">MiddlewareType</span></a>.ERROR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 
 
 

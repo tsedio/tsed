@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {MultipartFileFilter} from "../../../../src/multipartfiles/components/MultipartFileFilter";
-import {MultipartFilesFilter} from "../../../../src/multipartfiles/components/MultipartFilesFilter";
-import {inject} from "../../../../src/testing";
+import {MultipartFileFilter} from "../../../../packages/multipartfiles/components/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../../../packages/multipartfiles/components/MultipartFilesFilter";
+import {inject} from "../../../../packages/testing";
 
 describe("MultipartFileFilter", () => {
   before(

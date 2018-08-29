@@ -1,7 +1,7 @@
 import {ParamTypes} from "@tsed/common";
-import {CookiesFilter} from "../../../../src/common/filters/components/CookiesFilter";
-import {Cookies} from "../../../../src/common/filters/decorators/cookies";
-import {ParamRegistry} from "../../../../src/common/filters/registries/ParamRegistry";
+import {CookiesFilter} from "../../../../packages/common/filters/components/CookiesFilter";
+import {Cookies} from "../../../../packages/common/filters/decorators/cookies";
+import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {}

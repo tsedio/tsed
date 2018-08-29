@@ -1,5 +1,5 @@
-import {OverrideProvider} from "../../../../src/common/di/decorators/overrideProvider";
-import {OverrideService} from "../../../../src/common/di/decorators/overrideService";
+import {OverrideProvider} from "../../../../packages/common/di/decorators/overrideProvider";
+import {OverrideService} from "../../../../packages/common/di/decorators/overrideService";
 import {expect} from "../../../tools";
 
 describe("OverrideService", () => {
