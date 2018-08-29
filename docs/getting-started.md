@@ -262,7 +262,14 @@ export class CalendarCtrl {
     }
 }
 ```
-> **Note** : Decorators `@Get`, `@Post`, `@Delete`, `@Put`, etc..., supports dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
+
+::: tip
+Decorators `@Get`, `@Post`, `@Delete`, `@Put`, etc..., supports dynamic pathParams (see `/:id`) and `RegExp` like Express API.
+:::
+
+::: warning
+You have to configure [engine rendering](/tutorials/templating) if you want to use the decorator `@Render`.
+:::
 
 To test your method, just run your `server.ts` and send a HTTP request on `/rest/calendars/1`.
 

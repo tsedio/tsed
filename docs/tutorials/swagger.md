@@ -7,7 +7,7 @@ meta:
 ---
 # Swagger
 
-<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" height="128" />
+<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="128" />
 
 This tutorials show you, how you can configure Swagger-ui with Ts.ED. Swagger use the OpenApi
 to describe a Rest API. Ts.ED operates the existing decorators as well as new decorators to build the
@@ -112,11 +112,11 @@ export class CalendarCtrl {
 
 These decorators already add a documentation on swagger:
 
-<ApiList query="['Header', 'Status'].indexOf(symbolName) > -1" />
+<ApiList query="['Header', 'Status'].indexOf(symbolName) > -1 || status.indexOf('jsonschema') > -1" />
 
 In addition, the Ts.ED swagger plugin given some decorators to write documentation:
 
-<ApiList query="module === '@tsed/swagger' && symbolType === 'decorator' || labels.indexOf('jsonschema')" />
+<ApiList query="module === '@tsed/swagger' && symbolType === 'decorator'" />
 
 ## Examples
 #### Model documentation
