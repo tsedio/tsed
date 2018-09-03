@@ -210,7 +210,8 @@ describe("HandlerBuilder", () => {
       before(() => {
         this.response = new FakeResponse();
         this.request = {
-          storeData: Sinon.stub()
+          storeData: Sinon.stub(),
+          getContainer: Sinon.stub()
         };
         this.nextSpy = Sinon.stub();
         this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
@@ -250,6 +251,10 @@ describe("HandlerBuilder", () => {
       it("should store data", () => {
         return this.request.storeData.should.have.been.calledWithExactly("someData");
       });
+
+      it("should call getContainer", () => {
+        return this.request.getContainer.should.have.been.calledWithExactly();
+      });
     });
     describe("when handler return data (nextFunction && function type)", () => {
       before(() => {
@@ -257,7 +262,8 @@ describe("HandlerBuilder", () => {
         this.response = new FakeResponse();
         this.request = {
           tagId: "1",
-          storeData: Sinon.stub()
+          storeData: Sinon.stub(),
+          getContainer: Sinon.stub()
         };
         this.nextSpy = Sinon.stub();
         this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
@@ -305,7 +311,8 @@ describe("HandlerBuilder", () => {
         this.response = new FakeResponse();
         this.request = {
           tagId: "1",
-          storeData: Sinon.stub()
+          storeData: Sinon.stub(),
+          getContainer: Sinon.stub()
         };
         this.nextSpy = Sinon.stub();
         this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
@@ -356,7 +363,8 @@ describe("HandlerBuilder", () => {
       before(() => {
         this.response = new FakeResponse();
         this.request = {
-          storeData: Sinon.stub()
+          storeData: Sinon.stub(),
+          getContainer: Sinon.stub()
         };
         this.error = new Error("test");
         this.nextSpy = Sinon.stub();

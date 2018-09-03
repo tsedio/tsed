@@ -423,6 +423,18 @@ describe("Rest", () => {
     });
   });
 
+  describe("GET /rest/products", () => {
+    it("should respond with the right userid", done => {
+      this.app
+        .get(`/rest/products`)
+        .expect(200)
+        .end((err: any, response: any) => {
+          expect(JSON.parse(response.text)).to.deep.eq([{id: "1", name: "test"}]);
+          done();
+        });
+    });
+  });
+
   describe("Errors", () => {
     it("GET /rest/errors/custom-bad-request", done => {
       this.app

@@ -19,6 +19,31 @@ if (!express.request.setEndpoint) {
   extendsRequest({
     /**
      *
+     */
+    createContainer() {
+      this._container = new Map();
+    },
+    /**
+     *
+     */
+    getContainer() {
+      return this._container;
+    },
+    /**
+     *
+     */
+    destroyContainer() {
+      this._container.forEach((instance: any) => {
+        /* istanbul ignore next */
+        if (instance.$onDestroy) {
+          instance.$onDestroy();
+        }
+      });
+
+      delete this._container;
+    },
+    /**
+     *
      * @param endpoint
      */
     setEndpoint(endpoint: any) {
@@ -30,6 +55,12 @@ if (!express.request.setEndpoint) {
      */
     getEndpoint() {
       return this._endpoint;
+    },
+    /**
+     *
+     */
+    destroyEndpoint() {
+      delete this._endpoint;
     },
     /**
      *
