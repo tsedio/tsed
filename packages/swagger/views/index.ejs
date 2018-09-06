@@ -82,7 +82,7 @@
   const initialOptions = <%- JSON.stringify(swaggerOptions) %>;
   const currentUrl = origin + "<%- url %>";
   const urls = <%- JSON.stringify(urls) %>
-  .map((o) => {
+  .map(function (o) {
     if (!o.url.match(/^https?:/)) {
       const url = origin + o.url;
       return {
@@ -93,7 +93,7 @@
     }
     return o;
   })
-    .sort((a, b) => {
+    .sort(function (a, b) {
       return a.selected ? -1 : 1
     });
 
@@ -115,7 +115,7 @@
     /**
      *
      */
-    init() {
+    init: function () {
       this.ui = SwaggerUIBundle(this.config);
 
       if (this.config.oauth) {
