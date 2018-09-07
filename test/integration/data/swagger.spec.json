@@ -61,15 +61,11 @@
         "tags": [
           "RestCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/test/{required}": {
@@ -86,14 +82,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/test/{required}/{optional}": {
@@ -116,14 +109,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/events/{eventId}/tasks": {
@@ -140,7 +130,6 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -148,9 +137,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/events/{eventId}/tasks/hiddenparam": {
@@ -173,7 +160,6 @@
             "type": "string"
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -181,9 +167,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/events": {
@@ -192,30 +176,22 @@
         "tags": [
           "EventCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       },
       "get": {
         "operationId": "EventCtrl.query",
         "tags": [
           "EventCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/events/{id}": {
@@ -241,7 +217,6 @@
             }
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -252,9 +227,7 @@
           "404": {
             "description": "Not found"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       },
       "get": {
         "operationId": "EventCtrl.find",
@@ -269,14 +242,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       },
       "put": {
         "operationId": "EventCtrl.save",
@@ -299,7 +269,6 @@
             }
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -307,9 +276,7 @@
           "400": {
             "description": "Missing required parameter"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       },
       "delete": {
         "operationId": "EventCtrl.remove",
@@ -324,14 +291,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/events/list": {
@@ -350,7 +314,6 @@
             }
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -367,24 +330,18 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       },
       "get": {
         "operationId": "EventCtrl.index",
         "tags": [
           "EventCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
         },
-        "security": [],
-        "produces": [],
         "summary": "Return all elements from a service"
       }
     },
@@ -410,14 +367,11 @@
             "description": "Id of the resource"
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
         },
-        "security": [],
-        "produces": [],
         "summary": "Return an element by his resource"
       }
     },
@@ -435,14 +389,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/token": {
@@ -451,15 +402,11 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/token/{token}": {
@@ -477,14 +424,11 @@
             "description": "Token required to update token"
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/annotation/test/{id}": {
@@ -501,14 +445,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/annotation/promised/{id}": {
@@ -525,14 +466,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/annotation/status/{id}": {
@@ -549,14 +487,11 @@
             "required": true
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/query": {
@@ -573,14 +508,11 @@
             "type": "string"
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars": {
@@ -599,7 +531,6 @@
             }
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -610,9 +541,7 @@
           "400": {
             "description": "Missing required parameter"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       },
       "delete": {
         "operationId": "CalendarCtrl.remove",
@@ -629,7 +558,6 @@
             }
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -653,8 +581,7 @@
               "read:global"
             ]
           }
-        ],
-        "produces": []
+        ]
       }
     },
     "/rest/calendars/middleware": {
@@ -671,14 +598,11 @@
             "required": false
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/mvc": {
@@ -687,8 +611,6 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -696,9 +618,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/middlewares2": {
@@ -707,8 +627,6 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -716,9 +634,7 @@
           "403": {
             "description": "Forbidden"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/headers": {
@@ -727,8 +643,6 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -742,8 +656,7 @@
             }
           }
         },
-        "security": [],
-        "produces": "application/xml",
+        "produces": ["application/xml"],
         "deprecated": true
       }
     },
@@ -771,9 +684,7 @@
           "400": {
             "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]\n                            Example: File too long file1"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/documents/1": {
@@ -800,9 +711,7 @@
           "400": {
             "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]\n                            Example: File too long file1"
           }
-        },
-        "security": [],
-        "produces": []
+        }
       }
     },
     "/rest/calendars/{resources}/test/{id}": {
@@ -827,14 +736,11 @@
             "description": "Id of the resource"
           }
         ],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
         },
-        "security": [],
-        "produces": [],
         "summary": "Return an element by his resource"
       }
     },
@@ -844,15 +750,11 @@
         "tags": [
           "CalendarCtrl"
         ],
-        "parameters": [],
-        "consumes": [],
         "responses": {
           "200": {
             "description": "Success"
           }
         },
-        "security": [],
-        "produces": [],
         "summary": "Return all elements from a service"
       }
     }
