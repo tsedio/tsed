@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ParseExpressionError} from "../../../../packages/common/mvc/errors/ParseExpressionError";
+import {ParseExpressionError} from "../../../../packages/common/src/mvc/errors/ParseExpressionError";
 
 describe("ParseExpressionError", () => {
   before(() => {

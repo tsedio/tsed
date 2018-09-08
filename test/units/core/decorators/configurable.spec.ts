@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {NotConfigurable} from "../../../../packages/core/decorators";
-import {Configurable} from "../../../../packages/core/decorators/configurable";
-import {descriptorOf} from "../../../../packages/core/utils";
+import {NotConfigurable} from "../../../../packages/core/src/decorators";
+import {Configurable} from "../../../../packages/core/src/decorators/configurable";
+import {descriptorOf} from "../../../../packages/core/src/utils";
 
 class Test {
   test: string;

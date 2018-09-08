@@ -1,7 +1,7 @@
-import {Metadata} from "../../../../packages/core/class/Metadata";
-import {ParamMetadata} from "../../../../packages/common/filters/class/ParamMetadata";
-import {EXPRESS_NEXT_FN} from "../../../../packages/common/filters/constants";
-import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
+import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {ParamMetadata} from "../../../../packages/common/src/filters/class/ParamMetadata";
+import {EXPRESS_NEXT_FN} from "../../../../packages/common/src/filters/constants";
+import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
 import {expect, Sinon} from "../../../tools";
 
 class Test {}

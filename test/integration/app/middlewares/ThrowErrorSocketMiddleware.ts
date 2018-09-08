@@ -1,5 +1,5 @@
-import {Args} from "../../../../packages/socketio";
-import {SocketMiddleware} from "../../../../packages/socketio/decorators/socketMiddleware";
+import {Args} from "../../../../packages/socketio/src";
+import {SocketMiddleware} from "../../../../packages/socketio/src/decorators/socketMiddleware";
 
 @SocketMiddleware()
 export class ThrowErrorSocketMiddleware {

@@ -2,36 +2,20 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation RequiredPropertyError class
+   description: api typescript node.js documentation RequiredPropertyError decorator
 ---
-# RequiredPropertyError <Badge text="Class" type="class"/>
+# RequiredPropertyError <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RequiredPropertyError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/converters/errors/RequiredPropertyError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/converters/errors/RequiredPropertyError.ts#L0-L0">/common/converters/errors/RequiredPropertyError.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RequiredPropertyError }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/src/converters/errors/RequiredPropertyError"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/common/src/converters/errors/RequiredPropertyError.ts#L0-L0">/packages/common/src/converters/errors/RequiredPropertyError.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> RequiredPropertyError <span class="token keyword">extends</span> BadRequest <span class="token keyword">implements</span> <a href="/api/common/mvc/interfaces/IResponseError.html"><span class="token">IResponseError</span></a> <span class="token punctuation">{</span>
-  errors<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token keyword">constructor</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">super</span><span class="token punctuation">(</span>RequiredPropertyError.<span class="token function">buildMessage</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> propertyName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    this.errors<span class="token punctuation"> = </span><span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-        dataPath<span class="token punctuation">:</span> ""<span class="token punctuation">,</span>
-        keyword<span class="token punctuation">:</span> <span class="token string">"required"</span><span class="token punctuation">,</span>
-        message<span class="token punctuation">:</span> `should have required property '$<span class="token punctuation">{</span><span class="token function">String</span><span class="token punctuation">(</span>propertyName<span class="token punctuation">)</span><span class="token punctuation">}</span>'`<span class="token punctuation">,</span>
-        modelName<span class="token punctuation">:</span> <span class="token function">nameOf</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">,</span>
-        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          missingProperty<span class="token punctuation">:</span> propertyName
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        schemaPath<span class="token punctuation">:</span> "#/required"
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    return `<a href="/api/common/jsonschema/decorators/Property.html"><span class="token">Property</span></a> $<span class="token punctuation">{</span>propertyName <span class="token keyword">as</span> <span class="token keyword">string</span><span class="token punctuation">}</span> on <span class="token keyword">class</span> $<span class="token punctuation">{</span><span class="token function">nameOf</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">}</span> is required.`<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
+    errors<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -64,9 +48,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span> <span class="token punctuation">{</span>
- return `<a href="/api/common/jsonschema/decorators/Property.html"><span class="token">Property</span></a> $<span class="token punctuation">{</span>propertyName <span class="token keyword">as</span> <span class="token keyword">string</span><span class="token punctuation">}</span> on <span class="token keyword">class</span> $<span class="token punctuation">{</span><span class="token function">nameOf</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">}</span> is required.`<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">static</span> <span class="token function">buildMessage</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
 

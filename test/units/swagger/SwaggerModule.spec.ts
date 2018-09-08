@@ -2,7 +2,7 @@ import {ExpressApplication, ServerSettingsService} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import * as Express from "express";
 import * as Fs from "fs";
-import {SwaggerModule} from "../../../packages/swagger";
+import {SwaggerModule} from "../../../packages/swagger/src";
 import {expect, Sinon} from "../../tools";
 
 describe("SwaggerModule", () => {

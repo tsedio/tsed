@@ -1,6 +1,6 @@
-import {EXPRESS_ERR} from "../../../../packages/common/filters/constants";
-import {Err} from "../../../../packages/common/filters/decorators/error";
-import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
+import {EXPRESS_ERR} from "../../../../packages/common/src/filters/constants";
+import {Err} from "../../../../packages/common/src/filters/decorators/error";
+import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("Err", () => {

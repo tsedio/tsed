@@ -1,5 +1,5 @@
-import {PropertyType} from "../../../../packages/common/jsonschema/decorators/propertyType";
-import {PropertyRegistry} from "../../../../packages/common/jsonschema/registries/PropertyRegistry";
+import {PropertyType} from "../../../../packages/common/src/jsonschema/decorators/propertyType";
+import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
 import {Sinon} from "../../../tools";
 
 class Test {}

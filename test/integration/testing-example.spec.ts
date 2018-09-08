@@ -1,8 +1,8 @@
 import {Controller, Get, InjectorService, ParseService, Service} from "@tsed/common";
 import {bootstrap, inject} from "@tsed/testing";
 import {expect} from "chai";
-import {AcceptMimesMiddleware} from "../../packages/common/mvc/components/AcceptMimesMiddleware";
-import {Hidden} from "../../packages/swagger";
+import {AcceptMimesMiddleware} from "../../packages/common/src/mvc/components/AcceptMimesMiddleware";
+import {Hidden} from "../../packages/swagger/src";
 import {Sinon} from "../tools";
 import {CalendarCtrl} from "./app/controllers/calendars/CalendarCtrl";
 import {FakeServer} from "./FakeServer";

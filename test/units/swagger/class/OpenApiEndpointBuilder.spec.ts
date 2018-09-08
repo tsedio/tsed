@@ -1,6 +1,6 @@
-import {EndpointMetadata} from "../../../../packages/common/mvc/class/EndpointMetadata";
-import {Store} from "../../../../packages/core/class/Store";
-import {OpenApiEndpointBuilder} from "../../../../packages/swagger/class/OpenApiEndpointBuilder";
+import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {OpenApiEndpointBuilder} from "../../../../packages/swagger/src/class/OpenApiEndpointBuilder";
 import {Sinon} from "../../../tools";
 
 class Test {}

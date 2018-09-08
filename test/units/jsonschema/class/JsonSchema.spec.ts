@@ -1,4 +1,4 @@
-import {JsonSchema} from "../../../../packages/common/jsonschema/class/JsonSchema";
+import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
 import {expect} from "../../../tools";
 
 describe("JsonSchema", () => {

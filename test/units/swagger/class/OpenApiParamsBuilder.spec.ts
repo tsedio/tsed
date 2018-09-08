@@ -1,7 +1,7 @@
 import {ParamRegistry, ParamTypes} from "@tsed/common";
-import {ParamMetadata} from "../../../../packages/common/filters/class/ParamMetadata";
-import {BodyParamsFilter} from "../../../../packages/common/filters/components/BodyParamsFilter";
-import {OpenApiParamsBuilder} from "../../../../packages/swagger/class/OpenApiParamsBuilder";
+import {ParamMetadata} from "../../../../packages/common/src/filters/class/ParamMetadata";
+import {BodyParamsFilter} from "../../../../packages/common/src/filters/components/BodyParamsFilter";
+import {OpenApiParamsBuilder} from "../../../../packages/swagger/src/class/OpenApiParamsBuilder";
 import {expect, Sinon} from "../../../tools";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
 

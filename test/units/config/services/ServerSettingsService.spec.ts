@@ -1,6 +1,6 @@
 import {$log} from "ts-log-debug";
-import {ServerSettingsService} from "../../../../packages/common/config/services/ServerSettingsService";
-import {Env} from "../../../../packages/core/interfaces/index";
+import {ServerSettingsService} from "../../../../packages/common/src/config/services/ServerSettingsService";
+import {Env} from "../../../../packages/core/src/interfaces/index";
 import {expect, Sinon} from "../../../tools";
 
 describe("ServerSettingsService", () => {

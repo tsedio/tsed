@@ -1,4 +1,4 @@
-import {Middleware, registerMiddleware} from "../../../../../packages/common/mvc";
+import {Middleware, registerMiddleware} from "../../../../../packages/common/src/mvc";
 import {expect} from "../../../../tools";
 
 describe("Middleware", () => {

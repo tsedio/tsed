@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketUseAfter} from "../../../../packages/socketio";
+import {SocketUseAfter} from "../../../../packages/socketio/src";
 import {expect} from "../../../tools";
 
 describe("@SocketUseAfter", () => {

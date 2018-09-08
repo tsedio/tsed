@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {SocketSession} from "../../../../packages/socketio";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {SocketSession} from "../../../../packages/socketio/src";
 import {expect} from "../../../tools";
 
 describe("SocketSession", () => {

@@ -1,7 +1,7 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {decoratorArgs} from "../../../../packages/core/utils";
-import {JsonSchema} from "../../../../packages/common/jsonschema/class/JsonSchema";
-import {Description} from "../../../../packages/swagger/decorators/description";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {decoratorArgs} from "../../../../packages/core/src/utils";
+import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
+import {Description} from "../../../../packages/swagger/src/decorators/description";
 import {expect, Sinon} from "../../../tools";
 import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
 

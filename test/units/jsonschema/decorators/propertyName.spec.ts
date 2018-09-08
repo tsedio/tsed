@@ -1,6 +1,6 @@
-import {PropertyRegistry} from "../../../../packages/common/jsonschema/registries/PropertyRegistry";
+import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
 import {Sinon} from "../../../tools";
-import {PropertyName} from "../../../../packages/common/jsonschema/decorators/propertyName";
+import {PropertyName} from "../../../../packages/common/src/jsonschema/decorators/propertyName";
 
 describe("PropertyName", () => {
   before(() => {

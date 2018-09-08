@@ -1,7 +1,7 @@
 import {ConverterService} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {Args, SocketSession} from "../../../../packages/socketio";
-import {SocketMiddleware} from "../../../../packages/socketio/decorators/socketMiddleware";
+import {Args, SocketSession} from "../../../../packages/socketio/src";
+import {SocketMiddleware} from "../../../../packages/socketio/src/decorators/socketMiddleware";
 import {User} from "../models/User";
 
 @SocketMiddleware()

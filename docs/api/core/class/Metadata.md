@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation Metadata class
+   description: api typescript node.js documentation Metadata decorator
 ---
-# Metadata <Badge text="Class" type="class"/>
+# Metadata <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Metadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//core/class/Metadata.ts#L0-L0">/core/class/Metadata.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Metadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/core/src/class/Metadata.ts#L0-L0">/packages/core/src/class/Metadata.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

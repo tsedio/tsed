@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Registry} from "../../../../packages/core/class/Registry";
+import {Registry} from "../../../../packages/core/src/class/Registry";
 import {Sinon} from "../../../tools";
 
 class FakeMetadata {

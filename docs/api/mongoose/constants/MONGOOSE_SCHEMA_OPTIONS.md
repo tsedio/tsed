@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation MONGOOSE_SCHEMA_OPTIONS const
+   description: api typescript node.js documentation MONGOOSE_SCHEMA_OPTIONS decorator
 ---
-# MONGOOSE_SCHEMA_OPTIONS <Badge text="Constant" type="const"/>
+# MONGOOSE_SCHEMA_OPTIONS <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MONGOOSE_SCHEMA_OPTIONS }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose/constants/index"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//mongoose/constants/index.ts#L0-L0">/mongoose/constants/index.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MONGOOSE_SCHEMA_OPTIONS }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose/src/constants/index"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/mongoose/src/constants/index.ts#L0-L0">/packages/mongoose/src/constants/index.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

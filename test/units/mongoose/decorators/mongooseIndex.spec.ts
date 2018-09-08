@@ -1,5 +1,5 @@
-import {MongooseIndex} from "../../../../packages/mongoose/decorators/mongooseIndex";
-import * as mod from "../../../../packages/mongoose/utils/schemaOptions";
+import {MongooseIndex} from "../../../../packages/mongoose/src/decorators/mongooseIndex";
+import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
 import {Sinon} from "../../../tools";
 
 describe("@MongooseIndex()", () => {

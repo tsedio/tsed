@@ -1,6 +1,6 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {descriptorOf} from "../../../../packages/core/utils";
-import {Responses} from "../../../../packages/swagger/decorators/responses";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Responses} from "../../../../packages/swagger/src/decorators/responses";
 import {expect} from "../../../tools";
 
 class Test {

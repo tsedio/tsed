@@ -1,6 +1,6 @@
-import {EXPRESS_NEXT_FN} from "../../../../packages/common/filters/constants";
-import {Next} from "../../../../packages/common/filters/decorators/next";
-import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
+import {EXPRESS_NEXT_FN} from "../../../../packages/common/src/filters/constants";
+import {Next} from "../../../../packages/common/src/filters/decorators/next";
+import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("Next", () => {

@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {Example} from "../../../../packages/swagger/decorators/example";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {Example} from "../../../../packages/swagger/src/decorators/example";
 import {expect} from "../../../tools";
 
 class Test {

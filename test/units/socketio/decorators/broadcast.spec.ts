@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {Broadcast} from "../../../../packages/socketio";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {Broadcast} from "../../../../packages/socketio/src";
 import {expect} from "../../../tools";
 
 describe("Broadcast", () => {

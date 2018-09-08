@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../packages/common/jsonschema/class/JsonSchema";
-import {ExclusiveMinimum} from "../../../../packages/common/jsonschema/decorators/exclusiveMinimum";
+import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
+import {ExclusiveMinimum} from "../../../../packages/common/src/jsonschema/decorators/exclusiveMinimum";
 import {stubSchemaDecorator} from "./utils";
 
 describe("ExclusiveMinimum", () => {

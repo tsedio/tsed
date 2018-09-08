@@ -1,6 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MulterOptions} from "../../../../packages/multipartfiles";
-import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/middlewares/MultipartFileMiddleware";
+import {MulterOptions} from "../../../../packages/multipartfiles/src";
+import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/src/middlewares/MultipartFileMiddleware";
 import {expect} from "../../../tools";
 
 class Test {

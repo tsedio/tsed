@@ -1,5 +1,5 @@
-import {JsonSchema} from "../../../../packages/common/jsonschema/class/JsonSchema";
-import {Enum} from "../../../../packages/common/jsonschema/decorators/enum";
+import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
+import {Enum} from "../../../../packages/common/src/jsonschema/decorators/enum";
 import {stubSchemaDecorator} from "./utils";
 
 describe("Enum", () => {

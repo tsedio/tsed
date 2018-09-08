@@ -1,8 +1,8 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {descriptorOf} from "../../../../packages/core/utils";
-import {Select} from "../../../../packages/mongoose/decorators";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Select} from "../../../../packages/mongoose/src/decorators";
 import {expect} from "../../../tools";
-import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/constants";
+import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
 
 describe("@Select()", () => {
   class Test {}

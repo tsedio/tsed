@@ -13,7 +13,7 @@ const PropertyRegistry: any = {
 
 class Test {}
 
-const {Required} = Proxyquire.load("../../../../packages/common/mvc/decorators/required", {
+const {Required} = Proxyquire.load("../../../../packages/common/src/mvc/decorators/required", {
   "../../filters/registries/ParamRegistry": {ParamRegistry},
   "../../jsonschema/registries/PropertyRegistry": {PropertyRegistry}
 });

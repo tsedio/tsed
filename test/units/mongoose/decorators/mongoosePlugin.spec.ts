@@ -1,5 +1,5 @@
-import {MongoosePlugin} from "../../../../packages/mongoose/decorators/mongoosePlugin";
-import * as mod from "../../../../packages/mongoose/utils/schemaOptions";
+import {MongoosePlugin} from "../../../../packages/mongoose/src/decorators/mongoosePlugin";
+import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
 import {Sinon} from "../../../tools";
 
 describe("@MongoosePlugin()", () => {

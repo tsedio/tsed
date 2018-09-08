@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation Providers class
+   description: api typescript node.js documentation Providers decorator
 ---
-# Providers <Badge text="Class" type="class"/>
+# Providers <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Providers }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/di/class/Providers"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/di/class/Providers.ts#L0-L0">/common/di/class/Providers.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Providers }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/src/di/class/Providers"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/common/src/di/class/Providers.ts#L0-L0">/packages/common/src/di/class/Providers.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

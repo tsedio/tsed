@@ -1,6 +1,6 @@
-import {Store} from "../../../../packages/core/class/Store";
-import {descriptorOf} from "../../../../packages/core/utils";
-import {Consumes} from "../../../../packages/swagger";
+import {Store} from "../../../../packages/core/src/class/Store";
+import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Consumes} from "../../../../packages/swagger/src";
 import {assert, expect} from "../../../tools";
 
 class Test {

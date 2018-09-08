@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
-import {createSchema} from "../../../../packages/mongoose/utils";
-import * as mod from "../../../../packages/mongoose/utils/buildMongooseSchema";
+import {createSchema} from "../../../../packages/mongoose/src/utils";
+import * as mod from "../../../../packages/mongoose/src/utils/buildMongooseSchema";
 import {Sinon} from "../../../tools";
 
 describe("createSchema()", () => {

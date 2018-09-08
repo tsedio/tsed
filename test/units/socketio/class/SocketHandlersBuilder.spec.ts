@@ -1,11 +1,11 @@
 import {InjectorService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
-import {ProviderType} from "../../../../packages/common/di";
-import {MiddlewareType} from "../../../../packages/common/mvc";
-import {SocketHandlersBuilder} from "../../../../packages/socketio/class/SocketHandlersBuilder";
-import {SocketFilters} from "../../../../packages/socketio/interfaces/SocketFilters";
-import {SocketReturnsTypes} from "../../../../packages/socketio/interfaces/SocketReturnsTypes";
+import {ProviderType} from "../../../../packages/common/src/di";
+import {MiddlewareType} from "../../../../packages/common/src/mvc";
+import {SocketHandlersBuilder} from "../../../../packages/socketio/src/class/SocketHandlersBuilder";
+import {SocketFilters} from "../../../../packages/socketio/src/interfaces/SocketFilters";
+import {SocketReturnsTypes} from "../../../../packages/socketio/src/interfaces/SocketReturnsTypes";
 import {expect, Sinon} from "../../../tools";
 
 describe("SocketHandlersBuilder", () => {

@@ -1,9 +1,9 @@
-import {AjvService} from "../../../packages/ajv/services/AjvService";
-import {Format, JsonSchemesService} from "../../../packages/common/jsonschema";
-import {Required} from "../../../packages/common/mvc/decorators";
-import {ParseExpressionError} from "../../../packages/common/mvc/errors/ParseExpressionError";
-import {nameOf} from "../../../packages/core/utils";
-import {inject} from "../../../packages/testing";
+import {AjvService} from "../../../packages/ajv/src/services/AjvService";
+import {Format, JsonSchemesService} from "../../../packages/common/src/jsonschema";
+import {Required} from "../../../packages/common/src/mvc/decorators";
+import {ParseExpressionError} from "../../../packages/common/src/mvc/errors/ParseExpressionError";
+import {nameOf} from "../../../packages/core/src/utils";
+import {inject} from "../../../packages/testing/src";
 import {expect} from "../../tools";
 
 let ajvService: AjvService;

@@ -1,7 +1,7 @@
 import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType, ServerSettingsService} from "@tsed/common";
 import {Metadata, Store} from "@tsed/core";
-import {InjectorService} from "../../../../packages/common/di";
-import {inject} from "../../../../packages/testing/inject";
+import {InjectorService} from "../../../../packages/common/src/di";
+import {inject} from "../../../../packages/testing/src/inject";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

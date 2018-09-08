@@ -2,19 +2,19 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation Type interface
+   description: api typescript node.js documentation Type decorator
 ---
-# Type <Badge text="Interface" type="interface"/>
+# Type <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Type }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//core/interfaces/Type.ts#L0-L0">/core/interfaces/Type.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Type }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/core"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/core/src/interfaces/Type.ts#L0-L0">/packages/core/src/interfaces/Type.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">const</span> Type<span class="token punctuation"> = </span>Function<span class="token punctuation">;</span>
+<pre><code class="typescript-lang "><span class="token keyword">const</span> Type<span class="token punctuation">:</span> FunctionConstructor<span class="token punctuation">;</span>
 <span class="token keyword">interface</span> Type&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span> <span class="token keyword">extends</span> Function <span class="token punctuation">{</span>
-  new <span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+    new <span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 

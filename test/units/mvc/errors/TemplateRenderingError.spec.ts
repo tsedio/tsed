@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {TemplateRenderingError} from "../../../../packages/common/mvc/errors/TemplateRenderingError";
+import {TemplateRenderingError} from "../../../../packages/common/src/mvc/errors/TemplateRenderingError";
 
 describe("TemplateRenderingError", () => {
   before(() => {

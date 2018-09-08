@@ -1,6 +1,6 @@
 import {Controller, Get, Scope} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {Docs, Hidden} from "../../../../../packages/swagger";
+import {Docs, Hidden} from "../../../../../packages/swagger/src";
 import {CalendarModel} from "../../models/Calendar";
 import {InnerService} from "../../services/InnerService";
 import {OuterService} from "../../services/OuterService";

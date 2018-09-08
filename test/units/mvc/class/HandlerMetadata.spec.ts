@@ -1,8 +1,8 @@
 import {Store} from "@tsed/core";
-import {ParamRegistry, ProviderRegistry, ProviderType} from "../../../../packages/common";
-import {HandlerMetadata} from "../../../../packages/common/mvc/class/HandlerMetadata";
-import {MiddlewareType} from "../../../../packages/common/mvc/interfaces";
-import {getClass} from "../../../../packages/core/utils";
+import {ParamRegistry, ProviderRegistry, ProviderType} from "../../../../packages/common/src";
+import {HandlerMetadata} from "../../../../packages/common/src/mvc/class/HandlerMetadata";
+import {MiddlewareType} from "../../../../packages/common/src/mvc/interfaces";
+import {getClass} from "../../../../packages/core/src/utils";
 import {expect, Sinon} from "../../../tools";
 
 class Test {

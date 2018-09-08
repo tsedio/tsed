@@ -1,9 +1,9 @@
 import {IgnoreProperty} from "@tsed/common";
-import {Property} from "../../packages/common/jsonschema/decorators/jsonProperty";
-import {MinLength} from "../../packages/common/jsonschema/decorators/minLength";
-import {PropertyName} from "../../packages/common/jsonschema/decorators/propertyName";
-import {PropertyType} from "../../packages/common/jsonschema/decorators/propertyType";
-import {Required} from "../../packages/common/mvc/decorators";
+import {Property} from "../../packages/common/src/jsonschema/decorators/jsonProperty";
+import {MinLength} from "../../packages/common/src/jsonschema/decorators/minLength";
+import {PropertyName} from "../../packages/common/src/jsonschema/decorators/propertyName";
+import {PropertyType} from "../../packages/common/src/jsonschema/decorators/propertyType";
+import {Required} from "../../packages/common/src/mvc/decorators";
 
 export class JsonBaseModel {
   @Property()

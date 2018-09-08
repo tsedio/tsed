@@ -6,29 +6,13 @@ meta:
 ---
 # PostHook <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { PostHook }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//mongoose/decorators/postHook.ts#L0-L0">/mongoose/decorators/postHook.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { PostHook }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/mongoose/src/decorators/postHook.ts#L0-L0">/packages/mongoose/src/decorators/postHook.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">PostHook</span><span class="token punctuation">(</span>method<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn?<span class="token punctuation">:</span> <a href="/api/mongoose/interfaces/MongoosePostHookCB.html"><span class="token">MongoosePostHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> | <a href="/api/mongoose/interfaces/MongoosePostErrorHookCB.html"><span class="token">MongoosePostErrorHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function <span class="token punctuation">{</span>
-  return <span class="token punctuation">(</span>...args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
-    if <span class="token punctuation">(</span><span class="token function">getDecoratorType</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span> === <span class="token string">"method"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      fn<span class="token punctuation"> = </span>args<span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token punctuation">[</span>args<span class="token punctuation">[</span>1<span class="token punctuation">]</span><span class="token punctuation">]</span>.<span class="token function">bind</span><span class="token punctuation">(</span>args<span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token function">applySchemaOptions</span><span class="token punctuation">(</span>args<span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-      post<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-          method<span class="token punctuation">,</span>
-          fn<span class="token punctuation">:</span> fn <span class="token keyword">as</span> <a href="/api/mongoose/interfaces/MongoosePostHookCB.html"><span class="token">MongoosePostHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> | <a href="/api/mongoose/interfaces/MongoosePostErrorHookCB.html"><span class="token">MongoosePostErrorHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">]</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
+<pre><code class="typescript-lang ">function <span class="token function">PostHook</span><span class="token punctuation">(</span>method<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> fn?<span class="token punctuation">:</span> <a href="/api/mongoose/interfaces/MongoosePostHookCB.html"><span class="token">MongoosePostHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span> | <a href="/api/mongoose/interfaces/MongoosePostErrorHookCB.html"><span class="token">MongoosePostErrorHookCB</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
 
 
 

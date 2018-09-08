@@ -1,5 +1,5 @@
 import {IInterceptor} from "@tsed/common";
-import {interceptorInvokeFactory} from "../../../../packages/common/interceptors/utils/interceptorInvokeFactory";
+import {interceptorInvokeFactory} from "../../../../packages/common/src/interceptors/utils/interceptorInvokeFactory";
 import {expect, Sinon} from "../../../tools";
 
 describe("interceptorInvokeFactory()", () => {

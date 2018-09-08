@@ -2,18 +2,18 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation IClassArgs interface
+   description: api typescript node.js documentation IClassArgs decorator
 ---
-# IClassArgs <Badge text="Interface" type="interface"/>
+# IClassArgs <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IClassArgs }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.30.2/src//common/filters/interfaces/Arguments.ts#L0-L0">/common/filters/interfaces/Arguments.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IClassArgs }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common/src/filters/interfaces/Arguments"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/common/src/filters/interfaces/Arguments.ts#L0-L0">/packages/common/src/filters/interfaces/Arguments.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> IClassArgs&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span> <span class="token punctuation">{</span>
-  target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
+    target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 

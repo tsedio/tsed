@@ -46,6 +46,7 @@ index.js.map
 packages/**/*.js
 packages/**/*.js.map
 packages/**/*.d.ts
+packages/**/lib
 test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts
@@ -58,7 +59,7 @@ test/**/*.d.ts
 /lib/
 /dts/
 /dist
-
+/docs/api
 .vscode
 
 /.nyc_output/

@@ -1,5 +1,5 @@
 import {Forbidden} from "ts-httpexceptions";
-import {AuthenticatedMiddleware} from "../../../../packages/common/mvc/components/AuthenticatedMiddleware";
+import {AuthenticatedMiddleware} from "../../../../packages/common/src/mvc/components/AuthenticatedMiddleware";
 import {FakeResponse} from "../../../helper";
 import {Sinon} from "../../../tools";
 

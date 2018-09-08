@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {UnknowMiddlewareError} from "../../../../packages/common/mvc/errors/UnknowMiddlewareError";
+import {UnknowMiddlewareError} from "../../../../packages/common/src/mvc/errors/UnknowMiddlewareError";
 
 describe("UnknowMiddlewareError", () => {
   before(() => {

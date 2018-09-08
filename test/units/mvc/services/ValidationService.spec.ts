@@ -1,4 +1,4 @@
-import {ParamMetadata, ValidationService} from "../../../../packages/common/filters";
+import {ParamMetadata, ValidationService} from "../../../../packages/common/src/filters";
 import {expect} from "../../../tools";
 
 describe("ValidationService", () => {

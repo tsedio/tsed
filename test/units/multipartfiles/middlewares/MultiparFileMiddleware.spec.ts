@@ -1,4 +1,4 @@
-import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/middlewares/MultipartFileMiddleware";
+import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/src/middlewares/MultipartFileMiddleware";
 import {expect, Sinon} from "../../../tools";
 
 describe("MultipartFileMiddleware", () => {

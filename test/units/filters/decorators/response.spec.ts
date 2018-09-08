@@ -1,6 +1,6 @@
-import {EXPRESS_RESPONSE} from "../../../../packages/common/filters/constants";
-import {Res} from "../../../../packages/common/filters/decorators/response";
-import {ParamRegistry} from "../../../../packages/common/filters/registries/ParamRegistry";
+import {EXPRESS_RESPONSE} from "../../../../packages/common/src/filters/constants";
+import {Res} from "../../../../packages/common/src/filters/decorators/response";
+import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
 import {Sinon} from "../../../tools";
 
 describe("Response", () => {
