@@ -1,5 +1,4 @@
-# Interceptors
-> Beta feature. Need improvement. You can contribute !
+# Interceptors  <Badge text="beta" type="warn"/> <Badge text="Contributors are welcome" />
 
 Creating and consuming an interceptor is two-step process.
 

@@ -173,7 +173,9 @@ export class Calendar {
     }
 }
 ```
-!> To update the swagger.json you need to reload the server before.
+::: warning
+To update the `swagger.json` you have to reload the server before.
+:::
 
 ## Import Javascript
 
@@ -208,4 +210,6 @@ document.addEventListener('swagger.init', (evt) => {
 });
 ```
 
-> Credits: Thanks to [vologab](https://github.com/vologab) to his contribution.
+::: tip Credits
+Thanks to [vologab](https://github.com/vologab) to his contribution.
+:::

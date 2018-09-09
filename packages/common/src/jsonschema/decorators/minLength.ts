@@ -6,9 +6,13 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *
  * The length of a string instance is defined as the number of its characters as defined by [RFC 7159](http://json-schema.org/latest/json-schema-validation.html#RFC7159).
  *
- * !> The value of minLength MUST be a non-negative integer.
+ * ::: warning
+ * The value of minLength MUST be a non-negative integer.
+ * :::
  *
- * ?> Omitting this keyword has the same behavior as a value of 0.
+ * ::: tip
+ * Omitting this keyword has the same behavior as a value of 0.
+ * :::
  *
  * ## Example
  * ### With primitive type

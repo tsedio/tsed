@@ -4,9 +4,13 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 /**
  * An object instance is valid against `minProperties` if its number of properties is greater than, or equal to, the value of this keyword.
  *
- * !> The value of this keyword MUST be a non-negative integer.
+ * ::: warning
+ * The value of this keyword MUST be a non-negative integer.
+ * :::
  *
- * ?> Omitting this keyword has the same behavior as a value of 0.
+ * ::: tip
+ * Omitting this keyword has the same behavior as a value of 0.
+ * :::
  *
  * ## Example
  *

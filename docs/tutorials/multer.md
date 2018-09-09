@@ -94,4 +94,6 @@ class MyCtrl {
   }
 }
 ```
-!> Note: Swagger spec (v2.0) doesn't support multiple files.
+::: warning
+Swagger spec (v2.0) doesn't support multiple files.
+:::

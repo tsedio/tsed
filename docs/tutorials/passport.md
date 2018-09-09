@@ -359,4 +359,6 @@ export class PassportCtrl {
 }
 ```
 
-> You can find all source of this tutorial on [https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-passport)
+::: tip
+You can find a working example on [Passport.js here](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport).
+:::

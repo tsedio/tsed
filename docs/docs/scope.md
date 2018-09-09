@@ -1,6 +1,6 @@
-# Scope
+# Scope <Badge text="beta" type="warn"/> <Badge text="Contributors are welcome" />
 
-The scope of a [provider](/docs/provider.md) defines the life cycle and visibility of that bean in the contexts in which it is used.
+The scope of a [provider](/docs/provider.md) defines the life cycle and visibility of that bean in the contexts in which it's used.
 
 Ts.ED define two types of scope:
 
@@ -18,81 +18,109 @@ The scope annotation can be used on the following providers:
 Singleton scope is the default behavior of all providers. That means all providers are create on the server initialization.
 
 ```typescript
-@Middleware()
-@Scope(ProviderScope.SINGLETON)  // OPTIONAL, leaving this annotation a the same behavior
-export class TokenMiddleware implements IMiddleware {
-    // Inject service into middleware
-    constructor(public userDetailsService: UserDetailsService) { }
+import {Controller, Scope, ProviderScope} from "@tsed/common";
 
-    use(@Request() request: Express.Request,
-        @EndpointInfo() endpoint: Endpoint,
-        @Response() response: Express.Response,
-        @Next() next: Express.NextFunction) {
-        ...
-        this.userDetailsService.profile = user;
-        ...
+@Controller("/")
+@Scope(ProviderScope.SINGLETON)  // OPTIONAL, leaving this annotation a the same behavior
+export class MyController {
+    private rand = Math.random() * 100;
+
+    @Get("/random")
+    async getValue() {
+        return this.rand;
     }
 }
 ```
 
+::: tip Note
+In this example all request on `/random` endpoint return the same random value.
+:::
+
 ## Request scope
 
-Request scope will create a new instance of the provider for each incoming request.
+Request scope will create a new instance of provider for each request. A new container will be created
+and attached to the request. It'll contains all provider annotated by `@Scope("request")`.
 
 ### Example
 
 This example is available for Middleware and Controller.
 
 ```typescript
-@Middleware()
-@Scope("request")  // or ProviderScope.REQUEST
-export class TokenMiddleware implements IMiddleware {
-    // Inject service into middleware
-    constructor(public userDetailsService: UserDetailsService) { }
+import {Controller, Scope, ProviderScope} from "@tsed/common";
 
-    use(@Request() request: Express.Request,
-        @EndpointInfo() endpoint: Endpoint,
-        @Response() response: Express.Response,
-        @Next() next: Express.NextFunction) {
-        ...
-        this.userDetailsService.profile = user;
-        ...
+@Controller("/")
+@Scope(ProviderScope.REQUEST)
+export class MyController {
+    private rand = Math.random() * 100;
+
+    @Get("/random")
+    async getValue() {
+        return this.rand;
     }
 }
 ```
-> In this case, the TokenMiddleware will created for each new request.
 
-### With a Service
+Each request on `/random` will return a different random value.
 
-For the Service, it's almost the case of the previous example, but you need to keep in mind this point:
+### Chain with Service
 
-::: warning
-`@Scope` on service work only if the provider that uses it's annotated by `@Scope` decorator too.
-:::
+It also possible to use `@Scope("request")` on service if your service is injected on a controller
+which is annotated by `@Scope("request")` too.
 
+Here a working example:
 ```typescript
+import {Controller, Scope, ProviderScope} from "@tsed/common";
+
 @Service()
-@Scope(ProviderScope.REQUEST) 
-export class UserDetailsService {
-   ...
+@Scope(ProviderScope.REQUEST)
+export class MyService {
+  public rand = Math.random() * 100;
 }
 
-@Middleware()
-@Scope("request") // (1)
-export class TokenMiddleware implements IMiddleware {
-    // Inject service into middleware
-    constructor(public userDetailsService: UserDetailsService) { }
+@Controller("/")
+@Scope(ProviderScope.REQUEST)
+export class MyController {
 
-    use(@Request() request: Express.Request,
-        @EndpointInfo() endpoint: Endpoint,
-        @Response() response: Express.Response,
-        @Next() next: Express.NextFunction) {
-        ...
-        this.userDetailsService.profile = user;
-        ...
+    contructor(private myService: MyService)
+
+    @Get("/random")
+    async getValue() {
+        return this.myService.rand;
     }
 }
 ```
+
+
+And here a unworking example:
+```typescript
+import {Controller, Scope, ProviderScope} from "@tsed/common";
+
+@Service()
+@Scope(ProviderScope.REQUEST)
+export class MyService {
+  public rand = Math.random() * 100;
+}
+
+@Controller("/")
+@Scope(ProviderScope.SINGLETON) // SINGLETON avoid all Scope("request") annotation
+export class MyController {
+
+    contructor(private myService: MyService)
+
+    @Get("/random")
+    async getValue() {
+        return this.myService.rand;
+    }
+}
+```
+
 ::: warning
-<sup>(1)</sup> Leaving out `@Scope("request")` on `TokenMiddleware` will give an [InjectionScopeError](/api/common/di/errors/InjectionScopeError.md).
+The `SINGLETON` annotation avoid the `@Scope("request")` annotation put on MyService.
 :::
+
+### Unsupported usecase
+
+The `@Scope("request")` annotation has no effect on:
+
+- Middlewares used on endpoint.
+- Global middlewares.

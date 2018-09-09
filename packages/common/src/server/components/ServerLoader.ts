@@ -427,7 +427,10 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    * new ServerLoader().addControllers('/rest', [MyController])
    * ```
-   * ?> If the MyController class isn't decorated, the class will be ignored.
+   *
+   * ::: tip
+   * If the MyController class isn't decorated, the class will be ignored.
+   * :::
    *
    * @param {string} endpoint
    * @param {any[]} controllers
