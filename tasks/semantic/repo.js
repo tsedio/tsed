@@ -32,9 +32,5 @@ module.exports = {
     }
 
     return gulpRepo.publish();
-  },
-
-  async success(pluginConfig, context) {
-    return gulpDocs.publish();
   }
 };

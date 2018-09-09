@@ -13,6 +13,7 @@ import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import "./middlewares/authentication";
+import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 
 const rootDir = Path.resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
@@ -85,6 +86,10 @@ export class ExampleServer extends ServerLoader {
     this.engine(".html", require("ejs").__express)
       .set("views", "./views")
       .set("view engine", "html");
+  }
+
+  public $afterRoutesInit() {
+    this.use(NotFoundMiddleware);
   }
 
   /**

@@ -6,8 +6,10 @@ const sourcemaps = require("gulp-sourcemaps");
 const gulp = require("gulp");
 const clean = require("gulp-clean");
 const ts = require("gulp-typescript");
+const gflow = require("gflow");
 
 const {tsdoc, packagesDir} = require("../../repo.config");
+const {branch} = require("../../release.config");
 
 /**
  *
@@ -67,6 +69,17 @@ module.exports = {
   },
 
   async publish() {
+    const currentBranch = gflow.git.currentBranchName();
+
+    if (currentBranch !== branch) {
+      console.log(
+        `This test run was triggered on the branch ${currentBranch}, while docs is configured to only publish from ${
+          branch
+          }, therefore a new docs version won’t be published.`
+      );
+      return;
+    }
+
     const pkg = JSON.parse(fs.readFileSync("./package.json", {encoding: "utf8"}));
     const {
       version,

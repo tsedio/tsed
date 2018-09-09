@@ -15,6 +15,7 @@ Some examples are available along these links :
 * [Https](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-https)
 * [Authentication with Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport)
 * [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
+* [TypeORM](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-typeorm)
 
 **Projects examples for v2.0.0 and more**
 

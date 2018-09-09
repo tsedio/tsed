@@ -60,6 +60,7 @@ test/**/*.d.ts
 /dts/
 /dist
 /docs/api
+/docs/api/**/*.md
 .vscode
 
 /.nyc_output/
