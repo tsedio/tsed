@@ -439,8 +439,11 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
         if (!locals.has(provider.provide)) {
           provider.instance = this.invoke(provider.useClass, locals);
-          $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
+        } else if (provider.scope === ProviderScope.SINGLETON) {
+          provider.instance = locals.get(provider.provide);
         }
+
+        $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
       } else {
         provider.scope = ProviderScope.SINGLETON;
         $log.debug(nameOf(provider.provide), "loaded");
