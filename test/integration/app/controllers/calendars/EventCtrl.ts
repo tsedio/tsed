@@ -1,4 +1,18 @@
-import {Authenticated, BodyParams, Controller, Delete, Get, Head, MergeParams, Patch, Post, Put, Required, Response} from "@tsed/common";
+import {
+  Authenticated,
+  BodyParams,
+  Controller,
+  Delete,
+  Get,
+  Head,
+  MergeParams,
+  Patch,
+  Post,
+  Put,
+  QueryParams,
+  Required,
+  Response
+} from "@tsed/common";
 import {Responses, Returns, Title} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
 import {EventModel} from "../../models/Event";
@@ -67,10 +81,7 @@ export class EventCtrl extends BaseController {
   @Post("/list")
   @Authenticated()
   @Returns(200, {use: EventModel, collection: Array})
-  update(
-    @BodyParams("event", EventModel)
-    event: EventModel[]
-  ): EventModel[] {
+  update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
     return event;
   }
 
@@ -83,6 +94,14 @@ export class EventCtrl extends BaseController {
     return Promise.resolve(null);
   }
 
+  /**
+   *
+   * @returns {null}
+   */
+  @Get("/status")
+  byStatus(@QueryParams("status", String) status: string[]): Promise<any[]> | void {
+    return Promise.resolve(status);
+  }
   /**
    *
    * @returns {null}

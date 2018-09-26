@@ -705,6 +705,7 @@ describe("OpenApiParamsBuilder", () => {
       it("should return the right schema", () => {
         this.result.should.deep.equal({
           type: "array",
+          collectionFormat: "multi",
           items: {
             type: "string"
           }

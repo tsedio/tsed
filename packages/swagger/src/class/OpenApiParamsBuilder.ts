@@ -250,10 +250,11 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       if (model.isArray) {
         return {
           type: "array",
+          collectionFormat: "multi",
           items: {
             type
           }
-        };
+        } as any;
       }
 
       return {
