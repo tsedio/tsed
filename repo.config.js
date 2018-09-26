@@ -21,7 +21,7 @@ module.exports = {
     rootDir: process.cwd(),
     packagesDir: "packages/",
     scanPatterns: [
-      "<rootDir>/packages/**/lib/**/*.d.ts",
+      "<rootDir>/packages/**/**/*.d.ts",
       "!node_modules"
     ],
     outputDir: "<rootDir>/docs/api",

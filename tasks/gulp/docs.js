@@ -6,7 +6,8 @@ const sourcemaps = require("gulp-sourcemaps");
 const gulp = require("gulp");
 const clean = require("gulp-clean");
 const ts = require("gulp-typescript");
-const gflow = require("gflow");
+const logger = require("fancy-log");
+const chalk = require("chalk");
 
 const {tsdoc, packagesDir} = require("../../repo.config");
 const {branch} = require("../../release.config");
@@ -43,6 +44,7 @@ module.exports = {
   },
 
   async compile() {
+    logger(`Starting '${chalk.cyan("docs:compile")}'...`);
     const tsProject = ts.createProject("./tsconfig.compile.json", {
       "declaration": true,
       "noResolve": false,
@@ -60,7 +62,9 @@ module.exports = {
       .pipe(sourcemaps.write(".", {sourceRoot: "./"}))
       .pipe(gulp.dest(packagesDir));
 
-    return toPromise(stream);
+    return toPromise(stream).then(() => {
+      logger(`Finished '${chalk.cyan("docs:compile")}'`);
+    });
   },
 
   async serve() {

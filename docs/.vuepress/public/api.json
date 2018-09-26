@@ -1,5 +1,5 @@
 {
-  "version": "4.31.4",
+  "version": "4.31.9",
   "scope": "@tsed",
   "symbolTypes": [
     {
@@ -547,7 +547,6 @@
           "symbolLabel": "Decorator",
           "symbolCode": "@",
           "status": [
-            "private",
             "stable"
           ]
         }

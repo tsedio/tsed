@@ -10,7 +10,7 @@ This example show you, how you can implement a filter and decorator to use these
 In this case, we need to retrieve the body content from an Express.Request.
 
 So to do that, you must create a class and annotate it with the [@Filter](/api/common/filters/decorators/Filter.md)
-decorator and in option, implement the [IFilter](/api/common/filters/interface/IFilter.md) interface:
+decorator and in option, implement the [IFilter](/api/common/filters/interfaces/IFilter.md) interface:
 
 ```typescript
 import {Filter, IFilter, ParseService} from "@tsed/common";
