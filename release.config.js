@@ -6,7 +6,7 @@ module.exports = {
   generateNotes: ['@semantic-release/release-notes-generator'],
   prepare: ['@semantic-release/npm', './tasks/semantic/repo.js', 'gflow/src/command/release'],
   publish: ['./tasks/semantic/repo.js', '@semantic-release/github'],
-  success: ['@semantic-release/github', 'gflow/src/command/release'], // ,
+  success: ['@semantic-release/github', 'gflow/src/command/release', './tasks/semantic/repo.js'], // ,
   fail: ['@semantic-release/github'],
   npmPublish: false
 };
