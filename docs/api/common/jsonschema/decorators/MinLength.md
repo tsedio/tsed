@@ -6,7 +6,7 @@ meta:
 ---
 # MinLength <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MinLength }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.4/packages/common/src/jsonschema/decorators/minLength.ts#L0-L0">/packages/common/src/jsonschema/decorators/minLength.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MinLength }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/common/src/jsonschema/decorators/minLength.ts#L0-L0">/packages/common/src/jsonschema/decorators/minLength.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -26,9 +26,13 @@ A string instance is valid against this keyword if its length is greater than, o
 
 The length of a string instance is defined as the number of its characters as defined by [RFC 7159](http://json-schema.org/latest/json-schema-validation.html#RFC7159).
 
-!> The value of minLength MUST be a non-negative integer.
+::: warning
+The value of minLength MUST be a non-negative integer.
+:::
 
-?> Omitting this keyword has the same behavior as a value of 0.
+::: tip
+Omitting this keyword has the same behavior as a value of 0.
+:::
 
 ## Example
 ### With primitive type

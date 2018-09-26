@@ -3,8 +3,8 @@
 Basically, Service and Factory are a specific configuration of a Provider.
 It's possible to register a class as provider, factory or service manually with these functions:
 
-- [registerProvider()](/api/common/di/registries/registerProdiver.md)
-- [registerService()](/api/common/di/registries/registerSrvice.md)
+- [registerProvider()](/api/common/di/registries/registerProvider.md)
+- [registerService()](/api/common/di/registries/registerService.md)
 - [registerFactory()](/api/common/di/registries/registerFactory.md)
 
 ## register a provider

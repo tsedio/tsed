@@ -24,7 +24,7 @@ npm install --save passport
 
 ## Override AuthenticatedMiddleware
 
-The annotation [`@Authenticated()`](/api/common/mvc/decorators/Authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
+The annotation [`@Authenticated()`](/api/common/mvc/decorators/method/Authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
 to check the authentication strategy.
 
 So, create a new file in your middlewares directory and past this code:
