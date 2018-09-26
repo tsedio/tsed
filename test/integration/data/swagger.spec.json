@@ -194,6 +194,31 @@
         }
       }
     },
+    "/rest/calendars/events/status": {
+      "get": {
+        "operationId": "EventCtrl.byStatus",
+        "parameters": [
+          {
+            "collectionFormat": "multi",
+            "in": "query",
+            "items": {
+              "type": "string"
+            },
+            "name": "status",
+            "required": false,
+            "type": "array"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      }
+    },
     "/rest/calendars/events/{id}": {
       "patch": {
         "operationId": "EventCtrl.patch",
@@ -656,7 +681,9 @@
             }
           }
         },
-        "produces": ["application/xml"],
+        "produces": [
+          "application/xml"
+        ],
         "deprecated": true
       }
     },
