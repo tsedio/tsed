@@ -222,6 +222,16 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Promise<void>}
    */
   protected async loadSettingsAndInjector() {
+    const debug = this.settings.debug;
+
+    /* istanbul ignore next */
+    if (debug && this.settings.env !== "test") {
+      $log.level = "debug";
+    }
+
+    await Promise.all(this._scannedPromises);
+    await this.callHook("$onInit");
+
     $log.debug("Initialize settings");
 
     this.settings.forEach((value, key) => {
@@ -230,7 +240,8 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     $log.info("Build services");
 
-    return this.injector.load();
+    await this.injector.load();
+    $log.debug("Settings and injector loaded");
   }
 
   private callHook = (key: string, elseFn = new Function(), ...args: any[]) => {
@@ -258,24 +269,13 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Promise<any>|Promise}
    */
   public async start(): Promise<any> {
-    const start = new Date();
     try {
-      const debug = this.settings.debug;
-
-      /* istanbul ignore next */
-      if (debug && this.settings.env !== "test") {
-        $log.level = "debug";
-      }
-      await Promise.all(this._scannedPromises);
-      await this.callHook("$onInit");
+      const start = new Date();
       await this.loadSettingsAndInjector();
-
-      $log.debug("Settings and injector loaded");
-
       await this.loadMiddlewares();
       await this.startServers();
-      await this.callHook("$onReady");
 
+      await this.callHook("$onReady");
       await this.injector.emit("$onServerReady");
 
       $log.info(`Started in ${new Date().getTime() - start.getTime()} ms`);

@@ -257,11 +257,7 @@ describe("ServerLoader", () => {
     describe("when error", () => {
       before(() => {
         this.error = new Error("onInit");
-        this.startServerStub = Sinon.stub(this.server, "startServer").returns(Promise.resolve());
-        this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
-        this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
-        this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.reject(this.error));
-        this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
+        this.loadSettingsAndInjectorSpy = Sinon.stub(this.server, "loadSettingsAndInjector").returns(Promise.reject(this.error));
 
         $logStub.$log.error.reset();
 
@@ -270,24 +266,12 @@ describe("ServerLoader", () => {
 
       after(() => {
         this.loadSettingsAndInjectorSpy.restore();
-        this.loadMiddlewaresSpy.restore();
-        this.$onInitStub.restore();
         this.$onReadyStub.restore();
         this.startServerStub.restore();
         $logStub.$log.error.reset();
       });
 
-      it("should have been called onInit hook", () => this.$onInitStub.should.have.been.calledOnce);
-      it("should have been called loadSettingsAndInjector", () => this.loadSettingsAndInjectorSpy.should.not.have.been.called);
-
-      it("should have been called loadMiddlewares", () => this.loadMiddlewaresSpy.should.not.have.been.called);
-
-      it("should have been called $onReady hook", () => this.$onReadyStub.should.not.have.been.called);
-
-      /*it("should have been called log.error", () => {
-                $logStub.$log.error.should.have.been.calledOnce;
-                $logStub.$log.error.should.have.been.calledWithExactly("HTTP Server error", this.error);
-            });*/
+      it("should have been called loadSettingsAndInjector", () => this.loadSettingsAndInjectorSpy.should.have.been.called);
     });
   });
 
