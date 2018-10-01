@@ -4,6 +4,7 @@ import {BodyParamsFilter} from "../../../../packages/common/src/filters/componen
 import {OpenApiParamsBuilder} from "../../../../packages/swagger/src/class/OpenApiParamsBuilder";
 import {expect, Sinon} from "../../../tools";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
+import {Store} from "@tsed/core";
 
 const param0 = new ParamMetadata(Ctrl, "test", 0);
 param0.service = BodyParamsFilter;
@@ -12,6 +13,106 @@ param0.type = SwaFoo2;
 
 describe("OpenApiParamsBuilder", () => {
   describe("build()", () => {
+    describe("when consumes has application/x-www-form-urlencoded", () => {
+      before(() => {
+        const storeGet = (key: string) => {
+          if (key === "hidden") {
+            return false;
+          }
+
+          return {test: "test"};
+        };
+
+        this.params = [
+          {
+            paramType: ParamTypes.BODY,
+            expression: "expression1",
+            required: true,
+            store: {
+              get: storeGet
+            }
+          }
+        ];
+
+        class FakeMetadata {
+          attr1: any;
+          attr2: any;
+
+          constructor(public target: any) {}
+
+          test() {
+            return this.target;
+          }
+        }
+
+        this.store = new Store([FakeMetadata]);
+        this.store._map = new Map();
+        this.store._map.set("operation", {consumes: ["application/x-www-form-urlencoded"]});
+
+        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+        this.fromMethodStub = Sinon.stub(Store, "fromMethod").returns(this.store);
+
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+      });
+      after(() => {
+        this.getParamsStub.restore();
+        this.fromMethodStub.restore();
+      });
+      it("should set hasFromData to true", () => {
+        expect(this.builder.hasFormData).to.equal(true);
+      });
+    });
+
+    describe("when consumes does not have application/x-www-form-urlencoded", () => {
+      before(() => {
+        const storeGet = (key: string) => {
+          if (key === "hidden") {
+            return false;
+          }
+
+          return {test: "test"};
+        };
+
+        this.params = [
+          {
+            paramType: ParamTypes.BODY,
+            expression: "expression1",
+            required: true,
+            store: {
+              get: storeGet
+            }
+          }
+        ];
+
+        class FakeMetadata {
+          attr1: any;
+          attr2: any;
+
+          constructor(public target: any) {}
+
+          test() {
+            return this.target;
+          }
+        }
+
+        this.store = new Store([FakeMetadata]);
+        this.store._map = new Map();
+        this.store._map.set("operation", {consumes: ["application/json"]});
+
+        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+        this.fromMethodStub = Sinon.stub(Store, "fromMethod").returns(this.store);
+
+        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+      });
+      after(() => {
+        this.getParamsStub.restore();
+        this.fromMethodStub.restore();
+      });
+      it("should set hasFromData to false", () => {
+        expect(this.builder.hasFormData).to.equal(false);
+      });
+    });
+
     describe("when formData", () => {
       before(() => {
         const storeGet = (key: string) => {
