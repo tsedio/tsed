@@ -1,5 +1,5 @@
 import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
-import {deepExtends, nameOf, Type} from "@tsed/core";
+import {deepExtends, nameOf, Type, Store} from "@tsed/core";
 import {BodyParameter, FormDataParameter, HeaderParameter, Parameter, PathParameter, QueryParameter, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
@@ -26,6 +26,12 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
       return !param.store.get("hidden");
     });
+
+    const fromMethod = Store.fromMethod(target, methodClassName);
+    const operation = fromMethod.get("operation");
+    if (operation && operation.consumes && operation.consumes.indexOf("application/x-www-form-urlencoded") > -1) {
+      this.hasFormData = true;
+    }
   }
 
   /**
