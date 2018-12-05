@@ -9,7 +9,6 @@ import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces";
 
 /**
- * @private
  * @middleware
  */
 @Middleware()
