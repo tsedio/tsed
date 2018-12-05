@@ -1,4 +1,4 @@
-import {getClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
+import {getClass, getClassOrSymbol, nameOf, NotEnumerable, RegistryKey, Store, Type} from "@tsed/core";
 import {ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
@@ -16,8 +16,10 @@ export class Provider<T> implements IProvider<T> {
   @NotEnumerable()
   private _store: Store;
 
-  constructor(protected _provide: any) {
-    this._provide = getClass(this._provide);
+  protected _provide: RegistryKey;
+
+  constructor(provide: RegistryKey) {
+    this._provide = getClassOrSymbol(provide);
     this._useClass = getClass(this._provide);
     this._store = Store.from(this._provide);
   }
