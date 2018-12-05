@@ -27,6 +27,7 @@ export * from "./components/GlobalErrorHandlerMiddleware";
 export * from "./components/AuthenticatedMiddleware";
 export * from "./components/ResponseViewMiddleware";
 export * from "./components/SendResponseMiddleware";
+export * from "./components/LogIncomingRequestMiddleware";
 
 // services
 export * from "./services/ControllerService";
