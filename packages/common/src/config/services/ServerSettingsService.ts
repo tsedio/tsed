@@ -2,12 +2,10 @@ import {Deprecated, Env, getValue, Metadata, setValue} from "@tsed/core";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {ProviderScope} from "../../di/interfaces/ProviderScope";
-/**
- * `ServerSettingsService` contains all information about [ServerLoader](/api/common/server/components/ServerLoader.md) configuration.
- */
 import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
+import {Injectable} from "../../di/decorators/injectable";
 
 const rootDir = process.cwd();
 /**
@@ -20,6 +18,13 @@ export let globalServerSettings: ServerSettingsService;
 // tslint:disable-next-line: variable-name
 export let GlobalServerSettings: ServerSettingsService;
 
+/**
+ * `ServerSettingsService` contains all information about [ServerLoader](/api/common/server/components/ServerLoader.md) configuration.
+ */
+@Injectable({
+  scope: ProviderScope.SINGLETON,
+  global: true
+})
 export class ServerSettingsService implements IServerSettings {
   protected map = new Map<string, any>();
 
