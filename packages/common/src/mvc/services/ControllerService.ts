@@ -2,7 +2,6 @@ import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {Service} from "../../di/decorators/service";
 import {ProviderType} from "../../di/interfaces/ProviderType";
 import {InjectorService} from "../../di/services/InjectorService";
 import {IComponentScanned} from "../../server/interfaces";
@@ -11,11 +10,16 @@ import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressApplication} from "../decorators";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {RouteService} from "./RouteService";
+import {ProviderScope} from "../../di/interfaces/ProviderScope";
+import {Injectable} from "../../di/decorators/injectable";
 
 /**
  * @private
  */
-@Service()
+@Injectable({
+  scope: ProviderScope.SINGLETON,
+  global: true
+})
 export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvider> {
   /**
    *
