@@ -3,13 +3,14 @@ import {
   getClassOrSymbol,
   getConstructor,
   isArrayOrArrayClass,
+  isClass,
   isCollection,
   isEmpty,
   isPrimitiveOrPrimitiveClass,
   nameOf,
   nameOfClass,
   primitiveOf
-} from "@tsed/core";
+} from "../../../../packages/core";
 import {expect} from "../../../tools";
 
 class Test {}
@@ -134,6 +135,36 @@ describe("ObjectUtils", () => {
 
     it("should return false when false is given", () => {
       expect(isEmpty(false)).to.eq(false);
+    });
+  });
+
+  describe("isClass()", () => {
+    it("should return true", () => {
+      expect(isClass(class {})).to.eq(true);
+    });
+
+    it("should return true", () => {
+      expect(isClass(function t() {})).to.eq(true);
+    });
+
+    it("should return false (arrow function)", () => {
+      expect(isClass(() => {})).to.eq(false);
+    });
+
+    it("should return false (date)", () => {
+      expect(isClass(new Date())).to.eq(false);
+    });
+
+    it("should return false (number)", () => {
+      expect(isClass(1)).to.eq(false);
+    });
+
+    it("should return false (obj)", () => {
+      expect(isClass(Object)).to.eq(false);
+    });
+
+    it("should return false (promise)", () => {
+      expect(isClass(Promise.resolve())).to.eq(false);
     });
   });
 
