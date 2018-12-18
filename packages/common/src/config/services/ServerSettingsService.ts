@@ -1,4 +1,4 @@
-import {Deprecated, Env, getValue, Metadata, setValue} from "@tsed/core";
+import {Env, getValue, Metadata, setValue} from "@tsed/core";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {ProviderScope} from "../../di/interfaces/ProviderScope";
@@ -379,19 +379,6 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
     }
 
     return {address, port: port as number};
-  }
-
-  /**
-   * @deprecated
-   * @returns {ServerSettingsService}
-   */
-  @Deprecated("Removed feature")
-  public $get(): ServerSettingsService {
-    this.forEach((value, key) => {
-      this.map.set(key, this.resolve(value));
-    });
-
-    return this;
   }
 
   /**
