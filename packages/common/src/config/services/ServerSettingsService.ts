@@ -6,6 +6,7 @@ import {registerFactory} from "../../di/registries/ProviderRegistry";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 import {Injectable} from "../../di/decorators/injectable";
+import {IDISettings} from "@tsed/common";
 
 const rootDir = process.cwd();
 /**
@@ -25,7 +26,7 @@ export let GlobalServerSettings: ServerSettingsService;
   scope: ProviderScope.SINGLETON,
   global: true
 })
-export class ServerSettingsService implements IServerSettings {
+export class ServerSettingsService implements IServerSettings, IDISettings {
   protected map = new Map<string, any>();
 
   constructor() {
@@ -407,7 +408,7 @@ export class ServerSettingsService implements IServerSettings {
    * @param propertyKey
    * @param value
    */
-  set(propertyKey: string | IServerSettings, value?: any): ServerSettingsService {
+  set(propertyKey: string | IServerSettings, value?: any): this {
     if (typeof propertyKey === "string") {
       setValue(propertyKey, value, this.map);
     } else {
@@ -493,10 +494,5 @@ export class ServerSettingsService implements IServerSettings {
     this.map.set("httpsPort", `${settings.address}:${settings.port}`);
   }
 }
-
-/**
- * @deprecated
- */
-export class ServerSettingsProvider extends ServerSettingsService {}
 
 registerFactory(ServerSettingsService);

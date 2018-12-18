@@ -10,7 +10,7 @@ describe("ServerSettingsService", () => {
       settings.env = Env.TEST;
 
       settings.set("ownConfig", "test");
-      settings.set({ownConfig2: "test"});
+      settings.set({ownConfig2: "test"} as any);
       settings.version = "1.0.0";
       settings.httpsOptions = {test: "/rest"} as any;
       settings.acceptMimes = ["application/json"];
@@ -160,9 +160,7 @@ describe("ServerSettingsService", () => {
   describe("Test PRODUCTION", () => {
     before(() => {
       process.env.NODE_ENV = "production";
-      const settings = new ServerSettingsService();
-
-      this.settings = settings.$get();
+      this.settings = new ServerSettingsService();
     });
 
     it("should return env PROD", () => {

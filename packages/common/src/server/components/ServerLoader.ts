@@ -10,12 +10,15 @@ import {ServerSettingsService} from "../../config/services/ServerSettingsService
 import {InjectorService} from "../../di/services/InjectorService";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
-import {HandlerBuilder} from "../../mvc/class/HandlerBuilder";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {createInjector} from "../utils/createInjector";
+import {createExpressApplication} from "../utils/createExpressApplication";
+import {createHttpServer} from "../utils/createHttpServer";
+import {createHttpsServer} from "../utils/createHttpsServer";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -72,11 +75,10 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    */
   constructor() {
-    this._injector = new InjectorService();
-
-    this.createExpressApplication();
-
     const settings = ServerSettingsService.getMetadata(this);
+    this._injector = createInjector(settings);
+
+    createExpressApplication(this._injector);
 
     if ((this as any).$onAuth) {
       $log.warn("The $onAuth hooks is removed. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
@@ -88,43 +90,11 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
-   *
-   * @returns {Express}
-   */
-  private createExpressApplication(): ServerLoader {
-    const expressApp = Express();
-    const originalUse = expressApp.use;
-    const injector = this.injector;
-
-    expressApp.use = function(...args: any[]) {
-      args = args.map(arg => {
-        if (injector.has(arg)) {
-          arg = HandlerBuilder.from(arg).build(injector);
-        }
-
-        return arg;
-      });
-
-      return originalUse.call(this, ...args);
-    };
-
-    this.injector.forkProvider(ExpressApplication, expressApp);
-
-    return this;
-  }
-
-  /**
    * Create a new HTTP server with the provided `port`.
    * @returns {ServerLoader}
    */
   public createHttpServer(port: string | number): ServerLoader {
-    const httpServer: any = Http.createServer(this.expressApp);
-    // TODO to be removed
-    /* istanbul ignore next */
-    httpServer.get = () => httpServer;
-
-    this.injector.forkProvider(HttpServer, httpServer);
-
+    createHttpServer(this.injector);
     this.settings.httpPort = port;
 
     return this;
@@ -147,13 +117,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
-    const httpsServer: any = Https.createServer(options, this.expressApp);
-    // TODO to be removed
-    /* istanbul ignore next */
-    httpsServer.get = () => httpsServer;
-
-    this.injector.forkProvider(HttpsServer, httpsServer);
-
+    createHttpsServer(this.injector, options);
     this.settings.httpsPort = options.port;
 
     return this;
@@ -552,7 +516,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerSettingsService}
    */
   get settings(): ServerSettingsService {
-    return this.injector.settings;
+    return this.injector.settings as ServerSettingsService;
   }
 
   /**

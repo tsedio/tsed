@@ -12,7 +12,6 @@ import {
   Type
 } from "@tsed/core";
 import {$log} from "ts-log-debug";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
@@ -22,6 +21,14 @@ import {ProviderType} from "../interfaces/ProviderType";
 import {GlobalProviders, ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
 
 let globalInjector: any;
+
+export interface IDISettings {
+  get(key: string): any;
+
+  set(key: string, value: any): this;
+
+  [key: string]: any;
+}
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -47,15 +54,33 @@ let globalInjector: any;
  *
  */
 export class InjectorService extends Map<RegistryKey, Provider<any>> {
+  private _settings: IDISettings = new Map();
+  private _scopes: {[key: string]: ProviderScope} = {};
+
   constructor() {
     super();
     globalInjector = this;
     this.initInjector();
-    this.initSettings();
+  }
+
+  get scopes(): {[key: string]: ProviderScope} {
+    return this._scopes || {};
+  }
+
+  set scopes(scopes: {[key: string]: ProviderScope}) {
+    this._scopes = scopes;
+  }
+
+  scopeOf(providerType: ProviderType) {
+    return this.scopes[providerType] || ProviderScope.SINGLETON;
   }
 
   get settings() {
-    return this.getProvider(ServerSettingsService)!.instance;
+    return this._settings;
+  }
+
+  set settings(settings: IDISettings) {
+    this._settings = settings;
   }
 
   /**
@@ -63,15 +88,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    */
   private initInjector() {
     this.forkProvider(InjectorService, this);
-  }
-
-  /**
-   *
-   */
-  private initSettings() {
-    const provider = GlobalProviders.get(ServerSettingsService)!;
-
-    this.forkProvider(ServerSettingsService, this.invoke<ServerSettingsService>(provider.useClass));
   }
 
   /**
@@ -423,7 +439,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    */
   private build(): Map<Type<any>, any> {
     const locals: Map<Type<any>, any> = new Map();
-    const config = this.get<ServerSettingsService>(ServerSettingsService)!;
 
     this.forEach(provider => {
       const token = nameOf(provider.provide);
@@ -431,7 +446,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
       const useClass = nameOf(provider.useClass);
 
       if (settings.buildable) {
-        const defaultScope: ProviderScope = config.get(`${provider.type}Scope`) || ProviderScope.SINGLETON;
+        const defaultScope: ProviderScope = this.scopeOf(provider.type);
 
         if (defaultScope && !provider.scope) {
           provider.scope = defaultScope;
