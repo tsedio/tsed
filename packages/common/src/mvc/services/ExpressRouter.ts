@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import * as Express from "express";
-import {Inject} from "../../di/decorators/inject";
+import {Inject} from "@tsed/di";
 
 /**
  *

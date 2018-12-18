@@ -2,18 +2,18 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation MongooseModelOptions decorator
+   description: api typescript node.js documentation MongooseModelOptions interface
 ---
-# MongooseModelOptions <Badge text="Decorator" type="decorator"/>
+# MongooseModelOptions <Badge text="Interface" type="interface"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MongooseModelOptions }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose/src/interfaces/MongooseModelOptions"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/mongoose/src/interfaces/MongooseModelOptions.ts#L0-L0">/packages/mongoose/src/interfaces/MongooseModelOptions.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MongooseModelOptions }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.33.0/packages/mongoose/src/interfaces/MongooseModelOptions.ts#L0-L0">/packages/mongoose/src/interfaces/MongooseModelOptions.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> MongooseModelOptions <span class="token punctuation">{</span>
-    <a href="/api/mongoose/utils/schemaOptions.html"><span class="token">schemaOptions</span></a>?<span class="token punctuation">:</span> SchemaOptions<span class="token punctuation">;</span>
+    schemaOptions?<span class="token punctuation">:</span> SchemaOptions<span class="token punctuation">;</span>
     name?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     collection?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     skipInit?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
@@ -36,7 +36,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><a href="/api/mongoose/utils/schemaOptions.html"><span class="token">schemaOptions</span></a>?<span class="token punctuation">:</span> SchemaOptions</code></pre>
+<pre><code class="typescript-lang ">schemaOptions?<span class="token punctuation">:</span> SchemaOptions</code></pre>
 
 </div>
 

@@ -1,9 +1,5 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
-import {Provider} from "../../di/class/Provider";
-import {Service} from "../../di/decorators/service";
-import {ProviderType} from "../../di/interfaces/ProviderType";
-import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
-import {InjectorService} from "../../di/services/InjectorService";
+import {Provider, Service, ProviderType, ProviderRegistry, InjectorService} from "@tsed/di";
 import {UnknowMiddlewareError} from "../errors/UnknowMiddlewareError";
 import {IMiddleware} from "../interfaces";
 

@@ -1,4 +1,5 @@
 export * from "./IInjectableMethod";
+export * from "./IInjectableProperties";
 export * from "./IProvider";
 export * from "./OnInit";
 export * from "./OnInjectorReady";

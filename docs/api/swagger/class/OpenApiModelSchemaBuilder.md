@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation OpenApiModelSchemaBuilder decorator
+   description: api typescript node.js documentation OpenApiModelSchemaBuilder class
 ---
-# OpenApiModelSchemaBuilder <Badge text="Decorator" type="decorator"/>
+# OpenApiModelSchemaBuilder <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OpenApiModelSchemaBuilder }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger/src/class/OpenApiModelSchemaBuilder"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/swagger/src/class/OpenApiModelSchemaBuilder.ts#L0-L0">/packages/swagger/src/class/OpenApiModelSchemaBuilder.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OpenApiModelSchemaBuilder }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger/src/class/OpenApiModelSchemaBuilder"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.33.0/packages/swagger/src/class/OpenApiModelSchemaBuilder.ts#L0-L0">/packages/swagger/src/class/OpenApiModelSchemaBuilder.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -18,7 +18,7 @@ meta:
     <span class="token keyword">protected</span> _schema<span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> <span class="token function"><a href="/api/mongoose/utils/createSchema.html"><span class="token">createSchema</span></a></span><span class="token punctuation">(</span>model<span class="token punctuation">:</span> <a href="/api/core/class/Storable.html"><span class="token">Storable</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token function">createSchema</span><span class="token punctuation">(</span>model<span class="token punctuation">:</span> <a href="/api/core/class/Storable.html"><span class="token">Storable</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">;</span>
     <span class="token keyword">protected</span> <span class="token function">getClassSchema</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> schema<span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> definitions<span class="token punctuation">:</span> <a href="/api/swagger/interfaces/OpenApiDefinitions.html"><span class="token">OpenApiDefinitions</span></a><span class="token punctuation">;</span>
@@ -120,7 +120,7 @@ Build the Schema and his properties.
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function"><a href="/api/mongoose/utils/createSchema.html"><span class="token">createSchema</span></a></span><span class="token punctuation">(</span>model<span class="token punctuation">:</span> <a href="/api/core/class/Storable.html"><span class="token">Storable</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">protected</span> <span class="token function">createSchema</span><span class="token punctuation">(</span>model<span class="token punctuation">:</span> <a href="/api/core/class/Storable.html"><span class="token">Storable</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/mongoose/decorators/Schema.html"><span class="token">Schema</span></a></code></pre>
 
 </div>
 

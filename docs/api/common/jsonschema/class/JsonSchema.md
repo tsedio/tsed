@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation JsonSchema decorator
+   description: api typescript node.js documentation JsonSchema class
 ---
-# JsonSchema <Badge text="Decorator" type="decorator"/>
+# JsonSchema <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { JsonSchema }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/common/src/jsonschema/class/JsonSchema.ts#L0-L0">/packages/common/src/jsonschema/class/JsonSchema.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { JsonSchema }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.33.0/packages/common/src/jsonschema/class/JsonSchema.ts#L0-L0">/packages/common/src/jsonschema/class/JsonSchema.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -61,8 +61,8 @@ meta:
     <span class="token keyword">readonly</span> mapper<span class="token punctuation">:</span> JSONSchema6<span class="token punctuation">;</span>
     type<span class="token punctuation">:</span> <span class="token keyword">any</span> | JSONSchema6TypeName | JSONSchema6TypeName<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> refName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> <a href="/api/core/utils/isCollection.html"><span class="token">isCollection</span></a><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> <a href="/api/core/utils/isArray.html"><span class="token">isArray</span></a><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> isCollection<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> isArray<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> schemaType<span class="token punctuation">:</span> <span class="token string">"collection"</span> | JSONSchema6TypeName | JSONSchema6TypeName<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token function">mapValue</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
     <span class="token function">toCollection</span><span class="token punctuation">(</span>collectionType<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
@@ -757,7 +757,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> <a href="/api/core/utils/isCollection.html"><span class="token">isCollection</span></a><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> isCollection<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 
 </div>
 
@@ -774,7 +774,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> <a href="/api/core/utils/isArray.html"><span class="token">isArray</span></a><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> isArray<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 
 </div>
 

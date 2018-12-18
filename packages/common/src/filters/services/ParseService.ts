@@ -1,5 +1,5 @@
 import {getValue, isEmpty} from "@tsed/core";
-import {Service} from "../../di/decorators/service";
+import {Service} from "@tsed/di";
 
 /**
  *

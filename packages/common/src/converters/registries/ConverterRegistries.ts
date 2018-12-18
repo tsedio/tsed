@@ -1,6 +1,4 @@
-import {Provider} from "../../di/class/Provider";
-import {ProviderType, TypedProvidersRegistry} from "../../di/interfaces";
-import {GlobalProviders} from "../../di/registries/ProviderRegistry";
+import {Provider, ProviderType, TypedProvidersRegistry, GlobalProviders} from "@tsed/di";
 
 /**
  * Converter Registry.

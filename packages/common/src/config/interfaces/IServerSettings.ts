@@ -5,7 +5,7 @@
 
 import {Env} from "@tsed/core";
 import * as Https from "https";
-import {ProviderScope} from "../../di/interfaces";
+import {ProviderScope} from "@tsed/di";
 
 /**
  *

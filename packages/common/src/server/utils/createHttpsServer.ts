@@ -1,7 +1,7 @@
 import * as Https from "https";
+import {InjectorService} from "@tsed/di";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions} from "../interfaces/IHTTPSServerOptions";
-import {InjectorService} from "../../di/services/InjectorService";
 import {ExpressApplication} from "../../mvc/decorators";
 
 export function createHttpsServer(injector: InjectorService, options: IHTTPSServerOptions): Https.Server {

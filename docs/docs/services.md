@@ -27,7 +27,7 @@ export class Server extends ServerLoader {
 
 ## Decorators
 
-<ApiList query="module === '@tsed/common/di' && symbolType === 'decorator'" />
+<ApiList query="module === '@tsed/di' && symbolType === 'decorator'" />
 
 ## Declaring a service
 
@@ -76,7 +76,7 @@ class MyController {
 
 ## Override a Service
 
-The decorator [@OverrideService](/api/common/di/decorators/OverrideService.md) gives you the ability to
+The decorator [@OverrideService](/api/di/decorators/OverrideService.md) gives you the ability to
 override some internal Ts.ED service like the [ParseService](/api/common/filters/services/ParseService.md).
 
 Example usage:

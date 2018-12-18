@@ -1,5 +1,5 @@
 import {Store, Type} from "@tsed/core";
-import {IInjectableProperties} from "../../di/interfaces/IInjectableProperties";
+import {IInjectableProperties} from "../../../../di/src/interfaces/IInjectableProperties";
 import {IInterceptor} from "../interfaces/IInterceptor";
 import {interceptorInvokeFactory} from "../utils/interceptorInvokeFactory";
 

@@ -1,6 +1,5 @@
 import {NotEnumerable, Store} from "@tsed/core";
-import {ProviderType} from "../../di/interfaces/ProviderType";
-import {ProviderRegistry} from "../../di/registries/ProviderRegistry";
+import {ProviderType, ProviderRegistry} from "@tsed/di";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE} from "../../filters/constants";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";

@@ -1,6 +1,6 @@
-import {ProxyRegistry, Type} from "@tsed/core";
 import {JSONSchema6} from "json-schema";
-import {Service} from "../../di/decorators/service";
+import {ProxyRegistry, Type} from "@tsed/core";
+import {Service} from "@tsed/di";
 import {JsonSchema} from "../class/JsonSchema";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 

@@ -1,17 +1,14 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
+import {ProviderType, InjectorService, ProviderScope, Injectable} from "@tsed/di";
 import * as Express from "express";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {ProviderType} from "../../di/interfaces/ProviderType";
-import {InjectorService} from "../../di/services/InjectorService";
 import {IComponentScanned} from "../../server/interfaces";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressApplication} from "../decorators";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {RouteService} from "./RouteService";
-import {ProviderScope} from "../../di/interfaces/ProviderScope";
-import {Injectable} from "../../di/decorators/injectable";
 
 /**
  * @private

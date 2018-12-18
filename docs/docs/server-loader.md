@@ -13,7 +13,7 @@ Hook method | Description
 --- | --- | ---
 `constructor` | On this phase nothing is constructed. Express app isn't created.
 [`$onInit`](#serverloaderoninit-void-promise) | Respond when the server starting his lifecycle. Is good place to initialize Database connection.
-[`$onMountingMiddlewares`](#serverloaderonmountingmiddlewares-void-promise) | This hooks is the right place to configure the middlewares that must be used with your ExpressApplication. At this step, [InjectorService](/api/common/di/services/InjectorService.md) and [services](/docs/services.md) are ready and can be injected. The [Controllers](/docs/controllers.md) isn't built.
+[`$onMountingMiddlewares`](#serverloaderonmountingmiddlewares-void-promise) | This hooks is the right place to configure the middlewares that must be used with your ExpressApplication. At this step, [InjectorService](/api/di/services/InjectorService.md) and [services](/docs/services.md) are ready and can be injected. The [Controllers](/docs/controllers.md) isn't built.
 [`$afterRoutesInit`](#serverloaderafterroutesinit-void-promise) | Respond just after all [Controllers](/docs/controllers.md) are built. You can configure the [`serve-static`](https://github.com/expressjs/serve-static) middleware on this phase.
 [`$onReady`](#serverloaderonready-void) | Respond when the server is ready. At this step, HttpServer or/and HttpsServer object is available. The server listen the port.
 `$onServerInitError`| Respond when an error is triggered on server initialization.

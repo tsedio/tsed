@@ -1,9 +1,5 @@
 import {getClassOrSymbol} from "@tsed/core";
-import {Provider} from "../../di/class/Provider";
-import {TypedProvidersRegistry} from "../../di/interfaces";
-import {IProvider} from "../../di/interfaces/IProvider";
-import {ProviderType} from "../../di/interfaces/ProviderType";
-import {GlobalProviders} from "../../di/registries/ProviderRegistry";
+import {Provider, TypedProvidersRegistry, IProvider, ProviderType, GlobalProviders} from "@tsed/di";
 import {MiddlewareType} from "../interfaces/MiddlewareType";
 
 /**

@@ -1,4 +1,4 @@
-import {OverrideProvider} from "../../../../../packages/common/src/di/decorators/overrideProvider";
+import {OverrideProvider} from "../../../../../packages/di/src/decorators/overrideProvider";
 import {OverrideMiddleware} from "../../../../../packages/common/src/mvc/decorators/class/overrideMiddleware";
 import {expect} from "../../../../tools";
 

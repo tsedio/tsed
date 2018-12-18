@@ -1,5 +1,5 @@
 export {Registry} from "@tsed/core";
-export * from "./di";
+export * from "@tsed/di";
 export * from "./config";
 export * from "./jsonschema";
 export * from "./converters";

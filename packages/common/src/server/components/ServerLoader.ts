@@ -1,4 +1,5 @@
 import {Deprecated, isClass} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import * as globby from "globby";
 import * as Http from "http";
@@ -7,7 +8,6 @@ import * as Path from "path";
 import {$log} from "ts-log-debug";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {InjectorService} from "../../di/services/InjectorService";
 
 import {GlobalErrorHandlerMiddleware} from "../../mvc";
 import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";

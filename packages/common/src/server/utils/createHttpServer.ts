@@ -1,6 +1,6 @@
 import * as Http from "http";
+import {InjectorService} from "@tsed/di";
 import {HttpServer} from "../decorators/httpServer";
-import {InjectorService} from "../../di/services/InjectorService";
 import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
 
 export function createHttpServer(injector: InjectorService): Http.Server {

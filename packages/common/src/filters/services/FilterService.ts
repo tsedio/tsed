@@ -1,8 +1,5 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
-import {Provider} from "../../di/class/Provider";
-import {Service} from "../../di/decorators/service";
-import {ProviderType} from "../../di/interfaces/ProviderType";
-import {InjectorService} from "../../di/services/InjectorService";
+import {Provider, Service, ProviderType, InjectorService} from "@tsed/di";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
 import {IFilter} from "../interfaces";
 import {FilterRegistry} from "../registries/FilterRegistry";

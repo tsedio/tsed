@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {ProviderScope} from "../../../di/interfaces";
+import {ProviderScope} from "../interfaces/ProviderScope";
 
 /**
  *

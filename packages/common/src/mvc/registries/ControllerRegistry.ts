@@ -1,6 +1,4 @@
-import {TypedProvidersRegistry} from "../../di/interfaces";
-import {ProviderType} from "../../di/interfaces/ProviderType";
-import {GlobalProviders} from "../../di/registries/ProviderRegistry";
+import {TypedProvidersRegistry, ProviderType, GlobalProviders} from "@tsed/di";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ExpressRouter} from "../services/ExpressRouter";
 import {RouterController} from "../services/RouterController";

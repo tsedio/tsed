@@ -21,7 +21,6 @@ export * from "./class/controller";
 export * from "./class/middleware";
 export * from "./class/middlewareError";
 export * from "./class/overrideMiddleware";
-export * from "./class/scope";
 export * from "./class/routerSettings";
 export * from "./class/mergeParams";
 export * from "./class/strict";
