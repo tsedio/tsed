@@ -6,13 +6,13 @@ meta:
 ---
 # ServerSettingsService <Badge text="Service" type="service"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/common/src/config/services/ServerSettingsService.ts#L0-L0">/packages/common/src/config/services/ServerSettingsService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.33.0/packages/common/src/config/services/ServerSettingsService.ts#L0-L0">/packages/common/src/config/services/ServerSettingsService.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">class</span> ServerSettingsService <span class="token keyword">implements</span> <a href="/api/swagger/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a> <span class="token punctuation">{</span>
+<pre><code class="typescript-lang "><span class="token keyword">class</span> ServerSettingsService <span class="token keyword">implements</span> <a href="/api/swagger/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> <a href="/api/di/services/IDISettings.html"><span class="token">IDISettings</span></a> <span class="token punctuation">{</span>
     <span class="token keyword">protected</span> map<span class="token punctuation">:</span> Map&lt<span class="token punctuation">;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     version<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
@@ -32,12 +32,11 @@ meta:
     validationModelStrict<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     logger<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/config/interfaces/ILoggerSettings.html"><span class="token">ILoggerSettings</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
     exclude<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    controllerScope<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a><span class="token punctuation">;</span>
+    controllerScope<span class="token punctuation">:</span> <a href="/api/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a><span class="token punctuation">;</span>
     errors<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IErrorsSettings.html"><span class="token">IErrorsSettings</span></a><span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token function">getMetadata</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
-    $<span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerSettingsService<span class="token punctuation">;</span>
     <span class="token function">forEach</span><span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> index<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map&lt<span class="token punctuation">;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
-    <span class="token function">set</span><span class="token punctuation">(</span>propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | <a href="/api/swagger/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> value?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> ServerSettingsService<span class="token punctuation">;</span>
+    <span class="token function">set</span><span class="token punctuation">(</span>propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | <a href="/api/swagger/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> value?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
     get&lt<span class="token punctuation">;</span>T&gt<span class="token punctuation">;</span><span class="token punctuation">(</span>propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
     <span class="token function">resolve</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
     <span class="token function">getHttpPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -58,6 +57,16 @@ meta:
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
+
+
+<!-- Description -->
+## Description
+
+::: v-pre
+
+`ServerSettingsService` contains all information about [ServerLoader](/api/common/server/components/ServerLoader.md) configuration.
+
+:::
 
 
 <!-- Members -->
@@ -377,7 +386,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">controllerScope<span class="token punctuation">:</span> <a href="/api/common/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a></code></pre>
+<pre><code class="typescript-lang ">controllerScope<span class="token punctuation">:</span> <a href="/api/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a></code></pre>
 
 </div>
 
@@ -428,23 +437,6 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang deprecated ">$<span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a></code></pre>
-
-</div>
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
 <pre><code class="typescript-lang "><span class="token function">forEach</span><span class="token punctuation">(</span>callbackfn<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> index<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> map<span class="token punctuation">:</span> Map&lt<span class="token punctuation">;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span> =&gt<span class="token punctuation">;</span> <span class="token keyword">void</span><span class="token punctuation">,</span> thisArg?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span></code></pre>
 
 </div>
@@ -462,7 +454,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">set</span><span class="token punctuation">(</span>propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | <a href="/api/swagger/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> value?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <a href="/api/common/config/services/ServerSettingsService.html"><span class="token">ServerSettingsService</span></a></code></pre>
+<pre><code class="typescript-lang "><span class="token function">set</span><span class="token punctuation">(</span>propertyKey<span class="token punctuation">:</span> <span class="token keyword">string</span> | <a href="/api/swagger/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> value?<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> this</code></pre>
 
 </div>
 

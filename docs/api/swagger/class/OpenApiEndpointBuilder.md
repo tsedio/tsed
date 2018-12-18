@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation OpenApiEndpointBuilder decorator
+   description: api typescript node.js documentation OpenApiEndpointBuilder class
 ---
-# OpenApiEndpointBuilder <Badge text="Decorator" type="decorator"/>
+# OpenApiEndpointBuilder <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OpenApiEndpointBuilder }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger/src/class/OpenApiEndpointBuilder"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/swagger/src/class/OpenApiEndpointBuilder.ts#L0-L0">/packages/swagger/src/class/OpenApiEndpointBuilder.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { OpenApiEndpointBuilder }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger/src/class/OpenApiEndpointBuilder"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.33.0/packages/swagger/src/class/OpenApiEndpointBuilder.ts#L0-L0">/packages/swagger/src/class/OpenApiEndpointBuilder.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

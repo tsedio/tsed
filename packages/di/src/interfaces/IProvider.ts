@@ -1,7 +1,3 @@
-/**
- * @module common/di
- */
-/** */
 import {Type} from "@tsed/core";
 import {ProviderType} from "./ProviderType";
 

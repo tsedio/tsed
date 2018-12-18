@@ -2,11 +2,11 @@
 sidebar: auto
 meta:
  - name: keywords
-   description: api typescript node.js documentation ISwaggerResponses decorator
+   description: api typescript node.js documentation ISwaggerResponses interface
 ---
-# ISwaggerResponses <Badge text="Decorator" type="decorator"/>
+# ISwaggerResponses <Badge text="Interface" type="interface"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ISwaggerResponses }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger/src/interfaces/ISwaggerResponses"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.31.9/packages/swagger/src/interfaces/ISwaggerResponses.ts#L0-L0">/packages/swagger/src/interfaces/ISwaggerResponses.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ISwaggerResponses }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/swagger"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v4.33.0/packages/swagger/src/interfaces/ISwaggerResponses.ts#L0-L0">/packages/swagger/src/interfaces/ISwaggerResponses.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

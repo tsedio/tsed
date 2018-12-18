@@ -3,7 +3,7 @@
 Ts.ED provide by default a [AJV](/tutorials/ajv.md) package to perform a validation on a Model. But, you can choose another library as model validator.
  
 To do that, you need to create a custom validation service that will inherit from the [ValidationService](/api/common/filters/services/ValidationService.md)
- and override this service with the [OverrideService](/api/common/di/decorators/OverrideService.md) decorator.
+ and override this service with the [OverrideService](/api/di/decorators/OverrideService.md) decorator.
 
 ### Create your service
 
