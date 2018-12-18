@@ -1,7 +1,6 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
+import {InjectorService, Service} from "@tsed/di";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {InjectorService} from "../../di";
-import {Service} from "../../di/decorators/service";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {CONVERTER} from "../constants/index";

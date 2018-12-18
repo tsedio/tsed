@@ -1,5 +1,5 @@
-import {Provider} from "../../../../packages/common/src/di/class/Provider";
-import {Providers} from "../../../../packages/common/src/di/class/Providers";
+import {Provider} from "../../../../packages/di/src/class/Provider";
+import {Providers} from "../../../../packages/di/src/class/Providers";
 import {Registry} from "../../../../packages/core/src/class/Registry";
 import {expect, Sinon} from "../../../tools";
 

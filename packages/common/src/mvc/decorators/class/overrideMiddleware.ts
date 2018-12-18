@@ -1,4 +1,4 @@
-import {OverrideProvider} from "../../../di/decorators/overrideProvider";
+import {OverrideProvider} from "../../../../../di/src/decorators/overrideProvider";
 
 /**
  * Override a middleware which is already registered in MiddlewareRegistry.

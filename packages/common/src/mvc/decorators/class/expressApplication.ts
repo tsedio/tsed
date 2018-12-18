@@ -1,7 +1,6 @@
 import {Type} from "@tsed/core";
 import * as Express from "express";
-import {Inject} from "../../../di/decorators/inject";
-import {registerFactory} from "../../../di/registries/ProviderRegistry";
+import {Inject, registerFactory} from "@tsed/di";
 
 declare global {
   namespace Express {

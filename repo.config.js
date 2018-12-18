@@ -30,10 +30,10 @@ module.exports = {
     scope: "@tsed",
     modules: {
       "core": "core",
+      "di": "di",
       "common": {
         "config": "common/config",
         "converters": "common/converters",
-        "di": "common/di",
         "filters": "common/filters",
         "jsonschema": "common/jsonschema",
         "mvc": "common/mvc",

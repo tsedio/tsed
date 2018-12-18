@@ -1,4 +1,4 @@
-import {Provider} from "../../../../packages/common/src/di/class/Provider";
+import {Provider} from "../../../../packages/di/src/class/Provider";
 import {expect} from "../../../tools";
 
 class T1 {}

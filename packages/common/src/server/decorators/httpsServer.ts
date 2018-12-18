@@ -1,7 +1,6 @@
-import {registerFactory} from "../../di/registries/ProviderRegistry";
-import {Type} from "@tsed/core";
 import * as Https from "https";
-import {Inject} from "../../di/decorators/inject";
+import {Type} from "@tsed/core";
+import {Inject, registerFactory} from "@tsed/di";
 
 export interface IHttpsFactory {
   (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;

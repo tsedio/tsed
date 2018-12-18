@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import {IRouterSettings} from "../../config/interfaces/IServerSettings";
-import {InjectorService} from "../../di/services/InjectorService";
 import {ControllerProvider} from "./ControllerProvider";
 
 import {EndpointBuilder} from "./EndpointBuilder";

@@ -1,6 +1,6 @@
-import {Provider} from "../../di/class/Provider";
-import {ProviderType, TypedProvidersRegistry} from "../../di/interfaces";
-import {GlobalProviders} from "../../di/registries/ProviderRegistry";
+import {Provider} from "../../../../di/src/class/Provider";
+import {ProviderType, TypedProvidersRegistry} from "../../../../di/src/interfaces";
+import {GlobalProviders} from "../../../../di/src/registries/ProviderRegistry";
 
 /**
  *

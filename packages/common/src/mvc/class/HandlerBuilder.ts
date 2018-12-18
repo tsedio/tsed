@@ -1,7 +1,6 @@
 import {nameOf} from "@tsed/core";
 import * as Express from "express";
-import {ProviderScope} from "../../di/interfaces";
-import {InjectorService} from "../../di/services/InjectorService";
+import {ProviderScope, InjectorService} from "@tsed/di";
 import {FilterBuilder} from "../../filters/class/FilterBuilder";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
 import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";

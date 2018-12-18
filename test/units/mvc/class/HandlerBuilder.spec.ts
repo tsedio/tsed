@@ -2,7 +2,7 @@ import {ProviderType} from "@tsed/common";
 import {inject} from "@tsed/testing";
 import {BadRequest} from "ts-httpexceptions";
 import "../../../../packages/ajv";
-import {InjectorService} from "../../../../packages/common/src/di/services/InjectorService";
+import {InjectorService} from "../../../../packages/di/src/services/InjectorService";
 import {FilterBuilder} from "../../../../packages/common/src/filters/class/FilterBuilder";
 import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
 import {HandlerBuilder} from "../../../../packages/common/src/mvc/class/HandlerBuilder";

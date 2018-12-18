@@ -1,4 +1,4 @@
-import {Service} from "../../di/decorators/service";
+import {Service} from "@tsed/di";
 
 @Service()
 export class ValidationService {

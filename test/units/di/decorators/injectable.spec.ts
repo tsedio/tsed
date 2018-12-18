@@ -1,5 +1,5 @@
-import {Injectable} from "../../../../packages/common/src/di/decorators/injectable";
-import * as ProviderRegistry from "../../../../packages/common/src/di/registries/ProviderRegistry";
+import {Injectable} from "../../../../packages/di/src/decorators/injectable";
+import * as ProviderRegistry from "../../../../packages/di/src/registries/ProviderRegistry";
 import {Sinon} from "../../../tools";
 
 describe("@Injectable()", () => {

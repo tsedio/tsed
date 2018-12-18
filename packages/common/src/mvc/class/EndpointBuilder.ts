@@ -1,5 +1,5 @@
 import {applyBefore, nameOf} from "@tsed/core";
-import {InjectorService} from "../../di/services/InjectorService";
+import {InjectorService} from "@tsed/di";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
