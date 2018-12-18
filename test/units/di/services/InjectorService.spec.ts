@@ -1,4 +1,4 @@
-import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType, ServerSettingsService} from "@tsed/common";
+import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType} from "@tsed/common";
 import {Metadata, Store} from "@tsed/core";
 import {InjectorService} from "../../../../packages/common/src/di";
 import {inject} from "../../../../packages/testing/src/inject";
@@ -624,11 +624,13 @@ describe("InjectorService", () => {
     describe("when the provider is buildable", () => {
       before(() => {
         this.injector = new InjectorService();
+        this.injector.scopes = {
+          [ProviderType.CONTROLLER]: ProviderScope.REQUEST
+        };
         this.provider = new Provider(Test);
         this.provider.type = "controller";
 
         this.injector.set(Test, this.provider);
-        this.injector.get(ServerSettingsService).set("controllerScope", ProviderScope.REQUEST);
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
           buildable: true
