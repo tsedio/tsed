@@ -1,5 +1,6 @@
 import {Done} from "./done";
 import {loadInjector} from "./loadInjector";
+import {TestContext} from "./testContext";
 
 /**
  * The inject function is one of the TsExpressDecorator testing utilities.
@@ -16,7 +17,7 @@ import {loadInjector} from "./loadInjector";
  */
 export function inject(targets: any[], func: Function) {
   return function before(done: Function) {
-    const injector = this.$$injector || loadInjector();
+    const injector = TestContext.injector || loadInjector();
 
     let isDoneInjected = false;
     const args = targets.map(target => {

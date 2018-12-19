@@ -1,4 +1,5 @@
 import {$log} from "ts-log-debug";
+import {TestContext} from "./testContext";
 
 /**
  * Load the server silently without listening port and configure it on test profile.
@@ -16,8 +17,8 @@ export function bootstrap(server: any, ...args: any[]) {
 
     instance.startServers = () => Promise.resolve();
 
-    // TODO used by inject method
-    this.$$injector = instance.injector;
+    // used by inject method
+    TestContext.injector = instance.injector;
 
     instance
       .start()
