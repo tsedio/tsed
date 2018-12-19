@@ -45,7 +45,7 @@ describe("FilterService", () => {
         this.filter = {
           transform: Sinon.stub().returns("value")
         };
-        this.getStub = Sinon.stub(this.filterService.injectorService, "get").returns(undefined);
+        this.getStub = Sinon.stub(this.filterService.injectorService, "get");
         try {
           this.filterService.invokeMethod(Test, "expression", "request", "response");
         } catch (er) {

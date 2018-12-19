@@ -39,21 +39,30 @@ Clone your fork of the repository
 $ git clone https://github.com/YOUR_USERNAME/ts-express-decorators.git
 ```
 
-Install npm dependencies
-
+Install npm dependencies with yarn (not with NPM!):
 ```bash
-npm install
+yarn
+```
+> After installing dependencies, yarn run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
+
+Compile TypeScript:
+```bash
+tsc
+# or
+yarn tsc
+# or
+npm run tsc
 ```
 
-Run build process
-
-```bash
-npm run tsc:compile
+Build project:
+```
 ```
 
 ### Test
 
 ```bash
+yarn test
+# or
 npm run test
 ```
 
@@ -81,7 +90,7 @@ This command rebase your branch feature from the production branch, run the test
 git commit -m "feat(domain): Your message"
 gflow push
 ```
-> To write your commit message see https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit
+> To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 
 When your feature is ready to review, you can open a PR on Ts.ED github.
 
@@ -109,7 +118,7 @@ npm run doc:serve
 
 ### Guidelines
 
-- Ts.ED follow the git flow to generate a release note. To write your commit message see https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit
+- Ts.ED follow the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 - Please try to combine multiple commits before pushing
 - Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
 - Please keep the test coverage at 100%. Write additional unit tests if necessary

@@ -7,7 +7,7 @@ describe("createSchema()", () => {
   class Test {}
 
   before(() => {
-    this.buildMongooseSchemaStub = Sinon.stub(mod, "buildMongooseSchema").returns({definition: "definition"});
+    this.buildMongooseSchemaStub = Sinon.stub(mod, "buildMongooseSchema").returns({definition: "definition"} as any);
 
     this.schemaStub = Sinon.stub(mongoose, "Schema");
 

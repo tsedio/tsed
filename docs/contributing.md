@@ -64,21 +64,30 @@ Clone your fork of the repository
 $ git clone https://github.com/YOUR_USERNAME/ts-express-decorators.git
 ```
 
-Install npm dependencies
-
+Install npm dependencies with yarn (not with NPM!):
 ```bash
-npm install
+yarn
+```
+> After installing dependencies, yarn run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
+
+Compile TypeScript:
+```bash
+tsc
+# or
+yarn tsc
+# or
+npm run tsc
 ```
 
-Run build process
-
-```bash
-npm run build
+Build project:
+```
 ```
 
 ### Test
 
 ```bash
+yarn test
+# or
 npm run test
 ```
 
@@ -132,9 +141,7 @@ the Api documentation. To preview your comments on a class you can run this comm
 npm run doc:serve
 ```
 
-***
-
-## Guidelines
+### Guidelines
 
 - Ts.ED follow the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 - Please try to combine multiple commits before pushing

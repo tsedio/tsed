@@ -221,7 +221,7 @@ describe("InjectorService", () => {
         this.symbol = class Test {};
 
         const locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns(undefined);
+        this.getStub = Sinon.stub(this.injector, "getProvider");
 
         try {
           this.result = this.injector.mapServices({
@@ -261,6 +261,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true,
           injectable: true
         });
@@ -310,6 +311,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: false,
           injectable: true
         });
@@ -360,6 +362,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true,
           injectable: true
         });
@@ -410,6 +413,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true,
           injectable: true
         });
@@ -461,6 +465,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true,
           injectable: true
         });
@@ -518,6 +523,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true,
           injectable: true
         });
@@ -577,6 +583,7 @@ describe("InjectorService", () => {
         });
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true,
           injectable: false
         });
@@ -633,6 +640,7 @@ describe("InjectorService", () => {
         this.injector.set(Test, this.provider);
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: true
         });
 
@@ -675,6 +683,7 @@ describe("InjectorService", () => {
         this.injector.set(Test, this.provider);
 
         this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
+          registry: GlobalProviders,
           buildable: false
         });
 
@@ -723,6 +732,7 @@ describe("InjectorService", () => {
     describe("when designParamsTypes is not given", () => {
       before(
         inject([InjectorService], (injectorService: InjectorService) => {
+          this.provider = new Provider(Test);
           this.registrySettings = {
             onInvoke: Sinon.stub()
           };
@@ -733,7 +743,7 @@ describe("InjectorService", () => {
 
           this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns(this.designParamTypes);
 
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns({provide: "provide"});
+          this.getStub = Sinon.stub(injectorService, "getProvider").returns(this.provider);
 
           this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
 
@@ -764,7 +774,7 @@ describe("InjectorService", () => {
       });
 
       it("should call settings.onInvoke method", () => {
-        this.registrySettings.onInvoke.should.have.been.calledWithExactly({provide: "provide"}, this.locals, this.designParamTypes);
+        this.registrySettings.onInvoke.should.have.been.calledWithExactly(this.provider, this.locals, this.designParamTypes);
       });
 
       it("should call injectorService.mapServices method", () => {
@@ -788,6 +798,8 @@ describe("InjectorService", () => {
     describe("when designParamsTypes is given", () => {
       before(
         inject([InjectorService], (injectorService: InjectorService) => {
+          this.provider = new Provider(Test);
+
           this.registrySettings = {
             onInvoke: Sinon.stub()
           };
@@ -798,7 +810,7 @@ describe("InjectorService", () => {
 
           this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes");
 
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns({provide: "provide"});
+          this.getStub = Sinon.stub(injectorService, "getProvider").returns(this.provider);
 
           this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
 
@@ -829,7 +841,7 @@ describe("InjectorService", () => {
       });
 
       it("should call settings.onInvoke method", () => {
-        this.registrySettings.onInvoke.should.have.been.calledWithExactly({provide: "provide"}, this.locals, this.designParamTypes);
+        this.registrySettings.onInvoke.should.have.been.calledWithExactly(this.provider, this.locals, this.designParamTypes);
       });
 
       it("should call injectorService.mapServices method", () => {
@@ -853,6 +865,7 @@ describe("InjectorService", () => {
     describe("when onInvoke is empty", () => {
       before(
         inject([InjectorService], (injectorService: InjectorService) => {
+          this.provider = new Provider(Test);
           this.registrySettings = {};
           this.designParamTypes = [TestDep];
 
@@ -860,7 +873,7 @@ describe("InjectorService", () => {
 
           this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns(this.designParamTypes);
 
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns({provide: "provide"});
+          this.getStub = Sinon.stub(injectorService, "getProvider").returns(this.provider);
 
           this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
 

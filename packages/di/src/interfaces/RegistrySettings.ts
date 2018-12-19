@@ -4,7 +4,7 @@ import {IProvider} from "./IProvider";
 
 export interface RegistrySettings {
   registry: Registry<Provider<any>, IProvider<any>>;
-  injectable: boolean;
+  injectable?: boolean;
   buildable: boolean;
 
   /**

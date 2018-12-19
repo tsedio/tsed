@@ -16,7 +16,7 @@ describe("MongooseService", () => {
             connectionOptions: {options: "options"}
           });
 
-          this.connectStub = Sinon.stub(this.mongooseService, "connect").returns(Promise.resolve("test"));
+          this.connectStub = Sinon.stub(this.mongooseService, "connect").resolves("test");
 
           return (this.result = mongooseService.$onInit());
         })
@@ -58,7 +58,7 @@ describe("MongooseService", () => {
             }
           });
 
-          this.connectStub = Sinon.stub(this.mongooseService, "connect").returns(Promise.resolve("test"));
+          this.connectStub = Sinon.stub(this.mongooseService, "connect").resolves("test");
 
           return (this.result = mongooseService.$onInit());
         })
@@ -88,7 +88,7 @@ describe("MongooseService", () => {
   describe("connect()", () => {
     before(
       inject([MongooseService], (mongooseService: any) => {
-        this.connectStub = Sinon.stub(Mongoose, "connect").returns(Promise.resolve("mongooseinstance"));
+        this.connectStub = Sinon.stub(Mongoose, "connect").resolves("mongooseinstance");
 
         return mongooseService
           .connect(

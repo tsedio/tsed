@@ -9,9 +9,9 @@ describe("@Model()", () => {
     class Test {}
 
     before(() => {
-      this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"});
+      this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"} as any);
       this.applySchemaOptionStub = Sinon.stub(apply, "applySchemaOptions");
-      this.createModelStub = Sinon.stub(modUtil, "createModel").returns({model: "model"});
+      this.createModelStub = Sinon.stub(modUtil, "createModel").returns({model: "model"} as any);
       this.registerModelStub = Sinon.stub(register, "registerModel");
 
       Model({
@@ -54,9 +54,9 @@ describe("@Model()", () => {
     class Test {}
 
     before(() => {
-      this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"});
+      this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"} as any);
       this.applySchemaOptionStub = Sinon.stub(apply, "applySchemaOptions");
-      this.createModelStub = Sinon.stub(modUtil, "createModel").returns({model: "model"});
+      this.createModelStub = Sinon.stub(modUtil, "createModel").returns({model: "model"} as any);
       this.registerModelStub = Sinon.stub(register, "registerModel");
 
       Model()(Test);

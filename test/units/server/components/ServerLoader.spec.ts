@@ -64,7 +64,7 @@ describe("ServerLoader", () => {
 
   describe("createHttpsServer", () => {
     before(() => {
-      this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"});
+      this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"} as any);
       this.forkProviderStub = Sinon.stub(this.server.injector, "forkProvider");
       this.server.createHttpsServer({options: "options"});
     });
@@ -86,7 +86,7 @@ describe("ServerLoader", () => {
 
   describe("createHttpServer", () => {
     before(() => {
-      this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"});
+      this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"} as any);
       this.forkProviderStub = Sinon.stub(this.server.injector, "forkProvider");
       this.server.createHttpServer({options: "options"});
     });
@@ -109,8 +109,8 @@ describe("ServerLoader", () => {
   describe("loadMiddlewares()", () => {
     before(() => {
       this.useStub.reset();
-      this.$onMountingMiddlewares = Sinon.stub(this.server, "$onMountingMiddlewares").returns(Promise.resolve());
-      this.$afterRoutesInit = Sinon.stub(this.server, "$afterRoutesInit").returns(Promise.resolve());
+      this.$onMountingMiddlewares = Sinon.stub(this.server, "$onMountingMiddlewares").resolves();
+      this.$afterRoutesInit = Sinon.stub(this.server, "$afterRoutesInit").resolves();
 
       this.server.loadSettingsAndInjector();
 
@@ -217,8 +217,8 @@ describe("ServerLoader", () => {
         );
         this.loadSettingsAndInjectorSpy = Sinon.spy(this.server, "loadSettingsAndInjector");
         this.loadMiddlewaresSpy = Sinon.spy(this.server, "loadMiddlewares");
-        this.$onInitStub = Sinon.stub(this.server, "$onInit").returns(Promise.resolve());
-        this.$onReadyStub = Sinon.stub(this.server, "$onReady").returns(Promise.resolve());
+        this.$onInitStub = Sinon.stub(this.server, "$onInit").resolves();
+        this.$onReadyStub = Sinon.stub(this.server, "$onReady").resolves();
 
         return this.server.start();
       });

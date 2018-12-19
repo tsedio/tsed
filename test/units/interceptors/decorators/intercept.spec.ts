@@ -6,11 +6,13 @@ import {expect, Sinon} from "../../../tools";
 describe("@Intercept", () => {
   class TestService {}
 
+  const fnInvokableInterceptor = () => "fn";
+
   before(() => {
     this.interceptor = {
       aroundInvoke: Sinon.stub()
     };
-    this.interceptorInvokeFactory = Sinon.stub(mod, "interceptorInvokeFactory").returns("fn");
+    this.interceptorInvokeFactory = Sinon.stub(mod, "interceptorInvokeFactory").returns(fnInvokableInterceptor);
 
     Intercept(this.interceptor, {options: "options"})(TestService, "test", {});
 
@@ -26,7 +28,7 @@ describe("@Intercept", () => {
       test: {
         bindingType: "custom",
         propertyKey: "test",
-        onInvoke: "fn"
+        onInvoke: fnInvokableInterceptor
       }
     });
   });

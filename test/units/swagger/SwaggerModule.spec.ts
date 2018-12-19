@@ -148,7 +148,7 @@ describe("SwaggerModule", () => {
     before(() => {
       this.routerInstance = {get: Sinon.stub(), use: Sinon.stub()};
       this.routerStub = Sinon.stub(Express, "Router").returns(this.routerInstance);
-      this.staticStub = Sinon.stub(Express, "static").returns("statics");
+      this.staticStub = Sinon.stub(Express, "static").returns(() => "static");
       this.middelwareIndexStub = Sinon.stub(this.swaggerModule, "middlewareIndex").returns("indexMdlw");
       this.middelwareCsstub = Sinon.stub(this.swaggerModule, "middlewareCss").returns("cssMdlw");
       this.middelwareJstub = Sinon.stub(this.swaggerModule, "middlewareJs").returns("jsMdlw");
@@ -175,7 +175,7 @@ describe("SwaggerModule", () => {
     });
 
     it("should call router.use", () => {
-      this.routerInstance.use.should.have.been.calledWithExactly("statics");
+      this.routerInstance.use.should.have.been.calledWithExactly(Sinon.match.func);
     });
 
     it("should call Express.use", () => {
