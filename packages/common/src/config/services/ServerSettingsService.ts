@@ -1,11 +1,9 @@
 import {Env, getValue, Metadata, setValue} from "@tsed/core";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import {ProviderScope, registerFactory} from "@tsed/di";
+import {ProviderScope, registerFactory, Injectable, IDISettings} from "@tsed/di";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
-import {Injectable} from "../../../../di/src/decorators/injectable";
-import {IDISettings} from "@tsed/common";
 
 const rootDir = process.cwd();
 /**

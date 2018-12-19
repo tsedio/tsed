@@ -1,6 +1,4 @@
-import {Provider} from "../../../../di/src/class/Provider";
-import {ProviderType, TypedProvidersRegistry} from "../../../../di/src/interfaces";
-import {GlobalProviders} from "../../../../di/src/registries/ProviderRegistry";
+import {Provider, ProviderType, TypedProvidersRegistry, GlobalProviders} from "@tsed/di";
 
 /**
  *
