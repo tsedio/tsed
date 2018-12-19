@@ -1,7 +1,5 @@
 import {$log} from "ts-log-debug";
 
-// export const servers: Map<any, any> = new Map();
-
 /**
  * Load the server silently without listening port and configure it on test profile.
  * @decorator
