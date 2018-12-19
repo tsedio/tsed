@@ -3,15 +3,6 @@ import {ErrorObject} from "ajv";
 /**
  *
  */
-
-// tslint:disable-next-line: no-unused-variable
-declare interface IServerSettings {
-  ajv: IAjvSettings;
-}
-
-/**
- *
- */
 export interface AjvErrorObject extends ErrorObject {
   modelName: string;
 }

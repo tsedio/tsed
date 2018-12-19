@@ -1,3 +1,11 @@
+import {ISwaggerSettings} from "./interfaces";
+
+declare module "@tsed/common" {
+  export interface IServerSettingsOptions {
+    swagger: ISwaggerSettings;
+  }
+}
+
 export * from "./services/SwaggerService";
 export * from "./SwaggerModule";
 export * from "./interfaces";
