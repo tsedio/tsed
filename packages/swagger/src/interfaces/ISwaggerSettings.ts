@@ -1,9 +1,5 @@
 import {BodyParameter, ExternalDocs, Info, Path, QueryParameter, Response, Schema, Security, Tag} from "swagger-schema-official";
 
-export declare interface IServerSettings {
-  swagger: ISwaggerSettings;
-}
-
 export interface ISwaggerUIOptions {
   configUrl?: string;
   url?: string;
