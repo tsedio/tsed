@@ -334,10 +334,10 @@ describe("OpenApiModelSchemaBuilder", () => {
 
   describe("build()", () => {
     before(() => {
-      this.getPropertiesStub = Sinon.stub(PropertyRegistry, "getProperties").returns([{name: "test"}, {propertyKey: "test2"}]);
+      this.getPropertiesStub = Sinon.stub(PropertyRegistry, "getProperties").returns([{name: "test"}, {propertyKey: "test2"}] as any);
       this.storeStub = Sinon.stub(Store, "from").returns({
         get: Sinon.stub().returns("description")
-      });
+      } as any);
 
       this.schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
       Sinon.stub(this.schemaBuilder, "getClassSchema").returns({schema: "classSchema", required: true});

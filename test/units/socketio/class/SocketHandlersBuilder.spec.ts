@@ -595,10 +595,10 @@ describe("SocketHandlersBuilder", () => {
       this.bindMiddlewareStub = Sinon.stub(this.builder, "bindMiddleware");
       this.deserializeStub = Sinon.stub(this.builder, "deserialize");
 
-      this.bindMiddlewareStub.onCall(0).returns(Promise.resolve());
-      this.bindMiddlewareStub.onCall(1).returns(Promise.resolve());
-      this.bindMiddlewareStub.onCall(2).returns(Promise.resolve());
-      this.bindMiddlewareStub.onCall(3).returns(Promise.resolve());
+      this.bindMiddlewareStub.onCall(0).resolves();
+      this.bindMiddlewareStub.onCall(1).resolves();
+      this.bindMiddlewareStub.onCall(2).resolves();
+      this.bindMiddlewareStub.onCall(3).resolves();
 
       return this.builder.runQueue(this.handlerMetadata, ["arg1"], "socket", "nsp");
     });
@@ -815,7 +815,7 @@ describe("SocketHandlersBuilder", () => {
           this.error = new Error("test");
 
           this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
-          this.invokeStub = Sinon.stub(this.builder, "invoke").returns(Promise.resolve());
+          this.invokeStub = Sinon.stub(this.builder, "invoke").resolves();
 
           return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
         })

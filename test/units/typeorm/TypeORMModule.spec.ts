@@ -14,7 +14,7 @@ describe("TypeORMModule", () => {
           }
         });
 
-        this.createConnectionStub = Sinon.stub(this.service.typeORMService, "createConnection").returns(Promise.resolve("connection"));
+        this.createConnectionStub = Sinon.stub(this.service.typeORMService, "createConnection").resolves("connection");
 
         return (this.result = this.service.$onInit());
       })

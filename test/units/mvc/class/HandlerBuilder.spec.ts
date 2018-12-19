@@ -214,7 +214,7 @@ describe("HandlerBuilder", () => {
           getContainer: Sinon.stub()
         };
         this.nextSpy = Sinon.stub();
-        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
+        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"} as any);
 
         this.metadata = {
           type: "controller",
@@ -266,7 +266,7 @@ describe("HandlerBuilder", () => {
           getContainer: Sinon.stub()
         };
         this.nextSpy = Sinon.stub();
-        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
+        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"} as any);
 
         this.metadata = {
           tagId: "1",
@@ -315,7 +315,7 @@ describe("HandlerBuilder", () => {
           getContainer: Sinon.stub()
         };
         this.nextSpy = Sinon.stub();
-        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
+        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"} as any);
 
         this.metadata = {
           tagId: "1",
@@ -368,7 +368,7 @@ describe("HandlerBuilder", () => {
         };
         this.error = new Error("test");
         this.nextSpy = Sinon.stub();
-        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"});
+        this.getStub = Sinon.stub(Test.prototype, "get").returns({response: "body"} as any);
 
         this.metadata = {
           type: "controller",

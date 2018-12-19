@@ -34,7 +34,7 @@ module.exports = {
     return gulpRepo.publish();
   },
 
-  async success(pluginConfig, context) {
+  async success() {
     return gulpDocs.publish();
   }
 };
