@@ -12,6 +12,8 @@
     "suppressImplicitAnyIndexErrors": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "importHelpers": true,
     "newLine": "LF",
     "lib": [
