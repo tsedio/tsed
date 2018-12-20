@@ -649,19 +649,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   static has(target: any): boolean {
     return globalInjector.has(target);
   }
-
-  /**
-   * Initialize injectorService and load all services/factories.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static async load() {
-    if (!globalInjector) {
-      globalInjector = new InjectorService();
-    }
-
-    return globalInjector.load();
-  }
 }
 
 /**
