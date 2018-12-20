@@ -1,5 +1,5 @@
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject} from "@tsed/testing";
+import {bootstrap, inject, TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {expect} from "../tools";
 import {FakeServer} from "./FakeServer";
@@ -7,6 +7,7 @@ import {FakeServer} from "./FakeServer";
 describe("Swagger", () => {
   before(bootstrap(FakeServer));
   before(inject([ExpressApplication], (expressApplication: ExpressApplication) => (this.app = SuperTest(expressApplication))));
+  after(TestContext.reset);
 
   describe("GET /api-doc/swagger.json", () => {
     before(done => {
