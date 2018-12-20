@@ -1,9 +1,8 @@
-import {bootstrap} from "@tsed/testing";
+import {bootstrap, TestContext} from "@tsed/testing";
 import {expect} from "../../tools";
 
 class FakeServer {
   static current: FakeServer;
-
   startServers: Function;
 
   injector = "Injector";
@@ -17,19 +16,20 @@ class FakeServer {
 
 describe("bootstrap()", () => {
   const fn = bootstrap(FakeServer);
-  let mochaContext: any;
 
-  before(function beforeInit(done) {
-    mochaContext = this;
-    fn.call(mochaContext, done);
-  });
+  beforeEach(fn);
+  afterEach(TestContext.reset);
 
-  it("should return a before function", () => {
+  it("should return before function", () => {
     expect(fn).to.be.a("function");
   });
 
-  it("should attach the injector to mocha (deprecated)", () => {
-    expect(mochaContext.$$injector).to.equal("Injector");
+  it("should return promise after executing the function", () => {
+    expect(fn()).instanceOf(Promise);
+  });
+
+  it("should attach injector instance to TestContext", () => {
+    expect(TestContext.injector).to.eq("Injector");
   });
 
   it("should replace FakeServer.startServers by a stub()", () => {
