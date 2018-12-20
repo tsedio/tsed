@@ -15,10 +15,10 @@ import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
+import {IInjectableMethod, ProviderScope} from "../interfaces";
 import {IInjectableProperties, IInjectablePropertyService, IInjectablePropertyValue} from "../interfaces/IInjectableProperties";
 import {ProviderType} from "../interfaces/ProviderType";
-import {GlobalProviders, registerFactory, registerProvider} from "../registries/ProviderRegistry";
+import {GlobalProviders, registerFactory} from "../registries/ProviderRegistry";
 
 let globalInjector: any;
 
@@ -600,29 +600,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   /* istanbul ignore next */
   static invokeMethod(handler: any, options: IInjectableMethod<any> | any[]) {
     return globalInjector.invokeMethod(handler, options);
-  }
-
-  /**
-   * Set a new provider from providerSetting.
-   * @param provider provide token.
-   * @param instance Instance
-   * @deprecated Use registerProvider or registerService or registerFactory instead of
-   */
-  @Deprecated("Use registerService(), registerFactory() or registerProvider() util instead of")
-  /* istanbul ignore next */
-  static set(provider: IProvider<any> | any, instance?: any) {
-    if (!provider.provide) {
-      provider = {
-        provide: provider,
-        type: "factory",
-        useClass: provider,
-        instance: instance || provider
-      };
-    }
-
-    registerProvider(provider);
-
-    return InjectorService;
   }
 }
 
