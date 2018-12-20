@@ -579,31 +579,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   }
 
   /**
-   * Get a service or factory already constructed from his symbol or class.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   * import MyService from "./services";
-   *
-   * class OtherService {
-   *      constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.get<MyService>(MyService);
-   *      }
-   * }
-   * ```
-   *
-   * @param target The class or symbol registered in InjectorService.
-   * @returns {boolean}
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static get<T>(target: RegistryKey): T {
-    return globalInjector.get(target)!.instance;
-  }
-
-  /**
    * Invoke a class method and inject service.
    *
    * #### IInjectableMethod options
