@@ -1,18 +1,17 @@
 import {$log} from "ts-log-debug";
-import {TestContext} from "./testContext";
+import {TestContext} from "./TestContext";
 
 /**
  * Load the server silently without listening port and configure it on test profile.
  * @decorator
  * @param server
  * @param args
- * @returns {(done:Function)=>undefined}
+ * @returns {Promise<void>}
  */
-export function bootstrap(server: any, ...args: any[]) {
+export function bootstrap(server: any, ...args: any[]): () => Promise<void> {
   $log.stop();
-  process.env.NODE_ENV = process.env.NODE_ENV || "test";
 
-  return function before(done: any) {
+  return function before() {
     const instance = new server(...args);
 
     instance.startServers = () => Promise.resolve();
@@ -20,9 +19,6 @@ export function bootstrap(server: any, ...args: any[]) {
     // used by inject method
     TestContext.injector = instance.injector;
 
-    instance
-      .start()
-      .then(done)
-      .catch(done);
+    return instance.start();
   };
 }
