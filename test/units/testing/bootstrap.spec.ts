@@ -3,6 +3,7 @@ import {expect} from "../../tools";
 
 class FakeServer {
   static current: FakeServer;
+
   startServers: Function;
 
   injector = "Injector";
