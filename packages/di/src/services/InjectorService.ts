@@ -472,11 +472,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
       const service = provider.instance;
 
       if (service && eventName in service) {
-        /* istanbul ignore next */
-        if (eventName === "$onInjectorReady") {
-          $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
-        }
-
         const promise: any = service[eventName](...args);
 
         /* istanbul ignore next */
