@@ -1,6 +1,6 @@
 import {Done} from "./done";
 import {loadInjector} from "./loadInjector";
-import {TestContext} from "./testContext";
+import {TestContext} from "./TestContext";
 
 /**
  * The inject function is one of the TsExpressDecorator testing utilities.
