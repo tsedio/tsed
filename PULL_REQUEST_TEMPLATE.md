@@ -2,8 +2,8 @@
 
 ## Informations
 
-Type | Migration
----|---|---
+Type | Breaking change
+---|---
 Feature/Fix/Doc/Chore | Yes/No
 
 ****

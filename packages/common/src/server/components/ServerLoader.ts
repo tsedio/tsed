@@ -1,4 +1,4 @@
-import {Deprecated, isClass} from "@tsed/core";
+import {isClass} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import * as globby from "globby";
@@ -219,14 +219,6 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     return elseFn();
   };
-
-  /**
-   *
-   */
-  @Deprecated("Removed feature. Use ServerLoader.settings")
-  protected getSettingsService(): ServerSettingsService {
-    return this.settings;
-  }
 
   /**
    * Start the express server.
