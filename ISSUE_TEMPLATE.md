@@ -1,18 +1,20 @@
 <!-- This template it's just here to help you for write your Issue -->
 
-## Informations
+## Information
 
-Type | Version
----|---
-Bug/Improvement/Question | 4.x
-
-****
+- **Version:** 4.x
+- **Type:** Issue/Story
 
 ## Description
 A few sentences describing the overall goals of the issue.
 
+## Example
 
-## Acceptance criterias
+```
+import {} from "@tsed/common";
 
-- [ ] Example (log, usecase, etc...)
-- [ ] Ts.ED version (bug/question)
+```
+
+## Acceptance criteria
+
+- [ ] Criteria 1
