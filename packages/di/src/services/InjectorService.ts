@@ -1,16 +1,4 @@
-import {
-  Deprecated,
-  Env,
-  getClass,
-  getClassOrSymbol,
-  Metadata,
-  nameOf,
-  promiseTimeout,
-  prototypeOf,
-  RegistryKey,
-  Store,
-  Type
-} from "@tsed/core";
+import {Env, getClass, getClassOrSymbol, Metadata, nameOf, promiseTimeout, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
@@ -19,8 +7,6 @@ import {IInjectableMethod, ProviderScope} from "../interfaces";
 import {IInjectableProperties, IInjectablePropertyService, IInjectablePropertyValue} from "../interfaces/IInjectableProperties";
 import {ProviderType} from "../interfaces/ProviderType";
 import {GlobalProviders, registerFactory} from "../registries/ProviderRegistry";
-
-let globalInjector: any;
 
 export interface IDISettings {
   get(key: string): any;
@@ -59,7 +45,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
   constructor() {
     super();
-    globalInjector = this;
     this.initInjector();
   }
 
@@ -530,39 +515,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
         setTimeout(() => $log.warn(msg, "In production, the warning will down the server!"), 1000);
       }
     }
-  }
-
-  /**
-   * Invoke the class and inject all services that required by the class constructor.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   * import MyService from "./services";
-   *
-   * class OtherService {
-   *     constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.invoke<MyService>(MyService);
-   *      }
-   *  }
-   * ```
-   *
-   * @param target The injectable class to invoke. Class parameters are injected according constructor signature.
-   * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   * @param designParamTypes Optional object. List of injectable types.
-   * @param requiredScope
-   * @returns {T} The class constructed.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static invoke<T>(
-    target: any,
-    locals: Map<string | Function, any> = new Map<Function, any>(),
-    designParamTypes?: any[],
-    requiredScope: boolean = false
-  ): T {
-    return globalInjector.invoke(target, locals, designParamTypes, requiredScope);
   }
 }
 
