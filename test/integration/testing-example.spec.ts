@@ -1,5 +1,5 @@
 import {Controller, Get, InjectorService, ParseService, Service} from "@tsed/common";
-import {bootstrap, inject} from "@tsed/testing";
+import {bootstrap, inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import {AcceptMimesMiddleware} from "../../packages/common/src/mvc/components/AcceptMimesMiddleware";
 import {Hidden} from "../../packages/swagger/src";
@@ -66,6 +66,7 @@ describe("Example Test", () => {
         instance = calendarCtrl;
       })
     );
+    after(TestContext.reset);
 
     it("should do something", () => {
       expect(!!instance).to.be.true;
@@ -82,6 +83,7 @@ describe("Example Test", () => {
         instance = injectorService.invoke(CalendarCtrl);
       })
     );
+    after(TestContext.reset);
 
     it("should do something", () => {
       expect(!!instance).to.be.true;
@@ -91,6 +93,7 @@ describe("Example Test", () => {
   describe("Mock dependencies", () => {
     // bootstrap your Server to load all endpoints before run your test
     before(bootstrap(FakeServer));
+    after(TestContext.reset);
 
     it("should do something", inject([InjectorService], (injector: InjectorService) => {
       // create locals map
