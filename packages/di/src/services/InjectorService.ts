@@ -579,18 +579,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   }
 
   /**
-   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
-   * @param eventName The event name to emit at all services.
-   * @param args List of the parameters to give to each services.
-   * @returns {Promise<any[]>} A list of promises.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static async emit(eventName: string, ...args: any[]): Promise<any> {
-    return globalInjector.emit(eventName, args);
-  }
-
-  /**
    * Get a service or factory already constructed from his symbol or class.
    *
    * #### Example
