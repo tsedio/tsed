@@ -18,7 +18,7 @@ import {InjectionScopeError} from "../errors/InjectionScopeError";
 import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
 import {IInjectableProperties, IInjectablePropertyService, IInjectablePropertyValue} from "../interfaces/IInjectableProperties";
 import {ProviderType} from "../interfaces/ProviderType";
-import {GlobalProviders, ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
+import {GlobalProviders, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
 
 let globalInjector: any;
 
@@ -563,19 +563,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
     requiredScope: boolean = false
   ): T {
     return globalInjector.invoke(target, locals, designParamTypes, requiredScope);
-  }
-
-  /**
-   * Construct the service with his dependencies.
-   * @param target The service to be built.
-   * @deprecated
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static construct<T>(target: Type<any> | symbol): T {
-    const provider: Provider<any> = ProviderRegistry.get(target)!;
-
-    return this.invoke<any>(provider.useClass);
   }
 
   /**
