@@ -662,67 +662,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
     return globalInjector.load();
   }
-
-  /**
-   * Add a new factory in `InjectorService` registry.
-   *
-   * #### Example with symbol definition
-   *
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * export interface IMyFooFactory {
-   *    getFoo(): string;
-   * }
-   *
-   * export type MyFooFactory = IMyFooFactory;
-   * export const MyFooFactory = Symbol("MyFooFactory");
-   *
-   * InjectorService.factory(MyFooFactory, {
-   *      getFoo:  () => "test"
-   * });
-   *
-   * @Service()
-   * export class OtherService {
-   *      constructor(@Inject(MyFooFactory) myFooFactory: MyFooFactory){
-   *          console.log(myFooFactory.getFoo()); /// "test"
-   *      }
-   * }
-   * ```
-   *
-   * > Note: When you use the factory method with Symbol definition, you must use the `@Inject()`
-   * decorator to retrieve your factory in another Service. Advice: By convention all factory class name will be prefixed by
-   * `Factory`.
-   *
-   * #### Example with class
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * export class MyFooService {
-   *  constructor(){}
-   *      getFoo() {
-   *          return "test";
-   *      }
-   * }
-   *
-   * InjectorService.factory(MyFooService, new MyFooService());
-   *
-   * @Service()
-   * export class OtherService {
-   *      constructor(myFooService: MyFooService){
-   *          console.log(myFooFactory.getFoo()); /// "test"
-   *      }
-   * }
-   * ```
-   * @deprecated Use registerFactory instead of
-   */
-  @Deprecated("Use registerFactory() util instead of")
-  /* istanbul ignore next */
-  static factory(target: any, instance: any) {
-    return registerFactory(target, instance);
-  }
 }
 
 /**
