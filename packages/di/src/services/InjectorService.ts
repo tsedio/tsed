@@ -624,31 +624,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
     return InjectorService;
   }
-
-  /**
-   * Check if the service of factory exists in `InjectorService`.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   * import MyService from "./services";
-   *
-   * class OtherService {
-   *    constructor(injectorService: InjectorService) {
-   *        const exists = injectorService.has(MyService); // true or false
-   *    }
-   * }
-   * ```
-   *
-   * @param target The service class
-   * @returns {boolean}
-   */
-  @Deprecated("static InjectorService.has(). Removed feature.")
-  /* istanbul ignore next */
-  static has(target: any): boolean {
-    return globalInjector.has(target);
-  }
 }
 
 /**
