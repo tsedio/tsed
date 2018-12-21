@@ -42,10 +42,15 @@ export interface IDISettings {
 export class InjectorService extends Map<RegistryKey, Provider<any>> {
   private _settings: IDISettings = new Map();
   private _scopes: {[key: string]: ProviderScope} = {};
+  private _loaded: boolean = false;
 
   constructor() {
     super();
     this.initInjector();
+  }
+
+  get loaded(): boolean {
+    return this._loaded;
   }
 
   get scopes(): {[key: string]: ProviderScope} {
@@ -405,17 +410,21 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   /**
    * Initialize injectorService and load all services/factories.
    */
-  async load(): Promise<any> {
-    // TODO copy all provider from GlobalProvider registry. In future this action will be performed from Bootstrap class
-    GlobalProviders.forEach((p, k) => {
-      if (!this.has(k)) {
-        this.set(k, p.clone());
-      }
-    });
+  async load(): Promise<void> {
+    if (!this.loaded) {
+      // TODO copy all provider from GlobalProvider registry. In future this action will be performed from Bootstrap class
+      GlobalProviders.forEach((p, k) => {
+        if (!this.has(k)) {
+          this.set(k, p.clone());
+        }
+      });
 
-    this.build();
+      this.build();
 
-    return Promise.all([this.emit("$onInit")]);
+      await Promise.all([this.emit("$onInit")]);
+
+      this._loaded = true;
+    }
   }
 
   /**

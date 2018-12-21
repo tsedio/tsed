@@ -224,7 +224,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * Start the express server.
    * @returns {Promise<any>|Promise}
    */
-  public async start(): Promise<any> {
+  public async start(): Promise<void> {
     try {
       const start = new Date();
       await this.loadSettingsAndInjector();
@@ -238,7 +238,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     } catch (err) {
       this.callHook("$onServerInitError", undefined, err);
 
-      return Promise.reject(err);
+      throw err;
     }
   }
 
