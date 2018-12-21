@@ -33,12 +33,13 @@ describe("ParseService", () => {
         let parseService;
         before(inject([ParseService], (_parseService_: ParseService) => {
             parseService = _parseService_;
-        });
+        }));
+        
         it("should evaluate expression with a scope and return value", () => {
             expect(parseService.eval("test", {
                 test: "yes"
             })).to.equal("yes");
-        }));
+        });
     });
 });
 ```
@@ -52,7 +53,7 @@ import {DbService} from "../services/db";
 
 describe("DbService", () => {
     let result: any;
-    before(inject([DbService, Done], async (dbService: DbService) => {
+    before(inject([DbService], async (dbService: DbService) => {
         result = await dbService.getData();
     }));
     it("should data from db", () => {
@@ -69,14 +70,14 @@ Use `InjectorService` to get your controller from injector and test it:
 
 ```typescript
 import {expect} from "chai";
-import {inject, bootstrap, TestContext} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {Server} from "../Server";
 
 describe("MyCtrl", () => {
     let instance;
     // bootstrap your Server to load all endpoints before run your test
-    before(bootstrap(Server));
+    before(TestContext.bootstrap(Server));
     
     before(inject([CalendarCtrl], (calendarCtrl: CalendarCtrl) => {
        instance = calendarCtrl
@@ -95,17 +96,42 @@ Or invoke a new instance of your controller like this:
 ```typescript
 import {expect} from "chai";
 import {InjectorService} from "@tsed/common";
-import {inject, bootstrap, TestContext} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
+import {Server} from "../Server";
 
 describe("MyCtrl", () => {
     let instance: any;
     // bootstrap your Server to load all endpoints before run your test
-    before(bootstrap(Server));
+    before(TestContext.bootstrap(Server));
     
-    before(inject([InjectorService], (injectorService: InjectorService) => {
-       instance = InjectorService.invoke(MyCtrl);
-    }))
+    before(() => {
+       instance = TestContext.invoke(MyCtrl);
+    })
+
+    after(TestContext.reset);
+
+    it("should do something", () => {
+        expect(!!instance).to.be.true;
+    });
+});
+```
+
+Or invoke a new instance without bootstrapping Server :
+
+```typescript
+import {expect} from "chai";
+import {InjectorService} from "@tsed/common";
+import {inject, TestContext} from "@tsed/testing";
+import {MyCtrl} from "../controllers/MyCtrl";
+
+describe("MyCtrl", () => {
+    let instance: any;
+    // Create a new context
+    before(TestContext.create);
+    before(() => {
+       instance = TestContext.invoke(MyCtrl);
+    })
 
     after(TestContext.reset);
 
@@ -141,15 +167,15 @@ import {expect} from "chai";
 import {inject, TestContext} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
+import {Server} from "../Server";
 
 describe("MyCtrl", () => {
 
     // bootstrap your Server to load all endpoints before run your test
-    before(bootstrap(Server));
+    before(TestContext.bootstrap(Server));
     after(TestContext.reset);
 
-    it("should do something", inject([InjectorService], (injector: InjectorService) => {
-        
+    it("should do something", () => {
         // create locals map
         const locals = new Map<any, any>();
         
@@ -161,12 +187,12 @@ describe("MyCtrl", () => {
         })
 
         // give the locals map to the invoke method
-        const instance: MyCtrl = injector.invoke<MyCtrl>(MyCtrl, locals);
+        const instance: MyCtrl = TestContext.invoke<MyCtrl>(MyCtrl, locals);
 
         // and test it
         expect(!!instance).to.be.true;
         expect(instance.getData()).to.equals("test");
-    }));
+    });
 });
 ```
 
@@ -286,24 +312,22 @@ npm install --save-dev supertest @types/supertest
 
 ```typescript
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject, TestContext} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {expect} from "chai";
 import {Server} from "../Server";
 
 describe("Rest", () => {
+    let app;
+
     // bootstrap your Server to load all endpoints before run your test
-    beforeEach(bootstrap(Server));
+    beforeEach(TestContext.bootstrap(Server));
+    beforeEach(inject([ExpressApplication], (expressApplication: ExpressApplication) => {
+        app = SuperTest(expressApplication)
+    }));
     afterEach(TestContext.reset);
 
     describe("GET /rest/calendars", () => {
-        let app;
-
-        before(bootstrap(Server));
-        before(inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-            app = SuperTest(expressApplication)
-        }));
-
         it("should do something", (done) => {
             app
                 .get("/rest/calendars")

@@ -1,8 +1,8 @@
 import * as Proxyquire from "proxyquire";
 import {ServerSettingsService} from "../../../../packages/common/src/config/services/ServerSettingsService";
 import {ExpressApplication} from "../../../../packages/common/src/mvc/decorators";
-import {invoke} from "../../../../packages/testing/src/invoke";
 import {Sinon} from "../../../tools";
+import {TestContext} from "@tsed/testing";
 
 const middlewareServeStatic = Sinon.stub();
 const serveStatic = Sinon.stub();
@@ -22,8 +22,9 @@ const serverSettingService = {
 };
 
 describe("ServeStaticService", () => {
-  before(() => {
-    this.serveStaticService = invoke(ServeStaticService, [
+  before(TestContext.create);
+  before(async () => {
+    this.serveStaticService = TestContext.invoke(ServeStaticService, [
       {
         provide: ExpressApplication,
         use: expressApplication
@@ -34,6 +35,7 @@ describe("ServeStaticService", () => {
       }
     ]);
   });
+  after(TestContext.reset);
 
   describe("mount()", () => {
     describe("when headers is not sent", () => {
