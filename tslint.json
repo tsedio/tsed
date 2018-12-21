@@ -28,7 +28,6 @@
       "always",
       "ignore-bound-class-methods"
     ],
-    "no-unused-variable": true,
     "triple-equals": [
       true,
       "allow-null-check"

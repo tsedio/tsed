@@ -1,4 +1,3 @@
-import {loadInjector} from "./loadInjector";
 import {TestContext} from "./TestContext";
 
 /**
@@ -9,14 +8,11 @@ import {TestContext} from "./TestContext";
  *
  * * an array of Service dependency injection tokens,
  * * a test function whose parameters correspond exactly to each item in the injection token array.
+ *
+ * @alias TestContext.inject
  */
+
+/* istanbul ignore next */
 export function inject<T>(targets: any[], func: (...args: any[]) => Promise<T> | T): () => Promise<T> {
-  return async (): Promise<T> => {
-    const injector = TestContext.injector || loadInjector();
-
-    const args = targets.map(target => (injector.has(target) ? injector.get(target) : injector.invoke(target)));
-    const result = await func(...args);
-
-    return result;
-  };
+  return TestContext.inject(targets, func);
 }

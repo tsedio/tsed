@@ -1,4 +1,3 @@
-import {$log} from "ts-log-debug";
 import {TestContext} from "./TestContext";
 
 /**
@@ -8,17 +7,8 @@ import {TestContext} from "./TestContext";
  * @param args
  * @returns {Promise<void>}
  */
+
+/* istanbul ignore next */
 export function bootstrap(server: any, ...args: any[]): () => Promise<void> {
-  $log.stop();
-
-  return function before() {
-    const instance = new server(...args);
-
-    instance.startServers = () => Promise.resolve();
-
-    // used by inject method
-    TestContext.injector = instance.injector;
-
-    return instance.start();
-  };
+  return TestContext.bootstrap(server, {arguments: args});
 }
