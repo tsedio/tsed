@@ -1,11 +1,10 @@
-// tslint:disable: no-unused-variable
 import * as multer from "multer";
 
-declare interface IServerSettings {
-  multer?: multer.Options;
+declare module "@tsed/common" {
+  interface IServerSettingsOptions {
+    multer: multer.Options;
+  }
 }
-
-// tslint:enable: no-unused-variable
 
 export * from "./decorators/multipartFile";
 export * from "./decorators/multerOptions";
