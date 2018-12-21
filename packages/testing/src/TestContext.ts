@@ -16,21 +16,26 @@ import {Env, Type} from "@tsed/core";
 export class TestContext {
   private static _injector: InjectorService | null = null;
 
-  static get injector(): InjectorService | null {
-    return this._injector;
+  static get injector(): InjectorService {
+    if (this._injector) {
+      return this._injector!;
+    }
+
+    /* istanbul ignore next */
+    throw new Error(
+      "TestContext.injector is not initialized. Use TestContext.create(): Promise before TestContext.invoke() or TestContext.injector.\n" +
+        "Example:\n" +
+        "before(async () => {\n" +
+        "   await TestContext.create()\n" +
+        "   await TestContext.invoke(MyService, [])\n" +
+        "})"
+    );
   }
 
   static async create() {
-    const injector = TestContext.createInjector();
     TestContext._injector = TestContext.createInjector();
 
-    try {
-      await injector!.load();
-      TestContext._injector = injector;
-    } catch (er) {
-      console.error(er);
-      process.exit(-1);
-    }
+    await TestContext.injector.load();
   }
 
   /**
@@ -66,16 +71,16 @@ export class TestContext {
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(server: ServerLoader, options: any): () => Promise<void> {
+  static bootstrap(server: ServerLoader | any, options: any = {}): () => Promise<void> {
     $log.stop();
 
     return async function before(): Promise<void> {
-      const instance = new (server as any)(...options.arguments);
+      const instance = new (server as any)(...(options.args || []));
 
       instance.startServers = () => Promise.resolve();
 
       // used by inject method
-      TestContext._injector = instance._injector;
+      TestContext._injector = instance.injector;
 
       await instance.start();
     };
@@ -85,10 +90,10 @@ export class TestContext {
    * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
    */
   static reset() {
-    if (TestContext._injector && TestContext._injector.clear) {
+    if (TestContext._injector) {
       TestContext._injector.clear();
+      TestContext._injector = null;
     }
-    TestContext._injector = null;
   }
 
   /**
@@ -104,11 +109,11 @@ export class TestContext {
    */
   static inject<T>(targets: any[], func: (...args: any[]) => Promise<T> | T): () => Promise<T> {
     return async (): Promise<T> => {
-      if (!TestContext.injector) {
+      if (!TestContext._injector) {
         await TestContext.create();
       }
 
-      const injector: InjectorService = TestContext.injector!;
+      const injector: InjectorService = TestContext.injector;
       const args = targets.map(target => (injector.has(target) ? injector.get(target) : injector.invoke(target)));
       const result = await func(...args);
 
@@ -117,24 +122,12 @@ export class TestContext {
   }
 
   static invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]) {
-    if (!TestContext.injector) {
-      throw new Error(
-        "TestContext.injector is not initialized. Use TestContext.create(): Promise before TestContext.invoke().\n" +
-          "Example:\n" +
-          "before(async () => {\n" +
-          "   await TestContext.create()\n" +
-          "   await TestContext.invoke(MyService, [])\n" +
-          "})"
-      );
-    }
-
-    const injector = TestContext.injector!;
     const locals = new Map();
 
     providers.forEach(p => {
       locals.set(p.provide, p.use);
     });
 
-    return injector.invoke(target, locals);
+    return TestContext.injector.invoke(target, locals);
   }
 }

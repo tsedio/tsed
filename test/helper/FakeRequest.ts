@@ -1,4 +1,5 @@
 export class FakeRequest {
+  url = "/";
   method: string;
   path: string;
   mime: string;
