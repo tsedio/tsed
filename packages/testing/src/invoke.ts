@@ -1,13 +1,12 @@
 import {Type} from "@tsed/core";
-import {loadInjector} from "./loadInjector";
+import {TestContext} from "./TestContext";
 
+/**
+ * Invoke a service with some parameters
+ * @param target
+ * @param providers
+ */
+/* istanbul ignore next */
 export function invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]) {
-  const injector = loadInjector();
-  const locals = new Map();
-
-  providers.forEach(p => {
-    locals.set(p.provide, p.use);
-  });
-
-  return injector.invoke(target, locals);
+  return TestContext.invoke(target, providers);
 }
