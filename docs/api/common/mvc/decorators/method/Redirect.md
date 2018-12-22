@@ -54,7 +54,7 @@ Path-relative redirects are also possible. If you were on http://example.com/adm
 
 ```typescript
  @Redirect('..');
-``
+```
 
 A back redirection redirects the request back to the referer, defaulting to / when the referer is missing.
 
