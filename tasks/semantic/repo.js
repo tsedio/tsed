@@ -5,7 +5,7 @@ const gulpDocs = require("../gulp/docs");
 
 module.exports = {
   /**
-   *
+   * Prepare release before create a new release with semantic-release
    * @returns {Promise<T | never>}
    */
   async prepare(pluginConfig, context) {
