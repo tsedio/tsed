@@ -43,7 +43,7 @@ describe("ParseService", () => {
 });
 ```
 
-Testing asynchronous method is also possible with `Done` function:
+Testing asynchronous method is also possible using `Promise`s (`async`/`await`):
 
 ```typescript
 import {expect} from "chai";
@@ -52,20 +52,15 @@ import {DbService} from "../services/db";
 
 describe("DbService", () => {
     let result: any;
-    before(inject([DbService, Done], (dbService: DbService, done: Done) => {
-        dbService
-        .getData()
-        .then((data) => {
-            result = data;
-            done();
-        });
+    before(inject([DbService, Done], async (dbService: DbService) => {
+        result = await dbService.getData();
     }));
     it("should data from db", () => {
         expect(result).to.be.an("object");
     });
 });
 ```
-> You can use also the `chai-promised` librairy for asynchronous test base on promise.
+> You can use also the `chai-promised` library for asynchronous tests based on promise.
 
 ### Testing controllers
 #### basic usage
@@ -74,7 +69,7 @@ Use `InjectorService` to get your controller from injector and test it:
 
 ```typescript
 import {expect} from "chai";
-import {inject, bootstrap} from "@tsed/testing";
+import {inject, bootstrap, TestContext} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {Server} from "../Server";
 
@@ -87,6 +82,8 @@ describe("MyCtrl", () => {
        instance = calendarCtrl
     }))
 
+    after(TestContext.reset); // Make sure to clean up the global injector afterwards
+
     it("should do something", () => {
         expect(!!myCtrl).to.be.true;
     });
@@ -98,7 +95,7 @@ Or invoke a new instance of your controller like this:
 ```typescript
 import {expect} from "chai";
 import {InjectorService} from "@tsed/common";
-import {inject, bootstrap} from "@tsed/testing";
+import {inject, bootstrap, TestContext} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 
 describe("MyCtrl", () => {
@@ -109,6 +106,8 @@ describe("MyCtrl", () => {
     before(inject([InjectorService], (injectorService: InjectorService) => {
        instance = InjectorService.invoke(MyCtrl);
     }))
+
+    after(TestContext.reset);
 
     it("should do something", () => {
         expect(!!instance).to.be.true;
@@ -139,7 +138,7 @@ export class MyCtrl {
 ```typescript
 // in MyCtrl.spec.ts
 import {expect} from "chai";
-import {inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
 
@@ -147,6 +146,7 @@ describe("MyCtrl", () => {
 
     // bootstrap your Server to load all endpoints before run your test
     before(bootstrap(Server));
+    after(TestContext.reset);
 
     it("should do something", inject([InjectorService], (injector: InjectorService) => {
         
@@ -286,7 +286,7 @@ npm install --save-dev supertest @types/supertest
 
 ```typescript
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject} from "@tsed/testing";
+import {bootstrap, inject, TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {expect} from "chai";
 import {Server} from "../Server";
@@ -294,6 +294,7 @@ import {Server} from "../Server";
 describe("Rest", () => {
     // bootstrap your Server to load all endpoints before run your test
     beforeEach(bootstrap(Server));
+    afterEach(TestContext.reset);
 
     describe("GET /rest/calendars", () => {
         let app;

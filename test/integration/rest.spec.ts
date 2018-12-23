@@ -1,5 +1,5 @@
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject} from "@tsed/testing";
+import {bootstrap, inject, TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {expect} from "../tools";
 import {FakeServer} from "./FakeServer";
@@ -11,6 +11,7 @@ describe("Rest", () => {
       this.app = SuperTest(expressApplication);
     })
   );
+  after(TestContext.reset);
   describe("integration", () => {
     describe("GET /rest", () => {
       it("should return html content", done => {
