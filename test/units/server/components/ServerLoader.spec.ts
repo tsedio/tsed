@@ -27,8 +27,6 @@ describe("ServerLoader", () => {
     this.useStub = Sinon.stub(this.server.expressApp, "use");
     this.setStub = Sinon.stub(this.server.expressApp, "set");
     this.engineStub = Sinon.stub(this.server.expressApp, "engine");
-    // deprecated
-    this.server.getSettingsService();
   });
 
   after(() => {

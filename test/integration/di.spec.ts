@@ -1,5 +1,5 @@
 import {InjectorService, ProviderScope} from "@tsed/common";
-import {bootstrap, inject} from "@tsed/testing";
+import {bootstrap, inject, TestContext} from "@tsed/testing";
 import {expect} from "../tools";
 import {ProductsCtrl} from "./app/controllers/products/ProductsCtrl";
 import {InnerService} from "./app/services/InnerService";
@@ -7,9 +7,9 @@ import {OuterService} from "./app/services/OuterService";
 import {FakeServer} from "./FakeServer";
 
 describe("DI", () => {
-  before(bootstrap(FakeServer));
-  before(
-    inject([InjectorService], (injector: InjectorService) => {
+  before(async () => {
+    await bootstrap(FakeServer)();
+    await inject([InjectorService], (injector: InjectorService) => {
       this.locals = new Map<string | Function, any>();
       const provider = injector.getProvider(ProductsCtrl)!;
       const target = provider.useClass;
@@ -17,8 +17,10 @@ describe("DI", () => {
       this.rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
 
       this.instance = injector.invoke(target, this.locals, undefined, true);
-    })
-  );
+    })();
+  });
+
+  after(TestContext.reset);
 
   it("should setting rebuild handler to true", () => {
     expect(this.rebuildHandler).to.eq(true);

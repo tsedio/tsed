@@ -1,26 +1,12 @@
-import {
-  Deprecated,
-  Env,
-  getClass,
-  getClassOrSymbol,
-  Metadata,
-  nameOf,
-  promiseTimeout,
-  prototypeOf,
-  RegistryKey,
-  Store,
-  Type
-} from "@tsed/core";
+import {Env, getClass, getClassOrSymbol, Metadata, nameOf, promiseTimeout, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, IProvider, ProviderScope} from "../interfaces";
+import {IInjectableMethod, ProviderScope} from "../interfaces";
 import {IInjectableProperties, IInjectablePropertyService, IInjectablePropertyValue} from "../interfaces/IInjectableProperties";
 import {ProviderType} from "../interfaces/ProviderType";
-import {GlobalProviders, ProviderRegistry, registerFactory, registerProvider, registerService} from "../registries/ProviderRegistry";
-
-let globalInjector: any;
+import {GlobalProviders, registerFactory} from "../registries/ProviderRegistry";
 
 export interface IDISettings {
   get(key: string): any;
@@ -59,7 +45,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
   constructor() {
     super();
-    globalInjector = this;
     this.initInjector();
   }
 
@@ -487,11 +472,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
       const service = provider.instance;
 
       if (service && eventName in service) {
-        /* istanbul ignore next */
-        if (eventName === "$onInjectorReady") {
-          $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
-        }
-
         const promise: any = service[eventName](...args);
 
         /* istanbul ignore next */
@@ -530,280 +510,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
         setTimeout(() => $log.warn(msg, "In production, the warning will down the server!"), 1000);
       }
     }
-  }
-
-  /**
-   * Invoke the class and inject all services that required by the class constructor.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   * import MyService from "./services";
-   *
-   * class OtherService {
-   *     constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.invoke<MyService>(MyService);
-   *      }
-   *  }
-   * ```
-   *
-   * @param target The injectable class to invoke. Class parameters are injected according constructor signature.
-   * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   * @param designParamTypes Optional object. List of injectable types.
-   * @param requiredScope
-   * @returns {T} The class constructed.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static invoke<T>(
-    target: any,
-    locals: Map<string | Function, any> = new Map<Function, any>(),
-    designParamTypes?: any[],
-    requiredScope: boolean = false
-  ): T {
-    return globalInjector.invoke(target, locals, designParamTypes, requiredScope);
-  }
-
-  /**
-   * Construct the service with his dependencies.
-   * @param target The service to be built.
-   * @deprecated
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static construct<T>(target: Type<any> | symbol): T {
-    const provider: Provider<any> = ProviderRegistry.get(target)!;
-
-    return this.invoke<any>(provider.useClass);
-  }
-
-  /**
-   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
-   * @param eventName The event name to emit at all services.
-   * @param args List of the parameters to give to each services.
-   * @returns {Promise<any[]>} A list of promises.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static async emit(eventName: string, ...args: any[]): Promise<any> {
-    return globalInjector.emit(eventName, args);
-  }
-
-  /**
-   * Get a service or factory already constructed from his symbol or class.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   * import MyService from "./services";
-   *
-   * class OtherService {
-   *      constructor(injectorService: InjectorService) {
-   *          const myService = injectorService.get<MyService>(MyService);
-   *      }
-   * }
-   * ```
-   *
-   * @param target The class or symbol registered in InjectorService.
-   * @returns {boolean}
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static get<T>(target: RegistryKey): T {
-    return globalInjector.get(target)!.instance;
-  }
-
-  /**
-   * Invoke a class method and inject service.
-   *
-   * #### IInjectableMethod options
-   *
-   * * **target**: Optional. The class instance.
-   * * **methodName**: `string` Optional. The method name.
-   * * **designParamTypes**: `any[]` Optional. List of injectable types.
-   * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * class MyService {
-   *      constructor(injectorService: InjectorService) {
-   *          injectorService.invokeMethod(this.method.bind(this), {
-   *              target: this,
-   *              methodName: 'method'
-   *          });
-   *      }
-   *
-   *   method(otherService: OtherService) {}
-   * }
-   * ```
-   *
-   * @returns {any}
-   * @param handler The injectable method to invoke. Method parameters are injected according method signature.
-   * @param options Object to configure the invocation.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static invokeMethod(handler: any, options: IInjectableMethod<any> | any[]) {
-    return globalInjector.invokeMethod(handler, options);
-  }
-
-  /**
-   * Set a new provider from providerSetting.
-   * @param provider provide token.
-   * @param instance Instance
-   * @deprecated Use registerProvider or registerService or registerFactory instead of
-   */
-  @Deprecated("Use registerService(), registerFactory() or registerProvider() util instead of")
-  /* istanbul ignore next */
-  static set(provider: IProvider<any> | any, instance?: any) {
-    if (!provider.provide) {
-      provider = {
-        provide: provider,
-        type: "factory",
-        useClass: provider,
-        instance: instance || provider
-      };
-    }
-
-    registerProvider(provider);
-
-    return InjectorService;
-  }
-
-  /**
-   * Check if the service of factory exists in `InjectorService`.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   * import MyService from "./services";
-   *
-   * class OtherService {
-   *    constructor(injectorService: InjectorService) {
-   *        const exists = injectorService.has(MyService); // true or false
-   *    }
-   * }
-   * ```
-   *
-   * @param target The service class
-   * @returns {boolean}
-   */
-  @Deprecated("static InjectorService.has(). Removed feature.")
-  /* istanbul ignore next */
-  static has(target: any): boolean {
-    return globalInjector.has(target);
-  }
-
-  /**
-   * Initialize injectorService and load all services/factories.
-   */
-  @Deprecated("removed feature")
-  /* istanbul ignore next */
-  static async load() {
-    if (!globalInjector) {
-      globalInjector = new InjectorService();
-    }
-
-    return globalInjector.load();
-  }
-
-  /**
-   * Add a new service in the registry. This service will be constructed when `InjectorService`will loaded.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * export default class MyFooService {
-   *     constructor(){}
-   *     getFoo() {
-   *         return "test";
-   *     }
-   * }
-   *
-   * InjectorService.service(MyFooService);
-   * const injector = new InjectorService();
-   * injector.load();
-   *
-   * const myFooService = injector.get<MyFooService>(MyFooService);
-   * myFooService.getFoo(); // test
-   * ```
-   *
-   * @param target The class to add in registry.
-   * @deprecated Use registerService or registerFactory instead of.
-   */
-  @Deprecated("Use registerService() util instead of")
-  /* istanbul ignore next */
-  static service(target: any) {
-    return registerService(target);
-  }
-
-  /**
-   * Add a new factory in `InjectorService` registry.
-   *
-   * #### Example with symbol definition
-   *
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * export interface IMyFooFactory {
-   *    getFoo(): string;
-   * }
-   *
-   * export type MyFooFactory = IMyFooFactory;
-   * export const MyFooFactory = Symbol("MyFooFactory");
-   *
-   * InjectorService.factory(MyFooFactory, {
-   *      getFoo:  () => "test"
-   * });
-   *
-   * @Service()
-   * export class OtherService {
-   *      constructor(@Inject(MyFooFactory) myFooFactory: MyFooFactory){
-   *          console.log(myFooFactory.getFoo()); /// "test"
-   *      }
-   * }
-   * ```
-   *
-   * > Note: When you use the factory method with Symbol definition, you must use the `@Inject()`
-   * decorator to retrieve your factory in another Service. Advice: By convention all factory class name will be prefixed by
-   * `Factory`.
-   *
-   * #### Example with class
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * export class MyFooService {
-   *  constructor(){}
-   *      getFoo() {
-   *          return "test";
-   *      }
-   * }
-   *
-   * InjectorService.factory(MyFooService, new MyFooService());
-   *
-   * @Service()
-   * export class OtherService {
-   *      constructor(myFooService: MyFooService){
-   *          console.log(myFooFactory.getFoo()); /// "test"
-   *      }
-   * }
-   * ```
-   * @deprecated Use registerFactory instead of
-   */
-  @Deprecated("Use registerFactory() util instead of")
-  /* istanbul ignore next */
-  static factory(target: any, instance: any) {
-    return registerFactory(target, instance);
   }
 }
 

@@ -486,10 +486,10 @@ describe("LogIncomingRequestMiddleware", () => {
       inject([LogIncomingRequestMiddleware], (middleware: LogIncomingRequestMiddleware) => {
         this.middleware = middleware;
         this.request = new FakeRequest();
+        this.request.url = "/test";
         this.response = new FakeResponse();
         this.request.mime = "application/json";
         this.request.headers = {};
-
         this.middleware.use(this.request, this.response);
       })
     );
