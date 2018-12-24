@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {ProviderScope, ServerLoader, ServerSettings} from "@tsed/common";
+import {ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/mongoose";
 import "@tsed/multipartfiles";
 import "@tsed/socketio";
@@ -14,6 +14,7 @@ import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import "./middlewares/authentication";
 import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
+import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
 
 const rootDir = Path.resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
@@ -59,7 +60,9 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
       spec
     }
   ],
-  controllerScope: ProviderScope.REQUEST
+  scopes: {
+    [ProviderType.CONTROLLER]: ProviderScope.REQUEST
+  }
 })
 export class ExampleServer extends ServerLoader {
   /**
@@ -70,7 +73,8 @@ export class ExampleServer extends ServerLoader {
     const cookieParser = require("cookie-parser"),
       bodyParser = require("body-parser"),
       compress = require("compression"),
-      methodOverride = require("method-override");
+      methodOverride = require("method-override"),
+      expressSession = require("express-session");
 
     this.use(TestAcceptMimeMiddleware)
       .use(bodyParser.json())
@@ -86,6 +90,18 @@ export class ExampleServer extends ServerLoader {
     this.engine(".html", require("ejs").__express)
       .set("views", "./views")
       .set("view engine", "html");
+
+    this.set("trust proxy", 1);
+    this.use(
+      expressSession({
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {}
+      })
+    );
+
+    this.use(InitSessionMiddleware);
   }
 
   public $afterRoutesInit() {

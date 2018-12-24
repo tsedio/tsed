@@ -11,7 +11,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @Controller('/')
  * class MyCtrl {
  *    @Post('/')
- *    create(@Session() session: any) {
+ *    create(@Session() session: Express.Session) {
  *       console.log('Entire session', session);
  *    }
  *

@@ -1,7 +1,7 @@
 import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Required, Scope, Status} from "@tsed/common";
 import {MultipartFile} from "../../../../../packages/multipartfiles/src";
 import {Docs, Hidden} from "../../../../../packages/swagger/src";
-import {User} from "../../models/User";
+import {IUser, User} from "../../models/User";
 import {UserService} from "../../services/UserService";
 
 @Controller("/user")

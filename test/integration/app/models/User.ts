@@ -2,6 +2,12 @@ import {Allow, Email, MinLength, Property, Required} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
 import {Indexed, Model, Unique} from "../../../../packages/mongoose/src/decorators";
 
+export interface IUser {
+  name: string;
+  email: string;
+  password: string;
+}
+
 @Hidden()
 @Model()
 export class User {

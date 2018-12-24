@@ -40,7 +40,9 @@ class Server extends ServerLoader {
       secret: 'keyboard cat',
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: true }
+      cookie: { 
+        secure: false  // `true` require HTTPS. Set `false` if you reach the server with HTTP
+      }
     }));
  
     return null;
@@ -57,7 +59,7 @@ import {Session, Controller, Post} from "@tsed/common";
 @Controller('/')
 class MyCtrl {
   @Post('/')
-  create(@Session() session: any) {
+  create(@Session() session: Express.Session) {
     console.log('Entire session', session);
     session.user = {}
   }
@@ -65,7 +67,7 @@ class MyCtrl {
   @Post('/')
   create(@Session('id') id: string) { 
     // Read value
-    console.log('ID', id);
+    console.log('Session ID', id);
   }
 }
 ```
@@ -86,13 +88,8 @@ class MyCtrl {
   }
   
   @Post('/')
-  create(@Cookies('user') user: User) { // with deserialization
+  create(@Cookies('user') user: IUser) {
     console.log('user', user);
-  }
-  
-  @Post('/')
-  create(@Cookies('users', User) users: User[]) { // with deserialization
-    console.log('users', users);
   }
 }
 ```
@@ -105,12 +102,25 @@ We can register a middleware on server level, controller level or endpoint level
 Let's start, by creating the middleware InitSessionMiddleware in `middlewares` directory:
 
 ```typescript
-import {Middleware} from "@tsed/common";
-import {SessionModel} from "../models/SessionModel";
+import {Middleware, Request} from "@tsed/common";
+import {IUser} from "../models/User";
 
+declare global {
+  namespace Express {
+    interface Session {
+      user: IUser;
+    }
+  }
+}
+
+@Middleware()
 export class InitSessionMiddleware {
   use(@Request() request: Express.Request) {
-   request.session = request.session || new SessionModel()
+    if (request.session) {
+      request.session.user = request.session.user || {
+        id: null
+      };
+    }
    // Check other stuff
   }
 }
@@ -159,7 +169,7 @@ import {UserSession} from "../models/UserSession";
 @Controller('/')
 class MyCtrl {
   @Post('/')
-  create(@Session() session: SessionModel) {
+  create(@Session() session: Express.Session) {
     session.user = new UserSession();
   }
 }

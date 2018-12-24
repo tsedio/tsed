@@ -28,7 +28,7 @@
         "./packages/core/src"
       ],
       "@tsed/di": [
-        "./packages/common/di"
+        "./packages/di/src"
       ],
       "@tsed/common": [
         "./packages/common/src"

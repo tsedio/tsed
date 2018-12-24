@@ -21,13 +21,8 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  *    }
  *
  *    @Post('/')
- *    create(@Cookies('user') user: User) { // with deserialization
+ *    create(@Cookies('user') user: IUser) {
  *       console.log('user', user);
- *    }
- *
- *    @Post('/')
- *    create(@Cookies('users', User) users: User[]) { // with deserialization
- *       console.log('users', users);
  *    }
  * }
  * ```
