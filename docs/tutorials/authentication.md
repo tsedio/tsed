@@ -1,12 +1,13 @@
-# Override Authentication
+---
+meta:
+ - name: description
+   content: Authentication configuration 
+ - name: keywords
+   content: ts.ed express typescript auth node.js javascript decorators
+---
+# Authentication
 
-The annotation [`@Authenticated()`](/api/common/mvc/decorators/method/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
-to check the authentication strategy. 
-
-To customise this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 
-your authentication strategy (with [passport.js for example](/tutorials/passport.md)).
-
-## Use case
+Ts.ED provide a decorator [`@Authenticated()`](/api/common/mvc/decorators/method/Authenticated.md) to implementation authentication strategy on your routes.
 
 ```typescript
 @ControllerProvider("/mypath")
@@ -17,8 +18,14 @@ class MyCtrl {
 }
 ```
 
-## Example
+::: tip
+If you planed to use Passport.js, it's recommended to follow the [Passport.js guide here](/tutorials/passport.md).
+:::
 
+To configure the authentication you have to override the default provided [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
+by creating a new file under the `middleware` directory. 
+
+Here an example, to override the AuthenticatedMiddleware:
 ```typescript
 import {OverrideMiddleware, AuthenticatedMiddleware} from "@tsed/common";
 import {Forbidden} from "ts-httpexceptions";
@@ -27,8 +34,7 @@ import {Forbidden} from "ts-httpexceptions";
 export class MyAuthMiddleware implements IMiddleware {
     public use(@EndpointInfo() endpoint: EndpointMetadata,
                @Request() request: Express.Request,
-               @Response() response: Express.Response,
-               @Next() next: Express.NextFunction) { // next is optional
+               @Next() next: Express.NextFunction) { // next is optional here
         
         // options given to the @Authenticated decorator
         const options = endpoint.get(AuthenticatedMiddleware) || {};

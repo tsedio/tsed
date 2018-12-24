@@ -62,3 +62,33 @@ import './MyGEHMiddleware';
 export class ServerLoader {
 }
 ```
+
+::: tip
+By default, the server import automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+
+```
+.
+├── src
+│   ├── controllers
+│   ├── services
+│   ├── middlewares
+│   └── Server.ts
+└── package.json
+```
+
+If not, just import your middleware in your server or edit the [componentScan configuration](/configuration.md).
+
+```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import "./src/other/directory/MyGEHMiddleware";
+
+@ServerSettings({
+    ...
+})
+export class Server extends ServerLoader {
+  
+ 
+}
+```
+:::
+

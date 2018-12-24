@@ -19,11 +19,6 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  *    create(@Session('id') id: string) {
  *       console.log('ID', id);
  *    }
- *
- *    @Post('/')
- *    create(@Session() session: Session) { // with deserialization
- *       console.log('session', session);
- *    }
  * }
  * ```
  * > For more information on deserialization see [converters](/docs/converters.md) page.
