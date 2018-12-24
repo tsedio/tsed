@@ -80,10 +80,6 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     createExpressApplication(this._injector);
 
-    if ((this as any).$onAuth) {
-      $log.warn("The $onAuth hooks is removed. Use OverrideMiddleware method instead of. See https://goo.gl/fufBTE.");
-    }
-
     if (settings) {
       this.setSettings(settings);
     }
