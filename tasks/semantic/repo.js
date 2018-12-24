@@ -35,6 +35,6 @@ module.exports = {
   },
 
   async success() {
-    return gulpDocs.publish();
+    // return gulpDocs.publish();
   }
 };
