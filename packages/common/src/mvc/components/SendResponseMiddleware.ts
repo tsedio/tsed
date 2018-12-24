@@ -5,24 +5,31 @@ import {ResponseData} from "../../filters/decorators/responseData";
 
 import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces/index";
+import {EndpointInfo, EndpointMetadata} from "@tsed/common";
 
-/**
- * @private
- * @middleware
- */
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {
   constructor(protected converterService: ConverterService) {}
 
-  public use(@ResponseData() data: any, @Response() response: Express.Response) {
+  public use(@ResponseData() data: any, @Response() response: Express.Response, @EndpointInfo() endpoint: EndpointMetadata) {
     const type = typeof data;
 
-    if (data !== undefined) {
-      if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
-        response.send(String(data));
-      } else {
-        response.json(this.converterService.serialize(data));
-      }
+    if (endpoint.statusCode === 204) {
+      response.send();
+
+      return;
     }
+
+    if (data === undefined) {
+      return;
+    }
+
+    if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
+      response.send(data && String(data));
+
+      return;
+    }
+
+    response.json(this.converterService.serialize(data));
   }
 }

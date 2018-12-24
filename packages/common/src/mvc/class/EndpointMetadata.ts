@@ -192,6 +192,10 @@ export class EndpointMetadata extends Storable {
     return this._inheritedEndpoint ? this._inheritedEndpoint.store : this._store;
   }
 
+  get statusCode() {
+    return this.store.get("statusCode") || 200;
+  }
+
   /**
    * Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
    *
@@ -232,7 +236,7 @@ export class EndpointMetadata extends Storable {
       this.collectionType = collectionType;
     }
 
-    const expectedStatus = this.store.get("statusCode") || 200;
+    const expectedStatus = this.statusCode;
 
     if (+code === +expectedStatus) {
       const response = this.store.get("response");

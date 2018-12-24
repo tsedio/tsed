@@ -7,20 +7,40 @@ describe("@Injectable()", () => {
 
   class Test {}
 
-  before(() => {
-    sandbox.stub(ProviderRegistry, "registerProvider");
+  describe("with options", () => {
+    before(() => {
+      sandbox.stub(ProviderRegistry, "registerProvider");
 
-    Injectable({options: "options"})(Test);
+      Injectable({options: "options"})(Test);
+    });
+
+    after(() => {
+      sandbox.restore();
+    });
+
+    it("should called registerProvider", () => {
+      ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
+        options: "options",
+        provide: Test
+      });
+    });
   });
 
-  after(() => {
-    sandbox.restore();
-  });
+  describe("without options", () => {
+    before(() => {
+      sandbox.stub(ProviderRegistry, "registerProvider");
 
-  it("should called registerProvider", () => {
-    ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
-      options: "options",
-      provide: Test
+      Injectable()(Test);
+    });
+
+    after(() => {
+      sandbox.restore();
+    });
+
+    it("should called registerProvider", () => {
+      ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
+        provide: Test
+      });
     });
   });
 });
