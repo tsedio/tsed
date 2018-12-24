@@ -1,5 +1,5 @@
 {
-  "version": "4.33.0",
+  "version": "5.0.2",
   "scope": "@tsed",
   "symbolTypes": [
     {
@@ -345,17 +345,6 @@
           ]
         },
         {
-          "path": "/api/swagger/interfaces/IServerSettings",
-          "symbolName": "IServerSettings",
-          "module": "@tsed/swagger",
-          "symbolType": "interface",
-          "symbolLabel": "Interface",
-          "symbolCode": "I",
-          "status": [
-            "stable"
-          ]
-        },
-        {
           "path": "/api/swagger/interfaces/ISwaggerUIOptions",
           "symbolName": "ISwaggerUIOptions",
           "module": "@tsed/swagger",
@@ -498,17 +487,6 @@
           ]
         },
         {
-          "path": "/api/testing/Done",
-          "symbolName": "Done",
-          "module": "@tsed/testing",
-          "symbolType": "type",
-          "symbolLabel": "Type alias",
-          "symbolCode": "T",
-          "status": [
-            "stable"
-          ]
-        },
-        {
           "path": "/api/testing/inject",
           "symbolName": "inject",
           "module": "@tsed/testing",
@@ -516,6 +494,7 @@
           "symbolLabel": "Function",
           "symbolCode": "F",
           "status": [
+            "alias",
             "stable"
           ]
         },
@@ -538,7 +517,7 @@
           "symbolLabel": "Function",
           "symbolCode": "F",
           "status": [
-            "stable"
+            "deprecated"
           ]
         }
       ],
@@ -1563,17 +1542,6 @@
           ]
         },
         {
-          "path": "/api/di/interfaces/OnInjectorReady",
-          "symbolName": "OnInjectorReady",
-          "module": "@tsed/di",
-          "symbolType": "interface",
-          "symbolLabel": "Interface",
-          "symbolCode": "I",
-          "status": [
-            "stable"
-          ]
-        },
-        {
           "path": "/api/di/interfaces/ProviderScope",
           "symbolName": "ProviderScope",
           "module": "@tsed/di",
@@ -2165,17 +2133,6 @@
           ]
         },
         {
-          "path": "/api/common/config/interfaces/IServerSettings",
-          "symbolName": "IServerSettings",
-          "module": "@tsed/common",
-          "symbolType": "interface",
-          "symbolLabel": "Interface",
-          "symbolCode": "I",
-          "status": [
-            "stable"
-          ]
-        },
-        {
           "path": "/api/common/config/constants/SERVER_SETTINGS",
           "symbolName": "SERVER_SETTINGS",
           "module": "@tsed/common",
@@ -2249,6 +2206,17 @@
         {
           "path": "/api/common/config/interfaces/IRouterSettings",
           "symbolName": "IRouterSettings",
+          "module": "@tsed/common",
+          "symbolType": "interface",
+          "symbolLabel": "Interface",
+          "symbolCode": "I",
+          "status": [
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/config/interfaces/IServerSettings",
+          "symbolName": "IServerSettings",
           "module": "@tsed/common",
           "symbolType": "interface",
           "symbolLabel": "Interface",
@@ -3203,17 +3171,6 @@
           "symbolCode": "C",
           "status": [
             "stable"
-          ]
-        },
-        {
-          "path": "/api/common/filters/services/FilterService",
-          "symbolName": "FilterService",
-          "module": "@tsed/common",
-          "symbolType": "service",
-          "symbolLabel": "Service",
-          "symbolCode": "S",
-          "status": [
-            "deprecated"
           ]
         },
         {
@@ -4263,17 +4220,6 @@
           ]
         },
         {
-          "path": "/api/common/mvc/services/MiddlewareService",
-          "symbolName": "MiddlewareService",
-          "module": "@tsed/common",
-          "symbolType": "service",
-          "symbolLabel": "Service",
-          "symbolCode": "S",
-          "status": [
-            "deprecated"
-          ]
-        },
-        {
           "path": "/api/common/mvc/services/RouteService",
           "symbolName": "RouteService",
           "module": "@tsed/common",
@@ -4282,17 +4228,6 @@
           "symbolCode": "S",
           "status": [
             "stable"
-          ]
-        },
-        {
-          "path": "/api/common/mvc/services/RouterController",
-          "symbolName": "RouterController",
-          "module": "@tsed/common",
-          "symbolType": "service",
-          "symbolLabel": "Service",
-          "symbolCode": "S",
-          "status": [
-            "deprecated"
           ]
         },
         {
@@ -4385,6 +4320,18 @@
           "symbolCode": "@",
           "status": [
             "decorator",
+            "stable"
+          ]
+        },
+        {
+          "path": "/api/common/server/decorators/IServerSettingsOptions",
+          "symbolName": "IServerSettingsOptions",
+          "module": "@tsed/common",
+          "symbolType": "decorator",
+          "symbolLabel": "Decorator",
+          "symbolCode": "@",
+          "status": [
+            "private",
             "stable"
           ]
         },

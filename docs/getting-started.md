@@ -96,8 +96,6 @@ Ts.ED provide a `ServerLoader` class to configure your
 Express application quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
-#### With decorators
-
 ```typescript
 import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
 import Path = require("path");
@@ -109,7 +107,7 @@ import Path = require("path");
 export class Server extends ServerLoader {
 
     /**
-     * This method let you configure the middleware required by your application to works.
+     * This method let you configure the express middleware required by your application to works.
      * @returns {Server}
      */
     public $onMountingMiddlewares(): void|Promise<any> {
@@ -147,68 +145,21 @@ new Server().start();
 
 To customize the server settings see [Configuration](configuration.md) page.
 
-#### With the methods
+### Tree directories
 
-```typescript
-import {ServerLoader, GlobalAcceptMimesMiddleware} from "@tsed/common";
-import * as Path from "path";
+By default ServerLoader load automatically Services, Controllers and Middlewares in a specific directories.
 
-export class Server extends ServerLoader {
-    /**
-     * In your constructor set the global endpoint and configure the folder to scan the controllers.
-     * You can start the http and https server.
-     */
-    constructor() {
-        super();
-
-        const appPath: string = Path.resolve(__dirname);
-        
-        this.mount("/rest", appPath + "/controllers/**/**.js")    // Declare the directory that contains your controllers
-            .createHttpServer(8000)
-            .createHttpsServer({
-                port: 8080
-            });
-
-    }
-
-    /**
-     * This method let you configure the middleware required by your application to works.
-     * @returns {Server}
-     */
-    $onMountingMiddlewares(): void|Promise<any> {
-    
-        const morgan = require('morgan'),
-            cookieParser = require('cookie-parser'),
-            bodyParser = require('body-parser'),
-            compress = require('compression'),
-            methodOverride = require('method-override');
-
-        this
-            .use(morgan('dev'))
-            .use(GlobalAcceptMimesMiddleware)
-
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride())
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }));
-
-        return null;
-    }
-
-    public $onReady(){
-        console.log('Server started...');
-    }
-   
-    public $onServerInitError(err){
-        console.error(err);
-    }
-}
-
-new Server().start();
 ```
+.
+├── src
+│   ├── controllers
+│   ├── services
+│   ├── middlewares
+│   └── Server.ts
+└── package.json
+```
+
+This behavior can be change by editing the [componentScan configuration](/configuration.md).
 
 ## Create your first controller
 
