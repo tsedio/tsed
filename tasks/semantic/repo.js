@@ -1,7 +1,6 @@
 const fs = require("fs");
 const logger = require("fancy-log");
 const gulpRepo = require("../gulp/repo");
-const gulpDocs = require("../gulp/docs");
 
 module.exports = {
   /**
@@ -35,6 +34,5 @@ module.exports = {
   },
 
   async success() {
-    // return gulpDocs.publish();
   }
 };

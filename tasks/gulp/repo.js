@@ -145,6 +145,8 @@ module.exports = {
         `${packagesDir}/**`,
         `${packagesDir}/**/.npmignore`,
         `!${packagesDir}/**/src/**/*.{js,js.map,d.ts}`,
+        `!${packagesDir}/**/src/package-lock.json`,
+        `!${packagesDir}/**/src/yarn.lock`,
         `!${packagesDir}/**/node_modules/**`
       ], {base: packagesDir})
       .pipe(replace(versionPlaceholder, version))
