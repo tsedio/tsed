@@ -5,17 +5,29 @@ module.exports = {
   packagesDir: "./packages",
   outputDir: "./dist",
 
-  pkgTemplate: (pkgName, {repository, bugs, author, license, gitHead, contributors}) => ({
-    main: "lib/index.js",
-    typings: "lib/index.d.ts",
-    repository,
-    bugs,
-    homepage: `https://github.com/Romakita/ts-express-decorators/src/${pkgName}`,
-    author,
-    contributors,
-    license,
-    gitHead
-  }),
+  pkgTemplate: (pkgName, {repository, bugs, author, license, gitHead, contributors}) => (json) => {
+
+    Object.keys(json.peerDependencies).forEach((key) => {
+      if (key.match(/@tsed/)) {
+        json.dependencies[key] = json.peerDependencies[key];
+        delete json.peerDependencies[key];
+      }
+    });
+
+    Object.assign(json, {
+      main: "lib/index.js",
+      typings: "lib/index.d.ts",
+      repository,
+      bugs,
+      homepage: `https://github.com/Romakita/ts-express-decorators/src/${pkgName}`,
+      author,
+      contributors,
+      license,
+      gitHead
+    });
+
+    return json;
+  },
 
   tsdoc: {
     rootDir: process.cwd(),
