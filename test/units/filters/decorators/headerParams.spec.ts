@@ -2,7 +2,7 @@ import {ParamTypes} from "@tsed/common";
 import {HeaderParamsFilter} from "../../../../packages/common/src/filters/components/HeaderParamsFilter";
 import {HeaderParams} from "../../../../packages/common/src/filters/decorators/headerParams";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("HeaderParams", () => {
   before(() => {

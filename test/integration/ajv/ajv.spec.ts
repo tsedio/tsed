@@ -4,7 +4,7 @@ import {Required} from "../../../packages/common/src/mvc/decorators";
 import {ParseExpressionError} from "../../../packages/common/src/mvc/errors/ParseExpressionError";
 import {nameOf} from "@tsed/core";
 import {inject} from "@tsed/testing";
-import {expect} from "../../tools";
+import {expect} from "chai";
 
 let ajvService: AjvService;
 

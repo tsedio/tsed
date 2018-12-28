@@ -1,6 +1,6 @@
 import {LocalsFilter} from "../../../../packages/common/src/filters/components/LocalsFilter";
 import {inject} from "@tsed/testing";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("LocalsFilter", () => {
   before(

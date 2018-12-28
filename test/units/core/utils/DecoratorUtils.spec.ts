@@ -1,5 +1,5 @@
 import {getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {}
 

@@ -1,5 +1,5 @@
 import {Provider} from "../../../../packages/di/src/class/Provider";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class T1 {}
 

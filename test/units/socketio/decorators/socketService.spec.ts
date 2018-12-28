@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {SocketService} from "../../../../packages/socketio/src";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("SocketService", () => {
   describe("case 1", () => {

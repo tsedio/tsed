@@ -2,7 +2,7 @@ import {Model} from "../../../../packages/mongoose/src/decorators";
 import * as register from "../../../../packages/mongoose/src/registries/MongooseModelRegistry";
 import * as modUtil from "../../../../packages/mongoose/src/utils";
 import * as apply from "../../../../packages/mongoose/src/utils/schemaOptions";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("@Model()", () => {
   describe("with options", () => {

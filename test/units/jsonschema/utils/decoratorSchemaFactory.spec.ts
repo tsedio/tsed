@@ -1,7 +1,7 @@
 import {JsonSchemesRegistry} from "../../../../packages/common/src/jsonschema/registries/JsonSchemesRegistry";
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
 import {decoratorSchemaFactory} from "../../../../packages/common/src/jsonschema/utils/decoratorSchemaFactory";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class Test {}
 

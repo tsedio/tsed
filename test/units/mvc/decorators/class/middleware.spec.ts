@@ -1,5 +1,5 @@
 import {Middleware, registerMiddleware} from "../../../../../packages/common/src/mvc";
-import {expect} from "../../../../tools";
+import {expect} from "chai";
 
 describe("Middleware", () => {
   it("should use registerMiddleware", () => {

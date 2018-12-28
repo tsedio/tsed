@@ -1,7 +1,7 @@
 import {Forbidden} from "ts-httpexceptions";
 import {AuthenticatedMiddleware} from "../../../../packages/common/src/mvc/components/AuthenticatedMiddleware";
 import {FakeResponse} from "../../../helper";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("AuthenticatedMiddleware", () => {
   before(() => {

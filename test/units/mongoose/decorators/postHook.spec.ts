@@ -1,6 +1,6 @@
 import {PostHook} from "../../../../packages/mongoose/src/decorators";
 import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("@PostHook()", () => {
   describe("when decorator is used as class decorator", () => {

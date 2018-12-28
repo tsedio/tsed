@@ -1,7 +1,8 @@
 import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 import {buildMongooseSchema, mapProps} from "../../../../packages/mongoose/src/utils/buildMongooseSchema";
-import {expect, Sinon} from "../../../tools";
 
 describe("buildMongooseSchema", () => {
   describe("mapProps()", () => {
@@ -30,7 +31,8 @@ describe("buildMongooseSchema", () => {
 
   describe("buildMongooseSchema()", () => {
     describe("when property is not a class", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         this.propertyMetadata = {
@@ -78,9 +80,11 @@ describe("buildMongooseSchema", () => {
       });
     });
     describe("when property is a class", () => {
-      class Test {}
+      class Test {
+      }
 
-      class Children {}
+      class Children {
+      }
 
       before(() => {
         this.propertyMetadata = {

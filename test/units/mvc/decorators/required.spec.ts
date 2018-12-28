@@ -1,5 +1,5 @@
 import * as Proxyquire from "proxyquire";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 // tslint:disable-next-line: variable-name
 const ParamRegistry: any = {

@@ -1,7 +1,7 @@
 import {inject} from "@tsed/testing";
 import * as TypeORM from "typeorm";
 import {TypeORMService} from "../../../../packages/typeorm/src/services/TypeORMService";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("TypeORMService", () => {
   describe("createConnection()", () => {

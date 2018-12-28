@@ -2,7 +2,8 @@ import {ServerSettingsService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
 import {SwaggerService} from "../../../../packages/swagger/src";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {}
 

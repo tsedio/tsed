@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
 import {Consumes} from "../../../../packages/swagger/src";
-import {assert, expect} from "../../../tools";
+import {assert, expect} from "chai";
 
 class Test {
   test() {}

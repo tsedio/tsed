@@ -2,7 +2,8 @@ import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType} from "@t
 import {Metadata, Store} from "@tsed/core";
 import {InjectorService} from "../../../../packages/di/src";
 import {inject} from "@tsed/testing";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {
   constructor() {}

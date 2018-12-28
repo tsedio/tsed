@@ -3,7 +3,8 @@ import {inject} from "@tsed/testing";
 import * as Express from "express";
 import * as Fs from "fs";
 import {SwaggerModule} from "../../../packages/swagger/src";
-import {expect, Sinon} from "../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("SwaggerModule", () => {
   before(

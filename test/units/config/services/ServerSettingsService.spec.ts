@@ -1,7 +1,8 @@
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../../../packages/common/src/config/services/ServerSettingsService";
 import {Env} from "@tsed/core";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("ServerSettingsService", () => {
   describe("Test ENV", () => {

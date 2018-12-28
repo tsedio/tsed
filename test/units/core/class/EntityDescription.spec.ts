@@ -1,5 +1,5 @@
 import {EntityDescription} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {
   method(arg1: any, arg2: any) {}

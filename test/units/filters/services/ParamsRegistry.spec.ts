@@ -2,7 +2,8 @@ import {Metadata} from "@tsed/core";
 import {ParamMetadata} from "../../../../packages/common/src/filters/class/ParamMetadata";
 import {EXPRESS_NEXT_FN} from "../../../../packages/common/src/filters/constants";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {}
 

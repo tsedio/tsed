@@ -1,7 +1,7 @@
 import {AjvService} from "@tsed/ajv";
 import {inject} from "@tsed/testing";
 import {JsonFoo, JsonFoo2, Nested, Stuff, Thingy} from "../../../helper/classes";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("AjvService", () => {
   before(

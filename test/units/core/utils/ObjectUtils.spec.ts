@@ -11,7 +11,7 @@ import {
   nameOfClass,
   primitiveOf
 } from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {}
 
@@ -55,7 +55,7 @@ describe("ObjectUtils", () => {
       expect(isPrimitiveOrPrimitiveClass("test")).to.eq(true);
     });
     it("should return true when a PrimitiveClass is given", () => {
-      expect(isPrimitiveOrPrimitiveClass(new String())).to.eq(true);
+      expect(isPrimitiveOrPrimitiveClass(String())).to.eq(true);
     });
 
     it("should return false when a class is given", () => {
@@ -69,7 +69,7 @@ describe("ObjectUtils", () => {
     });
 
     it("should return true when Array is given", () => {
-      expect(isArrayOrArrayClass(new Array())).to.eq(true);
+      expect(isArrayOrArrayClass([])).to.eq(true);
     });
 
     it("should return true when [] is given", () => {
@@ -87,7 +87,7 @@ describe("ObjectUtils", () => {
     });
 
     it("should return true when Array is given", () => {
-      expect(isCollection(new Array())).to.eq(true);
+      expect(isCollection([])).to.eq(true);
     });
 
     it("should return true when [] is given", () => {

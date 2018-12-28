@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {Example} from "../../../../packages/swagger/src/decorators/example";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {
   test() {}

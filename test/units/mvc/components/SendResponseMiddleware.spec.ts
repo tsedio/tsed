@@ -1,7 +1,8 @@
 import {SendResponseMiddleware} from "../../../../packages/common/src/mvc/components/SendResponseMiddleware";
 import {inject} from "@tsed/testing";
 import {FakeResponse} from "../../../helper/FakeResponse";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("SendResponseMiddleware", () => {
   before(

@@ -1,6 +1,7 @@
 import {ResponseViewMiddleware} from "../../../../packages/common/src/mvc/components/ResponseViewMiddleware";
 import {inject} from "@tsed/testing";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("ResponseViewMiddleware :", () => {
   before(

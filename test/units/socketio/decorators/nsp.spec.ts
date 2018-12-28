@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {Nsp} from "../../../../packages/socketio/src";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("Nsp", () => {
   describe("when it used as param decorator", () => {

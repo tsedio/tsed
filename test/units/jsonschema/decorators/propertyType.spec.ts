@@ -1,6 +1,6 @@
 import {PropertyType} from "../../../../packages/common/src/jsonschema/decorators/propertyType";
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class Test {}
 

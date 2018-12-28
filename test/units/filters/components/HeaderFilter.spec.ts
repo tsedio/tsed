@@ -1,6 +1,6 @@
 import {HeaderParamsFilter} from "../../../../packages/common/src/filters/components/HeaderParamsFilter";
 import {inject} from "@tsed/testing";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("HeaderParamsFilter", () => {
   before(

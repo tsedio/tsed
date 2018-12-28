@@ -1,7 +1,8 @@
 import {Intercept} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as mod from "../../../../packages/common/src/interceptors/utils/interceptorInvokeFactory";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("@Intercept", () => {
   class TestService {}

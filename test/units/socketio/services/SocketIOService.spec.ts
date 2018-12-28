@@ -3,7 +3,7 @@ import {inject, invoke} from "@tsed/testing";
 import {HttpServer} from "../../../../packages/common/src/server/decorators/httpServer";
 import {HttpsServer} from "../../../../packages/common/src/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../packages/socketio/src";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("SocketIOService", () => {
   describe("$onServerReady()", () => {

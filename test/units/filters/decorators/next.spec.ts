@@ -1,7 +1,7 @@
 import {EXPRESS_NEXT_FN} from "../../../../packages/common/src/filters/constants";
 import {Next} from "../../../../packages/common/src/filters/decorators/next";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("Next", () => {
   before(() => {

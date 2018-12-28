@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {SocketEventName} from "../../../../packages/socketio/src";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("@SocketEventName", () => {
   class Test {}

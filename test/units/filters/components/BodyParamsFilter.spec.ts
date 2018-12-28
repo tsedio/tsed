@@ -1,6 +1,6 @@
 import {BodyParamsFilter} from "../../../../packages/common/src/filters/components/BodyParamsFilter";
 import {inject} from "@tsed/testing";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("BodyParamsFilter", () => {
   before(

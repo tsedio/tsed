@@ -6,7 +6,8 @@ import {EndpointBuilder} from "../../../../packages/common/src/mvc/class/Endpoin
 
 import {EndpointRegistry} from "../../../../packages/common/src/mvc/registries/EndpointRegistry";
 import {inject} from "@tsed/testing";
-import {expect, Sinon} from "./../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {}
 

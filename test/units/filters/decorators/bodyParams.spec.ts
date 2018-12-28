@@ -2,7 +2,7 @@ import {ParamTypes} from "@tsed/common";
 import {BodyParamsFilter} from "../../../../packages/common/src/filters/components/BodyParamsFilter";
 import {BodyParams} from "../../../../packages/common/src/filters/decorators/bodyParams";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class Test {}
 

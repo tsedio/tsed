@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {Summary} from "../../../../packages/swagger/src/decorators/summary";
-import {assert, expect} from "../../../tools";
+import {assert, expect} from "chai";
 import {descriptorOf} from "@tsed/core";
 
 class Test {

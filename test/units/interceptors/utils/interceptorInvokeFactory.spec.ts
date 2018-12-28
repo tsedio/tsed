@@ -1,6 +1,7 @@
 import {IInterceptor} from "@tsed/common";
 import {interceptorInvokeFactory} from "../../../../packages/common/src/interceptors/utils/interceptorInvokeFactory";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("interceptorInvokeFactory()", () => {
   describe("when success", () => {

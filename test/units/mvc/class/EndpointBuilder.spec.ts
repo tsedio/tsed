@@ -6,7 +6,8 @@ import {HandlerBuilder} from "../../../../packages/common/src/mvc/class/HandlerB
 import {inject} from "@tsed/testing";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {
   method() {

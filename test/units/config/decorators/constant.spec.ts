@@ -1,6 +1,6 @@
 import {Constant} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {}
 

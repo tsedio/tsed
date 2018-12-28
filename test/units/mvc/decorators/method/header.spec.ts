@@ -4,7 +4,7 @@ import * as Sinon from "sinon";
 import {Store} from "@tsed/core";
 import {FakeRequest} from "../../../../helper/FakeRequest";
 import {FakeResponse} from "../../../../helper/FakeResponse";
-import {expect} from "../../../../tools";
+import {expect} from "chai";
 
 let middleware: any;
 // tslint:disable-next-line: variable-name

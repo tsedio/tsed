@@ -1,6 +1,6 @@
 import {PropertyMetadata} from "../../../../packages/common/src/jsonschema/class/PropertyMetadata";
 import {Store} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {
   method(arg1: any, arg2: any) {}

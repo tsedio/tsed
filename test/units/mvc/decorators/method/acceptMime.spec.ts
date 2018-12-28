@@ -1,7 +1,8 @@
 import * as Proxyquire from "proxyquire";
 import {Store} from "@tsed/core";
 import {AcceptMimesMiddleware} from "../../../../../packages/common/src/mvc/components/AcceptMimesMiddleware";
-import {expect, Sinon} from "../../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 const middleware: any = Sinon.stub();
 // tslint:disable-next-line: variable-name

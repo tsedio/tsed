@@ -2,7 +2,7 @@ import {ParamTypes} from "@tsed/common";
 import {CookiesFilter} from "../../../../packages/common/src/filters/components/CookiesFilter";
 import {Cookies} from "../../../../packages/common/src/filters/decorators/cookies";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class Test {}
 

@@ -1,7 +1,7 @@
 import {Allow, ConverterService, Property, PropertyType, Required} from "@tsed/common";
 import {Model, MongooseModel} from "@tsed/mongoose";
 import {inject} from "@tsed/testing";
-import {expect} from "../../tools";
+import {expect} from "chai";
 
 @Model()
 export class TestModel {

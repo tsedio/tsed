@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
 import {Unique} from "../../../../packages/mongoose/src/decorators";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
 
 describe("@Unique()", () => {

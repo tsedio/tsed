@@ -3,7 +3,7 @@ import {JsonProperty} from "../../../../packages/common/src/jsonschema/decorator
 import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
-import {assert, expect} from "../../../tools";
+import {assert, expect} from "chai";
 
 class JsonFoo5 {
   @JsonProperty()

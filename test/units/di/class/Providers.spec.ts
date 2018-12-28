@@ -1,7 +1,8 @@
 import {Provider} from "../../../../packages/di/src/class/Provider";
 import {Providers} from "../../../../packages/di/src/class/Providers";
 import {Registry} from "@tsed/core";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("Providers", () => {
   describe("createRegistry()", () => {

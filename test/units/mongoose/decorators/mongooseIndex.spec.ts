@@ -1,6 +1,6 @@
 import {MongooseIndex} from "../../../../packages/mongoose/src/decorators/mongooseIndex";
 import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("@MongooseIndex()", () => {
   class Test {}

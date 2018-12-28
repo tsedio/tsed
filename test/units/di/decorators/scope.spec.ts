@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {Scope} from "../../../../packages/di/src/decorators/scope";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {}
 

@@ -1,5 +1,5 @@
 import {applyBefore} from "@tsed/core";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("applyBefore", () => {
   before(() => {

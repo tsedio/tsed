@@ -2,7 +2,7 @@ import {ParamTypes} from "@tsed/common";
 import {LocalsFilter} from "../../../../packages/common/src/filters/components/LocalsFilter";
 import {Locals} from "../../../../packages/common/src/filters/decorators/locals";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("Locals", () => {
   before(() => {

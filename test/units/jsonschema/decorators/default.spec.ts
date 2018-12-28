@@ -1,7 +1,7 @@
 import {Property} from "@tsed/common";
 import {Default} from "../../../../packages/common/src/jsonschema/decorators/default";
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("Default", () => {
   class Test {

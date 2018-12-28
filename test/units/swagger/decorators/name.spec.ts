@@ -2,7 +2,7 @@ import {Store} from "@tsed/core";
 import {decoratorArgs} from "@tsed/core";
 import {ControllerRegistry} from "../../../../packages/common/src/mvc/registries/ControllerRegistry";
 import {Name} from "../../../../packages/swagger/src/decorators/name";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {
   test(a: any) {}

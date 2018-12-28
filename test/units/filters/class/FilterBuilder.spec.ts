@@ -6,7 +6,8 @@ import {FilterBuilder} from "../../../../packages/common/src/filters/class/Filte
 import {EXPRESS_RESPONSE} from "../../../../packages/common/src/filters/constants";
 import {FilterPreHandlers} from "../../../../packages/common/src/filters/registries/FilterRegistry";
 import {ValidationService} from "../../../../packages/common/src/filters/services/ValidationService";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("FilterBuilder", () => {
   describe("invoke()", () => {

@@ -1,4 +1,4 @@
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 import {ServerSettings} from "../../../../packages/common/src/server/decorators/serverSettings";
 import {Metadata} from "@tsed/core";
 import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants/index";

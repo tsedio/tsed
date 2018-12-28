@@ -2,7 +2,8 @@ import {Store} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {MONGOOSE_MODEL_NAME} from "../../../../packages/mongoose/src/constants";
 import {createModel} from "../../../../packages/mongoose/src/utils";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("createModel()", () => {
   describe("when the model name is given", () => {

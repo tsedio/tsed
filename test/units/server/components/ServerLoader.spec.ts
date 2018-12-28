@@ -5,7 +5,9 @@ import {HttpServer} from "../../../../packages/common/src/server";
 import {ServerLoader} from "../../../../packages/common/src/server/components/ServerLoader";
 import {HttpsServer} from "../../../../packages/common/src/server/decorators/httpsServer";
 import {Metadata} from "@tsed/core";
-import {$logStub, expect, Sinon} from "../../../tools";
+import {$logStub} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("ServerLoader", () => {
   before(() => {

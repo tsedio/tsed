@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {Args} from "../../../../packages/socketio/src";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("Args", () => {
   describe("without parameters", () => {

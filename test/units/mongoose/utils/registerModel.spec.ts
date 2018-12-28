@@ -1,6 +1,6 @@
 import {MongooseModelRegistry} from "../../../../packages/mongoose/src";
 import {registerModel} from "../../../../packages/mongoose/src/registries/MongooseModelRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("registerModel()", () => {
   describe("when a class is given", () => {

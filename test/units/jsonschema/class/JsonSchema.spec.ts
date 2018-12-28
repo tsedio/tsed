@@ -1,5 +1,5 @@
 import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("JsonSchema", () => {
   describe("toCollection()", () => {

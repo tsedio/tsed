@@ -1,5 +1,5 @@
 import {setValue} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("setValue()", () => {
   describe("when map", () => {

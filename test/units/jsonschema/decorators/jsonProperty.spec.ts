@@ -1,6 +1,6 @@
 import {JsonSchemesRegistry} from "../../../../packages/common/src/jsonschema/registries/JsonSchemesRegistry";
 import {JsonFoo2} from "../../../helper/classes";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("JsonProperty()", () => {
   it("should create a schema", () => {

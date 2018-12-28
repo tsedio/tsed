@@ -1,5 +1,5 @@
 import {deepExtends} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("deepExtends", () => {
   describe("without reducers", () => {

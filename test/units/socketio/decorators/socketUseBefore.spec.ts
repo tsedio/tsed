@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {SocketUseBefore} from "../../../../packages/socketio/src";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("@SocketUseBefore", () => {
   describe("when the decorator is used on a class", () => {

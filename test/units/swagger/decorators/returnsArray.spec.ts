@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
 import {ReturnsArray} from "../../../../packages/swagger/src/decorators/returnsArray";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {
   test1() {}

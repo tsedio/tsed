@@ -2,7 +2,8 @@ import {Store} from "@tsed/core";
 import {ParamRegistry, Provider, ProviderRegistry, ProviderType} from "../../../../packages/common/src";
 import {HandlerMetadata} from "../../../../packages/common/src/mvc/class/HandlerMetadata";
 import {MiddlewareType} from "../../../../packages/common/src/mvc/interfaces";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {
   use(req: any, res: any, next: any) {}

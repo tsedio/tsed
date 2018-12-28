@@ -1,5 +1,5 @@
 import {ParamMetadata, ValidationService} from "../../../../packages/common/src/filters";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("ValidationService", () => {
   class Test {}

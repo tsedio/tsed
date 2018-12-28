@@ -1,7 +1,7 @@
 import {EXPRESS_REQUEST} from "../../../../packages/common/src/filters/constants";
 import {Req} from "../../../../packages/common/src/filters/decorators/request";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("Request", () => {
   before(() => {

@@ -1,5 +1,5 @@
 import {mapHeaders} from "../../../../packages/common/src/mvc/utils/mapHeaders";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("mapHeaders", () => {
   it("should map headers", () => {

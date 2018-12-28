@@ -3,7 +3,7 @@ import {ParamRegistry} from "../../../../packages/common/src/filters/registries/
 import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
 import {Allow} from "../../../../packages/common/src/mvc/decorators/allow";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
 
 class Test {}

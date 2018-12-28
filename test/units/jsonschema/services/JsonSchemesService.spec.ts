@@ -1,7 +1,7 @@
 import {JsonSchemesService} from "../../../../packages/common/src/jsonschema/services/JsonSchemesService";
 import {inject} from "@tsed/testing";
 import {Circular, IndirectCircular, JsonFoo2, Thingy} from "../../../helper/classes";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("JsonSchemesService", () => {
   describe("use case 1", () => {

@@ -1,7 +1,7 @@
 import {descriptorOf, Store} from "@tsed/core";
 import {MulterOptions} from "../../../../packages/multipartfiles/src";
 import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/src/middlewares/MultipartFileMiddleware";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class Test {
   test() {}

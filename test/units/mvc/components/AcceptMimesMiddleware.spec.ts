@@ -1,6 +1,7 @@
 import {AcceptMimesMiddleware} from "../../../../packages/common/src/mvc/components/AcceptMimesMiddleware";
 import {inject} from "@tsed/testing";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("AcceptMimesMiddleware", () => {
   describe("when success", () => {

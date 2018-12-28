@@ -1,6 +1,7 @@
 import {ConverterService} from "../../../../packages/common/src/converters";
 import {inject} from "@tsed/testing";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("ArrayConverter", () => {
   before(

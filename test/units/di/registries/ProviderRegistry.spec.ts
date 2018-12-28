@@ -1,5 +1,5 @@
 import {ProviderRegistry, registerProvider} from "@tsed/common";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("ProviderRegistry", () => {
   describe("registerProvider()", () => {

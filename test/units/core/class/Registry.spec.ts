@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {Registry} from "@tsed/core";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class FakeMetadata {
   attr1: any;

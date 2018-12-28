@@ -1,6 +1,7 @@
 import {PropertyMetadata} from "../../../../packages/common/src/jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {}
 

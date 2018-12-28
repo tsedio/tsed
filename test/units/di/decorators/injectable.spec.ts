@@ -1,6 +1,6 @@
 import {Injectable} from "../../../../packages/di/src/decorators/injectable";
 import * as ProviderRegistry from "../../../../packages/di/src/registries/ProviderRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("@Injectable()", () => {
   const sandbox = Sinon.createSandbox();

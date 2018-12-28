@@ -1,7 +1,8 @@
 import {Metadata} from "@tsed/core";
 import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class FakeMetadata {
   attr1: any;

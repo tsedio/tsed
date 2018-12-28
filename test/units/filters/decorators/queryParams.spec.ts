@@ -2,7 +2,7 @@ import {ParamTypes} from "@tsed/common";
 import {QueryParamsFilter} from "../../../../packages/common/src/filters/components/QueryParamsFilter";
 import {QueryParams} from "../../../../packages/common/src/filters/decorators/queryParams";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class Test {}
 

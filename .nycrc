@@ -6,7 +6,8 @@
     "node_modules",
     "packages/**/*.spec.ts",
     "**/interfaces/**",
-    "**/legacy/**"
+    "**/legacy/**",
+    "**/index.ts"
   ],
   "extension": [
     ".ts"

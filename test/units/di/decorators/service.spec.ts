@@ -1,5 +1,5 @@
 import {GlobalProviders, ProviderType, Service} from "@tsed/common";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 class Test {}
 

@@ -4,7 +4,8 @@ import * as Express from "express";
 import {ControllerBuilder} from "../../../../packages/common/src/mvc/class/ControllerBuilder";
 import {ControllerProvider} from "../../../../packages/common/src/mvc/class/ControllerProvider";
 import {ControllerService} from "../../../../packages/common/src/mvc/services/ControllerService";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {
   constructor(private testService: TestService) {}

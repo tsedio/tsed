@@ -6,7 +6,8 @@ import {MiddlewareType} from "../../../../packages/common/src/mvc";
 import {SocketHandlersBuilder} from "../../../../packages/socketio/src/class/SocketHandlersBuilder";
 import {SocketFilters} from "../../../../packages/socketio/src/interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../../../../packages/socketio/src/interfaces/SocketReturnsTypes";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 describe("SocketHandlersBuilder", () => {
   describe("build()", () => {

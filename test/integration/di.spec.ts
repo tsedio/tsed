@@ -1,10 +1,10 @@
 import {InjectorService, ProviderScope} from "@tsed/common";
 import {bootstrap, inject, TestContext} from "@tsed/testing";
-import {expect} from "../tools";
 import {ProductsCtrl} from "./app/controllers/products/ProductsCtrl";
 import {InnerService} from "./app/services/InnerService";
 import {OuterService} from "./app/services/OuterService";
 import {FakeServer} from "./FakeServer";
+import {expect} from "chai";
 
 describe("DI", () => {
   before(async () => {

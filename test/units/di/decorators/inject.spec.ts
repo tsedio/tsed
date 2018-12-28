@@ -1,6 +1,7 @@
 import {Inject} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
-import {expect, Sinon} from "../../../tools";
+import {expect} from "chai";
+import * as Sinon from "sinon";
 
 class Test {
   test() {}

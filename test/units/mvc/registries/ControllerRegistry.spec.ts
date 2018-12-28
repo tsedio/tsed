@@ -1,5 +1,5 @@
 import {ControllerProvider, ExpressRouter, GlobalProviders, ProviderType} from "@tsed/common";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("ControllerRegistry", () => {
   class Test {}

@@ -1,7 +1,7 @@
 import {RESPONSE_DATA} from "../../../../packages/common/src/filters/constants";
 import {ResponseData} from "../../../../packages/common/src/filters/decorators/responseData";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("ResponseData", () => {
   before(() => {

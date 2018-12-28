@@ -1,6 +1,6 @@
 import {JsonSchemesRegistry} from "../../../../packages/common/src/jsonschema/registries/JsonSchemesRegistry";
 import {JsonFoo2} from "../../../helper/classes";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 const j = (o: any): any => JSON.parse(JSON.stringify(o));
 

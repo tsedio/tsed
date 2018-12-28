@@ -1,6 +1,6 @@
 import {Metadata} from "@tsed/core";
 import {HttpServer} from "../../../../packages/common/src/server";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("HttpServer", () => {
   before(() => {

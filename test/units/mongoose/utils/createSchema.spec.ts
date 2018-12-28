@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import {createSchema} from "../../../../packages/mongoose/src/utils";
 import * as mod from "../../../../packages/mongoose/src/utils/buildMongooseSchema";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("createSchema()", () => {
   class Test {}

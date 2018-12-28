@@ -3,7 +3,7 @@ import {Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
 import {Ref} from "../../../../packages/mongoose/src/decorators";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("@Ref()", () => {
   describe("type is a class", () => {

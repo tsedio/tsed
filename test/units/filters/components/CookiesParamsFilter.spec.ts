@@ -1,6 +1,6 @@
 import {CookiesFilter} from "../../../../packages/common/src/filters/components/CookiesFilter";
 import {inject} from "@tsed/testing";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 describe("CookiesFilter", () => {
   before(

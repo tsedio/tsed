@@ -1,5 +1,5 @@
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 import {PropertyName} from "../../../../packages/common/src/jsonschema/decorators/propertyName";
 
 describe("PropertyName", () => {

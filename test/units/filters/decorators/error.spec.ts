@@ -1,7 +1,7 @@
 import {EXPRESS_ERR} from "../../../../packages/common/src/filters/constants";
 import {Err} from "../../../../packages/common/src/filters/decorators/error";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("Err", () => {
   before(() => {

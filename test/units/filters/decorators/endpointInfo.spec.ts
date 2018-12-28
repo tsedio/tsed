@@ -1,7 +1,7 @@
 import {ENDPOINT_INFO} from "../../../../packages/common/src/filters/constants";
 import {EndpointInfo} from "../../../../packages/common/src/filters/decorators/endpointInfo";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";
-import {Sinon} from "../../../tools";
+import * as Sinon from "sinon";
 
 describe("EndpointInfo", () => {
   before(() => {

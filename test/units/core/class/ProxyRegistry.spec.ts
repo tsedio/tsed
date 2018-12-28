@@ -1,6 +1,6 @@
 import {ProxyRegistry} from "@tsed/core";
 import {Registry} from "@tsed/core";
-import {expect} from "../../../tools";
+import {expect} from "chai";
 
 class FakeMetadata {
   attr1: any;
