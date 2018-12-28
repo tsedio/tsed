@@ -7,5 +7,7 @@ export * from "./decorators/overrideProvider";
 export * from "./decorators/overrideService";
 export * from "./decorators/inject";
 export * from "./decorators/injectable";
+export * from "./decorators/constant";
+export * from "./decorators/value";
 export * from "./registries/ProviderRegistry";
 export * from "./services/InjectorService";
