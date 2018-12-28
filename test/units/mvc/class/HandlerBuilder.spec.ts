@@ -7,7 +7,7 @@ import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/Endpoi
 import {HandlerBuilder} from "../../../../packages/common/src/mvc/class/HandlerBuilder";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
-import {$logStub, restore} from "../../../tools";
+import {$logStub, restore} from "../../../helper/tools";
 import {expect, assert} from "chai";
 import * as Sinon from "sinon";
 

@@ -17,6 +17,7 @@
     "noUnusedParameters": false,
     "importHelpers": true,
     "newLine": "LF",
+    "noEmit": true,
     "lib": [
       "es7",
       "dom"

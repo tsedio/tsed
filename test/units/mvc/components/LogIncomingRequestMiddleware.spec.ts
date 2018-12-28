@@ -3,7 +3,7 @@ import {LogIncomingRequestMiddleware} from "../../../../packages/common/src/mvc/
 import {inject} from "@tsed/testing";
 import {FakeResponse} from "../../../helper";
 import {FakeRequest} from "../../../helper/FakeRequest";
-import {$logStub} from "../../../tools";
+import {$logStub} from "../../../helper/tools";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 
