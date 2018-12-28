@@ -5,7 +5,7 @@ import {AcceptMimesMiddleware} from "../../packages/common/src/mvc/components/Ac
 import {Hidden} from "../../packages/swagger/src";
 import * as Sinon from "sinon";
 import {CalendarCtrl} from "./app/controllers/calendars/CalendarCtrl";
-import {FakeServer} from "./FakeServer";
+import {FakeServer} from "./app/FakeServer";
 
 @Service()
 class DbService {

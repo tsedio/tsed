@@ -1,13 +1,12 @@
 import * as Express from "express";
-import {GlobalAcceptMimesMiddleware} from "../../packages/common/src/mvc/components/GlobalAcceptMimesMiddleware";
-import {ServerLoader} from "../../packages/common/src/server/components/ServerLoader";
-import {ServerSettings} from "../../packages/common/src/server/decorators/serverSettings";
-import "../../packages/swagger/src";
-import "../../packages/ajv/src";
-import "./app/middlewares/authentication";
-import Path = require("path");
+import "@tsed/swagger";
+import "@tsed/ajv";
+import {GlobalAcceptMimesMiddleware} from "../../../packages/common/src/mvc/components/GlobalAcceptMimesMiddleware";
+import {ServerLoader} from "../../../packages/common/src/server/components/ServerLoader";
+import {ServerSettings} from "../../../packages/common/src/server/decorators/serverSettings";
+import "./middlewares/authentication";
 
-const rootDir = Path.join(Path.resolve(__dirname), "app");
+const rootDir = __dirname;
 
 @ServerSettings({
   rootDir,

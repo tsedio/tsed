@@ -3,7 +3,7 @@ import {bootstrap, inject, TestContext} from "@tsed/testing";
 import {ProductsCtrl} from "./app/controllers/products/ProductsCtrl";
 import {InnerService} from "./app/services/InnerService";
 import {OuterService} from "./app/services/OuterService";
-import {FakeServer} from "./FakeServer";
+import {FakeServer} from "./app/FakeServer";
 import {expect} from "chai";
 
 describe("DI", () => {
