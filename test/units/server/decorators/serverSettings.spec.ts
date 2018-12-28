@@ -1,6 +1,6 @@
 import {Sinon} from "../../../tools";
 import {ServerSettings} from "../../../../packages/common/src/server/decorators/serverSettings";
-import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {Metadata} from "@tsed/core";
 import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants/index";
 
 class Test {}

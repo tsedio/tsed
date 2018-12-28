@@ -1,5 +1,5 @@
 import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {OpenApiEndpointBuilder} from "../../../../packages/swagger/src/class/OpenApiEndpointBuilder";
 import {Sinon} from "../../../tools";
 

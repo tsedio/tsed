@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {Readonly, Writable} from "../../../../packages/core/src/decorators";
-import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Readonly, Writable} from "@tsed/core";
+import {descriptorOf} from "@tsed/core";
 
 class Test {}
 

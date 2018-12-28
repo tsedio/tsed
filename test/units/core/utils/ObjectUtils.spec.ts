@@ -10,7 +10,7 @@ import {
   nameOf,
   nameOfClass,
   primitiveOf
-} from "../../../../packages/core";
+} from "@tsed/core";
 import {expect} from "../../../tools";
 
 class Test {}

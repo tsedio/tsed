@@ -1,5 +1,5 @@
-import {ProxyRegistry} from "../../../../packages/core/src/class/ProxyRegistry";
-import {Registry} from "../../../../packages/core/src/class/Registry";
+import {ProxyRegistry} from "@tsed/core";
+import {Registry} from "@tsed/core";
 import {expect} from "../../../tools";
 
 class FakeMetadata {

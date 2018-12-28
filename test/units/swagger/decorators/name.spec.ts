@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/src/class/Store";
-import {decoratorArgs} from "../../../../packages/core/src/utils";
+import {Store} from "@tsed/core";
+import {decoratorArgs} from "@tsed/core";
 import {ControllerRegistry} from "../../../../packages/common/src/mvc/registries/ControllerRegistry";
 import {Name} from "../../../../packages/swagger/src/decorators/name";
 import {expect} from "../../../tools";

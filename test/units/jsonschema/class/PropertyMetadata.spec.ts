@@ -1,5 +1,5 @@
 import {PropertyMetadata} from "../../../../packages/common/src/jsonschema/class/PropertyMetadata";
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {expect} from "../../../tools";
 
 class Test {

@@ -1,5 +1,5 @@
 import {BodyParamsFilter} from "../../../../packages/common/src/filters/components/BodyParamsFilter";
-import {inject} from "../../../../packages/testing/src/inject";
+import {inject} from "@tsed/testing";
 import {expect} from "../../../tools";
 
 describe("BodyParamsFilter", () => {

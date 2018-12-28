@@ -1,4 +1,4 @@
-import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {Metadata} from "@tsed/core";
 import {ParamMetadata} from "../../../../packages/common/src/filters/class/ParamMetadata";
 import {EXPRESS_NEXT_FN} from "../../../../packages/common/src/filters/constants";
 import {ParamRegistry} from "../../../../packages/common/src/filters/registries/ParamRegistry";

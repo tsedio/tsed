@@ -1,6 +1,6 @@
 import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
 import {EndpointRegistry} from "../../../../packages/common/src/mvc/registries/EndpointRegistry";
-import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {Metadata} from "@tsed/core";
 import {expect, Sinon} from "../../../tools";
 
 class Test {}

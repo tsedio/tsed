@@ -1,7 +1,7 @@
 import * as Proxyquire from "proxyquire";
 import {ServerSettingsService} from "../../../../packages/common/src/config/services/ServerSettingsService";
 import {ExpressApplication} from "../../../../packages/common/src/mvc/decorators";
-import {invoke} from "../../../../packages/testing/src/invoke";
+import {invoke} from "@tsed/testing";
 import {Sinon} from "../../../tools";
 
 const middlewareServeStatic = Sinon.stub();

@@ -1,6 +1,5 @@
-import "../../../../packages/ajv";
-import {AjvService} from "../../../../packages/ajv/src/services/AjvService";
-import {inject} from "../../../../packages/testing/src";
+import {AjvService} from "@tsed/ajv";
+import {inject} from "@tsed/testing";
 import {JsonFoo, JsonFoo2, Nested, Stuff, Thingy} from "../../../helper/classes";
 import {expect} from "../../../tools";
 
@@ -29,7 +28,7 @@ describe("AjvService", () => {
       try {
         this.ajvService.validate(foo2, JsonFoo2);
       } catch (er) {
-        expect(er.message).to.eq("At JsonFoo2.test, value \"te\" should NOT be shorter than 3 characters");
+        expect(er.message).to.eq('At JsonFoo2.test, value "te" should NOT be shorter than 3 characters');
       }
     });
 
@@ -43,7 +42,7 @@ describe("AjvService", () => {
       try {
         this.ajvService.validate(obj, Thingy);
       } catch (er) {
-        expect(er.message).to.eq("At Thingy.stuff.nested.count, value \"100\" should be number");
+        expect(er.message).to.eq('At Thingy.stuff.nested.count, value "100" should be number');
       }
     });
   });

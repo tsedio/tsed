@@ -1,5 +1,5 @@
 import * as Proxyquire from "proxyquire";
-import {Store} from "../../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {ResponseViewMiddleware} from "../../../../../packages/common/src/mvc/components/ResponseViewMiddleware";
 import {expect, Sinon} from "../../../../tools";
 

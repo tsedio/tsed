@@ -11,6 +11,7 @@ export * from "./class/ProxyMap";
 export * from "./class/ProxyRegistry";
 export * from "./class/Store";
 export * from "./class/Storable";
+export * from "./class/EntityDescription";
 
 // decorators
 export * from "./decorators";

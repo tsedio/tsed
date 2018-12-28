@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {ConverterService} from "../../../../packages/common/src/converters";
-import {inject} from "../../../../packages/testing/src/inject";
+import {inject} from "@tsed/testing";
 
 describe("DateConverter", () => {
   before(

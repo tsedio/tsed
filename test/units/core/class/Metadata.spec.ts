@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Metadata} from "../../../../packages/core/src";
+import {Metadata} from "@tsed/core";
 
 function logger(target: any, method?: any, descriptor?: any) {
   return descriptor;

@@ -1,6 +1,6 @@
 import {ServerSettingsService} from "@tsed/common";
 import {LogIncomingRequestMiddleware} from "../../../../packages/common/src/mvc/components/LogIncomingRequestMiddleware";
-import {inject} from "../../../../packages/testing/src/inject";
+import {inject} from "@tsed/testing";
 import {FakeResponse} from "../../../helper";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {$logStub, expect, Sinon} from "../../../tools";

@@ -1,4 +1,4 @@
-import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {Metadata} from "@tsed/core";
 import {HttpsServer} from "../../../../packages/common/src/server";
 import {Sinon} from "../../../tools";
 

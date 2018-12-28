@@ -1,7 +1,7 @@
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {Summary} from "../../../../packages/swagger/src/decorators/summary";
 import {assert, expect} from "../../../tools";
-import {descriptorOf} from "../../../../packages/core/src/utils";
+import {descriptorOf} from "@tsed/core";
 
 class Test {
   test() {}

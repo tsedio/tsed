@@ -4,7 +4,7 @@ import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants/
 import {HttpServer} from "../../../../packages/common/src/server";
 import {ServerLoader} from "../../../../packages/common/src/server/components/ServerLoader";
 import {HttpsServer} from "../../../../packages/common/src/server/decorators/httpsServer";
-import {Metadata} from "../../../../packages/core/src/class/Metadata";
+import {Metadata} from "@tsed/core";
 import {$logStub, expect, Sinon} from "../../../tools";
 
 describe("ServerLoader", () => {

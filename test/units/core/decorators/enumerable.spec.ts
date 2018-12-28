@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {NotEnumerable} from "../../../../packages/core/src/decorators";
-import {Enumerable} from "../../../../packages/core/src/decorators/enumerable";
-import {descriptorOf} from "../../../../packages/core/src/utils";
+import {NotEnumerable} from "@tsed/core";
+import {Enumerable} from "@tsed/core";
+import {descriptorOf} from "@tsed/core";
 
 class Test {
   test: string;

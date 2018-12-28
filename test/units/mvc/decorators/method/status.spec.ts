@@ -1,5 +1,5 @@
 import * as Proxyquire from "proxyquire";
-import {Store} from "../../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {FakeResponse} from "../../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../../tools";
 

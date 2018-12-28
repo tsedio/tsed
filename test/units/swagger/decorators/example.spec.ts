@@ -1,4 +1,4 @@
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {Example} from "../../../../packages/swagger/src/decorators/example";
 import {expect} from "../../../tools";
 

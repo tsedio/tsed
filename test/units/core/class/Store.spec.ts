@@ -1,6 +1,6 @@
-import {Metadata} from "../../../../packages/core/src/class/Metadata";
-import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../../../packages/core/src/class/Store";
-import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Metadata} from "@tsed/core";
+import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "@tsed/core";
+import {descriptorOf} from "@tsed/core";
 import {expect, Sinon} from "../../../tools";
 
 class FakeMetadata {

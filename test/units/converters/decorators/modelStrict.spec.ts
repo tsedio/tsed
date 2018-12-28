@@ -1,5 +1,5 @@
 import {ModelStrict} from "../../../../packages/common/src/converters";
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {expect} from "../../../tools";
 
 class Test {}

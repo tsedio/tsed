@@ -1,4 +1,4 @@
-import {setValue} from "../../../../packages/core/src/utils/setValue";
+import {setValue} from "@tsed/core";
 import {expect} from "../../../tools";
 
 describe("setValue()", () => {

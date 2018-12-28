@@ -3,7 +3,7 @@ import {EndpointBuilder} from "../../../../packages/common/src/mvc/class/Endpoin
 
 import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
 import {HandlerBuilder} from "../../../../packages/common/src/mvc/class/HandlerBuilder";
-import {inject} from "../../../../packages/testing/src/inject";
+import {inject} from "@tsed/testing";
 import {FakeRequest} from "../../../helper/FakeRequest";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";

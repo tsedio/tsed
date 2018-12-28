@@ -1,5 +1,5 @@
 import {SendResponseMiddleware} from "../../../../packages/common/src/mvc/components/SendResponseMiddleware";
-import {inject} from "../../../../packages/testing/src/inject";
+import {inject} from "@tsed/testing";
 import {FakeResponse} from "../../../helper/FakeResponse";
 import {expect, Sinon} from "../../../tools";
 

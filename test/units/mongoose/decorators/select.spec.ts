@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/src/class/Store";
-import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Store} from "@tsed/core";
+import {descriptorOf} from "@tsed/core";
 import {Select} from "../../../../packages/mongoose/src/decorators";
 import {expect} from "../../../tools";
 import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";

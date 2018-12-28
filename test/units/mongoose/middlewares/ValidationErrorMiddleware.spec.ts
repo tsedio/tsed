@@ -1,4 +1,4 @@
-import * as mod from "../../../../packages/core/src/utils";
+import * as mod from "@tsed/core";
 import {ValidationErrorMiddleware} from "../../../../packages/mongoose/src/middlewares/ValidationErrorMiddleware";
 import {expect, Sinon} from "../../../tools";
 

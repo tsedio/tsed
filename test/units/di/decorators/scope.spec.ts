@@ -1,4 +1,4 @@
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {Scope} from "../../../../packages/di/src/decorators/scope";
 import {expect} from "../../../tools";
 

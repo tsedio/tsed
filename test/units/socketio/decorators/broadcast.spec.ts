@@ -1,4 +1,4 @@
-import {Store} from "../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {Broadcast} from "../../../../packages/socketio/src";
 import {expect} from "../../../tools";
 

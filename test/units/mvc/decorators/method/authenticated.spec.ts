@@ -1,6 +1,6 @@
 import * as Proxyquire from "proxyquire";
-import {Store} from "../../../../../packages/core/src/class/Store";
-import {descriptorOf} from "../../../../../packages/core/src/utils";
+import {Store} from "@tsed/core";
+import {descriptorOf} from "@tsed/core";
 import {AuthenticatedMiddleware} from "../../../../../packages/common/src/mvc/components/AuthenticatedMiddleware";
 import {expect, Sinon} from "../../../../tools";
 

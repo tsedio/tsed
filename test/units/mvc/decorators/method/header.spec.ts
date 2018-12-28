@@ -1,7 +1,7 @@
 import {assert} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
-import {Store} from "../../../../../packages/core/src/class/Store";
+import {Store} from "@tsed/core";
 import {FakeRequest} from "../../../../helper/FakeRequest";
 import {FakeResponse} from "../../../../helper/FakeResponse";
 import {expect} from "../../../../tools";

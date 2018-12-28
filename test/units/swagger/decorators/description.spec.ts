@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/src/class/Store";
-import {decoratorArgs} from "../../../../packages/core/src/utils";
+import {Store} from "@tsed/core";
+import {decoratorArgs} from "@tsed/core";
 import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
 import {Description} from "../../../../packages/swagger/src/decorators/description";
 import {expect, Sinon} from "../../../tools";

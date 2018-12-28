@@ -1,5 +1,5 @@
-import {Store} from "../../../../packages/core/src/class/Store";
-import {descriptorOf} from "../../../../packages/core/src/utils";
+import {Store} from "@tsed/core";
+import {descriptorOf} from "@tsed/core";
 import {Produces} from "../../../../packages/swagger/src";
 import {assert, expect} from "../../../tools";
 

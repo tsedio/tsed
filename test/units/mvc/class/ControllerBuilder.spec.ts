@@ -5,7 +5,7 @@ import {ControllerProvider} from "../../../../packages/common/src/mvc/class/Cont
 import {EndpointBuilder} from "../../../../packages/common/src/mvc/class/EndpointBuilder";
 
 import {EndpointRegistry} from "../../../../packages/common/src/mvc/registries/EndpointRegistry";
-import {inject} from "../../../../packages/testing/src/inject";
+import {inject} from "@tsed/testing";
 import {expect, Sinon} from "./../../../tools";
 
 class Test {}
