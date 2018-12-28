@@ -1,23 +1,29 @@
 {
   "include": [
-    "packages/**/*.js"
+    "packages/*/src/**/*.ts"
   ],
   "exclude": [
-    "**/index.ts",
-    "**/index.js",
-    "**/interfaces/*.js"
+    "node_modules",
+    "packages/**/*.spec.ts",
+    "**/interfaces/**",
+    "**/legacy/**"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "require": [
+    "ts-node/register"
   ],
   "reporter": [
     "lcov",
     "text-summary"
-  ],
-  "extension": [
-    ".ts"
   ],
   "check-coverage": true,
   "lines": 99,
   "statements": 100,
   "functions": 99,
   "branches": 89,
-  "all": true
+  "all": true,
+  "sourceMap": true,
+  "instrument": true
 }

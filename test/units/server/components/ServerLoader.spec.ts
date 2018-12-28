@@ -135,7 +135,7 @@ describe("ServerLoader", () => {
 
   describe("scan()", () => {
     before(() => {
-      this.server.scan(require("path").join(__dirname, "/data/*.js"), "/context");
+      this.server.scan(require("path").join(__dirname, "/data/*.ts"), "/context");
     });
 
     it("should require components", () => {

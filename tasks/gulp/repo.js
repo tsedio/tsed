@@ -15,7 +15,7 @@ const sourcemaps = require("gulp-sourcemaps");
 
 const all = require("./utils/all");
 
-const {outputDir, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder} = require("../../repo.config");
+const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder} = require("../../repo.config");
 /**
  *
  * @returns {Promise<any>}
@@ -66,6 +66,14 @@ module.exports = {
       .filter((packageName) => packageName !== "legacy")
       .map(pkgName => {
         logger("Mount package", chalk.cyan(`'${pkgName}'`));
+
+        if (typescript) {
+          // sync("yarn", ["install"], {
+          //   stdio: "inherit",
+          //   cwd: `./${path.join(packagesDir, pkgName)}`
+          // });
+          return;
+        }
 
         sync("npm", ["link", `./${path.join(packagesDir, pkgName)}`], {
           stdio: "inherit"
@@ -145,8 +153,8 @@ module.exports = {
         `${packagesDir}/**`,
         `${packagesDir}/**/.npmignore`,
         `!${packagesDir}/**/src/**/*.{js,js.map,d.ts}`,
-        `!${packagesDir}/**/src/package-lock.json`,
-        `!${packagesDir}/**/src/yarn.lock`,
+        `!${packagesDir}/**/package-lock.json`,
+        `!${packagesDir}/**/yarn.lock`,
         `!${packagesDir}/**/node_modules/**`
       ], {base: packagesDir})
       .pipe(replace(versionPlaceholder, version))

@@ -14,9 +14,9 @@ const rootDir = Path.join(Path.resolve(__dirname), "app");
   port: 8002,
   httpsPort: 8082,
   mount: {
-    "/rest": `${rootDir}/controllers/**/**.js`
+    "/rest": `${rootDir}/controllers/**/**.ts`
   },
-  componentsScan: [`${rootDir}/services/**/**.js`],
+  componentsScan: [`${rootDir}/services/**/**.ts`],
   serveStatic: {
     "/": `${rootDir}/views`
   },

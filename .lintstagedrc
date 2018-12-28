@@ -1,9 +1,9 @@
 {
   "concurrent": true,
   "linters": {
-    "*.ts": [
+    "packages/*/src/**/*.ts": [
       "prettier --write",
-      "npm run tslint -- --fix",
+      "npm run test:lint:fix",
       "git add"
     ]
   }
