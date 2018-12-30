@@ -3,7 +3,7 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 
 const registerSocketService: any = Sinon.stub();
-const {SocketService} = require("proxyquire")("../../src/decorators/SocketService", {
+const {SocketService} = require("proxyquire")("../../src/decorators/socketService", {
   "../registries/SocketServiceRegistry": {registerSocketService}
 });
 
