@@ -1,10 +1,11 @@
 import * as mongoose from "mongoose";
-import {createSchema} from "../../../../packages/mongoose/src/utils";
-import * as mod from "../../../../packages/mongoose/src/utils/buildMongooseSchema";
 import * as Sinon from "sinon";
+import {createSchema} from "../../src/utils";
+import * as mod from "../../src/utils/buildMongooseSchema";
 
 describe("createSchema()", () => {
-  class Test {}
+  class Test {
+  }
 
   before(() => {
     this.buildMongooseSchemaStub = Sinon.stub(mod, "buildMongooseSchema").returns({definition: "definition"} as any);

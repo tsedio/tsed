@@ -1,8 +1,8 @@
 import {Schema} from "mongoose";
 import {Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
-import {Ref} from "../../../../packages/mongoose/src/decorators";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../src/constants";
+import {Ref} from "../../src/decorators";
 import {expect} from "chai";
 
 describe("@Ref()", () => {

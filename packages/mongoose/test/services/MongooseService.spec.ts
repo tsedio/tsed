@@ -1,8 +1,8 @@
 import {ServerSettingsService} from "@tsed/common";
-import {inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import * as Mongoose from "mongoose";
-import {MongooseService} from "../../../../packages/mongoose/src";
 import * as Sinon from "sinon";
+import {MongooseService} from "../../src";
 
 describe("MongooseService", () => {
   describe("$onInit()", () => {
@@ -32,6 +32,7 @@ describe("MongooseService", () => {
           this.connectStub.restore();
         })
       );
+      after(TestContext.reset);
 
       it("should call the connect method", () => {
         this.connectStub.should.have.been.calledWithExactly("default", "mongodb://test", {options: "options"});

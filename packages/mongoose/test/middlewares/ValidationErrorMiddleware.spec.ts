@@ -1,7 +1,7 @@
 import * as mod from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {ValidationErrorMiddleware} from "../../../../packages/mongoose/src/middlewares/ValidationErrorMiddleware";
+import {ValidationErrorMiddleware} from "../../src/middlewares/ValidationErrorMiddleware";
 
 describe("ValidationErrorMiddleware", () => {
   describe("when success", () => {

@@ -1,15 +1,16 @@
-import {PostHook} from "../../../../packages/mongoose/src/decorators";
-import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
+import {PreHook} from "../../src/decorators";
+import * as mod from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
 
-describe("@PostHook()", () => {
+describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {
     class Test {}
 
     before(() => {
       this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
       this.fn = () => {};
-      PostHook("method", this.fn as any)(Test);
+      this.errorCb = () => {};
+      PreHook("method", this.fn as any, {parallel: true, errorCb: this.errorCb as any})(Test);
     });
 
     after(() => {
@@ -18,10 +19,12 @@ describe("@PostHook()", () => {
 
     it("should call applySchemaOptions", () => {
       this.applySchemaOptionsStub.should.have.been.calledWithExactly(Test, {
-        post: [
+        pre: [
           {
             method: "method",
-            fn: this.fn
+            parallel: true,
+            fn: this.fn,
+            errorCb: this.errorCb
           }
         ]
       });
@@ -33,7 +36,7 @@ describe("@PostHook()", () => {
       this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
 
       class Test {
-        @PostHook("save")
+        @PreHook("save", {parallel: true, errorCb: "errorCb" as any})
         static method() {}
       }
 
@@ -46,10 +49,12 @@ describe("@PostHook()", () => {
 
     it("should call applySchemaOptions", () => {
       this.applySchemaOptionsStub.should.have.been.calledWithExactly(this.clazz, {
-        post: [
+        pre: [
           {
             method: "save",
-            fn: Sinon.match.func
+            parallel: true,
+            fn: Sinon.match.func,
+            errorCb: "errorCb"
           }
         ]
       });

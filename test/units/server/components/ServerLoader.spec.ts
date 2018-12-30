@@ -1,24 +1,26 @@
+import {Metadata} from "@tsed/core";
+import {expect} from "chai";
 import * as Http from "http";
 import * as Https from "https";
-import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants/index";
-import {HttpServer} from "../../../../packages/common/src/server";
-import {ServerLoader} from "../../../../packages/common/src/server/components/ServerLoader";
-import {HttpsServer} from "../../../../packages/common/src/server/decorators/httpsServer";
-import {Metadata} from "@tsed/core";
-import {$logStub} from "../../../helper/tools";
-import {expect} from "chai";
 import * as Sinon from "sinon";
+import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants";
+import {HttpServer, HttpsServer, ServerLoader} from "../../../../packages/common/src/server";
+import {$logStub} from "../../../helper/tools";
 
 describe("ServerLoader", () => {
   before(() => {
     class TestServer extends ServerLoader {
-      $onInit() {}
+      $onInit() {
+      }
 
-      $onReady() {}
+      $onReady() {
+      }
 
-      $onMountingMiddlewares() {}
+      $onMountingMiddlewares() {
+      }
 
-      $afterRoutesInit() {}
+      $afterRoutesInit() {
+      }
     }
 
     Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
@@ -189,7 +191,8 @@ describe("ServerLoader", () => {
 
     describe("when we give a class", () => {
       before(() => {
-        this.classTest = class {};
+        this.classTest = class {
+        };
         this.addComponentsStub = Sinon.stub(this.server, "addComponents");
 
         this.server.mount("endpoint", [this.classTest]);
@@ -261,7 +264,8 @@ describe("ServerLoader", () => {
 
         $logStub.$log.error.reset();
 
-        return this.server.start().catch((err: any) => {});
+        return this.server.start().catch((err: any) => {
+        });
       });
 
       after(() => {
@@ -287,7 +291,8 @@ describe("ServerLoader", () => {
 
   describe("engine()", () => {
     before(() => {
-      this.server.engine("jade", () => {});
+      this.server.engine("jade", () => {
+      });
     });
 
     it("should call express.engine() with the right parameters", () => {
@@ -321,7 +326,8 @@ describe("ServerLoader", () => {
     describe("when have typescript compiler", () => {
       before(() => {
         this.compiler = require.extensions[".ts"];
-        require.extensions[".ts"] = () => {};
+        require.extensions[".ts"] = () => {
+        };
       });
       after(() => {
         delete require.extensions[".ts"];

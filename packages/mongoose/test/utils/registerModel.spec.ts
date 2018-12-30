@@ -1,10 +1,10 @@
-import {MongooseModelRegistry} from "../../../../packages/mongoose/src";
-import {registerModel} from "../../../../packages/mongoose/src/registries/MongooseModelRegistry";
 import * as Sinon from "sinon";
+import {MongooseModelRegistry, registerModel} from "../../src";
 
 describe("registerModel()", () => {
   describe("when a class is given", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.mergeStub = Sinon.stub(MongooseModelRegistry, "merge");
@@ -25,7 +25,8 @@ describe("registerModel()", () => {
   });
 
   describe("when a config is given", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.mergeStub = Sinon.stub(MongooseModelRegistry, "merge");

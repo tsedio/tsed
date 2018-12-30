@@ -1,14 +1,16 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../../../../packages/mongoose/src/constants";
-import {applySchemaOptions, buildPreHook, schemaOptions} from "../../../../packages/mongoose/src/utils/schemaOptions";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {MONGOOSE_SCHEMA} from "../../src/constants";
+import {applySchemaOptions, buildPreHook, schemaOptions} from "../../src/utils/schemaOptions";
 
 describe("schemaOptions", () => {
   describe("schemaOptions()", () => {
-    class Test {}
+    class Test {
+    }
 
-    before(() => {});
+    before(() => {
+    });
 
     it("should return schema options (1)", () => {
       expect(schemaOptions(Test)).to.eq(undefined);
@@ -61,7 +63,8 @@ describe("schemaOptions", () => {
   });
 
   describe("applySchemaOptions()", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.schema = {
@@ -78,7 +81,8 @@ describe("schemaOptions", () => {
           {
             method: "method",
             parallel: true,
-            fn: (doc: any, pre: any) => {},
+            fn: (doc: any, pre: any) => {
+            },
             errorCb: "errorCb"
           }
         ],

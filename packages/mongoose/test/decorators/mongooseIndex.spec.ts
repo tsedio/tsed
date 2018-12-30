@@ -1,14 +1,14 @@
-import {MongoosePlugin} from "../../../../packages/mongoose/src/decorators/mongoosePlugin";
-import * as mod from "../../../../packages/mongoose/src/utils/schemaOptions";
+import {MongooseIndex} from "../../src/decorators/mongooseIndex";
+import * as mod from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
 
-describe("@MongoosePlugin()", () => {
+describe("@MongooseIndex()", () => {
   class Test {}
 
   before(() => {
     this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-    this.fn = () => {};
-    MongoosePlugin("fn" as any, "options" as any)(Test);
+    this.fields = {};
+    MongooseIndex("fields" as any, "options" as any)(Test);
   });
 
   after(() => {
@@ -17,9 +17,9 @@ describe("@MongoosePlugin()", () => {
 
   it("should call applySchemaOptions", () => {
     this.applySchemaOptionsStub.should.have.been.calledWithExactly(Test, {
-      plugins: [
+      indexes: [
         {
-          plugin: "fn",
+          fields: "fields",
           options: "options"
         }
       ]

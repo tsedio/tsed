@@ -1,13 +1,14 @@
 import {Store} from "@tsed/core";
-import * as mongoose from "mongoose";
-import {MONGOOSE_MODEL_NAME} from "../../../../packages/mongoose/src/constants";
-import {createModel} from "../../../../packages/mongoose/src/utils";
 import {expect} from "chai";
+import * as mongoose from "mongoose";
 import * as Sinon from "sinon";
+import {MONGOOSE_MODEL_NAME} from "../../src/constants";
+import {createModel} from "../../src/utils";
 
 describe("createModel()", () => {
   describe("when the model name is given", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.schema = {
@@ -23,7 +24,10 @@ describe("createModel()", () => {
       createModel(Test, this.schema, "name", "collection", true);
 
       this.instance = new Test();
-      this.instance.serialize({checkRequiredValue: "checkRequiredValue", ignoreCallback: "ignoreCallback"}, this.converterStub);
+      this.instance.serialize({
+        checkRequiredValue: "checkRequiredValue",
+        ignoreCallback: "ignoreCallback"
+      }, this.converterStub);
     });
 
     after(() => {
@@ -51,7 +55,8 @@ describe("createModel()", () => {
     });
   });
   describe("when the model name is not given", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.schema = {
@@ -67,7 +72,10 @@ describe("createModel()", () => {
       createModel(Test, this.schema);
 
       this.instance = new Test();
-      this.instance.serialize({checkRequiredValue: "checkRequiredValue", ignoreCallback: "ignoreCallback"}, this.converterStub);
+      this.instance.serialize({
+        checkRequiredValue: "checkRequiredValue",
+        ignoreCallback: "ignoreCallback"
+      }, this.converterStub);
     });
 
     after(() => {
