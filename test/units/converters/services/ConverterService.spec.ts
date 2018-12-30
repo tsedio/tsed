@@ -1,9 +1,9 @@
+import {Store} from "@tsed/core";
+import {inject, TestContext} from "@tsed/testing";
+import {assert, expect} from "chai";
 import {ConverterService} from "../../../../packages/common/src/converters";
 import {JsonProperty} from "../../../../packages/common/src/jsonschema/decorators/jsonProperty";
-import {Store} from "@tsed/core";
-import {inject} from "@tsed/testing";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
-import {assert, expect} from "chai";
 
 class JsonFoo5 {
   @JsonProperty()
@@ -17,6 +17,7 @@ describe("ConverterService", () => {
       this.converterService = converterService;
     })
   );
+  after(TestContext.reset);
 
   describe("deserialize()", () => {
     describe("primitive", () => {
@@ -499,7 +500,8 @@ describe("ConverterService", () => {
     });
 
     describe("isStrictModelValidation()", () => {
-      class Test {}
+      class Test {
+      }
 
       describe("when model is an Object", () => {
         before(() => {

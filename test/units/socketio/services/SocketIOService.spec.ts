@@ -1,21 +1,22 @@
 import {InjectorService} from "@tsed/common";
-import {inject, invoke} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
+import * as Sinon from "sinon";
 import {HttpServer} from "../../../../packages/common/src/server/decorators/httpServer";
 import {HttpsServer} from "../../../../packages/common/src/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../packages/socketio/src";
-import * as Sinon from "sinon";
 
 describe("SocketIOService", () => {
   describe("$onServerReady()", () => {
     describe("with http server", () => {
       let socketIOService: any;
 
+      before(TestContext.create);
       before(() => {
         this.socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
         this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
         this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
 
-        socketIOService = invoke(SocketIOService, [
+        socketIOService = TestContext.invoke(SocketIOService, [
           {provide: HttpServer, use: this.httpServer},
           {provide: HttpsServer, use: this.httpsServer},
           {provide: SocketIOServer, use: this.socketIOServer}
@@ -30,7 +31,7 @@ describe("SocketIOService", () => {
         socketIOService.serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
         socketIOService.$onServerReady();
       });
-
+      after(TestContext.reset);
       after(() => {
         this.getWebsocketServicesStub.restore();
         this.bindProviderStub.restore();
@@ -63,12 +64,13 @@ describe("SocketIOService", () => {
     describe("with https server", () => {
       let socketIOService: any;
 
+      before(TestContext.create);
       before(() => {
         this.socketIOServer = {attach: Sinon.stub()};
         this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
         this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
 
-        socketIOService = invoke(SocketIOService, [
+        socketIOService = TestContext.invoke(SocketIOService, [
           {provide: HttpServer, use: this.httpServer},
           {provide: HttpsServer, use: this.httpsServer},
           {provide: SocketIOServer, use: this.socketIOServer}
@@ -86,6 +88,7 @@ describe("SocketIOService", () => {
         socketIOService.$onServerReady();
       });
 
+      after(TestContext.reset);
       after(() => {
         this.getWebsocketServicesStub.restore();
         this.bindProviderStub.restore();
@@ -131,6 +134,8 @@ describe("SocketIOService", () => {
         this.socket.on.getCall(0).args[1]();
       })
     );
+
+    after(TestContext.reset);
 
     it("should call io.of and create namespace", () => {
       this.ioStub.of.should.have.been.calledWithExactly("/");
