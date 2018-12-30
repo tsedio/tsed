@@ -1,15 +1,17 @@
 import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType} from "@tsed/common";
 import {Metadata, Store} from "@tsed/core";
-import {InjectorService} from "../../src";
 import {inject} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {TestContext} from "../../../testing/src";
+import {InjectorService} from "../../src";
 
 class Test {
-  constructor() {}
-
   @Inject()
   prop: InjectorService;
+
+  constructor() {
+  }
 
   @Inject()
   test(injectorService: InjectorService) {
@@ -126,6 +128,7 @@ describe("InjectorService", () => {
         this.provider = injector.getProvider(InjectorService);
       })
     );
+    after(TestContext.reset);
 
     it("should return a provider", () => {
       expect(this.provider).to.be.instanceOf(Provider);
@@ -199,7 +202,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         const locals = new Map();
         locals.set(this.symbol, new this.symbol());
@@ -219,7 +223,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         const locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider");
@@ -228,7 +233,8 @@ describe("InjectorService", () => {
           this.result = this.injector.mapServices({
             serviceType: this.symbol,
             locals,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         } catch (er) {
           this.error = er;
@@ -252,7 +258,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -273,7 +280,8 @@ describe("InjectorService", () => {
           serviceType: this.symbol,
           locals: this.locals,
           requiredScope: true,
-          target: class ServiceTest {}
+          target: class ServiceTest {
+          }
         });
       });
 
@@ -302,7 +310,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -323,7 +332,8 @@ describe("InjectorService", () => {
           serviceType: this.symbol,
           locals: this.locals,
           requiredScope: true,
-          target: class ServiceTest {}
+          target: class ServiceTest {
+          }
         });
       });
 
@@ -352,7 +362,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -374,7 +385,8 @@ describe("InjectorService", () => {
           serviceType: this.symbol,
           locals: this.locals,
           requiredScope: true,
-          target: class ServiceTest {}
+          target: class ServiceTest {
+          }
         });
       });
 
@@ -403,7 +415,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -426,7 +439,8 @@ describe("InjectorService", () => {
           locals: this.locals,
           requiredScope: true,
           parentScope: true,
-          target: class ServiceTest {}
+          target: class ServiceTest {
+          }
         });
       });
 
@@ -455,7 +469,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -479,7 +494,8 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: false,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         } catch (er) {
           this.error = er;
@@ -513,7 +529,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -537,7 +554,8 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: true,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         } catch (er) {
           this.error = er;
@@ -573,7 +591,8 @@ describe("InjectorService", () => {
       before(() => {
         this.injector = new InjectorService();
 
-        this.symbol = class Test {};
+        this.symbol = class Test {
+        };
 
         this.locals = new Map();
         this.getStub = Sinon.stub(this.injector, "getProvider").returns({
@@ -597,7 +616,8 @@ describe("InjectorService", () => {
             locals: this.locals,
             requiredScope: true,
             parentScope: true,
-            target: class ServiceTest {}
+            target: class ServiceTest {
+            }
           });
         } catch (er) {
           this.error = er;
@@ -627,7 +647,8 @@ describe("InjectorService", () => {
   });
 
   describe("build()", () => {
-    class Test {}
+    class Test {
+    }
 
     describe("when the provider is buildable", () => {
       before(() => {
@@ -728,7 +749,8 @@ describe("InjectorService", () => {
       }
     }
 
-    class TestDep {}
+    class TestDep {
+    }
 
     describe("when designParamsTypes is not given", () => {
       before(
@@ -754,7 +776,7 @@ describe("InjectorService", () => {
           this.result = injectorService.invoke(Test, this.locals, undefined, false);
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getStub.restore();
@@ -821,7 +843,7 @@ describe("InjectorService", () => {
           this.result = injectorService.invoke(Test, this.locals, this.designParamTypes, false);
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getStub.restore();
@@ -884,7 +906,7 @@ describe("InjectorService", () => {
           this.result = injectorService.invoke(Test, this.locals, undefined, false);
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getStub.restore();
@@ -944,7 +966,7 @@ describe("InjectorService", () => {
           this.result = injectorService.invoke(Test, this.locals, undefined, false);
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getStub.restore();
@@ -989,7 +1011,8 @@ describe("InjectorService", () => {
   });
 
   describe("invokeMethod()", () => {
-    class InjectTest {}
+    class InjectTest {
+    }
 
     describe("when designParamTypes is given", () => {
       before(
@@ -1011,7 +1034,7 @@ describe("InjectorService", () => {
           });
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getParamsTypesStub.restore();
@@ -1054,7 +1077,7 @@ describe("InjectorService", () => {
           });
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getParamsTypesStub.restore();
@@ -1098,7 +1121,7 @@ describe("InjectorService", () => {
           });
         })
       );
-
+      after(TestContext.reset);
       after(() => {
         this.mapServicesStub.restore();
         this.getParamsTypesStub.restore();
@@ -1119,7 +1142,8 @@ describe("InjectorService", () => {
   });
 
   describe("bindInjectableProperties()", () => {
-    class TestBind {}
+    class TestBind {
+    }
 
     before(
       inject([InjectorService], (injector: any) => {
@@ -1155,6 +1179,7 @@ describe("InjectorService", () => {
       })
     );
 
+    after(TestContext.reset);
     after(() => {
       this.injector.bindMethod.restore();
       this.injector.bindProperty.restore();
@@ -1189,7 +1214,8 @@ describe("InjectorService", () => {
 
   describe("bindMethod()", () => {
     class TestBind {
-      testMethod() {}
+      testMethod() {
+      }
     }
 
     before(
@@ -1206,6 +1232,7 @@ describe("InjectorService", () => {
       })
     );
 
+    after(TestContext.reset);
     after(() => {
       this.injector.invokeMethod.restore();
     });
@@ -1224,7 +1251,8 @@ describe("InjectorService", () => {
   });
 
   describe("bindProperty()", () => {
-    class TestBind {}
+    class TestBind {
+    }
 
     before(
       inject([InjectorService], (injector: any) => {
@@ -1238,6 +1266,7 @@ describe("InjectorService", () => {
       })
     );
 
+    after(TestContext.reset);
     after(() => {
       this.injector.get.restore();
     });
@@ -1252,7 +1281,8 @@ describe("InjectorService", () => {
   });
 
   describe("bindValue()", () => {
-    class TestBind {}
+    class TestBind {
+    }
 
     before(
       inject([InjectorService], (injector: any) => {
@@ -1268,6 +1298,7 @@ describe("InjectorService", () => {
       })
     );
 
+    after(TestContext.reset);
     after(() => {
       this.injector.settings.get.restore();
       this.injector.settings.set.restore();
@@ -1287,7 +1318,8 @@ describe("InjectorService", () => {
   });
 
   describe("bindConstant()", () => {
-    class TestBind {}
+    class TestBind {
+    }
 
     before(
       inject([InjectorService], (injector: any) => {
@@ -1301,6 +1333,7 @@ describe("InjectorService", () => {
       })
     );
 
+    after(TestContext.reset);
     after(() => {
       this.injector.settings.get.restore();
     });

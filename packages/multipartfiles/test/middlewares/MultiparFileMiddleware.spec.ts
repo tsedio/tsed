@@ -1,6 +1,6 @@
-import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/src/middlewares/MultipartFileMiddleware";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
 
 describe("MultipartFileMiddleware", () => {
   describe("legacy", () => {

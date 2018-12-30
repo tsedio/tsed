@@ -1,7 +1,8 @@
-import {expect} from "chai";
-import {MultipartFileFilter} from "../../../../packages/multipartfiles/src/components/MultipartFileFilter";
-import {MultipartFilesFilter} from "../../../../packages/multipartfiles/src/components/MultipartFilesFilter";
 import {inject} from "@tsed/testing";
+import {expect} from "chai";
+import {TestContext} from "../../../testing/src";
+import {MultipartFileFilter} from "../../src/components/MultipartFileFilter";
+import {MultipartFilesFilter} from "../../src/components/MultipartFilesFilter";
 
 describe("MultipartFileFilter", () => {
   before(
@@ -9,6 +10,7 @@ describe("MultipartFileFilter", () => {
       this.filter = filter;
     })
   );
+  after(TestContext.reset);
 
   describe("transform()", () => {
     before(() => {

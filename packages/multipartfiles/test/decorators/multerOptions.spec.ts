@@ -1,10 +1,11 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MulterOptions} from "../../../../packages/multipartfiles/src";
-import {MultipartFileMiddleware} from "../../../../packages/multipartfiles/src/middlewares/MultipartFileMiddleware";
 import {expect} from "chai";
+import {MulterOptions} from "../../src";
+import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
 
 class Test {
-  test() {}
+  test() {
+  }
 }
 
 describe("@MulterOptions()", () => {
