@@ -2,7 +2,7 @@ import {HttpServer, HttpsServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {inject, TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
-import {SocketIOServer, SocketIOService} from "../../../../packages/socketio/src";
+import {SocketIOServer, SocketIOService} from "../../src";
 
 describe("SocketIOService", () => {
   describe("$onServerReady()", () => {

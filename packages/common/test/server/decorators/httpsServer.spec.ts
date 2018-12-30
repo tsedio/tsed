@@ -1,14 +1,15 @@
 import {Metadata} from "@tsed/core";
-import {HttpServer} from "../../../../packages/common/src/server";
 import * as Sinon from "sinon";
+import {HttpsServer} from "../../../src/server";
 
-describe("HttpServer", () => {
+describe("HttpsServer", () => {
   before(() => {
     this.setParamTypesStub = Sinon.stub(Metadata, "setParamTypes");
 
     // tslint:disable-next-line: no-unused-variable
     class Test {
-      constructor(@HttpServer https: HttpServer) {}
+      constructor(@HttpsServer https: HttpsServer) {
+      }
     }
   });
   after(() => {
@@ -16,6 +17,6 @@ describe("HttpServer", () => {
   });
 
   it("should store metadata", () => {
-    this.setParamTypesStub.should.have.been.calledWithExactly(Sinon.match.func, undefined, [HttpServer]);
+    this.setParamTypesStub.should.have.been.calledWithExactly(Sinon.match.func, undefined, [HttpsServer]);
   });
 });

@@ -1,9 +1,11 @@
-import * as Sinon from "sinon";
-import {ServerSettings} from "../../../../packages/common/src/server/decorators/serverSettings";
 import {Metadata} from "@tsed/core";
-import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants/index";
+import * as Sinon from "sinon";
+import {SERVER_SETTINGS} from "../../../src/config/constants";
+import {ServerSettings} from "../../../src/server";
 
-class Test {}
+class Test {
+}
+
 describe("ServerSettings", () => {
   before(() => {
     this.metadataSetStub = Sinon.stub(Metadata, "set");

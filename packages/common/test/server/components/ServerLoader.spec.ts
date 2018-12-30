@@ -3,9 +3,9 @@ import {expect} from "chai";
 import * as Http from "http";
 import * as Https from "https";
 import * as Sinon from "sinon";
-import {SERVER_SETTINGS} from "../../../../packages/common/src/config/constants";
-import {HttpServer, HttpsServer, ServerLoader} from "../../../../packages/common/src/server";
-import {$logStub} from "../../../helper/tools";
+import {$logStub} from "../../../../../test/helper/tools";
+import {SERVER_SETTINGS} from "../../../src/config/constants";
+import {HttpServer, HttpsServer, ServerLoader} from "../../../src/server";
 
 describe("ServerLoader", () => {
   before(() => {
