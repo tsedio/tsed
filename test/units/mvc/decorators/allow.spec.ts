@@ -4,7 +4,7 @@ import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonS
 import {PropertyRegistry} from "../../../../packages/common/src/jsonschema/registries/PropertyRegistry";
 import {Allow} from "../../../../packages/common/src/mvc/decorators/allow";
 import * as Sinon from "sinon";
-import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
+import {stubSchemaDecorator} from "../../../../packages/common/test/jsonschema/decorators/utils";
 
 class Test {}
 
