@@ -1,7 +1,7 @@
 import {Env, getValue, Metadata, setValue} from "@tsed/core";
+import {IDISettings, Injectable, ProviderScope, registerFactory} from "@tsed/di";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import {ProviderScope, registerFactory, Injectable, IDISettings} from "@tsed/di";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 
@@ -207,16 +207,31 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
    *
    * @returns {undefined|any}
    */
-  get serveStatic(): IServerMountDirectories {
-    return this.map.get("serveStatic") || {};
+  get statics(): IServerMountDirectories {
+    return this.map.get("statics") || this.map.get("serveStatic") || {};
   }
 
   /**
    *
    * @param value
    */
-  set serveStatic(value: IServerMountDirectories) {
-    this.map.set("serveStatic", value);
+  set statics(value: IServerMountDirectories) {
+    this.map.set("statics", value);
+  }
+
+  /**
+   *
+   * @param value
+   */
+
+  /* istanbul ignore next */
+  get serveStatics() {
+    return this.statics;
+  }
+
+  /* istanbul ignore next */
+  set serveStatics(value: IServerMountDirectories) {
+    this.statics = value;
   }
 
   /**
@@ -320,20 +335,20 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
     }
   }
 
-  set exclude(exclude: string[]) {
-    this.map.set("exclude", exclude);
-  }
-
   get exclude() {
     return this.map.get("exclude") || [];
   }
 
-  set controllerScope(scope: ProviderScope) {
-    this.map.set("scope", scope);
+  set exclude(exclude: string[]) {
+    this.map.set("exclude", exclude);
   }
 
   get controllerScope(): ProviderScope {
     return this.map.get("scope");
+  }
+
+  set controllerScope(scope: ProviderScope) {
+    this.map.set("scope", scope);
   }
 
   /**

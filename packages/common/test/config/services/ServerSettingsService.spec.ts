@@ -15,7 +15,7 @@ describe("ServerSettingsService", () => {
       settings.version = "1.0.0";
       settings.httpsOptions = {test: "/rest"} as any;
       settings.acceptMimes = ["application/json"];
-      settings.serveStatic = {"/": "/publics"};
+      settings.statics = {"/": "/publics"};
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
 
@@ -78,7 +78,7 @@ describe("ServerSettingsService", () => {
     });
 
     it("should return serveStatic", () => {
-      expect(this.settings.serveStatic).to.deep.equal({"/": "/publics"});
+      expect(this.settings.statics).to.deep.equal({"/": "/publics"});
     });
 
     it("should return debug", () => {

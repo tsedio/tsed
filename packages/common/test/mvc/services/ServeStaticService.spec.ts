@@ -1,29 +1,29 @@
-import * as Proxyquire from "proxyquire";
-import {ServerSettingsService} from "../../../../packages/common/src/config/services/ServerSettingsService";
-import {ExpressApplication} from "../../../../packages/common/src/mvc/decorators";
+import {ExpressApplication, ServerSettingsService} from "@tsed/common";
 import {invoke} from "@tsed/testing";
+import * as Express from "express";
 import * as Sinon from "sinon";
-
-const middlewareServeStatic = Sinon.stub();
-const serveStatic = Sinon.stub();
-serveStatic.withArgs("/views").returns(middlewareServeStatic);
-
-const {ServeStaticService} = Proxyquire("../../../../packages/servestatic/src/services/ServeStaticService", {
-  "serve-static": serveStatic
-});
-const expressApplication = {
-  use: Sinon.stub()
-};
-
-const serverSettingService = {
-  serveStatic: {
-    "/path": "/views"
-  }
-};
+import {TestContext} from "../../../../testing/src";
+import {ServeStaticService} from "../../../src/server";
 
 describe("ServeStaticService", () => {
+  let serveStatic: any;
+  const middlewareServeStatic = Sinon.stub();
+  const expressApplication = {
+    use: Sinon.stub()
+  };
+
+  const serverSettingService = {
+    serveStatic: {
+      "/path": "/views"
+    }
+  };
+
+  before(TestContext.create);
   before(() => {
-    this.serveStaticService = invoke(ServeStaticService, [
+    serveStatic = Sinon.stub(Express, "static");
+    serveStatic.withArgs("/views").returns(middlewareServeStatic);
+
+    this.serveStaticService = TestContext.invoke(ServeStaticService, [
       {
         provide: ExpressApplication,
         use: expressApplication
@@ -33,6 +33,11 @@ describe("ServeStaticService", () => {
         use: serverSettingService
       }
     ]);
+  });
+
+  after(() => {
+    TestContext.reset();
+    serveStatic.restore();
   });
 
   describe("mount()", () => {
@@ -58,7 +63,7 @@ describe("ServeStaticService", () => {
         expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
       });
       it("should call serveStatic", () => {
-        serveStatic.should.be.calledWithExactly("/views");
+        serveStatic.should.be.calledWithExactly(Sinon.match("/views"));
       });
 
       it("should call the middleware", () => {

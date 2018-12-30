@@ -1,5 +1,1 @@
-/**
- * @module servestatic
- */
-/** */
-export * from "./services/ServeStaticService";
+export {ServeStaticService} from "@tsed/common";

@@ -13,3 +13,4 @@ export * from "./utils/createInjector";
 export * from "./utils/createExpressApplication";
 export * from "./utils/createHttpServer";
 export * from "./utils/createHttpsServer";
+export * from "./services/ServeStaticService";
