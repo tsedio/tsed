@@ -1,7 +1,9 @@
-import {GlobalProviders, Interceptor, ProviderType} from "@tsed/common";
+import {GlobalProviders, ProviderType} from "@tsed/di";
 import * as Sinon from "sinon";
+import {Interceptor} from "../../../src/interceptors";
 
-class Test {}
+class Test {
+}
 
 describe("@Interceptor", () => {
   before(() => {

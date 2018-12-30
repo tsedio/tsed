@@ -1,12 +1,13 @@
 import {IInterceptor} from "@tsed/common";
-import {interceptorInvokeFactory} from "../../../../packages/common/src/interceptors/utils/interceptorInvokeFactory";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {interceptorInvokeFactory} from "../../../src/interceptors/utils/interceptorInvokeFactory";
 
 describe("interceptorInvokeFactory()", () => {
   describe("when success", () => {
     class InterceptorTest implements IInterceptor {
-      aroundInvoke() {}
+      aroundInvoke() {
+      }
     }
 
     before(() => {
@@ -57,7 +58,8 @@ describe("interceptorInvokeFactory()", () => {
   });
   describe("when error", () => {
     class InterceptorTest implements IInterceptor {
-      aroundInvoke() {}
+      aroundInvoke() {
+      }
     }
 
     before(() => {
