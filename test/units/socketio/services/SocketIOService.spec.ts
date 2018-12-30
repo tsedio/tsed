@@ -1,8 +1,7 @@
-import {InjectorService} from "@tsed/common";
+import {HttpServer, HttpsServer} from "@tsed/common";
+import {InjectorService} from "@tsed/di";
 import {inject, TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
-import {HttpServer} from "../../../../packages/common/src/server/decorators/httpServer";
-import {HttpsServer} from "../../../../packages/common/src/server/decorators/httpsServer";
 import {SocketIOServer, SocketIOService} from "../../../../packages/socketio/src";
 
 describe("SocketIOService", () => {
@@ -10,8 +9,8 @@ describe("SocketIOService", () => {
     describe("with http server", () => {
       let socketIOService: any;
 
-      before(TestContext.create);
-      before(() => {
+      before(async () => {
+        await TestContext.create();
         this.socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
         this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
         this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
@@ -31,8 +30,8 @@ describe("SocketIOService", () => {
         socketIOService.serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
         socketIOService.$onServerReady();
       });
-      after(TestContext.reset);
       after(() => {
+        TestContext.reset();
         this.getWebsocketServicesStub.restore();
         this.bindProviderStub.restore();
         this.printSocketEventsStub.restore();
@@ -64,8 +63,8 @@ describe("SocketIOService", () => {
     describe("with https server", () => {
       let socketIOService: any;
 
-      before(TestContext.create);
-      before(() => {
+      before(async () => {
+        await TestContext.create();
         this.socketIOServer = {attach: Sinon.stub()};
         this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
         this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
@@ -88,8 +87,8 @@ describe("SocketIOService", () => {
         socketIOService.$onServerReady();
       });
 
-      after(TestContext.reset);
       after(() => {
+        TestContext.reset();
         this.getWebsocketServicesStub.restore();
         this.bindProviderStub.restore();
         this.printSocketEventsStub.restore();

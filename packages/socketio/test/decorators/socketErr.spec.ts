@@ -1,9 +1,10 @@
 import {Store} from "@tsed/core";
-import {SocketErr} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import {SocketErr} from "../../src";
 
 describe("@SocketErr", () => {
-  class Test {}
+  class Test {
+  }
 
   before(() => {
     SocketErr(Test, "test", 0);

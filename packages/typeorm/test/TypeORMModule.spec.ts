@@ -1,5 +1,5 @@
 import {ServerSettingsService} from "@tsed/common";
-import {inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import {TypeORMModule} from "../src";
 
@@ -24,6 +24,7 @@ describe("TypeORMModule", () => {
       inject([ServerSettingsService], (settings: ServerSettingsService) => {
         settings.set("typeorm", {});
         this.createConnectionStub.restore();
+        TestContext.reset();
       })
     );
 

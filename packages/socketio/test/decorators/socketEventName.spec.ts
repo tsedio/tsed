@@ -1,12 +1,13 @@
 import {Store} from "@tsed/core";
-import {Emit} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import {SocketEventName} from "../../src";
 
-describe("Emit", () => {
-  class Test {}
+describe("@SocketEventName", () => {
+  class Test {
+  }
 
   before(() => {
-    Emit("eventName")(Test, "test", {} as any);
+    SocketEventName(Test, "test", 0);
     this.store = Store.from(Test);
   });
 
@@ -14,9 +15,11 @@ describe("Emit", () => {
     expect(this.store.get("socketIO")).to.deep.eq({
       handlers: {
         test: {
-          returns: {
-            eventName: "eventName",
-            type: "emit"
+          parameters: {
+            "0": {
+              filter: "eventName",
+              mapIndex: undefined
+            }
           }
         }
       }

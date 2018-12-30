@@ -1,12 +1,13 @@
 import * as common from "@tsed/common";
 import {Store} from "@tsed/core";
-import {SocketMiddleware} from "../../../../packages/socketio/src/decorators/socketMiddleware";
-import {SocketProviderTypes} from "../../../../packages/socketio/src/interfaces/ISocketProviderMetadata";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {SocketMiddleware} from "../../src";
+import {SocketProviderTypes} from "../../src/interfaces/ISocketProviderMetadata";
 
 describe("@SocketMiddleware", () => {
-  class Test {}
+  class Test {
+  }
 
   before(() => {
     this.decoratorStub = Sinon.stub();

@@ -1,10 +1,11 @@
 import {Store} from "@tsed/core";
-import {Nsp} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import {Nsp} from "../../src";
 
 describe("Nsp", () => {
   describe("when it used as param decorator", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       Nsp(Test, "test", 0);
@@ -28,7 +29,8 @@ describe("Nsp", () => {
   });
 
   describe("when it used as property decorator", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       Nsp(Test, "test");

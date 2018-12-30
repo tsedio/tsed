@@ -1,14 +1,23 @@
 import {Store} from "@tsed/core";
-import {SocketService} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import * as Sinon from "sinon";
+
+const registerSocketService: any = Sinon.stub();
+const {SocketService} = require("proxyquire")("../../src/decorators/SocketService", {
+  "../registries/SocketServiceRegistry": {registerSocketService}
+});
 
 describe("SocketService", () => {
   describe("case 1", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       SocketService("/namespace")(Test);
       this.store = Store.from(Test);
+    });
+    after(() => {
+      registerSocketService.reset();
     });
 
     it("should set metadata", () => {
@@ -17,13 +26,21 @@ describe("SocketService", () => {
         type: "service"
       });
     });
+
+    it("should call socketServiceRegistry", () => {
+      registerSocketService.should.have.been.calledWithExactly(Test);
+    });
   });
   describe("case 2", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       SocketService()(Test);
       this.store = Store.from(Test);
+    });
+    after(() => {
+      registerSocketService.reset();
     });
 
     it("should set metadata", () => {
@@ -31,6 +48,9 @@ describe("SocketService", () => {
         namespace: "/",
         type: "service"
       });
+    });
+    it("should call socketServiceRegistry", () => {
+      registerSocketService.should.have.been.calledWithExactly(Test);
     });
   });
 });

@@ -1,12 +1,13 @@
 import {Store} from "@tsed/core";
-import {Input} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import {InputAndEmit} from "../../src";
 
-describe("Input", () => {
-  class Test {}
+describe("InputAndEmit", () => {
+  class Test {
+  }
 
   before(() => {
-    Input("eventName")(Test, "test", {} as any);
+    InputAndEmit("eventName")(Test, "test", {} as any);
     this.store = Store.from(Test);
   });
 
@@ -15,7 +16,11 @@ describe("Input", () => {
       handlers: {
         test: {
           eventName: "eventName",
-          methodClassName: "test"
+          methodClassName: "test",
+          returns: {
+            eventName: "eventName",
+            type: "emit"
+          }
         }
       }
     });

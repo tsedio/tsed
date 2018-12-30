@@ -1,4 +1,4 @@
-import {inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import * as TypeORM from "typeorm";
 import {TypeORMService} from "../../src";
@@ -16,6 +16,7 @@ describe("TypeORMService", () => {
     );
 
     after(() => {
+      TestContext.reset();
       this.connectStub.restore();
     });
 

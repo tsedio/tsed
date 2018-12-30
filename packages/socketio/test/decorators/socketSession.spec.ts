@@ -1,12 +1,13 @@
 import {Store} from "@tsed/core";
-import {SocketEventName} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import {SocketSession} from "../../src";
 
-describe("@SocketEventName", () => {
-  class Test {}
+describe("SocketSession", () => {
+  class Test {
+  }
 
   before(() => {
-    SocketEventName(Test, "test", 0);
+    SocketSession(Test, "test", 0);
     this.store = Store.from(Test);
   });
 
@@ -16,7 +17,7 @@ describe("@SocketEventName", () => {
         test: {
           parameters: {
             "0": {
-              filter: "eventName",
+              filter: "session",
               mapIndex: undefined
             }
           }

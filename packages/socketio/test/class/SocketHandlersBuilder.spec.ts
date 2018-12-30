@@ -1,13 +1,12 @@
-import {InjectorService} from "@tsed/common";
+import {MiddlewareType} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {ProviderType} from "@tsed/di";
+import {InjectorService, ProviderType} from "@tsed/di";
 import {inject} from "@tsed/testing";
-import {MiddlewareType} from "../../../../packages/common/src/mvc";
-import {SocketHandlersBuilder} from "../../../../packages/socketio/src/class/SocketHandlersBuilder";
-import {SocketFilters} from "../../../../packages/socketio/src/interfaces/SocketFilters";
-import {SocketReturnsTypes} from "../../../../packages/socketio/src/interfaces/SocketReturnsTypes";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {SocketHandlersBuilder} from "../../src/class/SocketHandlersBuilder";
+import {SocketFilters} from "../../src/interfaces/SocketFilters";
+import {SocketReturnsTypes} from "../../src/interfaces/SocketReturnsTypes";
 
 describe("SocketHandlersBuilder", () => {
   describe("build()", () => {
@@ -691,7 +690,8 @@ describe("SocketHandlersBuilder", () => {
 
   describe("bindMiddleware()", () => {
     describe("middleware is not registered", () => {
-      class Test {}
+      class Test {
+      }
 
       before(
         inject([InjectorService], (injector: InjectorService) => {
@@ -732,7 +732,8 @@ describe("SocketHandlersBuilder", () => {
     });
 
     describe("middleware", () => {
-      class Test {}
+      class Test {
+      }
 
       before(
         inject([InjectorService], (injector: InjectorService) => {
@@ -785,7 +786,8 @@ describe("SocketHandlersBuilder", () => {
     });
 
     describe("middleware error", () => {
-      class Test {}
+      class Test {
+      }
 
       before(
         inject([InjectorService], (injector: InjectorService) => {

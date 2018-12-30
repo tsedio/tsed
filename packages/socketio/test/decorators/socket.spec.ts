@@ -1,12 +1,13 @@
 import {Store} from "@tsed/core";
-import {SocketSession} from "../../../../packages/socketio/src";
 import {expect} from "chai";
+import {Socket} from "../../src";
 
-describe("SocketSession", () => {
-  class Test {}
+describe("Socket", () => {
+  class Test {
+  }
 
   before(() => {
-    SocketSession(Test, "test", 0);
+    Socket(Test, "test", 0);
     this.store = Store.from(Test);
   });
 
@@ -16,7 +17,7 @@ describe("SocketSession", () => {
         test: {
           parameters: {
             "0": {
-              filter: "session",
+              filter: "socket",
               mapIndex: undefined
             }
           }
