@@ -1,10 +1,8 @@
-import {AjvService} from "@tsed/ajv";
-import {Format, JsonSchemesService} from "../../../packages/common/src/jsonschema";
-import {Required} from "../../../packages/common/src/mvc/decorators";
-import {ParseExpressionError} from "../../../packages/common/src/mvc/errors/ParseExpressionError";
+import {Format, JsonSchemesService, ParseExpressionError, Required} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import {inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
+import {AjvService} from "../src";
 
 let ajvService: AjvService;
 
@@ -33,8 +31,10 @@ describe("AJV", () => {
     })
   );
 
+  after(TestContext.reset);
+
   describe("Date validation", () => {
-    const errorMsg = 'At TestDate.dateStart should match format "date-time"';
+    const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
     class TestDate {
       @Format("date-time")
@@ -75,7 +75,7 @@ describe("AJV", () => {
   });
 
   describe("Array of", () => {
-    const errorMsg = 'At TestDate.dateStart should match format "date-time"';
+    const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
     class TestDate {
       @Format("date-time")
@@ -106,7 +106,7 @@ describe("AJV", () => {
   });
 
   describe("Set of", () => {
-    const errorMsg = 'At TestDate.dateStart should match format "date-time"';
+    const errorMsg = "At TestDate.dateStart should match format \"date-time\"";
 
     class TestDate {
       @Format("date-time")
