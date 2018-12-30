@@ -1,9 +1,10 @@
 import {expect} from "chai";
-import {UnknowPropertyError} from "../../../../packages/common/src/converters/errors/UnknowPropertyError";
+import {UnknowPropertyError} from "../../../common/src/converters/errors/UnknowPropertyError";
 
 describe("UnknowPropertyError", () => {
   before(() => {
-    this.errorInstance = new UnknowPropertyError(class Test {}, "propertyKey");
+    this.errorInstance = new UnknowPropertyError(class Test {
+    }, "propertyKey");
   });
 
   after(() => {

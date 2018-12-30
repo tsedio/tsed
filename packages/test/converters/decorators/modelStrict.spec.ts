@@ -1,8 +1,9 @@
-import {ModelStrict} from "../../../../packages/common/src/converters";
 import {Store} from "@tsed/core";
 import {expect} from "chai";
+import {ModelStrict} from "../../../common/src/converters";
 
-class Test {}
+class Test {
+}
 
 describe("ModelStrict", () => {
   describe("string type", () => {

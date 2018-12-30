@@ -1,6 +1,6 @@
+import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
-import {ConverterService} from "../../../../packages/common/src/converters";
-import {inject} from "@tsed/testing";
+import {ConverterService} from "../../../common/src/converters";
 
 describe("SymbolConverter", () => {
   before(
@@ -8,6 +8,7 @@ describe("SymbolConverter", () => {
       this.symbolConverter = converterService.getConverter(Symbol);
     })
   );
+  after(TestContext.reset);
 
   it("should do something", () => {
     expect(!!this.symbolConverter).to.be.true;

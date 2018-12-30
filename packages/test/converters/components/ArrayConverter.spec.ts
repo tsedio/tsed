@@ -1,7 +1,7 @@
-import {ConverterService} from "../../../../packages/common/src/converters";
-import {inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {ConverterService} from "../../../common/src/converters";
 
 describe("ArrayConverter", () => {
   before(
@@ -9,6 +9,7 @@ describe("ArrayConverter", () => {
       this.arrayConverter = converterService.getConverter(Array);
     })
   );
+  after(TestContext.reset);
 
   it("should do something", () => {
     expect(!!this.arrayConverter).to.be.true;

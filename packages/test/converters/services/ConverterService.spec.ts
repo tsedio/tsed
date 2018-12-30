@@ -1,9 +1,9 @@
 import {Store} from "@tsed/core";
 import {inject, TestContext} from "@tsed/testing";
 import {assert, expect} from "chai";
-import {ConverterService} from "../../../../packages/common/src/converters";
-import {JsonProperty} from "../../../../packages/common/src/jsonschema/decorators/jsonProperty";
-import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../helper/classes";
+import {ConverterService} from "../../../common/src/converters";
+import {JsonProperty} from "../../../common/src/jsonschema/decorators/jsonProperty";
+import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../test/helper/classes";
 
 class JsonFoo5 {
   @JsonProperty()

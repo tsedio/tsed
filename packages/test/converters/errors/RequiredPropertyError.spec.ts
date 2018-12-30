@@ -1,9 +1,10 @@
 import {expect} from "chai";
-import {RequiredPropertyError} from "../../../../packages/common/src/converters/errors/RequiredPropertyError";
+import {RequiredPropertyError} from "../../../common/src/converters/errors/RequiredPropertyError";
 
 describe("RequiredPropertyError", () => {
   before(() => {
-    this.errorInstance = new RequiredPropertyError(class Test {}, "propertyKey");
+    this.errorInstance = new RequiredPropertyError(class Test {
+    }, "propertyKey");
   });
 
   after(() => {

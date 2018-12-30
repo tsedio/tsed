@@ -1,6 +1,6 @@
+import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
-import {ConverterService} from "../../../../packages/common/src/converters";
-import {inject} from "@tsed/testing";
+import {ConverterService} from "../../../common/src/converters";
 
 describe("DateConverter", () => {
   before(
@@ -9,6 +9,7 @@ describe("DateConverter", () => {
       this.date = new Date();
     })
   );
+  after(TestContext.reset);
 
   it("should do something", () => {
     expect(!!this.dateConverter).to.be.true;

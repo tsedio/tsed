@@ -1,10 +1,11 @@
 import {expect} from "chai";
-import {ConverterDeserializationError} from "../../../../packages/common/src/converters/errors/ConverterDeserializationError";
+import {ConverterDeserializationError} from "../../../common/src/converters/errors/ConverterDeserializationError";
 
 describe("ConverterDeserializationError", () => {
   before(() => {
     this.genericError = new Error("test");
-    this.errorInstance = new ConverterDeserializationError(class Test {}, {}, this.genericError);
+    this.errorInstance = new ConverterDeserializationError(class Test {
+    }, {}, this.genericError);
   });
 
   after(() => {
