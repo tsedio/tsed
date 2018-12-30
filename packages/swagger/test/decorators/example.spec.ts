@@ -1,9 +1,10 @@
 import {Store} from "@tsed/core";
-import {Example} from "../../../../packages/swagger/src/decorators/example";
 import {expect} from "chai";
+import {Example} from "../../src";
 
 class Test {
-  test() {}
+  test() {
+  }
 }
 
 describe("Example()", () => {

@@ -1,18 +1,23 @@
-import {EndpointMetadata} from "../../../../packages/common/src/mvc/class/EndpointMetadata";
 import {Store} from "@tsed/core";
-import {OpenApiEndpointBuilder} from "../../../../packages/swagger/src/class/OpenApiEndpointBuilder";
 import * as Sinon from "sinon";
+import {EndpointMetadata} from "../../../common/src/mvc/class/EndpointMetadata";
+import {OpenApiEndpointBuilder} from "../../src/class/OpenApiEndpointBuilder";
 
-class Test {}
+class Test {
+}
 
 describe("OpenApiParamsBuilder", () => {
   before(() => {
     this.endpointMetadata = new EndpointMetadata(Test, "test");
-    this.builder = new OpenApiEndpointBuilder(this.endpointMetadata, "/test", {path: "/", method: "get"}, (s: any) => s);
+    this.builder = new OpenApiEndpointBuilder(this.endpointMetadata, "/test", {
+      path: "/",
+      method: "get"
+    }, (s: any) => s);
     // this.builder.build();
   });
 
-  after(() => {});
+  after(() => {
+  });
 
   describe("getTagName()", () => {
     const store = {
@@ -114,7 +119,8 @@ describe("OpenApiParamsBuilder", () => {
       before(() => {
         this.statusResponseStub = Sinon.stub(this.endpointMetadata, "statusResponse");
 
-        this.endpointMetadata.type = class Model {};
+        this.endpointMetadata.type = class Model {
+        };
 
         this.createSchemaStub = Sinon.stub(this.builder, "createSchema");
         this.createSchemaStub.returns({schema: "schema"});

@@ -1,4 +1,4 @@
-import {parseSwaggerPath} from "../../../../packages/swagger/src/utils";
+import {parseSwaggerPath} from "../../src/utils";
 import {expect} from "chai";
 
 describe("parseSwaggerPath()", () => {

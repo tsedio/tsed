@@ -1,8 +1,8 @@
 import {JsonSchema, JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {OpenApiModelSchemaBuilder} from "../../../../packages/swagger/src/class/OpenApiModelSchemaBuilder";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {OpenApiModelSchemaBuilder} from "../../src/class/OpenApiModelSchemaBuilder";
 import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
 
 describe("OpenApiModelSchemaBuilder", () => {
@@ -384,7 +384,8 @@ describe("OpenApiModelSchemaBuilder", () => {
   });
 
   describe("createSchema()", () => {
-    before(() => {});
+    before(() => {
+    });
   });
 
   describe("getClassSchema()", () => {
@@ -419,7 +420,8 @@ describe("OpenApiModelSchemaBuilder", () => {
           }
         };
 
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {});
+        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
+        });
         this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
       });
 
@@ -440,7 +442,8 @@ describe("OpenApiModelSchemaBuilder", () => {
         this.jsonSchema.type = "object";
 
         this.propertyMetadata = {
-          type: class Test2 {},
+          type: class Test2 {
+          },
           typeName: "Test2",
           isClass: true,
           store: {
@@ -448,7 +451,8 @@ describe("OpenApiModelSchemaBuilder", () => {
           }
         };
 
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {});
+        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
+        });
         this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
       });
 
@@ -482,7 +486,8 @@ describe("OpenApiModelSchemaBuilder", () => {
           }
         };
 
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {});
+        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
+        });
         this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
       });
 
@@ -505,7 +510,8 @@ describe("OpenApiModelSchemaBuilder", () => {
         this.jsonSchema = new JsonSchema();
 
         this.propertyMetadata = {
-          type: class Test2 {},
+          type: class Test2 {
+          },
           typeName: "Test2",
           isArray: true,
           isClass: true,
@@ -515,7 +521,8 @@ describe("OpenApiModelSchemaBuilder", () => {
           }
         };
 
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {});
+        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
+        });
         this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
       });
 

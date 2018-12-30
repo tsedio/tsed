@@ -1,10 +1,10 @@
-import {Store} from "@tsed/core";
-import {descriptorOf} from "@tsed/core";
-import {Produces} from "../../../../packages/swagger/src";
+import {descriptorOf, Store} from "@tsed/core";
 import {assert, expect} from "chai";
+import {Produces} from "../../src";
 
 class Test {
-  test() {}
+  test() {
+  }
 }
 
 describe("Produces()", () => {

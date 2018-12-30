@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {descriptorOf} from "@tsed/core";
-import {Deprecated} from "../../../../packages/swagger/src/decorators/deprecated";
+import {Deprecated} from "../../src/decorators/deprecated";
 import {assert, expect} from "chai";
 
 class Test {

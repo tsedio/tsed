@@ -1,6 +1,6 @@
-import {TestContext} from "@tsed/testing";
 import {InjectorService, Provider} from "@tsed/di";
 import {expect} from "chai";
+import {TestContext} from "../src";
 
 class FakeServer {
   static current: FakeServer;

@@ -1,13 +1,13 @@
-import {Store} from "@tsed/core";
-import {decoratorArgs} from "@tsed/core";
-import {JsonSchema} from "../../../../packages/common/src/jsonschema/class/JsonSchema";
-import {Description} from "../../../../packages/swagger/src/decorators/description";
+import {JsonSchema} from "@tsed/common";
+import {decoratorArgs, Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
+import {stubSchemaDecorator} from "../../../../test/units/jsonschema/decorators/utils";
+import {Description} from "../../src";
 
 class Test {
-  test(a: any) {}
+  test(a: any) {
+  }
 }
 
 describe("Description()", () => {

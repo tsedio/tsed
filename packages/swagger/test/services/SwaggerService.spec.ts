@@ -1,11 +1,12 @@
 import {ServerSettingsService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
-import {SwaggerService} from "../../../../packages/swagger/src";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {SwaggerService} from "../../src";
 
-class Test {}
+class Test {
+}
 
 describe("SwaggerService", () => {
   before(

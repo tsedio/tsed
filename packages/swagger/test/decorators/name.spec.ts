@@ -1,11 +1,11 @@
-import {Store} from "@tsed/core";
-import {decoratorArgs} from "@tsed/core";
-import {ControllerRegistry} from "../../../../packages/common/src/mvc/registries/ControllerRegistry";
-import {Name} from "../../../../packages/swagger/src/decorators/name";
+import {ControllerRegistry} from "@tsed/common";
+import {decoratorArgs, Store} from "@tsed/core";
 import {expect} from "chai";
+import {Name} from "../../src";
 
 class Test {
-  test(a: any) {}
+  test(a: any) {
+  }
 }
 
 describe("Name()", () => {

@@ -1,7 +1,7 @@
 import {ServerSettingsService} from "@tsed/common";
 import {inject} from "@tsed/testing";
-import {TypeORMModule} from "../../../packages/typeorm/src";
 import * as Sinon from "sinon";
+import {TypeORMModule} from "../src";
 
 describe("TypeORMModule", () => {
   describe("$onInit()", () => {

@@ -1,11 +1,10 @@
-import {ParamRegistry, ParamTypes} from "@tsed/common";
-import {ParamMetadata} from "../../../../packages/common/src/filters/class/ParamMetadata";
-import {BodyParamsFilter} from "../../../../packages/common/src/filters/components/BodyParamsFilter";
-import {OpenApiParamsBuilder} from "../../../../packages/swagger/src/class/OpenApiParamsBuilder";
+import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
+import {Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {BodyParamsFilter} from "../../../common/src/filters/components/BodyParamsFilter";
+import {OpenApiParamsBuilder} from "../../src/class/OpenApiParamsBuilder";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
-import {Store} from "@tsed/core";
 
 const param0 = new ParamMetadata(Ctrl, "test", 0);
 param0.service = BodyParamsFilter;
@@ -39,7 +38,8 @@ describe("OpenApiParamsBuilder", () => {
           attr1: any;
           attr2: any;
 
-          constructor(public target: any) {}
+          constructor(public target: any) {
+          }
 
           test() {
             return this.target;
@@ -89,7 +89,8 @@ describe("OpenApiParamsBuilder", () => {
           attr1: any;
           attr2: any;
 
-          constructor(public target: any) {}
+          constructor(public target: any) {
+          }
 
           test() {
             return this.target;
@@ -441,7 +442,8 @@ describe("OpenApiParamsBuilder", () => {
 
   describe("getInFormData()", () => {
     describe("when model", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         const storeGet = (key: string) => {
@@ -661,7 +663,8 @@ describe("OpenApiParamsBuilder", () => {
           isClass: false,
           isCollection: false,
           store: {
-            get: () => {}
+            get: () => {
+            }
           }
         });
       });
@@ -703,7 +706,8 @@ describe("OpenApiParamsBuilder", () => {
           isClass: false,
           isCollection: true,
           store: {
-            get: () => {}
+            get: () => {
+            }
           }
         });
       });
@@ -727,7 +731,8 @@ describe("OpenApiParamsBuilder", () => {
     });
 
     describe("when is a Test", () => {
-      class Test {}
+      class Test {
+      }
 
       before(() => {
         this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);

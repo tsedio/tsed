@@ -1,5 +1,5 @@
 import {Any, JsonProperty, PropertyType, Required} from "@tsed/common";
-import {Description, Example, Title} from "../../../../../packages/swagger/src";
+import {Description, Example, Title} from "../../../src";
 
 export class SwaNoDecoModel {
   public prop: string;
