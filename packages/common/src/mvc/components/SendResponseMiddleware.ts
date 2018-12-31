@@ -1,11 +1,11 @@
 import * as Express from "express";
 import {ConverterService} from "../../converters/services/ConverterService";
+import {EndpointInfo} from "../../filters";
 import {Response} from "../../filters/decorators/response";
 import {ResponseData} from "../../filters/decorators/responseData";
-
+import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces/index";
-import {EndpointInfo, EndpointMetadata} from "@tsed/common";
 
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {
