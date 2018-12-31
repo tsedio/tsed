@@ -1,10 +1,10 @@
 import {ControllerService} from "@tsed/common";
 import {inject} from "@tsed/testing";
+import {expect} from "chai";
+import * as Sinon from "Sinon";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarsCtrl} from "./CalendarsCtrl";
-import {expect} from "chai";
-
 
 describe("CalendarsCtrl", () => {
 
@@ -21,7 +21,6 @@ describe("CalendarsCtrl", () => {
   describe("via InjectorService to mock other service", () => {
     before(inject([ControllerService], (controllerService: ControllerService) => {
 
-      var Sinon;
       this.calendarsService = {
         find: Sinon.stub().returns(Promise.resolve({id: "1"}))
       };

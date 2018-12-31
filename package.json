@@ -12,7 +12,7 @@
     "start": "ts-node -r tsconfig-paths/register -r source-map-support/register test/integration/app/app.ts",
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --recursive",
-    "test:lint": "tslint --project tsconfig.json",
+    "test:lint": "tslint --project tsconfig.json -e integration",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
     "travis:deploy-once": "travis-deploy-once",
     "travis:coveralls": "nyc report --reporter=text-lcov | coveralls",

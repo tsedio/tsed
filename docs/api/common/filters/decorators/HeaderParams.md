@@ -37,12 +37,12 @@ HeaderParams return the value from [request.params](http://expressjs.com/en/4x/a
 @Controller('/')
 class MyCtrl {
    @Get('/')
-   get(@Header() body: any) {
+   get(@HeaderParams() body: any) {
       console.log('Entire body', body);
    }
 
    @Get('/')
-   get(@Header('x-token') token: string) {
+   get(@HeaderParams('x-token') token: string) {
       console.log('token', id);
    }
 }
