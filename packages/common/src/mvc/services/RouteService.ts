@@ -1,8 +1,7 @@
 import {nameOf} from "@tsed/core";
+import {Constant, InjectorService, Service} from "@tsed/di";
 import {$log} from "ts-log-debug";
 import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
-import {Service, InjectorService} from "@tsed/di";
-import {Constant} from "../../../../di/src/decorators/constant";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {AfterRoutesInit} from "../../server/interfaces/AfterRoutesInit";
 import {ControllerProvider} from "../class/ControllerProvider";
@@ -66,39 +65,6 @@ export class RouteService implements AfterRoutesInit {
   }
 
   /**
-   *
-   * @param routes
-   * @param ctrl
-   * @param endpointUrl
-   */
-  private buildRoutes(routes: any[], ctrl: ControllerProvider, endpointUrl: string) {
-    // console.log("Build routes =>", ctrl.className, endpointUrl);
-
-    ctrl.dependencies
-      .map(ctrl => this.injectorService.getProvider(ctrl))
-      .forEach((provider: ControllerProvider) => this.buildRoutes(routes, provider, `${endpointUrl}${provider.path}`));
-
-    ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      endpoint.pathsMethods.forEach(({path, method}) => {
-        if (!!method) {
-          const className = nameOf(ctrl.provide),
-            methodClassName = endpoint.methodClassName,
-            parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
-
-          routes.push({
-            method,
-            name: `${className}.${methodClassName}()`,
-            url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
-            className,
-            methodClassName,
-            parameters
-          });
-        }
-      });
-    });
-  }
-
-  /**
    * Print all route mounted in express via Annotation.
    */
   public printRoutes(logger: {info: (s: any) => void} = $log): void {
@@ -142,5 +108,38 @@ export class RouteService implements AfterRoutesInit {
    */
   getAll(): IControllerRoute[] {
     return this.getRoutes();
+  }
+
+  /**
+   *
+   * @param routes
+   * @param ctrl
+   * @param endpointUrl
+   */
+  private buildRoutes(routes: any[], ctrl: ControllerProvider, endpointUrl: string) {
+    // console.log("Build routes =>", ctrl.className, endpointUrl);
+
+    ctrl.dependencies
+      .map(ctrl => this.injectorService.getProvider(ctrl))
+      .forEach((provider: ControllerProvider) => this.buildRoutes(routes, provider, `${endpointUrl}${provider.path}`));
+
+    ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
+      endpoint.pathsMethods.forEach(({path, method}) => {
+        if (!!method) {
+          const className = nameOf(ctrl.provide),
+            methodClassName = endpoint.methodClassName,
+            parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
+
+          routes.push({
+            method,
+            name: `${className}.${methodClassName}()`,
+            url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
+            className,
+            methodClassName,
+            parameters
+          });
+        }
+      });
+    });
   }
 }
