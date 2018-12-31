@@ -68,7 +68,7 @@ import {TypeORMService} from "@tsed/typeorm";
 import {Connection} from "typeorm";
 
 @Service()
-export class UsersService implement AfterRoutesInit {
+export class UsersService implements AfterRoutesInit {
     private connection: Connection;
     constructor(private typeORMService: TypeORMService) {
 
