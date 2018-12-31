@@ -5,7 +5,7 @@ meta:
  - name: keywords
    content: ts.ed express typescript socket.io websocket node.js javascript decorators
 ---
-# Socket.io <Badge text="beta" type="warn"/>
+# Socket.io
 
 <Banner src="https://socket.io/css/images/logo.svg" href="https://socket.io" height="90" style="margin-left:-40px" />
 
@@ -282,5 +282,4 @@ export class MySocketService {
 
 ## Decorators
 
-<ApiList query="module === '@tsed/sockeio' && symbolType === 'decorator'" />
-
+<ApiList query="module.match('@tsed/socketio') && symbolType === 'decorator'" />

@@ -1,4 +1,4 @@
-const clean = require('gulp-clean');
+const clean = require("gulp-clean");
 
 module.exports = {
   /**
@@ -7,7 +7,7 @@ module.exports = {
    */
   dist(gulp) {
     return gulp
-      .src('dist', { read: false })
+      .src("dist", {read: false})
       .pipe(clean());
   },
   /**
@@ -17,9 +17,11 @@ module.exports = {
   workspace(gulp) {
     return gulp
       .src([
-        'test/**/*.{js,js.map,d.ts}',
-        'packages/**/*.{js,js.map,d.ts}'
-      ], { read: false })
+        "test/**/*.{js,js.map,d.ts}",
+        "test/**/*.{js,js.map,d.ts}",
+        "packages/**/*.{js,js.map,d.ts}",
+        "packages/**/node_modules"
+      ], {read: false})
       .pipe(clean());
   },
   /**
@@ -29,9 +31,9 @@ module.exports = {
   api(gulp) {
     return gulp
       .src([
-        'docs/api/*/*.md',
-        'docs/api/*/**'
-      ], { read: false })
+        "docs/api/*/*.md",
+        "docs/api/*/**"
+      ], {read: false})
       .pipe(clean());
   }
 };

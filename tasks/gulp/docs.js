@@ -8,9 +8,22 @@ const clean = require("gulp-clean");
 const ts = require("gulp-typescript");
 const logger = require("fancy-log");
 const chalk = require("chalk");
+const glob = require("glob");
+const {sync} = require("execa");
 
 const {tsdoc, packagesDir} = require("../../repo.config");
 const {branch} = require("../../release.config");
+/**
+ *
+ * @returns {*}
+ */
+const findPackages = () => {
+  const pkgs = glob.sync("*/package.json", {
+    cwd: packagesDir
+  });
+
+  return pkgs.map((pkg) => pkg.split("/")[0]);
+};
 
 /**
  *
@@ -35,20 +48,51 @@ module.exports = {
   async buildApi() {
     await module.exports.compile();
     await module.exports.clean();
+    await module.exports.bootstrap();
     await buildApi(tsdoc);
   },
 
   async build() {
     await module.exports.buildApi();
+
     await execa("vuepress", ["build", "docs"], {stdio: "inherit"});
+  },
+
+  async bootstrap() {
+    findPackages()
+      .filter((packageName) => packageName !== "legacy")
+      .map(pkgName => {
+        logger("Mount package", chalk.cyan(`'${pkgName}'`));
+
+        sync("npm", ["link", `./${path.join(packagesDir, pkgName)}`], {
+          stdio: "inherit"
+        });
+
+        return undefined;
+      });
+  },
+
+  async unlink() {
+    findPackages()
+      .filter((packageName) => packageName !== "legacy")
+      .map(pkgName => {
+        logger("Unlink package", chalk.cyan(`'${pkgName}'`));
+
+        sync("npm", ["unlink", `./${path.join(packagesDir, pkgName)}`], {
+          stdio: "inherit"
+        });
+
+        return undefined;
+      });
   },
 
   async compile() {
     logger(`Starting '${chalk.cyan("docs:compile")}'...`);
-    const tsProject = ts.createProject("./tsconfig.compile.json", {
+    const tsProject = ts.createProject("./tsconfig.json", {
       "declaration": true,
       "noResolve": false,
-      "preserveConstEnums": true
+      "preserveConstEnums": true,
+      "noEmit": false
     });
 
     const stream = tsProject.src()
@@ -74,7 +118,7 @@ module.exports = {
 
   async publish() {
     const currentBranch = process.env.TRAVIS_BRANCH;
-    
+
     if (currentBranch !== branch) {
       console.log(
         `This test run was triggered on the branch ${currentBranch}, while docs is configured to only publish from ${
