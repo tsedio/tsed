@@ -12,11 +12,7 @@ module.exports = {
     sidebar: "auto",
     ga: "UA-35240348-1",
     apiUrl: "/api.json",
-    algolia: {
-      appId: 'UFN39UDHAA',
-      apiKey: '63cc537c4e6d1464508bce8fc1ff1267',
-      indexName: 'prod_TSED'
-    },
+
     locales: {
       "/": {
         label: "English",
