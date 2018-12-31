@@ -7,14 +7,6 @@ module.exports = {
   typescript: true,
 
   pkgTemplate: (pkgName, {repository, bugs, author, license, gitHead, contributors}) => (json) => {
-
-    Object.keys(json.peerDependencies).forEach((key) => {
-      if (key.match(/@tsed/)) {
-        json.dependencies[key] = json.peerDependencies[key];
-        delete json.peerDependencies[key];
-      }
-    });
-
     Object.assign(json, {
       main: "lib/index.js",
       typings: "lib/index.d.ts",
@@ -34,7 +26,7 @@ module.exports = {
     rootDir: process.cwd(),
     packagesDir: "packages/",
     scanPatterns: [
-      "<rootDir>/packages/**/**/*.d.ts",
+      "<rootDir>/packages/**/src/**/*.d.ts",
       "!node_modules"
     ],
     outputDir: "<rootDir>/docs/api",

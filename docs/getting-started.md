@@ -6,25 +6,48 @@ otherTopics: true
 ---
 
 # Getting started
-## Installation
+
+You can start your project from the [getting started project](https://github.com/Romakita/ts-express-decorators/tree/master/integration/getting-started).
+
+## Installation from scratch
 
 You can get the latest version of Ts.ED using the following npm command:
 
 ```bash
 $ npm install --save-dev typescript @types/express
-$ npm install --save express@4 @tsed/core @tsed/common
+$ npm install --save express@4 @tsed/core @tsed/di @tsed/common
 ```
 
+::: tip
 The following modules are also recommended:
 
 ```bash
 $ npm install --save body-parser compression cookie-parser method-override
 $ npm install --save-dev ts-node nodemon
 ```
+:::
 
-> **Important!** Ts.ED requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
+::: warning
+It's really import to keep the same version for all `@tsed/*` packages.
+To prevent errors, fix the version for each Ts.ED packages:
+```json
+{
+  "dependencies": {
+    "@tsed/common": "5.0.7",
+    "@tsed/di": "5.0.7",
+    "@tsed/core": "5.0.7",
+    "@tsed/swagger": "5.0.7",
+    "@tsed/testing": "5.0.7"
+  }
+} 
+```
+:::
+
+::: warning
+Ts.ED requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
+:::
 
 ```json
 {

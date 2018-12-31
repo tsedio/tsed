@@ -1,4 +1,4 @@
 export interface Task {
-    name: string;
-    percent: number;
+  name: string;
+  percent: number;
 }

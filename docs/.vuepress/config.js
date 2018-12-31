@@ -6,6 +6,7 @@ module.exports = {
   themeConfig: {
     version: require("../../package").version,
     repo: "romakita/ts-express-decorators",
+    gitterUrl: "https://gitter.im/Tsed-io/community",
     editLinks: true,
     docsDir: "docs",
     sidebar: "auto",
@@ -74,10 +75,6 @@ module.exports = {
           {
             text: "Api Reference",
             link: "/api.html"
-          },
-          {
-            text: "Gitter",
-            link: "https://gitter.im/Tsed-io/community"
           }
         ],
 

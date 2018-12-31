@@ -32,6 +32,20 @@
       true,
       "allow-null-check"
     ],
+    "prefer-const": true,
+    "newline-before-return": true,
+    "no-angle-bracket-type-assertion": true,
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
+    "arrow-return-shorthand": true,
+    "object-literal-shorthand": true,
+    "array-type": [
+      true,
+      "array"
+    ],
     "typedef-whitespace": [
       true,
       {
@@ -44,7 +58,10 @@
     ],
     "variable-name": [
       true,
-      "ban-keywords"
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-trailing-underscore"
     ],
     "whitespace": [
       true,

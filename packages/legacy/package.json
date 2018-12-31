@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@tsed/core": "0.0.0-PLACEHOLDER",
+    "@tsed/di": "0.0.0-PLACEHOLDER",
     "@tsed/common": "0.0.0-PLACEHOLDER"
   },
   "peerDependencies": {},
