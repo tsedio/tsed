@@ -41,6 +41,12 @@
     "./**/*.spec.ts",
     "test",
     "lib",
-    "dist"
-  ]
+    "dist",
+    "integration/**"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "integration/**"
+    ]
+  }
 }

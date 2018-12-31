@@ -99,7 +99,7 @@
   dependencies:
     samsam "1.3.0"
 
-"@tsed/common@5.0.6", "@tsed/common@^5.0.0":
+"@tsed/common@5.0.6", "@tsed/common@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.0.6.tgz#5b7d8c669523627a72df78424e2918fb35a1e8b7"
   integrity sha512-wlfXNBuImVa1S01jtOaD+fFBrJmdEi58deprqFAjyf5hrX8faLxARmRRR85LHPClBuHImn774U8ASBBjYQn8sg==
@@ -113,7 +113,7 @@
     ts-log-debug "^4.0.1"
     tslib "^1.9.0"
 
-"@tsed/core@5.0.6", "@tsed/core@^5.0.0":
+"@tsed/core@5.0.6", "@tsed/core@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.0.6.tgz#96a345d23e6a6cde3e215ee0d0dff0ac5d7b2fd3"
   integrity sha512-O75Gv66cgoiHOpr3DZloYdbHNTAwGrStPJKGChn7xU89VMmsI6NAw29UU8cfPApPMCkcYkroEUl6S05ig2QCBw==
@@ -130,7 +130,7 @@
     "@tsed/core" "5.0.6"
     tslib "^1.8.0"
 
-"@tsed/swagger@^5.0.0":
+"@tsed/swagger@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.0.6.tgz#42e467bfee0b3bd62dd6a6394640154c56a5c82c"
   integrity sha512-C5ytJwci2tEpZU8XP3LeKRxx3qWiERhxXLIBs2ERw9uzDerqoPmobxhCgETUYxAr4WDRwiZ6oamaUSRHe/r4Og==
@@ -140,7 +140,7 @@
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@^5.0.0":
+"@tsed/testing@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.0.6.tgz#4667889773efd9b2b37dcd4f8603203c8d4fdb7c"
   integrity sha512-OM2nGbQxrPL1Dg3YlJfeBn2roJRrd58TF8ne2pNm6VLSRHKFCOta5E2aO5MhBL9taOj/Wh6CNHkNV6yNQvOYVg==

@@ -2,7 +2,7 @@
 
 ## Starters
 
-* [Quick start project](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-basic)
+* [Quick start project](https://github.com/Romakita/ts-express-decorators/tree/production/integration/getting-started)
 * [Node Api Starter](https://github.com/scopsy/node-typescript-starter) by [Scopsy](https://github.com/scopsy)
 
 ## Demo
@@ -11,7 +11,7 @@ Some examples are available along these links :
 
 **Projects examples for v4.0.0 and more**
 
-* [Basics usages](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-basic)
+* [Basics usages](https://github.com/Romakita/ts-express-decorators/tree/production/integration/getting-started)
 * [Https](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-https)
 * [Authentication with Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport)
 * [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
