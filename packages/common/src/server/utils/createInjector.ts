@@ -1,5 +1,5 @@
-import {InjectorService} from "@tsed/di";
-import {GlobalProviders, ProviderType, ServerSettingsService} from "../../..";
+import {InjectorService, GlobalProviders, ProviderType} from "@tsed/di";
+import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 
 export function createInjector(settings: any) {
   const injector = new InjectorService();

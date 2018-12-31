@@ -4,6 +4,7 @@ module.exports = {
   versionPlaceholder: "0.0.0-PLACEHOLDER",
   packagesDir: "./packages",
   outputDir: "./dist",
+  typescript: true,
 
   pkgTemplate: (pkgName, {repository, bugs, author, license, gitHead, contributors}) => (json) => {
 

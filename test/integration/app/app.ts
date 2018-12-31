@@ -28,11 +28,11 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   },
   mount: {
     "/": [SocketPageCtrl],
-    "/rest": ["${rootDir}/controllers/Base/**.js", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl, ProductsCtrl],
+    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl, ProductsCtrl],
     "/rest/v1": "${rootDir}/controllers/{calendars,users}/**.ts"
   },
 
-  componentsScan: ["${rootDir}/services/**/**.js"],
+  componentsScan: ["${rootDir}/services/**/*.ts"],
 
   uploadDir: "${rootDir}/uploads",
 
@@ -88,7 +88,7 @@ export class ExampleServer extends ServerLoader {
       .use(methodOverride());
 
     this.engine(".html", require("ejs").__express)
-      .set("views", "./views")
+      .set("views", `${rootDir}/views`)
       .set("view engine", "html");
 
     this.set("trust proxy", 1);

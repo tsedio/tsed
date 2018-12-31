@@ -1,8 +1,8 @@
 import {ExpressApplication} from "@tsed/common";
 import {bootstrap, inject, TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
-import {expect} from "../tools";
-import {FakeServer} from "./FakeServer";
+import {expect} from "chai";
+import {FakeServer} from "./app/FakeServer";
 
 describe("Swagger", () => {
   before(bootstrap(FakeServer));

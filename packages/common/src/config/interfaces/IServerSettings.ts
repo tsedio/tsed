@@ -4,8 +4,8 @@
 /** */
 
 import {Env} from "@tsed/core";
-import * as Https from "https";
 import {ProviderScope} from "@tsed/di";
+import * as Https from "https";
 
 /**
  *
@@ -128,10 +128,6 @@ export interface IServerSettings {
    */
   exclude?: string[];
   /**
-   * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
-   */
-  serveStatic?: IServerMountDirectories;
-  /**
    * Configure the mimes accepted by default by the server.
    */
   acceptMimes?: string[];
@@ -168,6 +164,15 @@ export interface IServerSettings {
    * Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
    */
   routers?: IRouterSettings;
+  /**
+   * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
+   */
+  statics?: IServerMountDirectories;
+  /**
+   * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
+   * @deprecated
+   */
+  serveStatic?: IServerMountDirectories;
 
   [key: string]: any;
 }

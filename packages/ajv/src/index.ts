@@ -1,4 +1,4 @@
-import "./services/AjvService";
+export * from "./services/AjvService";
 import {IAjvSettings} from "./interfaces/IAjvSettings";
 
 declare module "@tsed/common" {

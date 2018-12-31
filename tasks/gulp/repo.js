@@ -15,7 +15,7 @@ const sourcemaps = require("gulp-sourcemaps");
 
 const all = require("./utils/all");
 
-const {outputDir, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder} = require("../../repo.config");
+const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder} = require("../../repo.config");
 /**
  *
  * @returns {Promise<any>}
@@ -67,6 +67,14 @@ module.exports = {
       .map(pkgName => {
         logger("Mount package", chalk.cyan(`'${pkgName}'`));
 
+        if (typescript) {
+          // sync("yarn", ["install"], {
+          //   stdio: "inherit",
+          //   cwd: `./${path.join(packagesDir, pkgName)}`
+          // });
+          return;
+        }
+
         sync("npm", ["link", `./${path.join(packagesDir, pkgName)}`], {
           stdio: "inherit"
         });
@@ -86,7 +94,7 @@ module.exports = {
 
     logger(`Finished '${chalk.cyan("repo:clean")}'`);
 
-    if (fs.existsSync("./tsconfig.compile.json")) {
+    if (fs.existsSync("./tsconfig.json")) {
       logger(`Starting '${chalk.cyan("repo:compile")}'...`);
 
       await module.exports.compile(g);
@@ -112,10 +120,12 @@ module.exports = {
     const promises = findPackages().map(pkgName => {
       logger("Compile package", chalk.cyan(`'${npmScope}/${pkgName}'`) + "...");
 
-      const tsProject = ts.createProject("./tsconfig.compile.json", {
+      const tsProject = ts.createProject("./tsconfig.json", {
         "declaration": true,
         "noResolve": false,
-        "preserveConstEnums": true
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "noEmit": false
       });
 
       return toPromise(g
@@ -145,8 +155,8 @@ module.exports = {
         `${packagesDir}/**`,
         `${packagesDir}/**/.npmignore`,
         `!${packagesDir}/**/src/**/*.{js,js.map,d.ts}`,
-        `!${packagesDir}/**/src/package-lock.json`,
-        `!${packagesDir}/**/src/yarn.lock`,
+        `!${packagesDir}/**/package-lock.json`,
+        `!${packagesDir}/**/yarn.lock`,
         `!${packagesDir}/**/node_modules/**`
       ], {base: packagesDir})
       .pipe(replace(versionPlaceholder, version))

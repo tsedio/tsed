@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "commonjs",
-    "target": "es2015",
+    "target": "es2017",
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
@@ -16,34 +16,30 @@
     "noUnusedParameters": false,
     "importHelpers": true,
     "newLine": "LF",
+    "noEmit": true,
     "lib": [
-      "es6",
+      "es7",
       "dom"
     ],
     "typeRoots": [
       "./node_modules/@types"
     ],
     "paths": {
-      "@tsed/core": [
-        "./packages/core/src"
+      "*": [
+        "*"
       ],
-      "@tsed/di": [
-        "./packages/di/src"
-      ],
-      "@tsed/common": [
-        "./packages/common/src"
-      ],
-      "@tsed/testing": [
-        "./packages/testing/src"
+      "@tsed/*": [
+        "./packages/*/src"
       ]
     }
   },
   "include": [
-    "packages/**/*",
-    "test"
+    "packages/*/src/**/*"
   ],
   "exclude": [
     "node_modules",
+    "./**/*.spec.ts",
+    "test",
     "lib",
     "dist"
   ]

@@ -2,7 +2,7 @@ import {nameOf} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
 import {Service, InjectorService} from "@tsed/di";
-import {Constant} from "../../config/decorators/constant";
+import {Constant} from "../../../../di/src/decorators/constant";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {AfterRoutesInit} from "../../server/interfaces/AfterRoutesInit";
 import {ControllerProvider} from "../class/ControllerProvider";

@@ -22,12 +22,13 @@ export * from "./registries/EndpointRegistry";
 export * from "./registries/MiddlewareRegistry";
 
 // middlewares
+export * from "./components/AuthenticatedMiddleware";
+export * from "./components/AcceptMimesMiddleware";
 export * from "./components/GlobalAcceptMimesMiddleware";
 export * from "./components/GlobalErrorHandlerMiddleware";
-export * from "./components/AuthenticatedMiddleware";
+export * from "./components/LogIncomingRequestMiddleware";
 export * from "./components/ResponseViewMiddleware";
 export * from "./components/SendResponseMiddleware";
-export * from "./components/LogIncomingRequestMiddleware";
 
 // services
 export * from "./services/ControllerService";
