@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {IInjectableProperties} from "@tsed/di";
+import {IInjectableProperties} from "../interfaces/IInjectableProperties";
 
 /**
  * Return value from ServerSettingsService.
