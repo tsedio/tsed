@@ -6,7 +6,8 @@ meta:
    content: ts.ed express typescript ajv node.js javascript decorators jsonschema class models
 ---
 
-# AJV <Badge text="beta" type="warn"/>
+# AJV
+<Badge text="beta" type="warn"/>
 
 <Banner src="https://ajv.js.org/images/ajv_logo.png" href="https://ajv.js.org/" height="100" />
 
