@@ -11,6 +11,10 @@ meta:
 
 Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
+## Example
+
+A complete example is available [here](https://github.com/Romakita/ts-express-decorators/tree/production/integration/socketio).
+
 ## Installation
 
 Before using the Socket.io, we need to install the [Socket.io](https://www.npmjs.com/package/socket.io) module.

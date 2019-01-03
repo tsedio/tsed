@@ -121,45 +121,43 @@ a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
 ```typescript
 import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
-import Path = require("path");
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const compress = require('compression');
+const methodOverride = require('method-override');
+const rootDir = __dirname;
 
 @ServerSettings({
-    rootDir: Path.resolve(__dirname), // optional. By default it's equal to process.cwd()
-    acceptMimes: ["application/json"]
+  rootDir,
+  acceptMimes: ["application/json"]
 })
 export class Server extends ServerLoader {
 
-    /**
-     * This method let you configure the express middleware required by your application to works.
-     * @returns {Server}
-     */
-    public $onMountingMiddlewares(): void|Promise<any> {
-    
-        const cookieParser = require('cookie-parser'),
-            bodyParser = require('body-parser'),
-            compress = require('compression'),
-            methodOverride = require('method-override');
+  /**
+   * This method let you configure the express middleware required by your application to works.
+   * @returns {Server}
+   */
+  public $onMountingMiddlewares(): void|Promise<any> {
+      this
+        .use(GlobalAcceptMimesMiddleware)
+        .use(cookieParser())
+        .use(compress({}))
+        .use(methodOverride())
+        .use(bodyParser.json())
+        .use(bodyParser.urlencoded({
+          extended: true
+        }));
 
-        this
-            .use(GlobalAcceptMimesMiddleware)
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride())
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }));
+      return null;
+  }
 
-        return null;
-    }
-
-    public $onReady(){
-        console.log('Server started...');
-    }
+  public $onReady(){
+      console.log('Server started...');
+  }
    
-    public $onServerInitError(err){
-        console.error(err);
-    }
+  public $onServerInitError(err){
+      console.error(err);
+  }
 }
 
 new Server().start();
@@ -197,43 +195,42 @@ So the controller's url will be `http://host/rest/calendars`.
 
 ```typescript
 import {
-    Controller, Get, Render, Post, 
-    Authenticated, Required, BodyParams,
-    Delete
+  Controller, Get, Render, Post, 
+  Authenticated, Required, BodyParams,
+  Delete
 } from "@tsed/common";
 
 export interface Calendar{
-    id: string;
-    name: string;
+  id: string;
+  name: string;
 }
 
 @Controller("/calendars")
 export class CalendarCtrl {
 
-    @Get("/")
-    @Render("calendars/index")
-    async renderCalendars(): Promise<Array<Calendar>> {
-        return [{id: '1', name: "test"}];
-    }
+  @Get("/")
+  @Render("calendars/index")
+  async renderCalendars(): Promise<Array<Calendar>> {
+    return [{id: '1', name: "test"}];
+  }
+  
+  @Post("/")
+  @Authenticated()
+  async post(
+    @Required() @BodyParams("calendar") calendar: Calendar
+  ): Promise<Calendar> {
+    calendar.id = "1";
     
-    @Post("/")
-    @Authenticated()
-    async post(
-        @Required() @BodyParams("calendar") calendar: Calendar
-    ): Promise<Calendar> {
-        return new Promise<Calendar>((resolve: Function, reject: Function) => {
-            calendar.id = "1";
-            resolve(calendar);
-        });
-    }
-    
-    @Delete("/")
-    @Authenticated()
-    async deleteItem(
-        @BodyParams("calendar.id") @Required() id: string 
-    ): Promise<Calendar> {
-        return {id, name: "calendar"};
-    }
+    return Promise.resolve(calendar);
+  }
+  
+  @Delete("/")
+  @Authenticated()
+  async deleteItem(
+    @BodyParams("calendar.id") @Required() id: string 
+  ): Promise<Calendar> {
+    return {id, name: "calendar"};
+  }
 }
 ```
 
