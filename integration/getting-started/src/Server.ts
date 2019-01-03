@@ -2,8 +2,14 @@ import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/c
 import "@tsed/swagger";
 import {$log} from "ts-log-debug";
 
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const compress = require("compression");
+const methodOverride = require("method-override");
+const rootDir = __dirname;
+
 @ServerSettings({
-  rootDir: __dirname,
+  rootDir,
   acceptMimes: ["application/json"],
   logger: {
     debug: false,
@@ -18,19 +24,11 @@ import {$log} from "ts-log-debug";
   }
 })
 export class Server extends ServerLoader {
-
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
   $onMountingMiddlewares(): void | Promise<any> {
-
-    const cookieParser = require("cookie-parser"),
-      bodyParser = require("body-parser"),
-      compress = require("compression"),
-      methodOverride = require("method-override");
-
-
     this
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())

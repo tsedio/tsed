@@ -8,11 +8,17 @@ This decorator will use the response return by the method and will use the view 
 ## Installation
 This example use EJS as engine rendering. To use other engine, see the documentation of the concerned project. 
 ```typescript
-import Path = require("path");
-const rootDir = Path.resolve(__dirname);
+import {ServerSettings, ServerLoader} from "@tsed/common"
+const cons = require("consolidate");
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const compress = require('compression');
+const methodOverride = require('method-override');
+const rootDir = __dirname;
 
 @ServerSettings({
    rootDir,
+   viewsDir: `${rootDir}/views`,
    mount: {
       '/rest': `${rootDir}/controllers/**/**.js`
    },
@@ -22,14 +28,12 @@ const rootDir = Path.resolve(__dirname);
 })
 class Server extends ServerLoader {
 
+    $onInit(){
+        this.set("views", this.settings.get('viewsDir')); // le repertoire des vues
+        this.engine("ejs", cons.ejs);
+    }
+
     async $onMountingMiddlewares()  {
-
-        const cookieParser = require('cookie-parser'),
-            bodyParser = require('body-parser'),
-            compress = require('compression'),
-            methodOverride = require('method-override'),
-            session = require('express-session');
-
         this.use(ServerLoader.AcceptMime("application/json"))
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
@@ -38,11 +42,6 @@ class Server extends ServerLoader {
             .use(cookieParser())
             .use(compress({}))
             .use(methodOverride());
-
-        // EJS Engine Setting
-        this.engine('.html', require('ejs').__express)
-            .set('views', './views')
-            .set('view engine', 'html');
     }
 }
 ```
@@ -56,7 +55,7 @@ class Server extends ServerLoader {
 export class EventCtrl {
 
     @Get("/:id")
-    @Render("eventCard")
+    @Render("eventCard.ejs")
     public get(request: Express.Request, response: Express.Response): any {
         return {startDate: new Date(), name: "MyEvent"};
     }
