@@ -374,7 +374,7 @@ describe("buildMongooseSchema", () => {
           expect(this.result.test)
             .to.haveOwnProperty("required")
             .that.is.a("function");
-          expect(this.result.test).to;
+          expect(this.result.test).to.not.haveOwnProperty("prop");
         });
 
         it("should not have an _id", () => {
