@@ -61,7 +61,6 @@ describe("buildMongooseSchema", () => {
       after(() => {
         this.getPropertiesStub.restore();
         this.getSchemaDefinitionStub.restore();
-        this.propertyMetadata.store.get.restore();
       });
 
       it("should call getProperties and returns a list of properties", () => {
@@ -124,7 +123,6 @@ describe("buildMongooseSchema", () => {
       after(() => {
         this.getPropertiesStub.restore();
         this.getSchemaDefinitionStub.restore();
-        this.propertyMetadata.store.get.restore();
       });
 
       it("should call getProperties and returns a list of properties", () => {
@@ -189,7 +187,6 @@ describe("buildMongooseSchema", () => {
       after(() => {
         this.getPropertiesStub.restore();
         this.getSchemaDefinitionStub.restore();
-        this.propertyMetadata.store.get.restore();
       });
 
       it("should call getProperties and returns a list of properties", () => {
@@ -270,8 +267,6 @@ describe("buildMongooseSchema", () => {
         after(() => {
           this.getPropertiesStub.restore();
           this.getSchemaDefinitionStub.restore();
-          this.propertyMetadata.store.get.restore();
-          this.innerPropertyMetadata.store.get.restore();
         });
 
         it("should call getProperties and returns a list of properties", () => {
@@ -349,8 +344,6 @@ describe("buildMongooseSchema", () => {
         after(() => {
           this.getPropertiesStub.restore();
           this.getSchemaDefinitionStub.restore();
-          this.propertyMetadata.store.get.restore();
-          this.innerPropertyMetadata.store.get.restore();
         });
 
         it("should call getProperties and returns a list of properties", () => {
@@ -440,9 +433,6 @@ describe("buildMongooseSchema", () => {
         after(() => {
           this.getPropertiesStub.restore();
           this.getSchemaDefinitionStub.restore();
-          this.propertyMetadata.store.get.restore();
-          this.reversePropertyMetadata.store.get.restore();
-          this.innerPropertyMetadata.store.get.restore();
         });
 
         it("should call getProperties and returns a list of properties", () => {
