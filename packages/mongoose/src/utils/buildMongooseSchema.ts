@@ -56,13 +56,21 @@ export function buildMongooseSchema(target: any): MongooseSchema {
       const mongooseSchema = metadata.store.get(MONGOOSE_SCHEMA) || {};
 
       if (mongooseSchema.ref && mongooseSchema.localField && mongooseSchema.foreignField) {
+        if (metadata.required) {
+          throw new Error("Virtual references cannot be required.");
+        }
+
         mongooseSchema.justOnce = !metadata.isArray;
         schema.virtuals.set(key as string, mongooseSchema);
         continue;
       }
 
       let definition: any = {
-        required: metadata.required ? () => metadata.isRequired(this[key]) : false
+        required: metadata.required
+          ? function() {
+              return metadata.isRequired(this[key]);
+            }
+          : false
       };
 
       if (!metadata.isClass) {
