@@ -1,9 +1,10 @@
-import { JsonSchemesRegistry, PropertyRegistry } from "@tsed/common";
-import { Schema } from "mongoose";
-import { expect } from "chai";
+import {Store} from "@tsed/core";
+import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
+import {Schema} from "mongoose";
+import {expect} from "chai";
 import * as Sinon from "sinon";
-import { MONGOOSE_SCHEMA } from "../../src/constants";
-import { buildMongooseSchema, mapProps } from "../../src/utils/buildMongooseSchema";
+import {MONGOOSE_SCHEMA} from "../../src/constants";
+import {buildMongooseSchema, mapProps} from "../../src/utils/buildMongooseSchema";
 
 describe("buildMongooseSchema", () => {
   describe("mapProps()", () => {
@@ -31,16 +32,16 @@ describe("buildMongooseSchema", () => {
   });
 
   describe("buildMongooseSchema()", () => {
-    class Test { }
+    class Test {}
 
-    describe("when property is not a class", () => {
+    describe("when property is a primitive", () => {
       before(() => {
         this.propertyMetadata = {
           type: String,
           required: true,
           isClass: false,
           store: {
-            get: Sinon.stub().returns({ minLength: 1 })
+            get: Sinon.stub().returns({minLength: 1})
           }
         };
 
@@ -72,26 +73,30 @@ describe("buildMongooseSchema", () => {
       });
 
       it("should return a schema with property test", () => {
-        expect(this.result)
+        expect(this.result.schema)
           .to.haveOwnProperty("test")
           .that.is.an("object");
-        expect(this.result.test)
+        expect(this.result.schema.test)
           .to.haveOwnProperty("maxlength")
           .that.equals(9);
-        expect(this.result.test)
+        expect(this.result.schema.test)
           .to.haveOwnProperty("minLength")
           .that.equals(1);
-        expect(this.result.test)
+        expect(this.result.schema.test)
           .to.haveOwnProperty("required")
           .that.is.a("function");
-        expect(this.result.test)
+        expect(this.result.schema.test)
           .to.haveOwnProperty("type")
           .that.equals(String);
       });
 
       it("should not have an _id", () => {
-        expect(this.result).to.not.haveOwnProperty("_id");
+        expect(this.result.schema).to.not.haveOwnProperty("_id");
       });
+
+      it("should have no virtuals", () => {
+        expect(this.result.virtuals).to.be.empty;
+      })
     });
 
     describe("when property is an array", () => {
@@ -100,9 +105,10 @@ describe("buildMongooseSchema", () => {
           type: String,
           required: true,
           isArray: true,
+          isCollection: true,
           isClass: false,
           store: {
-            get: Sinon.stub().returns({ minLength: 1 })
+            get: Sinon.stub().returns({minLength: 1})
           }
         };
 
@@ -134,27 +140,31 @@ describe("buildMongooseSchema", () => {
       });
 
       it("should return a schema with property test", () => {
-        expect(this.result)
+        expect(this.result.schema)
           .to.haveOwnProperty("test")
           .that.is.an("array")
           .that.have.lengthOf(1);
-        expect(this.result.test[0])
+        expect(this.result.schema.test[0])
           .to.haveOwnProperty("maxlength")
           .that.equals(9);
-        expect(this.result.test[0])
+        expect(this.result.schema.test[0])
           .to.haveOwnProperty("minLength")
           .that.equals(1);
-        expect(this.result.test[0])
+        expect(this.result.schema.test[0])
           .to.haveOwnProperty("required")
           .that.is.a("function");
-        expect(this.result.test[0])
+        expect(this.result.schema.test[0])
           .to.haveOwnProperty("type")
           .that.equals(String);
       });
 
       it("should not have an _id", () => {
-        expect(this.result).to.not.haveOwnProperty("_id");
+        expect(this.result.schema).to.not.haveOwnProperty("_id");
       });
+
+      it("should have no virtuals", () => {
+        expect(this.result.virtuals).to.be.empty;
+      })
     });
 
     describe("when property is a map", () => {
@@ -165,8 +175,9 @@ describe("buildMongooseSchema", () => {
           isClass: false,
           isArray: false,
           isCollection: true,
+          collectionType: Map,
           store: {
-            get: Sinon.stub().returns({ minLength: 1 })
+            get: Sinon.stub().returns({minLength: 1})
           }
         };
 
@@ -198,33 +209,39 @@ describe("buildMongooseSchema", () => {
       });
 
       it("should return a schema with property test", () => {
-        expect(this.result)
+        expect(this.result.schema)
           .to.haveOwnProperty("test")
           .that.is.an("object");
-        expect(this.result.test)
-          .to.haveOwnProperty("maxlength")
-          .that.equals(9);
-        expect(this.result.test)
-          .to.haveOwnProperty("minLength")
-          .that.equals(1);
-        expect(this.result.test)
-          .to.haveOwnProperty("required")
-          .that.is.a("function");
-        expect(this.result.test)
+        expect(this.result.schema.test)
           .to.haveOwnProperty("type")
           .that.equals(Map);
-        expect(this.result.test)
+        expect(this.result.schema.test)
           .to.haveOwnProperty("of")
+          .that.is.an("object");
+        expect(this.result.schema.test.of)
+          .to.haveOwnProperty("type")
           .that.equals(String);
+        expect(this.result.schema.test.of)
+          .to.haveOwnProperty("maxlength")
+          .that.equals(9);
+        expect(this.result.schema.test.of)
+          .to.haveOwnProperty("minLength")
+          .that.equals(1);
+        expect(this.result.schema.test.of)
+          .to.haveOwnProperty("required")
+          .that.is.a("function");
+      });
+      it("should not have an _id", () => {
+        expect(this.result.schema).to.not.haveOwnProperty("_id");
       });
 
-      it("should not have an _id", () => {
-        expect(this.result).to.not.haveOwnProperty("_id");
-      });
+      it("should have no virtuals", () => {
+        expect(this.result.virtuals).to.be.empty;
+      })
     });
 
     describe("when property is a class", () => {
-      class Children { }
+      class Children {}
 
       describe("when property is a subdocument", () => {
         before(() => {
@@ -232,16 +249,6 @@ describe("buildMongooseSchema", () => {
             type: Children,
             required: true,
             isClass: true,
-            store: {
-              get: Sinon.stub().returns(undefined)
-            }
-          };
-
-          this.innerPropertyMetadata = {
-            type: String,
-            required: false,
-            isClass: false,
-            isArray: true,
             store: {
               get: Sinon.stub().returns(undefined)
             }
@@ -261,12 +268,20 @@ describe("buildMongooseSchema", () => {
               }
             });
 
+          // @ts-ignore @types/sinon doesn't allow to use overrides with sinon.createStubInstance.
+          this.storeResultStub = Sinon.createStubInstance(Store, {
+            has: Sinon.stub().returns(true),
+            get: Sinon.stub().returns("Schema")
+          });
+
+          this.storeFromStub = Sinon.stub(Store, "from").returns(this.storeResultStub);
           this.result = buildMongooseSchema(Test);
         });
 
         after(() => {
           this.getPropertiesStub.restore();
           this.getSchemaDefinitionStub.restore();
+          this.storeFromStub.restore();
         });
 
         it("should call getProperties and returns a list of properties", () => {
@@ -279,25 +294,24 @@ describe("buildMongooseSchema", () => {
         });
 
         it("should return a schema with property test", () => {
-          expect(this.result)
+          expect(this.result.schema)
             .to.haveOwnProperty("test")
             .that.is.an("object");
-          expect(this.result.test)
+          expect(this.result.schema.test)
             .to.haveOwnProperty("required")
             .that.is.a("function");
-          expect(this.result.test)
-            .to.haveOwnProperty("prop")
-            .that.deep.equals([
-              {
-                required: false,
-                type: String
-              }
-            ]);
+          expect(this.result.schema.test)
+            .to.haveOwnProperty("type")
+            .that.equals("Schema");
         });
 
         it("should not have an _id", () => {
-          expect(this.result).to.not.haveOwnProperty("_id");
+          expect(this.result.schema).to.not.haveOwnProperty("_id");
         });
+
+        it("should have no virtuals", () => {
+          expect(this.result.virtuals).to.be.empty;
+        })
       });
 
       describe("when property is a reference class", () => {
@@ -348,6 +362,7 @@ describe("buildMongooseSchema", () => {
 
         it("should call getProperties and returns a list of properties", () => {
           this.getPropertiesStub.should.have.been.calledWithExactly(Test);
+          this.getPropertiesStub.should.not.have.been.calledWithExactly(Children);
         });
 
         it("should call store.get", () => {
@@ -355,24 +370,28 @@ describe("buildMongooseSchema", () => {
         });
 
         it("should return a schema with property test", () => {
-          expect(this.result)
+          expect(this.result.schema)
             .to.haveOwnProperty("test")
             .that.is.an("object");
-          expect(this.result.test)
+          expect(this.result.schema.test)
             .to.haveOwnProperty("type")
             .that.equals(Schema.Types.ObjectId);
-          expect(this.result.test)
+          expect(this.result.schema.test)
             .to.haveOwnProperty("ref")
             .that.equals("Children");
-          expect(this.result.test)
+          expect(this.result.schema.test)
             .to.haveOwnProperty("required")
             .that.is.a("function");
-          expect(this.result.test).to.not.haveOwnProperty("prop");
+          expect(this.result.schema.test).to.not.haveOwnProperty("prop");
         });
 
         it("should not have an _id", () => {
-          expect(this.result).to.not.haveOwnProperty("_id");
+          expect(this.result.schema).to.not.haveOwnProperty("_id");
         });
+
+        it("should have no virtuals", () => {
+          expect(this.result.virtuals).to.be.empty;
+        })
       });
 
       describe("when property is a virtual reference", () => {
@@ -443,14 +462,17 @@ describe("buildMongooseSchema", () => {
           this.propertyMetadata.store.get.should.have.been.calledWithExactly(MONGOOSE_SCHEMA);
         });
 
-        it("should return a schema with property test", () => {
-          expect(this.result).to.not.haveOwnProperty("test");
-          expect(this.result.virtuals).to.haveOwnProperty("test");
+        it("should return a schema without property test", () => {
+          expect(this.result.schema).to.not.haveOwnProperty("test");
         });
 
         it("should not have an _id", () => {
-          expect(this.result).to.not.haveOwnProperty("_id");
+          expect(this.result.schema).to.not.haveOwnProperty("_id");
         });
+
+        it("should have a test virtual", () => {
+          expect(this.result.virtuals).to.have.key("test");
+        })
       });
     });
   });

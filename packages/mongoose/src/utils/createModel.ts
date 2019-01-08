@@ -22,18 +22,6 @@ export function createModel<T>(
   skipInit?: boolean
 ): MongooseModel<T> {
   Store.from(target).set(MONGOOSE_MODEL_NAME, name);
-  target.prototype.serialize = function(options: IConverterOptions, converterService: ConverterService) {
-    const {checkRequiredValue, ignoreCallback} = options;
 
-    return converterService.serializeClass(this, {
-      type: getClass(target),
-      checkRequiredValue,
-      ignoreCallback
-    });
-  };
-
-  schema.loadClass(target);
-  const modelInstance: any = mongoose.model(name, schema, collection, skipInit);
-
-  return modelInstance;
+  return mongoose.model(name, schema, collection, skipInit);
 }
