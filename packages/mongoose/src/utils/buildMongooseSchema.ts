@@ -56,6 +56,7 @@ export function buildMongooseSchema(target: any): MongooseSchema {
       const mongooseSchema = metadata.store.get(MONGOOSE_SCHEMA) || {};
 
       if (mongooseSchema.ref && mongooseSchema.localField && mongooseSchema.foreignField) {
+        mongooseSchema.justOnce = !metadata.isArray;
         schema.virtuals.set(key as string, mongooseSchema);
         continue;
       }
