@@ -1,19 +1,22 @@
 import * as mongoose from "mongoose";
 import * as Sinon from "sinon";
 import {createSchema} from "../../src/utils";
-import * as mod from "../../src/utils/buildMongooseSchema";
+import * as modBuild from "../../src/utils/buildMongooseSchema";
+import * as modApply from "../../src/utils/schemaOptions";
 
 describe("createSchema()", () => {
   class Test {
   }
 
   before(() => {
-    this.buildMongooseSchemaStub = Sinon.stub(mod, "buildMongooseSchema").returns({
+    this.buildMongooseSchemaStub = Sinon.stub(modBuild, "buildMongooseSchema").returns({
       schema: {
         definition: "definition"
       },
       virtuals: new Map([["virtual", {}]])
     } as any);
+
+    this.applyStub = Sinon.stub(modApply, "applySchemaOptions");
 
     this.virtualStub = Sinon.stub();
     this.loadClassStub = Sinon.stub();
@@ -27,7 +30,7 @@ describe("createSchema()", () => {
       serializeClass: Sinon.stub()
     };
 
-    createSchema(Test, {options: "options"} as any);
+    createSchema(Test, {schemaOptions: {options: "options"}} as any);
 
     this.instance = new Test();
     this.instance.serialize({
@@ -38,6 +41,7 @@ describe("createSchema()", () => {
 
   after(() => {
     this.buildMongooseSchemaStub.restore();
+    this.applyStub.restore();
     this.schemaStub.restore();
   });
 
@@ -47,6 +51,10 @@ describe("createSchema()", () => {
 
   it("should create a schema instance", () => {
     this.schemaStub.should.have.been.calledWithExactly({definition: "definition"}, {options: "options"});
+  });
+
+  it("should call applySchemaOptions", () => {
+    this.applyStub.should.have.been.calledWithExactly(Test, {schemaOptions: {options: "options"}})
   });
 
   it("should add virtuals", () => {

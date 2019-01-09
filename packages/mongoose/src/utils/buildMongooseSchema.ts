@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
-import {MongooseSchema} from "../interfaces/MongooseSchema";
 import {MONGOOSE_SCHEMA} from "../constants";
+import {MongooseSchema} from "../interfaces";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
 

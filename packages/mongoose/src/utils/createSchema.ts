@@ -2,11 +2,11 @@ import {getClass, Store, Type} from "@tsed/core";
 import {ConverterService, IConverterOptions} from "@tsed/common";
 import * as mongoose from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
+import {MongooseSchema, MongooseSchemaOptions} from "../interfaces";
 import {buildMongooseSchema} from "./buildMongooseSchema";
-import {MongooseSchema} from "../interfaces/MongooseSchema";
+import {applySchemaOptions} from "./schemaOptions";
 
 function setUpTarget(target: Type<any>) {
-  // Using function to avoid this binding.
   target.prototype.serialize = function(options: IConverterOptions, converter: ConverterService) {
     const {checkRequiredValue, ignoreCallback} = options;
 
@@ -34,15 +34,15 @@ function setUpSchema({schema, virtuals}: MongooseSchema, options?: mongoose.Sche
  * @param {"mongoose".SchemaOptions} options
  * @returns {"mongoose".Schema}
  */
-export function createSchema(target: Type<any>, options?: mongoose.SchemaOptions): mongoose.Schema {
+export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
   const store = Store.from(target);
 
   if (!store.has(MONGOOSE_SCHEMA)) {
-    const schema = setUpSchema(buildMongooseSchema(target), options);
-
+    const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
+    store.set(MONGOOSE_SCHEMA, schema);
+    applySchemaOptions(target, options);
     setUpTarget(target);
     schema.loadClass(target);
-    store.set(MONGOOSE_SCHEMA, schema);
   }
 
   return store.get(MONGOOSE_SCHEMA);

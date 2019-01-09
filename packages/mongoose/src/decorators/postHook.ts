@@ -1,11 +1,10 @@
 import {getDecoratorType} from "@tsed/core";
-import {MongoosePostErrorHookCB, MongoosePostHookCB} from "../interfaces/MongooseModelOptions";
+import {MongoosePostErrorHookCB, MongoosePostHookCB} from "../interfaces";
 import {applySchemaOptions} from "../utils/schemaOptions";
 
 /**
  * We can simply attach a `@PostHook` decorator to your model class and
  * define the hook function like you normally would in Mongoose.
- *
  * ```typescript
  * import {IgnoreProperty, Required} from "@tsed/common";
  * import {PostHook, Model} from "@tsed/mongoose";

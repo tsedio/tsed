@@ -1,7 +1,6 @@
 import {Model} from "../../src/decorators";
 import * as register from "../../src/registries/MongooseModelRegistry";
 import * as modUtil from "../../src/utils";
-import * as apply from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
 
 describe("@Model()", () => {
@@ -10,7 +9,6 @@ describe("@Model()", () => {
 
     before(() => {
       this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"} as any);
-      this.applySchemaOptionStub = Sinon.stub(apply, "applySchemaOptions");
       this.createModelStub = Sinon.stub(modUtil, "createModel").returns({model: "model"} as any);
       this.registerModelStub = Sinon.stub(register, "registerModel");
 
@@ -23,17 +21,12 @@ describe("@Model()", () => {
     });
     after(() => {
       this.createSchemaStub.restore();
-      this.applySchemaOptionStub.restore();
       this.registerModelStub.restore();
       this.createModelStub.restore();
     });
 
     it("should call createSchema", () => {
-      this.createSchemaStub.should.have.been.calledWithExactly(Test, "schemaOptions");
-    });
-
-    it("should call createSchema", () => {
-      this.applySchemaOptionStub.should.have.been.calledWithExactly(Test, {
+      this.createSchemaStub.should.have.been.calledWithExactly(Test, {
         schemaOptions: "schemaOptions",
         name: "name",
         collection: "collection",
@@ -55,7 +48,6 @@ describe("@Model()", () => {
 
     before(() => {
       this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"} as any);
-      this.applySchemaOptionStub = Sinon.stub(apply, "applySchemaOptions");
       this.createModelStub = Sinon.stub(modUtil, "createModel").returns({model: "model"} as any);
       this.registerModelStub = Sinon.stub(register, "registerModel");
 
@@ -63,17 +55,12 @@ describe("@Model()", () => {
     });
     after(() => {
       this.createSchemaStub.restore();
-      this.applySchemaOptionStub.restore();
       this.registerModelStub.restore();
       this.createModelStub.restore();
     });
 
     it("should call createSchema", () => {
-      this.createSchemaStub.should.have.been.calledWithExactly(Test, undefined);
-    });
-
-    it("should call applySchemaOption", () => {
-      this.applySchemaOptionStub.should.have.been.calledWithExactly(Test, {});
+      this.createSchemaStub.should.have.been.calledWithExactly(Test, {});
     });
 
     it("should call createModelStub", () => {
