@@ -1,6 +1,6 @@
 import {getDecoratorType} from "@tsed/core";
 import {HookErrorCallback} from "mongoose";
-import {MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces/MongooseModelOptions";
+import {MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces";
 import {applySchemaOptions} from "../utils/schemaOptions";
 
 export interface PreHookOptions {

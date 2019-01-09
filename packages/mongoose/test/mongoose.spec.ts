@@ -1,5 +1,5 @@
 import {Allow, ConverterService, Property, PropertyType, Required} from "@tsed/common";
-import {Model, MongooseModel} from "@tsed/mongoose";
+import {Model, MongooseModel, Schema} from "@tsed/mongoose";
 import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 
@@ -12,6 +12,7 @@ export class TestModel {
   @Property() number: number;
 }
 
+@Schema()
 export class AdminModel {
   @Property({name: "id"}) // this one looks like _id in response, but it should be just id
   _id: string;
