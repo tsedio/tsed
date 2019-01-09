@@ -1,5 +1,3 @@
-import {$log} from "ts-log-debug";
-import {InjectorService} from "@tsed/di";
 import {
   createExpressApplication,
   createHttpServer,
@@ -12,6 +10,8 @@ import {
   ServerSettingsService
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
+import {$log} from "ts-log-debug";
 
 export class TestContext {
   private static _injector: InjectorService | null = null;
@@ -121,13 +121,22 @@ export class TestContext {
     };
   }
 
-  static invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]) {
+  static invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
     const locals = new Map();
 
     providers.forEach(p => {
       locals.set(p.provide, p.use);
     });
 
-    return TestContext.injector.invoke(target, locals);
+    const instance: any = TestContext.injector.invoke(target, locals);
+
+    if (instance && instance.$onInit) {
+      const result = instance.$onInit();
+      if (result instanceof Promise) {
+        return result.then(() => instance);
+      }
+    }
+
+    return instance;
   }
 }

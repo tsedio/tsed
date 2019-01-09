@@ -1,5 +1,6 @@
 import {InjectorService, Provider} from "@tsed/di";
 import {expect} from "chai";
+import * as Sinon from "sinon";
 import {TestContext} from "../src";
 
 class FakeServer {
@@ -13,6 +14,12 @@ class FakeServer {
     FakeServer.current = this;
 
     return this.startServers();
+  }
+}
+
+class FakeService {
+  $onInit() {
+
   }
 }
 
@@ -38,6 +45,51 @@ describe("TestContext", () => {
     it("should replace FakeServer.startServers by a stub()", () => {
       expect(FakeServer.current.startServers).to.be.a("Function");
       expect(FakeServer.current.startServers()).to.be.an.instanceOf(Promise);
+    });
+  });
+
+  describe("invoke()", () => {
+    const sandbox = Sinon.createSandbox();
+
+    before(TestContext.create);
+    after(TestContext.reset);
+    before(() => {
+      sandbox.stub(FakeService.prototype, "$onInit");
+    });
+
+    after(() => {
+      sandbox.restore();
+    });
+
+    describe("when $onInit return a nothing", () => {
+      after(() => {
+        sandbox.resetHistory();
+        sandbox.resetBehavior();
+      });
+
+      it("should invoke Service and call $onInit hook", () => {
+        const instance = TestContext.invoke(FakeService, []);
+        expect(instance).to.be.instanceOf(FakeService);
+
+        return instance.$onInit.should.have.been.called;
+      });
+    });
+
+    describe("when $onInit return a promise", () => {
+      before(() => {
+        (FakeService.prototype.$onInit as any).resolves();
+      });
+      after(() => {
+        sandbox.resetHistory();
+        sandbox.resetBehavior();
+      });
+
+      it("should invoke Service and call $onInit hook", async () => {
+        const instance = await TestContext.invoke(FakeService, []);
+        expect(instance).to.be.instanceOf(FakeService);
+
+        return instance.$onInit.should.have.been.called;
+      });
     });
   });
 });
