@@ -56,10 +56,6 @@ export function buildMongooseSchema(target: any): MongooseSchema {
       const mongooseSchema = metadata.store.get(MONGOOSE_SCHEMA) || {};
 
       if (mongooseSchema.ref && mongooseSchema.localField && mongooseSchema.foreignField) {
-        if (metadata.required) {
-          throw new Error("Virtual references cannot be required.");
-        }
-
         mongooseSchema.justOnce = !metadata.isArray;
         schema.virtuals.set(key as string, mongooseSchema);
         continue;
@@ -77,13 +73,7 @@ export function buildMongooseSchema(target: any): MongooseSchema {
         definition = Object.assign(definition, {type: metadata.type}, mapProps(jsonSchema.properties[key]));
       } else if (!mongooseSchema.ref) {
         // References are handled by the final merge
-        const propSchema = Store.from(metadata.type).get(MONGOOSE_SCHEMA);
-
-        if (!propSchema) {
-          throw new Error(`${metadata.typeName} is not a registered subdocument. Use decorator '@Subdocument' on the class.`);
-        }
-
-        definition = Object.assign(definition, {type: propSchema});
+        definition = Object.assign(definition, {type: Store.from(metadata.type).get(MONGOOSE_SCHEMA)});
       }
 
       definition = clean(Object.assign(definition, mongooseSchema));

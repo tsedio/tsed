@@ -96,7 +96,7 @@ describe("buildMongooseSchema", () => {
 
       it("should have no virtuals", () => {
         expect(this.result.virtuals).to.be.empty;
-      })
+      });
     });
 
     describe("when property is an array", () => {
@@ -164,7 +164,7 @@ describe("buildMongooseSchema", () => {
 
       it("should have no virtuals", () => {
         expect(this.result.virtuals).to.be.empty;
-      })
+      });
     });
 
     describe("when property is a map", () => {
@@ -237,7 +237,57 @@ describe("buildMongooseSchema", () => {
 
       it("should have no virtuals", () => {
         expect(this.result.virtuals).to.be.empty;
-      })
+      });
+    });
+
+    describe("when property is a set", () => {
+      before(() => {
+        this.propertyMetadata = {
+          type: String,
+          required: true,
+          isClass: false,
+          isArray: false,
+          isCollection: true,
+          collectionType: Set,
+          store: {
+            get: Sinon.stub().returns({minLength: 1})
+          }
+        };
+
+        this.getPropertiesStub = Sinon.stub(PropertyRegistry, "getProperties").returns(
+          new Map<string, any>([["test", this.propertyMetadata]])
+        );
+
+        this.getSchemaDefinitionStub = Sinon.stub(JsonSchemesRegistry, "getSchemaDefinition").returns({
+          properties: {
+            test: {
+              maxLength: 9
+            }
+          }
+        });
+
+        try {
+          this.result = buildMongooseSchema(Test);
+        } catch (error) {
+          this.error = error;
+        }
+      });
+      after(() => {
+        this.getPropertiesStub.restore();
+        this.getSchemaDefinitionStub.restore();
+      });
+
+      it("should call getProperties and returns a list of properties", () => {
+        this.getPropertiesStub.should.have.been.calledWithExactly(Test);
+      });
+
+      it("should call store.get", () => {
+        this.propertyMetadata.store.get.should.have.been.calledWithExactly(MONGOOSE_SCHEMA);
+      });
+
+      it("should have thrown", () => {
+        expect(this.error).to.be.instanceof(Error);
+      });
     });
 
     describe("when property is a class", () => {
@@ -311,7 +361,7 @@ describe("buildMongooseSchema", () => {
 
         it("should have no virtuals", () => {
           expect(this.result.virtuals).to.be.empty;
-        })
+        });
       });
 
       describe("when property is a reference class", () => {
@@ -391,7 +441,7 @@ describe("buildMongooseSchema", () => {
 
         it("should have no virtuals", () => {
           expect(this.result.virtuals).to.be.empty;
-        })
+        });
       });
 
       describe("when property is a virtual reference", () => {
@@ -472,7 +522,7 @@ describe("buildMongooseSchema", () => {
 
         it("should have a test virtual", () => {
           expect(this.result.virtuals).to.have.key("test");
-        })
+        });
       });
     });
   });
