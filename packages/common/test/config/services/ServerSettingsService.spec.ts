@@ -150,6 +150,13 @@ describe("ServerSettingsService", () => {
       });
 
       it("should replace rootDir", () => {
+        expect(this.settings.resolve({other: null, resolve: "${rootDir}"})).to.deep.eq({
+          other: null,
+          resolve: process.cwd()
+        });
+      });
+
+      it("should replace rootDir", () => {
         expect(this.settings.resolve({other: 808, resolve: "${rootDir}"})).to.deep.eq({
           other: 808,
           resolve: process.cwd()
