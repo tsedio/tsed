@@ -111,11 +111,28 @@ Ts.ED give some decorators and service to write your code:
 
 <ApiList query="labels.indexOf('mongoose') > -1 || module === '@tsed/mongoose' && symbolType === 'decorator'" />
 
-## Declaring a Model
+## Declaring a Schema
 
 By default, `@tsed/mongoose` reuse the metadata stored by the decorators dedicated
 to describe a JsonSchema. These decorators come from the `@tsed/common` package.
 
+To use subdocuments in a Model, the subdocument can be declared as either a Model or a Schema.
+
+Here a schema example:
+
+```typescript
+import {Schema} from "@tsed/mongoose"
+
+@Schema()
+export class MySchema {
+    
+    unique: string;
+}
+```
+
+## Declaring a Model
+
+Mongoose only handle models directly.
 
 Here a model example:
 
@@ -157,16 +174,16 @@ export class MyModel {
     
     @Pattern(/[a-z]/) // equivalent of match field in mongoose 
     pattern: String;
-    
-    @PropertyType(String)
-    arrayOf: string[];
-    
-    @Ref(OtherModel)
-    ref: Ref<OtherModel>;
-    
-    @Ref(OtherModel)
-    refs: Ref<OtherModel>[];
 }
+```
+
+## Collections
+
+`@tsed/mongoose` supports both list and map. Map must 
+
+```typescript
+@PropertyType(String) list: string[];
+@PropertyType(String) list: Map<string, string>;
 ```
 
 ## Inject model
