@@ -12,8 +12,7 @@ meta:
 ## Overview
 
 
-<pre><code class="typescript-lang ">function <span class="token function">Schema</span><span class="token punctuation">(</span>definition<span class="token punctuation">:</span> SchemaTypeOpts&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
-
+<pre><code class="typescript-lang ">function <span class="token function">Schema</span><span class="token punctuation">(</span>definition<span class="token punctuation">:</span> SchemaTypeOpts&lt;<span class="token keyword">any</span>&gt;<span class="token punctuation">)</span><span class="token punctuation">:</span> Function<span class="token punctuation">;</span></code></pre>
 
 
 
@@ -31,5 +30,41 @@ Param | Type | Description
 
 Attach a schema on property class.
 
+
+:::
+
+<!-- Overview -->
+## Overview
+
+
+<pre><code class="typescript-lang ">function <span class="token function">Schema</span><span class="token punctuation">(</span>options?<span class="token punctuation">:</span> MongooseSchemaOptions<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">=></span> void<span class="token punctuation">;</span></code></pre>
+
+
+
+<!-- Description -->
+## Description
+
+::: v-pre
+
+Define a class a Mongoose Schema. The schema can compose by others schemes and models.
+
+### Example
+
+```typescript
+@Schema()
+export class EventModel {
+  @Property()
+  field: string;
+}
+```
+
+
+### Options
+
+- `schemaOptions` (mongoose.SchemaOptions): Option to configure the schema behavior.
+- `plugins` (MongoosePluginOptions[]): Plugins to add to the schema.
+- `indexes` (MongooseIndexOptions[]): Schema indexes.
+- `pre` (MongoosePreHook[]): Schema pre hook.
+- `post` (MongoosePostHook[]): Schema post hook.
 
 :::
