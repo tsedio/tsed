@@ -7,7 +7,7 @@ describe("TypeORMService", () => {
   describe("createConnection()", () => {
     before(
       inject([TypeORMService], (service: TypeORMService) => {
-        this.connectStub = Sinon.stub(TypeORM, "createConnection").resolves("connection");
+        this.connectStub = Sinon.stub(TypeORM, "createConnection").resolves("connection" as any);
 
         return (this.result = service.createConnection("key", {config: "config"} as any).then(() => {
           return service.createConnection("key", {config: "config"} as any);
