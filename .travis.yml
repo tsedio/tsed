@@ -11,7 +11,8 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
 node_js:
-  - 'node'
+  - '11.6.0'
+  - '10'
   - '9'
   - '8'
 after_success:

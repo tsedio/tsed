@@ -11,7 +11,7 @@
     "@types/mongoose": "^5.0.6",
     "@tsed/core": "0.0.0-PLACEHOLDER",
     "@tsed/common": "0.0.0-PLACEHOLDER",
-    "mongoose": "^5.0.9"
+    "mongoose": "^5.1.0"
   },
   "devDependencies": {},
   "private": false,

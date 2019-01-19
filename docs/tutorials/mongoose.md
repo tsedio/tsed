@@ -111,13 +111,41 @@ Ts.ED give some decorators and service to write your code:
 
 <ApiList query="labels.indexOf('mongoose') > -1 || module === '@tsed/mongoose' && symbolType === 'decorator'" />
 
-## Declaring a Model
+## Declaring a mongoose object (schema or model)
+
+### Declaring a Model
+
+`@tsed/mongoose` works with models which must be explicitly declared.
+
+```typescript
+import {Model} from "@tsed/mongoose"
+
+@Model()
+export class MyModel {
+    
+    unique: string;
+}
+```
+
+
+### Declaring a Schema
+
+`@tsed/mongoose` supports subdocuments which must be explicitly declared.
+
+```typescript
+import {Schema} from "@tsed/mongoose"
+
+@Schema()
+export class MySchema {
+    
+    unique: string;
+}
+```
+
+### Declaring Properties
 
 By default, `@tsed/mongoose` reuse the metadata stored by the decorators dedicated
 to describe a JsonSchema. These decorators come from the `@tsed/common` package.
-
-
-Here a model example:
 
 ```typescript
 import {
@@ -157,49 +185,64 @@ export class MyModel {
     
     @Pattern(/[a-z]/) // equivalent of match field in mongoose 
     pattern: String;
-    
-    @PropertyType(String)
-    arrayOf: string[];
-    
-    @Ref(OtherModel)
-    ref: Ref<OtherModel>;
-    
-    @Ref(OtherModel)
-    refs: Ref<OtherModel>[];
 }
 ```
 
-## Inject model
+### Collections
 
-It's possible to inject a model into a Service (or Controller, Middleware, etc...):
+`@tsed/mongoose` supports both list and map. 
 
 ```typescript
-import {Service, Inject} from "@tsed/common";
-import {MongooseModel} from "@tsed/mongoose";
-import {MyModel} from "./models/MyModel";
+@PropertyType(String) list: string[];
+@PropertyType(String) list: Map<string, string>; // key must be a string.
+```
 
-@Service()
-export class MyService {
-    
-    constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
-        console.log(model) // Mongoose.model class
-    }
-    
-    async save(obj: MyModel): MongooseModel<MyModel> {
-        
-        const doc = new this.model(obj);
-        await doc.save();
-        
-        return doc;
-    }
-    
-    async find(query: any) {
-        const list = await this.model.find(query).exec();
-        
-        console.log(list);
-        
-        return list;
-    }
+### Subdocuments
+
+`@tsed/mongoose` supports `mongoose` subdocuments as long as they are defined schema. Therefore, subdocuments must be decorated by `@Schema()`.
+
+```typescript
+@Schema()
+export class MySchema { }
+
+@Model()
+export class MyModel {
+    schema: MySchema;
+    @PropertyType(MySchema) schemes: MySchema[];
+}
+```
+
+### References
+
+`@tsed/mongoose` supports `mongoose` references between defined models.
+
+```typescript
+@Model()
+export class MyRef { }
+
+@Model()
+export class MyModel {
+    @Ref(MyRef) ref: Ref<MyRef>;
+    @Ref(MySchema) refs: Ref<MyRef>[];
+}
+```
+
+### Virtual References
+
+`@tsed/mongoose` supports `mongoose` virtual references between defined models.
+
+Be wary of circular depndencies. Direct references must be declared after the refered class has been declared. This mean the virtual reference cannot know the refered class directly at runtime. Type definitions removed at transpilation are fine.
+
+```typescript
+@Model()
+export class MyRef {
+    @VirtualRef("MyModel") virtual: VirtualRef<MyModel>;
+    @VirtualRef("MyModel") virtuals: VirtualRefs<MyModel>;
+}
+
+@Model()
+export class MyModel {
+    @Ref(MyRef) ref: Ref<MyRef>;
 }
 ```
 
@@ -316,6 +359,42 @@ class UserService {
     }
 }
 ```
+
+
+## Inject model
+
+It's possible to inject a model into a Service (or Controller, Middleware, etc...):
+
+```typescript
+import {Service, Inject} from "@tsed/common";
+import {MongooseModel} from "@tsed/mongoose";
+import {MyModel} from "./models/MyModel";
+
+@Service()
+export class MyService {
+    
+    constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
+        console.log(model) // Mongoose.model class
+    }
+    
+    async save(obj: MyModel): MongooseModel<MyModel> {
+        
+        const doc = new this.model(obj);
+        await doc.save();
+        
+        return doc;
+    }
+    
+    async find(query: any) {
+        const list = await this.model.find(query).exec();
+        
+        console.log(list);
+        
+        return list;
+    }
+}
+```
+
 ::: tip
 You can find a working example on [Mongoose & Swagger here](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose).
 :::

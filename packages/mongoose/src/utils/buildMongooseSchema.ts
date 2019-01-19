@@ -1,6 +1,7 @@
-import {JsonSchemesRegistry, PropertyMetadata, PropertyRegistry} from "@tsed/common";
-import * as mongoose from "mongoose";
+import {Store} from "@tsed/core";
+import {JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
 import {MONGOOSE_SCHEMA} from "../constants";
+import {MongooseSchema} from "../interfaces";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
 
@@ -37,38 +38,63 @@ export function mapProps(jsonProps: any = {}) {
 /**
  *
  * @param target
- * @returns {"mongoose".SchemaDefinition}
+ * @returns {MongooseSchema}
  */
-export function buildMongooseSchema(target: any): mongoose.SchemaDefinition {
+export function buildMongooseSchema(target: any): MongooseSchema {
   const properties = PropertyRegistry.getProperties(target);
-  const jsonSchema: any = JsonSchemesRegistry.getSchemaDefinition(target) || {};
-  const mSchema: mongoose.SchemaDefinition = {};
+  const schema: MongooseSchema = {schema: {}, virtuals: new Map()};
 
   if (properties) {
-    properties.forEach((propertyMetadata: PropertyMetadata, propertyKey: string) => {
-      if (MONGOOSE_RESERVED_KEYS.indexOf(propertyKey) > -1) {
-        return;
+    const jsonSchema: any = JsonSchemesRegistry.getSchemaDefinition(target) || {properties: {}};
+
+    for (const [key, metadata] of properties.entries()) {
+      if (MONGOOSE_RESERVED_KEYS.includes(key as string)) {
+        continue;
       }
 
-      let definition = {
-        required: propertyMetadata.required
+      // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
+      const mongooseSchema = metadata.store.get(MONGOOSE_SCHEMA) || {};
+
+      if (mongooseSchema.ref && mongooseSchema.localField && mongooseSchema.foreignField) {
+        mongooseSchema.justOnce = !metadata.isArray;
+        schema.virtuals.set(key as string, mongooseSchema);
+        continue;
+      }
+
+      let definition: any = {
+        required: metadata.required
           ? function() {
-              return propertyMetadata.isRequired(this[propertyKey]);
+              return metadata.isRequired(this[key]);
             }
           : false
       };
 
-      if (propertyMetadata.isClass) {
-        definition = Object.assign(definition, buildMongooseSchema(propertyMetadata.type));
-      } else {
-        definition = Object.assign(definition, {type: propertyMetadata.type}, mapProps((jsonSchema.properties || {})[propertyKey]));
+      if (!metadata.isClass) {
+        definition = Object.assign(definition, {type: metadata.type}, mapProps(jsonSchema.properties[key]));
+      } else if (!mongooseSchema.ref) {
+        // References are handled by the final merge
+        definition = Object.assign(definition, {type: Store.from(metadata.type).get(MONGOOSE_SCHEMA)});
       }
 
-      definition = clean(Object.assign(definition, propertyMetadata.store.get(MONGOOSE_SCHEMA) || {}));
+      definition = clean(Object.assign(definition, mongooseSchema));
 
-      mSchema[propertyKey] = propertyMetadata.isArray ? [definition] : definition;
-    });
+      if (metadata.isCollection) {
+        if (metadata.isArray) {
+          definition = [definition];
+        } else {
+          // Can be a Map or a Set;
+          // Mongoose implements only Map;
+          if (metadata.collectionType !== Map) {
+            throw new Error(`Invalid collection type. ${metadata.collectionName} is not supported.`);
+          }
+
+          definition = {type: Map, of: definition};
+        }
+      }
+
+      schema.schema[key as string] = definition;
+    }
   }
 
-  return mSchema;
+  return schema;
 }
