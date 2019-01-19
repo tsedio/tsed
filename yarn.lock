@@ -7586,7 +7586,7 @@ lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
 
-lodash.get@4.4.2, lodash.get@^4.4.2:
+lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
@@ -8322,14 +8322,14 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
-mongoose@^5.0.9:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.4.0.tgz#78e784a38aab8552c07ef336a342aa75a413c463"
+mongoose@^5.1.0:
+  version "5.4.5"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.4.5.tgz#264f8a0bc507ce94f4e22a9788e03e83c6d60ec3"
+  integrity sha512-TO1xFVyZHALSaN3EEXY5rhpKNYDF0SQxK2TlYbCOGD/rurv9c9PQiNV6xcDZ09FPIoj/cOy4xDJnt3LnthTv5A==
   dependencies:
     async "2.6.1"
     bson "~1.1.0"
     kareem "2.3.0"
-    lodash.get "4.4.2"
     mongodb "3.1.10"
     mongodb-core "3.1.9"
     mongoose-legacy-pluralize "1.0.2"
