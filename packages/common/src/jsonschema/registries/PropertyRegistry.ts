@@ -26,11 +26,19 @@ export class PropertyRegistry {
    */
   static getProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
     const map = new Map<string | symbol, PropertyMetadata>();
+    const ignored: string[] = [];
 
     ancestorsOf(target).forEach(klass => {
-      this.getOwnProperties(klass).forEach((v: PropertyMetadata, k: string | symbol) => {
+      this.getOwnProperties(klass).forEach((v: PropertyMetadata, k: string) => {
+        /* istanbul ignore next */
+        if (ignored.indexOf(k) !== -1) {
+          return;
+        }
         if (!v.ignoreProperty) {
           map.set(k, v);
+        } else {
+          map.delete(k);
+          ignored.push(k);
         }
       });
     });
