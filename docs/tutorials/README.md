@@ -16,7 +16,7 @@ Some examples are available along these links :
 - [A SquareGame with SocketIO](https://github.com/Romakita/ts-express-decorators/tree/production/integration/socketio)
 - [Authentication with Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport)
 - [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
-- [TypeORM](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-typeorm)
+- [TypeORM](https://github.com/Romakita/ts-express-decorators/tree/production/integration/typeorm)
 
 **Projects examples for v4.x.x**
 
