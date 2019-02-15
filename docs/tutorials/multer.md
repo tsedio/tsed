@@ -12,6 +12,10 @@ Before using the `@MultipartFile()` you must install [multer](https://github.com
 ```bash
 npm install --save multer @types/multer 
 ```
+Then install `@tsed/multipartfiles`
+```
+npm install --save multer @tsed/multipartfiles
+```
 
 ## Configure the File upload directory
 
