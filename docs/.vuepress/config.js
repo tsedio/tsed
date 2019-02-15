@@ -50,7 +50,7 @@ module.exports = {
               {link: "/tutorials/socket-io.html", text: "Socket.io"},
               {link: "/tutorials/swagger.html", text: "Swagger"},
               {link: "/tutorials/ajv.html", text: "Validation with AJV"},
-              {link: "/tutorials/upload-files-with-multer.html", text: "Upload files"},
+              {link: "/tutorials/multer.html", text: "Upload files"},
               {link: "/tutorials/serve-static-files.html", text: "Serve static files"},
               {link: "/tutorials/templating.html", text: "Templating"},
               {link: "/tutorials/throw-http-exceptions.html", text: "Throw HTTP exceptions"},
