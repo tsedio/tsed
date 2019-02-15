@@ -1,4 +1,4 @@
-import {Env, getClass, getClassOrSymbol, Metadata, nameOf, promiseTimeout, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
+import {getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
@@ -56,10 +56,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
     this._scopes = scopes;
   }
 
-  scopeOf(providerType: ProviderType) {
-    return this.scopes[providerType] || ProviderScope.SINGLETON;
-  }
-
   get settings() {
     return this._settings;
   }
@@ -68,11 +64,8 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
     this._settings = settings;
   }
 
-  /**
-   *
-   */
-  private initInjector() {
-    this.forkProvider(InjectorService, this);
+  scopeOf(providerType: ProviderType) {
+    return this.scopes[providerType] || ProviderScope.SINGLETON;
   }
 
   /**
@@ -191,6 +184,112 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
     this.bindInjectableProperties(instance);
 
     return instance;
+  }
+
+  /**
+   * Invoke a class method and inject service.
+   *
+   * #### IInjectableMethod options
+   *
+   * * **target**: Optional. The class instance.
+   * * **methodName**: `string` Optional. The method name.
+   * * **designParamTypes**: `any[]` Optional. List of injectable types.
+   * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
+   *
+   * #### Example
+   *
+   * ```typescript
+   * import {InjectorService} from "@tsed/common";
+   *
+   * class MyService {
+   *      constructor(injectorService: InjectorService) {
+   *          injectorService.invokeMethod(this.method, {
+   *              this,
+   *              methodName: 'method'
+   *          });
+   *      }
+   *
+   *   method(otherService: OtherService) {}
+   * }
+   * ```
+   *
+   * @returns {any}
+   * @param handler The injectable method to invoke. Method parameters are injected according method signature.
+   * @param options Object to configure the invocation.
+   */
+  public invokeMethod(handler: any, options: IInjectableMethod<any>): any {
+    let {designParamTypes} = options;
+    const {locals = new Map<any, any>(), target, methodName} = options;
+
+    if (handler.$injected) {
+      return handler.call(target, locals);
+    }
+
+    if (!designParamTypes) {
+      designParamTypes = Metadata.getParamTypes(prototypeOf(target), methodName);
+    }
+
+    const services = designParamTypes.map((serviceType: any) =>
+      this.mapServices({
+        serviceType,
+        target,
+        locals,
+        requiredScope: false,
+        parentScope: false
+      })
+    );
+
+    return handler(...services);
+  }
+
+  /**
+   * Initialize injectorService and load all services/factories.
+   */
+  async load(): Promise<any> {
+    // TODO copy all provider from GlobalProvider registry. In future this action will be performed from Bootstrap class
+    GlobalProviders.forEach((p, k) => {
+      if (!this.has(k)) {
+        this.set(k, p.clone());
+      }
+    });
+
+    this.build();
+
+    return Promise.all([this.emit("$onInit")]);
+  }
+
+  /**
+   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
+   * @param eventName The event name to emit at all services.
+   * @param args List of the parameters to give to each services.
+   * @returns {Promise<any[]>} A list of promises.
+   */
+  public async emit(eventName: string, ...args: any[]) {
+    const promises: Promise<any>[] = [];
+
+    $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
+
+    const providers = this.getProviders();
+
+    for (const provider of providers) {
+      const service = provider.instance;
+
+      if (service && eventName in service) {
+        const startTime = new Date().getTime();
+        $log.debug(`Call ${nameOf(provider.provide)}.${eventName}()`);
+
+        await service[eventName](...args);
+
+        $log.debug(`Run ${nameOf(provider.provide)}.${eventName}() in ${new Date().getTime() - startTime} ms`);
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private initInjector() {
+    this.forkProvider(InjectorService, this);
   }
 
   /**
@@ -347,76 +446,11 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   }
 
   /**
-   * Invoke a class method and inject service.
    *
-   * #### IInjectableMethod options
-   *
-   * * **target**: Optional. The class instance.
-   * * **methodName**: `string` Optional. The method name.
-   * * **designParamTypes**: `any[]` Optional. List of injectable types.
-   * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * class MyService {
-   *      constructor(injectorService: InjectorService) {
-   *          injectorService.invokeMethod(this.method, {
-   *              this,
-   *              methodName: 'method'
-   *          });
-   *      }
-   *
-   *   method(otherService: OtherService) {}
-   * }
-   * ```
-   *
-   * @returns {any}
-   * @param handler The injectable method to invoke. Method parameters are injected according method signature.
-   * @param options Object to configure the invocation.
+   * @param {string} eventName
+   * @param result
+   * @param {string} service
    */
-  public invokeMethod(handler: any, options: IInjectableMethod<any>): any {
-    let {designParamTypes} = options;
-    const {locals = new Map<any, any>(), target, methodName} = options;
-
-    if (handler.$injected) {
-      return handler.call(target, locals);
-    }
-
-    if (!designParamTypes) {
-      designParamTypes = Metadata.getParamTypes(prototypeOf(target), methodName);
-    }
-
-    const services = designParamTypes.map((serviceType: any) =>
-      this.mapServices({
-        serviceType,
-        target,
-        locals,
-        requiredScope: false,
-        parentScope: false
-      })
-    );
-
-    return handler(...services);
-  }
-
-  /**
-   * Initialize injectorService and load all services/factories.
-   */
-  async load(): Promise<any> {
-    // TODO copy all provider from GlobalProvider registry. In future this action will be performed from Bootstrap class
-    GlobalProviders.forEach((p, k) => {
-      if (!this.has(k)) {
-        this.set(k, p.clone());
-      }
-    });
-
-    this.build();
-
-    return Promise.all([this.emit("$onInit")]);
-  }
 
   /**
    *
@@ -455,61 +489,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
     });
 
     return locals;
-  }
-
-  /**
-   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
-   * @param eventName The event name to emit at all services.
-   * @param args List of the parameters to give to each services.
-   * @returns {Promise<any[]>} A list of promises.
-   */
-  public emit(eventName: string, ...args: any[]) {
-    const promises: Promise<any>[] = [];
-
-    $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
-
-    this.forEach(provider => {
-      const service = provider.instance;
-
-      if (service && eventName in service) {
-        const promise: any = service[eventName](...args);
-
-        /* istanbul ignore next */
-        if (promise && promise.then) {
-          promises.push(
-            promiseTimeout(promise, 1000).then(result => InjectorService.checkPromiseStatus(eventName, result, nameOf(provider.useClass)))
-          );
-        }
-      }
-    });
-
-    /* istanbul ignore next */
-    if (promises.length) {
-      $log.debug("\x1B[1mCall hook", eventName, " promises built\x1B[22m");
-
-      return promiseTimeout(Promise.all(promises), 2000).then(result => InjectorService.checkPromiseStatus(eventName, result));
-    }
-
-    return Promise.resolve();
-  }
-
-  /**
-   *
-   * @param {string} eventName
-   * @param result
-   * @param {string} service
-   */
-
-  /* istanbul ignore next */
-  private static checkPromiseStatus(eventName: string, result: any, service?: string) {
-    if (!result.ok) {
-      const msg = `Timeout on ${eventName} hook. Promise are unfulfilled ${service ? "on service" + service : ""}`;
-      if (process.env.NODE_ENV === Env.PROD) {
-        throw msg;
-      } else {
-        setTimeout(() => $log.warn(msg, "In production, the warning will down the server!"), 1000);
-      }
-    }
   }
 }
 
