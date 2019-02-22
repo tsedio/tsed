@@ -1,3 +1,4 @@
+import "@tsed/common";
 import {ConnectionOptions} from "typeorm";
 
 declare module "@tsed/common" {
