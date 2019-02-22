@@ -16,6 +16,7 @@ import {$log} from "ts-log-debug";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
+import {PROVIDER_TYPE_SOCKET_SERVICE} from "../registries/SocketServiceRegistry";
 
 /**
  *
@@ -68,7 +69,7 @@ export class SocketIOService implements OnServerReady {
    * @returns {Provider<any>[]}
    */
   protected getWebsocketServices(): Provider<any>[] {
-    return Array.from(this.injector.getProviders("socketService"));
+    return Array.from(this.injector.getProviders(PROVIDER_TYPE_SOCKET_SERVICE));
   }
 
   /**

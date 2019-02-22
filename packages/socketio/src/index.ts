@@ -1,3 +1,4 @@
+import "@tsed/common";
 import * as SocketIO from "socket.io";
 
 declare module "@tsed/common" {

@@ -4,12 +4,13 @@
  */
 import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
 
+export const PROVIDER_TYPE_SOCKET_SERVICE = "socketService";
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
 // tslint:disable-next-line: variable-name
-export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry("socketService", Provider, {
+export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(PROVIDER_TYPE_SOCKET_SERVICE, Provider, {
   injectable: true,
   buildable: true
 });
@@ -41,4 +42,4 @@ export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.cre
  *
  * @param provider Provider configuration.
  */
-export const registerSocketService = GlobalProviders.createRegisterFn("socketService");
+export const registerSocketService = GlobalProviders.createRegisterFn(PROVIDER_TYPE_SOCKET_SERVICE);
