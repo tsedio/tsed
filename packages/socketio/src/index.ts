@@ -6,7 +6,7 @@ declare module "@tsed/common" {
     socketIO: SocketIO.ServerOptions;
   }
 }
-
+export * from "./SocketIOModule";
 // interfaces
 export * from "./interfaces/OnNamespaceInit";
 

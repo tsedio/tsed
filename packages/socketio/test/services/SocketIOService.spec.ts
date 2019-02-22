@@ -2,112 +2,9 @@ import {HttpServer, HttpsServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {inject, TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
-import {SocketIOServer, SocketIOService} from "../../src";
+import {SocketIOService} from "../../src";
 
 describe("SocketIOService", () => {
-  describe("$onServerReady()", () => {
-    describe("with http server", () => {
-      let socketIOService: any;
-
-      before(async () => {
-        await TestContext.create();
-        this.socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
-        this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
-        this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
-
-        socketIOService = TestContext.invoke(SocketIOService, [
-          {provide: HttpServer, use: this.httpServer},
-          {provide: HttpsServer, use: this.httpsServer},
-          {provide: SocketIOServer, use: this.socketIOServer}
-        ]);
-
-        this.getWebsocketServicesStub = Sinon.stub(socketIOService, "getWebsocketServices");
-        this.bindProviderStub = Sinon.stub(socketIOService, "bindProvider");
-        this.printSocketEventsStub = Sinon.stub(socketIOService, "printSocketEvents");
-
-        this.getWebsocketServicesStub.returns([{provider: "provider"}]);
-
-        socketIOService.serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
-        socketIOService.$onServerReady();
-      });
-      after(() => {
-        TestContext.reset();
-        this.getWebsocketServicesStub.restore();
-        this.bindProviderStub.restore();
-        this.printSocketEventsStub.restore();
-      });
-
-      it("should call attach method", () => {
-        this.socketIOServer.attach.should.have.been.calledWithExactly(this.httpServer, {
-          adapter: "adapter",
-          config: "config"
-        });
-        this.socketIOServer.attach.should.have.been.calledWithExactly(this.httpsServer, {
-          adapter: "adapter",
-          config: "config"
-        });
-      });
-
-      it("should call getWebsocketServices method", () => {
-        this.getWebsocketServicesStub.should.have.been.calledWithExactly();
-      });
-
-      it("should call bind provider method", () => {
-        this.bindProviderStub.should.have.been.calledWithExactly({provider: "provider"});
-      });
-
-      it("should call io.adaptater", () => {
-        this.socketIOServer.adapter.should.have.been.calledWithExactly("adapter");
-      });
-    });
-    describe("with https server", () => {
-      let socketIOService: any;
-
-      before(async () => {
-        await TestContext.create();
-        this.socketIOServer = {attach: Sinon.stub()};
-        this.httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
-        this.httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
-
-        socketIOService = TestContext.invoke(SocketIOService, [
-          {provide: HttpServer, use: this.httpServer},
-          {provide: HttpsServer, use: this.httpsServer},
-          {provide: SocketIOServer, use: this.socketIOServer}
-        ]);
-
-        socketIOService.serverSettingsService.httpPort = false;
-
-        this.getWebsocketServicesStub = Sinon.stub(socketIOService, "getWebsocketServices");
-        this.bindProviderStub = Sinon.stub(socketIOService, "bindProvider");
-        this.printSocketEventsStub = Sinon.stub(socketIOService, "printSocketEvents");
-
-        this.getWebsocketServicesStub.returns([{provider: "provider"}]);
-
-        socketIOService.serverSettingsService.set("socketIO", {config: "config"});
-        socketIOService.$onServerReady();
-      });
-
-      after(() => {
-        TestContext.reset();
-        this.getWebsocketServicesStub.restore();
-        this.bindProviderStub.restore();
-        this.printSocketEventsStub.restore();
-      });
-
-      it("should call attach method", () => {
-        this.socketIOServer.attach.should.have.been.calledWithExactly(this.httpsServer, {config: "config"});
-      });
-
-      it("should call getWebsocketServices method", () => {
-        this.getWebsocketServicesStub.should.have.been.calledWithExactly();
-      });
-
-      it("should call bind provider method", () => {
-        this.bindProviderStub.should.have.been.calledWithExactly({provider: "provider"});
-      });
-    });
-  });
-
   describe("getNsp()", () => {
     before(
       inject([InjectorService], (injector: InjectorService) => {
@@ -125,7 +22,7 @@ describe("SocketIOService", () => {
           on: Sinon.stub()
         };
 
-        const service = new SocketIOService(injector, {} as any, {} as any, this.ioStub, {} as any, {} as any);
+        const service = new SocketIOService(injector, this.ioStub, {} as any);
         const nspConf = service.getNsp("/");
         nspConf.instances.push(this.instance);
 
