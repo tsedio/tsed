@@ -52,15 +52,16 @@ options in your `tsconfig.json` file.
 ```json
 {
   "compilerOptions": {
-    "target": "es2015",
-    "lib": ["es2015"],
+    "target": "es2016",
+    "lib": ["es2016"],
     "types": ["reflect-metadata"],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
-    "declaration": false
+    "declaration": false,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules"

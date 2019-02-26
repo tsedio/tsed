@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "target": "es2015",
+    "target": "es2016",
     "lib": [
-      "es2015",
+      "es2016",
       "dom"
     ],
     "typeRoots": [
@@ -14,7 +14,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
-    "declaration": false
+    "declaration": false,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./src/**/*.ts",
