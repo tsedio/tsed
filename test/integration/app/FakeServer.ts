@@ -1,6 +1,7 @@
-import * as Express from "express";
-import "@tsed/swagger";
 import "@tsed/ajv";
+import "@tsed/graphql";
+import "@tsed/swagger";
+import * as Express from "express";
 import {GlobalAcceptMimesMiddleware} from "../../../packages/common/src/mvc/components/GlobalAcceptMimesMiddleware";
 import {ServerLoader} from "../../../packages/common/src/server/components/ServerLoader";
 import {ServerSettings} from "../../../packages/common/src/server/decorators/serverSettings";
@@ -15,7 +16,10 @@ const rootDir = __dirname;
   mount: {
     "/rest": `${rootDir}/controllers/**/**.ts`
   },
-  componentsScan: [`${rootDir}/services/**/**.ts`],
+  componentsScan: [
+    `${rootDir}/services/**/**.ts`,
+    `${rootDir}/graphql/**/*.ts`
+  ],
   serveStatic: {
     "/": `${rootDir}/views`
   },
@@ -23,6 +27,11 @@ const rootDir = __dirname;
   swagger: {
     spec: require(`${rootDir}/spec/swagger.default.json`),
     path: "/api-doc"
+  },
+  graphql: {
+    "default": {
+      "path": "/api/graphql"
+    }
   }
 })
 export class FakeServer extends ServerLoader {
