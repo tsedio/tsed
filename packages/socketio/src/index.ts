@@ -1,3 +1,4 @@
+import "@tsed/common";
 import * as SocketIO from "socket.io";
 
 declare module "@tsed/common" {
@@ -5,7 +6,7 @@ declare module "@tsed/common" {
     socketIO: SocketIO.ServerOptions;
   }
 }
-
+export * from "./SocketIOModule";
 // interfaces
 export * from "./interfaces/OnNamespaceInit";
 

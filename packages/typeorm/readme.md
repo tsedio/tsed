@@ -64,12 +64,12 @@ export class Server extends ServerLoader {
 TypeORMService let you to retrieve an instance of TypeORM Connection.
 
 ```typescript
-import {Service, AfterInit} from "@tsed/common";
+import {Service, AfterRoutesInit} from "@tsed/common";
 import {TypeORMService} from "@tsed/typeorm";
 import {Connection} from "typeorm";
 
 @Service()
-export class UsersService implement AfterRoutesInit {
+export class UsersService implements AfterRoutesInit {
     private connection: Connection;
     constructor(private typeORMService: TypeORMService) {
 

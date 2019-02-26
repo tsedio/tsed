@@ -3,7 +3,6 @@ cache:
   directories:
     - ~/.npm
 notifications:
-  email: false
   webhooks:
     urls:
       - $GITTER_ROOM_URL

@@ -1,18 +1,5 @@
-import {
-  ConverterService,
-  HttpServer,
-  HttpsServer,
-  Inject,
-  InjectorService,
-  OnServerReady,
-  Provider,
-  ServerSettingsService,
-  Service,
-  Constant
-} from "@tsed/common";
-import {nameOf} from "@tsed/core";
+import {ConverterService, InjectorService, Provider, Service} from "@tsed/common";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
-import {$log} from "ts-log-debug";
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
@@ -21,55 +8,14 @@ import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
  *
  */
 @Service()
-export class SocketIOService implements OnServerReady {
-  @Constant("logger.disableRoutesSummary", false)
-  disableRoutesSummary: boolean;
-
+export class SocketIOService {
   /**
    *
    * @type {Map<any, any>}
    */
   private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
-  constructor(
-    private injector: InjectorService,
-    @Inject(HttpServer) private httpServer: HttpServer,
-    @Inject(HttpsServer) private httpsServer: HttpsServer,
-    @IO private io: SocketIO.Server,
-    private serverSettingsService: ServerSettingsService,
-    private converterService: ConverterService
-  ) {}
-
-  $onServerReady() {
-    const config: SocketIO.ServerOptions = this.serverSettingsService.get("socketIO") || {};
-    const httpPort = this.serverSettingsService.httpPort;
-    const httpsPort = this.serverSettingsService.httpsPort;
-
-    if (httpPort) {
-      this.io.attach(this.httpServer, config);
-    }
-    if (httpsPort) {
-      this.io.attach(this.httpsServer, config);
-    }
-
-    if (config.adapter) {
-      this.io.adapter(config.adapter);
-    }
-
-    this.getWebsocketServices().forEach(provider => this.bindProvider(provider));
-
-    if (!this.disableRoutesSummary) {
-      this.printSocketEvents();
-    }
-  }
-
-  /**
-   *
-   * @returns {Provider<any>[]}
-   */
-  protected getWebsocketServices(): Provider<any>[] {
-    return Array.from(this.injector.getProviders("socketService"));
-  }
+  constructor(private injector: InjectorService, @IO private io: SocketIO.Server, private converterService: ConverterService) {}
 
   /**
    *
@@ -102,7 +48,7 @@ export class SocketIOService implements OnServerReady {
    *
    * @param {Provider<any>} provider
    */
-  protected bindProvider(provider: Provider<any>) {
+  public addSocketProvider(provider: Provider<any>) {
     const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
 
     const nspConfig = this.getNsp(wsConfig.namespace);
@@ -115,49 +61,5 @@ export class SocketIOService implements OnServerReady {
     const builder = new SocketHandlersBuilder(provider, this.converterService, this.injector).build(nsps);
 
     nspConfig.instances.push(builder);
-  }
-
-  /**
-   *
-   * @param logger
-   */
-  protected printSocketEvents(logger: {info: (s: any) => void} = $log) {
-    const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
-      const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
-
-      if (namespace) {
-        Object.keys(handlers)
-          .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
-          .forEach((key: string) => {
-            const handler = handlers[key];
-            acc.push({
-              namespace,
-              inputEvent: handler.eventName,
-              outputEvent: (handler.returns && handler.returns.eventName) || "",
-              outputType: (handler.returns && handler.returns.type) || "",
-              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
-            });
-          });
-      }
-
-      return acc;
-    }, []);
-
-    $log.info("Socket events mounted:");
-
-    const str = $log.drawTable(list, {
-      padding: 1,
-      header: {
-        namespace: "Namespace",
-        inputEvent: "Input event",
-        outputEvent: "Output event",
-        outputType: "Output type",
-        name: "Class method"
-      }
-    });
-
-    logger.info("\n" + str.trim());
-
-    $log.info("Socket server started...");
   }
 }

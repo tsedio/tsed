@@ -4,13 +4,14 @@
  */
 import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
 
-export const PROVIDER_TYPE_SOCKET_SERVICE = "socketService";
+export const PROVIDER_TYPE_RESOLVER_SERVICE = "graphQLResolverService";
+
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
 // tslint:disable-next-line: variable-name
-export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(PROVIDER_TYPE_SOCKET_SERVICE, Provider, {
+export const ResolverServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(PROVIDER_TYPE_RESOLVER_SERVICE, Provider, {
   injectable: true,
   buildable: true
 });
@@ -20,7 +21,7 @@ export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.cre
  * #### Example
  *
  * ```typescript
- * import {registerSocketService, InjectorService} from "@tsed/common";
+ * import {registerResolverService, InjectorService} from "@tsed/graphql";
  *
  * export default class MyFooService {
  *     constructor(){}
@@ -29,9 +30,9 @@ export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.cre
  *     }
  * }
  *
- * registerSocketService({provide: MyFooService});
+ * registerResolverService({provide: MyFooService});
  * // or
- * registerSocketService(MyFooService);
+ * registerResolverService(MyFooService);
  *
  * const injector = new InjectorService();
  * injector.load();
@@ -42,4 +43,4 @@ export const SocketServiceRegistry: TypedProvidersRegistry = GlobalProviders.cre
  *
  * @param provider Provider configuration.
  */
-export const registerSocketService = GlobalProviders.createRegisterFn(PROVIDER_TYPE_SOCKET_SERVICE);
+export const registerResolverService = GlobalProviders.createRegisterFn(PROVIDER_TYPE_RESOLVER_SERVICE);

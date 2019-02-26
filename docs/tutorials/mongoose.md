@@ -5,7 +5,7 @@ meta:
  - name: keywords
    content: ts.ed express typescript mongoose node.js javascript decorators
 ---
-# Mongoose <Badge text="beta" type="warn"/> <Badge text="Contributors are welcome" />
+# Mongoose <Badge text="Contributors are welcome" />
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
 

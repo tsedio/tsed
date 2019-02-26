@@ -1,5 +1,6 @@
 import "@tsed/ajv";
 import {ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/common";
+import "@tsed/graphql";
 import "@tsed/mongoose";
 import "@tsed/multipartfiles";
 import "@tsed/socketio";
@@ -13,8 +14,8 @@ import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import "./middlewares/authentication";
-import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
+import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 
 const rootDir = Path.resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
@@ -32,14 +33,18 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
     "/rest/v1": "${rootDir}/controllers/{calendars,users}/**.ts"
   },
 
-  componentsScan: ["${rootDir}/services/**/*.ts"],
+  componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts"],
 
   uploadDir: "${rootDir}/uploads",
 
   serveStatic: {
     "/": "${rootDir}/views"
   },
-
+  graphql: {
+    "default": {
+      "path": "/api/graphql"
+    }
+  },
   swagger: [
     {
       path: "/api-doc",
