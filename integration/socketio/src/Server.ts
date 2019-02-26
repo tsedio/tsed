@@ -24,7 +24,8 @@ const rootDir = __dirname;
   },
   swagger: {
     path: "/docs"
-  }
+  },
+  socketIO: {}
 })
 export class Server extends ServerLoader {
 

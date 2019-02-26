@@ -23,11 +23,6 @@ export class SocketIOModule implements OnServerReady {
 
   @Constant("httpsPort")
   httpsPort: string | number;
-  /**
-   *
-   * @type {Map<any, any>}
-   */
-  private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
   constructor(
     private injector: InjectorService,
@@ -39,10 +34,10 @@ export class SocketIOModule implements OnServerReady {
 
   $onServerReady() {
     if (this.httpPort) {
-      this.io.attach(this.httpServer, this.settings);
+      this.io.attach(this.httpServer, {...this.settings});
     }
     if (this.httpsPort) {
-      this.io.attach(this.httpsServer, this.settings);
+      this.io.attach(this.httpsServer, {...this.settings});
     }
 
     if (this.settings.adapter) {
