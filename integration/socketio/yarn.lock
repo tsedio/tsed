@@ -133,13 +133,11 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.3.tgz#62cf2a9b624edc795134135fe37fc2ae8ea36be3"
   integrity sha512-8zNeBkSKhU9a5cRNbpCKau2WWPfan+Q2zDlcXvXyhn9EsMqgYs4qzo0XHNVlXC6ABQL8fT6nV+zzo5RTHJzyXw==
 
-"@tsed/common@5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.0.7.tgz#ecdf15814fda74541db18fb386533c1917f9b398"
-  integrity sha512-D1LdFjJXeM+CWF3HxJ4qca+h1yMIBjAGMNJu57SQ3wF0Tsw0NWb7P2Kq+MLRbHjHB2v48oa0cjWSvMJXPyJwqA==
+"@tsed/common@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.2.0.tgz#ee6a457bec9374bbb7f0caa58d84d2c983d84122"
+  integrity sha512-CBVxPaeOQTeaE0hZkZjMdxRsxShMYmIj+uZv/uZF8rdC8Z5IoXq+rnxabaIiz/nxficme6DHD0zCZBiy4SgqHA==
   dependencies:
-    "@tsed/core" "5.0.7"
-    "@tsed/di" "5.0.7"
     "@types/json-schema" "^6.0.1"
     globby "^8.0.1"
     json-schema "^0.2.3"
@@ -147,47 +145,43 @@
     ts-log-debug "^4.0.1"
     tslib "^1.9.0"
 
-"@tsed/core@5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.0.7.tgz#415e5ff3b570f6e0bde4bc8998a8553a35e8974f"
-  integrity sha512-3LPI3WmyWsnzLrH0kCy0uWS9YiADY7mQR7YjhuZ4YlZI9LK9wDXKBWEPyFmZM/gPezjS3Zc0C/pa3VNj/IO09A==
+"@tsed/core@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.2.0.tgz#fa8a8fd60dc8fc691584f4d98114ebfe5595c38c"
+  integrity sha512-l+TVBRrfLs1lPm2stz2PAeWTkaWeQEs7lBYDzSnzzwDLwUwV8PGIv9saJoAYYd4oPrdEeQvlhuXjXef2IMQBew==
   dependencies:
     reflect-metadata "^0.1.12"
     source-map-support "^0.5.3"
     tslib "^1.8.0"
 
-"@tsed/di@5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.0.7.tgz#881aa955a8218310c416f57c8b9169e85a2255f3"
-  integrity sha512-fgf9Fh7BLNT4+tZvjo4Ey0B2IMAPdPoJ8grf9GcO1vsJq90xeeDdEGst5fy2IByEZtCDcv/beF6cuo2OmoMXYA==
+"@tsed/di@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.2.0.tgz#7d43733b5eb6457f9704dc7e869587e452820e57"
+  integrity sha512-ZZxUxNpxJDFLwlh3bnxFn5u2HZ/SetWWeOaY63nbvG+wYzRG0FU8Zk4bnsSyMxtDjIrThBC68rM+9E0jMpwOaA==
   dependencies:
-    "@tsed/core" "5.0.7"
     tslib "^1.8.0"
 
-"@tsed/socketio@5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.0.7.tgz#03370cc5abfa7e6efe2d364b30224bf248ddaa05"
-  integrity sha512-4z23C9f8tRf2Fw8adeXX50Fjl1UKYywZBtw2jol2roJZrymOeCvPFwz74/s3DTZqqL32kHK2l4mSBOmRSvjNVw==
+"@tsed/socketio@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.2.0.tgz#d9f3e5fced946524732f85770c9809d3c6678f4a"
+  integrity sha512-W7rQ5CL9sEC62/RpSEh/k5o2/LnMSqgJgEmk3PxTYLM6FKYkB19vxasVWGnv7iIaR6KScB16lrrG18Mzg9qHLg==
   dependencies:
-    "@tsed/common" "5.0.7"
     tslib "^1.8.0"
 
-"@tsed/swagger@5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.0.7.tgz#659f45771715cbfe3507ba7fed4048a18cdaa546"
-  integrity sha512-/YG2rw7PJ1cXDOhRGyVFSUgpH3f7g95klFKClESa09OvRvAp84CMNIQcqVrsgX3MCZ0aVl68W603juWUkW57Ew==
+"@tsed/swagger@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.2.0.tgz#0d7f6eaa47668d6c61748d91d2c797d4e332f51a"
+  integrity sha512-1HoSp5HwhFN/mbxhZ16LHFiPaBT40lbZEzG6yZFQMa7IzjtTFn5hyF6F3qJjq4pyjPEFR3li/A+vS27TKtVWEw==
   dependencies:
-    "@tsed/common" "5.0.7"
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.0.7.tgz#74e121edb42f7604a2b910db987fd924365a21e0"
-  integrity sha512-EO2vlZHRn3EBSlw4YECBhxyBNTyFk5Rej1dQcCNm4NdSZDopYb3pdj2cL7FiMn4wPq7jKDcYYoessAbIuPo1fA==
+"@tsed/testing@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.2.0.tgz#4936ff7c5dbbec0e85828567cf5339a2177891ab"
+  integrity sha512-B8whBcZrHV1T6pYkDI4rW9I++Yb1P3L6b2Hv11AEklkB+tByQwvw0gfB1p0YcECs6Tdyrs7FQ3gLtjbySNQoTg==
   dependencies:
-    "@tsed/common" "5.0.7"
     tslib "^1.9.0"
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":

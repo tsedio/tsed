@@ -45,6 +45,10 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
       "path": "/api/graphql"
     }
   },
+  socketIO: {
+    adaptater() {
+    }
+  },
   swagger: [
     {
       path: "/api-doc",
