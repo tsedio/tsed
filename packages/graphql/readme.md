@@ -30,7 +30,8 @@ npm install --save @tsed/graphql
 ```json
 {
   "target": "es2016",
-  "lib": ["es2016", "esnext.asynciterable"]
+  "lib": ["es2016", "esnext.asynciterable"],
+  "allowSyntheticDefaultImports": true
 }
 ```
 
