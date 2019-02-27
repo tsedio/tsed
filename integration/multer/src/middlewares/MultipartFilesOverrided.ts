@@ -7,6 +7,7 @@ import {
   Res,
   ServerSettingsService
 } from "@tsed/common";
+import {promisify} from "@tsed/core";
 import {MultipartFileMiddleware} from "@tsed/multipartfiles";
 import * as Express from "express";
 import * as multer from "multer";
