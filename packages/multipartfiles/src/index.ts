@@ -1,3 +1,4 @@
+import "@tsed/common";
 import * as multer from "multer";
 
 declare module "@tsed/common" {

@@ -8,13 +8,10 @@ meta:
 # Multer
 ## Installation
 
-Before using the `@MultipartFile()` you must install [multer](https://github.com/expressjs/multer) module on your project:
+Before using the `@MultipartFile()` you must install [multer](https://github.com/expressjs/multer) and `@tsed/multipartfile` module on your project:
+
 ```bash
-npm install --save multer @types/multer 
-```
-Then install `@tsed/multipartfiles`
-```
-npm install --save multer @tsed/multipartfiles
+npm install --save multer @types/multer @tsed/multipartfiles
 ```
 
 ## Configure the File upload directory
@@ -49,7 +46,7 @@ export class Server extends ServerLoader {
 ## Options
 
 - `dest` (`string`): The destination directory for the uploaded files.
-- `storage` (`StoreEngine): The storage engine to use for uploaded files.
+- `storage` (`StoreEngine`): The storage engine to use for uploaded files.
 - `limits` (`Object`): An object specifying the size limits of the following optional properties. This object is passed to busboy directly, and the details of properties can be found on [https://github.com/mscdex/busboy#busboy-methods]([https://github.com/mscdex/busboy#busboy-methods).
   - `fieldNameSize` (`number`): Max field name size (Default: 100 bytes).
   - `fieldSize` (`number`): Max field value size (Default: 1MB).
@@ -100,4 +97,8 @@ class MyCtrl {
 ```
 ::: warning
 Swagger spec (v2.0) doesn't support multiple files.
+:::
+
+::: tip
+You can find a working example on [Multer here](https://github.com/Romakita/ts-express-decorators/tree/production/integration/multer).
 :::

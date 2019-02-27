@@ -17,6 +17,7 @@ Some examples are available along these links :
 - [Authentication with Passport.js](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-passport)
 - [Mongoose & Swagger](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose)
 - [TypeORM](https://github.com/Romakita/ts-express-decorators/tree/production/integration/typeorm)
+- [Multer](https://github.com/Romakita/ts-express-decorators/tree/production/integration/multer)
 
 **Projects examples for v4.x.x**
 

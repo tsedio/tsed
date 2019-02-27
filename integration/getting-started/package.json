@@ -1,5 +1,5 @@
 {
-  "name": "test-ts-express-decorator",
+  "name": "@tsed/basic-example",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",

@@ -1,18 +1,24 @@
-import {EndpointInfo, EndpointMetadata, IMiddleware, Middleware, Req, Res, ServerSettingsService} from "@tsed/common";
-import {promisify} from "@tsed/core";
+import {
+  EndpointInfo,
+  EndpointMetadata,
+  IMiddleware,
+  OverrideMiddleware,
+  Req,
+  Res,
+  ServerSettingsService
+} from "@tsed/common";
+import {MultipartFileMiddleware} from "@tsed/multipartfiles";
 import * as Express from "express";
 import * as multer from "multer";
 import {BadRequest} from "ts-httpexceptions";
 
-/**
- * @private
- * @middleware
- */
-@Middleware()
-export class MultipartFileMiddleware implements IMiddleware {
+@OverrideMiddleware(MultipartFileMiddleware)
+export class MultipartFileMiddlewareOverrided implements IMiddleware {
+
   private multer: any = multer;
 
-  constructor(private serverSettingsService: ServerSettingsService) {}
+  constructor(private serverSettingsService: ServerSettingsService) {
+  }
 
   /**
    *
@@ -22,6 +28,11 @@ export class MultipartFileMiddleware implements IMiddleware {
    * @returns {any}
    */
   async use(@EndpointInfo() endpoint: EndpointMetadata, @Req() request: Express.Request, @Res() response: Express.Response) {
+
+    if (1 === 1) {
+      throw new BadRequest(`This should be thrown and seen on the test failure.`);
+    }
+
     try {
       const endpointConfiguration = endpoint.store.get(MultipartFileMiddleware);
 
