@@ -16,7 +16,7 @@ export class GraphQLService {
   private _instances: Map<string, ApolloServer> = new Map();
 
   constructor(
-    @ExpressApplication private expressApp: ExpressApplication, 
+    @ExpressApplication private expressApp: ExpressApplication,
     @Inject(HttpServer) private httpServer: HttpServer,
     private injectorService: InjectorService
   ) {}
@@ -26,7 +26,15 @@ export class GraphQLService {
    * @returns {Promise<"mongoose".Connection>}
    */
   async createServer(id: string, settings: IGraphQLSettings): Promise<any> {
-    const {path, server: customServer, installSubscriptionHandlers, resolvers = [], serverConfig = {}, serverRegistration = {}, buildSchemaOptions = {} as any} = settings;
+    const {
+      path,
+      server: customServer,
+      installSubscriptionHandlers,
+      resolvers = [],
+      serverConfig = {},
+      serverRegistration = {},
+      buildSchemaOptions = {} as any
+    } = settings;
     if (this.has(id)) {
       return await this.get(id)!;
     }
@@ -45,9 +53,7 @@ export class GraphQLService {
         schema
       };
 
-      const server = customServer ? 
-            customServer(defaultServerConfig) : 
-            new ApolloServer(defaultServerConfig);
+      const server = customServer ? customServer(defaultServerConfig) : new ApolloServer(defaultServerConfig);
 
       server.applyMiddleware({path, ...serverRegistration, app: this.expressApp});
 

@@ -14,7 +14,7 @@ export interface IGraphQLSettings {
   // type-graphql
   // See options descriptions on https://19majkel94.github.io/type-graphql/
   buildSchemaOptions?: BuildSchemaOptions;
-  
+
   installSubscriptionHandlers?: boolean;
   server?: (config: Config) => ApolloServer;
 }
