@@ -1,4 +1,4 @@
-import {ExpressApplication, InjectorService, Provider, Service} from "@tsed/common";
+import {ExpressApplication, HttpServer, Inject, InjectorService, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {ApolloServer} from "apollo-server-express";
 import {$log} from "ts-log-debug";
@@ -15,14 +15,18 @@ export class GraphQLService {
    */
   private _instances: Map<string, ApolloServer> = new Map();
 
-  constructor(@ExpressApplication private expressApp: ExpressApplication, private injectorService: InjectorService) {}
+  constructor(
+    @ExpressApplication private expressApp: ExpressApplication, 
+    @Inject(HttpServer) private httpServer: HttpServer,
+    private injectorService: InjectorService
+  ) {}
 
   /**
    *
    * @returns {Promise<"mongoose".Connection>}
    */
   async createServer(id: string, settings: IGraphQLSettings): Promise<any> {
-    const {path, resolvers = [], serverConfig = {}, serverRegistration = {}, buildSchemaOptions = {} as any} = settings;
+    const {path, server: customServer, installSubscriptionHandlers, resolvers = [], serverConfig = {}, serverRegistration = {}, buildSchemaOptions = {} as any} = settings;
     if (this.has(id)) {
       return await this.get(id)!;
     }
@@ -36,12 +40,20 @@ export class GraphQLService {
         resolvers: [...this.getResolvers(), ...resolvers, ...(buildSchemaOptions.resolvers || [])]
       });
 
-      const server = new ApolloServer({
+      const defaultServerConfig = {
         ...serverConfig,
         schema
-      });
+      };
+
+      const server = customServer ? 
+            customServer(defaultServerConfig) : 
+            new ApolloServer(defaultServerConfig);
 
       server.applyMiddleware({path, ...serverRegistration, app: this.expressApp});
+
+      if (installSubscriptionHandlers) {
+        server.installSubscriptionHandlers(this.httpServer);
+      }
 
       this._instances.set(id || "default", server);
 
