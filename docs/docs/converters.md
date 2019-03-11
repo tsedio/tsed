@@ -138,9 +138,9 @@ class User {
 
 The Converters service relies on a subservice set to convert the following types:
 
-- Basics: [String, Number et Boolean](https://github.com/Romakita/ts-express-decorators/blob/master/src/common/converters/components/PrimitiveConverter.ts),
-- Objects: [Date](https://github.com/Romakita/ts-express-decorators/blob/master/src/common/converters/components/DateConverter.ts) et [Symbol](https://github.com/Romakita/ts-express-decorators/blob/master/src/common/converters/components/SymbolConverter.ts),
-- Collections: [Array](https://github.com/Romakita/ts-express-decorators/blob/master/src/common/converters/components/ArrayConverter.ts), [Map](https://github.com/Romakita/ts-express-decorators/blob/master/src/common/converters/components/MapConverter.ts) et [Set](https://github.com/Romakita/ts-express-decorators/blob/master/src/common/converters/components/SetConverter.ts).
+- Basics: [String, Number et Boolean](https://github.com/TypedProject/ts-express-decorators/blob/master/packages/common/src/converters/components/PrimitiveConverter.ts),
+- Objects: [Date](https://github.com/TypedProject/ts-express-decorators/blob/master/packages/common/src/converters/components/DateConverter.ts) et [Symbol](https://github.com/TypedProject/ts-express-decorators/blob/master/packages/common/src/converters/components/SymbolConverter.ts),
+- Collections: [Array](https://github.com/TypedProject/ts-express-decorators/blob/master/packages/common/src/converters/components/ArrayConverter.ts), [Map](https://github.com/TypedProject/ts-express-decorators/blob/master/packages/common/src/converters/components/MapConverter.ts) et [Set](https://github.com/TypedProject/ts-express-decorators/blob/master/packages/common/src/converters/components/SetConverter.ts).
 
 > Set and Map types will be converted into an JSON object (instead of Array).
 

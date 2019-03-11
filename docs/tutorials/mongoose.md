@@ -396,5 +396,5 @@ export class MyService {
 ```
 
 ::: tip
-You can find a working example on [Mongoose & Swagger here](https://github.com/Romakita/example-ts-express-decorator/tree/4.0.0/example-mongoose).
+You can find a working example on [Mongoose & Swagger here](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-mongoose).
 :::

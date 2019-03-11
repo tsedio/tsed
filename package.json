@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Romakita/ts-express-decorators.git"
+    "url": "https://github.com/TypedProject/ts-express-decorators.git"
   },
   "keywords": [
     "Express",
@@ -58,7 +58,7 @@
   "author": "Romain Lenzotti",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Romakita/ts-express-decorators/issues"
+    "url": "https://github.com/TypedProject/ts-express-decorators/issues"
   },
   "homepage": "http://tsed.io/",
   "dependencies": {

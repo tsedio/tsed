@@ -1,6 +1,6 @@
 # Throw HTTP Exceptions
 
-You can use [ts-httpexceptions](https://github.com/Romakita/ts-httpexceptions) or similar module to throw an http exception.
+You can use [ts-httpexceptions](https://github.com/TypedProject/ts-httpexceptions) or similar module to throw an http exception.
 All exception will be intercepted by the [Global error handler](/docs/middlewares/override/global-error-handler.md)
 and are sent to the client.
 

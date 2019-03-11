@@ -5,7 +5,7 @@ module.exports = {
   theme: "tsed",
   themeConfig: {
     version: require("../../package").version,
-    repo: "romakita/ts-express-decorators",
+    repo: "TypedProject/ts-express-decorators",
     gitterUrl: "https://gitter.im/Tsed-io/community",
     editLinks: true,
     docsDir: "docs",

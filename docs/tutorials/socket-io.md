@@ -13,7 +13,7 @@ Socket.io enable real-time bidirectional event-based communication. It works on 
 
 ## Example
 
-A complete example is available [here](https://github.com/Romakita/ts-express-decorators/tree/production/integration/socketio).
+A complete example is available [here](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/socketio).
 
 ## Installation
 
