@@ -20,12 +20,9 @@
     "html",
     "lcov"
   ],
-  "clean": true,
-  "sourceMap": true,
   "check-coverage": true,
   "lines": 99,
   "statements": 100,
   "functions": 99,
-  "branches": 85.17,
-  "all": true
+  "branches": 84.81
 }

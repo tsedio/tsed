@@ -160,11 +160,11 @@ You see the example [projet HTTPs](https://github.com/Romakita/example-ts-expres
 ## Logger
 ### Default logger
 
-Default logger use by Ts.ED is [ts-log-debug](https://romakita.github.io/ts-log-debug/). 
+Default logger use by Ts.ED is [ts-log-debug](https://TypedProject.github.io/ts-log-debug/). 
 
- - [Configuration](https://romakita.github.io/ts-log-debug#/getting-started?id=installation),
- - [Customize appender (chanel)](https://romakita.github.io/ts-log-debug#/appenders/custom),
- - [Customize layout](https://romakita.github.io/ts-log-debug#/layouts/custom)
+ - [Configuration](https://TypedProject.github.io/ts-log-debug#/getting-started?id=installation),
+ - [Customize appender (chanel)](https://TypedProject.github.io/ts-log-debug#/appenders/custom),
+ - [Customize layout](https://TypedProject.github.io/ts-log-debug#/layouts/custom)
 
 ### Configuration
 
@@ -176,7 +176,7 @@ Some options is provided:
 - `logger.reqIdBuilder`: A function called for each incoming request to create a request id.
 - `logger.jsonIndentation`: The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
 - `logger.disableRoutesSummary`: Disable routes table displayed in the logger. By default debug is `false`.
-- `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://romakita.github.io/ts-log-debug/).
+- `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://TypedProject.github.io/ts-log-debug/).
 - `logger.ignoreUrlPatterns` (`String` or `RegExp`): List of pattern to ignore logged request according to the `request.url`.
 
 > It's recommended to disable logRequest in production. Logger have a cost on the performance.
