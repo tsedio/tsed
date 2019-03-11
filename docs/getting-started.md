@@ -7,7 +7,7 @@ otherTopics: true
 
 # Getting started
 
-You can start your project from the [getting started project](https://github.com/Romakita/ts-express-decorators/tree/master/integration/getting-started).
+You can start your project from the [getting started project](https://github.com/TypedProject/ts-express-decorators/tree/master/integration/getting-started).
 
 ## Installation from scratch
 

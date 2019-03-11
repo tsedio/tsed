@@ -283,7 +283,7 @@ See our documentation https://tsed.io/#/api/index
 ## Contributors
 Please read [contributing guidelines here](./CONTRIBUTING.md).
 
-<a href="https://github.com/romakita/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 
 ## Backers

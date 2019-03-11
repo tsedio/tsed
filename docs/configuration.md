@@ -154,7 +154,7 @@ export class Server extends ServerLoader {
 
 ### HTTPs configuration
 
-You see the example [projet HTTPs](https://github.com/Romakita/example-ts-express-decorator/tree/2.0.0/example-https)
+You see the example [projet HTTPs](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-https)
 
 
 ## Logger

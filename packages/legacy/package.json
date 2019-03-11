@@ -30,12 +30,12 @@
   "author": "Romain Lenzotti",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Romakita/ts-express-decorators/issues"
+    "url": "https://github.com/TypedProject/ts-express-decorators/issues"
   },
   "homepage": "http://tsed.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Romakita/ts-express-decorators.git"
+    "url": "https://github.com/TypedProject/ts-express-decorators.git"
   },
   "dependencies": {
     "@tsed/core": "0.0.0-PLACEHOLDER",

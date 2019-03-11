@@ -12,7 +12,7 @@ module.exports = {
       typings: "lib/index.d.ts",
       repository,
       bugs,
-      homepage: `https://github.com/Romakita/ts-express-decorators/src/${pkgName}`,
+      homepage: `https://github.com/TypedProject/ts-express-decorators/src/${pkgName}`,
       author,
       contributors,
       license,

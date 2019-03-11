@@ -164,5 +164,5 @@ export class UsersCtrl {
 ```
 
 ::: tip
-You can find a working example on [TypeORM here](https://github.com/Romakita/ts-express-decorators/tree/production/integration/typeorm).
+You can find a working example on [TypeORM here](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/typeorm).
 :::
