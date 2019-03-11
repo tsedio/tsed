@@ -12,11 +12,9 @@ export class Provider<T> implements IProvider<T> {
 
   @NotEnumerable()
   protected _type: ProviderType | any = ProviderType.PROVIDER;
-
+  protected _provide: RegistryKey;
   @NotEnumerable()
   private _store: Store;
-
-  protected _provide: RegistryKey;
 
   constructor(provide: RegistryKey) {
     this._provide = getClassOrSymbol(provide);
@@ -45,7 +43,7 @@ export class Provider<T> implements IProvider<T> {
    * @returns {Type<T>}
    */
   get useClass(): Type<T> {
-    return this._useClass || this._provide;
+    return this._useClass;
   }
 
   /**

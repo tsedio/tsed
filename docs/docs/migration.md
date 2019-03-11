@@ -8,7 +8,7 @@ See release note on Github: https://github.com/Romakita/ts-express-decorators/re
 - Interface IPromise is removed. Use Promise instead of.
 - Interface ICrud is removed.
 - ServerLoader.AcceptMime() is removed. Use GlobalAcceptMimesMiddleware instead of (see documentation https://tsed.io#/docs/middlewares/global-middleware).
-- Update [ts-log-debug](https://romakita.github.io/ts-log-debug) to the new major version.
+- Update [ts-log-debug](https://TypedProject.github.io/ts-log-debug) to the new major version.
 
 ## From v1.3 or under to v1.4
 

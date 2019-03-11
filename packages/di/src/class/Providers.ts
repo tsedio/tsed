@@ -21,7 +21,7 @@ export class Providers extends Registry<Provider<any>, IProvider<any>> {
    * @param options
    * @returns {Registry<Provider<any>, IProvider<any>>}
    */
-  createRegistry(type: string, model: Type<Provider<any>>, options: Partial<RegistrySettings> = {}): TypedProvidersRegistry {
+  createRegistry(type: string, model: Type<Provider<any>>, options: Partial<RegistrySettings>): TypedProvidersRegistry {
     const registry = new Registry<Provider<any>, IProvider<any>>(model, {
       onCreate: this.set.bind(this)
     });
