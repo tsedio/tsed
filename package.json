@@ -10,8 +10,9 @@
     "semantic-release:dry-run": "semantic-release --dry-run",
     "clean": "gulp clean:workspace",
     "start": "ts-node -r tsconfig-paths/register -r source-map-support/register test/integration/app/app.ts",
-    "test": "npm run clean && npm run test:lint && npm run test:unit",
-    "test:unit": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --recursive",
+    "test": "npm run clean && npm run test:lint && npm run test:coverage",
+    "test:unit": "cross-env NODE_ENV=test mocha",
+    "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "test:lint": "tslint --project tsconfig.json -e integration",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
     "travis:deploy-once": "travis-deploy-once",
@@ -64,8 +65,8 @@
     "@types/json-schema": "^7.0.0",
     "globby": "^9.0.0",
     "reflect-metadata": "^0.1.12",
-    "ts-httpexceptions": "^3.0.2",
-    "ts-log-debug": "^4.0.1"
+    "ts-httpexceptions": "^4.0.0",
+    "ts-log-debug": "^5.0.1"
   },
   "devDependencies": {
     "@typedproject/ts-doc": "^4.0.1",
@@ -128,6 +129,7 @@
     "sinon-chai": "^3.0.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.1.0",
+    "source-map-support": "^0.5.10",
     "supertest": "^3.0.0",
     "swagger-ui-dist": "^3.13.6",
     "travis-deploy-once": "^5.0.4",

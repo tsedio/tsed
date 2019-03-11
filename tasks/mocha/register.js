@@ -1,2 +1,1 @@
-require("./typescript");
 require("./testing");

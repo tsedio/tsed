@@ -1,20 +1,9 @@
-import {AfterRoutesInit, Constant, ExpressApplication, OnInit, Service} from "@tsed/common";
+import {Service} from "@tsed/common";
 import * as Mongoose from "mongoose";
 import {$log} from "ts-log-debug";
-import {MDBConnection} from "../interfaces/MDBConnection";
-import {ValidationErrorMiddleware} from "../middlewares/ValidationErrorMiddleware";
 
 @Service()
-export class MongooseService implements OnInit, AfterRoutesInit {
-  @Constant("mongoose.url")
-  private url: string;
-
-  @Constant("mongoose.connectionOptions")
-  private connectionOptions: Mongoose.ConnectionOptions;
-
-  @Constant("mongoose.urls")
-  private urls: {[key: string]: MDBConnection};
-
+export class MongooseService {
   /**
    *
    * @type {Map<any, any>}
@@ -22,45 +11,11 @@ export class MongooseService implements OnInit, AfterRoutesInit {
    */
   private _instances: Map<string, Mongoose.Mongoose> = new Map();
 
-  constructor(@ExpressApplication private expressApp: ExpressApplication) {}
-
-  $onInit(): Promise<any> | void {
-    const promises: Promise<Mongoose.Mongoose>[] = [];
-
-    if (this.url) {
-      promises.push(
-        this.connect(
-          "default",
-          this.url,
-          this.connectionOptions || {}
-        )
-      );
-    }
-
-    if (this.urls) {
-      Object.keys(this.urls).forEach((key: string) => {
-        promises.push(
-          this.connect(
-            key,
-            this.urls[key].url,
-            this.urls[key].connectionOptions
-          )
-        );
-      });
-    }
-
-    return Promise.all(promises);
-  }
-
-  $afterRoutesInit(): void {
-    this.expressApp.use(ValidationErrorMiddleware as any);
-  }
-
   /**
    *
    * @returns {Promise<"mongoose".Connection>}
    */
-  async connect(id: string, url: string, connectionOptions: Mongoose.ConnectionOptions = {}): Promise<any> {
+  async connect(id: string, url: string, connectionOptions: Mongoose.ConnectionOptions): Promise<any> {
     if (this.has(id)) {
       return await this.get(id)!;
     }
@@ -70,10 +25,7 @@ export class MongooseService implements OnInit, AfterRoutesInit {
     $log.debug(`options: ${JSON.stringify(connectionOptions)}`);
 
     try {
-      const mongoose = await Mongoose.connect(
-        url,
-        connectionOptions
-      );
+      const mongoose = await Mongoose.connect(url, connectionOptions);
       this._instances.set(id, mongoose);
 
       return mongoose;

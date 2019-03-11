@@ -14,19 +14,18 @@
   "extension": [
     ".ts"
   ],
-  "require": [
-    "ts-node/register"
-  ],
+  "require": [],
   "reporter": [
-    "lcov",
-    "text-summary"
+    "text-summary",
+    "html",
+    "lcov"
   ],
+  "clean": true,
+  "sourceMap": true,
   "check-coverage": true,
   "lines": 99,
   "statements": 100,
   "functions": 99,
-  "branches": 89,
-  "all": true,
-  "sourceMap": true,
-  "instrument": true
+  "branches": 85.17,
+  "all": true
 }

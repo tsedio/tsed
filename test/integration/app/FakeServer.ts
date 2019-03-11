@@ -5,6 +5,16 @@ import * as Express from "express";
 import {GlobalAcceptMimesMiddleware} from "../../../packages/common/src/mvc/components/GlobalAcceptMimesMiddleware";
 import {ServerLoader} from "../../../packages/common/src/server/components/ServerLoader";
 import {ServerSettings} from "../../../packages/common/src/server/decorators/serverSettings";
+import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
+import {EmptyCtrl} from "./controllers/calendars/EmptyCtrl";
+import {EventCtrl} from "./controllers/calendars/EventCtrl";
+import {HiddenCtrl} from "./controllers/calendars/HiddenCtrl";
+import {TaskCtrl} from "./controllers/calendars/TaskCtrl";
+import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
+import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
+import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
+import {RestCtrl} from "./controllers/RestCtrl";
+import {UserCtrl} from "./controllers/users/UserCtrl";
 import "./middlewares/authentication";
 
 const rootDir = __dirname;
@@ -14,7 +24,18 @@ const rootDir = __dirname;
   port: 8002,
   httpsPort: 8082,
   mount: {
-    "/rest": `${rootDir}/controllers/**/**.ts`
+    "/rest": [
+      CalendarCtrl,
+      EmptyCtrl,
+      EventCtrl,
+      HiddenCtrl,
+      TaskCtrl,
+      SocketPageCtrl,
+      ProductsCtrl,
+      UserCtrl,
+      RestCtrl,
+      ErrorsCtrl
+    ]
   },
   componentsScan: [
     `${rootDir}/services/**/**.ts`,

@@ -1,3 +1,6 @@
+--require ts-node/register/transpile-only
+--require tsconfig-paths/register
 --require tasks/mocha/register
---bail
+--recursive
+--reporter dot
 {packages,test}/**/*.spec.ts
