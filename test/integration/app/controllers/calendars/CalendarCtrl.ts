@@ -276,6 +276,19 @@ export class CalendarCtrl extends BaseController {
   }
 
   /**
+   *
+   * @param request
+   * @param response
+   * @param next
+   */
+  static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
+    request.ctx.data.id = 10909;
+
+    // console.log(request.headers)
+    next();
+  }
+
+  /**
    * Test the Header decorators.
    * @param request
    * @returns {{id: any, name: string}}

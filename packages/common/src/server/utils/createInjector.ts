@@ -5,10 +5,13 @@ import {ServerSettingsService} from "../../config/services/ServerSettingsService
 $log.name = "TSED";
 $log.level = "info";
 
-export function createInjector(settings: any) {
+export async function createInjector(settings: any): Promise<InjectorService> {
   const injector = new InjectorService();
-  injector.settings = createSettingsService(injector);
+
+  // Init settings
+  injector.settings = await createSettingsService(injector);
   injector.logger = $log;
+
   injector.scopes = {
     ...(settings.scopes || {}),
     [ProviderType.CONTROLLER]: settings.controllerScope
@@ -17,11 +20,11 @@ export function createInjector(settings: any) {
   return injector;
 }
 
-function createSettingsService(injector: InjectorService) {
-  const provider = GlobalProviders.get(ServerSettingsService)!;
-  const settingsService = injector.invoke<ServerSettingsService>(provider.useClass);
+async function createSettingsService(injector: InjectorService): Promise<ServerSettingsService> {
+  const provider = GlobalProviders.get(ServerSettingsService)!.clone();
 
-  injector.forkProvider(ServerSettingsService, settingsService);
+  provider.instance = await injector.invoke<ServerSettingsService>(provider.useClass);
+  injector.addProvider(ServerSettingsService, provider);
 
-  return settingsService;
+  return provider.instance;
 }

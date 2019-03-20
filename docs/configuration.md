@@ -3,11 +3,16 @@ prev: /getting-started.html
 next: false
 sidebar: auto
 otherTopics: true
+meta:
+ - name: description
+   content: Documentation over the server configuration. Ts.ED is built on top of Express and use TypeScript language.
+ - name: keywords
+   content: configuration ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Configuration
 
-`@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
+@@ServerSettings@@ let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
 
 The default configuration is as follow:
 ```json
@@ -53,9 +58,7 @@ import Path = require("path");
      ]
    }
 })
-export class Server extends ServerLoader {
-
-}
+export class Server extends ServerLoader {}
 
 // app.ts
 import * as Server from "./server";
@@ -66,7 +69,7 @@ ts-node isn't the runtime.
 
 ## Options
 
-* `rootDir` &lt;string&gt;: The root directory where you build run project. By default, it's equal to `process.cwd().
+* `rootDir` &lt;string&gt;: The root directory where you build run project. By default, it's equal to `process.cwd()`.
 * `env` &lt;Env&gt;: The environment profile. By default the environment profile is equals to `NODE_ENV`.
 * `port` &lt;string | number&gt;: Port number for the [HTTP.Server](https://nodejs.org/api/http.html#http_class_http_server).
 * `httpsPort` &lt;string | number&gt;: Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class_https_server).
@@ -75,7 +78,7 @@ ts-node isn't the runtime.
   * `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
-* `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md).
+* `uploadDir` &lt;string&gt;: The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md).
 * `mount` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
 * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
 * `exclude` &lt;string[]&gt;: List of glob patterns. Exclude all files which matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
@@ -84,7 +87,7 @@ ts-node isn't the runtime.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)). By default true.
 * `logger` &lt;[ILoggerSettings](/api/common/config/interfaces/ILoggerSettings.md)&gt;: Logger configuration.
-* `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/scope.md).
+* `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/injection-scopes.md).
 * `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
 * `errors` &lt;[IErrorsSettings](/api/common/config/interfaces/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
 
@@ -94,61 +97,61 @@ ts-node isn't the runtime.
 It's possible to change the HTTP and HTTPS server address as follows:
 
 ```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+
 @ServerSettings({
    httpPort: "127.0.0.1:8081",
    httpsPort: "127.0.0.2:8082",
 })
-export class Server extends ServerLoader {
-
-}
+export class Server extends ServerLoader {}
 ```
 
 ### Random port
 
-Random port assignement can be enable with the value "0". The port assignment will be delegate to the OS.
+Random port assignement can be enable with the value `0`. The port assignment will be delegate to the OS.
 
 ```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+
 @ServerSettings({
    httpPort: "127.0.0.1:0",
    httpsPort: "127.0.0.2:0",
 })
-export class Server extends ServerLoader {
-
-}
+export class Server extends ServerLoader {}
 ```
 
 Or: 
 
 ```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+
 @ServerSettings({
    httpPort: 0,
    httpsPort: 0,
 })
-export class Server extends ServerLoader {
-
-}
+export class Server extends ServerLoader {}
 ```
 
 ### Disable HTTP
 
 ```typescript
-@ServerSettings({
-   httpPort: false,
-})
-export class Server extends ServerLoader {
+import {ServerLoader, ServerSettings} from "@tsed/common";
 
-}
+@ServerSettings({
+   httpPort: false
+})
+export class Server extends ServerLoader {}
 ```
 
 ### Disable HTTPS
 
 ```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+
 @ServerSettings({
    httpsPort: false,
 })
-export class Server extends ServerLoader {
-
-}
+export class Server extends ServerLoader {}
 ```
 
 ### HTTPs configuration
@@ -219,6 +222,8 @@ A call with once of this method will generate a log according to the `logger.req
 You can configure this output from configuration:
 
 ```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+
 @ServerSettings({
    logger: {
        requestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
@@ -229,11 +234,13 @@ export class Server extends ServerLoader {
 }
 ```
 
-or you can override the middleware with `@OverrideMiddleware`.
+or you can override the middleware with @@OverrideMiddleware@@.
 
 Example: 
 
 ```typescript
+import {ServerLoader, ServerSettings, OverrideMiddleware, LogIncomingRequestMiddleware, Res, Req} from "@tsed/common";
+
 @OverrideMiddleware(LogIncomingRequestMiddleware)
 export class CustomLogIncomingRequestMiddleware extends LogIncomingRequestMiddleware {
  
@@ -280,23 +287,22 @@ $log
 The configuration can be reused throughout your application in different ways. 
 
 - With dependency injection in [Service](/docs/services.md), [Controller](/docs/controllers.md), [Middleware](/docs/middlewares.md), [Filter](/docs/filters.md) or [Converter](/docs/converters.md).
-- With the decorators [@Constant](/api/common/config/decorators/Constant.md) and [@Value](/api/common/config/decorators/Value.md).
+- With the decorators @@Constant@@ and @@Value@@.
 
 ### From service (DI)
 
 ```typescript
-import {ServerSettingsService} from "@tsed/common";
+import {ServerSettingsService, Service} from "@tsed/common";
+
 @Service() // or Controller or Middleware
 export class MyService {
-    constructor(serverSettingsService: ServerSettingsService) {
-        
-    }
+  constructor(serverSettingsService: ServerSettingsService) {}
 }
 ```
 
 ### From decorators
 
-Decorators [@Constant](/api/common/config/decorators/Constant.md) and [@Value](/api/common/config/decorators/Value.md) can be used in all classes
+Decorators @@Constant@@ and @@Value@@ can be used in all classes
 including: 
  
  - [Service](/docs/services.md),
@@ -305,7 +311,7 @@ including:
  - [Filter](/docs/filters.md)
  - [Converter](/docs/converters.md).
  
-[@Constant](/api/common/config/decorators/Constant.md) and [@Value](/api/common/config/decorators/Value.md) accept an expression as parameters to
+@@Constant@@ and @@Value@@ accept an expression as parameters to
 inspect the configuration object and return the value.
 
 ```typescript
@@ -313,16 +319,15 @@ import {Env} from "@tsed/core";
 import {Constant, Value} from "@tsed/common";
 
 export class MyClass {
-    
-    @Constant("env")
-    env: Env;
-    
-    @Value("swagger.path")
-    swaggerPath: string;
+  @Constant("env")
+  env: Env;
+  
+  @Value("swagger.path")
+  swaggerPath: string;
 
-    $onInit() {
-       console.log(this.env);
-    }
+  $onInit() {
+     console.log(this.env);
+  }
 }
 ```
 

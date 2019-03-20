@@ -7,21 +7,7 @@ import {UseAfter} from "./useAfter";
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
  *
- * ```typescript
- * @Header('Content-Type', 'text/plain');
- * private myMethod() {}
- *
- * @Status(204)
- * @Header({
- *   "Content-Type": "text/plain",
- *   "Content-Length": 123,
- *   "ETag": {
- *     "value": "12345",
- *     "description": "header description"
- *   }
- * })
- * private myMethod() {}
- * ```
+ * <<< @/docs/docs/snippets/controllers/response-headers.ts
  *
  * This example will produce the swagger responses object:
  *

@@ -6,7 +6,7 @@ meta:
 ---
 # Session <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Session }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/filters/decorators/session.ts#L0-L0">/packages/common/src/filters/decorators/session.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { Session }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/filters/decorators/session.ts#L0-L0">/packages/common/src/filters/decorators/session.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -37,18 +37,13 @@ Session return the value from [request.session](http://expressjs.com/en/4x/api.h
 @Controller('/')
 class MyCtrl {
    @Post('/')
-   create(@Session() session: any) {
+   create(@Session() session: Express.Session) {
       console.log('Entire session', session);
    }
 
    @Post('/')
    create(@Session('id') id: string) {
       console.log('ID', id);
-   }
-
-   @Post('/')
-   create(@Session() session: Session) { // with deserialization
-      console.log('session', session);
    }
 }
 ```

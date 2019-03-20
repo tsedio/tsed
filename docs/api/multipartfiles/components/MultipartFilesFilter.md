@@ -6,7 +6,7 @@ meta:
 ---
 # MultipartFilesFilter <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MultipartFilesFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles/src/components/MultipartFilesFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/multipartfiles/src/components/MultipartFilesFilter.ts#L0-L0">/packages/multipartfiles/src/components/MultipartFilesFilter.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { MultipartFilesFilter }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/multipartfiles/src/components/MultipartFilesFilter"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/multipartfiles/src/components/MultipartFilesFilter.ts#L0-L0">/packages/multipartfiles/src/components/MultipartFilesFilter.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview

@@ -6,13 +6,13 @@ meta:
 ---
 # ServerSettingsService <Badge text="Service" type="service"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/config/services/ServerSettingsService.ts#L0-L0">/packages/common/src/config/services/ServerSettingsService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ServerSettingsService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/config/services/ServerSettingsService.ts#L0-L0">/packages/common/src/config/services/ServerSettingsService.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
-<pre><code class="typescript-lang "><span class="token keyword">class</span> ServerSettingsService <span class="token keyword">implements</span> <a href="/api/common/config/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> <a href="/api/di/services/IDISettings.html"><span class="token">IDISettings</span></a> <span class="token punctuation">{</span>
+<pre><code class="typescript-lang "><span class="token keyword">class</span> ServerSettingsService <span class="token keyword">implements</span> <a href="/api/common/config/interfaces/IServerSettings.html"><span class="token">IServerSettings</span></a><span class="token punctuation">,</span> <a href="/api/di/interfaces/IDISettings.html"><span class="token">IDISettings</span></a> <span class="token punctuation">{</span>
     <span class="token keyword">protected</span> map<span class="token punctuation">:</span> Map&lt<span class="token punctuation">;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     version<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
@@ -25,7 +25,9 @@ meta:
     env<span class="token punctuation">:</span> <a href="/api/core/interfaces/Env.html"><span class="token">Env</span></a><span class="token punctuation">;</span>
     mount<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     componentsScan<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    serveStatic<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
+    statics<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
+    /* istanbul ignore next */
+    serveStatics<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     acceptMimes<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     debug<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     routers<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IRouterSettings.html"><span class="token">IRouterSettings</span></a><span class="token punctuation">;</span>
@@ -267,7 +269,41 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">serveStatic<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a></code></pre>
+<pre><code class="typescript-lang ">statics<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a></code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">/* istanbul ignore next */</code></pre>
+
+</div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">serveStatics<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a></code></pre>
 
 </div>
 

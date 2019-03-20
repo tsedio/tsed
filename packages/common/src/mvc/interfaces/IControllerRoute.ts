@@ -8,5 +8,5 @@ export interface IControllerRoute {
   className: string;
   methodClassName: string;
   parameters: any;
-  returnType: any;
+  returnType?: any;
 }

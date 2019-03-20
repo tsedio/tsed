@@ -1,7 +1,5 @@
 import {expect} from "chai";
-import * as Sinon from "sinon";
 import {Metadata} from "../../../../core/src";
-import {ParamRegistry, ProviderRegistry} from "../../../src";
 import {EXPRESS_ERR, EXPRESS_NEXT_FN, PARAM_METADATA} from "../../../src/filters/constants";
 import {HandlerMetadata} from "../../../src/mvc/class/HandlerMetadata";
 import {HandlerType} from "../../../src/mvc/interfaces/HandlerType";

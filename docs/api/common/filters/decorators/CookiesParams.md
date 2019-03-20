@@ -6,7 +6,7 @@ meta:
 ---
 # CookiesParams <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { CookiesParams }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/filters/decorators/cookies.ts#L0-L0">/packages/common/src/filters/decorators/cookies.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { CookiesParams }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/filters/decorators/cookies.ts#L0-L0">/packages/common/src/filters/decorators/cookies.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -29,7 +29,7 @@ Param | Type | Description
 
 ::: v-pre
 
-Cookies o CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.
+Cookies or CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.
 
 #### Example
 
@@ -47,13 +47,8 @@ class MyCtrl {
    }
 
    @Post('/')
-   create(@Cookies('user') user: User) { // with deserialization
+   create(@Cookies('user') user: IUser) {
       console.log('user', user);
-   }
-
-   @Post('/')
-   create(@Cookies('users', User) users: User[]) { // with deserialization
-      console.log('users', users);
    }
 }
 ```

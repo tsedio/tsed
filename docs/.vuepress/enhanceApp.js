@@ -1,4 +1,5 @@
 import VueAnalytics from "vue-analytics";
+import "./public/style.scss";
 
 export default ({
                   Vue, // the version of Vue being used in the VuePress app

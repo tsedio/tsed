@@ -1,6 +1,3 @@
-/**
- *
- */
 import {Type} from "@tsed/core";
 
 export interface IDeserializer {

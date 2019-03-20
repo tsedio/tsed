@@ -20,7 +20,11 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
    * @param options
    * @returns {Registry<Provider<any>, IProvider<any>>}
    */
-  createRegistry(type: string, model: Type<Provider<any>>, options: Partial<RegistrySettings>): TypedProvidersRegistry {
+  createRegistry(
+    type: string,
+    model: Type<Provider<any>>,
+    options: Partial<RegistrySettings> = {injectable: true}
+  ): TypedProvidersRegistry {
     const registry = new Registry<Provider<any>, IProvider<any>>(model, {
       onCreate: this.set.bind(this)
     });
@@ -30,8 +34,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
       Object.assign(
         {
           registry,
-          injectable: true,
-          buildable: true
+          injectable: true
         },
         options
       )
@@ -63,8 +66,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
 
     return {
       registry: this,
-      injectable: true,
-      buildable: true
+      injectable: true
     };
   }
 

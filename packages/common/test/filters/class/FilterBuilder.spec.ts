@@ -5,7 +5,7 @@ import * as Sinon from "sinon";
 import {BadRequest} from "ts-httpexceptions/lib/clientErrors/BadRequest";
 import {ConverterService} from "../../../src/converters";
 import {FilterPreHandlers, ValidationService} from "../../../src/filters";
-import {FilterBuilder} from "../../../src/filters/class/FilterBuilder";
+import {FilterBuilder} from "../../../src/filters/builders/FilterBuilder";
 import {EXPRESS_RESPONSE} from "../../../src/filters/constants";
 
 describe("FilterBuilder", () => {

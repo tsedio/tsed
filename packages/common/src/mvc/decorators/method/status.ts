@@ -10,10 +10,7 @@ import {UseAfter} from "./useAfter";
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
  *
- * ```typescript
- * @Status(204)
- * async myMethod() {}
- * ```
+ * <<< @/docs/docs/snippets/controllers/response-status.ts
  *
  * With swagger description:
  *

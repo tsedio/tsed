@@ -1,24 +1,22 @@
-import {isClass} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
-import * as globby from "globby";
 import * as Http from "http";
 import * as Https from "https";
-import * as Path from "path";
+import {importComponents} from "../utils/importComponents";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-
 import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
+
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
-import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
-import {contextMiddleware} from "../utils/contextMiddleware";
+import {IServerLifecycle} from "../interfaces";
 import {createExpressApplication} from "../utils/createExpressApplication";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
 import {createInjector} from "../utils/createInjector";
+import {contextMiddleware} from "../utils/contextMiddleware";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -64,23 +62,12 @@ import {createInjector} from "../utils/createInjector";
  */
 export abstract class ServerLoader implements IServerLifecycle {
   public version: string = "0.0.0-PLACEHOLDER";
-  private _components: IComponentScanned[] = [];
-  private _scannedPromises: Promise<any>[] = [];
   private _injector: InjectorService;
 
   /**
    *
    */
-  constructor() {
-    const settings = ServerSettingsService.getMetadata(this);
-    this._injector = createInjector(settings);
-
-    createExpressApplication(this._injector);
-
-    if (settings) {
-      this.setSettings(settings);
-    }
-  }
+  constructor() {}
 
   /**
    * Return the injectorService initialized by the server.
@@ -91,7 +78,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
-   * Return the settings configured by the decorator [@ServerSettings](/api/common/server/decorators/ServerSettings.md).
+   * Return the settings configured by the decorator @@ServerSettings@@.
    *
    * ```typescript
    * @ServerSettings({
@@ -126,6 +113,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Return the InjectorService initialized by the server.
    * @returns {InjectorService}
+   * @deprecated
    */
   get injectorService(): InjectorService {
     return this._injector;
@@ -136,7 +124,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Http.Server}
    */
   get httpServer(): Http.Server {
-    return this.injectorService.get<HttpServer>(HttpServer)!;
+    return this.injector.get<HttpServer>(HttpServer)!;
   }
 
   /**
@@ -144,62 +132,27 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Https.Server}
    */
   get httpsServer(): Https.Server {
-    return this.injectorService.get<HttpsServer>(HttpsServer)!;
+    return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
   /**
-   *
-   * @returns {any}
-   * @param files
-   * @param excludes
+   * Init injector with minimal configuration
+   * @deprecated
    */
-  static cleanGlobPatterns(files: string | string[], excludes: string[]): string[] {
-    excludes = excludes.map((s: string) => "!" + s.replace(/!/gi, ""));
+  async init() {
+    if (!this._injector) {
+      const settings = ServerSettingsService.getMetadata(this);
 
-    return []
-      .concat(files as any)
-      .map((file: string) => {
-        if (!require.extensions[".ts"]) {
-          file = file.replace(/\.ts$/i, ".js");
-        }
+      this._injector = await createInjector(settings);
 
-        return Path.resolve(file);
-      })
-      .concat(excludes as any);
-  }
+      if (settings) {
+        this.setSettings(settings);
+      }
 
-  /**
-   * Create a new HTTP server with the provided `port`.
-   * @returns {ServerLoader}
-   */
-  public createHttpServer(port: string | number): ServerLoader {
-    createHttpServer(this.injector);
-    this.settings.httpPort = port;
-
-    return this;
-  }
-
-  /**
-   * Create a new HTTPs server.
-   *
-   * `options` {IHTTPSServerOptions}:
-   *
-   * - `port` &lt;number&gt;: Port number,
-   * - `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
-   * - `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
-   * - `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
-   * - `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
-   *
-   * See more info on [httpsOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener).
-   *
-   * @param options Options to create new HTTPS server.
-   * @returns {ServerLoader}
-   */
-  public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
-    createHttpsServer(this.injector, options);
-    this.settings.httpsPort = options.port;
-
-    return this;
+      await createExpressApplication(this.injector);
+      await createHttpsServer(this.injector);
+      await createHttpServer(this.injector);
+    }
   }
 
   /**
@@ -267,6 +220,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   public async start(): Promise<any> {
     try {
       const start = new Date();
+      await this.init();
       await this.loadSettingsAndInjector();
       await this.loadMiddlewares();
       await this.startServers();
@@ -317,20 +271,11 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public scan(patterns: string | string[], endpoint?: string): ServerLoader {
-    const promises = globby.sync(ServerLoader.cleanGlobPatterns(patterns, this.settings.exclude)).map(async (file: string) => {
-      this.injector.logger.debug(`Import file ${endpoint}:`, file);
-      try {
-        const classes: any[] = await import(file);
-        this.addComponents(classes, {endpoint});
-      } catch (er) {
-        /* istanbul ignore next */
-        this.injector.logger.error(er);
-        /* istanbul ignore next */
-        process.exit(-1);
-      }
-    });
-
-    this._scannedPromises = this._scannedPromises.concat(promises);
+    if (endpoint) {
+      this.addControllers(endpoint, [].concat(patterns as any));
+    } else {
+      this.addComponents([].concat(patterns as any));
+    }
 
     return this;
   }
@@ -340,22 +285,14 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param classes
    * @param options
    */
-  public addComponents(classes: any | any[], options: Partial<IComponentScanned> = {}): ServerLoader {
-    classes = Object.keys(classes)
-      .map(key => classes[key])
-      .filter(clazz => isClass(clazz));
-
-    const components: any = Object.assign(options, {
-      classes
-    });
-
-    this._components = (this._components || []).concat([components]).filter(o => !!o);
+  public addComponents(classes: any | any[], options: any = {}): ServerLoader {
+    this.settings.componentsScan = this.settings.componentsScan.concat(classes);
 
     return this;
   }
 
   /**
-   * Add classes decorated by `@Controller()` to components container.
+   * Add classes decorated by @@Controller()@@ to components container.
    *
    * ### Example
    *
@@ -376,28 +313,23 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public addControllers(endpoint: string, controllers: any[]) {
-    return this.addComponents(controllers, {endpoint});
+    this.settings.mount[endpoint] = (this.settings.mount[endpoint] || []).concat(controllers);
   }
 
   /**
    * Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
-   * under the endpoint. See [Versioning Rest API](/docs/server-loader.md#versioning) for more information.
+   * under the endpoint.
+   *
+   * ::: tip
+   * See [Versioning Rest API](/docs/controllers.md#routing) for more information.
+   * :::
+   *
    * @param endpoint
    * @param list
    * @returns {ServerLoader}
    */
   public mount(endpoint: string, list: any | string | (any | string)[]): ServerLoader {
-    const patterns = [].concat(list).filter((item: string) => {
-      if (isClass(item)) {
-        this.addControllers(endpoint, [item]);
-
-        return false;
-      }
-
-      return true;
-    });
-
-    this.scan(patterns, endpoint);
+    this.addControllers(endpoint, list);
 
     return this;
   }
@@ -414,7 +346,7 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.level = level;
     }
 
-    await Promise.all(this._scannedPromises);
+    await this.resolve();
     await this.callHook("$onInit");
 
     this.injector.logger.debug("Initialize settings");
@@ -465,16 +397,25 @@ export abstract class ServerLoader implements IServerLifecycle {
     this.use(LogIncomingRequestMiddleware);
     await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
     await this.injector.emit("$beforeRoutesInit");
-    await this.injector.emit("$onRoutesInit", this._components);
-
-    delete this._components; // free memory
-
+    await this.injector.emit("$onRoutesInit");
     await this.injector.emit("$afterRoutesInit");
 
     await this.callHook("$afterRoutesInit", undefined, this.expressApp);
 
     // Import the globalErrorHandler
     this.use(GlobalErrorHandlerMiddleware);
+  }
+
+  protected async resolve() {
+    const components = await Promise.all([
+      importComponents(this.settings.mount, this.settings.exclude),
+      importComponents(this.settings.componentsScan, this.settings.exclude)
+    ]);
+
+    const routes = components.reduce((flat, value) => flat.concat(value), []).filter(component => !!component.endpoint);
+
+    this.settings.set("routes", routes);
+    // this.settings.addComponents();
   }
 
   /**
@@ -487,41 +428,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     if (this.settings.env === "test") {
       this.injector.logger.stop();
     }
-
-    const bind = (property: string, value: any, map: Map<string, any>) => {
-      switch (property) {
-        case "mount":
-          Object.keys(this.settings.mount).forEach(key => this.mount(key, value[key]));
-          break;
-
-        case "componentsScan":
-          this.settings.componentsScan.forEach(componentDir => this.scan(componentDir));
-          break;
-
-        case "httpPort":
-          /* istanbul ignore else */
-          if (value !== false && this.httpServer === undefined) {
-            this.createHttpServer(value);
-          }
-
-          break;
-
-        case "httpsPort":
-          /* istanbul ignore else */
-          if (value !== false && this.httpsServer === undefined) {
-            this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
-          }
-
-          break;
-      }
-    };
-
-    this.settings.forEach((value, key, map) => {
-      /* istanbul ignore else */
-      if (value !== undefined) {
-        bind(key, value, map);
-      }
-    });
   }
 
   private callHook = (key: string, elseFn = new Function(), ...args: any[]) => {

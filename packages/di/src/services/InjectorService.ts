@@ -1,23 +1,35 @@
-import {deepClone, getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
+import {deepClone, getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, Store} from "@tsed/core";
+import {Container} from "../class/Container";
+import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
-import {InjectionError} from "../errors/InjectionError";
-import {InjectionScopeError} from "../errors/InjectionScopeError";
+import {Injectable} from "../decorators/injectable";
 import {
   IDILogger,
   IDISettings,
-  IInjectableMethod,
   IInjectableProperties,
   IInjectablePropertyService,
   IInjectablePropertyValue,
   IInterceptor,
   IInterceptorContext,
+  IInvokeOptions,
+  ILocalsContainer,
   InjectablePropertyType,
-  ProviderScope,
-  ProviderType,
+  IProvider,
+  ProviderScope, ProviderType,
   TokenProvider
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
-import {registerFactory} from "../registries/ProviderRegistry";
+
+interface IInvokeSettings {
+  token: TokenProvider;
+  parent?: TokenProvider;
+  scope: ProviderScope;
+  useScope: boolean;
+  isBindable: boolean;
+  deps: any[];
+
+  construct(deps: TokenProvider[]): any;
+}
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -42,18 +54,54 @@ import {registerFactory} from "../registries/ProviderRegistry";
  * > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
  *
  */
-export class InjectorService extends Map<TokenProvider, Provider<any>> {
+@Injectable({
+  scope: ProviderScope.SINGLETON,
+  global: true
+})
+export class InjectorService extends Container {
   public settings: IDISettings = new Map();
   public logger: IDILogger = console;
   public scopes: {[key: string]: ProviderScope} = {};
 
   constructor() {
     super();
-    this.forkProvider(InjectorService, this);
+    const provider = this.addProvider(InjectorService).getProvider(InjectorService)!;
+    provider.instance = this;
   }
 
-  scopeOf(providerType: ProviderType) {
-    return this.scopes[providerType] || ProviderScope.SINGLETON;
+
+  /**
+   * Retrieve default scope for a given provider.
+   * @param provider
+   */
+  public scopeOf(provider: Provider<any>) {
+    return provider.scope || this.scopes[provider.type] || ProviderScope.SINGLETON;
+  }
+
+  /**
+   * Add a provider to the
+   * @param token
+   * @param settings
+   */
+  public addProvider(token: TokenProvider, settings: Partial<IProvider<any>> = {}): this {
+    return super.add(token, settings);
+  }
+
+  /**
+   *
+   * @param token
+   */
+  public hasProvider(token: TokenProvider) {
+    return super.has(token);
+  }
+
+  /**
+   * Add a provider to the
+   * @param token
+   * @param provider
+   */
+  public setProvider(token: TokenProvider, provider: Provider<any>) {
+    return super.set(token, provider);
   }
 
   /**
@@ -62,7 +110,7 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    * @param token
    */
   public getProvider(token: TokenProvider): Provider<any> | undefined {
-    return super.get(getClassOrSymbol(token));
+    return super.get(token);
   }
 
   /**
@@ -70,9 +118,12 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    * @param token
    * @param instance
    */
-  public forkProvider(token: TokenProvider, instance?: any): Provider<any> {
-    const provider = GlobalProviders.get(token)!.clone();
-    this.set(token, provider);
+  public async forkProvider(token: TokenProvider, instance?: any): Promise<Provider<any>> {
+    const provider = this.addProvider(token).getProvider(token)!;
+
+    if (!instance) {
+      instance = await this.invoke(token);
+    }
 
     provider.instance = instance;
 
@@ -122,7 +173,6 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
 
   /**
    * The has() method returns a boolean indicating whether an element with the specified key exists or not.
-   * @param key
    * @returns {boolean}
    * @param token
    */
@@ -153,41 +203,46 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    *
    * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
    * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   * @param designParamTypes Optional object. List of injectable types.
-   * @param requiredScope
+   * @param options
    * @returns {T} The class constructed.
    */
-  invoke<T>(
+  public async invoke<T>(
     token: TokenProvider,
-    locals: Map<string | Function, any> = new Map(),
-    designParamTypes?: any[],
-    requiredScope: boolean = false
-  ): T {
-    const {onInvoke} = GlobalProviders.getRegistrySettings(token);
+    locals: ILocalsContainer = new LocalsContainer(),
+    options: Partial<IInvokeOptions<T>> = {}
+  ): Promise<T> {
     const provider = this.getProvider(token);
-    const parentScope = Store.from(token).get("scope");
+    let instance: any;
 
-    if (!designParamTypes) {
-      designParamTypes = Metadata.getParamTypes(token);
+    if (locals.has(token)) {
+      instance = locals.get(token);
+    } else if (!provider || options.rebuild) {
+      instance = await this._invoke(token, locals, options);
+    } else {
+      switch (this.scopeOf(provider)) {
+        case ProviderScope.SINGLETON:
+          if (!this.has(token)) {
+            provider.instance = await this._invoke(token, locals, options);
+          }
+
+          instance = this.get<T>(token)!;
+          break;
+
+        case ProviderScope.REQUEST:
+          instance = await this._invoke(token, locals, options);
+          locals.set(token, instance);
+          break;
+
+        case ProviderScope.INSTANCE:
+          instance = await this._invoke(provider.provide, locals, options);
+          break;
+      }
     }
 
-    if (provider && onInvoke) {
-      onInvoke(provider, locals, designParamTypes);
+    if (!instance) {
+      // throw new InjectionError(token, nameOf(dependency), "injection failed", er);
+      throw new Error("Unable to create new instance from provided token (" + nameOf(token) + ")");
     }
-
-    const services = designParamTypes.map(serviceType =>
-      this.mapServices({
-        serviceType,
-        target: token,
-        locals,
-        requiredScope,
-        parentScope
-      })
-    );
-
-    const instance = new token(...services);
-
-    this.bindInjectableProperties(instance);
 
     return instance;
   }
@@ -197,17 +252,31 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    *
    * @param container
    */
-  async load(): Promise<any> {
-    // TODO copy all provider from GlobalProvider registry. In future this action will be performed from Bootstrap class
-    GlobalProviders.forEach((p, k) => {
-      if (!this.has(k)) {
-        this.set(k, p.clone());
+  async load(container: Map<TokenProvider, Provider<any>> = GlobalProviders): Promise<LocalsContainer<any>> {
+    const locals = new LocalsContainer();
+
+    // Clone all providers in the container
+    container.forEach((provider, token) => {
+      if (!this.hasProvider(token)) {
+        this.setProvider(token, provider.clone());
       }
     });
 
-    this.build();
+    const providers = super.toArray();
 
-    return Promise.all([this.emit("$onInit")]);
+    for (const provider of providers) {
+      if (!locals.has(provider.provide) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+        await this.invoke(provider.provide, locals);
+      }
+
+      if (provider.instance) {
+        locals.set(provider.provide, provider.instance);
+      }
+    }
+
+    await locals.emit("$onInit");
+
+    return locals;
   }
 
   /**
@@ -359,164 +428,74 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    *
    * #### Example
    *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * class MyService {
-   *      constructor(injectorService: InjectorService) {
-   *          injectorService.invokeMethod(this.method, {
-   *              this,
-   *              methodName: 'method'
-   *          });
-   *      }
-   *
-   *   method(otherService: OtherService) {}
-   * }
-   * ```
-   *
-   * @returns {any}
-   * @param handler The injectable method to invoke. Method parameters are injected according method signature.
-   * @param options Object to configure the invocation.
-   * @deprecated
+   * @param target
+   * @param locals
+   * @param options
+   * @private
    */
-  public invokeMethod(handler: any, options: IInjectableMethod<any>): any {
-    let {designParamTypes} = options;
-    const {locals = new Map<any, any>(), target, methodName} = options;
+  private async _invoke<T>(target: TokenProvider, locals: ILocalsContainer, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
+    const {token, deps, construct, isBindable} = this.mapInvokeOptions(target, options);
 
-    if (handler.$injected) {
-      return handler.call(target, locals);
+    const {onInvoke} = GlobalProviders.getRegistrySettings(target); // FIXME should not be used
+    const provider = this.getProvider(target);
+
+    if (provider && onInvoke) {
+      onInvoke(provider, locals, deps);
     }
 
-    if (!designParamTypes) {
-      designParamTypes = Metadata.getParamTypes(prototypeOf(target), methodName);
+    const services = [];
+    for (const dependency of deps) {
+      const service = await this.invoke(dependency, locals, {parent: token});
+      services.push(service);
     }
 
-    const services = designParamTypes.map((serviceType: any) =>
-      this.mapServices({
-        serviceType,
-        target,
-        locals,
-        requiredScope: false,
-        parentScope: false
-      })
-    );
+    const instance = construct(services);
 
-    return handler(...services);
+    if (instance && isBindable) {
+      this.bindInjectableProperties(instance);
+    }
+
+    return instance;
   }
 
   /**
-   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
-   * @param eventName The event name to emit at all services.
-   * @param args List of the parameters to give to each services.
-   * @returns {Promise<any[]>} A list of promises.
-   */
-  public async emit(eventName: string, ...args: any[]) {
-    this.logger.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
-
-    const providers = this.getProviders();
-
-    for (const provider of providers) {
-      const service = provider.instance;
-
-      if (service && eventName in service) {
-        const startTime = new Date().getTime();
-        this.logger.debug(`Call ${nameOf(provider.provide)}.${eventName}()`);
-
-        await service[eventName](...args);
-
-        this.logger.debug(`Run ${nameOf(provider.provide)}.${eventName}() in ${new Date().getTime() - startTime} ms`);
-      }
-    }
-  }
-
-  /**
-   *
-   * @returns {any}
+   * Create options to invoke a provider or class.
+   * @param token
    * @param options
    */
-  private mapServices(options: any) {
-    const {serviceType, target, locals, parentScope, requiredScope} = options;
-    const serviceName = typeof serviceType === "function" ? nameOf(serviceType) : serviceType;
-    const localService = locals.get(serviceName) || locals.get(serviceType);
+  private mapInvokeOptions(token: TokenProvider, options: Partial<IInvokeOptions<any>>): IInvokeSettings {
+    const {useScope = false} = options;
+    let deps: TokenProvider[] | undefined = options.deps;
+    let scope = options.scope;
+    let construct = (deps: TokenProvider[]) => new token(...deps);
+    let isBindable = false;
 
-    if (localService) {
-      return localService;
-    }
+    if (this.hasProvider(token)) {
+      const provider = this.getProvider(token)!;
 
-    const provider = this.getProvider(serviceType);
+      scope = scope || this.scopeOf(provider);
+      deps = deps || provider.deps;
 
-    if (!provider) {
-      throw new InjectionError(target, serviceName.toString());
-    }
-
-    const {buildable, injectable} = GlobalProviders.getRegistrySettings(provider.type);
-    const scopeReq = provider.scope === ProviderScope.REQUEST;
-
-    if (!injectable) {
-      throw new InjectionError(target, serviceName.toString(), "not injectable");
-    }
-
-    if (!buildable || (provider.instance && !scopeReq)) {
-      return provider.instance;
-    }
-
-    if (scopeReq && requiredScope && !parentScope) {
-      throw new InjectionScopeError(provider.useClass, target);
-    }
-
-    try {
-      const instance = this.invoke<any>(provider.useClass, locals, undefined, requiredScope);
-      locals.set(provider.provide, instance);
-
-      return instance;
-    } catch (er) {
-      const error = new InjectionError(target, serviceName.toString(), "injection failed");
-      (error as any).origin = er;
-      throw error;
-    }
-  }
-
-  /**
-   *
-   * @returns {Map<Type<any>, any>}
-   */
-  private build(): Map<Type<any>, any> {
-    const locals: Map<Type<any>, any> = new Map();
-
-    this.forEach(provider => {
-      const token = nameOf(provider.provide);
-      const settings = GlobalProviders.getRegistrySettings(provider.type);
-      const useClass = nameOf(provider.useClass);
-
-      if (settings.buildable) {
-        const defaultScope: ProviderScope = this.scopeOf(provider.type);
-
-        if (defaultScope && !provider.scope) {
-          provider.scope = defaultScope;
-        }
-
-        if (!locals.has(provider.provide)) {
-          provider.instance = this.invoke(provider.useClass, locals);
-        } else if (provider.scope === ProviderScope.SINGLETON) {
-          provider.instance = locals.get(provider.provide);
-        }
-
-        this.logger.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
-      } else {
-        provider.scope = ProviderScope.SINGLETON;
-        this.logger.debug(nameOf(provider.provide), "loaded");
+      if (provider.useValue) {
+        construct = (deps: TokenProvider[]) => provider.useValue;
+      } else if (provider.useFactory) {
+        construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
+      } else if (provider.useClass) {
+        isBindable = true;
+        deps = deps || Metadata.getParamTypes(provider.useClass);
+        construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
       }
+    } else {
+      deps = deps || Metadata.getParamTypes(token);
+    }
 
-      if (provider.instance) {
-        locals.set(provider.provide, provider.instance);
-      }
-    });
-
-    return locals;
+    return {
+      token,
+      scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
+      deps: deps! || [],
+      useScope,
+      isBindable,
+      construct
+    };
   }
 }
-
-/**
- * Create the first service InjectorService
- */
-registerFactory(InjectorService);

@@ -19,7 +19,7 @@ module.exports = {
       .src([
         "test/**/*.{js,js.map,d.ts}",
         "test/**/*.{js,js.map,d.ts}",
-        "packages/**/*.{js,js.map,d.ts,d.ts.map}",
+        "packages/**/*.{js,js.map,ts.map,d.ts,d.ts.map}",
         "packages/**/node_modules"
       ], {read: false})
       .pipe(clean());

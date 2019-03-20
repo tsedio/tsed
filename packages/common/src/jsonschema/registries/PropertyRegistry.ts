@@ -1,6 +1,6 @@
 import {ancestorsOf, DecoratorParameters, Metadata, Type} from "@tsed/core";
-import {PROPERTIES_METADATA} from "../../converters/constants/index";
 import {PropertyMetadata} from "../class/PropertyMetadata";
+import {PROPERTIES_METADATA} from "../constants";
 
 export class PropertyRegistry {
   /**

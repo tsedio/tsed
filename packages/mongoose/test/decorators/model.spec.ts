@@ -1,11 +1,12 @@
+import * as Sinon from "sinon";
 import {Model} from "../../src/decorators";
 import * as register from "../../src/registries/MongooseModelRegistry";
 import * as modUtil from "../../src/utils";
-import * as Sinon from "sinon";
 
 describe("@Model()", () => {
   describe("with options", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"} as any);
@@ -39,12 +40,13 @@ describe("@Model()", () => {
     });
 
     it("should call registerModelStub", () => {
-      this.registerModelStub.should.have.been.calledWithExactly(Test, {model: "model"});
+      this.registerModelStub.should.have.been.calledWithExactly({provide: Test, useValue: {model: "model"}});
     });
   });
 
   describe("without options", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
       this.createSchemaStub = Sinon.stub(modUtil, "createSchema").returns({schema: "schema"} as any);
@@ -68,7 +70,7 @@ describe("@Model()", () => {
     });
 
     it("should call registerModelStub", () => {
-      this.registerModelStub.should.have.been.calledWithExactly(Test, {model: "model"});
+      this.registerModelStub.should.have.been.calledWithExactly({provide: Test, useValue: {model: "model"}});
     });
   });
 });

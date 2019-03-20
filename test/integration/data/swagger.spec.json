@@ -764,67 +764,6 @@
         },
         "summary": "Return all elements from a service"
       }
-    },
-    "/rest/html": {
-      "get": {
-        "operationId": "RestCtrl.render",
-        "tags": [
-          "RestCtrl"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/rest/test/{required}": {
-      "get": {
-        "operationId": "RestCtrl.test",
-        "tags": [
-          "RestCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "required",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/rest/test/{required}/{optional}": {
-      "get": {
-        "operationId": "RestCtrl.test_1",
-        "tags": [
-          "RestCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "required",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "optional",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
     }
   },
   "definitions": {

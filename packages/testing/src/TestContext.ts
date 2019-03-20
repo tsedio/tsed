@@ -1,14 +1,4 @@
-import {
-  createExpressApplication,
-  createHttpServer,
-  createHttpsServer,
-  createInjector,
-  ExpressApplication,
-  HttpServer,
-  HttpsServer,
-  ServerLoader,
-  ServerSettingsService
-} from "@tsed/common";
+import {createExpressApplication, createHttpServer, createHttpsServer, createInjector, ServerLoader} from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {$log} from "ts-log-debug";
@@ -33,7 +23,9 @@ export class TestContext {
   }
 
   static async create() {
-    TestContext._injector = TestContext.createInjector();
+    const injector = await TestContext.createInjector();
+
+    TestContext._injector = injector;
 
     await TestContext.injector.load();
   }
@@ -41,25 +33,31 @@ export class TestContext {
   /**
    * Create a new injector with the right default services
    */
-  static createInjector(options: any = {}): InjectorService {
-    const injector = createInjector(options);
-    const hasExpress = injector.has(ExpressApplication);
+  static async createInjector(options: any = {}): Promise<InjectorService> {
+    const injector = await createInjector(options);
+    await createExpressApplication(injector);
+    await createHttpServer(injector);
+    await createHttpsServer(injector);
 
-    if (!hasExpress) {
-      createExpressApplication(injector);
-    }
+    injector.settings.env = Env.TEST;
 
-    if (!injector.has(HttpServer)) {
-      createHttpServer(injector);
-    }
-
-    if (!injector.has(HttpsServer)) {
-      createHttpsServer(injector, {port: 8081});
-    }
-
-    if (!hasExpress) {
-      injector.get<ServerSettingsService>(ServerSettingsService)!.env = Env.TEST;
-    }
+    // const hasExpress = injector.has(ExpressApplication);
+    //
+    // if (!hasExpress) {
+    //   createExpressApplication(injector);
+    // }
+    //
+    // if (!injector.has(HttpServer)) {
+    //   createHttpServer(injector);
+    // }
+    //
+    // if (!injector.has(HttpsServer)) {
+    //   createHttpsServer(injector);
+    // }
+    //
+    // if (!hasExpress) {
+    //   injector.get<ServerSettingsService>(ServerSettingsService)!.env = Env.TEST;
+    // }
 
     return injector;
   }
@@ -76,6 +74,8 @@ export class TestContext {
 
     return async function before(): Promise<void> {
       const instance = new (server as any)(...(options.args || []));
+
+      await instance.init();
 
       instance.startServers = () => Promise.resolve();
 
@@ -114,27 +114,26 @@ export class TestContext {
       }
 
       const injector: InjectorService = TestContext.injector;
-      const args = targets.map(target => (injector.has(target) ? injector.get(target) : injector.invoke(target)));
-      const result = await func(...args);
+      const deps = [];
 
-      return result;
+      for (const target of targets) {
+        deps.push(injector.has(target) ? injector.get(target) : await injector.invoke(target));
+      }
+
+      return await func(...deps);
     };
   }
 
-  static invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
+  static async invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]): Promise<any> {
     const locals = new Map();
-
     providers.forEach(p => {
       locals.set(p.provide, p.use);
     });
 
-    const instance: any = TestContext.injector.invoke(target, locals);
+    const instance: any = await TestContext.injector.invoke(target, locals, {rebuild: true});
 
     if (instance && instance.$onInit) {
-      const result = instance.$onInit();
-      if (result instanceof Promise) {
-        return result.then(() => instance);
-      }
+      await instance.$onInit();
     }
 
     return instance;

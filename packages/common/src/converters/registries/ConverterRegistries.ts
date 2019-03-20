@@ -6,8 +6,7 @@ import {Provider, ProviderType, TypedProvidersRegistry, GlobalProviders} from "@
  */
 // tslint:disable-next-line: variable-name
 export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.CONVERTER, Provider, {
-  injectable: true,
-  buildable: true
+  injectable: true
 });
 /**
  * Add a new converter in the `ProviderRegistry`. This converter will be built when `InjectorService` will be loaded.
@@ -37,4 +36,4 @@ export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createR
  *
  * @param provider Provider configuration.
  */
-export const registerConverter = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
+export const registerConverter = GlobalProviders.createRegisterFn(ProviderType.CONVERTER);

@@ -78,7 +78,7 @@ describe("MyCtrl", () => {
     before(TestContext.create)
     after(TestContext.reset);
 
-    it("should do something", () => {
+    it("should do something", async () => {
         // create locals map
         const locals = new Map<any, any>();
         
@@ -90,7 +90,7 @@ describe("MyCtrl", () => {
         })
 
         // give the locals map to the invoke method
-        const instance: MyCtrl = TestContext.invoke<MyCtrl>(MyCtrl, locals);
+        const instance: MyCtrl = await TestContext.invoke<MyCtrl>(MyCtrl, locals);
 
         // and test it
         expect(!!instance).to.be.true;
@@ -99,24 +99,6 @@ describe("MyCtrl", () => {
 });
 ```
 
-::: note
-`TestContext.invoke()` execute the `$onInit` hook. If you hook use `async` or return promise, you have to use `async/wait` in your unit test like this:
-
-```typescript
-it("should do something", async () => {
-    // Mock $onInit if you don't want to test this method
-    const $onInitStub = Sinon.stub(DbService.prototype, '$onInit').resolves()
-    const instance = await TestContext.invoke<DbService>(DbService, locals);
-
-    // and test it
-    expect(!!instance).to.be.true;
-    $onInitStub.to.have.been.called
-    expect(instance.getData()).to.equals("test");
-    
-    $onInitStub.restore();
-});
-```
-:::
 
 ## Test your Rest API
 ### Installation

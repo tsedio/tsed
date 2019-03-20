@@ -41,6 +41,9 @@ import {createModel, createSchema} from "../utils";
 export function Model(options: MongooseModelOptions = {}) {
   return (target: any) => {
     const schema = createSchema(target, options);
-    registerModel(target, createModel(target, schema, options.name, options.collection, options.skipInit));
+    registerModel({
+      provide: target,
+      useValue: createModel(target, schema, options.name, options.collection, options.skipInit)
+    });
   };
 }

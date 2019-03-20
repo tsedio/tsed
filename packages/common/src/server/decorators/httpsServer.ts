@@ -39,5 +39,3 @@ export type HttpsServer = Https.Server & IHttpsFactory;
 export function HttpsServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(HttpsServer)(target, targetKey, descriptor);
 }
-
-registerFactory(HttpsServer);

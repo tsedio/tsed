@@ -1,5 +1,5 @@
 import {NotEnumerable, Storable, Type} from "@tsed/core";
-import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
+import {IPropertyOptions} from "../interfaces/IPropertyOptions";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 import {JsonSchema} from "./JsonSchema";
 
@@ -21,19 +21,19 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
 
   /**
    *
+   * @returns {Type<any>}
+   */
+  get type(): Type<any> {
+    return this._type;
+  }
+
+  /**
+   *
    * @param value
    */
   set type(value: Type<any>) {
     this._type = value || Object;
     this.store.set("schema", JsonSchemesRegistry.property(this.target, this.propertyKey as string, this.type, this.collectionType));
-  }
-
-  /**
-   *
-   * @returns {Type<any>}
-   */
-  get type(): Type<any> {
-    return this._type;
   }
 
   /**

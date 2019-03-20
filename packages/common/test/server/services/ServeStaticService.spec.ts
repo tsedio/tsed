@@ -18,11 +18,11 @@ describe("ServeStaticService", () => {
   };
 
   before(TestContext.create);
-  before(() => {
+  before(async () => {
     serveStatic = Sinon.stub(Express, "static");
     serveStatic.withArgs("/views").returns(middlewareServeStatic);
 
-    this.serveStaticService = TestContext.invoke(ServeStaticService, [
+    this.serveStaticService = await TestContext.invoke(ServeStaticService, [
       {
         provide: ExpressApplication,
         use: expressApplication

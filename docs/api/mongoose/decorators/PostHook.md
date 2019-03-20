@@ -6,7 +6,7 @@ meta:
 ---
 # PostHook <Badge text="Decorator" type="decorator"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { PostHook }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/mongoose/src/decorators/postHook.ts#L0-L0">/packages/mongoose/src/decorators/postHook.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { PostHook }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/mongoose"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/mongoose/src/decorators/postHook.ts#L0-L0">/packages/mongoose/src/decorators/postHook.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -23,7 +23,6 @@ meta:
 
 We can simply attach a `@PostHook` decorator to your model class and
 define the hook function like you normally would in Mongoose.
-
 ```typescript
 import {IgnoreProperty, Required} from "@tsed/common";
 import {PostHook, Model} from "@tsed/mongoose";

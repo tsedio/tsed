@@ -33,7 +33,7 @@ features:
 - title: Testing
   details: Test or not to test? Isn't a question. Ts.ED embed some features to test your code!
 - title: And more
-  details: Find some guide to integrate TypeORM, Swagger, AJV validation, Passport, Socket.io, Templating, etc...
+  details: Find some guide to integrate GraphQL, TypeORM, Swagger, AJV validation, Passport, Socket.io, Templating, etc...
 contributors:
  title : Our<br /><b>Contributors</b>
  button:

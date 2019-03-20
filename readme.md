@@ -52,22 +52,23 @@ You can get the latest release using npm:
 $ npm install --save @tsed/core @tsed/common express@4 @types/express
 ```
 
-> **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
+> **Important!** TsExpressDecorators requires Node >= 8, Express >= 4, TypeScript >= 2.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 
 ```json
 {
   "compilerOptions": {
-    "target": "es2015",
-    "lib": ["es2015"],
-    "types": ["reflect-metadata"],
+    "target": "es2016",
+    "lib": ["es2016"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "declaration": false
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules"

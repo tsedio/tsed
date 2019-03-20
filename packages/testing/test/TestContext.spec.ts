@@ -10,6 +10,10 @@ class FakeServer {
 
   injector = new InjectorService();
 
+  async init() {
+
+  }
+
   async start() {
     FakeServer.current = this;
 
@@ -68,8 +72,8 @@ describe("TestContext", () => {
         sandbox.resetBehavior();
       });
 
-      it("should invoke Service and call $onInit hook", () => {
-        const instance = TestContext.invoke(FakeService, []);
+      it("should invoke Service and call $onInit hook", async () => {
+        const instance = await TestContext.invoke(FakeService, []);
         expect(instance).to.be.instanceOf(FakeService);
 
         return instance.$onInit.should.have.been.called;

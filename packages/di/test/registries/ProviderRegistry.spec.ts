@@ -1,12 +1,12 @@
 import * as Sinon from "sinon";
-import {ProviderRegistry, registerProvider} from "../../src";
+import {GlobalProviders, registerProvider} from "../../src";
 
 describe("ProviderRegistry", () => {
   describe("registerProvider()", () => {
     describe("when provide field is not given", () => {
       before(() => {
-        this.mergeStub = Sinon.stub(ProviderRegistry, "merge");
-        this.hasStub = Sinon.stub(ProviderRegistry, "has").returns(false);
+        this.mergeStub = Sinon.stub(GlobalProviders, "merge");
+        this.hasStub = Sinon.stub(GlobalProviders, "has").returns(false);
         try {
           registerProvider({provide: undefined});
         } catch (er) {
@@ -28,7 +28,7 @@ describe("ProviderRegistry", () => {
       class Test {}
 
       before(() => {
-        this.mergeStub = Sinon.stub(ProviderRegistry, "merge");
+        this.mergeStub = Sinon.stub(GlobalProviders, "merge");
         registerProvider({provide: Test});
       });
 

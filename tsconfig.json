@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "module": "commonjs",
     "target": "es2016",
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -41,7 +41,8 @@
     "test",
     "lib",
     "dist",
-    "integration/**"
+    "integration/**",
+    "docs/**"
   ],
   "linterOptions": {
     "exclude": [

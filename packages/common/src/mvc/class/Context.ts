@@ -1,3 +1,4 @@
+import {LocalsContainer} from "@tsed/di";
 import {EndpointMetadata} from "./EndpointMetadata";
 
 export class Context extends Map<any, any> {
@@ -6,7 +7,7 @@ export class Context extends Map<any, any> {
   public data: any;
   public endpoint: EndpointMetadata;
   // public auth: any; // TODO Add Auth token support
-  private _container: Map<string, any> = new Map();
+  private _container = new LocalsContainer();
 
   [key: string]: any;
 

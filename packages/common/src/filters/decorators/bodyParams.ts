@@ -8,26 +8,26 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * #### Example
  *
  * ```typescript
- * @Controller('/')
+ * @Controller("/")
  * class MyCtrl {
- *    @Post('/')
+ *    @Post("/")
  *    create(@BodyParams() body: any) {
- *       console.log('Entire body', body);
+ *       console.log("Entire body", body);
  *    }
  *
- *    @Post('/')
- *    create(@BodyParams('id') id: string) {
- *       console.log('ID', id);
+ *    @Post("/")
+ *    create(@BodyParams("id") id: string) {
+ *       console.log("ID", id);
  *    }
  *
- *    @Post('/')
- *    create(@BodyParams('user') user: User) { // with deserialization
- *       console.log('user', user);
+ *    @Post("/")
+ *    create(@BodyParams("user") user: User) { // with deserialization
+ *       console.log("user", user);
  *    }
  *
- *    @Post('/')
- *    create(@BodyParams('users', User) users: User[]) { // with deserialization
- *       console.log('users', users);
+ *    @Post("/")
+ *    create(@BodyParams("users", User) users: User[]) { // with deserialization
+ *       console.log("users", users);
  *    }
  * }
  * ```

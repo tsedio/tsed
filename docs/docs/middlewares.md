@@ -6,7 +6,7 @@ to inject other services on his constructor.
 All middlewares decorated by `@Middleware` or `@MiddlewareError` have one method named `use()`. 
 This method can use all parameters decorators as you could see with the [Controllers](/docs/controllers.md) and return promise.
 
-## Installation
+## Configuration
 
 To begin, you must adding the `middlewares` folder on `componentsScan` attribute in your server settings as follow :
  

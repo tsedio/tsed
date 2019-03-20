@@ -4,18 +4,18 @@
  */
 /** */
 import "./interfaces/Express";
-import "./utils/extendsRequest";
 
 export * from "./interfaces";
-
-// provide
-export * from "./class/ControllerBuilder";
-export * from "./class/HandlerBuilder";
+// domain
 export * from "./class/ControllerProvider";
 export * from "./class/EndpointMetadata";
 export * from "./class/HandlerMetadata";
 export * from "./class/Context";
 export * from "./class/RequestLogger";
+
+// builders
+export * from "./builders/ControllerBuilder";
+export * from "./builders/HandlerBuilder";
 
 // registries
 export * from "./registries/ControllerRegistry";

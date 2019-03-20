@@ -1,11 +1,14 @@
 import * as Sinon from "sinon";
 import {Injectable} from "../../src/decorators/injectable";
+import {ProviderScope} from "../../src/interfaces";
 import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
 
 describe("@Injectable()", () => {
   const sandbox = Sinon.createSandbox();
 
-  class Test {}
+  class Test {
+  }
+
   describe("with options", () => {
     before(() => {
       sandbox.stub(ProviderRegistry, "registerProvider");
@@ -38,7 +41,8 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
-        provide: Test
+        provide: Test,
+        scope: ProviderScope.SINGLETON
       });
     });
   });

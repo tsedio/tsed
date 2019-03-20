@@ -1,5 +1,4 @@
 import {Context} from "../class/Context";
-import {EndpointMetadata} from "../class/EndpointMetadata";
 import {RequestLogger} from "../class/RequestLogger";
 
 declare global {
@@ -18,42 +17,6 @@ declare global {
       id: string;
       ctx: Context;
       log: RequestLogger;
-
-      /**
-       * @deprecated
-       */
-      getContainer(): any;
-
-      /**
-       * @deprecated
-       */
-      createContainer(): void;
-
-      /**
-       * @deprecated
-       */
-      destroyContainer(): void;
-
-      /**
-       * @deprecated
-       */
-      getEndpoint(): EndpointMetadata;
-
-      /**
-       * @deprecated
-       */
-      destroyEndpoint(): void;
-
-      /**
-       * @deprecated
-       */
-      getStoredData(): any;
-
-      /**
-       * @deprecated
-       * @param obj
-       */
-      storeData(obj: any): Express.Request;
     }
   }
 }

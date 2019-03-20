@@ -1,4 +1,5 @@
 import "@tsed/ajv";
+import {Metadata} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {inject} from "@tsed/testing";
 import {expect} from "chai";
@@ -9,8 +10,7 @@ import {BadRequest} from "ts-httpexceptions";
 import {$log} from "ts-log-debug";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {$logStub} from "../../../../../test/helper/tools";
-import {Metadata} from "../../../../core/src";
-import {FilterBuilder} from "../../../src/filters/class/FilterBuilder";
+import {FilterBuilder} from "../../../src/filters";
 import {
   EXPRESS_ERR,
   EXPRESS_NEXT_FN,
@@ -18,10 +18,7 @@ import {
   EXPRESS_RESPONSE,
   PARAM_METADATA
 } from "../../../src/filters/constants";
-import {HandlerMetadata} from "../../../src/mvc";
-import {EndpointMetadata} from "../../../src/mvc/class/EndpointMetadata";
-import {HandlerBuilder} from "../../../src/mvc/class/HandlerBuilder";
-import {HandlerType} from "../../../src/mvc/interfaces/HandlerType";
+import {EndpointMetadata, HandlerBuilder, HandlerMetadata, HandlerType} from "../../../src/mvc";
 
 class Test {
   get() {

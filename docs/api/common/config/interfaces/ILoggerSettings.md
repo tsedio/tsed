@@ -6,14 +6,15 @@ meta:
 ---
 # ILoggerSettings <Badge text="Interface" type="interface"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ILoggerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/config/interfaces/IServerSettings.ts#L0-L0">/packages/common/src/config/interfaces/IServerSettings.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ILoggerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/config/interfaces/IServerSettings.ts#L0-L0">/packages/common/src/config/interfaces/IServerSettings.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">interface</span> ILoggerSettings <span class="token punctuation">{</span>
-    debug<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    debug?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+    level?<span class="token punctuation">:</span> <span class="token string">"debug"</span> | "info" | "warn" | "error"<span class="token punctuation">;</span>
     requestFields?<span class="token punctuation">:</span> <span class="token punctuation">(</span>"reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration"<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     ignoreUrlPatterns?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     logRequest?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
@@ -36,13 +37,34 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">debug<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang deprecated ">debug?<span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
 
 </div>
 
 
 
 Enable debug mode. By default debug is false.
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">level?<span class="token punctuation">:</span> <span class="token string">"debug"</span> | "info" | "warn" | "error"</code></pre>
+
+</div>
+
+
+
+Enable info mode. By default debug is false.
 
 
 

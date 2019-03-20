@@ -6,7 +6,7 @@ meta:
 ---
 # ControllerBuilder <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ControllerBuilder }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/mvc/class/ControllerBuilder.ts#L0-L0">/packages/common/src/mvc/class/ControllerBuilder.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { ControllerBuilder }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/mvc/class/ControllerBuilder.ts#L0-L0">/packages/common/src/mvc/class/ControllerBuilder.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -14,7 +14,7 @@ meta:
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> ControllerBuilder <span class="token punctuation">{</span>
     <span class="token keyword">constructor</span><span class="token punctuation">(</span>provider<span class="token punctuation">:</span> <a href="/api/common/mvc/class/ControllerProvider.html"><span class="token">ControllerProvider</span></a><span class="token punctuation">,</span> defaultRoutersOptions?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IRouterSettings.html"><span class="token">IRouterSettings</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">build</span><span class="token punctuation">(</span>injector<span class="token punctuation">:</span> <a href="/api/di/services/InjectorService.html"><span class="token">InjectorService</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
+    <span class="token function">build</span><span class="token punctuation">(</span>injector<span class="token punctuation">:</span> InjectorService<span class="token punctuation">)</span><span class="token punctuation">:</span> this<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
 
@@ -30,7 +30,7 @@ meta:
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">build</span><span class="token punctuation">(</span>injector<span class="token punctuation">:</span> <a href="/api/di/services/InjectorService.html"><span class="token">InjectorService</span></a><span class="token punctuation">)</span><span class="token punctuation">:</span> this</code></pre>
+<pre><code class="typescript-lang "><span class="token function">build</span><span class="token punctuation">(</span>injector<span class="token punctuation">:</span> InjectorService<span class="token punctuation">)</span><span class="token punctuation">:</span> this</code></pre>
 
 </div>
 

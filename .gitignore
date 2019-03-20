@@ -45,6 +45,7 @@ index.js.map
 !socketio/index.js
 packages/**/*.js
 packages/**/*.js.map
+packages/**/*.ts.map
 packages/**/*.d.ts
 packages/**/lib
 test/**/*.js

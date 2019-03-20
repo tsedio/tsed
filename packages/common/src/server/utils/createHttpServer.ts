@@ -1,16 +1,20 @@
+import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import * as Http from "http";
-import {InjectorService} from "@tsed/di";
-import {HttpServer} from "../decorators/httpServer";
 import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
+import {HttpServer} from "../decorators/httpServer";
+import {HttpsServer} from "../decorators/httpsServer";
 
-export function createHttpServer(injector: InjectorService): Http.Server {
-  const expressApp = injector.get<ExpressApplication>(ExpressApplication);
-  const httpServer = Http.createServer(expressApp);
-  // TODO to be removed
-  /* istanbul ignore next */
-  (httpServer as any).get = () => httpServer;
-
-  injector.forkProvider(HttpServer, httpServer);
-
-  return httpServer;
+export async function createHttpServer(injector: InjectorService): Promise<void> {
+  await injector.forkProvider(HttpsServer);
 }
+
+registerProvider({
+  provide: HttpServer,
+  deps: [ExpressApplication],
+  scope: ProviderScope.SINGLETON,
+  buildable: false,
+  global: true,
+  useFactory(expressApplication: ExpressApplication) {
+    return Http.createServer(expressApplication);
+  }
+});

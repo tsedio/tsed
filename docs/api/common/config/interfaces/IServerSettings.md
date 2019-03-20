@@ -6,7 +6,7 @@ meta:
 ---
 # IServerSettings <Badge text="Interface" type="interface"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IServerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/config/interfaces/IServerSettings.ts#L0-L0">/packages/common/src/config/interfaces/IServerSettings.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { IServerSettings }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/config/interfaces/IServerSettings.ts#L0-L0">/packages/common/src/config/interfaces/IServerSettings.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -23,7 +23,6 @@ meta:
     mount?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     componentsScan?<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token keyword">string</span> | RegExp<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     exclude?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    serveStatic?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     acceptMimes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     debug?<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     logRequestFields?<span class="token punctuation">:</span> <span class="token punctuation">(</span>"reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration"<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -32,6 +31,8 @@ meta:
     errors?<span class="token punctuation">:</span> Partial&lt<span class="token punctuation">;</span><a href="/api/common/config/interfaces/IErrorsSettings.html"><span class="token">IErrorsSettings</span></a>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
     controllerScope?<span class="token punctuation">:</span> <a href="/api/di/interfaces/ProviderScope.html"><span class="token">ProviderScope</span></a><span class="token punctuation">;</span>
     routers?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IRouterSettings.html"><span class="token">IRouterSettings</span></a><span class="token punctuation">;</span>
+    statics?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
+    serveStatic?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a><span class="token punctuation">;</span>
     <span class="token punctuation">[</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
@@ -262,27 +263,6 @@ List of glob patterns. Exclude all files which matching with this list when Serv
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang ">serveStatic?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a></code></pre>
-
-</div>
-
-
-
-Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
 <pre><code class="typescript-lang ">acceptMimes?<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 
 </div>
@@ -438,6 +418,48 @@ Configure the default scope of the controllers.
 
 
 Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang ">statics?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a></code></pre>
+
+</div>
+
+
+
+Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang deprecated ">serveStatic?<span class="token punctuation">:</span> <a href="/api/common/config/interfaces/IServerMountDirectories.html"><span class="token">IServerMountDirectories</span></a></code></pre>
+
+</div>
+
+
+
+Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
 
 
 

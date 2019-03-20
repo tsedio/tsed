@@ -1,11 +1,16 @@
 export * from "./interfaces";
-export * from "./class/ParamMetadata";
-export * from "./class/FilterBuilder";
+// builders
+export * from "./builders/FilterBuilder";
 
+// domain
+export * from "./class/ParamMetadata";
+
+// errors
 export * from "./errors/ParseExpressionError";
 export * from "./errors/RequiredParamError";
 export * from "./errors/UnknowFilterError";
 
+// decorators
 export * from "./decorators/bodyParams";
 export * from "./decorators/cookies";
 export * from "./decorators/filter";

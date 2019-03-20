@@ -6,7 +6,7 @@ meta:
 ---
 # RouteService <Badge text="Service" type="service"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RouteService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/mvc/services/RouteService.ts#L0-L0">/packages/common/src/mvc/services/RouteService.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { RouteService }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.4.0/packages/common/src/mvc/services/RouteService.ts#L0-L0">/packages/common/src/mvc/services/RouteService.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
@@ -14,7 +14,7 @@ meta:
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> RouteService <span class="token keyword">implements</span> <a href="/api/common/server/interfaces/AfterRoutesInit.html"><span class="token">AfterRoutesInit</span></a> <span class="token punctuation">{</span>
     disableRoutesSummary<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>injectorService<span class="token punctuation">:</span> <a href="/api/di/services/InjectorService.html"><span class="token">InjectorService</span></a><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>injectorService<span class="token punctuation">:</span> InjectorService<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> routes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         route<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
         provider<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
