@@ -297,6 +297,18 @@ export function descriptorOf(target: any, propertyKey: string): PropertyDescript
   return Object.getOwnPropertyDescriptor((target && target.prototype) || target, propertyKey)!;
 }
 
+export function inheritedDescriptorOf(target: any, propertyKey: string): PropertyDescriptor | undefined {
+  for (const klass of ancestorsOf(target)) {
+    const descriptor = Object.getOwnPropertyDescriptor((klass && klass.prototype) || klass, propertyKey)!;
+
+    if (descriptor) {
+      return descriptor;
+    }
+  }
+
+  return undefined;
+}
+
 /**
  * Return the prototype of the given class.
  * @param target
@@ -304,6 +316,41 @@ export function descriptorOf(target: any, propertyKey: string): PropertyDescript
  */
 export function prototypeOf(target: any) {
   return classOf(target) === target ? target.prototype : target;
+}
+
+/**
+ *
+ * @param obj
+ * @param key
+ */
+export function isEnumerable(obj: any, key: string) {
+  const klass = getClass(obj);
+
+  if (klass) {
+    const descriptor = inheritedDescriptorOf(klass, key);
+
+    if (descriptor) {
+      return descriptor.enumerable;
+    }
+  }
+
+  return obj.propertyIsEnumerable(key);
+}
+
+/**
+ * Return all enumerable keys of the given object
+ * @param obj
+ */
+export function getKeys(obj: any) {
+  const keys: string[] = [];
+
+  for (const key in obj) {
+    if (isEnumerable(obj, key)) {
+      keys.push(key);
+    }
+  }
+
+  return keys;
 }
 
 /**
