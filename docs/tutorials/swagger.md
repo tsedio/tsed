@@ -15,10 +15,10 @@ a spec compliant with Swagger.
 
 ## Installation
 
-Before using the Swagger, we need to install the `@types/swagger-schema-official`.
+Run this command to install required dependencies by `@tsed/swagger`:
 
 ```bash
-npm install --save @types/swagger-schema-official
+npm install --save @types/swagger-schema-official @tsed/swagger
 ```
 
 Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):

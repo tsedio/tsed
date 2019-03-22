@@ -35,7 +35,7 @@ npm install --save @tsed/graphql
 }
 ```
 
-Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -162,7 +162,7 @@ export class RecipeResolver {
 ```
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

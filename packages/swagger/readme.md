@@ -4,13 +4,13 @@ A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/swagger
 
 ## Installation
 
-Before using the Swagger, we need to install the [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) module.
+Before using the Swagger, we have to install the [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) module.
 
 ```bash
-npm install --save-dev @types/swagger-schema-official 
+npm install --save @types/swagger-schema-official @tsed/swagger
 ```
 
-Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then add the following configuration in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -102,9 +102,9 @@ export class CalendarCtrl {
 #### Model documentation
 
 One of the feature of Ts.ED is the model definition to serialize or deserialize a
-JSON Object (see [converters section](docs/converters.md)).
+JSON Object (see [converters section](https://tsed.io/docs/components/converters.html)).
 
-This model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators.
+This model can used on a method controller along with [@BodyParams](https://tsed.io/api/common/filters/decorators/BodyParams.html) or other decorators.
 
 ```typescript
 import {JsonProperty} from "@tsed/common";
@@ -197,7 +197,7 @@ See our documentation https://tsed.io/#/api/index
 
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html).
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

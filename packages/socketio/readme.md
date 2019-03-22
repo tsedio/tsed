@@ -21,7 +21,7 @@ Before using the Socket.io, we need to install the [Socket.io](https://www.npmjs
 npm install --save socket.io @types/socket.io @tsed/socketio
 ```
 
-Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then add the following configuration in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -124,7 +124,7 @@ export class MyCtrl {
 
 ### Declaring an Input Event
 
-[@Input](api/socketio/decorators/Input.md) decorator declare a method as a new handler for a specific `event`.
+[@Input](https://tsed.io/api/socketio/decorators/Input.html) decorator declare a method as a new handler for a specific `event`.
 
 ```typescript
 import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
@@ -138,15 +138,15 @@ export class MySocketService {
 }
 ```
 
-- [@Args](api/socketio/args.md) &lt;any|any[]&gt;: List of the parameters sent by the input event.
-- [@Socket](api/socketio/socket.md) &lt;SocketIO.Socket&gt;: Socket instance.
-- [@Nsp](api/socketio/nsp.md) &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+- [@Args](https://tsed.io/api/socketio/args.html) &lt;any|any[]&gt;: List of the parameters sent by the input event.
+- [@Socket](https://tsed.io/api/socketio/socket.html) &lt;SocketIO.Socket&gt;: Socket instance.
+- [@Nsp](https://tsed.io/api/socketio/nsp.html) &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
 
 ### Send a response
 
 You have a many choice to send a response to your client. Ts.ED offer some decorators to send a response:
 
-![socketio](_media/socketio.png)
+![socketio](https://tsed.io/_media/socketio.png)
 
 Example:
 
@@ -165,7 +165,7 @@ export class MySocketService {
 > The method accept a promise as returned value.
 
 ::: warning
-Return value is only possible when the method is decorated by [@Emit](api/socketio/emit.md), [@Broadcast](api/socketio/broadcast.md) and [@BroadcastOthers](api/socketio/broadcastothers.md).
+Return value is only possible when the method is decorated by [@Emit](https://tsed.io/api/socketio/emit.html), [@Broadcast](https://tsed.io/api/socketio/broadcast.html) and [@BroadcastOthers](https://tsed.io/api/socketio/broadcastothers.html).
 :::
 
 ### Socket Session
@@ -281,7 +281,7 @@ export class MySocketService {
 See our documentation https://tsed.io/#/api/index
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

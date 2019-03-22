@@ -31,7 +31,7 @@ npm install --save mongoose
 npm install --save @tsed/mongoose
 ```
 
-Then import `@tsed/mongoose` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then import `@tsed/mongoose` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -307,7 +307,7 @@ class UserService {
 ```
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

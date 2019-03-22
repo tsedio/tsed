@@ -5,7 +5,7 @@
 A package of Ts.ED framework. See website: https://tsed.io/#/serve-static-files
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 

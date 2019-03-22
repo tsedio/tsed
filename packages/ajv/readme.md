@@ -13,7 +13,7 @@ npm install --save ajv
 npm install --save @tsed/ajv
 ```
 
-Then import `@tsed/ajv` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then import `@tsed/ajv` in your [ServerLoader](http://tsed.io/api/common/server/components/ServerLoader.html):
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -33,7 +33,7 @@ See our API documentation on https://tsed.io/#/api/index
 
 ## Example
 
-A model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators, and will
+A model can used on a method controller along with [@BodyParams](http://tsed.io/api/common/filters/decorators/BodyParams.html) or other decorators, and will
 be validated by Ajv.
 
 ```typescript
@@ -94,7 +94,7 @@ export class Server extends ServerLoader {
 
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
