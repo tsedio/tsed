@@ -78,9 +78,9 @@ options in your `tsconfig.json` file.
 ## Quick start
 #### Create your express server
 
-TsExpressDecorators provide a [`ServerLoader`](docs/server-loader.md) class to configure your 
+TsExpressDecorators provide a [`ServerLoader`](https://tsed.io/docs/server-loader.html) class to configure your 
 express quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
+a new `Server` class that extends [`ServerLoader`](https://tsed.io/docs/server-loader.html).
 
 ```typescript
 import * as Express from "express";
@@ -215,7 +215,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 > **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
 ## Contributors
-Please read [contributing guidelines here](./CONTRIBUTING.md).
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
