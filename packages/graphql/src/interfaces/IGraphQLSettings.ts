@@ -1,4 +1,4 @@
-import {Config, ServerRegistration} from "apollo-server-express";
+import {ApolloServer, Config, ServerRegistration} from "apollo-server-express";
 import {BuildSchemaOptions} from "type-graphql";
 
 export interface IGraphQLSettings {
@@ -14,4 +14,9 @@ export interface IGraphQLSettings {
   // type-graphql
   // See options descriptions on https://19majkel94.github.io/type-graphql/
   buildSchemaOptions?: BuildSchemaOptions;
+
+  // apollo-server-express
+  installSubscriptionHandlers?: boolean;
+
+  server?: (config: Config) => ApolloServer;
 }
