@@ -428,7 +428,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   private bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
     const clone = (o: any) => {
       if (o) {
-        return Object.freeze(JSON.parse(JSON.stringify(o)));
+        return Object.freeze(o);
       }
 
       return defaultValue;
