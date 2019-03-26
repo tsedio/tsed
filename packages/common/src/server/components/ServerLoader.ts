@@ -411,11 +411,11 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Promise<void>}
    */
   protected async loadSettingsAndInjector() {
-    const debug = this.settings.debug;
+    const level = this.settings.logger.level;
 
     /* istanbul ignore next */
-    if (debug && this.settings.env !== "test") {
-      $log.level = "debug";
+    if (level && this.settings.env !== "test") {
+      $log.level = level;
     }
 
     await Promise.all(this._scannedPromises);
