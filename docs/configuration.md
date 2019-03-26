@@ -81,7 +81,6 @@ ts-node isn't the runtime.
 * `exclude` &lt;string[]&gt;: List of glob patterns. Exclude all files which matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
 * `statics` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountdirectories.md)&gt;: Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](/tutorials/swagger.md).
-* `debug` &lt;boolean&gt;: Enable debug mode. By default debug is false.
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)). By default true.
 * `logger` &lt;[ILoggerSettings](/api/common/config/interfaces/ILoggerSettings.md)&gt;: Logger configuration.
@@ -170,7 +169,7 @@ Default logger use by Ts.ED is [ts-log-debug](https://TypedProject.github.io/ts-
 
 Some options is provided:
 
-- `logger.debug` (or `debug`): Enable debug mode. By default debug is `false`.
+- `logger.level`: Change the default log level displayed in the terminal. Values: `debug`, `info`, `warn` or `error`. By default: `info`. 
 - `logger.logRequest`: Log all incoming request. By default is true and print the configured `logger.requestFields`.
 - `logger.requestFields`: Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
 - `logger.reqIdBuilder`: A function called for each incoming request to create a request id.

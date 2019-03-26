@@ -25,7 +25,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   port: 8001,
   httpsPort: false,
   logger: {
-    debug: true
+    level: "info"
   },
   mount: {
     "/": [SocketPageCtrl],

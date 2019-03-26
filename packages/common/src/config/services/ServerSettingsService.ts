@@ -33,10 +33,10 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
     this.httpsPort = 8000;
     this.version = "1.0.0";
     this.uploadDir = "${rootDir}/uploads";
-    this.debug = false;
     this.controllerScope = ProviderScope.SINGLETON;
     this.logger = {
       debug: false,
+      level: "info",
       logRequest: true,
       jsonIndentation: this.env === Env.PROD ? 0 : 2
     };
@@ -263,7 +263,7 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
    * @param {boolean} debug
    */
   set debug(debug: boolean) {
-    this.logger = {...this.logger, debug};
+    this.logger = {...this.logger, debug, level: "debug"};
   }
 
   /**

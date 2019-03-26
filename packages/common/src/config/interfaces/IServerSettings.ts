@@ -20,8 +20,13 @@ export interface IServerMountDirectories {
 export interface ILoggerSettings {
   /**
    * Enable debug mode. By default debug is false.
+   * @deprecated
    */
-  debug: boolean;
+  debug?: boolean;
+  /**
+   * Enable info mode. By default debug is false.
+   */
+  level?: "debug" | "info" | "warn" | "error";
   /**
    * Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
    */

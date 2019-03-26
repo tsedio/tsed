@@ -7,3 +7,4 @@ export * from "./filters";
 export * from "./mvc";
 export * from "./server";
 export * from "./interceptors";
+export {$log} from "ts-log-debug";
