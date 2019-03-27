@@ -1,4 +1,4 @@
-import {getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
+import {getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, RegistryKey, Store, Type, deepClone} from "@tsed/core";
 import {$log} from "ts-log-debug";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
@@ -428,7 +428,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
   private bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
     const clone = (o: any) => {
       if (o) {
-        return Object.freeze(o);
+        return Object.freeze(deepClone(o));
       }
 
       return defaultValue;
