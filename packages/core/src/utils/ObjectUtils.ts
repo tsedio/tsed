@@ -33,15 +33,6 @@ export function getClassOrSymbol(target: any): any {
 }
 
 /**
- * Return true if the given obj is a primitive.
- * @param target
- * @returns {boolean}
- */
-export function isPrimitiveOrPrimitiveClass(target: any): boolean {
-  return isString(target) || isNumber(target) || isBoolean(target);
-}
-
-/**
  *
  * @param target
  * @returns {"string" | "number" | "boolean" | "any"}
@@ -96,6 +87,19 @@ export function isBoolean(target: any): boolean {
 }
 
 /**
+ * Return true if the given obj is a primitive.
+ * @param target
+ * @returns {boolean}
+ */
+export function isPrimitiveOrPrimitiveClass(target: any): boolean {
+  return isString(target) || isNumber(target) || isBoolean(target);
+}
+
+export function isPrimitive(target: any): boolean {
+  return isPrimitiveOrPrimitiveClass(target);
+}
+
+/**
  *
  * @param target
  * @returns {Boolean}
@@ -110,11 +114,7 @@ export function isArray(target: any): boolean {
  * @returns {boolean}
  */
 export function isArrayOrArrayClass(target: any): boolean {
-  if (target === Array) {
-    return true;
-  }
-
-  return isArray(target);
+  return target === Array || isArray(target);
 }
 
 /**
@@ -175,8 +175,20 @@ export function isClass(target: any) {
   return !(isSymbol(target) || isPrimitiveOrPrimitiveClass(target) || isClassObject(target) || isDate(target) || isPromise(target));
 }
 
+export function isFunction(target: any) {
+  return typeof target === "function";
+}
+
 export function isArrowFn(target: any) {
-  return target && typeof target === "function" && !target.prototype;
+  return target && isFunction(target) && !target.prototype;
+}
+
+/**
+ *
+ * @param value
+ */
+export function isNil(value: any) {
+  return value === undefined || value === null;
 }
 
 /**
@@ -185,7 +197,7 @@ export function isArrowFn(target: any) {
  * @returns {boolean}
  */
 export function isEmpty(value: any): boolean {
-  return value === "" || value === null || value === undefined;
+  return value === "" || isNil(value);
 }
 
 /**
