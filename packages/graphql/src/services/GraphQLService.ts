@@ -3,6 +3,7 @@ import {Type} from "@tsed/core";
 import {ApolloServer} from "apollo-server-express";
 import {$log} from "ts-log-debug";
 import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
+import {IGraphQLServer} from "../interfaces/IGraphQLServer";
 import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
 import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
 
@@ -15,7 +16,7 @@ export class GraphQLService {
    * @type {Map<any, any>}
    * @private
    */
-  private _instances: Map<string, ApolloServer> = new Map();
+  private _servers: Map<string, IGraphQLServer> = new Map();
 
   constructor(
     @ExpressApplication private expressApp: ExpressApplication,
@@ -39,7 +40,7 @@ export class GraphQLService {
     } = settings;
 
     if (this.has(id)) {
-      return await this.get(id)!;
+      return await this.get(id)!.instance;
     }
 
     $log.info(`Create server with apollo-server-express for: ${id}`);
@@ -64,7 +65,10 @@ export class GraphQLService {
         server.installSubscriptionHandlers(this.httpServer);
       }
 
-      this._instances.set(id || "default", server);
+      this._servers.set(id || "default", {
+        instance: server,
+        schema
+      });
 
       return server;
     } catch (err) {
@@ -89,8 +93,8 @@ export class GraphQLService {
    * Get an instance of ApolloServer from his id
    * @returns {"mongoose".Connection}
    */
-  get(id: string = "default"): ApolloServer | undefined {
-    return this._instances.get(id);
+  get(id: string = "default"): IGraphQLServer | undefined {
+    return this._servers.get(id);
   }
 
   /**
@@ -99,7 +103,7 @@ export class GraphQLService {
    * @returns {boolean}
    */
   has(id: string = "default"): boolean {
-    return this._instances.has(id);
+    return this._servers.has(id);
   }
 
   /**
