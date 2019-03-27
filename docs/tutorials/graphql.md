@@ -69,7 +69,7 @@ export class UsersService implements AfterRoutesInit {
     }
 
     $afterRoutesInit() {
-        this.server = this.graphQLService.get("server1");
+        this.server = this.graphQLService.get("server1").instance;
     }
 }
 ```
