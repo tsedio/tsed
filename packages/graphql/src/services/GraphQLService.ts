@@ -1,6 +1,7 @@
-import {Constant, ExpressApplication, HttpServer, Inject, InjectorService, Provider, Service} from "@tsed/common";
+import {Constant, ExpressApplication, HttpServer, InjectorService, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {ApolloServer} from "apollo-server-express";
+import {GraphQLSchema} from "graphql";
 import {$log} from "ts-log-debug";
 import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
 import {IGraphQLServer} from "../interfaces/IGraphQLServer";
@@ -40,7 +41,7 @@ export class GraphQLService {
     } = settings;
 
     if (this.has(id)) {
-      return await this.get(id)!.instance;
+      return await this.get(id)!;
     }
 
     $log.info(`Create server with apollo-server-express for: ${id}`);
@@ -93,8 +94,16 @@ export class GraphQLService {
    * Get an instance of ApolloServer from his id
    * @returns {"mongoose".Connection}
    */
-  get(id: string = "default"): IGraphQLServer | undefined {
-    return this._servers.get(id);
+  get(id: string = "default"): ApolloServer | undefined {
+    return this._servers.get(id)!.instance;
+  }
+
+  /**
+   * Get an instance of GraphQL schema from his id
+   * @returns {"mongoose".Connection}
+   */
+  getSchema(id: string = "default"): GraphQLSchema | undefined {
+    return this._servers.get(id)!.schema;
   }
 
   /**
