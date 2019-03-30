@@ -27,7 +27,7 @@ export class GraphQLService {
 
   /**
    *
-   * @returns {Promise<"mongoose".Connection>}
+   * @returns {Promise<ApolloServer>}
    */
   async createServer(id: string, settings: IGraphQLSettings): Promise<any> {
     const {
@@ -92,7 +92,7 @@ export class GraphQLService {
 
   /**
    * Get an instance of ApolloServer from his id
-   * @returns {"mongoose".Connection}
+   * @returns ApolloServer
    */
   get(id: string = "default"): ApolloServer | undefined {
     return this._servers.get(id)!.instance;
@@ -100,7 +100,7 @@ export class GraphQLService {
 
   /**
    * Get an instance of GraphQL schema from his id
-   * @returns {"mongoose".Connection}
+   * @returns GraphQLSchema
    */
   getSchema(id: string = "default"): GraphQLSchema | undefined {
     return this._servers.get(id)!.schema;
