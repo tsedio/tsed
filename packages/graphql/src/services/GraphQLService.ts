@@ -1,8 +1,10 @@
-import {Constant, ExpressApplication, HttpServer, Inject, InjectorService, Provider, Service} from "@tsed/common";
+import {Constant, ExpressApplication, HttpServer, InjectorService, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {ApolloServer} from "apollo-server-express";
+import {GraphQLSchema} from "graphql";
 import {$log} from "ts-log-debug";
 import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
+import {IGraphQLServer} from "../interfaces/IGraphQLServer";
 import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
 import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
 
@@ -15,7 +17,7 @@ export class GraphQLService {
    * @type {Map<any, any>}
    * @private
    */
-  private _instances: Map<string, ApolloServer> = new Map();
+  private _servers: Map<string, IGraphQLServer> = new Map();
 
   constructor(
     @ExpressApplication private expressApp: ExpressApplication,
@@ -25,7 +27,7 @@ export class GraphQLService {
 
   /**
    *
-   * @returns {Promise<"mongoose".Connection>}
+   * @returns {Promise<ApolloServer>}
    */
   async createServer(id: string, settings: IGraphQLSettings): Promise<any> {
     const {
@@ -64,7 +66,10 @@ export class GraphQLService {
         server.installSubscriptionHandlers(this.httpServer);
       }
 
-      this._instances.set(id || "default", server);
+      this._servers.set(id || "default", {
+        instance: server,
+        schema
+      });
 
       return server;
     } catch (err) {
@@ -87,10 +92,18 @@ export class GraphQLService {
 
   /**
    * Get an instance of ApolloServer from his id
-   * @returns {"mongoose".Connection}
+   * @returns ApolloServer
    */
   get(id: string = "default"): ApolloServer | undefined {
-    return this._instances.get(id);
+    return this._servers.get(id)!.instance;
+  }
+
+  /**
+   * Get an instance of GraphQL schema from his id
+   * @returns GraphQLSchema
+   */
+  getSchema(id: string = "default"): GraphQLSchema | undefined {
+    return this._servers.get(id)!.schema;
   }
 
   /**
@@ -99,7 +112,7 @@ export class GraphQLService {
    * @returns {boolean}
    */
   has(id: string = "default"): boolean {
-    return this._instances.has(id);
+    return this._servers.has(id);
   }
 
   /**

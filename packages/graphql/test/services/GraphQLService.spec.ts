@@ -105,4 +105,32 @@ describe("GraphQLService", () => {
     });
 
   });
+  describe("getSchema()", () => {
+    let service: any;
+    before(TestContext.create);
+    before(inject([GraphQLService], (_service_: any) => {
+      service = _service_;
+      sandbox.stub(_service_, "createSchema");
+      sandbox.stub(ApolloServer.prototype, "applyMiddleware");
+    }));
+
+    after(() => {
+      TestContext.reset();
+      sandbox.restore();
+    });
+
+    it("should create a server", async () => {
+      // GIVEN
+      service.createSchema.returns({"schema": "schema"});
+
+      await service.createServer("key", {
+        path: "/path"
+      } as any);
+
+      // WHEN
+      const result = service.getSchema("key");
+
+      result.should.deep.eq({"schema": "schema"});
+    });
+  });
 });
