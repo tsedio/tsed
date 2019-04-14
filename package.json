@@ -141,7 +141,7 @@
     "typescript": "^3.0.1",
     "vue-analytics": "^5.14.0",
     "vuepress": "^0.14.2",
-    "vuepress-theme-tsed": "^1.4.0"
+    "vuepress-theme-tsed": "^1.5.2"
   },
   "directories": {
     "packages": "packages",

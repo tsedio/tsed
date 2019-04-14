@@ -1,5 +1,8 @@
+import {Socket as SocketType} from "socket.io";
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketFilter} from "./socketFilter";
+
+export type Socket = SocketType;
 
 /**
  * Inject the Socket instance in the decorated parameter.
