@@ -1,9 +1,11 @@
-import {Args, Broadcast, Input, Nsp, Socket, SocketService, SocketSession} from "@tsed/socketio";
+import {Args, Broadcast, Input, Nsp, Socket, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import {Namespace} from "socket.io";
 import {$log} from "ts-log-debug";
+import {SocketMiddlewareLogger} from "../middlewares/SocketMiddlewareLogger";
 import {PlayerSG} from "../models/PlayerSG";
 
 @SocketService("/square-game")
+@SocketUseBefore(SocketMiddlewareLogger)
 export class SquareGameService {
 
   private AUTO_INCREMENT = 0;
@@ -64,7 +66,7 @@ export class SquareGameService {
    * @param { SocketIO.Socket} socket
    * @param session
    */
-  $onConnection(@Socket socket: SocketIO.Socket, @SocketSession session: SocketSession) {
+  $onConnection(@Socket socket: Socket, @SocketSession session: SocketSession) {
     $log.debug("New connection, ID =>", socket.id);
     session.set("player", new PlayerSG(socket.id));
   }

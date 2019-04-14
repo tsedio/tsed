@@ -3,11 +3,16 @@ sidebar: auto
 prev: false
 next: /configuration.html
 otherTopics: true
+meta:
+ - name: description
+   content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express and use TypeScript language.
+ - name: keywords
+   content: getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Getting started
 
-You can start your project from the [getting started project](https://github.com/TypedProject/ts-express-decorators/tree/master/integration/getting-started).
+You can start your project from the [getting started project boilerplate](https://github.com/TypedProject/ts-express-decorators/tree/master/integration/getting-started).
 
 ## Installation from scratch
 
@@ -54,13 +59,13 @@ options in your `tsconfig.json` file.
   "compilerOptions": {
     "target": "es2016",
     "lib": ["es2016"],
-    "types": ["reflect-metadata"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "declaration": false,
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
@@ -69,11 +74,9 @@ options in your `tsconfig.json` file.
 }
 ```
 
-> **Note** : target must be set to ES2015/ES6 (or more).
-
 ### Optional
 
-You can copy this example of package.json to develop your application:
+You can copy this example of `package.json` to develop your application:
 
 ```json
 {
@@ -89,7 +92,7 @@ You can copy this example of package.json to develop your application:
     "test": "mocha --reporter spec --check-leaks --bail test/",
     "tsc": "tsc --project tsconfig.json",
     "tsc:w": "tsc -w",
-    "start": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node app.ts"
+    "start": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -133,7 +136,6 @@ const rootDir = __dirname;
   acceptMimes: ["application/json"]
 })
 export class Server extends ServerLoader {
-
   /**
    * This method let you configure the express middleware required by your application to works.
    * @returns {Server}
@@ -151,25 +153,26 @@ export class Server extends ServerLoader {
 
       return null;
   }
-
-  public $onReady(){
-      console.log('Server started...');
-  }
-   
-  public $onServerInitError(err){
-      console.error(err);
-  }
 }
-
-new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
 To customize the server settings see [Configuration](configuration.md) page.
 
-### Tree directories
+Finally create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
+```typescript
+import {Server} from "./Server.ts"
 
-By default ServerLoader load automatically Services, Controllers and Middlewares in a specific directories.
+new Server().start()
+  .then(() => {
+    console.log('Server started...');
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+```
+
+You should have this tree directories: 
 
 ```
 .
@@ -177,11 +180,15 @@ By default ServerLoader load automatically Services, Controllers and Middlewares
 │   ├── controllers
 │   ├── services
 │   ├── middlewares
+│   ├── index.ts
 │   └── Server.ts
 └── package.json
 ```
 
+::: tip
+By default ServerLoader load automatically Services, Controllers and Middlewares in a specific directories.
 This behavior can be change by editing the [componentScan configuration](/configuration.md).
+:::
 
 ## Create your first controller
 

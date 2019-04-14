@@ -189,5 +189,11 @@ module.exports = {
         }
       }
     }
+  },
+  markdown: {
+    lineNumbers: true,
+    config: md => {
+      md.use(require("vuepress-theme-tsed/plugins/markdown-it-symbol"));
+    }
   }
 };
