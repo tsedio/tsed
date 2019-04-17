@@ -27,7 +27,7 @@ function decorate(options: any) {
  * @returns {Function}
  * @decorator
  */
-export function Authenticated(options?: any) {
+export function Authenticated(options?: any): Function {
   return <T>(...parameters: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
     switch (getDecoratorType(parameters, true)) {
       case "method":
