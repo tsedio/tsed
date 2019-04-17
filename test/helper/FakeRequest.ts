@@ -1,32 +1,13 @@
+import * as Sinon from "sinon";
+import {SinonStatic, SinonStub} from "sinon";
 import {Context} from "../../packages/common/src/mvc/class/Context";
 
 export class FakeRequest {
-  [key: string]: any;
-
-  url = "/";
-  method: string;
-  path: string;
-  mime: string;
-  id: number;
-
-  ctx = new Context({id: "id"});
-
-  log: any = {
-    debug: (scope?: any) => {
-    },
-
-    info: (scope?: any) => {
-    },
-
-    trace: (scope?: any) => {
-    },
-
-    warn: (scope?: any) => {
-    },
-
-    error: (scope?: any) => {
-    }
-  };
+  public url = "/";
+  public method: string;
+  public path: string;
+  public mime: string;
+  public id: number;
   /**
    *
    * @type {{test: string, obj: {test: string}}}
@@ -74,12 +55,26 @@ export class FakeRequest {
     }
   };
 
-  public accepts = (mime: string) => this.mime === mime;
+  public ctx = new Context({id: "id"});
+  public log: {[key: string]: SinonStub};
+  public isAuthenticated: SinonStub;
+  public accepts: SinonStub;
+  public get: SinonStub;
 
-  public get(expression: any) {
-    return "headerValue";
-  }
+  [key: string]: any;
 
-  public end() {
+  constructor(sandbox: SinonStatic = Sinon) {
+    this.log = {
+      debug: sandbox.stub(),
+      info: sandbox.stub(),
+      warn: sandbox.stub(),
+      error: sandbox.stub(),
+      trace: sandbox.stub(),
+      flush: sandbox.stub()
+    };
+
+    this.isAuthenticated = sandbox.stub();
+    this.accepts = sandbox.stub().callsFake((mime: string) => this.mime === mime);
+    this.get = sandbox.stub().returns("headerValue");
   }
 }

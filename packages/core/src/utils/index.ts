@@ -6,4 +6,3 @@ export * from "./getValue";
 export * from "./setValue";
 export * from "./ObjectUtils";
 export * from "./promiseTimeout";
-export * from "./promisify";

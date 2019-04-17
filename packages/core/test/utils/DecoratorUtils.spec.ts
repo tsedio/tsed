@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {getDecoratorType, UnsupportedDecoratorType} from "../../src";
+import {decorateMethodsOf, descriptorOf, getDecoratorType, Store, UnsupportedDecoratorType} from "../../src";
 
 class Test {
 }
@@ -253,6 +253,37 @@ describe("DecoratorUtils", () => {
 
     it("should return params (constructor)", () => {
       expect(createError([Test.prototype, undefined, 0])).to.equal("Decorator cannot used as parameter.constructor at Test");
+    });
+  });
+
+  describe("decorateMethodsOf", () => {
+    it("should decorate all methods", () => {
+      function decorate() {
+        return (target: any) => {
+          decorateMethodsOf(target, (klass: any, property: any, descriptor: any) => {
+            Store.from(klass, property, descriptor).set("test", property);
+          });
+        };
+      }
+
+      class TestParent {
+        test2(a: any) {
+          return "test" + a;
+        }
+      }
+
+      // WHEN
+      @decorate()
+      class Test extends TestParent {
+        test() {
+        }
+      }
+
+      // THEN
+      Store.from(Test, "test", descriptorOf(Test, "test")).get("test").should.eq("test");
+      Store.from(Test, "test2", descriptorOf(Test, "test2")).get("test").should.eq("test2");
+
+      new Test().test2("1").should.eq("test1");
     });
   });
 });

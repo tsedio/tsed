@@ -1,4 +1,4 @@
-# Ts.ED - Basics usages
+# Ts.ED - Passportjs
 
 Here an example to configure your server and how to create your first controller.
 
@@ -13,7 +13,6 @@ npm install
 ```
 
 ## Run
-
 ```
 npm start
 ```

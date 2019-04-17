@@ -124,7 +124,6 @@ describe("EndpointBuilder", () => {
       const endpointMetadata = new EndpointMetadata(Test, "method");
       const endpointBuilder = new EndpointBuilder(endpointMetadata);
 
-      Sinon.stub(request.log, "debug");
       // WHEN
       // @ts-ignore
       endpointBuilder.bindRequest(endpointMetadata, injector)(request, response, next);
@@ -153,7 +152,6 @@ describe("EndpointBuilder", () => {
       const endpointMetadata = new EndpointMetadata(Test, "method");
       const endpointBuilder = new EndpointBuilder(endpointMetadata);
 
-      Sinon.stub(request.log, "debug");
       // WHEN
       // @ts-ignore
       endpointBuilder.bindRequest(endpointMetadata, injector)(request, response, next);
