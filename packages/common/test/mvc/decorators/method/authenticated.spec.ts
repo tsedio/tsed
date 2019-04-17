@@ -11,34 +11,86 @@ const {Authenticated} = Proxyquire.load("../../../../src/mvc/decorators/method/a
   "./useBefore": {UseBefore: useBeforeStub}
 });
 
-class Test {
-  test() {
-  }
-}
 
 describe("Authenticated", () => {
-  before(() => {
-    this.descriptor = {};
-    this.options = {options: "options"};
+  describe("when the decorator is used on a method", () => {
+    it("should set metadata", () => {
+      // GIVEN
 
-    Authenticated(this.options)(Test, "test", descriptorOf(Test, "test"));
-    this.store = Store.fromMethod(Test, "test");
+      // WHEN
+      class Test {
+        @Authenticated({options: "options"})
+        test() {
+        }
+      }
+
+      const store = Store.fromMethod(Test, "test");
+
+      // THEN
+      expect(store.get(AuthenticatedMiddleware)).to.deep.eq({options: "options"});
+      expect(store.get("responses")).to.deep.eq({"403": {description: "Forbidden"}});
+      useBeforeStub.should.be.calledWithExactly(AuthenticatedMiddleware);
+      middleware.should.be.calledWithExactly(Test.prototype, "test", descriptorOf(Test, "test"));
+      store.clear();
+    });
   });
 
-  after(() => {
-    this.store.clear();
+  describe("when the decorator is used on a controller", () => {
+    it("should set metadata", () => {
+      // GIVEN
+
+      // WHEN
+      @Authenticated({options: "options"})
+      class Test {
+        test() {
+        }
+      }
+
+      const store = Store.fromMethod(Test, "test");
+
+      // THEN
+      expect(store.get(AuthenticatedMiddleware)).to.deep.eq({options: "options"});
+      expect(store.get("responses")).to.deep.eq({"403": {description: "Forbidden"}});
+      useBeforeStub.should.be.calledWithExactly(AuthenticatedMiddleware);
+      middleware.should.be.calledWithExactly(Test.prototype, "test", descriptorOf(Test, "test"));
+      store.clear();
+    });
   });
 
-  it("should set metadata", () => {
-    expect(this.store.get(AuthenticatedMiddleware)).to.deep.eq(this.options);
-  });
+  describe("when the decorator is used on a controller with class inheritance", () => {
+    it("should set metadata", () => {
+      // GIVEN
+      class Base {
+        value = "1";
 
-  it("should set responses metadata", () => {
-    expect(this.store.get("responses")).to.deep.eq({"403": {description: "Forbidden"}});
-  });
+        test2(option: string) {
+          return "test2" + option + this.value;
+        }
+      }
 
-  it("should create middleware", () => {
-    useBeforeStub.should.be.calledWithExactly(AuthenticatedMiddleware);
-    middleware.should.be.calledWithExactly(Test, "test", descriptorOf(Test, "test"));
+      // WHEN
+      @Authenticated({options: "options"})
+      class Test extends Base {
+        test() {
+        }
+      }
+
+      const store1 = Store.fromMethod(Test, "test");
+      const store2 = Store.fromMethod(Test, "test2");
+
+      // THEN
+      expect(store1.get(AuthenticatedMiddleware)).to.deep.eq({options: "options"});
+      expect(store1.get("responses")).to.deep.eq({"403": {description: "Forbidden"}});
+
+      expect(store2.get(AuthenticatedMiddleware)).to.deep.eq({options: "options"});
+      expect(store2.get("responses")).to.deep.eq({"403": {description: "Forbidden"}});
+
+      expect(new Test().test2("test")).to.eq("test2test1");
+
+      useBeforeStub.should.be.calledWithExactly(AuthenticatedMiddleware);
+      middleware.should.be.calledWithExactly(Test.prototype, "test", descriptorOf(Test, "test"));
+      store1.clear();
+      store2.clear();
+    });
   });
 });
