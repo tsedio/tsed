@@ -1,8 +1,18 @@
 /**
- * Get the provide constructor.
- * @param targetClass
+ * Get the class constructor
+ * @param target
  */
-export const getConstructor = (targetClass: any): Function => (typeof targetClass === "function" ? targetClass : targetClass.constructor);
+export function getConstructor(target: any): Function {
+  return typeof target === "function" ? target : target.constructor;
+}
+
+/**
+ * Get the class constructor
+ * @param target
+ */
+export function constructorOf(target: any): Function {
+  return getConstructor(target);
+}
 
 /**
  * Get the provide constructor if target is an instance.
@@ -269,7 +279,7 @@ export const nameOfSymbol = (sym: symbol): string =>
     .replace(")", "");
 
 /**
- *
+ * Return the descriptor for a given class and propertyKey
  * @param target
  * @param {string} propertyKey
  * @returns {PropertyDescriptor}
@@ -279,10 +289,31 @@ export function descriptorOf(target: any, propertyKey: string): PropertyDescript
 }
 
 /**
- *
+ * Return the prototype of the given class.
  * @param target
  * @returns {any}
  */
 export function prototypeOf(target: any) {
   return classOf(target) === target ? target.prototype : target;
+}
+
+/**
+ * Return all methods for a given class.
+ * @param target
+ */
+export function methodsOf(target: any) {
+  const methods = new Map();
+  target = classOf(target);
+
+  ancestorsOf(target).forEach(target => {
+    const keys = Reflect.ownKeys(prototypeOf(target));
+
+    keys.forEach((propertyKey: string) => {
+      if (propertyKey !== "constructor") {
+        methods.set(propertyKey, {target, propertyKey});
+      }
+    });
+  });
+
+  return Array.from(methods.values());
 }
