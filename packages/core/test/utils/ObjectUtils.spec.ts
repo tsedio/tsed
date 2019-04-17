@@ -1,5 +1,7 @@
 import {expect} from "chai";
 import {
+  classOf,
+  constructorOf,
   getClass,
   getClassOrSymbol,
   getConstructor,
@@ -8,12 +10,28 @@ import {
   isCollection,
   isEmpty,
   isPrimitiveOrPrimitiveClass,
+  methodsOf,
   nameOf,
   nameOfClass,
   primitiveOf
 } from "../../src";
 
-class Test {
+class Base {
+  test1() {
+
+  }
+
+  test3() {
+  }
+}
+
+class Test extends Base {
+  test1() {
+
+  }
+
+  test2() {
+  }
 }
 
 const sym = Symbol("test2");
@@ -220,6 +238,40 @@ describe("ObjectUtils", () => {
 
     it("should return any", () => {
       expect(primitiveOf(Object)).to.eq("any");
+    });
+  });
+
+  describe("constructorOf()", () => {
+    it("should return the constructor when class is given", () => {
+      expect(constructorOf(Test)).to.eq(Test);
+    });
+    it("should return the constructor when instance is given", () => {
+      expect(constructorOf(new Test())).to.eq(Test);
+    });
+  });
+
+  describe("classOf()", () => {
+    it("should return the class when class is given", () => {
+      expect(classOf(Test)).to.eq(Test);
+    });
+
+    it("should return the class when instance is given", () => {
+      expect(classOf(new Test())).to.eq(Test);
+    });
+
+    it("should return the class when prototype is given", () => {
+      expect(classOf(Test.prototype)).to.eq(Test);
+    });
+  });
+
+  describe("methodsOf", () => {
+    it("should return all methods", () => {
+      const methods = methodsOf(Test);
+      expect(methods).to.deep.eq([
+        {propertyKey: "test1", target: Test},
+        {propertyKey: "test3", target: Base},
+        {propertyKey: "test2", target: Test}
+      ]);
     });
   });
 });
