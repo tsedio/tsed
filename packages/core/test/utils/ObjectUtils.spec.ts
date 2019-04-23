@@ -10,6 +10,7 @@ import {
   isCollection,
   isEmpty,
   isPrimitiveOrPrimitiveClass,
+  isPromise,
   methodsOf,
   nameOf,
   nameOfClass,
@@ -187,6 +188,16 @@ describe("ObjectUtils", () => {
 
     it("should return false (promise)", () => {
       expect(isClass(Promise.resolve())).to.eq(false);
+    });
+  });
+
+  describe("isPromise()", () => {
+    it("should return true", () => {
+      expect(isPromise(Promise)).to.eq(true);
+    });
+
+    it("should return true", () => {
+      expect(isPromise(Promise.resolve())).to.eq(true);
     });
   });
 

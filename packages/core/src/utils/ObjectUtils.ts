@@ -152,7 +152,7 @@ export function isCollection(target: any): boolean {
  * @returns {boolean}
  */
 export function isDate(target: any): boolean {
-  return target === Date || target instanceof Date;
+  return target === Date || (target instanceof Date && !isNaN(+target));
 }
 
 /**
@@ -211,12 +211,20 @@ export function isEmpty(value: any): boolean {
 }
 
 /**
- *
- * @param target
- * @returns {boolean}
+ * Tests to see if the object is an ES2015 (ES6) Promise
+ * @see {@link https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects}
+ * @param target the object to test
  */
 export function isPromise(target: any): boolean {
-  return target === Promise || target instanceof Promise;
+  return (
+    target === Promise ||
+    target instanceof Promise ||
+    (!!target && typeof target.subscribe !== "function" && typeof target.then === "function")
+  );
+}
+
+export function isStream(obj: any) {
+  return obj !== null && typeof obj === "object" && typeof obj.pipe === "function";
 }
 
 /**
