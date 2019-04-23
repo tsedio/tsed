@@ -1,11 +1,10 @@
 import {nameOf, Type} from "@tsed/core";
 import {BadRequest} from "ts-httpexceptions";
-import {IResponseError} from "../../mvc/interfaces/IResponseError";
 
 /**
  * @private
  */
-export class RequiredPropertyError extends BadRequest implements IResponseError {
+export class RequiredPropertyError extends BadRequest {
   errors: any[];
 
   constructor(target: Type<any>, propertyName: string | symbol) {

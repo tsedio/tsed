@@ -1,6 +1,5 @@
-import {ParamTypes} from "@tsed/common";
 import * as Sinon from "sinon";
-import {ParamRegistry, QueryParams} from "../../../src/filters";
+import {ParamRegistry, QueryParams, ParamTypes} from "../../../src/filters";
 import {QueryParamsFilter} from "../../../src/filters/components/QueryParamsFilter";
 
 class Test {

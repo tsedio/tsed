@@ -1,5 +1,8 @@
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {ENDPOINT_INFO} from "../constants";
+import {ParamRegistry} from "../registries/ParamRegistry";
+
+export type EndpointInfo = EndpointMetadata;
 
 /**
  *
