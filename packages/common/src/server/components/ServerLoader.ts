@@ -5,16 +5,16 @@ import * as globby from "globby";
 import * as Http from "http";
 import * as Https from "https";
 import * as Path from "path";
-import {$log} from "ts-log-debug";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 
-import {GlobalErrorHandlerMiddleware} from "../../mvc";
-import {LogIncomingRequestMiddleware} from "../../mvc/components/LogIncomingRequestMiddleware";
 import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
+import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
+import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {contextMiddleware} from "../utils/contextMiddleware";
 import {createExpressApplication} from "../utils/createExpressApplication";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
@@ -62,13 +62,11 @@ import {createInjector} from "../utils/createInjector";
  * ```
  *
  */
-$log.name = "TSED";
-$log.level = "info";
-
 export abstract class ServerLoader implements IServerLifecycle {
   public version: string = "0.0.0-PLACEHOLDER";
   private _components: IComponentScanned[] = [];
   private _scannedPromises: Promise<any>[] = [];
+  private _injector: InjectorService;
 
   /**
    *
@@ -83,8 +81,6 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.setSettings(settings);
     }
   }
-
-  private _injector: InjectorService;
 
   /**
    * Return the injectorService initialized by the server.
@@ -278,7 +274,7 @@ export abstract class ServerLoader implements IServerLifecycle {
       await this.callHook("$onReady");
       await this.injector.emit("$onServerReady");
 
-      $log.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
+      this.injector.logger.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
     } catch (err) {
       this.callHook("$onServerInitError", undefined, err);
 
@@ -322,13 +318,13 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   public scan(patterns: string | string[], endpoint?: string): ServerLoader {
     const promises = globby.sync(ServerLoader.cleanGlobPatterns(patterns, this.settings.exclude)).map(async (file: string) => {
-      $log.debug(`Import file ${endpoint}:`, file);
+      this.injector.logger.debug(`Import file ${endpoint}:`, file);
       try {
         const classes: any[] = await import(file);
         this.addComponents(classes, {endpoint});
       } catch (er) {
         /* istanbul ignore next */
-        $log.error(er);
+        this.injector.logger.error(er);
         /* istanbul ignore next */
         process.exit(-1);
       }
@@ -415,22 +411,22 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /* istanbul ignore next */
     if (level && this.settings.env !== "test") {
-      $log.level = level;
+      this.injector.logger.level = level;
     }
 
     await Promise.all(this._scannedPromises);
     await this.callHook("$onInit");
 
-    $log.debug("Initialize settings");
+    this.injector.logger.debug("Initialize settings");
 
     this.settings.forEach((value, key) => {
-      $log.info(`settings.${key} =>`, value);
+      this.injector.logger.info(`settings.${key} =>`, value);
     });
 
-    $log.info("Build services");
+    this.injector.logger.info("Build services");
 
     await this.injector.load();
-    $log.debug("Settings and injector loaded");
+    this.injector.logger.debug("Settings and injector loaded");
   }
 
   /**
@@ -445,12 +441,12 @@ export abstract class ServerLoader implements IServerLifecycle {
   ): Promise<{address: string; port: number}> {
     const {address, port, https} = settings;
 
-    $log.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
+    this.injector.logger.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
     const promise = new Promise((resolve, reject) => {
       http.on("listening", resolve).on("error", reject);
     }).then(() => {
       const port = (http.address() as any).port;
-      $log.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${port}`);
+      this.injector.logger.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${port}`);
 
       return {address: settings.address as string, port};
     });
@@ -464,8 +460,8 @@ export abstract class ServerLoader implements IServerLifecycle {
    * Initialize configuration of the express app.
    */
   protected async loadMiddlewares(): Promise<any> {
-    $log.debug("Mount middlewares");
-
+    this.injector.logger.debug("Mount middlewares");
+    this.use(contextMiddleware(this.injector));
     this.use(LogIncomingRequestMiddleware);
     await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
     await this.injector.emit("$beforeRoutesInit");
@@ -489,7 +485,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     /* istanbul ignore next */
     if (this.settings.env === "test") {
-      $log.stop();
+      this.injector.logger.stop();
     }
 
     const bind = (property: string, value: any, map: Map<string, any>) => {
@@ -532,7 +528,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     const self: any = this;
 
     if (key in this) {
-      $log.debug(`\x1B[1mCall hook ${key}\x1B[22m`);
+      this.injector.logger.debug(`\x1B[1mCall hook ${key}\x1B[22m`);
 
       return self[key](...args);
     }
@@ -542,7 +538,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
   /**
    * Initiliaze all servers.
-   * @returns {Bluebird<U>}
+   * @returns {Promise<any>}
    */
   private async startServers(): Promise<any> {
     const promises: Promise<any>[] = [];

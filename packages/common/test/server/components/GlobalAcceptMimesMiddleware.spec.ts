@@ -2,7 +2,8 @@ import {inject} from "@tsed/testing";
 import {assert, expect} from "chai";
 import {FakeRequest} from "../../../../../test/helper";
 import {ServerSettingsService} from "../../../src/config";
-import {GlobalAcceptMimesMiddleware} from "../../../src/mvc";
+import {GlobalAcceptMimesMiddleware} from "../../../src/server";
+
 
 describe("GlobalAcceptMimesMiddleware", () => {
   before(

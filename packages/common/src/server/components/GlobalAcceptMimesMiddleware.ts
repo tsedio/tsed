@@ -1,12 +1,8 @@
 import {NotAcceptable} from "ts-httpexceptions";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {Request} from "../../filters/decorators/request";
-import {Middleware} from "../decorators/class/middleware";
-import {IMiddleware} from "../interfaces/index";
+import {ServerSettingsService} from "../../config";
+import {Request} from "../../filters";
+import {IMiddleware, Middleware} from "../../mvc";
 
-/**
- * @middleware
- */
 @Middleware()
 export class GlobalAcceptMimesMiddleware implements IMiddleware {
   constructor(private serverSettingsService: ServerSettingsService) {}

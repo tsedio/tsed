@@ -3,7 +3,7 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 import {BadRequest} from "ts-httpexceptions/lib";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {GlobalErrorHandlerMiddleware} from "../../../src";
+import {GlobalErrorHandlerMiddleware} from "../../../src/server";
 
 describe("GlobalErrorHandlerMiddleware", () => {
   before(
