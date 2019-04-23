@@ -41,14 +41,15 @@
     "@types/json-schema": "^6.0.1",
     "globby": "^8.0.1",
     "json-schema": "^0.2.3",
+    "rxjs": "^6.4.0",
     "ts-httpexceptions": "^3.0.0",
-    "ts-log-debug": "^4.0.1",
+    "ts-log-debug": "^5.1.0",
     "tslib": "^1.9.0"
   },
   "peerDependencies": {
-    "@types/express": "^4",
     "@tsed/core": "0.0.0-PLACEHOLDER",
     "@tsed/di": "0.0.0-PLACEHOLDER",
+    "@types/express": "^4",
     "express": "^4"
   },
   "devDependencies": {}
