@@ -213,7 +213,8 @@ export function isEmpty(value: any): boolean {
 /**
  * Tests to see if the object is an ES2015 (ES6) Promise
  * @see {@link https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects}
- * @param target the object to test
+ * @param target
+ * @returns {boolean}
  */
 export function isPromise(target: any): boolean {
   return (

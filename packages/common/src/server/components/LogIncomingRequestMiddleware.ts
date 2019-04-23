@@ -1,8 +1,7 @@
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
-import {RequestLogger} from "packages/common/src/mvc/class/RequestLogger";
 import {Req} from "../../filters/decorators/request";
-import {IMiddleware, Middleware} from "../../mvc";
+import {IMiddleware, Middleware, RequestLogger} from "../../mvc";
 import "../../mvc/interfaces/Express";
 
 /**
