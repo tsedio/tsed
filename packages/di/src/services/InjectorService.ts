@@ -1,20 +1,18 @@
-import {getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, RegistryKey, Store, Type, deepClone} from "@tsed/core";
-import {$log} from "ts-log-debug";
+import {deepClone, getClass, getClassOrSymbol, Metadata, nameOf, prototypeOf, RegistryKey, Store, Type} from "@tsed/core";
 import {Provider} from "../class/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {InjectionScopeError} from "../errors/InjectionScopeError";
-import {IInjectableMethod, ProviderScope} from "../interfaces";
-import {IInjectableProperties, IInjectablePropertyService, IInjectablePropertyValue} from "../interfaces/IInjectableProperties";
-import {ProviderType} from "../interfaces/ProviderType";
+import {
+  IDILogger,
+  IDISettings,
+  IInjectableMethod,
+  IInjectableProperties,
+  IInjectablePropertyService,
+  IInjectablePropertyValue,
+  ProviderScope,
+  ProviderType
+} from "../interfaces";
 import {GlobalProviders, registerFactory} from "../registries/ProviderRegistry";
-
-export interface IDISettings {
-  get(key: string): any;
-
-  set(key: string, value: any): this;
-
-  [key: string]: any;
-}
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -40,28 +38,13 @@ export interface IDISettings {
  *
  */
 export class InjectorService extends Map<RegistryKey, Provider<any>> {
-  private _settings: IDISettings = new Map();
-  private _scopes: {[key: string]: ProviderScope} = {};
+  public settings: IDISettings = new Map();
+  public logger: IDILogger = console;
+  public scopes: {[key: string]: ProviderScope} = {};
 
   constructor() {
     super();
     this.initInjector();
-  }
-
-  get scopes(): {[key: string]: ProviderScope} {
-    return this._scopes || {};
-  }
-
-  set scopes(scopes: {[key: string]: ProviderScope}) {
-    this._scopes = scopes;
-  }
-
-  get settings() {
-    return this._settings;
-  }
-
-  set settings(settings: IDISettings) {
-    this._settings = settings;
   }
 
   scopeOf(providerType: ProviderType) {
@@ -265,9 +248,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @returns {Promise<any[]>} A list of promises.
    */
   public async emit(eventName: string, ...args: any[]) {
-    const promises: Promise<any>[] = [];
-
-    $log.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
+    this.logger.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
 
     const providers = this.getProviders();
 
@@ -276,11 +257,11 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
       if (service && eventName in service) {
         const startTime = new Date().getTime();
-        $log.debug(`Call ${nameOf(provider.provide)}.${eventName}()`);
+        this.logger.debug(`Call ${nameOf(provider.provide)}.${eventName}()`);
 
         await service[eventName](...args);
 
-        $log.debug(`Run ${nameOf(provider.provide)}.${eventName}() in ${new Date().getTime() - startTime} ms`);
+        this.logger.debug(`Run ${nameOf(provider.provide)}.${eventName}() in ${new Date().getTime() - startTime} ms`);
       }
     }
   }
@@ -477,10 +458,10 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
           provider.instance = locals.get(provider.provide);
         }
 
-        $log.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
+        this.logger.debug(nameOf(provider.provide), "built", token === useClass ? "" : `from class ${useClass}`);
       } else {
         provider.scope = ProviderScope.SINGLETON;
-        $log.debug(nameOf(provider.provide), "loaded");
+        this.logger.debug(nameOf(provider.provide), "loaded");
       }
 
       if (provider.instance) {

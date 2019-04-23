@@ -3,6 +3,7 @@ import {Metadata, Store} from "@tsed/core";
 import {inject} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {$log} from "ts-log-debug";
 import {TestContext} from "../../../testing/src";
 import {InjectorService} from "../../src";
 
@@ -653,6 +654,8 @@ describe("InjectorService", () => {
     describe("when the provider is buildable", () => {
       before(() => {
         this.injector = new InjectorService();
+        this.injector.logger = $log;
+
         this.injector.scopes = {
           [ProviderType.CONTROLLER]: ProviderScope.REQUEST
         };
@@ -698,6 +701,7 @@ describe("InjectorService", () => {
     describe("when the provider is not buildable", () => {
       before(() => {
         this.injector = new InjectorService();
+        this.injector.logger = $log;
         this.provider = new Provider(Test);
         this.provider.type = "factory";
         this.provider.instance = new Test();

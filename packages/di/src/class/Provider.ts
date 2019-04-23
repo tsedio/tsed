@@ -16,6 +16,8 @@ export class Provider<T> implements IProvider<T> {
   @NotEnumerable()
   private _store: Store;
 
+  [key: string]: any;
+
   constructor(provide: RegistryKey) {
     this._provide = getClassOrSymbol(provide);
     this._useClass = getClass(this._provide);
