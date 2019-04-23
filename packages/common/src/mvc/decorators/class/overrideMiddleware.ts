@@ -27,6 +27,7 @@ import {OverrideProvider} from "@tsed/di";
  * @param {Type<any> & IMiddleware} targetMiddleware
  * @returns {Function}
  * @decorators
+ * @deprecated Use OverrideProvider instead of
  */
 // tslint:disable-next-line: variable-name
 export const OverrideMiddleware = OverrideProvider;

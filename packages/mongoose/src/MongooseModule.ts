@@ -15,13 +15,6 @@ export class MongooseModule implements OnInit, AfterRoutesInit {
   @Constant("mongoose.urls")
   private urls: {[key: string]: MDBConnection};
 
-  /**
-   *
-   * @type {Map<any, any>}
-   * @private
-   */
-  private _instances: Map<string, Mongoose.Mongoose> = new Map();
-
   constructor(@ExpressApplication private expressApp: ExpressApplication, private mongooseService: MongooseService) {}
 
   $onInit(): Promise<any> | void {

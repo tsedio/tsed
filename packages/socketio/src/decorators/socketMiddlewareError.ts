@@ -1,4 +1,4 @@
-import {MiddlewareError} from "@tsed/common";
+import {Middleware} from "@tsed/common";
 import {Store, Type} from "@tsed/core";
 import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
 
@@ -55,6 +55,8 @@ export function SocketMiddlewareError(): Function {
   return (target: Type<any>) => {
     Store.from(target).merge("socketIO", {
       type: SocketProviderTypes.MIDDLEWARE,
+      error: true,
+
       handlers: {
         use: {
           methodClassName: "use"
@@ -62,6 +64,6 @@ export function SocketMiddlewareError(): Function {
       }
     });
 
-    return MiddlewareError()(target);
+    return Middleware()(target);
   };
 }

@@ -10,29 +10,31 @@ describe("@SocketMiddlewareError", () => {
   }
 
   before(() => {
-    this.decoratorStub = Sinon.stub();
-    this.middlewareStub = Sinon.stub(common, "MiddlewareError").returns(this.decoratorStub);
-
-    SocketMiddlewareError()(Test);
+    Sinon.stub(common, "Middleware");
   });
 
   after(() => {
-    this.middlewareStub.restore();
+    // @ts-ignore
+    common.Middleware.restore();
   });
 
-  it("should register the metadata", () => {
+  it("should register the metadata and middleware", () => {
+    const decoratorStub = Sinon.stub();
+    // @ts-ignore
+    common.Middleware.returns(decoratorStub);
+
+    SocketMiddlewareError()(Test);
     expect(Store.from(Test).get("socketIO")).to.deep.eq({
       type: SocketProviderTypes.MIDDLEWARE,
+      error: true,
       handlers: {
         use: {
           methodClassName: "use"
         }
       }
     });
-  });
 
-  it("should register the middleware", () => {
-    this.middlewareStub.should.have.been.called;
-    this.decoratorStub.should.have.been.calledWithExactly(Test);
+    common.Middleware.should.have.been.calledWithExactly();
+    decoratorStub.should.have.been.calledWithExactly(Test);
   });
 });

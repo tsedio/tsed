@@ -1,10 +1,10 @@
-import {ConverterService, InjectorService, MiddlewareType, Provider, ProviderType} from "@tsed/common";
+import {ConverterService, InjectorService, Provider} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
 import {ISocketHandlerMetadata} from "../interfaces/ISocketHandlerMetadata";
 import {ISocketParamMetadata} from "../interfaces/ISocketParamMetadata";
-import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
+import {ISocketProviderMetadata, SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
 
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
@@ -237,16 +237,18 @@ export class SocketHandlersBuilder {
       const instance = provider.instance;
       const handlerMetadata: ISocketProviderMetadata = Store.from(instance).get("socketIO");
 
-      if (provider.type === ProviderType.MIDDLEWARE) {
-        if (provider.store.get("middlewareType") === MiddlewareType.ERROR) {
+      if (handlerMetadata.type === SocketProviderTypes.MIDDLEWARE) {
+        if (handlerMetadata.error) {
           return promise.catch((error: any) => this.invoke(instance, handlerMetadata.handlers.use, {error, ...scope}));
         }
 
-        return promise.then(() => this.invoke(instance, handlerMetadata.handlers.use, scope)).then((result: any) => {
-          if (result) {
-            scope.args = [].concat(result);
-          }
-        });
+        return promise
+          .then(() => this.invoke(instance, handlerMetadata.handlers.use, scope))
+          .then((result: any) => {
+            if (result) {
+              scope.args = [].concat(result);
+            }
+          });
       }
     }
 
