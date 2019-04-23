@@ -1,26 +1,32 @@
+import {Context} from "../../packages/common/src/mvc/class/Context";
+
 export class FakeRequest {
+  [key: string]: any;
+
   url = "/";
   method: string;
   path: string;
   mime: string;
   id: number;
-  tagId: string;
-  _responseData: any;
-  _endpoint: any;
-  public accepts = (mime: string) => this.mime === mime;
 
-  public log: Express.RequestLogger = {
-    debug: (scope?: any) => {},
+  ctx = new Context({id: "id"});
 
-    info: (scope?: any) => {},
+  log: any = {
+    debug: (scope?: any) => {
+    },
 
-    trace: (scope?: any) => {},
+    info: (scope?: any) => {
+    },
 
-    warn: (scope?: any) => {},
+    trace: (scope?: any) => {
+    },
 
-    error: (scope?: any) => {}
+    warn: (scope?: any) => {
+    },
+
+    error: (scope?: any) => {
+    }
   };
-
   /**
    *
    * @type {{test: string, obj: {test: string}}}
@@ -61,7 +67,6 @@ export class FakeRequest {
       test: "testValue"
     }
   };
-
   public session: any = {
     test: "testValue",
     obj: {
@@ -69,39 +74,12 @@ export class FakeRequest {
     }
   };
 
+  public accepts = (mime: string) => this.mime === mime;
+
   public get(expression: any) {
     return "headerValue";
   }
 
-  public getStoredData() {
-    return this._responseData || {};
+  public end() {
   }
-
-  public storeData(data: any) {
-    this._responseData = data;
-
-    return this;
-  }
-
-  public getEndpoint() {
-    return (
-      this._endpoint || {
-        store: {
-          get: () => {}
-        }
-      }
-    );
-  }
-
-  public setEndpoint(endpoint: any) {
-    this._endpoint = endpoint;
-  }
-
-  public destroyEndpoint() {}
-
-  public createContainer() {}
-
-  public destroyContainer() {}
-
-  public end() {}
 }

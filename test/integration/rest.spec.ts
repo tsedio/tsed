@@ -1,21 +1,22 @@
 import {ExpressApplication} from "@tsed/common";
 import {bootstrap, inject, TestContext} from "@tsed/testing";
-import * as SuperTest from "supertest";
 import {expect} from "chai";
+import * as SuperTest from "supertest";
 import {FakeServer} from "./app/FakeServer";
 
 describe("Rest", () => {
+  let app: SuperTest.SuperTest<SuperTest.Test>;
   before(bootstrap(FakeServer));
   before(
     inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      this.app = SuperTest(expressApplication);
+      app = SuperTest(expressApplication);
     })
   );
   after(TestContext.reset);
   describe("integration", () => {
     describe("GET /rest", () => {
       it("should return html content", done => {
-        this.app
+        app
           .get("/rest/html")
           .expect(200)
           .end((err: any, response: any) => {
@@ -32,7 +33,7 @@ describe("Rest", () => {
 
     describe("GET /rest/calendars", () => {
       it("should return an object (without annotation)", done => {
-        this.app
+        app
           .get("/rest/calendars/classic/1")
           .expect(200)
           .end((err: any, response: any) => {
@@ -50,7 +51,7 @@ describe("Rest", () => {
       });
 
       it("should return an object (PathParamsType annotation)", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/annotation/test/1")
           .expect(200)
           .end((err: any, response: any) => {
@@ -68,7 +69,7 @@ describe("Rest", () => {
       });
 
       it("should return an object (Via promised response)", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/annotation/promised/1")
           .expect(200)
           .end((err: any, response: any) => {
@@ -86,7 +87,7 @@ describe("Rest", () => {
       });
 
       it("should return an object status (Via promised response)", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/annotation/status/1")
           .expect(202)
           .end((err: any, response: any) => {
@@ -105,7 +106,7 @@ describe("Rest", () => {
       });
 
       it("should use middleware to provide user info", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/middleware")
           .set({
             Authorization: "tokenauth"
@@ -127,7 +128,7 @@ describe("Rest", () => {
       });
 
       it("should set token", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/token/newTOKENXD")
           // .send({id: 1})
           .set("Cookie", "authorization=auth")
@@ -142,7 +143,7 @@ describe("Rest", () => {
       });
 
       it("should return get updated token", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/token")
           // .send({id: 1})
           .set("Cookie", "authorization=auth")
@@ -157,7 +158,7 @@ describe("Rest", () => {
       });
 
       it("should return query", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/query?search=ts-express-decorators")
           .expect(200)
           .end((err: any, response: any) => {
@@ -169,7 +170,7 @@ describe("Rest", () => {
       });
 
       it("should use mvc to provide info (Use)", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/mvc")
           .set({authorization: "token"})
           .expect(200)
@@ -188,7 +189,7 @@ describe("Rest", () => {
       });
 
       it("should use mvc to provide info (UseAfter)", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/middlewares2")
           .set({authorization: "token"})
           .expect(200)
@@ -207,7 +208,7 @@ describe("Rest", () => {
       });
 
       it("should set all headers", (done: Function) => {
-        this.app
+        app
           .get("/rest/calendars/headers")
           .expect(200)
           .end((err: any, response: any) => {
@@ -226,7 +227,7 @@ describe("Rest", () => {
 
     describe("PUT /rest/calendars", () => {
       it("should throw a BadRequest", (done: Function) => {
-        this.app
+        app
           .put("/rest/calendars")
           .expect(400)
           .end((err: any, response: any) => {
@@ -236,7 +237,7 @@ describe("Rest", () => {
       });
 
       it("should return an object", (done: Function) => {
-        this.app
+        app
           .put("/rest/calendars")
           .send({name: "test"})
           .expect(200)
@@ -252,7 +253,7 @@ describe("Rest", () => {
 
     describe("DELETE /rest/calendars", () => {
       it("should throw a Forbidden", (done: Function) => {
-        this.app
+        app
           .delete("/rest/calendars")
           .expect(403)
           .end((err: any, response: any) => {
@@ -262,7 +263,7 @@ describe("Rest", () => {
       });
 
       it("should throw a BadRequest", (done: Function) => {
-        this.app
+        app
           .delete("/rest/calendars")
           .set({authorization: "token"})
           .expect(400)
@@ -276,7 +277,7 @@ describe("Rest", () => {
 
     describe("HEAD /rest/calendars/events", () => {
       it("should return headers", done => {
-        this.app
+        app
           .head("/rest/calendars/events")
           .expect(200)
           .end((err: any, response: any) => {
@@ -289,7 +290,7 @@ describe("Rest", () => {
 
     describe("PATCH /rest/calendars/events/:id", () => {
       it("should return headers", done => {
-        this.app
+        app
           .patch("/rest/calendars/events/1")
           .send({
             startDate: new Date(),
@@ -303,7 +304,7 @@ describe("Rest", () => {
 
     describe("POST /rest/user/", () => {
       it("should allow creation", done => {
-        this.app
+        app
           .post(`/rest/user/`)
           .send({name: "test", email: null, password: null})
           .expect(201)
@@ -317,7 +318,7 @@ describe("Rest", () => {
       });
 
       it("should return an error when email is empty", done => {
-        this.app
+        app
           .post(`/rest/user/`)
           .send({name: "test", email: "", password: null})
           .expect(400)
@@ -341,7 +342,7 @@ describe("Rest", () => {
       });
 
       it("should return an error when password is empty", done => {
-        this.app
+        app
           .post(`/rest/user/`)
           .send({name: "test", email: "test@test.fr", password: ""})
           .expect(400)
@@ -365,7 +366,7 @@ describe("Rest", () => {
       });
 
       it("should allow creation (2)", done => {
-        this.app
+        app
           .post(`/rest/user/`)
           .send({name: "test", email: "test@test.fr", password: "test1267"})
           .expect(400)
@@ -379,7 +380,7 @@ describe("Rest", () => {
     describe("GET /rest/user/:id", () => {
       const send = (id: string) =>
         new Promise((resolve, reject) => {
-          this.app
+          app
             .get(`/rest/user/${id}`)
             .expect(200)
             .end((err: any, response: any) => {
@@ -426,7 +427,7 @@ describe("Rest", () => {
 
   describe("GET /rest/products", () => {
     it("should respond with the right userid", done => {
-      this.app
+      app
         .get(`/rest/products`)
         .expect(200)
         .end((err: any, response: any) => {
@@ -438,7 +439,7 @@ describe("Rest", () => {
 
   describe("Errors", () => {
     it("GET /rest/errors/custom-bad-request", done => {
-      this.app
+      app
         .get("/rest/errors/custom-bad-request")
         .expect(400)
         .end((err: any, response: any) => {
@@ -450,7 +451,7 @@ describe("Rest", () => {
     });
 
     it("POST /rest/errors/required-param", done => {
-      this.app
+      app
         .post("/rest/errors/required-param")
         .expect(400)
         .end((err: any, response: any) => {
@@ -473,7 +474,7 @@ describe("Rest", () => {
     });
 
     it("POST /rest/errors/required-model", done => {
-      this.app
+      app
         .post("/rest/errors/required-model")
         .expect(400)
         .end((err: any, response: any) => {
@@ -498,7 +499,7 @@ describe("Rest", () => {
     });
 
     it("POST /rest/errors/required-model-2", done => {
-      this.app
+      app
         .post("/rest/errors/required-model-2")
         .expect(400)
         .end((err: any, response: any) => {
@@ -521,7 +522,7 @@ describe("Rest", () => {
     });
 
     it("GET /rest/errors/error (original error is not displayed", done => {
-      this.app
+      app
         .get("/rest/errors/error")
         .expect(500)
         .end((err: any, response: any) => {
@@ -531,7 +532,7 @@ describe("Rest", () => {
     });
 
     it("GET /rest/errors/custom-internal-error", done => {
-      this.app
+      app
         .get("/rest/errors/custom-internal-error")
         .expect(500)
         .end((err: any, response: any) => {
