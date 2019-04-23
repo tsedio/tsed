@@ -20,7 +20,6 @@ export interface IServerMountDirectories {
 export interface ILoggerSettings {
   /**
    * Enable debug mode. By default debug is false.
-   * @deprecated
    */
   debug?: boolean;
   /**

@@ -1,181 +1,182 @@
-import {inject} from "@tsed/testing";
-import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
-import {SendResponseMiddleware} from "../../../src/mvc";
+import {inject} from "../../../../testing/src";
+import {ConverterService} from "../../../src/converters";
+import {EndpointMetadata, SendResponseMiddleware} from "../../../src/mvc";
 
 describe("SendResponseMiddleware", () => {
-  before(
-    inject([SendResponseMiddleware], (middleware: SendResponseMiddleware) => {
-      this.middleware = middleware;
-      this.serializeStub = Sinon.stub(this.middleware.converterService as any, "serialize");
-    })
-  );
+  class TestCtrl {
+    get() {
+    }
+  }
 
-  describe("with boolean value", () => {
-    before(() => {
-      this.fakeResponse = new FakeResponse();
+  describe("when value is undefined", () => {
+    it("should send empty response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = undefined;
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-      this.middleware.use(true, this.fakeResponse as any, {});
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    after(() => {
-      this.serializeStub.reset();
-    });
-
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.not.have.been.called;
-    });
-
-    it("should return a string of the value", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal("true");
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly();
+    }));
   });
 
-  describe("with number value", () => {
-    before(() => {
-      this.fakeResponse = new FakeResponse();
-      this.middleware.use(1, this.fakeResponse as any, {});
-    });
+  describe("when value is null", () => {
+    it("should send empty response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = null;
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.not.have.been.called;
-    });
-
-    it("should return a string of the value", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal("1");
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly(null);
+    }));
   });
 
-  describe("with null value", () => {
-    before(() => {
-      this.fakeResponse = new FakeResponse();
-      this.middleware.use(null, this.fakeResponse as any, {});
-    });
+  describe("when value is false", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = false;
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.not.have.been.called;
-    });
-
-    it("should return a string of the value", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal("null");
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly(false);
+    }));
   });
 
-  describe("with undefined value", () => {
-    before(() => {
-      this.fakeResponse = new FakeResponse();
-      this.middleware.use(undefined, this.fakeResponse as any, {});
-    });
+  describe("when value is true", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = true;
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.not.have.been.called;
-    });
-
-    it("should send nothing", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal("");
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly(true);
+    }));
   });
 
-  describe("with undefined value and 204 statusCode", () => {
-    before(() => {
-      this.fakeResponse = new FakeResponse();
-      Sinon.stub(this.fakeResponse, "send");
-      this.middleware.use(undefined, this.fakeResponse as any, {statusCode: 204});
-    });
+  describe("when value is an empty string", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = "";
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.not.have.been.called;
-    });
-
-    it("should return a string of the value", () => {
-      return this.fakeResponse.send.should.have.been.called;
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly("");
+    }));
   });
 
-  describe("with date value", () => {
-    before(() => {
-      this.date = new Date();
-      this.serializeStub.returns("dataSerialized");
-      this.fakeResponse = new FakeResponse();
-      this.middleware.use(this.date, this.fakeResponse as any, {});
-    });
+  describe("when value is string", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = "test";
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.have.been.calledWithExactly(this.date);
-    });
-
-    it("should return a string of the value", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal(JSON.stringify("dataSerialized"));
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly("test");
+    }));
   });
 
-  describe("with object value", () => {
-    before(() => {
-      this.data = {data: "data"};
-      this.serializeStub.returns("dataSerialized");
-      this.fakeResponse = new FakeResponse();
-      this.middleware.use(this.data, this.fakeResponse as any, {});
-    });
+  describe("when value is a number", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = 1;
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.have.been.calledWithExactly(this.data);
-    });
-
-    it("should send nothing", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal(JSON.stringify("dataSerialized"));
-    });
+      // THEN
+      result.should.eq(response);
+      response.send.should.have.been.calledWithExactly(1);
+    }));
   });
 
-  describe("with model value", () => {
-    before(() => {
-      this.data = {data: "data"};
-      this.serializeStub.returns("dataSerialized");
-      this.fakeResponse = new FakeResponse();
-      this.middleware.use(this.data, this.fakeResponse as any, {});
-    });
+  describe("when value is an object", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = {data: "data"};
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
-    after(() => {
-      this.serializeStub.reset();
-    });
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
 
-    it("should not call serialize method", () => {
-      return this.serializeStub.should.have.been.calledWithExactly(this.data);
-    });
+      // THEN
+      result.should.eq(response);
+      response.json.should.have.been.calledWithExactly(data);
+    }));
+  });
 
-    it("should send nothing", () => {
-      expect(this.fakeResponse._body).to.be.a("string");
-      expect(this.fakeResponse._body).to.equal(JSON.stringify("dataSerialized"));
-    });
+  describe("when value is an array", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = [{data: "data"}];
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
+
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
+
+      // THEN
+      result.should.eq(response);
+      response.json.should.have.been.calledWithExactly(data);
+    }));
+  });
+
+  describe("when value is a date", () => {
+    it("should send response", inject([ConverterService], (converter: ConverterService) => {
+      // GIVEN
+      const middleware = new SendResponseMiddleware(converter);
+      const data = new Date("2019-01-01");
+      const response = new FakeResponse(Sinon);
+      const endpoint = new EndpointMetadata(TestCtrl, "get");
+
+      // WHEN
+      const result = middleware.use(data, response as any, endpoint);
+
+      // THEN
+      result.should.eq(response);
+      response.json.should.have.been.calledWithExactly("2019-01-01T00:00:00.000Z");
+    }));
   });
 });

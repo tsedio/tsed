@@ -4,14 +4,9 @@ import {ServerSettingsService} from "../../config";
 import {Err} from "../../filters/decorators/error";
 import {Request} from "../../filters/decorators/request";
 import {Response} from "../../filters/decorators/response";
-import {MiddlewareError} from "../decorators/class/middlewareError";
-import {IMiddlewareError} from "../interfaces";
-import {IResponseError} from "../interfaces/IResponseError";
+import {IMiddlewareError, IResponseError, Middleware} from "../../mvc";
 
-/**
- * @middleware
- */
-@MiddlewareError()
+@Middleware()
 export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
   private headerName: string;
 
@@ -70,15 +65,17 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
   setHeaders(response: Express.Response, ...args: IResponseError[]) {
     let hErrors: any = [];
 
-    args.filter(o => !!o).forEach(({headers, errors}: IResponseError) => {
-      if (headers) {
-        response.set(headers);
-      }
+    args
+      .filter(o => !!o)
+      .forEach(({headers, errors}: IResponseError) => {
+        if (headers) {
+          response.set(headers);
+        }
 
-      if (errors) {
-        hErrors = hErrors.concat(errors);
-      }
-    });
+        if (errors) {
+          hErrors = hErrors.concat(errors);
+        }
+      });
 
     if (hErrors.length) {
       response.set(this.headerName, JSON.stringify(hErrors));

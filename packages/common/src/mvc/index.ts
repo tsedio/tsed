@@ -14,7 +14,8 @@ export * from "./class/HandlerBuilder";
 export * from "./class/ControllerProvider";
 export * from "./class/EndpointMetadata";
 export * from "./class/HandlerMetadata";
-export * from "./class/HandlerMetadata";
+export * from "./class/Context";
+export * from "./class/RequestLogger";
 
 // registries
 export * from "./registries/ControllerRegistry";
@@ -24,9 +25,6 @@ export * from "./registries/MiddlewareRegistry";
 // middlewares
 export * from "./components/AuthenticatedMiddleware";
 export * from "./components/AcceptMimesMiddleware";
-export * from "./components/GlobalAcceptMimesMiddleware";
-export * from "./components/GlobalErrorHandlerMiddleware";
-export * from "./components/LogIncomingRequestMiddleware";
 export * from "./components/ResponseViewMiddleware";
 export * from "./components/SendResponseMiddleware";
 
@@ -37,7 +35,6 @@ export * from "./services/RouteService";
 
 // errors
 export * from "./errors/CyclicReferenceError";
-export * from "./errors/ParseExpressionError";
 export * from "./errors/TemplateRenderingError";
 export * from "./errors/UnknowControllerError";
 export * from "./errors/UnknowMiddlewareError";

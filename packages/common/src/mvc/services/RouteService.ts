@@ -1,8 +1,6 @@
-import {nameOf} from "@tsed/core";
 import {Constant, InjectorService, Service} from "@tsed/di";
 import {$log} from "ts-log-debug";
 import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
-import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {AfterRoutesInit} from "../../server/interfaces/AfterRoutesInit";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {EndpointMetadata} from "../class/EndpointMetadata";
@@ -21,7 +19,7 @@ export class RouteService implements AfterRoutesInit {
 
   private readonly _routes: {route: string; provider: any}[] = [];
 
-  constructor(private injectorService: InjectorService) {}
+  constructor(private injector: InjectorService) {}
 
   /**
    *
@@ -36,8 +34,8 @@ export class RouteService implements AfterRoutesInit {
    */
   $afterRoutesInit() {
     if (!this.disableRoutesSummary) {
-      $log.info("Routes mounted :");
-      this.printRoutes($log);
+      this.injector.logger.info("Routes mounted :");
+      this.printRoutes();
     }
   }
 
@@ -67,7 +65,7 @@ export class RouteService implements AfterRoutesInit {
   /**
    * Print all route mounted in express via Annotation.
    */
-  public printRoutes(logger: {info: (s: any) => void} = $log): void {
+  public printRoutes(): void {
     const mapColor: {[key: string]: string} = {
       GET: "green",
       POST: "yellow",
@@ -99,7 +97,7 @@ export class RouteService implements AfterRoutesInit {
       }
     });
 
-    logger.info("\n" + str.trim());
+    this.injector.logger.info("\n" + str.trim());
   }
 
   /**
@@ -117,26 +115,22 @@ export class RouteService implements AfterRoutesInit {
    * @param endpointUrl
    */
   private buildRoutes(routes: any[], ctrl: ControllerProvider, endpointUrl: string) {
-    // console.log("Build routes =>", ctrl.className, endpointUrl);
-
     ctrl.dependencies
-      .map(ctrl => this.injectorService.getProvider(ctrl))
+      .map(ctrl => this.injector.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => this.buildRoutes(routes, provider, `${endpointUrl}${provider.path}`));
 
     ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      endpoint.pathsMethods.forEach(({path, method}) => {
-        if (!!method) {
-          const className = nameOf(ctrl.provide),
-            methodClassName = endpoint.methodClassName,
-            parameters = ParamRegistry.getParams(ctrl.provide, endpoint.methodClassName);
+      const {pathsMethods, params, targetName, methodClassName} = endpoint;
 
+      pathsMethods.forEach(({path, method}) => {
+        if (!!method) {
           routes.push({
             method,
-            name: `${className}.${methodClassName}()`,
+            name: `${targetName}.${methodClassName}()`,
             url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
-            className,
+            className: targetName,
             methodClassName,
-            parameters
+            parameters: params
           });
         }
       });

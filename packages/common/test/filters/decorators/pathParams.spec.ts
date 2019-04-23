@@ -1,6 +1,5 @@
-import {ParamTypes} from "@tsed/common";
 import * as Sinon from "sinon";
-import {ParamRegistry, PathParams} from "../../../src/filters";
+import {ParamRegistry, PathParams,ParamTypes} from "../../../src/filters";
 import {PathParamsFilter} from "../../../src/filters/components/PathParamsFilter";
 
 class Test {

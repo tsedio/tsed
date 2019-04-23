@@ -1,10 +1,9 @@
 import {BadRequest} from "ts-httpexceptions";
-import {IResponseError} from "../interfaces/IResponseError";
 
 /**
  * @private
  */
-export class ParseExpressionError extends BadRequest implements IResponseError {
+export class ParseExpressionError extends BadRequest {
   dataPath: string;
   requestType: string;
   errorMessage: string;

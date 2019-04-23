@@ -1,5 +1,7 @@
-import {ExpressApplication, ServerSettingsService, Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 import * as Express from "express";
+import {ExpressApplication} from "../../mvc";
+import {ServerSettingsService} from "../../config";
 
 @Service()
 export class ServeStaticService {

@@ -1,9 +1,35 @@
 export class FakeResponse {
+  [key: string]: any;
+
   _status: number = 200;
   _location: string;
   _json: any;
   _body: any = "";
   _headers: string = "";
+
+  constructor(sandbox?: any) {
+    if (sandbox) {
+      sandbox.stub(this, "send").returns(this);
+      sandbox.stub(this, "set").returns(this);
+      sandbox.stub(this, "type").returns(this);
+      sandbox.stub(this, "redirect").returns(this);
+      sandbox.stub(this, "status").returns(this);
+      sandbox.stub(this, "location").returns(this);
+      sandbox.stub(this, "pipe").returns(this);
+      sandbox.stub(this, "on").returns(this);
+      sandbox.stub(this, "write").returns(this);
+      sandbox.stub(this, "once").returns(this);
+      sandbox.stub(this, "emit").returns(this);
+      sandbox.stub(this, "json").callsFake((o: any) => {
+        this.send(JSON.stringify(o));
+
+        return this;
+      });
+      sandbox.stub(this, "setHeader").returns(this);
+      sandbox.stub(this, "get");
+      sandbox.stub(this, "end");
+    }
+  }
 
   public set() {
     return this;
@@ -17,12 +43,33 @@ export class FakeResponse {
     return this;
   }
 
+  public pipe() {
+    return this;
+  }
+
+  public on() {
+    return this;
+  }
+
+  public once() {
+    return this;
+  }
+
+  public write() {
+    return this;
+  }
+
+  public emit() {
+    return this;
+  }
+
   /**
    *
    * @param value
    * @returns {FakeResponse}
    */
   public status(value: number) {
+    this.statusCode = value;
     this._status = value;
 
     return this;
@@ -36,20 +83,10 @@ export class FakeResponse {
     this._body = viewPath + data;
   }
 
-  /**
-   *
-   * @param value
-   * @returns {FakeResponse}
-   */
   public location() {
     return this;
   }
 
-  /**
-   *
-   * @param value
-   * @returns {FakeResponse}
-   */
   public json(value: any) {
     this._json = value;
     this._body = JSON.stringify(value);
@@ -72,5 +109,7 @@ export class FakeResponse {
   public get(key: string) {
     return (this as any)["_" + key];
   }
-  end() {}
+
+  end() {
+  }
 }

@@ -6,6 +6,7 @@ module.exports = {
   themeConfig: {
     version: require("../../package").version,
     repo: "TypedProject/ts-express-decorators",
+    openCollective: 'tsed',
     gitterUrl: "https://gitter.im/Tsed-io/community",
     editLinks: true,
     docsDir: "docs",

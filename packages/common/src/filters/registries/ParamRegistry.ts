@@ -1,6 +1,6 @@
 import {Metadata, Type} from "@tsed/core";
 import {ParamMetadata} from "../class/ParamMetadata";
-import {EXPRESS_NEXT_FN, PARAM_METADATA} from "../constants";
+import {PARAM_METADATA} from "../constants";
 import {IInjectableParamSettings} from "../interfaces";
 import {IParamArgs} from "../interfaces/Arguments";
 
@@ -43,13 +43,6 @@ export class ParamRegistry {
 
     Metadata.set(PARAM_METADATA, params, target, targetKey);
   }
-
-  /**
-   *
-   * @param target
-   * @param method
-   */
-  static isInjectable = (target: any, method: string): boolean => (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
 
   /**
    *
@@ -154,12 +147,4 @@ export class ParamRegistry {
 
     return param;
   }
-
-  /**
-   *
-   * @param target
-   * @param propertyKey
-   */
-  static hasNextFunction = (target: Type<any>, propertyKey: string) =>
-    ParamRegistry.getParams(target, propertyKey).findIndex(p => p.service === EXPRESS_NEXT_FN) > -1;
 }

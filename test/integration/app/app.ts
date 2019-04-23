@@ -13,7 +13,7 @@ import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
 
 import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
-import "./middlewares/authentication";
+import "./middlewares/CustomAuthMiddleware";
 import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
 import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 
@@ -25,7 +25,8 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   port: 8001,
   httpsPort: false,
   logger: {
-    level: "info"
+    level: "debug",
+    logRequest: true
   },
   mount: {
     "/": [SocketPageCtrl],

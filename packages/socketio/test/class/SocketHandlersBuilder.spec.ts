@@ -737,52 +737,48 @@ describe("SocketHandlersBuilder", () => {
 
       before(
         inject([InjectorService], (injector: InjectorService) => {
-          this.instance = new Test();
-          this.provider = {
-            store: {
-              get: Sinon.stub()
-            }
-          };
-
-          Store.from(Test).set("socketIO", {
-            handlers: {
-              use: "use"
-            }
-          });
-
-          this.getStub = Sinon.stub(injector as any, "getProvider").returns({
-            instance: this.instance,
-            type: ProviderType.MIDDLEWARE,
-            store: {
-              get() {
-                return MiddlewareType.MIDDLEWARE;
-              }
-            }
-          });
-
-          this.scope = {scope: "scope"};
-
-          this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
-          this.invokeStub = Sinon.stub(this.builder, "invoke").returns({result: "result"});
-
-          return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
+          Sinon.stub(injector as any, "getProvider");
         })
       );
-      after(() => {
-        this.getStub.restore();
-      });
+      after(inject([InjectorService], (injector: InjectorService) => {
+        // @ts-ignore
+        injector.getProvider.restore();
+      }));
 
-      it("should call ProviderRegistry.get", () => {
-        this.getStub.should.have.been.calledWithExactly({target: "target"});
-      });
+      it("should call build handler from metadata", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        const instance = new Test();
+        const provider = {
+          store: {
+            get: Sinon.stub()
+          }
+        };
 
-      it("should invoke method", () => {
-        this.invokeStub.should.have.been.calledWithExactly(this.instance, "use", this.scope);
-      });
+        Store.from(Test).set("socketIO", {
+          type: ProviderType.MIDDLEWARE,
+          handlers: {
+            use: "use"
+          }
+        });
 
-      it("should store args", () => {
-        expect(this.scope.args).to.deep.eq([{result: "result"}]);
-      });
+        // @ts-ignore
+        injector.getProvider.returns({
+          instance,
+          type: ProviderType.MIDDLEWARE
+        });
+
+        const scope = {scope: "scope", args: undefined};
+        const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
+        Sinon.stub(builder, "invoke").returns({result: "result"});
+
+        // WHEN
+        await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
+
+        // THEN
+        injector.getProvider.should.have.been.calledWithExactly({target: "target"});
+        builder.invoke.should.have.been.calledWithExactly(instance, "use", scope);
+        expect(scope.args).to.deep.eq([{result: "result"}]);
+      }));
     });
 
     describe("middleware error", () => {
@@ -791,49 +787,49 @@ describe("SocketHandlersBuilder", () => {
 
       before(
         inject([InjectorService], (injector: InjectorService) => {
-          this.instance = new Test();
-          this.provider = {
-            store: {
-              get: Sinon.stub()
-            }
-          };
-
-          Store.from(Test).set("socketIO", {
-            handlers: {
-              use: "use"
-            }
-          });
-
-          this.getStub = Sinon.stub(injector as any, "getProvider").returns({
-            instance: this.instance,
-            type: ProviderType.MIDDLEWARE,
-            store: {
-              get() {
-                return MiddlewareType.ERROR;
-              }
-            }
-          });
-
-          this.scope = {scope: "scope"};
-          this.error = new Error("test");
-
-          this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
-          this.invokeStub = Sinon.stub(this.builder, "invoke").resolves();
-
-          return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.reject(this.error));
+          Sinon.stub(injector as any, "getProvider");
         })
       );
-      after(() => {
-        this.getStub.restore();
-      });
+      after(inject([InjectorService], (injector: InjectorService) => {
+        // @ts-ignore
+        injector.getProvider.restore();
+      }));
 
-      it("should call ProviderRegistry.get", () => {
-        this.getStub.should.have.been.calledWithExactly({target: "target"});
-      });
+      it("should call build handler from metadata", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        const instance = new Test();
+        const provider = {
+          store: {
+            get: Sinon.stub()
+          }
+        };
 
-      it("should invoke method", () => {
-        this.invokeStub.should.have.been.calledWithExactly(this.instance, "use", {error: this.error, ...this.scope});
-      });
+        Store.from(Test).set("socketIO", {
+          type: ProviderType.MIDDLEWARE,
+          error: true,
+          handlers: {
+            use: "use"
+          }
+        });
+
+        // @ts-ignore
+        injector.getProvider.returns({
+          instance,
+          type: ProviderType.MIDDLEWARE
+        });
+
+        const scope = {scope: "scope", args: undefined};
+        const error = new Error("test");
+        const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
+        Sinon.stub(builder, "invoke").returns({result: "result"});
+
+        // WHEN
+        await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
+
+        // THEN
+        injector.getProvider.should.have.been.calledWithExactly({target: "target"});
+        builder.invoke.should.have.been.calledWithExactly(instance, "use", {error, ...scope});
+      }));
     });
   });
 

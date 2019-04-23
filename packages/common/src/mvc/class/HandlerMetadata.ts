@@ -1,116 +1,74 @@
-import {NotEnumerable, Store} from "@tsed/core";
-import {ProviderType, ProviderRegistry} from "@tsed/di";
+import {Metadata, Type} from "@tsed/core";
 import {ParamMetadata} from "../../filters/class/ParamMetadata";
-import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE} from "../../filters/constants";
+import {ENDPOINT_INFO, EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE, PARAM_METADATA} from "../../filters/constants";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
-import {MiddlewareType} from "../interfaces";
+import {HandlerType} from "../interfaces/HandlerType";
+
+export interface IHandlerOptions {
+  target: Type<any> | Function;
+  token?: Type<any>;
+  method?: string;
+  type?: HandlerType;
+}
 
 export class HandlerMetadata {
-  /**
-   *
-   */
-  @NotEnumerable()
-  private _type: "function" | "middleware" | "controller" = "function";
-  /**
-   *
-   * @type {boolean}
-   * @private
-   */
-  @NotEnumerable()
-  private _errorParam: boolean = false;
-  /**
-   *
-   */
-  @NotEnumerable()
-  private _injectable: boolean = false;
-  /**
-   *
-   */
-  @NotEnumerable()
-  private _nextFunction: boolean;
-  /**
-   *
-   */
-  @NotEnumerable()
-  private _useClass: any;
+  readonly target: any;
+  readonly token: Type<any>;
+  readonly methodClassName: string;
+  readonly method: string;
+  readonly injectable: boolean = false;
+  readonly type: HandlerType = HandlerType.FUNCTION;
+  readonly hasErrorParam: boolean = false;
+  readonly hasNextFunction: boolean = false;
+  readonly hasEndpointInfo: boolean = false;
+  handler: any;
 
-  constructor(private _target: any, private _methodClassName?: string) {
-    this.resolve();
-  }
+  constructor(options: IHandlerOptions) {
+    const {target, token, method, type = HandlerType.FUNCTION} = options;
 
-  /**
-   *
-   */
-  private resolve() {
-    this._useClass = this._target;
+    this.type = type;
+    this.handler = method ? target.prototype[method] : target;
 
-    let handler = this._target;
-    let target = this._target;
-
-    if (ProviderRegistry.has(this._target)) {
-      const provider = ProviderRegistry.get(this._target)!;
-      this._type = provider.type;
-
-      if (provider.type === ProviderType.MIDDLEWARE) {
-        this._type = "middleware";
-        this._errorParam = Store.from(provider.provide).get("middlewareType") === MiddlewareType.ERROR;
-        this._methodClassName = "use";
-        this._useClass = target = provider.useClass;
-      }
+    if (method) {
+      this.target = target;
+      this.token = token!;
+      this.methodClassName = method;
+      this.method = method;
+      this.hasNextFunction = this.hasParamType(EXPRESS_NEXT_FN);
+      this.hasEndpointInfo = this.hasParamType(ENDPOINT_INFO);
+      this.hasErrorParam = this.hasParamType(EXPRESS_ERR);
+      this.injectable = (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
     }
 
-    if (this._methodClassName) {
-      this._injectable = ParamRegistry.isInjectable(target, this._methodClassName);
-      this._nextFunction = ParamRegistry.hasNextFunction(target, this._methodClassName);
-
-      handler = target.prototype[this._methodClassName];
+    if (!this.injectable) {
+      this.hasErrorParam = this.handler.length === 4;
+      this.hasNextFunction = this.handler.length >= 3;
     }
-
-    if (!this._injectable) {
-      this._errorParam = handler.length === 4;
-      this._nextFunction = handler.length >= 3;
-    }
-  }
-
-  get type() {
-    return this._type;
-  }
-
-  get errorParam(): boolean {
-    return this._errorParam;
-  }
-
-  get injectable(): boolean {
-    return this._injectable;
-  }
-
-  get nextFunction(): boolean {
-    return this._nextFunction;
-  }
-
-  get methodClassName(): string | undefined {
-    return this._methodClassName;
-  }
-
-  get target(): any {
-    return this._target;
   }
 
   get services(): ParamMetadata[] {
     if (this.injectable) {
-      return ParamRegistry.getParams(this._useClass, this.methodClassName);
+      return this.getParams();
     }
 
     const parameters: any[] = [{service: EXPRESS_REQUEST}, {service: EXPRESS_RESPONSE}];
 
-    if (this.errorParam) {
+    if (this.hasErrorParam) {
       parameters.unshift({service: EXPRESS_ERR});
     }
 
-    if (this.nextFunction) {
+    if (this.hasNextFunction) {
       parameters.push({service: EXPRESS_NEXT_FN});
     }
 
     return parameters;
+  }
+
+  public getParams() {
+    return ParamRegistry.getParams(this.target, this.methodClassName) || [];
+  }
+
+  public hasParamType(paramType: any): boolean {
+    return this.getParams().findIndex(p => p.service === paramType) > -1;
   }
 }

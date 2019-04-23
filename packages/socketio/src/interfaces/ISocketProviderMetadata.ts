@@ -13,6 +13,7 @@ export enum SocketProviderTypes {
  */
 export interface ISocketProviderMetadata {
   type: SocketProviderTypes;
+  error?: boolean;
   namespace?: string;
   injectNamespaces?: {propertyKey: string; nsp: string}[];
   useBefore?: any[];

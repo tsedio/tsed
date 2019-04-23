@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {ConverterService} from "../../converters/services/ConverterService";
-import {ParseExpressionError} from "../../mvc";
+import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
 import {IFilter} from "../interfaces";
@@ -13,6 +13,17 @@ import {ParamMetadata} from "./ParamMetadata";
 
 export class FilterBuilder {
   constructor(private injector: InjectorService) {}
+
+  /**
+   *
+   * @param {Function} filter
+   * @param {Function} newFilter
+   * @param args
+   * @returns {(value: any) => any}
+   */
+  private static pipe(filter: Function, newFilter: Function, ...args: any[]): Function {
+    return (value: any) => newFilter(filter(value), ...args);
+  }
 
   /**
    *
@@ -136,16 +147,5 @@ export class FilterBuilder {
         return value;
       }
     );
-  }
-
-  /**
-   *
-   * @param {Function} filter
-   * @param {Function} newFilter
-   * @param args
-   * @returns {(value: any) => any}
-   */
-  private static pipe(filter: Function, newFilter: Function, ...args: any[]): Function {
-    return (value: any) => newFilter(filter(value), ...args);
   }
 }

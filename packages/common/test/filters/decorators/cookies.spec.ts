@@ -1,6 +1,5 @@
-import {ParamTypes} from "@tsed/common";
 import * as Sinon from "sinon";
-import {Cookies, ParamRegistry} from "../../../src/filters";
+import {Cookies, ParamRegistry, ParamTypes} from "../../../src/filters";
 import {CookiesFilter} from "../../../src/filters/components/CookiesFilter";
 
 class Test {

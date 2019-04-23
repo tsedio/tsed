@@ -1,5 +1,10 @@
 export * from "./interfaces";
 export * from "./class/ParamMetadata";
+export * from "./class/FilterBuilder";
+
+export * from "./errors/ParseExpressionError";
+export * from "./errors/RequiredParamError";
+export * from "./errors/UnknowFilterError";
 
 export * from "./decorators/bodyParams";
 export * from "./decorators/cookies";

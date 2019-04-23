@@ -1,9 +1,14 @@
-import {InjectorService, GlobalProviders, ProviderType} from "@tsed/di";
+import {GlobalProviders, InjectorService, ProviderType} from "@tsed/di";
+import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+
+$log.name = "TSED";
+$log.level = "info";
 
 export function createInjector(settings: any) {
   const injector = new InjectorService();
   injector.settings = createSettingsService(injector);
+  injector.logger = $log;
   injector.scopes = {
     ...(settings.scopes || {}),
     [ProviderType.CONTROLLER]: settings.controllerScope

@@ -1,6 +1,5 @@
-import {ParamTypes} from "@tsed/common";
 import * as Sinon from "sinon";
-import {BodyParams, ParamRegistry} from "../../../src/filters";
+import {BodyParams, ParamRegistry, ParamTypes} from "../../../src/filters";
 import {BodyParamsFilter} from "../../../src/filters/components/BodyParamsFilter";
 
 class Test {

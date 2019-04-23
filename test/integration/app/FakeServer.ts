@@ -2,9 +2,7 @@ import "@tsed/ajv";
 import "@tsed/graphql";
 import "@tsed/swagger";
 import * as Express from "express";
-import {GlobalAcceptMimesMiddleware} from "../../../packages/common/src/mvc/components/GlobalAcceptMimesMiddleware";
-import {ServerLoader} from "../../../packages/common/src/server/components/ServerLoader";
-import {ServerSettings} from "../../../packages/common/src/server/decorators/serverSettings";
+import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "../../../packages/common/src/server";
 import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
 import {EmptyCtrl} from "./controllers/calendars/EmptyCtrl";
 import {EventCtrl} from "./controllers/calendars/EventCtrl";
@@ -15,7 +13,7 @@ import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
 import {RestCtrl} from "./controllers/RestCtrl";
 import {UserCtrl} from "./controllers/users/UserCtrl";
-import "./middlewares/authentication";
+import "./middlewares/CustomAuthMiddleware";
 
 const rootDir = __dirname;
 

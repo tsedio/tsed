@@ -18,6 +18,7 @@ describe("ServerSettingsService", () => {
       settings.statics = {"/": "/publics"};
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
+      settings.debug = true;
 
       this.settings = settings;
     });

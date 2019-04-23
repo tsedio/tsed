@@ -9,7 +9,7 @@
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run",
     "clean": "gulp clean:workspace",
-    "start": "ts-node -r tsconfig-paths/register -r source-map-support/register test/integration/app/app.ts",
+    "start": "ts-node -c tsconfig.json -r tsconfig-paths/register test/integration/app/app.ts",
     "test": "npm run clean && npm run test:lint && npm run test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
@@ -65,8 +65,9 @@
     "@types/json-schema": "^7.0.0",
     "globby": "^9.0.0",
     "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.4.0",
     "ts-httpexceptions": "^4.0.0",
-    "ts-log-debug": "^5.0.1"
+    "ts-log-debug": "^5.1.0"
   },
   "devDependencies": {
     "@typedproject/ts-doc": "^4.0.1",
@@ -141,7 +142,7 @@
     "typescript": "^3.0.1",
     "vue-analytics": "^5.14.0",
     "vuepress": "^0.14.2",
-    "vuepress-theme-tsed": "^1.5.2"
+    "vuepress-theme-tsed": "^1.7.0"
   },
   "directories": {
     "packages": "packages",

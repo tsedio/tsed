@@ -255,7 +255,7 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
    * @returns {boolean}
    */
   get debug(): boolean {
-    return !!this.logger.debug;
+    return this.logger.level === "info";
   }
 
   /**
@@ -263,7 +263,7 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
    * @param {boolean} debug
    */
   set debug(debug: boolean) {
-    this.logger = {...this.logger, debug, level: "debug"};
+    this.logger = {...this.logger, level: debug ? "debug" : "info"};
   }
 
   /**
@@ -301,26 +301,24 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
   }
 
   get logger(): Partial<ILoggerSettings> {
-    const requestFields = this.get("logRequestFields");
-
-    return Object.assign(
-      {
-        requestFields
-      },
-      this.map.get("logger")
-    );
+    return this.map.get("logger") || {};
   }
 
   set logger(value: Partial<ILoggerSettings>) {
-    this.map.set("logger", value);
+    const requestFields = this.get("logRequestFields");
+    const logger = {requestFields, ...this.logger, ...value};
+    logger.debug = logger.level === "debug";
 
-    if (value.format) {
+    this.map.set("logger", logger);
+    this.map.set("debug", logger.debug);
+
+    if (logger.format) {
       $log.appenders.set("stdout", {
         type: "stdout",
         levels: ["info", "debug"],
         layout: {
           type: "pattern",
-          pattern: value.format
+          pattern: logger.format
         }
       });
 
@@ -329,7 +327,7 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
         type: "stderr",
         layout: {
           type: "pattern",
-          pattern: value.format
+          pattern: logger.format
         }
       });
     }

@@ -1,15 +1,6 @@
-/**
- * @module common/mvc
- */
-/** */
-
 import {BadRequest} from "ts-httpexceptions";
-import {IResponseError} from "../../mvc/interfaces/IResponseError";
 
-/**
- * @private
- */
-export class RequiredParamError extends BadRequest implements IResponseError {
+export class RequiredParamError extends BadRequest {
   errors: any[];
 
   constructor(name: string, expression: string | RegExp) {

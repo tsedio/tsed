@@ -1,6 +1,5 @@
-import {applyBefore, nameOf} from "@tsed/core";
+import {nameOf} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
 
@@ -8,15 +7,40 @@ import {HandlerBuilder} from "./HandlerBuilder";
  *
  */
 export class EndpointBuilder {
-  constructor(private endpoint: EndpointMetadata, private router: any) {}
+  constructor(private endpoint: EndpointMetadata) {}
+
+  /**
+   *
+   * @returns {any[]}
+   * @param injector
+   */
+  build(injector: InjectorService) {
+    const {endpoint} = this;
+    const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
+
+    let middlewares: any = []
+      .concat(beforeMiddlewares as any)
+      .concat(mldwrs as any)
+      .concat(endpoint as any)
+      .concat(afterMiddlewares as any)
+      .filter((item: any) => !!item)
+      .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));
+
+    middlewares = [this.bindRequest(endpoint, injector)].concat(middlewares);
+
+    this.routeMiddlewares(middlewares, injector);
+
+    return middlewares;
+  }
 
   /**
    *
    */
-  private bindRequest(endpoint: EndpointMetadata, debug: boolean) {
+  private bindRequest(endpoint: EndpointMetadata, injector: InjectorService) {
     return (request: any, response: any, next: any) => {
+      const debug = injector.settings.debug;
       /* istanbul ignore else */
-      if (request.id && debug) {
+      if (debug) {
         request.log.debug({
           event: "bind.request",
           target: nameOf(endpoint.target),
@@ -25,80 +49,32 @@ export class EndpointBuilder {
         });
       }
 
-      request.createContainer();
-      request.setEndpoint(endpoint);
-
-      applyBefore(response, "end", () => this.unbindRequest(endpoint, debug, request));
+      request.ctx.endpoint = endpoint;
 
       next();
     };
   }
 
-  private unbindRequest(endpoint: EndpointMetadata, debug: boolean, request: any) {
-    /* istanbul ignore next */
-    if (request.id && debug) {
-      request.log.debug({
-        event: "unbind.request",
-        target: nameOf(endpoint.target),
-        methodClass: endpoint.methodClassName,
-        httpMethod: request.method
-      });
-    }
-
-    try {
-      request.destroyContainer();
-      request.destroyEndpoint();
-    } catch (error) {
-      request.log.error({
-        error: {
-          message: "Unable to clean request. " + error.message,
-          stack: error.stack
-        }
-      });
-    }
-  }
-
   /**
    *
    * @param middlewares
+   * @param injector
    */
-  private routeMiddlewares(middlewares: any[]) {
-    this.endpoint.pathsMethods.forEach(({path, method}) => {
-      if (!!method && this.router[method]) {
-        this.router[method](path, ...middlewares);
+  private routeMiddlewares(middlewares: any[], injector: InjectorService) {
+    const {pathsMethods, target} = this.endpoint;
+    const {router} = injector.getProvider(target)!;
+
+    pathsMethods.forEach(({path, method}) => {
+      if (!!method && router[method]) {
+        router[method](path, ...middlewares);
       } else {
         const args: any[] = [path].concat(middlewares);
-        this.router.use(...args);
+        router.use(...args);
       }
     });
 
-    if (!this.endpoint.pathsMethods.length) {
-      this.router.use(...middlewares);
+    if (!pathsMethods.length) {
+      router.use(...middlewares);
     }
-  }
-
-  /**
-   *
-   * @returns {any[]}
-   * @param injector
-   */
-  build(injector: InjectorService) {
-    const endpoint = this.endpoint;
-    const debug = injector.settings.debug;
-
-    let middlewares: any = []
-      .concat(endpoint.beforeMiddlewares as any)
-      .concat(endpoint.middlewares as any)
-      .concat([endpoint] as any)
-      .concat(endpoint.afterMiddlewares as any)
-      .concat(SendResponseMiddleware as any)
-      .filter((item: any) => !!item)
-      .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));
-
-    middlewares = [this.bindRequest(endpoint, debug)].concat(middlewares);
-
-    this.routeMiddlewares(middlewares);
-
-    return middlewares;
   }
 }

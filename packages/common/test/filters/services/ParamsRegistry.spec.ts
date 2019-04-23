@@ -74,21 +74,21 @@ describe("ParamRegistry", () => {
     });
   });
 
-  describe("hasNextFunction()", () => {
-    before(() => {
-      this.getStub = Sinon.stub(Metadata, "get");
-      this.getStub.returns([{service: EXPRESS_NEXT_FN}]);
-      this.hasStub = Sinon.stub(Metadata, "has");
-      this.hasStub.returns(true);
-    });
-    after(() => {
-      this.getStub.restore();
-      this.hasStub.restore();
-    });
-    it("should return true", () => {
-      expect(ParamRegistry.hasNextFunction(Test, "test")).to.eq(true);
-    });
-  });
+  // describe("hasNextFunction()", () => {
+  //   before(() => {
+  //     this.getStub = Sinon.stub(Metadata, "get");
+  //     this.getStub.returns([{service: EXPRESS_NEXT_FN}]);
+  //     this.hasStub = Sinon.stub(Metadata, "has");
+  //     this.hasStub.returns(true);
+  //   });
+  //   after(() => {
+  //     this.getStub.restore();
+  //     this.hasStub.restore();
+  //   });
+  //   it("should return true", () => {
+  //     expect(ParamRegistry.hasNextFunction(Test, "test")).to.eq(true);
+  //   });
+  // });
 
   describe("required()", () => {
     before(() => {

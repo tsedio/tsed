@@ -1,6 +1,7 @@
+import {nameOf} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import {ExpressApplication, HandlerBuilder} from "../../mvc";
-import {InjectorService} from "@tsed/common";
 
 export function createExpressApplication(injector: InjectorService) {
   const expressApp = Express();
