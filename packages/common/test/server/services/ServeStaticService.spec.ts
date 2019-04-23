@@ -1,5 +1,4 @@
 import {ExpressApplication, ServerSettingsService} from "@tsed/common";
-import {invoke} from "@tsed/testing";
 import * as Express from "express";
 import * as Sinon from "sinon";
 import {TestContext} from "../../../../testing/src";
