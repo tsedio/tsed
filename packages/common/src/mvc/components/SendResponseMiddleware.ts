@@ -1,9 +1,9 @@
+import {isBoolean, isNumber, isString} from "@tsed/core";
 import * as Express from "express";
 import {ConverterService} from "../../converters/services/ConverterService";
 import {EndpointInfo} from "../../filters";
 import {Response} from "../../filters/decorators/response";
 import {ResponseData} from "../../filters/decorators/responseData";
-import {EndpointMetadata} from "../class/EndpointMetadata";
 import {Middleware} from "../decorators/class/middleware";
 import {IMiddleware} from "../interfaces/index";
 
@@ -11,25 +11,21 @@ import {IMiddleware} from "../interfaces/index";
 export class SendResponseMiddleware implements IMiddleware {
   constructor(protected converterService: ConverterService) {}
 
-  public use(@ResponseData() data: any, @Response() response: Express.Response, @EndpointInfo() endpoint: EndpointMetadata) {
-    const type = typeof data;
-
-    if (endpoint.statusCode === 204) {
-      response.send();
-
-      return;
-    }
-
+  /**
+   * Send response
+   * @param data
+   * @param response
+   * @param endpoint Do not remove endpoint parameters. It tell HandlerBuilder to run this middleware only when the previous called middlewares are an endpoint.
+   */
+  public use(@ResponseData() data: any, @Response() response: Express.Response, @EndpointInfo() endpoint: EndpointInfo) {
     if (data === undefined) {
-      return;
+      return response.send();
     }
 
-    if (data === null || ["number", "boolean", "string"].indexOf(type) > -1) {
-      response.send(data && String(data));
-
-      return;
+    if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
+      return response.send(data);
     }
 
-    response.json(this.converterService.serialize(data));
+    return response.json(this.converterService.serialize(data));
   }
 }
