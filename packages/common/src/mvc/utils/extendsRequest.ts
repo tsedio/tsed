@@ -1,7 +1,7 @@
 const express = require("express");
 
 /**
- *
+ * @deprecated Will be removed
  * @param {string | any} obj
  * @param {Function} value
  */
@@ -18,66 +18,42 @@ export function extendsRequest(obj: string | any, value?: Function | any) {
 if (!express.request.setEndpoint) {
   extendsRequest({
     /**
-     *
+     * @deprecated Now context is initialised when request is received
      */
-    createContainer() {
-      this._container = new Map();
-    },
+    // istanbul ignore next
+    createContainer() {},
     /**
-     *
+     * @deprecated  Use request.ctx.container
      */
+    // istanbul ignore next
     getContainer() {
-      return this._container;
+      return this.ctx.container;
     },
     /**
-     *
-     */
-    destroyContainer() {
-      this._container.forEach((instance: any) => {
-        /* istanbul ignore next */
-        if (instance.$onDestroy) {
-          instance.$onDestroy();
-        }
-      });
-
-      delete this._container;
-    },
-    /**
-     *
-     * @param endpoint
-     */
-    setEndpoint(endpoint: any) {
-      this._endpoint = endpoint;
-    },
-    /**
-     *
+     * @deprecated Use request.ctx.enpoint
      * @returns {any}
      */
     getEndpoint() {
-      return this._endpoint;
+      return this.ctx.endpoint;
     },
     /**
-     *
-     */
-    destroyEndpoint() {
-      delete this._endpoint;
-    },
-    /**
-     *
+     * @deprecated Use request.ctx.data
      * @param data
      * @returns {storeData}
      */
+    // istanbul ignore next
     storeData(data: any) {
-      this._responseData = data;
+      this.ctx.data = data;
 
       return this;
     },
     /**
-     *
+     * @deprecated Use request.ctx.data
      * @returns {any}
      */
+    // istanbul ignore next
     getStoredData() {
-      return this._responseData;
+      return this.ctx.data;
     }
   });
 }

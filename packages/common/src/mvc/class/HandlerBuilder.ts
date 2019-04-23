@@ -1,21 +1,19 @@
-import {nameOf} from "@tsed/core";
+import {isFunction, isPromise, isStream, nameOf} from "@tsed/core";
+import {InjectorService, ProviderScope} from "@tsed/di";
 import * as Express from "express";
-import {ProviderScope, InjectorService} from "@tsed/di";
-import {FilterBuilder} from "../../filters/class/FilterBuilder";
-import {ParamMetadata} from "../../filters/class/ParamMetadata";
-import {IFilterPreHandler} from "../../filters/interfaces/IFilterPreHandler";
+import {isObservable} from "rxjs";
+import {FilterBuilder, IFilterPreHandler, ParamMetadata} from "../../filters";
+import {HandlerType} from "../interfaces/HandlerType";
 import {EndpointMetadata} from "./EndpointMetadata";
-import {HandlerMetadata} from "./HandlerMetadata";
+import {HandlerMetadata, IHandlerOptions} from "./HandlerMetadata";
 
 /**
  * @stable
  */
 export class HandlerBuilder {
   private filters: any[];
-  private _handler: Function;
-  private _rebuildHandler: boolean = false;
-  private injector: InjectorService;
   private debug: boolean;
+  private injector: InjectorService;
 
   constructor(private handlerMetadata: HandlerMetadata) {}
 
@@ -25,13 +23,98 @@ export class HandlerBuilder {
    * @returns {HandlerBuilder}
    */
   static from(obj: any | EndpointMetadata) {
+    return {
+      build(injector: InjectorService) {
+        const handlerMetadata = HandlerBuilder.resolve(obj, injector);
+
+        if (handlerMetadata.type === HandlerType.FUNCTION) {
+          injector.logger.debug("Return handler as function", handlerMetadata.handler.name);
+
+          return handlerMetadata.handler;
+        }
+
+        injector.logger.debug("Build handler", `${nameOf(handlerMetadata.target)}.${handlerMetadata.method}()`);
+
+        return new HandlerBuilder(handlerMetadata).build(injector);
+      }
+    };
+  }
+
+  static resolve(obj: any | EndpointMetadata, injector: InjectorService) {
+    let options: IHandlerOptions;
+
     if (obj instanceof EndpointMetadata) {
-      // Endpoint
-      return new HandlerBuilder(new HandlerMetadata(obj.target, obj.methodClassName));
+      const provider = injector.getProvider(obj.target)!;
+
+      options = {
+        token: provider.provide,
+        target: provider.useClass,
+        type: HandlerType.CONTROLLER,
+        method: obj.methodClassName
+      };
+    } else {
+      const provider = injector.getProvider(obj);
+
+      if (provider) {
+        options = {
+          token: provider.provide,
+          target: provider.useClass,
+          type: HandlerType.MIDDLEWARE,
+          method: "use"
+        };
+      } else {
+        options = {
+          target: obj,
+          type: HandlerType.FUNCTION
+        };
+      }
     }
 
-    // Middleware
-    return new HandlerBuilder(new HandlerMetadata(obj));
+    return new HandlerMetadata(options);
+  }
+
+  static handle(process: any, {request, response, next, hasNextFunction}: any) {
+    const done = (error: any, result?: any) => {
+      if (error) {
+        return next(error);
+      }
+
+      if (!hasNextFunction) {
+        if (!next.isCalled && result !== undefined) {
+          request.ctx.data = result;
+        }
+        next();
+      }
+    };
+
+    if (process) {
+      if (process === response) {
+        return;
+      }
+
+      if (isObservable(process)) {
+        // TODO basic support
+        process = process.toPromise();
+      }
+
+      if (isPromise(process)) {
+        return process.then((result: any) => done(null, result)).catch((error: any) => done(error));
+      }
+
+      if (isStream(process)) {
+        return process.pipe(response);
+      }
+
+      if (isFunction(process)) {
+        // when process return a middleware
+        return process(request, response, next);
+      }
+    }
+
+    if (!hasNextFunction) {
+      // no next function and empty response
+      done(null, process);
+    }
   }
 
   /**
@@ -39,12 +122,12 @@ export class HandlerBuilder {
    * @returns {any}
    */
   public build(injector: InjectorService) {
+    const {services, hasErrorParam} = this.handlerMetadata;
     this.injector = injector;
     this.debug = injector.settings.debug;
+    this.filters = services.map((param: ParamMetadata) => new FilterBuilder(injector).build(param));
 
-    this.filters = this.handlerMetadata.services.map((param: ParamMetadata) => new FilterBuilder(injector).build(param));
-
-    if (this.handlerMetadata.errorParam) {
+    if (hasErrorParam) {
       return (err: any, request: any, response: any, next: any) => this.invoke(request, response, next, err);
     } else {
       return (request: any, response: any, next: any) => this.invoke(request, response, next);
@@ -53,79 +136,57 @@ export class HandlerBuilder {
 
   /**
    *
-   * @param locals
-   * @returns {any}
    */
-  private buildHandler<T>(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
-    const provider = this.injector.getProvider(this.handlerMetadata.target);
+  private getHandler(locals: Map<string | Function, any>): Function {
+    const {token, method} = this.handlerMetadata;
+    const provider = this.injector.getProvider(token);
 
     /* istanbul ignore next */
     if (!provider) {
-      throw new Error(`${nameOf(this.handlerMetadata.target)} component not found in the injector`);
+      throw new Error(`${nameOf(token)} component not found in the injector`);
     }
 
-    const target = provider.useClass;
-    let instance = provider.instance;
+    let instance: any;
 
-    this._rebuildHandler = provider.scope !== ProviderScope.SINGLETON;
-
-    if (this._rebuildHandler || instance === undefined) {
-      instance = this.injector.invoke<T>(target, locals, undefined, true);
-      locals.set(this.handlerMetadata.target, instance);
+    if (provider.scope !== ProviderScope.SINGLETON) {
+      instance = this.injector.invoke<any>(provider.useClass, locals, undefined, true);
+      locals.set(token, instance);
+    } else {
+      instance = this.injector.get<any>(token);
     }
 
-    return instance[this.handlerMetadata.methodClassName!].bind(instance);
+    return instance[method!].bind(instance);
   }
 
   /**
    *
-   */
-  private getHandler(locals: Map<string | Function, any> = new Map<string | Function, any>()): Function {
-    if (!this._rebuildHandler && this._handler) {
-      return this._handler;
-    }
-
-    switch (this.handlerMetadata.type) {
-      default:
-      case "function":
-        this._handler = this.handlerMetadata.target;
-        break;
-      case "middleware":
-      case "controller":
-        this._handler = this.buildHandler(locals);
-        break;
-    }
-
-    return this._handler;
-  }
-
-  /**
-   *
-   * @returns {Promise<TResult2|TResult1>}
+   * @returns {Promise<any>}
    * @param request
    * @param response
    * @param next
    * @param err
    */
   private async invoke(request: Express.Request, response: Express.Response, next: any, err?: any): Promise<any> {
+    const {hasEndpointInfo, hasNextFunction} = this.handlerMetadata;
+    const {
+      ctx: {endpoint, container}
+    } = request;
+
+    // Skip middleware when it use endpoint info without filled data
+    if (hasEndpointInfo && !endpoint) {
+      return next();
+    }
+
     next = this.buildNext(request, response, next);
 
     try {
       this.log(request, {event: "invoke.start"});
       const args = this.runFilters(request, response, next, err);
-      const result = await this.getHandler(request.getContainer())(...args);
+      const process = this.getHandler(container)(...args);
 
-      if (!next.isCalled) {
-        if (this.handlerMetadata.type !== "function" && result !== undefined) {
-          request.storeData(result);
-        }
-
-        if (!this.handlerMetadata.nextFunction) {
-          next();
-        }
-      }
-    } catch (err) {
-      next(err);
+      HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+    } catch (error) {
+      next(error);
     }
   }
 
@@ -136,19 +197,20 @@ export class HandlerBuilder {
    * @returns {string}
    */
   private log(request: Express.Request, o: any = {}) {
-    if (request.id && this.debug) {
-      const target = this.handlerMetadata.target;
-      const injectable = this.handlerMetadata.injectable;
-      const methodName = this.handlerMetadata.methodClassName;
+    if (request.log && this.debug) {
+      const {target, injectable, method} = this.handlerMetadata;
 
-      request.log.debug({
-        type: this.handlerMetadata.type,
-        target: (target ? nameOf(target) : target.name) || "anonymous",
-        methodName,
-        injectable,
-        data: request && request.getStoredData ? request.getStoredData() : undefined,
-        ...o
-      });
+      request.log.debug(
+        {
+          type: this.handlerMetadata.type,
+          target: (target ? nameOf(target) : target.name) || "anonymous",
+          methodName: method,
+          injectable,
+          data: request.ctx.data,
+          ...o
+        },
+        false
+      );
     }
   }
 
@@ -161,6 +223,7 @@ export class HandlerBuilder {
    */
   private buildNext(request: Express.Request, response: Express.Response, next: any): any {
     next.isCalled = false;
+    const dateTime = Date.now();
 
     return (error?: any) => {
       next.isCalled = true;
@@ -169,7 +232,7 @@ export class HandlerBuilder {
       }
 
       /* istanbul ignore else */
-      this.log(request, {event: "invoke.end", error});
+      this.log(request, {event: "invoke.end", error, execTime: Date.now() - dateTime});
 
       return next(error);
     };

@@ -1,7 +1,6 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import {ProviderType, InjectorService, ProviderScope, Injectable} from "@tsed/di";
 import * as Express from "express";
-import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {IComponentScanned} from "../../server/interfaces";
 import {ControllerBuilder} from "../class/ControllerBuilder";
@@ -75,7 +74,7 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
    * @param components
    */
   public $onRoutesInit(components: {file: string; endpoint: string; classes: any[]}[]) {
-    $log.info("Map controllers");
+    this.injectorService.logger.info("Map controllers");
     this.mapComponents(components);
   }
 
@@ -83,11 +82,9 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
    * Build routers and con
    */
   private buildRouters() {
-    const defaultRoutersOptions = this.settings.routers;
-
     this.forEach((provider: ControllerProvider) => {
       if (!provider.router && !provider.hasParent()) {
-        new ControllerBuilder(provider, defaultRoutersOptions).build(this.injectorService);
+        new ControllerBuilder(provider).build(this.injectorService);
       }
     });
   }

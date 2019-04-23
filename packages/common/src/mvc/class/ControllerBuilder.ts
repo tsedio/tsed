@@ -1,32 +1,51 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
-import {IRouterSettings} from "../../config/interfaces/IServerSettings";
+import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {ControllerProvider} from "./ControllerProvider";
-
 import {EndpointBuilder} from "./EndpointBuilder";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class ControllerBuilder {
-  constructor(private provider: ControllerProvider, private defaultRoutersOptions: IRouterSettings = {}) {
-    this.provider.router = Express.Router(Object.assign({}, defaultRoutersOptions, this.provider.routerOptions));
-  }
+  constructor(private provider: ControllerProvider) {}
 
   /**
    *
    * @returns {any}
    */
   build(injector: InjectorService): this {
-    const ctrl = this.provider;
-    this.buildMiddlewares(injector, this.provider.middlewares.useBefore!);
+    const {
+      routerOptions,
+      middlewares: {useBefore, useAfter}
+    } = this.provider;
+    const defaultRoutersOptions = injector.settings.routers;
 
-    ctrl.endpoints.forEach(endpoint => {
-      new EndpointBuilder(endpoint, this.provider.router).build(injector); // this.provider.middlewares.use
+    // TODO Use injector create new router instance
+    this.provider.router = Express.Router(Object.assign({}, defaultRoutersOptions, routerOptions));
+
+    this.buildMiddlewares(injector, useBefore!)
+      .buildEndpoints(injector)
+      .buildMiddlewares(injector, useAfter!)
+      .buildSendResponse(injector)
+      .buildDependencies(injector);
+
+    return this;
+  }
+
+  private buildEndpoints(injector: InjectorService) {
+    const {endpoints} = this.provider;
+
+    endpoints.forEach(endpoint => {
+      new EndpointBuilder(endpoint).build(injector);
     });
 
-    this.buildMiddlewares(injector, this.provider.middlewares.useAfter!);
+    return this;
+  }
 
-    ctrl.dependencies.forEach((child: Type<any>) => {
+  private buildDependencies(injector: InjectorService) {
+    const {dependencies, router} = this.provider;
+
+    dependencies.forEach((child: Type<any>) => {
       const provider = injector.getProvider(child) as ControllerProvider;
 
       /* istanbul ignore next */
@@ -34,17 +53,23 @@ export class ControllerBuilder {
         throw new Error("Controller component not found in the ControllerRegistry");
       }
 
-      const ctrlBuilder = new ControllerBuilder(provider, this.defaultRoutersOptions).build(injector);
+      new ControllerBuilder(provider).build(injector);
 
-      this.provider.router.use(provider.path, ctrlBuilder.provider.router);
+      router.use(provider.path, provider.router);
     });
+  }
 
-    return this;
+  private buildSendResponse(injector: InjectorService) {
+    return this.buildMiddlewares(injector, [SendResponseMiddleware]);
   }
 
   private buildMiddlewares(injector: InjectorService, middlewares: any[]) {
-    return middlewares
+    const {router} = this.provider;
+
+    middlewares
       .filter(o => typeof o === "function")
-      .forEach((middleware: any) => this.provider.router.use(HandlerBuilder.from(middleware).build(injector)));
+      .forEach((middleware: any) => router.use(HandlerBuilder.from(middleware).build(injector)));
+
+    return this;
   }
 }

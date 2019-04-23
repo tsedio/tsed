@@ -61,10 +61,6 @@ describe("EndpointMetadata", () => {
         .and.have.length(2);
     });
 
-    it("should has method", () => {
-      expect(this.endpointMetadata.hasHttpMethod()).to.be.true;
-    });
-
     it("should get target", () => {
       expect(this.endpointMetadata.target).to.equal(Test);
     });
@@ -126,10 +122,6 @@ describe("EndpointMetadata", () => {
       expect(this.endpointMetadataInherited.beforeMiddlewares)
         .to.be.an("array")
         .and.have.length(2);
-    });
-
-    it("should has method", () => {
-      expect(this.endpointMetadataInherited.hasHttpMethod()).to.be.true;
     });
 
     it("should get target", () => {

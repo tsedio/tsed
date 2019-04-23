@@ -1,4 +1,5 @@
 import {deepExtends, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
+import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {EXPRESS_METHODS} from "../constants";
 import {ExpressPathMethod} from "../interfaces/ExpressPathMethod";
 import {PathParamsType} from "../interfaces/PathParamsType";
@@ -20,41 +21,19 @@ import {PathParamsType} from "../interfaces/PathParamsType";
  *
  */
 export class EndpointMetadata extends Storable {
-  /**
-   *
-   * @type {Array}
-   */
-  @NotEnumerable()
-  private _beforeMiddlewares: any[] = [];
-  /**
-   *
-   * @type {Array}
-   * @private
-   */
-  @NotEnumerable()
-  private _middlewares: any[] = [];
-  /**
-   *
-   * @type {Array}
-   * @private
-   */
-  @NotEnumerable()
-  private _afterMiddlewares: any[] = [];
-  /**
-   * HTTP method required.
-   */
-  // @NotEnumerable()
-  // private _httpMethod: string;
+  // LIFECYCLE
+  public beforeMiddlewares: any[] = [];
+  public middlewares: any[] = [];
+  public afterMiddlewares: any[] = [];
   /**
    * Route strategy.
    */
-  @NotEnumerable()
-  private _pathsMethods: ExpressPathMethod[] = [];
+  public pathsMethods: ExpressPathMethod[] = [];
   /**
    * Endpoint inherited from parent class.
    */
   @NotEnumerable()
-  private _inheritedEndpoint: EndpointMetadata;
+  private inheritedEndpoint: EndpointMetadata;
 
   constructor(_provide: Type<any>, private _methodClassName: string) {
     super(_provide, _methodClassName, Object.getOwnPropertyDescriptor(_provide, _methodClassName));
@@ -64,59 +43,11 @@ export class EndpointMetadata extends Storable {
 
   /**
    *
-   * @returns {any[]}
-   */
-  get beforeMiddlewares(): any[] {
-    return this._beforeMiddlewares;
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set beforeMiddlewares(value: any[]) {
-    this._beforeMiddlewares = value;
-  }
-
-  /**
-   *
-   * @returns {any[]}
-   */
-  get middlewares(): any[] {
-    return this._middlewares;
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set middlewares(value: any[]) {
-    this._middlewares = value;
-  }
-
-  /**
-   *
-   * @returns {any[]}
-   */
-  get afterMiddlewares(): any[] {
-    return this._afterMiddlewares;
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set afterMiddlewares(value: any[]) {
-    this._afterMiddlewares = value;
-  }
-
-  /**
-   *
    * @deprecated pathsMethods
    * @returns {string}
    */
   get httpMethod(): string {
-    return this._pathsMethods[0] && this._pathsMethods[0].method!;
+    return this.pathsMethods[0] && this.pathsMethods[0].method!;
   }
 
   /**
@@ -125,11 +56,11 @@ export class EndpointMetadata extends Storable {
    * @param value
    */
   set httpMethod(value: string) {
-    if (!this._pathsMethods[0]) {
-      this._pathsMethods[0] = {};
+    if (!this.pathsMethods[0]) {
+      this.pathsMethods[0] = {};
     }
 
-    this._pathsMethods[0].method = value;
+    this.pathsMethods[0].method = value;
   }
 
   /**
@@ -138,7 +69,7 @@ export class EndpointMetadata extends Storable {
    * @returns {PathParamsType}
    */
   get path(): PathParamsType {
-    return this._pathsMethods[0] && this._pathsMethods[0].path!;
+    return this.pathsMethods[0] && this.pathsMethods[0].path!;
   }
 
   /**
@@ -147,14 +78,10 @@ export class EndpointMetadata extends Storable {
    * @param value
    */
   set path(value: PathParamsType) {
-    if (!this._pathsMethods[0]) {
-      this._pathsMethods[0] = {};
+    if (!this.pathsMethods[0]) {
+      this.pathsMethods[0] = {};
     }
-    this._pathsMethods[0].path = value;
-  }
-
-  get inheritedEndpoint(): EndpointMetadata {
-    return this._inheritedEndpoint;
+    this.pathsMethods[0].path = value;
   }
 
   get type(): Type<any> {
@@ -163,18 +90,6 @@ export class EndpointMetadata extends Storable {
 
   set type(type: Type<any>) {
     this._type = type;
-  }
-
-  /**
-   *
-   * @returns {ExpressPathMethod[]}
-   */
-  get pathsMethods(): ExpressPathMethod[] {
-    return this._pathsMethods;
-  }
-
-  set pathsMethods(paths: ExpressPathMethod[]) {
-    this._pathsMethods = paths;
   }
 
   /**
@@ -189,11 +104,15 @@ export class EndpointMetadata extends Storable {
    * @returns {Store}
    */
   get store(): Store {
-    return this._inheritedEndpoint ? this._inheritedEndpoint.store : this._store;
+    return this.inheritedEndpoint ? this.inheritedEndpoint.store : this._store;
   }
 
   get statusCode() {
     return this.store.get("statusCode") || 200;
+  }
+
+  get params() {
+    return ParamRegistry.getParams(this.target, this.methodClassName);
   }
 
   /**
@@ -211,15 +130,6 @@ export class EndpointMetadata extends Storable {
     }
 
     return meta;
-  }
-
-  /**
-   *
-   * @deprecated
-   * @returns {boolean}
-   */
-  public hasHttpMethod(): boolean {
-    return !!(this._pathsMethods[0] && this._pathsMethods[0].method);
   }
 
   /**
@@ -271,7 +181,7 @@ export class EndpointMetadata extends Storable {
    * @returns {EndpointMetadata}
    */
   public before(args: any[]): this {
-    this._beforeMiddlewares = this._beforeMiddlewares.concat(args);
+    this.beforeMiddlewares = this.beforeMiddlewares.concat(args);
 
     return this;
   }
@@ -282,7 +192,7 @@ export class EndpointMetadata extends Storable {
    * @returns {EndpointMetadata}
    */
   public after(args: any[]): this {
-    this._afterMiddlewares = this._afterMiddlewares.concat(args);
+    this.afterMiddlewares = this.afterMiddlewares.concat(args);
 
     return this;
   }
@@ -311,10 +221,10 @@ export class EndpointMetadata extends Storable {
     });
 
     if (expressMethods.method || expressMethods.path) {
-      this._pathsMethods.push(expressMethods);
+      this.pathsMethods.push(expressMethods);
     }
 
-    this.middlewares = this._middlewares.concat(filteredArg);
+    this.middlewares = this.middlewares.concat(filteredArg);
 
     return this;
   }
@@ -325,7 +235,7 @@ export class EndpointMetadata extends Storable {
    */
   public inherit(target: Type<any>): EndpointMetadata {
     const metadata = new EndpointMetadata(target, this.methodClassName);
-    metadata._inheritedEndpoint = this;
+    metadata.inheritedEndpoint = this;
     metadata.middlewares = this.middlewares;
     metadata.afterMiddlewares = this.afterMiddlewares;
     metadata.beforeMiddlewares = this.beforeMiddlewares;

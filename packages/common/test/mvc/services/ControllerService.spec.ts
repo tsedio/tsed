@@ -58,10 +58,6 @@ describe("ControllerService", () => {
       this.ctrlBuildStub.restore();
     });
 
-    it("should create a new ControllerBuilder", () => {
-      this.routerStub.should.have.been.calledWithExactly({global: "global", options: "options"});
-    });
-
     it("should call ControllerBuilder.build()", () => {
       this.ctrlBuildStub.should.have.been.calledWithExactly(this.injector);
     });

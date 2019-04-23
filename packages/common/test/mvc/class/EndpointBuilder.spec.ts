@@ -1,13 +1,8 @@
-import * as Express from "express";
-import {EndpointBuilder} from "../../../src/mvc/class/EndpointBuilder";
-
-import {EndpointMetadata} from "../../../src/mvc/class/EndpointMetadata";
-import {HandlerBuilder} from "../../../src/mvc/class/HandlerBuilder";
-import {inject} from "@tsed/testing";
-import {FakeRequest} from "../../../../../test/helper/FakeRequest";
-import {FakeResponse} from "../../../../../test/helper/FakeResponse";
-import {expect} from "chai";
 import * as Sinon from "sinon";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import {InjectorService, Provider} from "../../../../di/src";
+import {EndpointMetadata, HandlerBuilder} from "../../../src/mvc";
+import {EndpointBuilder} from "../../../src/mvc/class/EndpointBuilder";
 
 class Test {
   method() {
@@ -16,184 +11,158 @@ class Test {
 }
 
 describe("EndpointBuilder", () => {
-  before(
-    inject([], () => {
-      this.router = Express.Router();
-      this.builder = {
-        build: Sinon.stub().returns(() => {})
-      };
-      this.fromStub = Sinon.stub(HandlerBuilder, "from").returns(this.builder);
-
-      Sinon.stub(this.router, "use");
-      Sinon.stub(this.router, "get");
-
-      this.endpointMetadata = new EndpointMetadata(Test, "method");
-      this.endpointBuilder = new EndpointBuilder(this.endpointMetadata, this.router);
-    })
-  );
-
+  before(() => {
+    Sinon.stub(HandlerBuilder, "from");
+  });
   after(() => {
-    this.router.get.restore();
-    this.router.use.restore();
-    this.fromStub.restore();
+    // @ts-ignore
+    HandlerBuilder.from.restore();
   });
-
   describe("build()", () => {
-    describe("with use method", () => {
-      describe("when there is no path", () => {
-        before(() => {
-          this.router.get.reset();
-          this.router.use.reset();
-          this.middlewares = this.endpointBuilder.build({injector: "injector", settings: {debug: true}});
-        });
+    it("should build endpoint", () => {
+      // GIVEN
+      const router: any = {
+        use: Sinon.stub(),
+        get: Sinon.stub(),
+        post: Sinon.stub()
+      };
 
-        it("should build middlewares", () => {
-          expect(this.middlewares)
-            .to.be.an("array")
-            .and.have.length(3);
-        });
+      const provider = new Provider(Test);
+      provider.router = router;
 
-        it("should call HandlerBuilder", () => {
-          return this.fromStub.should.have.been.called;
-        });
+      const injector = new InjectorService();
+      injector.settings.debug = true;
 
-        it("should call use method", () => this.router.use.should.have.been.calledOnce);
+      Sinon.stub(injector, "getProvider").withArgs(Test).returns(provider);
 
-        it("should call with args", () => {
-          this.router.use.should.have.been.calledWithExactly(...this.middlewares);
-        });
 
-        it("should build handler", () => {
-          this.builder.build.should.have.been.calledWithExactly({injector: "injector", settings: {debug: true}});
-        });
+      const endpointMetadata = new EndpointMetadata(Test, "method");
+      endpointMetadata.pathsMethods = [
+        {method: "get", path: "/"},
+        {method: "post", path: "/other"},
+        {path: "/"}
+      ];
+      endpointMetadata.before([
+        "before"
+      ]);
+
+      endpointMetadata.after([
+        "after"
+      ]);
+
+      // @ts-ignore
+      HandlerBuilder.from.callsFake((obj) => {
+        return {
+          build() {
+            return obj.methodClassName ? obj.methodClassName : obj;
+          }
+        };
       });
 
-      describe("when there is a path", () => {
-        before(() => {
-          this.router.get.reset();
-          this.router.use.reset();
-          this.endpointMetadata.path = "/";
-          this.middlewares = this.endpointBuilder.build({injector: "injector", settings: {debug: true}});
-        });
+      // WHEN
+      new EndpointBuilder(endpointMetadata).build(injector);
 
-        it("should build middlewares", () => {
-          expect(this.middlewares)
-            .to.be.an("array")
-            .and.have.length(3);
-        });
-
-        it("should call HandlerBuilder", () => {
-          return this.fromStub.should.have.been.called;
-        });
-
-        it("should call use method", () => this.router.use.should.have.been.calledOnce);
-
-        it("should call with args", () => {
-          this.router.use.should.have.been.calledWithExactly(...["/"].concat(this.middlewares));
-        });
-        it("should build handler", () => {
-          this.builder.build.should.have.been.calledWithExactly({injector: "injector", settings: {debug: true}});
-        });
-      });
+      // THEN
+      HandlerBuilder.from.should.have.been.calledWithExactly("before");
+      HandlerBuilder.from.should.have.been.calledWithExactly("after");
+      HandlerBuilder.from.should.have.been.calledWithExactly(endpointMetadata);
+      router.get.should.have.been.calledWithExactly("/", Sinon.match.func, "before", "method", "after");
+      router.post.should.have.been.calledWithExactly("/other", Sinon.match.func, "before", "method", "after");
+      router.use.should.have.been.calledWithExactly("/", Sinon.match.func, "before", "method", "after");
     });
+    it("should build endpoint without path", () => {
+      // GIVEN
+      const router: any = {
+        use: Sinon.stub()
+      };
 
-    describe("with get method", () => {
-      before(() => {
-        this.router.get.reset();
-        this.router.use.reset();
-        this.endpointMetadata.httpMethod = "get";
-        this.endpointMetadata.path = "/";
-        this.result = this.endpointBuilder.build({injector: "injector", settings: {debug: true}});
+      const provider = new Provider(Test);
+      provider.router = router;
+
+      const injector = new InjectorService();
+      injector.settings.debug = true;
+
+      Sinon.stub(injector, "getProvider").withArgs(Test).returns(provider);
+
+
+      const endpointMetadata = new EndpointMetadata(Test, "method");
+      endpointMetadata.pathsMethods = [];
+      endpointMetadata.before([
+        "before"
+      ]);
+
+      endpointMetadata.after([
+        "after"
+      ]);
+
+      // @ts-ignore
+      HandlerBuilder.from.callsFake((obj) => {
+        return {
+          build() {
+            return obj.methodClassName ? obj.methodClassName : obj;
+          }
+        };
       });
 
-      it("should build middlewares", () => {
-        expect(this.result)
-          .to.be.an("array")
-          .and.have.length(3);
-      });
+      // WHEN
+      new EndpointBuilder(endpointMetadata).build(injector);
 
-      it("should call HandlerBuilder", () => {
-        return this.fromStub.should.have.been.called;
-      });
-
-      it("should call get method", () => this.router.get.should.have.been.calledOnce);
-
-      it("should call with args", () => {
-        this.router.get.should.have.been.calledWithExactly("/", Sinon.match.func, Sinon.match.func, Sinon.match.func);
-      });
+      // THEN
+      router.use.should.have.been.calledWithExactly(Sinon.match.func, "before", "method", "after");
     });
   });
-
   describe("bindRequest()", () => {
-    before(() => {
-      this.request = new FakeRequest();
-      this.request.id = 1;
-      this.response = new FakeResponse();
-      Sinon.stub(this.response, "setHeader");
-      this.nextSpy = Sinon.spy(() => {});
-    });
+    it("should log request and attach endpoint to the context", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      injector.settings.debug = true;
 
-    after(() => {
-      this.response.setHeader.restore();
-    });
+      const request = new FakeRequest();
+      request.method = "GET";
+      const response = new FakeResponse();
+      const next = Sinon.stub();
+      const endpointMetadata = new EndpointMetadata(Test, "method");
+      const endpointBuilder = new EndpointBuilder(endpointMetadata);
 
-    describe("without headersSent", () => {
-      before(() => {
-        this.endpointBuilder.bindRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
-        this.request.storeData({stored: true});
-      });
+      Sinon.stub(request.log, "debug");
+      // WHEN
+      // @ts-ignore
+      endpointBuilder.bindRequest(endpointMetadata, injector)(request, response, next);
 
-      it("should attach getEndpoint method to the current request", () => {
-        expect(this.request.getEndpoint).to.be.a("function");
-      });
+      // THEN
+      request.ctx.endpoint.should.eq(endpointMetadata);
+      next.should.have.been.calledWithExactly();
 
-      it("should return EndpointMetadata", () => {
-        expect(this.request.getEndpoint()).to.equal(this.endpointMetadata);
-      });
-
-      it("should attach storeData method to the current request", () => {
-        expect(this.request.storeData).to.be.a("function");
-      });
-
-      it("should attach getStoredData method to the current request", () => {
-        expect(this.request.getStoredData).to.be.a("function");
-      });
-
-      it("should return an Object when it call getStoredData", () => {
-        expect(this.request.getStoredData()).to.be.an("object");
+      request.log.debug.should.have.been.calledWithExactly({
+        event: "bind.request",
+        httpMethod: "GET",
+        methodClass: "method",
+        target: "Test"
       });
     });
 
-    describe("with headersSent", () => {
-      before(() => {
-        this.response.setHeader.reset();
-        this.response.headersSent = true;
+    it("should attach endpoint to the context", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      injector.settings.debug = false;
 
-        this.endpointBuilder.bindRequest(this.endpointMetadata, true)(this.request, this.response, this.nextSpy);
-        this.request.storeData({stored: true});
-      });
+      const request = new FakeRequest();
+      request.method = "GET";
+      const response = new FakeResponse();
+      const next = Sinon.stub();
+      const endpointMetadata = new EndpointMetadata(Test, "method");
+      const endpointBuilder = new EndpointBuilder(endpointMetadata);
 
-      it("shouldn't set header", () => this.response.setHeader.should.not.have.been.called);
+      Sinon.stub(request.log, "debug");
+      // WHEN
+      // @ts-ignore
+      endpointBuilder.bindRequest(endpointMetadata, injector)(request, response, next);
 
-      it("should attach getEndpoint method to the current request", () => {
-        expect(this.request.getEndpoint).to.be.a("function");
-      });
+      // THEN
+      request.ctx.endpoint.should.eq(endpointMetadata);
+      next.should.have.been.calledWithExactly();
 
-      it("should return EndpointMetadata", () => {
-        expect(this.request.getEndpoint()).to.equal(this.endpointMetadata);
-      });
-
-      it("should attach storeData method to the current request", () => {
-        expect(this.request.storeData).to.be.a("function");
-      });
-
-      it("should attach getStoredData method to the current request", () => {
-        expect(this.request.getStoredData).to.be.a("function");
-      });
-
-      it("should return an Object when it call getStoredData", () => {
-        expect(this.request.getStoredData()).to.be.an("object");
-      });
+      return request.log.debug.should.not.have.been.called;
     });
   });
 });
