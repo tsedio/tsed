@@ -37,4 +37,4 @@ export const ConverterRegistry: TypedProvidersRegistry = GlobalProviders.createR
  *
  * @param provider Provider configuration.
  */
-export const registerConverter = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
+export const registerConverter = GlobalProviders.createRegisterFn(ProviderType.CONVERTER);

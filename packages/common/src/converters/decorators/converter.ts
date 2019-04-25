@@ -1,8 +1,3 @@
-/**
- * @module common/converters
- */
-/** */
-
 import {Metadata} from "@tsed/core";
 import {CONVERTER} from "../constants/index";
 import {registerConverter} from "../registries/ConverterRegistries";

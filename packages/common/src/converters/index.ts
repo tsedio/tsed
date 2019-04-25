@@ -1,8 +1,3 @@
-/**
- * @module common/converters
- * @preferred
- */
-/** */
 export * from "./interfaces";
 
 // decorators
