@@ -16,7 +16,7 @@ export interface RegistryHook<T> {
   // onDelete?(key: RegistryKey): void;
 }
 
-export type RegistryKey = Type<any> | symbol | any;
+export type RegistryKey = string | symbol | Type<any> | Function | any;
 
 /**
  * @private
