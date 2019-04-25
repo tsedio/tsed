@@ -1,6 +1,6 @@
 import {isEmpty, Type} from "@tsed/core";
-import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
 import {PropertyMetadata} from "../class/PropertyMetadata";
+import {IPropertyOptions} from "../interfaces/IPropertyOptions";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
 /**
