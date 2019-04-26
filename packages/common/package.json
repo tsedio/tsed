@@ -39,6 +39,8 @@
   },
   "dependencies": {
     "@types/json-schema": "^6.0.1",
+    "@tsed/converters": "0.0.0-PLACEHOLDER",
+    "@tsed/jsonschema": "0.0.0-PLACEHOLDER",
     "globby": "^8.0.1",
     "json-schema": "^0.2.3",
     "rxjs": "^6.4.0",

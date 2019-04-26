@@ -1,9 +1,6 @@
 import {Type} from "@tsed/core";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
-import {JsonSchema} from "../../jsonschema/class/JsonSchema";
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
-import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFactory";
-
+import {JsonSchema, PropertyRegistry, decoratorSchemaFactory} from "@tsed/jsonschema";
 /**
  * Add allowed values when the property or parameters is required.
  *

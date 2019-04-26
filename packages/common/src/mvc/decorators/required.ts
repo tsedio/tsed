@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
+import {PropertyRegistry} from "@tsed/jsonschema";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 
 /**
  * Add required annotation for a function argument.

@@ -1,12 +1,17 @@
+import * as mod from "@tsed/jsonschema";
+import {JsonSchema, PropertyRegistry} from "@tsed/jsonschema";
 import {expect} from "chai";
-import {ParamRegistry} from "../../../src/filters/registries/ParamRegistry";
-import {JsonSchema} from "../../../src/jsonschema/class/JsonSchema";
-import {PropertyRegistry} from "../../../src/jsonschema/registries/PropertyRegistry";
-import {Allow} from "../../../src/mvc/decorators/allow";
 import * as Sinon from "sinon";
-import {stubSchemaDecorator} from "../../jsonschema/decorators/utils";
+import {ParamRegistry} from "../../../src/filters";
+import {Allow} from "../../../src/mvc";
 
-class Test {}
+function stubSchemaDecorator() {
+  return Sinon.stub(mod, "decoratorSchemaFactory");
+}
+
+class Test {
+}
+
 
 describe("Allow", () => {
   describe("when decorators is used as property decorator", () => {

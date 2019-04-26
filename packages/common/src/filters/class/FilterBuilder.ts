@@ -1,6 +1,6 @@
+import {ConverterService} from "@tsed/converters";
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {ConverterService} from "../../converters/services/ConverterService";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {UnknowFilterError} from "../errors/UnknowFilterError";

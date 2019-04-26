@@ -1,6 +1,6 @@
+import {ConverterService} from "@tsed/converters";
 import {isBoolean, isNumber, isString} from "@tsed/core";
 import * as Express from "express";
-import {ConverterService} from "../../converters/services/ConverterService";
 import {EndpointInfo} from "../../filters";
 import {Response} from "../../filters/decorators/response";
 import {ResponseData} from "../../filters/decorators/responseData";

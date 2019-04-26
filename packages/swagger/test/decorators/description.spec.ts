@@ -2,7 +2,7 @@ import {JsonSchema} from "@tsed/common";
 import {decoratorArgs, Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {stubSchemaDecorator} from "../../../common/test/jsonschema/decorators/utils";
+import {stubSchemaDecorator} from "../../../jsonschema/test/decorators/utils";
 import {Description} from "../../src";
 
 class Test {

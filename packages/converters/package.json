@@ -1,0 +1,17 @@
+{
+  "name": "@tsed/converters",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Converters module for Ts.ED Framework",
+  "main": "./src/index.js",
+  "typings": "./src/index.ts",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  },
+  "peerDependencies": {
+    "@tsed/core": "0.0.0-PLACEHOLDER",
+    "@tsed/di": "0.0.0-PLACEHOLDER",
+    "@tsed/jsonschema": "0.0.0-PLACEHOLDER"
+  },
+  "devDependencies": {},
+  "private": false
+}

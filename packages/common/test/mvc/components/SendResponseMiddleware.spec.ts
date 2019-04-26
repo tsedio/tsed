@@ -1,7 +1,7 @@
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {inject} from "../../../../testing/src";
-import {ConverterService} from "../../../src/converters";
+import {ConverterService} from "../../../../converters/src";
 import {EndpointMetadata, SendResponseMiddleware} from "../../../src/mvc";
 
 describe("SendResponseMiddleware", () => {

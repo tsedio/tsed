@@ -3,7 +3,7 @@ import {inject} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {BadRequest} from "ts-httpexceptions/lib/clientErrors/BadRequest";
-import {ConverterService} from "../../../src/converters";
+import {ConverterService} from "../../../../converters/src";
 import {FilterPreHandlers, ValidationService} from "../../../src/filters";
 import {FilterBuilder} from "../../../src/filters/class/FilterBuilder";
 import {EXPRESS_RESPONSE} from "../../../src/filters/constants";
