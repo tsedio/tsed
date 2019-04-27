@@ -97,17 +97,26 @@ export class HandlerBuilder {
         process = process.toPromise();
       }
 
-      if (isPromise(process)) {
-        return process.then((result: any) => done(null, result)).catch((error: any) => done(error));
-      }
-
       if (isStream(process)) {
-        return process.pipe(response);
+        return done(null, process);
       }
 
       if (isFunction(process)) {
         // when process return a middleware
         return process(request, response, next);
+      }
+
+      if (isPromise(process)) {
+        return process
+          .then((result: any) =>
+            this.handle(result, {
+              request,
+              response,
+              next,
+              hasNextFunction
+            })
+          )
+          .catch((error: any) => done(error));
       }
     }
 

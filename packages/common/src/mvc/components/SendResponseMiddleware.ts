@@ -1,4 +1,4 @@
-import {isBoolean, isNumber, isString} from "@tsed/core";
+import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import * as Express from "express";
 import {ConverterService} from "../../converters/services/ConverterService";
 import {EndpointInfo} from "../../filters";
@@ -20,6 +20,12 @@ export class SendResponseMiddleware implements IMiddleware {
   public use(@ResponseData() data: any, @Response() response: Express.Response, @EndpointInfo() endpoint: EndpointInfo) {
     if (data === undefined) {
       return response.send();
+    }
+
+    if (isStream(data)) {
+      data.pipe(response);
+
+      return response;
     }
 
     if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {

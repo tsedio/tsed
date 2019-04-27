@@ -1,7 +1,7 @@
 export class FakeResponse {
   [key: string]: any;
 
-  _status: number = 200;
+  statusCode: number = 200;
   _location: string;
   _json: any;
   _body: any = "";
@@ -70,7 +70,6 @@ export class FakeResponse {
    */
   public status(value: number) {
     this.statusCode = value;
-    this._status = value;
 
     return this;
   }
