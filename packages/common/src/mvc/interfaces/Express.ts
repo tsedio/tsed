@@ -1,58 +1,59 @@
-import * as Express from "express";
 import {Context} from "../class/Context";
-import {RequestLogger} from "../class/RequestLogger";
 import {EndpointMetadata} from "../class/EndpointMetadata";
+import {RequestLogger} from "../class/RequestLogger";
 
-declare module "express" {
-  export interface NextFunction extends Function {
-    isCalled: boolean;
-  }
+declare global {
+  namespace Express {
+    export interface NextFunction extends Function {
+      isCalled: boolean;
+    }
 
-  export interface Response {
-    headersSent: boolean;
-  }
+    export interface Response {
+      headersSent: boolean;
+    }
 
-  export interface Application {}
+    export interface Application {}
 
-  export interface Request {
-    id: string;
-    ctx: Context;
-    log: RequestLogger;
+    export interface Request {
+      id: string;
+      ctx: Context;
+      log: RequestLogger;
 
-    /**
-     * @deprecated
-     */
-    getContainer(): any;
+      /**
+       * @deprecated
+       */
+      getContainer(): any;
 
-    /**
-     * @deprecated
-     */
-    createContainer(): void;
+      /**
+       * @deprecated
+       */
+      createContainer(): void;
 
-    /**
-     * @deprecated
-     */
-    destroyContainer(): void;
+      /**
+       * @deprecated
+       */
+      destroyContainer(): void;
 
-    /**
-     * @deprecated
-     */
-    getEndpoint(): EndpointMetadata;
+      /**
+       * @deprecated
+       */
+      getEndpoint(): EndpointMetadata;
 
-    /**
-     * @deprecated
-     */
-    destroyEndpoint(): void;
+      /**
+       * @deprecated
+       */
+      destroyEndpoint(): void;
 
-    /**
-     * @deprecated
-     */
-    getStoredData(): any;
+      /**
+       * @deprecated
+       */
+      getStoredData(): any;
 
-    /**
-     * @deprecated
-     * @param obj
-     */
-    storeData(obj: any): Express.Request;
+      /**
+       * @deprecated
+       * @param obj
+       */
+      storeData(obj: any): Express.Request;
+    }
   }
 }

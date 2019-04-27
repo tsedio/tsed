@@ -1,5 +1,9 @@
-import {ParamRegistry} from "../registries/ParamRegistry";
+import * as Express from "express";
 import {EXPRESS_RESPONSE} from "../constants";
+import {ParamRegistry} from "../registries/ParamRegistry";
+
+export type Response = Express.Response;
+export type Res = Express.Response;
 
 /**
  * Response service.
