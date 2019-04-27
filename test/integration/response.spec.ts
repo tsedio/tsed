@@ -122,4 +122,23 @@ describe("Response", () => {
       });
     });
   });
+
+  describe("Scenario 9: routes without parameters must be defined first in express", () => {
+    describe("GET /rest/response/scenario9/static", () => {
+      it("should return the test", async () => {
+        const response = await request.get("/rest/response/scenario9/static").expect(200);
+
+        response.text.should.be.equal("value");
+      });
+    });
+
+    describe("GET /rest/response/scenario9/:dynamic", () => {
+      it("should return the test + id", async () => {
+        const response = await request.get("/rest/response/scenario9/10").expect(200);
+
+        response.text.should.be.equal("value10");
+      });
+    });
+  });
+
 });
