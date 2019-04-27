@@ -46,7 +46,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
       });
 
       it("should have a status", () => {
-        expect(this.response._status).is.equal(this.error.status);
+        expect(this.response.statusCode).is.equal(this.error.status);
       });
     });
 
@@ -67,7 +67,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
       });
 
       it("should have a status", () => {
-        expect(this.response._status).is.equal(404);
+        expect(this.response.statusCode).is.equal(404);
       });
     });
 
@@ -93,7 +93,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
       });
 
       it("should have a status", () => {
-        expect(this.response._status).is.equal(500);
+        expect(this.response.statusCode).is.equal(500);
       });
     });
   });

@@ -58,7 +58,9 @@ export function Status(code: number, options: IResponseOptions = {}) {
     store.merge("responses", {[code]: response});
 
     return UseAfter((request: any, response: any, next: any) => {
-      response.status(code);
+      if (response.statusCode === 200) {
+        response.status(code);
+      }
       next();
     });
   });

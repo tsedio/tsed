@@ -532,9 +532,8 @@ describe("HandlerBuilder", () => {
         await process;
 
         // THEN
-        response.emit.should.have.been.called;
-
-        return next.should.not.have.been.called;
+        request.ctx.data.should.deep.equal(process);
+        next.should.have.been.calledWithExactly();
       });
     });
     describe("when process is an Observable", () => {

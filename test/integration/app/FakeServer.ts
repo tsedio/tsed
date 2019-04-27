@@ -7,6 +7,7 @@ import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
 import {EmptyCtrl} from "./controllers/calendars/EmptyCtrl";
 import {EventCtrl} from "./controllers/calendars/EventCtrl";
 import {HiddenCtrl} from "./controllers/calendars/HiddenCtrl";
+import {ResponseScenarioCtrl} from "./controllers/responses/ResponseScenarioCtrl";
 import {TaskCtrl} from "./controllers/calendars/TaskCtrl";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
@@ -32,7 +33,8 @@ const rootDir = __dirname;
       ProductsCtrl,
       UserCtrl,
       RestCtrl,
-      ErrorsCtrl
+      ErrorsCtrl,
+      ResponseScenarioCtrl
     ]
   },
   componentsScan: [

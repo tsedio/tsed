@@ -1,9 +1,9 @@
-/**
- * @module common/mvc
- */
-/** */
-import {ParamRegistry} from "../registries/ParamRegistry";
+import * as Express from "express";
 import {EXPRESS_REQUEST} from "../constants";
+import {ParamRegistry} from "../registries/ParamRegistry";
+
+export type Request = Express.Request;
+export type Req = Express.Request;
 
 /**
  * Request service.
