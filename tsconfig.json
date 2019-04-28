@@ -27,9 +27,6 @@
       "./node_modules/@types"
     ],
     "paths": {
-      "*": [
-        "*"
-      ],
       "@tsed/*": [
         "./packages/*/src"
       ]
