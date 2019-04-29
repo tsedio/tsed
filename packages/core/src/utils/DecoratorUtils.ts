@@ -80,3 +80,11 @@ export function decorateMethodsOf(klass: any, decorator: any) {
     decorator(prototypeOf(klass), propertyKey, descriptorOf(klass, propertyKey));
   });
 }
+
+export function applyDecorators(...decorators: Function[]): Function {
+  return (...args: DecoratorParameters) => {
+    decorators.forEach(decorator => {
+      decorator(...args);
+    });
+  };
+}

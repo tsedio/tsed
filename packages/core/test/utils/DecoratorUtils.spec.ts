@@ -1,5 +1,12 @@
 import {expect} from "chai";
-import {decorateMethodsOf, descriptorOf, getDecoratorType, Store, UnsupportedDecoratorType} from "../../src";
+import {
+  applyDecorators,
+  decorateMethodsOf,
+  descriptorOf,
+  getDecoratorType,
+  Store,
+  UnsupportedDecoratorType
+} from "../../src";
 
 class Test {
 }
@@ -284,6 +291,37 @@ describe("DecoratorUtils", () => {
       Store.from(Test, "test2", descriptorOf(Test, "test2")).get("test").should.eq("test2");
 
       new Test().test2("1").should.eq("test1");
+    });
+  });
+
+  describe("applyDecorators", () => {
+
+    function decorator1(value: any) {
+      return Store.decorate((store) => {
+        store.set("decorator1", value);
+      });
+    }
+
+    function decorator2(value: any) {
+      return Store.decorate((store) => {
+        store.set("decorator2", value);
+      });
+    }
+
+    function decorate() {
+      return applyDecorators(
+        decorator1("test1"),
+        decorator2("test2")
+      );
+    }
+
+    @decorate()
+    class Test {
+    }
+
+    it("should apply all decorators", () => {
+      Store.from(Test).get("decorator1").should.eq("test1");
+      Store.from(Test).get("decorator2").should.eq("test2");
     });
   });
 });
