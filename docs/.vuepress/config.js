@@ -6,7 +6,7 @@ module.exports = {
   themeConfig: {
     version: require("../../package").version,
     repo: "TypedProject/ts-express-decorators",
-    openCollective: 'tsed',
+    openCollective: "tsed",
     gitterUrl: "https://gitter.im/Tsed-io/community",
     editLinks: true,
     docsDir: "docs",
@@ -14,8 +14,8 @@ module.exports = {
     ga: "UA-35240348-1",
     apiUrl: "/api.json",
     algolia: {
-      apiKey: 'f8a038207e461aaac0e2fd16403c2b01',
-      indexName: 'ts_ed',
+      apiKey: "f8a038207e461aaac0e2fd16403c2b01",
+      indexName: "ts_ed"
     },
     locales: {
       "/": {
@@ -43,7 +43,6 @@ module.exports = {
             type: "links",
             items: [
               {link: "/tutorials/", text: "Examples"},
-              {link: "/tutorials/authentication.html", text: "Authentication"},
               {link: "/tutorials/session.html", text: "Session & cookies"},
               {link: "/tutorials/passport.html", text: "Passport.js"},
               {link: "/tutorials/typeorm.html", text: "TypeORM"},
@@ -73,6 +72,7 @@ module.exports = {
               {link: "/docs/scope.html", text: "Scope"},
               {link: "/docs/filters.html", text: "Filters"},
               {link: "/docs/interceptors.html", text: "Interceptors"},
+              {link: "/docs/authentication.html", text: "Authentication"},
               {link: "/docs/server-loader.html", text: "ServerLoader"},
               {link: "/docs/testing.html", text: "Testing"}
             ]
@@ -115,6 +115,7 @@ module.exports = {
               "scope",
               "filters",
               "interceptors",
+              "authentication",
               "server-loader",
               "testing"
             ]
@@ -126,7 +127,6 @@ module.exports = {
             collapsable: false,
             children: [
               "",
-              "authentication",
               "session",
               "passport",
               "typeorm",
@@ -147,7 +147,6 @@ module.exports = {
         },
 
         otherTopics: [
-          "/tutorials/authentication",
           "/tutorials/session",
           "/tutorials/passport",
           "/tutorials/typeorm",
@@ -173,6 +172,7 @@ module.exports = {
           "/docs/scope",
           "/docs/filters",
           "/docs/interceptors",
+          "/docs/authentication",
           "/docs/server-loader",
           "/docs/testing"
         ],
