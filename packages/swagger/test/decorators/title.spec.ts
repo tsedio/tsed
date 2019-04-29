@@ -1,5 +1,6 @@
 import {descriptorOf, Store} from "@tsed/core";
 import {expect} from "chai";
+import {prototypeOf} from "../../../core/src/utils";
 import {Title} from "../../src";
 
 class Test {
@@ -10,7 +11,7 @@ class Test {
 describe("Title()", () => {
   describe("when title is used as method decorator", () => {
     before(() => {
-      Title("title")(Test, "test", descriptorOf(Test, "test"));
+      Title("title")(prototypeOf(Test), "test", descriptorOf(Test, "test"));
       this.store = Store.from(Test, "test", descriptorOf(Test, "test"));
     });
     it("should set the schema", () => {

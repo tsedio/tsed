@@ -1,29 +1,29 @@
 import {descriptorOf, Store} from "@tsed/core";
 import {prototypeOf, UnsupportedDecoratorType} from "../../../core/src/utils";
-import {Responses} from "../../src";
+import {Operation} from "../../src";
 
-
-describe("Responses()", () => {
-
+describe("Operation()", () => {
   describe("when the decorator is used as method decorator", () => {
     class Test {
       test() {
       }
     }
 
-    it("should set the responses", () => {
+    it("should set the operation", () => {
       // WHEN
-      Responses(400, {
-        description: "Bad Request"
+      Operation({
+        security: [
+          {"auth": ["scope"]}
+        ]
       })(prototypeOf(Test), "test", descriptorOf(Test, "test"));
 
       // THEN
       const store = Store.fromMethod(Test, "test");
 
-      store.get("responses").should.deep.eq({
-        "400": {
-          description: "Bad Request"
-        }
+      store.get("operation").should.deep.eq({
+        security: [
+          {"auth": ["scope"]}
+        ]
       });
     });
   });
@@ -34,19 +34,21 @@ describe("Responses()", () => {
       }
     }
 
-    it("should set the responses", () => {
+    it("should set the operation", () => {
       // WHEN
-      Responses(400, {
-        description: "Bad Request"
+      Operation({
+        security: [
+          {"auth": ["scope"]}
+        ]
       })(Test);
 
       // THEN
       const store = Store.fromMethod(Test, "test");
 
-      store.get("responses").should.deep.eq({
-        "400": {
-          description: "Bad Request"
-        }
+      store.get("operation").should.deep.eq({
+        security: [
+          {"auth": ["scope"]}
+        ]
       });
     });
   });
@@ -57,12 +59,14 @@ describe("Responses()", () => {
       }
     }
 
-    it("should set the responses", () => {
+    it("should set the operation", () => {
       // WHEN
       let actualError;
       try {
-        Responses(400, {
-          description: "Bad Request"
+        Operation({
+          security: [
+            {"auth": ["scope"]}
+          ]
         })(prototypeOf(Test), "test");
       } catch (er) {
         actualError = er;

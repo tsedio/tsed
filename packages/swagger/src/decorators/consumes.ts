@@ -1,4 +1,3 @@
-import {getDecoratorType} from "@tsed/core";
 import {Operation} from "./operation";
 
 /**
@@ -19,14 +18,6 @@ import {Operation} from "./operation";
  * @swagger
  * @param consumes
  */
-export function Consumes(...consumes: string[]) {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args, true);
-    switch (type) {
-      case "method":
-        return Operation({consumes})(...args);
-      default:
-        throw new Error("Consumes is only supported on method");
-    }
-  };
+export function Consumes(...consumes: string[]): Function {
+  return Operation({consumes});
 }

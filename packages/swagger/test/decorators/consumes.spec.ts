@@ -17,10 +17,4 @@ describe("Consumes()", () => {
       expect(this.store.get("operation").consumes).to.deep.eq(["text/html"]);
     });
   });
-
-  describe("when is not used as method decorator", () => {
-    it("should throw an exception", () => {
-      assert.throws(() => Consumes("text/html")(Test, "test"), "Consumes is only supported on method");
-    });
-  });
 });

@@ -19,14 +19,6 @@ import {Operation} from "./operation";
  * @decorator
  * @swagger
  */
-export function Summary(summary: string) {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args);
-    switch (type) {
-      case "method":
-        return Operation({summary})(...args);
-      default:
-        throw new Error("Summary is only supported on method");
-    }
-  };
+export function Summary(summary: string): Function {
+  return Operation({summary});
 }
