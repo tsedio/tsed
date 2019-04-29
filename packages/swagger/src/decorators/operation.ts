@@ -1,5 +1,5 @@
-import {DecoratorParameters, Store} from "@tsed/core";
-import {Operation} from "swagger-schema-official";
+import {decorateMethodsOf, DecoratorParameters, getDecoratorType, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {Operation as IOperation} from "swagger-schema-official";
 
 /**
  *
@@ -8,8 +8,22 @@ import {Operation} from "swagger-schema-official";
  * @decorator
  * @swagger
  */
-export function Operation(operation: Operation | any) {
-  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-    store.merge("operation", operation);
-  });
+export function Operation(operation: IOperation | any): Function {
+  return (...args: DecoratorParameters) => {
+    const type = getDecoratorType(args, true);
+
+    switch (type) {
+      case "method":
+        return Store.decorate((store: Store) => {
+          store.merge("operation", operation);
+        })(...args);
+
+      case "class":
+        decorateMethodsOf(args[0], Operation(operation));
+        break;
+
+      default:
+        throw new UnsupportedDecoratorType(Operation, args);
+    }
+  };
 }

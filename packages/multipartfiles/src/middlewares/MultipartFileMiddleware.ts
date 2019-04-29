@@ -1,8 +1,8 @@
 import {EndpointInfo, EndpointMetadata, IMiddleware, Middleware, Req, Res, ServerSettingsService} from "@tsed/common";
-import {promisify} from "@tsed/core";
 import * as Express from "express";
 import * as multer from "multer";
 import {BadRequest} from "ts-httpexceptions";
+import {promisify} from "util";
 
 /**
  * @private
@@ -25,7 +25,7 @@ export class MultipartFileMiddleware implements IMiddleware {
     try {
       const endpointConfiguration = endpoint.store.get(MultipartFileMiddleware);
 
-      return await promisify(this.invoke(endpointConfiguration), request, response);
+      return await promisify(this.invoke(endpointConfiguration))(request, response);
     } catch (er) {
       throw er.code ? new BadRequest(`${er.message} ${er.field || ""}`.trim()) : er;
     }

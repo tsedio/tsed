@@ -1,62 +1,51 @@
-import * as Sinon from "sinon";
+import {expect} from "chai";
 import {Forbidden} from "ts-httpexceptions";
-import {FakeResponse} from "../../../../../test/helper";
-import {AuthenticatedMiddleware} from "../../../src/mvc";
+import {FakeRequest} from "../../../../../test/helper";
+import {AuthenticatedMiddleware, EndpointMetadata} from "../../../src/mvc";
 
 describe("AuthenticatedMiddleware", () => {
-  before(() => {
-    this.response = new FakeResponse();
-    this.endpoint = {
-      get: Sinon.stub().returns({})
-    };
+  class Test {
+    test() {
+    }
+  }
+
+  it("when user is authenticated", () => {
+    // GIVEN
+    const request = new FakeRequest();
+    const endpoint = new EndpointMetadata(Test, "test");
+    const middleware = new AuthenticatedMiddleware();
+
+    endpoint.store.set(AuthenticatedMiddleware, {options: "options"});
+
+    request.isAuthenticated.returns(true);
+    // WHEN
+    const result = middleware.use(request as any, endpoint);
+
+    // THEN
+    request.isAuthenticated.should.have.been.calledWithExactly({options: "options"});
+    expect(result).to.eq(undefined);
   });
 
-  describe("use()", () => {
-    describe("when isAuthenticated exists", () => {
-      describe("authorize", () => {
-        before(() => {
-          this.request = {
-            isAuthenticated: Sinon.stub().returns(true)
-          };
-          this.nextSpy = Sinon.spy();
-          this.middleware = new AuthenticatedMiddleware();
-          this.middleware.use(this.endpoint, this.request, this.nextSpy);
-        });
+  it("when user is not authenticated", () => {
+    // GIVEN
+    const request = new FakeRequest();
+    const endpoint = new EndpointMetadata(Test, "test");
+    const middleware = new AuthenticatedMiddleware();
 
-        it("should have called next function", () => {
-          this.nextSpy.should.have.been.calledWithExactly();
-        });
-      });
+    endpoint.store.set(AuthenticatedMiddleware, {options: "options"});
 
-      describe("unauthorize", () => {
-        before(() => {
-          this.request = {
-            isAuthenticated: Sinon.stub().returns(false)
-          };
-          this.nextSpy = Sinon.spy();
-          this.middleware = new AuthenticatedMiddleware();
-          this.middleware.use(this.endpoint, this.request, this.nextSpy);
-        });
+    request.isAuthenticated.returns(false);
 
-        it("should have called next function", () => {
-          this.nextSpy.should.have.been.calledWithExactly(Sinon.match.instanceOf(Forbidden));
-        });
-      });
-    });
+    // WHEN
+    let actualError;
+    try {
+      middleware.use(request as any, endpoint);
+    } catch (er) {
+      actualError = er;
+    }
 
-    describe("when isAuthenticated is not exists", () => {
-      describe("authorize", () => {
-        before(() => {
-          this.request = {};
-          this.nextSpy = Sinon.spy();
-          this.middleware = new AuthenticatedMiddleware();
-          this.middleware.use(this.endpoint, this.request, this.nextSpy);
-        });
-
-        it("should have called next function", () => {
-          this.nextSpy.should.have.been.calledWithExactly();
-        });
-      });
-    });
+    // THEN
+    request.isAuthenticated.should.have.been.calledWithExactly({options: "options"});
+    actualError.should.instanceOf(Forbidden);
   });
 });

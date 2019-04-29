@@ -1,4 +1,3 @@
-import {getDecoratorType} from "@tsed/core";
 import {Operation} from "./operation";
 
 /**
@@ -18,14 +17,6 @@ import {Operation} from "./operation";
  * @decorator
  * @swagger
  */
-export function Deprecated() {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args);
-    switch (type) {
-      case "method":
-        return Operation({deprecated: true})(...args);
-      default:
-        throw new Error("Deprecated is only supported on method");
-    }
-  };
+export function Deprecated(): Function {
+  return Operation({deprecated: true});
 }

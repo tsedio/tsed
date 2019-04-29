@@ -1,5 +1,5 @@
 import {DecoratorParameters} from "../interfaces";
-import {descriptorOf, getClass, nameOf} from "./ObjectUtils";
+import {classOf, descriptorOf, getClass, methodsOf, nameOf, prototypeOf} from "./ObjectUtils";
 
 /**
  *
@@ -65,4 +65,26 @@ export class UnsupportedDecoratorType extends Error {
  */
 export function decoratorArgs(target: any, propertyKey: string): DecoratorParameters {
   return [target, propertyKey, descriptorOf(target, propertyKey)!];
+}
+
+export function decorateMethodsOf(klass: any, decorator: any) {
+  methodsOf(klass).forEach(({target, propertyKey}) => {
+    if (target !== classOf(klass)) {
+      Object.defineProperty(prototypeOf(klass), propertyKey, {
+        value(...args: any[]) {
+          return prototypeOf(target)[propertyKey].apply(this, args);
+        }
+      });
+    }
+
+    decorator(prototypeOf(klass), propertyKey, descriptorOf(klass, propertyKey));
+  });
+}
+
+export function applyDecorators(...decorators: Function[]): Function {
+  return (...args: DecoratorParameters) => {
+    decorators.forEach(decorator => {
+      decorator(...args);
+    });
+  };
 }

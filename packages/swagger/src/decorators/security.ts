@@ -1,4 +1,3 @@
-import {getDecoratorType} from "@tsed/core";
 import {Operation} from "./operation";
 
 /**
@@ -21,14 +20,6 @@ import {Operation} from "./operation";
  * @decorator
  * @swagger
  */
-export function Security(securityDefinitionName: string, ...scopes: string[]) {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args);
-    switch (type) {
-      case "method":
-        return Operation({security: [{[securityDefinitionName]: scopes}]})(...args);
-      default:
-        throw new Error("Security is only supported on method");
-    }
-  };
+export function Security(securityDefinitionName: string, ...scopes: string[]): Function {
+  return Operation({security: [{[securityDefinitionName]: scopes}]});
 }

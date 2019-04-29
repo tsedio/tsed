@@ -3,8 +3,9 @@ import {ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/c
 import "@tsed/graphql";
 import "@tsed/mongoose";
 import "@tsed/multipartfiles";
+import {PassportCtrl} from "@tsed/passport";
 import "@tsed/socketio";
-import "@tsed/swagger";
+import {Docs} from "@tsed/swagger";
 import * as Path from "path";
 import {$log} from "ts-log-debug";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
@@ -20,6 +21,8 @@ import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 const rootDir = Path.resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
 
+Docs("authentication")(PassportCtrl);
+
 @ServerSettings({
   rootDir,
   port: 8001,
@@ -30,7 +33,14 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   },
   mount: {
     "/": [SocketPageCtrl],
-    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl, ProductsCtrl],
+    "/rest": [
+      "${rootDir}/controllers/Base/**.ts",
+      "${rootDir}/controllers/calendars/**.ts",
+      ErrorsCtrl,
+      RestCtrl,
+      ProductsCtrl,
+      PassportCtrl
+    ],
     "/rest/v1": "${rootDir}/controllers/{calendars,users}/**.ts"
   },
 
@@ -53,6 +63,13 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   swagger: [
     {
       path: "/api-doc",
+      cssPath: "${rootDir}/spec/style.css",
+      showExplorer: true,
+      spec
+    },
+    {
+      path: "/auth",
+      doc: "authentication",
       cssPath: "${rootDir}/spec/style.css",
       showExplorer: true,
       spec

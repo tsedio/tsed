@@ -1,7 +1,3 @@
-/**
- * @module common/mvc
- */
-/** */
 export * from "./Express";
 export * from "./IControllerOptions";
 export * from "./IControllerRoute";
@@ -13,3 +9,4 @@ export * from "./PathParamsType";
 export * from "./IResponseOptions";
 export * from "./IResponseHeader";
 export * from "./IResponseError";
+export * from "./HandlerType";

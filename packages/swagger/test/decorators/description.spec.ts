@@ -3,6 +3,7 @@ import {decoratorArgs, Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stubSchemaDecorator} from "../../../common/test/jsonschema/decorators/utils";
+import {prototypeOf} from "../../../core/src/utils";
 import {Description} from "../../src";
 
 class Test {
@@ -13,7 +14,7 @@ class Test {
 describe("Description()", () => {
   describe("on method", () => {
     before(() => {
-      const args = decoratorArgs(Test, "test");
+      const args = decoratorArgs(prototypeOf(Test), "test");
       Description("description")(...args);
       this.store = Store.from(...args);
     });

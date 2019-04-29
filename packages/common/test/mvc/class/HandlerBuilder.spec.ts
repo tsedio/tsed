@@ -317,9 +317,7 @@ describe("HandlerBuilder", () => {
 
       const request = new FakeRequest();
       request.ctx.data = "data";
-
-      Sinon.stub(request.log, "debug");
-
+      
       const handlerBuilder = new HandlerBuilder(metadata);
       // @ts-ignore
       handlerBuilder.debug = true;
