@@ -1,32 +1,45 @@
-import {inject, TestContext} from "@tsed/testing";
+import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import * as TypeORM from "typeorm";
 import {TypeORMService} from "../../src";
 
 describe("TypeORMService", () => {
   describe("createConnection()", () => {
-    before(
-      inject([TypeORMService], (service: TypeORMService) => {
-        this.connectStub = Sinon.stub(TypeORM, "createConnection").resolves("connection" as any);
-
-        return (this.result = service.createConnection("key", {config: "config"} as any).then(() => {
-          return service.createConnection("key", {config: "config"} as any);
-        }));
-      })
-    );
+    before(() => {
+      Sinon.stub(TypeORM, "createConnection");
+    });
 
     after(() => {
       TestContext.reset();
-      this.connectStub.restore();
+      // @ts-ignore
+      TypeORM.createConnection.restore();
     });
 
-    it("should call mongoose.connect", () => {
-      this.connectStub.should.have.been.calledOnce;
-      this.connectStub.should.have.been.calledWithExactly({config: "config"});
-    });
+    it("should create connection and close connection", async () => {
+      // GIVEN
+      const connection: any = {
+        close: Sinon.stub()
+      };
 
-    it("should return the instance of mongoose", () => {
-      return this.result.should.eventually.eq("connection");
+      // @ts-ignore
+      TypeORM.createConnection.resolves(connection);
+
+      const service = new TypeORMService();
+
+      // WHEN
+      const result1 = await service.createConnection("key", {config: "config"} as any);
+      const result2 = await service.createConnection("key", {config: "config"} as any);
+
+      // THEN
+      result1.should.deep.eq(connection);
+      result2.should.deep.eq(connection);
+      TypeORM.createConnection.should.have.been.calledOnce.and.calledWithExactly({config: "config"});
+
+      // WHEN close
+      await service.closeConnections();
+
+      // THEN
+      connection.close.should.have.been.calledWithExactly();
     });
   });
 });

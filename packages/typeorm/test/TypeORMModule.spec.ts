@@ -5,6 +5,10 @@ import {TypeORMModule} from "../src";
 
 describe("TypeORMModule", () => {
   describe("$onInit()", () => {
+    const connection: any = {
+      close() {
+      }
+    };
     before(
       inject([TypeORMModule, ServerSettingsService], (service: TypeORMModule, settings: ServerSettingsService) => {
         this.service = service;
@@ -14,7 +18,7 @@ describe("TypeORMModule", () => {
           }
         });
 
-        this.createConnectionStub = Sinon.stub(this.service.typeORMService, "createConnection").resolves("connection" as any);
+        this.createConnectionStub = Sinon.stub(this.service.typeORMService, "createConnection").resolves(connection);
 
         return (this.result = this.service.$onInit());
       })
@@ -33,7 +37,7 @@ describe("TypeORMModule", () => {
     });
 
     it("should return a promise", () => {
-      this.result.should.eventually.deep.eq(["connection"]);
+      return this.result.should.eventually.deep.eq([connection]);
     });
   });
 });

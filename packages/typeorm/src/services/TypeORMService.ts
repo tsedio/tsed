@@ -9,7 +9,7 @@ export class TypeORMService {
    * @type {Map<any, any>}
    * @private
    */
-  private _instances: Map<string, Connection> = new Map();
+  readonly instances: Map<string, Connection> = new Map();
 
   /**
    *
@@ -28,7 +28,7 @@ export class TypeORMService {
     try {
       const connection = await createConnection(settings!);
       $log.info(`Connected with typeorm to database: ${key}`);
-      this._instances.set(key || "default", connection);
+      this.instances.set(key || "default", connection);
 
       return connection;
     } catch (err) {
@@ -44,7 +44,7 @@ export class TypeORMService {
    * @returns {"mongoose".Connection}
    */
   get(id: string = "default"): Connection | undefined {
-    return this._instances.get(id);
+    return this.instances.get(id);
   }
 
   /**
@@ -53,6 +53,12 @@ export class TypeORMService {
    * @returns {boolean}
    */
   has(id: string = "default"): boolean {
-    return this._instances.has(id);
+    return this.instances.has(id);
+  }
+
+  closeConnections(): Promise<any> {
+    const promises = Array.from(this.instances.values()).map(instance => instance.close());
+
+    return Promise.all(promises);
   }
 }

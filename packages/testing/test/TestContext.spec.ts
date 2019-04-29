@@ -27,10 +27,11 @@ describe("TestContext", () => {
   describe("reset()", () => {
     before(TestContext.create);
 
-    it("should reset the injector", () => {
+    it("should reset the injector", async () => {
       const injectionKey = "key";
       TestContext.injector.set(injectionKey, new Provider("something"));
-      TestContext.reset();
+      await TestContext.reset();
+
       expect((TestContext as any)._injector).eq(null);
     });
   });

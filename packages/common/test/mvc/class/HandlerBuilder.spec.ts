@@ -285,7 +285,11 @@ describe("HandlerBuilder", () => {
 
         // THEN
         expect(nextStub.isCalled).to.eq(true);
-        infoStub.should.have.been.calledWithExactly({tagId: "1"}, {error: undefined, event: "invoke.end", execTime: 0});
+        infoStub.should.have.been.calledWithExactly({tagId: "1"}, {
+          error: undefined,
+          event: "invoke.end",
+          execTime: Sinon.match.number
+        });
       });
     });
 
@@ -317,7 +321,7 @@ describe("HandlerBuilder", () => {
 
       const request = new FakeRequest();
       request.ctx.data = "data";
-      
+
       const handlerBuilder = new HandlerBuilder(metadata);
       // @ts-ignore
       handlerBuilder.debug = true;

@@ -117,6 +117,11 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
       .map(([key, provider]) => provider);
   }
 
+  async destroy() {
+    await this.emit("$onDestroy");
+    this.clear();
+  }
+
   /**
    * Invoke the class and inject all services that required by the class constructor.
    *

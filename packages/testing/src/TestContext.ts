@@ -89,9 +89,9 @@ export class TestContext {
   /**
    * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
    */
-  static reset() {
+  static async reset() {
     if (TestContext._injector) {
-      TestContext._injector.clear();
+      await TestContext._injector.destroy();
       TestContext._injector = null;
     }
   }

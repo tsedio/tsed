@@ -2792,6 +2792,14 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
 
+axios@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  integrity sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=
+  dependencies:
+    follow-redirects "^1.3.0"
+    is-buffer "^1.1.5"
+
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
@@ -4566,7 +4574,7 @@ debug@3.1.0, debug@~3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@3.X, debug@^3.1.0:
+debug@3.X, debug@^3.1.0, debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -5762,6 +5770,13 @@ fn-name@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-2.0.1.tgz#5214d7537a4d06a4a301c0cc262feb84188002e7"
   integrity sha1-UhTXU3pNBqSjAcDMJi/rhBiAAuc=
+
+follow-redirects@^1.3.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
+  integrity sha512-m/pZQy4Gj287eNy94nivy5wchN3Kp+Q5WgUPNy5lJSZ3sgkVKSYV/ZChMAQVIgx1SqfZ2zBZtPA2YlXIWxxJOQ==
+  dependencies:
+    debug "^3.2.6"
 
 for-in@^0.1.3:
   version "0.1.8"
@@ -13869,11 +13884,12 @@ vuepress-html-webpack-plugin@^3.2.0:
     toposort "^1.0.0"
     util.promisify "1.0.0"
 
-vuepress-theme-tsed@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-1.7.0.tgz#fbccf4fe73c8ed55a5f54b83d984f85065624096"
-  integrity sha512-pUu3gW7OrIu5CRiqIyApJz5rktZGOndhzorTdStzH6iq7UReWQgDHcoMiXQyeXL/zyC/Ci2lvaKL/1E1R9IvZg==
+vuepress-theme-tsed@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-1.7.1.tgz#a421a779e80518293db93f23dc2a558981de38de"
+  integrity sha512-M3R8XKlYR4i8PYRE4soguhY+dhUY7Pz511FDtAppQBFkZzvzoy+2OMvTXApwkupS0Km7SKdTtiSptbFhCRBrcQ==
   dependencies:
+    axios "^0.18.0"
     include-media "^1.4.9"
     node-sass "^4.9.3"
     sass-loader "^7.1.0"
@@ -13881,7 +13897,6 @@ vuepress-theme-tsed@^1.7.0:
     vue "^2.6.9"
     vue-template-compiler "^2.6.10"
     vuepress "^0.14.1"
-    whatwg-fetch "^3.0.0"
 
 vuepress@^0.14.1:
   version "0.14.8"
@@ -14160,11 +14175,6 @@ webpackbar@^2.6.1:
     schema-utils "^1.0.0"
     std-env "^1.3.1"
     table "^4.0.3"
-
-whatwg-fetch@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
-  integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
 
 when@~3.6.x:
   version "3.6.4"
