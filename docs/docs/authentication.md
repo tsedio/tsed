@@ -30,11 +30,12 @@ It could be practical to create you own Authentication decorator to reduce the a
 For example, if we use swagger, we have to configure some extra **security** and **responses** information and it can quickly become heavy. 
 
 Example:
+
 <<< @/docs/docs/snippets/authentication/auth-swagger-example.ts
 
 To avoid that, we can create a decorator which apply all of theses instructions automatically, like this:
 
-<<< @/docs/tutorials/snippets/authentication/auth-decorator-example.ts
+<<< @/docs/docs/snippets/authentication/auth-decorator-example.ts
 
 And use it on our controller and endpoints:
 
