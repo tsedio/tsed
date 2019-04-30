@@ -10,4 +10,5 @@ export * from "./decorators/injectable";
 export * from "./decorators/constant";
 export * from "./decorators/value";
 export * from "./registries/ProviderRegistry";
+export * from "./registries/GlobalProviders";
 export * from "./services/InjectorService";

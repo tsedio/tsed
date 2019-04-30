@@ -8,3 +8,4 @@ export * from "./OnDestroy";
 export * from "./ProviderScope";
 export * from "./ProviderType";
 export * from "./TypedProvidersRegistry";
+export * from "./RegistrySettings";

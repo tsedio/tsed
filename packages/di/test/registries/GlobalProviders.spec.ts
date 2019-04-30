@@ -1,13 +1,13 @@
 import {Registry} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {Providers} from "../../src/class/Providers";
+import {GlobalProviderRegistry} from "../../src";
 import {Provider} from "../../src/class/Provider";
 
-describe("Providers", () => {
+describe("GlobalProviderRegistry", () => {
   describe("createRegistry()", () => {
     before(() => {
-      this.providers = new Providers();
+      this.providers = new GlobalProviderRegistry();
       this.setStub = Sinon.stub(this.providers._registries, "set");
       this.result = this.providers.createRegistry("test", Provider, {
         options: "options",
@@ -33,7 +33,7 @@ describe("Providers", () => {
   describe("getRegistrySettings()", () => {
     describe("when type is a string", () => {
       before(() => {
-        this.providers = new Providers();
+        this.providers = new GlobalProviderRegistry();
         this.providersGetStub = Sinon.stub(this.providers, "get");
         this.hasStub = Sinon.stub(this.providers._registries, "has").returns(true);
         this.getStub = Sinon.stub(this.providers._registries, "get").returns("instance");
@@ -61,7 +61,7 @@ describe("Providers", () => {
       class Test {}
 
       before(() => {
-        this.providers = new Providers();
+        this.providers = new GlobalProviderRegistry();
         this.providersGetStub = Sinon.stub(this.providers, "get").returns({type: "type"});
         this.hasStub = Sinon.stub(this.providers._registries, "has").returns(true);
         this.getStub = Sinon.stub(this.providers._registries, "get").returns("instance");
@@ -87,7 +87,7 @@ describe("Providers", () => {
 
     describe("when type is a string but is unknow", () => {
       before(() => {
-        this.providers = new Providers();
+        this.providers = new GlobalProviderRegistry();
         this.providersGetStub = Sinon.stub(this.providers, "get");
         this.hasStub = Sinon.stub(this.providers._registries, "has").returns(false);
         this.getStub = Sinon.stub(this.providers._registries, "get").returns("instance");
@@ -118,7 +118,7 @@ describe("Providers", () => {
 
   describe("createRegisterFn()", () => {
     before(() => {
-      this.providers = new Providers();
+      this.providers = new GlobalProviderRegistry();
       this.registryStub = {
         merge: Sinon.stub()
       };
@@ -140,7 +140,7 @@ describe("Providers", () => {
 
   describe("getRegistry()", () => {
     before(() => {
-      this.providers = new Providers();
+      this.providers = new GlobalProviderRegistry();
       this.getRegistrySettingsStub = Sinon.stub(this.providers, "getRegistrySettings").returns({registry: "registry"});
       this.result = this.providers.getRegistry("type");
     });

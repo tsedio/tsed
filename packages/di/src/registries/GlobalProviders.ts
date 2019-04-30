@@ -1,9 +1,8 @@
 import {Registry, RegistryKey, Type} from "@tsed/core";
-import {IProvider, TypedProvidersRegistry} from "../interfaces";
-import {RegistrySettings} from "../interfaces/RegistrySettings";
-import {Provider} from "./Provider";
+import {Provider} from "../class/Provider";
+import {IProvider, RegistrySettings, TypedProvidersRegistry} from "../interfaces";
 
-export class Providers extends Registry<Provider<any>, IProvider<any>> {
+export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<any>> {
   /**
    * Internal Map
    * @type {Array}
@@ -95,3 +94,9 @@ export class Providers extends Registry<Provider<any>, IProvider<any>> {
     return this.getRegistrySettings(target).registry;
   }
 }
+/**
+ *
+ * @type {GlobalProviders}
+ */
+// tslint:disable-next-line: variable-name
+export const GlobalProviders = new GlobalProviderRegistry();

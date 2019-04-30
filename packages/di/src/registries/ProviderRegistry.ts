@@ -1,19 +1,14 @@
 import {Provider} from "../class/Provider";
-import {Providers} from "../class/Providers";
 import {IProvider, ProviderType, TypedProvidersRegistry} from "../interfaces";
+import {GlobalProviders} from "./GlobalProviders";
 
 /**
  *
- * @type {Providers}
- */
-// tslint:disable-next-line: variable-name
-export const GlobalProviders = new Providers();
-/**
- *
- * @type {Providers}
+ * @type {GlobalProviderRegistry}
  */
 // tslint:disable-next-line: variable-name
 export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
+
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
@@ -30,6 +25,33 @@ GlobalProviders.createRegistry(ProviderType.FACTORY, Provider, {
   injectable: true,
   buildable: false
 });
+/**
+ *
+ * @type {Registry<Provider<any>, IProvider<any>>}
+ */
+GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider, {
+  injectable: true,
+  buildable: true
+});
+/**
+ *
+ */
+GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
+  injectable: false,
+  buildable: true
+});
+
+/**
+ * Register a provider configuration.
+ * @param {IProvider<any>} provider
+ */
+export function registerProvider(provider: Partial<IProvider<any>>): void {
+  if (!provider.provide) {
+    throw new Error("Provider.provide is required");
+  }
+
+  GlobalProviders.merge(provider.provide, provider);
+}
 
 /**
  * Add a new factory in the `ProviderRegistry`.
@@ -124,15 +146,61 @@ export const registerFactory = GlobalProviders.createRegisterFn(ProviderType.FAC
  * @param provider Provider configuration.
  */
 export const registerService = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
-
 /**
- * Register a provider configuration.
- * @param {IProvider<any>} provider
+ * Add a new controller in the `ProviderRegistry`. This controller will be built when `InjectorService` will be loaded.
+ *
+ * #### Example
+ *
+ * ```typescript
+ * import {registerController, InjectorService} from "@tsed/common";
+ *
+ * export default class MyController {
+ *     constructor(){}
+ *     transform() {
+ *         return "test";
+ *     }
+ * }
+ *
+ * registerController({provide: MyController});
+ * // or
+ * registerController(MyController);
+ *
+ * const injector = new InjectorService();
+ * injector.load();
+ *
+ * const myController = injector.get<MyController>(MyController);
+ * myController.getFoo(); // test
+ * ```
+ *
+ * @param provider Provider configuration.
  */
-export function registerProvider(provider: Partial<IProvider<any>>): void {
-  if (!provider.provide) {
-    throw new Error("Provider.provide is required");
-  }
-
-  ProviderRegistry.merge(provider.provide, provider);
-}
+export const registerController = GlobalProviders.createRegisterFn(ProviderType.CONTROLLER);
+/**
+ * Add a new interceptor in the `ProviderRegistry`. This interceptor will be built when `InjectorService` will be loaded.
+ *
+ * #### Example
+ *
+ * ```typescript
+ * import {registerInterceptor, InjectorService} from "@tsed/common";
+ *
+ * export default class MyInterceptor {
+ *     constructor(){}
+ *     aroundInvoke() {
+ *         return "test";
+ *     }
+ * }
+ *
+ * registerInterceptor({provide: MyInterceptor});
+ * // or
+ * registerInterceptor(MyInterceptor);
+ *
+ * const injector = new InjectorService()
+ * injector.load();
+ *
+ * const myInterceptor = injector.get<MyInterceptor>(MyInterceptor);
+ * myInterceptor.aroundInvoke(); // test
+ * ```
+ *
+ * @param provider Provider configuration.
+ */
+export const registerInterceptor = GlobalProviders.createRegisterFn(ProviderType.INTERCEPTOR);

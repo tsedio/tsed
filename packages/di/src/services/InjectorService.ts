@@ -12,7 +12,8 @@ import {
   ProviderScope,
   ProviderType
 } from "../interfaces";
-import {GlobalProviders, registerFactory} from "../registries/ProviderRegistry";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {registerFactory} from "../registries/ProviderRegistry";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.

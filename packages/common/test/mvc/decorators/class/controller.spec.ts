@@ -1,64 +1,44 @@
-import {expect} from "chai";
-import * as Sinon from "sinon";
-import {Controller, ControllerRegistry} from "../../../../src/mvc";
+import {GlobalProviders, ProviderScope, ProviderType} from "../../../../../di/src";
+import {Controller} from "../../../../src/mvc";
 
 class Test {
 }
 
-describe("Controller", () => {
-  const sandbox = Sinon.createSandbox();
-  let mergeStub: any;
-  before(() => {
-    mergeStub = sandbox.stub(ControllerRegistry, "merge");
-  });
+class Dep {
+}
+
+describe("@Controller", () => {
   after(() => {
-    sandbox.restore();
+    GlobalProviders.delete(Test);
   });
-  describe("path(string) + dependencies", () => {
-    before(() => {
-      Controller("/test", [] as any)(Test);
-    });
+  it("should register a controller with his path and Dependency", () => {
+    // WHEN
+    Controller("/test", Dep)(Test);
 
-    it("should call merge method with an object", () => {
-      mergeStub.should.have.been.calledWith(Test);
-      expect(mergeStub.args[0][1].path).to.eq("/test");
-      expect(mergeStub.args[0][1].dependencies).to.be.an("array");
-    });
-  });
+    // THEN
+    const provider = GlobalProviders.get(Test)!;
 
-  describe("path(regexp) + dependencies", () => {
-    before(() => {
-      Controller(/test/, [] as any)(Test);
-    });
-    after(() => {
-    });
-    it("should call merge method with an object", () => {
-      mergeStub.should.have.been.calledWith(Test);
-      expect(mergeStub.args[1][1].path).instanceof(RegExp);
-    });
+    // THEN
+    provider.type.should.equal(ProviderType.CONTROLLER);
+    provider.path.should.equal("/test");
+    provider.dependencies.should.deep.equal([Dep]);
   });
 
-  describe("path(array) + dependencies", () => {
-    before(() => {
-      Controller([/test/], [] as any)(Test);
-    });
-    after(() => {
-    });
-    it("should call merge method with an object", () => {
-      mergeStub.should.have.been.calledWith(Test);
-      expect(mergeStub.args[2][1].path).be.an("array");
-    });
-  });
+  it("should register a controller with customer provider options", () => {
+    // WHEN
+    Controller({
+      path: "/test",
+      dependencies: [Dep],
+      scope: ProviderScope.REQUEST
+    })(Test);
 
-  describe("object settigns", () => {
-    before(() => {
-      Controller({path: /test/, dependencies: []})(Test);
-    });
-    after(() => {
-    });
-    it("should call merge method with an object", () => {
-      mergeStub.should.have.been.calledWith(Test);
-      expect(mergeStub.args[3][1]).to.be.an("object");
-    });
+    // THEN
+    const provider = GlobalProviders.get(Test)!;
+
+    // THEN
+    provider.type.should.equal(ProviderType.CONTROLLER);
+    provider.scope.should.equal(ProviderScope.REQUEST);
+    provider.path.should.equal("/test");
+    provider.dependencies.should.deep.equal([Dep]);
   });
 });
