@@ -10,5 +10,6 @@ export * from "./OnInit";
 export * from "./OnDestroy";
 export * from "./ProviderScope";
 export * from "./ProviderType";
-export * from "./TypedProvidersRegistry";
 export * from "./RegistrySettings";
+export * from "./TokenProvider";
+export * from "./TypedProvidersRegistry";

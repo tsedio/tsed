@@ -1,4 +1,5 @@
 import {InjectablePropertyType} from "./InjectablePropertyType";
+import {TokenProvider} from "./TokenProvider";
 
 export interface IInjectableProperty {
   propertyKey: string;
@@ -7,7 +8,7 @@ export interface IInjectableProperty {
 export interface IInjectablePropertyService extends IInjectableProperty {
   bindingType: InjectablePropertyType.METHOD | InjectablePropertyType.PROPERTY | InjectablePropertyType.INTERCEPTOR;
   propertyType: string;
-  useType: any;
+  useType: TokenProvider;
   options?: any;
 }
 

@@ -1,6 +1,6 @@
-import {Registry, RegistryKey, Type} from "@tsed/core";
+import {Registry, Type} from "@tsed/core";
 import {Provider} from "../class/Provider";
-import {IProvider, RegistrySettings, TypedProvidersRegistry} from "../interfaces";
+import {IProvider, RegistrySettings, TokenProvider, TypedProvidersRegistry} from "../interfaces";
 
 export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<any>> {
   /**
@@ -42,10 +42,10 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
 
   /**
    *
-   * @param {string | RegistryKey} target
+   * @param {string | TokenProvider} target
    * @returns {RegistrySettings | undefined}
    */
-  getRegistrySettings(target: string | RegistryKey): RegistrySettings {
+  getRegistrySettings(target: string | TokenProvider): RegistrySettings {
     let type: string = "provider";
 
     if (typeof target === "string") {
@@ -87,13 +87,14 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
 
   /**
    *
-   * @param {string | RegistryKey} target
+   * @param {string | TokenProvider} target
    * @returns {Registry<Provider<any>, IProvider<any>>}
    */
-  getRegistry(target: string | RegistryKey): TypedProvidersRegistry {
+  getRegistry(target: string | TokenProvider): TypedProvidersRegistry {
     return this.getRegistrySettings(target).registry;
   }
 }
+
 /**
  *
  * @type {GlobalProviders}

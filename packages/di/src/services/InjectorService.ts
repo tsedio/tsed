@@ -13,7 +13,8 @@ import {
   IInterceptorContext,
   InjectablePropertyType,
   ProviderScope,
-  ProviderType
+  ProviderType,
+  TokenProvider
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {registerFactory} from "../registries/ProviderRegistry";
@@ -41,7 +42,7 @@ import {registerFactory} from "../registries/ProviderRegistry";
  * > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
  *
  */
-export class InjectorService extends Map<RegistryKey, Provider<any>> {
+export class InjectorService extends Map<TokenProvider, Provider<any>> {
   public settings: IDISettings = new Map();
   public logger: IDILogger = console;
   public scopes: {[key: string]: ProviderScope} = {};
@@ -74,8 +75,8 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @param target The class or symbol registered in InjectorService.
    * @returns {boolean}
    */
-  get<T>(target: Type<T> | symbol | any): T | undefined {
-    return (super.has(target) && super.get(getClassOrSymbol(target))!.instance) || undefined;
+  get<T>(token: TokenProvider): T | undefined {
+    return (super.has(token) && super.get(getClassOrSymbol(token))!.instance) || undefined;
   }
 
   /**
@@ -83,8 +84,8 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @param key
    * @returns {boolean}
    */
-  has(key: RegistryKey): boolean {
-    return super.has(getClassOrSymbol(key)) && !!this.get(key);
+  has(token: TokenProvider): boolean {
+    return super.has(getClassOrSymbol(token)) && !!this.get(token);
   }
 
   /**
@@ -92,8 +93,8 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @param key Required. The key of the element to return from the Map object.
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
-  getProvider(key: RegistryKey): Provider<any> | undefined {
-    return super.get(getClassOrSymbol(key));
+  getProvider(token: TokenProvider): Provider<any> | undefined {
+    return super.get(getClassOrSymbol(token));
   }
 
   /**
@@ -101,9 +102,9 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @param {RegistryKey} key
    * @param instance
    */
-  forkProvider(key: RegistryKey, instance?: any): Provider<any> {
-    const provider = GlobalProviders.get(key)!.clone();
-    this.set(key, provider);
+  forkProvider(token: TokenProvider, instance?: any): Provider<any> {
+    const provider = GlobalProviders.get(token)!.clone();
+    this.set(token, provider);
 
     provider.instance = instance;
 
@@ -142,13 +143,18 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    *  }
    * ```
    *
-   * @param target The injectable class to invoke. Class parameters are injected according constructor signature.
+   * @param token The injectable class to invoke. Class parameters are injected according constructor signature.
    * @param locals  Optional object. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
    * @param designParamTypes Optional object. List of injectable types.
    * @param requiredScope
    * @returns {T} The class constructed.
    */
-  invoke<T>(target: any, locals: Map<string | Function, any> = new Map(), designParamTypes?: any[], requiredScope: boolean = false): T {
+  invoke<T>(
+    target: TokenProvider,
+    locals: Map<string | Function, any> = new Map(),
+    designParamTypes?: any[],
+    requiredScope: boolean = false
+  ): T {
     const {onInvoke} = GlobalProviders.getRegistrySettings(target);
     const provider = this.getProvider(target);
     const parentScope = Store.from(target).get("scope");
@@ -208,6 +214,7 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
    * @returns {any}
    * @param handler The injectable method to invoke. Method parameters are injected according method signature.
    * @param options Object to configure the invocation.
+   * @deprecated
    */
   public invokeMethod(handler: any, options: IInjectableMethod<any>): any {
     let {designParamTypes} = options;
