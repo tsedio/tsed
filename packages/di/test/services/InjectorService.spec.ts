@@ -11,6 +11,9 @@ class Test {
   @Inject()
   prop: InjectorService;
 
+  value: any;
+  constant: any;
+
   constructor() {
   }
 
@@ -21,6 +24,10 @@ class Test {
 
   test2(@Inject() injectorService: InjectorService) {
     return injectorService;
+  }
+
+  test3(o: any) {
+    return o + " called ";
   }
 }
 
@@ -1146,208 +1153,207 @@ describe("InjectorService", () => {
   });
 
   describe("bindInjectableProperties()", () => {
+    const sandbox = Sinon.createSandbox();
+
     class TestBind {
     }
 
-    before(
-      inject([InjectorService], (injector: any) => {
-        this.injector = injector;
-        this.instance = new TestBind();
-        this.injectableProperties = {
-          testMethod: {
-            bindingType: "method"
-          },
-          testProp: {
-            bindingType: "property"
-          },
-          testConst: {
-            bindingType: "constant"
-          },
-          testValue: {
-            bindingType: "value"
-          },
-          testCustom: {
-            bindingType: "custom",
-            onInvoke: Sinon.stub()
-          }
-        };
-
-        Store.from(TestBind).set("injectableProperties", this.injectableProperties);
-
-        Sinon.stub(injector, "bindMethod");
-        Sinon.stub(injector, "bindProperty");
-        Sinon.stub(injector, "bindConstant");
-        Sinon.stub(injector, "bindValue");
-
-        injector.bindInjectableProperties(this.instance);
-      })
-    );
-
-    after(TestContext.reset);
     after(() => {
-      this.injector.bindMethod.restore();
-      this.injector.bindProperty.restore();
-      this.injector.bindConstant.restore();
-      this.injector.bindValue.restore();
+      sandbox.restore();
     });
 
-    it("should call bindMethod", () => {
-      this.injector.bindMethod.should.have.been.calledWithExactly(this.instance, this.injectableProperties.testMethod);
-    });
+    it("should bind all properties", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new TestBind();
 
-    it("should call bindProperty", () => {
-      this.injector.bindProperty.should.have.been.calledWithExactly(this.instance, this.injectableProperties.testProp);
-    });
+      sandbox.stub(injector as any, "bindMethod");
+      sandbox.stub(injector as any, "bindProperty");
+      sandbox.stub(injector as any, "bindConstant");
+      sandbox.stub(injector as any, "bindValue");
+      sandbox.stub(injector as any, "bindInterceptor");
 
-    it("shoul call bindConstant", () => {
-      this.injector.bindConstant.should.have.been.calledWithExactly(this.instance, this.injectableProperties.testConst);
-    });
+      const injectableProperties = {
+        testMethod: {
+          bindingType: "method"
+        },
+        testProp: {
+          bindingType: "property"
+        },
+        testConst: {
+          bindingType: "constant"
+        },
+        testValue: {
+          bindingType: "value"
+        },
+        testInterceptor: {
+          bindingType: "interceptor"
+        }
+      };
 
-    it("should call bindValue", () => {
-      this.injector.bindValue.should.have.been.calledWithExactly(this.instance, this.injectableProperties.testValue);
-    });
+      Store.from(TestBind).set("injectableProperties", injectableProperties);
 
-    it("should call onInvoke", () => {
-      this.injectableProperties.testCustom.onInvoke.should.have.been.calledWithExactly(
-        this.injector,
-        this.instance,
-        this.injectableProperties.testCustom
-      );
+      // WHEN
+      injector.bindInjectableProperties(instance);
+
+      // THEN
+      injector.bindMethod.should.have.been.calledWithExactly(instance, injectableProperties.testMethod);
+      injector.bindProperty.should.have.been.calledWithExactly(instance, injectableProperties.testProp);
+      injector.bindConstant.should.have.been.calledWithExactly(instance, injectableProperties.testConst);
+      injector.bindValue.should.have.been.calledWithExactly(instance, injectableProperties.testValue);
+      injector.bindInterceptor.should.have.been.calledWithExactly(instance, injectableProperties.testInterceptor);
     });
   });
 
   describe("bindMethod()", () => {
-    class TestBind {
-      testMethod() {
-      }
-    }
+    const sandbox = Sinon.createSandbox();
 
-    before(
-      inject([InjectorService], (injector: any) => {
-        this.injector = injector;
-        this.instance = new TestBind();
-
-        Sinon.stub(this.injector, "invokeMethod");
-        Sinon.stub(this.instance, "testMethod");
-
-        this.injector.bindMethod(this.instance, {propertyKey: "testMethod"});
-
-        this.instance.testMethod();
-      })
-    );
-
-    after(TestContext.reset);
-    after(() => {
-      this.injector.invokeMethod.restore();
-    });
+    after(() => sandbox.restore());
 
     it("should bind the method", () => {
-      expect(this.instance.testMethod.$injected).to.be.true;
-    });
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new Test();
 
-    it("should call bindMethod()", () => {
-      this.injector.invokeMethod.should.have.been.calledWithExactly(Sinon.match.func, {
-        target: TestBind,
-        methodName: "testMethod",
-        locals: Sinon.match.instanceOf(Map)
-      });
+      const spyTest2 = sandbox.spy(instance, "test2");
+      sandbox.spy(injector, "get");
+
+      // WHEN
+      injector.bindMethod(instance, {bindingType: "method", propertyKey: "test2"} as any);
+      const result = (instance as any).test2();
+
+      // THEN
+      spyTest2.should.have.been.calledWithExactly(injector);
+      injector.get.should.have.been.calledWithExactly(InjectorService);
+      expect(result).to.eq(injector);
     });
   });
 
   describe("bindProperty()", () => {
-    class TestBind {
-    }
+    const sandbox = Sinon.createSandbox();
 
-    before(
-      inject([InjectorService], (injector: any) => {
-        this.injector = injector;
-        this.instance = new TestBind();
-
-        Sinon.stub(this.injector, "get").returns(injector);
-
-        this.injector.bindProperty(this.instance, {propertyKey: "testProp", useType: InjectorService});
-        this.result = this.instance.testProp;
-      })
-    );
-
-    after(TestContext.reset);
-    after(() => {
-      this.injector.get.restore();
-    });
+    after(() => sandbox.restore());
 
     it("should bind the method", () => {
-      expect(this.result).to.be.instanceOf(InjectorService);
-    });
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new Test();
 
-    it("should call bindMethod()", () => {
-      this.injector.get.should.have.been.calledWithExactly(InjectorService);
+      // WHEN
+      injector.bindProperty(instance, {bindingType: "property", propertyKey: "prop", useType: InjectorService} as any);
+
+      // THEN
+      expect(instance.prop).to.eq(injector);
     });
   });
 
   describe("bindValue()", () => {
-    class TestBind {
-    }
+    it("should bind a property with a value", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new Test();
 
-    before(
-      inject([InjectorService], (injector: any) => {
-        this.injector = injector;
-        this.instance = new TestBind();
+      // WHEN
+      injector.bindValue(instance, {propertyKey: "value", expression: "expression"} as any);
 
-        Sinon.stub(this.injector.settings, "get").returns("value");
-        Sinon.stub(this.injector.settings, "set");
-
-        this.injector.bindValue(this.instance, {propertyKey: "testProp", expression: "expression"});
-        this.instance.testProp = "setValue";
-        this.result = this.instance.testProp;
-      })
-    );
-
-    after(TestContext.reset);
-    after(() => {
-      this.injector.settings.get.restore();
-      this.injector.settings.set.restore();
-    });
-
-    it("should bind the method", () => {
-      expect(this.result).to.equal("value");
-    });
-
-    it("should call get()", () => {
-      this.injector.settings.get.should.have.been.calledWithExactly("expression");
-    });
-
-    it("should call set()", () => {
-      this.injector.settings.set.should.have.been.calledWithExactly("expression", "setValue");
+      instance.value = "test";
+      // THEN
+      expect(instance.value).to.eq("test");
     });
   });
 
   describe("bindConstant()", () => {
-    class TestBind {
-    }
+    it("should bind a property with a value", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new Test();
 
-    before(
-      inject([InjectorService], (injector: any) => {
-        this.injector = injector;
-        this.instance = new TestBind();
+      injector.settings.set("expression", "constant");
 
-        Sinon.stub(this.injector.settings, "get").returns("value");
+      // WHEN
+      injector.bindConstant(instance, {propertyKey: "constant", expression: "expression"} as any);
 
-        this.injector.bindConstant(this.instance, {propertyKey: "testProp", expression: "expression"});
-        this.result = this.instance.testProp;
-      })
-    );
+      // THEN
+      expect(instance.constant).to.eq("constant");
 
-    after(TestContext.reset);
-    after(() => {
-      this.injector.settings.get.restore();
+      let actualError: any;
+      try {
+        instance.constant = "test";
+      } catch (er) {
+        actualError = er;
+      }
+      expect(!!actualError).to.eq(true);
     });
+  });
 
-    it("should bind the method", () => {
-      expect(this.result).to.equal("value");
+  describe("bindInterceptor()", () => {
+    const sandbox = Sinon.createSandbox();
+
+    after(() => sandbox.restore());
+    afterEach(() => sandbox.resetHistory());
+
+    it("should bind the method and return result", async () => {
+      // GIVEN
+      class InterceptorTest {
+        aroundInvoke(ctx: any) {
+          return ctx.proceed() + " intercepted";
+        }
+      }
+
+      const injector = new InjectorService();
+      const instance = new Test();
+      const originalMethod = instance["test3"];
+
+      sandbox.stub(injector, "get").returns(new InterceptorTest());
+
+      // WHEN
+      injector.bindInterceptor(instance, {
+        bindingType: "interceptor",
+        propertyKey: "test3",
+        useType: InterceptorTest
+      } as any);
+
+      const result = (instance as any).test3("test");
+
+      // THEN
+      expect(originalMethod).should.not.eq(instance.test3);
+      injector.get.should.have.been.calledWithExactly(InterceptorTest);
+
+      expect(result).to.eq("test called  intercepted");
     });
+    it("should bind the method and throw error", async () => {
+      // GIVEN
+      class InterceptorTest {
+        aroundInvoke(ctx: any) {
+          return ctx.proceed(new Error());
+        }
+      }
 
-    it("should call bindMethod()", () => {
-      this.injector.settings.get.should.have.been.calledWithExactly("expression");
+      const injector = new InjectorService();
+      const instance = new Test();
+      const originalMethod = instance["test3"];
+
+      sandbox.stub(injector, "get").returns(new InterceptorTest());
+
+      // WHEN
+      injector.bindInterceptor(instance, {
+        bindingType: "interceptor",
+        propertyKey: "test3",
+        useType: InterceptorTest
+      } as any);
+
+      let actualError;
+      try {
+        (instance as any).test3("test");
+      } catch (er) {
+        actualError = er;
+      }
+
+      // THEN
+      expect(originalMethod).should.not.eq(instance.test3);
+      injector.get.should.have.been.calledWithExactly(InterceptorTest);
+
+      actualError.should.instanceOf(Error);
     });
   });
 });

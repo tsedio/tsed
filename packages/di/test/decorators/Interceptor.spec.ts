@@ -1,6 +1,6 @@
 import {GlobalProviders, ProviderType} from "@tsed/di";
 import * as Sinon from "sinon";
-import {Interceptor} from "../../../src/interceptors";
+import {Interceptor} from "../../src";
 
 class Test {
 }

@@ -9,6 +9,9 @@ import {
   IInjectableProperties,
   IInjectablePropertyService,
   IInjectablePropertyValue,
+  IInterceptor,
+  IInterceptorContext,
+  InjectablePropertyType,
   ProviderScope,
   ProviderType
 } from "../interfaces";
@@ -274,6 +277,143 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
 
   /**
    *
+   * @param instance
+   */
+  public bindInjectableProperties(instance: any) {
+    const store = Store.from(getClass(instance));
+
+    if (store && store.has("injectableProperties")) {
+      const properties: IInjectableProperties = store.get("injectableProperties") || [];
+
+      Object.keys(properties)
+        .map(key => properties[key])
+        .forEach(definition => {
+          switch (definition.bindingType) {
+            case InjectablePropertyType.METHOD:
+              this.bindMethod(instance, definition);
+              break;
+            case InjectablePropertyType.PROPERTY:
+              this.bindProperty(instance, definition);
+              break;
+            case InjectablePropertyType.CONSTANT:
+              this.bindConstant(instance, definition);
+              break;
+            case InjectablePropertyType.VALUE:
+              this.bindValue(instance, definition);
+              break;
+            case InjectablePropertyType.INTERCEPTOR:
+              this.bindInterceptor(instance, definition);
+              break;
+          }
+        });
+    }
+  }
+
+  /**
+   *
+   * @param instance
+   * @param {string} propertyKey
+   */
+  public bindMethod(instance: any, {propertyKey}: IInjectablePropertyService) {
+    const target = getClass(instance);
+    const originalMethod = instance[propertyKey];
+    const deps = Metadata.getParamTypes(prototypeOf(target), propertyKey);
+
+    instance[propertyKey] = () => {
+      const services = deps.map((dependency: any) => this.get(dependency));
+
+      return originalMethod.call(instance, ...services);
+    };
+  }
+
+  /**
+   *
+   * @param instance
+   * @param {string} propertyKey
+   * @param {any} useType
+   */
+  public bindProperty(instance: any, {propertyKey, useType}: IInjectablePropertyService) {
+    Object.defineProperty(instance, propertyKey, {
+      get: () => {
+        return this.get(useType);
+      }
+    });
+  }
+
+  /**
+   *
+   * @param instance
+   * @param {string} propertyKey
+   * @param {any} useType
+   */
+  public bindValue(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
+    const descriptor = {
+      get: () => this.settings.get(expression) || defaultValue,
+      set: (value: any) => this.settings.set(expression, value),
+      enumerable: true,
+      configurable: true
+    };
+    Object.defineProperty(instance, propertyKey, descriptor);
+  }
+
+  /**
+   *
+   * @param instance
+   * @param {string} propertyKey
+   * @param {any} useType
+   */
+  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
+    const clone = (o: any) => {
+      if (o) {
+        return Object.freeze(deepClone(o));
+      }
+
+      return defaultValue;
+    };
+
+    const descriptor = {
+      get: () => clone(this.settings.get(expression)),
+
+      enumerable: true,
+      configurable: true
+    };
+    Object.defineProperty(instance, propertyKey, descriptor);
+
+    return descriptor;
+  }
+
+  /**
+   *
+   * @param instance
+   * @param propertyKey
+   * @param useType
+   * @param options
+   */
+  public bindInterceptor(instance: any, {propertyKey, useType, options}: IInjectablePropertyService) {
+    const target = getClass(instance);
+    const originalMethod = instance[propertyKey];
+
+    instance[propertyKey] = (...args: any[]) => {
+      const context: IInterceptorContext<any> = {
+        target,
+        method: propertyKey,
+        propertyKey,
+        args,
+        proceed(err?: Error) {
+          if (!err) {
+            return originalMethod.apply(instance, args);
+          }
+
+          throw err;
+        }
+      };
+
+      return this.get<IInterceptor>(useType)!.aroundInvoke(context, options);
+    };
+  }
+
+  /**
+   *
    */
   private initInjector() {
     this.forkProvider(InjectorService, this);
@@ -325,119 +465,6 @@ export class InjectorService extends Map<RegistryKey, Provider<any>> {
       throw error;
     }
   }
-
-  /**
-   *
-   * @param instance
-   */
-  private bindInjectableProperties(instance: any) {
-    const properties: IInjectableProperties = Store.from(getClass(instance)).get("injectableProperties") || [];
-
-    Object.keys(properties)
-      .map(key => properties[key])
-      .forEach(definition => {
-        switch (definition.bindingType) {
-          case "method":
-            this.bindMethod(instance, definition);
-            break;
-          case "property":
-            this.bindProperty(instance, definition);
-            break;
-          case "constant":
-            this.bindConstant(instance, definition);
-            break;
-          case "value":
-            this.bindValue(instance, definition);
-            break;
-          case "custom":
-            definition.onInvoke(this, instance, definition);
-            break;
-        }
-      });
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   */
-  private bindMethod(instance: any, {propertyKey}: IInjectablePropertyService) {
-    const target = getClass(instance);
-    const originalMethod = instance[propertyKey];
-
-    instance[propertyKey] = (locals: Map<Function, string> | any = new Map<Function, string>()) => {
-      return this.invokeMethod(originalMethod!.bind(instance), {
-        target,
-        methodName: propertyKey,
-        locals: locals instanceof Map ? locals : undefined
-      });
-    };
-
-    instance[propertyKey].$injected = true;
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   * @param {any} useType
-   */
-  private bindProperty(instance: any, {propertyKey, useType}: IInjectablePropertyService) {
-    Object.defineProperty(instance, propertyKey, {
-      get: () => {
-        return this.get(useType);
-      }
-    });
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   * @param {any} useType
-   */
-  private bindValue(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
-    const descriptor = {
-      get: () => this.settings.get(expression) || defaultValue,
-      set: (value: any) => this.settings.set(expression, value),
-      enumerable: true,
-      configurable: true
-    };
-    Object.defineProperty(instance, propertyKey, descriptor);
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   * @param {any} useType
-   */
-  private bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
-    const clone = (o: any) => {
-      if (o) {
-        return Object.freeze(deepClone(o));
-      }
-
-      return defaultValue;
-    };
-
-    const descriptor = {
-      get: () => clone(this.settings.get(expression)),
-
-      enumerable: true,
-      configurable: true
-    };
-    Object.defineProperty(instance, propertyKey, descriptor);
-
-    return descriptor;
-  }
-
-  /**
-   *
-   * @param {string} eventName
-   * @param result
-   * @param {string} service
-   */
 
   /**
    *
