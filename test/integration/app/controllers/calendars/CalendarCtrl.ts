@@ -23,6 +23,7 @@ import {
 import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
 import * as Express from "express";
+import {OAuth} from "../../decorators/oauth";
 import {CalendarModel} from "../../models/Calendar";
 import {TokenService} from "../../services/TokenService";
 import {BaseController} from "../base/BaseController";
@@ -44,6 +45,32 @@ interface ICalendar {
 export class CalendarCtrl extends BaseController {
   constructor(private tokenService: TokenService) {
     super(tokenService);
+  }
+
+  /**
+   *
+   * @param request
+   * @param response
+   * @param next
+   */
+  static middleware(request: any, response: Express.Response, next: Express.NextFunction) {
+    request["user"] = 1;
+
+    // console.log(request.headers)
+    next();
+  }
+
+  /**
+   *
+   * @param request
+   * @param response
+   * @param next
+   */
+  static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
+    request.getStoredData().id = 10909;
+
+    // console.log(request.headers)
+    next();
   }
 
   /**
@@ -82,24 +109,11 @@ export class CalendarCtrl extends BaseController {
   public updateToken(
     @PathParams("token")
     @Description("Token required to update token")
-    token: string
+      token: string
   ): string {
     this.tokenService.token(token);
 
     return "token updated";
-  }
-
-  /**
-   *
-   * @param request
-   * @param response
-   * @param next
-   */
-  static middleware(request: any, response: Express.Response, next: Express.NextFunction) {
-    request["user"] = 1;
-
-    // console.log(request.headers)
-    next();
   }
 
   /**
@@ -121,7 +135,7 @@ export class CalendarCtrl extends BaseController {
     @Response() response: Express.Response,
     @PathParams("id")
     @Required()
-    id: string
+      id: string
   ): void {
     const model = new CalendarModel();
     model.id = "1";
@@ -193,7 +207,7 @@ export class CalendarCtrl extends BaseController {
   public save(
     @BodyParams("name")
     @Required()
-    name: string
+      name: string
   ): CalendarModel {
     const model = new CalendarModel();
     model.id = "2";
@@ -203,19 +217,25 @@ export class CalendarCtrl extends BaseController {
   }
 
   @Delete("/")
+  @Status(204)
   @Authenticated({role: "admin"})
   @Security("global_auth", "read:global")
   @Security("calendar_auth", "write:calendar", "read:calendar")
   public remove(
     @BodyParams("id")
     @Required()
-    id: string
-  ): CalendarModel {
-    const model = new CalendarModel();
-    model.id = id;
-    model.name = "test";
+      id: string
+  ): void {
 
-    return model;
+    return undefined;
+  }
+
+  @Delete("/token")
+  @Status(204)
+  @OAuth({role: "admin", scopes: ["write:calendar", "read:calendar"]})
+  public removeWithToken(@BodyParams("id") @Required() id: string): void {
+
+    return undefined;
   }
 
   /**
@@ -253,19 +273,6 @@ export class CalendarCtrl extends BaseController {
     model.name = "test";
 
     return model;
-  }
-
-  /**
-   *
-   * @param request
-   * @param response
-   * @param next
-   */
-  static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
-    request.getStoredData().id = 10909;
-
-    // console.log(request.headers)
-    next();
   }
 
   /**

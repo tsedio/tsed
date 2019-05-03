@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Forbidden} from "ts-httpexceptions";
+import {Unauthorized} from "ts-httpexceptions";
 import {FakeRequest} from "../../../../../test/helper";
 import {AuthenticatedMiddleware, EndpointMetadata} from "../../../src/mvc";
 
@@ -46,6 +46,6 @@ describe("AuthenticatedMiddleware", () => {
 
     // THEN
     request.isAuthenticated.should.have.been.calledWithExactly({options: "options"});
-    actualError.should.instanceOf(Forbidden);
+    actualError.should.instanceOf(Unauthorized);
   });
 });

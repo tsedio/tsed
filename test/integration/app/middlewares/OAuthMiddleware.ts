@@ -1,10 +1,10 @@
-import {AuthenticatedMiddleware, EndpointInfo, EndpointMetadata, OverrideProvider, Req} from "@tsed/common";
+import {AuthenticatedMiddleware, EndpointInfo, EndpointMetadata, Middleware, Req} from "@tsed/common";
 import * as Express from "express";
 import {BadRequest, Forbidden, Unauthorized} from "ts-httpexceptions";
 import {TokenService} from "../services/TokenService";
 
-@OverrideProvider(AuthenticatedMiddleware)
-export class CustomAuthMiddleware {
+@Middleware()
+export class OAuthMiddleware {
   constructor(private tokenService: TokenService) {
   }
 
@@ -12,7 +12,7 @@ export class CustomAuthMiddleware {
     @EndpointInfo() endpoint: EndpointMetadata,
     @Req() request: Express.Request
   ) {
-    const options = endpoint.get(AuthenticatedMiddleware) || {};
+    const options = endpoint.get(OAuthMiddleware) || {};
 
     if (!request.get("authorization")) {
       throw new Unauthorized("Unauthorized");

@@ -1,4 +1,4 @@
-import {Forbidden} from "ts-httpexceptions";
+import {Unauthorized} from "ts-httpexceptions";
 import {IMiddleware} from "../";
 import {EndpointInfo, Req} from "../../filters";
 import {Middleware} from "../decorators/class/middleware";
@@ -14,7 +14,7 @@ export class AuthenticatedMiddleware implements IMiddleware {
     const options = endpoint.get(AuthenticatedMiddleware) || {};
     // @ts-ignore
     if (!request.isAuthenticated(options)) {
-      throw new Forbidden("Forbidden");
+      throw new Unauthorized("Unauthorized");
     }
   }
 }

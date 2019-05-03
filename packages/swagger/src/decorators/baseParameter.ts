@@ -1,4 +1,4 @@
-import {DecoratorParameters, Store} from "@tsed/core";
+import {Store} from "@tsed/core";
 import {BaseParameter} from "swagger-schema-official";
 
 /**
@@ -9,7 +9,7 @@ import {BaseParameter} from "swagger-schema-official";
  * @swagger
  */
 export function BaseParameter(baseParameter: BaseParameter | any) {
-  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
+  return Store.decorate((store: Store) => {
     store.merge("baseParameter", baseParameter);
   });
 }

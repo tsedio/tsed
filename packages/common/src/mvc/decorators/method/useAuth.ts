@@ -38,17 +38,19 @@ export function UseAuth(guardAuth: Type<any>, options: IUseAuthOptions = {}): Fu
     switch (getDecoratorType(args, true)) {
       case "method":
         return Store.decorate((store: Store) => {
-          store.set(guardAuth, options);
-
           if (options.responses) {
             const {responses} = options;
             store.merge("responses", responses);
+            delete options.responses;
           }
 
           if (options.security) {
             const {security} = options;
             store.merge("operation", {security});
+            delete options.security;
           }
+
+          store.set(guardAuth, options);
 
           return UseBefore(guardAuth);
         })(...args);

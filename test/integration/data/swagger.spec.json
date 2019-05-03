@@ -13,12 +13,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "securityDefinitions": {
     "global_auth": {
       "type": "oauth2",
@@ -39,10 +33,16 @@
       }
     }
   },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "tags": [
     {
-      "description": "Controller description",
-      "name": "CalendarCtrl"
+      "name": "CalendarCtrl",
+      "description": "Controller description"
     },
     {
       "name": "EventCtrl"
@@ -55,67 +55,6 @@
     }
   ],
   "paths": {
-    "/rest/html": {
-      "get": {
-        "operationId": "RestCtrl.render",
-        "tags": [
-          "RestCtrl"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/rest/test/{required}": {
-      "get": {
-        "operationId": "RestCtrl.test",
-        "tags": [
-          "RestCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "required",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/rest/test/{required}/{optional}": {
-      "get": {
-        "operationId": "RestCtrl.test_1",
-        "tags": [
-          "RestCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "required",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "optional",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/rest/calendars/events/{eventId}/tasks": {
       "get": {
         "operationId": "TaskCtrl.get",
@@ -134,8 +73,8 @@
           "200": {
             "description": "Success"
           },
-          "403": {
-            "description": "Forbidden"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -163,9 +102,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "403": {
-            "description": "Forbidden"
           }
         }
       }
@@ -192,31 +128,6 @@
             "description": "Success"
           }
         }
-      }
-    },
-    "/rest/calendars/events/status": {
-      "get": {
-        "operationId": "EventCtrl.byStatus",
-        "parameters": [
-          {
-            "collectionFormat": "multi",
-            "in": "query",
-            "items": {
-              "type": "string"
-            },
-            "name": "status",
-            "required": false,
-            "type": "array"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        },
-        "tags": [
-          "EventCtrl"
-        ]
       }
     },
     "/rest/calendars/events/{id}": {
@@ -352,8 +263,8 @@
           "400": {
             "description": "Missing required parameter"
           },
-          "403": {
-            "description": "Forbidden"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       },
@@ -368,6 +279,31 @@
           }
         },
         "summary": "Return all elements from a service"
+      }
+    },
+    "/rest/calendars/events/status": {
+      "get": {
+        "operationId": "EventCtrl.byStatus",
+        "tags": [
+          "EventCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/rest/calendars/events/{resources}/test/{id}": {
@@ -432,6 +368,50 @@
             "description": "Success"
           }
         }
+      },
+      "delete": {
+        "operationId": "CalendarCtrl.removeWithToken",
+        "tags": [
+          "CalendarCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CalendarCtrlRemoveWithTokenPayload"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "global_auth": [
+              "write:calendar",
+              "read:calendar"
+            ]
+          }
+        ]
       }
     },
     "/rest/calendars/token/{token}": {
@@ -584,14 +564,14 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
             "description": "Missing required parameter"
           },
-          "403": {
-            "description": "Forbidden"
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "security": [
@@ -640,8 +620,8 @@
           "200": {
             "description": "Success"
           },
-          "403": {
-            "description": "Forbidden"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -656,8 +636,8 @@
           "200": {
             "description": "Success"
           },
-          "403": {
-            "description": "Forbidden"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -783,6 +763,67 @@
           }
         },
         "summary": "Return all elements from a service"
+      }
+    },
+    "/rest/html": {
+      "get": {
+        "operationId": "RestCtrl.render",
+        "tags": [
+          "RestCtrl"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/rest/test/{required}": {
+      "get": {
+        "operationId": "RestCtrl.test",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "required",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/rest/test/{required}/{optional}": {
+      "get": {
+        "operationId": "RestCtrl.test_1",
+        "tags": [
+          "RestCtrl"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "required",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "optional",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     }
   },
@@ -930,6 +971,17 @@
       ]
     },
     "CalendarCtrlRemovePayload": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "CalendarCtrlRemoveWithTokenPayload": {
       "type": "object",
       "properties": {
         "id": {
