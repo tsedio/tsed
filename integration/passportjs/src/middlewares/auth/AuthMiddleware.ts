@@ -1,5 +1,5 @@
 import {AuthenticatedMiddleware, EndpointInfo, EndpointMetadata, OverrideMiddleware, Req} from "@tsed/common";
-import {Forbidden} from "ts-httpexceptions";
+import {Unauthorized} from "ts-httpexceptions";
 import {$log} from "ts-log-debug";
 
 @OverrideMiddleware(AuthenticatedMiddleware)
@@ -16,7 +16,7 @@ export class AuthMiddleware {
     $log.debug("AuthMiddleware isAuthenticated ? =>", request.isAuthenticated());
 
     if (!request.isAuthenticated()) {
-      throw new Forbidden("Forbidden");
+      throw new Unauthorized("Unauthorized");
     }
   }
 }

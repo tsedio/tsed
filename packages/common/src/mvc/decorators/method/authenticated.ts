@@ -19,13 +19,15 @@ import {IUseAuthOptions, UseAuth} from "./useAuth";
  * @decorator
  */
 export function Authenticated(options: IUseAuthOptions = {}): Function {
-  return UseAuth(AuthenticatedMiddleware, {
+  options = {
     responses: {
-      "403": {
-        description: "Forbidden"
+      "401": {
+        description: "Unauthorized"
       },
       ...(options.responses || {})
     },
     ...options
-  });
+  };
+
+  return UseAuth(AuthenticatedMiddleware, options);
 }

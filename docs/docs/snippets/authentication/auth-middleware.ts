@@ -8,11 +8,11 @@ export class CustomAuthMiddleware implements IMiddleware {
     const options = endpoint.get(CustomAuthMiddleware) || {};
 
     if (!request.isAuthenticated()) { // passport.js method to check auth
-      throw new Forbidden("Forbidden");
+      throw new Unauthorized("Unauthorized");
     }
 
     if (request.user.role !== options.role) {
-      throw new Unauthorized("Unauthorized");
+      throw new Forbidden("Forbidden");
     }
   }
 }

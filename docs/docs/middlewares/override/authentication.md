@@ -1,4 +1,4 @@
-# Override Authentication
+# Override Authentication <Badge text="deprecated" type="warn" />
 
 The annotation [`@Authenticated()`](/api/common/mvc/decorators/method/authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
 to check the authentication strategy. 
@@ -9,7 +9,9 @@ your authentication strategy (with [passport.js for example](/tutorials/passport
 ## Use case
 
 ```typescript
-@ControllerProvider("/mypath")
+import {Controller, Get, Authenticated} from "@tsed/common";
+
+@Controller("/mypath")
 class MyCtrl {
   @Get("/")
   @Authenticated({role: "admin"})
@@ -20,26 +22,18 @@ class MyCtrl {
 ## Example
 
 ```typescript
-import {OverrideMiddleware, AuthenticatedMiddleware} from "@tsed/common";
-import {Forbidden} from "ts-httpexceptions";
+import {Unauthorized} from "ts-httpexceptions";
+import {IMiddleware, EndpointInfo, Req, Middleware} from "@tsed/common";
 
-@OverrideMiddleware(AuthenticatedMiddleware)
-export class MyAuthMiddleware implements IMiddleware {
-    public use(@EndpointInfo() endpoint: EndpointMetadata,
-               @Request() request: Express.Request,
-               @Response() response: Express.Response,
-               @Next() next: Express.NextFunction) { // next is optional
-        
-        // options given to the @Authenticated decorator
-        const options = endpoint.get(AuthenticatedMiddleware) || {};
-        // options => {role: 'admin'}
-        
-        if (!request.isAuthenticated()) { // passport.js
-          throw new Forbidden("Forbidden")  
-        }
-        
-        next();
+@Middleware()
+export class AuthenticatedMiddleware implements IMiddleware {
+  public use(@Req() request: Req, @EndpointInfo() endpoint: EndpointInfo) {
+    const options = endpoint.get(AuthenticatedMiddleware) || {};
+    // @ts-ignore
+    if (!request.isAuthenticated(options)) {
+      throw new Unauthorized("Unauthorized");
     }
+  }
 }
 ```
 

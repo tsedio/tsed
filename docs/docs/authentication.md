@@ -37,6 +37,14 @@ To avoid that, we can create a decorator which apply all of theses instructions 
 
 <<< @/docs/docs/snippets/authentication/auth-decorator-example.ts
 
+::: tip
+Additionally, you can use Operation decorator to add automatically in the swagger spec, the `Authorization` header field:
+
+<<< @/docs/docs/snippets/authentication/auth-decorator-example-2.ts
+
+:::
+
 And use it on our controller and endpoints:
 
 <<< @/docs/docs/snippets/authentication/auth-custom-auth-example.ts
+

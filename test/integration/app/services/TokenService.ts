@@ -12,7 +12,7 @@ export class TokenService {
     return this._token;
   }
 
-  isValid(token: string) {
-    return token === "token";
+  isValid(token: string | undefined) {
+    return String(token).match(/token/);
   }
 }

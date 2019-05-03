@@ -1,9 +1,9 @@
 import {getClass, NotEnumerable, Type} from "@tsed/core";
-import * as Express from "express";
 import {Provider} from "@tsed/di";
+import * as Express from "express";
 import {IRouterSettings} from "../../config/interfaces/IServerSettings";
 
-import {IControllerMiddlewares, IControllerOptions} from "../interfaces";
+import {IControllerMiddlewares, IControllerProvider} from "../interfaces";
 import {EndpointRegistry} from "../registries/EndpointRegistry";
 import {EndpointMetadata} from "./EndpointMetadata";
 
@@ -11,13 +11,14 @@ export interface IChildrenController extends Type<any> {
   $parentCtrl?: ControllerProvider;
 }
 
-export class ControllerProvider extends Provider<any> implements IControllerOptions {
+export class ControllerProvider extends Provider<any> implements IControllerProvider {
+  @NotEnumerable()
+  public router: Express.Router;
   /**
    * The path for the controller
    */
   @NotEnumerable()
   private _path: string;
-
   /**
    * Controllers that depend to this controller.
    * @type {Array}
@@ -25,9 +26,6 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
    */
   @NotEnumerable()
   private _dependencies: IChildrenController[] = [];
-
-  @NotEnumerable()
-  public router: Express.Router;
 
   constructor(provide: any) {
     super(provide);
@@ -85,18 +83,18 @@ export class ControllerProvider extends Provider<any> implements IControllerOpti
 
   /**
    *
-   * @returns {ControllerProvider}
-   */
-  get parent() {
-    return this.provide.$parentCtrl;
-  }
-
-  /**
-   *
    * @param value
    */
   set routerOptions(value: IRouterSettings) {
     this.store.set("routerOptions", value);
+  }
+
+  /**
+   *
+   * @returns {ControllerProvider}
+   */
+  get parent() {
+    return this.provide.$parentCtrl;
   }
 
   /**

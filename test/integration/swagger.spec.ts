@@ -1,7 +1,7 @@
 import {ExpressApplication} from "@tsed/common";
 import {bootstrap, inject, TestContext} from "@tsed/testing";
-import * as SuperTest from "supertest";
 import {expect} from "chai";
+import * as SuperTest from "supertest";
 import {FakeServer} from "./app/FakeServer";
 
 describe("Swagger", () => {
@@ -51,6 +51,7 @@ describe("Swagger", () => {
     });
 
     it("should be equals to the expected swagger.spec.json", () => {
+      require("fs").writeFileSync(__dirname + "/data/swagger.spec.json", JSON.stringify(this.spec, null, 2), {});
       expect(this.spec).to.deep.eq(require("./data/swagger.spec.json"));
     });
   });

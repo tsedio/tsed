@@ -26,8 +26,8 @@ describe("Authenticated", () => {
       UseAuth.should.be.calledWithExactly(AuthenticatedMiddleware, {
         options: "options",
         "responses": {
-          "403": {
-            "description": "Forbidden"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       });
