@@ -4,9 +4,14 @@ A package of Ts.ED framework. See website: https://tsed.io/
 
 # Installation
 
+You can get the latest release and the type definitions using npm:
 ```bash
 npm install --save @tsed/di
 ```
+
+> **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
+the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
+options in your `tsconfig.json` file.
 
 ## Contributors
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)

@@ -1,29 +1,23 @@
-/**
- *
- */
+import {InjectablePropertyType} from "./InjectablePropertyType";
+import {TokenProvider} from "./TokenProvider";
+
 export interface IInjectableProperty {
   propertyKey: string;
 }
 
 export interface IInjectablePropertyService extends IInjectableProperty {
-  bindingType: "method" | "property";
+  bindingType: InjectablePropertyType.METHOD | InjectablePropertyType.PROPERTY | InjectablePropertyType.INTERCEPTOR;
   propertyType: string;
-  useType: any;
+  useType: TokenProvider;
+  options?: any;
 }
 
 export interface IInjectablePropertyValue extends IInjectableProperty {
-  bindingType: "value" | "constant";
+  bindingType: InjectablePropertyType.CONSTANT | InjectablePropertyType.VALUE;
   expression: string;
   defaultValue?: any;
 }
 
-export interface IInjectablePropertyCustom extends IInjectableProperty {
-  bindingType: "custom";
-  onInvoke: (injector: any, instance: any, definition?: IInjectablePropertyCustom) => void;
-
-  [key: string]: any;
-}
-
 export interface IInjectableProperties {
-  [key: string]: IInjectablePropertyService | IInjectablePropertyValue | IInjectablePropertyCustom;
+  [key: string]: IInjectablePropertyService | IInjectablePropertyValue;
 }

@@ -1,4 +1,4 @@
-import {registerInterceptor} from "../registries/InterceptorRegistries";
+import {registerInterceptor} from "../registries/ProviderRegistry";
 
 /**
  * The decorators `@Service()` declare a new service can be injected in other service or controller on there `constructor`.
