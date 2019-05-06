@@ -7,7 +7,7 @@ import {EndpointMetadata} from "../class/EndpointMetadata";
 import {IControllerRoute} from "../interfaces";
 
 /**
- * `RouteService` is used to provide all routes collected by annotation `@ControllerProvider`.
+ * `RouteService` is used to provide all routes collected by annotation `@Controller`.
  */
 @Service()
 export class RouteService implements AfterRoutesInit {

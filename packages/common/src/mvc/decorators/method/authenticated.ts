@@ -1,11 +1,12 @@
 import {AuthenticatedMiddleware} from "../../components/AuthenticatedMiddleware";
-import {IUseAuthOptions, UseAuth} from "./useAuth";
+import {IAuthOptions} from "./authOptions";
+import {UseAuth} from "./useAuth";
 
 /**
  * Use passport authentication strategy on your endpoint.
  *
  * ```typescript
- * @ControllerProvider('/mypath')
+ * @Controller('/mypath')
  * class MyCtrl {
  *
  *   @Get('/')
@@ -18,7 +19,7 @@ import {IUseAuthOptions, UseAuth} from "./useAuth";
  * @returns {Function}
  * @decorator
  */
-export function Authenticated(options: IUseAuthOptions = {}): Function {
+export function Authenticated(options: IAuthOptions = {}): Function {
   options = {
     responses: {
       "401": {

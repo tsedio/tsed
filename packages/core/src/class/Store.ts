@@ -1,5 +1,5 @@
 import {DecoratorParameters} from "../interfaces";
-import {deepExtends, descriptorOf, getDecoratorType, nameOf} from "../utils";
+import {deepClone, deepExtends, descriptorOf, getDecoratorType, nameOf} from "../utils";
 
 import {Metadata} from "./Metadata";
 
@@ -176,16 +176,19 @@ export class Store {
   }
 
   /**
-   *
+   * Merge given value with existing value.
    * @param key
    * @param value
+   * @param inverse Change the merge order. Get the existing value and apply over given value
    * @returns {Store}
    */
-  merge(key: any, value: any): Store {
-    const _value_ = this.get(key);
+  merge(key: any, value: any, inverse: boolean = false): Store {
+    let _value_ = this.get(key);
 
     if (_value_) {
-      value = deepExtends(_value_, value);
+      value = deepClone(value);
+      _value_ = deepClone(_value_);
+      value = inverse ? deepExtends(value, _value_) : deepExtends(_value_, value);
     }
 
     this.set(key, value);

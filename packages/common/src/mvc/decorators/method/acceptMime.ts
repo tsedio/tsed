@@ -6,7 +6,7 @@ import {UseBefore} from "./useBefore";
  * Set a mime list as acceptable for a request on a specific endpoint.
  *
  * ```typescript
- *  @ControllerProvider('/mypath')
+ *  @Controller('/mypath')
  *  provide MyCtrl {
  *
  *    @Get('/')

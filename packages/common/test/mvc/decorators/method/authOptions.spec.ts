@@ -1,38 +1,23 @@
 import {decoratorArgs} from "@tsed/core";
-import * as Sinon from "sinon";
 import {Store} from "../../../../../core/src";
 import {prototypeOf, UnsupportedDecoratorType} from "../../../../../core/src/utils";
-import {EndpointRegistry, UseAuth} from "../../../../src/mvc";
+import {AuthOptions} from "../../../../src/mvc";
 
 class Guard {
   use() {
   }
 }
 
-describe("UseAuth()", () => {
+describe("AuthOptions()", () => {
   describe("when the decorator is use on a method", () => {
     class Test {
       test() {
       }
     }
 
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
-      UseAuth(Guard, {
+      AuthOptions(Guard, {
         security: [
           {
             "auth": ["email"]
@@ -48,7 +33,6 @@ describe("UseAuth()", () => {
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
 
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [Guard]);
       store.get("operation").should.deep.eq({
         security: [
           {
@@ -71,23 +55,9 @@ describe("UseAuth()", () => {
       }
     }
 
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
-      UseAuth(Guard, {
+      AuthOptions(Guard, {
         security: [
           {
             "auth": ["email"]
@@ -102,8 +72,6 @@ describe("UseAuth()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [Guard]);
 
       store.get("operation").should.deep.eq({
         security: [
@@ -123,26 +91,12 @@ describe("UseAuth()", () => {
     });
   });
   describe("when the decorator is use on a class and method", () => {
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
 
-      @UseAuth(Guard, {defaultRole: "test"})
+      @AuthOptions(Guard, {role: "test"})
       class Test {
-        @UseAuth(Guard, {role: "test2"})
+        @AuthOptions(Guard, {role: "test2"})
         test() {
         }
 
@@ -153,12 +107,8 @@ describe("UseAuth()", () => {
       // THEN
       const storeTest = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
-
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [Guard]);
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test2", [Guard]);
-
-      storeTest.get(Guard).should.deep.eq({role: "test2", defaultRole: "test"});
-      storeTest2.get(Guard).should.deep.eq({defaultRole: "test"});
+      storeTest.get(Guard).should.deep.eq({role: "test2"});
+      storeTest2.get(Guard).should.deep.eq({role: "test"});
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -167,32 +117,18 @@ describe("UseAuth()", () => {
       }
     }
 
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
       let actualError;
       try {
-        UseAuth(Guard)(Test, "property");
+        AuthOptions(Guard)(Test, "property");
       } catch (er) {
         actualError = er;
       }
 
       // THEN
       actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseAuth cannot used as property.static at Test.property");
+      actualError.message.should.eq("AuthOptions cannot used as property.static at Test.property");
     });
   });
 });
