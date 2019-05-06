@@ -1,177 +1,244 @@
+import {Store} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
+import * as Express from "express";
 import * as Sinon from "sinon";
-import {HandlerBuilder} from "../../../src/mvc";
+import {
+  ControllerBuilder,
+  EndpointMetadata,
+  EndpointRegistry,
+  HandlerBuilder,
+  SendResponseMiddleware
+} from "../../../src/mvc";
 import {ControllerProvider} from "../../../src/mvc/class/ControllerProvider";
 
-class Test {
-}
-
-class ChildrenTest {
+class TestCtrl {
 }
 
 describe("ControllerBuilder", () => {
   const sandbox = Sinon.createSandbox();
   before(() => {
     sandbox.stub(HandlerBuilder, "from");
+    sandbox.stub(Express, "Router");
+    sandbox.stub(EndpointRegistry, "getEndpoints");
   });
-  after(() => {
-    sandbox.restore();
-  });
-  it("should build controller", () => {
-    // GIVEN
-    const provider = new ControllerProvider(Test);
 
-    provider.store.set("middlewares", {
-      useBefore: [() => {}],
-      useAfter: [() => {}]
+  after(() => sandbox.restore());
+  afterEach(() => {
+    sandbox.resetHistory();
+    sandbox.resetBehavior();
+
+    Store.from(TestCtrl).clear();
+  });
+
+  it("should build controller (1)", () => {
+    // GIVEN
+    const injector = new InjectorService();
+    const provider = new ControllerProvider(TestCtrl);
+    provider.middlewares = {
+      use: [function controllerUse() {
+      }],
+      useAfter: [function controllerAfter() {
+      }],
+      useBefore: [function controllerBefore() {
+      }]
+    };
+
+    const endpoint = new EndpointMetadata(TestCtrl, "test");
+    endpoint.before([function endpointBefore() {
+    }]);
+    endpoint.after([function endpointAfter() {
+    }]);
+    endpoint.middlewares = [function endpointUse() {
+    }];
+    endpoint.pathsMethods.push({
+      path: "/",
+      method: "get"
     });
 
+    // @ts-ignore
+    EndpointRegistry.getEndpoints.returns([endpoint]);
 
+    const router = {
+      get(...args: any) {
+        return this.use(...args);
+      },
+      use: sandbox.stub()
+    };
+
+    // @ts-ignore
+    HandlerBuilder.from.callsFake((middleware) => {
+      return {
+        build(injector: InjectorService) {
+          injector.should.instanceOf(InjectorService);
+
+          return middleware;
+        }
+      };
+    });
+
+    // @ts-ignore
+    Express.Router.returns(router);
+
+    const controllerProvider = new ControllerBuilder(provider);
+
+    // WHEN
+    const result = controllerProvider.build(injector);
+
+    // THEN
+    result.should.to.eq(router);
+    router.use.callCount.should.deep.eq(4);
+    router.use.getCall(0).should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+
+    // ENDPOINT
+    router.use.getCall(1).should.have.been.calledWithExactly(
+      "/",
+      Sinon.match.func,
+      provider.middlewares.use[0],
+      endpoint.beforeMiddlewares[0],
+      endpoint.middlewares[0],
+      endpoint,
+      endpoint.afterMiddlewares[0]
+    );
+    router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
-  // before(
-  //   inject([InjectorService], (injector: InjectorService) => {
-  //     this.injector = injector;
-  //   })
-  // );
-  //
-  // describe("without dependencies", () => {
-  //   before(() => {
-  //     this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
-  //
-  //     this.controllerProvider = new ControllerProvider(Test);
-  //     this.controllerProvider.path = "/test";
-  //
-  //     this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
-  //
-  //     EndpointRegistry.use(Test, "test", ["get", "/"]);
-  //
-  //     Sinon.stub(this.controllerProvider.router, "use");
-  //     Sinon.stub(this.controllerProvider.router, "get");
-  //
-  //     this.controllerBuilder.build(this.injector);
-  //   });
-  //   after(() => {
-  //     this.endpointBuildStub.restore();
-  //   });
-  //
-  //   it("should do something", () => {
-  //     expect(!!this.controllerBuilder).to.be.true;
-  //   });
-  //
-  //   it("should build controller (get)", () => {
-  //     this.controllerProvider.router.get.calledWith("/");
-  //   });
-  //
-  //   it("should call EndpointBuilder.build()", () => {
-  //     expect(this.endpointBuildStub).to.have.been.calledWithExactly(this.injector);
-  //   });
-  // });
-  //
-  // describe("with dependencies", () => {
-  //   before(
-  //     inject([], () => {
-  //       this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
-  //
-  //       this.controllerProvider = new ControllerProvider(Test);
-  //       this.controllerProvider.path = "/test";
-  //       this.controllerProvider.dependencies = [ChildrenTest];
-  //       this.controllerBuilder = new ControllerBuilder(this.controllerProvider);
-  //
-  //       EndpointRegistry.use(Test, "test", ["get", "/"]);
-  //
-  //       Sinon.stub(this.controllerProvider.router, "use");
-  //       Sinon.stub(this.controllerProvider.router, "get");
-  //
-  //       Sinon.stub(this.injector, "getProvider").returns({
-  //         middlewares: {
-  //           useBefore: [],
-  //           useAfter: []
-  //         },
-  //         endpoints: [],
-  //         dependencies: [],
-  //         useClass: ChildrenTest,
-  //         path: "/children"
-  //       });
-  //
-  //       this.controllerBuilder.build(this.injector);
-  //     })
-  //   );
-  //
-  //   after(() => {
-  //     this.endpointBuildStub.restore();
-  //     this.injector.getProvider.restore();
-  //   });
-  //
-  //   it("should do something", () => {
-  //     expect(!!this.controllerBuilder).to.be.true;
-  //   });
-  //
-  //   it("should build controller (get)", () => {
-  //     this.controllerProvider.router.get.calledWith("/");
-  //   });
-  //
-  //   it("should call EndpointBuilder.build()", () => {
-  //     expect(this.endpointBuildStub).to.have.been.calledWithExactly(this.injector);
-  //   });
-  // });
-  //
-  // describe("with default options for the router", () => {
-  //   before(() => {
-  //     this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
-  //
-  //     this.controllerProvider = new ControllerProvider(Test);
-  //     this.controllerProvider.path = "/test";
-  //
-  //     this.expressRouterStub = Sinon.stub(Express, "Router");
-  //
-  //     this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"} as any);
-  //   });
-  //
-  //   after(() => {
-  //     this.endpointBuildStub.restore();
-  //     this.expressRouterStub.restore();
-  //   });
-  //
-  //   it("should be called with the router options", () => {
-  //     this.expressRouterStub.should.be.calledWithExactly({options: "option"});
-  //   });
-  // });
-  //
-  // describe("with middlewares added on Controller", () => {
-  //   before(() => {
-  //     this.endpointBuildStub = Sinon.stub(EndpointBuilder.prototype, "build");
-  //
-  //     this.controllerProvider = new ControllerProvider(Test);
-  //     this.controllerProvider.path = "/test";
-  //
-  //     this.mdlw1 = () => {
-  //     };
-  //     this.mdlw2 = () => {
-  //     };
-  //     this.mdlw3 = () => {
-  //     };
-  //
-  //     this.controllerProvider.middlewares = {
-  //       useBefore: [this.mdlw1],
-  //       use: [this.mdlw2],
-  //       useAfter: [this.mdlw3]
-  //     };
-  //
-  //     this.controllerBuilder = new ControllerBuilder(this.controllerProvider, {options: "option"} as any);
-  //
-  //     Sinon.stub(this.controllerProvider.router, "use");
-  //     Sinon.stub(this.controllerProvider.router, "get");
-  //
-  //     EndpointRegistry.use(Test, "test", ["get", "/"]);
-  //
-  //     this.controllerBuilder.build({settings: {debug: true}});
-  //   });
-  //
-  //   after(() => {
-  //     this.endpointBuildStub.restore();
-  //   });
-  //
-  //   it("should add the middlewares to the router", () => {
-  //     this.controllerProvider.router.use.should.be.calledWithExactly(Sinon.match.func);
-  //   });
-  // });
+
+  it("should build controller (2)", () => {
+    // GIVEN
+    const injector = new InjectorService();
+    const provider = new ControllerProvider(TestCtrl);
+    provider.middlewares = {
+      use: [function controllerUse() {
+      }],
+      useAfter: [function controllerAfter() {
+      }],
+      useBefore: [function controllerBefore() {
+      }]
+    };
+
+    const endpoint = new EndpointMetadata(TestCtrl, "test");
+    endpoint.before([function endpointBefore() {
+    }]);
+    endpoint.after([function endpointAfter() {
+    }]);
+    endpoint.middlewares = [function endpointUse() {
+    }];
+
+    endpoint.pathsMethods.push({
+      path: "/"
+    });
+    // @ts-ignore
+    EndpointRegistry.getEndpoints.returns([endpoint]);
+
+    const router = {
+      get(...args: any) {
+        return this.use(...args);
+      },
+      use: sandbox.stub()
+    };
+
+    // @ts-ignore
+    HandlerBuilder.from.callsFake((middleware) => {
+      return {
+        build(injector: InjectorService) {
+          injector.should.instanceOf(InjectorService);
+
+          return middleware;
+        }
+      };
+    });
+
+    // @ts-ignore
+    Express.Router.returns(router);
+
+    const controllerProvider = new ControllerBuilder(provider);
+
+    // WHEN
+    const result = controllerProvider.build(injector);
+
+    // THEN
+    result.should.to.eq(router);
+    router.use.getCall(0).should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+
+    // ENDPOINT
+    router.use.getCall(1).should.have.been.calledWithExactly(
+      "/",
+      Sinon.match.func,
+      provider.middlewares.use[0],
+      endpoint.beforeMiddlewares[0],
+      endpoint.middlewares[0],
+      endpoint,
+      endpoint.afterMiddlewares[0]
+    );
+
+    router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
+    router.use.getCall(3).should.have.been.calledWithExactly(SendResponseMiddleware); // controller
+  });
+
+  it("should build controller (3)", () => {
+    // GIVEN
+    const injector = new InjectorService();
+    const provider = new ControllerProvider(TestCtrl);
+    provider.middlewares = {
+      use: [function controllerUse() {
+      }],
+      useAfter: [function controllerAfter() {
+      }],
+      useBefore: [function controllerBefore() {
+      }]
+    };
+
+    const endpoint = new EndpointMetadata(TestCtrl, "test");
+    endpoint.before([function endpointBefore() {
+    }]);
+    endpoint.after([function endpointAfter() {
+    }]);
+    endpoint.middlewares = [function endpointUse() {
+    }];
+
+    // @ts-ignore
+    EndpointRegistry.getEndpoints.returns([endpoint]);
+
+    const router = {
+      get(...args: any) {
+        return this.use(...args);
+      },
+      use: sandbox.stub()
+    };
+
+    // @ts-ignore
+    HandlerBuilder.from.callsFake((middleware) => {
+      return {
+        build(injector: InjectorService) {
+          injector.should.instanceOf(InjectorService);
+
+          return middleware;
+        }
+      };
+    });
+
+    // @ts-ignore
+    Express.Router.returns(router);
+
+    const controllerProvider = new ControllerBuilder(provider);
+
+    // WHEN
+    const result = controllerProvider.build(injector);
+
+    // THEN
+    result.should.to.eq(router);
+    router.use.getCall(0).should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+
+    // ENDPOINT
+    router.use.getCall(1).should.have.been.calledWithExactly(
+      Sinon.match.func,
+      provider.middlewares.use[0],
+      endpoint.beforeMiddlewares[0],
+      endpoint.middlewares[0],
+      endpoint,
+      endpoint.afterMiddlewares[0]
+    );
+
+    router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
+    router.use.getCall(3).should.have.been.calledWithExactly(SendResponseMiddleware); // controller
+  });
 });

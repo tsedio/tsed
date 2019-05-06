@@ -36,7 +36,7 @@ interface ICalendar {
 
 /**
  * Add @ControllerProvider annotation to declare your provide as Router controller. The first param is the global path for your controller.
- * The others params is the controller dependencies.
+ * The others params is the children controllers.
  *
  * In this case, EventCtrl is a depedency of CalendarCtrl. All routes of EventCtrl will be mounted on the `/calendars` path.
  */

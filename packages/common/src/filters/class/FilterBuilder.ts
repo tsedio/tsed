@@ -1,12 +1,10 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {ConverterService} from "../../converters/services/ConverterService";
+import {ConverterService} from "../../converters";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
-import {IFilter} from "../interfaces";
-import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
-import {IFilterScope} from "../interfaces/IFilterScope";
+import {IFilter, IFilterPreHandler, IFilterScope} from "../interfaces";
 import {FilterPreHandlers} from "../registries/FilterRegistry";
 import {ValidationService} from "../services/ValidationService";
 import {ParamMetadata} from "./ParamMetadata";

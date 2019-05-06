@@ -35,7 +35,7 @@ export class EndpointMetadata extends Storable {
   @NotEnumerable()
   private inheritedEndpoint: EndpointMetadata;
 
-  constructor(_provide: Type<any>, private _methodClassName: string) {
+  constructor(_provide: Type<any>, private _methodClassName: string | symbol) {
     super(_provide, _methodClassName, Object.getOwnPropertyDescriptor(_provide, _methodClassName));
 
     this._type = Metadata.getReturnType(this._target, this.methodClassName);
@@ -96,7 +96,7 @@ export class EndpointMetadata extends Storable {
    *
    */
   get methodClassName(): string {
-    return this._methodClassName;
+    return String(this._methodClassName);
   }
 
   /**

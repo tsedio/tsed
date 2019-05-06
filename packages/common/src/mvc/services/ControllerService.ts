@@ -83,7 +83,7 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
    */
   private buildRouters() {
     this.forEach((provider: ControllerProvider) => {
-      if (!provider.router && !provider.hasParent()) {
+      if (!provider.hasParent()) {
         new ControllerBuilder(provider).build(this.injectorService);
       }
     });

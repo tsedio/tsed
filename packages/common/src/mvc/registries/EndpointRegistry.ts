@@ -6,27 +6,6 @@ import {EndpointMetadata} from "../class/EndpointMetadata";
  */
 export class EndpointRegistry {
   /**
-   * Retrieve all endpoints from inherited class and store it in the registry.
-   * @param {Type<any>} ctrlClass
-   */
-  private static inherit(ctrlClass: Type<any>) {
-    const endpoints: EndpointMetadata[] = [];
-    let inheritedClass = getInheritedClass(ctrlClass);
-
-    while (inheritedClass && EndpointRegistry.hasEndpoints(inheritedClass)) {
-      this.getOwnEndpoints(inheritedClass).forEach((endpointInheritedClass: EndpointMetadata) => {
-        const endpoint = endpointInheritedClass.inherit(ctrlClass);
-
-        endpoints.push(endpoint);
-      });
-
-      inheritedClass = getInheritedClass(inheritedClass);
-    }
-
-    return endpoints;
-  }
-
-  /**
    * Return all endpoints from the given class. This method doesn't return the endpoints from the parent of the given class.
    * @param {Type<any>} target
    * @returns {any}
@@ -62,7 +41,7 @@ export class EndpointRegistry {
    * @param target
    * @param method
    */
-  static get(target: Type<any>, method: string): EndpointMetadata {
+  static get(target: Type<any>, method: string | symbol): EndpointMetadata {
     if (!this.has(target, method)) {
       const endpoint = new EndpointMetadata(target, method);
       this.getOwnEndpoints(target).push(endpoint);
@@ -77,7 +56,7 @@ export class EndpointRegistry {
    * @param target
    * @param method
    */
-  static has(target: Type<any>, method: string): boolean {
+  static has(target: Type<any>, method: string | symbol): boolean {
     return Metadata.hasOwn("endpoints", target, method);
   }
 
@@ -87,7 +66,7 @@ export class EndpointRegistry {
    * @param targetKey
    * @param args
    */
-  static useBefore(target: Type<any>, targetKey: string, args: any[]) {
+  static useBefore(target: Type<any>, targetKey: string | symbol, args: any[]) {
     this.get(target, targetKey).before(args);
 
     return this;
@@ -100,7 +79,7 @@ export class EndpointRegistry {
    * @param args
    * @returns {Endpoint}
    */
-  static use(target: Type<any>, targetKey: string, args: any[]) {
+  static use(target: Type<any>, targetKey: string | symbol, args: any[]) {
     this.get(target, targetKey).merge(args);
 
     return this;
@@ -112,7 +91,7 @@ export class EndpointRegistry {
    * @param targetKey
    * @param args
    */
-  static useAfter(target: Type<any>, targetKey: string, args: any[]) {
+  static useAfter(target: Type<any>, targetKey: string | symbol, args: any[]) {
     this.get(target, targetKey).after(args);
 
     return this;
@@ -120,11 +99,32 @@ export class EndpointRegistry {
 
   /**
    * Store a data on store manager.
-   * @param targetClass
-   * @param methodClassName
+   * @param target
+   * @param propertyKey
    * @returns {any}
    */
-  static store(targetClass: any, methodClassName: string): Store {
-    return Store.from(targetClass, methodClassName, descriptorOf(targetClass, methodClassName));
+  static store(target: any, propertyKey: string): Store {
+    return Store.from(target, propertyKey, descriptorOf(target, propertyKey));
+  }
+
+  /**
+   * Retrieve all endpoints from inherited class and store it in the registry.
+   * @param {Type<any>} ctrlClass
+   */
+  private static inherit(ctrlClass: Type<any>) {
+    const endpoints: EndpointMetadata[] = [];
+    let inheritedClass = getInheritedClass(ctrlClass);
+
+    while (inheritedClass && EndpointRegistry.hasEndpoints(inheritedClass)) {
+      this.getOwnEndpoints(inheritedClass).forEach((endpointInheritedClass: EndpointMetadata) => {
+        const endpoint = endpointInheritedClass.inherit(ctrlClass);
+
+        endpoints.push(endpoint);
+      });
+
+      inheritedClass = getInheritedClass(inheritedClass);
+    }
+
+    return endpoints;
   }
 }

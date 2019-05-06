@@ -52,31 +52,27 @@ describe("InjectorService", () => {
 
   describe("has()", () => {
     it("should return true", () => {
-      expect(this.injector.has(InjectorService)).to.be.true;
+      return expect(new InjectorService().has(InjectorService)).to.be.true;
     });
 
     it("should return false", () => {
-      expect(this.injector.has(Test)).to.be.false;
+      return expect(new InjectorService().has(Test)).to.be.false;
     });
   });
 
   describe("get()", () => {
-    before(
-      inject([InjectorService], (injector: InjectorService) => {
-        this.injector2 = injector;
-      })
-    );
-
     it("should return element", () => {
-      expect(this.injector.get(InjectorService)).to.be.instanceOf(InjectorService);
+      expect(new InjectorService().get(InjectorService)).to.be.instanceOf(InjectorService);
     });
 
     it("should return undefined", () => {
-      expect(this.injector.get(Test)).to.be.undefined;
+      return expect(new InjectorService().get(Test)).to.be.undefined;
     });
+  });
 
-    it("should get a service", () => {
-      expect(this.injector2.get(InjectorService)).to.be.an.instanceof(InjectorService);
+  describe("toArray()", () => {
+    it("should return instances", () => {
+      expect(new InjectorService().toArray()).to.be.instanceOf(Array);
     });
   });
 

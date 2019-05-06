@@ -49,11 +49,52 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
 
   constructor() {
     super();
-    this.initInjector();
+    this.forkProvider(InjectorService, this);
   }
 
   scopeOf(providerType: ProviderType) {
     return this.scopes[providerType] || ProviderScope.SINGLETON;
+  }
+
+  /**
+   * The getProvider() method returns a specified element from a Map object.
+   * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
+   * @param token
+   */
+  public getProvider(token: TokenProvider): Provider<any> | undefined {
+    return super.get(getClassOrSymbol(token));
+  }
+
+  /**
+   * Clone a provider from GlobalProviders and the given token. forkProvider method build automatically the provider if the instance parameter ins't given.
+   * @param token
+   * @param instance
+   */
+  public forkProvider(token: TokenProvider, instance?: any): Provider<any> {
+    const provider = GlobalProviders.get(token)!.clone();
+    this.set(token, provider);
+
+    provider.instance = instance;
+
+    return provider;
+  }
+
+  /**
+   *
+   * @param {ProviderType} type
+   * @returns {[RegistryKey , Provider<any>][]}
+   */
+  getProviders(type?: ProviderType | string): Provider<any>[] {
+    return Array.from(this)
+      .filter(([key, provider]) => (type ? provider.type === type : true))
+      .map(([key, provider]) => provider);
+  }
+
+  /**
+   * Return a list of instance build by the injector.
+   */
+  public toArray(): any[] {
+    return Array.from(this.values()).map(provider => provider.instance);
   }
 
   /**
@@ -72,7 +113,7 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    * }
    * ```
    *
-   * @param target The class or symbol registered in InjectorService.
+   * @param token The class or symbol registered in InjectorService.
    * @returns {boolean}
    */
   get<T>(token: TokenProvider): T | undefined {
@@ -83,43 +124,10 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    * The has() method returns a boolean indicating whether an element with the specified key exists or not.
    * @param key
    * @returns {boolean}
+   * @param token
    */
   has(token: TokenProvider): boolean {
     return super.has(getClassOrSymbol(token)) && !!this.get(token);
-  }
-
-  /**
-   * The getProvider() method returns a specified element from a Map object.
-   * @param key Required. The key of the element to return from the Map object.
-   * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
-   */
-  getProvider(token: TokenProvider): Provider<any> | undefined {
-    return super.get(getClassOrSymbol(token));
-  }
-
-  /**
-   *
-   * @param {RegistryKey} key
-   * @param instance
-   */
-  forkProvider(token: TokenProvider, instance?: any): Provider<any> {
-    const provider = GlobalProviders.get(token)!.clone();
-    this.set(token, provider);
-
-    provider.instance = instance;
-
-    return provider;
-  }
-
-  /**
-   *
-   * @param {ProviderType} type
-   * @returns {[RegistryKey , Provider<any>][]}
-   */
-  getProviders(type?: ProviderType | string): Provider<any>[] {
-    return Array.from(this)
-      .filter(([key, provider]) => (type ? provider.type === type : true))
-      .map(([key, provider]) => provider);
   }
 
   async destroy() {
@@ -150,17 +158,17 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
    * @returns {T} The class constructed.
    */
   invoke<T>(
-    target: TokenProvider,
+    token: TokenProvider,
     locals: Map<string | Function, any> = new Map(),
     designParamTypes?: any[],
     requiredScope: boolean = false
   ): T {
-    const {onInvoke} = GlobalProviders.getRegistrySettings(target);
-    const provider = this.getProvider(target);
-    const parentScope = Store.from(target).get("scope");
+    const {onInvoke} = GlobalProviders.getRegistrySettings(token);
+    const provider = this.getProvider(token);
+    const parentScope = Store.from(token).get("scope");
 
     if (!designParamTypes) {
-      designParamTypes = Metadata.getParamTypes(target);
+      designParamTypes = Metadata.getParamTypes(token);
     }
 
     if (provider && onInvoke) {
@@ -170,14 +178,14 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
     const services = designParamTypes.map(serviceType =>
       this.mapServices({
         serviceType,
-        target,
+        target: token,
         locals,
         requiredScope,
         parentScope
       })
     );
 
-    const instance = new target(...services);
+    const instance = new token(...services);
 
     this.bindInjectableProperties(instance);
 
@@ -185,64 +193,9 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
   }
 
   /**
-   * Invoke a class method and inject service.
+   * Build all providers from GlobalProviders or from given providers parameters and emit `$onInit` event.
    *
-   * #### IInjectableMethod options
-   *
-   * * **target**: Optional. The class instance.
-   * * **methodName**: `string` Optional. The method name.
-   * * **designParamTypes**: `any[]` Optional. List of injectable types.
-   * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
-   *
-   * #### Example
-   *
-   * ```typescript
-   * import {InjectorService} from "@tsed/common";
-   *
-   * class MyService {
-   *      constructor(injectorService: InjectorService) {
-   *          injectorService.invokeMethod(this.method, {
-   *              this,
-   *              methodName: 'method'
-   *          });
-   *      }
-   *
-   *   method(otherService: OtherService) {}
-   * }
-   * ```
-   *
-   * @returns {any}
-   * @param handler The injectable method to invoke. Method parameters are injected according method signature.
-   * @param options Object to configure the invocation.
-   * @deprecated
-   */
-  public invokeMethod(handler: any, options: IInjectableMethod<any>): any {
-    let {designParamTypes} = options;
-    const {locals = new Map<any, any>(), target, methodName} = options;
-
-    if (handler.$injected) {
-      return handler.call(target, locals);
-    }
-
-    if (!designParamTypes) {
-      designParamTypes = Metadata.getParamTypes(prototypeOf(target), methodName);
-    }
-
-    const services = designParamTypes.map((serviceType: any) =>
-      this.mapServices({
-        serviceType,
-        target,
-        locals,
-        requiredScope: false,
-        parentScope: false
-      })
-    );
-
-    return handler(...services);
-  }
-
-  /**
-   * Initialize injectorService and load all services/factories.
+   * @param container
    */
   async load(): Promise<any> {
     // TODO copy all provider from GlobalProvider registry. In future this action will be performed from Bootstrap class
@@ -255,31 +208,6 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
     this.build();
 
     return Promise.all([this.emit("$onInit")]);
-  }
-
-  /**
-   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
-   * @param eventName The event name to emit at all services.
-   * @param args List of the parameters to give to each services.
-   * @returns {Promise<any[]>} A list of promises.
-   */
-  public async emit(eventName: string, ...args: any[]) {
-    this.logger.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
-
-    const providers = this.getProviders();
-
-    for (const provider of providers) {
-      const service = provider.instance;
-
-      if (service && eventName in service) {
-        const startTime = new Date().getTime();
-        this.logger.debug(`Call ${nameOf(provider.provide)}.${eventName}()`);
-
-        await service[eventName](...args);
-
-        this.logger.debug(`Run ${nameOf(provider.provide)}.${eventName}() in ${new Date().getTime() - startTime} ms`);
-      }
-    }
   }
 
   /**
@@ -420,10 +348,85 @@ export class InjectorService extends Map<TokenProvider, Provider<any>> {
   }
 
   /**
+   * Invoke a class method and inject service.
    *
+   * #### IInjectableMethod options
+   *
+   * * **target**: Optional. The class instance.
+   * * **methodName**: `string` Optional. The method name.
+   * * **designParamTypes**: `any[]` Optional. List of injectable types.
+   * * **locals**: `Map<Function, any>` Optional. If preset then any argument Class are read from this object first, before the `InjectorService` is consulted.
+   *
+   * #### Example
+   *
+   * ```typescript
+   * import {InjectorService} from "@tsed/common";
+   *
+   * class MyService {
+   *      constructor(injectorService: InjectorService) {
+   *          injectorService.invokeMethod(this.method, {
+   *              this,
+   *              methodName: 'method'
+   *          });
+   *      }
+   *
+   *   method(otherService: OtherService) {}
+   * }
+   * ```
+   *
+   * @returns {any}
+   * @param handler The injectable method to invoke. Method parameters are injected according method signature.
+   * @param options Object to configure the invocation.
+   * @deprecated
    */
-  private initInjector() {
-    this.forkProvider(InjectorService, this);
+  public invokeMethod(handler: any, options: IInjectableMethod<any>): any {
+    let {designParamTypes} = options;
+    const {locals = new Map<any, any>(), target, methodName} = options;
+
+    if (handler.$injected) {
+      return handler.call(target, locals);
+    }
+
+    if (!designParamTypes) {
+      designParamTypes = Metadata.getParamTypes(prototypeOf(target), methodName);
+    }
+
+    const services = designParamTypes.map((serviceType: any) =>
+      this.mapServices({
+        serviceType,
+        target,
+        locals,
+        requiredScope: false,
+        parentScope: false
+      })
+    );
+
+    return handler(...services);
+  }
+
+  /**
+   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
+   * @param eventName The event name to emit at all services.
+   * @param args List of the parameters to give to each services.
+   * @returns {Promise<any[]>} A list of promises.
+   */
+  public async emit(eventName: string, ...args: any[]) {
+    this.logger.debug("\x1B[1mCall hook", eventName, "\x1B[22m");
+
+    const providers = this.getProviders();
+
+    for (const provider of providers) {
+      const service = provider.instance;
+
+      if (service && eventName in service) {
+        const startTime = new Date().getTime();
+        this.logger.debug(`Call ${nameOf(provider.provide)}.${eventName}()`);
+
+        await service[eventName](...args);
+
+        this.logger.debug(`Run ${nameOf(provider.provide)}.${eventName}() in ${new Date().getTime() - startTime} ms`);
+      }
+    }
   }
 
   /**

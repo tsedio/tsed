@@ -121,11 +121,13 @@ export class SwaggerService {
   ): Tag[] {
     let tags: Tag[] = [];
 
-    ctrl.dependencies.map(ctrl => this.controllerService.get(ctrl)).forEach((provider: ControllerProvider) => {
-      if (!provider.store.get("hidden")) {
-        tags = tags.concat(this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId));
-      }
-    });
+    ctrl.children
+      .map(ctrl => this.controllerService.get(ctrl))
+      .forEach((provider: ControllerProvider) => {
+        if (!provider.store.get("hidden")) {
+          tags = tags.concat(this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId));
+        }
+      });
 
     ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
       if (endpoint.store.get("hidden")) {
