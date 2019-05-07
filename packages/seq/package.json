@@ -1,0 +1,25 @@
+{
+  "name": "@tsed/seq",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Seq package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./src/index.ts",
+  "author": "OskarLebuda",
+  "contributors": [
+    "OskarLebuda",
+    "Romain Lenzotti"
+  ],
+  "dependencies": {
+    "tslib": "^1.9.0"
+  },
+  "peerDependencies": {
+    "@tsed/core": "0.0.0-PLACEHOLDER",
+    "@tsed/common": "0.0.0-PLACEHOLDER",
+    "@types/bunyan": "^1.8.6",
+    "@types/bunyan-seq": "^0.2.2",
+    "bunyan": "^1.8.12",
+    "bunyan-seq": "^0.4.0"
+  },
+  "devDependencies": {},
+  "private": false
+}

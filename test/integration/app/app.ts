@@ -2,6 +2,7 @@ import "@tsed/ajv";
 import {ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/graphql";
 import "@tsed/mongoose";
+import "@tsed/seq";
 import "@tsed/multipartfiles";
 import {PassportCtrl} from "@tsed/passport";
 import "@tsed/socketio";
@@ -89,6 +90,9 @@ Docs("authentication")(PassportCtrl);
   ],
   scopes: {
     [ProviderType.CONTROLLER]: ProviderScope.REQUEST
+  },
+  seq: {
+    url: "http://localhost:5341"
   }
 })
 export class ExampleServer extends ServerLoader {
