@@ -152,7 +152,6 @@ module.exports = {
           "/tutorials/session",
           "/tutorials/passport",
           "/tutorials/typeorm",
-          "/tutorials/typeorm",
           "/tutorials/mongoose",
           "/tutorials/graphql",
           "/tutorials/socket-io",
