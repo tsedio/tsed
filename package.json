@@ -62,11 +62,15 @@
   },
   "homepage": "http://tsed.io/",
   "dependencies": {
+    "@types/bunyan": "^1.8.6",
+    "@types/bunyan-seq": "^0.2.2",
     "@types/json-schema": "^7.0.0",
+    "bunyan": "^1.8.12",
+    "bunyan-seq": "^0.4.0",
     "globby": "^9.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.4.0",
-    "ts-httpexceptions": "^4.0.0",
+    "ts-httpexceptions": "^4.1.0",
     "ts-log-debug": "^5.1.0"
   },
   "devDependencies": {
@@ -145,7 +149,7 @@
     "tslint": "^5.8.0",
     "type-graphql": "^0.16.0",
     "typeorm": "^0.2.7",
-    "typescript": "^3.0.1",
+    "typescript": "^3.4.5",
     "vue-analytics": "^5.14.0",
     "vuepress": "^0.14.2",
     "vuepress-theme-tsed": "^1.7.1"
