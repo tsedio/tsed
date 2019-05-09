@@ -52,7 +52,8 @@ describe("ControllerBuilder", () => {
     }];
     endpoint.pathsMethods.push({
       path: "/",
-      method: "get"
+      method: "get",
+      isFinal: true
     });
 
     // @ts-ignore
@@ -86,7 +87,7 @@ describe("ControllerBuilder", () => {
 
     // THEN
     result.should.to.eq(router);
-    router.use.callCount.should.deep.eq(4);
+    router.use.callCount.should.deep.eq(3);
     router.use.getCall(0).should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
     // ENDPOINT
@@ -97,7 +98,8 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      endpoint.afterMiddlewares[0]
+      endpoint.afterMiddlewares[0],
+      SendResponseMiddleware
     );
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
@@ -171,7 +173,6 @@ describe("ControllerBuilder", () => {
     );
 
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
-    router.use.getCall(3).should.have.been.calledWithExactly(SendResponseMiddleware); // controller
   });
 
   it("should build controller (3)", () => {
@@ -239,6 +240,5 @@ describe("ControllerBuilder", () => {
     );
 
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
-    router.use.getCall(3).should.have.been.calledWithExactly(SendResponseMiddleware); // controller
   });
 });

@@ -5,6 +5,7 @@ import {ControllerProvider} from "../class/ControllerProvider";
 import {EndpointMetadata} from "../class/EndpointMetadata";
 import {bindEndpointMiddleware} from "../components/bindEndpointMiddleware";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
+import {IPathMethod} from "../interfaces/IPathMethod";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class ControllerBuilder {
@@ -28,7 +29,6 @@ export class ControllerBuilder {
     this.buildMiddlewares(injector, useBefore) // Controller before-middleware
       .buildEndpoints(injector) // All endpoints and his middlewares
       .buildMiddlewares(injector, useAfter) // Controller after-middleware
-      .buildSendResponse(injector) // Final middleware to send response
       .buildChildrenCtrls(injector); // Children controllers
 
     return this.provider.router;
@@ -36,8 +36,28 @@ export class ControllerBuilder {
 
   private buildEndpoints(injector: InjectorService) {
     const {endpoints} = this.provider;
+    const pathsMethodsMap: Map<string, IPathMethod> = new Map();
 
-    endpoints.forEach((endpoint: EndpointMetadata) => this.buildEndpoint(injector, endpoint));
+    endpoints.forEach(({pathsMethods}) => {
+      pathsMethods.forEach(pathMethod => {
+        pathMethod.method = pathMethod.method || "use";
+
+        if (pathMethod.method !== "use") {
+          const key = pathMethod.method + "-" + pathMethod.path;
+
+          if (pathsMethodsMap.has(key)) {
+            pathsMethodsMap.get(key)!.isFinal = false;
+          }
+
+          pathMethod.isFinal = true;
+          pathsMethodsMap.set(key, pathMethod);
+        }
+      });
+    });
+
+    endpoints.forEach(endpoint => {
+      this.buildEndpoint(injector, endpoint);
+    });
 
     return this;
   }
@@ -48,11 +68,11 @@ export class ControllerBuilder {
       router,
       middlewares: {use}
     } = this.provider;
-
     // Endpoint lifecycle
     let handlers: any[] = [];
 
     handlers = handlers
+      .concat(bindEndpointMiddleware(endpoint))
       .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
       .concat(mldwrs) // Endpoint middlewares
@@ -61,16 +81,13 @@ export class ControllerBuilder {
       .filter((item: any) => !!item)
       .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));
 
-    handlers = [bindEndpointMiddleware(endpoint)].concat(handlers);
+    const sendResponse = HandlerBuilder.from(SendResponseMiddleware).build(injector);
 
     // Add handlers to the router
-    pathsMethods.forEach(({path, method}) => {
-      if (!!method && router[method]) {
-        router[method](path, ...handlers);
-      } else {
-        const args: any[] = [path].concat(handlers);
-        router.use(...args);
-      }
+    pathsMethods.forEach(({path, method, isFinal}) => {
+      const localHandlers = isFinal ? handlers.concat(sendResponse) : handlers;
+
+      router[method!](path, ...localHandlers);
     });
 
     if (!pathsMethods.length) {
@@ -93,10 +110,6 @@ export class ControllerBuilder {
 
       router.use(provider.path, provider.router);
     });
-  }
-
-  private buildSendResponse(injector: InjectorService) {
-    return this.buildMiddlewares(injector, [SendResponseMiddleware]);
   }
 
   private buildMiddlewares(injector: InjectorService, middlewares: any[]) {
