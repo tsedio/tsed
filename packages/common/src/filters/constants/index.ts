@@ -60,7 +60,7 @@ FilterPreHandlers.set(EXPRESS_ERR, locals => locals.err);
 FilterPreHandlers.set(ENDPOINT_INFO, locals => {
   const op = FilterPreHandlers.get(EXPRESS_REQUEST)!;
 
-  return op(locals).getEndpoint();
+  return op(locals).ctx.endpoint;
 });
 /**
  * ResponseData PreHandler
@@ -68,5 +68,5 @@ FilterPreHandlers.set(ENDPOINT_INFO, locals => {
 FilterPreHandlers.set(RESPONSE_DATA, locals => {
   const op = FilterPreHandlers.get(EXPRESS_REQUEST)!;
 
-  return op(locals).getStoredData();
+  return op(locals).ctx.data;
 });

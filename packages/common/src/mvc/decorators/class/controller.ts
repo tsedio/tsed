@@ -26,21 +26,22 @@ import {IControllerProvider, PathParamsType} from "../../interfaces";
  * ```
  *
  * @param options
- * @param dependencies
+ * @param children
  * @returns {Function}
  * @decorator
  */
-export function Controller(options: PathParamsType | IControllerProvider, ...dependencies: Type<any>[]): Function {
+export function Controller(options: PathParamsType | IControllerProvider, ...children: Type<any>[]): Function {
   return (target: any): void => {
     if (typeof options === "string" || options instanceof RegExp || isArrayOrArrayClass(options)) {
       registerController({
         provide: target,
         path: options,
-        dependencies
+        children
       });
     } else {
       registerController({
         provide: target,
+        children: (options as IControllerProvider).dependencies || (options as IControllerProvider).children,
         ...options
       });
     }

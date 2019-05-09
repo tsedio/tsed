@@ -20,7 +20,6 @@ export class HandlerMetadata {
   readonly type: HandlerType = HandlerType.FUNCTION;
   readonly hasErrorParam: boolean = false;
   readonly hasNextFunction: boolean = false;
-  readonly hasEndpointInfo: boolean = false;
   handler: any;
 
   constructor(options: IHandlerOptions) {
@@ -35,7 +34,6 @@ export class HandlerMetadata {
       this.methodClassName = method;
       this.method = method;
       this.hasNextFunction = this.hasParamType(EXPRESS_NEXT_FN);
-      this.hasEndpointInfo = this.hasParamType(ENDPOINT_INFO);
       this.hasErrorParam = this.hasParamType(EXPRESS_ERR);
       this.injectable = (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
     }

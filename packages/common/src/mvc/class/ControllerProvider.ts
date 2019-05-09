@@ -1,5 +1,5 @@
-import {getClass, NotEnumerable, Type} from "@tsed/core";
-import {Provider} from "@tsed/di";
+import {Enumerable, NotEnumerable, Type} from "@tsed/core";
+import {Provider, ProviderType} from "@tsed/di";
 import * as Express from "express";
 import {IRouterSettings} from "../../config/interfaces/IServerSettings";
 
@@ -13,39 +13,23 @@ export interface IChildrenController extends Type<any> {
 
 export class ControllerProvider extends Provider<any> implements IControllerProvider {
   @NotEnumerable()
-  public router: Express.Router;
+  public router: Express.Router & {[index: string]: any};
   /**
    * The path for the controller
    */
-  @NotEnumerable()
-  private _path: string;
+  @Enumerable()
+  public path: string;
   /**
    * Controllers that depend to this controller.
    * @type {Array}
    * @private
    */
   @NotEnumerable()
-  private _dependencies: IChildrenController[] = [];
+  private _children: IChildrenController[] = [];
 
   constructor(provide: any) {
     super(provide);
-    this.type = "controller";
-  }
-
-  /**
-   *
-   * @returns {string}
-   */
-  get path(): string {
-    return this._path;
-  }
-
-  /**
-   * set path
-   * @param value
-   */
-  set path(value: string) {
-    this._path = value;
+    this.type = ProviderType.CONTROLLER;
   }
 
   /**
@@ -53,24 +37,24 @@ export class ControllerProvider extends Provider<any> implements IControllerProv
    * @returns {Endpoint[]}
    */
   get endpoints(): EndpointMetadata[] {
-    return EndpointRegistry.getEndpoints(getClass(this.provide));
+    return EndpointRegistry.getEndpoints(this.provide);
   }
 
   /**
    *
    * @returns {Type<any>[]}
    */
-  get dependencies(): IChildrenController[] {
-    return this._dependencies;
+  get children(): IChildrenController[] {
+    return this._children;
   }
 
   /**
    *
-   * @param dependencies
+   * @param children
    */
-  set dependencies(dependencies: IChildrenController[]) {
-    this._dependencies = dependencies;
-    this._dependencies.forEach(d => (d.$parentCtrl = this));
+  set children(children: IChildrenController[]) {
+    this._children = children;
+    this._children.forEach(d => (d.$parentCtrl = this));
   }
 
   /**
@@ -129,7 +113,7 @@ export class ControllerProvider extends Provider<any> implements IControllerProv
   /**
    * Resolve final endpoint url.
    */
-  public getEndpointUrl = (routerPath: string): string =>
+  public getEndpointUrl = (routerPath?: string): string =>
     (routerPath === this.path ? this.path : (routerPath || "") + this.path).replace(/\/\//gi, "/");
 
   /**
@@ -143,25 +127,17 @@ export class ControllerProvider extends Provider<any> implements IControllerProv
    *
    * @returns {boolean}
    */
-  public hasDependencies(): boolean {
-    return !!this.dependencies.length;
-  }
-
-  /**
-   *
-   * @returns {boolean}
-   */
   public hasParent(): boolean {
     return !!this.provide.$parentCtrl;
   }
 
   clone(): ControllerProvider {
     const provider = new ControllerProvider(this._provide);
-    provider._type = this._type;
+    provider.path = this.path;
+    provider.type = this.type;
     provider.useClass = this._useClass;
     provider._instance = this._instance;
-    provider._path = this._path;
-    provider._dependencies = this._dependencies;
+    provider._children = this._children;
 
     return provider;
   }

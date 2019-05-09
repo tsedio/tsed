@@ -115,7 +115,7 @@ export class RouteService implements AfterRoutesInit {
    * @param endpointUrl
    */
   private buildRoutes(routes: any[], ctrl: ControllerProvider, endpointUrl: string) {
-    ctrl.dependencies
+    ctrl.children
       .map(ctrl => this.injector.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => this.buildRoutes(routes, provider, `${endpointUrl}${provider.path}`));
 
@@ -126,7 +126,7 @@ export class RouteService implements AfterRoutesInit {
         if (!!method) {
           routes.push({
             method,
-            name: `${targetName}.${methodClassName}()`,
+            name: `${targetName}.${String(methodClassName)}()`,
             url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
             className: targetName,
             methodClassName,

@@ -176,15 +176,10 @@ export class HandlerBuilder {
    * @param err
    */
   private async invoke(request: Express.Request, response: Express.Response, next: any, err?: any): Promise<any> {
-    const {hasEndpointInfo, hasNextFunction} = this.handlerMetadata;
+    const {hasNextFunction} = this.handlerMetadata;
     const {
-      ctx: {endpoint, container}
+      ctx: {container}
     } = request;
-
-    // Skip middleware when it use endpoint info without filled data
-    if (hasEndpointInfo && !endpoint) {
-      return next();
-    }
 
     next = this.buildNext(request, response, next);
 

@@ -21,7 +21,7 @@ import {TaskCtrl} from "./TaskCtrl";
 
 @Controller({
   path: "/events",
-  dependencies: [TaskCtrl]
+  children: [TaskCtrl]
 })
 @MergeParams()
 export class EventCtrl extends BaseController {

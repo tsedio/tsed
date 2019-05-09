@@ -1,7 +1,7 @@
 import {deepExtends, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
 import {ParamRegistry} from "../../filters/registries/ParamRegistry";
 import {EXPRESS_METHODS} from "../constants";
-import {ExpressPathMethod} from "../interfaces/ExpressPathMethod";
+import {IPathMethod} from "../interfaces/IPathMethod";
 import {PathParamsType} from "../interfaces/PathParamsType";
 
 /**
@@ -28,14 +28,14 @@ export class EndpointMetadata extends Storable {
   /**
    * Route strategy.
    */
-  public pathsMethods: ExpressPathMethod[] = [];
+  public pathsMethods: IPathMethod[] = [];
   /**
    * Endpoint inherited from parent class.
    */
   @NotEnumerable()
   private inheritedEndpoint: EndpointMetadata;
 
-  constructor(_provide: Type<any>, private _methodClassName: string) {
+  constructor(_provide: Type<any>, private _methodClassName: string | symbol) {
     super(_provide, _methodClassName, Object.getOwnPropertyDescriptor(_provide, _methodClassName));
 
     this._type = Metadata.getReturnType(this._target, this.methodClassName);
@@ -57,7 +57,7 @@ export class EndpointMetadata extends Storable {
    */
   set httpMethod(value: string) {
     if (!this.pathsMethods[0]) {
-      this.pathsMethods[0] = {};
+      this.pathsMethods[0] = {} as any;
     }
 
     this.pathsMethods[0].method = value;
@@ -79,7 +79,7 @@ export class EndpointMetadata extends Storable {
    */
   set path(value: PathParamsType) {
     if (!this.pathsMethods[0]) {
-      this.pathsMethods[0] = {};
+      this.pathsMethods[0] = {} as any;
     }
     this.pathsMethods[0].path = value;
   }
@@ -96,7 +96,7 @@ export class EndpointMetadata extends Storable {
    *
    */
   get methodClassName(): string {
-    return this._methodClassName;
+    return String(this._methodClassName);
   }
 
   /**

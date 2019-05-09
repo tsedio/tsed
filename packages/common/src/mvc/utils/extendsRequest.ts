@@ -33,6 +33,7 @@ if (!express.request.setEndpoint) {
      * @deprecated Use request.ctx.enpoint
      * @returns {any}
      */
+    // istanbul ignore next
     getEndpoint() {
       return this.ctx.endpoint;
     },

@@ -110,4 +110,14 @@ export class ResponseScenarioCtrl {
       res.json({"id": 1});
     };
   }
+
+  @Get("/scenario9/static")
+  public testScenario9Get(): string {
+    return "value";
+  }
+
+  @Get("/scenario9/:id")
+  public testScenario9WithDynamicParam(@PathParams("id") id: number): string {
+    return "value" + id;
+  }
 }
