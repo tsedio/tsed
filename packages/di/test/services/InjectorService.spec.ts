@@ -1,11 +1,9 @@
-import {GlobalProviders, Inject, Provider, ProviderScope, ProviderType} from "@tsed/common";
-import {Metadata, Store} from "@tsed/core";
-import {inject} from "@tsed/testing";
+import {Store} from "@tsed/core";
+import {Inject, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {$log} from "ts-log-debug";
-import {TestContext} from "../../../testing/src";
-import {InjectorService} from "../../src";
+import {GlobalProviders, LocalsContainer} from "../../src";
+import {ProviderType} from "../../src/interfaces";
 
 class Test {
   @Inject()
@@ -32,24 +30,6 @@ class Test {
 }
 
 describe("InjectorService", () => {
-  before(() => {
-    this.injector = new InjectorService();
-  });
-
-  describe("invoke test with Inject decorator", () => {
-    before(() => {
-      this.instance = this.injector.invoke(Test);
-    });
-
-    it("should bind the method", () => {
-      expect(this.instance.test("test")).to.be.instanceOf(InjectorService);
-    });
-
-    it("should bind the property", () => {
-      expect(this.instance.prop).to.be.instanceOf(InjectorService);
-    });
-  });
-
   describe("has()", () => {
     it("should return true", () => {
       return expect(new InjectorService().has(InjectorService)).to.be.true;
@@ -76,1074 +56,351 @@ describe("InjectorService", () => {
     });
   });
 
-  describe("forEach()", () => {
-    before(() => {
-      this.list = [];
-      this.injector.forEach((item: any) => {
-        this.list.push(item);
-      });
-    });
-    it("should return the list", () => {
-      expect(this.list.length).to.eq(this.injector.size);
-    });
-  });
-
-  describe("keys()", () => {
-    before(() => {
-      this.list = Array.from(this.injector.keys());
-    });
-    it("should return the list", () => {
-      expect(this.list).to.be.an("array");
-    });
-  });
-
-  describe("entries()", () => {
-    before(() => {
-      this.list = Array.from(this.injector.entries());
-    });
-    it("should return the list", () => {
-      expect(this.list[0]).to.be.an("array");
-    });
-  });
-
-  describe("values()", () => {
-    before(() => {
-      this.list = Array.from(this.injector.values());
-    });
-    it("should return the list", () => {
-      expect(this.list).to.be.an("array");
-      expect(this.list[0].instance).to.be.instanceof(InjectorService);
-    });
-  });
-
-  describe("Array.from()", () => {
-    before(() => {
-      this.list = Array.from(this.injector);
-    });
-
-    it("should return a list", () => {
-      expect(this.list).to.be.an("array");
-    });
-  });
-
-  describe("getProvider()", () => {
-    before(
-      inject([InjectorService], (injector: InjectorService) => {
-        this.provider = injector.getProvider(InjectorService);
-      })
-    );
-    after(TestContext.reset);
-
-    it("should return a provider", () => {
-      expect(this.provider).to.be.instanceOf(Provider);
-    });
-  });
-
-  describe("getProviders()", () => {
-    describe("with type ProviderType.MIDDLEWARE", () => {
-      before(
-        inject([InjectorService], (injector: InjectorService) => {
-          this.providers = injector.getProviders(ProviderType.MIDDLEWARE);
-          this.hasOther = this.providers.find((item: any) => item.type !== ProviderType.MIDDLEWARE);
-        })
-      );
-
-      it("should return a list", () => {
-        expect(this.providers.length > 0).to.be.true;
-      });
-
-      it("sohuld return a list", () => {
-        expect(this.providers[0]).to.be.instanceOf(Provider);
-      });
-
-      it("should have only provider typed as CONVERTER", () => {
-        expect(this.hasOther).to.be.undefined;
-      });
-    });
-
-    describe("without type", () => {
-      before(
-        inject([InjectorService], (injector: InjectorService) => {
-          this.providers = injector.getProviders();
-          this.hasOther = this.providers.find((item: any) => item.type === ProviderType.MIDDLEWARE);
-        })
-      );
-
-      it("sohuld return a list", () => {
-        expect(this.providers.length > 0).to.be.true;
-      });
-
-      it("should return a list", () => {
-        expect(this.providers[0]).to.be.instanceOf(Provider);
-      });
-
-      it("should have only provider typed as CONVERTER", () => {
-        expect(!!this.hasOther).to.be.true;
-      });
-    });
-  });
-
-  describe("mapServices()", () => {
-    describe("when serviceType is a string", () => {
-      before(() => {
-        this.injector = new InjectorService();
-        this.symbol = "ServiceName";
-
-        const locals = new Map();
-        locals.set(this.symbol, "ServiceInstanceName");
-        this.result = this.injector.mapServices({
-          serviceType: this.symbol,
-          locals
-        });
-      });
-
-      it("should return the service instance from the locals map", () => {
-        expect(this.result).to.eq("ServiceInstanceName");
-      });
-    });
-
-    describe("when serviceType is a class from locals", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        const locals = new Map();
-        locals.set(this.symbol, new this.symbol());
-
-        this.result = this.injector.mapServices({
-          serviceType: this.symbol,
-          locals
-        });
-      });
-
-      it("should return the service instance from the locals map", () => {
-        expect(this.result).to.be.instanceOf(this.symbol);
-      });
-    });
-
-    describe("when serviceType is a class from registry (unknow)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        const locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider");
-
-        try {
-          this.result = this.injector.mapServices({
-            serviceType: this.symbol,
-            locals,
-            target: class ServiceTest {
-            }
-          });
-        } catch (er) {
-          this.error = er;
-        }
-      });
-
-      after(() => {
-        this.getStub.restore();
-      });
-
-      it("should call GlobalProviders.has", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should throw an error", () => {
-        expect(this.error.message).to.eq("Service ServiceTest > Test not found.");
-      });
-    });
-
-    describe("when serviceType is a class from registry (know, buildable, instance undefined)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: undefined,
-          useClass: "useClass",
-          type: "provider"
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true,
-          injectable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").returns("instance");
-
-        this.result = this.injector.mapServices({
-          serviceType: this.symbol,
-          locals: this.locals,
-          requiredScope: true,
-          target: class ServiceTest {
-          }
-        });
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should build instance and return the service", () => {
-        this.invokeStub.should.have.been.calledWithExactly("useClass", this.locals, undefined, true);
-      });
-      it("should return the service instance", () => {
-        expect(this.result).to.deep.eq("instance");
-      });
-    });
-
-    describe("when serviceType is a class from registry (know, instance defined, not buildable)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: {instance: "instance"},
-          useClass: "useClass",
-          type: "provider"
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: false,
-          injectable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").returns("instance");
-
-        this.result = this.injector.mapServices({
-          serviceType: this.symbol,
-          locals: this.locals,
-          requiredScope: true,
-          target: class ServiceTest {
-          }
-        });
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should build instance and return the service", () => {
-        return this.invokeStub.should.not.have.been.called;
-      });
-      it("should return the service instance", () => {
-        expect(this.result).to.deep.eq({instance: "instance"});
-      });
-    });
-
-    describe("when serviceType is a class from registry (know, instance defined, buildable, SINGLETON)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: {instance: "instance"},
-          useClass: "useClass",
-          type: "provider",
-          scope: ProviderScope.SINGLETON
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true,
-          injectable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").returns("instance");
-
-        this.result = this.injector.mapServices({
-          serviceType: this.symbol,
-          locals: this.locals,
-          requiredScope: true,
-          target: class ServiceTest {
-          }
-        });
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should not build instance", () => {
-        return this.invokeStub.should.not.have.been.called;
-      });
-      it("should return the service instance", () => {
-        expect(this.result).to.deep.eq({instance: "instance"});
-      });
-    });
-
-    describe("when serviceType is a class from registry (know, instance defined, buildable, REQUEST)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: {instance: "instance"},
-          useClass: "useClass",
-          type: "provider",
-          scope: ProviderScope.REQUEST
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true,
-          injectable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").returns("instance");
-
-        this.result = this.injector.mapServices({
-          serviceType: this.symbol,
-          locals: this.locals,
-          requiredScope: true,
-          parentScope: true,
-          target: class ServiceTest {
-          }
-        });
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should build instance and return the service", () => {
-        return this.invokeStub.should.have.been.calledWithExactly("useClass", this.locals, undefined, true);
-      });
-      it("should return the service instance", () => {
-        expect(this.result).to.deep.eq("instance");
-      });
-    });
-
-    describe("when serviceType is a class from registry (know, instance defined, buildable, SCOPE ERROR)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: {instance: "instance"},
-          useClass: "useClass",
-          type: "provider",
-          scope: ProviderScope.REQUEST
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true,
-          injectable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").returns("instance");
-
-        try {
-          this.result = this.injector.mapServices({
-            serviceType: this.symbol,
-            locals: this.locals,
-            requiredScope: true,
-            parentScope: false,
-            target: class ServiceTest {
-            }
-          });
-        } catch (er) {
-          this.error = er;
-        }
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should not build instance", () => {
-        return this.invokeStub.should.not.have.been.called;
-      });
-      it("should throw an error", () => {
-        expect(this.error.message).to.eq(
-          "Service of type useClass can not be injected as it is request scoped, while ServiceTest is singleton scoped"
-        );
-      });
-    });
-
-    describe("when serviceType is a class from registry (INJECTION ERROR)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: {instance: "instance"},
-          useClass: "useClass",
-          type: "provider",
-          scope: ProviderScope.REQUEST
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true,
-          injectable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").throws(new Error("Origin Error"));
-
-        try {
-          this.result = this.injector.mapServices({
-            serviceType: this.symbol,
-            locals: this.locals,
-            requiredScope: true,
-            parentScope: true,
-            target: class ServiceTest {
-            }
-          });
-        } catch (er) {
-          this.error = er;
-        }
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should build instance and return the service", () => {
-        return this.invokeStub.should.have.been.calledWithExactly("useClass", this.locals, undefined, true);
-      });
-      it("should throw an error", () => {
-        expect(this.error.message).to.deep.eq("Service ServiceTest > Test injection failed.");
-      });
-
-      it("should throw an error with origin error", () => {
-        expect(this.error.origin.message).to.deep.eq("Origin Error");
-      });
-    });
-
-    describe("when serviceType is a class from registry (NOT INJECTABLE)", () => {
-      before(() => {
-        this.injector = new InjectorService();
-
-        this.symbol = class Test {
-        };
-
-        this.locals = new Map();
-        this.getStub = Sinon.stub(this.injector, "getProvider").returns({
-          instance: {instance: "instance"},
-          useClass: "useClass",
-          type: "provider",
-          scope: ProviderScope.REQUEST
-        });
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true,
-          injectable: false
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke");
-
-        try {
-          this.result = this.injector.mapServices({
-            serviceType: this.symbol,
-            locals: this.locals,
-            requiredScope: true,
-            parentScope: true,
-            target: class ServiceTest {
-            }
-          });
-        } catch (er) {
-          this.error = er;
-        }
-      });
-
-      after(() => {
-        this.getStub.restore();
-        this.invokeStub.restore();
-        this.getRegistrySettingsStub.restore();
-      });
-
-      it("should call GlobalProviders.get", () => {
-        this.getStub.should.have.been.calledWithExactly(this.symbol);
-      });
-
-      it("should call GlobalProviders.getRegistrySettings", () => {
-        this.getRegistrySettingsStub.should.be.calledWithExactly("provider");
-      });
-      it("should not build service", () => {
-        return this.invokeStub.should.not.have.been.called;
-      });
-      it("should throw an error", () => {
-        expect(this.error.message).to.deep.eq("Service ServiceTest > Test not injectable.");
-      });
-    });
-  });
-
-  describe("build()", () => {
+  describe("forkProvider()", () => {
     class Test {
     }
 
-    describe("when the provider is buildable", () => {
-      before(() => {
-        this.injector = new InjectorService();
-        this.injector.logger = $log;
+    it("should return a provider", async () => {
+      // GIVEN
+      const injector = new InjectorService();
 
-        this.injector.scopes = {
-          [ProviderType.CONTROLLER]: ProviderScope.REQUEST
-        };
-        this.provider = new Provider(Test);
-        this.provider.type = "controller";
+      // WHEN
+      const provider = await injector.forkProvider(InjectorService);
 
-        this.injector.set(Test, this.provider);
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: true
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke").returns(new Test());
-
-        this.locals = this.injector.build();
-      });
-      after(() => {
-        this.getRegistrySettingsStub.restore();
-        this.invokeStub.restore();
-      });
-
-      it("should call GlobalProviders.getRegistrySettings()", () => {
-        this.getRegistrySettingsStub.should.have.been.calledWithExactly("controller");
-      });
-
-      it("should call InjectorService.invoke()", () => {
-        this.invokeStub.should.have.been.calledWithExactly(Test, Sinon.match.instanceOf(Map));
-      });
-
-      it("should create an instance", () => {
-        expect(this.provider.instance).to.be.instanceOf(Test);
-      });
-
-      it("should set the default scope", () => {
-        expect(this.provider.scope).to.eq(ProviderScope.REQUEST);
-      });
-
-      it("should store the instance in locals map", () => {
-        expect(this.locals.get(Test)).to.be.instanceOf(Test);
-      });
-    });
-    describe("when the provider is not buildable", () => {
-      before(() => {
-        this.injector = new InjectorService();
-        this.injector.logger = $log;
-        this.provider = new Provider(Test);
-        this.provider.type = "factory";
-        this.provider.instance = new Test();
-
-        this.injector.set(Test, this.provider);
-
-        this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns({
-          registry: GlobalProviders,
-          buildable: false
-        });
-
-        this.invokeStub = Sinon.stub(this.injector, "invoke");
-
-        this.locals = this.injector.build();
-      });
-      after(() => {
-        this.getRegistrySettingsStub.restore();
-        this.invokeStub.restore();
-      });
-
-      it("should call GlobalProviders.getRegistrySettings()", () => {
-        this.getRegistrySettingsStub.should.have.been.calledWithExactly("factory");
-      });
-
-      it("should call InjectorService.invoke()", () => {
-        return this.invokeStub.should.not.have.been.called;
-      });
-
-      it("should create an instance", () => {
-        expect(this.provider.instance).to.be.instanceOf(Test);
-      });
-
-      it("should set the default scope", () => {
-        expect(this.provider.scope).to.eq(ProviderScope.SINGLETON);
-      });
-
-      it("should store the instance in locals map", () => {
-        expect(this.locals.get(Test)).to.be.instanceOf(Test);
-      });
+      // THEN
+      provider.should.be.instanceof(Provider);
+      provider.provide.should.eq(InjectorService);
     });
   });
 
   describe("invoke()", () => {
-    class Test {
-      args: any[];
+    describe("when we call invoke with rebuild options (SINGLETON)", () => {
+      it("should invoke the provider from container", async () => {
+        // GIVEN
+        const token = class Test {
+        };
 
-      constructor(...args: any[]) {
-        this.args = args;
-      }
-    }
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.deps = [InjectorService];
 
-    class TestDep {
-    }
+        const injector = new InjectorService();
+        injector.set(token, provider);
 
-    describe("when designParamsTypes is not given", () => {
-      before(
-        inject([InjectorService], (injectorService: InjectorService) => {
-          this.provider = new Provider(Test);
-          this.registrySettings = {
-            onInvoke: Sinon.stub()
-          };
+        await injector.load();
 
-          this.designParamTypes = [TestDep];
+        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector as any, "invoke");
+        Sinon.spy(injector, "get");
+        Sinon.spy(injector, "getProvider");
 
-          this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns(this.registrySettings);
+        const locals = new Map();
 
-          this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns(this.designParamTypes);
+        // WHEN
 
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns(this.provider);
+        const result1 = await injector.invoke(token, locals);
+        const result2 = await injector.invoke(token, locals, {rebuild: true});
 
-          this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
-
-          Store.from(Test).set("scope", "request");
-
-          this.locals = new Map();
-          this.result = injectorService.invoke(Test, this.locals, undefined, false);
-        })
-      );
-      after(TestContext.reset);
-      after(() => {
-        this.mapServicesStub.restore();
-        this.getStub.restore();
-        this.getRegistrySettingsStub.restore();
-        this.getParamTypesStub.restore();
-      });
-
-      it("should call GlobalProviders.getRegistrySettings method", () => {
-        this.getRegistrySettingsStub.should.have.been.calledWithExactly(Test);
-      });
-
-      it("should call GlobalProviders.get method", () => {
-        this.getStub.should.have.been.calledWithExactly(Test);
-      });
-
-      it("should call Metadata.getParamTypes method", () => {
-        this.getParamTypesStub.should.have.been.calledWithExactly(Test);
-      });
-
-      it("should call settings.onInvoke method", () => {
-        this.registrySettings.onInvoke.should.have.been.calledWithExactly(this.provider, this.locals, this.designParamTypes);
-      });
-
-      it("should call injectorService.mapServices method", () => {
-        this.mapServicesStub.should.have.been.calledWithExactly({
-          target: Test,
-          serviceType: TestDep,
-          locals: this.locals,
-          requiredScope: false,
-          parentScope: "request"
+        // THEN
+        result1.should.not.eq(result2);
+        injector.getProvider.should.have.been.calledWithExactly(token);
+        injector.get.should.have.been.calledWithExactly(token);
+        (injector as any)._invoke.should.have.been.calledWithExactly(token, locals, {rebuild: true});
+        (injector as any).invoke.should.have.been.calledWithExactly(InjectorService, locals, {
+          parent: token
         });
       });
+    });
+    describe("when provider is a SINGLETON", () => {
+      it("should invoke the provider from container", async () => {
+        // GIVEN
+        const token = class Test {
+        };
 
-      it("should return a new instance of the given service", () => {
-        expect(this.result).to.instanceOf(Test);
-      });
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
 
-      it("should injected services into the given service constructor", () => {
-        expect(this.result.args).to.deep.eq([this.dep]);
+        const injector = new InjectorService();
+        injector.set(token, provider);
+
+        await injector.load();
+
+        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector, "get");
+        Sinon.spy(injector, "getProvider");
+
+        const locals = new Map();
+
+        // WHEN
+
+        const result1 = await injector.invoke(token, locals);
+        const result2 = await injector.invoke(token, locals);
+
+        // THEN
+        result1.should.eq(result2);
+        injector.getProvider.should.have.been.calledWithExactly(token);
+        injector.get.should.have.been.calledWithExactly(token);
+
+        return (injector as any)._invoke.should.not.have.been.called;
       });
     });
-    describe("when designParamsTypes is given", () => {
-      before(
-        inject([InjectorService], (injectorService: InjectorService) => {
-          this.provider = new Provider(Test);
+    describe("when provider is a REQUEST", () => {
+      it("should invoke a request from local container", async () => {
+        // GIVEN
+        const token = class Test {
+        };
 
-          this.registrySettings = {
-            onInvoke: Sinon.stub()
-          };
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.REQUEST;
 
-          this.designParamTypes = [TestDep];
+        const injector = new InjectorService();
+        injector.set(token, provider);
 
-          this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns(this.registrySettings);
+        await injector.load();
 
-          this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes");
+        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector, "get");
+        Sinon.spy(injector, "getProvider");
 
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns(this.provider);
+        const locals = new Map(); // LocalContainer for the first request
+        const locals2 = new Map(); // LocalContainer for the second request
 
-          this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
+        // WHEN REQ1
+        const result1 = await injector.invoke(token, locals);
+        const result2 = await injector.invoke(token, locals);
 
-          Store.from(Test).set("scope", "request");
+        // WHEN REQ2
+        const result3 = await injector.invoke(token, locals2);
 
-          this.locals = new Map();
-          this.result = injectorService.invoke(Test, this.locals, this.designParamTypes, false);
-        })
-      );
-      after(TestContext.reset);
-      after(() => {
-        this.mapServicesStub.restore();
-        this.getStub.restore();
-        this.getRegistrySettingsStub.restore();
-        this.getParamTypesStub.restore();
-      });
+        // THEN
+        result1.should.eq(result2);
+        result2.should.not.eq(result3);
 
-      it("should call GlobalProviders.getRegistrySettings method", () => {
-        this.getRegistrySettingsStub.should.have.been.calledWithExactly(Test);
-      });
+        injector.getProvider.should.have.been.calledWithExactly(token);
+        (injector as any)._invoke.should.have.been.calledWithExactly(token, locals, {});
+        locals.get(token).should.eq(result1);
+        locals2.get(token).should.eq(result3);
 
-      it("should call GlobalProviders.get method", () => {
-        this.getStub.should.have.been.calledWithExactly(Test);
-      });
-
-      it("shouldn't call Metadata.getParamTypes method", () => {
-        return this.getParamTypesStub.should.not.have.been.called;
-      });
-
-      it("should call settings.onInvoke method", () => {
-        this.registrySettings.onInvoke.should.have.been.calledWithExactly(this.provider, this.locals, this.designParamTypes);
-      });
-
-      it("should call injectorService.mapServices method", () => {
-        this.mapServicesStub.should.have.been.calledWithExactly({
-          target: Test,
-          serviceType: TestDep,
-          locals: this.locals,
-          requiredScope: false,
-          parentScope: "request"
-        });
-      });
-
-      it("should return a new instance of the given service", () => {
-        expect(this.result).to.instanceOf(Test);
-      });
-
-      it("should injected services into the given service constructor", () => {
-        expect(this.result.args).to.deep.eq([this.dep]);
+        return injector.get.should.not.have.been.called;
       });
     });
-    describe("when onInvoke is empty", () => {
-      before(
-        inject([InjectorService], (injectorService: InjectorService) => {
-          this.provider = new Provider(Test);
-          this.registrySettings = {};
-          this.designParamTypes = [TestDep];
+    describe("when provider is a INSTANCE", () => {
+      it("should invoke a new instance", async () => {
+        // GIVEN
+        const token = class Test {
+        };
 
-          this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns(this.registrySettings);
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.INSTANCE;
 
-          this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns(this.designParamTypes);
+        const injector = new InjectorService();
+        injector.set(token, provider);
 
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns(this.provider);
+        await injector.load();
 
-          this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
+        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector, "get");
+        Sinon.spy(injector, "getProvider");
 
-          Store.from(Test).set("scope", "request");
+        const locals = new Map(); // LocalContainer for the first request
 
-          this.locals = new Map();
-          this.result = injectorService.invoke(Test, this.locals, undefined, false);
-        })
-      );
-      after(TestContext.reset);
-      after(() => {
-        this.mapServicesStub.restore();
-        this.getStub.restore();
-        this.getRegistrySettingsStub.restore();
-        this.getParamTypesStub.restore();
-      });
+        // WHEN REQ1
+        const result1 = await injector.invoke(token, locals);
+        const result2 = await injector.invoke(token, locals);
 
-      it("should call GlobalProviders.getRegistrySettings method", () => {
-        this.getRegistrySettingsStub.should.have.been.calledWithExactly(Test);
-      });
+        // THEN
+        result1.should.not.eq(result2);
 
-      it("should call GlobalProviders.get method", () => {
-        this.getStub.should.have.been.calledWithExactly(Test);
-      });
+        injector.getProvider.should.have.been.calledWithExactly(token);
+        (injector as any)._invoke.should.have.been.calledWithExactly(token, locals, {});
+        locals.has(token).should.eq(false);
 
-      it("should call Metadata.getParamTypes method", () => {
-        this.getParamTypesStub.should.have.been.calledWithExactly(Test);
-      });
-
-      it("should call injectorService.mapServices method", () => {
-        this.mapServicesStub.should.have.been.calledWithExactly({
-          target: Test,
-          serviceType: TestDep,
-          locals: this.locals,
-          requiredScope: false,
-          parentScope: "request"
-        });
-      });
-
-      it("should return a new instance of the given service", () => {
-        expect(this.result).to.instanceOf(Test);
-      });
-
-      it("should injected services into the given service constructor", () => {
-        expect(this.result.args).to.deep.eq([this.dep]);
+        return injector.get.should.not.have.been.called;
       });
     });
-    describe("when provider didn't exists", () => {
-      before(
-        inject([InjectorService], (injectorService: InjectorService) => {
-          this.registrySettings = {
-            onInvoke: Sinon.stub()
-          };
-          this.designParamTypes = [TestDep];
 
-          this.getRegistrySettingsStub = Sinon.stub(GlobalProviders, "getRegistrySettings").returns(this.registrySettings);
-
-          this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns(this.designParamTypes);
-
-          this.getStub = Sinon.stub(injectorService, "getProvider").returns(undefined);
-
-          this.mapServicesStub = Sinon.stub(injectorService as any, "mapServices").returns((this.dep = new TestDep()));
-
-          Store.from(Test).set("scope", "request");
-
-          this.locals = new Map();
-          this.result = injectorService.invoke(Test, this.locals, undefined, false);
-        })
-      );
-      after(TestContext.reset);
+    describe("when provider is a SINGLETON", () => {
+      before(() => {
+        Sinon.stub(GlobalProviders, "getRegistrySettings");
+      });
       after(() => {
-        this.mapServicesStub.restore();
-        this.getStub.restore();
-        this.getRegistrySettingsStub.restore();
-        this.getParamTypesStub.restore();
+        // @ts-ignore
+        GlobalProviders.getRegistrySettings.restore();
       });
+      it("should invoke the provider from container", async () => {
+        // GIVEN
+        const token = class Test {
+        };
 
-      it("should call GlobalProviders.getRegistrySettings method", () => {
-        this.getRegistrySettingsStub.should.have.been.calledWithExactly(Test);
-      });
+        const registry = {
+          onInvoke: Sinon.stub()
+        };
 
-      it("should call GlobalProviders.get method", () => {
-        this.getStub.should.have.been.calledWithExactly(Test);
-      });
+        // @ts-ignore
+        GlobalProviders.getRegistrySettings.returns(registry);
 
-      it("should call Metadata.getParamTypes method", () => {
-        this.getParamTypesStub.should.have.been.calledWithExactly(Test);
-      });
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
 
-      it("shouldn't call settings.onInvoke method", () => {
-        return this.registrySettings.onInvoke.should.not.have.been.called;
-      });
+        const injector = new InjectorService();
+        injector.set(token, provider);
 
-      it("should call injectorService.mapServices method", () => {
-        this.mapServicesStub.should.have.been.calledWithExactly({
-          target: Test,
-          serviceType: TestDep,
-          locals: this.locals,
-          requiredScope: false,
-          parentScope: "request"
-        });
-      });
+        // WHEN
+        const result = await injector.invoke(token);
 
-      it("should return a new instance of the given service", () => {
-        expect(this.result).to.instanceOf(Test);
-      });
-
-      it("should injected services into the given service constructor", () => {
-        expect(this.result.args).to.deep.eq([this.dep]);
+        // THEN
+        result.should.instanceof(token);
+        registry.onInvoke.should.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
       });
     });
-  });
 
-  describe("invokeMethod()", () => {
-    class InjectTest {
-    }
+    describe("when provider is a Value (useValue)", () => {
+      it("should invoke the provider from container (1)", async () => {
+        // GIVEN
+        const token = Symbol.for("TokenValue");
 
-    describe("when designParamTypes is given", () => {
-      before(
-        inject([InjectorService], (injector: InjectorService) => {
-          this.injector = injector;
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.useValue = "TEST";
 
-          this.mapServicesStub = Sinon.stub(this.injector, "mapServices");
-          this.mapServicesStub.returns(new InjectTest());
+        const injector = new InjectorService();
+        injector.set(token, provider);
 
-          this.getParamsTypesStub = Sinon.stub(Metadata, "getParamTypes");
+        await injector.load();
 
-          this.handler = Sinon.stub();
+        // WHEN
+        const result = await injector.invoke(token);
 
-          this.injector.invokeMethod(this.handler, {
-            target: Test,
-            methodName: "test",
-            locals: "locals",
-            designParamTypes: [InjectTest]
-          });
-        })
-      );
-      after(TestContext.reset);
-      after(() => {
-        this.mapServicesStub.restore();
-        this.getParamsTypesStub.restore();
+        // THEN
+        result.should.eq("TEST");
       });
 
-      it("should call injectorService.mapServices()", () => {
-        this.mapServicesStub.should.have.been.calledWithExactly({
-          serviceType: InjectTest,
-          target: Test,
-          locals: "locals",
-          requiredScope: false,
-          parentScope: false
-        });
-      });
+      it("should invoke the provider from container (2)", async () => {
+        // GIVEN
+        const token = Symbol.for("TokenValue");
 
-      it("shouldn't call Metadata.getParamTypes()", () => {
-        this.getParamsTypesStub.should.not.have.been.called;
-      });
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.useValue = () => "TEST";
 
-      it("should call the handler", () => {
-        this.handler.should.have.been.calledWithExactly(new InjectTest());
+        const injector = new InjectorService();
+        injector.set(token, provider);
+
+        await injector.load();
+
+        // WHEN
+        const result = await injector.invoke(token);
+
+        // THEN
+        result.should.eq("TEST");
       });
     });
-    describe("when designParamTypes is not given", () => {
-      before(
-        inject([InjectorService], (injector: InjectorService) => {
-          this.injector = injector;
+    describe("when provider is a Factory (useFactory)", () => {
+      it("should invoke the provider from container", async () => {
+        // GIVEN
+        const token = Symbol.for("TokenFactory");
 
-          this.mapServicesStub = Sinon.stub(this.injector, "mapServices");
-          this.mapServicesStub.returns(new InjectTest());
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.useFactory = () => ({factory: "factory"});
 
-          this.getParamsTypesStub = Sinon.stub(Metadata, "getParamTypes").returns([InjectTest]);
+        const injector = new InjectorService();
+        injector.set(token, provider);
 
-          this.handler = Sinon.stub();
+        await injector.load();
 
-          this.injector.invokeMethod(this.handler, {
-            target: Test,
-            methodName: "test",
-            locals: "locals"
-          });
-        })
-      );
-      after(TestContext.reset);
-      after(() => {
-        this.mapServicesStub.restore();
-        this.getParamsTypesStub.restore();
-      });
+        // WHEN
+        const result = await injector.invoke(token);
 
-      it("shouldn't call Metadata.getParamTypes()", () => {
-        this.getParamsTypesStub.should.have.been.calledWithExactly(Test.prototype, "test");
-      });
-
-      it("should call injectorService.mapServices()", () => {
-        this.mapServicesStub.should.have.been.calledWithExactly({
-          serviceType: InjectTest,
-          target: Test,
-          locals: "locals",
-          requiredScope: false,
-          parentScope: false
-        });
-      });
-
-      it("should call the handler", () => {
-        this.handler.should.have.been.calledWithExactly(new InjectTest());
+        // THEN
+        result.should.deep.eq({factory: "factory"});
       });
     });
-    describe("when handler is already injected", () => {
-      before(
-        inject([InjectorService], (injector: InjectorService) => {
-          this.injector = injector;
+    describe("when provider is an unknow provider", () => {
+      it("should invoke the class from given parameter", async () => {
+        // GIVEN
+        const token = class {
+        };
 
-          this.mapServicesStub = Sinon.stub(this.injector, "mapServices");
-          this.mapServicesStub.returns(new InjectTest());
+        const injector = new InjectorService();
 
-          this.getParamsTypesStub = Sinon.stub(Metadata, "getParamTypes");
+        // WHEN
+        const result = await injector.invoke(token);
 
-          this.handler = Sinon.stub();
-          this.handler.$injected = true;
-
-          this.injector.invokeMethod(this.handler, {
-            target: Test,
-            methodName: "test",
-            locals: "locals"
-          });
-        })
-      );
-      after(TestContext.reset);
-      after(() => {
-        this.mapServicesStub.restore();
-        this.getParamsTypesStub.restore();
+        // THEN
+        result.should.instanceof(token);
       });
+    });
+    describe("when one of dependencies isn't injectable", () => {
+      it("should throw InjectionError", async () => {
+        // GIVEN
+        const token2 = class Ctrl {
+        };
+        const token3 = class Test {
+        };
 
-      it("shouldn't call Metadata.getParamTypes()", () => {
-        this.getParamsTypesStub.should.not.have.been.called;
+        const provider2 = new Provider<any>(token2);
+        provider2.scope = ProviderScope.SINGLETON;
+        provider2.type = ProviderType.CONTROLLER;
+        provider2.useClass = token2;
+        provider2.injectable = false;
+
+        const provider3 = new Provider<any>(token3);
+        provider3.scope = ProviderScope.SINGLETON;
+        provider3.deps = [token2];
+
+        const injector = new InjectorService();
+        injector.set(token2, provider2);
+        injector.set(token3, provider3);
+
+        // WHEN
+        let actualError;
+        try {
+          await injector.invoke(token3);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        actualError.message.should.eq("Injection failed on Test > Ctrl\nOrigin: Ctrl controller is not injectable to another provider");
       });
+    });
+    describe("when error occur", () => {
+      it("should throw InjectionError", async () => {
+        // GIVEN
+        const token1 = Symbol.for("TokenValue");
+        const token2 = Symbol.for("TokenFactory");
+        const token3 = class Test {
+        };
 
-      it("shouldn't call injectorService.mapServices()", () => {
-        this.mapServicesStub.should.not.have.been.called;
-      });
+        const provider1 = new Provider<any>(token1);
+        provider1.scope = ProviderScope.SINGLETON;
+        provider1.useValue = () => undefined; // should throw error because instance is undefined
 
-      it("should call the handler", () => {
-        this.handler.should.have.been.calledWithExactly("locals");
+        const provider2 = new Provider<any>(token2);
+        provider2.scope = ProviderScope.SINGLETON;
+        provider2.deps = [token1];
+        provider2.useFactory = () => ({});
+
+        const provider3 = new Provider<any>(token3);
+        provider3.scope = ProviderScope.SINGLETON;
+        provider3.deps = [token2];
+
+        const injector = new InjectorService();
+        injector.set(token1, provider1);
+        injector.set(token2, provider2);
+        injector.set(token3, provider3);
+
+        // WHEN
+        let actualError;
+        try {
+          await injector.invoke(token3);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        actualError.message.should.eq("Injection failed on Test > TokenFactory > TokenValue\nOrigin: Unable to create new instance from undefined value. Check your provider declaration for TokenValue");
       });
     });
   });
@@ -1244,7 +501,7 @@ describe("InjectorService", () => {
   });
 
   describe("bindValue()", () => {
-    it("should bind a property with a value", () => {
+    it("should bind a property with a value (1)", () => {
       // GIVEN
       const injector = new InjectorService();
       const instance = new Test();
@@ -1256,10 +513,22 @@ describe("InjectorService", () => {
       // THEN
       expect(instance.value).to.eq("test");
     });
+
+    it("should bind a property with a value (2)", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new Test();
+
+      // WHEN
+      injector.bindValue(instance, {propertyKey: "value", expression: "UNKNOW", defaultValue: "test2"} as any);
+
+      // THEN
+      expect(instance.value).to.eq("test2");
+    });
   });
 
   describe("bindConstant()", () => {
-    it("should bind a property with a value", () => {
+    it("should bind a property with a value (1)", () => {
       // GIVEN
       const injector = new InjectorService();
       const instance = new Test();
@@ -1280,15 +549,26 @@ describe("InjectorService", () => {
       }
       expect(!!actualError).to.eq(true);
     });
+
+    it("should bind a property with a value (2)", () => {
+      // GIVEN
+      const injector = new InjectorService();
+      const instance = new Test();
+
+      // WHEN
+      injector.bindConstant(instance, {propertyKey: "constant", expression: "UNKNOW", defaultValue: "test"} as any);
+
+      // THEN
+      expect(instance.constant).to.eq("test");
+    });
   });
 
   describe("bindInterceptor()", () => {
     const sandbox = Sinon.createSandbox();
 
     after(() => sandbox.restore());
-    afterEach(() => sandbox.resetHistory());
 
-    it("should bind the method and return result", async () => {
+    it("should bind the method", async () => {
       // GIVEN
       class InterceptorTest {
         aroundInvoke(ctx: any) {
@@ -1297,10 +577,14 @@ describe("InjectorService", () => {
       }
 
       const injector = new InjectorService();
-      const instance = new Test();
-      const originalMethod = instance["test3"];
+      injector.addProvider(InterceptorTest);
 
-      sandbox.stub(injector, "get").returns(new InterceptorTest());
+      await injector.load();
+
+      const instance = new Test();
+      const originalMethod = instance["test"];
+
+      sandbox.spy(injector, "get");
 
       // WHEN
       injector.bindInterceptor(instance, {
@@ -1316,40 +600,6 @@ describe("InjectorService", () => {
       injector.get.should.have.been.calledWithExactly(InterceptorTest);
 
       expect(result).to.eq("test called  intercepted");
-    });
-    it("should bind the method and throw error", async () => {
-      // GIVEN
-      class InterceptorTest {
-        aroundInvoke(ctx: any) {
-          return ctx.proceed(new Error());
-        }
-      }
-
-      const injector = new InjectorService();
-      const instance = new Test();
-      const originalMethod = instance["test3"];
-
-      sandbox.stub(injector, "get").returns(new InterceptorTest());
-
-      // WHEN
-      injector.bindInterceptor(instance, {
-        bindingType: "interceptor",
-        propertyKey: "test3",
-        useType: InterceptorTest
-      } as any);
-
-      let actualError;
-      try {
-        (instance as any).test3("test");
-      } catch (er) {
-        actualError = er;
-      }
-
-      // THEN
-      expect(originalMethod).should.not.eq(instance.test3);
-      injector.get.should.have.been.calledWithExactly(InterceptorTest);
-
-      actualError.should.instanceOf(Error);
     });
   });
 });

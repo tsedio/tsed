@@ -1,5 +1,6 @@
-import {ProviderScope} from "@tsed/di";
 import {expect} from "chai";
+import {ProviderScope} from "../../../../di/src/interfaces";
+import {getKeys} from "@tsed/core";
 import {ControllerProvider} from "../../../src/mvc/class/ControllerProvider";
 
 class Test {
@@ -22,6 +23,21 @@ describe("ControllerProvider", () => {
       use: [new Function()],
       useAfter: [new Function()]
     };
+  });
+
+  it("should return all keys available for serialisation", () => {
+    expect(getKeys(controllerProvider)).to.deep.equal([
+      "type",
+      "injectable",
+      "path",
+      "children",
+      "useClass",
+      "scope",
+      "instance",
+      "deps",
+      "useFactory",
+      "useValue"
+    ]);
   });
 
   it("should have type field to equals to controller", () => {
@@ -73,7 +89,9 @@ describe("ControllerProvider", () => {
   it("should have endpoint url", () => {
     expect(controllerProvider.hasEndpointUrl()).to.eq(true);
   });
-
+  it("should have children", () => {
+    expect(controllerProvider.hasChildren()).to.eq(true);
+  });
   it("should get parent", () => {
     expect(!!controllerProvider.parent).to.be.false;
   });

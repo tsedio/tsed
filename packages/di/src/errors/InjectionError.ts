@@ -1,12 +1,31 @@
-import {nameOf, Type} from "@tsed/core";
+import {isString, nameOf} from "@tsed/core";
+import {TokenProvider} from "../interfaces";
 
-/**
- * @private
- */
 export class InjectionError extends Error {
   name = "INJECTION_ERROR";
 
-  constructor(target: Type<any>, serviceName: string, message = "not found") {
-    super(`Service ${nameOf(target)} > ${serviceName} ${message}.`);
+  public tokens: TokenProvider[] = [];
+  public origin: any;
+
+  constructor(token: TokenProvider, origin?: any) {
+    super(isString(origin) ? origin : "");
+
+    this.tokens = [token];
+
+    if (origin) {
+      if (isString(origin)) {
+        this.origin = {
+          message: origin,
+          stack: this.stack
+        };
+      } else {
+        if (origin.tokens) {
+          this.tokens = this.tokens.concat(origin.tokens);
+          this.origin = origin.origin;
+        }
+      }
+    }
+
+    this.message = "Injection failed on " + this.tokens.map(token => nameOf(token)).join(" > ") + "\nOrigin: " + this.origin.message;
   }
 }

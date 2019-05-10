@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
 import {IInjectableProperties} from "../interfaces/IInjectableProperties";
+import {InjectablePropertyType} from "../interfaces/InjectablePropertyType";
 
 /**
  * Return value from ServerSettingsService.
@@ -40,7 +41,7 @@ export function Value(expression: any, defaultValue?: any) {
   return (target: any, propertyKey: string) => {
     Store.from(target).merge("injectableProperties", {
       [propertyKey]: {
-        bindingType: "value",
+        bindingType: InjectablePropertyType.VALUE,
         propertyKey,
         expression,
         defaultValue

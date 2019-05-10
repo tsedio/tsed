@@ -3,39 +3,52 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 import {Inject} from "../../src";
 
-class Test {
-  test() {}
-}
 
 describe("@Inject()", () => {
   describe("used on unsupported decorator type", () => {
-    before(() => {
+    it("should store metadata", () => {
+      // GIVEN
+      class Test {
+        test() {
+        }
+      }
+
+      // WHEN
+      let actualError;
       try {
         Inject()(Test, "test", descriptorOf(Test, "test"));
       } catch (er) {
-        this.error = er;
+        actualError = er;
       }
-    });
 
-    it("should store metadata", () => {
-      expect(this.error.message).to.deep.eq("Inject cannot used as method.static at Test.test");
+      // THEN
+      expect(actualError.message).to.deep.eq("Inject cannot used as method.static at Test.test");
     });
   });
 
   describe("used on method", () => {
     before(() => {
-      this.getTypeStub = Sinon.stub(Metadata, "getType").returns(String);
-
-      Inject()(Test.prototype, "test", descriptorOf(Test, "test"));
-      this.store = Store.from(Test).get("injectableProperties");
+      Sinon.stub(Metadata, "getType").returns(String);
     });
 
     after(() => {
-      this.getTypeStub.restore();
+      // @ts-ignore
+      Metadata.getType.restore();
     });
 
     it("should store metadata", () => {
-      expect(this.store).to.deep.eq({
+      // GIVEN
+      class Test {
+        test() {
+        }
+      }
+
+      // WHEN
+      Inject()(Test.prototype, "test", descriptorOf(Test, "test"));
+
+      // THEN
+      const store = Store.from(Test).get("injectableProperties");
+      store.should.deep.eq({
         test: {
           bindingType: "method",
           propertyKey: "test"
@@ -46,12 +59,22 @@ describe("@Inject()", () => {
 
   describe("used on property", () => {
     before(() => {
-      Inject(String)(Test.prototype, "test");
-      this.store = Store.from(Test).get("injectableProperties");
+
     });
 
     it("should store metadata", () => {
-      expect(this.store).to.deep.eq({
+      // GIVEN
+      class Test {
+        test() {
+        }
+      }
+
+      // WHEN
+      Inject(String)(Test.prototype, "test");
+
+      // THEN
+      const store = Store.from(Test).get("injectableProperties");
+      store.should.deep.eq({
         test: {
           bindingType: "property",
           propertyKey: "test",
@@ -62,44 +85,60 @@ describe("@Inject()", () => {
   });
 
   describe("used on constructor/params", () => {
+    const sandbox = Sinon.createSandbox();
     before(() => {
-      this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns([]);
-      this.setParamTypesStub = Sinon.stub(Metadata, "setParamTypes");
-
-      Inject(String)(Test.prototype, undefined, 0);
+      sandbox.stub(Metadata, "getParamTypes");
+      sandbox.stub(Metadata, "setParamTypes");
     });
     after(() => {
-      this.getParamTypesStub.restore();
-      this.setParamTypesStub.restore();
+      sandbox.restore();
     });
 
     it("should call Metadata.getParamTypes()", () => {
-      this.getParamTypesStub.should.have.been.calledWithExactly(Test.prototype, undefined);
-    });
+      // GIVEN
+      class Test {
+        test() {
+        }
+      }
 
-    it("should call Metadata.setParamTypes()", () => {
-      this.setParamTypesStub.should.have.been.calledWithExactly(Test.prototype, undefined, [String]);
+      // @ts-ignore
+      Metadata.getParamTypes.returns([]);
+
+      // WHEN
+      Inject(String)(Test.prototype, undefined, 0);
+
+      // THEN
+      Metadata.getParamTypes.should.have.been.calledWithExactly(Test.prototype, undefined);
+      Metadata.setParamTypes.should.have.been.calledWithExactly(Test.prototype, undefined, [String]);
     });
   });
 
   describe("used on method/params", () => {
+    const sandbox = Sinon.createSandbox();
     before(() => {
-      this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes").returns([]);
-      this.setParamTypesStub = Sinon.stub(Metadata, "setParamTypes");
-
-      Inject(String)(Test.prototype, "propertyKey", 0);
+      sandbox.stub(Metadata, "getParamTypes");
+      sandbox.stub(Metadata, "setParamTypes");
     });
     after(() => {
-      this.getParamTypesStub.restore();
-      this.setParamTypesStub.restore();
+      sandbox.restore();
     });
 
     it("should call Metadata.getParamTypes()", () => {
-      this.getParamTypesStub.should.have.been.calledWithExactly(Test.prototype, "propertyKey");
-    });
+      // GIVEN
+      class Test {
+        test() {
+        }
+      }
 
-    it("should call Metadata.setParamTypes()", () => {
-      this.setParamTypesStub.should.have.been.calledWithExactly(Test.prototype, "propertyKey", [String]);
+      // @ts-ignore
+      Metadata.getParamTypes.returns([]);
+
+      // WHEN
+      Inject(String)(Test.prototype, "propertyKey", 0);
+
+      // THEN
+      Metadata.getParamTypes.should.have.been.calledWithExactly(Test.prototype, "propertyKey");
+      Metadata.setParamTypes.should.have.been.calledWithExactly(Test.prototype, "propertyKey", [String]);
     });
   });
 });

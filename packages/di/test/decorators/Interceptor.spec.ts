@@ -2,22 +2,28 @@ import {GlobalProviders, ProviderType} from "@tsed/di";
 import * as Sinon from "sinon";
 import {Interceptor} from "../../src";
 
-class Test {
-}
 
 describe("@Interceptor", () => {
+  const interceptorRegistry = GlobalProviders.getRegistry(ProviderType.INTERCEPTOR);
   before(() => {
-    this.serviceStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.INTERCEPTOR), "merge");
-
-    Interceptor()(Test);
+    Sinon.stub(interceptorRegistry, "merge");
   });
 
   after(() => {
-    this.serviceStub.restore();
+    // @ts-ignore
+    interceptorRegistry.merge.restore();
   });
 
   it("should set metadata", () => {
-    this.serviceStub.should.have.been.calledWithExactly(Test, {
+    // GIVEN
+    class Test {
+    }
+
+    // WHEN
+    Interceptor()(Test);
+
+    // THEN
+    interceptorRegistry.merge.should.have.been.calledWithExactly(Test, {
       instance: undefined,
       provide: Test,
       type: ProviderType.INTERCEPTOR

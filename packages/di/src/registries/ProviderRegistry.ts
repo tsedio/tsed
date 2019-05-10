@@ -1,5 +1,5 @@
 import {Provider} from "../class/Provider";
-import {IProvider, ProviderType, TypedProvidersRegistry} from "../interfaces";
+import {IProvider, ProviderScope, ProviderType} from "../interfaces";
 import {GlobalProviders} from "./GlobalProviders";
 
 /**
@@ -7,38 +7,28 @@ import {GlobalProviders} from "./GlobalProviders";
  * @type {GlobalProviderRegistry}
  */
 // tslint:disable-next-line: variable-name
-export const ProviderRegistry: TypedProvidersRegistry = GlobalProviders.getRegistry(ProviderType.PROVIDER);
+GlobalProviders.getRegistry(ProviderType.PROVIDER);
+/**
+ *
+ * @type {Registry<Provider<any>, IProvider<any>>}
+ */
+GlobalProviders.createRegistry(ProviderType.SERVICE, Provider);
+/**
+ *`
+ * @type {Registry<Provider<any>, IProvider<any>>}
+ */
+GlobalProviders.createRegistry(ProviderType.FACTORY, Provider);
 
 /**
  *
  * @type {Registry<Provider<any>, IProvider<any>>}
  */
-GlobalProviders.createRegistry(ProviderType.SERVICE, Provider, {
-  injectable: true,
-  buildable: true
-});
-/**
- *`
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.FACTORY, Provider, {
-  injectable: true,
-  buildable: false
-});
-/**
- *
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider, {
-  injectable: true,
-  buildable: true
-});
+GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider);
 /**
  *
  */
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
-  injectable: false,
-  buildable: true
+  injectable: false
 });
 
 /**
@@ -116,7 +106,65 @@ export function registerProvider(provider: Partial<IProvider<any>>): void {
  * ```
  *
  */
-export const registerFactory = GlobalProviders.createRegisterFn(ProviderType.FACTORY);
+export const registerFactory = (provider: any | IProvider<any>, instance?: any): void => {
+  if (!provider.provide) {
+    provider = {
+      provide: provider
+    };
+  }
+
+  provider = Object.assign(
+    {
+      scope: ProviderScope.SINGLETON,
+      useFactory() {
+        return instance;
+      }
+    },
+    provider,
+    {type: ProviderType.FACTORY}
+  );
+  GlobalProviders.getRegistry(ProviderType.FACTORY).merge(provider.provide, provider);
+};
+
+/**
+ * Add a new value in the `ProviderRegistry`.
+ *
+ * #### Example with symbol definition
+ *
+ *
+ * ```typescript
+ * import {registerValue, InjectorService} from "@tsed/common";
+ *
+ * const MyValue = Symbol.from("MyValue")
+ *
+ * registerValue(MyValue, "myValue");
+ *
+ * @Service()
+ * export class OtherService {
+ *      constructor(@Inject(MyValue) myValue: string){
+ *          console.log(myValue); /// "myValue"
+ *      }
+ * }
+ * ```
+ */
+export const registerValue = (provider: any | IProvider<any>, value?: any): void => {
+  if (!provider.provide) {
+    provider = {
+      provide: provider
+    };
+  }
+
+  provider = Object.assign(
+    {
+      scope: ProviderScope.SINGLETON,
+      useValue: value
+    },
+    provider,
+    {type: ProviderType.VALUE}
+  );
+  GlobalProviders.getRegistry(ProviderType.VALUE).merge(provider.provide, provider);
+};
+
 /**
  * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.
  *

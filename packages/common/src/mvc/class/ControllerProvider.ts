@@ -52,6 +52,7 @@ export class ControllerProvider extends Provider<any> implements IControllerProv
    *
    * @param children
    */
+  @Enumerable()
   set children(children: IChildrenController[]) {
     this._children = children;
     this._children.forEach(d => (d.$parentCtrl = this));
@@ -113,8 +114,9 @@ export class ControllerProvider extends Provider<any> implements IControllerProv
   /**
    * Resolve final endpoint url.
    */
-  public getEndpointUrl = (routerPath?: string): string =>
-    (routerPath === this.path ? this.path : (routerPath || "") + this.path).replace(/\/\//gi, "/");
+  public getEndpointUrl(routerPath?: string): string {
+    return (routerPath === this.path ? this.path : (routerPath || "") + this.path).replace(/\/\//gi, "/");
+  }
 
   /**
    *
@@ -127,18 +129,15 @@ export class ControllerProvider extends Provider<any> implements IControllerProv
    *
    * @returns {boolean}
    */
-  public hasParent(): boolean {
-    return !!this.provide.$parentCtrl;
+  public hasChildren(): boolean {
+    return !!this.children.length;
   }
 
-  clone(): ControllerProvider {
-    const provider = new ControllerProvider(this._provide);
-    provider.path = this.path;
-    provider.type = this.type;
-    provider.useClass = this._useClass;
-    provider._instance = this._instance;
-    provider._children = this._children;
-
-    return provider;
+  /**
+   *
+   * @returns {boolean}
+   */
+  public hasParent(): boolean {
+    return !!this.provide.$parentCtrl;
   }
 }
