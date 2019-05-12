@@ -1,17 +1,22 @@
+import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import * as Https from "https";
-import {InjectorService} from "@tsed/di";
-import {HttpsServer} from "../decorators/httpsServer";
-import {IHTTPSServerOptions} from "../interfaces/IHTTPSServerOptions";
+import {ServerSettingsService} from "../../config";
 import {ExpressApplication} from "../../mvc/decorators";
+import {HttpsServer} from "../decorators/httpsServer";
 
-export function createHttpsServer(injector: InjectorService, options: IHTTPSServerOptions): Https.Server {
-  const expressApp = injector.get<ExpressApplication>(ExpressApplication);
-  const httpsServer: any = Https.createServer(options, expressApp);
-  // TODO to be removed
-  /* istanbul ignore next */
-  httpsServer.get = () => httpsServer;
-
-  injector.forkProvider(HttpsServer, httpsServer);
-
-  return this;
+export /* async */ function createHttpsServer(injector: InjectorService): void {
+  /* await */
+  injector.forkProvider(HttpsServer);
 }
+
+registerProvider({
+  provide: HttpsServer,
+  deps: [ExpressApplication, ServerSettingsService],
+  scope: ProviderScope.SINGLETON,
+  global: true,
+  useFactory(expressApplication: ExpressApplication, settings: ServerSettingsService) {
+    const options = settings.httpsOptions;
+
+    return Https.createServer(options, expressApplication);
+  }
+});

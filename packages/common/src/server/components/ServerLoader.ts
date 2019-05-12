@@ -1,3 +1,4 @@
+import {createExpressApplication, createHttpServer, createHttpsServer, createInjector} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
@@ -15,10 +16,6 @@ import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {contextMiddleware} from "../utils/contextMiddleware";
-import {createExpressApplication} from "../utils/createExpressApplication";
-import {createHttpServer} from "../utils/createHttpServer";
-import {createHttpsServer} from "../utils/createHttpsServer";
-import {createInjector} from "../utils/createInjector";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -72,14 +69,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    */
   constructor() {
-    const settings = ServerSettingsService.getMetadata(this);
-    this._injector = createInjector(settings);
-
-    createExpressApplication(this._injector);
-
-    if (settings) {
-      this.setSettings(settings);
-    }
+    this.init();
   }
 
   /**
@@ -91,7 +81,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
-   * Return the settings configured by the decorator [@ServerSettings](/api/common/server/decorators/ServerSettings.md).
+   * Return the settings configured by the decorator @@ServerSettings@@.
    *
    * ```typescript
    * @ServerSettings({
@@ -126,6 +116,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Return the InjectorService initialized by the server.
    * @returns {InjectorService}
+   * @deprecated
    */
   get injectorService(): InjectorService {
     return this._injector;
@@ -136,7 +127,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Http.Server}
    */
   get httpServer(): Http.Server {
-    return this.injectorService.get<HttpServer>(HttpServer)!;
+    return this.injector.get<HttpServer>(HttpServer)!;
   }
 
   /**
@@ -144,7 +135,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Https.Server}
    */
   get httpsServer(): Https.Server {
-    return this.injectorService.get<HttpsServer>(HttpsServer)!;
+    return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
   /**
@@ -171,9 +162,9 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Create a new HTTP server with the provided `port`.
    * @returns {ServerLoader}
+   * @deprecated
    */
   public createHttpServer(port: string | number): ServerLoader {
-    createHttpServer(this.injector);
     this.settings.httpPort = port;
 
     return this;
@@ -194,12 +185,41 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    * @param options Options to create new HTTPS server.
    * @returns {ServerLoader}
+   * @deprecated
    */
   public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
-    createHttpsServer(this.injector, options);
     this.settings.httpsPort = options.port;
 
     return this;
+  }
+
+  /**
+   * Init injector with minimal configuration
+   */
+  init() {
+    const settings = ServerSettingsService.getMetadata(this);
+
+    this._injector = /* await */ createInjector(settings);
+
+    if (settings) {
+      this.setSettings(settings);
+    }
+
+    /* await */
+    createExpressApplication(this.injector);
+    /* await */
+    createHttpsServer(this.injector);
+    /* await */
+    createHttpServer(this.injector);
+
+    // const settings = ServerSettingsService.getMetadata(this);
+    // this._injector = createInjector(settings);
+    //
+    // createExpressApplication(this._injector);
+    //
+    // if (settings) {
+    //   this.setSettings(settings);
+    // }
   }
 
   /**
@@ -496,22 +516,6 @@ export abstract class ServerLoader implements IServerLifecycle {
 
         case "componentsScan":
           this.settings.componentsScan.forEach(componentDir => this.scan(componentDir));
-          break;
-
-        case "httpPort":
-          /* istanbul ignore else */
-          if (value !== false && this.httpServer === undefined) {
-            this.createHttpServer(value);
-          }
-
-          break;
-
-        case "httpsPort":
-          /* istanbul ignore else */
-          if (value !== false && this.httpsServer === undefined) {
-            this.createHttpsServer(Object.assign(map.get("httpsOptions") || {}, {port: value}));
-          }
-
           break;
       }
     };
