@@ -1,9 +1,9 @@
 import {Controller, Get, InjectorService, ParseService, Service} from "@tsed/common";
 import {bootstrap, inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
+import * as Sinon from "sinon";
 import {AcceptMimesMiddleware} from "../../packages/common/src/mvc/components/AcceptMimesMiddleware";
 import {Hidden} from "../../packages/swagger/src";
-import * as Sinon from "sinon";
 import {CalendarCtrl} from "./app/controllers/calendars/CalendarCtrl";
 import {FakeServer} from "./app/FakeServer";
 
@@ -17,7 +17,8 @@ class DbService {
 @Controller("/testMyCtrl")
 @Hidden()
 export class MyCtrl {
-  constructor(private dbService: DbService) {}
+  constructor(private dbService: DbService) {
+  }
 
   @Get("/")
   public getData() {
@@ -95,24 +96,21 @@ describe("Example Test", () => {
     before(bootstrap(FakeServer));
     after(TestContext.reset);
 
-    it("should do something", inject([InjectorService], (injector: InjectorService) => {
-      // create locals map
-      const locals = new Map<any, any>();
-
-      // replace DbService by a faker
-      locals.set(DbService, {
-        getData: () => {
-          return "test";
-        }
-      });
-
+    it("should do something", async () => {
       // give the locals map to the invoke method
-      const instance: MyCtrl = injector.invoke<MyCtrl>(MyCtrl, locals);
+      const instance: MyCtrl = await TestContext.invoke(MyCtrl, [{
+        provide: DbService,
+        use: {
+          getData: () => {
+            return "test";
+          }
+        }
+      }]);
 
       // and test it
-      expect(!!instance).to.be.true;
+      expect(!!instance).to.eq(true);
       expect(instance.getData()).to.equals("test");
-    }));
+    });
   });
 
   describe("AcceptMimesMiddleware", () => {
