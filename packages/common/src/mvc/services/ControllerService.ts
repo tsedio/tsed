@@ -1,5 +1,5 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
-import {ProviderType, InjectorService, ProviderScope, Injectable} from "@tsed/di";
+import {Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di";
 import * as Express from "express";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {IComponentScanned} from "../../server/interfaces";
@@ -33,6 +33,10 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
     super(injectorService as any, {filter: {type: ProviderType.CONTROLLER}});
 
     this.buildRouters();
+  }
+
+  get routes(): {route: string; provider: any}[] {
+    return this.routeService.routes || [];
   }
 
   /**
@@ -79,6 +83,19 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
   }
 
   /**
+   * Invoke a controller from his Class.
+   * @param target
+   * @param locals
+   * @param designParamTypes
+   * @returns {T}
+   * @deprecated
+   */
+  @Deprecated("ControllerService.invoke(). Removed feature. Use injectorService.invoke instead of.")
+  public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
+    return this.injectorService.invoke<T>(target.provide || target, locals);
+  }
+
+  /**
    * Build routers and con
    */
   private buildRouters() {
@@ -116,22 +133,5 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
     const route = provider.getEndpointUrl(endpoint!);
     this.routeService.addRoute({provider, route});
     this.expressApplication.use(route, provider.router);
-  }
-
-  /**
-   * Invoke a controller from his Class.
-   * @param target
-   * @param locals
-   * @param designParamTypes
-   * @returns {T}
-   * @deprecated
-   */
-  @Deprecated("ControllerService.invoke(). Removed feature. Use injectorService.invoke instead of.")
-  public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
-    return this.injectorService.invoke<T>(target.provide || target, locals, designParamTypes);
-  }
-
-  get routes(): {route: string; provider: any}[] {
-    return this.routeService.routes || [];
   }
 }

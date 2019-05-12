@@ -7,8 +7,11 @@ $log.level = "info";
 
 export function createInjector(settings: any) {
   const injector = new InjectorService();
+
+  // Init settings
   injector.settings = createSettingsService(injector);
   injector.logger = $log;
+
   injector.scopes = {
     ...(settings.scopes || {}),
     [ProviderType.CONTROLLER]: settings.controllerScope
@@ -18,10 +21,10 @@ export function createInjector(settings: any) {
 }
 
 function createSettingsService(injector: InjectorService) {
-  const provider = GlobalProviders.get(ServerSettingsService)!;
-  const settingsService = injector.invoke<ServerSettingsService>(provider.useClass);
+  const provider = GlobalProviders.get(ServerSettingsService)!.clone();
 
-  injector.forkProvider(ServerSettingsService, settingsService);
+  provider.instance = injector.invoke<ServerSettingsService>(provider.useClass);
+  injector.addProvider(ServerSettingsService, provider);
 
-  return settingsService;
+  return provider.instance;
 }

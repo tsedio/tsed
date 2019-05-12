@@ -1,5 +1,5 @@
 import {isFunction, isPromise, isStream, nameOf} from "@tsed/core";
-import {InjectorService, ProviderScope} from "@tsed/di";
+import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import {isObservable} from "rxjs";
 import {FilterBuilder, IFilterPreHandler, ParamMetadata} from "../../filters";
@@ -148,23 +148,30 @@ export class HandlerBuilder {
    */
   private getHandler(locals: Map<string | Function, any>): Function {
     const {token, method} = this.handlerMetadata;
-    const provider = this.injector.getProvider(token);
 
-    /* istanbul ignore next */
-    if (!provider) {
-      throw new Error(`${nameOf(token)} component not found in the injector`);
-    }
-
-    let instance: any;
-
-    if (provider.scope !== ProviderScope.SINGLETON) {
-      instance = this.injector.invoke<any>(provider.useClass, locals, undefined, true);
-      locals.set(token, instance);
-    } else {
-      instance = this.injector.get<any>(token);
-    }
+    // Considering the injector.invoke return always a promise
+    const instance: any = /* await */ this.injector.invoke(token, locals);
 
     return instance[method!].bind(instance);
+
+    // const {token, method} = this.handlerMetadata;
+    // const provider = this.injector.getProvider(token);
+    //
+    // /* istanbul ignore next */
+    // if (!provider) {
+    //   throw new Error(`${nameOf(token)} component not found in the injector`);
+    // }
+    //
+    // let instance: any;
+    //
+    // if (provider.scope !== ProviderScope.SINGLETON) {
+    //   instance = this.injector.invoke<any>(provider.useClass, locals, undefined, true);
+    //   locals.set(token, instance);
+    // } else {
+    //   instance = this.injector.get<any>(token);
+    // }
+    //
+    // return instance[method!].bind(instance);
   }
 
   /**
