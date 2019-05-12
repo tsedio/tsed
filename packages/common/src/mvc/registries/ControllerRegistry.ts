@@ -7,8 +7,6 @@ export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.create
   injectable: false,
 
   onInvoke(provider: ControllerProvider, locals: any) {
-    if (!locals.has(ExpressRouter)) {
-      locals.set(ExpressRouter, provider.router);
-    }
+    locals.set(ExpressRouter, provider.router);
   }
 });
