@@ -90,7 +90,7 @@ export default class AcceptMimesMiddleware implements IMiddleware {
    use(@Request() request, @EndpointInfo() endpoint: Endpoint) {
        
         // get the parameters stored for the current endpoint or on the controller.
-        const mimes = endpoint.get(AcceptMimesMiddleware) || [];
+        const mimes = endpoint.store.get(AcceptMimesMiddleware) || [];
 
         mimes.forEach((mime) => {
             if (!request.accepts(mime)) {

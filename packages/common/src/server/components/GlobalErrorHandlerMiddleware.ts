@@ -1,21 +1,18 @@
+import {Constant} from "@tsed/di";
 import * as Express from "express";
 import {Exception} from "ts-httpexceptions";
-import {ServerSettingsService} from "../../config";
-import {Err} from "../../filters/decorators/error";
-import {Request} from "../../filters/decorators/request";
-import {Response} from "../../filters/decorators/response";
+import {Err, Req, Res} from "../../filters";
 import {IMiddlewareError, IResponseError, Middleware} from "../../mvc";
 
+/**
+ * @middleware
+ */
 @Middleware()
 export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
-  private headerName: string;
+  @Constant("errors.headerName", "errors")
+  protected headerName: string;
 
-  constructor(settingsServerService: ServerSettingsService) {
-    const {headerName = "errors"} = settingsServerService.errors;
-    this.headerName = headerName;
-  }
-
-  use(@Err() error: any, @Request() request: Express.Request, @Response() response: Express.Response): any {
+  use(@Err() error: any, @Req() request: Req, @Res() response: Res): any {
     const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
     if (error instanceof Exception || error.status) {
@@ -57,11 +54,6 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
     return;
   }
 
-  /**
-   *
-   * @param {e.Response} response
-   * @param args
-   */
   setHeaders(response: Express.Response, ...args: IResponseError[]) {
     let hErrors: any = [];
 

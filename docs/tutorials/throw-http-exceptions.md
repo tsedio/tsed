@@ -6,29 +6,12 @@ and are sent to the client.
 
 Here an example:
 
-```typescript
-import {Controller, Get, PathParams} from "@tsed/common";
-import {BadRequest} from "ts-httpexceptions";
+<<< @/docs/docs/snippets/controllers/response-throw-exceptions.ts
 
-@Controller("/calendars")
-export class CalendarCtrl {
-
-    @Get("/:id")
-    async get(
-        @PathParams("id") id: number
-    ): any {
-    
-        if (isNaN(+id)) {
-            throw(new BadRequest("Not a number"));
-        }
-       
-       return {id: id};
-    }
-}
-```
-
-> If `id` parameter is not an number, the method throw a Bad Request.
-This will produce a response with status code 400 and "Not a number" message.
+::: tip
+This example will produce a response with status code 400 and "Not a number" message. 
+`GlobalErrorHandlerMiddleware` will catch and format the error before sending it to the client.
+:::
 
 ## Create custom exception
 
@@ -66,12 +49,13 @@ Then in your controller:
 ```typescript
 import {Controller, Post, BodyParams} from "@tsed/common";
 import {RequiredUserName} from "./RequiredUserName";
+import {User} from "./models/User";
 
 @Controller("/calendars")
 export class CalendarCtrl {
 
-    @Post("/")
-    async get(
+    @Post()
+    async create(
         @BodyParams() user: User
     ): any {
 
@@ -79,7 +63,7 @@ export class CalendarCtrl {
             throw(new RequiredUserName());
         }
 
-       return {id: id};
+       return user;
     }
 }
 ```

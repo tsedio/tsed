@@ -17,25 +17,8 @@ standard [JsonSchema](http://json-schema.org/) model.
 The example below uses decorators to describe a property of the class and store metadata
 such as the description of the field.
 
-```typescript
-import  {Property, Minimum} from "@tsed/common";
-import  {Description} from "@tsed/swagger";
+<<< @/docs/docs/snippets/model/person.ts
 
-class Person {
-    
-    _id: string;
-    
-    @Property()
-    firstName: string;
-    
-    @Property()
-    lastName: string;
-    
-    @Description("Age in years")
-    @Minimum(0)
-    age: number;
-}
-```
 
 The previous example will generate the following JsonSchema:
 
@@ -64,60 +47,14 @@ The previous example will generate the following JsonSchema:
 
 ::: warning
 Some of you will notice that the `_id` property doesn't appear in the JsonSchema. It's very important to understand that
-**TypeScript** only generates metadata on properties with at least one decorator.
-In the case of our model, it will always be necessary that there is at least one of the decorators of the list hereafter.
+**TypeScript** only generates metadata on properties with at least one decorator (see our decorators list).
 :::
 
-## Decorators
+Our model is now described, we can use it inside a @@Controller@@ as input type parameter for our methods. 
+Ts.ED will use the model to convert the raw data to an instance of your model.
 
-<ApiList query="module === '@tsed/common/jsonschema' && symbolType === 'decorator'" />
+<<< @/docs/docs/snippets/model/controller.ts
 
-## Usage
-
-Models can be uses with the Controllers.
-
-Here our model:
-
-```typescript
-import  {Property, Minimum} from "@tsed/common";
-import  {Description} from "@tsed/swagger";
-
-class Person {
-    @Property()
-    firstName: string;
-    
-    @Property()
-    lastName: string;
-    
-    @Description("Age in years")
-    @Minimum(0)
-    age: number;
-}
-```
-
-And its use in a controller:
-
-```typescript
-import {Post, Controller, BodyParams} from "@tsed/common";
-import {Person} from "../models/Person";
-
-@Controller("/")
-export class PersonsCtrl {
-
-     @Post("/")
-     save(@BodyParams() person: Person): Person {
-          console.log(person instanceof Person); // true
-          return person; // will be serialized according to your annotation on Person class.
-     } 
-
-     //OR
-     @Post("/")
-     save(@BodyParams('person') person: Person): Person {
-          console.log(person instanceof Person); // true
-          return person; // will be serialized according to your annotation on Person class.
-     }
-}
-```
 > In this example, Person model is used both as input and output types.
 
 ## JsonSchema
@@ -161,3 +98,7 @@ export class AjvService extends ValidationService {
     }
 }
 ```
+
+## Decorators
+
+<ApiList query="module == '@tsed/common' && symbolType === 'decorator' && path.indexOf('common/jsonschema') > -1" />

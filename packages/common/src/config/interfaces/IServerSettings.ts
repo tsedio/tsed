@@ -160,7 +160,7 @@ export interface IServerSettings {
   /**
    * Configure the default scope of the controllers.
    *
-   * - Default: `singleton`. See [Scope](/docs/scope.md).
+   * - Default: `singleton`. See [Scope](/docs/injection-scopes.md).
    * - Values: `singleton`, `request`.
    */
   controllerScope?: ProviderScope;

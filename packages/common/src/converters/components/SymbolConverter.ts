@@ -3,7 +3,6 @@ import {IConverter} from "../interfaces/index";
 
 /**
  * Converter component for the `Symbol` Type.
- * @private
  * @converters
  * @component
  */

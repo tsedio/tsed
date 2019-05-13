@@ -1,7 +1,7 @@
 ---
 sidebar: auto
-prev: false
-next: /configuration.html
+prev: /configuration.html
+next: /docs/controllers.html
 otherTopics: true
 meta:
  - name: description
@@ -49,7 +49,7 @@ To prevent errors, fix the version for each Ts.ED packages:
 :::
 
 ::: warning
-Ts.ED requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
+Ts.ED requires Node >= 8, Express >= 4, TypeScript >= 2.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 :::
@@ -119,7 +119,7 @@ You can copy this example of `package.json` to develop your application:
 ## Quick start
 ### Create your express server
 
-Ts.ED provide a `ServerLoader` class to configure your 
+Ts.ED provide a @@ServerLoader@@ class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
@@ -193,61 +193,24 @@ This behavior can be change by editing the [componentScan configuration](/config
 ## Create your first controller
 
 Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/controllers`).
-All controllers declared with `@Controller` decorators is considered as an Express router. 
+All controllers declared with @@Controller@@ decorators is considered as an Express router. 
 An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
 More precisely, it's a part of path, and entire exposed url depend on the Server configuration (see [Configuration](configuration.md)) 
-and the [controllers dependencies](/docs/controllers.md).
+and the [children controllers](/docs/controllers.md).
 
 In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
-```typescript
-import {
-  Controller, Get, Render, Post, 
-  Authenticated, Required, BodyParams,
-  Delete
-} from "@tsed/common";
-
-export interface Calendar{
-  id: string;
-  name: string;
-}
-
-@Controller("/calendars")
-export class CalendarCtrl {
-
-  @Get("/")
-  @Render("calendars/index")
-  async renderCalendars(): Promise<Array<Calendar>> {
-    return [{id: '1', name: "test"}];
-  }
-  
-  @Post("/")
-  @Authenticated()
-  async post(
-    @Required() @BodyParams("calendar") calendar: Calendar
-  ): Promise<Calendar> {
-    calendar.id = "1";
-    
-    return Promise.resolve(calendar);
-  }
-  
-  @Delete("/")
-  @Authenticated()
-  async deleteItem(
-    @BodyParams("calendar.id") @Required() id: string 
-  ): Promise<Calendar> {
-    return {id, name: "calendar"};
-  }
-}
-```
+<<< @/docs/docs/snippets/controllers/basic-controller.ts
 
 ::: tip
-Decorators `@Get`, `@Post`, `@Delete`, `@Put`, etc..., supports dynamic pathParams (see `/:id`) and `RegExp` like Express API.
+Decorators @@Get@@, @@Post@@, @@Delete@@, @@Put@@, etc..., supports dynamic pathParams (eg: `/:id`) and `RegExp` like Express API.
+
+See [Controllers](/docs/controllers.md) section for more details
 :::
 
 ::: warning
-You have to configure [engine rendering](/tutorials/templating) if you want to use the decorator `@Render`.
+You have to configure [engine rendering](/tutorials/templating) if you want to use the decorator @@Render@@.
 :::
 
 To test your method, just run your `server.ts` and send a HTTP request on `/rest/calendars/1`.

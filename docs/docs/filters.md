@@ -1,16 +1,15 @@
 # Filters
 
 Filters feature lets you create a custom decorators that will be 
-used on the methods parameters like [@BodyParams](/api/common/filters/decorators/BodyParams.md)
-or [@Locals](/api/common/filters/decorators/Locals.md).
+used on the methods parameters like @@BodyParams@@ or @@Locals@@.
 
 ### Example
 
 This example show you, how you can implement a filter and decorator to use these, on a method Controller.
 In this case, we need to retrieve the body content from an Express.Request.
 
-So to do that, you must create a class and annotate it with the [@Filter](/api/common/filters/decorators/Filter.md)
-decorator and in option, implement the [IFilter](/api/common/filters/interfaces/IFilter.md) interface:
+So to do that, you must create a class and annotate it with the @@Filter@@
+decorator and in option, implement the @@IFilter@@ interface:
 
 ```typescript
 import {Filter, IFilter, ParseService} from "@tsed/common";
@@ -38,72 +37,10 @@ export function BodyParams(expression?: string | any, useType?: any): Function {
 }
 ```
 
-> To link the decorator with BodyParamsFilter, you must used the [ParamRegistry](/api/common/filters/registries/ParamRegistry.md) API.
-
-### Test
-
-#### Filter
-
-```typescript
-import {FilterService} from "@tsed/common";
-import {inject} from "@tsed/testing";
-import {expect} from "chai";
-import {BodyParamsFilter} from "../../filters";
-
-
-describe("BodyParamsFilter", () => {
-
-    before(inject([FilterService], (filterService: FilterService) => {
-        this.filterService = filterService;
-        this.bodyParamsFilter = filterService.invoke<BodyParamsFilter>(BodyParamsFilter);
-    }));
-
-    describe("transform()", () => {
-        before(() => {
-            this.result = this.bodyParamsFilter.transform("test", {body: {test: "test"}});
-        });
-
-        it("should transform expression", () => {
-            expect(this.result).to.equal("test");
-        });
-    });
-});
-```
-
-#### Decorator
-
-```typescript
-import {ParamRegistry} from "@tsed/common";
-import * as Chai from "chai";
-import * as Sinon from "sinon";
-Chai.should();
-
-class Test {
-
-}
-
-describe("BodyParams", () => {
-
-    before(() => {
-        this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-        BodyParams("test", Test);
-    });
-
-    after(() => {
-        this.decorateStub.restore();
-    });
-
-    it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-        this.decorateStub.should.have.been.calledOnce
-            .and
-            .calledWithExactly(BodyParamsFilter, {
-                expression: "test",
-                useType: Test
-            })
-    );
-});
-```
+::: tip
+To link the decorator with BodyParamsFilter, you must used the @@ParamRegistry@@ API.
+:::
 
 ## Built-in filters
 
-See in [Built-in filters](/api/index.md?query=keywords_Filter|type_class) in our API references.
+<ApiList query="symbolName.endsWith('Filter') && symbolType === 'class'" />

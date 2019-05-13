@@ -1,23 +1,18 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import * as Express from "express";
-import {ConverterService} from "../../converters/services/ConverterService";
-import {EndpointInfo} from "../../filters";
-import {Response} from "../../filters/decorators/response";
-import {ResponseData} from "../../filters/decorators/responseData";
-import {Middleware} from "../decorators/class/middleware";
+import {ConverterService} from "../../converters";
+import {Res, ResponseData} from "../../filters";
+import {Middleware} from "../decorators";
 import {IMiddleware} from "../interfaces/index";
 
+/**
+ * See example to override SendResponseMiddleware [here](/docs/middlewares/override/send-response.md).
+ * @middleware
+ */
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {
   constructor(protected converterService: ConverterService) {}
 
-  /**
-   * Send response
-   * @param data
-   * @param response
-   * @param endpoint Do not remove endpoint parameters. It tell HandlerBuilder to run this middleware only when the previous called middlewares are an endpoint.
-   */
-  public use(@ResponseData() data: any, @Response() response: Express.Response, @EndpointInfo() endpoint: EndpointInfo) {
+  public use(@ResponseData() data: any, @Res() response: Res) {
     if (data === undefined) {
       return response.send();
     }

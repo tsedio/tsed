@@ -4,7 +4,6 @@ import {IConverter} from "../interfaces/index";
 
 /**
  * Converter component for the `String`, `Number` and `Boolean` Types.
- * @private
  * @converters
  * @component
  */

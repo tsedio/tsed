@@ -3,7 +3,6 @@ import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
 
 /**
  * Converter component for the `Set` Type.
- * @private
  * @converters
  * @component
  */

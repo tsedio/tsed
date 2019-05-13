@@ -1,11 +1,11 @@
 import {Unauthorized} from "ts-httpexceptions";
-import {IMiddleware} from "../";
+import {IMiddleware} from "../interfaces";
 import {EndpointInfo, Req} from "../../filters";
 import {Middleware} from "../decorators/class/middleware";
 
 /**
  * This middleware manage the authentication based on passport strategy.
- * @private
+ *
  * @middleware
  */
 @Middleware()

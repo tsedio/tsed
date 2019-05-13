@@ -3,7 +3,6 @@ import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
 
 /**
  * Converter component for the `Map` Type.
- * @private
  * @converters
  * @component
  */
