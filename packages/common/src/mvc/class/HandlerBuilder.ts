@@ -28,13 +28,11 @@ export class HandlerBuilder {
         const handlerMetadata = HandlerBuilder.resolve(obj, injector);
 
         if (handlerMetadata.type === HandlerType.FUNCTION) {
-          injector.logger.debug("Return handler as function", handlerMetadata.handler.name);
-
+          // injector.logger.debug("Return handler as function", handlerMetadata.handler.name);
           return handlerMetadata.handler;
         }
 
-        injector.logger.debug("Build handler", `${nameOf(handlerMetadata.target)}.${handlerMetadata.method}()`);
-
+        // injector.logger.trace("Build handler", `${nameOf(handlerMetadata.target)}.${handlerMetadata.method}()`);
         return new HandlerBuilder(handlerMetadata).build(injector);
       }
     };

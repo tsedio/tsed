@@ -20,7 +20,7 @@ export function contextMiddleware(injector: InjectorService) {
 
     applyBefore(response, "end", async () => {
       await injector.emit("$onResponse", request, response);
-      request.ctx.destroy();
+      await request.ctx.destroy();
     });
 
     next();
