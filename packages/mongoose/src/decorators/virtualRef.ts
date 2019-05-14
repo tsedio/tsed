@@ -1,5 +1,6 @@
 import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {MONGOOSE_SCHEMA} from "../constants";
+import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 
 export type VirtualRef<T> = T | null;
 export type VirtualRefs<T> = T[];
@@ -38,12 +39,26 @@ export type VirtualRefs<T> = T[];
  * @decorator
  * @mongoose
  */
-export function VirtualRef(type: string, foreignField: string) {
+
+export function VirtualRef(type: string, foreignField: string): Function;
+export function VirtualRef(options: MongooseVirtualRefOptions): Function;
+
+export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {
   return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-    propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
-      ref: type,
-      localField: propertyMetadata.name,
-      foreignField
-    });
+    if (typeof options === "object") {
+      propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
+        ref: options.type,
+        localField: options.localField || propertyMetadata.name,
+        foreignField: options.foreignField,
+        justOne: options.justOne || false,
+        options: options.options
+      });
+    } else {
+      propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
+        ref: options,
+        localField: propertyMetadata.name,
+        foreignField
+      });
+    }
   });
 }
