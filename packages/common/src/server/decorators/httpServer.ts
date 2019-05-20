@@ -1,6 +1,6 @@
-import * as Http from "http";
 import {Type} from "@tsed/core";
-import {registerFactory, Inject} from "@tsed/di";
+import {Inject} from "@tsed/di";
+import * as Http from "http";
 
 export interface IHttpFactory {
   (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
@@ -39,5 +39,3 @@ export type HttpServer = Http.Server & IHttpFactory;
 export function HttpServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(HttpServer)(target, targetKey, descriptor);
 }
-
-registerFactory(HttpServer);

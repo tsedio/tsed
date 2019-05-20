@@ -2,10 +2,10 @@ import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di";
 import * as Express from "express";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {IComponentScanned} from "../../server/interfaces";
+import {ExpressApplication} from "../../server/decorators/expressApplication"; // TODO should be located on server package
+import {IComponentScanned} from "../../server/interfaces"; // TODO should be located on server package
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
-import {ExpressApplication} from "../decorators";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {RouteService} from "./RouteService";
 

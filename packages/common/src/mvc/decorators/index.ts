@@ -27,4 +27,3 @@ export * from "./class/routerSettings";
 export * from "./class/mergeParams";
 export * from "./class/strict";
 export * from "./class/caseSensitive";
-export * from "./class/expressApplication";

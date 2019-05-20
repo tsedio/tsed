@@ -6,12 +6,11 @@ import * as globby from "globby";
 import * as Http from "http";
 import * as Https from "https";
 import * as Path from "path";
-import {IServerSettings} from "../../config/interfaces/IServerSettings";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-
-import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
+import {IServerSettings, ServerSettingsService} from "../../config";
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
+
+import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
@@ -164,6 +163,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    * @deprecated
    */
+  // istanbul ignore next
   public createHttpServer(port: string | number): ServerLoader {
     this.settings.httpPort = port;
 
@@ -187,6 +187,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    * @deprecated
    */
+  // istanbul ignore next
   public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
     this.settings.httpsPort = options.port;
 
@@ -211,15 +212,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     createHttpsServer(this.injector);
     /* await */
     createHttpServer(this.injector);
-
-    // const settings = ServerSettingsService.getMetadata(this);
-    // this._injector = createInjector(settings);
-    //
-    // createExpressApplication(this._injector);
-    //
-    // if (settings) {
-    //   this.setSettings(settings);
-    // }
   }
 
   /**

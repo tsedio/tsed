@@ -1,6 +1,6 @@
 import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import * as Http from "http";
-import {ExpressApplication} from "../../mvc/decorators/class/expressApplication";
+import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 
 export /* async */ function createHttpServer(injector: InjectorService): void {

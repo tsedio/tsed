@@ -1,7 +1,7 @@
 import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import * as Https from "https";
 import {ServerSettingsService} from "../../config";
-import {ExpressApplication} from "../../mvc/decorators";
+import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpsServer} from "../decorators/httpsServer";
 
 export /* async */ function createHttpsServer(injector: InjectorService): void {
