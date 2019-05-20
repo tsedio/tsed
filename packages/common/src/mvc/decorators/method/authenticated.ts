@@ -18,6 +18,7 @@ import {UseAuth} from "./useAuth";
  * @param options
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Authenticated(options: IAuthOptions = {}): Function {
   options = {

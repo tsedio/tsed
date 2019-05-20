@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {StoreSet} from "@tsed/core";
 
 /**
  * Hide a route or all route under in the decorated controller from the documentation.
@@ -41,7 +41,5 @@ import {Store} from "@tsed/core";
  * @swagger
  */
 export function Hidden() {
-  return Store.decorate(store => {
-    store.set("hidden", true);
-  });
+  return StoreSet("hidden", true);
 }

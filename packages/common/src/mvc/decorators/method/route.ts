@@ -12,6 +12,7 @@ import {Use} from "./use";
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function All(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["all", path].concat(args));
@@ -29,6 +30,7 @@ export function All(path: string | RegExp | any = "/", ...args: any[]): Function
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Get(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["get", path].concat(args));
@@ -46,6 +48,7 @@ export function Get(path: string | RegExp | any = "/", ...args: any[]): Function
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Post(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["post", path].concat(args));
@@ -63,6 +66,7 @@ export function Post(path: string | RegExp | any = "/", ...args: any[]): Functio
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Put(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["put", path].concat(args));
@@ -80,6 +84,7 @@ export function Put(path: string | RegExp | any = "/", ...args: any[]): Function
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Delete(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["delete", path].concat(args));
@@ -97,6 +102,7 @@ export function Delete(path: string | RegExp | any = "/", ...args: any[]): Funct
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Head(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["head", path].concat(args));
@@ -114,6 +120,7 @@ export function Head(path: string | RegExp | any = "/", ...args: any[]): Functio
  * @param args
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Patch(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["patch", path].concat(args));

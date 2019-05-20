@@ -1,4 +1,4 @@
-import {DecoratorParameters, Store} from "@tsed/core";
+import {StoreMerge} from "@tsed/core";
 
 /**
  *
@@ -8,7 +8,5 @@ import {DecoratorParameters, Store} from "@tsed/core";
  * @param docs
  */
 export function Docs(...docs: string[]) {
-  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-    store.merge("docs", docs);
-  });
+  return StoreMerge("docs", docs);
 }

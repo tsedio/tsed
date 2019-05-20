@@ -1,10 +1,6 @@
-import {DecoratorParameters, Store} from "@tsed/core";
+import {applyDecorators, StoreSet, StoreMerge} from "@tsed/core";
 import {IResponseOptions} from "../../interfaces/IResponseOptions";
 import {mapReturnedResponse} from "../../utils/mapReturnedResponse";
-/**
- * @module common/mvc
- */
-/** */
 import {UseAfter} from "./useAfter";
 
 /**
@@ -48,20 +44,20 @@ import {UseAfter} from "./useAfter";
  * @param options
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function Status(code: number, options: IResponseOptions = {}) {
-  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-    store.set("statusCode", code);
+  const response = mapReturnedResponse(options);
 
-    const response = mapReturnedResponse(options);
-    store.merge("response", response);
-    store.merge("responses", {[code]: response});
-
-    return UseAfter((request: any, response: any, next: any) => {
+  return applyDecorators(
+    StoreSet("statusCode", code),
+    StoreMerge("response", response),
+    StoreMerge("responses", {[code]: response}),
+    UseAfter((request: any, response: any, next: any) => {
       if (response.statusCode === 200) {
         response.status(code);
       }
       next();
-    });
-  });
+    })
+  );
 }
