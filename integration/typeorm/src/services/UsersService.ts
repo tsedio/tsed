@@ -12,8 +12,6 @@ export class UsersService {
 
   $afterRoutesInit() {
     this.connection = this.typeORMService.get();
-    console.log("this.typeORMService =>", this.typeORMService);
-    console.log("this.connection =>", this.connection);
   }
 
   async create(user: User): Promise<User> {
@@ -25,6 +23,11 @@ export class UsersService {
 
   async find(): Promise<User[]> {
     const users = await this.connection.manager.find(User);
+    users.forEach((user) => {
+      user.additional = "test";
+      user.additional2 = "test2";
+    });
+
     console.log("Loaded users: ", users);
 
     return users;

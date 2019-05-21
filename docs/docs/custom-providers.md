@@ -41,7 +41,7 @@ In order to inject custom provider, we use the @@Inject@@ decorator. This decora
 
 Some factories are built-in Ts.ED. These factories are :
 
-- @@ExpressApplication@@:~~~~ This is an instance of Express.Application](http://expressjs.com/fr/4x/api.html#app).
+- @@ExpressApplication@@: This is an instance of Express.Application](http://expressjs.com/fr/4x/api.html#app).
 - @@HttpServer@@: This is an instance of [Http.Server](https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server) from `http` module.
 - @@HttpsServer@@: This is an instance of [Https.Server](https://nodejs.org/dist/latest/docs/api/https.html#https_class_https_server) from `https` module.
 
