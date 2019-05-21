@@ -231,7 +231,7 @@ export class MyModel {
 
 `@tsed/mongoose` supports `mongoose` virtual references between defined models.
 
-Be wary of circular depndencies. Direct references must be declared after the refered class has been declared. This mean the virtual reference cannot know the refered class directly at runtime. Type definitions removed at transpilation are fine.
+Be wary of circular dependencies. Direct references must be declared after the refered class has been declared. This mean the virtual reference cannot know the refered class directly at runtime. Type definitions removed at transpilation are fine.
 
 ```typescript
 @Model()

@@ -1,4 +1,5 @@
-import {BodyParams, Controller, Post, Get} from "@tsed/common";
+import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {ReturnsArray} from "@tsed/swagger";
 import {User} from "../../entity/User";
 import {UsersService} from "../../services/UsersService";
 
@@ -6,16 +7,15 @@ import {UsersService} from "../../services/UsersService";
 export class UsersCtrl {
 
   constructor(private usersService: UsersService) {
-
   }
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {
-    console.log("user=>", user);
     return this.usersService.create(user);
   }
 
   @Get("/")
+  @ReturnsArray(User)
   async getList(): Promise<User[]> {
     return this.usersService.find();
   }
