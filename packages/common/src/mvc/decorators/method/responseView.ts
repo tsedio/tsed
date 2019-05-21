@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {applyDecorators, StoreSet} from "@tsed/core";
 import {ResponseViewMiddleware} from "../../components/ResponseViewMiddleware";
 import {UseAfter} from "./useAfter";
 
@@ -22,13 +22,10 @@ import {UseAfter} from "./useAfter";
  * @param viewOptions
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
-  return Store.decorate((store: Store) => {
-    store.set(ResponseViewMiddleware, {viewPath, viewOptions});
-
-    return UseAfter(ResponseViewMiddleware);
-  });
+  return applyDecorators(StoreSet(ResponseViewMiddleware, {viewPath, viewOptions}), UseAfter(ResponseViewMiddleware));
 }
 
 /**
@@ -51,6 +48,7 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
  * @param viewOptions
  * @returns {Function}
  * @decorator
+ * @endpoint
  * @alias ResponseView
  */
 export function Render(viewPath: string, viewOptions?: Object): Function {

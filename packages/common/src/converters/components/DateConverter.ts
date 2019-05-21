@@ -3,7 +3,6 @@ import {IConverter} from "../interfaces/index";
 
 /**
  * Converter component for the `Date` Type.
- * @private
  * @converters
  * @component
  */

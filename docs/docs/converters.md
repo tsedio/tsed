@@ -1,15 +1,14 @@
 # Converters
 
-The Converters service is responsible for serializing and deserializing objects.
+The @@ConverterService@@ service is responsible for serializing and deserializing objects.
 
-It has two modes of operation:
+It has two operation's modes:
 
-- The first uses the [class models](/docs/model.md) for
-  convert an object into a class (and vice versa).
-- The second is based on the JSON object itself to provide an object with the right types. For example the deserialization of dates.
+- The first case use the [class models](/docs/model.md) to convert an object into a class (and vice versa).
+- The second case is based on the JSON object itself to provide an object with the right types. For example the deserialization of dates.
 
 
-The Converters service is used by the following decorators:
+The ConverterService is used by the following decorators:
 
 <ApiList query="['BodyParams', 'Cookies', 'CookiesParams', 'PathParams', 'QueryParams', 'Session'].indexOf(symbolName) > -1" />
 
@@ -38,7 +37,7 @@ class Person {
 }
 ```
 
-> Note: `@PropertyType` allow to specify the type of a collection.
+> Note: @@PropertyType@@ allow to specify the type of a collection.
 
 And its uses on a controller:
 
@@ -71,7 +70,10 @@ When you use a class model as a return parameter, the Converters service will us
 of the class to serialize the JSON object.
 
 Here is an example of a model whose fields are not voluntarily annotated:
+
 ```typescript
+import {Property} from "tsed/common";
+
 class User {
     _id: string;
     
@@ -88,8 +90,8 @@ class User {
 And our controller:
 
 ```typescript
-import {Post, Controller, BodyParams} from "@tsed/common";
-import {Person} from "../models/Person";
+import {Get, Controller} from "@tsed/common";
+import {User} from "../models/User";
 
 @Controller("/")
 export class UsersCtrl {
@@ -101,7 +103,7 @@ export class UsersCtrl {
         user.firstName = "John";
         user.lastName = "Doe";
         user.password = "secretpassword";
-          return 
+        return 
     }
 }
 ```
@@ -119,6 +121,8 @@ Our serialized `User` object will be:
 You can also explicitly tell the Converters service that the field should not be serialized with the decorator `@IgnoreProperty`.
 
 ```typescript
+import {NotSerialize, Property,IgnoreProperty} from "@tsed/common"
+
 class User {
     @NotSerialize()
     _id: string;
@@ -144,43 +148,16 @@ The Converters service relies on a subservice set to convert the following types
 
 > Set and Map types will be converted into an JSON object (instead of Array).
 
-<ApiList query="module === '@tsed/common/converters' && status.indexOf('component') > -1" />
+
+Any of theses converters can be overrided with @@OverrideProvider@@ decorators:
+
+<ApiList query="symbolType === 'class' && status.indexOf('converters') > -1" />
 
 ### Example
 
 Here an example of a type converter:
 
-```typescript
-import {IConverter, Converter} from "@tsed/common";
-
-@Converter(String, Number, Boolean)
-export class PrimitiveConverter implements IConverter {
-
-    deserialize(data: string, target: any): String | Number | Boolean | void {
-
-        switch (target) {
-            case String:
-                return "" + data;
-
-            case Number:
-                const n = +data;
-                return n;
-
-            case Boolean:
-
-                if (data === "true") return true;
-                if (data === "false") return false;
-
-                return !!data;
-        }
-
-    }
-
-    serialize(object: String | Number | Boolean): any {
-        return object;
-    }
-}
-```
+<<< @/packages/common/src/converters/components/PrimitiveConverter.ts
 
 ### Create a custom converter
 
@@ -205,33 +182,9 @@ export class Server extends ServerLoader {
 }       
 ```
 
-Then you will need to declare your class with the `@Converter` annotation:
+Then you will need to declare your class with the @@Converter@@ annotation:
 
-
-```typescript
-import {ConverterService, Converter, IConverter, IDeserializer, ISerializer} from "@tsed/common";
-
-@Converter(Array)
-export class ArrayConverter implements IConverter {
-
-    deserialize<T>(data: any[], target: any, baseType: T, deserializer: IDeserializer): T[] {
-         
-        if (isArrayOrArrayClass(data)) {
-            return (data as Array<any>).map(item =>
-                deserializer(item, baseType)
-            );
-        }
-
-        return [data];
-    }
-
-    serialize(data: any[], serializer: ISerializer) {
-        return (data as Array<any>).map(item =>
-            serializer(item)
-        );
-    }
-}
-```
+<<< @/packages/common/src/converters/components/ArrayConverter.ts
 
 ::: tip Note
 This example will replace the default Ts.ED converter.
@@ -245,13 +198,14 @@ The Converter service provides some of the validation of a class model.
 It will check the consistency of the JSON object with the data model. For example :
 
 - If the JSON object contains one more field than expected in the model (`validationModelStrict` or `@ModelStrict`).
-- If the field is mandatory `@Required`,
+- If the field is mandatory @@Required@@,
 - If the field is mandatory but can be `null` (`@Allow(null)`).
 
 Here is a complete example of a model:
 
-
 ```typescript
+import  {Required, PropertyName, Property, PropertyType, Allow} from "@tsed/common";
+
 class EventModel {
     @Required()
     name: string;
@@ -320,7 +274,7 @@ export class Server extends ServerLoader {
 #### ModelStrict
 
 ```typescript
-import {ConvertersService, ModelStrict, Required, Property} from "@tsed/common";
+import {ModelStrict, Required, Property} from "@tsed/common";
 
 @ModelStrict(false)
 class TaskModel {
@@ -336,7 +290,7 @@ class TaskModel {
 In this case, the service will not raise more exception:
 
 ```typescript
-import {InjectorService, ConvertersService, ModelStrict, Required, Property} from "@tsed/common";
+import {InjectorService, ConvertersService} from "@tsed/common";
 
 InjectorService.load();
 

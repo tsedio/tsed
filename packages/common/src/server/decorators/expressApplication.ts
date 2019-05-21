@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
+import {Inject} from "@tsed/di";
 import * as Express from "express";
-import {Inject, registerFactory} from "@tsed/di";
 
 declare global {
   namespace Express {
@@ -49,5 +49,3 @@ export type ExpressApplication = Express.Application;
 export function ExpressApplication(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(ExpressApplication)(target, targetKey, descriptor);
 }
-
-registerFactory(ExpressApplication);

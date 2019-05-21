@@ -19,6 +19,7 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  * @returns {function(any, any, any): *}
  * @param args
  * @decorator
+ * @endpoint
  */
 export function UseAfter(...args: any[]): Function {
   return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {

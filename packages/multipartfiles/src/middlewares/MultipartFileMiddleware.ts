@@ -1,11 +1,9 @@
-import {EndpointInfo, EndpointMetadata, IMiddleware, Middleware, Req, Res, ServerSettingsService} from "@tsed/common";
-import * as Express from "express";
+import {EndpointInfo, IMiddleware, Middleware, Req, Res, ServerSettingsService} from "@tsed/common";
 import * as multer from "multer";
 import {BadRequest} from "ts-httpexceptions";
 import {promisify} from "util";
 
 /**
- * @private
  * @middleware
  */
 @Middleware()
@@ -14,14 +12,7 @@ export class MultipartFileMiddleware implements IMiddleware {
 
   constructor(private serverSettingsService: ServerSettingsService) {}
 
-  /**
-   *
-   * @param endpoint
-   * @param request
-   * @param response
-   * @returns {any}
-   */
-  async use(@EndpointInfo() endpoint: EndpointMetadata, @Req() request: Express.Request, @Res() response: Express.Response) {
+  async use(@EndpointInfo() endpoint: EndpointInfo, @Req() request: Req, @Res() response: Res) {
     try {
       const endpointConfiguration = endpoint.store.get(MultipartFileMiddleware);
 

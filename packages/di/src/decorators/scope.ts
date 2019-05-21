@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {StoreSet} from "@tsed/core";
 import {ProviderScope} from "../interfaces/ProviderScope";
 
 /**
@@ -8,7 +8,5 @@ import {ProviderScope} from "../interfaces/ProviderScope";
  * @constructor
  */
 export function Scope(scope: "request" | "singleton" | ProviderScope = ProviderScope.REQUEST) {
-  return Store.decorate(store => {
-    store.set("scope", scope);
-  });
+  return StoreSet("scope", scope);
 }

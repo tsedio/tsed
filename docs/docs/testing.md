@@ -13,7 +13,7 @@ npm install --save-dev mocha chai @types/mocha @types/chai
 ### Usage
 
 Ts.ED are bundled with a testing module `@tsed/testing`.
-This module provide `TextContext` to create new context and `inject` function to inject your Services, Controllers, Middlewares, etc... registered with annotation like `@Service()`.
+This module provide @@TestContext@@ to create new context and `inject` function to inject your Services, Controllers, Middlewares, etc... registered with annotation like @@Service@@.
 
 The process to test any components is the same things:
 
@@ -22,100 +22,23 @@ The process to test any components is the same things:
 - Reset the context with `TestContext.reset`.
 
 Here an example to test the ParseService:
-```typescript
-import {expect} from "chai";
-import {TestContext, inject} from "@tsed/testing";
-import {ParseService} from "@tsed/common";
 
-describe("ParseService", () => {
-  before(TestContext.create);
-  after(TestContext.reset);
-  describe("eval()", () => {
-    it("should evaluate expression with a scope and return value", inject([ParseService], (parseService: ParseService) => {
-      expect(parseService.eval("test", {
-        test: "yes"
-        })).to.equal("yes");
-    }));
-  });
-});
-```
+<<< @/docs/docs/snippets/testing/parse-service.ts
 
 ### Async / Await
 
 Testing asynchronous method is also possible using `Promise`s (`async`/`await`):
 
-```typescript
-import {expect} from "chai";
-import {inject, TestContext} from "@tsed/testing";
-import {DbService} from "../services/db";
-
-describe("DbService", () => {
-    let result: any;
-    before(TestContext.create)
-    after(TestContext.reset)
-    
-    it("should data from db", inject([DbService], async (dbService: DbService) => {
-        result = await dbService.getData();
-        expect(result).to.be.an("object");
-    }));
-});
-```
+<<< @/docs/docs/snippets/testing/db-service-async-await.ts
 
 ### Mock dependencies
 
 TestContext API provide an `invoke` method to create a new instance of your component with mocked dependencies.
 
-```typescript
-// in MyCtrl.spec.ts
-import {expect} from "chai";
-import {inject, TestContext} from "@tsed/testing";
-import {MyCtrl} from "../controllers/MyCtrl";
-import {DbService} from "../services/DbService";
+<<< @/docs/docs/snippets/testing/db-service-mock-dependencies.ts
 
-describe("MyCtrl", () => {
-
-    // bootstrap your Server to load all endpoints before run your test
-    before(TestContext.create)
-    after(TestContext.reset);
-
-    it("should do something", () => {
-        // create locals map
-        const locals = new Map<any, any>();
-        
-        // replace DbService by a faker
-        locals.set(DbService, {
-            getData: () => {
-               return "test";
-            }
-        })
-
-        // give the locals map to the invoke method
-        const instance: MyCtrl = TestContext.invoke<MyCtrl>(MyCtrl, locals);
-
-        // and test it
-        expect(!!instance).to.be.true;
-        expect(instance.getData()).to.equals("test");
-    });
-});
-```
-
-::: note
-`TestContext.invoke()` execute the `$onInit` hook. If you hook use `async` or return promise, you have to use `async/wait` in your unit test like this:
-
-```typescript
-it("should do something", async () => {
-    // Mock $onInit if you don't want to test this method
-    const $onInitStub = Sinon.stub(DbService.prototype, '$onInit').resolves()
-    const instance = await TestContext.invoke<DbService>(DbService, locals);
-
-    // and test it
-    expect(!!instance).to.be.true;
-    $onInitStub.to.have.been.called
-    expect(instance.getData()).to.equals("test");
-    
-    $onInitStub.restore();
-});
-```
+::: tip
+`TestContext.invoke()` execute automatically the `$onInit` hook!
 :::
 
 ## Test your Rest API
@@ -131,45 +54,7 @@ npm install --save-dev supertest @types/supertest
 
 ### Example
 
-```typescript
-import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject, TestContext} from "@tsed/testing";
-import * as SuperTest from "supertest";
-import {expect} from "chai";
-import {Server} from "../Server";
-
-describe("Rest", () => {
-    // bootstrap your Server to load all endpoints before run your test
-    beforeEach(bootstrap(Server));
-    afterEach(TestContext.reset);
-
-    describe("GET /rest/calendars", () => {
-        let app;
-
-        before(bootstrap(Server));
-        before(inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-            app = SuperTest(expressApplication)
-        }));
-
-        it("should do something", (done) => {
-            app
-                .get("/rest/calendars")
-                .expect(200)
-                .end((err, response: any) => {
-                    if (err) {
-                        throw (err);
-                    }
-
-                    const obj = JSON.parse(response.text);
-
-                    expect(obj).to.be.an("array");
-
-                    done();
-                });
-        });
-    });
-});
-```
+<<< @/docs/docs/snippets/testing/supertest.ts
 
 ### Disable Logs
 

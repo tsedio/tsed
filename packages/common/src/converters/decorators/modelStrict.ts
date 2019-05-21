@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {StoreSet} from "@tsed/core";
 
 /**
  * Change the default behavior when the converters deserialize/serialize your model.
@@ -61,10 +61,9 @@ import {Store} from "@tsed/core";
  * > If the validationModelStrict is false, you can use `@ModelStrict` decorator to enable the strict validation for a specific model.
  *
  * @decorator
- * @conveters
+ * @endpoint
+ * @converters
  */
 export function ModelStrict(value: boolean) {
-  return Store.decorate(store => {
-    store.set("modelStrict", value);
-  });
+  return StoreSet("modelStrict", value);
 }

@@ -12,7 +12,7 @@ It'll be played only when the url request match with the path associated to the 
 When a request is sent to the server all middlewares added in the [ServerLoader](/docs/server-loader.md), [Controller](/docs/controllers.md) or Endpoint with decorators
  will be called while a response isn't sent by one of the middleware in the stack.
 
-<img src="./../../assets/middleware-call-sequence.png" style="max-width:400px">
+<figure><img src="./../../assets/middleware-call-sequence.png" style="max-width:400px; padding:20px"></figure>
 
 > Note: The middlewares represented in the Endpoint (0-n) box will be replayed as many times as it has endpoint that match 
 the url of the request.
@@ -23,29 +23,7 @@ the url of the request.
 
 For example:
 
-```typescript
-@Controller('/')
-@UseAfter(MdlwCtrlAfter)
-@UseBefore(MdlwCtrlBefore)
-@Use(MdlwCtrl)
-export class MyCtrl {
-    
-    @Get("/")
-    @UseAfter(MdlwAfter)
-    @Use(Mdlw)
-    @UseBefore(MdlwBefore)
-    endpointA(@Next() next()) {
-        console.log("EndpointA")
-        next()
-    }
-    
-    @Get("/")
-    endpointB() {
-        console.log("EndpointB")
-        return {}
-    }
-}
-```
+<<< @/docs/docs/snippets/middlewares/call-sequences.ts
 
 According to the call sequence scheme, the stack will be there:
 

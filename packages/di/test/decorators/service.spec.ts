@@ -1,21 +1,27 @@
-import {GlobalProviders, ProviderType, Service} from "@tsed/common";
+import {GlobalProviders, ProviderType, Service} from "@tsed/di";
 import * as Sinon from "sinon";
 
-class Test {}
+class Test {
+}
 
 describe("Service", () => {
+  const serviceRegistry = GlobalProviders.getRegistry(ProviderType.SERVICE);
   before(() => {
-    this.serviceStub = Sinon.stub(GlobalProviders.getRegistry(ProviderType.SERVICE), "merge");
-
-    Service()(Test);
+    Sinon.stub(serviceRegistry, "merge");
   });
 
   after(() => {
-    this.serviceStub.restore();
+    // @ts-ignore
+    serviceRegistry.merge.restore();
   });
 
   it("should set metadata", () => {
-    this.serviceStub.should.have.been.calledWithExactly(Test, {
+
+    // WHEN
+    Service()(Test);
+
+    // THEN
+    serviceRegistry.merge.should.have.been.calledWithExactly(Test, {
       instance: undefined,
       provide: Test,
       type: ProviderType.SERVICE

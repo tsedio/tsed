@@ -1,16 +1,16 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {IInterceptor, IInterceptorContext, InjectablePropertyType, Intercept} from "../../src";
 
 describe("@Intercept", () => {
-  class TestInterceptor implements IInterceptor {
-    aroundInvoke(ctx: IInterceptorContext<any>, options?: any) {
-
-      return "";
-    }
-  }
-
   it("should store metadata", () => {
+    // GIVEN
+    class TestInterceptor implements IInterceptor {
+      aroundInvoke(ctx: IInterceptorContext<any>, options?: any) {
+
+        return "";
+      }
+    }
+
     // WHEN
     class TestService {
       @Intercept(TestInterceptor, {options: "options"})

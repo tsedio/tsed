@@ -1,4 +1,3 @@
-import "@tsed/ajv";
 import {InjectorService} from "@tsed/di";
 import {inject} from "@tsed/testing";
 import {expect} from "chai";

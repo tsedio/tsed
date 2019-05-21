@@ -1,4 +1,4 @@
-import {decorateMethodsOf, DecoratorParameters, getDecoratorType, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {decorateMethodsOf, DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {Response} from "swagger-schema-official";
 
 /**
@@ -15,9 +15,7 @@ export function Responses(status: string | number, response: Response): Function
 
     switch (type) {
       case "method":
-        return Store.decorate((store: Store) => {
-          store.merge("responses", {[status]: response});
-        })(...args);
+        return StoreMerge("responses", {[status]: response})(...args);
 
       case "class":
         decorateMethodsOf(args[0], Responses(status, response));

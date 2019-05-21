@@ -4,103 +4,117 @@ import * as Sinon from "sinon";
 import {TestContext} from "../../../../testing/src";
 import {ServeStaticService} from "../../../src/server";
 
+const sandbox = Sinon.createSandbox();
+
 describe("ServeStaticService", () => {
-  let serveStatic: any;
-  const middlewareServeStatic = Sinon.stub();
-  const expressApplication = {
-    use: Sinon.stub()
-  };
-
-  const serverSettingService = {
-    serveStatic: {
-      "/path": "/views"
-    }
-  };
-
   before(TestContext.create);
-  before(() => {
-    serveStatic = Sinon.stub(Express, "static");
-    serveStatic.withArgs("/views").returns(middlewareServeStatic);
-
-    this.serveStaticService = TestContext.invoke(ServeStaticService, [
-      {
-        provide: ExpressApplication,
-        use: expressApplication
-      },
-      {
-        provide: ServerSettingsService,
-        use: serverSettingService
-      }
-    ]);
+  before(async () => {
+    sandbox.stub(Express, "static");
   });
 
   after(() => {
     TestContext.reset();
-    serveStatic.restore();
+    sandbox.restore();
   });
 
   describe("mount()", () => {
     describe("when headers is not sent", () => {
-      before(() => {
-        this.serveStaticService.mount("/path", "/views");
-        this.request = {
+      after(() => {
+        sandbox.reset();
+      });
+      it("should call the express use method", async () => {
+        // GIVEN
+        const request = {
           test: "request"
         };
-        this.response = {
+        const response = {
           headersSent: false
         };
-        this.nextSpy = Sinon.spy();
+        const nextSpy = sandbox.spy();
+        const middlewareServeStatic = sandbox.stub();
+        const expressApplication = {
+          use: sandbox.stub()
+        };
 
-        expressApplication.use.getCall(0).args[1](this.request, this.response, this.nextSpy);
-      });
-      after(() => {
-        expressApplication.use.reset();
-        serveStatic.reset();
-        middlewareServeStatic.reset();
-      });
-      it("should call the express use method", () => {
+        const serverSettingService = {
+          serveStatic: {
+            "/path": "/views"
+          }
+        };
+
+        const serveStaticService = await TestContext.invoke(ServeStaticService, [
+          {
+            provide: ExpressApplication,
+            use: expressApplication
+          },
+          {
+            provide: ServerSettingsService,
+            use: serverSettingService
+          }
+        ]);
+
+        // @ts-ignore
+        Express.static.withArgs("/views").returns(middlewareServeStatic);
+
+        // WHEN
+        serveStaticService.mount("/path", "/views");
+
+        // THEN
+        expressApplication.use.getCall(0).args[1](request, response, nextSpy);
         expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
-      });
-      it("should call serveStatic", () => {
-        serveStatic.should.be.calledWithExactly(Sinon.match("/views"));
-      });
-
-      it("should call the middleware", () => {
-        middlewareServeStatic.should.be.calledWithExactly(this.request, this.response, this.nextSpy);
+        Express.static.should.be.calledWithExactly(Sinon.match("/views"));
+        middlewareServeStatic.should.be.calledWithExactly(request, response, nextSpy);
       });
     });
-
     describe("when headers is sent", () => {
-      before(() => {
-        this.serveStaticService.mount("/path", "/views");
-        this.request = {
+      after(() => {
+        sandbox.reset();
+      });
+      it("should call the express use method", async () => {
+        // GIVEN
+        const request = {
           test: "request"
         };
-        this.response = {
+        const response = {
           headersSent: true
         };
-        this.nextSpy = Sinon.spy();
+        const nextSpy = sandbox.spy();
+        const middlewareServeStatic = sandbox.stub();
+        const expressApplication = {
+          use: sandbox.stub()
+        };
 
-        expressApplication.use.getCall(0).args[1](this.request, this.response, this.nextSpy);
-      });
-      after(() => {
-        expressApplication.use.reset();
-        serveStatic.reset();
-        middlewareServeStatic.reset();
-      });
-      it("should call the express use method", () => {
+        const serverSettingService = {
+          serveStatic: {
+            "/path": "/views"
+          }
+        };
+
+        const serveStaticService = await TestContext.invoke(ServeStaticService, [
+          {
+            provide: ExpressApplication,
+            use: expressApplication
+          },
+          {
+            provide: ServerSettingsService,
+            use: serverSettingService
+          }
+        ]);
+
+        // @ts-ignore
+        Express.static.withArgs("/views").returns(middlewareServeStatic);
+
+        // WHEN
+        serveStaticService.mount("/path", "/views");
+
+        // THEN
+        expressApplication.use.getCall(0).args[1](request, response, nextSpy);
         expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
-      });
-      it("should call serveStatic", () => {
-        serveStatic.should.be.calledWithExactly("/views");
-      });
+        Express.static.should.be.calledWithExactly(Sinon.match("/views"));
 
-      it("should not call the middleware", () => {
-        middlewareServeStatic.should.not.be.called;
-      });
+        nextSpy.should.be.calledWithExactly();
 
-      it("should call the next function", () => {
-        this.nextSpy.should.be.calledWithExactly();
+        return middlewareServeStatic.should.not.be.called;
       });
     });
   });

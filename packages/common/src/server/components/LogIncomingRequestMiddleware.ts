@@ -1,11 +1,9 @@
 import {InjectorService} from "@tsed/di";
-import * as Express from "express";
-import {Req} from "../../filters/decorators/request";
+import {Req, Res} from "../../filters";
 import {IMiddleware, Middleware, RequestLogger} from "../../mvc";
-import "../../mvc/interfaces/Express";
 
 /**
- *
+ * @middleware
  */
 @Middleware()
 export class LogIncomingRequestMiddleware implements IMiddleware {
@@ -18,12 +16,12 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * Handle the request.
    * @param {e.Request} request
    */
-  public use(@Req() request: Express.Request): void {
+  public use(@Req() request: Req): void {
     this.configureRequest(request);
     this.onLogStart(request);
   }
 
-  $onResponse(request: Express.Request, response: Express.Response) {
+  $onResponse(request: Req, response: Res) {
     this.onLogEnd(request, response);
   }
 
@@ -31,7 +29,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * The separate onLogStart() function will allow developer to overwrite the initial request log.
    * @param {e.Request} request
    */
-  protected onLogStart(request: Express.Request) {
+  protected onLogStart(request: Req) {
     const {debug, logRequest} = this.injector.settings.logger;
 
     if (request.log) {
@@ -52,7 +50,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param request
    * @param response
    */
-  protected onLogEnd(request: Express.Request, response: Express.Response) {
+  protected onLogEnd(request: Req, response: Res) {
     const {debug, logRequest} = this.injector.settings.logger;
 
     if (request.log) {
@@ -77,7 +75,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * Attach all information that will be necessary to log the request. Attach a new `request.log` object.
    * @param request
    */
-  protected configureRequest(request: Express.Request) {
+  protected configureRequest(request: Req) {
     const {ignoreUrlPatterns = []} = this.injector.settings.logger;
 
     const minimalInfo = this.minimalRequestPicker(request);
@@ -98,7 +96,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param request
    * @returns {Object}
    */
-  protected requestToObject(request: Express.Request): any {
+  protected requestToObject(request: Req): any {
     return {
       method: request.method,
       url: request.originalUrl || request.url,
@@ -114,7 +112,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param request
    * @returns {Object}
    */
-  protected minimalRequestPicker(request: Express.Request): any {
+  protected minimalRequestPicker(request: Req): any {
     const {fields = LogIncomingRequestMiddleware.DEFAULT_FIELDS} = this.injector.settings.logger;
     const info = this.requestToObject(request);
 

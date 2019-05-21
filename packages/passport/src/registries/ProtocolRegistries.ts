@@ -11,8 +11,7 @@ export const PROVIDER_TYPE_PROTOCOL = "protocol";
  */
 // tslint:disable-next-line: variable-name
 export const ProtocolRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(PROVIDER_TYPE_PROTOCOL, Provider, {
-  injectable: true,
-  buildable: true
+  injectable: true
 });
 /**
  * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.

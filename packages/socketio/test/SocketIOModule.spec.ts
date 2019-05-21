@@ -28,7 +28,7 @@ describe("SocketIOModule", () => {
 
         serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
 
-        const socketIOModule = TestContext.invoke(SocketIOModule, [
+        const socketIOModule = await TestContext.invoke(SocketIOModule, [
           {provide: HttpServer, use: httpServer},
           {provide: HttpsServer, use: httpsServer},
           {provide: SocketIOServer, use: socketIOServer},
@@ -75,7 +75,7 @@ describe("SocketIOModule", () => {
         serverSettingsService.set("socketIO", {config: "config"});
         serverSettingsService.set("http", false);
 
-        const socketIOModule = TestContext.invoke(SocketIOModule, [
+        const socketIOModule = await TestContext.invoke(SocketIOModule, [
           {provide: HttpServer, use: httpServer},
           {provide: HttpsServer, use: httpsServer},
           {provide: SocketIOServer, use: socketIOServer},

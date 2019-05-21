@@ -1,13 +1,13 @@
-import {DecoratorParameters, Store} from "@tsed/core";
+import {applyDecorators, StoreSet} from "@tsed/core";
 import {AcceptMimesMiddleware} from "../../components/AcceptMimesMiddleware";
 import {UseBefore} from "./useBefore";
 
 /**
- * Set a mime list as acceptable for a request on a specific endpoint.
+ * Set a mime list which are acceptable and compare it with request Content-Type.
  *
  * ```typescript
  *  @Controller('/mypath')
- *  provide MyCtrl {
+ *  export class MyCtrl {
  *
  *    @Get('/')
  *    @AcceptMime('application/json')
@@ -18,11 +18,8 @@ import {UseBefore} from "./useBefore";
  * @param mimes
  * @returns {Function}
  * @decorator
+ * @endpoint
  */
 export function AcceptMime(...mimes: string[]): Function {
-  return Store.decorate((store: Store, parameters: DecoratorParameters) => {
-    store.set(AcceptMimesMiddleware, mimes);
-
-    return UseBefore(AcceptMimesMiddleware);
-  });
+  return applyDecorators(StoreSet(AcceptMimesMiddleware, mimes), UseBefore(AcceptMimesMiddleware));
 }

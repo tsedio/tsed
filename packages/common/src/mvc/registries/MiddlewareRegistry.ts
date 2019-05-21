@@ -6,8 +6,7 @@ import {GlobalProviders, Provider, ProviderType, TypedProvidersRegistry} from "@
  */
 // tslint:disable-next-line: variable-name
 export const MiddlewareRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.MIDDLEWARE, Provider, {
-  injectable: true,
-  buildable: true
+  injectable: true
 });
 /**
  * Add a new middleware in the `ProviderRegistry`. This middleware will be built when `InjectorService` will be loaded.

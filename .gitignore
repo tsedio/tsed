@@ -46,10 +46,12 @@ index.js.map
 packages/**/*.js
 packages/**/*.js.map
 packages/**/*.d.ts
+packages/**/*.d.ts.map
 packages/**/lib
 test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts
+test/**/*.d.ts.map
 .npmrc
 
 # Test

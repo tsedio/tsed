@@ -1,11 +1,9 @@
 import {Metadata} from "@tsed/core";
 import {expect} from "chai";
-import * as Http from "http";
-import * as Https from "https";
 import * as Sinon from "sinon";
 import {$logStub} from "../../../../../test/helper/tools";
 import {SERVER_SETTINGS} from "../../../src/config/constants";
-import {HttpServer, HttpsServer, ServerLoader} from "../../../src/server";
+import {ServerLoader} from "../../../src/server";
 
 describe("ServerLoader", () => {
   before(() => {
@@ -61,50 +59,6 @@ describe("ServerLoader", () => {
     it("should have been called server.on with the correct params", () => {
       this.createServerStub.on.should.have.been.calledWithExactly("listening", Sinon.match.func);
       this.createServerStub.on.should.have.been.calledWithExactly("error", Sinon.match.func);
-    });
-  });
-
-  describe("createHttpsServer", () => {
-    before(() => {
-      this.createServerStub = Sinon.stub(Https, "createServer").returns({server: "server"} as any);
-      this.forkProviderStub = Sinon.stub(this.server.injector, "forkProvider");
-      this.server.createHttpsServer({options: "options"});
-    });
-    after(() => {
-      this.createServerStub.restore();
-      this.forkProviderStub.restore();
-      this.server.settings.httpPort = 8080;
-      this.server.settings.httpsPort = 8000;
-    });
-
-    it("should call createServer method", () => {
-      this.createServerStub.should.have.been.calledWithExactly({options: "options"}, this.server.expressApp);
-    });
-
-    it("should call createServer method", () => {
-      this.forkProviderStub.should.have.been.calledWithExactly(HttpsServer, {get: Sinon.match.func, server: "server"});
-    });
-  });
-
-  describe("createHttpServer", () => {
-    before(() => {
-      this.createServerStub = Sinon.stub(Http, "createServer").returns({server: "server"} as any);
-      this.forkProviderStub = Sinon.stub(this.server.injector, "forkProvider");
-      this.server.createHttpServer({options: "options"});
-    });
-    after(() => {
-      this.createServerStub.restore();
-      this.forkProviderStub.restore();
-      this.server.settings.httpPort = 8080;
-      this.server.settings.httpsPort = 8000;
-    });
-
-    it("should call createServer method", () => {
-      this.createServerStub.should.have.been.calledWithExactly(this.server.expressApp);
-    });
-
-    it("should call createServer method", () => {
-      this.forkProviderStub.should.have.been.calledWithExactly(HttpServer, {get: Sinon.match.func, server: "server"});
     });
   });
 

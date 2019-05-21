@@ -1,136 +1,131 @@
 import {Registry} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {GlobalProviderRegistry} from "../../src";
-import {Provider} from "../../src/class/Provider";
+import {GlobalProviderRegistry, Provider} from "../../src";
+
+const sandbox = Sinon.createSandbox();
 
 describe("GlobalProviderRegistry", () => {
   describe("createRegistry()", () => {
-    before(() => {
-      this.providers = new GlobalProviderRegistry();
-      this.setStub = Sinon.stub(this.providers._registries, "set");
-      this.result = this.providers.createRegistry("test", Provider, {
-        options: "options",
-        buildable: false,
+    it("should create registry", () => {
+      // GIVEN
+      const providers = new GlobalProviderRegistry();
+
+      // @ts-ignore
+      const setStub = sandbox.stub(providers._registries, "set");
+
+      // WHEN
+      const result = providers.createRegistry("test", Provider, {
         injectable: false
       });
-    });
 
-    it("should create registry", () => {
-      expect(this.result).to.be.instanceOf(Registry);
-    });
+      // THEN
+      result.should.be.instanceOf(Registry);
 
-    it("should call registries.set", () => {
-      this.setStub.should.have.been.calledWithExactly("test", {
-        registry: this.result,
-        options: "options",
-        injectable: false,
-        buildable: false
+      setStub.should.have.been.calledWithExactly("test", {
+        registry: result,
+        injectable: false
       });
     });
   });
 
   describe("getRegistrySettings()", () => {
     describe("when type is a string", () => {
-      before(() => {
-        this.providers = new GlobalProviderRegistry();
-        this.providersGetStub = Sinon.stub(this.providers, "get");
-        this.hasStub = Sinon.stub(this.providers._registries, "has").returns(true);
-        this.getStub = Sinon.stub(this.providers._registries, "get").returns("instance");
-        this.result = this.providers.getRegistrySettings("type");
-      });
+      it("should return registry settings", () => {
+        // GIVEN
+        const providers = new GlobalProviderRegistry();
+        Sinon.stub(providers, "get");
 
-      it("should not call providers.get", () => {
-        return this.providersGetStub.should.not.have.been.called;
-      });
+        // @ts-ignore
+        const hasStub = Sinon.stub(providers._registries, "has").returns(true);
+        // @ts-ignore
+        const getStub = Sinon.stub(providers._registries, "get").returns("instance");
 
-      it("should call registries.has", () => {
-        this.hasStub.should.have.been.calledWithExactly("type");
-      });
+        // WHEN
+        const result = providers.getRegistrySettings("type");
 
-      it("should call registries.get", () => {
-        this.getStub.should.have.been.calledWithExactly("type");
-      });
+        // THEN
+        expect(result).to.eq("instance");
+        getStub.should.have.been.calledWithExactly("type");
+        hasStub.should.have.been.calledWithExactly("type");
 
-      it("should return settings", () => {
-        expect(this.result).to.eq("instance");
+        return providers.get.should.not.have.been.called;
       });
     });
 
     describe("when type is a Type", () => {
-      class Test {}
-
       before(() => {
-        this.providers = new GlobalProviderRegistry();
-        this.providersGetStub = Sinon.stub(this.providers, "get").returns({type: "type"});
-        this.hasStub = Sinon.stub(this.providers._registries, "has").returns(true);
-        this.getStub = Sinon.stub(this.providers._registries, "get").returns("instance");
-        this.result = this.providers.getRegistrySettings(Test);
+
       });
 
-      it("should call providers.get", () => {
-        return this.providersGetStub.should.have.been.calledWithExactly(Test);
-      });
+      it("should return registry settings", () => {
+        // GIVEN
+        class Test {
+        }
 
-      it("should call registries.has", () => {
-        this.hasStub.should.have.been.calledWithExactly("type");
-      });
+        const providers = new GlobalProviderRegistry();
+        Sinon.stub(providers, "get").returns({type: "type"} as Provider<any>);
 
-      it("should call registries.get", () => {
-        this.getStub.should.have.been.calledWithExactly("type");
-      });
+        // @ts-ignore
+        const hasStub = Sinon.stub(providers._registries, "has").returns(true);
+        // @ts-ignore
+        const getStub = Sinon.stub(providers._registries, "get").returns("instance");
 
-      it("should return settings", () => {
-        expect(this.result).to.eq("instance");
+        // WHEN
+        const result = providers.getRegistrySettings(Test);
+
+        // THEN
+        result.should.eq("instance");
+
+        hasStub.should.have.been.calledWithExactly("type");
+        getStub.should.have.been.calledWithExactly("type");
+        providers.get.should.have.been.calledWithExactly(Test);
       });
     });
 
     describe("when type is a string but is unknow", () => {
-      before(() => {
-        this.providers = new GlobalProviderRegistry();
-        this.providersGetStub = Sinon.stub(this.providers, "get");
-        this.hasStub = Sinon.stub(this.providers._registries, "has").returns(false);
-        this.getStub = Sinon.stub(this.providers._registries, "get").returns("instance");
-        this.result = this.providers.getRegistrySettings("type");
-      });
-
       it("should not call providers.get", () => {
-        return this.providersGetStub.should.not.have.been.called;
-      });
+        // GIVEN
+        const providers = new GlobalProviderRegistry();
+        Sinon.stub(providers, "get");
+        // @ts-ignore
+        const hasStub = Sinon.stub(providers._registries, "has").returns(false);
+        // @ts-ignore
+        const getStub = Sinon.stub(providers._registries, "get").returns("instance");
 
-      it("should call registries.has", () => {
-        this.hasStub.should.have.been.calledWithExactly("type");
-      });
+        // WHEN
+        const result = providers.getRegistrySettings("type");
 
-      it("should not call registries.get", () => {
-        return this.getStub.should.not.have.been.called;
-      });
-
-      it("should return settings", () => {
-        expect(this.result).to.deep.eq({
-          registry: this.providers,
-          injectable: true,
-          buildable: true
+        // THEN
+        result.should.deep.eq({
+          registry: providers,
+          injectable: true
         });
+        hasStub.should.have.been.calledWithExactly("type");
+
+        return providers.get.should.not.have.been.called && getStub.should.not.have.been.called;
       });
     });
   });
 
   describe("createRegisterFn()", () => {
-    before(() => {
-      this.providers = new GlobalProviderRegistry();
-      this.registryStub = {
+    it("should create a register function", () => {
+      // GIVEN
+      const providers = new GlobalProviderRegistry();
+      const registryStub = {
         merge: Sinon.stub()
       };
-      this.getRegistryStub = Sinon.stub(this.providers, "getRegistry").returns(this.registryStub);
-      this.providers.createRegisterFn("type")("provide");
-    });
 
-    it("should call getRegistryStub()", () => {
-      this.getRegistryStub.should.have.been.calledWithExactly("type");
-    });
-    it("should merge options", () => {
-      this.registryStub.merge.should.have.been.calledWithExactly("provide", {
+      // @ts-ignore
+      Sinon.stub(providers, "getRegistry").returns(registryStub);
+
+      // WHEN
+      const fn = providers.createRegisterFn("type");
+      fn("provide");
+
+      // THEN
+      providers.getRegistry.should.have.been.calledWithExactly("type");
+      registryStub.merge.should.have.been.calledWithExactly("provide", {
         provide: "provide",
         instance: undefined,
         type: "type"
@@ -139,18 +134,19 @@ describe("GlobalProviderRegistry", () => {
   });
 
   describe("getRegistry()", () => {
-    before(() => {
-      this.providers = new GlobalProviderRegistry();
-      this.getRegistrySettingsStub = Sinon.stub(this.providers, "getRegistrySettings").returns({registry: "registry"});
-      this.result = this.providers.getRegistry("type");
-    });
+    it("should call getRegistrySettings and return the registry", () => {
+      // GIVEN
+      const providers = new GlobalProviderRegistry();
 
-    it("should call getRegistrySettings", () => {
-      this.getRegistrySettingsStub.should.have.been.calledWithExactly("type");
-    });
+      // @ts-ignore
+      Sinon.stub(providers, "getRegistrySettings").returns({registry: "registry"});
 
-    it("should return the registry", () => {
-      expect(this.result).to.eq("registry");
+      // WHEN
+      const result = providers.getRegistry("type");
+
+      // THEN
+      providers.getRegistrySettings.should.have.been.calledWithExactly("type");
+      result.should.eq("registry");
     });
   });
 });

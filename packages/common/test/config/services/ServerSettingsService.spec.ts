@@ -98,6 +98,10 @@ describe("ServerSettingsService", () => {
       expect(this.settings.version).to.equal("1.0.0");
     });
 
+    it("should return errors", () => {
+      expect(this.settings.errors).to.deep.equal({headerName: "errors"});
+    });
+
     it("should return routers", () => {
       expect(this.settings.routers).to.deep.equal({mergeParams: true});
     });

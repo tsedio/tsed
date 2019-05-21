@@ -1,5 +1,7 @@
 export * from "./class/Provider";
 export * from "./class/ProviderStorable";
+export * from "./class/Container";
+export * from "./class/LocalsContainer";
 export * from "./interfaces";
 export * from "./decorators/scope";
 export * from "./decorators/service";

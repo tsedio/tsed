@@ -1,4 +1,5 @@
 export enum ProviderScope {
   SINGLETON = "singleton",
-  REQUEST = "request"
+  REQUEST = "request",
+  INSTANCE = "instance"
 }

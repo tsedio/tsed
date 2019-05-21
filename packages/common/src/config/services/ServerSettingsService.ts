@@ -1,20 +1,11 @@
 import {Env, getValue, Metadata, setValue} from "@tsed/core";
-import {IDISettings, Injectable, ProviderScope, registerFactory} from "@tsed/di";
+import {IDISettings, Injectable, ProviderScope} from "@tsed/di";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
 import {SERVER_SETTINGS} from "../constants/index";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 
 const rootDir = process.cwd();
-/**
- * @deprecated
- */
-export let globalServerSettings: ServerSettingsService;
-/**
- * @deprecated
- */
-// tslint:disable-next-line: variable-name
-export let GlobalServerSettings: ServerSettingsService;
 
 /**
  * `ServerSettingsService` contains all information about [ServerLoader](/api/common/server/components/ServerLoader.md) configuration.
@@ -51,8 +42,6 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
     this.exclude = ["**/*.spec.ts", "**/*.spec.js"];
 
     this.componentsScan = ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/converters/**/*.ts"];
-
-    GlobalServerSettings = globalServerSettings = this;
   }
 
   /**
@@ -491,5 +480,3 @@ export class ServerSettingsService implements IServerSettings, IDISettings {
     this.map.set("httpsPort", `${settings.address}:${settings.port}`);
   }
 }
-
-registerFactory(ServerSettingsService);

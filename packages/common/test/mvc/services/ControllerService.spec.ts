@@ -181,7 +181,7 @@ describe("ControllerService", () => {
       });
 
       it("should call the fake service", () => {
-        return this.invokeStub.should.have.been.calledWithExactly(Test2, Sinon.match.any, undefined);
+        return this.invokeStub.should.have.been.calledWithExactly(Test2, Sinon.match.any);
       });
     });
   });
