@@ -1,8 +1,7 @@
-import {ConverterService, IConverterOptions} from "@tsed/common";
-import {getClass, nameOf, Store} from "@tsed/core";
+import {nameOf, Store} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {MONGOOSE_MODEL_NAME} from "../constants";
-import {MongooseModel} from "../interfaces/MongooseModel";
+import {MongooseModel} from "../interfaces";
 
 /**
  * Create an instance of mongoose.model from a class.

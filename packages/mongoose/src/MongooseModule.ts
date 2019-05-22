@@ -36,4 +36,8 @@ export class MongooseModule implements OnInit, AfterRoutesInit {
   $afterRoutesInit(): void {
     this.expressApp.use(ValidationErrorMiddleware as any);
   }
+
+  $onDestroy(): Promise<any> | void {
+    return this.mongooseService.closeConnections();
+  }
 }
