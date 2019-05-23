@@ -19,13 +19,11 @@ describe("MultipartFileMiddleware", () => {
 
       this.result = this.middleware.use(
         {
-          store: {
-            get() {
-              return {
-                options: {options: "options"},
-                any: true
-              };
-            }
+          get() {
+            return {
+              options: {options: "options"},
+              any: true
+            };
           }
         },
         {request: "request"},
@@ -64,13 +62,11 @@ describe("MultipartFileMiddleware", () => {
 
       this.result = this.middleware.use(
         {
-          store: {
-            get() {
-              return {
-                options: {options: "options"},
-                fields: [{name: "test"}, {name: "test1", maxCount: 4}]
-              };
-            }
+          get() {
+            return {
+              options: {options: "options"},
+              fields: [{name: "test"}, {name: "test1", maxCount: 4}]
+            };
           }
         },
         {request: "request"},
@@ -121,13 +117,11 @@ describe("MultipartFileMiddleware", () => {
 
       this.result = this.middleware.use(
         {
-          store: {
-            get() {
-              return {
-                options: {options: "options"},
-                fields: [{name: "test"}, {name: "test1", maxCount: 4}]
-              };
-            }
+          get() {
+            return {
+              options: {options: "options"},
+              fields: [{name: "test"}, {name: "test1", maxCount: 4}]
+            };
           }
         },
         {request: "request"},

@@ -7,14 +7,14 @@ One of the usecase already implemented by Ts.ED is the @@AcceptMimesMiddleware@@
 
 <<< @/packages/common/src/mvc/components/AcceptMimesMiddleware.ts
 
-You can see in this example the usage of `endpoint.store` from @@EndpointInfo@@. The store contain all options
+You can see in this example the usage of `endpoint.get` from @@EndpointInfo@@. This method contain all options
 which can be passed to decorator associated to AcceptMimesMiddleware.
 
 <<< @/docs/docs/snippets/middlewares/accept-mime-usage.ts
 
 ::: tip
 This example use @@AcceptMime@@ decorator with one option, the `application/json`. 
-This option will be set to `endpoint.store` seen before with AcceptMimesMiddleware example and can be retrieved by using 
+This option will be set to `endpoint.get` seen before with AcceptMimesMiddleware example and can be retrieved by using 
 `endpoint.get(AcceptMimesMiddleware)`.
 :::
 
