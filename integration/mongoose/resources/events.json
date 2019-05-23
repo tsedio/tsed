@@ -1,0 +1,58 @@
+[
+  {
+    "_id": "5ce4f06355e6136cf623a2aa",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "QUAILCOM",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2ab",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "MEDIFAX",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2ad",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "ERSUM",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2ac",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "ANARCO",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2ae",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "TALENDULA",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2af",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "MELBACOR",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2b0",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "OPTICON",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  },
+  {
+    "_id": "5ce4f06355e6136cf623a2b1",
+    "calendarId": "5ce4ee471495836c5e2e4cb7",
+    "name": "KANGLE",
+    "dateStart": "2017-07-01T00:00:00.000Z",
+    "dateEnd": "2017-07-01T00:00:00.000Z"
+  }
+]

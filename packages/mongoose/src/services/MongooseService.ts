@@ -53,4 +53,23 @@ export class MongooseService {
   has(id: string = "default"): boolean {
     return this._instances.has(id);
   }
+
+  async closeConnections() {
+    for (const instance of this._instances.values()) {
+      /**
+       * Connection ready state
+       * 0 = disconnected
+       * 1 = connected
+       * 2 = connecting
+       * 3 = disconnecting
+       */
+      if (
+        instance != null &&
+        instance.connection != null &&
+        (instance.connection.readyState === 1 || instance.connection.readyState === 2)
+      ) {
+        await instance.disconnect();
+      }
+    }
+  }
 }
