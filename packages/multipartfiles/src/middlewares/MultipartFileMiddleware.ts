@@ -14,7 +14,7 @@ export class MultipartFileMiddleware implements IMiddleware {
 
   async use(@EndpointInfo() endpoint: EndpointInfo, @Req() request: Req, @Res() response: Res) {
     try {
-      const endpointConfiguration = endpoint.store.get(MultipartFileMiddleware);
+      const endpointConfiguration = endpoint.get(MultipartFileMiddleware);
 
       return await promisify(this.invoke(endpointConfiguration))(request, response);
     } catch (er) {
