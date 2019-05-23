@@ -9,7 +9,7 @@ import {IMiddleware} from "../interfaces";
 @Middleware()
 export class AcceptMimesMiddleware implements IMiddleware {
   public use(@EndpointInfo() endpoint: EndpointInfo, @Req() request: Req): void {
-    const mimes = endpoint.get(AcceptMimesMiddleware) || [];
+    const mimes = endpoint.store.get(AcceptMimesMiddleware) || [];
 
     const find = mimes.find((mime: string) => request.accepts(mime));
 

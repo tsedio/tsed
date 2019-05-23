@@ -17,8 +17,10 @@ describe("AcceptMimesMiddleware", () => {
           accepts: acceptStub
         };
         this.endpoint = {
-          get: () => {
-            return ["application/json", "application/xml"];
+          store: {
+            get: () => {
+              return ["application/json", "application/xml"];
+            }
           }
         };
 
@@ -56,8 +58,10 @@ describe("AcceptMimesMiddleware", () => {
           accepts: acceptStub
         };
         this.endpoint = {
-          get: () => {
-            return ["application/json", "application/xml"];
+          store: {
+            get: () => {
+              return ["application/json", "application/xml"];
+            }
           }
         };
 

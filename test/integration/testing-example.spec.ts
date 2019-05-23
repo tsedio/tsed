@@ -122,8 +122,10 @@ describe("Example Test", () => {
 
       middleware.use(
         {
-          get: () => {
-            return ["application/json"];
+          store: {
+            get: () => {
+              return ["application/json"];
+            }
           }
         } as any,
         request as any
