@@ -30,6 +30,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @returns {Function}
  * @param types
  * @decorator
+ * @property
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Any(...types: JSONSchema6TypeName[]) {

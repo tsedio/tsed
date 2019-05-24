@@ -30,6 +30,7 @@ import {Schema} from "./schema";
  * @returns {(...args: any[]) => any}
  * @decorator
  * @jsonschema
+ * @property
  */
 export function Title(title: string) {
   return Schema({title});

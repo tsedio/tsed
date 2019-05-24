@@ -2,7 +2,7 @@ import {SchemaTypeOpts} from "mongoose";
 import {Schema} from "./schema";
 
 /**
- * Tells Mongoose whether to define an index for the property.
+ * Tell Mongoose whether to define an index for the property.
  * ### Example
  *
  * ```typescript
@@ -16,6 +16,7 @@ import {Schema} from "./schema";
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @property
  */
 export function Indexed(index: SchemaTypeOpts.IndexOpts | boolean | string = true) {
   return Schema({index});

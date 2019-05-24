@@ -1,7 +1,7 @@
 import {Schema} from "./schema";
 
 /**
- * Tells Mongoose to ensure a unique index is created for this path.
+ * Tell Mongoose to ensure a unique index is created for this path.
  *
  * ### Example
  *

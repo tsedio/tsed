@@ -53,6 +53,7 @@ export interface PreHookOptions {
  * @param options
  * @returns {Function}
  * @decorator
+ * @class
  */
 export function PreHook(
   method: string,

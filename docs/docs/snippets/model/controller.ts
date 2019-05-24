@@ -1,20 +1,20 @@
 import {BodyParams, Controller, Post} from "@tsed/common";
-import {Person} from "../models/Person";
+import {MyModel} from "../models/MyModel";
 
 @Controller("/")
 export class PersonsCtrl {
 
   @Post("/")
-  save(@BodyParams() person: Person): Person {
-    console.log(person instanceof Person); // true
-    return person; // will be serialized according to your annotation on Person class.
+  save(@BodyParams() model: MyModel): MyModel {
+    console.log(model instanceof MyModel); // true
+    return model; // will be serialized according to your annotation on MyModel class.
   }
 
   // OR
 
   @Post("/")
-  save(@BodyParams("person") person: Person): Person {
-    console.log(person instanceof Person); // true
-    return person; // will be serialized according to your annotation on Person class.
+  save(@BodyParams("person") model: MyModel): MyModel {
+    console.log(model instanceof MyModel); // true
+    return model; // will be serialized according to your annotation on Person class.
   }
 }

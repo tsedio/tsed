@@ -27,6 +27,8 @@ import {BaseParameter} from "./baseParameter";
  * @returns {Function}
  * @decorator
  * @swagger
+ * @class
+ * @parameter
  */
 export function Name(name: string) {
   return (...args: any[]) => {

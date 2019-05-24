@@ -1,5 +1,5 @@
-import {getDecoratorType} from "@tsed/core";
 import * as mod from "@tsed/common";
+import {getDecoratorType} from "@tsed/core";
 import {BaseParameter} from "./baseParameter";
 import {Operation} from "./operation";
 
@@ -57,6 +57,9 @@ const originalTitleDecorator = mod.Title;
  * @returns {(...args: any[]) => any}
  * @decorator
  * @swagger
+ * @property
+ * @method
+ * @parameter
  */
 function Title(title: string) {
   return (...args: any[]) => {

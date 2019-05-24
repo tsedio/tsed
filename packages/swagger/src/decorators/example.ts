@@ -8,6 +8,8 @@ import {Schema} from "@tsed/common";
  * @returns {(...args: any[]) => any}
  * @decorator
  * @swagger
+ * @jsonschema
+ * @property
  */
 export function Example(name: string | any, description?: string) {
   return (...args: any[]) => {

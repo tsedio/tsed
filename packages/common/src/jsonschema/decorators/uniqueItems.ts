@@ -43,6 +43,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @decorator
  * @ajv
  * @jsonschema
+ * @property
  */
 export function UniqueItems(uniqueItems: boolean = true) {
   return decoratorSchemaFactory((schema: JsonSchema) => {

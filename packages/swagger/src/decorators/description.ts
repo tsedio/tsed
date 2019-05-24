@@ -1,5 +1,5 @@
-import {getDecoratorType, Store} from "@tsed/core";
 import {Schema} from "@tsed/common";
+import {getDecoratorType, Store} from "@tsed/core";
 import {BaseParameter} from "./baseParameter";
 import {Operation} from "./operation";
 
@@ -48,6 +48,11 @@ import {Operation} from "./operation";
  * @returns {Function}
  * @decorator
  * @swagger
+ * @jsonschema
+ * @property
+ * @class
+ * @method
+ * @parameter
  */
 export function Description(description: string) {
   return (...args: any[]) => {

@@ -33,6 +33,7 @@ import {Schema} from "./schema";
  * @returns {Function}
  * @decorator
  * @ajv
+ * @property
  * @jsonschema
  */
 export function Default(defaultValue: string | number | boolean | {}) {

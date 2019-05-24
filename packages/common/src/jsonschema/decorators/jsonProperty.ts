@@ -89,6 +89,8 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @param options
  * @decorator
  * @converters
+ * @jsonschema
+ * @property
  */
 export function JsonProperty(options?: IPropertyOptions | string): Function {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {
@@ -186,13 +188,23 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * ```
  *
  * @returns {Function}
- * @decorator
  * @param options
+ * @decorator
+ * @converters
+ * @jsonschema
+ * @property
  */
 export function Property(options?: IPropertyOptions | string) {
   return JsonProperty(options);
 }
 
+/**
+ * Decorator builder. Call your function with `propertyMetadata` and `DecoratorParameters` a input parameters
+ * @decorator
+ * @converters
+ * @jsonschema
+ * @property
+ */
 export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
   return PropertyRegistry.decorate(fn);
 }

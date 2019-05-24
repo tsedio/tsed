@@ -8,8 +8,9 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @class
  */
-export function MongoosePlugin(plugin: (schema: mongoose.Schema, options?: any) => void, options: any): Function {
+export function MongoosePlugin(plugin: (schema: mongoose.Schema, options?: any) => void, options?: any): Function {
   return (target: any) => {
     applySchemaOptions(target, {
       plugins: [{plugin, options}]
