@@ -68,8 +68,10 @@ export class Store {
    * Create a store correctly configured from the parameters given by the decorator.
    * The `fn` can return a decorator that will be initialized with the parameters (target, propertyKey, descriptor).
    * @param {(store: Store, parameters: DecoratorParameters) => void} fn
+   * @deprecated Use StoreFn
    * @returns {Function}
    */
+  /* istanbul ignore next */
   static decorate(fn: (store: Store, parameters: DecoratorParameters) => void): Function {
     return (...parameters: any[]): any => {
       const store = Store.from(...parameters);

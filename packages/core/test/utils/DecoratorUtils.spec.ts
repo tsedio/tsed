@@ -4,7 +4,7 @@ import {
   decorateMethodsOf,
   descriptorOf,
   getDecoratorType,
-  Store,
+  Store, StoreFn,
   UnsupportedDecoratorType
 } from "../../src";
 
@@ -297,13 +297,13 @@ describe("DecoratorUtils", () => {
   describe("applyDecorators", () => {
 
     function decorator1(value: any) {
-      return Store.decorate((store) => {
+      return StoreFn((store) => {
         store.set("decorator1", value);
       });
     }
 
     function decorator2(value: any) {
-      return Store.decorate((store) => {
+      return StoreFn((store) => {
         store.set("decorator2", value);
       });
     }
