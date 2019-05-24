@@ -15,7 +15,9 @@ import {PropertyFn} from "./jsonProperty";
  *    property: string[];
  * }
  * ```
- * !> You didn't use the `type Type = string | number` as parameters Type.
+ * ::: warning
+ * You didn't use the `type Type = string | number` as parameters Type.
+ * :::
  *
  * Didn't works:
  *
@@ -42,6 +44,8 @@ import {PropertyFn} from "./jsonProperty";
  * @returns {Function}
  * @decorator
  * @converters
+ * @jsonschema
+ * @property
  */
 export function PropertyType(type: Type<any>) {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {

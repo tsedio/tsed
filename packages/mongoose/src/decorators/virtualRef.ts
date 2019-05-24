@@ -9,10 +9,12 @@ export type VirtualRefs<T> = T[];
 /**
  * Define a property as mongoose virtual reference to other Model (decorated with @Model).
  *
- * Warning: To avoid circular dependencies, do not use the virtual reference model in
+ * ::: warning
+ * To avoid circular dependencies, do not use the virtual reference model in
  * anything except a type declaration. Using the virtual reference model will prevent
  * typescript transpiler from stripping away the import statement and cause a circular
  * import in node.
+ * :::
  *
  * ### Example
  *
@@ -40,9 +42,12 @@ export type VirtualRefs<T> = T[];
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @property
  */
 export function VirtualRef(type: string, foreignField: string): Function;
 export function VirtualRef(options: MongooseVirtualRefOptions): Function;
+export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function;
+
 export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {
   return (target: any, propertyKey: string, descriptor: any) => {
     let schema: any, type: any;

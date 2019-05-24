@@ -31,6 +31,7 @@ export type Ref<T> = T | string;
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @property
  */
 export function Ref(type: string | any) {
   return applyDecorators(

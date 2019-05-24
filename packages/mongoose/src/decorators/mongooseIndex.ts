@@ -24,6 +24,7 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @class
  */
 export function MongooseIndex(fields: object, options: any): Function {
   return (target: any) => {

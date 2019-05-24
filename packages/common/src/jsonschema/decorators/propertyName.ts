@@ -21,6 +21,8 @@ import {PropertyFn} from "./jsonProperty";
  * @returns {Function}
  * @decorator
  * @converters
+ * @jsonschema
+ * @property
  */
 export function PropertyName(name: string) {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {

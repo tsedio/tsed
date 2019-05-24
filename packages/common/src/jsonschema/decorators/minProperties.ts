@@ -40,6 +40,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @returns {Function}
  * @decorator
  * @ajv
+ * @property
  * @jsonschema
  */
 export function MinProperties(minProperties: number) {

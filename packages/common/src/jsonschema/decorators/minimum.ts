@@ -62,6 +62,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @decorator
  * @ajv
  * @jsonschema
+ * @property
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {

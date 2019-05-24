@@ -6,26 +6,26 @@ meta:
 ---
 # EndpointMetadata <Badge text="Class" type="class"/>
 <!-- Summary -->
-<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { EndpointMetadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/Romakita/ts-express-decorators/blob/v5.0.2/packages/common/src/mvc/class/EndpointMetadata.ts#L0-L0">/packages/common/src/mvc/class/EndpointMetadata.ts</a></td></tr></tbody></table></section>
+<section class="symbol-info"><table class="is-full-width"><tbody><tr><th>Module</th><td><div class="lang-typescript"><span class="token keyword">import</span> { EndpointMetadata }&nbsp;<span class="token keyword">from</span>&nbsp;<span class="token string">"@tsed/common"</span></div></td></tr><tr><th>Source</th><td><a href="https://github.com/TypedProject/ts-express-decorators/blob/v5.18.0/packages/common/src/mvc/class/EndpointMetadata.ts#L0-L0">/packages/common/src/mvc/class/EndpointMetadata.ts</a></td></tr></tbody></table></section>
 
 <!-- Overview -->
 ## Overview
 
 
 <pre><code class="typescript-lang "><span class="token keyword">class</span> EndpointMetadata <span class="token keyword">extends</span> <a href="/api/core/class/Storable.html"><span class="token">Storable</span></a> <span class="token punctuation">{</span>
-    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_provide<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> _methodClassName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     beforeMiddlewares<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     middlewares<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     afterMiddlewares<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    pathsMethods<span class="token punctuation">:</span> <a href="/api/common/mvc/interfaces/IPathMethod.html"><span class="token">IPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span>_provide<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> _methodClassName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span><span class="token punctuation">;</span>
     httpMethod<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     path<span class="token punctuation">:</span> <a href="/api/common/mvc/interfaces/PathParamsType.html"><span class="token">PathParamsType</span></a><span class="token punctuation">;</span>
-    <span class="token keyword">readonly</span> inheritedEndpoint<span class="token punctuation">:</span> EndpointMetadata<span class="token punctuation">;</span>
     type<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">;</span>
-    pathsMethods<span class="token punctuation">:</span> <a href="/api/common/mvc/interfaces/ExpressPathMethod.html"><span class="token">ExpressPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> methodClassName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
     <span class="token keyword">readonly</span> store<span class="token punctuation">:</span> <a href="/api/core/class/Store.html"><span class="token">Store</span></a><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> statusCode<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> params<span class="token punctuation">:</span> <span class="token keyword">import</span><span class="token punctuation">(</span>"@tsed/common"<span class="token punctuation">)</span>.<a href="/api/common/filters/class/ParamMetadata.html"><span class="token">ParamMetadata</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
-    <span class="token function">hasHttpMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
     <span class="token function">statusResponse</span><span class="token punctuation">(</span>code<span class="token punctuation">:</span> <span class="token keyword">string</span> | <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
         description<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
         headers<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
@@ -73,7 +73,7 @@ Example :
 ::: v-pre
 
 
-<pre><code class="typescript-lang "><span class="token keyword">constructor</span><span class="token punctuation">(</span>_provide<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> _methodClassName<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">constructor</span><span class="token punctuation">(</span>_provide<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span><span class="token punctuation">,</span> _methodClassName<span class="token punctuation">:</span> <span class="token keyword">string</span> | symbol<span class="token punctuation">)</span></code></pre>
 
 
 
@@ -143,6 +143,27 @@ Endpoint inherited from parent class.
 ::: v-pre
 
 <div class="method-overview">
+<pre><code class="typescript-lang ">pathsMethods<span class="token punctuation">:</span> <a href="/api/common/mvc/interfaces/IPathMethod.html"><span class="token">IPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+
+</div>
+
+
+
+Route strategy.
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
 <pre><code class="typescript-lang deprecated ">httpMethod<span class="token punctuation">:</span> <span class="token keyword">string</span></code></pre>
 
 </div>
@@ -177,41 +198,7 @@ Endpoint inherited from parent class.
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token keyword">readonly</span> inheritedEndpoint<span class="token punctuation">:</span> <a href="/api/common/mvc/class/EndpointMetadata.html"><span class="token">EndpointMetadata</span></a></code></pre>
-
-</div>
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
 <pre><code class="typescript-lang ">type<span class="token punctuation">:</span> <a href="/api/core/interfaces/Type.html"><span class="token">Type</span></a>&lt<span class="token punctuation">;</span><span class="token keyword">any</span>&gt<span class="token punctuation">;</span></code></pre>
-
-</div>
-
-
-
-:::
-
-
-
-***
-
-
-
-::: v-pre
-
-<div class="method-overview">
-<pre><code class="typescript-lang ">pathsMethods<span class="token punctuation">:</span> <a href="/api/common/mvc/interfaces/ExpressPathMethod.html"><span class="token">ExpressPathMethod</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 
 </div>
 
@@ -262,14 +249,9 @@ Endpoint inherited from parent class.
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang "><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> statusCode<span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
 
 </div>
-
-
-
-Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
-
 
 
 
@@ -284,9 +266,31 @@ Find the a value at the controller level. Let this value be extended or overridd
 ::: v-pre
 
 <div class="method-overview">
-<pre><code class="typescript-lang deprecated "><span class="token function">hasHttpMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span></code></pre>
+<pre><code class="typescript-lang "><span class="token keyword">readonly</span> params<span class="token punctuation">:</span> <span class="token keyword">import</span><span class="token punctuation">(</span>"@tsed/common"<span class="token punctuation">)</span>.<a href="/api/common/filters/class/ParamMetadata.html"><span class="token">ParamMetadata</span></a><span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 
 </div>
+
+
+
+:::
+
+
+
+***
+
+
+
+::: v-pre
+
+<div class="method-overview">
+<pre><code class="typescript-lang "><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">any</span></code></pre>
+
+</div>
+
+
+
+Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
+
 
 
 

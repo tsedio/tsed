@@ -57,6 +57,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @param type
  * @param types
  * @decorator
+ * @property
  * @jsonschema
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */

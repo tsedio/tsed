@@ -58,6 +58,7 @@ import {Format} from "./format";
  * @returns {Function}
  * @decorator
  * @ajv
+ * @property
  * @jsonschema
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */

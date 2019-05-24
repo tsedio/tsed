@@ -35,6 +35,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @jsonschema
  * @ajv
  * @swagger
+ * @property
  * @param partialSchema
  * @returns {Function}
  */

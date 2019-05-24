@@ -5,6 +5,7 @@ import {applySchemaOptions} from "../utils/schemaOptions";
 /**
  * We can simply attach a `@PostHook` decorator to your model class and
  * define the hook function like you normally would in Mongoose.
+ *
  * ```typescript
  * import {IgnoreProperty, Required} from "@tsed/common";
  * import {PostHook, Model} from "@tsed/mongoose";
@@ -42,6 +43,7 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @class
  */
 export function PostHook(method: string, fn?: MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>): Function {
   return (...args: any[]) => {

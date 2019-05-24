@@ -37,6 +37,7 @@ import {createModel, getSchema} from "../utils";
  * @returns {(target: any) => void}
  * @decorator
  * @mongoose
+ * @class
  */
 export function Model(options: MongooseModelOptions = {}) {
   return (target: any) => {

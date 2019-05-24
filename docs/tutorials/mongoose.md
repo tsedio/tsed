@@ -53,7 +53,7 @@ export class Server extends ServerLoader {
 
 ## MongooseService
 
-MongooseService let you to retrieve an instance of Mongoose.Connection. 
+@@MongooseService@@ let you to retrieve an instance of Mongoose.Connection. 
 
 ```typescript
 import {Service} from "@tsed/common";
@@ -74,168 +74,50 @@ Ts.ED give some decorators and service to write your code:
 <ApiList query="labels.indexOf('mongoose') > -1 || module === '@tsed/mongoose' && symbolType === 'decorator'" />
 
 ## Declaring a mongoose object (schema or model)
-
 ### Declaring a Model
 
 `@tsed/mongoose` works with models which must be explicitly declared.
 
-```typescript
-import {Property} from "@tsed/common"
-import {Model, ObjectID} from "@tsed/mongoose";
-
-@Model()
-export class MyModel {
-  @ObjectID("id")
-  _id: string;
-  
-  @Property()
-  unique: string;
-}
-```
-
+<<< @/docs/tutorials/snippets/mongoose/declaring-model.ts
 
 ### Declaring a Schema
 
 `@tsed/mongoose` supports subdocuments which must be explicitly declared.
 
-```typescript
-import {Schema} from "@tsed/mongoose"
-import {Property} from "@tsed/common"
-
-@Schema()
-export class MySchema {
-  
-  @Property()
-  unique: string;
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/declaring-schema.ts
 
 ### Declaring Properties
 
 By default, `@tsed/mongoose` reuse the metadata stored by the decorators dedicated
 to describe a JsonSchema. These decorators come from the `@tsed/common` package.
 
-```typescript
-import {
-  Minimum, Maximum, MaxLength, MinLength, 
-  Enum, Pattern, IgnoreProperty, Required,
-  Default, Format
-} from "@tsed/common";
-import {Model, Unique, Indexed, ObjectID} from "@tsed/mongoose"
+<<< @/docs/tutorials/snippets/mongoose/example-model-mongoose.ts
 
-enum Categories {
-    CAT1 = "cat1",
-    CAT2 = "cat2"
-}
+::: tip
+Isn't necessary to use @@Property@@ decorator on property when you use one of theses decorators:
 
-@Model()
-export class MyModel {
-  @IgnoreProperty() // exclude _id from mongoose in the generated schema
-  _id: string;
-  
-  @ObjectID("id") // Or rename _id by id (for response sent to the client)
-  _id: string;
-  
-  @Unique()
-  @Required()
-  unique: string;
-  
-  @Indexed()
-  @MinLength(3)
-  @MaxLength(50)
-  indexed: string;
-  
-  @Minimum(0)
-  @Maximum(100)
-  @Default(0)
-  rate: Number = 0;
-  
-  @Enum(Categories)
-  // or @Enum("type1", "type2")
-  category: Categories;
-  
-  @Pattern(/[a-z]/) // equivalent of match field in mongoose 
-  pattern: String;
-  
-  @Format('date-time')
-  @Default(Date.now)
-  dateCreation: Date = new Date()
-}
-```
+<ApiList query="(status.indexOf('jsonschema') > -1 || status.indexOf('mongoose') > -1 && status.indexOf('property') > -1) && status.indexOf('decorator') > -1" />
+
+Theses decorators call automatically @@Property@@ decorator.
+:::
 
 ### Collections
 
 Mongoose and `@tsed/mongoose` supports both list and map. 
 
-```typescript
-import {Model} from "@tsed/mongoose";
-import {PropertyType} from "@tsed/mongoose";
-
-@Model()
-export class MyModel {
-  @PropertyType(String)
-  list: string[];
-  
-  @PropertyType(String) 
-  map: Map<string, string>; // key must be a string.
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/collections.ts
 
 ### Subdocuments
 
 `@tsed/mongoose` supports `mongoose` subdocuments as long as they are defined schema. Therefore, subdocuments must be decorated by `@Schema()`.
 
-```typescript
-import {Schema, Model} from "@tsed/mongoose";
-import {Property, PropertyType, ObjectID} from "@tsed/mongoose";
-
-@Schema()
-export class MySchema {
-  @ObjectID("id")
-  _id: string;
-    
-  @Property()
-  name: string;
-}
-
-@Model()
-export class MyModel {
-  @ObjectID("id")
-  _id: string;
-    
-  @Property()
-  schema: MySchema;
-  
-  @PropertyType(MySchema) 
-  schemes: MySchema[];   
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/subdocuments.ts
 
 ### References
 
 `@tsed/mongoose` supports `mongoose` references between defined models.
 
-```typescript
-import {Ref, Model, ObjectID} from "@tsed/mongoose";
-
-@Model()
-export class MyRef { 
-  @ObjectID("id")
-  _id: string;
-}
-
-@Model()
-export class MyModel {
-  @Ref(MyRef) 
-  ref: Ref<MyRef>;
-  
-  @Ref(MyRef) 
-  refs: Ref<MyRef>[];
-  
-  @Ref(MyRef) 
-  refs: Map<string, MyRef>;
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/references.ts
 
 ### Virtual References
 
@@ -243,25 +125,7 @@ export class MyModel {
 
 Be wary of circular dependencies. Direct references must be declared after the refered class has been declared. This mean the virtual reference cannot know the refered class directly at runtime. Type definitions removed at transpilation are fine.
 
-```typescript
-import {Ref, Model, VirtualRef, VirtualRefs} from "@tsed/mongoose";
-
-@Model()
-export class MyRef {
-  @VirtualRef("MyModel") 
-  virtual: VirtualRef<MyModel>;
-  
-  @VirtualRef("MyModel") 
-  virtuals: VirtualRefs<MyModel>;
-}
-
-@Model()
-export class MyModel {
-  @Ref(MyRef) 
-  ref: Ref<MyRef>;
-}
-
-```
+<<< @/docs/tutorials/snippets/mongoose/virtual-references.ts
 
 ## Register hook
 
@@ -272,142 +136,36 @@ Ts.ED provide class decorator to register middlewares on the pre and post hook.
 
 ### Pre hook
 
-We can simply attach a `@PreHook` decorator to your model class and
+We can simply attach a @@PreHook@@ decorator to your model class and
  define the hook function like you normally would in Mongoose.
  
-```typescript
-import {ObjectID, Required} from "@tsed/common";
-import {PreHook, Model} from "@tsed/mongoose";
-
-@Model()
-@PreHook("save", (car: CarModel, next) => {
-  if (car.model === 'Tesla') {
-    car.isFast = true;
-  }
-  next();
-})
-export class CarModel {
-  @ObjectID("id")
-  _id: string;
-  
-  @Required()
-  model: string;
-  
-  @Required()
-  isFast: boolean;
-  
-  // or Prehook on static method
-  @PreHook("save")
-  static preSave(car: CarModel, next) {
-     if (car.model === 'Tesla') {
-         car.isFast = true;
-     }
-     next();
-  }
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/pre-hook.ts
 
 This will execute the pre-save hook each time a `CarModel` document is saved. 
 
 ### Post hook
 
-We can simply attach a `@PostHook` decorator to your model class and
+We can simply attach a @@PostHook@@ decorator to your model class and
  define the hook function like you normally would in Mongoose.
  
-```typescript
-import {ObjectID, Required} from "@tsed/common";
-import {PostHook, Model} from "@tsed/mongoose";
-
-@Model()
-@PostHook("save", (car: CarModel) => {
-  if (car.topSpeedInKmH > 300) {
-    console.log(car.model, 'is fast!');
-  }
-})
-export class CarModel {
-  @ObjectID("id")
-  _id: string;
-    
-  @Required()
-  model: string;
-  
-  @Required()
-  isFast: boolean;
-  
-  // or Prehook on static method
-  @PostHook("save")
-  static postSave(car: CarModel) {
-    if (car.topSpeedInKmH > 300) {
-       console.log(car.model, 'is fast!');
-    }
-  }
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/post-hook.ts
 
 This will execute the post-save hook each time a `CarModel` document is saved. 
 
 ## Plugin
 
-Using the `@Plugin` decorator enables the developer to attach various Mongoose plugins to the schema. 
+Using the @@Plugin@@ decorator enables the developer to attach various Mongoose plugins to the schema. 
 Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 parameters: the plugin itself, and an optional configuration object. 
 Multiple `plugin` decorator can be used for a single model class.
 
-```typescript
-import {Service, Inject} from "@tsed/common";
-import {MongoosePlugin, Model, MongooseModel} from "@tsed/mongoose";
-import * as findOrCreate from 'mongoose-findorcreate';
-
-@Model()
-@MongoosePlugin(findOrCreate)
-class UserModel {
-  // this isn't the complete method signature, just an example
-  static findOrCreate(condition: InstanceType<User>):
-    Promise<{ doc: InstanceType<User>, created: boolean }>;
-}
-
-@Service()
-class UserService {
-  constructor(@Inject(UserModel) userModel: MongooseModel<UserModel>) {
-    userModel.findOrCreate({ ... }).then(findOrCreateResult => {
-      ...
-    });
-  }
-}
-```
-
+<<< @/docs/tutorials/snippets/mongoose/plugin.ts
 
 ## Inject model
 
 It's possible to inject a model into a Service (or Controller, Middleware, etc...):
 
-```typescript
-import {Service, Inject} from "@tsed/common";
-import {MongooseModel} from "@tsed/mongoose";
-import {MyModel} from "./models/MyModel";
-
-@Service()
-export class MyService {
-  constructor(@Inject(MyModel) private model: MongooseModel<MyModel>) {
-    console.log(model) // Mongoose.model class
-  }
-  
-  async save(obj: MyModel): Promise<MongooseModel<MyModel>> {
-    const doc = new this.model(obj);
-    await doc.save();
-    
-    return doc;
-  }
-  
-  async find(query: any) {
-    const list = await this.model.find(query).exec();
-    
-    console.log(list);
-    
-    return list;
-  }
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/inject-model.ts
 
 ::: tip
-You can find a working example on [Mongoose & Swagger here](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-mongoose).
+You can find a working example on [Mongoose here](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/mongoose).
 :::

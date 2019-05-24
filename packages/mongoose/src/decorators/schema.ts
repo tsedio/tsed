@@ -26,6 +26,8 @@ import {MongooseSchemaOptions} from "../interfaces";
  * @returns {(target: any) => void}
  * @decorator
  * @mongoose
+ * @property
+ * @class
  */
 export function Schema(options?: MongooseSchemaOptions): (target: any) => void;
 /**

@@ -1,7 +1,7 @@
 import {Schema} from "./schema";
 
 /**
- * Tells Mongoose to set default select() behavior for this path.
+ * Tell Mongoose to set default select() behavior for this path.
  *
  * ### Example
  *
@@ -17,6 +17,7 @@ import {Schema} from "./schema";
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @property
  */
 export function Select(select: boolean | any = true) {
   return Schema({select});
