@@ -1,5 +1,6 @@
-import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {Property} from "@tsed/common";
+import {applyDecorators, Store, StoreMerge} from "@tsed/core";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 
 export type VirtualRef<T> = T | null;
@@ -35,30 +36,37 @@ export type VirtualRefs<T> = T[];
  * ```
  *
  * @param type
+ * @param foreignField
  * @returns {Function}
  * @decorator
  * @mongoose
  */
-
 export function VirtualRef(type: string, foreignField: string): Function;
 export function VirtualRef(options: MongooseVirtualRefOptions): Function;
-
 export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {
-  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+  return (target: any, propertyKey: string, descriptor: any) => {
+    let schema: any, type: any;
     if (typeof options === "object") {
-      propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
-        ref: options.type,
-        localField: options.localField || propertyMetadata.name,
+      type = options.type;
+      schema = {
+        ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME),
+        localField: options.localField || propertyKey,
         foreignField: options.foreignField,
         justOne: options.justOne || false,
         options: options.options
-      });
+      };
     } else {
-      propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
+      schema = {
         ref: options,
-        localField: propertyMetadata.name,
+        localField: propertyKey,
         foreignField
-      });
+      };
     }
-  });
+
+    return applyDecorators(Property({name: schema.localField, use: type}), StoreMerge(MONGOOSE_SCHEMA, schema))(
+      target,
+      propertyKey,
+      descriptor
+    );
+  };
 }

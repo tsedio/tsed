@@ -1,9 +1,9 @@
-import {getDecoratorType} from "@tsed/core";
-import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
+import {Property} from "@tsed/common";
+import {applyDecorators, getDecoratorType, StoreMerge} from "@tsed/core";
+import {createSchema} from "@tsed/mongoose";
 import {SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
-import {createSchema} from "../utils";
 
 /**
  * Define a class as a Mongoose Schema ready to be used to compose other schemes and models.
@@ -41,12 +41,10 @@ export function Schema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}
   return (...parameters: any[]) => {
     switch (getDecoratorType(parameters)) {
       case "property":
-        return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-          propertyMetadata.store.merge(MONGOOSE_SCHEMA, options as SchemaTypeOpts<any>);
-        })(...parameters);
+        return applyDecorators(Property(), StoreMerge(MONGOOSE_SCHEMA, options))(...parameters);
+
       case "class":
-        const [target] = parameters;
-        createSchema(target, options as MongooseSchemaOptions);
+        StoreMerge(MONGOOSE_SCHEMA, createSchema(parameters[0], options as MongooseSchemaOptions))(...parameters);
         break;
     }
   };
