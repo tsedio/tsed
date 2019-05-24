@@ -11,8 +11,8 @@ import {
   PropertyType,
   Required
 } from "@tsed/common";
-import {OpenApiModelSchemaBuilder} from "@tsed/swagger/src/class/OpenApiModelSchemaBuilder";
 import {Schema as SchemaMongoose} from "mongoose";
+import {OpenApiModelSchemaBuilder} from "../../../swagger/src/class/OpenApiModelSchemaBuilder";
 import {Model, ObjectID, Ref, Schema, VirtualRef} from "../../src/decorators";
 import {createSchema, getSchema} from "../../src/utils/createSchema";
 
