@@ -1,4 +1,4 @@
-import {decorateMethodsOf, DecoratorParameters, getDecoratorType, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {decorateMethodsOf, DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {Operation as IOperation} from "swagger-schema-official";
 
 /**
@@ -14,9 +14,7 @@ export function Operation(operation: IOperation | any): Function {
 
     switch (type) {
       case "method":
-        return Store.decorate((store: Store) => {
-          store.merge("operation", operation);
-        })(...args);
+        return StoreMerge("operation", operation)(...args);
 
       case "class":
         decorateMethodsOf(args[0], Operation(operation));

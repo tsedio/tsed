@@ -11,3 +11,4 @@ export * from "./notConfigurable";
 export * from "./notEnumerable";
 export * from "./storeSet";
 export * from "./storeMerge";
+export * from "./storeFn";

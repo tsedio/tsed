@@ -1,5 +1,5 @@
-import {Store, Type} from "@tsed/core";
 import {mapReturnedResponse} from "@tsed/common";
+import {Store, StoreFn, Type} from "@tsed/core";
 import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
 
 /**
@@ -108,7 +108,7 @@ export function ReturnsArray(...args: any[]) {
 
   options.collection = Array;
 
-  return Store.decorate((store: Store) => {
+  return StoreFn((store: Store) => {
     const response = mapReturnedResponse(options);
 
     if (code !== undefined) {
