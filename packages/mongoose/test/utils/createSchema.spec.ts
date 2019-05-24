@@ -11,8 +11,9 @@ import {
   PropertyType,
   Required
 } from "@tsed/common";
+import {OpenApiModelSchemaBuilder} from "@tsed/swagger/src/class/OpenApiModelSchemaBuilder";
 import {Schema as SchemaMongoose} from "mongoose";
-import {Model, Ref, Schema, VirtualRef} from "../../src/decorators";
+import {Model, ObjectID, Ref, Schema, VirtualRef} from "../../src/decorators";
 import {createSchema, getSchema} from "../../src/utils/createSchema";
 
 describe("createSchema", () => {
@@ -163,7 +164,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children {
-      @PropertyName("id")
+      @ObjectID("id")
       _id: string;
 
       @Minimum(0)
@@ -223,6 +224,35 @@ describe("createSchema", () => {
         "type": Number
       }
     });
+
+    const result = new OpenApiModelSchemaBuilder(Test4).build();
+
+    result.should.deep.eq({
+      "_definitions": {
+        "Test4": {
+          "properties": {
+            "test": {
+              "description": "Mongoose Ref ObjectId",
+              "example": "5ce7ad3028890bd71749d477",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "_responses": {},
+      "_schema": {
+        "properties": {
+          "test": {
+            "description": "Mongoose Ref ObjectId",
+            "example": "5ce7ad3028890bd71749d477",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "target": Test4
+    });
   });
   it("should create schema with virtual ref", () => {
     // GIVEN
@@ -257,7 +287,7 @@ describe("createSchema", () => {
     }
 
     // WHEN
-    const testSchema = getSchema(Test5);
+    const testSchema: any = getSchema(Test5);
 
     // THEN
     testSchema.obj.should.deep.eq({});
@@ -423,6 +453,7 @@ describe("createSchema", () => {
 
     // THEN
     testSchema.obj.should.deep.eq({});
+    // @ts-ignore
     testSchema.virtuals.tests.options.should.deep.eq({
       "foreignField": "foo",
       "justOne": false,
