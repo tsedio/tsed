@@ -1,5 +1,7 @@
+import {Type} from "@tsed/core";
+
 export interface MongooseVirtualRefOptions {
-  type: string;
+  type: string | Type<any>;
   foreignField: string;
   localField?: string;
   justOne?: boolean;

@@ -1,6 +1,6 @@
-import {PropertyMetadata, PropertyRegistry} from "@tsed/common";
-import {Store} from "@tsed/core";
-import {Schema} from "mongoose";
+import {Property, Schema} from "@tsed/common";
+import {applyDecorators, Store, StoreFn, StoreMerge} from "@tsed/core";
+import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 
 export type Ref<T> = T | string;
@@ -33,13 +33,19 @@ export type Ref<T> = T | string;
  * @mongoose
  */
 export function Ref(type: string | any) {
-  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
-    if (typeof type !== "string") {
-      propertyMetadata.type = type;
-    }
-    propertyMetadata.store.merge(MONGOOSE_SCHEMA, {
-      type: Schema.Types.ObjectId,
+  return applyDecorators(
+    Property({use: String}),
+    Schema({
+      type: String,
+      example: "5ce7ad3028890bd71749d477",
+      description: "Mongoose Ref ObjectId"
+    }),
+    StoreFn((store: Store) => {
+      delete store.get("schema").$ref;
+    }),
+    StoreMerge(MONGOOSE_SCHEMA, {
+      type: MongooseSchema.Types.ObjectId,
       ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME)
-    });
-  });
+    })
+  );
 }
