@@ -1,4 +1,4 @@
-import {decorateMethodsOf, DecoratorParameters, deepClone, getDecoratorType, Store, Type, UnsupportedDecoratorType} from "@tsed/core";
+import {decorateMethodsOf, DecoratorParameters, getDecoratorType, Store, StoreFn, Type, UnsupportedDecoratorType} from "@tsed/core";
 
 export interface IAuthOptions {
   responses?: {
@@ -37,7 +37,7 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
     switch (getDecoratorType(args, true)) {
       case "method":
-        return Store.decorate((store: Store) => {
+        return StoreFn((store: Store) => {
           if (options.responses) {
             const {responses} = options;
             store.merge("responses", responses, true);
