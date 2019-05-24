@@ -1,5 +1,5 @@
+import {PropertyFn} from "@tsed/common";
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
 
 /**
  * Disable serialization for this property when the Converters service will render the JSON object.
@@ -63,7 +63,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function IgnoreProperty() {
-  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+  return PropertyFn((propertyMetadata: PropertyMetadata) => {
     propertyMetadata.ignoreProperty = true;
   });
 }

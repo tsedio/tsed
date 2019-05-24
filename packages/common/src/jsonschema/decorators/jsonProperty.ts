@@ -1,4 +1,4 @@
-import {isEmpty, Type} from "@tsed/core";
+import {DecoratorParameters, isEmpty, Type} from "@tsed/core";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
@@ -91,7 +91,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function JsonProperty(options?: IPropertyOptions | string): Function {
-  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+  return PropertyFn((propertyMetadata: PropertyMetadata) => {
     if (typeof options === "string") {
       propertyMetadata.name = options as string;
     } else if (typeof options === "object") {
@@ -191,4 +191,8 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  */
 export function Property(options?: IPropertyOptions | string) {
   return JsonProperty(options);
+}
+
+export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
+  return PropertyRegistry.decorate(fn);
 }

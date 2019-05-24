@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
+import {PropertyFn} from "./jsonProperty";
 
 /**
  * Set the type of the array items. The possible value is String, Boolean, Number, Date, Object, Class, etc...
@@ -44,7 +44,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  */
 export function PropertyType(type: Type<any>) {
-  return PropertyRegistry.decorate((propertyMetadata: PropertyMetadata) => {
+  return PropertyFn((propertyMetadata: PropertyMetadata) => {
     propertyMetadata.type = type;
   });
 }
