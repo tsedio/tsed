@@ -133,8 +133,8 @@
     "typeorm": "^0.2.7",
     "typescript": "^3.0.1",
     "vue-analytics": "^5.14.0",
-    "vuepress": "^0.14.2",
-    "vuepress-theme-tsed": "^1.7.1"
+    "vuepress": "^0.14.11",
+    "vuepress-theme-tsed": "1.7.2"
   },
   "directories": {
     "lib": "lib",

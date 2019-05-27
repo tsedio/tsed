@@ -89,32 +89,30 @@ module.exports = {
       const {version} = pkg;
       const {url, cname, branch: branchDoc} = doc;
 
-      if (url) {
-        const {GH_TOKEN} = process.env;
-        const repository = url.replace("https://", "");
+      const {GH_TOKEN} = process.env;
+      const repository = url.replace("https://", "");
 
-        const vuePressPath = "./docs/.vuepress/dist";
+      const vuePressPath = "./docs/.vuepress/dist";
 
-        await module.exports.build();
+      await module.exports.build();
 
-        fs.writeFileSync(`${vuePressPath}/CNAME`, cname, {});
+      fs.writeFileSync(`${vuePressPath}/CNAME`, cname, {});
 
-        await execa.shell("git init", {
-          cwd: vuePressPath
-        });
+      await execa.shell("git init", {
+        cwd: vuePressPath
+      });
 
-        await execa.shell("git add -A", {
-          cwd: vuePressPath
-        });
+      await execa.shell("git add -A", {
+        cwd: vuePressPath
+      });
 
-        await execa.shell(`git commit -m 'Deploy documentation v${version}'`, {
-          cwd: vuePressPath
-        });
+      await execa.shell(`git commit -m 'Deploy documentation v${version}'`, {
+        cwd: vuePressPath
+      });
 
-        await execa.shell(`git push -f https://${GH_TOKEN}@${repository} master:${branchDoc}`, {
-          cwd: vuePressPath
-        });
-      }
+      await execa.shell(`git push -f https://${GH_TOKEN}@${repository} master:${branchDoc}`, {
+        cwd: vuePressPath
+      });
     }
   }
 };

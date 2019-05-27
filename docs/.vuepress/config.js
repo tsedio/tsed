@@ -13,10 +13,10 @@ module.exports = {
     sidebar: "auto",
     ga: "UA-35240348-1",
     apiUrl: "/api.json",
-    // algolia: {
-    //   apiKey: "f8a038207e461aaac0e2fd16403c2b01",
-    //   indexName: "ts_ed"
-    // },
+    algolia: {
+      apiKey: "f8a038207e461aaac0e2fd16403c2b01",
+      indexName: "ts_ed"
+    },
 
     locales: {
       "/": {
