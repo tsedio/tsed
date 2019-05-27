@@ -1,6 +1,6 @@
 {
-  "production": "production",
-  "develop": "master",
+  "production": "4.x.x",
+  "develop": "4.x.x",
   "charBranchNameSeparator": "_",
   "remote": "origin",
   "ignores": [],

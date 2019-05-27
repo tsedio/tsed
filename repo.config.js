@@ -10,12 +10,19 @@ module.exports = {
     typings: "lib/index.d.ts",
     repository,
     bugs,
-    homepage: `https://github.com/Romakita/ts-express-decorators/src/${pkgName}`,
+    homepage: `https://github.com/TypedProject/ts-express-decorators/src/${pkgName}`,
     author,
     contributors,
     license,
     gitHead
   }),
+
+  doc: {
+    publish: true,
+    url: "https://github.com/TypedProject/v4.tsed.io.git",
+    branch: "master",
+    cname: "v4.tsed.io"
+  },
 
   tsdoc: {
     rootDir: process.cwd(),

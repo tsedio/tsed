@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "4.34.3",
+  "version": "4.34.4",
   "description": "A TypeScript Framework on top of Express",
   "main": "./dist/lib/index.js",
   "typings": "./dist/lib/index.d.ts",
@@ -10,7 +10,7 @@
     "postinstall": "gulp repo:bootstrap",
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run",
-    "travis-deploy-once": "travis-deploy-once",
+    "travis:deploy-once": "travis-deploy-once",
     "clean": "gulp clean:workspace",
     "tslint": "tslint --project tsconfig.json",
     "test": "npm run clean && npm run tsc && npm run tslint && cross-env NODE_ENV=test nyc --reporter=html --reporter=text _mocha --recursive",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Romakita/ts-express-decorators.git"
+    "url": "https://github.com/TypedProject/ts-express-decorators.git"
   },
   "keywords": [
     "Express",
@@ -134,7 +134,7 @@
     "typescript": "^3.0.1",
     "vue-analytics": "^5.14.0",
     "vuepress": "^0.14.2",
-    "vuepress-theme-tsed": "^1.3.3"
+    "vuepress-theme-tsed": "^1.7.1"
   },
   "directories": {
     "lib": "lib",
