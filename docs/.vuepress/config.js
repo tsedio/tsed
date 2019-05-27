@@ -89,7 +89,8 @@ module.exports = {
               {link: "/tutorials/not-found-page.html", text: "Customize 404"},
               {link: "/tutorials/aws.html", text: "AWS project"}
             ]
-          }
+          },
+          {text: "4.x", link: "http://v4.tsed.io"}
         ],
 
         sidebar: {

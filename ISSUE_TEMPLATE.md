@@ -2,7 +2,7 @@
 
 ## Information
 
-- **Version:** 4.x
+- **Version:** 5.x
 - **Type:** Issue/Story
 
 ## Description
