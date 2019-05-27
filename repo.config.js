@@ -21,6 +21,12 @@ module.exports = {
 
     return json;
   },
+  doc: {
+    publish: true,
+    url: "https://github.com/TypedProject/ts-express-decorators.git",
+    branch: "gh-pages",
+    cname: "tsed.io"
+  },
 
   tsdoc: {
     rootDir: process.cwd(),

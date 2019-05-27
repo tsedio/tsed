@@ -13970,10 +13970,10 @@ vuepress-html-webpack-plugin@^3.2.0:
     toposort "^1.0.0"
     util.promisify "1.0.0"
 
-vuepress-theme-tsed@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-1.7.1.tgz#a421a779e80518293db93f23dc2a558981de38de"
-  integrity sha512-M3R8XKlYR4i8PYRE4soguhY+dhUY7Pz511FDtAppQBFkZzvzoy+2OMvTXApwkupS0Km7SKdTtiSptbFhCRBrcQ==
+vuepress-theme-tsed@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-1.7.2.tgz#c38d1556fe5407146ac109ce801714b1ee1a45dc"
+  integrity sha512-qKuRnEpBDqSF29s7kDCn/efv3zgc/fNi+jVr+2I7SoczWJKwcR6fs6dUamQ1iTtw0xEaCya0kdUCpdRzZdysUw==
   dependencies:
     axios "^0.18.0"
     include-media "^1.4.9"
