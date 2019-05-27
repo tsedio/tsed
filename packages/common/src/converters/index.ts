@@ -11,6 +11,7 @@ export * from "./decorators/modelStrict";
 
 // services
 export * from "./services/ConverterService";
+export * from "./registries/ConverterRegistries";
 
 import "./components/ArrayConverter";
 import "./components/DateConverter";

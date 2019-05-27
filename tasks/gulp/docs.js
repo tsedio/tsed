@@ -8,9 +8,7 @@ const clean = require("gulp-clean");
 const ts = require("gulp-typescript");
 const logger = require("fancy-log");
 const chalk = require("chalk");
-
 const {tsdoc, packagesDir} = require("../../repo.config");
-const {branch} = require("../../release.config");
 
 /**
  *
@@ -73,43 +71,6 @@ module.exports = {
   },
 
   async publish() {
-    const currentBranch = process.env.TRAVIS_BRANCH;
-    
-    if (currentBranch !== branch) {
-      console.log(
-        `This test run was triggered on the branch ${currentBranch}, while docs is configured to only publish from ${
-          branch
-          }, therefore a new docs version won’t be published.`
-      );
-      return;
-    }
 
-    const pkg = JSON.parse(fs.readFileSync("./package.json", {encoding: "utf8"}));
-    const {
-      version,
-      repository: {url}
-    } = pkg;
-    const {GH_TOKEN} = process.env;
-    const repository = url.replace("https://", "");
-
-    const vuePressPath = "./docs/.vuepress/dist";
-
-    await module.exports.build();
-
-    await execa.shell("git init", {
-      cwd: vuePressPath
-    });
-
-    await execa.shell("git add -A", {
-      cwd: vuePressPath
-    });
-
-    await execa.shell(`git commit -m 'Deploy documentation v${version}'`, {
-      cwd: vuePressPath
-    });
-
-    await execa.shell(`git push -f https://${GH_TOKEN}@${repository} master:gh-pages`, {
-      cwd: vuePressPath
-    });
   }
 };
