@@ -13,7 +13,7 @@ export class AuthenticatedMiddleware implements IMiddleware {
   public use(@Req() request: Req, @EndpointInfo() endpoint: EndpointInfo) {
     const options = endpoint.get(AuthenticatedMiddleware) || {};
     // @ts-ignore
-    if (!request.isAuthenticated(options)) {
+    if (request.isAuthenticated && !request.isAuthenticated(options)) {
       throw new Unauthorized("Unauthorized");
     }
   }
