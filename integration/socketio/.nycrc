@@ -1,17 +1,19 @@
 {
   "include": [
-    "src/**/*.js"
+    "src/**/*.ts"
   ],
   "exclude": [
+    "**/*.d.ts",
+    "node_modules",
     "**/index.ts",
-    "**/index.js",
-    "**/interfaces/*.js",
-    "**/*.spec.js",
+    "**/interfaces/**",
+    "**/*.spec.ts",
     "src/test/tools.js"
   ],
   "reporter": [
-    "lcov",
-    "text-summary"
+    "text-summary",
+    "html",
+    "lcov"
   ],
   "extension": [
     ".ts"

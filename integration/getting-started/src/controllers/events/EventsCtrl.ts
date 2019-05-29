@@ -88,6 +88,7 @@ export class EventsCtrl {
     event.name = name;
     event.startDate = name;
     event.endDate = name;
+
     return event;
   }
 
@@ -101,6 +102,7 @@ export class EventsCtrl {
                @PathParams("id") id: string): Promise<Event> {
 
     this.events = this.events.filter(event => event.id === id && event.calendarId === calendarId);
+
     return null;
   }
 

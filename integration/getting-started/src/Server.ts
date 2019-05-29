@@ -12,7 +12,7 @@ const rootDir = __dirname;
   rootDir,
   acceptMimes: ["application/json"],
   logger: {
-    debug: false,
+    debug: true,
     logRequest: true,
     requestFields: ["reqId", "method", "url", "headers", "query", "params", "duration"]
   },
@@ -21,7 +21,8 @@ const rootDir = __dirname;
   },
   calendar: {
     token: true
-  }
+  },
+  debug: true
 })
 export class Server extends ServerLoader {
   /**

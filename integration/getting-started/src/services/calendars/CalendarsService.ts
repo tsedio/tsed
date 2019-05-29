@@ -25,6 +25,7 @@ export class CalendarsService {
    */
   async find(id: string): Promise<Calendar> {
     const calendars: Calendar[] = await this.query();
+
     return calendars.find(calendar => calendar.id === id);
   }
 
@@ -34,7 +35,7 @@ export class CalendarsService {
    * @returns {{id: any, name: string}}
    */
   async create(name: string) {
-    const calendar = {id: require("node-uuid").v4(), name: name};
+    const calendar = {id: require("node-uuid").v4(), name};
     const calendars = this.memoryStorage.get<Calendar[]>("calendars");
 
     calendars.push(calendar);
@@ -58,7 +59,6 @@ export class CalendarsService {
    * @returns {Calendar}
    */
   async update(calendar: Calendar): Promise<Calendar> {
-
     const calendars = await this.query();
 
     const index = calendars.findIndex((value: Calendar) => value.id === calendar.id);
