@@ -155,10 +155,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tsed/common@5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.16.0.tgz#5cd49f88ff3988e0ce8a8b6e92715b39e5d4a6f1"
-  integrity sha512-28nTRTJc6K3SIMonXOkcMz2qkCFev6TtYQnGhfuNZZvtOQx5RcV1iOor6a3Pppr4c6QBhF5HKCbr+NwbLrxzrQ==
+"@tsed/common@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.18.0.tgz#7d37b11df994d36e99b06ab6b0b8761dac6f0499"
+  integrity sha512-E+w6GSDBLRFnsNPbcGFnfwklhYrwHDF/Ud1kMR565m8jihaZ9aLPzwTaimsDWtlAQgk2dAtXKOwVlEXyGllsBA==
   dependencies:
     "@types/json-schema" "^6.0.1"
     globby "^8.0.1"
@@ -168,35 +168,35 @@
     ts-log-debug "^5.1.0"
     tslib "^1.9.0"
 
-"@tsed/core@5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.16.0.tgz#18d93e2121226d29888d265daa3bc7684d2b4178"
-  integrity sha512-504CcSnKm/tyW++PU7eOklwcQ3DMbvzNxqyWBsBV1kmH3tLkhjT5VtzCBDmUP/+G0d6iirlG0cXlC22aelJVfA==
+"@tsed/core@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.18.0.tgz#322e36c8c060a249e77c5f65e4361202075e3a7d"
+  integrity sha512-zmNEbwuYoTB27qWggPd/wxDGOMB1+9vbqLJ5EMOWI0U7ErZbWl5pj4R551ZHepCr7nLX1lOJIRw5pm11QVOX3g==
   dependencies:
     reflect-metadata "^0.1.12"
     source-map-support "^0.5.3"
     tslib "^1.8.0"
 
-"@tsed/di@5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.16.0.tgz#45dabba2c08e66c425481b712e3a94a274675ab1"
-  integrity sha512-nbyKoQDkIJGCzsuBOHKweCm8Hv9cEHfO/4wONYFtP9KGoWtBoIZlX/cfUWFjaufjWQ+k+eoIzfQsnrFcWfWsSQ==
+"@tsed/di@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.18.0.tgz#9287f8adf3852e5ed6264973c436f23c4e2f1dc9"
+  integrity sha512-jgu08ixaGQCMLU88HnhusIkz6Dm3TQ+LA5Y69dpbaK3RUaCM4m3YiIwBeJW4y5EK3jGBIj7VY/yieWatu+9H+A==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/swagger@5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.16.0.tgz#a96c9dc0eb869f091a61a74532aa2247abc880c6"
-  integrity sha512-5eyjXio27v4BbgJXjn06136egn6tVpuT+IBPszB9SRBK73Jflduew/7n70Nn9OAcVMv/bq0ndBUCYZKPlvq0zQ==
+"@tsed/swagger@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.18.0.tgz#83ad5752f1f2019e1aa558b2bc33e314f2ea9c9c"
+  integrity sha512-gw+sXaHYHAah8SpMN3RI7JJMzWkzuFRAAVEwdYJgzKmr0rwqscjy9Z+DzHWptTaJPAHYTL6R/3LafQqUcioh/g==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.16.0.tgz#313f6cbd06ade4ebefc3fdebb96a357f8489a76a"
-  integrity sha512-hrTh9wH3gXpZ32d2WVlDKZ1osIBjdiMac6f6Gm1MNFpe9QKc3fMqGEsPQ30e/9hKP9bryYwLB3g2Txiu9eYbYA==
+"@tsed/testing@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.18.0.tgz#a03f12063d8a52b7f01831b8f5b2e2e37dea8ec8"
+  integrity sha512-OPFx5pq1Sl1KShB8Pdh20YW+nr603LDJBTd26AgZ5MX2QyhCZIWAeCJ6SjV/hi0ftqqZ98B8lkcNFzXasJq4Mg==
   dependencies:
     tslib "^1.9.0"
 
@@ -960,6 +960,14 @@ create-error-class@^3.0.0:
   dependencies:
     capture-stack-trace "^1.0.0"
 
+cross-env@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
+  integrity sha512-jtdNFfFW1hB7sMhr/H6rW1Z45LFqyI431m3qU6bFXcQ3Eh7LtBuG3h74o7ohHZ3crrRkkqHlo4jYHFPcjroANg==
+  dependencies:
+    cross-spawn "^6.0.5"
+    is-windows "^1.0.0"
+
 cross-spawn@^4:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-4.0.2.tgz#7b9247621c23adfdd3856004a823cbe397424d41"
@@ -977,7 +985,7 @@ cross-spawn@^5.0.1:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-cross-spawn@^6.0.0:
+cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
   integrity sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==
@@ -2006,7 +2014,7 @@ is-symbol@^1.0.2:
   dependencies:
     has-symbols "^1.0.0"
 
-is-windows@^1.0.1, is-windows@^1.0.2:
+is-windows@^1.0.0, is-windows@^1.0.1, is-windows@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
   integrity sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==

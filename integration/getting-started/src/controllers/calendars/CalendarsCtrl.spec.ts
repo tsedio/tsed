@@ -1,53 +1,75 @@
-import {ControllerService} from "@tsed/common";
-import {inject} from "@tsed/testing";
-import {expect} from "chai";
+import {TestContext} from "@tsed/testing";
 import * as Sinon from "Sinon";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarsCtrl} from "./CalendarsCtrl";
+import {NotFound} from "ts-httpexceptions";
 
 describe("CalendarsCtrl", () => {
-
-  describe("without IOC", () => {
-    before(() => {
-      this.calendarsCtrl = new CalendarsCtrl(new CalendarsService(new MemoryStorage()));
+  describe("get()", () => {
+    describe("without IOC", () => {
+      it("should do something", () => {
+        const calendarsCtrl = new CalendarsCtrl(new CalendarsService(new MemoryStorage()));
+        calendarsCtrl.should.an.instanceof(CalendarsCtrl);
+      });
     });
 
-    it("should do something", () => {
-      expect(this.calendarsCtrl).to.be.an.instanceof(CalendarsCtrl);
+    describe("via TestContext to mock other service", () => {
+      before(() => TestContext.create());
+      after(() => TestContext.reset());
+
+      it("should return a result from mocked service", async () => {
+        // GIVEN
+        const calendarsService = {
+          find: Sinon.stub().resolves({id: "1"})
+        };
+
+        const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+          provide: CalendarsService,
+          use: calendarsService
+        }]);
+
+        // WHEN
+        const result = await calendarsCtrl.get("1");
+
+        // THEN
+        result.should.deep.equal({id: "1"});
+        calendarsService.find.should.be.calledWithExactly("1");
+
+        calendarsCtrl.should.be.an.instanceof(CalendarsCtrl);
+        calendarsCtrl.calendarsService.should.deep.equal(calendarsService);
+      });
+    });
+
+    describe("when calendar isn\'t found", () => {
+      it("should throw error", () => {
+        before(() => TestContext.create());
+        after(() => TestContext.reset());
+
+        it("should return a result from mocked service", async () => {
+          // GIVEN
+          const calendarsService = {
+            find: Sinon.stub().rejects({id: "1"})
+          };
+
+          const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+            provide: CalendarsService,
+            use: calendarsService
+          }]);
+
+          // WHEN
+          let actualError;
+          try {
+            await calendarsCtrl.get("1");
+          } catch (er) {
+            actualError = er;
+          }
+
+          // THEN
+          actualError.should.be.instanceof(NotFound);
+          calendarsService.find.should.be.calledWithExactly("1");
+        });
+      });
     });
   });
-
-  describe("via InjectorService to mock other service", () => {
-    before(inject([ControllerService], (controllerService: ControllerService) => {
-
-      this.calendarsService = {
-        find: Sinon.stub().returns(Promise.resolve({id: "1"}))
-      };
-
-      const locals = new Map<any, any>();
-      locals.set(CalendarsService, this.calendarsService);
-
-      this.CalendarsCtrl = controllerService.invoke<CalendarsCtrl>(CalendarsCtrl, locals);
-      this.result = this.CalendarsCtrl.get("1");
-      return this.result;
-    }));
-
-    it("should get the service from InjectorService", () => {
-      expect(this.CalendarsCtrl).to.be.an.instanceof(CalendarsCtrl);
-    });
-
-    it("should have a fake memoryStorage", () => {
-      expect(this.CalendarsCtrl.calendarsService).to.equal(this.calendarsService);
-    });
-
-    it("should have been called the CalendarService.find() method", () => {
-      this.calendarsService.find.should.be.calledWithExactly("1");
-    });
-
-    it("should return the calendar", () => {
-      return this.result.should.eventually.deep.equal({id: "1"});
-    });
-  });
-
 });
