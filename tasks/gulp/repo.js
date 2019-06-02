@@ -15,7 +15,10 @@ const sourcemaps = require("gulp-sourcemaps");
 
 const all = require("./utils/all");
 
-const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder} = require("../../repo.config");
+const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder, projectsDir} = require("../../repo.config");
+
+const TS_PROJECTS = new Map();
+const STORE_CONFIG = ["core", "common", "di", "passport"];
 /**
  *
  * @returns {Promise<any>}
@@ -46,6 +49,48 @@ const findPackages = () => {
   });
 
   return pkgs.map((pkg) => pkg.split("/")[0]);
+};
+
+const findIntegrationProjects = () => {
+  const projects = glob.sync("*", {
+    cwd: projectsDir
+  });
+
+  return projects.map((project) => project.split("/")[0]);
+};
+
+const getTsProject = (pkgName) => {
+  if (!TS_PROJECTS.has(pkgName)) {
+    const tsProject = ts.createProject("./tsconfig.json", {
+      "declaration": true,
+      "noResolve": false,
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "noEmit": false
+    });
+
+    if (STORE_CONFIG.indexOf(pkgName) === -1) {
+      return tsProject;
+    }
+    TS_PROJECTS.set(pkgName, tsProject);
+  }
+
+  return TS_PROJECTS.get(pkgName);
+};
+
+const compile = async (pkgName) => {
+  const {version} = await readPackage();
+  const tsProject = getTsProject(pkgName);
+
+  const stream = gulp
+    .src([`${packagesDir}/${pkgName}/src/**/*.ts`])
+    .pipe(sourcemaps.init())
+    .pipe(tsProject())
+    .pipe(sourcemaps.write(".", {sourceRoot: "../src"}))
+    .pipe(replace(versionPlaceholder, version))
+    .pipe(gulp.dest(`${outputDir}/${pkgName}/lib`));
+
+  return toPromise(stream);
 };
 
 module.exports = {
@@ -115,32 +160,46 @@ module.exports = {
   },
 
   async compile(g = gulp) {
-    const {version} = await readPackage();
-
-    const promises = findPackages().map(pkgName => {
+    const packages = findPackages();
+    const promises = packages.map(async (pkgName) => {
       logger("Compile package", chalk.cyan(`'${npmScope}/${pkgName}'`) + "...");
-
-      const tsProject = ts.createProject("./tsconfig.json", {
-        "declaration": true,
-        "noResolve": false,
-        "preserveConstEnums": true,
-        "sourceMap": true,
-        "noEmit": false
-      });
-
-      return toPromise(g
-        .src([`${packagesDir}/${pkgName}/src/**/*.ts`])
-        .pipe(sourcemaps.init())
-        .pipe(tsProject())
-        .pipe(sourcemaps.write(".", {sourceRoot: "../src"}))
-        .pipe(replace(versionPlaceholder, version))
-        .pipe(gulp.dest(`${packagesDir}/${pkgName}/lib`)))
-        .then(() => {
-          logger("Finished compile package", chalk.cyan(`'${npmScope}/${pkgName}'`));
-        });
+      await compile(pkgName);
+      logger("Finished compile package", chalk.cyan(`'${npmScope}/${pkgName}'`));
     });
 
     return Promise.all(promises);
+  },
+
+  async watch() {
+    return new Promise(async () => {
+      const packages = findPackages();
+      const projects = findIntegrationProjects();
+
+      await module.exports.compile();
+
+      projects.forEach((projectDir) => {
+        gulp.src(`${packagesDir}/**/*`).pipe(gulp.dest(`${projectsDir}/${projectDir}/node_modules/${npmScope}`));
+      });
+
+      packages.map(pkgName => {
+        gulp
+          .watch(`${packagesDir}/${pkgName}/src/**/*.ts`)
+          .on("change", async (tsFile) => {
+            logger("Compile file", chalk.cyan(`'${tsFile}'`) + "...");
+            await compile(pkgName);
+
+            const jsFile = tsFile.replace("src/", "lib/").replace(".ts", ".js");
+
+            projects.forEach((projectDir) => {
+              const dest = `${projectsDir}/${projectDir}/node_modules/${npmScope}/${pkgName}`;
+              gulp.src(tsFile).pipe(gulp.dest(`${dest}/src`));
+              gulp.src(jsFile).pipe(gulp.dest(`${dest}/lib`));
+            });
+
+            logger("Finished compile file", chalk.cyan(`'${tsFile}'`));
+          });
+      });
+    });
   },
   /**
    *
@@ -232,3 +291,9 @@ module.exports = {
     return Promise.resolve();
   }
 };
+
+
+findPackages().forEach((pkgName) => {
+  module.exports[`compile:${pkgName}`] = () => compile(pkgName);
+  module.exports[`compileProjects:${pkgName}`] = () => compile(pkgName, true);
+});
