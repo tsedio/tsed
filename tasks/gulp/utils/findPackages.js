@@ -1,4 +1,4 @@
-const glob = require("glob");
+const glob = require("globby");
 const {packagesDir} = require("../../../repo.config");
 
 /**
