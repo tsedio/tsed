@@ -8,35 +8,12 @@ const clean = require("gulp-clean");
 const ts = require("gulp-typescript");
 const logger = require("fancy-log");
 const chalk = require("chalk");
-const glob = require("glob");
 const {sync} = require("execa");
+const {toPromise} = require("./utils/toPromise");
+const {findPackages} = require("./utils/findPackages");
 
 const {tsdoc, doc, packagesDir} = require("../../repo.config");
 const {branch} = require("../../release.config");
-/**
- *
- * @returns {*}
- */
-const findPackages = () => {
-  const pkgs = glob.sync("*/package.json", {
-    cwd: packagesDir
-  });
-
-  return pkgs.map((pkg) => pkg.split("/")[0]);
-};
-
-/**
- *
- * @param stream
- * @returns {Promise<any>}
- */
-const toPromise = stream =>
-  new Promise((resolve, reject) =>
-    stream
-      .on("end", resolve)
-      .on("finish", resolve)
-      .on("error", reject)
-  );
 
 module.exports = {
   async clean(g = gulp) {

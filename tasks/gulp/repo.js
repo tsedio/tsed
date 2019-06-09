@@ -6,92 +6,17 @@ const chalk = require("chalk");
 const logger = require("fancy-log");
 const replace = require("gulp-replace");
 const clean = require("gulp-clean");
-const glob = require("glob");
-const readPackageJson = require("read-package-json");
 const jeditor = require("gulp-json-editor");
+const {findIntegrationProjects} = require("./utils/findIntegrationProjects");
 const {sync} = require("execa");
-const ts = require("gulp-typescript");
-const sourcemaps = require("gulp-sourcemaps");
 
-const all = require("./utils/all");
+const {all} = require("./utils/all");
+const {findPackages} = require("./utils/findPackages");
+const {readPackage} = require("./utils/readPackage");
+const {toPromise} = require("./utils/toPromise");
+const {compile} = require("./utils/ts");
 
 const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder, projectsDir} = require("../../repo.config");
-
-const TS_PROJECTS = new Map();
-const STORE_CONFIG = ["core", "common", "di", "passport"];
-/**
- *
- * @returns {Promise<any>}
- */
-const readPackage = () =>
-  new Promise(resolve => {
-    readPackageJson("./package.json", console.error, null, (er, data) => resolve(data));
-  });
-/**
- *
- * @param stream
- * @returns {Promise<any>}
- */
-const toPromise = stream =>
-  new Promise((resolve, reject) =>
-    stream
-      .on("end", resolve)
-      .on("finish", resolve)
-      .on("error", reject)
-  );
-/**
- *
- * @returns {*}
- */
-const findPackages = () => {
-  const pkgs = glob.sync("*/package.json", {
-    cwd: packagesDir
-  });
-
-  return pkgs.map((pkg) => pkg.split("/")[0]);
-};
-
-const findIntegrationProjects = () => {
-  const projects = glob.sync("*", {
-    cwd: projectsDir
-  });
-
-  return projects.map((project) => project.split("/")[0]);
-};
-
-const getTsProject = (pkgName) => {
-  if (!TS_PROJECTS.has(pkgName)) {
-    const tsProject = ts.createProject("./tsconfig.json", {
-      "declaration": true,
-      "noResolve": false,
-      "preserveConstEnums": true,
-      "sourceMap": true,
-      "noEmit": false
-    });
-
-    if (STORE_CONFIG.indexOf(pkgName) === -1) {
-      return tsProject;
-    }
-    TS_PROJECTS.set(pkgName, tsProject);
-  }
-
-  return TS_PROJECTS.get(pkgName);
-};
-
-const compile = async (pkgName) => {
-  const {version} = await readPackage();
-  const tsProject = getTsProject(pkgName);
-
-  const stream = gulp
-    .src([`${packagesDir}/${pkgName}/src/**/*.ts`])
-    .pipe(sourcemaps.init())
-    .pipe(tsProject())
-    .pipe(sourcemaps.write(".", {sourceRoot: "../src"}))
-    .pipe(replace(versionPlaceholder, version))
-    .pipe(gulp.dest(`${outputDir}/${pkgName}/lib`));
-
-  return toPromise(stream);
-};
 
 module.exports = {
   /**

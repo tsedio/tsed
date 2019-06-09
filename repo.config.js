@@ -28,7 +28,12 @@ module.exports = {
     branch: "gh-pages",
     cname: "tsed.io"
   },
-
+  examples: {
+    "getting-started": {
+      url: "https://github.com/TypedProject/tsed-getting-started.git",
+      branch: "master"
+    }
+  },
   tsdoc: {
     rootDir: process.cwd(),
     packagesDir: "packages/",
