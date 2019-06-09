@@ -37,6 +37,9 @@ module.exports = {
     },
     "typeorm": {
       url: "https://github.com/TypedProject/tsed-example-typeorm.git"
+    },
+    "socketio": {
+      url: "https://github.com/TypedProject/tsed-example-socketio.git"
     }
   },
   tsdoc: {

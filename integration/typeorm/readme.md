@@ -1,4 +1,4 @@
-# Ts.ED - Getting started
+# Ts.ED - TypeORM
 
 Here an example to configure your server and how to create your first controller.
 
