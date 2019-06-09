@@ -34,6 +34,9 @@ module.exports = {
     },
     "mongoose": {
       url: "https://github.com/TypedProject/tsed-example-mongoose.git"
+    },
+    "typeorm": {
+      url: "https://github.com/TypedProject/tsed-example-typeorm.git"
     }
   },
   tsdoc: {

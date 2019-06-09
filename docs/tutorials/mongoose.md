@@ -167,5 +167,5 @@ It's possible to inject a model into a Service (or Controller, Middleware, etc..
 <<< @/docs/tutorials/snippets/mongoose/inject-model.ts
 
 ::: tip
-You can find a working example on [Mongoose here](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/mongoose).
+You can find a working example on [Mongoose here](https://github.com/TypedProject/tsed-example-mongoose).
 :::
