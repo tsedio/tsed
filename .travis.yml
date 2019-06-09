@@ -17,6 +17,7 @@ node_js:
 after_success:
   - npm run travis:deploy-once "npm run semantic-release"
   - npm run travis:deploy-once "gulp docs:publish"
+  - npm run travis:deploy-once "gulp examples:publish"
   - npm run travis:coveralls
 branches:
   except:

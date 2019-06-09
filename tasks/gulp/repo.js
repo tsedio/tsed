@@ -6,47 +6,17 @@ const chalk = require("chalk");
 const logger = require("fancy-log");
 const replace = require("gulp-replace");
 const clean = require("gulp-clean");
-const glob = require("glob");
-const readPackageJson = require("read-package-json");
 const jeditor = require("gulp-json-editor");
+const {findIntegrationProjects} = require("./utils/findIntegrationProjects");
 const {sync} = require("execa");
-const ts = require("gulp-typescript");
-const sourcemaps = require("gulp-sourcemaps");
 
-const all = require("./utils/all");
+const {all} = require("./utils/all");
+const {findPackages} = require("./utils/findPackages");
+const {readPackage} = require("./utils/readPackage");
+const {toPromise} = require("./utils/toPromise");
+const {compile} = require("./utils/ts");
 
-const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder} = require("../../repo.config");
-/**
- *
- * @returns {Promise<any>}
- */
-const readPackage = () =>
-  new Promise(resolve => {
-    readPackageJson("./package.json", console.error, null, (er, data) => resolve(data));
-  });
-/**
- *
- * @param stream
- * @returns {Promise<any>}
- */
-const toPromise = stream =>
-  new Promise((resolve, reject) =>
-    stream
-      .on("end", resolve)
-      .on("finish", resolve)
-      .on("error", reject)
-  );
-/**
- *
- * @returns {*}
- */
-const findPackages = () => {
-  const pkgs = glob.sync("*/package.json", {
-    cwd: packagesDir
-  });
-
-  return pkgs.map((pkg) => pkg.split("/")[0]);
-};
+const {outputDir, typescript, packagesDir, pkgTemplate, npmAccess, npmScope, ignorePublishPackages = [], versionPlaceholder, projectsDir} = require("../../repo.config");
 
 module.exports = {
   /**
@@ -115,32 +85,46 @@ module.exports = {
   },
 
   async compile(g = gulp) {
-    const {version} = await readPackage();
-
-    const promises = findPackages().map(pkgName => {
+    const packages = findPackages();
+    const promises = packages.map(async (pkgName) => {
       logger("Compile package", chalk.cyan(`'${npmScope}/${pkgName}'`) + "...");
-
-      const tsProject = ts.createProject("./tsconfig.json", {
-        "declaration": true,
-        "noResolve": false,
-        "preserveConstEnums": true,
-        "sourceMap": true,
-        "noEmit": false
-      });
-
-      return toPromise(g
-        .src([`${packagesDir}/${pkgName}/src/**/*.ts`])
-        .pipe(sourcemaps.init())
-        .pipe(tsProject())
-        .pipe(sourcemaps.write(".", {sourceRoot: "../src"}))
-        .pipe(replace(versionPlaceholder, version))
-        .pipe(gulp.dest(`${packagesDir}/${pkgName}/lib`)))
-        .then(() => {
-          logger("Finished compile package", chalk.cyan(`'${npmScope}/${pkgName}'`));
-        });
+      await compile(pkgName);
+      logger("Finished compile package", chalk.cyan(`'${npmScope}/${pkgName}'`));
     });
 
     return Promise.all(promises);
+  },
+
+  async watch() {
+    return new Promise(async () => {
+      const packages = findPackages();
+      const projects = findIntegrationProjects();
+
+      await module.exports.compile();
+
+      projects.forEach((projectDir) => {
+        gulp.src(`${packagesDir}/**/*`).pipe(gulp.dest(`${projectsDir}/${projectDir}/node_modules/${npmScope}`));
+      });
+
+      packages.map(pkgName => {
+        gulp
+          .watch(`${packagesDir}/${pkgName}/src/**/*.ts`)
+          .on("change", async (tsFile) => {
+            logger("Compile file", chalk.cyan(`'${tsFile}'`) + "...");
+            await compile(pkgName);
+
+            const jsFile = tsFile.replace("src/", "lib/").replace(".ts", ".js");
+
+            projects.forEach((projectDir) => {
+              const dest = `${projectsDir}/${projectDir}/node_modules/${npmScope}/${pkgName}`;
+              gulp.src(tsFile).pipe(gulp.dest(`${dest}/src`));
+              gulp.src(jsFile).pipe(gulp.dest(`${dest}/lib`));
+            });
+
+            logger("Finished compile file", chalk.cyan(`'${tsFile}'`));
+          });
+      });
+    });
   },
   /**
    *
@@ -232,3 +216,9 @@ module.exports = {
     return Promise.resolve();
   }
 };
+
+
+findPackages().forEach((pkgName) => {
+  module.exports[`compile:${pkgName}`] = () => compile(pkgName);
+  module.exports[`compileProjects:${pkgName}`] = () => compile(pkgName, true);
+});

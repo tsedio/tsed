@@ -1,11 +1,14 @@
-const glob = require('glob');
-const path = require('path');
-const cwd = path.join(__dirname, '../../src');
+const glob = require("globby");
+const {packagesDir} = require("../../../repo.config");
 
-module.exports = () => {
-  const pkgs = glob.sync('*/package.json', {
-    cwd
+/**
+ *
+ * @returns {*}
+ */
+exports.findPackages = () => {
+  const pkgs = glob.sync("*/package.json", {
+    cwd: packagesDir
   });
 
-  return pkgs.map((pkg) => pkg.split('/')[0]);
+  return pkgs.map((pkg) => pkg.split("/")[0]);
 };

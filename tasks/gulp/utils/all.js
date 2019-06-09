@@ -1,4 +1,4 @@
-module.exports = (...args) => {
+exports.all = (...args) => {
   return Promise.all(
     args.map((stream) =>
       new Promise((resolve, reject) =>
