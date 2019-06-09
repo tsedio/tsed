@@ -30,8 +30,10 @@ module.exports = {
   },
   examples: {
     "getting-started": {
-      url: "https://github.com/TypedProject/tsed-getting-started.git",
-      branch: "master"
+      url: "https://github.com/TypedProject/tsed-getting-started.git"
+    },
+    "mongoose": {
+      url: "https://github.com/TypedProject/tsed-example-mongoose.git"
     }
   },
   tsdoc: {

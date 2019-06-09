@@ -15,7 +15,7 @@ Some examples are available along these links :
 - [Https](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-https)
 - [A SquareGame with SocketIO](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/socketio)
 - [Authentication with Passport.js](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-passport)
-- [Mongoose](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/mongoose)
+- [Mongoose](https://github.com/TypedProject/tsed-example-mongoose.git)
 - [TypeORM](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/typeorm)
 - [Multer](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/multer)
 
