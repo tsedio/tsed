@@ -12,7 +12,7 @@ meta:
 
 # Getting started
 
-You can start your project from the [getting started project boilerplate](https://github.com/TypedProject/ts-express-decorators/tree/master/integration/getting-started).
+You can start your project from the [getting started project boilerplate](https://github.com/TypedProject/tsed-getting-started).
 
 ## Installation from scratch
 

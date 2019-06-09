@@ -2,7 +2,7 @@
 
 ## Starters
 
-- [Quick start project](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/getting-started)
+- [Quick start project](https://github.com/TypedProject/tsed-getting-started)
 - [Node Api Starter](https://github.com/scopsy/node-typescript-starter) by [Scopsy](https://github.com/scopsy)
 
 ## Demo
@@ -11,7 +11,7 @@ Some examples are available along these links :
 
 **Projects example for v5.x.x**
 
-- [Basic usages](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/getting-started)
+- [Basic usages](https://github.com/TypedProject/tsed-getting-started)
 - [Https](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-https)
 - [A SquareGame with SocketIO](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/socketio)
 - [Authentication with Passport.js](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-passport)
