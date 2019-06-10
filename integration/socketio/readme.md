@@ -1,6 +1,6 @@
 # Ts.ED - SocketIO
 
-Here an example to configure your server and how to create your first controller.
+Here an example project with SocketIO and Ts.ED framework.
 
 See [Ts.ED](https://tsed.io) project for more information.
 

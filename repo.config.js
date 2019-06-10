@@ -35,6 +35,9 @@ module.exports = {
     "mongoose": {
       url: "https://github.com/TypedProject/tsed-example-mongoose.git"
     },
+    "passportjs": {
+      url: "https://github.com/TypedProject/tsed-example-passportjs.git"
+    },
     "typeorm": {
       url: "https://github.com/TypedProject/tsed-example-typeorm.git"
     },
