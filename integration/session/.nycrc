@@ -1,0 +1,27 @@
+{
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.d.ts",
+    "node_modules",
+    "**/index.ts",
+    "**/interfaces/**",
+    "**/*.spec.ts",
+    "src/test/tools.js"
+  ],
+  "reporter": [
+    "text-summary",
+    "html",
+    "lcov"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "check-coverage": true,
+  "lines": 99,
+  "statements": 100,
+  "functions": 99,
+  "branches": 89,
+  "all": true
+}
