@@ -2,6 +2,7 @@ import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/c
 import "@tsed/swagger";
 import {$log} from "ts-log-debug";
 import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
+import {RestCtrl} from "./controllers/RestCtrl";
 
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -13,6 +14,11 @@ const rootDir = __dirname;
 @ServerSettings({
   rootDir,
   acceptMimes: ["application/json"],
+  mount: {
+    "/rest": [
+      RestCtrl
+    ]
+  },
   swagger: {
     path: "/api-docs"
   }

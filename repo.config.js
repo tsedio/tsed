@@ -44,6 +44,9 @@ module.exports = {
     "typeorm": {
       url: "https://github.com/TypedProject/tsed-example-typeorm.git"
     },
+    "session": {
+      "url": "https://github.com/TypedProject/tsed-example-session.git"
+    },
     "socketio": {
       url: "https://github.com/TypedProject/tsed-example-socketio.git"
     }

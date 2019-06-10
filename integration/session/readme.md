@@ -1,6 +1,6 @@
-# Ts.ED - Getting started
+# Ts.ED - Express Session
 
-Here an example to configure your server and how to create your first controller.
+Here an example project with Express Session and Ts.ED framework.
 
 See [Ts.ED](https://tsed.io) project for more information.
 
@@ -9,7 +9,7 @@ See [Ts.ED](https://tsed.io) project for more information.
 This repository provide getting started project example for each Ts.ED version since `v5.18.1`.
 
 ```bash
-git checkout -b https://github.com/TypedProject/tsed-getting-started/tree/v5.18.1
+git checkout -b https://github.com/TypedProject/tsed-example-session/tree/v5.18.1
 ```
 
 To checkout another version just replace `v5.18.1` by the desired version.

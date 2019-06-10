@@ -55,3 +55,13 @@ Then, add this middleware on the server:
 Finally, you can read and write values in your controller:
 
 <<< @/docs/tutorials/snippets/session/example-session.ts
+
+In addiction, you can add integration test with SuperTest and `@tsed/testing` package.
+Here an example of Rest API test:
+
+<<< @/docs/tutorials/snippets/session/example-test.ts
+
+::: tip
+You can find a working example on [Express Session here](https://github.com/TypedProject/tsed-example-session).
+:::
+

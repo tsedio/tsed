@@ -1,28 +1,26 @@
-import {Controller, Post, Session, Get, BodyParams, PathParams, Status} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, Session, Status} from "@tsed/common";
 
 @Controller("/")
-class MyCtrl {
+export class MyCtrl {
 
   @Get("/whoami")
-  helloWorld(@Session() session: any) {
+  whoAmI(@Session() session: any) {
     console.log("User in session =>", session.user);
 
     return session.user && session.user.id ? `Hello user ${session.user.name}` : "Hello world";
   }
 
-  @Post("/connect")
+  @Post("/login")
   @Status(204)
-  connect(@BodyParams("name") name: string, @Session("user") user: any) {
+  login(@BodyParams("name") name: string, @Session("user") user: any) {
     user.id = "1";
-    user.name = "name";
+    user.name = name;
   }
 
-  @Post("/connect/:id")
+  @Post("/logout")
   @Status(204)
-  disconnect(@PathParams("id") id: string, @Session("user") user: any) {
-    if (id === user.id) {
-      user.id = null;
-      delete user.name;
-    }
+  logout(@Session("user") user: any) {
+    user.id = null;
+    delete user.name;
   }
 }

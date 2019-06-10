@@ -8,7 +8,8 @@
     "**/index.ts",
     "**/interfaces/**",
     "**/*.spec.ts",
-    "src/test/tools.js"
+    "src/test/tools.js",
+    "src/Server.ts"
   ],
   "reporter": [
     "text-summary",
@@ -19,9 +20,9 @@
     ".ts"
   ],
   "check-coverage": true,
-  "lines": 99,
+  "lines": 100,
   "statements": 100,
-  "functions": 99,
-  "branches": 89,
+  "functions": 100,
+  "branches": 87.5,
   "all": true
 }
