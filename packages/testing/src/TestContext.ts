@@ -1,7 +1,6 @@
 import {createExpressApplication, createHttpServer, createHttpsServer, createInjector, LocalsContainer, ServerLoader} from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {$log} from "ts-log-debug";
 
 export class TestContext {
   private static _injector: InjectorService | null = null;
@@ -53,12 +52,11 @@ export class TestContext {
    * @returns {Promise<void>}
    */
   static bootstrap(server: ServerLoader | any, options: any = {}): () => Promise<void> {
-    $log.stop();
-
     return async function before(): Promise<void> {
       const instance = new (server as any)(...(options.args || []));
 
       instance.startServers = () => Promise.resolve();
+      instance.settings.logger.level = "off";
 
       // used by inject method
       TestContext._injector = instance.injector;
