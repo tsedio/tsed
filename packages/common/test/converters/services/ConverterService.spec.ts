@@ -1,9 +1,9 @@
 import {Store} from "@tsed/core";
 import {inject, TestContext} from "@tsed/testing";
 import {assert, expect} from "chai";
+import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService} from "../../../src/converters";
 import {JsonProperty} from "../../../src/jsonschema/decorators/jsonProperty";
-import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 
 class JsonFoo5 {
   @JsonProperty()
@@ -12,9 +12,10 @@ class JsonFoo5 {
 }
 
 describe("ConverterService", () => {
+  let converterService: ConverterService;
   before(
-    inject([ConverterService], (converterService: ConverterService) => {
-      this.converterService = converterService;
+    inject([ConverterService], (_converterService_: ConverterService) => {
+      converterService = _converterService_;
     })
   );
   after(TestContext.reset);
@@ -22,56 +23,56 @@ describe("ConverterService", () => {
   describe("deserialize()", () => {
     describe("primitive", () => {
       it("should convert boolean to Boolean", () => {
-        expect(this.converterService.deserialize(true, Boolean)).to.be.equal(true);
-        expect(this.converterService.deserialize(false, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(true, Boolean)).to.be.equal(true);
+        expect(converterService.deserialize(false, Boolean)).to.be.equal(false);
       });
 
       it("should convert boolean string to Boolean", () => {
-        expect(this.converterService.deserialize("true", Boolean)).to.be.equal(true);
-        expect(this.converterService.deserialize("false", Boolean)).to.be.equal(false);
+        expect(converterService.deserialize("true", Boolean)).to.be.equal(true);
+        expect(converterService.deserialize("false", Boolean)).to.be.equal(false);
       });
 
       it("should convert empty string to Boolean", () => {
-        expect(this.converterService.deserialize("", Boolean)).to.be.equal(false);
+        expect(converterService.deserialize("", Boolean)).to.be.equal(false);
       });
 
       it("should convert string to Boolean", () => {
-        expect(this.converterService.deserialize("test", Boolean)).to.be.equal(true);
+        expect(converterService.deserialize("test", Boolean)).to.be.equal(true);
       });
 
       it("should convert number to Boolean", () => {
-        expect(this.converterService.deserialize(0, Boolean)).to.be.equal(false);
-        expect(this.converterService.deserialize(1, Boolean)).to.be.equal(true);
+        expect(converterService.deserialize(0, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(1, Boolean)).to.be.equal(true);
       });
 
       it("should convert null to Boolean", () => {
-        expect(this.converterService.deserialize(null, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(null, Boolean)).to.be.equal(false);
       });
 
       it("should convert undefined to Boolean", () => {
-        expect(this.converterService.deserialize(undefined, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(undefined, Boolean)).to.be.equal(false);
       });
 
       it("should convert a string to Number", () => {
-        expect(this.converterService.deserialize("1", Number))
+        expect(converterService.deserialize("1", Number))
           .to.be.a("number")
           .and.to.equals(1);
       });
 
       it("should convert number to Number", () => {
-        expect(this.converterService.deserialize(1, Number))
+        expect(converterService.deserialize(1, Number))
           .to.be.a("number")
           .and.to.equals(1);
       });
 
       it("should convert a string to String", () => {
-        expect(this.converterService.deserialize("1", String))
+        expect(converterService.deserialize("1", String))
           .to.be.a("string")
           .and.to.equals("1");
       });
 
       it("should convert number to String", () => {
-        expect(this.converterService.deserialize(1, String))
+        expect(converterService.deserialize(1, String))
           .to.be.a("string")
           .and.to.equals("1");
       });
@@ -79,7 +80,7 @@ describe("ConverterService", () => {
 
     describe("object", () => {
       it("should convert object", () => {
-        expect(this.converterService.deserialize({}, Object)).to.be.an("object");
+        expect(converterService.deserialize({}, Object)).to.be.an("object");
       });
 
       it("should convert a date", inject([ConverterService], (converterService: ConverterService) => {
@@ -88,8 +89,9 @@ describe("ConverterService", () => {
     });
 
     describe("class Foo", () => {
+      let foo: any;
       before(() => {
-        this.foo = this.converterService.deserialize(
+        foo = converterService.deserialize(
           {
             test: 1,
             foo: "test"
@@ -99,26 +101,27 @@ describe("ConverterService", () => {
       });
 
       it("should be an instance of Foo", () => {
-        expect(this.foo).to.be.instanceof(JsonFoo);
+        expect(foo).to.be.instanceof(JsonFoo);
       });
 
       it("should have method named 'method'", () => {
-        expect(this.foo.method).to.be.a("function");
+        expect(foo.method).to.be.a("function");
       });
 
       it("should have some attributs", () => {
-        expect(this.foo.test)
+        expect(foo.test)
           .to.be.a("number")
           .and.to.equals(1);
-        expect(this.foo.foo)
+        expect(foo.foo)
           .to.be.a("string")
           .and.to.equals("test");
       });
     });
 
     describe("class Foo2", () => {
+      let foo2: any;
       before(() => {
-        this.foo2 = this.converterService.deserialize(
+        foo2 = converterService.deserialize(
           {
             test: "testField",
             Name: "nameField",
@@ -148,65 +151,65 @@ describe("ConverterService", () => {
       });
 
       it("should be an instance of Foo2", () => {
-        expect(this.foo2).to.be.instanceof(JsonFoo2);
+        expect(foo2).to.be.instanceof(JsonFoo2);
       });
 
       it("should preserve method", () => {
-        expect(this.foo2.method).to.be.a("function");
+        expect(foo2.method).to.be.a("function");
       });
 
       it("should have some attributs", () => {
-        expect(this.foo2.dateStart).to.be.instanceof(Date);
-        expect(this.foo2.name).to.be.a("string");
-        expect(this.foo2.name).to.equals("nameField");
+        expect(foo2.dateStart).to.be.instanceof(Date);
+        expect(foo2.name).to.be.a("string");
+        expect(foo2.name).to.equals("nameField");
       });
 
       it("should have an attribut that is deserialized as Foo instance", () => {
-        expect(this.foo2.foo).to.be.instanceof(JsonFoo);
-        expect(this.foo2.foo.test).to.equals("2");
-        expect(this.foo2.object.test).to.equals("2ez");
+        expect(foo2.foo).to.be.instanceof(JsonFoo);
+        expect(foo2.foo.test).to.equals("2");
+        expect(foo2.object.test).to.equals("2ez");
       });
 
       describe("Array", () => {
         describe("when data is an array", () => {
           it("should have an attribut that is deserialized as an Array", () => {
-            expect(this.foo2.foos).to.be.an("array");
+            expect(foo2.foos).to.be.an("array");
           });
 
           it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () => {
-            expect(this.foo2.foos[0]).to.be.instanceof(JsonFoo);
+            expect(foo2.foos[0]).to.be.instanceof(JsonFoo);
           });
         });
 
         describe("when data is a object", () => {
           it("should have an attribut that is deserialized as an Array", () => {
-            expect(this.foo2.foos2).to.be.an("array");
+            expect(foo2.foos2).to.be.an("array");
           });
 
           it("should have an attribut that is deserialized as an Array with an item that is an instance of Foo", () => {
-            expect(this.foo2.foos2[0]).to.be.instanceof(JsonFoo1);
+            expect(foo2.foos2[0]).to.be.instanceof(JsonFoo1);
           });
         });
       });
 
       describe("Map", () => {
         it("should have an attribut that is deserialized as a Map", () => {
-          expect(this.foo2.theMap).to.be.instanceof(Map);
+          expect(foo2.theMap).to.be.instanceof(Map);
         });
 
         it("should have an attribut that is deserialized as a Map and have a method", () => {
-          expect(this.foo2.theMap.get("f1")).to.be.an("object");
-          expect(this.foo2.theMap.get("f1").test).to.equals("1");
+          expect(foo2.theMap.get("f1")).to.be.an("object");
+          expect(foo2.theMap.get("f1").test).to.equals("1");
         });
       });
 
       describe("Set", () => {
         it("should have an attribut that is deserialized as a Set", () => {
-          expect(this.foo2.theSet).to.be.instanceof(Set);
+          expect(foo2.theSet).to.be.instanceof(Set);
         });
 
         it("should have an attribut that is deserialized as a Set and have a method", () => {
-          this.foo2.theSet.forEach((item: any) => {
+          foo2.theSet.forEach((item: any) => {
             expect(item).to.be.an("object");
             expect(item.test).to.be.a("string");
           });
@@ -216,18 +219,19 @@ describe("ConverterService", () => {
 
     describe("deserialization error", () => {
       it("should emit a BadRequest when the number parsing failed", () => {
-        assert.throws(() => this.converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.");
+        assert.throws(() => converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.");
       });
     });
 
     describe("when validationModelStrict is enabled", () => {
       before(() => {
-        this.converterService.validationModelStrict = true;
+        // @ts-ignore
+        converterService.validationModelStrict = true;
       });
       it("should emit a BadRequest when a property is not in the Model", () => {
         assert.throws(
           () =>
-            this.converterService.deserialize(
+            converterService.deserialize(
               {
                 test: 1,
                 foo: "test",
@@ -242,10 +246,12 @@ describe("ConverterService", () => {
 
     describe("when validationModelStrict is disabled", () => {
       before(() => {
-        this.converterService.validationModelStrict = false;
+        // @ts-ignore
+        converterService.validationModelStrict = false;
       });
       after(() => {
-        this.converterService.validationModelStrict = true;
+        // @ts-ignore
+        converterService.validationModelStrict = true;
       });
 
       it("should not emit a BadRequest", () => {
@@ -257,7 +263,7 @@ describe("ConverterService", () => {
         });
 
         expect(
-          this.converterService.deserialize(
+          converterService.deserialize(
             {
               test: 1,
               foo: "test",
@@ -273,7 +279,7 @@ describe("ConverterService", () => {
       it("should throw a bad request (undefined value)", () => {
         assert.throws(
           () =>
-            this.converterService.deserialize(
+            converterService.deserialize(
               {
                 test: undefined
               },
@@ -286,7 +292,7 @@ describe("ConverterService", () => {
       it("should throw a bad request (null value)", () => {
         assert.throws(
           () =>
-            this.converterService.deserialize(
+            converterService.deserialize(
               {
                 test: null
               },
@@ -299,7 +305,7 @@ describe("ConverterService", () => {
       it("should throw a bad request (empty value)", () => {
         assert.throws(
           () =>
-            this.converterService.deserialize(
+            converterService.deserialize(
               {
                 test: ""
               },
@@ -314,23 +320,23 @@ describe("ConverterService", () => {
   describe("serialize()", () => {
     describe("primitive", () => {
       it("should convert empty string to string", () => {
-        expect(this.converterService.serialize("")).to.be.a("string");
+        expect(converterService.serialize("")).to.be.a("string");
       });
       it("should convert undefined to undefined", () => {
-        expect(this.converterService.serialize(undefined)).to.equals(undefined);
+        expect(converterService.serialize(undefined)).to.equals(undefined);
       });
       it("should convert boolean to a boolean", () => {
-        expect(this.converterService.serialize(true))
+        expect(converterService.serialize(true))
           .to.be.a("boolean")
           .and.to.equal(true);
       });
       it("should convert number to a number", () => {
-        expect(this.converterService.serialize(1))
+        expect(converterService.serialize(1))
           .to.be.a("number")
           .and.to.equal(1);
       });
       it("should convert string to a string", () => {
-        expect(this.converterService.serialize("1"))
+        expect(converterService.serialize("1"))
           .to.be.a("string")
           .and.to.equal("1");
       });
@@ -338,36 +344,38 @@ describe("ConverterService", () => {
 
     describe("object", () => {
       it("should convert object to an object", () => {
-        expect(this.converterService.serialize({})).to.be.an("object");
+        expect(converterService.serialize({})).to.be.an("object");
       });
 
       it("should convert date to a string", () => {
-        expect(this.converterService.serialize(new Date())).to.be.a("string");
+        expect(converterService.serialize(new Date())).to.be.a("string");
       });
     });
 
     describe("array", () => {
       it("should convert array to an array (1)", () => {
-        expect(this.converterService.serialize([null])).to.deep.eq([null]);
+        expect(converterService.serialize([null])).to.deep.eq([null]);
       });
 
       it("should convert array to an array (2)", () => {
-        expect(this.converterService.serialize([1])).to.deep.eq([1]);
+        expect(converterService.serialize([1])).to.deep.eq([1]);
       });
 
       it("should convert array to an array (3)", () => {
-        expect(this.converterService.serialize([{test: "1"}])).to.deep.eq([{test: "1"}]);
+        expect(converterService.serialize([{test: "1"}])).to.deep.eq([{test: "1"}]);
       });
     });
 
     describe("class Foo2", () => {
+      let foo: any;
+      let foo2: any;
       before(() => {
-        const foo2 = new JsonFoo2();
+        foo2 = new JsonFoo2();
         foo2.dateStart = new Date();
         foo2.test = "Test";
         foo2.name = "Test";
 
-        const foo = new JsonFoo();
+        foo = new JsonFoo();
         foo.test = "test";
 
         foo2.foos = [foo];
@@ -379,115 +387,56 @@ describe("ConverterService", () => {
         foo2.theSet = new Set<JsonFoo>();
         foo2.theSet.add(foo);
 
-        this.foo = this.converterService.serialize(foo2);
-        this.foo2 = foo2;
-      });
-
-      after(() => {
-        delete this.foo;
-        delete this.foo2;
+        foo = converterService.serialize(foo2);
       });
 
       it("should have an attribut with date type", () => {
-        expect(this.foo.dateStart)
+        expect(foo.dateStart)
           .to.be.a("string")
-          .and.to.equals(this.foo2.dateStart.toISOString());
+          .and.to.equals(foo2.dateStart.toISOString());
       });
 
       it("should have an attribut Name (because metadata said Name instead of name)", () => {
-        expect(this.foo.Name)
+        expect(foo.Name)
           .to.be.a("string")
           .and.to.equals("Test");
       });
 
       it("should haven't an attribut name (because metadata said Name instead of name)", () => {
-        expect(this.foo.name).to.equals(undefined);
+        expect(foo.name).to.equals(undefined);
       });
 
       it("should have an attribut with array type", () => {
-        expect(this.foo.foos).to.be.an("array");
+        expect(foo.foos).to.be.an("array");
       });
 
       it("should have an attribut with array type and an item serialized", () => {
-        expect(this.foo.foos[0]).to.be.an("object");
-        expect(this.foo.foos[0].test).to.equals("test");
+        expect(foo.foos[0]).to.be.an("object");
+        expect(foo.foos[0].test).to.equals("test");
       });
 
       it("should have an attribut with Map type", () => {
-        expect(this.foo.theMap).to.be.an("object");
+        expect(foo.theMap).to.be.an("object");
       });
 
       it("should have an attribut with Map type and an item serialized", () => {
-        expect(this.foo.theMap.newKey).to.be.an("object");
-        expect(this.foo.theMap.newKey.test).to.equals("test");
+        expect(foo.theMap.newKey).to.be.an("object");
+        expect(foo.theMap.newKey.test).to.equals("test");
       });
 
       it("should have an attribut with Set type", () => {
-        expect(this.foo.theSet).to.be.an("array");
+        expect(foo.theSet).to.be.an("array");
       });
 
       it("should have an attribut with Set type and an item serialized", () => {
-        expect(this.foo.theSet[0]).to.be.an("object");
-        expect(this.foo.theSet[0].test).to.equals("test");
+        expect(foo.theSet[0]).to.be.an("object");
+        expect(foo.theSet[0].test).to.equals("test");
       });
-
-      /*describe("use toJson()", () => {
-        before(() => {
-          this.fooJson = JSON.parse(JSON.stringify(this.foo2));
-        });
-
-        it("should have an attribut with date type", () => {
-          expect(this.fooJson.dateStart)
-            .to.be.a("string")
-            .and.to.equals(this.foo2.dateStart.toISOString());
-        });
-
-        it("should have an attribut Name (because metadata said Name instead of name)", () => {
-          expect(this.fooJson.Name)
-            .to.be.a("string")
-            .and.to.equals("Test");
-        });
-
-        it("should haven't an attribut name (because metadata said Name instead of name)", () => {
-          expect(this.fooJson.name).to.equals(undefined);
-        });
-
-        it("should have an attribut with array type", () => {
-          expect(this.fooJson.foos).to.be.an("array");
-        });
-
-        it("should have an attribut with array type and an item serialized", () => {
-          expect(this.fooJson.foos[0]).to.be.an("object");
-          expect(this.fooJson.foos[0].test).to.equals("test");
-        });
-
-        it("should have an attribut with Map type", () => {
-          expect(this.fooJson.theMap).to.be.an("object");
-        });
-
-        it("should have an attribut with Map type and an item serialized", () => {
-          expect(this.fooJson.theMap.newKey).to.be.an("object");
-          expect(this.fooJson.theMap.newKey.test).to.equals("test");
-        });
-
-        it("should have an attribut with Set type", () => {
-          expect(this.fooJson.theSet).to.be.an("array");
-        });
-
-        it("should have an attribut with Set type and an item serialized", () => {
-          expect(this.fooJson.theSet[0]).to.be.an("object");
-          expect(this.fooJson.theSet[0].test).to.equals("test");
-        });
-      });*/
     });
 
     describe("class Foo3", () => {
-      before(() => {
-        this.foo = this.converterService.serialize(new JsonFoo3());
-      });
-
       it("should use toJSON method", () => {
-        expect(this.foo).to.be.an("object");
+        expect(converterService.serialize(new JsonFoo3())).to.be.an("object");
       });
     });
 
@@ -495,7 +444,7 @@ describe("ConverterService", () => {
       it("should emit a BadRequest when attribute is required", () =>
         assert.throws(() => {
           const foo4: any = new JsonFoo4();
-          this.converterService.serialize(foo4);
+          converterService.serialize(foo4);
         }, "Property foo on class JsonFoo4 is required."));
     });
 
@@ -504,101 +453,106 @@ describe("ConverterService", () => {
       }
 
       describe("when model is an Object", () => {
-        before(() => {
-          this.converterService.validationModelStrict = true;
-          this.result = this.converterService.isStrictModelValidation(Object);
-        });
-
         it("should return false", () => {
-          expect(this.result).to.be.false;
+          // @ts-ignore
+          converterService.validationModelStrict = true;
+          // @ts-ignore
+          const result = converterService.isStrictModelValidation(Object);
+          expect(result).to.be.false;
         });
       });
 
       describe("when validationModelStrict = true", () => {
         describe("when modelStrict = true", () => {
-          before(() => {
-            Store.from(Test).set("modelStrict", true);
-            this.converterService.validationModelStrict = true;
-            this.result = this.converterService.isStrictModelValidation(Test);
-          });
-
           it("should return true", () => {
-            expect(this.result).to.be.true;
+            Store.from(Test).set("modelStrict", true);
+            // @ts-ignore
+            converterService.validationModelStrict = true;
+            // @ts-ignore
+            const result = converterService.isStrictModelValidation(Test);
+
+            return expect(result).to.be.true;
           });
         });
 
         describe("when modelStrict = false", () => {
-          before(() => {
-            Store.from(Test).set("modelStrict", false);
-            this.converterService.validationModelStrict = true;
-            this.result = this.converterService.isStrictModelValidation(Test);
-          });
-
           it("should return false", () => {
-            expect(this.result).to.be.false;
+            Store.from(Test).set("modelStrict", false);
+            // @ts-ignore
+            converterService.validationModelStrict = true;
+            // @ts-ignore
+            const result = converterService.isStrictModelValidation(Test);
+
+            return expect(result).to.be.false;
           });
         });
 
         describe("when modelStrict = undefined", () => {
-          before(() => {
-            Store.from(Test).set("modelStrict", undefined);
-            this.converterService.validationModelStrict = true;
-            this.result = this.converterService.isStrictModelValidation(Test);
-          });
-
           it("should return true", () => {
-            expect(this.result).to.be.true;
+            Store.from(Test).set("modelStrict", undefined);
+            // @ts-ignore
+            converterService.validationModelStrict = true;
+            // @ts-ignore
+            const result = converterService.isStrictModelValidation(Test);
+
+            return expect(result).to.be.true;
           });
         });
       });
 
       describe("when validationModelStrict = false", () => {
         describe("when modelStrict = true", () => {
+          let result: any;
           before(() => {
             Store.from(Test).set("modelStrict", true);
-            this.converterService.validationModelStrict = false;
-            this.result = this.converterService.isStrictModelValidation(Test);
+            // @ts-ignore
+            converterService.validationModelStrict = false;
+            // @ts-ignore
+            result = converterService.isStrictModelValidation(Test);
           });
 
           after(() => {
-            this.converterService.validationModelStrict = true;
+            // @ts-ignore
+            converterService.validationModelStrict = true;
           });
 
-          it("should return true", () => {
-            expect(this.result).to.be.true;
-          });
+          it("should return true", () => expect(result).to.be.true);
         });
 
         describe("when modelStrict = false", () => {
+          let result: any;
           before(() => {
             Store.from(Test).set("modelStrict", false);
-            this.converterService.validationModelStrict = false;
-            this.result = this.converterService.isStrictModelValidation(Test);
+            // @ts-ignore
+            converterService.validationModelStrict = false;
+            // @ts-ignore
+            result = converterService.isStrictModelValidation(Test);
           });
 
           after(() => {
-            this.converterService.validationModelStrict = true;
+            // @ts-ignore
+            converterService.validationModelStrict = true;
           });
 
-          it("should return false", () => {
-            expect(this.result).to.be.false;
-          });
+          it("should return false", () => expect(result).to.be.false);
         });
 
         describe("when modelStrict = undefined", () => {
+          let result: any;
           before(() => {
             Store.from(Test).set("modelStrict", undefined);
-            this.converterService.validationModelStrict = false;
-            this.result = this.converterService.isStrictModelValidation(Test);
+            // @ts-ignore
+            converterService.validationModelStrict = false;
+            // @ts-ignore
+            result = converterService.isStrictModelValidation(Test);
           });
 
           after(() => {
-            this.converterService.validationModelStrict = true;
+            // @ts-ignore
+            converterService.validationModelStrict = true;
           });
 
-          it("should return false", () => {
-            expect(this.result).to.be.false;
-          });
+          it("should return false", () => expect(result).to.be.false);
         });
       });
     });

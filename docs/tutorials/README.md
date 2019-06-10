@@ -11,8 +11,9 @@ Some examples are available along these links :
 
 **Projects example for v5.x.x**
 
-- [Basic usages](https://github.com/TypedProject/tsed-getting-started)
+- [Getting started](https://github.com/TypedProject/tsed-getting-started)
 - [Https](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-https)
+- [Session](https://github.com/TypedProject/tsed-example-session)
 - [A SquareGame with SocketIO](https://github.com/TypedProject/tsed-example-socketio)
 - [Authentication with Passport.js](https://github.com/TypedProject/tsed-example-passportjs)
 - [Mongoose](https://github.com/TypedProject/tsed-example-mongoose)
