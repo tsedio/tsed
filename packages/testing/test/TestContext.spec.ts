@@ -10,6 +10,10 @@ class FakeServer {
 
   injector = new InjectorService();
 
+  settings = {
+    logger: {}
+  };
+
   async start() {
     FakeServer.current = this;
 
