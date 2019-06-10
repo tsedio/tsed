@@ -22,6 +22,8 @@ export class InjectionError extends Error {
         if (origin.tokens) {
           this.tokens = this.tokens.concat(origin.tokens);
           this.origin = origin.origin;
+        } else {
+          this.origin = origin;
         }
       }
     }
