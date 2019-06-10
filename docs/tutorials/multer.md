@@ -100,5 +100,5 @@ Swagger spec (v2.0) doesn't support multiple files.
 :::
 
 ::: tip
-You can find a working example on [Multer here](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/multer).
+You can find a working example on [Multer here](https://github.com/TypedProject/tsed-example-multer).
 :::

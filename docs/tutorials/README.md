@@ -14,10 +14,10 @@ Some examples are available along these links :
 - [Basic usages](https://github.com/TypedProject/tsed-getting-started)
 - [Https](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-https)
 - [A SquareGame with SocketIO](https://github.com/TypedProject/tsed-example-socketio)
-- [Authentication with Passport.js](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-passport)
+- [Authentication with Passport.js](https://github.com/TypedProject/tsed-example-passportjs)
 - [Mongoose](https://github.com/TypedProject/tsed-example-mongoose)
 - [TypeORM](https://github.com/TypedProject/tsed-example-typeorm)
-- [Multer](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/multer)
+- [Multer](https://github.com/TypedProject/tsed-example-multer)
 
 **Projects examples for v4.x.x**
 

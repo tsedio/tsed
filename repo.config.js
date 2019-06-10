@@ -35,6 +35,9 @@ module.exports = {
     "mongoose": {
       url: "https://github.com/TypedProject/tsed-example-mongoose.git"
     },
+    "multer": {
+      url: "https://github.com/TypedProject/tsed-example-multer.git"
+    },
     "passportjs": {
       url: "https://github.com/TypedProject/tsed-example-passportjs.git"
     },
