@@ -30,8 +30,22 @@ module.exports = {
   },
   examples: {
     "getting-started": {
-      url: "https://github.com/TypedProject/tsed-getting-started.git",
-      branch: "master"
+      url: "https://github.com/TypedProject/tsed-getting-started.git"
+    },
+    "mongoose": {
+      url: "https://github.com/TypedProject/tsed-example-mongoose.git"
+    },
+    "multer": {
+      url: "https://github.com/TypedProject/tsed-example-multer.git"
+    },
+    "passportjs": {
+      url: "https://github.com/TypedProject/tsed-example-passportjs.git"
+    },
+    "typeorm": {
+      url: "https://github.com/TypedProject/tsed-example-typeorm.git"
+    },
+    "socketio": {
+      url: "https://github.com/TypedProject/tsed-example-socketio.git"
     }
   },
   tsdoc: {

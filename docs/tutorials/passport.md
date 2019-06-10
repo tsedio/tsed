@@ -360,5 +360,5 @@ export class PassportCtrl {
 ```
 
 ::: tip
-You can find a working example on [Passport.js here](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-passport).
+You can find a working example on [Passport.js here](https://github.com/TypedProject/tsed-example-passportjs).
 :::
