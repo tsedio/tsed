@@ -10,4 +10,4 @@ class EventCtrl {
     console.log("calendarId =>", calendarId);
     console.log("eventId =>", eventId);
   }
-}
+} 
