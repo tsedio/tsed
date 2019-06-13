@@ -21,7 +21,7 @@ This option will be set to `endpoint.get` seen before with AcceptMimesMiddleware
 Ts.ED provide API to create you own decorator like @@AcceptMime@@ which register the options and at least one middleware
 with theses decorators and utils:
 
-- @@UseBefore@@ or @@UseAfter@@ for middleware registration,
+- @@Use@@, @@UseBeforeEach@@, @@UseBefore@@, or @@UseAfter@@ for middleware registration,
 - @@applyDecorator@@ if you want to combine different decorators,
 - @@StoreMerge@@ or @@StoreGet@@ to register options.
 
