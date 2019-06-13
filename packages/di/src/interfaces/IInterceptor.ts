@@ -1,5 +1,10 @@
-import {IInterceptorContext} from "./IInterceptorContext";
+import {IInterceptorContext, IInterceptorNextHandler} from "./IInterceptorContext";
 
 export interface IInterceptor {
-  aroundInvoke: (ctx: IInterceptorContext<any>, options?: any) => any;
+  /**
+   * @deprecated Use intercept instead.
+   */
+  aroundInvoke?(context: IInterceptorContext<any>, options?: any): any;
+
+  intercept?(context: IInterceptorContext<any>, next?: IInterceptorNextHandler): any;
 }

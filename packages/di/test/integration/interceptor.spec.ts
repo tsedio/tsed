@@ -15,11 +15,11 @@ describe("DI Interceptor", () => {
       // do some logic
     }
 
-    aroundInvoke(ctx: IInterceptorContext<any>, opts?: string) {
-      const r = typeof ctx.args[0] === "string" ? undefined : new Error(`Error message`);
-      const retValue = ctx.proceed(r);
+    intercept(context: IInterceptorContext<any>) {
+      const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
+      const retValue = context.next(r);
 
-      return `${retValue} - ${opts || ""} - intercepted`;
+      return `${retValue} - ${context.options || ""} - intercepted`;
     }
   }
 
