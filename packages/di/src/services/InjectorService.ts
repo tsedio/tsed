@@ -1,4 +1,5 @@
 import {deepClone, getClass, getClassOrSymbol, isFunction, Metadata, nameOf, prototypeOf, Store} from "@tsed/core";
+import * as util from "util";
 import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
@@ -341,21 +342,42 @@ export class InjectorService extends Container {
     const originalMethod = instance[propertyKey];
 
     instance[propertyKey] = (...args: any[]) => {
+      const next = (err?: Error) => {
+        if (!err) {
+          return originalMethod.apply(instance, args);
+        }
+
+        throw err;
+      };
+
       const context: IInterceptorContext<any> = {
         target,
         method: propertyKey,
         propertyKey,
         args,
-        proceed(err?: Error) {
-          if (!err) {
-            return originalMethod.apply(instance, args);
-          }
-
-          throw err;
-        }
+        options,
+        proceed: util.deprecate(next, "context.proceed() is deprecated. Use context.next() or next() parameters instead."),
+        next
       };
 
-      return this.get<IInterceptor>(useType)!.aroundInvoke(context, options);
+      const interceptor = this.get<IInterceptor>(useType)!;
+
+      if (interceptor.aroundInvoke) {
+        interceptor.aroundInvoke = util.deprecate(
+          interceptor.aroundInvoke.bind(interceptor),
+          "interceptor.aroundInvoke is deprecated. Use interceptor.intercept instead."
+        );
+
+        return interceptor.aroundInvoke!(context, options);
+      }
+
+      return interceptor.intercept!(
+        {
+          ...context,
+          options
+        },
+        next
+      );
     };
   }
 

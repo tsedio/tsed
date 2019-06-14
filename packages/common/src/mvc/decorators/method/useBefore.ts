@@ -1,4 +1,4 @@
-import {getDecoratorType, Store, Type} from "@tsed/core";
+import {DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {EndpointRegistry} from "../../registries/EndpointRegistry";
 
 /**
@@ -7,7 +7,7 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  *
  * ```typescript
  * @Controller('/')
- * @UseBefore(Middleware1)
+ * @UseBefore(Middleware1) // called only one time before all endpoint
  * export class Ctrl {
  *
  *    @Get('/')
@@ -22,15 +22,17 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  * @endpoint
  */
 export function UseBefore(...args: any[]): Function {
-  return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
-    if (getDecoratorType([target, targetKey, descriptor]) === "method") {
-      EndpointRegistry.useBefore(target, targetKey!, args);
+  return <T>(...decoratorArgs: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
+    switch (getDecoratorType(decoratorArgs, true)) {
+      case "method":
+        EndpointRegistry.useBefore(decoratorArgs[0], decoratorArgs[1]!, args);
 
-      return descriptor;
+        return decoratorArgs[2] as any;
+      case "class":
+        StoreMerge("middlewares", {useBefore: args})(...decoratorArgs);
+        break;
+      default:
+        throw new UnsupportedDecoratorType(UseBefore, decoratorArgs);
     }
-
-    Store.from(target).merge("middlewares", {
-      useBefore: args
-    });
   };
 }

@@ -568,11 +568,44 @@ describe("InjectorService", () => {
 
     after(() => sandbox.restore());
 
-    it("should bind the method", async () => {
+    it("should bind the method with aroundInvoke", async () => {
       // GIVEN
       class InterceptorTest {
         aroundInvoke(ctx: any) {
           return ctx.proceed() + " intercepted";
+        }
+      }
+
+      const injector = new InjectorService();
+      injector.addProvider(InterceptorTest);
+
+      await injector.load();
+
+      const instance = new Test();
+      const originalMethod = instance["test"];
+
+      sandbox.spy(injector, "get");
+
+      // WHEN
+      injector.bindInterceptor(instance, {
+        bindingType: "interceptor",
+        propertyKey: "test3",
+        useType: InterceptorTest
+      } as any);
+
+      const result = (instance as any).test3("test");
+
+      // THEN
+      expect(originalMethod).should.not.eq(instance.test3);
+      injector.get.should.have.been.calledWithExactly(InterceptorTest);
+
+      expect(result).to.eq("test called  intercepted");
+    });
+    it("should bind the method with intercept", async () => {
+      // GIVEN
+      class InterceptorTest {
+        intercept(ctx: any) {
+          return ctx.next() + " intercepted";
         }
       }
 

@@ -1,6 +1,7 @@
 // Method
 export * from "./method/use";
 export * from "./method/useBefore";
+export * from "./method/useBeforeEach";
 export * from "./method/useAfter";
 export * from "./method/useAuth";
 export * from "./method/route";

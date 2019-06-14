@@ -6,6 +6,9 @@ to inject other services on his constructor.
 All middlewares decorated by @@Middleware@@ have one method named `use()`. 
 This method can use all parameters decorators as you could see with the [Controllers](/docs/controllers.md) and return promise.
 
+<figure><img src="./../assets/middleware.svg" style="max-height: 300px; padding: 30px"></figure>
+
+
 ## Configuration
 
 To begin, you must adding the `middlewares` folder on `componentsScan` attribute in your server settings as follow :
@@ -58,9 +61,62 @@ Endpoint middleware must be used on class controller or endpoint method with the
 
 <<< @/docs/docs/snippets/middlewares/endpoint-middleware-usage.ts
 
-> See [middleware call sequence](/docs/middlewares/call-sequence.md) for more information.
-
 :::
+
+## call sequences
+
+As you see in the previous section, a middleware can be use on different context:
+
+- [ServerLoader](/docs/server-loader.md),
+- [Controller](/docs/controllers.md),
+- [Endpoint](/docs/controllers.md).
+
+Middleware associated to a controller or endpoint as a same constraint that an endpoint.
+It'll be played only when the url request match with the path associated to the controller and his endpoint method.
+
+When a request is sent to the server all middlewares added in the [ServerLoader](/docs/server-loader.md), [Controller](/docs/controllers.md) or Endpoint with decorators
+ will be called while a response isn't sent by one of the handlers/middlewares in the stack.
+
+<figure><img src="./../assets/middleware-call-sequence.svg" style="max-width:400px; padding:30px"></figure>
+
+::: tip Note (1) 
+Render middleware is called only when a the @@Render@@ decorator is used on the endpoint.
+:::
+
+::: tip Note (2) 
+SendResponse middleware send a response only when a data is return by the endpoint method or if the endpoint is the latest called endpoint for the resolved route. 
+:::
+
+::: tip
+The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that match 
+the request url.
+:::
+
+::: warning
+Only middlewares shown in the Endpoints box can use @@EndpointInfo@@ decorator to retrieve endpoint context execution.
+:::
+
+For example:
+
+<<< @/docs/docs/snippets/middlewares/call-sequences.ts
+
+According to the call sequence scheme, the stack calls will be there:
+
+- **Middlewares** added in ServerLoader (logger, express middleware, etc...),
+- **MdlwCtrlBefore**,
+- **MdlwCtrlBeforeEach**
+- **MdlwBefore**,
+- **MdlwCtrl**,
+- **MyCtrl.endpointA**,
+- **MdlwAfter**,
+- **SendResponse**, (but nothing data is returned by the endpointA)
+- **MdlwCtrlBeforeEach**
+- **MdlwCtrl**,
+- **MyCtrl.endpointB**,
+- **MdlwAfter**,
+- **SendResponse**, send a response because endpointB return a data,
+- **MdlwCtrlAfter**, but this middleware will not be called because a response is sent.
+- **Middleware** added in ServerLoader (not called too).
 
 ## Handle error
 

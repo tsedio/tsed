@@ -1,47 +1,100 @@
-import {decoratorArgs, descriptorOf, Store} from "@tsed/core";
-import {expect} from "chai";
+import {prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
 import * as Sinon from "sinon";
 import {EndpointRegistry, UseBefore} from "../../../../src/mvc";
 
-class Test {
-  test() {
+class CustomMiddleware {
+  use() {
   }
 }
 
 describe("UseBefore()", () => {
-  describe("when the decorator is use on a method", () => {
-    before(() => {
-      this.endpointRegistryStub = Sinon.stub(EndpointRegistry, "useBefore");
+  describe("when the decorator is use on a class", () => {
+    class Test {
+      test() {
+      }
+    }
 
-      this.returns = UseBefore(() => {
-      })(...decoratorArgs(Test, "test"));
+    before(() => {
+      Sinon.stub(EndpointRegistry, "useBefore");
     });
 
     after(() => {
-      this.endpointRegistryStub.restore();
+      // @ts-ignore
+      EndpointRegistry.useBefore.restore();
+    });
+
+    afterEach(() => {
+      // @ts-ignore
+      EndpointRegistry.useBefore.resetHistory();
     });
 
     it("should add the middleware on the use stack", () => {
-      this.endpointRegistryStub.should.be.calledWithExactly(Test, "test", [Sinon.match.func]);
-    });
+      // WHEN
+      UseBefore(CustomMiddleware)(Test);
 
-    it("should return a descriptor", () => {
-      this.returns.should.be.deep.eq(descriptorOf(Test, "test"));
+      // THEN
+      Store.from(Test).get("middlewares").should.deep.eq({useBefore: [CustomMiddleware]});
     });
   });
-
-  describe("when the decorator is use on a class", () => {
+  describe("when the decorator is use on a method", () => {
     before(() => {
-      this.returns = UseBefore(() => {
-      })(Test);
+      Sinon.stub(EndpointRegistry, "useBefore");
+    });
 
-      this.store = Store.from(Test).get("middlewares");
+    after(() => {
+      // @ts-ignore
+      EndpointRegistry.useBefore.restore();
     });
+
+    afterEach(() => {
+      // @ts-ignore
+      EndpointRegistry.useBefore.resetHistory();
+    });
+
     it("should add the middleware on the use stack", () => {
-      expect(this.store.useBefore[0]).to.be.a("function");
+      // WHEN
+      class Test {
+        @UseBefore(CustomMiddleware)
+        test() {
+        }
+      }
+
+      // THEN
+      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [CustomMiddleware]);
     });
-    it("should return nothing", () => {
-      expect(this.returns).to.eq(undefined);
+  });
+  describe("when the decorator is use in another way", () => {
+    class Test {
+      test() {
+      }
+    }
+
+    before(() => {
+      Sinon.stub(EndpointRegistry, "useBefore");
+    });
+
+    after(() => {
+      // @ts-ignore
+      EndpointRegistry.useBefore.restore();
+    });
+
+    afterEach(() => {
+      // @ts-ignore
+      EndpointRegistry.useBefore.resetHistory();
+    });
+
+    it("should add the middleware on the use stack", () => {
+      // WHEN
+      let actualError;
+      try {
+        UseBefore(CustomMiddleware)(Test, "property");
+      } catch (er) {
+        actualError = er;
+      }
+
+      // THEN
+      actualError.should.instanceOf(UnsupportedDecoratorType);
+      actualError.message.should.eq("UseBefore cannot used as property.static at Test.property");
     });
   });
 });

@@ -5,7 +5,7 @@ describe("@Intercept", () => {
   it("should store metadata", () => {
     // GIVEN
     class TestInterceptor implements IInterceptor {
-      aroundInvoke(ctx: IInterceptorContext<any>, options?: any) {
+      intercept(ctx: IInterceptorContext<any>) {
 
         return "";
       }

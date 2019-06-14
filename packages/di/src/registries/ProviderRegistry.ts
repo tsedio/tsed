@@ -232,8 +232,7 @@ export const registerController = GlobalProviders.createRegisterFn(ProviderType.
  * import {registerInterceptor, InjectorService} from "@tsed/common";
  *
  * export default class MyInterceptor {
- *     constructor(){}
- *     aroundInvoke() {
+ *     intercept() {
  *         return "test";
  *     }
  * }
@@ -246,7 +245,7 @@ export const registerController = GlobalProviders.createRegisterFn(ProviderType.
  * injector.load();
  *
  * const myInterceptor = injector.get<MyInterceptor>(MyInterceptor);
- * myInterceptor.aroundInvoke(); // test
+ * myInterceptor.intercept(); // test
  * ```
  *
  * @param provider Provider configuration.

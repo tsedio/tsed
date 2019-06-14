@@ -106,7 +106,7 @@ For the session, cookies or locals data attached on the request, is the same thi
 
 ### Decorators
 
-<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Use', 'UseAfter', 'UseBefore'].indexOf(symbolName) === -1 && path.indexOf('mvc/decorators/method') > -1" />
+<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Use', 'UseAfter', 'UseBefore', 'UseBeforeEach'].indexOf(symbolName) === -1 && path.indexOf('mvc/decorators/method') > -1" />
 
 ### Status
 
@@ -204,7 +204,7 @@ For more details about Middleware declaration see the [Middlewares](/docs/middle
 
 The following decorators lets you add custom middleware on a method or on controller:
 
-<ApiList query="['Use', 'UseBefore', 'UseAfter'].indexOf(symbolName) > -1" />
+<ApiList query="['Use', 'UseBefore', 'UseAfter', 'UseBeforeEach'].indexOf(symbolName) > -1" />
 
 #### Example
 
@@ -216,10 +216,10 @@ The following decorators lets you add custom middleware on a method or on contro
 When a request is sent to the server all middlewares added on the ServerLoader, Controller or Endpoint
  will be called while a response isn't sent by one of the middleware in the lifecycle.
 
-<figure><img src="./../assets/middleware-call-sequence.png" style="max-width:400px; padding:30px"></figure>
+<figure><img src="./../assets/middleware-call-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
 ::: tip
-See [middleware call sequence](/docs/middlewares/call-sequence.md) for more information.
+See [middlewares section](/docs/middlewares.md) for more information.
 :::
 
 ### Child controllers

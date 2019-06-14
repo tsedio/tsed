@@ -1,4 +1,4 @@
-import {getDecoratorType, Store, Type} from "@tsed/core";
+import {DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {EndpointRegistry} from "../../registries/EndpointRegistry";
 
 /**
@@ -22,15 +22,17 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  * @endpoint
  */
 export function UseAfter(...args: any[]): Function {
-  return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
-    if (getDecoratorType([target, targetKey, descriptor]) === "method") {
-      EndpointRegistry.useAfter(target, targetKey!, args);
+  return <T>(...decoratorArgs: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
+    switch (getDecoratorType(decoratorArgs, true)) {
+      case "method":
+        EndpointRegistry.useAfter(decoratorArgs[0], decoratorArgs[1]!, args);
 
-      return descriptor;
+        return decoratorArgs[2] as any;
+      case "class":
+        StoreMerge("middlewares", {useAfter: args})(...decoratorArgs);
+        break;
+      default:
+        throw new UnsupportedDecoratorType(UseAfter, decoratorArgs);
     }
-
-    Store.from(target).merge("middlewares", {
-      useAfter: args
-    });
   };
 }
