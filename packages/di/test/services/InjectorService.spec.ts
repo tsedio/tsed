@@ -218,7 +218,6 @@ describe("InjectorService", () => {
         return injector.get.should.not.have.been.called;
       });
     });
-
     describe("when provider is a SINGLETON", () => {
       before(() => {
         Sinon.stub(GlobalProviders, "getRegistrySettings");
@@ -253,7 +252,6 @@ describe("InjectorService", () => {
         registry.onInvoke.should.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
       });
     });
-
     describe("when provider is a Value (useValue)", () => {
       it("should invoke the provider from container (1)", async () => {
         // GIVEN
@@ -363,6 +361,39 @@ describe("InjectorService", () => {
 
         // THEN
         actualError.message.should.eq("Injection failed on Test > Ctrl\nOrigin: Ctrl controller is not injectable to another provider");
+      });
+    });
+    describe("when one of dependencies is undefined", () => {
+      it("should throw InjectionError > UndefinedTokenError", async () => {
+        // GIVEN
+        const token2 = class Ctrl {
+        };
+        const token3 = class Test {
+        };
+
+        const provider2 = new Provider<any>(token2);
+        provider2.scope = ProviderScope.SINGLETON;
+        provider2.type = ProviderType.CONTROLLER;
+        provider2.useClass = token2;
+
+        const provider3 = new Provider<any>(token3);
+        provider3.scope = ProviderScope.SINGLETON;
+        provider3.deps = [undefined];
+
+        const injector = new InjectorService();
+        injector.set(token2, provider2);
+        injector.set(token3, provider3);
+
+        // WHEN
+        let actualError;
+        try {
+          await injector.invoke(token3);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        actualError.message.should.eq("Injection failed on Test\nOrigin: Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?");
       });
     });
     describe("when error occur", () => {

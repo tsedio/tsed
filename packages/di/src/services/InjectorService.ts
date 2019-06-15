@@ -5,6 +5,7 @@ import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
 import {Injectable} from "../decorators/injectable";
 import {InjectionError} from "../errors/InjectionError";
+import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {
   IDILogger,
   IDISettings,
@@ -456,6 +457,10 @@ export class InjectorService extends Container {
     let scope = options.scope;
     let construct = (deps: TokenProvider[]) => new token(...deps);
     let isBindable = false;
+
+    if (!token) {
+      throw new UndefinedTokenError();
+    }
 
     if (this.hasProvider(token)) {
       const provider = this.getProvider(token)!;
