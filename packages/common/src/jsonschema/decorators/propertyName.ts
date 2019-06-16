@@ -1,5 +1,5 @@
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyFn} from "./jsonProperty";
+import {PropertyFn} from "./property";
 
 /**
  * Create an alias of the propertyKey that must be used by the converter.

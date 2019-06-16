@@ -1,14 +1,14 @@
-import {JsonProperty, Required} from "@tsed/common";
+import {Property, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class CalendarModel {
   @Title("iD")
   @Description("Description of calendar model id")
   @Example("example1", "Description example")
-  @JsonProperty()
+  @Property()
   public id: string;
 
-  @JsonProperty()
+  @Property()
   @Required()
   public name: string;
 }

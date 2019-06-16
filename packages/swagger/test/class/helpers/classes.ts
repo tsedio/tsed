@@ -1,4 +1,4 @@
-import {Any, JsonProperty, PropertyType, Required} from "@tsed/common";
+import {Any, Property, PropertyType, Required} from "@tsed/common";
 import {Description, Example, Title} from "../../../src";
 
 export class SwaNoDecoModel {
@@ -8,21 +8,21 @@ export class SwaNoDecoModel {
 export class SwaBaseModel {
   @Title("id")
   @Description("Unique identifier.")
-  @JsonProperty()
+  @Property()
   public id?: string;
 }
 
 export class SwaNameModel extends SwaBaseModel {
   @Title("name")
   @Description("The name")
-  @JsonProperty()
+  @Property()
   public name: string;
 }
 
 export class SwaAgeModel extends SwaBaseModel {
   @Title("age")
   @Description("The age")
-  @JsonProperty()
+  @Property()
   public age: number;
 }
 
@@ -43,22 +43,22 @@ export class SwaFoo {
 export class SwaFoo2 {
   @Title("Test")
   @Description("Description test")
-  @JsonProperty()
+  @Property()
   @Required()
   test: string = "";
 
-  @JsonProperty("Name")
+  @Property("Name")
   name: string;
 
-  @JsonProperty()
+  @Property()
   dateStart: Date;
 
-  @JsonProperty()
+  @Property()
   uint: number;
 
   object: any;
 
-  @JsonProperty()
+  @Property()
   foo: SwaFoo;
 
   @PropertyType(SwaFoo)
@@ -74,19 +74,19 @@ export class SwaFoo2 {
 
   @Title("SwaFoo2.theSet")
   @Description("SwaFoo2.theSet description")
-  @JsonProperty({use: SwaFoo})
+  @Property({use: SwaFoo})
   theSet: Set<SwaFoo>;
 
-  @JsonProperty({use: String})
+  @Property({use: String})
   mapOfString: Map<string, string>;
 
-  @JsonProperty({use: String})
+  @Property({use: String})
   arrayOfString: string[];
 
-  @JsonProperty()
+  @Property()
   nameModel: SwaNameModel;
 
-  @JsonProperty()
+  @Property()
   ageModel: SwaAgeModel;
 
   @Any()

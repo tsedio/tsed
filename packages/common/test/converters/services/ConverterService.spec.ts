@@ -3,10 +3,10 @@ import {inject, TestContext} from "@tsed/testing";
 import {assert, expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService} from "../../../src/converters";
-import {JsonProperty} from "../../../src/jsonschema/decorators/jsonProperty";
+import {Property} from "../../../src/jsonschema/decorators/property";
 
 class JsonFoo5 {
-  @JsonProperty()
+  @Property()
   test: any;
   foo: any;
 }

@@ -1,4 +1,4 @@
-export * from "./jsonProperty";
+export * from "./property";
 export * from "./propertyName";
 export * from "./propertyType";
 export * from "./default";

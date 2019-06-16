@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {JsonFoo2} from "../../../../../test/helper/classes";
 import {JsonSchemesRegistry} from "../../../src/jsonschema";
 
-describe("JsonProperty()", () => {
+describe("Property()", () => {
   it("should create a schema", () => {
     expect(JsonSchemesRegistry.getSchemaDefinition(JsonFoo2)).to.deep.eq({
       definitions: {

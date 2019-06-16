@@ -1,5 +1,5 @@
 import {IgnoreProperty} from "@tsed/common";
-import {Property} from "../../packages/common/src/jsonschema/decorators/jsonProperty";
+import {Property} from "@tsed/common/src/jsonschema/decorators/property";
 import {MinLength} from "../../packages/common/src/jsonschema/decorators/minLength";
 import {PropertyName} from "../../packages/common/src/jsonschema/decorators/propertyName";
 import {PropertyType} from "../../packages/common/src/jsonschema/decorators/propertyType";

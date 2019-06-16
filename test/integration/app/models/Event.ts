@@ -1,10 +1,10 @@
-import {Any, IgnoreProperty, JsonProperty, Property, PropertyType, Required} from "@tsed/common";
+import {Any, IgnoreProperty, Property, Property, PropertyType, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {
-  @JsonProperty() public name: string = "";
+  @Property() public name: string = "";
 
-  @JsonProperty() public percent: number;
+  @Property() public percent: number;
 }
 
 @Title("EventModel Title")
@@ -12,23 +12,23 @@ export class EventModel {
   @Title("iD")
   @Description("Description of event model id")
   @Example("1FDCHZKH")
-  @JsonProperty()
+  @Property()
   public id: string;
 
   @Required()
   @Example("example1", "2017-10-15T17:05:58.106Z")
   public startDate: Date;
 
-  @JsonProperty()
+  @Property()
   @Required()
   // @Format("date")
   public endDate: Date;
 
-  @JsonProperty("Name")
+  @Property("Name")
   @Required()
   public name: string;
 
-  @JsonProperty({use: Task})
+  @Property({use: Task})
   public tasks: Task[];
 
   @IgnoreProperty() public _id: string;
