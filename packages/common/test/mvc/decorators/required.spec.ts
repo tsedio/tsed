@@ -1,48 +1,69 @@
-import * as Proxyquire from "proxyquire";
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
+import {ParamRegistry} from "../../../src/filters";
+import {PropertyRegistry} from "../../../src/jsonschema";
+import {Required} from "../../../src/mvc/decorators";
 
-const paramRegistryStub: any = {
-  required: Sinon.stub()
-};
-
-const propertyRegistryStub: any = {
-  required: Sinon.stub()
-};
-
-class Test {
-}
-
-const {Required} = Proxyquire.load("../../../src/mvc/decorators/required", {
-  "../../filters/registries/ParamRegistry": {ParamRegistry: paramRegistryStub},
-  "../../jsonschema/registries/PropertyRegistry": {PropertyRegistry: propertyRegistryStub}
-});
-
+const sandbox = Sinon.createSandbox();
 describe("Required", () => {
+  before(() => {
+    sandbox.spy(PropertyRegistry, "get");
+    sandbox.spy(ParamRegistry, "get");
+  });
+  after(() => sandbox.restore());
+
   describe("when decorator is used as param", () => {
-    before(() => {
-      Required()(Test, "test", 0);
-    });
-
-    after(() => {
-      paramRegistryStub.required.reset();
-    });
-
     it("should called with the correct parameters", () => {
-      paramRegistryStub.required.should.have.been.calledWithExactly(Test, "test", 0);
+      // WHEN
+      class Test {
+        test(@Required(null) test: string) {
+        }
+      }
+
+      const metadata = ParamRegistry.get(prototypeOf(Test), "test", 0);
+      // THEN
+      metadata.required.should.be.eq(true);
+
+      ParamRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
+      metadata.allowedRequiredValues.should.deep.eq([null]);
     });
   });
 
   describe("when decorator is used as property", () => {
-    before(() => {
-      Required(null, "")(Test, "test");
-    });
-
-    after(() => {
-      propertyRegistryStub.required.reset();
-    });
-
     it("should called with the correct parameters", () => {
-      propertyRegistryStub.required.should.have.been.calledWithExactly(Test, "test", [null, ""]);
+      // WHEN
+      class Test {
+        @Required(null)
+        test: string;
+      }
+
+      const metadata = PropertyRegistry.get(prototypeOf(Test), "test");
+
+      // THEN
+      metadata.required.should.be.eq(true);
+
+      PropertyRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test");
+      metadata.allowedRequiredValues.should.deep.eq([null]);
+    });
+  });
+
+  describe("when decorator is used in another way", () => {
+    it("should called with the correct parameters", () => {
+
+
+      // WHEN
+      let actualError: any;
+      try {
+        @Required(null)
+        class Test {
+
+          test: string;
+        }
+      } catch (er) {
+        actualError = er;
+      }
+
+      actualError.message.should.deep.eq("Required cannot used as class decorator on Test");
     });
   });
 });
