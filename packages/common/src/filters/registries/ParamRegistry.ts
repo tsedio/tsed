@@ -15,7 +15,10 @@ export class ParamRegistry {
   static get(target: Type<any>, targetKey: string | symbol, index: number): ParamMetadata {
     const params = this.getParams(target, targetKey);
 
-    params[index] = params[index] || new ParamMetadata(target, targetKey, index);
+    if (!params[index]) {
+      params[index] = new ParamMetadata(target, targetKey, index);
+      this.set(target, targetKey, index, params[index]);
+    }
 
     return params[index];
   }
@@ -34,12 +37,12 @@ export class ParamRegistry {
    * @param target
    * @param targetKey
    * @param index
-   * @param injectParams
+   * @param paramMetadata
    */
-  static set(target: Type<any>, targetKey: string | symbol, index: number, injectParams: ParamMetadata): void {
+  static set(target: Type<any>, targetKey: string | symbol, index: number, paramMetadata: ParamMetadata): void {
     const params = Metadata.has(PARAM_METADATA, target, targetKey) ? Metadata.get(PARAM_METADATA, target, targetKey) : [];
 
-    params[index] = injectParams;
+    params[index] = paramMetadata;
 
     Metadata.set(PARAM_METADATA, params, target, targetKey);
   }
@@ -74,7 +77,7 @@ export class ParamRegistry {
 
     ParamRegistry.set(target, propertyKey, parameterIndex, param);
 
-    ParamRegistry.get(target, propertyKey, parameterIndex).store.merge("responses", {
+    param.store.merge("responses", {
       "400": {
         description: "BadRequest"
       }
