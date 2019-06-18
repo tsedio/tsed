@@ -53,7 +53,7 @@ export class UnsupportedDecoratorType extends Error {
 
     const path = nameOf(getClass(target)) + method + param;
 
-    return `${decorator.name} cannot used as ${bindingType} at ${path}`;
+    return `${decorator.name} cannot used as ${bindingType} decorator on ${path}`;
   }
 }
 

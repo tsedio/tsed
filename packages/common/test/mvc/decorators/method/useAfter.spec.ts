@@ -94,7 +94,7 @@ describe("UseAfter()", () => {
 
       // THEN
       actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseAfter cannot used as property.static at Test.property");
+      actualError.message.should.eq("UseAfter cannot used as property.static decorator on Test.property");
     });
   });
 });
