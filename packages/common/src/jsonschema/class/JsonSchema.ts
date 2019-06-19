@@ -40,123 +40,87 @@ function AutoMapKey(target: any, propertyKey: string): any {
 }
 
 export class JsonSchema implements JSONSchema6 {
-  @NotEnumerable()
-  private _refName: string;
-
-  @NotEnumerable()
-  private _isCollection: boolean;
   /**
    *
    * @type {string}
    */
   @Enumerable()
   $id: string;
-
-  @NotEnumerable()
-  private _type: JSONSchema6TypeName | JSONSchema6TypeName[];
-
   @Enumerable()
   id: string;
-
   @AutoMapKey
   $ref: string;
-
   @Enumerable()
   $schema: any;
-
   @Enumerable()
   title: string;
-
   @Enumerable()
   description: string;
-
   @Enumerable()
   default: JSONSchema6Type;
-
   @Enumerable()
   additionalItems: boolean | JSONSchema6;
-
   @Enumerable()
   items: JsonSchema;
-
   @Enumerable()
   maxItems: number;
-
   @Enumerable()
   minItems: number;
-
   @Enumerable()
   uniqueItems: boolean;
-
   @Enumerable()
   maxProperties: number;
-
   @Enumerable()
   minProperties: number;
-
   @Enumerable()
   required: any | string[];
-
   @Enumerable()
-  properties: {[key: string]: JSONSchema6};
-
+  properties: {[key: string]: JsonSchema};
   @Enumerable()
   additionalProperties: JsonSchema;
-
   @Enumerable()
   definitions: {[p: string]: JSONSchema6};
-
   @Enumerable()
   patternProperties: {[p: string]: JSONSchema6};
-
   @Enumerable()
   dependencies: {[p: string]: JSONSchema6 | string[]};
-
   @Enumerable()
   allOf: JSONSchema6[];
-
   @Enumerable()
   anyOf: JSONSchema6[];
-
   @Enumerable()
   oneOf: JSONSchema6[];
-
   @Enumerable()
   not: JSONSchema6;
-
   @Enumerable()
   extends: string | string[];
-
   @AutoMapKey
   multipleOf: number;
-
   @AutoMapKey
   maximum: number;
-
   @AutoMapKey
   exclusiveMaximum: number;
-
   @AutoMapKey
   minimum: number;
-
   @AutoMapKey
   exclusiveMinimum: number;
-
   @AutoMapKey
   maxLength: number;
-
   @AutoMapKey
   minLength: number;
-
   @AutoMapKey
   pattern: string;
-
   @AutoMapKey
   format: string;
-
   @AutoMapKey
   enum: JSONSchema6Type[];
 
+  @NotEnumerable()
+  private _refName: string;
+  @NotEnumerable()
+  private _isCollection: boolean;
+  @NotEnumerable()
+  private _type: JSONSchema6TypeName | JSONSchema6TypeName[];
   private _proxy: any;
 
   [key: string]: any;
@@ -242,6 +206,47 @@ export class JsonSchema implements JSONSchema6 {
   }
 
   /**
+   *
+   * @param value
+   * @returns {JSONSchema6TypeName | JSONSchema6TypeName[]}
+   */
+  static getJsonType(value: any): JSONSchema6TypeName | JSONSchema6TypeName[] {
+    if (isPrimitiveOrPrimitiveClass(value)) {
+      if (JSON_TYPES.indexOf(value as string) > -1) {
+        return value;
+      }
+
+      return primitiveOf(value);
+    }
+
+    if (isArrayOrArrayClass(value)) {
+      if (value !== Array) {
+        return value;
+      }
+
+      return "array";
+    }
+
+    if (isDate(value)) {
+      return "string";
+    }
+
+    return "object";
+  }
+
+  /**
+   *
+   * @param type
+   * @returns {JSONSchema6}
+   */
+  static ref(type: any): JsonSchema {
+    const schema = new JsonSchema();
+    schema.$ref = `#/definitions/${nameOf(type)}`;
+
+    return schema;
+  }
+
+  /**
    * Write value on the right place according to the schema type
    */
   mapValue(key: string, value: any) {
@@ -277,20 +282,6 @@ export class JsonSchema implements JSONSchema6 {
 
       this.forwardKeysTo(this, "additionalProperties");
     }
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} property
-   */
-  private forwardKeysTo(instance: any, property: string) {
-    AUTO_MAP_KEYS.forEach(key => {
-      if (instance[key]) {
-        instance[property][key] = instance[key];
-        delete instance[key];
-      }
-    });
   }
 
   /**
@@ -333,42 +324,15 @@ export class JsonSchema implements JSONSchema6 {
 
   /**
    *
-   * @param value
-   * @returns {JSONSchema6TypeName | JSONSchema6TypeName[]}
+   * @param instance
+   * @param {string} property
    */
-  static getJsonType(value: any): JSONSchema6TypeName | JSONSchema6TypeName[] {
-    if (isPrimitiveOrPrimitiveClass(value)) {
-      if (JSON_TYPES.indexOf(value as string) > -1) {
-        return value;
+  private forwardKeysTo(instance: any, property: string) {
+    AUTO_MAP_KEYS.forEach(key => {
+      if (instance[key]) {
+        instance[property][key] = instance[key];
+        delete instance[key];
       }
-
-      return primitiveOf(value);
-    }
-
-    if (isArrayOrArrayClass(value)) {
-      if (value !== Array) {
-        return value;
-      }
-
-      return "array";
-    }
-
-    if (isDate(value)) {
-      return "string";
-    }
-
-    return "object";
-  }
-
-  /**
-   *
-   * @param type
-   * @returns {JSONSchema6}
-   */
-  static ref(type: any): JsonSchema {
-    const schema = new JsonSchema();
-    schema.$ref = `#/definitions/${nameOf(type)}`;
-
-    return schema;
+    });
   }
 }

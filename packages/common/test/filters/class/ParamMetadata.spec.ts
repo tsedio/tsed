@@ -76,12 +76,6 @@ describe("ParamMetadata", () => {
         .to.be.a("symbol")
         .to.eq(EXPRESS_ERR);
     });
-
-    it("should return the service's name", () => {
-      expect(paramMetadata.name)
-        .to.be.a("string")
-        .to.eq("err");
-    });
   });
 
   describe("as a filter", () => {
@@ -99,67 +93,6 @@ describe("ParamMetadata", () => {
 
     it("should return the service", () => {
       expect(paramMetadata.service).to.eq(TestFilter);
-    });
-
-    it("should return the service's name", () => {
-      expect(paramMetadata.name)
-        .to.be.a("string")
-        .to.eq("TestFilter");
-    });
-  });
-
-  describe("toJson()", () => {
-    describe("with service", () => {
-      let paramMetadata: ParamMetadata;
-
-      before(() => {
-        paramMetadata = new ParamMetadata(Test, "method", 0);
-        paramMetadata.required = true;
-        paramMetadata.expression = "test";
-        paramMetadata.type = Test;
-        paramMetadata.useConverter = true;
-        paramMetadata.service = TestFilter;
-      });
-
-      it("should return the JSON", () => {
-        expect(JSON.stringify(paramMetadata)).to.eq(
-          `{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"Test","baseType":""}`
-        );
-      });
-    });
-
-    describe("with collectionType != type", () => {
-      it("should return the JSON", () => {
-        const paramMetadata = new ParamMetadata(Test, "method", 0);
-        paramMetadata.required = true;
-        paramMetadata.expression = "test";
-        paramMetadata.collectionType = Array;
-        paramMetadata.type = Test;
-        paramMetadata.useConverter = true;
-        paramMetadata.service = TestFilter;
-
-        expect(JSON.stringify(paramMetadata)).to.eq(
-          `{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"Test","baseType":"Array"}`
-        );
-      });
-    });
-
-    describe("without collectionType and type", () => {
-      let paramMetadata: ParamMetadata;
-
-      before(() => {
-        paramMetadata = new ParamMetadata(Test, "method", 0);
-        paramMetadata.required = true;
-        paramMetadata.expression = "test";
-        paramMetadata.service = TestFilter;
-        paramMetadata.type = TestFilter;
-      });
-
-      it("should return the JSON", () => {
-        expect(JSON.stringify(paramMetadata)).to.eq(
-          `{"service":"TestFilter","name":"TestFilter","expression":"test","required":true,"use":"TestFilter","baseType":""}`
-        );
-      });
     });
   });
 

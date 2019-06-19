@@ -314,7 +314,7 @@ describe("FilterBuilder", () => {
             useValidation: true,
             type: "type",
             collectionType: "collection",
-            name: "name",
+            service: "name",
             expression: "expression"
           });
 
