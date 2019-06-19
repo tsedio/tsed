@@ -1,5 +1,5 @@
-import {ParamRegistry} from "../registries/ParamRegistry";
 import {EXPRESS_ERR} from "../constants";
+import {UseFilter} from "./useFilter";
 
 /**
  *
@@ -7,5 +7,5 @@ import {EXPRESS_ERR} from "../constants";
  * @decorators
  */
 export function Err(): Function {
-  return ParamRegistry.decorate(EXPRESS_ERR);
+  return UseFilter(EXPRESS_ERR);
 }

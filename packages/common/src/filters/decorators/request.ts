@@ -1,3 +1,4 @@
+import {UseFilter} from "./useFilter";
 import * as Express from "express";
 import {EXPRESS_REQUEST} from "../constants";
 import {ParamRegistry} from "../registries/ParamRegistry";
@@ -21,5 +22,5 @@ export function Request(): Function {
  * @alias Request
  */
 export function Req() {
-  return ParamRegistry.decorate(EXPRESS_REQUEST);
+  return UseFilter(EXPRESS_REQUEST);
 }

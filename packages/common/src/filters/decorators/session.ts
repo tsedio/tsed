@@ -1,6 +1,6 @@
-import {ParamTypes} from "../interfaces/ParamTypes";
 import {SessionFilter} from "../components/SessionFilter";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamTypes} from "../interfaces/ParamTypes";
+import {UseFilter} from "./useFilter";
 
 /**
  * Session return the value from [request.session](http://expressjs.com/en/4x/api.html#req.session) object.
@@ -29,7 +29,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function Session(expression?: string | any, useType?: any): Function {
-  return ParamRegistry.decorate(SessionFilter, {
+  return UseFilter(SessionFilter, {
     expression,
     useType,
     paramType: ParamTypes.SESSION

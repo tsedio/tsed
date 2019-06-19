@@ -1,5 +1,5 @@
 import {RESPONSE_DATA} from "../constants";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {UseFilter} from "./useFilter";
 
 /**
  *
@@ -7,5 +7,5 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @decorator
  */
 export function ResponseData(): Function {
-  return ParamRegistry.decorate(RESPONSE_DATA);
+  return UseFilter(RESPONSE_DATA);
 }

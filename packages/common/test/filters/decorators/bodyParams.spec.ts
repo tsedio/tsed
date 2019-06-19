@@ -1,26 +1,34 @@
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {BodyParams, ParamRegistry, ParamTypes} from "../../../src/filters";
 import {BodyParamsFilter} from "../../../src/filters/components/BodyParamsFilter";
 
-class Test {
-}
-
-describe("BodyParams", () => {
+const sandbox = Sinon.createSandbox();
+describe("@BodyParams", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    BodyParams("test", Test);
+    sandbox.stub(ParamRegistry, "useFilter");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
+  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    class Test {
+    }
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(BodyParamsFilter, {
-      expression: "test",
+    class Ctrl {
+      test(@BodyParams("expression", Test) body: Test) {
+      }
+    }
+
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(BodyParamsFilter, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0,
+      expression: "expression",
       useType: Test,
       useConverter: true,
       useValidation: true,
       paramType: ParamTypes.BODY
-    }));
+    });
+  });
 });

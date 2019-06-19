@@ -29,11 +29,11 @@ export class BodyParamsFilter implements IFilter {
 Then create the decorator. This decorator will be used on a controller method.
 
 ```typescript
-import {ParamRegistry} from "@tsed/common";
+import {UseFilter} from "@tsed/common";
 import {BodyParamsFilter} from "../filters"
 
 export function BodyParams(expression?: string | any, useType?: any): Function {
-    return ParamRegistry.decorate(BodyParamsFilter, {expression, useType});
+    return UseFilter(BodyParamsFilter, {expression, useType});
 }
 ```
 

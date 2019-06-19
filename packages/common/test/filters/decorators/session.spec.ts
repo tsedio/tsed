@@ -1,25 +1,33 @@
-import {ParamTypes} from "@tsed/common";
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ParamRegistry, Session} from "../../../src/filters";
+import {ParamRegistry, ParamTypes, Session} from "../../../src/filters";
 import {SessionFilter} from "../../../src/filters/components/SessionFilter";
 
-class Test {
-}
-
-describe("Session", () => {
+const sandbox = Sinon.createSandbox();
+describe("@Session", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    Session("test", Test);
+    sandbox.stub(ParamRegistry, "useFilter");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(SessionFilter, {
-      expression: "test",
+  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    class Test {
+    }
+
+    class Ctrl {
+      test(@Session("expression", Test) body: Test) {
+      }
+    }
+
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(SessionFilter, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0,
+      expression: "expression",
       useType: Test,
       paramType: ParamTypes.SESSION
-    }));
+    });
+  });
 });

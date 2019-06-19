@@ -1,21 +1,28 @@
-import {ParamTypes} from "@tsed/common";
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {HeaderParams, ParamRegistry} from "../../../src/filters";
+import {HeaderParams, ParamRegistry, ParamTypes} from "../../../src/filters";
 import {HeaderParamsFilter} from "../../../src/filters/components/HeaderParamsFilter";
 
-describe("HeaderParams", () => {
+const sandbox = Sinon.createSandbox();
+describe("@HeaderParams", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    HeaderParams("test");
+    sandbox.stub(ParamRegistry, "useFilter");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
+  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    class Ctrl {
+      test(@HeaderParams("expression") header: string) {
+      }
+    }
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(HeaderParamsFilter, {
-      expression: "test",
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(HeaderParamsFilter, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0,
+      expression: "expression",
       paramType: ParamTypes.HEADER
-    }));
+    });
+  });
 });

@@ -1,6 +1,6 @@
-import {ParamTypes} from "../interfaces/ParamTypes";
 import {HeaderParamsFilter} from "../components/HeaderParamsFilter";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamTypes} from "../interfaces/ParamTypes";
+import {UseFilter} from "./useFilter";
 
 /**
  * HeaderParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
@@ -28,7 +28,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function HeaderParams(expression: string): Function {
-  return ParamRegistry.decorate(HeaderParamsFilter, {
+  return UseFilter(HeaderParamsFilter, {
     expression,
     paramType: ParamTypes.HEADER
   });

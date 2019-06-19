@@ -1,6 +1,6 @@
-import {ParamTypes} from "../interfaces/ParamTypes";
 import {CookiesFilter} from "../components/CookiesFilter";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamTypes} from "../interfaces/ParamTypes";
+import {UseFilter} from "./useFilter";
 
 /**
  * Cookies or CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.
@@ -34,7 +34,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function CookiesParams(expression?: string | any, useType?: any): Function {
-  return ParamRegistry.decorate(CookiesFilter, {
+  return UseFilter(CookiesFilter, {
     expression,
     useType,
     paramType: ParamTypes.COOKIES

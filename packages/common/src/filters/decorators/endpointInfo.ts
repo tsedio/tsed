@@ -1,6 +1,6 @@
 import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
 import {ENDPOINT_INFO} from "../constants";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {UseFilter} from "./useFilter";
 
 export type EndpointInfo = EndpointMetadata;
 
@@ -10,5 +10,5 @@ export type EndpointInfo = EndpointMetadata;
  * @decorator
  */
 export function EndpointInfo(): Function {
-  return ParamRegistry.decorate(ENDPOINT_INFO);
+  return UseFilter(ENDPOINT_INFO);
 }

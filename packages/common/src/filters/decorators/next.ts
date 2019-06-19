@@ -1,6 +1,6 @@
 import * as Express from "express";
 import {EXPRESS_NEXT_FN} from "../constants";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {UseFilter} from "./useFilter";
 
 export type Next = Express.NextFunction;
 
@@ -10,5 +10,5 @@ export type Next = Express.NextFunction;
  * @decorator
  */
 export function Next(): Function {
-  return ParamRegistry.decorate(EXPRESS_NEXT_FN);
+  return UseFilter(EXPRESS_NEXT_FN);
 }

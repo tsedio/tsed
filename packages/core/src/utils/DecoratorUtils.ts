@@ -81,10 +81,12 @@ export function decorateMethodsOf(klass: any, decorator: any) {
   });
 }
 
-export function applyDecorators(...decorators: Function[]): Function {
+export function applyDecorators(...decorators: any | Function[]): Function {
   return (...args: DecoratorParameters) => {
-    decorators.forEach(decorator => {
-      decorator(...args);
-    });
+    decorators
+      // .filter((o: any) => !!o)
+      .forEach((decorator: Function) => {
+        decorator(...args);
+      });
   };
 }

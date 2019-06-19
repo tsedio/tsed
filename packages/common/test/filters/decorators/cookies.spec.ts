@@ -1,24 +1,33 @@
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {Cookies, ParamRegistry, ParamTypes} from "../../../src/filters";
 import {CookiesFilter} from "../../../src/filters/components/CookiesFilter";
 
-class Test {
-}
-
-describe("Cookies", () => {
+const sandbox = Sinon.createSandbox();
+describe("@Cookies", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    Cookies("test", Test);
+    sandbox.stub(ParamRegistry, "useFilter");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(CookiesFilter, {
-      expression: "test",
+  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    class Test {
+    }
+
+    class Ctrl {
+      test(@Cookies("expression", Test) body: Test) {
+      }
+    }
+
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(CookiesFilter, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0,
+      expression: "expression",
       useType: Test,
       paramType: ParamTypes.COOKIES
-    }));
+    });
+  });
 });

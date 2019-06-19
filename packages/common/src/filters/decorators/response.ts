@@ -1,6 +1,6 @@
 import * as Express from "express";
 import {EXPRESS_RESPONSE} from "../constants";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {UseFilter} from "./useFilter";
 
 export type Response = Express.Response;
 export type Res = Express.Response;
@@ -21,5 +21,5 @@ export function Response(): Function {
  * @alias Request
  */
 export function Res() {
-  return ParamRegistry.decorate(EXPRESS_RESPONSE);
+  return UseFilter(EXPRESS_RESPONSE);
 }
