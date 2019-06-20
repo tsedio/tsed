@@ -13,7 +13,7 @@ describe("schemaOptions", () => {
     });
 
     it("should return schema options (1)", () => {
-      expect(schemaOptions(Test)).to.eq(undefined);
+      expect(schemaOptions(Test)).to.deep.eq({});
     });
 
     it("should return schema options (2)", () => {

@@ -1,27 +1,29 @@
-import {PostHook} from "../../src/decorators";
-import * as mod from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
+import {Model, PostHook} from "../../src/decorators";
+import {schemaOptions} from "../../src/utils/schemaOptions";
 
+const sandbox = Sinon.createSandbox();
 describe("@PostHook()", () => {
   describe("when decorator is used as class decorator", () => {
-    class Test {}
-
-    before(() => {
-      this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-      this.fn = () => {};
-      PostHook("method", this.fn as any)(Test);
-    });
-
-    after(() => {
-      this.applySchemaOptionsStub.restore();
-    });
-
     it("should call applySchemaOptions", () => {
-      this.applySchemaOptionsStub.should.have.been.calledWithExactly(Test, {
+      // GIVEN
+      const fn = sandbox.stub();
+
+      // WHEN
+      @Model({name: "TestPostHook"})
+      @PostHook("method", fn)
+      class Test {
+      }
+
+      // THEN
+      const options = schemaOptions(Test);
+
+      options.should.deep.eq({
+        name: "TestPostHook",
         post: [
           {
             method: "method",
-            fn: this.fn
+            fn
           }
         ]
       });
@@ -29,30 +31,17 @@ describe("@PostHook()", () => {
   });
 
   describe("when decorator is used as method decorator", () => {
-    before(() => {
-      this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-
+    it("should call applySchemaOptions", () => {
       class Test {
         @PostHook("save")
-        static method() {}
+        static method() {
+        }
       }
 
-      this.clazz = Test;
-    });
+      const {post: [options]} = schemaOptions(Test);
 
-    after(() => {
-      this.applySchemaOptionsStub.restore();
-    });
-
-    it("should call applySchemaOptions", () => {
-      this.applySchemaOptionsStub.should.have.been.calledWithExactly(this.clazz, {
-        post: [
-          {
-            method: "save",
-            fn: Sinon.match.func
-          }
-        ]
-      });
+      options.method.should.eq("save");
+      options.fn.should.be.a("function");
     });
   });
 });
