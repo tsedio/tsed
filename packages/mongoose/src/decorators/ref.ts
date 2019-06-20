@@ -2,6 +2,7 @@ import {Property, Schema} from "@tsed/common";
 import {applyDecorators, Store, StoreFn, StoreMerge} from "@tsed/core";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
+import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
 
 export type Ref<T> = T | string;
 
@@ -27,13 +28,14 @@ export type Ref<T> = T | string;
  * }
  * ```
  *
+ * @param model
  * @param type
  * @returns {Function}
  * @decorator
  * @mongoose
  * @property
  */
-export function Ref(type: string | any) {
+export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID) {
   return applyDecorators(
     Property({use: String}),
     Schema({
@@ -45,8 +47,8 @@ export function Ref(type: string | any) {
       delete store.get("schema").$ref;
     }),
     StoreMerge(MONGOOSE_SCHEMA, {
-      type: MongooseSchema.Types.ObjectId,
-      ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME)
+      type: MongooseSchema.Types[type],
+      ref: typeof model === "string" ? model : Store.from(model).get(MONGOOSE_MODEL_NAME)
     })
   );
 }
