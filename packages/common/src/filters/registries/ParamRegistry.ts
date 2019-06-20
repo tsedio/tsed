@@ -1,4 +1,4 @@
-import {Metadata, Type} from "@tsed/core";
+import {Deprecated, Metadata, Type} from "@tsed/core";
 import {ParamMetadata} from "../class/ParamMetadata";
 import {PARAM_METADATA} from "../constants";
 import {IInjectableParamSettings} from "../interfaces";
@@ -92,6 +92,7 @@ export class ParamRegistry {
    * @returns {Function}
    * @deprecated
    */
+  @Deprecated("ParamRegistry.decorate are deprecated. Use UseFilter decorator instead")
   static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
     return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
       if (typeof parameterIndex === "number") {
