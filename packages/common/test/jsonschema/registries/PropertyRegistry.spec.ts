@@ -1,5 +1,4 @@
 import {expect} from "chai";
-import * as Sinon from "sinon";
 import {PropertyMetadata, PropertyRegistry} from "../../../src/jsonschema";
 
 class Test {
@@ -33,24 +32,6 @@ describe("PropertyRegistry", () => {
       expect(this.propertyMetadata).to.be.an.instanceof(PropertyMetadata);
     });
   });
-
-  describe("required()", () => {
-    before(() => {
-      PropertyRegistry.required(Test, "test", [null, ""]);
-      this.propertyMetadata = PropertyRegistry.get(Test, "test");
-    });
-
-    it("should return the propertyMetadata", () => {
-      expect(this.propertyMetadata).to.be.an.instanceof(PropertyMetadata);
-    });
-    it("should be required", () => {
-      expect(this.propertyMetadata.required).to.eq(true);
-    });
-    it("should be allowedRequiredValues", () => {
-      expect(this.propertyMetadata.allowedRequiredValues).to.deep.eq([null, ""]);
-    });
-  });
-
   describe("getProperties()", () => {
     before(() => {
       PropertyRegistry.get(Children, "id");
@@ -129,31 +110,6 @@ describe("PropertyRegistry", () => {
       it("should not have a property categoryId metadata from Parent class", () => {
         expect(this.result.has("categoryId")).to.eq(true);
       });
-    });
-  });
-  describe("decorate()", () => {
-    before(() => {
-      this.getStub = Sinon.stub(PropertyRegistry, "get");
-      this.getStub.returns({schema: "schema"});
-      this.decoratorStub = Sinon.stub();
-      this.cbStub = Sinon.stub().returns(this.decoratorStub);
-      PropertyRegistry.decorate(this.cbStub)(Test, "test");
-    });
-
-    after(() => {
-      this.getStub.restore();
-    });
-
-    it("should call PropertyRegistry.get()", () => {
-      this.getStub.should.be.calledWithExactly(Test, "test");
-    });
-
-    it("should call the fn callback with the correct parameters", () => {
-      this.cbStub.should.be.calledWithExactly({schema: "schema"}, [Test, "test"]);
-    });
-
-    it("should cal the decorators returned by the fn callback", () => {
-      this.decoratorStub.should.be.calledWithExactly(Test, "test");
     });
   });
 });

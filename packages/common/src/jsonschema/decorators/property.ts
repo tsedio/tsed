@@ -94,6 +94,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @property
  * @deprecated Use Property decorator instead
  */
+// istanbul ignore next
 export function JsonProperty(options?: IPropertyOptions | string): Function {
   return util.deprecate(Property(options), "Use property decorator instead");
 }
@@ -209,5 +210,11 @@ export function Property(options?: IPropertyOptions | string): Function {
  * @property
  */
 export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
-  return PropertyRegistry.decorate(fn);
+  return (...parameters: any[]): any => {
+    const propertyMetadata = PropertyRegistry.get(parameters[0], parameters[1]);
+    const result: any = fn(propertyMetadata, parameters as DecoratorParameters);
+    if (typeof result === "function") {
+      result(...parameters);
+    }
+  };
 }

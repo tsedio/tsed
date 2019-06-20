@@ -1,4 +1,4 @@
-import {ancestorsOf, DecoratorParameters, Metadata, Type} from "@tsed/core";
+import {ancestorsOf, DecoratorParameters, Deprecated, Store, Type} from "@tsed/core";
 import {PROPERTIES_METADATA} from "../../converters/constants/index";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 
@@ -16,7 +16,7 @@ export class PropertyRegistry {
       this.set(target, propertyKey, new PropertyMetadata(target, propertyKey));
     }
 
-    return this.getOwnProperties(target).get(propertyKey)!;
+    return properties.get(propertyKey)!;
   }
 
   /**
@@ -52,9 +52,13 @@ export class PropertyRegistry {
    * @returns {Map<string | symbol, PropertyMetadata>}
    */
   static getOwnProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
-    return Metadata.hasOwn(PROPERTIES_METADATA, target)
-      ? Metadata.getOwn(PROPERTIES_METADATA, target)
-      : new Map<string | symbol, PropertyMetadata>();
+    const store = Store.from(target);
+
+    if (!store.has(PROPERTIES_METADATA)) {
+      store.set(PROPERTIES_METADATA, new Map<string | symbol, PropertyMetadata>());
+    }
+
+    return store.get(PROPERTIES_METADATA);
   }
 
   /**
@@ -67,8 +71,6 @@ export class PropertyRegistry {
     const properties = this.getOwnProperties(target);
 
     properties.set(propertyKey, property);
-
-    Metadata.set(PROPERTIES_METADATA, properties, target);
   }
 
   /**
@@ -76,7 +78,10 @@ export class PropertyRegistry {
    * @param target
    * @param propertyKey
    * @param allowedRequiredValues
+   * @deprecated
    */
+  // istanbul ignore next
+  @Deprecated("PropertyRegistry.required is deprecated")
   static required(target: Type<any>, propertyKey: string | symbol, allowedRequiredValues: any[] = []) {
     const property = this.get(target, propertyKey);
 
@@ -97,7 +102,10 @@ export class PropertyRegistry {
    *
    * @param {(propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void} fn
    * @returns {Function}
+   * @deprecated
    */
+  // istanbul ignore next
+  @Deprecated("PropertyRegistry.decorate is deprecated. Use PropertyFn instead.")
   static decorate(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
     return (...parameters: any[]): any => {
       const propertyMetadata = PropertyRegistry.get(parameters[0], parameters[1]);

@@ -1,6 +1,8 @@
+import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
+import * as Sinon from "sinon";
 import {JsonFoo2} from "../../../../../test/helper/classes";
-import {JsonSchemesRegistry} from "../../../src/jsonschema";
+import {JsonSchemesRegistry, PropertyFn} from "../../../src/jsonschema";
 
 describe("Property()", () => {
   it("should create a schema", () => {
@@ -99,5 +101,20 @@ describe("Property()", () => {
       },
       type: "object"
     });
+  });
+});
+
+describe("PropertyFn", () => {
+  it("should declare property and call returned decorator", () => {
+    const stub = Sinon.stub();
+
+    class Test {
+      @PropertyFn(() => {
+        return stub;
+      })
+      test: string;
+    }
+
+    stub.should.have.been.calledWithExactly(prototypeOf(Test), "test", undefined);
   });
 });

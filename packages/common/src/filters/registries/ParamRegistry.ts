@@ -52,7 +52,6 @@ export class ParamRegistry {
    *
    * @param service
    * @param settings
-   * @deprecated
    */
   static usePreHandler(service: symbol, settings: IParamArgs<any>) {
     const param = ParamRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
@@ -70,6 +69,8 @@ export class ParamRegistry {
    * @param allowedRequiredValues
    * @deprecated
    */
+  // istanbul ignore next
+  @Deprecated("ParamRegistry.decorate are deprecated.")
   static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number, allowedRequiredValues: any[] = []) {
     const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
@@ -92,6 +93,7 @@ export class ParamRegistry {
    * @returns {Function}
    * @deprecated
    */
+  // istanbul ignore next
   @Deprecated("ParamRegistry.decorate are deprecated. Use UseFilter decorator instead")
   static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
     return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
@@ -118,7 +120,6 @@ export class ParamRegistry {
    *
    * @param service
    * @param options
-   * @deprecated
    */
   static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
     const {propertyKey, parameterIndex, target, useConverter, useValidation, paramType} = options;
