@@ -11,8 +11,13 @@ import {MongooseSchemaOptions} from "../interfaces";
 export function schemaOptions(target: any, options?: MongooseSchemaOptions) {
   const store = Store.from(target);
 
-  options = deepExtends(store.get(MONGOOSE_SCHEMA_OPTIONS) || {}, options);
-  store.set(MONGOOSE_SCHEMA_OPTIONS, options);
+  if (!store.has(MONGOOSE_SCHEMA_OPTIONS)) {
+    store.set(MONGOOSE_SCHEMA_OPTIONS, {});
+  }
+
+  if (options) {
+    store.set(MONGOOSE_SCHEMA_OPTIONS, deepExtends(store.get(MONGOOSE_SCHEMA_OPTIONS), options));
+  }
 
   return store.get(MONGOOSE_SCHEMA_OPTIONS);
 }

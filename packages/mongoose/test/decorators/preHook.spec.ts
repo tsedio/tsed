@@ -1,30 +1,32 @@
-import {PreHook} from "../../src/decorators";
-import * as mod from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
+import {Model, PreHook} from "../../src/decorators";
+import {schemaOptions} from "../../src/utils/schemaOptions";
 
+const sandbox = Sinon.createSandbox();
 describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {
-    class Test {}
-
-    before(() => {
-      this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-      this.fn = () => {};
-      this.errorCb = () => {};
-      PreHook("method", this.fn as any, {parallel: true, errorCb: this.errorCb as any})(Test);
-    });
-
-    after(() => {
-      this.applySchemaOptionsStub.restore();
-    });
-
     it("should call applySchemaOptions", () => {
-      this.applySchemaOptionsStub.should.have.been.calledWithExactly(Test, {
+      // GIVEN
+      const fn = sandbox.stub();
+      const errorCb = sandbox.stub();
+
+      // WHEN
+      @Model({name: "TestPreHook"})
+      @PreHook("method", fn, {parallel: true, errorCb: errorCb as any})
+      class Test {
+      }
+
+      // THEN
+      const options = schemaOptions(Test);
+
+      options.should.deep.eq({
+        name: "TestPreHook",
         pre: [
           {
             method: "method",
             parallel: true,
-            fn: this.fn,
-            errorCb: this.errorCb
+            fn,
+            errorCb
           }
         ]
       });
@@ -32,32 +34,22 @@ describe("@PreHook()", () => {
   });
 
   describe("when decorator is used as method decorator", () => {
-    before(() => {
-      this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-
+    it("should call applySchemaOptions", () => {
       class Test {
-        @PreHook("save", {parallel: true, errorCb: "errorCb" as any})
-        static method() {}
+        @PreHook("save", {
+          parallel: true, errorCb: () => {
+          }
+        })
+        static method() {
+        }
       }
 
-      this.clazz = Test;
-    });
+      const {pre: [options]} = schemaOptions(Test);
 
-    after(() => {
-      this.applySchemaOptionsStub.restore();
-    });
-
-    it("should call applySchemaOptions", () => {
-      this.applySchemaOptionsStub.should.have.been.calledWithExactly(this.clazz, {
-        pre: [
-          {
-            method: "save",
-            parallel: true,
-            fn: Sinon.match.func,
-            errorCb: "errorCb"
-          }
-        ]
-      });
+      options.method.should.eq("save");
+      options.parallel.should.eq(true);
+      options.fn.should.be.a("function");
+      options.errorCb.should.be.a("function");
     });
   });
 });
