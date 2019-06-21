@@ -5,9 +5,9 @@
   "main": "./src/index.js",
   "typings": "./src/index.ts",
   "dependencies": {
-    "reflect-metadata": "^0.1.12",
-    "source-map-support": "^0.5.3",
-    "tslib": "^1.8.0"
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.12",
+    "tslib": "^1.10.0"
   },
   "peerDependencies": {},
   "devDependencies": {},

@@ -3,6 +3,7 @@ import {inject, TestContext} from "@tsed/testing";
 import {assert, expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService} from "../../../src/converters";
+import {PropertyDeserialize, PropertySerialize} from "../../../src/jsonschema/decorators";
 import {Property} from "../../../src/jsonschema/decorators/property";
 
 class JsonFoo5 {
@@ -214,6 +215,20 @@ describe("ConverterService", () => {
             expect(item.test).to.be.a("string");
           });
         });
+      });
+    });
+
+    describe("when onDeserialize is used on property", () => {
+      it("should use function to Deserialize property", () => {
+        class Test {
+          @PropertyDeserialize(v => v + "to")
+          test: string;
+        }
+
+        const result = converterService.deserialize({test: "test"}, Test);
+
+        result.should.instanceof(Test);
+        result.test.should.eq("testto");
       });
     });
 
@@ -554,6 +569,23 @@ describe("ConverterService", () => {
 
           it("should return false", () => expect(result).to.be.false);
         });
+      });
+    });
+
+    describe("when onSerialize is used on property", () => {
+      it("should use function to Deserialize property", () => {
+        class Test {
+          @PropertySerialize(v => v + "to")
+          test: string;
+        }
+
+        const input = new Test();
+        input.test = "test";
+
+        const result = converterService.serialize(input);
+
+        result.should.not.instanceof(Test);
+        result.test.should.eq("testto");
       });
     });
   });

@@ -14,6 +14,12 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
   @Enumerable()
   public ignoreProperty: boolean = false;
 
+  @Enumerable()
+  public onSerialize: Function;
+
+  @Enumerable()
+  public onDeserialize: Function;
+
   constructor(target: any, propertyKey: any) {
     super(target, propertyKey);
     this.createJsonSchema();
