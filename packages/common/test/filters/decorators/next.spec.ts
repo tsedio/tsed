@@ -1,17 +1,27 @@
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {Next, ParamRegistry} from "../../../src/filters";
+import {EndpointInfo, Next, ParamRegistry} from "../../../src/filters";
 import {EXPRESS_NEXT_FN} from "../../../src/filters/constants";
 
-describe("Next", () => {
+const sandbox = Sinon.createSandbox();
+describe("@Next", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    Next();
+    sandbox.stub(ParamRegistry, "usePreHandler");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_NEXT_FN));
+  it("should call ParamFilter.usePrehandler method with the correct parameters", () => {
+    class Ctrl {
+      test(@Next() arg: EndpointInfo) {
+      }
+    }
+
+    ParamRegistry.usePreHandler.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_NEXT_FN, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0
+    });
+  });
 });

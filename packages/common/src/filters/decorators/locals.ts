@@ -1,6 +1,6 @@
-import {ParamTypes} from "../interfaces/ParamTypes";
 import {LocalsFilter} from "../components/LocalsFilter";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamTypes} from "../interfaces/ParamTypes";
+import {UseFilter} from "./useFilter";
 
 /**
  * Locals return the value from [response.locals](http://expressjs.com/en/4x/api.html#res.locals) object.
@@ -28,7 +28,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function Locals(expression?: string | any): Function {
-  return ParamRegistry.decorate(LocalsFilter, {
+  return UseFilter(LocalsFilter, {
     expression,
     useConverter: false,
     paramType: ParamTypes.LOCALS

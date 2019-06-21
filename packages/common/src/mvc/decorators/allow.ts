@@ -1,8 +1,7 @@
-import {Type} from "@tsed/core";
-import {ParamRegistry} from "../../filters/registries/ParamRegistry";
+import {DecoratorParameters, getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonSchema} from "../../jsonschema/class/JsonSchema";
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFactory";
+import {getStorableMetadata} from "./utils/getStorableMetadata";
 
 /**
  * Add allowed values when the property or parameters is required.
@@ -19,7 +18,7 @@ import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFact
  *
  * ```typescript
  * class Model {
- *   @JsonProperty()
+ *   @Property()
  *   @Required()
  *   @Allow("")
  *   field: string;
@@ -41,21 +40,17 @@ export function Allow(...allowedRequiredValues: any[]): any {
     }
   });
 
-  return (target: Type<any>, propertyKey: string, parameterIndex?: number): void => {
-    if (typeof parameterIndex === "number") {
-      const paramMetadata = ParamRegistry.get(target, propertyKey, parameterIndex);
-      paramMetadata.allowedRequiredValues = allowedRequiredValues;
+  return (...decoratorArgs: DecoratorParameters): void => {
+    const metadata = getStorableMetadata(decoratorArgs);
 
-      ParamRegistry.set(target, propertyKey, parameterIndex, paramMetadata);
-    } else {
-      const propertyMetadata = PropertyRegistry.get(target, propertyKey);
-      propertyMetadata.allowedRequiredValues = allowedRequiredValues;
+    if (!metadata) {
+      throw new UnsupportedDecoratorType(Allow, decoratorArgs);
+    }
 
-      PropertyRegistry.set(target, propertyKey, propertyMetadata);
+    metadata.allowedRequiredValues = allowedRequiredValues;
 
-      if (allowedRequiredValues.some(e => e == null)) {
-        allowNullInSchema(target, propertyKey);
-      }
+    if (getDecoratorType(decoratorArgs, true) === "property" && allowedRequiredValues.some(e => e == null)) {
+      allowNullInSchema(decoratorArgs[0], decoratorArgs[1]);
     }
   };
 }

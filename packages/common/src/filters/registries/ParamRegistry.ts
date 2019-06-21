@@ -1,4 +1,4 @@
-import {Metadata, Type} from "@tsed/core";
+import {Deprecated, Metadata, Type} from "@tsed/core";
 import {ParamMetadata} from "../class/ParamMetadata";
 import {PARAM_METADATA} from "../constants";
 import {IInjectableParamSettings} from "../interfaces";
@@ -15,7 +15,10 @@ export class ParamRegistry {
   static get(target: Type<any>, targetKey: string | symbol, index: number): ParamMetadata {
     const params = this.getParams(target, targetKey);
 
-    params[index] = params[index] || new ParamMetadata(target, targetKey, index);
+    if (!params[index]) {
+      params[index] = new ParamMetadata(target, targetKey, index);
+      this.set(target, targetKey, index, params[index]);
+    }
 
     return params[index];
   }
@@ -23,25 +26,26 @@ export class ParamRegistry {
   /**
    *
    * @param target
-   * @param targetKey
+   * @param propertyKey
    * @returns {Array}
    */
-  static getParams = (target: Type<any>, targetKey?: string | symbol): ParamMetadata[] =>
-    Metadata.has(PARAM_METADATA, target, targetKey) ? Metadata.get(PARAM_METADATA, target, targetKey) : [];
+  static getParams(target: Type<any>, propertyKey: string | symbol): ParamMetadata[] {
+    return Metadata.has(PARAM_METADATA, target, propertyKey) ? Metadata.get(PARAM_METADATA, target, propertyKey) : [];
+  }
 
   /**
    *
    * @param target
-   * @param targetKey
+   * @param propertyKey
    * @param index
-   * @param injectParams
+   * @param paramMetadata
    */
-  static set(target: Type<any>, targetKey: string | symbol, index: number, injectParams: ParamMetadata): void {
-    const params = Metadata.has(PARAM_METADATA, target, targetKey) ? Metadata.get(PARAM_METADATA, target, targetKey) : [];
+  static set(target: Type<any>, propertyKey: string | symbol, index: number, paramMetadata: ParamMetadata): void {
+    const params = this.getParams(target, propertyKey);
 
-    params[index] = injectParams;
+    params[index] = paramMetadata;
 
-    Metadata.set(PARAM_METADATA, params, target, targetKey);
+    Metadata.set(PARAM_METADATA, params, target, propertyKey);
   }
 
   /**
@@ -54,8 +58,6 @@ export class ParamRegistry {
     param.service = service;
     param.useConverter = false;
 
-    ParamRegistry.set(settings.target, settings.propertyKey, settings.parameterIndex, param);
-
     return this;
   }
 
@@ -65,16 +67,17 @@ export class ParamRegistry {
    * @param propertyKey
    * @param parameterIndex
    * @param allowedRequiredValues
+   * @deprecated
    */
+  // istanbul ignore next
+  @Deprecated("ParamRegistry.decorate are deprecated.")
   static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number, allowedRequiredValues: any[] = []) {
     const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
     param.required = true;
     param.allowedRequiredValues = allowedRequiredValues;
 
-    ParamRegistry.set(target, propertyKey, parameterIndex, param);
-
-    ParamRegistry.get(target, propertyKey, parameterIndex).store.merge("responses", {
+    param.store.merge("responses", {
       "400": {
         description: "BadRequest"
       }
@@ -88,7 +91,10 @@ export class ParamRegistry {
    * @param token
    * @param {Partial<IInjectableParamSettings<any>>} options
    * @returns {Function}
+   * @deprecated
    */
+  // istanbul ignore next
+  @Deprecated("ParamRegistry.decorate are deprecated. Use UseFilter decorator instead")
   static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
     return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
       if (typeof parameterIndex === "number") {
@@ -142,8 +148,6 @@ export class ParamRegistry {
     if (useConverter !== undefined) {
       param.useConverter = useConverter;
     }
-
-    ParamRegistry.set(target, propertyKey, parameterIndex, param);
 
     return param;
   }

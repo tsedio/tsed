@@ -1,6 +1,6 @@
 import {QueryParamsFilter} from "../components/QueryParamsFilter";
 import {ParamTypes} from "../interfaces/ParamTypes";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {UseFilter} from "./useFilter";
 
 /**
  * QueryParams return the value from [request.query](http://expressjs.com/en/4x/api.html#req.query) object.
@@ -39,7 +39,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  * @returns {Function}
  */
 export function QueryParams(expression?: string | any, useType?: any): Function {
-  return ParamRegistry.decorate(QueryParamsFilter, {
+  return UseFilter(QueryParamsFilter, {
     expression,
     useType,
     useConverter: true,

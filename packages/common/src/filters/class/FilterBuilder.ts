@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import {nameOf, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {ConverterService} from "../../converters";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
@@ -88,7 +88,7 @@ export class FilterBuilder {
       filter,
       (value: any) => {
         if (param.isRequired(value)) {
-          throw new RequiredParamError(param.name, param.expression);
+          throw new RequiredParamError(nameOf(param.service), param.expression);
         }
 
         return value;
@@ -139,7 +139,7 @@ export class FilterBuilder {
         try {
           validationService.validate(value, type, collectionType);
         } catch (err) {
-          throw new ParseExpressionError(param.name, param.expression, err);
+          throw new ParseExpressionError(nameOf(param.service), param.expression, err);
         }
 
         return value;

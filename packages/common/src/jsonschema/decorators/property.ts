@@ -1,25 +1,26 @@
 import {DecoratorParameters, isEmpty, Type} from "@tsed/core";
+import * as util from "util";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyRegistry} from "../registries/PropertyRegistry";
 
 /**
- * `@JsonProperty()` let you decorate an attribute that can be serialized or deserialized. By default, no parameters are required to use it.
+ * `@Property()` let you decorate an attribute that can be serialized or deserialized. By default, no parameters are required to use it.
  * But in some cases, we need to configure explicitly the JSON attribute name mapped to the provide attribute.
  *
- * Here an example of different use cases with `@JsonProperty()`:
+ * Here an example of different use cases with `@Property()`:
  *
  * ```typescript
  * class EventModel {
  *
- *    @JsonProperty()
+ *    @Property()
  *    name: string;
  *
- *    @JsonProperty()
+ *    @Property()
  *    @Format('date-time')
  *    startDate: Date;
  *
- *    @JsonProperty({name: 'end-date'}) // alias nam doesn't work with JsonSchema
+ *    @Property({name: 'end-date'}) // alias nam doesn't work with JsonSchema
  *    @Format('date-time')
  *    endDate: Date;
  *
@@ -31,7 +32,7 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  *     @Property()
  *     subject: string;
  *
- *     @Minimum(0)  // Property or JsonProperty is not required when a JsonSchema decorator is used
+ *     @Minimum(0)  // Property or Property is not required when a JsonSchema decorator is used
  *     @Maximum(100)
  *     rate: number;
  * }
@@ -91,19 +92,11 @@ import {PropertyRegistry} from "../registries/PropertyRegistry";
  * @converters
  * @jsonschema
  * @property
+ * @deprecated Use Property decorator instead
  */
+// istanbul ignore next
 export function JsonProperty(options?: IPropertyOptions | string): Function {
-  return PropertyFn((propertyMetadata: PropertyMetadata) => {
-    if (typeof options === "string") {
-      propertyMetadata.name = options as string;
-    } else if (typeof options === "object") {
-      propertyMetadata.name = options.name as string;
-
-      if (!isEmpty((options as IPropertyOptions).use)) {
-        propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
-      }
-    }
-  });
+  return util.deprecate(Property(options), "Use property decorator instead");
 }
 
 /**
@@ -134,7 +127,7 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  *     @Property()
  *     subject: string;
  *
- *     @Minimum(0)  // Property or JsonProperty is not required when a JsonSchema decorator is used
+ *     @Minimum(0)  // Property or Property is not required when a JsonSchema decorator is used
  *     @Maximum(100)
  *     rate: number;
  * }
@@ -194,8 +187,19 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * @jsonschema
  * @property
  */
-export function Property(options?: IPropertyOptions | string) {
-  return JsonProperty(options);
+export function Property(options?: IPropertyOptions | string): Function {
+  return PropertyFn((propertyMetadata: PropertyMetadata) => {
+    if (typeof options === "string") {
+      util.deprecate(() => {}, "@Property(name: string) are deprecated. Use @Property(options:  IPropertyOptions) instead")();
+      propertyMetadata.name = options as string;
+    } else if (typeof options === "object") {
+      propertyMetadata.name = options.name as string;
+
+      if (!isEmpty((options as IPropertyOptions).use)) {
+        propertyMetadata.type = (options as IPropertyOptions).use as Type<any>;
+      }
+    }
+  });
 }
 
 /**
@@ -206,5 +210,11 @@ export function Property(options?: IPropertyOptions | string) {
  * @property
  */
 export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
-  return PropertyRegistry.decorate(fn);
+  return (...parameters: any[]): any => {
+    const propertyMetadata = PropertyRegistry.get(parameters[0], parameters[1]);
+    const result: any = fn(propertyMetadata, parameters as DecoratorParameters);
+    if (typeof result === "function") {
+      result(...parameters);
+    }
+  };
 }

@@ -38,13 +38,13 @@
     "url": "https://github.com/TypedProject/ts-express-decorators.git"
   },
   "dependencies": {
-    "@types/json-schema": "^6.0.1",
-    "globby": "^8.0.1",
+    "@types/json-schema": "^7.0.3",
+    "globby": "^9.2.0",
     "json-schema": "^0.2.3",
-    "rxjs": "^6.4.0",
-    "ts-httpexceptions": "^3.0.0",
+    "rxjs": "^6.5.2",
+    "ts-httpexceptions": "^4.1.0",
     "ts-log-debug": "^5.1.0",
-    "tslib": "^1.9.0"
+    "tslib": "^1.10.0"
   },
   "peerDependencies": {
     "@tsed/core": "0.0.0-PLACEHOLDER",

@@ -192,7 +192,7 @@ describe("UseAuth()", () => {
 
       // THEN
       actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseAuth cannot used as property.static at Test.property");
+      actualError.message.should.eq("UseAuth cannot used as property.static decorator on Test.property");
     });
   });
 });

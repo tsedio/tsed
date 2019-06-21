@@ -1,4 +1,4 @@
-import {ParamRegistry, ParamTypes, UseBefore} from "@tsed/common";
+import {ParamTypes, UseBefore, UseFilter} from "@tsed/common";
 import {descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
 import {MultipartFileFilter} from "../components/MultipartFileFilter";
@@ -87,13 +87,13 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
             any: true
           });
 
-          ParamRegistry.useFilter(multiple ? MultipartFilesFilter : MultipartFileFilter, {
+          UseFilter(multiple ? MultipartFilesFilter : MultipartFileFilter, {
             propertyKey,
             parameterIndex,
             target,
             useConverter: false,
             paramType: ParamTypes.FORM_DATA
-          });
+          })(target, propertyKey, parameterIndex);
         } else {
           const expression = multiple ? (name as string) : name + ".0";
 
@@ -107,14 +107,14 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
             options
           });
 
-          ParamRegistry.useFilter(MultipartFilesFilter, {
+          UseFilter(MultipartFilesFilter, {
             expression,
             propertyKey,
             parameterIndex,
             target,
             useConverter: false,
             paramType: ParamTypes.FORM_DATA
-          });
+          })(target, propertyKey, parameterIndex);
         }
 
         break;

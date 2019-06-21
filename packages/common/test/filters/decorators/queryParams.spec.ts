@@ -1,26 +1,34 @@
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ParamRegistry, QueryParams, ParamTypes} from "../../../src/filters";
+import {ParamRegistry, ParamTypes, QueryParams} from "../../../src/filters";
 import {QueryParamsFilter} from "../../../src/filters/components/QueryParamsFilter";
 
-class Test {
-}
-
-describe("QueryParams", () => {
+const sandbox = Sinon.createSandbox();
+describe("@QueryParams", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    QueryParams("test", Test);
+    sandbox.stub(ParamRegistry, "useFilter");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
+  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    class Test {
+    }
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(QueryParamsFilter, {
-      expression: "test",
+    class Ctrl {
+      test(@QueryParams("expression", Test) header: Test) {
+      }
+    }
+
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(QueryParamsFilter, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0,
+      expression: "expression",
       useType: Test,
+      paramType: ParamTypes.QUERY,
       useConverter: true,
-      useValidation: true,
-      paramType: ParamTypes.QUERY
-    }));
+      useValidation: true
+    });
+  });
 });

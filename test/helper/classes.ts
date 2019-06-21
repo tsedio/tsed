@@ -1,5 +1,4 @@
-import {IgnoreProperty} from "@tsed/common";
-import {Property} from "../../packages/common/src/jsonschema/decorators/jsonProperty";
+import {IgnoreProperty, Property} from "@tsed/common";
 import {MinLength} from "../../packages/common/src/jsonschema/decorators/minLength";
 import {PropertyName} from "../../packages/common/src/jsonschema/decorators/propertyName";
 import {PropertyType} from "../../packages/common/src/jsonschema/decorators/propertyType";
@@ -24,7 +23,8 @@ export class JsonFoo {
   test: any;
   foo: any;
 
-  method() {}
+  method() {
+  }
 
   deserialize(obj: any) {
     const self: any = this;
@@ -99,7 +99,8 @@ export class JsonFoo2 {
   @IgnoreProperty()
   password: string;
 
-  method() {}
+  method() {
+  }
 }
 
 export class JsonFoo3 {

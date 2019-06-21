@@ -1,6 +1,6 @@
-import {Type} from "@tsed/core";
-import {ParamRegistry} from "../../filters/registries/ParamRegistry";
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
+import {Allow} from "@tsed/common";
+import {applyDecorators, DecoratorParameters, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
+import {getStorableMetadata} from "./utils/getStorableMetadata";
 
 /**
  * Add required annotation for a function argument.
@@ -18,7 +18,7 @@ import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
  *
  * ```typescript
  * class Model {
- *   @JsonProperty()
+ *   @Property()
  *   @Required()
  *   field: string;
  * }
@@ -33,7 +33,7 @@ import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
  *
  * ```typescript
  * class Model {
- *   @JsonProperty()
+ *   @Property()
  *   @Required()
  *   @Allow("")
  *   field: string;
@@ -45,11 +45,24 @@ import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
  * @converters
  */
 export function Required(...allowedRequiredValues: any[]): any {
-  return (target: Type<any>, propertyKey: string, parameterIndex: number): void => {
-    if (typeof parameterIndex === "number") {
-      ParamRegistry.required(target, propertyKey, parameterIndex);
-    } else {
-      PropertyRegistry.required(target, propertyKey, allowedRequiredValues);
-    }
-  };
+  return applyDecorators(
+    (...decoratorArgs: DecoratorParameters) => {
+      const metadata = getStorableMetadata(decoratorArgs);
+
+      if (!metadata) {
+        throw new UnsupportedDecoratorType(Required, decoratorArgs);
+      }
+
+      metadata.required = true;
+
+      if (allowedRequiredValues.length) {
+        Allow(...allowedRequiredValues)(...decoratorArgs);
+      }
+    },
+    StoreMerge("responses", {
+      "400": {
+        description: "BadRequest"
+      }
+    })
+  );
 }

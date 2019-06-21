@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {PropertyMetadata} from "../class/PropertyMetadata";
-import {PropertyFn} from "./jsonProperty";
+import {PropertyFn} from "./property";
 
 /**
  * Set the type of the array items. The possible value is String, Boolean, Number, Date, Object, Class, etc...

@@ -1,17 +1,27 @@
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {ParamRegistry, Res} from "../../../src/filters";
 import {EXPRESS_RESPONSE} from "../../../src/filters/constants";
 
-describe("Response", () => {
+const sandbox = Sinon.createSandbox();
+describe("@Res", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    Res();
+    sandbox.stub(ParamRegistry, "usePreHandler");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_RESPONSE));
+  it("should call ParamFilter.usePrehandler method with the correct parameters", () => {
+    class Ctrl {
+      test(@Res() arg: Res) {
+      }
+    }
+
+    ParamRegistry.usePreHandler.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_RESPONSE, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0
+    });
+  });
 });

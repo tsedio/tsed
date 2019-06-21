@@ -9,178 +9,121 @@ class Test {
 
 describe("PropertyMetadata", () => {
   describe("getter / setter", () => {
+    let propertyMetadata: PropertyMetadata;
+
     before(() => {
-      this.propertyMetadata = new PropertyMetadata(Test, "test");
-      this.propertyMetadata.required = true;
-      this.propertyMetadata.type = Test;
-      this.propertyMetadata.allowedRequiredValues = [null, ""];
+      propertyMetadata = new PropertyMetadata(Test, "test");
+      propertyMetadata.required = true;
+      propertyMetadata.type = Test;
+      propertyMetadata.allowedRequiredValues = [null, ""];
     });
 
     it("should return the required value", () => {
-      expect(this.propertyMetadata.required)
+      expect(propertyMetadata.required)
         .to.be.a("boolean")
         .and.to.eq(true);
     });
 
     it("should return collectionType", () => {
-      expect(this.propertyMetadata.collectionType).to.eq(undefined);
+      expect(propertyMetadata.collectionType).to.eq(undefined);
     });
 
     it("should return type", () => {
-      expect(this.propertyMetadata.type).to.eq(Test);
+      expect(propertyMetadata.type).to.eq(Test);
     });
 
     it("should return collectionName", () => {
-      expect(this.propertyMetadata.collectionName).to.eq("");
+      expect(propertyMetadata.collectionName).to.eq("");
     });
 
     it("should return typeName", () => {
-      expect(this.propertyMetadata.typeName).to.eq("Test");
+      expect(propertyMetadata.typeName).to.eq("Test");
     });
 
     it("should return isCollection", () => {
-      expect(this.propertyMetadata.isCollection).to.eq(false);
+      expect(propertyMetadata.isCollection).to.eq(false);
     });
 
     it("should return allowedRequiredValues", () => {
-      expect(this.propertyMetadata.allowedRequiredValues).to.deep.eq([null, ""]);
+      expect(propertyMetadata.allowedRequiredValues).to.deep.eq([null, ""]);
     });
 
     it("should return a Store", () => {
-      expect(this.propertyMetadata.store).to.be.an.instanceOf(Store);
+      expect(propertyMetadata.store).to.be.an.instanceOf(Store);
     });
 
     it("should return schema", () => {
-      expect(this.propertyMetadata.schema.toJSON()).to.deep.eq({$ref: "#/definitions/Test"});
-    });
-  });
-
-  describe("isValidRequiredValue", () => {
-    describe("when property is required", () => {
-      before(() => {
-        this.propertyMetadata = new PropertyMetadata(Test, "test");
-        this.propertyMetadata.allowedRequiredValues = [];
-        this.propertyMetadata.required = true;
-      });
-      it("should return true (value 0)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
-      });
-
-      it("should return false (value '')", () => {
-        expect(this.propertyMetadata.isValidRequiredValue("")).to.be.false;
-      });
-      it("should return false (value null)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.false;
-      });
-      it("should return false (value undefined)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.false;
-      });
-    });
-
-    describe("when property is required and have allowed values", () => {
-      before(() => {
-        this.propertyMetadata = new PropertyMetadata(Test, "test");
-        this.propertyMetadata.allowedRequiredValues = [null];
-        this.propertyMetadata.required = true;
-      });
-      it("should return true (value 0)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
-      });
-
-      it("should return false (value '')", () => {
-        expect(this.propertyMetadata.isValidRequiredValue("")).to.be.false;
-      });
-      it("should return true (value null)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.true;
-      });
-      it("should return false (value undefined)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.false;
-      });
-    });
-
-    describe("when property is not required", () => {
-      before(() => {
-        this.propertyMetadata = new PropertyMetadata(Test, "test");
-        this.propertyMetadata.allowedRequiredValues = [];
-        this.propertyMetadata.required = false;
-      });
-      it("should return true (value 0)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(0)).to.be.true;
-      });
-
-      it("should return true (value '')", () => {
-        expect(this.propertyMetadata.isValidRequiredValue("")).to.be.true;
-      });
-      it("should return true (value null)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(null)).to.be.true;
-      });
-      it("should return true (value undefined)", () => {
-        expect(this.propertyMetadata.isValidRequiredValue(undefined)).to.be.true;
-      });
+      expect(propertyMetadata.schema.toJSON()).to.deep.eq({$ref: "#/definitions/Test"});
     });
   });
 
   describe("isRequired", () => {
     describe("when property is required", () => {
+      let propertyMetadata: PropertyMetadata;
+
       before(() => {
-        this.propertyMetadata = new PropertyMetadata(Test, "test");
-        this.propertyMetadata.allowedRequiredValues = [];
-        this.propertyMetadata.required = true;
+        propertyMetadata = new PropertyMetadata(Test, "test");
+        propertyMetadata.allowedRequiredValues = [];
+        propertyMetadata.required = true;
       });
       it("should return false (value 0)", () => {
-        expect(this.propertyMetadata.isRequired(0)).to.be.false;
+        expect(propertyMetadata.isRequired(0)).to.be.false;
       });
 
       it("should return true (value '')", () => {
-        expect(this.propertyMetadata.isRequired("")).to.be.true;
+        expect(propertyMetadata.isRequired("")).to.be.true;
       });
       it("should return true (value null)", () => {
-        expect(this.propertyMetadata.isRequired(null)).to.be.true;
+        expect(propertyMetadata.isRequired(null)).to.be.true;
       });
       it("should return true (value undefined)", () => {
-        expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
+        expect(propertyMetadata.isRequired(undefined)).to.be.true;
       });
     });
 
     describe("when property is required and have allowed values", () => {
+      let propertyMetadata: PropertyMetadata;
+
       before(() => {
-        this.propertyMetadata = new PropertyMetadata(Test, "test");
-        this.propertyMetadata.allowedRequiredValues = [null];
-        this.propertyMetadata.required = true;
+        propertyMetadata = new PropertyMetadata(Test, "test");
+        propertyMetadata.allowedRequiredValues = [null];
+        propertyMetadata.required = true;
       });
       it("should return false (value 0)", () => {
-        expect(this.propertyMetadata.isRequired(0)).to.be.false;
+        expect(propertyMetadata.isRequired(0)).to.be.false;
       });
 
       it("should return true (value '')", () => {
-        expect(this.propertyMetadata.isRequired("")).to.be.true;
+        expect(propertyMetadata.isRequired("")).to.be.true;
       });
       it("should return false (value null)", () => {
-        expect(this.propertyMetadata.isRequired(null)).to.be.false;
+        expect(propertyMetadata.isRequired(null)).to.be.false;
       });
       it("should return true (value undefined)", () => {
-        expect(this.propertyMetadata.isRequired(undefined)).to.be.true;
+        expect(propertyMetadata.isRequired(undefined)).to.be.true;
       });
     });
 
     describe("when property is not required", () => {
+      let propertyMetadata: PropertyMetadata;
+
       before(() => {
-        this.propertyMetadata = new PropertyMetadata(Test, "test");
-        this.propertyMetadata.allowedRequiredValues = [];
-        this.propertyMetadata.required = false;
+        propertyMetadata = new PropertyMetadata(Test, "test");
+        propertyMetadata.allowedRequiredValues = [];
+        propertyMetadata.required = false;
       });
       it("should return false (value 0)", () => {
-        expect(this.propertyMetadata.isRequired(0)).to.be.false;
+        expect(propertyMetadata.isRequired(0)).to.be.false;
       });
 
       it("should return false (value '')", () => {
-        expect(this.propertyMetadata.isRequired("")).to.be.false;
+        expect(propertyMetadata.isRequired("")).to.be.false;
       });
       it("should return false (value null)", () => {
-        expect(this.propertyMetadata.isRequired(null)).to.be.false;
+        expect(propertyMetadata.isRequired(null)).to.be.false;
       });
       it("should return false (value undefined)", () => {
-        expect(this.propertyMetadata.isRequired(undefined)).to.be.false;
+        expect(propertyMetadata.isRequired(undefined)).to.be.false;
       });
     });
   });

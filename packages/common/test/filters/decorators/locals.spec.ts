@@ -1,22 +1,32 @@
-import {ParamTypes} from "@tsed/common";
+import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {Locals, ParamRegistry} from "../../../src/filters";
+import {Locals, ParamRegistry, ParamTypes} from "../../../src/filters";
 import {LocalsFilter} from "../../../src/filters/components/LocalsFilter";
 
-describe("Locals", () => {
+const sandbox = Sinon.createSandbox();
+describe("@Locals", () => {
   before(() => {
-    this.decorateStub = Sinon.stub(ParamRegistry, "decorate");
-    Locals("test");
+    sandbox.stub(ParamRegistry, "useFilter");
   });
-
   after(() => {
-    this.decorateStub.restore();
+    sandbox.restore();
   });
+  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    class Test {
+    }
 
-  it("should have been called ParamFilter.decorate method with the correct parameters", () =>
-    this.decorateStub.should.have.been.calledOnce.and.calledWithExactly(LocalsFilter, {
-      expression: "test",
+    class Ctrl {
+      test(@Locals("expression") test: any) {
+      }
+    }
+
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(LocalsFilter, {
+      target: prototypeOf(Ctrl),
+      propertyKey: "test",
+      parameterIndex: 0,
+      expression: "expression",
       useConverter: false,
       paramType: ParamTypes.LOCALS
-    }));
+    });
+  });
 });

@@ -12,7 +12,6 @@ notifications:
 node_js:
   - '11.6.0'
   - '10'
-  - '9'
   - '8'
 after_success:
   - npm run travis:deploy-once "npm run semantic-release"

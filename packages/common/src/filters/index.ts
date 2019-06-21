@@ -6,6 +6,7 @@ export * from "./errors/ParseExpressionError";
 export * from "./errors/RequiredParamError";
 export * from "./errors/UnknowFilterError";
 
+export * from "./decorators/useFilter";
 export * from "./decorators/bodyParams";
 export * from "./decorators/cookies";
 export * from "./decorators/filter";

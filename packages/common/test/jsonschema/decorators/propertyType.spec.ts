@@ -1,22 +1,16 @@
-import * as Sinon from "sinon";
+import {prototypeOf} from "@tsed/core";
 import {PropertyRegistry, PropertyType} from "../../../src/jsonschema";
 
-class Test {
-}
+describe("@PropertyType", () => {
+  it("should create a propertyMetadata", () => {
+    class Test {
+      @PropertyType(Number)
+      test: number[];
+    }
 
-describe("PropertyType", () => {
-  before(() => {
-    this.decorateStub = Sinon.stub(PropertyRegistry, "decorate");
-    this.propertyMetadata = {};
+    const propertyMetadata = PropertyRegistry.get(prototypeOf(Test), "test");
 
-    PropertyType(Test);
-    this.decorateStub.getCall(0).args[0](this.propertyMetadata);
-  });
-  after(() => {
-    this.decorateStub.restore();
-  });
-
-  it("should store data", () => {
-    this.propertyMetadata.type.should.eq(Test);
+    propertyMetadata.type.should.eq(Number);
+    propertyMetadata.isCollection.should.eq(true);
   });
 });
