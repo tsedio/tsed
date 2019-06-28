@@ -266,7 +266,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param fn
    * @returns {ServerLoader}
    */
-  public engine(ext: string, fn: Function): ServerLoader {
+  public engine(ext: string, fn: (path: string, options: object, callback: (e: any, rendered: string) => void) => void): ServerLoader {
     this.expressApp.engine(ext, fn);
 
     return this;
