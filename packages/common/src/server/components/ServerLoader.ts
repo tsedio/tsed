@@ -1,11 +1,16 @@
-import {createExpressApplication, createHttpServer, createHttpsServer, createInjector} from "@tsed/common";
-import {isClass} from "@tsed/core";
+import {
+  createExpressApplication,
+  createHttpServer,
+  createHttpsServer,
+  createInjector,
+  IProvider,
+  RouteService
+} from "@tsed/common";
+import {Deprecated} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
-import * as globby from "globby";
 import * as Http from "http";
 import * as Https from "https";
-import * as Path from "path";
 import {IServerSettings, ServerSettingsService} from "../../config";
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
@@ -13,8 +18,11 @@ import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMidd
 import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
-import {IComponentScanned, IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {contextMiddleware} from "../utils/contextMiddleware";
+import {importComponents} from "../utils/importComponents";
+import {listenServer} from "../utils/listenServer";
+import {printRoutes} from "../utils/printRoutes";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -60,9 +68,8 @@ import {contextMiddleware} from "../utils/contextMiddleware";
  */
 export abstract class ServerLoader implements IServerLifecycle {
   public version: string = "0.0.0-PLACEHOLDER";
-  private _components: IComponentScanned[] = [];
-  private _scannedPromises: Promise<any>[] = [];
   private _injector: InjectorService;
+  private routesProviders: IProvider<any> [] = [];
 
   /**
    *
@@ -135,27 +142,6 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   get httpsServer(): Https.Server {
     return this.injector.get<HttpsServer>(HttpsServer)!;
-  }
-
-  /**
-   *
-   * @returns {any}
-   * @param files
-   * @param excludes
-   */
-  static cleanGlobPatterns(files: string | string[], excludes: string[]): string[] {
-    excludes = excludes.map((s: string) => "!" + s.replace(/!/gi, ""));
-
-    return []
-      .concat(files as any)
-      .map((file: string) => {
-        if (!require.extensions[".ts"]) {
-          file = file.replace(/\.ts$/i, ".js");
-        }
-
-        return Path.resolve(file);
-      })
-      .concat(excludes as any);
   }
 
   /**
@@ -329,20 +315,11 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public scan(patterns: string | string[], endpoint?: string): ServerLoader {
-    const promises = globby.sync(ServerLoader.cleanGlobPatterns(patterns, this.settings.exclude)).map(async (file: string) => {
-      this.injector.logger.debug(`Import file ${endpoint}:`, file);
-      try {
-        const classes: any[] = await import(file);
-        this.addComponents(classes, {endpoint});
-      } catch (er) {
-        /* istanbul ignore next */
-        this.injector.logger.error(er);
-        /* istanbul ignore next */
-        process.exit(-1);
-      }
-    });
-
-    this._scannedPromises = this._scannedPromises.concat(promises);
+    if (endpoint) {
+      this.addControllers(endpoint, [].concat(patterns as any));
+    } else {
+      this.addComponents([].concat(patterns as any));
+    }
 
     return this;
   }
@@ -352,22 +329,14 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param classes
    * @param options
    */
-  public addComponents(classes: any | any[], options: Partial<IComponentScanned> = {}): ServerLoader {
-    classes = Object.keys(classes)
-      .map(key => classes[key])
-      .filter(clazz => isClass(clazz));
-
-    const components: any = Object.assign(options, {
-      classes
-    });
-
-    this._components = (this._components || []).concat([components]).filter(o => !!o);
+  public addComponents(classes: any | any[], options: any = {}): ServerLoader {
+    this.settings.componentsScan = this.settings.componentsScan.concat(classes);
 
     return this;
   }
 
   /**
-   * Add classes decorated by `@Controller()` to components container.
+   * Add classes decorated by @@Controller()@@ to components container.
    *
    * ### Example
    *
@@ -387,29 +356,26 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param {any[]} controllers
    * @returns {ServerLoader}
    */
-  public addControllers(endpoint: string, controllers: any[]) {
-    return this.addComponents(controllers, {endpoint});
+  public addControllers(endpoint: string, controllers: any | string | (any | string)[]) {
+    this.settings.mount[endpoint] = (this.settings.mount[endpoint] || []).concat(controllers);
   }
 
   /**
    * Mount all controllers files that match with `globPattern` ([Glob Pattern](https://www.npmjs.com/package/glob))
-   * under the endpoint. See [Versioning Rest API](/docs/server-loader.md#versioning) for more information.
+   * under the endpoint.
+   *
+   * ::: tip
+   * See [Versioning Rest API](/docs/controllers.md#routing) for more information.
+   * :::
+   *
    * @param endpoint
    * @param list
    * @returns {ServerLoader}
+   * @deprecated use ServerLoader.addControllers instead
    */
+  @Deprecated("Use ServerLoader.addControllers git instead")
   public mount(endpoint: string, list: any | string | (any | string)[]): ServerLoader {
-    const patterns = [].concat(list).filter((item: string) => {
-      if (isClass(item)) {
-        this.addControllers(endpoint, [item]);
-
-        return false;
-      }
-
-      return true;
-    });
-
-    this.scan(patterns, endpoint);
+    this.addControllers(endpoint, list);
 
     return this;
   }
@@ -426,7 +392,7 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.level = level;
     }
 
-    await Promise.all(this._scannedPromises);
+    await this.resolve();
     await this.callHook("$onInit");
 
     this.injector.logger.debug("Initialize settings");
@@ -447,25 +413,16 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param settings
    * @returns {Promise<TResult2|TResult1>}
    */
-  protected startServer(
+  protected async startServer(
     http: Http.Server | Https.Server,
     settings: {https: boolean; address: string | number; port: number}
-  ): Promise<{address: string; port: number}> {
-    const {address, port, https} = settings;
+  ): Promise<{address: string; port: number, https: boolean}> {
 
-    this.injector.logger.debug(`Start server on ${https ? "https" : "http"}://${settings.address}:${settings.port}`);
-    const promise = new Promise((resolve, reject) => {
-      http.on("listening", resolve).on("error", reject);
-    }).then(() => {
-      const port = (http.address() as any).port;
-      this.injector.logger.info(`HTTP Server listen on ${https ? "https" : "http"}://${settings.address}:${port}`);
+    this.injector.logger.debug(`Start server on ${settings.https ? "https" : "http"}://${settings.address}:${settings.port}`);
+    const resolvedSettings = await listenServer(http, settings);
+    this.injector.logger.info(`Listen server on ${settings.https ? "https" : "http"}://${settings.address}:${settings.port}`);
 
-      return {address: settings.address as string, port};
-    });
-
-    http.listen(port, address as any);
-
-    return promise;
+    return resolvedSettings;
   }
 
   /**
@@ -475,18 +432,45 @@ export abstract class ServerLoader implements IServerLifecycle {
     this.injector.logger.debug("Mount middlewares");
     this.use(contextMiddleware(this.injector));
     this.use(LogIncomingRequestMiddleware);
-    await this.callHook("$onMountingMiddlewares", undefined, this.expressApp);
-    await this.injector.emit("$beforeRoutesInit");
-    await this.injector.emit("$onRoutesInit", this._components);
 
-    delete this._components; // free memory
-
-    await this.injector.emit("$afterRoutesInit");
-
-    await this.callHook("$afterRoutesInit", undefined, this.expressApp);
+    await this.callHook("$onMountingMiddlewares", undefined);
+    await this.loadRoutes();
 
     // Import the globalErrorHandler
     this.use(GlobalErrorHandlerMiddleware);
+  }
+
+  protected async loadRoutes() {
+    await this.injector.emit("$beforeRoutesInit");
+
+    const routeService = this.injector.get<RouteService>(RouteService)!;
+
+    this.injector.logger.info("Map controllers");
+
+    this.routesProviders.forEach(provider => {
+      routeService.addRoute(provider.endpoint, provider.provide);
+    });
+
+    await this.injector.emit("$onRoutesInit");
+    await this.injector.emit("$afterRoutesInit");
+
+    await this.callHook("$afterRoutesInit");
+
+    if (!this.settings.logger.disableRoutesSummary) {
+      this.injector.logger.info("Routes mounted :");
+      this.injector.logger.info(printRoutes(routeService.getRoutes()));
+    }
+  }
+
+  protected async resolve() {
+    const components = await Promise.all([
+      importComponents(this.settings.mount, this.settings.exclude),
+      importComponents(this.settings.componentsScan, this.settings.exclude)
+    ]);
+
+    this.routesProviders = ([] as any)
+      .concat(...components)
+      .filter((component: IProvider<any>) => !!component.endpoint);
   }
 
   /**
@@ -499,25 +483,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     if (this.settings.env === "test") {
       this.injector.logger.stop();
     }
-
-    const bind = (property: string, value: any, map: Map<string, any>) => {
-      switch (property) {
-        case "mount":
-          Object.keys(this.settings.mount).forEach(key => this.mount(key, value[key]));
-          break;
-
-        case "componentsScan":
-          this.settings.componentsScan.forEach(componentDir => this.scan(componentDir));
-          break;
-      }
-    };
-
-    this.settings.forEach((value, key, map) => {
-      /* istanbul ignore else */
-      if (value !== undefined) {
-        bind(key, value, map);
-      }
-    });
   }
 
   private callHook = (key: string, elseFn = new Function(), ...args: any[]) => {
@@ -533,7 +498,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   };
 
   /**
-   * Initiliaze all servers.
+   * Initialize all servers.
    * @returns {Promise<any>}
    */
   private async startServers(): Promise<any> {
