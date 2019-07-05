@@ -31,7 +31,7 @@ export * from "./components/SendResponseMiddleware";
 // services
 export * from "./services/ControllerService";
 export * from "./services/ExpressRouter";
-export * from "./services/RouteService";
+export * from "../server/services/RouteService";
 
 // errors
 export * from "./errors/CyclicReferenceError";

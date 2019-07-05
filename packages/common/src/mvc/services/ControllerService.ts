@@ -3,11 +3,10 @@ import {Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di
 import * as Express from "express";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {ExpressApplication} from "../../server/decorators/expressApplication"; // TODO should be located on server package
-import {IComponentScanned} from "../../server/interfaces"; // TODO should be located on server package
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {RouteService} from "./RouteService";
+import {IRouteProvider, RouteService} from "../../server/services/RouteService";
 
 /**
  * @private
@@ -17,13 +16,6 @@ import {RouteService} from "./RouteService";
   global: true
 })
 export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvider> {
-  /**
-   *
-   * @param expressApplication
-   * @param injectorService
-   * @param settings
-   * @param routeService
-   */
   constructor(
     private injectorService: InjectorService,
     @ExpressApplication private expressApplication: Express.Application,
@@ -32,10 +24,13 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
   ) {
     super(injectorService as any, {filter: {type: ProviderType.CONTROLLER}});
 
-    this.buildRouters();
+    this.buildControllers();
   }
 
-  get routes(): {route: string; provider: any}[] {
+  /**
+   * @deprecated
+   */
+  get routes(): IRouteProvider[] {
     return this.routeService.routes || [];
   }
 
@@ -74,15 +69,6 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
   }
 
   /**
-   *
-   * @param components
-   */
-  public $onRoutesInit(components: {file: string; endpoint: string; classes: any[]}[]) {
-    this.injectorService.logger.info("Map controllers");
-    this.mapComponents(components);
-  }
-
-  /**
    * Invoke a controller from his Class.
    * @param target
    * @param locals
@@ -96,42 +82,13 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
   }
 
   /**
-   * Build routers and con
+   * Build routers and controllers
    */
-  private buildRouters() {
+  private buildControllers() {
     this.forEach((provider: ControllerProvider) => {
       if (!provider.hasParent()) {
         new ControllerBuilder(provider).build(this.injectorService);
       }
     });
-  }
-
-  /**
-   *
-   * @param components
-   */
-  private mapComponents(components: IComponentScanned[]) {
-    components.forEach(component => {
-      Object.keys(component.classes)
-        .map(clazzName => component.classes[clazzName])
-        .filter(clazz => component.endpoint && this.has(clazz))
-        .map(clazz => this.get(clazz))
-        .forEach((provider: ControllerProvider) => {
-          if (!provider.hasParent()) {
-            this.mountRouter(component.endpoint!, provider);
-          }
-        });
-    });
-  }
-
-  /**
-   *
-   * @param {string} endpoint
-   * @param {ControllerProvider} provider
-   */
-  private mountRouter(endpoint: string, provider: ControllerProvider) {
-    const route = provider.getEndpointUrl(endpoint!);
-    this.routeService.addRoute({provider, route});
-    this.expressApplication.use(route, provider.router);
   }
 }

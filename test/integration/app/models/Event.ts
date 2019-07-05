@@ -1,4 +1,4 @@
-import {Any, IgnoreProperty, Property, Property, PropertyType, Required} from "@tsed/common";
+import {Any, IgnoreProperty, Property, PropertyType, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {

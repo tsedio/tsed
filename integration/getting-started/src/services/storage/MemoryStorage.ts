@@ -22,5 +22,7 @@ export class MemoryStorage {
    * @param key
    * @param value
    */
-  public set = (key: string, value: any) => this.states.set(key, JSON.stringify(value));
+  public set(key: string, value: any) {
+    return this.states.set(key, JSON.stringify(value));
+  }
 }

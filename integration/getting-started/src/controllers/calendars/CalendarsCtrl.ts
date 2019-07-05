@@ -1,15 +1,4 @@
-import {
-  Authenticated,
-  BodyParams,
-  Controller,
-  Delete,
-  Get,
-  PathParams,
-  Post,
-  Put,
-  Required,
-  Status
-} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Required, Status} from "@tsed/common";
 import {NotFound} from "ts-httpexceptions";
 import {Calendar} from "../../interfaces/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
@@ -65,14 +54,12 @@ export class CalendarsCtrl {
    * @returns {{id: string, name: string}}
    */
   @Delete("/")
-  @Authenticated()
   @Status(204)
   async remove(@BodyParams("id") @Required() id: string): Promise<void> {
     this.calendarsService.remove(id);
   }
 
   @Get("/")
-  @Authenticated()
   async getAllCalendars(): Promise<Calendar[]> {
     return this.calendarsService.query();
   }
