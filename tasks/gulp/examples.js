@@ -15,7 +15,7 @@ function build(project) {
   const pkgPath = path.join(cwd, "/package.json");
   const pkg = JSON.parse(fs.readFileSync(pkgPath, {encoding: "utf8"}));
 
-  Object.keys(pkg.dependencies, (key) => {
+  Object.keys(pkg.dependencies).forEach((key) => {
     if (key.indexOf("@tsed") > -1) {
       pkg.dependencies[key] = version;
     }

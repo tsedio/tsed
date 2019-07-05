@@ -1,6 +1,5 @@
-import {Constant, Service} from "@tsed/common";
+import {$log, Constant, Service} from "@tsed/common";
 import {NotFound} from "ts-httpexceptions";
-import {$log} from "ts-log-debug";
 import {Calendar} from "../../interfaces/Calendar";
 import {MemoryStorage} from "../storage/MemoryStorage";
 
@@ -12,10 +11,6 @@ export class CalendarsService {
 
   constructor(private memoryStorage: MemoryStorage) {
     this.memoryStorage.set("calendars", require("../../../resources/calendars.json"));
-  }
-
-  $onInit() {
-    $log.info("===useToken", this.useToken);
   }
 
   /**
