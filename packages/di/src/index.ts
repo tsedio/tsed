@@ -16,5 +16,6 @@ export * from "./decorators/interceptor";
 export * from "./registries/ProviderRegistry";
 export * from "./registries/GlobalProviders";
 export * from "./services/InjectorService";
+export * from "./services/DISettings";
 export * from "./errors/InjectionError";
 export * from "./errors/UndefinedTokenError";
