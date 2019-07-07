@@ -1,12 +1,10 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di";
-import * as Express from "express";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {ExpressApplication} from "../../server/decorators/expressApplication"; // TODO should be located on server package
+import {IRouteProvider, RouteService} from "../../server/services/RouteService";
 import {ControllerBuilder} from "../class/ControllerBuilder";
 import {ControllerProvider} from "../class/ControllerProvider";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
-import {IRouteProvider, RouteService} from "../../server/services/RouteService";
 
 /**
  * @private
@@ -18,7 +16,6 @@ import {IRouteProvider, RouteService} from "../../server/services/RouteService";
 export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvider> {
   constructor(
     private injectorService: InjectorService,
-    @ExpressApplication private expressApplication: Express.Application,
     private settings: ServerSettingsService,
     private routeService: RouteService
   ) {
