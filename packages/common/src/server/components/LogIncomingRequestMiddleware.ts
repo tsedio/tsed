@@ -113,10 +113,10 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @returns {Object}
    */
   protected minimalRequestPicker(request: Req): any {
-    const {fields = LogIncomingRequestMiddleware.DEFAULT_FIELDS} = this.injector.settings.logger;
+    const {requestFields = LogIncomingRequestMiddleware.DEFAULT_FIELDS} = this.injector.settings.logger;
     const info = this.requestToObject(request);
 
-    return fields.reduce((acc: any, key: string) => {
+    return requestFields.reduce((acc: any, key: string) => {
       acc[key] = info[key];
 
       return acc;
