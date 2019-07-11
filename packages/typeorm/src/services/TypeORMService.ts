@@ -1,6 +1,6 @@
 import {Service} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {Connection, ConnectionOptions, createConnection} from "typeorm";
+import {Connection, ConnectionOptions, getConnectionManager} from "typeorm";
 
 @Service()
 export class TypeORMService {
@@ -13,22 +13,25 @@ export class TypeORMService {
 
   /**
    *
-   * @returns {Promise<"mongoose".Connection>}
+   * @returns {Promise<"typeorm".Connection>}
    */
-  async createConnection(id: string, settings: ConnectionOptions): Promise<any> {
+  async createConnection(id: string = "default", settings: ConnectionOptions): Promise<any> {
     const key = settings.name || id;
 
-    if (key && this.has(key)) {
-      return await this.get(key)!;
+    const connectionManager = getConnectionManager();
+
+    if (key && connectionManager.has(key)) {
+      return await connectionManager.get(key)!;
     }
 
     $log.info(`Create connection with typeorm to database: ${key}`);
     $log.debug(`options: ${JSON.stringify(settings)}`);
 
     try {
-      const connection = await createConnection(settings!);
+      const connection = connectionManager.create(settings!);
+      await connection.connect();
       $log.info(`Connected with typeorm to database: ${key}`);
-      this.instances.set(key || "default", connection);
+      this.instances.set(key, connection);
 
       return connection;
     } catch (err) {
@@ -37,23 +40,6 @@ export class TypeORMService {
       /* istanbul ignore next */
       process.exit();
     }
-  }
-
-  /**
-   *
-   * @returns {"mongoose".Connection}
-   */
-  get(id: string = "default"): Connection | undefined {
-    return this.instances.get(id);
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @returns {boolean}
-   */
-  has(id: string = "default"): boolean {
-    return this.instances.has(id);
   }
 
   closeConnections(): Promise<any> {
