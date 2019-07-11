@@ -127,6 +127,14 @@ Be wary of circular dependencies. Direct references must be declared after the r
 
 <<< @/docs/tutorials/snippets/mongoose/virtual-references.ts
 
+### Dynamic References
+
+`@tsed/mongoose` supports `mongoose` dynamic references between defined models.
+
+This works by having a field with the referenced object model's name and a field with the referenced field.
+
+<<< @/docs/tutorials/snippets/mongoose/dynamic-references.ts
+
 ## Register hook
 
 Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema. 
