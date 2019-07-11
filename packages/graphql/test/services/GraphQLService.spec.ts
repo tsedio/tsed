@@ -35,6 +35,7 @@ describe("GraphQLService", () => {
       before(inject([GraphQLService], (_service_: any) => {
         service = _service_;
         sandbox.stub(_service_, "createSchema");
+        sandbox.stub(_service_, "createDataSources");
         sandbox.stub(ApolloServer.prototype, "applyMiddleware");
       }));
 
@@ -44,8 +45,10 @@ describe("GraphQLService", () => {
       });
 
       it("should create a server", async () => {
+        const noop = () => ({});
         // GIVEN
         service.createSchema.returns({"schema": "schema"});
+        service.createDataSources.returns(noop);
         // WHEN
 
         const result1 = await service.createServer("key", {
@@ -54,7 +57,7 @@ describe("GraphQLService", () => {
         const result2 = await service.createServer("key", {path: "/path"} as any);
 
         result2.should.deep.eq(result1);
-        result1.args.should.deep.eq([{schema: {schema: "schema"}}]);
+        result1.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
         service.createSchema.should.have.been.calledOnceWithExactly({resolvers: []});
         result1.applyMiddleware.should.have.been.calledOnceWithExactly(Sinon.match({
           app: Sinon.match.func,
@@ -69,6 +72,7 @@ describe("GraphQLService", () => {
       before(inject([GraphQLService], (_service_: any) => {
         service = _service_;
         sandbox.stub(_service_, "createSchema");
+        sandbox.stub(_service_, "createDataSources");
         sandbox.stub(ApolloServer.prototype, "applyMiddleware");
         sandbox.stub(ApolloServer.prototype, "installSubscriptionHandlers");
       }));
@@ -79,8 +83,10 @@ describe("GraphQLService", () => {
       });
 
       it("should create a custom server", async () => {
+        const noop = () => ({});
         // GIVEN
         service.createSchema.returns({"schema": "schema"});
+        service.createDataSources.returns(noop);
 
         // WHEN
         const result = await service.createServer("key", {
@@ -92,7 +98,7 @@ describe("GraphQLService", () => {
         } as any);
 
 
-        result.args.should.deep.eq([{schema: {schema: "schema"}}]);
+        result.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
         service.createSchema.should.have.been.calledOnceWithExactly({resolvers: []});
 
         result.applyMiddleware.should.have.been.calledOnceWithExactly(Sinon.match({
