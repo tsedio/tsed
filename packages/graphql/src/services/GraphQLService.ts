@@ -7,6 +7,7 @@ import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
 import {IGraphQLServer} from "../interfaces/IGraphQLServer";
 import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
 import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
+import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../registries/DataSourceServiceRegistry";
 
 @Service()
 export class GraphQLService {
@@ -35,6 +36,7 @@ export class GraphQLService {
       server: customServer,
       installSubscriptionHandlers,
       resolvers = [],
+      dataSources,
       serverConfig = {},
       serverRegistration = {},
       buildSchemaOptions = {} as any
@@ -55,6 +57,7 @@ export class GraphQLService {
 
       const defaultServerConfig = {
         ...serverConfig,
+        dataSources: this.createDataSources(dataSources, serverConfig.dataSources),
         schema
       };
 
@@ -91,6 +94,23 @@ export class GraphQLService {
   }
 
   /**
+   * create a new dataSources function to use with apollo server config
+   * @param dataSources
+   * @param serverConfigSources
+   */
+  createDataSources(dataSources: Function = () => ({}), serverConfigSources: Function = () => ({})) {
+    const combinedDataSources = () => {
+      return {
+        ...this.getDataSources(),
+        ...dataSources(),
+        ...serverConfigSources()
+      };
+    };
+
+    return combinedDataSources;
+  }
+
+  /**
    * Get an instance of ApolloServer from his id
    * @returns ApolloServer
    */
@@ -121,5 +141,16 @@ export class GraphQLService {
    */
   protected getResolvers(): Type<any>[] {
     return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider => provider.instance);
+  }
+
+  protected getDataSources() {
+    const allDataSources = this.injectorService.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE);
+    const dsMap: {[key: string]: any} = {};
+
+    return Array.from(allDataSources).reduce((sources, provider) => {
+      sources[provider.className] = provider.instance;
+
+      return sources;
+    }, dsMap);
   }
 }

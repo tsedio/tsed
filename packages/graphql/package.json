@@ -5,8 +5,9 @@
   "main": "./src/index.js",
   "typings": "./src/index.ts",
   "dependencies": {
-    "tslib": "^1.9.3",
+    "apollo-datasource": "^0.5.0",
     "apollo-server-express": "^2.4.2",
+    "tslib": "^1.9.3",
     "type-graphql": "^0.16.0"
   },
   "peerDependencies": {
