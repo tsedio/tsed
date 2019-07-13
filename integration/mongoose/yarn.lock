@@ -116,9 +116,9 @@
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
 
-"@tsed/common@5.18.0":
-  version "5.18.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.18.0.tgz#7d37b11df994d36e99b06ab6b0b8761dac6f0499"
+"@tsed/common@5.20.1":
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.20.1.tgz#9c2acf33dcbc5f5497c0a987145316643d77895c"
   dependencies:
     "@types/json-schema" "^6.0.1"
     globby "^8.0.1"
@@ -128,37 +128,37 @@
     ts-log-debug "^5.1.0"
     tslib "^1.9.0"
 
-"@tsed/core@5.18.0":
-  version "5.18.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.18.0.tgz#322e36c8c060a249e77c5f65e4361202075e3a7d"
+"@tsed/core@5.20.1":
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.20.1.tgz#1fc64c2bbc1e5583b983014d8bacb0cc5859d1a5"
   dependencies:
     reflect-metadata "^0.1.12"
     source-map-support "^0.5.3"
     tslib "^1.8.0"
 
-"@tsed/di@5.18.0":
-  version "5.18.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.18.0.tgz#9287f8adf3852e5ed6264973c436f23c4e2f1dc9"
+"@tsed/di@5.20.1":
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.20.1.tgz#7773ed90203246822be9988bd34dac3fc21c6a74"
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/mongoose@5.18.0":
-  version "5.18.0"
-  resolved "https://registry.yarnpkg.com/@tsed/mongoose/-/mongoose-5.18.0.tgz#08a420fe5e1cbc498b883a83002a3e49ff22527b"
+"@tsed/mongoose@5.20.1":
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/@tsed/mongoose/-/mongoose-5.20.1.tgz#e500e83fb41e4fb9bc329a79d55aa05dda5761f8"
   dependencies:
     tslib "^1.9.0"
 
-"@tsed/swagger@5.18.0":
-  version "5.18.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.18.0.tgz#83ad5752f1f2019e1aa558b2bc33e314f2ea9c9c"
+"@tsed/swagger@5.20.1":
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.20.1.tgz#a70cea1207ff4f3d31be8d7a57e3f37771a56b6f"
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.18.0":
-  version "5.18.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.18.0.tgz#a03f12063d8a52b7f01831b8f5b2e2e37dea8ec8"
+"@tsed/testing@5.20.1":
+  version "5.20.1"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.20.1.tgz#bc9d08732bf049def00514e7409aa4868face230"
   dependencies:
     tslib "^1.9.0"
 
@@ -2037,8 +2037,8 @@ lodash.get@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
 lodash@^4.17.10, lodash@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
 
 lolex@^2.7.5:
   version "2.7.5"
