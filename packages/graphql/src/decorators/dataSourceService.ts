@@ -1,10 +1,8 @@
-import {DataSource} from "apollo-datasource";
 import {registerDataSourceService} from "../registries/DataSourceServiceRegistry";
+import {ProviderScope} from "@tsed/common";
 
-export function DataSourceService(): ClassDecorator;
-export function DataSourceService(...args: any[]): ClassDecorator {
+export function DataSourceService(): ClassDecorator {
   return <TFunction extends Function>(target: TFunction): void => {
-    DataSource.apply(this, args)(target);
-    registerDataSourceService(target);
+    registerDataSourceService({provide: target, scope: ProviderScope.INSTANCE});
   };
 }
