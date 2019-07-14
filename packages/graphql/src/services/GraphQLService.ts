@@ -1,13 +1,14 @@
 import {Constant, ExpressApplication, HttpServer, InjectorService, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
+import {DataSource} from "apollo-datasource";
 import {ApolloServer} from "apollo-server-express";
 import {GraphQLSchema} from "graphql";
 import {$log} from "ts-log-debug";
 import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
 import {IGraphQLServer} from "../interfaces/IGraphQLServer";
 import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
-import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
 import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../registries/DataSourceServiceRegistry";
+import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
 
 @Service()
 export class GraphQLService {
@@ -143,14 +144,17 @@ export class GraphQLService {
     return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider => provider.instance);
   }
 
-  protected getDataSources() {
-    const allDataSources = this.injectorService.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE);
-    const dsMap: {[key: string]: any} = {};
+  protected getDataSources(): {[serviceName: string]: DataSource} {
+    const initial: {[serviceName: string]: DataSource} = {};
+    const dsProviderMap = Array.from(this.injectorService.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE)).reduce((map, provider) => {
+      // set the first letter of the class lowercase to follow proper conventions during access
+      // i.e. this.context.dataSources.userService
+      const sourceName = `${provider.name[0].toLowerCase()}${provider.name.substr(1)}`;
+      map[sourceName] = this.injectorService.invoke(provider.provide);
 
-    return Array.from(allDataSources).reduce((sources, provider) => {
-      sources[provider.className] = provider.instance;
+      return map;
+    }, initial);
 
-      return sources;
-    }, dsMap);
+    return dsProviderMap;
   }
 }
