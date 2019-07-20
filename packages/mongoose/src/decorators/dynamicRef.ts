@@ -3,18 +3,18 @@ import {applyDecorators, Store, StoreFn, StoreMerge} from "@tsed/core";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 
+export type DynamicRef<T> = T | string;
 /**
  * Define a property as mongoose reference to other Model (decorated with @Model).
  *
  * ### Example
  *
  * ```typescript
- *
  * @Model()
  * class FooModel {
  *
  *    @DynamicRef('type')
- *    field: Ref<OtherFooModel | OtherModel>
+ *    field: DynamicRef<OtherFooModel | OtherModel>
  *
  *    @Enum(['OtherFooModel', 'OtherModel'])
  *    type: string
@@ -29,7 +29,7 @@ import {MONGOOSE_SCHEMA} from "../constants";
  * }
  * ```
  *
- * @param type
+ * @param refPath
  * @returns {Function}
  * @decorator
  * @mongoose
