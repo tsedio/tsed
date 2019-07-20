@@ -95,23 +95,6 @@ export class GraphQLService {
   }
 
   /**
-   * create a new dataSources function to use with apollo server config
-   * @param dataSources
-   * @param serverConfigSources
-   */
-  createDataSources(dataSources: Function = () => ({}), serverConfigSources: Function = () => ({})) {
-    const combinedDataSources = () => {
-      return {
-        ...this.getDataSources(),
-        ...dataSources(),
-        ...serverConfigSources()
-      };
-    };
-
-    return combinedDataSources;
-  }
-
-  /**
    * Get an instance of ApolloServer from his id
    * @returns ApolloServer
    */
@@ -141,20 +124,38 @@ export class GraphQLService {
    * @returns {Provider<any>[]}
    */
   protected getResolvers(): Type<any>[] {
-    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider => provider.instance);
+    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider =>
+      this.injectorService.invoke(provider.provide)
+    );
   }
 
   protected getDataSources(): {[serviceName: string]: DataSource} {
-    const initial: {[serviceName: string]: DataSource} = {};
-    const dsProviderMap = Array.from(this.injectorService.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE)).reduce((map, provider) => {
+    const providers = Array.from(this.injectorService.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE));
+
+    return providers.reduce<{[serviceName: string]: DataSource}>((map, provider) => {
       // set the first letter of the class lowercase to follow proper conventions during access
       // i.e. this.context.dataSources.userService
       const sourceName = `${provider.name[0].toLowerCase()}${provider.name.substr(1)}`;
       map[sourceName] = this.injectorService.invoke(provider.provide);
 
       return map;
-    }, initial);
+    }, {});
+  }
 
-    return dsProviderMap;
+  /**
+   * create a new dataSources function to use with apollo server config
+   * @param dataSources
+   * @param serverConfigSources
+   */
+  protected createDataSources(dataSources: Function = () => ({}), serverConfigSources: Function = () => ({})) {
+    const sources = this.getDataSources();
+
+    return () => {
+      return {
+        ...sources,
+        ...(dataSources ? dataSources() : {}),
+        ...(serverConfigSources ? serverConfigSources() : {})
+      };
+    };
   }
 }
