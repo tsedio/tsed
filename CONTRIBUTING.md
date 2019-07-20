@@ -43,7 +43,7 @@ Install npm dependencies with yarn (not with NPM!):
 ```bash
 yarn
 ```
-> After installing dependencies, yarn run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
+> After installing dependencies, yarn/npm run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
 
 Compile TypeScript:
 ```bash
@@ -54,10 +54,6 @@ yarn tsc
 npm run tsc
 ```
 
-Build project:
-```
-```
-
 ### Test
 
 ```bash
@@ -66,9 +62,9 @@ yarn test
 npm run test
 ```
 
-### Gflow
+### Gflow (optional)
 
-[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developer with the Git Flow process used in Ts.ED.
+[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developer with the Git process used in Ts.ED.
 
 Gflow help you to create a branch from production, rebase and run the test before pushing your branch on your remote repository.
 
@@ -76,25 +72,40 @@ Gflow help you to create a branch from production, rebase and run the test befor
 npm install -g gflow
 ```
 
-#### Start a feature branch
+### Start a feature branch
 
 ```bash
+git fetch
+git branch --no-track -b feat-branch-name origin/production  # !IMPORTANT
+yarn
+
+## OR
 gflow new feat name_of_feat
 ```
 
-#### Commit & Push a feature
+### Commit & Push a feature
 
 This command rebase your branch feature from the production branch, run the test and push your branch.
 
 ```bash
 git commit -m "feat(domain): Your message"
+```
+> To write your commit message see [convention page](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+
+Then:
+```bash
+npm run test
+git fetch
+git rebase origin/production
+git push -f
+
+# OR using gflow (run fetch, rebase and push for you)
 gflow push
 ```
-> To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 
 When your feature is ready to review, you can open a PR on Ts.ED github.
 
-#### Finish a feature
+### Finish a feature (repo owner and maintainers)
 
 After the PR has been accepted, the feature will be automatically merge on the master branch, but
 your feature isn't merge with the production branch.
@@ -102,7 +113,7 @@ your feature isn't merge with the production branch.
 To publish your feature on the production branch you need to run a this command:
 
 ```bash
-gflow finish
+gflow finish 
 ```
 
 > Note: This action works only on the Ts.ED repository (not on your fork).
