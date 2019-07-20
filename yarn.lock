@@ -2126,11 +2126,30 @@ apollo-cache-control@0.7.2:
     apollo-server-env "2.4.0"
     graphql-extensions "0.7.2"
 
+apollo-datasource-rest@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.6.0.tgz#2f55e317b619435af783cf6bd234efba0ecc863f"
+  integrity sha512-9AoQswt7YzwfZUIxifITkbx3ggzE9wdfPhp0ACPe4wEUvXggsbJQv596QXhHSO19VeOFFxdXV1oi7Lp8P6QrGQ==
+  dependencies:
+    apollo-datasource "0.6.0"
+    apollo-server-caching "0.5.0"
+    apollo-server-env "2.4.0"
+    apollo-server-errors "2.3.1"
+    http-cache-semantics "^4.0.0"
+
 apollo-datasource@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/apollo-datasource/-/apollo-datasource-0.5.0.tgz#7a8c97e23da7b9c15cb65103d63178ab19eca5e9"
   dependencies:
     apollo-server-caching "0.4.0"
+    apollo-server-env "2.4.0"
+
+apollo-datasource@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/apollo-datasource/-/apollo-datasource-0.6.0.tgz#823d6be8a3804613b5c56d2972c07db662293fc6"
+  integrity sha512-DOzzYWEOReYRu2vWPKEulqlTb9Xjg67sjVCzve5MXa7GUXjfr8IKioljvfoBMlqm/PpbJVk2ci4n5NIFqoYsrQ==
+  dependencies:
+    apollo-server-caching "0.5.0"
     apollo-server-env "2.4.0"
 
 apollo-engine-reporting-protobuf@0.3.1:
@@ -2180,6 +2199,13 @@ apollo-server-caching@0.4.0:
   dependencies:
     lru-cache "^5.0.0"
 
+apollo-server-caching@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/apollo-server-caching/-/apollo-server-caching-0.5.0.tgz#446a37ce2d4e24c81833e276638330a634f7bd46"
+  integrity sha512-l7ieNCGxUaUAVAAp600HjbUJxVaxjJygtPV0tPTe1Q3HkPy6LEWoY6mNHV7T268g1hxtPTxcdRu7WLsJrg7ufw==
+  dependencies:
+    lru-cache "^5.0.0"
+
 apollo-server-core@2.6.4:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-2.6.4.tgz#0372e3a28f221b9db83bdfbb0fd0b2960cd29bab"
@@ -2215,6 +2241,11 @@ apollo-server-env@2.4.0:
 apollo-server-errors@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.3.0.tgz#700622b66a16dffcad3b017e4796749814edc061"
+
+apollo-server-errors@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.3.1.tgz#033cf331463ebb99a563f8354180b41ac6714eb6"
+  integrity sha512-errZvnh0vUQChecT7M4A/h94dnBSRL213dNxpM5ueMypaLYgnp4hiCTWIEaooo9E4yMGd1qA6WaNbLDG2+bjcg==
 
 apollo-server-express@^2.4.2:
   version "2.6.4"

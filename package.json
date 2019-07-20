@@ -97,6 +97,7 @@
     "@types/swagger-schema-official": "^2.0.9",
     "ajv": "^6.5.0",
     "apollo-server-express": "^2.4.2",
+    "apollo-datasource-rest": "0.6.0",
     "body-parser": "^1.15.1",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",

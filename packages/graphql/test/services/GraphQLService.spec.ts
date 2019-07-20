@@ -139,4 +139,26 @@ describe("GraphQLService", () => {
       result.should.deep.eq({"schema": "schema"});
     });
   });
+  describe("createDataSources", () => {
+    it("should return a function with all dataSources", inject([GraphQLService], (service: any) => {
+      const dataSources = sandbox.stub().returns({
+        api: "api"
+      });
+      const serverConfigSources = sandbox.stub().returns({
+        api2: "api2"
+      });
+
+      const fn = service.createDataSources(dataSources, serverConfigSources);
+
+      fn().should.deep.eq({
+        api2: "api2",
+        api: "api"
+      });
+    }));
+    it("should do nothing", inject([GraphQLService], (service: any) => {
+      const fn = service.createDataSources();
+
+      fn().should.deep.eq({});
+    }));
+  });
 });
