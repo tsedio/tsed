@@ -1,18 +1,15 @@
 import {DataSourceService} from "@tsed/graphql";
 import {RESTDataSource} from "apollo-datasource-rest";
+import {User} from "../models/User";
 
 @DataSourceService()
-export class MyDataSource extends RESTDataSource {
+export class UserDataSource extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = "https://awesome-api.example.com";
+    this.baseURL = "https://myapi.com/api/users";
   }
 
-  willSendRequest(request: any) {
-    request.headers.set("Authorization", this.context.token);
-  }
-
-  getMyData(id: string) {
-    return this.get(`/v1/my_rest_data/${id}`);
+  getUserById(id: string): Promise<User> {
+    return this.get(`/${id}`);
   }
 }

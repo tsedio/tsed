@@ -93,3 +93,7 @@ Ts.ED provide a @@DataSourceService@@ decorator to declare a DataSource which wi
 
 <<< @/docs/tutorials/snippets/graphql/datasource-service.ts
 
+Then you can retrieve your data source through the context in your resolver like that:
+
+<<< @/docs/tutorials/snippets/graphql/resolver-data-source.ts
+
