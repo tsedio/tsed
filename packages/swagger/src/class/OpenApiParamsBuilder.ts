@@ -57,14 +57,16 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
    * @returns {HeaderParameter[]}
    */
   private getInHeaders(): HeaderParameter[] {
-    return this.injectedParams.filter((param: ParamMetadata) => param.paramType === ParamTypes.HEADER).map(param => {
-      return Object.assign({}, param.store.get("baseParameter"), {
-        in: ParamTypes.HEADER,
-        name: param.expression,
-        type: swaggerType(param.type),
-        required: param.required
+    return this.injectedParams
+      .filter((param: ParamMetadata) => param.paramType === ParamTypes.HEADER)
+      .map(param => {
+        return Object.assign({}, param.store.get("baseParameter"), {
+          in: ParamTypes.HEADER,
+          name: param.expression,
+          type: swaggerType(param.type),
+          required: param.required
+        });
       });
-    });
   }
 
   /**
@@ -177,22 +179,24 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
    * @returns {HeaderParameter[]}
    */
   private getInQueryParams(): QueryParameter[] {
-    return this.injectedParams.filter((param: ParamMetadata) => param.paramType === ParamTypes.QUERY).map(param => {
-      if (param.required) {
-        this.addResponse400();
-      }
+    return this.injectedParams
+      .filter((param: ParamMetadata) => param.paramType === ParamTypes.QUERY)
+      .map(param => {
+        if (param.required) {
+          this.addResponse400();
+        }
 
-      return Object.assign(
-        {},
-        param.store.get("baseParameter"),
-        {
-          in: ParamTypes.QUERY,
-          name: param.expression,
-          required: !!param.required
-        },
-        this.createSchemaFromQueryParam(param)
-      );
-    });
+        return Object.assign(
+          {},
+          param.store.get("baseParameter"),
+          {
+            in: ParamTypes.QUERY,
+            name: param.expression,
+            required: !!param.required
+          },
+          this.createSchemaFromQueryParam(param)
+        );
+      });
   }
 
   /**

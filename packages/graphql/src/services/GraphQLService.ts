@@ -26,8 +26,7 @@ export class GraphQLService {
     @ExpressApplication private expressApp: ExpressApplication,
     @HttpServer private httpServer: HttpServer,
     private injectorService: InjectorService
-  ) {
-  }
+  ) {}
 
   /**
    *
@@ -55,7 +54,8 @@ export class GraphQLService {
     try {
       // istanbul ignore next
       // @ts-ignore
-      if (typeGraphql.useContainer) { // support old version of type-graphql under @v0.17
+      if (typeGraphql.useContainer) {
+        // support old version of type-graphql under @v0.17
         // @ts-ignore
         typeGraphql.useContainer(this.injectorService);
       }
