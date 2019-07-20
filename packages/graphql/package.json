@@ -5,10 +5,10 @@
   "main": "./src/index.js",
   "typings": "./src/index.ts",
   "dependencies": {
-    "apollo-datasource": "^0.5.0",
+    "apollo-datasource": "^0.6.0",
     "apollo-server-express": "^2.4.2",
     "tslib": "^1.9.3",
-    "type-graphql": "^0.16.0"
+    "type-graphql": "^0.17.0"
   },
   "peerDependencies": {
     "@types/graphql": "14.0.2",
