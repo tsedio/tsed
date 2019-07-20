@@ -11,6 +11,7 @@
     "type-graphql": "^0.16.0"
   },
   "peerDependencies": {
+    "@types/graphql": "14.0.2",
     "@tsed/common": "0.0.0-PLACEHOLDER",
     "@tsed/core": "0.0.0-PLACEHOLDER"
   },

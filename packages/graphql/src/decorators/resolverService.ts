@@ -1,5 +1,5 @@
 import {ClassType, Resolver} from "type-graphql";
-import {ClassTypeResolver, ResolverClassOptions} from "type-graphql/decorators/types";
+import {ClassTypeResolver, ResolverClassOptions} from "type-graphql/dist/decorators/types";
 import {registerResolverService} from "../registries/ResolverServiceRegistry";
 
 export function ResolverService(): ClassDecorator;

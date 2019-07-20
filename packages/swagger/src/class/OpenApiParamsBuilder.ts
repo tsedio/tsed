@@ -251,7 +251,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
    * @returns {Schema}
    */
   protected createSchemaFromQueryParam(model: ParamMetadata): Schema {
-    const type = swaggerType(model.type);
+    const type: any = swaggerType(model.type);
     if (model.isCollection) {
       if (model.isArray) {
         return {

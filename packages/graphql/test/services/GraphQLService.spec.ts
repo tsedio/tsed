@@ -58,7 +58,7 @@ describe("GraphQLService", () => {
 
         result2.should.deep.eq(result1);
         result1.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
-        service.createSchema.should.have.been.calledOnceWithExactly({resolvers: []});
+        service.createSchema.should.have.been.calledOnceWithExactly({resolvers: [], container: service.injectorService});
         result1.applyMiddleware.should.have.been.calledOnceWithExactly(Sinon.match({
           app: Sinon.match.func,
           path: "/path"
@@ -99,7 +99,7 @@ describe("GraphQLService", () => {
 
 
         result.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
-        service.createSchema.should.have.been.calledOnceWithExactly({resolvers: []});
+        service.createSchema.should.have.been.calledOnceWithExactly({resolvers: [], container: service.injectorService});
 
         result.applyMiddleware.should.have.been.calledOnceWithExactly(Sinon.match({
           app: Sinon.match.func,

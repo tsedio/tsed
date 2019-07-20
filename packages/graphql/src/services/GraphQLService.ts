@@ -4,7 +4,8 @@ import {DataSource} from "apollo-datasource";
 import {ApolloServer} from "apollo-server-express";
 import {GraphQLSchema} from "graphql";
 import {$log} from "ts-log-debug";
-import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
+import * as typeGraphql from "type-graphql";
+import {buildSchema, BuildSchemaOptions} from "type-graphql";
 import {IGraphQLServer} from "../interfaces/IGraphQLServer";
 import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
 import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../registries/DataSourceServiceRegistry";
@@ -25,7 +26,8 @@ export class GraphQLService {
     @ExpressApplication private expressApp: ExpressApplication,
     @HttpServer private httpServer: HttpServer,
     private injectorService: InjectorService
-  ) {}
+  ) {
+  }
 
   /**
    *
@@ -51,7 +53,15 @@ export class GraphQLService {
     $log.debug(`options: ${JSON.stringify({path})}`);
 
     try {
+      // istanbul ignore next
+      // @ts-ignore
+      if (typeGraphql.useContainer) { // support old version of type-graphql under @v0.17
+        // @ts-ignore
+        typeGraphql.useContainer(this.injectorService);
+      }
+
       const schema = await this.createSchema({
+        container: this.injectorService,
         ...buildSchemaOptions,
         resolvers: [...this.getResolvers(), ...resolvers, ...(buildSchemaOptions.resolvers || [])]
       });
@@ -89,8 +99,6 @@ export class GraphQLService {
    * @param buildSchemaOptions
    */
   async createSchema(buildSchemaOptions: BuildSchemaOptions) {
-    useContainer(this.injectorService);
-
     return buildSchema(buildSchemaOptions);
   }
 
