@@ -5,6 +5,7 @@ export interface IGraphQLSettings {
   // Basic options
   path: string;
   resolvers?: (Function | string)[];
+  dataSources?: Function;
 
   // apollo-server-express options
   // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html

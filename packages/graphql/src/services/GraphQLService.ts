@@ -1,11 +1,13 @@
 import {Constant, ExpressApplication, HttpServer, InjectorService, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
+import {DataSource} from "apollo-datasource";
 import {ApolloServer} from "apollo-server-express";
 import {GraphQLSchema} from "graphql";
 import {$log} from "ts-log-debug";
 import {buildSchema, BuildSchemaOptions, useContainer} from "type-graphql";
 import {IGraphQLServer} from "../interfaces/IGraphQLServer";
 import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
+import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../registries/DataSourceServiceRegistry";
 import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
 
 @Service()
@@ -35,6 +37,7 @@ export class GraphQLService {
       server: customServer,
       installSubscriptionHandlers,
       resolvers = [],
+      dataSources,
       serverConfig = {},
       serverRegistration = {},
       buildSchemaOptions = {} as any
@@ -55,6 +58,7 @@ export class GraphQLService {
 
       const defaultServerConfig = {
         ...serverConfig,
+        dataSources: this.createDataSources(dataSources, serverConfig.dataSources),
         schema
       };
 
@@ -120,6 +124,38 @@ export class GraphQLService {
    * @returns {Provider<any>[]}
    */
   protected getResolvers(): Type<any>[] {
-    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider => provider.instance);
+    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider =>
+      this.injectorService.invoke(provider.provide)
+    );
+  }
+
+  protected getDataSources(): {[serviceName: string]: DataSource} {
+    const providers = Array.from(this.injectorService.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE));
+
+    return providers.reduce<{[serviceName: string]: DataSource}>((map, provider) => {
+      // set the first letter of the class lowercase to follow proper conventions during access
+      // i.e. this.context.dataSources.userService
+      const sourceName = `${provider.name[0].toLowerCase()}${provider.name.substr(1)}`;
+      map[sourceName] = this.injectorService.invoke(provider.provide);
+
+      return map;
+    }, {});
+  }
+
+  /**
+   * create a new dataSources function to use with apollo server config
+   * @param dataSources
+   * @param serverConfigSources
+   */
+  protected createDataSources(dataSources: Function, serverConfigSources: Function) {
+    const sources = this.getDataSources();
+
+    return () => {
+      return {
+        ...sources,
+        ...(dataSources ? dataSources() : {}),
+        ...(serverConfigSources ? serverConfigSources() : {})
+      };
+    };
   }
 }
