@@ -15,7 +15,8 @@ export class HandlerBuilder {
   private debug: boolean;
   private injector: InjectorService;
 
-  constructor(private handlerMetadata: HandlerMetadata) {}
+  constructor(private handlerMetadata: HandlerMetadata) {
+  }
 
   /**
    *

@@ -498,24 +498,22 @@ describe("HandlerBuilder", () => {
         next.should.have.been.calledWithExactly();
       });
 
-      it("should call next (promise reject)", async () => {
+      it("should call next (promise reject)", (done) => {
         // GIVEN
         const error = new Error();
         const process = Promise.reject(error);
         const request = new FakeRequest();
         const response = new FakeResponse(Sinon);
-        const next = Sinon.stub();
         const hasNextFunction = false;
 
         // WHEN
-        HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
-
-        try {
-          await process;
-        } catch (er) {
-        }
-        // THEN
-        next.should.have.been.calledWithExactly(error);
+        HandlerBuilder.handle(process, {
+          request, response,
+          next: (err: any) => {
+            err.should.eq(error);
+            done();
+          }, hasNextFunction
+        });
       });
     });
     describe("when process is a stream", () => {
