@@ -74,6 +74,7 @@ export class GraphQLService {
 
       const server = customServer ? customServer(defaultServerConfig) : new ApolloServer(defaultServerConfig);
 
+      // @ts-ignore
       server.applyMiddleware({path, ...serverRegistration, app: this.expressApp});
 
       if (installSubscriptionHandlers && this.httpPort) {
