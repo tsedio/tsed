@@ -27,7 +27,9 @@ describe("@Session", () => {
       parameterIndex: 0,
       expression: "expression",
       useType: Test,
-      paramType: ParamTypes.SESSION
+      paramType: ParamTypes.SESSION,
+      useConverter: false,
+      useValidation: false
     });
   });
 });

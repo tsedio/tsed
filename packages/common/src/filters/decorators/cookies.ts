@@ -1,6 +1,9 @@
+import {Type} from "@tsed/core";
 import {CookiesFilter} from "../components/CookiesFilter";
 import {ParamTypes} from "../interfaces/ParamTypes";
 import {UseFilter} from "./useFilter";
+import {mapParamsOptions} from "./utils/mapParamsOptions";
+import {IParamOptions} from "../interfaces/IParamOptions";
 
 /**
  * Cookies or CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.
@@ -31,12 +34,20 @@ import {UseFilter} from "./useFilter";
  * @param expression The path of the property to get.
  * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
- * @returns {Function}
+ * @returns {ParameterDecorator}
  */
-export function CookiesParams(expression?: string | any, useType?: any): Function {
+export function CookiesParams(expression: string | any, useType: any): ParameterDecorator;
+export function CookiesParams(): ParameterDecorator;
+export function CookiesParams(expression: string | any): ParameterDecorator;
+export function CookiesParams(options: IParamOptions<any>): ParameterDecorator;
+export function CookiesParams(...args: any[]): ParameterDecorator {
+  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+
   return UseFilter(CookiesFilter, {
     expression,
     useType,
+    useConverter,
+    useValidation,
     paramType: ParamTypes.COOKIES
   });
 }
@@ -76,8 +87,14 @@ export function CookiesParams(expression?: string | any, useType?: any): Functio
  * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
  * @aliasof CookiesParams
- * @returns {Function}
+ * @returns {ParameterDecorator}
  */
-export function Cookies(expression?: string | any, useType?: any): Function {
-  return CookiesParams(expression, useType);
+export function Cookies(expression: string, useType: Type<any>): ParameterDecorator;
+export function Cookies(expression: string): ParameterDecorator;
+export function Cookies(useType: Type<any>): ParameterDecorator;
+export function Cookies(options: IParamOptions<any>): ParameterDecorator;
+export function Cookies(): ParameterDecorator;
+export function Cookies(...args: any[]): ParameterDecorator {
+  // @ts-ignore
+  return CookiesParams(...args);
 }

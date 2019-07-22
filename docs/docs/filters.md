@@ -29,12 +29,29 @@ export class BodyParamsFilter implements IFilter {
 Then create the decorator. This decorator will be used on a controller method.
 
 ```typescript
-import {UseFilter} from "@tsed/common";
-import {BodyParamsFilter} from "../filters"
+import {Type} from "@tsed/core";
+import {BodyParamsFilter} from "../components/BodyParamsFilter";
+import {IParamOptions} from "../interfaces/IParamOptions";
+import {ParamTypes} from "../interfaces/ParamTypes";
+import {UseFilter} from "./useFilter";
+import {mapParamsOptions} from "./utils/mapParamsOptions";
 
-export function BodyParams(expression?: string | any, useType?: any): Function {
-    return UseFilter(BodyParamsFilter, {expression, useType});
+export function BodyParams(expression: string): ParameterDecorator;
+export function BodyParams(useType: Type<any> | Function): ParameterDecorator;
+export function BodyParams(options: IParamOptions<any>): ParameterDecorator;
+export function BodyParams(): ParameterDecorator;
+export function BodyParams(...args: any[]): ParameterDecorator {
+  const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
+
+  return UseFilter(BodyParamsFilter, {
+    expression,
+    useType,
+    useConverter,
+    useValidation,
+    paramType: ParamTypes.BODY
+  });
 }
+
 ```
 
 ::: tip

@@ -9,6 +9,6 @@ export type Next = Express.NextFunction;
  * @returns {function(Function, (string|symbol), number): void}
  * @decorator
  */
-export function Next(): Function {
+export function Next(): ParameterDecorator {
   return UseFilter(EXPRESS_NEXT_FN);
 }

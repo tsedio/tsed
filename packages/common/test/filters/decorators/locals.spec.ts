@@ -25,8 +25,10 @@ describe("@Locals", () => {
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
+      paramType: ParamTypes.LOCALS,
+      useType: undefined,
       useConverter: false,
-      paramType: ParamTypes.LOCALS
+      useValidation: false
     });
   });
 });

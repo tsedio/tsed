@@ -26,7 +26,9 @@ describe("@PathParams", () => {
       parameterIndex: 0,
       expression: "expression",
       useType: Test,
-      paramType: ParamTypes.PATH
+      paramType: ParamTypes.PATH,
+      useConverter: false,
+      useValidation: false
     });
   });
 });

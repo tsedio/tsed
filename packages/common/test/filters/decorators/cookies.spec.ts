@@ -27,7 +27,9 @@ describe("@Cookies", () => {
       parameterIndex: 0,
       expression: "expression",
       useType: Test,
-      paramType: ParamTypes.COOKIES
+      paramType: ParamTypes.COOKIES,
+      useConverter: false,
+      useValidation: false
     });
   });
 });
