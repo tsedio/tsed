@@ -22,7 +22,10 @@ describe("@HeaderParams", () => {
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
-      paramType: ParamTypes.HEADER
+      paramType: ParamTypes.HEADER,
+      useType: undefined,
+      useConverter: false,
+      useValidation: false
     });
   });
 });

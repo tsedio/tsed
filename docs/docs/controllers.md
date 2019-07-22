@@ -126,6 +126,20 @@ You can set the response header with the @@Header@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-headers.ts
 
+### Params
+
+Any parameters can be decorators with a filter decorator like @@BodyParams@@, @@QueryParams@@, etc...
+
+<<< @/docs/docs/snippets/controllers/params-decorator.ts
+
+It also possible to give a custom handler for the `useType` parameters when you use a generic controller:
+
+<<< @/docs/docs/snippets/controllers/params-use-type-handler.ts
+
+Finally, @@BodyParams@@ accept to give a @@ParamOptions@@ object as parameters to change the decorator behavior:
+
+<<< @/docs/docs/snippets/controllers/params-advanced-usage.ts
+
 ### Throw exceptions
 
 You can use [ts-httpexceptions](https://github.com/TypedProject/ts-httpexceptions) or similar module to throw an http exception.

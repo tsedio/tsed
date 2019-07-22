@@ -1,4 +1,4 @@
-import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
+import {getClass, isArrayOrArrayClass, isClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
 import {InjectorService, Service} from "@tsed/di";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
@@ -178,7 +178,6 @@ export class ConverterService {
 
       if ((targetType as any).prototype && typeof (targetType as any).prototype.deserialize === "function") {
         // deserialize from method
-
         const instance = new targetType();
         instance.deserialize(obj);
 
@@ -186,7 +185,7 @@ export class ConverterService {
       }
 
       // Default converter
-      const instance = new targetType();
+      const instance = isClass(targetType) ? new targetType() : targetType();
       const properties = PropertyRegistry.getProperties(targetType);
 
       Object.keys(obj).forEach((propertyName: string) => {

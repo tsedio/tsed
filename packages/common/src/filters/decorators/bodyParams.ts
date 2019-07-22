@@ -1,6 +1,9 @@
+import {Type} from "@tsed/core";
 import {BodyParamsFilter} from "../components/BodyParamsFilter";
+import {IParamOptions} from "../interfaces/IParamOptions";
 import {ParamTypes} from "../interfaces/ParamTypes";
 import {UseFilter} from "./useFilter";
+import {mapParamsOptions} from "./utils/mapParamsOptions";
 
 /**
  * BodyParams return the value from [request.body](http://expressjs.com/en/4x/api.html#req.body) object.
@@ -38,12 +41,19 @@ import {UseFilter} from "./useFilter";
  * @decorator
  * @returns {Function}
  */
-export function BodyParams(expression?: string | any, useType?: any): Function {
+export function BodyParams(expression: string, useType: Type<any> | Function): ParameterDecorator;
+export function BodyParams(expression: string): ParameterDecorator;
+export function BodyParams(useType: Type<any> | Function): ParameterDecorator;
+export function BodyParams(options: IParamOptions<any>): ParameterDecorator;
+export function BodyParams(): ParameterDecorator;
+export function BodyParams(...args: any[]): ParameterDecorator {
+  const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
+
   return UseFilter(BodyParamsFilter, {
     expression,
     useType,
-    useConverter: true,
-    useValidation: true,
+    useConverter,
+    useValidation,
     paramType: ParamTypes.BODY
   });
 }

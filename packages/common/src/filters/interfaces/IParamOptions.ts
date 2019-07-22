@@ -6,8 +6,8 @@ import {ParamTypes} from "./ParamTypes";
  */
 export interface IParamOptions<T> {
   required?: boolean;
-  expression?: string | RegExp;
-  useType?: Type<T>;
+  expression?: string;
+  useType?: Type<T> | Function;
   baseType?: Type<T>;
   useConverter?: boolean;
   useValidation?: boolean;

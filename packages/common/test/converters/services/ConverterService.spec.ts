@@ -89,6 +89,13 @@ describe("ConverterService", () => {
       }));
     });
 
+    describe("function", () => {
+      it("should convert object", () => {
+        class CustomTest {}
+        expect(converterService.deserialize({}, () => new CustomTest)).to.be.an.instanceof(CustomTest);
+      });
+    });
+
     describe("class Foo", () => {
       let foo: any;
       before(() => {
