@@ -1,4 +1,4 @@
-import {StoreMerge, Type} from "@tsed/core";
+import {Type} from "@tsed/core";
 import {IInjectableParamSettings} from "../interfaces/IInjectableParamSettings";
 import {ParamRegistry} from "../registries/ParamRegistry";
 

@@ -10,7 +10,7 @@ export type Res = Express.Response;
  * @returns {function(Function, (string|symbol), number): void}
  * @decorator
  */
-export function Response(): Function {
+export function Response(): ParameterDecorator {
   return Res();
 }
 
@@ -20,6 +20,6 @@ export function Response(): Function {
  * @decorator
  * @alias Request
  */
-export function Res() {
+export function Res(): ParameterDecorator {
   return UseFilter(EXPRESS_RESPONSE);
 }

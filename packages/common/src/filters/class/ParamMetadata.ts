@@ -7,7 +7,7 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
    *
    */
   @Enumerable()
-  public expression: string | RegExp;
+  public expression: string;
   /**
    *
    */

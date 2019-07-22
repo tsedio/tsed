@@ -1,7 +1,6 @@
-import {UseFilter} from "./useFilter";
 import * as Express from "express";
 import {EXPRESS_REQUEST} from "../constants";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {UseFilter} from "./useFilter";
 
 export type Request = Express.Request;
 export type Req = Express.Request;
@@ -11,7 +10,7 @@ export type Req = Express.Request;
  * @returns {function(Function, (string|symbol), number): void}
  * @decorator
  */
-export function Request(): Function {
+export function Request(): ParameterDecorator {
   return Req();
 }
 
@@ -21,6 +20,6 @@ export function Request(): Function {
  * @decorator
  * @alias Request
  */
-export function Req() {
+export function Req(): ParameterDecorator {
   return UseFilter(EXPRESS_REQUEST);
 }

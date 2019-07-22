@@ -1,6 +1,9 @@
+import {Type} from "@tsed/core";
 import {SessionFilter} from "../components/SessionFilter";
+import {IParamOptions} from "../interfaces/IParamOptions";
 import {ParamTypes} from "../interfaces/ParamTypes";
 import {UseFilter} from "./useFilter";
+import {mapParamsOptions} from "./utils/mapParamsOptions";
 
 /**
  * Session return the value from [request.session](http://expressjs.com/en/4x/api.html#req.session) object.
@@ -28,10 +31,19 @@ import {UseFilter} from "./useFilter";
  * @decorator
  * @returns {Function}
  */
-export function Session(expression?: string | any, useType?: any): Function {
+export function Session(expression: string, useType: Type<any>): ParameterDecorator;
+export function Session(expression: string): ParameterDecorator;
+export function Session(useType: Type<any>): ParameterDecorator;
+export function Session(options: IParamOptions<any>): ParameterDecorator;
+export function Session(): ParameterDecorator;
+export function Session(...args: any[]): ParameterDecorator {
+  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+
   return UseFilter(SessionFilter, {
     expression,
     useType,
+    useConverter,
+    useValidation,
     paramType: ParamTypes.SESSION
   });
 }
