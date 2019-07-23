@@ -1,0 +1,27 @@
+{
+  "name": "@tsed/passportjs-example",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "yarn install:client && yarn install:server",
+    "install:client": "cd client && yarn",
+    "install:server": "cd server && yarn",
+    "start:client": "cd client && npm run start",
+    "start:server": "cd server && npm run start",
+    "start:prod": "cross-env NODE_ENV=production node dist/server/index.js",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "test": "npm run test:client && npm run test:server",
+    "test:client": "cd client && npm run test",
+    "test:server": "cd server && npm run test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "cross-env": "^5.2.0"
+  }
+}

@@ -49,6 +49,9 @@ module.exports = {
     },
     "socketio": {
       url: "https://github.com/TypedProject/tsed-example-socketio.git"
+    },
+    "passport-azure-ad": {
+      url: "https://github.com/TypedProject/tsed-example-passport-azure-ad.git"
     }
   },
   tsdoc: {

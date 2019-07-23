@@ -1,0 +1,14 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div>
+  <form (ngSubmit)="save()" [formGroup]="form">
+    <h1>{{ title }} ({{version}})</h1>
+    <hr/>
+    <div>
+      <toaster-container></toaster-container>
+      <ng4-loading-spinner [loadingText]='loadingText' [threshold]="100"> </ng4-loading-spinner>
+      <router-outlet></router-outlet>
+    </div>
+  </form>
+  <hr/>
+</div>
+

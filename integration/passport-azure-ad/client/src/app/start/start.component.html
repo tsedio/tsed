@@ -1,0 +1,21 @@
+<div class="flex-container">
+    <div class="board flex-item">
+        <form [formGroup]="form">
+            <div class="line">
+                <label for="text-input">Input</label>
+                <input type="text" [formControl]="textInput" placeholder="" id="text-input" />
+            </div>
+            <div class="button">
+                <button type="submit" id="authWithScope" [formControl]="authButtonWithScopes" (click)="authCall($event)">Get Auth World with scope</button>
+                <button type="button" id="authButNoScope" [formControl]="authButtonNoScopes" (click)="authCallNoScope($event);">Get Auth World without scope</button>
+                <button type="button" id="noAuth" [formControl]="noAuthButton" (click)="noAuthCall($event);">Get No Auth World</button>
+            </div>
+            <div class="button">
+                <button type="submit" id="PostAuthWithScope" [formControl]="postAuthButtonWithScopes" (click)="postAuthCall($event)">Post Auth World with scope</button>
+                <button type="button" id="PostAuthButNoScope" [formControl]="postAuthButtonNoScopes" (click)="postAuthCallNoScope($event);">Post Auth World without scope</button>
+                <button type="button" id="PostNoAuth" [formControl]="postNoAuthButton" (click)="postNoAuthCall($event);">Post No Auth World</button>
+            </div>
+            <textarea [formControl]="output" rows="3" style="width:100%;"></textarea>
+        </form>
+    </div>
+</div>

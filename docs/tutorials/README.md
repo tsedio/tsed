@@ -16,6 +16,7 @@ Some examples are available along these links :
 - [Session](https://github.com/TypedProject/tsed-example-session)
 - [A SquareGame with SocketIO](https://github.com/TypedProject/tsed-example-socketio)
 - [Authentication with Passport.js](https://github.com/TypedProject/tsed-example-passportjs)
+- [Passport Azure Ad](https://github.com/TypedProject/tsed-example-passport-azure-ad)
 - [Mongoose](https://github.com/TypedProject/tsed-example-mongoose)
 - [TypeORM](https://github.com/TypedProject/tsed-example-typeorm)
 - [Multer](https://github.com/TypedProject/tsed-example-multer)
