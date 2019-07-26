@@ -78,15 +78,21 @@ In order to avoid such side-effects, simply move `findAll()` method above `findO
 ## Request
 ### Input parameters
 
-@@PathParams@@ decorator provide quick access to an attribute `Express.request.params`.
+@@BodyParams@@ decorator provide quick access to an attribute `Express.request.body`.
 
-<<< @/docs/docs/snippets/controllers/input-path-parameters.ts
+<<< @/docs/docs/snippets/controllers/params-decorator.ts
 
 Same decorator is available to get other params. Use these decorators to get parameters send by the client:
 
-- @@BodyParams@@
-- @@PathParams@@
-- @@QueryParams@@
+- @@BodyParams@@: `Express.request.body`
+- @@PathParams@@: `Express.request.params`
+- @@QueryParams@@: `Express.request.query`
+
+<<< @/docs/docs/snippets/controllers/params-decorator.ts
+
+Finally, @@BodyParams@@ accept to give a @@ParamOptions@@ object as parameters to change the decorator behavior:
+
+<<< @/docs/docs/snippets/controllers/params-advanced-usage.ts
 
 ### Headers
 
@@ -125,16 +131,6 @@ You can set the response content type with the @@ContentType@@ decorator:
 You can set the response header with the @@Header@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-headers.ts
-
-### Params
-
-Any parameters can be decorators with a filter decorator like @@BodyParams@@, @@QueryParams@@, etc...
-
-<<< @/docs/docs/snippets/controllers/params-decorator.ts
-
-Finally, @@BodyParams@@ accept to give a @@ParamOptions@@ object as parameters to change the decorator behavior:
-
-<<< @/docs/docs/snippets/controllers/params-advanced-usage.ts
 
 ### Throw exceptions
 
