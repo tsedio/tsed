@@ -9,6 +9,7 @@ import {ConverterSerializationError} from "../errors/ConverterSerializationError
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknowPropertyError} from "../errors/UnknowPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
+import { BadRequest } from "ts-httpexceptions";
 
 @Service()
 export class ConverterService {
@@ -254,7 +255,11 @@ export class ConverterService {
     } catch (err) {
       /* istanbul ignore next */
       (() => {
-        const castedError: any = new Error("For " + String(propertyKey) + " with value " + propertyValue + " \n" + err.message);
+        const convertErrorMessage = `Error for ${propertyName} with value ${propertyValue} \n ${err.message}`;
+        if (err instanceof BadRequest) {
+          throw new BadRequest(convertErrorMessage);
+        }
+        const castedError: any = new Error(convertErrorMessage);
         castedError.stack = err.stack;
         castedError.origin = err;
 
