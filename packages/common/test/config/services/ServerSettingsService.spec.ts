@@ -2,12 +2,46 @@ import {Env} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {$log} from "ts-log-debug";
+import {ProviderScope, ProviderType} from "../../../../di/src/interfaces";
 import {ServerSettingsService} from "../../../src/config/services/ServerSettingsService";
 
 describe("ServerSettingsService", () => {
+  let settings: any;
+
   describe("Test ENV", () => {
     before(() => {
-      const settings = new ServerSettingsService();
+      settings = new ServerSettingsService();
+
+      Object.entries({
+        rootDir: process.cwd(),
+        env: (process.env.NODE_ENV as Env) || Env.DEV,
+        port: 8080,
+        httpPort: 8080,
+        httpsPort: 8000,
+        version: "1.0.0",
+        uploadDir: "${rootDir}/uploads",
+        scopes: {
+          [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
+        },
+        logger: {
+          debug: false,
+          level: "info",
+          logRequest: true,
+          jsonIndentation: process.env.NODE_ENV === Env.PROD ? 0 : 2
+        },
+        errors: {
+          headerName: "errors"
+        },
+        mount: {
+          "/rest": "${rootDir}/controllers/**/*.ts"
+        },
+        exclude: ["**/*.spec.ts", "**/*.spec.js"],
+        componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/converters/**/*.ts"],
+        controllerScope: ProviderScope.SINGLETON
+      }).forEach(([key, value]) => {
+        settings[key] = value;
+      });
+
       settings.env = Env.TEST;
 
       settings.set("ownConfig", "test");
@@ -19,117 +53,112 @@ describe("ServerSettingsService", () => {
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
       settings.debug = true;
-
-      this.settings = settings;
     });
 
     it("should return rootDir", () => {
-      expect(this.settings.rootDir).to.equal(process.cwd());
+      expect(settings.rootDir).to.equal(process.cwd());
     });
     it("should return rootDir", () => {
-      expect(this.settings.rootDir).to.equal(process.cwd());
+      expect(settings.rootDir).to.equal(process.cwd());
     });
 
     it("should return custom keys", () => {
-      expect(this.settings.get("ownConfig")).to.equal("test");
+      expect(settings.get("ownConfig")).to.equal("test");
     });
 
     it("should return env", () => {
-      expect(this.settings.env).to.equal(Env.TEST);
+      expect(settings.env).to.equal(Env.TEST);
     });
 
     it("should have logging jsonIndentaion set to 2", () => {
-      expect(this.settings.logger.jsonIndentation).to.equal(2);
+      expect(settings.logger.jsonIndentation).to.equal(2);
     });
 
     it("should return httpsPort", () => {
-      expect(this.settings.httpsPort).to.equal(8000);
+      expect(settings.httpsPort).to.equal(8000);
     });
 
     it("should return httpPort", () => {
-      expect(this.settings.httpPort).to.equal(8080);
+      expect(settings.httpPort).to.equal(8080);
     });
 
     it("should return httpsPort", () => {
-      expect(this.settings.getHttpsPort()).to.deep.equal({address: "0.0.0.0", port: 8000});
+      expect(settings.getHttpsPort()).to.deep.equal({address: "0.0.0.0", port: 8000});
     });
 
     it("should return httpPort", () => {
-      expect(this.settings.getHttpPort()).to.deep.equal({address: "0.0.0.0", port: 8080});
+      expect(settings.getHttpPort()).to.deep.equal({address: "0.0.0.0", port: 8080});
     });
 
     it("should return componentsScan", () => {
-      expect(this.settings.componentsScan).to.be.an("array");
+      expect(settings.componentsScan).to.be.an("array");
     });
 
     it("should return uploadDir", () => {
-      expect(this.settings.uploadDir).to.contains("uploads");
+      expect(settings.uploadDir).to.contains("uploads");
     });
 
     it("should return mount", () => {
-      expect(this.settings.mount["/rest"]).to.be.a("string");
+      expect(settings.mount["/rest"]).to.be.a("string");
     });
 
     it("should return httpsOptions", () => {
-      expect((this.settings.httpsOptions as any).test).to.equal("/rest");
+      expect((settings.httpsOptions as any).test).to.equal("/rest");
     });
 
     it("should return acceptMimes", () => {
-      expect(this.settings.acceptMimes[0]).to.equal("application/json");
+      expect(settings.acceptMimes[0]).to.equal("application/json");
     });
 
     it("should return serveStatic", () => {
-      expect(this.settings.statics).to.deep.equal({"/": "/publics"});
+      expect(settings.statics).to.deep.equal({"/": "/publics"});
     });
 
     it("should return debug", () => {
-      expect(this.settings.debug).to.equal(false);
+      expect(settings.debug).to.equal(false);
     });
 
     it("should return debug (2)", () => {
-      expect(this.settings.debug).to.equal(false);
+      expect(settings.debug).to.equal(false);
     });
 
     it("should return env", () => {
-      expect(this.settings.env).to.equal("test");
+      expect(settings.env).to.equal("test");
     });
 
     it("should return version", () => {
-      expect(this.settings.version).to.equal("1.0.0");
+      expect(settings.version).to.equal("1.0.0");
     });
 
     it("should return errors", () => {
-      expect(this.settings.errors).to.deep.equal({headerName: "errors"});
+      expect(settings.errors).to.deep.equal({headerName: "errors"});
     });
 
     it("should return routers", () => {
-      expect(this.settings.routers).to.deep.equal({mergeParams: true});
+      expect(settings.routers).to.deep.equal({mergeParams: true});
     });
 
     it("should return controllerScope", () => {
-      expect(this.settings.controllerScope).to.equal("singleton");
+      expect(settings.controllerScope).to.equal("singleton");
     });
 
     it("should return excluded patterns", () => {
-      expect(this.settings.exclude).to.deep.equal(["./**/*.spec.ts"]);
+      expect(settings.exclude).to.deep.equal(["./**/*.spec.ts"]);
     });
 
     it("should return validationModelStrict", () => {
-      expect(this.settings.validationModelStrict).to.equal(true);
-      expect(this.settings.validationModelStrict).to.equal(true);
+      expect(settings.validationModelStrict).to.equal(true);
+      expect(settings.validationModelStrict).to.equal(true);
 
-      this.settings.validationModelStrict = false;
-      expect(this.settings.validationModelStrict).to.equal(false);
+      settings.validationModelStrict = false;
+      expect(settings.validationModelStrict).to.equal(false);
     });
 
     describe("forEach()", () => {
-      before(() => {
-        this.result = [];
-        this.settings.forEach((o: any) => this.result.push(o));
-      });
-
       it("should loop on items", () => {
-        expect(!!this.result.length).to.eq(true);
+        const result = [];
+        settings.forEach((o: any) => result.push(o));
+        expect(!!result.length).to.eq(true);
       });
     });
 
@@ -151,18 +180,18 @@ describe("ServerSettingsService", () => {
 
     describe("resolve()", () => {
       it("should replace rootDir", () => {
-        expect(this.settings.resolve("${rootDir}")).to.eq(process.cwd());
+        expect(settings.resolve("${rootDir}")).to.eq(process.cwd());
       });
 
       it("should replace rootDir", () => {
-        expect(this.settings.resolve({other: null, resolve: "${rootDir}"})).to.deep.eq({
+        expect(settings.resolve({other: null, resolve: "${rootDir}"})).to.deep.eq({
           other: null,
           resolve: process.cwd()
         });
       });
 
       it("should replace rootDir", () => {
-        expect(this.settings.resolve({other: 808, resolve: "${rootDir}"})).to.deep.eq({
+        expect(settings.resolve({other: 808, resolve: "${rootDir}"})).to.deep.eq({
           other: 808,
           resolve: process.cwd()
         });
@@ -173,36 +202,35 @@ describe("ServerSettingsService", () => {
   describe("Test PRODUCTION", () => {
     before(() => {
       process.env.NODE_ENV = "production";
-      this.settings = new ServerSettingsService();
+      settings = new ServerSettingsService();
     });
 
     it("should return env PROD", () => {
-      expect(this.settings.env).to.equal(Env.PROD);
+      expect(settings.env).to.equal(Env.PROD);
     });
 
     it("should have logging jsonIndentaion set to 0", () => {
-      expect(this.settings.logger.jsonIndentation).to.equal(0);
+      expect(settings.logger.jsonIndentation).to.equal(0);
     });
   });
 
   describe("set logger format", () => {
     before(() => {
-      const settings = new ServerSettingsService();
-      this.appendersSetStub = Sinon.stub($log.appenders, "set");
+      settings = new ServerSettingsService();
+      Sinon.stub($log.appenders, "set");
 
       settings.logger = {
         format: "format"
       };
-
-      this.settings = settings;
     });
 
     after(() => {
-      this.appendersSetStub.restore();
+      // @ts-ignore
+      $log.appenders.set.restore();
     });
 
     it("should call $log.appenders.set()", () => {
-      this.appendersSetStub.should.have.been.calledWithExactly("stdout", {
+      $log.appenders.set.should.have.been.calledWithExactly("stdout", {
         type: "stdout",
         levels: ["info", "debug"],
         layout: {
@@ -211,7 +239,7 @@ describe("ServerSettingsService", () => {
         }
       });
 
-      this.appendersSetStub.should.have.been.calledWithExactly("stderr", {
+      $log.appenders.set.should.have.been.calledWithExactly("stderr", {
         levels: ["trace", "fatal", "error", "warn"],
         type: "stderr",
         layout: {

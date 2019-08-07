@@ -1,5 +1,5 @@
 import {Env} from "@tsed/core";
-import {ProviderScope} from "@tsed/di";
+import {IDISettings, ProviderScope} from "@tsed/di";
 import * as Https from "https";
 
 /**
@@ -81,7 +81,7 @@ export interface IRouterSettings {
   strict?: boolean;
 }
 
-export interface IServerSettings {
+export interface IServerSettings extends IDISettings {
   /**
    * The root directory where you build run project. By default, it's equal to `process.cwd().
    */
@@ -159,6 +159,8 @@ export interface IServerSettings {
    *
    * - Default: `singleton`. See [Scope](/docs/injection-scopes.md).
    * - Values: `singleton`, `request`.
+   *
+   * @deprecated Use scopes["CONTROLLER"] instead.
    */
   controllerScope?: ProviderScope;
   /**

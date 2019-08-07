@@ -1,4 +1,4 @@
-import {PropertyFn} from "@tsed/common";
+import {PropertyFn} from "./property";
 import {PropertyMetadata} from "../class/PropertyMetadata";
 
 /**

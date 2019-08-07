@@ -1,4 +1,4 @@
-import {Allow} from "@tsed/common";
+import {Allow} from "./allow";
 import {applyDecorators, DecoratorParameters, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {getStorableMetadata} from "./utils/getStorableMetadata";
 

@@ -1,4 +1,3 @@
-import {MiddlewareType} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {InjectorService, ProviderType} from "@tsed/di";
 import {inject} from "@tsed/testing";

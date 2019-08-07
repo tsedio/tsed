@@ -1,4 +1,5 @@
 import {deepClone, getClass, getClassOrSymbol, isFunction, Metadata, nameOf, prototypeOf, Store} from "@tsed/core";
+
 import * as util from "util";
 import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
@@ -20,6 +21,7 @@ import {
   TokenProvider
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
+import {DISettings} from "./DISettings";
 
 interface IInvokeSettings {
   token: TokenProvider;
@@ -60,9 +62,8 @@ interface IInvokeSettings {
   global: true
 })
 export class InjectorService extends Container {
-  public settings: IDISettings = new Map();
+  public settings: IDISettings = new DISettings();
   public logger: IDILogger = console;
-  public scopes: {[key: string]: ProviderScope} = {};
 
   constructor() {
     super();
@@ -75,7 +76,7 @@ export class InjectorService extends Container {
    * @param provider
    */
   public scopeOf(provider: Provider<any>) {
-    return provider.scope || this.scopes[provider.type] || ProviderScope.SINGLETON;
+    return provider.scope || this.settings.scopes[provider.type] || ProviderScope.SINGLETON;
   }
 
   /**
