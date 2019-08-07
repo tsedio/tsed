@@ -12,7 +12,7 @@ export function createInjector(settings: any) {
   injector.settings = createSettingsService(injector);
   injector.logger = $log;
 
-  injector.scopes = {
+  injector.settings.scopes = {
     ...(settings.scopes || {}),
     [ProviderType.CONTROLLER]: settings.controllerScope
   };

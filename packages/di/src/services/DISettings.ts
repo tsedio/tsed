@@ -72,7 +72,7 @@ export class DISettings implements IDISettings {
    * @param value
    * @returns {any}
    */
-  protected resolve(value: any) {
+  resolve(value: any) {
     if (typeof value === "object" && value !== null) {
       Object.keys(value).forEach((k: string, i: number, m: any) => {
         value[k] = this.resolve(value[k]);
