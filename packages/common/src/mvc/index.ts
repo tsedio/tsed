@@ -34,10 +34,7 @@ export * from "./services/ExpressRouter";
 export * from "../server/services/RouteService";
 
 // errors
-export * from "./errors/CyclicReferenceError";
 export * from "./errors/TemplateRenderingError";
-export * from "./errors/UnknowControllerError";
-export * from "./errors/UnknowMiddlewareError";
 
 // decorators
 export * from "./decorators";
