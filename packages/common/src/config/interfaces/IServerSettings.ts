@@ -1,5 +1,5 @@
 import {Env} from "@tsed/core";
-import {IDISettings, ProviderScope} from "@tsed/di";
+import {ProviderScope} from "@tsed/di";
 import * as Https from "https";
 
 /**
@@ -81,7 +81,8 @@ export interface IRouterSettings {
   strict?: boolean;
 }
 
-export interface IServerSettings extends IDISettings {
+export interface IServerSettings {
+  scopes?: {[key: string]: ProviderScope};
   /**
    * The root directory where you build run project. By default, it's equal to `process.cwd().
    */
