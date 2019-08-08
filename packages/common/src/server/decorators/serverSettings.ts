@@ -2,8 +2,6 @@ import {Metadata, Type} from "@tsed/core";
 import {SERVER_SETTINGS} from "../../config/constants/index";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 
-export interface IServerSettingsOptions extends IServerSettings {}
-
 /**
  * `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
  *
@@ -70,7 +68,7 @@ export interface IServerSettingsOptions extends IServerSettings {}
  * @returns {(target:any)=>any}
  * @decorator
  */
-export function ServerSettings(settings: IServerSettingsOptions): Function {
+export function ServerSettings(settings: Partial<IServerSettings>): Function {
   return (target: Type<any>) => {
     Metadata.set(SERVER_SETTINGS, settings, target);
   };
