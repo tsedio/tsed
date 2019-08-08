@@ -2,7 +2,7 @@ import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {BodyParamsFilter} from "../../../common/src/filters/components/BodyParamsFilter";
+import {BodyParamsFilter} from "../../../common/src/mvc/components/BodyParamsFilter";
 import {OpenApiParamsBuilder} from "../../src/class/OpenApiParamsBuilder";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
 

@@ -1,7 +1,6 @@
 import {NotAcceptable} from "ts-httpexceptions";
 import {ServerSettingsService} from "../../config";
-import {Req} from "../../filters";
-import {IMiddleware, Middleware} from "../../mvc";
+import {Req, IMiddleware, Middleware} from "../../mvc";
 
 /**
  * @middleware

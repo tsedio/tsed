@@ -1,6 +1,6 @@
 import * as Sinon from "sinon";
 import {SinonStatic, SinonStub} from "sinon";
-import {Context} from "../../packages/common/src/mvc/class/Context";
+import {Context} from "../../packages/common/src/mvc/models/Context";
 
 export class FakeRequest {
   public url = "/";

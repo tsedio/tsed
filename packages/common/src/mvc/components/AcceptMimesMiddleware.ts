@@ -1,6 +1,5 @@
 import {NotAcceptable} from "ts-httpexceptions";
-import {EndpointInfo, Req} from "../../filters";
-import {Middleware} from "../decorators";
+import {EndpointInfo, Middleware, Req} from "../decorators";
 import {IMiddleware} from "../interfaces";
 
 /**

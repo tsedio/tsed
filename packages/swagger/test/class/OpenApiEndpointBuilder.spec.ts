@@ -1,6 +1,6 @@
+import {EndpointMetadata} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as Sinon from "sinon";
-import {EndpointMetadata} from "../../../common/src/mvc/class/EndpointMetadata";
 import {OpenApiEndpointBuilder} from "../../src/class/OpenApiEndpointBuilder";
 
 class Test {

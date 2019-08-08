@@ -1,5 +1,5 @@
 import {GlobalProviders, ProviderType, TypedProvidersRegistry} from "@tsed/di";
-import {ControllerProvider} from "../class/ControllerProvider";
+import {ControllerProvider} from "../models/ControllerProvider";
 import {ExpressRouter} from "../services/ExpressRouter";
 
 // tslint:disable-next-line: variable-name

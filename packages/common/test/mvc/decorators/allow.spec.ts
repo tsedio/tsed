@@ -1,6 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ParamRegistry} from "../../../src/filters";
+import {ParamRegistry} from "../../../src/mvc";
 import {PropertyRegistry} from "../../../src/jsonschema";
 import {Allow} from "../../../src/mvc/decorators";
 

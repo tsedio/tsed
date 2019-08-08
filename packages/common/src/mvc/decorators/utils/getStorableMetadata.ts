@@ -1,6 +1,6 @@
 import {DecoratorParameters, getDecoratorType, Storable} from "@tsed/core";
-import {ParamRegistry} from "../../../filters/registries/ParamRegistry";
 import {PropertyRegistry} from "../../../jsonschema/registries/PropertyRegistry";
+import {ParamRegistry} from "../../registries/ParamRegistry";
 
 export function getStorableMetadata(decoratorArgs: DecoratorParameters): Storable | undefined {
   switch (getDecoratorType(decoratorArgs, true)) {

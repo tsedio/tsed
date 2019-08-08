@@ -1,5 +1,5 @@
 import {descriptorOf, getInheritedClass, Metadata, Store, Type} from "@tsed/core";
-import {EndpointMetadata} from "../class/EndpointMetadata";
+import {EndpointMetadata} from "../models/EndpointMetadata";
 
 /**
  * Registry for all Endpoint collected on a provide.
