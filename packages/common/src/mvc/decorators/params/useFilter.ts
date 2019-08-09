@@ -13,10 +13,6 @@ export function UseFilter(token: Type<any> | symbol, options: Partial<IInjectabl
       options
     );
 
-    if (typeof token === "symbol") {
-      ParamRegistry.usePreHandler(token, settings);
-    } else {
-      ParamRegistry.useFilter(token, settings);
-    }
+    ParamRegistry.useFilter(token, settings);
   };
 }

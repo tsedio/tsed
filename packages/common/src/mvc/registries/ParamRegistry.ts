@@ -1,7 +1,7 @@
 import {Deprecated, Metadata, Type} from "@tsed/core";
+import {PARAM_METADATA} from "../../filters/constants";
 import {IInjectableParamSettings} from "../interfaces/IInjectableParamSettings";
 import {ParamMetadata} from "../models/ParamMetadata";
-import {PARAM_METADATA} from "../../filters/constants";
 
 export class ParamRegistry {
   /**
@@ -45,19 +45,6 @@ export class ParamRegistry {
     params[index] = paramMetadata;
 
     Metadata.set(PARAM_METADATA, params, target, propertyKey);
-  }
-
-  /**
-   *
-   * @param service
-   * @param settings
-   */
-  static usePreHandler(service: symbol, settings: any) {
-    const param = ParamRegistry.get(settings.target, settings.propertyKey, settings.parameterIndex);
-    param.service = service;
-    param.useConverter = false;
-
-    return this;
   }
 
   /**
@@ -106,21 +93,20 @@ export class ParamRegistry {
           options
         );
 
-        if (typeof token === "symbol") {
-          ParamRegistry.usePreHandler(token, settings);
-        } else {
-          ParamRegistry.useFilter(token, settings);
-        }
+        ParamRegistry.useFilter(token, settings);
       }
     };
   }
 
-  /**
-   *
-   * @param service
-   * @param options
-   */
-  static useFilter(service: Type<any>, options: IInjectableParamSettings<any>): ParamMetadata {
+  static useFilter(service: any, options: IInjectableParamSettings<any>): ParamMetadata {
+    if (typeof service === "symbol") {
+      const param = ParamRegistry.get(options.target, options.propertyKey, options.parameterIndex);
+      param.service = service;
+      param.useConverter = false;
+
+      return param;
+    }
+
     const {propertyKey, parameterIndex, target, useConverter, useValidation, paramType} = options;
 
     let {expression, useType} = options;

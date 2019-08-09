@@ -6,7 +6,7 @@ import {EXPRESS_REQUEST} from "../../../../src/filters/constants";
 const sandbox = Sinon.createSandbox();
 describe("@Req", () => {
   before(() => {
-    sandbox.stub(ParamRegistry, "usePreHandler");
+    sandbox.stub(ParamRegistry, "useFilter");
   });
   after(() => {
     sandbox.restore();
@@ -18,7 +18,7 @@ describe("@Req", () => {
       }
     }
 
-    ParamRegistry.usePreHandler.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_REQUEST, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_REQUEST, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0

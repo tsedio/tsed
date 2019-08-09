@@ -6,7 +6,7 @@ import {EXPRESS_NEXT_FN} from "../../../../src/filters/constants";
 const sandbox = Sinon.createSandbox();
 describe("@Next", () => {
   before(() => {
-    sandbox.stub(ParamRegistry, "usePreHandler");
+    sandbox.stub(ParamRegistry, "useFilter");
   });
   after(() => {
     sandbox.restore();
@@ -18,7 +18,7 @@ describe("@Next", () => {
       }
     }
 
-    ParamRegistry.usePreHandler.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_NEXT_FN, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_NEXT_FN, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0

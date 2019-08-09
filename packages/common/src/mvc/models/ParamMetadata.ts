@@ -3,6 +3,7 @@ import {IParamOptions} from "../interfaces";
 import {ParamTypes} from "./ParamTypes";
 
 export class ParamMetadata extends Storable implements IParamOptions<any> {
+  public filters: any[] = [];
   /**
    *
    */

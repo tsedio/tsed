@@ -4,10 +4,11 @@ import {ConverterService} from "../../converters";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
-import {IFilter, IFilterPreHandler, IFilterScope} from "../../filters/interfaces";
+import {IFilter, IFilterPreHandler} from "../../filters/interfaces";
 import {FilterPreHandlers} from "../../filters/registries/FilterRegistry";
 import {ValidationService} from "../services/ValidationService";
-import {ParamMetadata} from "../../filters/class/ParamMetadata";
+import {ParamMetadata} from "../models/ParamMetadata";
+import {IFilterScope} from "../interfaces/IFilterScope";
 
 export class FilterBuilder {
   constructor(private injector: InjectorService) {}

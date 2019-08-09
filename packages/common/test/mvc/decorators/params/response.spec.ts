@@ -1,12 +1,12 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ParamRegistry, Res} from "../../../../src/mvc";
 import {EXPRESS_RESPONSE} from "../../../../src/filters/constants";
+import {ParamRegistry, Res} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@Res", () => {
   before(() => {
-    sandbox.stub(ParamRegistry, "usePreHandler");
+    sandbox.stub(ParamRegistry, "useFilter");
   });
   after(() => {
     sandbox.restore();
@@ -18,7 +18,7 @@ describe("@Res", () => {
       }
     }
 
-    ParamRegistry.usePreHandler.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_RESPONSE, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_RESPONSE, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0
