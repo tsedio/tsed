@@ -1,8 +1,8 @@
 import {InjectorService, Service, TokenProvider} from "@tsed/di";
-import {ControllerProvider} from "../../mvc/class/ControllerProvider";
-import {EndpointMetadata} from "../../mvc/class/EndpointMetadata";
-import {IControllerRoute} from "../../mvc/interfaces";
-import {ExpressApplication} from "../decorators/expressApplication";
+import {IControllerRoute} from "../interfaces";
+import {ControllerProvider} from "../models/ControllerProvider";
+import {EndpointMetadata} from "../models/EndpointMetadata";
+import {ExpressApplication} from "../../server/decorators/expressApplication";
 
 export interface IRouteProvider {
   route: string;

@@ -1,8 +1,9 @@
 import {expect} from "chai";
 import {Metadata} from "../../../../core/src";
-import {EXPRESS_ERR, EXPRESS_NEXT_FN, PARAM_METADATA} from "../../../src/filters/constants";
-import {HandlerMetadata} from "../../../src/mvc/models/HandlerMetadata";
+import {ParamTypes} from "../../../src/mvc";
+import {PARAM_METADATA} from "../../../src/mvc/constants";
 import {HandlerType} from "../../../src/mvc/interfaces/HandlerType";
+import {HandlerMetadata} from "../../../src/mvc/models/HandlerMetadata";
 
 class Test {
   use(req: any, res: any, next: any) {
@@ -99,7 +100,7 @@ describe("HandlerMetadata", () => {
   describe("from endpoint/middleware without injection", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
-      Metadata.set(PARAM_METADATA, [{service: EXPRESS_NEXT_FN}], Test, "test");
+      Metadata.set(PARAM_METADATA, [{service: ParamTypes.NEXT_FN}], Test, "test");
 
       const options = {
         target: Test,
@@ -143,7 +144,7 @@ describe("HandlerMetadata", () => {
   describe("from middleware with injection and error", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
-      Metadata.set(PARAM_METADATA, [{service: EXPRESS_NEXT_FN}, {service: EXPRESS_ERR}], Test2, "use");
+      Metadata.set(PARAM_METADATA, [{service: ParamTypes.NEXT_FN}, {service: ParamTypes.ERR}], Test2, "use");
       const options = {
         target: Test2,
         method: "use",

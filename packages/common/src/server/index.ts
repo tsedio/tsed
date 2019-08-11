@@ -18,4 +18,4 @@ export * from "./utils/createExpressApplication";
 export * from "./utils/createHttpServer";
 export * from "./utils/createHttpsServer";
 export * from "./services/ServeStaticService";
-export * from "./services/RouteService";
+export * from "../mvc/services/RouteService";

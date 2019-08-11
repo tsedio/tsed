@@ -1,7 +1,6 @@
 import {Store} from "@tsed/core";
 import {expect} from "chai";
-import {ParamMetadata} from "../../../src/mvc";
-import {EXPRESS_ERR} from "../../../src/filters/constants";
+import {ParamMetadata, ParamTypes} from "../../../src/mvc";
 
 class Test {
   method(arg1: any, arg2: any) {
@@ -68,13 +67,13 @@ describe("ParamMetadata", () => {
       paramMetadata.type = Test;
       paramMetadata.useConverter = true;
       paramMetadata.useValidation = true;
-      paramMetadata.service = EXPRESS_ERR;
+      paramMetadata.service = ParamTypes.ERR;
     });
 
     it("should return the service", () => {
       expect(paramMetadata.service)
-        .to.be.a("symbol")
-        .to.eq(EXPRESS_ERR);
+        .to.be.a("string")
+        .to.eq(ParamTypes.ERR);
     });
   });
 

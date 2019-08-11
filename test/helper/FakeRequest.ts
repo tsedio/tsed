@@ -55,6 +55,10 @@ export class FakeRequest {
     }
   };
 
+  public headers: any = {
+    "content-type": "application/json"
+  };
+
   public ctx = new Context({id: "id"});
   public log: {[key: string]: SinonStub};
   public isAuthenticated: SinonStub;
@@ -75,6 +79,8 @@ export class FakeRequest {
 
     this.isAuthenticated = sandbox.stub();
     this.accepts = sandbox.stub().callsFake((mime: string) => this.mime === mime);
-    this.get = sandbox.stub().returns("headerValue");
+    this.get = sandbox.stub().callsFake((value) => {
+      return value ? (this.headers[value.toLowerCase()] || "headerValue") : this.headers;
+    });
   }
 }

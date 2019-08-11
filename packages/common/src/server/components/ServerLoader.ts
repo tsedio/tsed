@@ -1,17 +1,15 @@
-import {
-  createExpressApplication,
-  createHttpServer,
-  createHttpsServer,
-  createInjector,
-  IProvider,
-  RouteService
-} from "@tsed/common";
 import {Deprecated} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
+import {InjectorService, IProvider} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {IServerSettings, ServerSettingsService} from "../../config";
+import {RouteService} from "../../mvc/services/RouteService";
+import {createExpressApplication} from "../../server/utils/createExpressApplication";
+import {createHttpServer} from "../../server/utils/createHttpServer";
+import {createHttpsServer} from "../../server/utils/createHttpsServer";
+import {createInjector} from "../../server/utils/createInjector";
+
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 
@@ -69,7 +67,7 @@ import {printRoutes} from "../utils/printRoutes";
 export abstract class ServerLoader implements IServerLifecycle {
   public version: string = "0.0.0-PLACEHOLDER";
   private _injector: InjectorService;
-  private routesProviders: IProvider<any> [] = [];
+  private routesProviders: IProvider<any>[] = [];
 
   /**
    *
@@ -186,17 +184,14 @@ export abstract class ServerLoader implements IServerLifecycle {
   init() {
     const settings = ServerSettingsService.getMetadata(this);
 
-    this._injector = /* await */ createInjector(settings);
+    this._injector = createInjector(settings);
 
     if (settings) {
       this.setSettings(settings);
     }
 
-    /* await */
     createExpressApplication(this.injector);
-    /* await */
     createHttpsServer(this.injector);
-    /* await */
     createHttpServer(this.injector);
   }
 
@@ -416,8 +411,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   protected async startServer(
     http: Http.Server | Https.Server,
     settings: {https: boolean; address: string | number; port: number}
-  ): Promise<{address: string; port: number, https: boolean}> {
-
+  ): Promise<{address: string; port: number; https: boolean}> {
     this.injector.logger.debug(`Start server on ${settings.https ? "https" : "http"}://${settings.address}:${settings.port}`);
     const resolvedSettings = await listenServer(http, settings);
     this.injector.logger.info(`Listen server on ${settings.https ? "https" : "http"}://${settings.address}:${settings.port}`);
@@ -468,9 +462,7 @@ export abstract class ServerLoader implements IServerLifecycle {
       importComponents(this.settings.componentsScan, this.settings.exclude)
     ]);
 
-    this.routesProviders = ([] as any)
-      .concat(...components)
-      .filter((component: IProvider<any>) => !!component.endpoint);
+    this.routesProviders = ([] as any).concat(...components).filter((component: IProvider<any>) => !!component.endpoint);
   }
 
   /**

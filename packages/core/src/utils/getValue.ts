@@ -6,11 +6,15 @@
  * @param separator
  * @returns {any}
  */
-export function getValue(expression: string, scope: any, defaultValue?: any, separator = ".") {
+export function getValue(expression: string | undefined, scope: any, defaultValue?: any, separator = ".") {
+  if (!expression) {
+    return scope;
+  }
+
   const keys: string[] = expression.split(separator);
 
   const getValue = (key: string) => {
-    if (typeof scope.get === "function") {
+    if (scope instanceof Map) {
       return scope.get(key);
     }
 

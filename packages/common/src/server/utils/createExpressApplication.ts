@@ -1,10 +1,9 @@
-import {InjectorService, ProviderScope, registerProvider} from "@tsed/common";
+import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import * as Express from "express";
 import {HandlerBuilder} from "../../mvc";
 import {ExpressApplication} from "../decorators/expressApplication";
 
-export /* async */ function createExpressApplication(injector: InjectorService): void {
-  /* await */
+export function createExpressApplication(injector: InjectorService): void {
   injector.forkProvider(ExpressApplication);
 }
 

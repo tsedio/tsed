@@ -1,5 +1,6 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
 import {InjectorService, Service} from "@tsed/di";
+import {BadRequest} from "ts-httpexceptions";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
@@ -9,7 +10,6 @@ import {ConverterSerializationError} from "../errors/ConverterSerializationError
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknowPropertyError} from "../errors/UnknowPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
-import {BadRequest} from "ts-httpexceptions";
 
 @Service()
 export class ConverterService {

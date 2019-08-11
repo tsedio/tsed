@@ -31,12 +31,9 @@ export class TestContext {
    * Create a new injector with the right default services
    */
   static createInjector(options: any = {}): InjectorService {
-    const injector = /* await */ createInjector(options);
-    /* await */
+    const injector = createInjector(options);
     createExpressApplication(injector);
-    /* await */
     createHttpServer(injector);
-    /* await */
     createHttpsServer(injector);
 
     injector.settings.env = Env.TEST;

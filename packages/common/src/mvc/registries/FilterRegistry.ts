@@ -1,5 +1,4 @@
-import {Provider, ProviderType, TypedProvidersRegistry, GlobalProviders} from "@tsed/di";
-import {IFilterPreHandler} from "../interfaces/IFilterPreHandler";
+import {GlobalProviders, Provider, ProviderType, TypedProvidersRegistry} from "@tsed/di";
 
 /**
  *
@@ -38,9 +37,3 @@ export const FilterRegistry: TypedProvidersRegistry = GlobalProviders.createRegi
  * @param provider Provider configuration.
  */
 export const registerFilter = GlobalProviders.createRegisterFn(ProviderType.FILTER);
-/**
- *
- * @type {Map<any, any>}
- */
-// tslint:disable-next-line: variable-name
-export const FilterPreHandlers: Map<symbol, IFilterPreHandler> = new Map();
