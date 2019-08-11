@@ -1,5 +1,5 @@
 import * as Express from "express";
-import {EXPRESS_NEXT_FN} from "../../../filters/constants";
+import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 
 export type Next = Express.NextFunction;
@@ -10,5 +10,8 @@ export type Next = Express.NextFunction;
  * @decorator
  */
 export function Next(): ParameterDecorator {
-  return UseFilter(EXPRESS_NEXT_FN);
+  return UseFilter(ParamTypes.NEXT_FN, {
+    useConverter: false,
+    useValidation: false
+  });
 }

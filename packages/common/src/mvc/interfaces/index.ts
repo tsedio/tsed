@@ -11,4 +11,4 @@ export * from "./IResponseHeader";
 export * from "./IResponseError";
 export * from "./IParamOptions";
 export * from "./HandlerType";
-export * from "./IFilterScope";
+export * from "./IHandlerContext";

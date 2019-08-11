@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {ParamRegistry, ParamTypes, UseFilter} from "../../../../src/mvc";
-import {BodyParamsFilter} from "../../../../src/mvc/components/BodyParamsFilter";
 
 const sandbox = Sinon.createSandbox();
 describe("@UseFilter", () => {
@@ -17,7 +16,7 @@ describe("@UseFilter", () => {
       }
 
       class Ctrl {
-        test(@UseFilter(BodyParamsFilter, {
+        test(@UseFilter(ParamTypes.BODY, {
           expression: "expression",
           useConverter: true,
           useValidation: true,
@@ -27,7 +26,7 @@ describe("@UseFilter", () => {
         }
       }
 
-      ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(BodyParamsFilter, {
+      ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.BODY, {
         target: prototypeOf(Ctrl),
         propertyKey: "test",
         parameterIndex: 0,

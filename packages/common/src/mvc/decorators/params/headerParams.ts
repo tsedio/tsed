@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {HeaderParamsFilter} from "../../components/HeaderParamsFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -39,11 +38,10 @@ export function HeaderParams(): ParameterDecorator;
 export function HeaderParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(HeaderParamsFilter, {
+  return UseFilter(ParamTypes.HEADER, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.HEADER
+    useValidation
   });
 }

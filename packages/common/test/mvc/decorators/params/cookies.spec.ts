@@ -21,13 +21,12 @@ describe("@Cookies", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(CookiesFilter, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.COOKIES, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
       useType: Test,
-      paramType: ParamTypes.COOKIES,
       useConverter: false,
       useValidation: false
     });

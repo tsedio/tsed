@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {RESPONSE_DATA} from "../../../../src/filters/constants";
-import {ParamRegistry, ResponseData} from "../../../../src/mvc";
+import {ParamRegistry, ParamTypes, ResponseData} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@ResponseData", () => {
@@ -18,7 +17,7 @@ describe("@ResponseData", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(RESPONSE_DATA, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.RESPONSE_DATA, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0

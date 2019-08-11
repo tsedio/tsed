@@ -1,9 +1,6 @@
 import {Type} from "@tsed/core";
 import {ParamTypes} from "../models/ParamTypes";
 
-/**
- *
- */
 export interface IParamOptions<T> {
   required?: boolean;
   expression?: string;

@@ -1,7 +1,8 @@
 import {prototypeOf} from "@tsed/core";
+import {expect} from "chai";
 import * as Sinon from "sinon";
+import {stub} from "../../../../../../test/helper/tools";
 import {BodyParams, ParamRegistry, ParamTypes} from "../../../../src/mvc";
-import {BodyParamsFilter} from "../../../../src/mvc/components/BodyParamsFilter";
 
 const sandbox = Sinon.createSandbox();
 describe("@BodyParams", () => {
@@ -20,15 +21,14 @@ describe("@BodyParams", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(BodyParamsFilter, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.BODY, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
       useType: Test,
       useConverter: true,
-      useValidation: true,
-      paramType: ParamTypes.BODY
+      useValidation: true
     });
   });
 });

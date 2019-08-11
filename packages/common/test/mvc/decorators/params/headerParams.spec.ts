@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {HeaderParams, ParamRegistry, ParamTypes} from "../../../../src/mvc";
-import {HeaderParamsFilter} from "../../../../src/mvc/components/HeaderParamsFilter";
 
 const sandbox = Sinon.createSandbox();
 describe("@HeaderParams", () => {
@@ -17,12 +16,11 @@ describe("@HeaderParams", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(HeaderParamsFilter, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.HEADER, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
-      paramType: ParamTypes.HEADER,
       useType: undefined,
       useConverter: false,
       useValidation: false

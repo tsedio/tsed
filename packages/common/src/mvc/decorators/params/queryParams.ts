@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {QueryParamsFilter} from "../../components/QueryParamsFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -49,11 +48,10 @@ export function QueryParams(): ParameterDecorator;
 export function QueryParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
 
-  return UseFilter(QueryParamsFilter, {
+  return UseFilter(ParamTypes.QUERY, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.QUERY
+    useValidation
   });
 }

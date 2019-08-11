@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {PathParamsFilter} from "../../components/PathParamsFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -44,11 +43,10 @@ export function PathParams(): ParameterDecorator;
 export function PathParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(PathParamsFilter, {
+  return UseFilter(ParamTypes.PATH, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.PATH
+    useValidation
   });
 }

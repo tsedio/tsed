@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {CookiesFilter} from "../../components/CookiesFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -43,12 +42,11 @@ export function CookiesParams(options: IParamOptions<any>): ParameterDecorator;
 export function CookiesParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(CookiesFilter, {
+  return UseFilter(ParamTypes.COOKIES, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.COOKIES
+    useValidation
   });
 }
 

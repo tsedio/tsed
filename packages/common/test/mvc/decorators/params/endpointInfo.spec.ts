@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ENDPOINT_INFO} from "../../../../src/filters/constants";
-import {EndpointInfo, ParamRegistry} from "../../../../src/mvc";
+import {EndpointInfo, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@EndpointInfo", () => {
@@ -18,10 +17,12 @@ describe("@EndpointInfo", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ENDPOINT_INFO, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.ENDPOINT_INFO, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0
+      parameterIndex: 0,
+      useConverter: false,
+      useValidation: false
     });
   });
 });

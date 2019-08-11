@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {EXPRESS_ERR} from "../../../../src/filters/constants";
-import {EndpointInfo, Err, ParamRegistry} from "../../../../src/mvc";
+import {EndpointInfo, Err, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@Err", () => {
@@ -18,10 +17,12 @@ describe("@Err", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_ERR, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.ERR, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0
+      parameterIndex: 0,
+      useConverter: false,
+      useValidation: false
     });
   });
 });

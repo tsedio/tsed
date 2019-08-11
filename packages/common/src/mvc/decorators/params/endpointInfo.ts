@@ -1,6 +1,6 @@
-import {EndpointMetadata} from "@tsed/common";
-import {ENDPOINT_INFO} from "../../../filters/constants";
 import {UseFilter} from "./useFilter";
+import {EndpointMetadata} from "../../models/EndpointMetadata";
+import {ParamTypes} from "../../models/ParamTypes";
 
 export type EndpointInfo = EndpointMetadata;
 
@@ -10,5 +10,8 @@ export type EndpointInfo = EndpointMetadata;
  * @decorator
  */
 export function EndpointInfo(): Function {
-  return UseFilter(ENDPOINT_INFO);
+  return UseFilter(ParamTypes.ENDPOINT_INFO, {
+    useConverter: false,
+    useValidation: false
+  });
 }

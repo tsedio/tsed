@@ -1,7 +1,8 @@
 import {Deprecated, Metadata, Type} from "@tsed/core";
-import {PARAM_METADATA} from "../../filters/constants";
+import {PARAM_METADATA} from "../constants";
 import {IInjectableParamSettings} from "../interfaces/IInjectableParamSettings";
 import {ParamMetadata} from "../models/ParamMetadata";
+import {ParamTypes} from "../models/ParamTypes";
 
 export class ParamRegistry {
   /**
@@ -81,7 +82,7 @@ export class ParamRegistry {
    */
   // istanbul ignore next
   @Deprecated("ParamRegistry.decorate are deprecated. Use UseFilter decorator instead")
-  static decorate(token: Type<any> | symbol, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
+  static decorate(token: string | Type<any> | ParamTypes, options: Partial<IInjectableParamSettings<any>> = {}): ParameterDecorator {
     return (target: Type<any>, propertyKey: string | symbol, parameterIndex: number): any => {
       if (typeof parameterIndex === "number") {
         const settings = Object.assign(
@@ -98,29 +99,19 @@ export class ParamRegistry {
     };
   }
 
-  static useFilter(service: any, options: IInjectableParamSettings<any>): ParamMetadata {
-    if (typeof service === "symbol") {
-      const param = ParamRegistry.get(options.target, options.propertyKey, options.parameterIndex);
-      param.service = service;
-      param.useConverter = false;
-
-      return param;
-    }
-
-    const {propertyKey, parameterIndex, target, useConverter, useValidation, paramType} = options;
-
-    let {expression, useType} = options;
+  static useFilter(service: string | Type<any> | ParamTypes, options: IInjectableParamSettings<any>): ParamMetadata {
+    const {expression, useType, propertyKey, parameterIndex, target, useConverter, useValidation} = options;
+    let {paramType} = options;
 
     const param = ParamRegistry.get(target, propertyKey, parameterIndex);
 
-    if (typeof expression !== "string") {
-      useType = expression as any;
-      expression = undefined;
+    if (typeof service === "string") {
+      paramType = service as ParamTypes;
     }
 
     param.service = service;
-    param.expression = expression!;
     param.useValidation = !!useValidation;
+    param.expression = expression!;
 
     if (paramType) {
       param.paramType = paramType!;

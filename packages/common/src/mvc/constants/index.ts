@@ -33,3 +33,5 @@ export const EXPRESS_METHODS = [
   "unlock",
   "unsuscribe"
 ];
+
+export const PARAM_METADATA = "tsed:params:metadata";

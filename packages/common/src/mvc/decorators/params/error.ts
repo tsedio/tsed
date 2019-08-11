@@ -1,4 +1,4 @@
-import {EXPRESS_ERR} from "../../../filters/constants";
+import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 
 /**
@@ -7,5 +7,8 @@ import {UseFilter} from "./useFilter";
  * @decorators
  */
 export function Err(): Function {
-  return UseFilter(EXPRESS_ERR);
+  return UseFilter(ParamTypes.ERR, {
+    useValidation: false,
+    useConverter: false
+  });
 }

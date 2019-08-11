@@ -1,5 +1,5 @@
 import * as Express from "express";
-import {EXPRESS_RESPONSE} from "../../../filters/constants";
+import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 
 export type Response = Express.Response;
@@ -21,5 +21,5 @@ export function Response(): ParameterDecorator {
  * @alias Request
  */
 export function Res(): ParameterDecorator {
-  return UseFilter(EXPRESS_RESPONSE);
+  return UseFilter(ParamTypes.RESPONSE);
 }

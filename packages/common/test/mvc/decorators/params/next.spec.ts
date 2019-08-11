@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {EndpointInfo, Next, ParamRegistry} from "../../../../src/mvc";
-import {EXPRESS_NEXT_FN} from "../../../../src/filters/constants";
+import {EndpointInfo, Next, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@Next", () => {
@@ -18,10 +17,13 @@ describe("@Next", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_NEXT_FN, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.NEXT_FN, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0
+      parameterIndex: 0,
+      useConverter: false,
+      useValidation: false
+
     });
   });
 });

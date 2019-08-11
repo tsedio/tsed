@@ -1,6 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ParamRegistry, ParamTypes, QueryParams, QueryParamsFilter} from "../../../../src/mvc";
+import {ParamRegistry, ParamTypes, QueryParams} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@QueryParams", () => {
@@ -19,13 +19,12 @@ describe("@QueryParams", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(QueryParamsFilter, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.QUERY, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
       useType: Test,
-      paramType: ParamTypes.QUERY,
       useConverter: true,
       useValidation: true
     });

@@ -25,10 +25,11 @@ export class ParamMetadata extends Storable implements IParamOptions<any> {
    * @type {boolean}
    */
   @Enumerable()
-  public useConverter: boolean = true;
+  public useConverter: boolean = false;
+
   /**
    *
    */
   @Enumerable()
-  public service: string | Type<any> | symbol;
+  public service: string | Type<any> | ParamTypes;
 }

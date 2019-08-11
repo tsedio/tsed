@@ -1,4 +1,4 @@
-import {RESPONSE_DATA} from "../../../filters/constants";
+import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 
 /**
@@ -7,5 +7,5 @@ import {UseFilter} from "./useFilter";
  * @decorator
  */
 export function ResponseData(): ParameterDecorator {
-  return UseFilter(RESPONSE_DATA);
+  return UseFilter(ParamTypes.RESPONSE_DATA);
 }

@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {SessionFilter} from "../../components/SessionFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -39,11 +38,10 @@ export function Session(): ParameterDecorator;
 export function Session(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(SessionFilter, {
+  return UseFilter(ParamTypes.SESSION, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.SESSION
+    useValidation
   });
 }

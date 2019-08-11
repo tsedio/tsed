@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {BodyParamsFilter} from "../../components/BodyParamsFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -49,11 +48,10 @@ export function BodyParams(): ParameterDecorator;
 export function BodyParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
 
-  return UseFilter(BodyParamsFilter, {
+  return UseFilter(ParamTypes.BODY, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.BODY
+    useValidation
   });
 }

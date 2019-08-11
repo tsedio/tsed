@@ -1,5 +1,4 @@
 import {Type} from "@tsed/core";
-import {LocalsFilter} from "../../components/LocalsFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
@@ -39,11 +38,10 @@ export function Locals(): ParameterDecorator;
 export function Locals(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(LocalsFilter, {
+  return UseFilter(ParamTypes.LOCALS, {
     expression,
     useType,
     useConverter,
-    useValidation,
-    paramType: ParamTypes.LOCALS
+    useValidation
   });
 }

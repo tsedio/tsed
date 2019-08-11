@@ -1,8 +1,9 @@
 import {Metadata, Type} from "@tsed/core";
-import {EXPRESS_ERR, EXPRESS_NEXT_FN, EXPRESS_REQUEST, EXPRESS_RESPONSE, PARAM_METADATA} from "../../filters/constants";
+import {PARAM_METADATA} from "../constants";
 import {HandlerType} from "../interfaces/HandlerType";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamTypes} from "./ParamTypes";
 
 export interface IHandlerOptions {
   target: Type<any> | Function;
@@ -33,8 +34,8 @@ export class HandlerMetadata {
       this.token = token!;
       this.methodClassName = method;
       this.method = method;
-      this.hasNextFunction = this.hasParamType(EXPRESS_NEXT_FN);
-      this.hasErrorParam = this.hasParamType(EXPRESS_ERR);
+      this.hasNextFunction = this.hasParamType(ParamTypes.NEXT_FN);
+      this.hasErrorParam = this.hasParamType(ParamTypes.ERR);
       this.injectable = (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
     }
 
@@ -44,19 +45,26 @@ export class HandlerMetadata {
     }
   }
 
-  get services(): ParamMetadata[] {
+  /**
+   * @deprecated
+   */
+  get services() {
+    return this.parameters;
+  }
+
+  get parameters(): ParamMetadata[] {
     if (this.injectable) {
       return this.getParams();
     }
 
-    const parameters: any[] = [{service: EXPRESS_REQUEST}, {service: EXPRESS_RESPONSE}];
+    const parameters: any[] = [{service: ParamTypes.REQUEST}, {service: ParamTypes.RESPONSE}];
 
     if (this.hasErrorParam) {
-      parameters.unshift({service: EXPRESS_ERR});
+      parameters.unshift({service: ParamTypes.ERR});
     }
 
     if (this.hasNextFunction) {
-      parameters.push({service: EXPRESS_NEXT_FN});
+      parameters.push({service: ParamTypes.NEXT_FN});
     }
 
     return parameters;

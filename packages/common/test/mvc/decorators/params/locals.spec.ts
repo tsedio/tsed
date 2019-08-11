@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {Locals, ParamRegistry, ParamTypes} from "../../../../src/mvc";
-import {LocalsFilter} from "../../../../src/mvc/components/LocalsFilter";
 
 const sandbox = Sinon.createSandbox();
 describe("@Locals", () => {
@@ -20,12 +19,11 @@ describe("@Locals", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(LocalsFilter, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.LOCALS, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       parameterIndex: 0,
       expression: "expression",
-      paramType: ParamTypes.LOCALS,
       useType: undefined,
       useConverter: false,
       useValidation: false
