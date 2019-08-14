@@ -1,22 +1,24 @@
 import {InjectorService} from "@tsed/di";
-import {inject} from "@tsed/testing";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
 import * as Sinon from "sinon";
-import {BadRequest} from "ts-httpexceptions";
 import {$log} from "ts-log-debug";
+import {promisify} from "util";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {$logStub} from "../../../../../test/helper/tools";
-import {Metadata} from "../../../../core/src";
+import {$logStub} from "../../../../../test/helper/logger";
+import {stub} from "../../../../../test/helper/tools";
+import {inject} from "../../../../testing/src";
 import {
-  EXPRESS_ERR,
-  EXPRESS_NEXT_FN,
-  EXPRESS_REQUEST,
-  EXPRESS_RESPONSE,
-  PARAM_METADATA
-} from "../../../src/filters/constants";
-import {EndpointMetadata, FilterBuilder, HandlerBuilder, HandlerMetadata, HandlerType} from "../../../src/mvc";
+  EndpointMetadata,
+  Err,
+  HandlerBuilder,
+  HandlerMetadata,
+  HandlerType,
+  ParamBuilder,
+  Required
+} from "../../../src/mvc";
+import {BodyParams} from "../../../src/mvc/decorators/params/bodyParams";
 
 class Test {
   get() {
@@ -61,7 +63,7 @@ describe("HandlerBuilder", () => {
 
         // THEN
         handlerMetadata.target.should.eq(Test);
-        handlerMetadata.methodClassName.should.eq("get");
+        handlerMetadata.propertyKey.should.eq("get");
         handlerMetadata.type.should.eq(HandlerType.CONTROLLER);
       });
     });
@@ -80,7 +82,7 @@ describe("HandlerBuilder", () => {
 
         // THEN
         handlerMetadata.target.should.eq(Test);
-        handlerMetadata.methodClassName.should.eq("use");
+        handlerMetadata.propertyKey.should.eq("use");
         handlerMetadata.type.should.eq(HandlerType.MIDDLEWARE);
       });
     });
@@ -184,87 +186,469 @@ describe("HandlerBuilder", () => {
     });
   });
   describe("build()", () => {
-    const sandbox = Sinon.createSandbox();
-    before(() => {
-      sandbox.stub(HandlerBuilder.prototype as any, "invoke");
-      sandbox.stub(FilterBuilder.prototype, "build");
-    });
-
-    after(() => {
-      sandbox.restore();
-    });
-
-    afterEach(() => {
-      sandbox.resetHistory();
-    });
-
-    describe("when is a middleware", () => {
-      it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
+    describe("when return value", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
         // GIVEN
+        class Test {
+          test() {
+            return "test";
+          }
+        }
+
         const handlerMetadata = new HandlerMetadata({
+          token: Test,
           target: Test,
-          type: HandlerType.MIDDLEWARE,
-          method: "use"
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
         });
 
-        // WHEN
-        const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
-        middleware({request: "request"}, {response: "response"}, "function");
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
 
-        // @ts-ignore
-        HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function");
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_REQUEST});
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_RESPONSE});
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_NEXT_FN});
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        const result = await promisify(handler)(request, response);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq("test");
+      }));
+    });
+    describe("when return value (called twice)", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        class Test {
+          test() {
+            return "test";
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+
+        // WHEN
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+        const result = await promisify(handler)(request, response);
+
+        const request2 = new FakeRequest();
+        const response2 = new FakeResponse();
+        const result2 = await promisify(handler)(request2, response2);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq("test");
+        expect(result2).to.eq(undefined);
+        expect(request2.ctx.data).to.eq("test");
       }));
     });
 
-    describe("when is a middleware error", () => {
-      it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
+    describe("when there is an error in handler", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
         // GIVEN
-        const handlerMetadata = new HandlerMetadata({
-          target: Test,
-          type: HandlerType.MIDDLEWARE,
-          method: "useErr"
-        });
-        const error = new Error();
-        // WHEN
-        const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
-        middleware(error, {request: "request"}, {response: "response"}, "function");
+        class Test {
+          test(@Err() error: any) {
+            return error.message;
+          }
+        }
 
-        // @ts-ignore
-        HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function", error);
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_REQUEST});
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_RESPONSE});
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_NEXT_FN});
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_ERR});
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        const result = await promisify(handler)(new Error("test error"), request, response);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq("test error");
+      }));
+    });
+    describe("when there is  an error in params", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        class Test {
+          test(@BodyParams("user") @Required() user: any) {
+            return "";
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        let actualError: any;
+        try {
+          await promisify(handler)(request, response);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        expect(actualError.message).to.eq("Bad request, parameter \"request.body.user\" is required.");
+      }));
+    });
+    describe("when there is  an error in params (called twice)", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        class Test {
+          test(@BodyParams("user") @Required() user: any) {
+            return "wrong";
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        // WHEN
+        let actualError: any;
+        try {
+          const request = new FakeRequest();
+          const response = new FakeResponse();
+          await promisify(handler)(request, response);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        expect(actualError.message).to.eq("Bad request, parameter \"request.body.user\" is required.");
+
+        // WHEN
+        let actualError2: any;
+        try {
+          const request = new FakeRequest();
+          const response = new FakeResponse();
+          console.log(await promisify(handler)(request, response));
+          console.log(request.ctx.data);
+        } catch (er) {
+          actualError2 = er;
+        }
+
+        // THEN
+        expect(actualError2.message).to.eq("Bad request, parameter \"request.body.user\" is required.");
       }));
     });
 
-    describe("when is a controller injectable", () => {
-      it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
+    describe("when throw Error", () => {
+      it("should catch error", inject([InjectorService], async (injector: InjectorService) => {
         // GIVEN
-        Metadata.set(PARAM_METADATA, [{service: EXPRESS_NEXT_FN}, {service: EXPRESS_ERR}], Test, "get");
+        const error = new Error("test");
+
+        class Test {
+          test() {
+            throw error;
+          }
+        }
+
         const handlerMetadata = new HandlerMetadata({
+          token: Test,
           target: Test,
-          type: HandlerType.CONTROLLER,
-          method: "get"
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
         });
 
-        const error = new Error();
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
         // WHEN
-        const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
-        middleware(error, {request: "request"}, {response: "response"}, "function");
+        let actualError;
+        try {
+          await promisify(handler)(request, response);
+        } catch (er) {
+          actualError = er;
+        }
 
-        // @ts-ignore
-        HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function", error);
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_NEXT_FN});
-        FilterBuilder.prototype.build.should.have.been.calledWithExactly({service: EXPRESS_ERR});
+        // THEN
+        expect(actualError).to.eq(error);
+        expect(request.ctx.data).to.eq(undefined);
+      }));
+    });
 
-        Metadata.set(PARAM_METADATA, undefined, Test, "get");
+    describe("when return Promise", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        class Test {
+          async test() {
+            return await "test";
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        const result = await promisify(handler)(request, response);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq("test");
+      }));
+    });
+
+    describe("when reject Error", () => {
+      it("should catch error", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        const error = new Error("test");
+
+        class Test {
+          test() {
+            return Promise.reject(error);
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        let actualError;
+        try {
+          await promisify(handler)(request, response);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        expect(actualError).to.eq(error);
+        expect(request.ctx.data).to.eq(undefined);
+      }));
+    });
+
+    describe("when return Observable", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        class Test {
+          async test() {
+            return of("test");
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        const result = await promisify(handler)(request, response);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq("test");
+      }));
+    });
+
+    describe("when return Function as middleware", () => {
+      before(() => {
+        Sinon.spy(ParamBuilder.prototype, "build");
+      });
+      after(() => {
+        stub(ParamBuilder.prototype.build).restore();
+      });
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        class Test {
+          async test() {
+            return (request: any, response: any, next: any) => {
+              request.ctx.data = "test";
+              next();
+            };
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        const result = await promisify(handler)(request, response);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq("test");
+
+        ParamBuilder.prototype.build.should.have.been.calledWithExactly(injector);
+      }));
+    });
+
+    describe("when return Stream", () => {
+      it("should return value", inject([InjectorService], async (injector: InjectorService) => {
+        // GIVEN
+        const stream = createReadStream(__dirname + "/data/response.txt");
+
+        class Test {
+          async test() {
+            return stream;
+          }
+        }
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          propertyKey: "test",
+          type: HandlerType.CONTROLLER
+        });
+
+        const handler = new HandlerBuilder(handlerMetadata).build(injector);
+
+        const request = new FakeRequest();
+        const response = new FakeResponse();
+
+        // WHEN
+        const result = await promisify(handler)(request, response);
+
+        // THEN
+        expect(result).to.eq(undefined);
+        expect(request.ctx.data).to.eq(stream);
       }));
     });
   });
+  // describe("build()", () => {
+  //   const sandbox = Sinon.createSandbox();
+  //   before(() => {
+  //     sandbox.stub(HandlerBuilder.prototype as any, "invoke");
+  //     sandbox.stub(ParamBuilder.prototype, "build");
+  //   });
+  //
+  //   after(() => {
+  //     sandbox.restore();
+  //   });
+  //
+  //   afterEach(() => {
+  //     sandbox.resetHistory();
+  //   });
+  //
+  //   describe("when is a middleware", () => {
+  //     it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
+  //       // GIVEN
+  //       const handlerMetadata = new HandlerMetadata({
+  //         target: Test,
+  //         type: HandlerType.MIDDLEWARE,
+  //         propertyKey: "use"
+  //       });
+  //
+  //       // WHEN
+  //       const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
+  //       middleware({request: "request"}, {response: "response"}, "function");
+  //
+  //       // @ts-ignore
+  //       HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function");
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.REQUEST});
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.RESPONSE});
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.NEXT_FN});
+  //     }));
+  //   });
+  //
+  //   describe("when is a middleware error", () => {
+  //     it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
+  //       // GIVEN
+  //       const handlerMetadata = new HandlerMetadata({
+  //         target: Test,
+  //         type: HandlerType.MIDDLEWARE,
+  //         propertyKey: "useErr"
+  //       });
+  //       const error = new Error();
+  //       // WHEN
+  //       const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
+  //       middleware(error, {request: "request"}, {response: "response"}, "function");
+  //
+  //       // @ts-ignore
+  //       HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function", error);
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.REQUEST});
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.RESPONSE});
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.NEXT_FN});
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.ERR});
+  //     }));
+  //   });
+  //
+  //   describe("when is a controller injectable", () => {
+  //     it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
+  //       // GIVEN
+  //       Metadata.set(PARAM_METADATA, [{service: ParamTypes.NEXT_FN}, {service: ParamTypes.ERR}], Test, "get");
+  //       const handlerMetadata = new HandlerMetadata({
+  //         target: Test,
+  //         type: HandlerType.CONTROLLER,
+  //         propertyKey: "get"
+  //       });
+  //
+  //       const error = new Error();
+  //       // WHEN
+  //       const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
+  //       middleware(error, {request: "request"}, {response: "response"}, "function");
+  //
+  //       // @ts-ignore
+  //       HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function", error);
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.NEXT_FN});
+  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.ERR});
+  //
+  //       Metadata.set(PARAM_METADATA, undefined, Test, "get");
+  //     }));
+  //   });
+  // });
   describe("buildNext()", () => {
     describe("when header is not sent", () => {
       it("should change the nextCalled state", () => {
@@ -274,13 +658,14 @@ describe("HandlerBuilder", () => {
         const handlerBuilder: any = new HandlerBuilder(handlerMetadata);
         const nextStub: any = Sinon.stub();
         const infoStub = Sinon.stub(handlerBuilder as any, "log").returns("log");
+        const context = {request: {tagId: "1"}, response: {}, next: nextStub};
 
         // WHEN
-        handlerBuilder.buildNext({tagId: "1"}, {}, nextStub)();
+        handlerBuilder.buildNext(context)();
 
         // THEN
         expect(nextStub.isCalled).to.eq(true);
-        infoStub.should.have.been.calledWithExactly({tagId: "1"}, {
+        infoStub.should.have.been.calledWithExactly(context, {
           error: undefined,
           event: "invoke.end",
           execTime: Sinon.match.number
@@ -297,7 +682,7 @@ describe("HandlerBuilder", () => {
         const nextStub: any = Sinon.stub();
         const infoStub = Sinon.stub(handlerBuilder, "log").returns("log");
 
-        handlerBuilder.buildNext({tagId: "1"}, {headersSent: true}, nextStub)();
+        handlerBuilder.buildNext({request: {tagId: "1"}, response: {headersSent: true}, next: nextStub})();
 
         expect(nextStub.isCalled).to.eq(true);
 
@@ -310,7 +695,7 @@ describe("HandlerBuilder", () => {
       // GIVEN
       const metadata = new HandlerMetadata({
         target: Test,
-        method: "get",
+        propertyKey: "get",
         type: HandlerType.CONTROLLER
       });
 
@@ -322,7 +707,7 @@ describe("HandlerBuilder", () => {
       handlerBuilder.debug = true;
       // WHEN
       // @ts-ignore
-      handlerBuilder.log(request);
+      handlerBuilder.log({request});
 
       request.log.debug.should.have.been.calledWithExactly({
         data: "data",
@@ -333,114 +718,7 @@ describe("HandlerBuilder", () => {
       }, false);
     });
   });
-  describe("runFilters()", () => {
-    describe("when success", () => {
-      it("should call the filters", () => {
-        // GIVEN
-        const handlerMetadata = new HandlerMetadata({
-          target: Test,
-          method: "get",
-          type: HandlerType.CONTROLLER
-        });
 
-        const handlerBuilder = new HandlerBuilder(handlerMetadata);
-        // @ts-ignore
-        handlerBuilder.filters = [Sinon.stub().returns("value1"), Sinon.stub().returns("value2")];
-
-        // WHEN
-        // @ts-ignore
-        const result = handlerBuilder.runFilters("request", "response", "next", "err");
-
-
-        // @ts-ignore
-        handlerBuilder.filters[0].should.have.been.calledWithExactly({
-          request: "request",
-          response: "response",
-          next: "next",
-          err: "err"
-        });
-        // @ts-ignore
-        handlerBuilder.filters[1].should.have.been.calledWithExactly({
-          request: "request",
-          response: "response",
-          next: "next",
-          err: "err"
-        });
-        expect(result).to.deep.eq(["value1", "value2"]);
-      });
-    });
-
-    describe("when there is a bad request", () => {
-      it("should call the filters", () => {
-        // GIVEN
-        const handlerMetadata = new HandlerMetadata({
-          target: Test,
-          method: "get",
-          type: HandlerType.CONTROLLER
-        });
-
-        const handlerBuilder = new HandlerBuilder(handlerMetadata);
-        // @ts-ignore
-        handlerBuilder.filters = [Sinon.stub().throwsException(new BadRequest("BadRequest"))];
-        // @ts-ignore
-        handlerBuilder.filters[0].param = handlerMetadata;
-
-        let error: any;
-        try {
-          // @ts-ignore
-          handlerBuilder.runFilters("request", "response", "next", "err");
-        } catch (er) {
-          error = er;
-        }
-
-        // THEN
-        // @ts-ignore
-        handlerBuilder.filters[0].should.have.been.calledWithExactly({
-          request: "request",
-          response: "response",
-          next: "next",
-          err: "err"
-        });
-
-        expect(error.name).to.eq("BAD_REQUEST");
-      });
-    });
-
-    describe("when an unknow error", () => {
-      it("should call the filters", () => {
-        const handlerMetadata = new HandlerMetadata({
-          target: Test,
-          method: "get",
-          type: HandlerType.CONTROLLER
-        });
-
-        const handlerBuilder = new HandlerBuilder(handlerMetadata);
-        // @ts-ignore
-        handlerBuilder.filters = [Sinon.stub().throwsException(new Error("BadRequest"))];
-        // @ts-ignore
-        handlerBuilder.filters[0].param = handlerMetadata;
-
-        // WHEN
-        let error: any;
-        try {
-          // @ts-ignore
-          handlerBuilder.runFilters("request", "response", "next", "err");
-        } catch (er) {
-          error = er;
-        }
-
-        // @ts-ignore
-        handlerBuilder.filters[0].should.have.been.calledWithExactly({
-          request: "request",
-          response: "response",
-          next: "next",
-          err: "err"
-        });
-
-        expect(error.name).to.deep.eq(new Error("BadRequest").name);
-      });
-    });
-  });
   describe("handle()", () => {
     describe("when process is a response", () => {
       it("should exec the function", () => {
@@ -452,7 +730,8 @@ describe("HandlerBuilder", () => {
         const process = response;
 
         // WHEN
-        HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+        // @ts-ignore
+        HandlerBuilder.handle(process, {request, response, next, handler: {hasNextFunction}});
 
         // THEN
         return next.should.not.have.been.called;
@@ -468,7 +747,8 @@ describe("HandlerBuilder", () => {
         const hasNextFunction = true;
 
         // WHEN
-        HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+        // @ts-ignore
+        HandlerBuilder.handle(process, {request, response, next, handler: {hasNextFunction}});
 
         // THEN
         process.should.have.been.calledWithExactly(request, response, next);
@@ -486,7 +766,8 @@ describe("HandlerBuilder", () => {
         const hasNextFunction = false;
 
         // WHEN
-        HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+        // @ts-ignore
+        HandlerBuilder.handle(process, {request, response, next, handler: {hasNextFunction}});
 
         await process;
         // THEN
@@ -501,15 +782,14 @@ describe("HandlerBuilder", () => {
         const request = new FakeRequest();
         const response = new FakeResponse(Sinon);
         const hasNextFunction = false;
+        const next = (err: any) => {
+          err.should.eq(error);
+          done();
+        };
 
         // WHEN
-        HandlerBuilder.handle(process, {
-          request, response,
-          next: (err: any) => {
-            err.should.eq(error);
-            done();
-          }, hasNextFunction
-        });
+        // @ts-ignore
+        HandlerBuilder.handle(process, {request, response, next, handler: {hasNextFunction}});
       });
     });
     describe("when process is a stream", () => {
@@ -522,7 +802,8 @@ describe("HandlerBuilder", () => {
         const process = createReadStream(__dirname + "/data/response.txt");
 
         // WHEN
-        HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+        // @ts-ignore
+        HandlerBuilder.handle(process, {request, response, next, handler: {hasNextFunction}});
 
         await process;
 
@@ -541,7 +822,8 @@ describe("HandlerBuilder", () => {
         const hasNextFunction = false;
 
         // WHEN
-        HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+        // @ts-ignore
+        HandlerBuilder.handle(process, {request, response, next, handler: {hasNextFunction}});
 
         await process;
         // THEN

@@ -1,20 +1,19 @@
 import {isFunction, isPromise, isStream, nameOf} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import * as Express from "express";
-import {isObservable} from "rxjs";
-import {IFilterPreHandler, ParamMetadata} from "../../filters";
+import {isObservable, Observable, Subject, zip} from "rxjs";
+import {map} from "rxjs/operators";
 import {HandlerType} from "../interfaces/HandlerType";
+import {IHandlerContext} from "../interfaces/IHandlerContext";
 import {EndpointMetadata} from "../models/EndpointMetadata";
-import {HandlerMetadata, IHandlerOptions} from "../models/HandlerMetadata";
-import {FilterBuilder} from "./FilterBuilder";
+import {HandlerMetadata, IHandlerConstructorOptions} from "../models/HandlerMetadata";
+import {ParamMetadata} from "../models/ParamMetadata";
+import {ParamBuilder} from "./ParamBuilder";
 
 /**
  * @stable
  */
 export class HandlerBuilder {
-  private filters: any[];
   private debug: boolean;
-  private injector: InjectorService;
 
   constructor(private handlerMetadata: HandlerMetadata) {}
 
@@ -40,7 +39,7 @@ export class HandlerBuilder {
   }
 
   static resolve(obj: any | EndpointMetadata, injector: InjectorService) {
-    let options: IHandlerOptions;
+    let options: IHandlerConstructorOptions;
 
     if (obj instanceof EndpointMetadata) {
       const provider = injector.getProvider(obj.target)!;
@@ -49,7 +48,7 @@ export class HandlerBuilder {
         token: provider.provide,
         target: provider.useClass,
         type: HandlerType.CONTROLLER,
-        method: obj.methodClassName
+        propertyKey: obj.methodClassName
       };
     } else {
       const provider = injector.getProvider(obj);
@@ -59,7 +58,7 @@ export class HandlerBuilder {
           token: provider.provide,
           target: provider.useClass,
           type: HandlerType.MIDDLEWARE,
-          method: "use"
+          propertyKey: "use"
         };
       } else {
         options = {
@@ -72,13 +71,21 @@ export class HandlerBuilder {
     return new HandlerMetadata(options);
   }
 
-  static handle(process: any, {request, response, next, hasNextFunction}: any) {
+  static handle(process: any, context: IHandlerContext) {
+    const {
+      handler: {hasNextFunction},
+      request,
+      response,
+      next
+    } = context;
+
     const done = (error: any, result?: any) => {
       if (error) {
         return next(error);
       }
 
       if (!hasNextFunction) {
+        // @ts-ignore
         if (!next.isCalled && result !== undefined) {
           request.ctx.data = result;
         }
@@ -87,12 +94,11 @@ export class HandlerBuilder {
     };
 
     if (process) {
-      if (process === response) {
+      if (process === context.response) {
         return;
       }
 
       if (isObservable(process)) {
-        // TODO basic support
         process = process.toPromise();
       }
 
@@ -106,16 +112,7 @@ export class HandlerBuilder {
       }
 
       if (isPromise(process)) {
-        return process
-          .then((result: any) =>
-            this.handle(result, {
-              request,
-              response,
-              next,
-              hasNextFunction
-            })
-          )
-          .catch((error: any) => done(error));
+        return process.then((result: any) => this.handle(result, context)).catch((error: any) => done(error));
       }
     }
 
@@ -129,84 +126,102 @@ export class HandlerBuilder {
    *
    * @returns {any}
    */
-  public build(injector: InjectorService) {
-    const {services, hasErrorParam} = this.handlerMetadata;
-    this.injector = injector;
+  public build(injector: InjectorService): any {
+    const {hasErrorParam} = this.handlerMetadata;
+
     this.debug = injector.settings.debug;
-    this.filters = services.map((param: ParamMetadata) => new FilterBuilder(injector).build(param));
+
+    const dispatch = this.createDispatcher(injector);
 
     if (hasErrorParam) {
-      return (err: any, request: any, response: any, next: any) => this.invoke(request, response, next, err);
+      return (err: any, request: any, response: any, next: any) =>
+        dispatch({
+          request,
+          response,
+          next,
+          err,
+          handler: this.handlerMetadata,
+          args: []
+        });
     } else {
-      return (request: any, response: any, next: any) => this.invoke(request, response, next);
+      return (request: any, response: any, next: any) =>
+        dispatch({
+          request,
+          response,
+          next,
+          handler: this.handlerMetadata,
+          args: []
+        });
     }
   }
 
-  /**
-   *
-   */
-  private getHandler(locals: Map<string | Function, any>): Function {
-    const {token, method} = this.handlerMetadata;
+  private createDispatcher(injector: InjectorService) {
+    const {
+      handlerMetadata: {parameters}
+    } = this;
+    const requestSubject = new Subject<IHandlerContext>();
+    const sources: Subject<IHandlerContext>[] = [requestSubject];
+    const observables: Observable<any>[] = [requestSubject];
 
-    // Considering the injector.invoke return always a promise
-    const instance: any = /* await */ this.injector.invoke(token, locals);
+    // Build parameters
+    parameters.forEach((param: ParamMetadata) => {
+      const {subject, observable} = new ParamBuilder(param).build(injector);
+      sources.push(subject);
+      observables.push(observable);
+    });
 
-    return instance[method!].bind(instance);
+    const mapContext = map(([context, ...args]) => {
+      context.args = args;
+      context.next = this.buildNext(context);
 
-    // const {token, method} = this.handlerMetadata;
-    // const provider = this.injector.getProvider(token);
-    //
-    // /* istanbul ignore next */
-    // if (!provider) {
-    //   throw new Error(`${nameOf(token)} component not found in the injector`);
-    // }
-    //
-    // let instance: any;
-    //
-    // if (provider.scope !== ProviderScope.SINGLETON) {
-    //   instance = this.injector.invoke<any>(provider.useClass, locals, undefined, true);
-    //   locals.set(token, instance);
-    // } else {
-    //   instance = this.injector.get<any>(token);
-    // }
-    //
-    // return instance[method!].bind(instance);
+      return context;
+    });
+
+    zip(...observables)
+      .pipe(mapContext)
+      .subscribe(context => this.invoke(injector, context));
+
+    // Return dispatcher
+    return (context: IHandlerContext) => {
+      this.log(context, {event: "invoke.start"});
+
+      sources.forEach(source => {
+        source.next(context);
+      });
+    };
   }
 
   /**
    *
    * @returns {Promise<any>}
-   * @param request
-   * @param response
-   * @param next
-   * @param err
+   * @param injector
+   * @param context
    */
-  private async invoke(request: Express.Request, response: Express.Response, next: any, err?: any): Promise<any> {
-    const {hasNextFunction} = this.handlerMetadata;
-    const {
-      ctx: {container}
-    } = request;
-
-    next = this.buildNext(request, response, next);
-
+  private invoke(injector: InjectorService, context: IHandlerContext) {
     try {
-      this.log(request, {event: "invoke.start"});
-      const args = this.runFilters(request, response, next, err);
-      const process = this.getHandler(container)(...args);
+      const {token, method} = this.handlerMetadata;
 
-      HandlerBuilder.handle(process, {request, response, next, hasNextFunction});
+      this.checkContext(context);
+
+      const instance: any = injector.invoke(token, context.request.ctx.container);
+      const handler = instance[method!].bind(instance);
+      const process = handler(...context.args);
+
+      HandlerBuilder.handle(process, context);
     } catch (error) {
-      next(error);
+      context.next(error);
     }
   }
 
   /**
    *
-   * @param {Express.Request} request
+   * @param context
    * @param o
    * @returns {string}
    */
-  private log(request: Express.Request, o: any = {}) {
+  private log(context: IHandlerContext, o: any = {}) {
+    const {request} = context;
+
     if (request.log && this.debug) {
       const {target, injectable, method} = this.handlerMetadata;
 
@@ -224,45 +239,36 @@ export class HandlerBuilder {
     }
   }
 
-  /**
-   *
-   * @param {Express.Request} request
-   * @param {Express.Response} response
-   * @param {Express.NextFunction} next
-   * @returns {any}
-   */
-  private buildNext(request: Express.Request, response: Express.Response, next: any): any {
-    next.isCalled = false;
-    const dateTime = Date.now();
+  private checkContext(context: IHandlerContext) {
+    const error = context.args.find(arg => arg instanceof Error && arg !== context.err);
 
-    return (error?: any) => {
-      next.isCalled = true;
-      if (response.headersSent) {
-        return;
-      }
-
-      /* istanbul ignore else */
-      this.log(request, {event: "invoke.end", error, execTime: Date.now() - dateTime});
-
-      return next(error);
-    };
+    if (error) {
+      throw error;
+    }
   }
 
   /**
    *
-   * @param request
-   * @param response
-   * @param next
-   * @param err
+   * @returns {any}
+   * @param context
    */
-  private runFilters(request: Express.Request, response: Express.Response, next: Express.NextFunction, err: any) {
-    return this.filters.map((filter: IFilterPreHandler) => {
-      return filter({
-        request,
-        response,
-        next,
-        err
-      });
-    });
+  private buildNext(context: IHandlerContext): any {
+    // @ts-ignore
+    const next = context.next as any;
+    const dateTime = Date.now();
+
+    next.isCalled = false;
+
+    return (error?: any) => {
+      next.isCalled = true;
+      if (context.response.headersSent) {
+        return;
+      }
+
+      /* istanbul ignore else */
+      this.log(context, {event: "invoke.end", error, execTime: Date.now() - dateTime});
+
+      return next(error);
+    };
   }
 }
