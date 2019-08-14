@@ -59,7 +59,10 @@ describe("HandlerBuilder", () => {
         };
 
         // WHEN
-        const handlerMetadata = HandlerBuilder.resolve(new EndpointMetadata(Test, "get"), injector);
+        const handlerMetadata = HandlerBuilder.resolve(new EndpointMetadata({
+          target: Test,
+          propertyKey: "get"
+        }), injector);
 
         // THEN
         handlerMetadata.target.should.eq(Test);
@@ -130,7 +133,7 @@ describe("HandlerBuilder", () => {
           useClass: Test
         } as any);
         // WHEN
-        const builder: any = HandlerBuilder.from(new EndpointMetadata(Test, "get"));
+        const builder: any = HandlerBuilder.from(new EndpointMetadata({target: Test, propertyKey: "get"}));
         const handler = builder.build(injector);
         // THEN
         injector.getProvider.should.have.been.calledWithExactly(Test);

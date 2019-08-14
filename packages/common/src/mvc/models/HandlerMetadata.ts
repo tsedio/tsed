@@ -5,17 +5,24 @@ import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamRegistry} from "../registries/ParamRegistry";
 import {ParamTypes} from "./ParamTypes";
 
-export interface IHandlerOptions {
+export interface IHandlerConstructorOptions {
   target: Type<any> | Function;
   token?: Type<any>;
-  method?: string;
+  propertyKey?: string | symbol;
   type?: HandlerType;
 }
 
 export class HandlerMetadata {
   readonly target: any;
   readonly token: Type<any>;
+  /**
+   * @deprecated
+   */
   readonly methodClassName: string;
+  readonly propertyKey: string | symbol;
+  /**
+   * @deprecated
+   */
   readonly method: string;
   readonly injectable: boolean = false;
   readonly type: HandlerType = HandlerType.FUNCTION;
@@ -23,20 +30,21 @@ export class HandlerMetadata {
   readonly hasNextFunction: boolean = false;
   handler: any;
 
-  constructor(options: IHandlerOptions) {
-    const {target, token, method, type = HandlerType.FUNCTION} = options;
+  constructor(options: IHandlerConstructorOptions) {
+    const {target, token, propertyKey, type = HandlerType.FUNCTION} = options;
 
     this.type = type;
-    this.handler = method ? target.prototype[method] : target;
+    this.handler = propertyKey ? target.prototype[propertyKey] : target;
 
-    if (method) {
+    if (propertyKey) {
       this.target = target;
       this.token = token!;
-      this.methodClassName = method;
-      this.method = method;
+      this.propertyKey = propertyKey;
+      this.methodClassName = String(propertyKey);
+      this.method = String(propertyKey);
       this.hasNextFunction = this.hasParamType(ParamTypes.NEXT_FN);
       this.hasErrorParam = this.hasParamType(ParamTypes.ERR);
-      this.injectable = (Metadata.get(PARAM_METADATA, target, method) || []).length > 0;
+      this.injectable = (Metadata.get(PARAM_METADATA, target, propertyKey) || []).length > 0;
     }
 
     if (!this.injectable) {
@@ -56,22 +64,25 @@ export class HandlerMetadata {
     if (this.injectable) {
       return this.getParams();
     }
-
-    const parameters: any[] = [{service: ParamTypes.REQUEST}, {service: ParamTypes.RESPONSE}];
+    // Emulate ParamMetadata
+    const parameters: any[] = [];
 
     if (this.hasErrorParam) {
-      parameters.unshift({service: ParamTypes.ERR});
+      parameters.push({index: 0, service: ParamTypes.ERR});
     }
 
+    parameters.push({index: parameters.length, service: ParamTypes.REQUEST});
+    parameters.push({index: parameters.length, service: ParamTypes.RESPONSE});
+
     if (this.hasNextFunction) {
-      parameters.push({service: ParamTypes.NEXT_FN});
+      parameters.push({index: parameters.length, service: ParamTypes.NEXT_FN});
     }
 
     return parameters;
   }
 
   public getParams() {
-    return ParamRegistry.getParams(this.target, this.methodClassName) || [];
+    return ParamRegistry.getParams(this.target, this.propertyKey) || [];
   }
 
   public hasParamType(paramType: any): boolean {

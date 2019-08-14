@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {ParamRegistry, Req} from "../../../../src/mvc";
-import {EXPRESS_REQUEST} from "../../../../src/filters/constants";
+import {ParamRegistry, ParamTypes, Req} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@Req", () => {
@@ -18,10 +17,14 @@ describe("@Req", () => {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(EXPRESS_REQUEST, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.REQUEST, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0
+      expression: undefined,
+      index: 0,
+      useConverter: false,
+      useValidation: false,
+      useType: undefined
     });
   });
 });

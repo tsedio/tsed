@@ -1,8 +1,17 @@
-import {deepExtends, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
+import {deepExtends, Enumerable, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
 import {EXPRESS_METHODS} from "../constants";
 import {IPathMethod} from "../interfaces/IPathMethod";
-import {PathParamsType} from "../interfaces/PathParamsType";
 import {ParamRegistry} from "../registries/ParamRegistry";
+
+export interface EndpointConstructorOptions {
+  target: Type<any>;
+  propertyKey: string | symbol;
+  beforeMiddlewares?: any[];
+  middlewares?: any[];
+  afterMiddlewares?: any[];
+  pathsMethods?: IPathMethod[];
+  type?: any;
+}
 
 /**
  * EndpointMetadata contains metadata about a controller and his method.
@@ -20,14 +29,20 @@ import {ParamRegistry} from "../registries/ParamRegistry";
  *    }
  *
  */
-export class EndpointMetadata extends Storable {
+export class EndpointMetadata extends Storable implements EndpointConstructorOptions {
   // LIFECYCLE
+  @Enumerable()
   public beforeMiddlewares: any[] = [];
+
+  @Enumerable()
   public middlewares: any[] = [];
+
+  @Enumerable()
   public afterMiddlewares: any[] = [];
   /**
    * Route strategy.
    */
+  @Enumerable()
   public pathsMethods: IPathMethod[] = [];
   /**
    * Endpoint inherited from parent class.
@@ -35,53 +50,18 @@ export class EndpointMetadata extends Storable {
   @NotEnumerable()
   private inheritedEndpoint: EndpointMetadata;
 
-  constructor(_provide: Type<any>, private _methodClassName: string | symbol) {
-    super(_provide, _methodClassName, Object.getOwnPropertyDescriptor(_provide, _methodClassName));
+  constructor(options: EndpointConstructorOptions) {
+    super(options.target, options.propertyKey, Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
 
-    this._type = Metadata.getReturnType(this._target, this.methodClassName);
-  }
+    const {target, propertyKey, beforeMiddlewares = [], middlewares = [], afterMiddlewares = [], pathsMethods = [], type} = options;
 
-  /**
-   *
-   * @deprecated pathsMethods
-   * @returns {string}
-   */
-  get httpMethod(): string {
-    return this.pathsMethods[0] && this.pathsMethods[0].method!;
-  }
+    this._type = Metadata.getReturnType(target, propertyKey);
 
-  /**
-   *
-   * @deprecated
-   * @param value
-   */
-  set httpMethod(value: string) {
-    if (!this.pathsMethods[0]) {
-      this.pathsMethods[0] = {} as any;
-    }
-
-    this.pathsMethods[0].method = value;
-  }
-
-  /**
-   *
-   * @deprecated use pathsMethods instead of.
-   * @returns {PathParamsType}
-   */
-  get path(): PathParamsType {
-    return this.pathsMethods[0] && this.pathsMethods[0].path!;
-  }
-
-  /**
-   *
-   * @deprecated
-   * @param value
-   */
-  set path(value: PathParamsType) {
-    if (!this.pathsMethods[0]) {
-      this.pathsMethods[0] = {} as any;
-    }
-    this.pathsMethods[0].path = value;
+    this.beforeMiddlewares = beforeMiddlewares;
+    this.middlewares = middlewares;
+    this.afterMiddlewares = afterMiddlewares;
+    this.pathsMethods = pathsMethods;
+    this.type = type;
   }
 
   get type(): Type<any> {
@@ -93,10 +73,10 @@ export class EndpointMetadata extends Storable {
   }
 
   /**
-   *
+   * @deprecated
    */
   get methodClassName(): string {
-    return String(this._methodClassName);
+    return String(this.propertyKey);
   }
 
   /**
@@ -112,7 +92,7 @@ export class EndpointMetadata extends Storable {
   }
 
   get params() {
-    return ParamRegistry.getParams(this.target, this.methodClassName);
+    return ParamRegistry.getParams(this.target, this.propertyKey);
   }
 
   /**
@@ -234,15 +214,13 @@ export class EndpointMetadata extends Storable {
    * @param {Type<any>} target
    */
   public inherit(target: Type<any>): EndpointMetadata {
-    const metadata = new EndpointMetadata(target, this.methodClassName);
+    const metadata = new EndpointMetadata({
+      ...this,
+      target,
+      type: this._type
+    });
+
     metadata.inheritedEndpoint = this;
-    metadata.middlewares = this.middlewares;
-    metadata.afterMiddlewares = this.afterMiddlewares;
-    metadata.beforeMiddlewares = this.beforeMiddlewares;
-    metadata.pathsMethods = metadata.pathsMethods;
-    metadata.httpMethod = this.httpMethod;
-    metadata.path = this.path;
-    metadata.type = this._type;
 
     return metadata;
   }

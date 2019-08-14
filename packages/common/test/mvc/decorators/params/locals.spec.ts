@@ -22,7 +22,7 @@ describe("@Locals", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.LOCALS, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0,
+      index: 0,
       expression: "expression",
       useType: undefined,
       useConverter: false,

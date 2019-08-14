@@ -52,7 +52,7 @@ export class ProtocolsService {
       token: provider.provide,
       target: provider.useClass,
       type: HandlerType.CONTROLLER,
-      method: "$onVerify"
+      propertyKey: "$onVerify"
     });
 
     const builder = new HandlerBuilder(handlerMetadata);

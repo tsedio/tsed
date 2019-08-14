@@ -19,7 +19,7 @@ describe("@HeaderParams", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.HEADER, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0,
+      index: 0,
       expression: "expression",
       useType: undefined,
       useConverter: false,

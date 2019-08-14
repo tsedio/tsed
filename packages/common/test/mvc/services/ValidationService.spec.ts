@@ -6,6 +6,11 @@ describe("ValidationService", () => {
   }
 
   it("should return true", () => {
-    return expect(new ValidationService().validate({}, new ParamMetadata(Test, "test"))).to.be.true;
+    return expect(new ValidationService().validate({},
+      new ParamMetadata({
+        target: Test,
+        propertyKey: "method",
+        index: 0
+      }))).to.be.true;
   });
 });

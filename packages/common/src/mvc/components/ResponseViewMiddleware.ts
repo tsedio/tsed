@@ -23,7 +23,7 @@ export class ResponseViewMiddleware implements IMiddleware {
         response.render(viewPath, data, (err: any, html) => {
           /* istanbul ignore next */
           if (err) {
-            reject(new TemplateRenderingError(endpoint.target, endpoint.methodClassName, err));
+            reject(new TemplateRenderingError(endpoint.target, endpoint.propertyKey, err));
           } else {
             resolve(html);
           }

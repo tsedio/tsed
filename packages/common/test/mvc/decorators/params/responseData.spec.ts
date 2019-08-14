@@ -20,7 +20,7 @@ describe("@ResponseData", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.RESPONSE_DATA, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0
+      index: 0
     });
   });
 });

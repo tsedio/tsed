@@ -20,7 +20,7 @@ describe("@Err", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.ERR, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0,
+      index: 0,
       useConverter: false,
       useValidation: false
     });

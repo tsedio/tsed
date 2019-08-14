@@ -20,10 +20,9 @@ describe("@Next", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.NEXT_FN, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0,
+      index: 0,
       useConverter: false,
       useValidation: false
-
     });
   });
 });

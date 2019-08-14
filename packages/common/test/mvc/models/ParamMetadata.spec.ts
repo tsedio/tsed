@@ -14,7 +14,7 @@ describe("ParamMetadata", () => {
   describe("props", () => {
     let paramMetadata: ParamMetadata;
     before(() => {
-      paramMetadata = new ParamMetadata(Test, "method", 0);
+      paramMetadata = new ParamMetadata({target: Test, propertyKey: "method", index: 0});
       paramMetadata.required = true;
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
@@ -61,7 +61,7 @@ describe("ParamMetadata", () => {
     let paramMetadata: ParamMetadata;
 
     before(() => {
-      paramMetadata = new ParamMetadata(Test, "method", 0);
+      paramMetadata = new ParamMetadata({target: Test, propertyKey: "method", index: 0});
       paramMetadata.required = true;
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
@@ -81,7 +81,7 @@ describe("ParamMetadata", () => {
     let paramMetadata: ParamMetadata;
 
     before(() => {
-      paramMetadata = new ParamMetadata(Test, "method", 0);
+      paramMetadata = new ParamMetadata({target: Test, propertyKey: "method", index: 0});
       paramMetadata.required = true;
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
@@ -100,7 +100,7 @@ describe("ParamMetadata", () => {
       let paramMetadata: ParamMetadata;
 
       before(() => {
-        paramMetadata = new ParamMetadata(Test, "test");
+        paramMetadata = new ParamMetadata({target: Test, propertyKey: "method", index: 0});
         paramMetadata.allowedRequiredValues = [];
         paramMetadata.required = true;
       });
@@ -123,7 +123,7 @@ describe("ParamMetadata", () => {
       let paramMetadata: ParamMetadata;
 
       before(() => {
-        paramMetadata = new ParamMetadata(Test, "test");
+        paramMetadata = new ParamMetadata({target: Test, propertyKey: "method", index: 0});
         paramMetadata.allowedRequiredValues = [null];
         paramMetadata.required = true;
       });
@@ -146,7 +146,7 @@ describe("ParamMetadata", () => {
       let paramMetadata: ParamMetadata;
 
       before(() => {
-        paramMetadata = new ParamMetadata(Test, "test");
+        paramMetadata = new ParamMetadata({target: Test, propertyKey: "method", index: 0});
         paramMetadata.allowedRequiredValues = [];
         paramMetadata.required = false;
       });

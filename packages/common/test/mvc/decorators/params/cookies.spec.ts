@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {Cookies, ParamRegistry, ParamTypes} from "../../../../src/mvc";
-import {CookiesFilter} from "../../../../src/mvc/components/CookiesFilter";
 
 const sandbox = Sinon.createSandbox();
 describe("@Cookies", () => {
@@ -24,7 +23,7 @@ describe("@Cookies", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.COOKIES, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0,
+      index: 0,
       expression: "expression",
       useType: Test,
       useConverter: false,

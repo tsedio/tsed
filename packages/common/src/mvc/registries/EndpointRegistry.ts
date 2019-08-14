@@ -39,16 +39,16 @@ export class EndpointRegistry {
   /**
    * Get an endpoint.
    * @param target
-   * @param method
+   * @param propertyKey
    */
-  static get(target: Type<any>, method: string | symbol): EndpointMetadata {
-    if (!this.has(target, method)) {
-      const endpoint = new EndpointMetadata(target, method);
+  static get(target: Type<any>, propertyKey: string | symbol): EndpointMetadata {
+    if (!this.has(target, propertyKey)) {
+      const endpoint = new EndpointMetadata({target, propertyKey});
       this.getOwnEndpoints(target).push(endpoint);
-      Metadata.set("endpoints", endpoint, target, method);
+      Metadata.set("endpoints", endpoint, target, propertyKey);
     }
 
-    return Metadata.getOwn("endpoints", target, method);
+    return Metadata.getOwn("endpoints", target, propertyKey);
   }
 
   /**

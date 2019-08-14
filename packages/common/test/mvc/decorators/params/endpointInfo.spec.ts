@@ -20,7 +20,7 @@ describe("@EndpointInfo", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.ENDPOINT_INFO, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0,
+      index: 0,
       useConverter: false,
       useValidation: false
     });

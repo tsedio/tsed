@@ -1,6 +1,7 @@
 import {Metadata} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata, EndpointRegistry} from "../../../src/mvc";
 
 class Test {
@@ -14,207 +15,155 @@ class Test3 extends Test2 {
 
 describe("EndpointMetadata", () => {
   describe("Basic class", () => {
-    before(() => {
-      this.endpointMetadata = new EndpointMetadata(Test, "method");
-
-      this.endpointMetadata.path = "/";
-      this.endpointMetadata.httpMethod = "get";
-      this.endpointMetadata.beforeMiddlewares = [() => {
-      }];
-      this.endpointMetadata.middlewares = [() => {
-      }];
-      this.endpointMetadata.afterMiddlewares = [() => {
-      }];
-      this.endpointMetadata.before([() => {
+    it("should return an endpoint metadata", () => {
+      // GIVEN
+      const endpointMetadata = new EndpointMetadata({
+        target: Test,
+        propertyKey: "method",
+        beforeMiddlewares: [
+          () => {
+          }
+        ],
+        middlewares: [() => {
+        }],
+        afterMiddlewares: [() => {
+        }]
+      });
+      
+      endpointMetadata.before([() => {
       }]);
-      this.endpointMetadata.after([() => {
+      endpointMetadata.after([() => {
       }]);
 
       EndpointRegistry.store(Test, "method").set("test", "value");
 
       Metadata.set("design:returntype", Object, Test, "method");
 
-      this.store = {};
-      this.endpointMetadata.store.forEach((v: any, k: any) => (this.store[k] = v));
-    });
+      const store: any = {};
+      endpointMetadata.store.forEach((v: any, k: any) => (store[k] = v));
 
-    it("should get path", () => {
-      expect(this.endpointMetadata.path).to.equal("/");
-    });
-
-    it("should get httpMethod", () => {
-      expect(this.endpointMetadata.httpMethod).to.equal("get");
-    });
-
-    it("should get path", () => {
-      expect(this.endpointMetadata.path).to.equal("/");
-    });
-
-    it("should get beforeMiddlewares", () => {
-      expect(this.endpointMetadata.beforeMiddlewares)
+      // THEN
+      expect(endpointMetadata.beforeMiddlewares)
         .to.be.an("array")
         .and.have.length(2);
-    });
 
-    it("should get middlewares", () => {
-      expect(this.endpointMetadata.middlewares)
+      expect(endpointMetadata.middlewares)
         .to.be.an("array")
         .and.have.length(1);
-    });
 
-    it("should get afterMiddlewares", () => {
-      expect(this.endpointMetadata.beforeMiddlewares)
+      expect(endpointMetadata.beforeMiddlewares)
         .to.be.an("array")
         .and.have.length(2);
-    });
 
-    it("should get target", () => {
-      expect(this.endpointMetadata.target).to.equal(Test);
-    });
+      expect(endpointMetadata.target).to.equal(Test);
 
-    it("should get methodClassName", () => {
-      expect(this.endpointMetadata.methodClassName).to.equal("method");
-    });
-    it("should return the store", () => {
-      expect(this.store).to.deep.equal({test: "value"});
+      expect(endpointMetadata.methodClassName).to.equal("method");
+
+      expect(store).to.deep.equal({test: "value"});
     });
   });
 
   describe("Inherited class", () => {
-    before(() => {
-      this.endpointMetadata = new EndpointMetadata(Test2, "methodInherited");
-      this.endpointMetadata.path = "/";
-      this.endpointMetadata.httpMethod = "get";
-      this.endpointMetadata.beforeMiddlewares = [() => {
+    it("should return an endpointmetadata", () => {
+      // GIVEN
+      const endpointMetadata = new EndpointMetadata({target: Test2, propertyKey: "methodInherited"});
+      endpointMetadata.beforeMiddlewares = [() => {
       }];
-      this.endpointMetadata.middlewares = [() => {
+      endpointMetadata.middlewares = [() => {
       }];
-      this.endpointMetadata.afterMiddlewares = [() => {
+      endpointMetadata.afterMiddlewares = [() => {
       }];
-      this.endpointMetadata.before([() => {
+      endpointMetadata.before([() => {
       }]);
-      this.endpointMetadata.after([() => {
+      endpointMetadata.after([() => {
       }]);
 
       EndpointRegistry.store(Test2, "methodInherited").set("test2", "value2");
 
       Metadata.set("design:returntype", Object, Test2, "methodInherited");
 
-      this.endpointMetadataInherited = this.endpointMetadata.inherit(Test3);
+      // WHEN
+      const endpointMetadataInherited = endpointMetadata.inherit(Test3);
 
-      this.store = {};
-      this.endpointMetadataInherited.store.forEach((v: any, k: any) => (this.store[k] = v));
-    });
+      const store: any = {};
+      endpointMetadataInherited.store.forEach((v: any, k: any) => (store[k] = v));
 
-    it("should get path", () => {
-      expect(this.endpointMetadataInherited.path).to.equal("/");
-    });
-
-    it("should get httpMethod", () => {
-      expect(this.endpointMetadataInherited.httpMethod).to.equal("get");
-    });
-
-    it("should get path", () => {
-      expect(this.endpointMetadataInherited.path).to.equal("/");
-    });
-
-    it("should get beforeMiddlewares", () => {
-      expect(this.endpointMetadataInherited.beforeMiddlewares)
+      // THEN
+      expect(endpointMetadataInherited.beforeMiddlewares)
         .to.be.an("array")
         .and.have.length(2);
-    });
-
-    it("should get middlewares", () => {
-      expect(this.endpointMetadataInherited.middlewares)
+      expect(endpointMetadataInherited.middlewares)
         .to.be.an("array")
         .and.have.length(1);
-    });
-
-    it("should get afterMiddlewares", () => {
-      expect(this.endpointMetadataInherited.beforeMiddlewares)
+      expect(endpointMetadataInherited.beforeMiddlewares)
         .to.be.an("array")
         .and.have.length(2);
-    });
-
-    it("should get target", () => {
-      expect(this.endpointMetadataInherited.target).to.equal(Test3);
-    });
-
-    it("should have a inherited metadata", () => {
-      expect(this.endpointMetadataInherited.inheritedEndpoint.target).to.equal(Test2);
-    });
-
-    it("should get methodClassName", () => {
-      expect(this.endpointMetadata.methodClassName).to.equal("methodInherited");
-    });
-
-    it("should return the store", () => {
-      expect(this.store).to.deep.equal({test2: "value2"});
+      expect(endpointMetadataInherited.target).to.equal(Test3);
+      // @ts-ignore
+      expect(endpointMetadataInherited.inheritedEndpoint.target).to.equal(Test2);
+      expect(endpointMetadata.methodClassName).to.equal("methodInherited");
+      expect(store).to.deep.equal({test2: "value2"});
     });
   });
 
   describe("statusResponse()", () => {
     describe("when haven't responses", () => {
-      before(() => {
-        this.endpointMetadata = new EndpointMetadata(Test, "method");
-        this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
+      it("should haven't type, headers and collectionType", () => {
+        // GIVEN
+        const endpointMetadata = new EndpointMetadata({target: Test, propertyKey: "method"});
+        Sinon.stub(endpointMetadata.store, "get");
 
-        this.storeGetStub.withArgs("responses").returns({});
+        stub(endpointMetadata.store.get).withArgs("responses").returns({});
 
-        this.result = this.endpointMetadata.statusResponse(200);
-      });
+        // WHEN
+        const result = endpointMetadata.statusResponse(200);
 
-      after(() => {
-        this.storeGetStub.restore();
-      });
-
-      it("should haven't type and collectionType", () => {
-        expect(this.endpointMetadata.type).to.be.undefined;
-        expect(this.endpointMetadata.collectionType).to.be.undefined;
-      });
-      it("should haven't headers", () => {
-        expect(this.result).to.deep.eq({
+        expect(result).to.deep.eq({
           description: undefined,
           headers: undefined,
           examples: undefined
         });
+
+        expect(endpointMetadata.type).to.eq(undefined);
+        expect(endpointMetadata.collectionType).to.eq(undefined);
+
+        stub(endpointMetadata.store.get).restore();
       });
     });
 
     describe("when have empty responses", () => {
-      before(() => {
-        this.endpointMetadata = new EndpointMetadata(Test, "method");
-        this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
+      it("should haven't type, headers and collectionType", () => {
+        // GIVEN
+        const endpointMetadata = new EndpointMetadata({target: Test, propertyKey: "method"});
+        Sinon.stub(endpointMetadata.store, "get");
 
-        this.storeGetStub.withArgs("responses").returns({
+        stub(endpointMetadata.store.get).withArgs("responses").returns({
           [200]: {}
         });
 
-        this.result = this.endpointMetadata.statusResponse(200);
-      });
+        // WHEN
+        const result = endpointMetadata.statusResponse(200);
 
-      after(() => {
-        this.storeGetStub.restore();
-      });
-
-      it("should haven't type and collectionType", () => {
-        expect(this.endpointMetadata.type).to.be.undefined;
-        expect(this.endpointMetadata.collectionType).to.be.undefined;
-      });
-      it("should haven't headers", () => {
-        expect(this.result).to.deep.eq({
+        // THEN
+        expect(result).to.deep.eq({
           description: undefined,
           examples: undefined,
           headers: undefined
         });
+
+        expect(endpointMetadata.type).to.eq(undefined);
+        expect(endpointMetadata.collectionType).to.eq(undefined);
+
+        stub(endpointMetadata.store.get).restore();
       });
     });
 
     describe("when have responses", () => {
-      before(() => {
-        this.endpointMetadata = new EndpointMetadata(Test, "method");
-        this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
-        this.responses = {
+      it("should have type and headers and haven't collectionType", () => {
+        // GIVEN
+        const endpointMetadata = new EndpointMetadata({target: Test, propertyKey: "method"});
+        Sinon.stub(endpointMetadata.store, "get");
+        const responses = {
           [200]: {
             type: Test,
             headers: {
@@ -225,24 +174,13 @@ describe("EndpointMetadata", () => {
             }
           }
         };
-        this.storeGetStub.withArgs("responses").returns(this.responses);
+        stub(endpointMetadata.store.get).withArgs("responses").returns(responses);
 
-        this.result = this.endpointMetadata.statusResponse(200);
-      });
+        // WHEN
+        const result = endpointMetadata.statusResponse(200);
 
-      after(() => {
-        this.storeGetStub.restore();
-      });
-
-      it("should have type", () => {
-        expect(this.endpointMetadata.type).to.eq(Test);
-      });
-
-      it("should haven't collectionType", () => {
-        expect(this.endpointMetadata.collectionType).to.be.undefined;
-      });
-      it("should have headers", () => {
-        expect(this.result).to.deep.eq({
+        // THEN
+        expect(result).to.deep.eq({
           description: undefined,
           examples: undefined,
           headers: {
@@ -251,23 +189,26 @@ describe("EndpointMetadata", () => {
             }
           }
         });
-      });
-      it("shouldn't change the original responses", () => {
-        this.responses[200].headers.headerName.value.should.be.eq("x-content");
+        expect(endpointMetadata.type).to.eq(Test);
+        expect(endpointMetadata.collectionType).to.eq(undefined);
+        responses[200].headers.headerName.value.should.be.eq("x-content");
+
+        stub(endpointMetadata.store.get).restore();
       });
     });
 
     describe("when the status code match with the default response", () => {
-      before(() => {
-        this.endpointMetadata = new EndpointMetadata(Test, "method");
-        this.storeGetStub = Sinon.stub(this.endpointMetadata.store, "get");
-        this.responses = {
+      it("shouldn't change the original response, have type, haven't collectionType", () => {
+        // GIVEN
+        const endpointMetadata = new EndpointMetadata({target: Test, propertyKey: "method"});
+        Sinon.stub(endpointMetadata.store, "get");
+        const responses = {
           [200]: {
             type: Test,
             description: "description"
           }
         };
-        this.response = {
+        const response = {
           type: Test,
           headers: {
             headerName: {
@@ -276,27 +217,18 @@ describe("EndpointMetadata", () => {
             }
           }
         };
-        this.storeGetStub.withArgs("statusCode").returns(200);
-        this.storeGetStub.withArgs("responses").returns(this.responses);
 
-        this.storeGetStub.withArgs("response").returns(this.response);
+        stub(endpointMetadata.store.get).withArgs("statusCode").returns(200);
+        stub(endpointMetadata.store.get).withArgs("responses").returns(responses);
+        stub(endpointMetadata.store.get).withArgs("response").returns(response);
 
-        this.result = this.endpointMetadata.statusResponse(200);
-      });
+        // WHEN
+        const result = endpointMetadata.statusResponse(200);
 
-      after(() => {
-        this.storeGetStub.restore();
-      });
-
-      it("should have type", () => {
-        expect(this.endpointMetadata.type).to.eq(Test);
-      });
-
-      it("should haven't collectionType", () => {
-        expect(this.endpointMetadata.collectionType).to.be.undefined;
-      });
-      it("should have headers", () => {
-        expect(this.result).to.deep.eq({
+        // THEN
+        expect(endpointMetadata.type).to.eq(Test);
+        expect(endpointMetadata.collectionType).to.eq(undefined);
+        expect(result).to.deep.eq({
           examples: undefined,
           description: "description",
           headers: {
@@ -305,9 +237,9 @@ describe("EndpointMetadata", () => {
             }
           }
         });
-      });
-      it("shouldn't change the original response", () => {
-        this.response.headers.headerName.value.should.be.eq("x-content");
+        response.headers.headerName.value.should.be.eq("x-content");
+
+        stub(endpointMetadata.store.get).restore();
       });
     });
   });

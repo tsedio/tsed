@@ -3,10 +3,10 @@ import {InjectorService} from "@tsed/di";
 import {of, Subject} from "rxjs";
 import {catchError, map, switchMap} from "rxjs/operators";
 import {ConverterService} from "../../converters";
-import {IFilter} from "../../filters/interfaces";
 import {ParseExpressionError} from "../errors/ParseExpressionError";
 import {RequiredParamError} from "../errors/RequiredParamError";
 import {UnknowFilterError} from "../errors/UnknowFilterError";
+import {IFilter} from "../interfaces";
 import {IHandlerContext, IParamContext} from "../interfaces/IHandlerContext";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "../models/ParamTypes";
@@ -148,16 +148,13 @@ export class ParamBuilder {
   static getInvokableFilter(param: ParamMetadata, injector: InjectorService): any {
     const target = param.service as Type<any>;
     const {expression} = param;
-    const instance = injector.get<IFilter>(target);
 
     return (context: IParamContext) => {
-      // FIXME should be placed just after getting instance from injector
+      const instance = injector.get<IFilter>(target);
+
       if (!instance || !instance.transform) {
         throw new UnknowFilterError(target);
       }
-      // if (instance.transform.length === 2) {
-      //   return instance.transform(context.request, context);
-      // }
 
       return instance.transform(expression, context.request, context.response);
     };

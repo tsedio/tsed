@@ -15,7 +15,7 @@ describe("ParamRegistry", () => {
       const result = ParamRegistry.getParams(prototypeOf(Test), "test");
 
       // THEN
-      const param1 = new ParamMetadata(prototypeOf(Test), "test", 0);
+      const param1 = new ParamMetadata({target: prototypeOf(Test), propertyKey: "test", index: 0});
       param1.service = ParamTypes.REQUEST;
       param1.useConverter = false;
       param1.paramType = ParamTypes.REQUEST;

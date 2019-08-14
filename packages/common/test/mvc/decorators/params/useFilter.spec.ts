@@ -29,7 +29,7 @@ describe("@UseFilter", () => {
       ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.BODY, {
         target: prototypeOf(Ctrl),
         propertyKey: "test",
-        parameterIndex: 0,
+        index: 0,
         expression: "expression",
         useType: Test,
         useConverter: true,

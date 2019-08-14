@@ -1,8 +1,8 @@
 import {InjectorService, Service, TokenProvider} from "@tsed/di";
+import {ExpressApplication} from "../../server/decorators/expressApplication";
 import {IControllerRoute} from "../interfaces";
 import {ControllerProvider} from "../models/ControllerProvider";
 import {EndpointMetadata} from "../models/EndpointMetadata";
-import {ExpressApplication} from "../../server/decorators/expressApplication";
 
 export interface IRouteProvider {
   route: string;
@@ -16,8 +16,7 @@ export interface IRouteProvider {
 export class RouteService {
   private readonly _routes: IRouteProvider[] = [];
 
-  constructor(private injector: InjectorService, @ExpressApplication private expressApplication: ExpressApplication) {
-  }
+  constructor(private injector: InjectorService, @ExpressApplication private expressApplication: ExpressApplication) {}
 
   get routes(): IRouteProvider[] {
     return this._routes || [];
@@ -74,24 +73,23 @@ export class RouteService {
   private buildRoutes(endpointUrl: string, ctrl: ControllerProvider): IControllerRoute[] {
     let routes: IControllerRoute[] = [];
 
-    ctrl
-      .children
+    ctrl.children
       .map(ctrl => this.injector.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         routes = routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
       });
 
     ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      const {pathsMethods, params, targetName, methodClassName} = endpoint;
+      const {pathsMethods, params, targetName, propertyKey} = endpoint;
 
       pathsMethods.forEach(({path, method}) => {
         if (!!method) {
           routes.push({
             method,
-            name: `${targetName}.${String(methodClassName)}()`,
+            name: `${targetName}.${String(propertyKey)}()`,
             url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
             className: targetName,
-            methodClassName,
+            methodClassName: String(propertyKey),
             parameters: params
           });
         }

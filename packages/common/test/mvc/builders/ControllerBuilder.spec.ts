@@ -43,7 +43,7 @@ describe("ControllerBuilder", () => {
       }]
     };
 
-    const endpoint = new EndpointMetadata(TestCtrl, "test");
+    const endpoint = new EndpointMetadata({target: TestCtrl, propertyKey: "test"});
     endpoint.before([function endpointBefore() {
     }]);
     endpoint.after([function endpointAfter() {
@@ -117,7 +117,7 @@ describe("ControllerBuilder", () => {
       }]
     };
 
-    const endpoint = new EndpointMetadata(TestCtrl, "test");
+    const endpoint = new EndpointMetadata({target: TestCtrl, propertyKey: "test"});
     endpoint.before([function endpointBefore() {
     }]);
     endpoint.after([function endpointAfter() {
@@ -188,7 +188,7 @@ describe("ControllerBuilder", () => {
       }]
     };
 
-    const endpoint = new EndpointMetadata(TestCtrl, "test");
+    const endpoint = new EndpointMetadata({target: TestCtrl, propertyKey: "test"});
     endpoint.before([function endpointBefore() {
     }]);
     endpoint.after([function endpointAfter() {

@@ -20,7 +20,7 @@ describe("@Res", () => {
     ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.RESPONSE, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
-      parameterIndex: 0
+      index: 0
     });
   });
 });

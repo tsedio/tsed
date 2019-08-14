@@ -48,7 +48,7 @@ export class HandlerBuilder {
         token: provider.provide,
         target: provider.useClass,
         type: HandlerType.CONTROLLER,
-        propertyKey: obj.methodClassName
+        propertyKey: obj.propertyKey
       };
     } else {
       const provider = injector.getProvider(obj);
