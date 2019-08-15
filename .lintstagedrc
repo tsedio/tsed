@@ -1,3 +1,7 @@
 {
-  "packages/*/src/**/*.ts": "prettier --write && npm run test:lint:fix && git add"
+  "packages/*/src/**/*.ts": [
+     "prettier --write",
+     "npm run test:lint:fix",
+     "git add"
+   ]
 }

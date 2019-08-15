@@ -106,7 +106,7 @@
       var actual;
       var expected;
       if (!passed) {
-        if (sinonMethodName.indexOf("calledWith") === 0) {
+        if (sinonMethodName.match(/called*With/) === 0) {
           var lastCall = this._obj.lastCall || this._obj;
           actual = lastCall.args && lastCall.args;
           if (this._obj.callCount === 0) {
