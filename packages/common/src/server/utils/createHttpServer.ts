@@ -3,8 +3,7 @@ import * as Http from "http";
 import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 
-export /* async */ function createHttpServer(injector: InjectorService): void {
-  /* await */
+export function createHttpServer(injector: InjectorService): void {
   injector.forkProvider(HttpServer);
 }
 

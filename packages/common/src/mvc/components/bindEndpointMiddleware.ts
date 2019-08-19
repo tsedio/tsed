@@ -1,4 +1,4 @@
-import {EndpointMetadata} from "../class/EndpointMetadata";
+import {EndpointMetadata} from "../models/EndpointMetadata";
 
 export function bindEndpointMiddleware(endpoint: EndpointMetadata) {
   return (request: any, response: any, next: any) => {

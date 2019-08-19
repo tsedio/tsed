@@ -1,33 +1,27 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
-import {IRouteProvider, RouteService} from "../../server/services/RouteService";
-import {ControllerBuilder} from "../class/ControllerBuilder";
-import {ControllerProvider} from "../class/ControllerProvider";
+import {ControllerProvider} from "../models/ControllerProvider";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
+import {IRouteController, RouteService} from "./RouteService";
 
 /**
  * @private
+ * @deprecated
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
   global: true
 })
 export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvider> {
-  constructor(
-    private injectorService: InjectorService,
-    private settings: ServerSettingsService,
-    private routeService: RouteService
-  ) {
+  constructor(private injectorService: InjectorService, private settings: ServerSettingsService, private routeService: RouteService) {
     super(injectorService as any, {filter: {type: ProviderType.CONTROLLER}});
-
-    this.buildControllers();
   }
 
   /**
    * @deprecated
    */
-  get routes(): IRouteProvider[] {
+  get routes(): IRouteController[] {
     return this.routeService.routes || [];
   }
 
@@ -76,16 +70,5 @@ export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvi
   @Deprecated("ControllerService.invoke(). Removed feature. Use injectorService.invoke instead of.")
   public invoke<T>(target: any, locals: Map<Type<any> | any, any> = new Map<Type<any>, any>(), designParamTypes?: any[]): T {
     return this.injectorService.invoke<T>(target.provide || target, locals);
-  }
-
-  /**
-   * Build routers and controllers
-   */
-  private buildControllers() {
-    this.forEach((provider: ControllerProvider) => {
-      if (!provider.hasParent()) {
-        new ControllerBuilder(provider).build(this.injectorService);
-      }
-    });
   }
 }

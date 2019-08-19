@@ -12,7 +12,7 @@ describe("AuthenticatedMiddleware", () => {
   it("when user is authenticated", () => {
     // GIVEN
     const request = new FakeRequest();
-    const endpoint = new EndpointMetadata(Test, "test");
+    const endpoint = new EndpointMetadata({target: Test, propertyKey: "test"});
     const middleware = new AuthenticatedMiddleware();
 
     endpoint.store.set(AuthenticatedMiddleware, {options: "options"});
@@ -29,7 +29,7 @@ describe("AuthenticatedMiddleware", () => {
   it("when user is not authenticated", () => {
     // GIVEN
     const request = new FakeRequest();
-    const endpoint = new EndpointMetadata(Test, "test");
+    const endpoint = new EndpointMetadata({target: Test, propertyKey: "test"});
     const middleware = new AuthenticatedMiddleware();
 
     endpoint.store.set(AuthenticatedMiddleware, {options: "options"});

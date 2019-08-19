@@ -22,11 +22,19 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
 
   /**
    *
+   * @returns {}
+   */
+  public get paths(): {[p: string]: Path} {
+    return this._paths;
+  }
+
+  /**
+   *
    * @returns {this}
    */
   build(): this {
     parseSwaggerPath(this.endpointUrl, this.pathMethod.path).forEach(({path: endpointPath, pathParams}) => {
-      const builder = new OpenApiParamsBuilder(this.endpoint.target, this.endpoint.methodClassName, pathParams).build();
+      const builder = new OpenApiParamsBuilder(this.endpoint.target, String(this.endpoint.propertyKey), pathParams).build();
 
       const path: any = this._paths[endpointPath] || {};
 
@@ -65,7 +73,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
    * @param builder
    */
   private createOperation(builder: OpenApiParamsBuilder): Operation {
-    const operationId = this.getOperationId(this.endpoint.targetName, this.endpoint.methodClassName);
+    const operationId = this.getOperationId(this.endpoint.targetName, String(this.endpoint.propertyKey));
     const security = this.endpoint.get("security");
     const produces = this.endpoint.get("produces");
     const consumes = this.endpoint.get("consumes");
@@ -115,13 +123,5 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     response.schema = this.createSchema(this.endpoint);
 
     return response;
-  }
-
-  /**
-   *
-   * @returns {}
-   */
-  public get paths(): {[p: string]: Path} {
-    return this._paths;
   }
 }

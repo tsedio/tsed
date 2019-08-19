@@ -1,6 +1,6 @@
 export * from "./Express";
 export * from "./IControllerProvider";
-export * from "./IControllerRoute";
+export * from "./IFilter";
 export * from "./IMiddleware";
 export * from "./IMiddlewareError";
 export * from "./IControllerMiddlewares";
@@ -8,4 +8,6 @@ export * from "./PathParamsType";
 export * from "./IResponseOptions";
 export * from "./IResponseHeader";
 export * from "./IResponseError";
+export * from "./IParamOptions";
 export * from "./HandlerType";
+export * from "./IHandlerContext";

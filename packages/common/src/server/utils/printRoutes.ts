@@ -1,8 +1,8 @@
 import {$log} from "ts-log-debug";
 import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
-import {IControllerRoute} from "../../mvc/interfaces/IControllerRoute";
+import {IRouteDetails} from "../../mvc/services/RouteService";
 
-export function printRoutes(routes: IControllerRoute[]) {
+export function printRoutes(routes: IRouteDetails[]) {
   const mapColor: {[key: string]: string} = {
     GET: "green",
     POST: "yellow",

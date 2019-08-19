@@ -2,12 +2,11 @@ import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {BodyParamsFilter} from "../../../common/src/filters/components/BodyParamsFilter";
 import {OpenApiParamsBuilder} from "../../src/class/OpenApiParamsBuilder";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
 
-const param0 = new ParamMetadata(Ctrl, "test", 0);
-param0.service = BodyParamsFilter;
+const param0 = new ParamMetadata({target: Ctrl, propertyKey: "test", index: 0});
+param0.service = ParamTypes.BODY;
 param0.paramType = ParamTypes.BODY;
 param0.type = SwaFoo2;
 
@@ -342,13 +341,13 @@ describe("OpenApiParamsBuilder", () => {
 
       this.builder = new OpenApiParamsBuilder(Ctrl, "test", [
         {
-          in: ParamTypes.PATH,
+          in: "path",
           type: "string",
           name: "expression1",
           required: true
         },
         {
-          in: ParamTypes.PATH,
+          in: "path",
           type: "string",
           name: "test",
           required: true

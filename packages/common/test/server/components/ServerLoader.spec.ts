@@ -1,8 +1,8 @@
 import {Metadata} from "@tsed/core";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {$logStub} from "../../../../../test/helper/tools";
 import {RouteService, ServerLoader} from "../../../src";
-import {SERVER_SETTINGS} from "../../../src/config/constants";
 
 describe("ServerLoader", () => {
   const serverSandbox = Sinon.createSandbox();
@@ -23,7 +23,7 @@ describe("ServerLoader", () => {
       }
     }
 
-    Metadata.set(SERVER_SETTINGS, {debug: true, port: 8000, httpsPort: 8080}, TestServer);
+    Metadata.set("PLATFORM_SETTINGS", {debug: true, port: 8000, httpsPort: 8080}, TestServer);
 
     server = new TestServer();
     server.settings.httpPort = 8080;
@@ -81,15 +81,15 @@ describe("ServerLoader", () => {
       server.$onMountingMiddlewares.resolves();
       server.$afterRoutesInit.resolves();
 
-      server.routesProviders = [{
-        endpoint: "/", provide: class {
+      server.routes = [{
+        route: "/", token: class {
         }
       }];
 
       server.injectorService.addProvider(RouteService, {
         useFactory() {
           return {
-            addRoute: sandbox.stub(),
+            addRoutes: sandbox.stub(),
             getRoutes: sandbox.stub().returns([])
           };
         }
@@ -106,7 +106,7 @@ describe("ServerLoader", () => {
       server.injectorService.emit.should.have.been.calledWithExactly("$onRoutesInit");
       server.injectorService.emit.should.have.been.calledWithExactly("$afterRoutesInit");
 
-      server.routesProviders = [];
+      server.routes = [];
 
       return server.$onMountingMiddlewares.should.have.been.calledOnce && server.$afterRoutesInit.should.have.been.calledOnce;
     });
@@ -234,6 +234,36 @@ describe("ServerLoader", () => {
 
     it("should call express.engine() with the right parameters", () => {
       server.expressApp.engine.should.have.been.calledWithExactly("jade", Sinon.match.func);
+    });
+  });
+
+  describe("bootstrap()", () => {
+    it("should bootstrap server", async () => {
+      // GIVEN
+      class TestServer extends ServerLoader {
+        $onInit() {
+        }
+
+        $onReady() {
+        }
+
+        $onMountingMiddlewares() {
+        }
+
+        $afterRoutesInit() {
+        }
+      }
+
+      // WHEN
+
+      const server = await ServerLoader.bootstrap(TestServer, {
+        ownSettings: "test"
+      });
+
+      // THEN
+      expect(server).to.be.instanceof(TestServer);
+      expect(server.listen).to.be.a("function");
+      expect(server.settings.get("ownSettings")).to.eq("test");
     });
   });
 });

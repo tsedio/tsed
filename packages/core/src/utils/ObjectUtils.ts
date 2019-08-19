@@ -293,7 +293,7 @@ export const nameOfSymbol = (sym: symbol): string =>
  * @param {string} propertyKey
  * @returns {PropertyDescriptor}
  */
-export function descriptorOf(target: any, propertyKey: string): PropertyDescriptor {
+export function descriptorOf(target: any, propertyKey: string | symbol): PropertyDescriptor {
   return Object.getOwnPropertyDescriptor((target && target.prototype) || target, propertyKey)!;
 }
 

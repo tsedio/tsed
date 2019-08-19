@@ -50,16 +50,16 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @multer
  */
 export function MultipartFile(name?: string | multer.Options, maxCount?: number): Function {
-  return (target: any, propertyKey: string, parameterIndex: number): void => {
-    const type = getDecoratorType([target, propertyKey, parameterIndex], true);
+  return (target: any, propertyKey: string | symbol, index: number): void => {
+    const type = getDecoratorType([target, propertyKey, index], true);
 
     switch (type) {
       default:
         throw new Error("MultipartFile is only supported on parameters");
 
       case "parameter":
-        const store = Store.fromMethod(target, propertyKey);
-        const multiple = Metadata.getParamTypes(target, propertyKey)[parameterIndex] === Array;
+        const store = Store.fromMethod(target, String(propertyKey));
+        const multiple = Metadata.getParamTypes(target, propertyKey)[index] === Array;
         const options = typeof name === "object" ? name : undefined;
         const added = store.has("multipartAdded");
 
@@ -88,12 +88,9 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
           });
 
           UseFilter(multiple ? MultipartFilesFilter : MultipartFileFilter, {
-            propertyKey,
-            parameterIndex,
-            target,
             useConverter: false,
             paramType: ParamTypes.FORM_DATA
-          })(target, propertyKey, parameterIndex);
+          })(target, propertyKey, index);
         } else {
           const expression = multiple ? (name as string) : name + ".0";
 
@@ -109,12 +106,9 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
 
           UseFilter(MultipartFilesFilter, {
             expression,
-            propertyKey,
-            parameterIndex,
-            target,
             useConverter: false,
             paramType: ParamTypes.FORM_DATA
-          })(target, propertyKey, parameterIndex);
+          })(target, propertyKey, index);
         }
 
         break;

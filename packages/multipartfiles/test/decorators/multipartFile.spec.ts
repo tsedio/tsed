@@ -13,43 +13,41 @@ class Test {
 }
 
 describe("@MultipartFile()", () => {
+  const sandbox = Sinon.createSandbox();
   before(() => {
-    this.getParamTypesStub = Sinon.stub(Metadata, "getParamTypes");
-    this.storeFromMethodStub = Sinon.stub(Store, "fromMethod");
-    this.useBeforeStub = Sinon.stub(EndpointRegistry, "useBefore");
-    this.useFilterStub = Sinon.stub(ParamRegistry, "useFilter");
+    sandbox.stub(Metadata, "getParamTypes");
+    sandbox.stub(Store, "fromMethod");
+    sandbox.stub(EndpointRegistry, "useBefore");
+    sandbox.stub(ParamRegistry, "useFilter");
   });
 
   after(() => {
-    this.getParamTypesStub.restore();
-    this.storeFromMethodStub.restore();
-    this.useBeforeStub.restore();
-    this.useFilterStub.restore();
+    sandbox.restore();
   });
 
   describe("new version", () => {
     describe("one file", () => {
+      let store: Store;
       before(() => {
-        this.store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
-        this.store.delete("multipartAdded");
-        this.store.delete(MultipartFileMiddleware);
+        store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
+        store.delete("multipartAdded");
+        // @ts-ignore
+        store.delete(MultipartFileMiddleware);
 
-        this.storeFromMethodStub.returns(this.store);
-
-        this.getParamTypesStub.returns([Object]);
+        // @ts-ignore
+        Store.fromMethod.returns(store);
+        // @ts-ignore
+        Metadata.getParamTypes.returns([Object]);
 
         MultipartFile("file1", 1)(Test.prototype, "test", 0);
       });
 
       after(() => {
-        this.getParamTypesStub.reset();
-        this.storeFromMethodStub.reset();
-        this.useBeforeStub.reset();
-        this.useFilterStub.reset();
+        sandbox.reset();
       });
 
       it("should set endpoint metadata", () => {
-        expect(this.store.get(MultipartFileMiddleware)).to.deep.eq({
+        expect(store.get(MultipartFileMiddleware)).to.deep.eq({
           fields: [
             {
               maxCount: 1,
@@ -61,14 +59,14 @@ describe("@MultipartFile()", () => {
       });
 
       it("should create middleware", () => {
-        this.useBeforeStub.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+        EndpointRegistry.useBefore.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
       });
 
       it("should set params metadata", () => {
-        this.useFilterStub.should.have.been.calledWithExactly(MultipartFilesFilter, {
+        ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFilesFilter, {
           expression: "file1.0",
           propertyKey: "test",
-          parameterIndex: 0,
+          index: 0,
           target: Test.prototype,
           useConverter: false,
           paramType: ParamTypes.FORM_DATA
@@ -76,27 +74,27 @@ describe("@MultipartFile()", () => {
       });
     });
     describe("multiple files", () => {
+      let store: Store;
       before(() => {
-        this.store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
-        this.store.delete("multipartAdded");
-        this.store.delete(MultipartFileMiddleware);
+        store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
+        store.delete("multipartAdded");
 
-        this.storeFromMethodStub.returns(this.store);
-
-        this.getParamTypesStub.returns([Array]);
+        // @ts-ignore
+        store.delete(MultipartFileMiddleware);
+        // @ts-ignore
+        Store.fromMethod.returns(store);
+        // @ts-ignore
+        Metadata.getParamTypes.returns([Array]);
 
         MultipartFile("file1", 8)(Test.prototype, "test", 0);
       });
 
       after(() => {
-        this.getParamTypesStub.reset();
-        this.storeFromMethodStub.reset();
-        this.useBeforeStub.reset();
-        this.useFilterStub.reset();
+        sandbox.reset();
       });
 
       it("should set endpoint metadata", () => {
-        expect(this.store.get(MultipartFileMiddleware)).to.deep.eq({
+        expect(store.get(MultipartFileMiddleware)).to.deep.eq({
           fields: [
             {
               maxCount: 8,
@@ -108,14 +106,14 @@ describe("@MultipartFile()", () => {
       });
 
       it("should create middleware", () => {
-        this.useBeforeStub.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+        EndpointRegistry.useBefore.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
       });
 
       it("should set params metadata", () => {
-        this.useFilterStub.should.have.been.calledWithExactly(MultipartFilesFilter, {
+        ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFilesFilter, {
           expression: "file1",
           propertyKey: "test",
-          parameterIndex: 0,
+          index: 0,
           target: Test.prototype,
           useConverter: false,
           paramType: ParamTypes.FORM_DATA
@@ -127,28 +125,29 @@ describe("@MultipartFile()", () => {
   describe("legacy", () => {
     describe("as parameter decorator", () => {
       describe("one file", () => {
+        let store: Store;
         before(() => {
-          this.store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
-          this.store.delete("multipartAdded");
-          this.store.delete(MultipartFileMiddleware);
+          store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
+          store.delete("multipartAdded");
+          // @ts-ignore
+          store.delete(MultipartFileMiddleware);
 
-          this.storeFromMethodStub.returns(this.store);
+          // @ts-ignore
+          Store.fromMethod.returns(store);
 
-          this.getParamTypesStub.returns([Object]);
+          // @ts-ignore
+          Metadata.getParamTypes.returns([Object]);
 
-          this.options = {options: "options"};
-          MultipartFile(this.options)(Test.prototype, "test", 0);
+          const options: any = {options: "options"};
+          MultipartFile(options)(Test.prototype, "test", 0);
         });
 
         after(() => {
-          this.getParamTypesStub.reset();
-          this.storeFromMethodStub.reset();
-          this.useBeforeStub.reset();
-          this.useFilterStub.reset();
+          sandbox.reset();
         });
 
         it("should set endpoint metadata", () => {
-          expect(this.store.get(MultipartFileMiddleware)).to.deep.eq({
+          expect(store.get(MultipartFileMiddleware)).to.deep.eq({
             any: true,
             options: {
               options: "options"
@@ -157,13 +156,13 @@ describe("@MultipartFile()", () => {
         });
 
         it("should create middleware", () => {
-          this.useBeforeStub.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+          EndpointRegistry.useBefore.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
         });
 
         it("should set params metadata", () => {
-          this.useFilterStub.should.have.been.calledWithExactly(MultipartFileFilter, {
+          ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFileFilter, {
             propertyKey: "test",
-            parameterIndex: 0,
+            index: 0,
             target: Test.prototype,
             useConverter: false,
             paramType: ParamTypes.FORM_DATA
@@ -172,27 +171,27 @@ describe("@MultipartFile()", () => {
       });
 
       describe("multiple file", () => {
+        let store: Store;
         before(() => {
-          this.store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
-          this.store.delete("multipartAdded");
-          this.store.delete(MultipartFileMiddleware);
-          this.storeFromMethodStub.returns(this.store);
+          store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
+          store.delete("multipartAdded");
+          // @ts-ignore
+          store.delete(MultipartFileMiddleware);
+          // @ts-ignore
+          Store.fromMethod.returns(store);
+          // @ts-ignore
+          Metadata.getParamTypes.returns([Array]);
 
-          this.getParamTypesStub.returns([Array]);
-
-          this.options = {options: "options"};
-          MultipartFile(this.options)(Test.prototype, "test", 0);
+          const options: any = {options: "options"};
+          MultipartFile(options)(Test.prototype, "test", 0);
         });
 
         after(() => {
-          this.getParamTypesStub.reset();
-          this.storeFromMethodStub.reset();
-          this.useBeforeStub.reset();
-          this.useFilterStub.reset();
+          sandbox.reset();
         });
 
         it("should set endpoint metadata", () => {
-          expect(this.store.get(MultipartFileMiddleware)).to.deep.eq({
+          expect(store.get(MultipartFileMiddleware)).to.deep.eq({
             any: true,
             options: {
               options: "options"
@@ -201,13 +200,13 @@ describe("@MultipartFile()", () => {
         });
 
         it("should create middleware", () => {
-          this.useBeforeStub.should.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+          EndpointRegistry.useBefore.should.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
         });
 
         it("should set params metadata", () => {
-          this.useFilterStub.should.have.been.calledWithExactly(MultipartFilesFilter, {
+          ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFilesFilter, {
             propertyKey: "test",
-            parameterIndex: 0,
+            index: 0,
             target: Test.prototype,
             useConverter: false,
             paramType: ParamTypes.FORM_DATA
@@ -218,16 +217,17 @@ describe("@MultipartFile()", () => {
   });
 
   describe("when error", () => {
+    let error: any;
     before(() => {
       try {
         MultipartFile()(Test, "test", {});
       } catch (er) {
-        this.error = er;
+        error = er;
       }
     });
 
     it("should store metadata", () => {
-      expect(this.error.message).to.eq("MultipartFile is only supported on parameters");
+      expect(error.message).to.eq("MultipartFile is only supported on parameters");
     });
   });
 });

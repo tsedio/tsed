@@ -1,7 +1,6 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {ConverterService} from "../../converters";
-import {Res, ResponseData} from "../../filters";
-import {Middleware} from "../decorators";
+import {Middleware, Res, ResponseData} from "../decorators";
 import {IMiddleware} from "../interfaces/index";
 
 /**

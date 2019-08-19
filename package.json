@@ -3,8 +3,6 @@
   "version": "5.25.1",
   "description": "A TypeScript Framework on top of Express",
   "scripts": {
-    "precommit": "lint-staged",
-    "postcommit": "git update-index --again",
     "postinstall": "gulp repo:bootstrap",
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run",
@@ -25,6 +23,12 @@
     "docs:build:api": "gulp docs:buildApi",
     "docs:build": "gulp docs:build",
     "prettier": "prettier '{src,test}/**/*.ts' --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again"
+    }
   },
   "repository": {
     "type": "git",

@@ -317,28 +317,32 @@ describe("Rest", () => {
           });
       });
 
-      it("should return an error when password is empty", done => {
-        request
-          .post(`/rest/user/`)
-          .send({name: "test", email: "test@test.fr", password: ""})
-          .expect(400)
-          .end((err: any, response: any) => {
-            expect(response.text).to.eq(
-              "Bad request on parameter \"request.body\".<br />At User.password should NOT be shorter than 6 characters"
-            );
+      it("should return an error when password is empty", async () => {
+        const [response]: any[] = await Promise.all([
+          request
+            .post(`/rest/user/`)
+            .send({name: "test", email: "test@test.fr", password: ""})
+            .expect(400),
+          request
+            .post(`/rest/user/`)
+            .send({name: "test", email: "test@test.fr", password: ""})
+            .expect(400)
+        ]);
 
-            expect(JSON.parse(response.headers.errors)).to.deep.eq([
-              {
-                keyword: "minLength",
-                dataPath: ".password",
-                schemaPath: "#/properties/password/minLength",
-                params: {limit: 6},
-                message: "should NOT be shorter than 6 characters",
-                modelName: "User"
-              }
-            ]);
-            done();
-          });
+        expect(response.text).to.eq(
+          "Bad request on parameter \"request.body\".<br />At User.password should NOT be shorter than 6 characters"
+        );
+
+        expect(JSON.parse(response.headers.errors)).to.deep.eq([
+          {
+            keyword: "minLength",
+            dataPath: ".password",
+            schemaPath: "#/properties/password/minLength",
+            params: {limit: 6},
+            message: "should NOT be shorter than 6 characters",
+            modelName: "User"
+          }
+        ]);
       });
 
       it("should allow creation (2)", done => {

@@ -16,10 +16,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = undefined;
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -33,10 +32,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = null;
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -50,10 +48,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = false;
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -67,10 +64,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = true;
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -84,10 +80,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = "";
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -101,10 +96,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = "test";
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -118,10 +112,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = 1;
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -135,10 +128,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = {data: "data"};
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -152,10 +144,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = [{data: "data"}];
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);
@@ -169,10 +160,9 @@ describe("SendResponseMiddleware", () => {
       const middleware = new SendResponseMiddleware(converter);
       const data = new Date("2019-01-01");
       const response = new FakeResponse(Sinon);
-      const endpoint = new EndpointMetadata(TestCtrl, "get");
 
       // WHEN
-      const result = middleware.use(data, response as any, endpoint);
+      const result = middleware.use(data, response as any);
 
       // THEN
       result.should.eq(response);

@@ -1,6 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {Req, Res} from "../../filters";
-import {IMiddleware, Middleware, RequestLogger} from "../../mvc";
+import {IMiddleware, Middleware, RequestLogger, Res, Req} from "../../mvc";
 
 /**
  * @middleware

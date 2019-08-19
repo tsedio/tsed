@@ -5,7 +5,7 @@ import {ServerSettingsService} from "../../config/services/ServerSettingsService
 $log.name = "TSED";
 $log.level = "info";
 
-export function createInjector(settings: any) {
+export function createInjector(settings: any = {}) {
   const injector = new InjectorService();
 
   // Init settings
@@ -16,6 +16,14 @@ export function createInjector(settings: any) {
     ...(settings.scopes || {}),
     [ProviderType.CONTROLLER]: settings.controllerScope
   };
+
+  // @ts-ignore
+  injector.settings.set(settings);
+
+  /* istanbul ignore next */
+  if (injector.settings.env === "test") {
+    injector.logger.stop();
+  }
 
   return injector;
 }

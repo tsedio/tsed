@@ -1,9 +1,7 @@
-import {ProviderType} from "@tsed/di";
 import {inject} from "@tsed/testing";
 import {expect} from "chai";
-import * as Express from "express";
 import * as Sinon from "sinon";
-import {ControllerBuilder, ControllerProvider, ControllerService} from "../../../src/mvc";
+import {ControllerProvider, ControllerService} from "../../../src/mvc";
 
 class Test {
   constructor(private testService: TestService) {
@@ -25,55 +23,18 @@ class TestService {
 // const pushRouterPath = Sinon.stub();
 
 describe("ControllerService", () => {
-  describe("buildRouters()", () => {
-    class Test {
-    }
-
-    before(() => {
-      this.injector = new Map();
-      this.injector.set(Test, {
-        type: ProviderType.CONTROLLER,
-        router: undefined,
-        routerOptions: {
-          options: "options"
-        },
-        hasParent() {
-          return false;
-        }
-      });
-
-      this.routerStub = Sinon.stub(Express, "Router");
-      this.ctrlBuildStub = Sinon.stub(ControllerBuilder.prototype, "build");
-
-      new ControllerService(
-        this.injector,
-        {express: "express"} as any,
-        {routers: {global: "global"}} as any,
-        {routeService: "routeService"} as any
-      );
-    });
-
-    after(() => {
-      this.routerStub.restore();
-      this.ctrlBuildStub.restore();
-    });
-
-    it("should call ControllerBuilder.build()", () => {
-      this.ctrlBuildStub.should.have.been.calledWithExactly(this.injector);
-    });
-  });
-
   describe("get()", () => {
+    let provider: ControllerProvider;
     before(() => {
-      this.provider = new ControllerProvider(Test);
-      ControllerService.set(Test, this.provider);
+      provider = new ControllerProvider(Test);
+      ControllerService.set(Test, provider);
     });
 
     it("should return true", () => {
       expect(ControllerService.has(Test)).to.eq(true);
     });
     it("should return provider", () => {
-      expect(ControllerService.get(Test)).to.eq(this.provider);
+      expect(ControllerService.get(Test)).to.eq(provider);
     });
   });
 
@@ -82,20 +43,22 @@ describe("ControllerService", () => {
       class Test2 {
       }
 
+      let invokeStub: any;
+
       before(
         inject([ControllerService], (controllerService: ControllerService) => {
-          this.invokeStub = Sinon.stub((controllerService as any).injectorService, "invoke");
+          invokeStub = Sinon.stub((controllerService as any).injectorService, "invoke");
 
           controllerService.invoke(Test2);
         })
       );
 
       after(() => {
-        this.invokeStub.restore();
+        invokeStub.restore();
       });
 
       it("should call the fake service", () => {
-        return this.invokeStub.should.have.been.calledWithExactly(Test2, Sinon.match.any);
+        return invokeStub.should.have.been.calledWithExactly(Test2, Sinon.match.any);
       });
     });
   });

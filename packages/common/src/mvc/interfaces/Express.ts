@@ -1,6 +1,6 @@
-import {Context} from "../class/Context";
-import {EndpointMetadata} from "../class/EndpointMetadata";
-import {RequestLogger} from "../class/RequestLogger";
+import {Context} from "../models/Context";
+import {EndpointMetadata} from "../models/EndpointMetadata";
+import {RequestLogger} from "../models/RequestLogger";
 
 declare global {
   namespace Express {

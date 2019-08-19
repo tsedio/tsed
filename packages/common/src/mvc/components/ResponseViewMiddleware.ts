@@ -1,5 +1,7 @@
-import {EndpointInfo, Res, ResponseData} from "../../filters";
 import {Middleware} from "../decorators/class/middleware";
+import {EndpointInfo} from "../decorators/params/endpointInfo";
+import {Res} from "../decorators/params/response";
+import {ResponseData} from "../decorators/params/responseData";
 import {TemplateRenderingError} from "../errors/TemplateRenderingError";
 import {IMiddleware} from "../interfaces";
 
@@ -21,7 +23,7 @@ export class ResponseViewMiddleware implements IMiddleware {
         response.render(viewPath, data, (err: any, html) => {
           /* istanbul ignore next */
           if (err) {
-            reject(new TemplateRenderingError(endpoint.target, endpoint.methodClassName, err));
+            reject(new TemplateRenderingError(endpoint.target, endpoint.propertyKey, err));
           } else {
             resolve(html);
           }

@@ -7,7 +7,7 @@ import {InternalServerError} from "ts-httpexceptions";
 export class TemplateRenderingError extends InternalServerError {
   name: "TEMPLATING_RENDER_ERROR";
 
-  constructor(target: Type<any> | string, method: string, err: Error) {
+  constructor(target: Type<any> | string, method: string | symbol, err: Error) {
     super(TemplateRenderingError.buildMessage(target, method, err));
   }
 
@@ -15,7 +15,7 @@ export class TemplateRenderingError extends InternalServerError {
    *
    * @returns {string}
    */
-  static buildMessage(target: Type<any> | string, method: string, err: Error) {
-    return `Template rendering error : ${nameOf(target)}.${method}()\n` + err;
+  static buildMessage(target: Type<any> | string, method: string | symbol, err: Error) {
+    return `Template rendering error : ${nameOf(target)}.${String(method)}()\n` + err;
   }
 }

@@ -1,8 +1,7 @@
-import {Env, Metadata} from "@tsed/core";
+import {Env} from "@tsed/core";
 import {DISettings, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import {SERVER_SETTINGS} from "../constants/index";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
 
 const rootDir = process.cwd();
@@ -239,15 +238,6 @@ export class ServerSettingsService extends DISettings implements IServerSettings
    */
   set errors(options: IErrorsSettings) {
     this.map.set("errors", options);
-  }
-
-  /**
-   *
-   * @param target
-   * @returns {any}
-   */
-  static getMetadata(target: any) {
-    return Metadata.getOwn(SERVER_SETTINGS, target);
   }
 
   /**
