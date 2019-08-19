@@ -1,6 +1,7 @@
 import {createExpressApplication, createHttpServer, createHttpsServer, createInjector, LocalsContainer, ServerLoader} from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
+import {loadInjector} from "../../common/src/server/utils/loadInjector";
 
 export class TestContext {
   private static _injector: InjectorService | null = null;
@@ -24,7 +25,7 @@ export class TestContext {
   static async create() {
     TestContext._injector = TestContext.createInjector();
 
-    await TestContext.injector.load();
+    await loadInjector(TestContext._injector);
   }
 
   /**
@@ -100,13 +101,13 @@ export class TestContext {
     };
   }
 
-  static /*async*/ invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
+  static invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
       locals.set(p.provide, p.use);
     });
 
-    const instance: any = /*await*/ TestContext.injector.invoke(target, locals, {rebuild: true});
+    const instance: any = TestContext.injector.invoke(target, locals, {rebuild: true});
 
     if (instance && instance.$onInit) {
       // await instance.$onInit();

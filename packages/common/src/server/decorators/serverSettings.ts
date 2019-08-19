@@ -1,5 +1,4 @@
-import {Metadata, Type} from "@tsed/core";
-import {SERVER_SETTINGS} from "../../config/constants/index";
+import {StoreSet} from "@tsed/core";
 import {IServerSettings} from "../../config/interfaces/IServerSettings";
 
 /**
@@ -69,7 +68,5 @@ import {IServerSettings} from "../../config/interfaces/IServerSettings";
  * @decorator
  */
 export function ServerSettings(settings: Partial<IServerSettings>): Function {
-  return (target: Type<any>) => {
-    Metadata.set(SERVER_SETTINGS, settings, target);
-  };
+  return StoreSet("PLATFORM_SETTINGS", settings);
 }

@@ -147,7 +147,11 @@ export class ExampleServer extends ServerLoader {
   }
 }
 
-if (process.env.NODE_ENV !== "test")
-  new ExampleServer().start().catch(er => {
-    console.error(er);
-  });
+if (process.env.NODE_ENV !== "test") {
+  ServerLoader
+    .bootstrap(ExampleServer)
+    .then((server) => server.listen())
+    .catch(er => {
+      console.error(er);
+    });
+}

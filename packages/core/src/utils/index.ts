@@ -5,4 +5,3 @@ export * from "./deepClone";
 export * from "./getValue";
 export * from "./setValue";
 export * from "./ObjectUtils";
-export * from "./promiseTimeout";

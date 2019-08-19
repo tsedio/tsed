@@ -1,12 +1,26 @@
 import {InjectorService, Service, TokenProvider} from "@tsed/di";
 import {ExpressApplication} from "../../server/decorators/expressApplication";
-import {IControllerRoute} from "../interfaces";
 import {ControllerProvider} from "../models/ControllerProvider";
 import {EndpointMetadata} from "../models/EndpointMetadata";
 
-export interface IRouteProvider {
+export interface IRoute {
+  route: string;
+  token: TokenProvider;
+}
+
+export interface IRouteController {
   route: string;
   provider: ControllerProvider;
+}
+
+export interface IRouteDetails {
+  method: string;
+  name: string;
+  url: string;
+  className: string;
+  methodClassName: string;
+  parameters: any;
+  returnType?: any;
 }
 
 /**
@@ -14,12 +28,18 @@ export interface IRouteProvider {
  */
 @Service()
 export class RouteService {
-  private readonly _routes: IRouteProvider[] = [];
+  private readonly _routes: IRouteController[] = [];
 
   constructor(private injector: InjectorService, @ExpressApplication private expressApplication: ExpressApplication) {}
 
-  get routes(): IRouteProvider[] {
+  get routes(): IRouteController[] {
     return this._routes || [];
+  }
+
+  public addRoutes(routes: IRoute[]) {
+    routes.forEach(routeSettings => {
+      this.addRoute(routeSettings.route, routeSettings.token);
+    });
   }
 
   /**
@@ -48,8 +68,8 @@ export class RouteService {
    * Get all routes built by TsExpressDecorators and mounted on Express application.
    * @returns {IControllerRoute[]}
    */
-  public getRoutes(): IControllerRoute[] {
-    let routes: IControllerRoute[] = [];
+  public getRoutes(): IRouteDetails[] {
+    let routes: IRouteDetails[] = [];
 
     this.routes.forEach((config: {route: string; provider: ControllerProvider}) => {
       routes = routes.concat(this.buildRoutes(config.route, config.provider));
@@ -70,8 +90,8 @@ export class RouteService {
    * @param ctrl
    * @param endpointUrl
    */
-  private buildRoutes(endpointUrl: string, ctrl: ControllerProvider): IControllerRoute[] {
-    let routes: IControllerRoute[] = [];
+  private buildRoutes(endpointUrl: string, ctrl: ControllerProvider): IRouteDetails[] {
+    let routes: IRouteDetails[] = [];
 
     ctrl.children
       .map(ctrl => this.injector.getProvider(ctrl))

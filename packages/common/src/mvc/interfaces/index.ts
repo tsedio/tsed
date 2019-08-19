@@ -1,6 +1,5 @@
 export * from "./Express";
 export * from "./IControllerProvider";
-export * from "./IControllerRoute";
 export * from "./IFilter";
 export * from "./IMiddleware";
 export * from "./IMiddlewareError";

@@ -1,10 +1,11 @@
-import {Deprecated} from "@tsed/core";
+import {classOf, Deprecated} from "@tsed/core";
 import {InjectorService, IProvider} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {IServerSettings, ServerSettingsService} from "../../config";
-import {RouteService} from "../../mvc/services/RouteService";
+import {getConfiguration} from "../../config/utils/getConfiguration";
+import {IRoute, RouteService} from "../../mvc";
 import {createExpressApplication} from "../../server/utils/createExpressApplication";
 import {createHttpServer} from "../../server/utils/createHttpServer";
 import {createHttpsServer} from "../../server/utils/createHttpsServer";
@@ -18,9 +19,10 @@ import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {contextMiddleware} from "../utils/contextMiddleware";
-import {importComponents} from "../utils/importComponents";
 import {listenServer} from "../utils/listenServer";
+import {loadInjector} from "../utils/loadInjector";
 import {printRoutes} from "../utils/printRoutes";
+import {resolveProviders} from "../utils/resolveProviders";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -66,22 +68,20 @@ import {printRoutes} from "../utils/printRoutes";
  */
 export abstract class ServerLoader implements IServerLifecycle {
   public version: string = "0.0.0-PLACEHOLDER";
-  private _injector: InjectorService;
-  private routesProviders: IProvider<any>[] = [];
+  readonly injector: InjectorService;
+  private routes: IRoute[] = [];
+  private startedAt = new Date();
 
   /**
    *
    */
-  constructor() {
-    this.init();
-  }
+  constructor(settings: any = {}) {
+    // create injector with initial configuration
+    this.injector = createInjector(getConfiguration(classOf(this), settings));
 
-  /**
-   * Return the injectorService initialized by the server.
-   * @returns {InjectorService}
-   */
-  get injector(): InjectorService {
-    return this._injector;
+    createExpressApplication(this.injector);
+    createHttpsServer(this.injector);
+    createHttpServer(this.injector);
   }
 
   /**
@@ -123,7 +123,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @deprecated
    */
   get injectorService(): InjectorService {
-    return this._injector;
+    return this.injector;
   }
 
   /**
@@ -140,6 +140,14 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   get httpsServer(): Https.Server {
     return this.injector.get<HttpsServer>(HttpsServer)!;
+  }
+
+  static async bootstrap(module: any, settings: any = {}): Promise<ServerLoader> {
+    const server = new module(settings);
+
+    await server.runLifecycle();
+
+    return server;
   }
 
   /**
@@ -176,23 +184,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     this.settings.httpsPort = options.port;
 
     return this;
-  }
-
-  /**
-   * Init injector with minimal configuration
-   */
-  init() {
-    const settings = ServerSettingsService.getMetadata(this);
-
-    this._injector = createInjector(settings);
-
-    if (settings) {
-      this.setSettings(settings);
-    }
-
-    createExpressApplication(this.injector);
-    createHttpsServer(this.injector);
-    createHttpServer(this.injector);
   }
 
   /**
@@ -256,23 +247,29 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Start the express server.
    * @returns {Promise<any>|Promise}
+   * @deprecated Use ServerLoader.bootstrap()
    */
   public async start(): Promise<any> {
     try {
-      const start = new Date();
-      await this.loadSettingsAndInjector();
-      await this.loadMiddlewares();
-      await this.startServers();
-
-      await this.callHook("$onReady");
-      await this.injector.emit("$onServerReady");
-
-      this.injector.logger.info(`Started in ${new Date().getTime() - start.getTime()} ms`);
+      await this.runLifecycle();
+      await this.listen();
     } catch (err) {
       this.callHook("$onServerInitError", undefined, err);
 
       return Promise.reject(err);
     }
+  }
+
+  public async runLifecycle() {
+    await this.loadSettingsAndInjector();
+    await this.loadMiddlewares();
+  }
+
+  public async listen() {
+    await this.startServers();
+    await this.callHook("$onReady");
+    await this.injector.emit("$onServerReady");
+    this.injector.logger.info(`Started in ${new Date().getTime() - this.startedAt.getTime()} ms`);
   }
 
   /**
@@ -299,7 +296,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    * Theses pattern scan all files in the directories controllers, services recursively.
    *
-   * !> On windows on can have an issue with the Glob pattern and the /. To solve it, build your path pattern with the module Path.
+   * > On windows on can have an issue with the Glob pattern and the /. To solve it, build your path pattern with the module Path.
    *
    * ```typescript
    * const controllerPattern = Path.join(rootDir, 'controllers','**','*.js');
@@ -387,7 +384,15 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.level = level;
     }
 
-    await this.resolve();
+    const providers: IProvider<any>[] = await resolveProviders(this.injector);
+
+    this.routes = providers
+      .filter(provider => !!provider.endpoint)
+      .map(provider => ({
+        route: provider.endpoint,
+        token: provider.provide
+      }));
+
     await this.callHook("$onInit");
 
     this.injector.logger.debug("Initialize settings");
@@ -398,8 +403,38 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     this.injector.logger.info("Build services");
 
-    await this.injector.load();
+    await loadInjector(this.injector);
+
     this.injector.logger.debug("Settings and injector loaded");
+  }
+
+  /**
+   * Initialize configuration of the express app.
+   */
+  protected async loadMiddlewares(): Promise<any> {
+    this.injector.logger.debug("Mount middlewares");
+    this.use(contextMiddleware(this.injector));
+    this.use(LogIncomingRequestMiddleware);
+
+    await this.callHook("$onMountingMiddlewares", undefined);
+    await this.injector.emit("$beforeRoutesInit");
+    this.injector.logger.info("Load routes");
+
+    const routeService = this.injector.get<RouteService>(RouteService)!;
+    routeService.addRoutes(this.routes);
+
+    await this.injector.emit("$onRoutesInit");
+    await this.injector.emit("$afterRoutesInit");
+
+    await this.callHook("$afterRoutesInit");
+
+    if (!this.settings.logger.disableRoutesSummary) {
+      this.injector.logger.info("Routes mounted :");
+      this.injector.logger.info(printRoutes(routeService.getRoutes()));
+    }
+
+    // Import the globalErrorHandler
+    this.use(GlobalErrorHandlerMiddleware);
   }
 
   /**
@@ -420,54 +455,10 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
-   * Initialize configuration of the express app.
+   * @deprecated
    */
-  protected async loadMiddlewares(): Promise<any> {
-    this.injector.logger.debug("Mount middlewares");
-    this.use(contextMiddleware(this.injector));
-    this.use(LogIncomingRequestMiddleware);
 
-    await this.callHook("$onMountingMiddlewares", undefined);
-    await this.loadRoutes();
-
-    // Import the globalErrorHandler
-    this.use(GlobalErrorHandlerMiddleware);
-  }
-
-  protected async loadRoutes() {
-    await this.injector.emit("$beforeRoutesInit");
-
-    const routeService = this.injector.get<RouteService>(RouteService)!;
-
-    this.injector.logger.info("Map controllers");
-
-    this.routesProviders.forEach(provider => {
-      routeService.addRoute(provider.endpoint, provider.provide);
-    });
-
-    await this.injector.emit("$onRoutesInit");
-    await this.injector.emit("$afterRoutesInit");
-
-    await this.callHook("$afterRoutesInit");
-
-    if (!this.settings.logger.disableRoutesSummary) {
-      this.injector.logger.info("Routes mounted :");
-      this.injector.logger.info(printRoutes(routeService.getRoutes()));
-    }
-  }
-
-  protected async resolve() {
-    const components = await Promise.all([
-      importComponents(this.settings.mount, this.settings.exclude),
-      importComponents(this.settings.componentsScan, this.settings.exclude)
-    ]);
-
-    this.routesProviders = ([] as any).concat(...components).filter((component: IProvider<any>) => !!component.endpoint);
-  }
-
-  /**
-   *
-   */
+  /* istanbul ignore next */
   protected setSettings(settings: IServerSettings) {
     this.settings.set(settings);
 
