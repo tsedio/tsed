@@ -156,7 +156,7 @@ export class InjectorService extends Container {
    * @param options
    * @returns {T} The class constructed.
    */
-  public /* async */ invoke<T>(
+  public invoke<T>(
     token: TokenProvider,
     locals: Map<TokenProvider, any> = new LocalsContainer(),
     options: Partial<IInvokeOptions<T>> = {}
@@ -167,24 +167,24 @@ export class InjectorService extends Container {
     if (locals.has(token)) {
       instance = locals.get(token);
     } else if (!provider || options.rebuild) {
-      instance = this._invoke(token, locals, options);
+      instance = this.resolve(token, locals, options);
     } else {
       switch (this.scopeOf(provider)) {
         case ProviderScope.SINGLETON:
           if (!this.has(token)) {
-            provider.instance = this._invoke(token, locals, options);
+            provider.instance = this.resolve(token, locals, options);
           }
 
           instance = this.get<T>(token)!;
           break;
 
         case ProviderScope.REQUEST:
-          instance = this._invoke(token, locals, options);
+          instance = this.resolve(token, locals, options);
           locals.set(token, instance);
           break;
 
         case ProviderScope.INSTANCE:
-          instance = this._invoke(provider.provide, locals, options);
+          instance = this.resolve(provider.provide, locals, options);
           break;
       }
     }
@@ -201,11 +201,7 @@ export class InjectorService extends Container {
     const locals = new LocalsContainer();
 
     // Clone all providers in the container
-    container.forEach((provider, token) => {
-      if (!this.hasProvider(token)) {
-        this.setProvider(token, provider.clone());
-      }
-    });
+    this.addProviders(container);
 
     const providers = super.toArray();
 
@@ -399,7 +395,7 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  private _invoke<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
+  private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
     const {token, deps, construct, isBindable} = this.mapInvokeOptions(target, options);
     const provider = this.getProvider(target);
 

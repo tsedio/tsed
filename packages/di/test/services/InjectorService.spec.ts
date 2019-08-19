@@ -89,7 +89,7 @@ describe("InjectorService", () => {
 
         await injector.load();
 
-        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector as any, "invoke");
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
@@ -98,14 +98,14 @@ describe("InjectorService", () => {
 
         // WHEN
 
-        const result1 = await injector.invoke(token, locals);
-        const result2 = await injector.invoke(token, locals, {rebuild: true});
+        const result1: any = await injector.invoke(token, locals);
+        const result2: any = await injector.invoke(token, locals, {rebuild: true});
 
         // THEN
         result1.should.not.eq(result2);
         injector.getProvider.should.have.been.calledWithExactly(token);
         injector.get.should.have.been.calledWithExactly(token);
-        (injector as any)._invoke.should.have.been.calledWithExactly(token, locals, {rebuild: true});
+        (injector as any).resolve.should.have.been.calledWithExactly(token, locals, {rebuild: true});
         (injector as any).invoke.should.have.been.calledWithExactly(InjectorService, locals, {
           parent: token
         });
@@ -125,7 +125,7 @@ describe("InjectorService", () => {
 
         await injector.load();
 
-        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
@@ -133,15 +133,15 @@ describe("InjectorService", () => {
 
         // WHEN
 
-        const result1 = await injector.invoke(token, locals);
-        const result2 = await injector.invoke(token, locals);
+        const result1: any = await injector.invoke(token, locals);
+        const result2: any = await injector.invoke(token, locals);
 
         // THEN
         result1.should.eq(result2);
         injector.getProvider.should.have.been.calledWithExactly(token);
         injector.get.should.have.been.calledWithExactly(token);
 
-        return (injector as any)._invoke.should.not.have.been.called;
+        return (injector as any).resolve.should.not.have.been.called;
       });
     });
     describe("when provider is a REQUEST", () => {
@@ -158,7 +158,7 @@ describe("InjectorService", () => {
 
         await injector.load();
 
-        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
@@ -166,18 +166,18 @@ describe("InjectorService", () => {
         const locals2 = new Map(); // LocalContainer for the second request
 
         // WHEN REQ1
-        const result1 = await injector.invoke(token, locals);
-        const result2 = await injector.invoke(token, locals);
+        const result1: any = await injector.invoke(token, locals);
+        const result2: any = await injector.invoke(token, locals);
 
         // WHEN REQ2
-        const result3 = await injector.invoke(token, locals2);
+        const result3: any = await injector.invoke(token, locals2);
 
         // THEN
         result1.should.eq(result2);
         result2.should.not.eq(result3);
 
         injector.getProvider.should.have.been.calledWithExactly(token);
-        (injector as any)._invoke.should.have.been.calledWithExactly(token, locals, {});
+        (injector as any).resolve.should.have.been.calledWithExactly(token, locals, {});
         locals.get(token).should.eq(result1);
         locals2.get(token).should.eq(result3);
 
@@ -198,21 +198,21 @@ describe("InjectorService", () => {
 
         await injector.load();
 
-        Sinon.spy(injector as any, "_invoke");
+        Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
         const locals = new Map(); // LocalContainer for the first request
 
         // WHEN REQ1
-        const result1 = await injector.invoke(token, locals);
-        const result2 = await injector.invoke(token, locals);
+        const result1: any = await injector.invoke(token, locals);
+        const result2: any = await injector.invoke(token, locals);
 
         // THEN
         result1.should.not.eq(result2);
 
         injector.getProvider.should.have.been.calledWithExactly(token);
-        (injector as any)._invoke.should.have.been.calledWithExactly(token, locals, {});
+        (injector as any).resolve.should.have.been.calledWithExactly(token, locals, {});
         locals.has(token).should.eq(false);
 
         return injector.get.should.not.have.been.called;
@@ -245,7 +245,7 @@ describe("InjectorService", () => {
         injector.set(token, provider);
 
         // WHEN
-        const result = await injector.invoke(token);
+        const result: any = await injector.invoke(token);
 
         // THEN
         result.should.instanceof(token);
@@ -267,7 +267,7 @@ describe("InjectorService", () => {
         await injector.load();
 
         // WHEN
-        const result = await injector.invoke(token);
+        const result: any = await injector.invoke(token);
 
         // THEN
         result.should.eq("TEST");
@@ -287,7 +287,7 @@ describe("InjectorService", () => {
         await injector.load();
 
         // WHEN
-        const result = await injector.invoke(token);
+        const result: any = await injector.invoke(token);
 
         // THEN
         result.should.eq("TEST");
@@ -308,7 +308,7 @@ describe("InjectorService", () => {
         await injector.load();
 
         // WHEN
-        const result = await injector.invoke(token);
+        const result: any = await injector.invoke(token);
 
         // THEN
         result.should.deep.eq({factory: "factory"});
@@ -323,7 +323,7 @@ describe("InjectorService", () => {
         const injector = new InjectorService();
 
         // WHEN
-        const result = await injector.invoke(token);
+        const result: any = await injector.invoke(token);
 
         // THEN
         result.should.instanceof(token);

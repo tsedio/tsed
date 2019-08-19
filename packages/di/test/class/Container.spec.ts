@@ -69,4 +69,21 @@ describe("Container", () => {
       expect(middlewares.length > 0).to.eq(true);
     });
   });
+  describe("addProviders()", () => {
+    it("should add providers", () => {
+      class Test {
+      }
+
+      // GIVEN
+      const container = new Container();
+      const childContainer = new Container();
+      childContainer.addProvider(Test);
+
+      // WHEN
+      container.addProviders(childContainer);
+
+      // THEN
+      container.getProvider(Test)!.should.instanceof(Provider);
+    });
+  });
 });
