@@ -11,7 +11,7 @@ const rootDir = __dirname;
   acceptMimes: ["application/json"]  // add your custom configuration here
 })
 export class Server extends ServerLoader {
-  $onMountingMiddlewares() {
+  $beforeRoutesInits() {
     this.use(GlobalAcceptMimeMiddleware);
   }
 

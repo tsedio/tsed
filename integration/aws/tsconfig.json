@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "target": "es2016",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "declaration": false,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "./public",
+    "dist",
+    "test"
+  ]
+}

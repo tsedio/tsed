@@ -14,7 +14,7 @@ class Server extends ServerLoader {
    * This method let you configure the express middleware required by your application to works.
    * @returns {Server}
    */
-  public $onMountingMiddlewares(): void | Promise<any> {
+  public $beforeRoutesInit(): void | Promise<any> {
 
     this
       .use(cookieParser())

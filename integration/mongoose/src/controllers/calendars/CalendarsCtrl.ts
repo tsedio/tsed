@@ -86,7 +86,7 @@ export class CalendarsCtrl {
   @Summary("Remove all calendars.")
   @Status(204, {description: "No content"})
   async clear(@PathParams("id") id: string): Promise<void> {
-    await this.calendarsService.clear()
+    await this.calendarsService.clear();
   }
 
   /**

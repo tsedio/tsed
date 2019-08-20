@@ -26,7 +26,7 @@ export class Server extends ServerLoader {
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
-  $onMountingMiddlewares(): void | Promise<any> {
+  $beforeRoutesInit(): void | Promise<any> {
     this
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
@@ -38,13 +38,5 @@ export class Server extends ServerLoader {
       }));
 
     return null;
-  }
-
-  $onReady() {
-    $log.debug("Server initialized");
-  }
-
-  $onServerInitError(error): any {
-    $log.error("Server encounter an error =>", error);
   }
 }

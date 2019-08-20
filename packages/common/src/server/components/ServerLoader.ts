@@ -3,6 +3,7 @@ import {InjectorService, IProvider} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
+import * as util from "util";
 import {IServerSettings, ServerSettingsService} from "../../config";
 import {getConfiguration} from "../../config/utils/getConfiguration";
 import {IRoute, RouteService} from "../../mvc";
@@ -195,7 +196,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    *    acceptMimes: ['application/json'] // optional
    * })
    * export class Server extends ServerLoader {
-   *     $onMountingMiddlewares(): void|Promise<any> {
+   *     $beforeRoutesInit(): void|Promise<any> {
    *         const methodOverride = require('method-override');
    *
    *         this.use(GlobalAcceptMimesMiddleware)
@@ -247,7 +248,6 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Start the express server.
    * @returns {Promise<any>|Promise}
-   * @deprecated Use ServerLoader.bootstrap()
    */
   public async start(): Promise<any> {
     try {
@@ -384,6 +384,8 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.level = level;
     }
 
+    this.injector.logger.debug("Scan components");
+
     const providers: IProvider<any>[] = await resolveProviders(this.injector);
 
     this.routes = providers
@@ -393,15 +395,14 @@ export abstract class ServerLoader implements IServerLifecycle {
         token: provider.provide
       }));
 
+    await this.callHook("$beforeInit");
     await this.callHook("$onInit");
-
-    this.injector.logger.debug("Initialize settings");
 
     this.settings.forEach((value, key) => {
       this.injector.logger.info(`settings.${key} =>`, value);
     });
 
-    this.injector.logger.info("Build services");
+    this.injector.logger.info("Build providers");
 
     await loadInjector(this.injector);
 
@@ -416,6 +417,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     this.use(contextMiddleware(this.injector));
     this.use(LogIncomingRequestMiddleware);
 
+    await this.callHook("$beforeRoutesInit", undefined);
     await this.callHook("$onMountingMiddlewares", undefined);
     await this.injector.emit("$beforeRoutesInit");
     this.injector.logger.info("Load routes");
@@ -472,6 +474,13 @@ export abstract class ServerLoader implements IServerLifecycle {
     const self: any = this;
 
     if (key in this) {
+      const hookDepreciation = (hook: string, newHook: string) =>
+        util.deprecate(() => {}, `${hook} hook is deprecated. Use ${newHook} instead`)();
+
+      if (key === "$onMountingMiddlewares") {
+        hookDepreciation("$onMountingMiddlewares", "$onBeforeRoutesInit");
+      }
+
       this.injector.logger.debug(`\x1B[1mCall hook ${key}\x1B[22m`);
 
       return self[key](...args);

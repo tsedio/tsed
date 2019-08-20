@@ -132,48 +132,48 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tsed/common@5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.21.0.tgz#4820ef5761ef6c216183f6c60d29a99796cd5493"
-  integrity sha512-Mm7SYo8AiLpVRBX5JhI1cihz3gXgfp0uVchWdIwuiBBfF1GRpos+OhpQVrN0ud7dlNqgVjZqURkazSN+NO7ESA==
+"@tsed/common@5.27.1":
+  version "5.27.1"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.27.1.tgz#2ab54625cba1e248b223929377ef1c5237a0035c"
+  integrity sha512-XTv9n9nYCNuq/46vYGq2clTL7jAG6nkvZZQM913X1OjfX6msEMCROblz3lfN01sBrc/FWYDXrdYpLYoch3ddig==
   dependencies:
     "@types/json-schema" "^7.0.3"
-    globby "^9.2.0"
+    globby "9.2.0"
     json-schema "^0.2.3"
     rxjs "^6.5.2"
     ts-httpexceptions "^4.1.0"
     ts-log-debug "^5.1.0"
     tslib "^1.10.0"
 
-"@tsed/core@5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.21.0.tgz#715d75863575608862a2ee27c88225e52dae888f"
-  integrity sha512-MVlqPY/tuAC/h4DT8JueHDaWyIGDK4RpdVZX9L8VyVfA92YaA4X+o62noWPNhnKn+6q12bHGPfXzHikAU8ZVJg==
+"@tsed/core@5.27.1":
+  version "5.27.1"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.27.1.tgz#03c7c8e7e800f1ce7a44c905b5d5c7fbb328859a"
+  integrity sha512-GgF0h5/vXjwX3rcM8amGLoj9kZpQA5zdUe50DUFuafoEDRP2zwg9NMYzli0FymRkZvRE875aYynK8NAv6t1LBA==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "^0.5.12"
     tslib "^1.10.0"
 
-"@tsed/di@5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.21.0.tgz#9eb08254329addff03b8ac563af11b7db639cc52"
-  integrity sha512-hDZBvk/8AOy+3nnLEUWG52+aZMveKqASfBjaurXHvedIHSKUi+uvoKWuJ0vLF7lpKng9TN4Dt7Dz/oBaiKF80A==
+"@tsed/di@5.27.1":
+  version "5.27.1"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.27.1.tgz#22fcd00a002c761d6e9e4dfe323771aeef07c7c0"
+  integrity sha512-dJZc64cALD87Q15oPlyVWXBWv3p61YGP/DGh8Bv41zhkkSsyROpZetc0/lUPfD4KtzHITlgFh/RWaxcVbeYa4w==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/swagger@5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.21.0.tgz#bb897741aa342ad7454f5660c0bcf70989c75070"
-  integrity sha512-xjhbQ8uQ/0sQ56kqTyFiOjTpgkj8gQXrq7jaR6Dp4wtqn/OjK3UrsOo7d1mLsUTbnGgKHRQfOJkeFuB7BGedhw==
+"@tsed/swagger@5.27.1":
+  version "5.27.1"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.27.1.tgz#5443041e7125cdd8da868e71f5c9c15eee75047b"
+  integrity sha512-+11+pQu7q5Tl18AaRO2Yt6abCbUX4xQxGtpNJiXZWU59HvzmWA5UMuu7WwnW7WI24fVaYPMpAVNLOgRmG8hIgA==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.21.0.tgz#a6aa2f87d6152ccff9fbbdfbe9ff6eb917e8f7e9"
-  integrity sha512-RWAZ0evu+b4hruNu6La+ure1QhiDssYOZzoCIqssYSUfd+/P+X5OO/McO7fRsfZQnahv1LS0GSxHUU2d6BIRhg==
+"@tsed/testing@5.27.1":
+  version "5.27.1"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.27.1.tgz#d332438026b086d4d06d1e11da8e1a8622ded55f"
+  integrity sha512-CRgc4P1hd84epb3V2r/cIEeshV9a51hpjq/OIe+l6bj+HWR5Bqb/cv5azU+dmYZQvgoKXzQ7+jZl99fNjPBG5w==
   dependencies:
     tslib "^1.9.0"
 
@@ -1806,7 +1806,7 @@ globals@^11.1.0:
   resolved "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
   integrity sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
 
-globby@^9.2.0:
+globby@9.2.0:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/globby/-/globby-9.2.0.tgz#fd029a706c703d29bdd170f4b6db3a3f7a7cb63d"
   integrity sha512-ollPHROa5mcxDEkwg6bPt3QbEf4pDQSNtd6JPL1YvOvAo/7/0VAm9TccUeoTmarjPw4pfUthSCqcyfNB1I3ZSg==
@@ -2873,7 +2873,7 @@ node-pre-gyp@^0.12.0:
     semver "^5.3.0"
     tar "^4"
 
-nodemon@^1.17.5:
+nodemon@1.19.1:
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.19.1.tgz#576f0aad0f863aabf8c48517f6192ff987cd5071"
   integrity sha512-/DXLzd/GhiaDXXbGId5BzxP1GlsqtMGM9zTmkWrgXtSqjKmGSbLicM/oAy4FR0YWm14jCHRwnR31AHS2dYFHrg==

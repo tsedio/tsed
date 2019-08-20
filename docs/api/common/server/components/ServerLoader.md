@@ -381,7 +381,7 @@ This method let you to add a express middleware or a Ts.ED middleware like Globa
    acceptMimes: ['application/json'] // optional
 })
 export class Server extends ServerLoader {
-    $onMountingMiddlewares(): void|Promise<any> {
+    $beforeRoutesInit(): void|Promise<any> {
         const methodOverride = require('method-override');
 
         this.use(GlobalAcceptMimesMiddleware)

@@ -1,9 +1,16 @@
-import "reflect-metadata";
-import {$log} from "ts-log-debug";
-
+import {$log, ServerLoader} from "@tsed/common";
 import {Server} from "./Server";
 
-$log.debug("Start server...");
-new Server()
-  .start()
-  .catch((er) => console.error(er));
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const server = await ServerLoader.bootstrap(Server);
+
+    await server.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();

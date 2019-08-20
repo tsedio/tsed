@@ -9,8 +9,8 @@ import {
 import * as Passport from "passport";
 import {Strategy} from "passport-local";
 import {BadRequest, NotFound} from "ts-httpexceptions";
-import {IUser} from "../../interfaces/User";
-import {UsersService} from "../users/UsersService";
+import {IUser} from "../interfaces/User";
+import {UsersService} from "../services/users/UsersService";
 
 @Service()
 export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
@@ -63,15 +63,13 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
   // we are using named strategies since we have one for login and one for signup
   // by default, if there was no name, it would just be called 'local'
   public initializeSignup() {
-
     Passport
       .use("signup", new Strategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField: "email",
         passwordField: "password",
         passReqToCallback: true // allows us to pass back the entire request to the callback
-      }, this.verify);
-
+      }, this.verify));
   }
 
   verify(req, email, password, done) {

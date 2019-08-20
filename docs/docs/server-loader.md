@@ -13,7 +13,7 @@ Hook method | Description
 --- | --- | ---
 `constructor` | On this phase nothing is constructed. Express app isn't created.
 [`$onInit`](#serverloaderoninit-void-promise) | Respond when the server starting his lifecycle. Is good place to initialize Database connection.
-[`$onMountingMiddlewares`](#serverloaderonmountingmiddlewares-void-promise) | This hooks is the right place to configure the middlewares that must be used with your ExpressApplication. At this step, [InjectorService](/api/di/services/InjectorService.md) and [services](/docs/services.md) are ready and can be injected. The [Controllers](/docs/controllers.md) isn't built.
+[`$beforeRoutesInit`](#serverloaderbeforeroutesinit-void-promise) | This hooks is the right place to configure the middlewares that must be used with your ExpressApplication. At this step, [InjectorService](/api/di/services/InjectorService.md) and [services](/docs/services.md) are ready and can be injected. The [Controllers](/docs/controllers.md) isn't built.
 [`$afterRoutesInit`](#serverloaderafterroutesinit-void-promise) | Respond just after all [Controllers](/docs/controllers.md) are built. You can configure the [`serve-static`](https://github.com/expressjs/serve-static) middleware on this phase.
 [`$onReady`](#serverloaderonready-void) | Respond when the server is ready. At this step, HttpServer or/and HttpsServer object is available. The server listen the port.
 `$onServerInitError`| Respond when an error is triggered on server initialization.
@@ -23,26 +23,25 @@ Hook method | Description
 ### Hooks examples
 #### ServerLoader.$onInit(): void | Promise
 
-During this phase you can initialize your database connection for example. This hook accept a promise as return and let you to wait the database connection before run the next lifecycle's phase.
+During this phase you can initialize some stuff before injector loading. This hook accept a promise as return and let you to wait the database connection before run the next lifecycle's phase.
 
 Example with mongoose Api:
 ```typescript
 class Server extends ServerLoader {
-
-    async $onInit(): Promise  {
-
-        return new Promise((resolve, reject) => {
-            const db = Mongoose.connect(credentials);
-            db.once('open', resolve);
-            db.on('error', reject); // if error occurs, it will be intercepted by $onServerInitError
-        });
-    }
+  async $onInit(): Promise  {
+    return new Promise((resolve, reject) => {
+       setTimeout(resolve, 100)
+    });
+  }
 }
 ```
+::: tip Note
+Database connection can be performed with Asynchronous Provider since v5.26. See [custom providers](/docs/custom-providers.md)
+:::
 
 ***
 
-#### ServerLoader.$onMountingMiddlewares(): void | Promise
+#### ServerLoader.$beforeRoutesInit(): void | Promise
 
 Some middlewares are required to work with all decorators as follow:
 
@@ -55,8 +54,7 @@ At this step, [services](/docs/services.md) are built.
 Example of middlewares configuration:
 ```typescript
 class Server extends ServerLoader {
-
-    async $onMountingMiddlewares(): void | Promise  {
+    async $beforeRoutesInit(): void | Promise  {
 
         const cookieParser = require('cookie-parser'),
             bodyParser = require('body-parser'),
@@ -76,7 +74,7 @@ class Server extends ServerLoader {
     }
 }
 ```
-> `$onMountingMiddlewares` accept a promise to defer the next lifecycle's phase.
+> `$beforeRoutesInit` accept a promise to defer the next lifecycle's phase.
 
 ***
 
@@ -106,7 +104,6 @@ You can initialize other server like a Socket server.
 Example:
 ```typescript
 class Server extends ServerLoader {
-
     public $onReady(): void {
         console.log('Server ready');
         const io = SocketIO(this.httpServer);
@@ -120,8 +117,6 @@ class Server extends ServerLoader {
 
 Ts.ED provide the possibility to mount multiple Rest path instead of the default path `/rest`.
 You have two methods to configure all global endpoints for each directories scanned by the [ServerLoader](/api/common/server/components/ServerLoader.md).
-
-### With decorator (Recommended)
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -141,37 +136,8 @@ const rootDir = Path.resolve(__dirname);
 export class Server extends ServerLoader {
 
 }
-
-new Server().start();
 ```
 > Note: mount attribute accept a list of glob for each endpoint. That lets you declare a resource versioning.
 
-### With ServerLoader API
 
-```typescript
-import {ServerLoader, IServerLifecycle} from "@tsed/common";
-import Path = require("path");
-
-export class Server extends ServerLoader implements IServerLifecycle {
-
-    constructor() {
-        super();
-
-        const appPath: string = Path.resolve(__dirname);
-
-        this.mount('rest/', appPath + "/controllers/**/**.js")
-            .mount('rest/v1/', [
-                appPath + "/controllers/v1/users/**.js",
-                appPath + "/controllers/v1/groups/**.js"
-            ])
-            .createHttpServer(8000)
-            .createHttpsServer({
-                port: 8080
-            });
-
-    }
-}
-
-new Server().start();
-```
 

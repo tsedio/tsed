@@ -32,6 +32,9 @@ module.exports = {
     "getting-started": {
       url: "https://github.com/TypedProject/tsed-getting-started.git"
     },
+    "aws": {
+      url: "https://github.com/TypedProject/tsed-example-aws.git"
+    },
     "mongoose": {
       url: "https://github.com/TypedProject/tsed-example-mongoose.git"
     },

@@ -29,13 +29,12 @@ const rootDir = __dirname;
    ]
 })
 class Server extends ServerLoader {
-
     $onInit(){
         this.set("views", this.settings.get('viewsDir')); // le repertoire des vues
         this.engine("ejs", cons.ejs);
     }
 
-    async $onMountingMiddlewares()  {
+    async $beforeRoutesInit()  {
         this.use(ServerLoader.AcceptMime("application/json"))
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
