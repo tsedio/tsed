@@ -27,6 +27,7 @@ describe("Provider", () => {
         "instance",
         "deps",
         "useFactory",
+        "useAsyncFactory",
         "useValue"
       ]);
       expect(provider.clone()).to.deep.eq(provider);
@@ -91,6 +92,15 @@ describe("Provider", () => {
   describe("toString()", () => {
     it("should return the class name", () => {
       expect(new Provider(T1).toString()).to.eq("Token:T1");
+    });
+  });
+
+  describe("isAsync()", () => {
+    it("should return true", () => {
+      const provider = new Provider(T1);
+      provider.useAsyncFactory = async () => "test";
+
+      expect(provider.isAsync()).to.eq(true);
     });
   });
 });

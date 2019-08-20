@@ -98,8 +98,8 @@ describe("InjectorService", () => {
 
         // WHEN
 
-        const result1: any = await injector.invoke(token, locals);
-        const result2: any = await injector.invoke(token, locals, {rebuild: true});
+        const result1: any = injector.invoke(token, locals);
+        const result2: any = injector.invoke(token, locals, {rebuild: true});
 
         // THEN
         result1.should.not.eq(result2);
@@ -133,8 +133,8 @@ describe("InjectorService", () => {
 
         // WHEN
 
-        const result1: any = await injector.invoke(token, locals);
-        const result2: any = await injector.invoke(token, locals);
+        const result1: any = injector.invoke(token, locals);
+        const result2: any = injector.invoke(token, locals);
 
         // THEN
         result1.should.eq(result2);
@@ -166,11 +166,11 @@ describe("InjectorService", () => {
         const locals2 = new Map(); // LocalContainer for the second request
 
         // WHEN REQ1
-        const result1: any = await injector.invoke(token, locals);
-        const result2: any = await injector.invoke(token, locals);
+        const result1: any = injector.invoke(token, locals);
+        const result2: any = injector.invoke(token, locals);
 
         // WHEN REQ2
-        const result3: any = await injector.invoke(token, locals2);
+        const result3: any = injector.invoke(token, locals2);
 
         // THEN
         result1.should.eq(result2);
@@ -205,8 +205,8 @@ describe("InjectorService", () => {
         const locals = new Map(); // LocalContainer for the first request
 
         // WHEN REQ1
-        const result1: any = await injector.invoke(token, locals);
-        const result2: any = await injector.invoke(token, locals);
+        const result1: any = injector.invoke(token, locals);
+        const result2: any = injector.invoke(token, locals);
 
         // THEN
         result1.should.not.eq(result2);
@@ -245,7 +245,7 @@ describe("InjectorService", () => {
         injector.set(token, provider);
 
         // WHEN
-        const result: any = await injector.invoke(token);
+        const result: any = injector.invoke(token);
 
         // THEN
         result.should.instanceof(token);
@@ -267,7 +267,7 @@ describe("InjectorService", () => {
         await injector.load();
 
         // WHEN
-        const result: any = await injector.invoke(token);
+        const result: any = injector.invoke(token);
 
         // THEN
         result.should.eq("TEST");
@@ -287,7 +287,7 @@ describe("InjectorService", () => {
         await injector.load();
 
         // WHEN
-        const result: any = await injector.invoke(token);
+        const result: any = injector.invoke(token);
 
         // THEN
         result.should.eq("TEST");
@@ -308,10 +308,43 @@ describe("InjectorService", () => {
         await injector.load();
 
         // WHEN
-        const result: any = await injector.invoke(token);
+        const result: any = injector.invoke(token);
 
         // THEN
         result.should.deep.eq({factory: "factory"});
+      });
+    });
+    describe("when provider is an AsyncFactory (useAsyncFactory)", () => {
+      it("should invoke the provider from container", async () => {
+        // GIVEN
+        const tokenChild = Symbol.for("TokenChildFactory");
+        const providerChild = new Provider<any>(tokenChild);
+        providerChild.useAsyncFactory = async (dep: any) => ("test async");
+
+        const token = Symbol.for("TokenFactory");
+        const provider = new Provider<any>(token);
+        provider.deps = [tokenChild];
+        provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+
+        const tokenSync = Symbol.for("TokenSyncFactory");
+        const providerSync = new Provider<any>(tokenSync);
+        providerSync.deps = [token];
+        providerSync.useFactory = (asyncInstance: any) => (asyncInstance.factory);
+
+        const injector = new InjectorService();
+        injector.set(tokenChild, providerChild);
+        injector.set(token, provider);
+        injector.set(tokenSync, providerSync);
+
+        await injector.load();
+
+        // WHEN
+        const result: any = injector.invoke(token);
+        const result2: any = injector.invoke(tokenSync);
+
+        // THEN
+        result.should.deep.eq({factory: "test async factory"});
+        result2.should.deep.eq("test async factory");
       });
     });
     describe("when provider is an unknow provider", () => {
@@ -323,7 +356,7 @@ describe("InjectorService", () => {
         const injector = new InjectorService();
 
         // WHEN
-        const result: any = await injector.invoke(token);
+        const result: any = injector.invoke(token);
 
         // THEN
         result.should.instanceof(token);
@@ -354,7 +387,7 @@ describe("InjectorService", () => {
         // WHEN
         let actualError;
         try {
-          await injector.invoke(token3);
+          injector.invoke(token3);
         } catch (er) {
           actualError = er;
         }
@@ -387,7 +420,7 @@ describe("InjectorService", () => {
         // WHEN
         let actualError;
         try {
-          await injector.invoke(token3);
+          injector.invoke(token3);
         } catch (er) {
           actualError = er;
         }
@@ -425,7 +458,7 @@ describe("InjectorService", () => {
         // WHEN
         let actualError;
         try {
-          await injector.invoke(token3);
+          injector.invoke(token3);
         } catch (er) {
           actualError = er;
         }

@@ -27,7 +27,6 @@ interface IInvokeSettings {
   token: TokenProvider;
   parent?: TokenProvider;
   scope: ProviderScope;
-  useScope: boolean;
   isBindable: boolean;
   deps: any[];
 
@@ -49,7 +48,8 @@ interface IInvokeSettings {
  *
  * // When all services is imported you can load InjectorService.
  * const injector = new InjectorService()
- * injector.load();
+ *
+ * await injector.load();
  *
  * const myService1 = injector.get<MyService1>(MyServcice1);
  * ```
@@ -173,6 +173,12 @@ export class InjectorService extends Container {
         case ProviderScope.SINGLETON:
           if (!this.has(token)) {
             provider.instance = this.resolve(token, locals, options);
+
+            if (provider.isAsync()) {
+              provider.instance.then((instance: any) => {
+                provider.instance = instance;
+              });
+            }
           }
 
           instance = this.get<T>(token)!;
@@ -193,27 +199,50 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Build all providers from GlobalProviders or from given providers parameters and emit `$onInit` event.
+   * Build only providers which are asynchronous.
+   */
+  async loadAsync(locals: LocalsContainer<any> = new LocalsContainer()) {
+    const providers = super.toArray();
+
+    for (const provider of providers) {
+      if (provider.isAsync()) {
+        await this.invoke(provider.token, locals);
+      }
+
+      if (provider.instance) {
+        locals.set(provider.token, provider.instance);
+      }
+    }
+
+    return locals;
+  }
+
+  async loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
+    const providers = super.toArray();
+
+    for (const provider of providers) {
+      if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+        this.invoke(provider.token, locals);
+      }
+
+      if (provider.instance) {
+        locals.set(provider.token, provider.instance);
+      }
+    }
+
+    return locals;
+  }
+
+  /**
+   * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
    * @param container
    */
   async load(container: Map<TokenProvider, Provider<any>> = GlobalProviders): Promise<LocalsContainer<any>> {
-    const locals = new LocalsContainer();
-
     // Clone all providers in the container
     this.addProviders(container);
 
-    const providers = super.toArray();
-
-    for (const provider of providers) {
-      if (!locals.has(provider.provide) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
-        this.invoke(provider.provide, locals);
-      }
-
-      if (provider.instance) {
-        locals.set(provider.provide, provider.instance);
-      }
-    }
+    const locals = await this.loadSync(await this.loadAsync());
 
     await locals.emit("$onInit");
 
@@ -444,40 +473,37 @@ export class InjectorService extends Container {
    * @param options
    */
   private mapInvokeOptions(token: TokenProvider, options: Partial<IInvokeOptions<any>>): IInvokeSettings {
-    const {useScope = false} = options;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
-    let construct = (deps: TokenProvider[]) => new token(...deps);
+    let construct;
     let isBindable = false;
 
     if (!token) {
       throw new UndefinedTokenError();
     }
 
-    if (this.hasProvider(token)) {
-      const provider = this.getProvider(token)!;
+    const provider = this.hasProvider(token) ? this.getProvider(token)! : new Provider(token);
 
-      scope = scope || this.scopeOf(provider);
-      deps = deps || provider.deps;
+    scope = scope || this.scopeOf(provider);
+    deps = deps || provider.deps;
 
-      if (provider.useValue) {
-        construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
-      } else if (provider.useFactory) {
-        construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
-      } else if (provider.useClass) {
-        isBindable = true;
-        deps = deps || Metadata.getParamTypes(provider.useClass);
-        construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
-      }
+    if (provider.useValue) {
+      construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
+    } else if (provider.useFactory) {
+      construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
+    } else if (provider.useAsyncFactory) {
+      construct = (deps: TokenProvider[]) => provider.useAsyncFactory(...deps);
     } else {
-      deps = deps || Metadata.getParamTypes(token);
+      // useClass
+      isBindable = true;
+      deps = deps || Metadata.getParamTypes(provider.useClass);
+      construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
     }
 
     return {
       token,
       scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
       deps: deps! || [],
-      useScope,
       isBindable,
       construct
     };

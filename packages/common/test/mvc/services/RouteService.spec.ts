@@ -33,7 +33,7 @@ describe("RouteService", () => {
       locals.set(ExpressApplication, expressApp);
 
       await injector.load();
-      const routeService = await injector.invoke<RouteService>(RouteService, locals, {rebuild: true});
+      const routeService = injector.invoke<RouteService>(RouteService, locals, {rebuild: true});
 
       // WHEN
       routeService.addRoute("/test", MyCtrl);
@@ -69,7 +69,7 @@ describe("RouteService", () => {
       locals.set(ExpressApplication, expressApp);
 
       await injector.load();
-      const routeService = await injector.invoke<RouteService>(RouteService, locals, {rebuild: true});
+      const routeService = injector.invoke<RouteService>(RouteService, locals, {rebuild: true});
       routeService.addRoute("/test", MyCtrl);
 
       // WHEN

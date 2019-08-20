@@ -44,7 +44,7 @@ describe("DI Interceptor", () => {
 
     await injector.load();
 
-    const serviceTest = await injector.invoke<ServiceTest>(ServiceTest)!;
+    const serviceTest = injector.invoke<ServiceTest>(ServiceTest)!;
 
     // WHEN
     const result = serviceTest.exec("param data");
