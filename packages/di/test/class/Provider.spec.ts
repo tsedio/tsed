@@ -93,4 +93,13 @@ describe("Provider", () => {
       expect(new Provider(T1).toString()).to.eq("Token:T1");
     });
   });
+
+  describe("isAsync()", () => {
+    it("should return true", () => {
+      const provider = new Provider(T1);
+      provider.useAsyncFactory = async () => "test";
+
+      expect(provider.isAsync()).to.eq(true);
+    });
+  });
 });

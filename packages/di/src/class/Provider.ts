@@ -30,6 +30,9 @@ export class Provider<T> implements IProvider<T> {
    */
   @Enumerable()
   public useFactory: Function;
+
+  @Enumerable()
+  public useAsyncFactory: Function;
   /**
    *
    */
@@ -142,6 +145,10 @@ export class Provider<T> implements IProvider<T> {
   @Enumerable()
   set scope(scope: ProviderScope) {
     this._store ? this.store.set("scope", scope) : this._scope;
+  }
+
+  isAsync(): boolean {
+    return !!this.useAsyncFactory;
   }
 
   /**
