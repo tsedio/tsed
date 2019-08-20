@@ -1,18 +1,13 @@
 import {Service} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {
-  Connection,
-  ConnectionManager,
-  ConnectionOptions,
-  getConnectionManager
-} from "typeorm";
+import {Connection, ConnectionManager, ConnectionOptions, getConnectionManager} from "typeorm";
 
 @Service()
 export class TypeORMService {
   /**
    *
    * @type {Map<any, any>}
-   * @private
+   * @deprecated
    */
   readonly instances: Map<string, Connection> = new Map();
 
@@ -70,7 +65,7 @@ export class TypeORMService {
   }
 
   closeConnections(): Promise<any> {
-    const promises = Array.from(this.instances.values()).map(instance => instance.close());
+    const promises = this.connectionManager.connections.map(instance => instance.close());
 
     return Promise.all(promises);
   }
