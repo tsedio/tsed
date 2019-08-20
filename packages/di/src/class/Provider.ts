@@ -71,11 +71,15 @@ export class Provider<T> implements IProvider<T> {
     this.useClass = token;
   }
 
+  get token() {
+    return this._provide;
+  }
+
   /**
    *
    * @returns {any}
    */
-  get provide(): any {
+  get provide(): TokenProvider {
     return this._provide;
   }
 
@@ -83,7 +87,7 @@ export class Provider<T> implements IProvider<T> {
    *
    * @param value
    */
-  set provide(value: any) {
+  set provide(value: TokenProvider) {
     this._provide = isClass(value) ? getClass(value) : value;
   }
 
@@ -132,9 +136,18 @@ export class Provider<T> implements IProvider<T> {
 
   /**
    * Get the scope of the provider.
+   *
+   * ::: tip Note
+   * Async provider is always a SINGLETON
+   * :::
+   *
    * @returns {boolean}
    */
   get scope(): ProviderScope {
+    if (this.isAsync()) {
+      return ProviderScope.SINGLETON;
+    }
+
     return this._store ? this.store.get("scope") : this._scope;
   }
 
@@ -155,7 +168,7 @@ export class Provider<T> implements IProvider<T> {
    *
    */
   clone(): Provider<any> {
-    const provider = new (getClass(this))(this.provide);
+    const provider = new (getClass(this))(this.token);
 
     getKeys(this).forEach(key => {
       provider[key] = this[key];

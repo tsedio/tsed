@@ -46,9 +46,9 @@ describe("DI Request", () => {
       const locals = new LocalsContainer();
 
       // WHEN
-      const result1: any = await injector.invoke(ServiceRequest, locals);
-      const result2: any = await injector.invoke(ServiceRequest, locals);
-      const serviceSingleton1: any = await injector.invoke(ServiceSingleton, locals);
+      const result1: any = injector.invoke(ServiceRequest, locals);
+      const result2: any = injector.invoke(ServiceRequest, locals);
+      const serviceSingleton1: any = injector.invoke(ServiceSingleton, locals);
       const serviceSingleton2: any = injector.get(ServiceSingleton);
 
       Sinon.stub(result1, "$onDestroy");

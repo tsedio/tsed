@@ -27,6 +27,7 @@ describe("Provider", () => {
         "instance",
         "deps",
         "useFactory",
+        "useAsyncFactory",
         "useValue"
       ]);
       expect(provider.clone()).to.deep.eq(provider);

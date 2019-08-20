@@ -36,6 +36,7 @@ describe("ControllerProvider", () => {
       "instance",
       "deps",
       "useFactory",
+      "useAsyncFactory",
       "useValue"
     ]);
   });
