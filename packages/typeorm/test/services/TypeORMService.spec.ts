@@ -1,28 +1,44 @@
 import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import * as TypeORM from "typeorm";
+import {getConnectionManager} from "typeorm";
 import {TypeORMService} from "../../src";
 
 describe("TypeORMService", () => {
   describe("createConnection()", () => {
     before(() => {
-      Sinon.stub(TypeORM, "createConnection");
+      Sinon.stub(TypeORM, "getConnectionManager");
     });
 
     after(() => {
       TestContext.reset();
       // @ts-ignore
-      TypeORM.createConnection.restore();
+      TypeORM.getConnectionManager.restore();
     });
 
     it("should create connection and close connection", async () => {
       // GIVEN
       const connection: any = {
+        connect: Sinon.stub().resolves(),
         close: Sinon.stub()
+      };
+      let called = false;
+      const connectionManager = {
+        create: Sinon.stub().returns(connection),
+        has: Sinon.stub().callsFake((id) => {
+          if (called) {
+            return true;
+          }
+          called = true;
+
+          return false;
+        }),
+        get: Sinon.stub().returns(connection),
+        connections: [connection]
       };
 
       // @ts-ignore
-      TypeORM.createConnection.resolves(connection);
+      TypeORM.getConnectionManager.returns(connectionManager);
 
       const service = new TypeORMService();
 
@@ -33,7 +49,7 @@ describe("TypeORMService", () => {
       // THEN
       result1.should.deep.eq(connection);
       result2.should.deep.eq(connection);
-      TypeORM.createConnection.should.have.been.calledOnce.and.calledWithExactly({config: "config"});
+      connectionManager.create.should.have.been.calledOnce.and.calledWithExactly({config: "config"});
 
       // WHEN close
       await service.closeConnections();

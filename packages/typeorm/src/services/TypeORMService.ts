@@ -1,21 +1,28 @@
 import {Service} from "@tsed/common";
 import {$log} from "ts-log-debug";
-import {Connection, ConnectionOptions, createConnection} from "typeorm";
+import {Connection, ConnectionManager, ConnectionOptions, getConnectionManager} from "typeorm";
 
 @Service()
 export class TypeORMService {
   /**
    *
    * @type {Map<any, any>}
-   * @private
+   * @deprecated
    */
   readonly instances: Map<string, Connection> = new Map();
 
   /**
    *
-   * @returns {Promise<"mongoose".Connection>}
+   * @type {"typeorm".ConnectionManager}
+   * @private
    */
-  async createConnection(id: string, settings: ConnectionOptions): Promise<any> {
+  readonly connectionManager: ConnectionManager = getConnectionManager();
+
+  /**
+   *
+   * @returns {Promise<"typeorm".Connection>}
+   */
+  async createConnection(id: string = "default", settings: ConnectionOptions): Promise<any> {
     const key = settings.name || id;
 
     if (key && this.has(key)) {
@@ -26,9 +33,10 @@ export class TypeORMService {
     $log.debug(`options: ${JSON.stringify(settings)}`);
 
     try {
-      const connection = await createConnection(settings!);
+      const connection = this.connectionManager.create(settings!);
+      await connection.connect();
       $log.info(`Connected with typeorm to database: ${key}`);
-      this.instances.set(key || "default", connection);
+      this.instances.set(key, connection);
 
       return connection;
     } catch (err) {
@@ -41,10 +49,10 @@ export class TypeORMService {
 
   /**
    *
-   * @returns {"mongoose".Connection}
+   * @returns {"typeorm".Connection}
    */
   get(id: string = "default"): Connection | undefined {
-    return this.instances.get(id);
+    return this.connectionManager.get(id);
   }
 
   /**
@@ -53,11 +61,11 @@ export class TypeORMService {
    * @returns {boolean}
    */
   has(id: string = "default"): boolean {
-    return this.instances.has(id);
+    return this.connectionManager.has(id);
   }
 
   closeConnections(): Promise<any> {
-    const promises = Array.from(this.instances.values()).map(instance => instance.close());
+    const promises = this.connectionManager.connections.map(instance => instance.close());
 
     return Promise.all(promises);
   }
