@@ -20,6 +20,7 @@ describe("ServerLoader", () => {
       }
 
       $onMountingMiddlewares() {
+        // deprecated
       }
 
       $afterRoutesInit() {

@@ -30,16 +30,31 @@ You need to create three files:
  - One for the local development, for example "index.js" (that you can use to run the app locally with `ts-node local.ts`)
 
 Create the server and add the aws middleware: 
+
 <<< @/docs/tutorials/snippets/aws/server-configuration.ts
 
 Then create the lambda.ts:
+
 <<< @/docs/tutorials/snippets/aws/lambda.ts
 
+And finally create an index.ts to run your server in development mode:
 ```typescript
-// local.js
-import {Server} from "./Server.js";
+import {$log, ServerLoader} from "@tsed/common";
+import {Server} from "./Server";
 
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const server = await ServerLoader.bootstrap(Server);
 
+    await server.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();
 ```
 ::: tip
 You can find a project example with [AWS configurattion here](https://github.com/TypedProject/tsed-example-aws).
