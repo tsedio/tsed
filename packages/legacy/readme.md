@@ -97,7 +97,7 @@ export class Server extends ServerLoader {
      * This method let you configure the middleware required by your application to works.
      * @returns {Server}
      */
-    public $onMountingMiddlewares(): void|Promise<any> {
+    public $beforeRoutesInit(): void|Promise<any> {
     
         const cookieParser = require('cookie-parser'),
             bodyParser = require('body-parser'),

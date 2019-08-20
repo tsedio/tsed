@@ -63,7 +63,7 @@ export class FakeServer extends ServerLoader {
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
-  public $onMountingMiddlewares(): void {
+  public $beforeRoutesInit(): void {
     const cookieParser = require("cookie-parser"),
       bodyParser = require("body-parser"),
       compress = require("compression"),

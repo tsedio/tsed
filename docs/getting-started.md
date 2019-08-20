@@ -140,7 +140,7 @@ export class Server extends ServerLoader {
    * This method let you configure the express middleware required by your application to works.
    * @returns {Server}
    */
-  public $onMountingMiddlewares(): void|Promise<any> {
+  public $beforeRoutesInit(): void|Promise<any> {
       this
         .use(GlobalAcceptMimesMiddleware)
         .use(cookieParser())
@@ -161,15 +161,22 @@ To customize the server settings see [Configuration](configuration.md) page.
 
 Finally create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
 ```typescript
-import {Server} from "./Server.ts"
+import {$log, ServerLoader} from "@tsed/common";
+import {Server} from "./Server";
 
-new Server().start()
-  .then(() => {
-    console.log('Server started...');
-  })
-  .catch((err) => {
-    console.error(err);
-  })
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const server = await ServerLoader.bootstrap(Server);
+
+    await server.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();
 ```
 
 You should have this tree directories: 

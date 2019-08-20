@@ -17,7 +17,7 @@ import "@tsed/swagger";
   debug: false
 })
 export class Server extends ServerLoader {
-  $onMountingMiddlewares(): void | Promise<any> {
+  $beforeRoutesInit(): void | Promise<any> {
 
     const cookieParser = require("cookie-parser"),
       bodyParser = require("body-parser"),

@@ -43,7 +43,7 @@ const rootDir = __dirname;
   }
 })
 export class Server extends ServerLoader {
-  $onMountingMiddlewares(): void | Promise<any> {
+  $beforeRoutesInit(): void | Promise<any> {
     this
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())

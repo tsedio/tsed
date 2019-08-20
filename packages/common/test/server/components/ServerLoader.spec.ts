@@ -16,6 +16,9 @@ describe("ServerLoader", () => {
       $onReady() {
       }
 
+      $beforeRoutesInit() {
+      }
+
       $onMountingMiddlewares() {
       }
 
@@ -67,6 +70,7 @@ describe("ServerLoader", () => {
     const sandbox = Sinon.createSandbox();
     before(() => {
       sandbox.stub(server, "$onMountingMiddlewares");
+      sandbox.stub(server, "$beforeRoutesInit");
       sandbox.stub(server, "$afterRoutesInit");
       sandbox.stub(server, "injectorService");
     });
@@ -78,6 +82,7 @@ describe("ServerLoader", () => {
 
     it("should load middlewares and init routes", async () => {
       // GIVEN
+      server.$beforeRoutesInit.resolves();
       server.$onMountingMiddlewares.resolves();
       server.$afterRoutesInit.resolves();
 
@@ -108,7 +113,7 @@ describe("ServerLoader", () => {
 
       server.routes = [];
 
-      return server.$onMountingMiddlewares.should.have.been.calledOnce && server.$afterRoutesInit.should.have.been.calledOnce;
+      return server.$beforeRoutesInit.should.have.been.calledOnce && server.$onMountingMiddlewares.should.have.been.calledOnce && server.$afterRoutesInit.should.have.been.calledOnce;
     });
   });
 
@@ -245,6 +250,10 @@ describe("ServerLoader", () => {
         }
 
         $onReady() {
+        }
+
+        $beforeRoutesInit() {
+
         }
 
         $onMountingMiddlewares() {

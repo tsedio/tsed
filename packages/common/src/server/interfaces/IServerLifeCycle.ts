@@ -9,6 +9,10 @@ export interface IServerLifecycle {
    */
   $onInit?(): void | Promise<any>;
 
+  $beforeRoutesInit?: Function;
+  /**
+   * @deprecated
+   */
   $onMountingMiddlewares?: Function;
   $afterRoutesInit?: Function;
   $onReady?: Function;

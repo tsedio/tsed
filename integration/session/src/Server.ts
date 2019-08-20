@@ -1,8 +1,7 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
-import {$log} from "ts-log-debug";
-import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
 import {RestCtrl} from "./controllers/RestCtrl";
+import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
 
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -28,7 +27,7 @@ export class Server extends ServerLoader {
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
-  $onMountingMiddlewares(): void | Promise<any> {
+  $beforeRoutesInit(): void | Promise<any> {
     this
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
@@ -50,13 +49,5 @@ export class Server extends ServerLoader {
     }));
 
     this.use(CreateRequestSessionMiddleware);
-  }
-
-  $onReady() {
-    $log.debug("Server initialized");
-  }
-
-  $onServerInitError(error): any {
-    $log.error("Server encounter an error =>", error);
   }
 }

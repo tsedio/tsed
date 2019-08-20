@@ -61,8 +61,22 @@ import Path = require("path");
 export class Server extends ServerLoader {}
 
 // app.ts
-import * as Server from "./server";
-new Server.start();
+import {$log, ServerLoader} from "@tsed/common";
+import {Server} from "./Server";
+
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const server = await ServerLoader.bootstrap(Server);
+
+    await server.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();
 ```
 > Ts.ED support [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
 ts-node isn't the runtime.
