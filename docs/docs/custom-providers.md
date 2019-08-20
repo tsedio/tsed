@@ -37,6 +37,23 @@ In order to inject custom provider, we use the @@Inject@@ decorator. This decora
 
 <<< @/docs/docs/snippets/providers/custom-provider-use-value-usage.ts
 
+## Use Async Factory
+
+The `useAsyncFactory` is a way of creating asynchronous providers dynamically. 
+The actual provider will be equal to a returned value of the factory function. 
+The factory function can either depend on several different providers or stay completely independent. 
+It means that factory may accept arguments, that DI will resolve and pass during the instantiation process.
+
+<<< @/docs/docs/snippets/providers/custom-provider-use-async-factory-declaration.ts
+
+In order to inject custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
+
+<<< @/docs/docs/snippets/providers/custom-provider-use-value-usage.ts
+
+::: warning
+Async factory will always considered as `SINGLETON`. Is not possible to use other scope like `REQUEST` and `INSTANCE` because asynchronous providers are resolved on server loading. 
+:::
+
 ###  Built-in factory
 
 Some factories are built-in Ts.ED. These factories are :

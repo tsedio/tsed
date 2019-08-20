@@ -88,7 +88,7 @@ The values for the decorated properties aren't available on constructor. Use $on
 ## Custom providers
 
 The Ts.ED IoC resolve relationships providers for you, but sometimes, you want to tell to the DI how you want to instantiate
-a specific service or inject different kind of providers base on values or an external library.
+a specific service or inject different kind of providers based on values, on asynchronous or synchronous factory or on external library.
 Look [here](/docs/custom-providers.md) to find more examples.
 
 ## Override provider
