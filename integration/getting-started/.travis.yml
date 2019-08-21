@@ -1,0 +1,30 @@
+language: node_js
+
+cache:
+  yarn: true
+
+node_js:
+  - '10.16.3'
+
+jobs:
+  include:
+    - stage: test
+      name: Unit tests
+      script: npm run test
+    - stage: build
+      name: Build
+      script: npm run build
+    - stage: deploy
+      name: Deploy
+      script: npm run deploy
+
+stages:
+  - test
+  - build
+  - name: deploy
+    if: branch = master
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
+
