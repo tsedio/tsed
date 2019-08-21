@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: tsed/getting-started:latest
+    # The app will restart until Mongo is listening
+    restart: always
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    stdin_open: true  # -i
+    tty: true         # -t
+
