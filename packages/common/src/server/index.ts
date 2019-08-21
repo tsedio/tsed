@@ -17,5 +17,6 @@ export * from "./utils/createInjector";
 export * from "./utils/createExpressApplication";
 export * from "./utils/createHttpServer";
 export * from "./utils/createHttpsServer";
+export * from "./utils/loadInjector";
 export * from "./services/ServeStaticService";
 export * from "../mvc/services/RouteService";

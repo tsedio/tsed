@@ -1,5 +1,8 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
+import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
+import {PassportCtrl} from "./controllers/passport/PassportCtrl";
+import {RestCtrl} from "./controllers/RestCtrl";
 
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -15,6 +18,13 @@ const rootDir = __dirname;
     debug: false,
     logRequest: true,
     requestFields: ["reqId", "method", "url", "headers", "query", "params", "duration"]
+  },
+  mount: {
+    "/rest": [
+      RestCtrl,
+      CalendarCtrl,
+      PassportCtrl
+    ]
   },
   swagger: {
     path: "/api-docs"

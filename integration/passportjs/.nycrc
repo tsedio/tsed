@@ -7,16 +7,16 @@
     "node_modules",
     "**/index.ts",
     "**/interfaces/**",
-    "**/*.spec.ts",
-    "src/test/tools.js"
+    "**/*.spec.ts"
   ],
+  "extension": [
+    ".ts"
+  ],
+  "require": [],
   "reporter": [
     "text-summary",
     "html",
     "lcov"
-  ],
-  "extension": [
-    ".ts"
   ],
   "check-coverage": true,
   "lines": 99,

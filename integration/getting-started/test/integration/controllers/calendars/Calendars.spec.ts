@@ -5,7 +5,7 @@ import * as SuperTest from "supertest";
 import {Server} from "../../../../src/Server";
 
 describe("Calendars", () => {
-  let request;
+  let request: SuperTest.SuperTest<SuperTest.Test>;
   // bootstrap your expressApplication in first
   before(TestContext.bootstrap(Server));
   before(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {

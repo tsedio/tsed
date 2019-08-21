@@ -1,34 +1,26 @@
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, Done, inject} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
+import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../../../../src/Server";
-import {expect} from "../../../tools";
 
 describe("Calendars", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+  // bootstrap your expressApplication in first
+  before(TestContext.bootstrap(Server));
+  beforeEach(inject([ExpressApplication], async (expressApplication: ExpressApplication) => {
+    request = SuperTest(expressApplication);
+  }));
+  after(() => TestContext.reset());
 
-    // bootstrap your expressApplication in first
-    before(bootstrap(Server));
+  // then run your test
+  describe("GET /rest/calendars", () => {
+    it("should return all calendars", async () => {
+      const response = await request.get("/rest/calendars").expect(200);
 
-    // then run your test
-    describe("GET /rest/calendars", () => {
-        it("should return all calendars", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Done) => {
+      let obj = JSON.parse(response.text);
 
-            SuperTest(expressApplication)
-                .get("/rest/calendars")
-                .expect(200)
-                .end((err, response: any) => {
-                    if (err) {
-                        throw (err);
-                    }
-
-                    let obj = JSON.parse(response.text);
-
-                    expect(obj).to.be.an("array");
-
-                    done();
-                });
-
-        }));
+      expect(obj).to.be.an("array");
     });
-
+  });
 });
