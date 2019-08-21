@@ -9,26 +9,25 @@ import {
   Post,
   Put,
   Required,
-  Status
+  Status,
+  UseBefore
 } from "@tsed/common";
 import {NotFound} from "ts-httpexceptions";
+import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";
 
-
 @Controller("/:calendarId/events")
 @MergeParams(true)
+@UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
   private AUTO_INC = 5;
   private events: Event[] = require("../../../resources/events.json");
 
-  /**
-   *
-   * @returns {null}
-   */
   @Get("/:id")
   async get(@Required() @PathParams("calendarId") calendarId: string,
             @PathParams("id") id: string): Promise<Event> {
+
     const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
 
     if (event) {
@@ -38,10 +37,6 @@ export class EventsCtrl {
     throw new NotFound("event not found");
   }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Get("/:id/tasks")
   async getTasks(@Required() @PathParams("calendarId") calendarId: string,
                  @PathParams("id") id: string): Promise<Task[]> {
@@ -54,10 +49,6 @@ export class EventsCtrl {
     throw new NotFound("event not found");
   }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Put("/")
   async save(@Required() @PathParams("calendarId") calendarId: string,
              @BodyParams("startDate") startDate: string,
@@ -67,16 +58,12 @@ export class EventsCtrl {
 
     this.AUTO_INC++;
 
-    const event: Event = {id: "" + this.AUTO_INC, calendarId, startDate, endDate, name};
+    const event: Event = {id: String(this.AUTO_INC), calendarId, startDate, endDate, name};
     this.events.push(event);
 
     return event;
   }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Post("/:id")
   async update(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string,
@@ -92,18 +79,12 @@ export class EventsCtrl {
     return event;
   }
 
-  /**
-   *
-   */
   @Delete("/:id")
   @Authenticated()
   @Status(204)
   async remove(@Required() @PathParams("calendarId") calendarId: string,
-               @PathParams("id") id: string): Promise<Event> {
-
+               @PathParams("id") id: string): Promise<void> {
     this.events = this.events.filter(event => event.id === id && event.calendarId === calendarId);
-
-    return null;
   }
 
   @Get("/")

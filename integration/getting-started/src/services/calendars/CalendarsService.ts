@@ -1,6 +1,6 @@
-import {$log, Constant, Service} from "@tsed/common";
+import {Constant, Service} from "@tsed/common";
 import {NotFound} from "ts-httpexceptions";
-import {Calendar} from "../../interfaces/Calendar";
+import {Calendar, CreateCalendar} from "../../models/Calendar";
 import {MemoryStorage} from "../storage/MemoryStorage";
 
 @Service()
@@ -10,7 +10,9 @@ export class CalendarsService {
   useToken: boolean;
 
   constructor(private memoryStorage: MemoryStorage) {
-    this.memoryStorage.set("calendars", require("../../../resources/calendars.json"));
+    this.memoryStorage.set("calendars", require("../../../resources/calendars.json").map((o) => {
+      return Object.assign(new Calendar, o);
+    }));
   }
 
   /**
@@ -26,11 +28,14 @@ export class CalendarsService {
 
   /**
    * Create a new Calendar
-   * @param name
    * @returns {{id: any, name: string}}
+   * @param newCalendar
    */
-  async create(name: string) {
-    const calendar = {id: require("node-uuid").v4(), name};
+  async create(newCalendar: CreateCalendar): Promise<Calendar> {
+    const calendar = new Calendar();
+    calendar.id = require("node-uuid").v4();
+    calendar.name = newCalendar.name;
+
     const calendars = this.memoryStorage.get<Calendar[]>("calendars");
 
     calendars.push(calendar);
@@ -50,19 +55,19 @@ export class CalendarsService {
 
   /**
    *
-   * @param calendar
+   * @param updatedCalendar
    * @returns {Calendar}
    */
-  async update(calendar: Calendar): Promise<Calendar> {
+  async update(updatedCalendar: Partial<Calendar>): Promise<Calendar> {
     const calendars = await this.query();
 
-    const index = calendars.findIndex((value: Calendar) => value.id === calendar.id);
+    const index = calendars.findIndex((value: Calendar) => value.id === updatedCalendar.id);
 
-    calendars[index] = calendar;
+    calendars[index].name = updatedCalendar.name;
 
     this.memoryStorage.set("calendars", calendars);
 
-    return calendar;
+    return calendars[index];
   }
 
   /**

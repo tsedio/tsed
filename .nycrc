@@ -1,26 +1,28 @@
 {
   "include": [
-    "src/**/*.ts"
+    "packages/*/src/**/*.ts"
   ],
   "exclude": [
     "**/*.d.ts",
     "node_modules",
-    "**/index.ts",
+    "packages/**/*.spec.ts",
+    "integration",
     "**/interfaces/**",
-    "**/*.spec.ts"
+    "**/legacy/**",
+    "**/index.ts"
   ],
+  "extension": [
+    ".ts"
+  ],
+  "require": [],
   "reporter": [
     "text-summary",
     "html",
     "lcov"
   ],
-  "extension": [
-    ".ts"
-  ],
   "check-coverage": true,
-  "lines": 55.67,
-  "statements": 56.9,
-  "functions": 34.38,
-  "branches": 6.25,
-  "all": true
+  "lines": 99.82,
+  "statements": 100,
+  "functions": 99,
+  "branches": 85.41
 }

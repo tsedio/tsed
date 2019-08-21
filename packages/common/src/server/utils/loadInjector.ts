@@ -1,9 +1,27 @@
 import {GlobalProviders, InjectorService} from "@tsed/di";
-import {ConverterService} from "../../converters";
+import {
+  ArrayConverter,
+  ConverterService,
+  DateConverter,
+  MapConverter,
+  PrimitiveConverter,
+  SetConverter,
+  SymbolConverter
+} from "../../converters";
 import {ParseService, ValidationService} from "../../mvc";
 import {buildControllers} from "./buildControllers";
 
-const TSED_MODULES = [ConverterService, ParseService, ValidationService];
+const TSED_MODULES = [
+  ConverterService,
+  ArrayConverter,
+  DateConverter,
+  MapConverter,
+  PrimitiveConverter,
+  SetConverter,
+  SymbolConverter,
+  ParseService,
+  ValidationService
+];
 
 export async function loadInjector(injector: InjectorService) {
   // Clone all providers in the container

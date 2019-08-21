@@ -110,6 +110,9 @@ export class EventCtrl extends BaseController {
    */
   @Get("/")
   query(): Promise<any[]> | void {
-    return Promise.resolve([]);
+    return Promise.resolve([
+      {id: "1"},
+      {id: "2"}
+    ]);
   }
 }

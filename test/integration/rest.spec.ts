@@ -263,6 +263,13 @@ describe("Rest", () => {
           });
       });
     });
+    describe("GET /rest/calendars/events", () => {
+      it("should return array", async () => {
+        const response = await request.get("/rest/calendars/events").expect(200);
+
+        expect(response.body).to.deep.eq([{id: "1"}, {id: "2"}]);
+      });
+    });
 
     describe("PATCH /rest/calendars/events/:id", () => {
       it("should return headers", done => {

@@ -29,9 +29,6 @@ describe("CalendarsService", () => {
         }
       };
 
-      const locals = new Map<any, any>();
-      locals.set(MemoryStorage, memoryStorage);
-
       // WHEN
       const calendarsService: CalendarsService = await TestContext.invoke(CalendarsService, [
         {provide: MemoryStorage, use: memoryStorage}

@@ -7,5 +7,6 @@ describe("RestCtrl", () => {
 
   it("should be a RestCtrl", inject([RestCtrl], (restCtrl: RestCtrl) => {
     restCtrl.should.be.instanceof(RestCtrl);
+    restCtrl.getRoutes().should.be.instanceof(Array);
   }));
 });

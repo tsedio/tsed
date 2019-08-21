@@ -1,11 +1,13 @@
 import {TestContext} from "@tsed/testing";
+import {expect} from "chai";
 import * as Sinon from "sinon";
+import {NotFound} from "ts-httpexceptions";
+import {Calendar} from "../../models/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarsCtrl} from "./CalendarsCtrl";
-import {NotFound} from "ts-httpexceptions";
 
-describe("CalendarsCtrl", () => {
+describe("CalendarCtrl", () => {
   describe("get()", () => {
     describe("without IOC", () => {
       it("should do something", () => {
@@ -42,34 +44,114 @@ describe("CalendarsCtrl", () => {
     });
 
     describe("when calendar isn\'t found", () => {
-      it("should throw error", () => {
-        before(() => TestContext.create());
-        after(() => TestContext.reset());
+      before(() => TestContext.create());
+      after(() => TestContext.reset());
 
-        it("should return a result from mocked service", async () => {
-          // GIVEN
-          const calendarsService = {
-            find: Sinon.stub().rejects({id: "1"})
-          };
+      it("should throw error", async () => {
+        // GIVEN
+        const calendarsService = {
+          find: Sinon.stub().resolves()
+        };
 
-          const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-            provide: CalendarsService,
-            use: calendarsService
-          }]);
+        const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+          provide: CalendarsService,
+          use: calendarsService
+        }]);
 
-          // WHEN
-          let actualError;
-          try {
-            await calendarsCtrl.get("1");
-          } catch (er) {
-            actualError = er;
-          }
-
-          // THEN
-          actualError.should.be.instanceof(NotFound);
-          calendarsService.find.should.be.calledWithExactly("1");
-        });
+        // WHEN
+        let actualError;
+        try {
+          await calendarsCtrl.get("1");
+        } catch (er) {
+          actualError = er;
+        }
+        // THEN
+        // @ts-ignore
+        calendarsCtrl.calendarsService.should.deep.eq(calendarsService);
+        calendarsService.find.should.be.calledWithExactly("1");
+        actualError.should.instanceOf(NotFound);
+        actualError.message.should.eq("Calendar not found");
       });
+    });
+  });
+
+  describe("save()", () => {
+    before(() => TestContext.create());
+    after(() => TestContext.reset());
+
+    it("should return saved data", async () => {
+      // GIVEN
+      const calendar = new Calendar();
+      calendar.id = "id";
+      calendar.name = "name";
+      calendar.owner = "owner";
+
+      const calendarsService = {
+        create: Sinon.stub().resolves(calendar)
+      };
+
+      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+        provide: CalendarsService,
+        use: calendarsService
+      }]);
+
+      // WHEN
+      const result = await calendarsCtrl.save({name: "name"});
+
+      // THEN
+      calendarsService.create.should.be.calledWithExactly({name: "name"});
+      result.should.deep.eq(calendar);
+    });
+  });
+  describe("update()", () => {
+    before(() => TestContext.create());
+    after(() => TestContext.reset());
+
+    it("should return update data", async () => {
+      // GIVEN
+      const calendar = new Calendar();
+      calendar.id = "id";
+      calendar.name = "name";
+      calendar.owner = "owner";
+
+      const calendarsService = {
+        update: Sinon.stub().resolves(calendar)
+      };
+
+      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+        provide: CalendarsService,
+        use: calendarsService
+      }]);
+
+      // WHEN
+      const result = await calendarsCtrl.update("id", {name: "name"});
+
+      // THEN
+      calendarsService.update.should.be.calledWithExactly({id: "id", name: "name"});
+      result.should.deep.eq(calendar);
+    });
+  });
+  describe("remove()", () => {
+    before(() => TestContext.create());
+    after(() => TestContext.reset());
+
+    it("should return update data", async () => {
+      // GIVEN
+      const calendarsService = {
+        remove: Sinon.stub().resolves()
+      };
+
+      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+        provide: CalendarsService,
+        use: calendarsService
+      }]);
+
+      // WHEN
+      const result = await calendarsCtrl.remove("id");
+
+      // THEN
+      calendarsService.remove.should.be.calledWithExactly("id");
+      expect(result).to.eq(undefined);
     });
   });
 });

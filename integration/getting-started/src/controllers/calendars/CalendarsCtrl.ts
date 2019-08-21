@@ -1,6 +1,7 @@
 import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Required, Status} from "@tsed/common";
+import {Returns, ReturnsArray} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
-import {Calendar} from "../../interfaces/Calendar";
+import {Calendar, CreateCalendar} from "../../models/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";
 
@@ -12,16 +13,19 @@ import {EventsCtrl} from "../events/EventsCtrl";
  * In this case, EventsCtrl is a dependency of CalendarsCtrl.
  * All routes of EventsCtrl will be mounted on the `/calendars` path.
  */
-@Controller("/calendars", EventsCtrl)
+@Controller({
+  path: "/calendars",
+  children: [
+    EventsCtrl
+  ]
+})
 export class CalendarsCtrl {
-
   constructor(private calendarsService: CalendarsService) {
-
   }
 
   @Get("/:id")
+  @Returns(Calendar)
   async get(@Required() @PathParams("id") id: string): Promise<Calendar> {
-
     const calendar = await this.calendarsService.find(id);
 
     if (calendar) {
@@ -32,35 +36,28 @@ export class CalendarsCtrl {
   }
 
   @Put("/")
-  save(@BodyParams("name") name: string) {
-    return this.calendarsService.create(name);
+  @Status(201)
+  @Returns(Calendar)
+  save(@BodyParams() calendar: CreateCalendar): Promise<Calendar> {
+    return this.calendarsService.create(calendar);
   }
 
-  /**
-   *
-   * @param id
-   * @param name
-   * @returns {Promise<Calendar>}
-   */
   @Post("/:id")
+  @Returns(Calendar)
   async update(@PathParams("id") @Required() id: string,
-               @BodyParams("name") @Required() name: string): Promise<Calendar> {
-    return this.calendarsService.update({id, name});
+               @BodyParams() @Required() calendar: CreateCalendar): Promise<Calendar> {
+    return this.calendarsService.update({id, ...calendar});
   }
 
-  /**
-   *
-   * @param id
-   * @returns {{id: string, name: string}}
-   */
   @Delete("/")
   @Status(204)
   async remove(@BodyParams("id") @Required() id: string): Promise<void> {
-    this.calendarsService.remove(id);
+    await this.calendarsService.remove(id);
   }
 
   @Get("/")
-  async getAllCalendars(): Promise<Calendar[]> {
+  @ReturnsArray(Calendar)
+  async getAllCalendars() {
     return this.calendarsService.query();
   }
 }
