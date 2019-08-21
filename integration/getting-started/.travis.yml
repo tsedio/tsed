@@ -23,8 +23,3 @@ stages:
   - build
   - name: deploy
     if: branch = master
-
-branches:
-  except:
-    - /^v\d+\.\d+\.\d+$/
-
