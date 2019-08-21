@@ -54,7 +54,7 @@ export class Calendar {
 }
 ```
 
-Then we should see the log in the Seq panel (by default `localhost:5341`)
+Then we should see the log in the Seq panel (by default `localhost:80`)
 
 ## Maintainer
 
