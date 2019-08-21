@@ -20,7 +20,7 @@ jobs:
 
 stages:
   - test
-  - build
+  - name: build
     if: branch != master
   - name: deploy
     if: branch = master
