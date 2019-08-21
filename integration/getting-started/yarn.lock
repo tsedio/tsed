@@ -3593,11 +3593,6 @@ ts-httpexceptions@^4.1.0:
   dependencies:
     tslib "^1.9.3"
 
-ts-json-properties@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/ts-json-properties/-/ts-json-properties-2.0.3.tgz#508e7244071a198c2fd7c52d68a71a016e3f4021"
-  integrity sha512-67gVjESvnci1mkPtqKWtVRxV88QUBF1nzWJRGMqMTMFlGPz3v7SoLvVo0KgwipNropmJPdXZWR/xlEennFlO0w==
-
 ts-log-debug@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.1.0.tgz#627ea14bf66119114cb33908db7137da0507f236"

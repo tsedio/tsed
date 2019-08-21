@@ -44,15 +44,14 @@ test/**/*.js.map
 /coverage
 /stdout
 /stderr
-/es6/
-/lib/
-/dts/
+/dts
 /.tmp
-/.nyc_output/
+/.nyc_output
 
 # IDE
 .vscode
 .idea
 
 # Project
-public
+/public
+/dist

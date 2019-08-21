@@ -10,13 +10,13 @@ jobs:
   include:
     - stage: test
       name: Unit tests
-      script: npm run test
+      script: yarn test
     - stage: build
       name: Build
-      script: npm run build
+      script: yarn build
     - stage: deploy
       name: Deploy
-      script: npm run deploy
+      script: yarn docker:build && yarn deploy
 
 stages:
   - test
