@@ -60,7 +60,6 @@ export class ConverterService {
       }
 
       const converter = this.getConverter(obj);
-      console.log("===", converter);
       const serializer: ISerializer = (o: any, opt?: any) => this.serialize(o, Object.assign({}, options, opt));
 
       if (converter && converter.serialize) {
