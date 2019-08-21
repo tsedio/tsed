@@ -1,8 +1,7 @@
-import {BodyParams, Controller, Get, Post, Req, Required} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, Req, Required, UseAfter} from "@tsed/common";
 import * as Express from "express";
 import * as Passport from "passport";
 import {BadRequest} from "ts-httpexceptions";
-import {UseAfter} from "../../../../../packages/common/src/mvc/decorators";
 import {IUser} from "../../interfaces/User";
 import {checkEmail} from "../../utils/checkEmail";
 

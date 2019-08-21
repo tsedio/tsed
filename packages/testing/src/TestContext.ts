@@ -1,7 +1,14 @@
-import {createExpressApplication, createHttpServer, createHttpsServer, createInjector, LocalsContainer, ServerLoader} from "@tsed/common";
+import {
+  createExpressApplication,
+  createHttpServer,
+  createHttpsServer,
+  createInjector,
+  loadInjector,
+  LocalsContainer,
+  ServerLoader
+} from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {loadInjector} from "../../common/src/server/utils/loadInjector";
 
 export class TestContext {
   private static _injector: InjectorService | null = null;
