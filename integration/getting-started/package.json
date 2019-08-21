@@ -17,7 +17,8 @@
     "tsc:w": "tsc --project tsconfig.json -w",
     "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/index.ts",
     "start": "ts-node src/index.ts",
-    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js"
+    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js",
+    "deploy": "exit 0"
   },
   "author": "",
   "license": "MIT",
