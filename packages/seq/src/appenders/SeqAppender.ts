@@ -35,21 +35,23 @@ export class SeqAppender extends BaseAppender {
   private logger: any;
 
   build() {
-    this.logger = createLogger({
-      name: $log.name,
-      streams: [
-        createStream({
-          serverUrl: this.config.url,
-          level: $log.level
-        })
-      ]
-    });
+    if ($log.level !== "OFF") {
+      this.logger = createLogger({
+        name: $log.name,
+        streams: [
+          createStream({
+            serverUrl: this.config.url,
+            level: $log.level
+          })
+        ]
+      });
+    }
   }
 
   write(loggingEvent: LogEvent) {
     const level = loggingEvent.level.toString().toLowerCase();
 
-    if (this.logger[level]) {
+    if (level !== "OFF" && this.logger[level]) {
       this.logger[level](...loggingEvent.data);
     }
   }
