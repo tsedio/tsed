@@ -9,6 +9,7 @@ import {
   isClass,
   isCollection,
   isEmpty,
+  isInheritedFrom,
   isPrimitiveOrPrimitiveClass,
   isPromise,
   methodsOf,
@@ -283,6 +284,59 @@ describe("ObjectUtils", () => {
         {propertyKey: "test3", target: Base},
         {propertyKey: "test2", target: Test}
       ]);
+    });
+  });
+  describe("isInheritedFrom", () => {
+    it("should return true when class inherit from another", () => {
+      class Test1 {
+
+      }
+
+      class Test2 extends Test1 {
+      }
+
+      expect(isInheritedFrom(Test2, Test1)).to.eq(true);
+    });
+    it("should return false when deep is down", () => {
+      class Test1 {
+
+      }
+
+      class Test2 extends Test1 {
+      }
+
+      class Test3 extends Test2 {
+      }
+
+      expect(isInheritedFrom(Test3, Test1, 1)).to.eq(false);
+    });
+
+    it("should return true when deep is not down", () => {
+      class Test1 {
+
+      }
+
+      class Test2 extends Test1 {
+      }
+
+      class Test3 extends Test2 {
+      }
+
+      expect(isInheritedFrom(Test3, Test1, 3)).to.eq(true);
+    });
+
+    it("should return false when class isn't inherit from another", () => {
+      class Test1 {
+      }
+
+      class Test3 {
+      }
+
+      expect(isInheritedFrom(Test3, Test1)).to.eq(false);
+    });
+
+    it("should return false when undefined is given", () => {
+      expect(isInheritedFrom(undefined, undefined)).to.eq(false);
     });
   });
 });

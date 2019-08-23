@@ -9,7 +9,7 @@ import {isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./O
 
 export function deepExtends(out: any, obj: any, reducers: {[key: string]: (collection: any[], value: any) => any} = {}): any {
   if (obj === undefined || obj === null) {
-    return obj;
+    return out;
   }
 
   if (isPrimitive(obj) || typeof obj === "symbol" || typeof obj === "function") {
@@ -25,13 +25,13 @@ export function deepExtends(out: any, obj: any, reducers: {[key: string]: (colle
   const defaultReducer = reducers["default"]
     ? reducers["default"]
     : (collection: any[], value: any) => {
-        collection.push(value);
+        collection.indexOf(value) === -1 && collection.push(value);
 
         return collection;
       };
   const set = (key: string | number, value: any) => {
     if (isArrayOrArrayClass(obj)) {
-      out.push(value);
+      out.indexOf(value) === -1 && out.push(value);
     } else {
       out[key] = value;
     }

@@ -10,12 +10,24 @@ describe("deepExtends", () => {
             {
               security: ["o"]
             },
+            undefined
+          )
+        ).to.deep.eq({
+          security: ["o"]
+        });
+      });
+      it("should merge data", () => {
+        expect(
+          deepExtends(
+            {
+              security: ["o"]
+            },
             {
               security: ["o", "o1"]
             }
           )
         ).to.deep.eq({
-          security: ["o", "o", "o1"]
+          security: ["o", "o1"]
         });
       });
 
@@ -37,7 +49,7 @@ describe("deepExtends", () => {
 
     describe("when is an array", () => {
       it("should merge data", () => {
-        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "1", "2", "3"]);
+        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
       });
 
       it("should merge data", () => {
@@ -128,7 +140,7 @@ describe("deepExtends", () => {
 
     describe("when is an array", () => {
       it("should merge data", () => {
-        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "1", "2", "3"]);
+        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
       });
 
       it("should merge data", () => {
