@@ -1,14 +1,7 @@
-import "@tsed/common";
-import * as SocketIO from "socket.io";
-
-declare module "@tsed/common" {
-  interface IServerSettingsOptions {
-    socketIO: SocketIO.ServerOptions;
-  }
-}
 export * from "./SocketIOModule";
+
 // interfaces
-export * from "./interfaces/OnNamespaceInit";
+export * from "./interfaces";
 
 // decorators
 export * from "./decorators/input";

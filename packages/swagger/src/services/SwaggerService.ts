@@ -1,4 +1,4 @@
-import {ControllerProvider, ControllerService, EndpointMetadata, ServerSettingsService, Service} from "@tsed/common";
+import {Configuration, ControllerProvider, EndpointMetadata, InjectorService, RouteService, Service} from "@tsed/common";
 import {deepExtends, nameOf, Store} from "@tsed/core";
 import * as Fs from "fs";
 import {Schema, Spec, Tag} from "swagger-schema-official";
@@ -8,7 +8,11 @@ import {getReducers} from "../utils";
 
 @Service()
 export class SwaggerService {
-  constructor(private controllerService: ControllerService, private serverSettingsService: ServerSettingsService) {}
+  constructor(
+    private injectorService: InjectorService,
+    private routeService: RouteService,
+    @Configuration() private configuration: Configuration
+  ) {}
 
   /**
    *
@@ -23,7 +27,7 @@ export class SwaggerService {
 
     const getOperationId = this.createOperationIdFormatter(conf);
 
-    this.controllerService.routes.forEach(({provider, route}) => {
+    this.routeService.routes.forEach(({provider, route}) => {
       const hidden = provider.store.get("hidden");
       const docs = provider.store.get("docs") || [];
 
@@ -50,7 +54,7 @@ export class SwaggerService {
    * @returns {Info}
    */
   public getDefaultSpec(conf: ISwaggerSettings): Spec {
-    const {version} = this.serverSettingsService;
+    const {version} = this.configuration;
     const spec: ISwaggerSpec =
       conf.spec ||
       ({
@@ -82,7 +86,7 @@ export class SwaggerService {
           contact,
           license
         },
-        consumes: this.serverSettingsService.acceptMimes.concat(spec.consumes || []),
+        consumes: this.configuration.acceptMimes.concat(spec.consumes || []),
         produces: spec.produces || ["application/json"],
         securityDefinitions: spec.securityDefinitions || {}
       },
@@ -92,7 +96,7 @@ export class SwaggerService {
   }
 
   private readSpecPath(path: string) {
-    path = this.serverSettingsService.resolve(path);
+    path = this.configuration.resolve(path);
     if (Fs.existsSync(path)) {
       const json = Fs.readFileSync(path, {encoding: "utf8"});
       /* istanbul ignore else */
@@ -122,7 +126,7 @@ export class SwaggerService {
     let tags: Tag[] = [];
 
     ctrl.children
-      .map(ctrl => this.controllerService.get(ctrl))
+      .map(ctrl => this.injectorService.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         if (!provider.store.get("hidden")) {
           tags = tags.concat(this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId));

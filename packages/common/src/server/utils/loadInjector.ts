@@ -27,6 +27,9 @@ export async function loadInjector(injector: InjectorService) {
   // Clone all providers in the container
   injector.addProviders(GlobalProviders);
 
+  // Resolve all
+  injector.resolveConfiguration();
+
   // invoke initial services
   TSED_MODULES.forEach(token => injector.invoke(token));
 

@@ -1,5 +1,5 @@
 export * from "./IDILogger";
-export * from "./IDISettings";
+export * from "./IDIConfigurationOptions";
 export * from "./IInjectableProperties";
 export * from "./IInterceptor";
 export * from "./IInterceptorContext";

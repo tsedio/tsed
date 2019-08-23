@@ -1,7 +1,7 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
 import * as Express from "express";
-import {IRouterSettings} from "../../config/interfaces/IServerSettings";
+import {IRouterSettings} from "../../config/interfaces";
 
 import {IControllerMiddlewares, IControllerProvider} from "../interfaces";
 import {EndpointRegistry} from "../registries/EndpointRegistry";

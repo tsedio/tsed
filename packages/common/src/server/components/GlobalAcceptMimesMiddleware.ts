@@ -1,19 +1,19 @@
+import {Configuration} from "@tsed/di";
 import {NotAcceptable} from "ts-httpexceptions";
-import {ServerSettingsService} from "../../config";
-import {Req, IMiddleware, Middleware} from "../../mvc";
+import {IMiddleware, Middleware, Req} from "../../mvc";
 
 /**
  * @middleware
  */
 @Middleware()
 export class GlobalAcceptMimesMiddleware implements IMiddleware {
-  constructor(private serverSettingsService: ServerSettingsService) {}
+  constructor(@Configuration() private configuration: Configuration) {}
 
   use(@Req() request: Req) {
-    const find = this.serverSettingsService.acceptMimes.find((mime: any) => !!request.accepts(mime));
+    const find = this.configuration.acceptMimes.find((mime: any) => !!request.accepts(mime));
 
     if (!find) {
-      throw new NotAcceptable(this.serverSettingsService.acceptMimes.join(", "));
+      throw new NotAcceptable(this.configuration.acceptMimes.join(", "));
     }
   }
 }

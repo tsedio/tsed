@@ -40,28 +40,10 @@ import {IServerSettings} from "../../config/interfaces/IServerSettings";
  *     }
  * })
  * export class Server extends ServerLoader {
- *     static Initialize = (): Promise<any> => new Server().start();
+ *
  * }
  *
- * Server.Initialize();
  * ```
- * ### Options
- *
- * * `rootDir` &lt;string&gt;: The root directory where you build run project.
- * * `env` &lt;Env&gt;: The environment profile. By default the environment profile is equals to `NODE_ENV`.
- * * `port` &lt;string | number&gt;: Port number for the [HTTP.Server](https://nodejs.org/api/http.html#http_class_http_server).
- * * `httpsPort` &lt;string | number&gt;: Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class_https_server).
- * * `httpsOptions` &lt;[Https.ServerOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener))&gt;:
- *   * `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
- *   * `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
- *   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
- *   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
- * * `uploadDir` &lt;string&gt: The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md).
- * * `mount` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Mount all controllers under a directories to an endpoint.
- * * `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
- * * `serveStatic` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Objet to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
- * * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
- * * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknow, it throw a BadRequest. By default true.
  *
  * @param settings
  * @returns {(target:any)=>any}

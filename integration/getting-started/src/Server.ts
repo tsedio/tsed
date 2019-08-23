@@ -1,4 +1,4 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, IServerSettings, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
 import {RestCtrl} from "./controllers/RestCtrl";
 
@@ -7,6 +7,10 @@ const bodyParser = require("body-parser");
 const compress = require("compression");
 const methodOverride = require("method-override");
 const rootDir = __dirname;
+
+const config: IServerSettings = {
+  swagger: {}
+};
 
 @ServerSettings({
   rootDir,
@@ -22,15 +26,17 @@ const rootDir = __dirname;
       `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
     ]
   },
-  swagger: {
-    path: "/api-docs"
-  },
   calendar: {
     token: true
   },
-  debug: true
+  debug: true,
+  swagger: {}
 })
 export class Server extends ServerLoader {
+  constructor(settings) {
+    super(settings);
+  }
+
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}

@@ -29,7 +29,6 @@ import {createStream} from "bunyan-seq";
  *
  * @private
  */
-
 @Appender({name: "seq"})
 export class SeqAppender extends BaseAppender {
   private logger: any;

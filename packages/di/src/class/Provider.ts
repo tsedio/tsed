@@ -1,5 +1,5 @@
-import {Enumerable, getClass, getKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
-import {ProviderScope} from "../interfaces";
+import {deepClone, Enumerable, getClass, getKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
+import {IDIConfigurationOptions, ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
 import {TokenProvider} from "../interfaces/TokenProvider";
@@ -63,6 +63,8 @@ export class Provider<T> implements IProvider<T> {
    */
   @NotEnumerable()
   private _store: Store;
+
+  private _configuration: Partial<IDIConfigurationOptions>;
 
   [key: string]: any;
 
@@ -158,6 +160,14 @@ export class Provider<T> implements IProvider<T> {
   @Enumerable()
   set scope(scope: ProviderScope) {
     this._store ? this.store.set("scope", scope) : this._scope;
+  }
+
+  get configuration(): Partial<IDIConfigurationOptions> {
+    return this._configuration && deepClone(this._configuration);
+  }
+
+  set configuration(configuration: Partial<IDIConfigurationOptions>) {
+    this._configuration = configuration;
   }
 
   isAsync(): boolean {

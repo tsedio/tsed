@@ -1,11 +1,4 @@
-import {
-  AfterRoutesInit,
-  BeforeRoutesInit,
-  ExpressApplication,
-  Inject,
-  ServerSettingsService,
-  Service
-} from "@tsed/common";
+import {AfterRoutesInit, BeforeRoutesInit, Configuration, ExpressApplication, Inject, Service} from "@tsed/common";
 import * as Passport from "passport";
 import {Strategy} from "passport-local";
 import {BadRequest, NotFound} from "ts-httpexceptions";
@@ -16,7 +9,7 @@ import {UsersService} from "../services/users/UsersService";
 export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 
   constructor(private usersService: UsersService,
-              private serverSettings: ServerSettingsService,
+              @Configuration() private configuration: Configuration,
               @Inject(ExpressApplication) private  expressApplication: ExpressApplication) {
 
     // used to serialize the user for the session
@@ -36,7 +29,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
   }
 
   $beforeRoutesInit() {
-    const options: any = this.serverSettings.get("passport") || {} as any;
+    const options: any = this.configuration.get("passport") || {} as any;
     const {userProperty, pauseStream} = options;
 
     this.expressApplication.use(Passport.initialize({userProperty}));
