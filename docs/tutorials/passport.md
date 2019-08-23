@@ -63,21 +63,20 @@ In the service directory, we'll create the `PassportLocalServices.ts` and write 
 
 ```typescript
 import * as Passport from "passport";
-import {Strategy} from "passport-local";
-import {Service, BeforeRoutesInit, AfterRoutesInit} from "@tsed/common";
+import {Service, Configuration} from "@tsed/di";
+import {BeforeRoutesInit, AfterRoutesInit, ExpressApplication} from "@tsed/common";
 import {UserService} from "./UserService"; // other service that manage the users account
 
 @Service()
 export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
-
-    constructor(private serverSettings: ServerSettingsService,
-                private userService: UserService,
-                @Inject(ExpressApplication) private  expressApplication: ExpressApplication) {
+    constructor(@Configuration() private configuration: Configuration,
+                @ExpressApplication private  expressApplication: ExpressApplication,
+                private userService: UserService) {
 
     }
     
     $beforeRoutesInit() {
-        const options: any = this.serverSettings.get("passport") || {} as any;
+        const options: any = this.configuration.get<any>("passport") || {} as any;
         const {userProperty, pauseStream} = options; // options stored with ServerSettings
 
         this.expressApplication.use(Passport.initialize({userProperty}));
@@ -148,7 +147,7 @@ In the PassportCtrl, we need to implement the `Passport.authenticate('signup')` 
 ```typescript
 import * as Express from "express";
 import * as Passport from "passport";
-import {BodyParams, Controller, Get, Post, Req, Required, Res} from "@tsed/common";
+import {BodyParams, Controller, Post, Req, Required, Res} from "@tsed/common";
 import {IUser} from "../../interfaces/User";
 
 @Controller("/passport")
@@ -346,8 +345,7 @@ Logout is very short, just place this code in the PassportCtrl and it's done:
 
 ```typescript
 import * as Express from "express";
-import {BodyParams, Controller, Get, Post, Req, Required, Res} from "@tsed/common";
-import {IUser} from "../../interfaces/User";
+import { Controller, Get, Req} from "@tsed/common";
 
 @Controller("/passport")
 export class PassportCtrl {

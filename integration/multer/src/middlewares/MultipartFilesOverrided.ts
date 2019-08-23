@@ -36,8 +36,8 @@ export class MultipartFileMiddlewareOverrided implements IMiddleware {
   }
 
   invoke(conf: any) {
-    const dest = this.serverSettingsService.uploadDir;
-    const options = Object.assign({dest}, this.serverSettingsService.get("multer") || {}, conf.options || {});
+    const dest = this.configuration.uploadDir;
+    const options = Object.assign({dest}, this.configuration.get("multer") || {}, conf.options || {});
 
     if (!conf.any) {
       const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));

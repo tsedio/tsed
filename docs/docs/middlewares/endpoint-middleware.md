@@ -5,19 +5,18 @@ Middleware for an endpoint lets you manage request and response directly on a me
 create a middleware to do something on request or response like that:
 
 ```typescript
-import {IMiddleware, Middleware, Request, ServerSettingsService} from "@tsed/common";
+import {IMiddleware, Middleware, Request, Configuration} from "@tsed/common";
 import {NotAcceptable} from "ts-httpexceptions";
 
 @Middleware()
 export class AcceptMimesMiddleware implements IMiddleware {
-   
-   constructor(private serverSettingsService: ServerSettingsService) {
+   constructor(@Configuration() private configuration: Configuration) {
 
    }
 
    use(@Request() request) {
 
-        this.serverSettingsService.acceptMimes
+        this.configuration.acceptMimes
             .forEach((mime) => {
                 if (!request.accepts(mime)) {
                     throw new NotAcceptable(mime);
@@ -31,7 +30,7 @@ export class AcceptMimesMiddleware implements IMiddleware {
 Then, add your middleware on your endpoint controller's:
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
+import {Controller, Get, UseBefore} from "@tsed/common";
 
 @Controller('/test')
 @UseBefore(AcceptMimesMiddleware) // global to the controller
