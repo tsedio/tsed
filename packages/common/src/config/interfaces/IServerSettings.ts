@@ -117,12 +117,10 @@ export interface IServerSettings {
   uploadDir?: string;
   /**
    * Mount all controllers under a directories to an endpoint.
-   * @deprecated
    */
   mount?: IServerMountDirectories;
   /**
    * List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
-   * @deprecated
    */
   componentsScan?: (string | RegExp)[];
   /**
