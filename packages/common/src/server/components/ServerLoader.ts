@@ -398,10 +398,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     await this.callHook("$beforeInit");
     await this.callHook("$onInit");
 
-    this.settings.forEach((value, key) => {
-      this.injector.logger.info(`settings.${key} =>`, value);
-    });
-
     this.injector.logger.info("Build providers");
 
     await loadInjector(this.injector);
