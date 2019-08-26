@@ -14,6 +14,22 @@ export function constructorOf(target: any): Function {
   return getConstructor(target);
 }
 
+export function toStringConstructor(target: any): string {
+  const ctr = getConstructor(target);
+  const strings = ctr.toString().split("\n");
+  const ctrString = strings.find(s => s.indexOf("constructor(") > -1) || "constructor()";
+
+  return `${ctrString.replace("{", "").trim()}`;
+}
+
+export function getConstructorArgNames(target: any) {
+  return toStringConstructor(target)
+    .replace("constructor(", "")
+    .replace(")", "")
+    .split(", ")
+    .filter(Boolean);
+}
+
 /**
  * Get the provide constructor if target is an instance.
  * @param target
