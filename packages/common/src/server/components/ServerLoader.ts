@@ -1,10 +1,9 @@
 import {classOf, Deprecated} from "@tsed/core";
-import {InjectorService, IProvider} from "@tsed/di";
+import {IDIConfigurationOptions, InjectorService, IProvider} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
-import * as util from "util";
-import {IServerSettings, ServerSettingsService} from "../../config";
+import {ServerSettingsService} from "../../config";
 import {getConfiguration} from "../../config/utils/getConfiguration";
 import {IRoute, RouteService} from "../../mvc";
 import {createExpressApplication} from "../../server/utils/createExpressApplication";
@@ -20,11 +19,13 @@ import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
+import {callHook} from "../utils/callHook";
 import {contextMiddleware} from "../utils/contextMiddleware";
 import {listenServer} from "../utils/listenServer";
 import {loadInjector} from "../utils/loadInjector";
 import {printRoutes} from "../utils/printRoutes";
 import {resolveProviders} from "../utils/resolveProviders";
+import {setLoggerLevel} from "../utils/setLoggerLevel";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -77,7 +78,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    *
    */
-  constructor(settings: any = {}) {
+  constructor(settings: Partial<IDIConfigurationOptions> = {}) {
     // create injector with initial configuration
     this.injector = createInjector(getConfiguration(classOf(this), settings));
 
@@ -107,8 +108,8 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    * @returns {ServerSettingsService}
    */
-  get settings(): ServerSettingsService {
-    return this.injector.settings as ServerSettingsService;
+  get settings(): IDIConfigurationOptions & ServerSettingsService {
+    return this.injector.settings as IDIConfigurationOptions & ServerSettingsService;
   }
 
   /**
@@ -144,7 +145,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
-  static async bootstrap(module: any, settings: any = {}): Promise<ServerLoader> {
+  static async bootstrap(module: any, settings: Partial<IDIConfigurationOptions> = {}): Promise<ServerLoader> {
     const server = new module(settings);
 
     await server.runLifecycle();
@@ -328,7 +329,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param options
    */
   public addComponents(classes: any | any[], options: any = {}): ServerLoader {
-    this.settings.componentsScan = this.settings.componentsScan.concat(classes);
+    this.injector.settings.componentsScan = this.injector.settings.componentsScan.concat(classes);
 
     return this;
   }
@@ -383,30 +384,13 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {Promise<void>}
    */
   protected async loadSettingsAndInjector() {
-    const level = this.settings.logger.level;
-
-    /* istanbul ignore next */
-    if (level && this.settings.env !== "test") {
-      this.injector.logger.level = level;
-    }
+    setLoggerLevel(this.injector);
 
     this.injector.logger.debug("Scan components");
 
-    const providers: IProvider<any>[] = await resolveProviders(this.injector);
-
-    this.routes = providers
-      .filter(provider => !!provider.endpoint)
-      .map(provider => ({
-        route: provider.endpoint,
-        token: provider.provide
-      }));
-
+    await this.resolveProviders();
     await this.callHook("$beforeInit");
     await this.callHook("$onInit");
-
-    // this.settings.forEach((value, key) => {
-    //   this.injector.logger.info(`settings.${key} =>`, value);
-    // });
 
     this.injector.logger.info("Build providers");
 
@@ -422,11 +406,10 @@ export abstract class ServerLoader implements IServerLifecycle {
   protected async loadMiddlewares(): Promise<any> {
     this.injector.logger.debug("Mount middlewares");
     this.use(contextMiddleware(this.injector));
-    this.use(LogIncomingRequestMiddleware);
+    this.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
 
     await this.callHook("$onMountingMiddlewares");
-    await this.callHook("$beforeRoutesInit");
-
+    await this.callHook("$beforeRoutesInit"); // deprecated
     this.injector.logger.info("Load routes");
 
     const routeService = this.injector.get<RouteService>(RouteService)!;
@@ -446,6 +429,12 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.info("Routes mounted :");
       this.injector.logger.info(printRoutes(routeService.getRoutes()));
     }
+  }
+
+  protected async resolveProviders() {
+    const providers: IProvider<any>[] = await resolveProviders(this.injector);
+
+    this.routes = providers.filter(provider => !!provider.route).map(({route, token}) => ({route, token}));
   }
 
   /**
@@ -470,7 +459,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
 
   /* istanbul ignore next */
-  protected setSettings(settings: IServerSettings) {
+  protected setSettings(settings: Partial<IDIConfigurationOptions>) {
     this.settings.set(settings);
 
     /* istanbul ignore next */
@@ -479,33 +468,8 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
   }
 
-  private callHook = async (key: string, ...args: any[]) => {
-    const self: any = this;
-
-    this.injector.logger.info(`\x1B[1mCall hook ${key}\x1B[22m`);
-
-    if (key in this) {
-      const hookDepreciation = (hook: string, newHook?: string) =>
-        util.deprecate(() => {}, `${hook} hook is deprecated. ${newHook ? "Use" + newHook + "instead" : "Hook will be removed"}`)();
-
-      if (key === "$onInit") {
-        hookDepreciation("$onInit", "$beforeInit");
-      }
-      if (key === "$onMountingMiddlewares") {
-        hookDepreciation("$onMountingMiddlewares", "$beforeRoutesInit");
-      }
-
-      // istanbul ignore next
-      if (key === "$onServerInitError") {
-        hookDepreciation("$onServerInitError");
-      }
-
-      await self[key](...args);
-    }
-
-    if (!["$beforeInit", "$afterInit", "$onInit", "$onMountingMiddlewares"].includes(key)) {
-      await this.injector.emit(key);
-    }
+  private callHook = (key: string, ...args: any[]) => {
+    return callHook(this.injector, this, key, ...args);
   };
 
   /**

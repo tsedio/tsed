@@ -15,12 +15,12 @@ describe("importComponents", () => {
     // THEN
     expect(symbols).to.deep.eq([
       {
-        "endpoint": undefined,
-        "provide": Test1
+        "route": undefined,
+        "token": Test1
       },
       {
-        "endpoint": undefined,
-        "provide": Test2
+        "route": undefined,
+        "token": Test2
       }
     ]);
   });
@@ -37,12 +37,12 @@ describe("importComponents", () => {
     // THEN
     expect(symbols).to.deep.eq([
       {
-        "endpoint": "/path/to/endpoint",
-        "provide": Test1
+        "route": "/path/to/endpoint",
+        "token": Test1
       },
       {
-        "endpoint": "/path/to/endpoint",
-        "provide": Test2
+        "route": "/path/to/endpoint",
+        "token": Test2
       }
     ]);
   });

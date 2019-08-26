@@ -9,6 +9,7 @@ import {Injectable} from "../decorators/injectable";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {
+  IDIConfigurationOptions,
   IDILogger,
   IInjectableProperties,
   IInjectablePropertyService,
@@ -62,7 +63,7 @@ interface IInvokeSettings {
   global: true
 })
 export class InjectorService extends Container {
-  public settings: DIConfiguration = new DIConfiguration();
+  public settings: IDIConfigurationOptions & DIConfiguration = new DIConfiguration() as any;
   public logger: IDILogger = console;
   private resolvedConfiguration: boolean = false;
 
@@ -264,6 +265,8 @@ export class InjectorService extends Container {
       return;
     }
     const rawSettings = this.settings.toRawObject();
+    // @ts-ignore
+    this.settings.map.clear();
 
     super.forEach(provider => {
       if (provider.configuration) {

@@ -13,7 +13,7 @@ registerProvider({
   scope: ProviderScope.SINGLETON,
   global: true,
   useFactory(expressApplication: ExpressApplication, settings: Configuration) {
-    const options = settings.httpsOptions;
+    const options = settings.httpsOptions!;
 
     return Https.createServer(options, expressApplication);
   }
