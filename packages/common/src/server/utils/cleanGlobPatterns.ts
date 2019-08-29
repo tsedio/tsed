@@ -6,7 +6,7 @@ export function cleanGlobPatterns(files: string | string[], excludes: string[]):
   return []
     .concat(files as any)
     .map((file: string) => {
-      if (!require.extensions[".ts"]) {
+      if (!require.extensions[".ts"] && !process.env["TS_TEST"]) {
         file = file.replace(/\.ts$/i, ".js");
       }
 
