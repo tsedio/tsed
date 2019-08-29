@@ -87,7 +87,8 @@ module.exports = {
               {link: "/tutorials/templating.html", text: "Templating"},
               {link: "/tutorials/throw-http-exceptions.html", text: "Throw HTTP exceptions"},
               {link: "/tutorials/not-found-page.html", text: "Customize 404"},
-              {link: "/tutorials/aws.html", text: "AWS project"}
+              {link: "/tutorials/aws.html", text: "AWS project"},
+              {link: "/tutorials/jest.html", text: "Jest"}
             ]
           },
           {text: "4.x", link: "http://v4.tsed.io"}
@@ -156,7 +157,8 @@ module.exports = {
               "templating",
               "throw-http-exceptions",
               "not-found-page",
-              "aws"
+              "aws",
+              "jest"
             ]
           }]
         },
@@ -177,6 +179,7 @@ module.exports = {
           "/tutorials/throw-http-exceptions",
           "/tutorials/not-found-page",
           "/tutorials/aws",
+          "/tutorials/jest",
           "/tutorials/seq",
           "/docs/controllers",
           "/docs/providers",
