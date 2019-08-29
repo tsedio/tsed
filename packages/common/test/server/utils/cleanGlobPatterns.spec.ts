@@ -43,7 +43,7 @@ describe("cleanGlobPatterns()", () => {
   });
   describe("when using ts-jest", () => {
     before(() => {
-      // process.env["TS_TEST"] = "true";
+      process.env["TS_TEST"] = "true";
     });
     after(() => {
       delete process.env["TS_TEST"];
