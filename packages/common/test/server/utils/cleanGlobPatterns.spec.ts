@@ -25,6 +25,18 @@ describe("cleanGlobPatterns()", () => {
     it("should return file.ts.js and manipulate only the file extension", () => {
       expect(cleanGlobPatterns("file.ts.ts", ["!**.spec.ts"])[0]).to.contains("file.ts.js");
     });
+
+    describe("when using ts-jest", () => {
+      it("should return file.ts", () => {
+        process.env["TS_TEST"] = "true";
+        expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
+        delete process.env["TS_TEST"];
+      });
+
+      it("should return file.js", () => {
+        expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.js");
+      });
+    });
   });
   describe("when have typescript compiler", () => {
     let compiler: any;
@@ -36,17 +48,6 @@ describe("cleanGlobPatterns()", () => {
     after(() => {
       delete require.extensions[".ts"];
       require.extensions[".ts"] = compiler;
-    });
-    it("should return file.ts", () => {
-      expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
-    });
-  });
-  describe("when using ts-jest", () => {
-    before(() => {
-      process.env["TS_TEST"] = "true";
-    });
-    after(() => {
-      delete process.env["TS_TEST"];
     });
     it("should return file.ts", () => {
       expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
