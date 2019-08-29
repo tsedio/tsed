@@ -41,4 +41,15 @@ describe("cleanGlobPatterns()", () => {
       expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
     });
   });
+  describe("when using ts-jest", () => {
+    before(() => {
+      // process.env["TS_TEST"] = "true";
+    });
+    after(() => {
+      delete process.env["TS_TEST"];
+    });
+    it("should return file.ts", () => {
+      expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.ts");
+    });
+  });
 });
