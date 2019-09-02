@@ -82,15 +82,7 @@ export class DIConfiguration {
     if (typeof propertyKey === "string") {
       setValue(propertyKey, value, this.map);
     } else {
-      Object.entries(propertyKey).forEach(([key, value]) => {
-        const descriptor = Object.getOwnPropertyDescriptor(DIConfiguration.prototype, key);
-
-        if (descriptor && ["set", "map", "get"].indexOf(key) === -1) {
-          this[key] = value;
-        } else {
-          this.set(key, value);
-        }
-      });
+      Object.assign(this, propertyKey);
     }
 
     return this;

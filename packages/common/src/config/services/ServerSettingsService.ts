@@ -58,6 +58,10 @@ export class ServerSettingsService extends DIConfiguration {
     this.map.set("rootDir", value);
   }
 
+  get port(): string | number {
+    return this.httpPort;
+  }
+
   set port(value: string | number) {
     this.httpPort = value;
   }

@@ -8,10 +8,6 @@ const compress = require("compression");
 const methodOverride = require("method-override");
 const rootDir = __dirname;
 
-const config: IServerSettings = {
-  swagger: {}
-};
-
 @ServerSettings({
   rootDir,
   acceptMimes: ["application/json"],
@@ -28,9 +24,7 @@ const config: IServerSettings = {
   },
   calendar: {
     token: true
-  },
-  debug: true,
-  swagger: {}
+  }
 })
 export class Server extends ServerLoader {
   constructor(settings) {
