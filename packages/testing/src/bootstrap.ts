@@ -6,6 +6,7 @@ import {TestContext} from "./TestContext";
  * @param server
  * @param args
  * @returns {Promise<void>}
+ * @deprecated
  */
 
 /* istanbul ignore next */

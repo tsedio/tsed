@@ -39,19 +39,6 @@ describe("TestContext", () => {
       expect((TestContext as any)._injector).eq(null);
     });
   });
-  describe("bootstrap()", () => {
-    beforeEach(TestContext.bootstrap(FakeServer as any));
-    afterEach(TestContext.reset);
-
-    it("should attach injector instance to TestContext", () => {
-      expect(TestContext.injector).to.be.instanceof(InjectorService);
-    });
-
-    it("should replace FakeServer.startServers by a stub()", () => {
-      expect(FakeServer.current.startServers).to.be.a("Function");
-      expect(FakeServer.current.startServers()).to.be.an.instanceOf(Promise);
-    });
-  });
 
   describe("invoke()", () => {
     const sandbox = Sinon.createSandbox();

@@ -6,10 +6,6 @@ import * as Https from "https";
 import {ServerSettingsService} from "../../config";
 import {getConfiguration} from "../../config/utils/getConfiguration";
 import {IRoute, RouteService} from "../../mvc";
-import {createExpressApplication} from "../../server/utils/createExpressApplication";
-import {createHttpServer} from "../../server/utils/createHttpServer";
-import {createHttpsServer} from "../../server/utils/createHttpsServer";
-import {createInjector} from "../../server/utils/createInjector";
 
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
@@ -21,6 +17,10 @@ import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {callHook} from "../utils/callHook";
 import {contextMiddleware} from "../utils/contextMiddleware";
+import {createExpressApplication} from "../utils/createExpressApplication";
+import {createHttpServer} from "../utils/createHttpServer";
+import {createHttpsServer} from "../utils/createHttpsServer";
+import {createInjector} from "../utils/createInjector";
 import {listenServer} from "../utils/listenServer";
 import {loadInjector} from "../utils/loadInjector";
 import {printRoutes} from "../utils/printRoutes";
@@ -273,10 +273,14 @@ export abstract class ServerLoader implements IServerLifecycle {
     await this.startServers();
 
     await this.callHook("$afterListen");
-    await this.callHook("$onReady");
 
-    await this.injector.emit("$onServerReady");
+    await this.ready();
     this.injector.logger.info(`Started in ${new Date().getTime() - this.startedAt.getTime()} ms`);
+  }
+
+  public async ready() {
+    await this.callHook("$onReady");
+    await this.injector.emit("$onServerReady");
   }
 
   /**

@@ -58,15 +58,17 @@ export class TestContext {
    */
   static bootstrap(server: ServerLoader | any, options: any = {}): () => Promise<void> {
     return async function before(): Promise<void> {
-      const instance = new (server as any)(...(options.args || []));
+      const instance = await ServerLoader.bootstrap(server, {
+        logger: {
+          level: "off"
+        },
+        ...options
+      });
 
-      instance.startServers = () => Promise.resolve();
-      instance.settings.logger.level = "off";
+      await instance.ready();
 
       // used by inject method
       TestContext._injector = instance.injector;
-
-      await instance.start();
     };
   }
 

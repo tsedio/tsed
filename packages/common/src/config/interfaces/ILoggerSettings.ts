@@ -6,7 +6,7 @@ export interface ILoggerSettings {
   /**
    * Enable info mode. By default debug is false.
    */
-  level?: "debug" | "info" | "warn" | "error";
+  level?: "debug" | "info" | "warn" | "error" | "off";
   /**
    * Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
    */
