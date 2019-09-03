@@ -10,159 +10,76 @@ meta:
 
 <Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="128" />
 
-## Feature
+This tutorial provide two way to create connection:
+
+- The first one use @tsed/typeorm module to creation multiple connections with @@ServerSettings@@,
+- The seconds use the new async provider feature introduced in v5.27 to create connection.
+
+Additionally, this topic show you how you can use Entity from Typeorm with Ts.ED controller (on bottom of this page).
+
+## Solution with @tsed/typeorm
+
+::: tip
+You can find a working example on [TypeORM here](https://github.com/TypedProject/tsed-example-typeorm).
+:::
+
+### Feature
 
 Currently, `@tsed/typeorm` allows you:
 
 - Configure one or more TypeORM connections via the `@ServerSettings` configuration. All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
 
-## Installation
+### Installation
 
 To begin, install the TypeORM module for TS.ED:
 ```bash
 npm install --save @tsed/typeorm
 ```
 
-Then import `@tsed/typeorm` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then import `@tsed/typeorm` in your @@ServerLoader@@:
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/typeorm"; // import typeorm ts.ed module
+<<< @/docs/tutorials/snippets/typeorm/typeorm-configuration.ts
 
-@ServerSettings({
-   typeorm: [
-     {
-       name: 'default',
-       type: 'postgres',
-       ...,
-
-        entities: [
-          `${__dirname}/entity/*{.ts,.js}`
-        ],
-        migrations: [
-         `${__dirname}/migrations/*{.ts,.js}`
-        ],
-        subscribers: [
-         `${__dirname}/subscriber/*{.ts,.js}`
-        ]
-     },
-     {
-        name: 'mongo',
-        type: 'mongodb',
-        ...
-     }
-   ]
-})
-export class Server extends ServerLoader {
-
-}
-```
-
-## TypeORMService
+### TypeORMService
 
 TypeORMService let you to retrieve an instance of TypeORM Connection.
 
-```typescript
-import {Service, AfterRoutesInit} from "@tsed/common";
-import {TypeORMService} from "@tsed/typeorm";
-import {Connection} from "typeorm";
-
-@Service()
-export class UsersService implements AfterRoutesInit {
-    private connection: Connection;
-    constructor(private typeORMService: TypeORMService) {
-
-    }
-
-    $afterRoutesInit() {
-        this.connection = this.typeORMService.get("db1");
-    }
-
-    async create(user: User): Promise<User> {
-
-        // do something
-        ...
-        // Then save
-        await this.connection.manager.save(user);
-        console.log("Saved a new user with id: " + user.id);
-
-        return user;
-    }
-
-    async find(): Promise<User[]> {
-        const users = await this.connection.manager.find(User);
-        console.log("Loaded users: ", users);
-
-        return users;
-    }
-
-}
-```
+<<< @/docs/tutorials/snippets/typeorm/typeorm-usage.ts
 
 For more information about TypeORM look his documentation [here](https://github.com/typeorm/typeorm);
 
+## Solution with Async provider
+
+This solution let you manage your connection and create provider around this with `useAsyncFactory` feature (See [custom providers](/docs/custom-provider.md)) 
+
+::: warning
+`@tsed/typeorm` must not installed on your project but you have to install `typeorm` npm module instead.
+:::
+
+### Declare you connection as provider
+
+<<< @/docs/tutorials/snippets/typeorm/typeorm-async-provider.ts
+
+### Inject connection in another service
+
+<<< @/docs/tutorials/snippets/typeorm/typeorm-injection-async-provider.ts
+
+### Configure your connection
+
+<<< @/docs/tutorials/snippets/typeorm/typeorm-custom-configuration.ts
+
 ## Use Entity TypeORM with Controller
 
-To begin, we need to define an Entity TypeORM like this and use Ts.ED Decorator to define the JSON Schema.
+We need to define an Entity TypeORM like this and use Ts.ED Decorator to define the JSON Schema.
 
-```typescript
-import {Property, MaxLength, Required} from "@tsed/common";
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-
-@Entity()
-export class User {
-
-    @PrimaryGeneratedColumn()
-    @Property()
-    id: number;
-
-    @Column()
-    @MaxLength(100)
-    @Required()
-    firstName: string;
-
-    @Column()
-    @MaxLength(100)
-    @Required()
-    lastName: string;
-
-    @Column()
-    @Mininum(0)
-    @Maximum(100)
-    age: number;
-}
-```
+<<< @/docs/tutorials/snippets/typeorm/typeorm-entity.ts
 
 Now, the model is correctly defined and can be used with a [Controller](/docs/controllers.md), [AJV validation](/tutorials/ajv.md),
 [Swagger](/tutorials/swagger.md) and [TypeORM](https://github.com/typeorm/typeorm).
 
 We can use this model with a Controller like that:
 
-```typescript
-import {Controller, Post, BodyParams} from "@tsed/common";
+<<< @/docs/tutorials/snippets/typeorm/typeorm-entity-controller.ts
 
-@Controller("/users")
-export class UsersCtrl {
 
-    constructor(private usersService: UsersService) {
-
-    }
-
-    @Post("/")
-    create(@BodyParams() user: User): Promise<User> {
-
-        return this.usersService.create(user);
-    }
-
-    @Get("/")
-    getList(): Promise<User[]> {
-
-        return this.usersService.find();
-    }
-}
-```
-
-::: tip
-You can find a working example on [TypeORM here](https://github.com/TypedProject/tsed-example-typeorm).
-:::

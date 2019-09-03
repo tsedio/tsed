@@ -32,6 +32,10 @@ export interface IProvider<T> {
    */
   useFactory?: Function;
   /**
+   * Provide an async function to build the provider
+   */
+  useAsyncFactory?: Function;
+  /**
    * Provide predefined value
    */
   useValue?: any;
