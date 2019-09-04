@@ -17,6 +17,7 @@ import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {callHook} from "../utils/callHook";
 import {contextMiddleware} from "../utils/contextMiddleware";
+import {createContainer} from "../utils/createContainer";
 import {createExpressApplication} from "../utils/createExpressApplication";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
@@ -398,7 +399,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     this.injector.logger.info("Build providers");
 
-    await loadInjector(this.injector);
+    await loadInjector(this.injector, createContainer(this));
 
     this.injector.logger.debug("Settings and injector loaded");
     await this.callHook("$afterInit");

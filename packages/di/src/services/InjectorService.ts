@@ -209,19 +209,21 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (provider.isAsync()) {
-        await this.invoke(provider.token, locals);
-      }
+      if (!locals.has(provider.token)) {
+        if (provider.isAsync()) {
+          await this.invoke(provider.token, locals);
+        }
 
-      if (provider.instance) {
-        locals.set(provider.token, provider.instance);
+        if (provider.instance) {
+          locals.set(provider.token, provider.instance);
+        }
       }
     }
 
     return locals;
   }
 
-  async loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
+  loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
     const providers = super.toArray();
 
     for (const provider of providers) {
@@ -250,7 +252,10 @@ export class InjectorService extends Container {
     this.resolveConfiguration();
 
     // build async and sync provider
-    const locals = await this.loadSync(await this.loadAsync());
+    let locals = await this.loadAsync();
+
+    // load sync provider
+    locals = this.loadSync(locals);
 
     await locals.emit("$onInit");
 

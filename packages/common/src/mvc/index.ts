@@ -55,3 +55,5 @@ export * from "./decorators";
 // utils
 export * from "./utils/mapHeaders";
 export * from "./utils/mapReturnedResponse";
+
+export * from "./MvcModule";

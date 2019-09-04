@@ -1,40 +1,19 @@
-import {GlobalProviders, InjectorService} from "@tsed/di";
-import {
-  ArrayConverter,
-  ConverterService,
-  DateConverter,
-  MapConverter,
-  PrimitiveConverter,
-  SetConverter,
-  SymbolConverter
-} from "../../converters";
-import {ParseService, ValidationService} from "../../mvc";
-import {buildControllers} from "./buildControllers";
+import {MVC_MODULE} from "../../mvc";
+import {Container, InjectorService} from "@tsed/di";
+import {createContainer} from "./createContainer";
 
-const TSED_MODULES = [
-  ConverterService,
-  ArrayConverter,
-  DateConverter,
-  MapConverter,
-  PrimitiveConverter,
-  SetConverter,
-  SymbolConverter,
-  ParseService,
-  ValidationService
-];
-
-export async function loadInjector(injector: InjectorService) {
+export async function loadInjector(injector: InjectorService, container: Container = createContainer()) {
   // Clone all providers in the container
-  injector.addProviders(GlobalProviders);
+  injector.addProviders(container);
 
-  // Resolve all
+  // Resolve all configuration
   injector.resolveConfiguration();
 
-  // invoke initial services
-  TSED_MODULES.forEach(token => injector.invoke(token));
+  injector.settings.forEach((value, key) => {
+    injector.logger.debug(`settings.${key} =>`, value);
+  });
 
-  // Build all controllers
-  buildControllers(injector);
+  injector.invoke(MVC_MODULE);
 
-  await injector.load();
+  return injector.load(container);
 }
