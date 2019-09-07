@@ -19,6 +19,7 @@ import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {ServeStaticService} from "../services/ServeStaticService";
 import {contextMiddleware} from "../utils/contextMiddleware";
 import {listenServer} from "../utils/listenServer";
 import {loadInjector} from "../utils/loadInjector";
@@ -266,8 +267,13 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   public async listen() {
+    await this.callHook("$beforeListen");
+
     await this.startServers();
+
+    await this.callHook("$afterListen");
     await this.callHook("$onReady");
+
     await this.injector.emit("$onServerReady");
     this.injector.logger.info(`Started in ${new Date().getTime() - this.startedAt.getTime()} ms`);
   }
@@ -407,6 +413,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     await loadInjector(this.injector);
 
     this.injector.logger.debug("Settings and injector loaded");
+    await this.callHook("$afterInit");
   }
 
   /**
@@ -417,26 +424,28 @@ export abstract class ServerLoader implements IServerLifecycle {
     this.use(contextMiddleware(this.injector));
     this.use(LogIncomingRequestMiddleware);
 
-    await this.callHook("$beforeRoutesInit", undefined);
-    await this.callHook("$onMountingMiddlewares", undefined);
-    await this.injector.emit("$beforeRoutesInit");
+    await this.callHook("$onMountingMiddlewares");
+    await this.callHook("$beforeRoutesInit");
+
     this.injector.logger.info("Load routes");
 
     const routeService = this.injector.get<RouteService>(RouteService)!;
     routeService.addRoutes(this.routes);
 
-    await this.injector.emit("$onRoutesInit");
-    await this.injector.emit("$afterRoutesInit");
+    await this.callHook("$onRoutesInit");
+
+    const staticsService = this.injector.get<ServeStaticService>(ServeStaticService)!;
+    staticsService.statics(this.injector.settings.statics);
 
     await this.callHook("$afterRoutesInit");
+
+    // Import the globalErrorHandler
+    this.use(GlobalErrorHandlerMiddleware);
 
     if (!this.settings.logger.disableRoutesSummary) {
       this.injector.logger.info("Routes mounted :");
       this.injector.logger.info(printRoutes(routeService.getRoutes()));
     }
-
-    // Import the globalErrorHandler
-    this.use(GlobalErrorHandlerMiddleware);
   }
 
   /**
@@ -470,23 +479,33 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
   }
 
-  private callHook = (key: string, elseFn = new Function(), ...args: any[]) => {
+  private callHook = async (key: string, ...args: any[]) => {
     const self: any = this;
 
-    if (key in this) {
-      const hookDepreciation = (hook: string, newHook: string) =>
-        util.deprecate(() => {}, `${hook} hook is deprecated. Use ${newHook} instead`)();
+    this.injector.logger.info(`\x1B[1mCall hook ${key}\x1B[22m`);
 
+    if (key in this) {
+      const hookDepreciation = (hook: string, newHook?: string) =>
+        util.deprecate(() => {}, `${hook} hook is deprecated. ${newHook ? "Use" + newHook + "instead" : "Hook will be removed"}`)();
+
+      if (key === "$onInit") {
+        hookDepreciation("$onInit", "$beforeInit");
+      }
       if (key === "$onMountingMiddlewares") {
-        hookDepreciation("$onMountingMiddlewares", "$onBeforeRoutesInit");
+        hookDepreciation("$onMountingMiddlewares", "$beforeRoutesInit");
       }
 
-      this.injector.logger.debug(`\x1B[1mCall hook ${key}\x1B[22m`);
+      // istanbul ignore next
+      if (key === "$onServerInitError") {
+        hookDepreciation("$onServerInitError");
+      }
 
-      return self[key](...args);
+      await self[key](...args);
     }
 
-    return elseFn();
+    if (!["$beforeInit", "$afterInit", "$onInit", "$onMountingMiddlewares"].includes(key)) {
+      await this.injector.emit(key);
+    }
   };
 
   /**

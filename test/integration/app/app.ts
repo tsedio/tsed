@@ -29,7 +29,7 @@ Docs("authentication")(PassportCtrl);
   port: 8001,
   httpsPort: false,
   logger: {
-    level: "debug",
+    level: "info",
     logRequest: true
   },
   mount: {
@@ -144,6 +144,9 @@ export class ExampleServer extends ServerLoader {
    */
   public $onReady() {
     $log.info("Server started...");
+  }
+
+  public onServerInitError() {
   }
 }
 

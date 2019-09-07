@@ -105,6 +105,32 @@ ts-node isn't the runtime.
 * `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
 * `errors` &lt;[IErrorsSettings](/api/common/config/interfaces/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
 
+## Versioning REST API
+
+Ts.ED provide the possibility to mount multiple Rest path instead of the default path `/rest`.
+You have two methods to configure all global endpoints for each directories scanned by the [ServerLoader](/api/common/server/components/ServerLoader.md).
+
+```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import Path = require("path");
+const rootDir = Path.resolve(__dirname);
+
+@ServerSettings({
+   rootDir,
+   mount: {
+     "/rest": "${rootDir}/controllers/current/**/*.js",
+     "/rest/v1": [
+        "${rootDir}/controllers/v1/users/*.js",
+        "${rootDir}/controllers/v1/groups/*.js"
+     ]
+   }
+})
+export class Server extends ServerLoader {
+
+}
+```
+> Note: mount attribute accept a list of glob for each endpoint. That lets you declare a resource versioning.
+
 ## HTTP & HTTPs server
 ### Change address
 
@@ -337,3 +363,4 @@ inspect the configuration object and return the value.
 ::: tip NOTE
 The values for the decorated properties aren't available on constructor. Use $onInit() hook to use the value.
 :::
+

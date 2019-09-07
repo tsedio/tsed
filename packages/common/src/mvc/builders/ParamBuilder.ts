@@ -162,6 +162,7 @@ export class ParamBuilder {
 
   private static getOperatorsPipe(param: ParamMetadata, injector: InjectorService) {
     const operators = [
+      this.getInitialPipe(param, injector),
       this.getParseExpressionPipe(param),
       this.getRequiredPipe(param),
       this.getValidationPipe(param, injector),
@@ -190,7 +191,6 @@ export class ParamBuilder {
     const subject = new Subject<IHandlerContext>();
     const observable = subject.pipe(
       map(ParamBuilder.getContextPipe(param)),
-      map(ParamBuilder.getInitialPipe(param, injector)),
       switchMap(ParamBuilder.getOperatorsPipe(param, injector))
     );
 

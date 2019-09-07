@@ -1,4 +1,4 @@
-import {Constant, HttpServer, HttpsServer, Inject, InjectorService, OnServerReady, Provider, Service} from "@tsed/common";
+import {AfterListen, Constant, HttpServer, HttpsServer, Inject, Injectable, InjectorService, Provider} from "@tsed/common";
 import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
@@ -10,8 +10,8 @@ import {SocketIOService} from "./services/SocketIOService";
 /**
  *
  */
-@Service()
-export class SocketIOModule implements OnServerReady {
+@Injectable()
+export class SocketIOModule implements AfterListen {
   @Constant("logger.disableRoutesSummary", false)
   disableRoutesSummary: boolean;
 
@@ -32,7 +32,7 @@ export class SocketIOModule implements OnServerReady {
     private socketIOService: SocketIOService
   ) {}
 
-  $onServerReady() {
+  $afterListen() {
     if (this.httpPort) {
       this.io.attach(this.httpServer, {...this.settings});
     }
@@ -61,9 +61,8 @@ export class SocketIOModule implements OnServerReady {
 
   /**
    *
-   * @param logger
    */
-  protected printSocketEvents(logger: {info: (s: any) => void} = $log) {
+  protected printSocketEvents() {
     const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
       const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
 
@@ -85,7 +84,7 @@ export class SocketIOModule implements OnServerReady {
       return acc;
     }, []);
 
-    $log.info("Socket events mounted:");
+    this.injector.logger.info("Socket events mounted:");
 
     const str = $log.drawTable(list, {
       padding: 1,
@@ -98,8 +97,8 @@ export class SocketIOModule implements OnServerReady {
       }
     });
 
-    logger.info("\n" + str.trim());
+    this.injector.logger.info("\n" + str.trim());
 
-    $log.info("Socket server started...");
+    this.injector.logger.info("Socket server started...");
   }
 }

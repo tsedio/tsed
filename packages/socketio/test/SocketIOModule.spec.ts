@@ -6,7 +6,7 @@ import {ServerSettingsService} from "../../common/src/config";
 import {SocketIOModule, SocketIOServer, SocketIOService} from "../src";
 
 describe("SocketIOModule", () => {
-  describe("$onServerReady()", () => {
+  describe("$afterListen()", () => {
     describe("with http server", () => {
       before(TestContext.create);
       before(() => {
@@ -37,7 +37,7 @@ describe("SocketIOModule", () => {
 
         this.getWebsocketServicesStub.returns([{provider: "provider"}]);
         // WHEN
-        await socketIOModule.$onServerReady();
+        await socketIOModule.$afterListen();
 
         socketIOServer.attach.should.have.been.calledWithExactly(httpServer, {
           adapter: "adapter",
@@ -84,7 +84,7 @@ describe("SocketIOModule", () => {
 
         this.getWebsocketServicesStub.returns([{provider: "provider"}]);
         // WHEN
-        await socketIOModule.$onServerReady();
+        await socketIOModule.$afterListen();
 
         socketIOServer.attach.should.have.been.calledWithExactly(httpsServer, {
           config: "config"
