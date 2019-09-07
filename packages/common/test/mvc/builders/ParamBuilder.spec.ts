@@ -494,15 +494,10 @@ describe("ParamBuilder", () => {
         next
       } as any);
 
-      let actualError: any;
-      try {
-        await promise;
-      } catch (er) {
-        actualError = er;
-      }
+      const result: any = await promise;
 
       // THEN
-      expect(actualError.message).to.deep.eq("Filter CustomFilter2 not found.");
+      expect(result.message).to.deep.eq("Filter CustomFilter2 not found.");
     }));
   });
 });

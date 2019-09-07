@@ -1,10 +1,10 @@
-import {AfterRoutesInit, Constant, OnInit, ServerSettingsService, Service} from "@tsed/common";
+import {AfterListen, Constant, Injectable, OnInit, ServerSettingsService} from "@tsed/common";
 import {$log} from "ts-log-debug";
 import {IGraphQLSettings} from "./interfaces/IGraphQLSettings";
 import {GraphQLService} from "./services/GraphQLService";
 
-@Service()
-export class GraphQLModule implements OnInit, AfterRoutesInit {
+@Injectable()
+export class GraphQLModule implements OnInit, AfterListen {
   @Constant("graphql", {})
   private settings: {[key: string]: IGraphQLSettings};
 
@@ -16,7 +16,7 @@ export class GraphQLModule implements OnInit, AfterRoutesInit {
     return Promise.all(promises);
   }
 
-  $afterRoutesInit(): Promise<any> | void {
+  $afterListen(): Promise<any> | void {
     const host = this.serverSettingsService.getHttpPort();
 
     Object.keys(this.settings).map(async key => {

@@ -53,7 +53,7 @@ module.exports = {
                   {link: "/docs/filters.html", text: "Filters"},
                   {link: "/docs/interceptors.html", text: "Interceptors"},
                   {link: "/docs/authentication.html", text: "Authentication"},
-                  {link: "/docs/server-loader.html", text: "ServerLoader"}
+                  {link: "/docs/hooks.html", text: "Hooks"}
                 ]
               },
               {
@@ -121,7 +121,7 @@ module.exports = {
                 "filters",
                 "interceptors",
                 "authentication",
-                "server-loader"
+                "hooks"
               ]
             },
             {
@@ -189,7 +189,7 @@ module.exports = {
           "/docs/filters",
           "/docs/interceptors",
           "/docs/authentication",
-          "/docs/server-loader",
+          "/docs/hooks",
           "/docs/injection-scopes",
           "/docs/custom-providers",
           "/docs/custom-endpoint-decorators",

@@ -11,7 +11,7 @@ export interface IParamConstructorOptions {
   useType?: Type<any>;
   useConverter?: boolean;
   useValidation?: boolean;
-  paramType?: ParamTypes;
+  paramType?: string | ParamTypes;
 }
 
 export class ParamMetadata extends Storable implements IParamConstructorOptions {
@@ -24,7 +24,7 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
    *
    */
   @Enumerable()
-  public paramType: ParamTypes;
+  public paramType: string | ParamTypes;
   /**
    *
    * @type {boolean}

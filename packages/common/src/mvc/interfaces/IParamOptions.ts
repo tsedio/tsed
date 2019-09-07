@@ -7,5 +7,5 @@ export interface IParamOptions<T> {
   useType?: Type<T>;
   useConverter?: boolean;
   useValidation?: boolean;
-  paramType?: ParamTypes;
+  paramType?: ParamTypes | string;
 }

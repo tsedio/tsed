@@ -18,7 +18,7 @@ describe("SwaggerModule", () => {
     )
   );
 
-  describe("$afterRoutesInit()", () => {
+  describe("$onRoutesInit()", () => {
     before(() => {
       this.config = [
         {
@@ -51,7 +51,7 @@ describe("SwaggerModule", () => {
       this.createRouterStub = Sinon.stub(this.swaggerModule, "createRouter").returns({router: "router"});
       this.writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
 
-      this.swaggerModule.$afterRoutesInit();
+      this.swaggerModule.$onRoutesInit();
     });
     after(() => {
       this.expressGet.restore();
@@ -104,7 +104,7 @@ describe("SwaggerModule", () => {
     });
   });
 
-  describe("$onServerReady()", () => {
+  describe("$onReady()", () => {
     before(() => {
       this.config = [
         {
@@ -133,7 +133,7 @@ describe("SwaggerModule", () => {
         port: 8080
       });
       this.getStub = Sinon.stub(this.settingsService, "get").returns(this.config);
-      this.swaggerModule.$onServerReady();
+      this.swaggerModule.$onReady();
     });
     after(() => {
       this.getHttpPortStub.restore();

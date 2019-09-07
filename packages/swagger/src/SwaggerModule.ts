@@ -1,4 +1,4 @@
-import {AfterRoutesInit, ExpressApplication, OnServerReady, ServerSettingsService, Service} from "@tsed/common";
+import {AfterRoutesInit, ExpressApplication, OnReady, OnRoutesInit, ServerSettingsService, Service} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
@@ -10,7 +10,7 @@ const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 const ejs = require("ejs");
 
 @Service()
-export class SwaggerModule implements AfterRoutesInit, OnServerReady {
+export class SwaggerModule implements OnRoutesInit, OnReady {
   constructor(
     private swaggerService: SwaggerService,
     private serverSettingsService: ServerSettingsService,
@@ -20,7 +20,7 @@ export class SwaggerModule implements AfterRoutesInit, OnServerReady {
   /**
    *
    */
-  $afterRoutesInit() {
+  $onRoutesInit() {
     const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
 
     const urls: any[] = swagger.reduce((acc: any[], conf) => {
@@ -53,7 +53,7 @@ export class SwaggerModule implements AfterRoutesInit, OnServerReady {
     });
   }
 
-  $onServerReady() {
+  $onReady() {
     const host = this.serverSettingsService.getHttpPort();
     const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
     swagger.forEach((conf: ISwaggerSettings) => {
