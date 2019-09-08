@@ -1,6 +1,6 @@
 import {Service} from "@tsed/di";
 import * as Express from "express";
-import {IServerMountDirectories, ServerSettingsService} from "../../config";
+import {IServerMountDirectories} from "../../config";
 import {ExpressApplication} from "../decorators/expressApplication";
 
 @Service()
