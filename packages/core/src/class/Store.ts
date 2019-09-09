@@ -1,5 +1,5 @@
 import {DecoratorParameters} from "../interfaces";
-import {deepClone, deepExtends, descriptorOf, getDecoratorType, nameOf} from "../utils";
+import {deepClone, deepExtends, descriptorOf, getDecoratorType, isSymbol, nameOf} from "../utils";
 
 import {Metadata} from "./Metadata";
 
@@ -9,6 +9,8 @@ export const PROPERTY_STORE = "tsed:property:store";
 export const PARAM_STORE = "tsed:param:store";
 
 export type StoreMap = Map<string, any>;
+
+const stores = new Map<symbol, any>();
 
 /**
  *
@@ -71,6 +73,7 @@ export class Store {
    * @deprecated Use StoreFn
    * @returns {Function}
    */
+
   /* istanbul ignore next */
   static decorate(fn: (store: Store, parameters: DecoratorParameters) => void): Function {
     return (...parameters: any[]): any => {
@@ -214,12 +217,20 @@ export class Store {
    * @private
    */
   private _storeGet(key: string, ...args: any[]): StoreMap {
-    const registry = Metadata as any;
+    if (isSymbol(args[0])) {
+      if (!stores.has(args[0])) {
+        stores.set(args[0], new Map<string, any>());
+      }
 
-    if (!registry.hasOwn(key, ...args)) {
-      registry.set(key, new Map<string, any>(), ...args);
+      return stores.get(args[0]);
+    } else {
+      const registry = Metadata as any;
+
+      if (!registry.hasOwn(key, ...args)) {
+        registry.set(key, new Map<string, any>(), ...args);
+      }
+
+      return registry.getOwn(key, ...args);
     }
-
-    return registry.getOwn(key, ...args);
   }
 }

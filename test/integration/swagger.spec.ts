@@ -5,54 +5,57 @@ import * as SuperTest from "supertest";
 import {FakeServer} from "./app/FakeServer";
 
 describe("Swagger", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
   before(bootstrap(FakeServer));
-  before(inject([ExpressApplication], (expressApplication: ExpressApplication) => (this.app = SuperTest(expressApplication))));
+  before(inject([ExpressApplication], (expressApplication: ExpressApplication) => (request = SuperTest(expressApplication))));
   after(TestContext.reset);
 
   describe("GET /api-doc/swagger.json", () => {
+    let spec: any;
     before(done => {
-      this.app
+      request
         .get("/api-doc/swagger.json")
         .expect(200)
         .end((err: any, response: any) => {
-          this.spec = JSON.parse(response.text);
+          spec = JSON.parse(response.text);
           done();
         });
     });
 
     it("should have a swagger version", () => {
-      expect(this.spec.swagger).to.be.eq("2.0");
+      expect(spec.swagger).to.be.eq("2.0");
     });
 
     it("should have informations field ", () => {
-      expect(this.spec.swagger).to.be.eq("2.0");
+      expect(spec.swagger).to.be.eq("2.0");
     });
 
     it("should have paths field", () => {
-      expect(this.spec.paths).to.be.a("object");
+      expect(spec.paths).to.be.a("object");
     });
 
     it("should have securityDefinitions field", () => {
-      expect(this.spec.securityDefinitions).to.be.a("object");
+      expect(spec.securityDefinitions).to.be.a("object");
     });
 
     it("should have definitions field", () => {
-      expect(this.spec.definitions).to.be.a("object");
+      expect(spec.definitions).to.be.a("object");
     });
 
     it("should have consumes field", () => {
-      expect(this.spec.consumes).to.be.an("array");
-      expect(this.spec.consumes[0]).to.be.eq("application/json");
+      expect(spec.consumes).to.be.an("array");
+      expect(spec.consumes[0]).to.be.eq("application/json");
     });
 
     it("should have produces field", () => {
-      expect(this.spec.produces).to.be.an("array");
-      expect(this.spec.produces[0]).to.be.eq("application/json");
+      expect(spec.produces).to.be.an("array");
+      expect(spec.produces[0]).to.be.eq("application/json");
     });
 
     it("should be equals to the expected swagger.spec.json", () => {
-      // require("fs").writeFileSync(__dirname + "/data/swagger.spec.json", JSON.stringify(this.spec, null, 2), {});
-      expect(this.spec).to.deep.eq(require("./data/swagger.spec.json"));
+      // require("fs").writeFileSync(__dirname + "/data/swagger.spec.json", JSON.stringify(spec, null, 2), {});
+      expect(spec).to.deep.eq(require("./data/swagger.spec.json"));
     });
   });
 });
