@@ -1,4 +1,4 @@
-import {Configuration, ExpressApplication, Injectable, OnReady, OnRoutesInit} from "@tsed/common";
+import {Configuration, ExpressApplication, Module, OnReady, OnRoutesInit} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
@@ -9,14 +9,13 @@ import {SwaggerService} from "./services/SwaggerService";
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 const ejs = require("ejs");
 
-@Injectable()
+@Module()
 export class SwaggerModule implements OnRoutesInit, OnReady {
   constructor(
     private swaggerService: SwaggerService,
     @Configuration() private configuration: Configuration,
     @ExpressApplication private expressApplication: Express.Application
-  ) {
-  }
+  ) {}
 
   /**
    *

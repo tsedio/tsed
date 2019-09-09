@@ -5,6 +5,7 @@ import {
   createInjector,
   loadInjector,
   LocalsContainer,
+  OnInit,
   ServerLoader
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
@@ -65,6 +66,8 @@ export class TestContext {
         ...options
       });
 
+      await instance.callHook("$beforeListen");
+      await instance.callHook("$afterListen");
       await instance.ready();
 
       // used by inject method
@@ -116,7 +119,7 @@ export class TestContext {
       locals.set(p.provide, p.use);
     });
 
-    const instance: any = TestContext.injector.invoke(target, locals, {rebuild: true});
+    const instance: OnInit = TestContext.injector.invoke(target, locals, {rebuild: true});
 
     if (instance && instance.$onInit) {
       // await instance.$onInit();

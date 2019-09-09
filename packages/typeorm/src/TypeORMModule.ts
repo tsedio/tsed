@@ -1,8 +1,8 @@
-import {Constant, OnDestroy, OnInit, Service} from "@tsed/common";
+import {Constant, Module, OnDestroy, OnInit} from "@tsed/common";
 import {ConnectionOptions} from "typeorm";
 import {TypeORMService} from "./services/TypeORMService";
 
-@Service()
+@Module()
 export class TypeORMModule implements OnInit, OnDestroy {
   @Constant("typeorm", {})
   private settings: {[key: string]: ConnectionOptions};

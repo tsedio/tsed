@@ -6,7 +6,7 @@ import {FakeServer} from "./app/FakeServer";
 
 describe("Rest", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(bootstrap(FakeServer));
+  before(TestContext.bootstrap(FakeServer));
   before(
     inject([ExpressApplication], (expressApplication: ExpressApplication) => {
       request = SuperTest(expressApplication);

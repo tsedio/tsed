@@ -1,9 +1,9 @@
-import {AfterListen, Configuration, Constant, Injectable, OnInit} from "@tsed/common";
+import {AfterListen, Configuration, Constant, Module, OnInit} from "@tsed/common";
 import {$log} from "ts-log-debug";
 import {IGraphQLSettings} from "./interfaces/IGraphQLSettings";
 import {GraphQLService} from "./services/GraphQLService";
 
-@Injectable()
+@Module()
 export class GraphQLModule implements OnInit, AfterListen {
   @Constant("graphql", {})
   private settings: {[key: string]: IGraphQLSettings};

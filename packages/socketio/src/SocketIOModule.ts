@@ -1,4 +1,4 @@
-import {AfterListen, Constant, HttpServer, HttpsServer, Inject, Injectable, InjectorService, Provider} from "@tsed/common";
+import {AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService, Module, Provider} from "@tsed/common";
 import {nameOf} from "@tsed/core";
 import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "ts-log-debug";
@@ -7,10 +7,7 @@ import {ISocketProviderMetadata} from "./interfaces/ISocketProviderMetadata";
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./registries/SocketServiceRegistry";
 import {SocketIOService} from "./services/SocketIOService";
 
-/**
- *
- */
-@Injectable()
+@Module()
 export class SocketIOModule implements AfterListen {
   @Constant("logger.disableRoutesSummary", false)
   disableRoutesSummary: boolean;
