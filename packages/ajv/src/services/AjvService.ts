@@ -1,5 +1,6 @@
-import {ConverterService, JsonSchemesService, OverrideService, ServerSettingsService, ValidationService} from "@tsed/common";
+import {ConverterService, JsonSchemesService, OverrideService, ValidationService} from "@tsed/common";
 import {nameOf, Type} from "@tsed/core";
+import {Configuration} from "@tsed/di";
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
 import {$log} from "ts-log-debug";
@@ -13,12 +14,12 @@ export class AjvService extends ValidationService {
 
   constructor(
     private jsonSchemaService: JsonSchemesService,
-    private serverSettingsService: ServerSettingsService,
+    @Configuration() private configuration: Configuration,
     private converterService: ConverterService
   ) {
     super();
 
-    const ajvSettings: IAjvSettings = this.serverSettingsService.get("ajv") || {};
+    const ajvSettings: IAjvSettings = this.configuration.get("ajv") || {};
 
     this.options = Object.assign(
       {

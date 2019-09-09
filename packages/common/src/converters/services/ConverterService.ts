@@ -1,9 +1,9 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
-import {InjectorService, Service} from "@tsed/di";
+import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {BadRequest} from "ts-httpexceptions";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
+import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
@@ -11,12 +11,12 @@ import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknowPropertyError} from "../errors/UnknowPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
-@Service()
+@Injectable()
 export class ConverterService {
   private validationModelStrict = true;
 
-  constructor(private injectorService: InjectorService, serverSettings: ServerSettingsService) {
-    this.validationModelStrict = serverSettings.get<boolean>("validationModelStrict");
+  constructor(private injectorService: InjectorService, @Configuration() configuration: Configuration) {
+    this.validationModelStrict = configuration.get<boolean>("validationModelStrict");
   }
 
   /**

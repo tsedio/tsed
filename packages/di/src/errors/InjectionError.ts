@@ -1,4 +1,5 @@
-import {isString, nameOf} from "@tsed/core";
+import {getConstructorArgNames, isClass, isString, nameOf} from "@tsed/core";
+import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
 import {TokenProvider} from "../interfaces";
 
 export class InjectionError extends Error {
@@ -33,4 +34,33 @@ export class InjectionError extends Error {
 
     this.message = `Injection failed on ${tokensMessage}${originMessage}`;
   }
+
+  static throwInjectorError(token: any, currentDependency: any, error: any) {
+    if (currentDependency && isClass(token)) {
+      error.message = printDependencyInjectionError(token, {...currentDependency, message: error.message});
+    }
+
+    throw new InjectionError(token, error);
+  }
+}
+
+function printDependencyInjectionError(token: any, options: {token: any; index: number; deps: any[]; message: string}) {
+  let erroredArg = "";
+
+  const args = getConstructorArgNames(token)
+    .map((arg, index) => {
+      if (options.index === index) {
+        erroredArg = arg;
+        arg = colorize(arg, "red");
+      }
+
+      return `${arg}: ${nameOf(options.deps[index])}`;
+    })
+    .join(", ");
+
+  const signature = nameOf(token) + "->constructor(" + args + ")";
+  const indexOf = signature.indexOf(erroredArg) - 5;
+  const drawline = (indexOf: number) => " ".repeat(indexOf) + colorize("^" + "‾".repeat(erroredArg.length - 1), "red");
+
+  return "Unable to inject dependency. " + options.message + "\n\n" + signature + "\n" + (indexOf > -1 ? drawline(indexOf) : "");
 }

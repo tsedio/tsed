@@ -1,5 +1,5 @@
 import {StoreMerge} from "@tsed/core";
-import {IRouterSettings} from "../../../config/interfaces/IServerSettings";
+import {IRouterSettings} from "../../../config/interfaces";
 
 /**
  * Specify the behavior of the router controller.

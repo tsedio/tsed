@@ -1,8 +1,8 @@
 import {Env} from "@tsed/core";
-import {DISettings, Injectable, ProviderScope, ProviderType} from "@tsed/di";
+import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import * as Https from "https";
 import {$log} from "ts-log-debug";
-import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories, IServerSettings} from "../interfaces/IServerSettings";
+import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories} from "../interfaces";
 
 const rootDir = process.cwd();
 
@@ -13,7 +13,7 @@ const rootDir = process.cwd();
   scope: ProviderScope.SINGLETON,
   global: true
 })
-export class ServerSettingsService extends DISettings implements IServerSettings {
+export class ServerSettingsService extends DIConfiguration {
   constructor() {
     super({
       rootDir,
@@ -58,6 +58,10 @@ export class ServerSettingsService extends DISettings implements IServerSettings
     this.map.set("rootDir", value);
   }
 
+  get port(): string | number {
+    return this.httpPort;
+  }
+
   set port(value: string | number) {
     this.httpPort = value;
   }
@@ -87,7 +91,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
   }
 
   get uploadDir(): string {
-    return this.map.get("uploadDir");
+    return this.get("uploadDir");
   }
 
   set uploadDir(value: string) {
@@ -103,7 +107,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
   }
 
   get mount(): IServerMountDirectories {
-    return this.map.get("mount");
+    return this.get("mount");
   }
 
   set mount(value: IServerMountDirectories) {
@@ -111,7 +115,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
   }
 
   get componentsScan(): string[] {
-    return this.map.get("componentsScan");
+    return this.resolve(this.map.get("componentsScan"));
   }
 
   set componentsScan(value: string[]) {
@@ -126,10 +130,18 @@ export class ServerSettingsService extends DISettings implements IServerSettings
     this.map.set("statics", value);
   }
 
+  /**
+   * @deprecated
+   */
+
   /* istanbul ignore next */
   get serveStatics() {
     return this.statics;
   }
+
+  /**
+   * @deprecated
+   */
 
   /* istanbul ignore next */
   set serveStatics(value: IServerMountDirectories) {
@@ -153,7 +165,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
   }
 
   get routers(): IRouterSettings {
-    return this.map.get("routers") || {};
+    return this.get("routers") || {};
   }
 
   set routers(options: IRouterSettings) {
@@ -171,7 +183,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
   }
 
   get logger(): Partial<ILoggerSettings> {
-    return this.map.get("logger");
+    return this.get("logger");
   }
 
   set logger(value: Partial<ILoggerSettings>) {
@@ -203,7 +215,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
   }
 
   get exclude() {
-    return this.map.get("exclude");
+    return this.get("exclude");
   }
 
   set exclude(exclude: string[]) {
@@ -229,7 +241,7 @@ export class ServerSettingsService extends DISettings implements IServerSettings
    * @returns {IRouterSettings}
    */
   get errors(): IErrorsSettings {
-    return this.map.get("errors");
+    return this.get("errors");
   }
 
   /**

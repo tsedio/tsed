@@ -14,7 +14,8 @@ meta:
 
 @@ServerSettings@@ let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
 
-The default configuration is as follow:
+The default configuration is as following:
+
 ```json
 {
   "rootDir": "path/to/root/project",
@@ -39,47 +40,42 @@ The default configuration is as follow:
 }
 ```
 
-You can customize your configuration as follow:
+You can customize your configuration as followigng on `Server.ts`level:
 
-```typescript
-// server.ts
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import Path = require("path");
+<<< @/docs/snippets/configuration/server.ts
 
-@ServerSettings({
-   rootDir: Path.resolve(__dirname), //optional. By default it's equal to process.cwd()
-   mount: {
-     "/rest": "${rootDir}/controllers/current/**/*.js",
-     "/rest/v1": [
-        "${rootDir}/controllers/v1/users/*.js", 
-        "${rootDir}/controllers/v1/groups/**/*.ts", // support ts entry
-        "!${rootDir}/controllers/v1/groups/old/*.ts", // support ts entry
-        MyController // support manual import
-     ]
-   }
-})
-export class Server extends ServerLoader {}
+or when you bootstrap your Server (e.g. `index.ts`):
 
-// app.ts
-import {$log, ServerLoader} from "@tsed/common";
-import {Server} from "./Server";
+<<< @/docs/snippets/configuration/bootstrap.ts
 
-async function bootstrap() {
-  try {
-    $log.debug("Start server...");
-    const server = await ServerLoader.bootstrap(Server);
-
-    await server.listen();
-    $log.debug("Server initialized");
-  } catch (er) {
-    $log.error(er);
-  }
-}
-
-bootstrap();
-```
 > Ts.ED support [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
 ts-node isn't the runtime.
+
+::: tip
+In addiction, it also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+
+<<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
+
+You should have this tree directories: 
+
+```
+.
+├── config
+│   └── default.json (or .yaml)
+├── src
+│   ├── controllers
+│   ├── services
+│   ├── middlewares
+│   ├── index.ts
+│   └── Server.ts
+└── package.json
+```
+
+With [dotenv](https://www.npmjs.com/package/dotenv):
+
+<<< @/docs/snippets/configuration/bootstrap-with-dotenv.ts
+
+:::
 
 ## Options
 
@@ -278,34 +274,7 @@ or you can override the middleware with @@OverrideMiddleware@@.
 
 Example: 
 
-```typescript
-import {ServerLoader, ServerSettings, OverrideMiddleware, LogIncomingRequestMiddleware, Res, Req} from "@tsed/common";
-
-@OverrideMiddleware(LogIncomingRequestMiddleware)
-export class CustomLogIncomingRequestMiddleware extends LogIncomingRequestMiddleware {
- 
-    public use(@Req() request: any, @Res() response: any) {
-    
-        // you can set a custom ID with another lib
-        request.id = require('uuid').v4()
-        
-        return super.use(request, response); // required 
-    }
-    
-    protected requestToObject(request) {
-        return {
-           reqId: request.id,
-           method: request.method,
-           url: request.originalUrl || request.url,
-           duration: new Date().getTime() - request.tsedReqStart.getTime(),
-           headers: request.headers,
-           body: request.body,
-           query: request.query,
-           params: request.params
-        }
-    }
-}
-```
+<<< @/docs/snippets/configuration/override-log-incoming-request.ts
 
 ### Shutdown logger
 
@@ -332,11 +301,11 @@ The configuration can be reused throughout your application in different ways.
 ### From service (DI)
 
 ```typescript
-import {ServerSettingsService, Service} from "@tsed/common";
+import {Configuration, Service} from "@tsed/di";
 
 @Service() // or Controller or Middleware
 export class MyService {
-  constructor(serverSettingsService: ServerSettingsService) {}
+  constructor(@Configuration() configuration: Configuration) {}
 }
 ```
 

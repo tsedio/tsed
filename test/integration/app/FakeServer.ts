@@ -1,17 +1,16 @@
 import "@tsed/ajv";
+import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/graphql";
 import "@tsed/swagger";
-import * as Express from "express";
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "../../../packages/common/src/server";
 import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
 import {EmptyCtrl} from "./controllers/calendars/EmptyCtrl";
 import {EventCtrl} from "./controllers/calendars/EventCtrl";
 import {HiddenCtrl} from "./controllers/calendars/HiddenCtrl";
-import {ResponseScenarioCtrl} from "./controllers/responses/ResponseScenarioCtrl";
 import {TaskCtrl} from "./controllers/calendars/TaskCtrl";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
+import {ResponseScenarioCtrl} from "./controllers/responses/ResponseScenarioCtrl";
 import {RestCtrl} from "./controllers/RestCtrl";
 import {UserCtrl} from "./controllers/users/UserCtrl";
 import "./middlewares/CustomAuthMiddleware";
@@ -83,16 +82,5 @@ export class FakeServer extends ServerLoader {
     this.engine(".html", require("ejs").__express)
       .set("views", `${rootDir}/views`)
       .set("view engine", "html");
-  }
-
-  /**
-   * Set here your check authentification strategy.
-   * @param request
-   * @param response
-   * @param next
-   * @returns {boolean}
-   */
-  public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): boolean {
-    return request.get("authorization") === "token";
   }
 }

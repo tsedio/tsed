@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {IProvider} from "@tsed/di";
-import {IRouterSettings} from "../../config/interfaces/IServerSettings";
+import {IRouterSettings} from "../../config/interfaces";
 import {IControllerMiddlewares} from "./IControllerMiddlewares";
 import {PathParamsType} from "./PathParamsType";
 

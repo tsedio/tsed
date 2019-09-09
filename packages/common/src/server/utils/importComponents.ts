@@ -41,7 +41,7 @@ export async function importComponents(config: any, excludes: string[]): Promise
       symbols
         .filter(symbol => isClass(symbol))
         .forEach(symbol => {
-          const provider: Partial<IProvider<any>> = {provide: symbol, endpoint: option.endpoint};
+          const provider: Partial<IProvider<any>> = {token: symbol, route: option.endpoint};
 
           list.push(provider);
         });

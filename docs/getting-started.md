@@ -123,61 +123,15 @@ Ts.ED provide a @@ServerLoader@@ class to configure your
 Express application quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
-```typescript
-import {ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware} from "@tsed/common";
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const compress = require('compression');
-const methodOverride = require('method-override');
-const rootDir = __dirname;
+<<< @/docs/snippets/getting-started/server.ts
 
-@ServerSettings({
-  rootDir,
-  acceptMimes: ["application/json"]
-})
-export class Server extends ServerLoader {
-  /**
-   * This method let you configure the express middleware required by your application to works.
-   * @returns {Server}
-   */
-  public $beforeRoutesInit(): void|Promise<any> {
-      this
-        .use(GlobalAcceptMimesMiddleware)
-        .use(cookieParser())
-        .use(compress({}))
-        .use(methodOverride())
-        .use(bodyParser.json())
-        .use(bodyParser.urlencoded({
-          extended: true
-        }));
-
-      return null;
-  }
-}
-```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
 To customize the server settings see [Configuration](configuration.md) page.
 
 Finally create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
-```typescript
-import {$log, ServerLoader} from "@tsed/common";
-import {Server} from "./Server";
 
-async function bootstrap() {
-  try {
-    $log.debug("Start server...");
-    const server = await ServerLoader.bootstrap(Server);
-
-    await server.listen();
-    $log.debug("Server initialized");
-  } catch (er) {
-    $log.error(er);
-  }
-}
-
-bootstrap();
-```
+<<< @/docs/snippets/configuration/bootstrap.ts
 
 You should have this tree directories: 
 
@@ -195,6 +149,32 @@ You should have this tree directories:
 ::: tip
 By default ServerLoader load automatically Services, Controllers and Middlewares in a specific directories.
 This behavior can be change by editing the [componentScan configuration](/configuration.md).
+:::
+
+::: tip
+In addiction, it also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+
+<<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
+
+You should have this tree directories: 
+
+```
+.
+├── config
+│   └── default.json (or .yaml)
+├── src
+│   ├── controllers
+│   ├── services
+│   ├── middlewares
+│   ├── index.ts
+│   └── Server.ts
+└── package.json
+```
+
+With [dotenv](https://www.npmjs.com/package/dotenv):
+
+<<< @/docs/snippets/configuration/bootstrap-with-dotenv.ts
+
 :::
 
 ## Create your first controller

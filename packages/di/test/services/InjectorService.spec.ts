@@ -3,6 +3,7 @@ import {Inject, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {GlobalProviders, LocalsContainer} from "../../src";
+import {Configuration} from "../../src/decorators/configuration";
 import {ProviderType} from "../../src/interfaces";
 
 class Test {
@@ -400,8 +401,12 @@ describe("InjectorService", () => {
       it("should throw InjectionError > UndefinedTokenError", async () => {
         // GIVEN
         const token2 = class Ctrl {
+          constructor() {
+          }
         };
         const token3 = class Test {
+          constructor(test: any) {
+          }
         };
 
         const provider2 = new Provider<any>(token2);
@@ -426,7 +431,42 @@ describe("InjectorService", () => {
         }
 
         // THEN
-        actualError.message.should.eq("Injection failed on Test\nOrigin: Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?");
+        actualError.message.should.contains("Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?");
+      });
+      it("should throw InjectionError > Object", async () => {
+        // GIVEN
+        const token2 = class Ctrl {
+          constructor() {
+          }
+        };
+        const token3 = class Test {
+          constructor(test: Object) {
+          }
+        };
+
+        const provider2 = new Provider<any>(token2);
+        provider2.scope = ProviderScope.SINGLETON;
+        provider2.type = ProviderType.CONTROLLER;
+        provider2.useClass = token2;
+
+        const provider3 = new Provider<any>(token3);
+        provider3.scope = ProviderScope.SINGLETON;
+        provider3.deps = [Object];
+
+        const injector = new InjectorService();
+        injector.set(token2, provider2);
+        injector.set(token3, provider3);
+
+        // WHEN
+        let actualError;
+        try {
+          injector.invoke(token3);
+        } catch (er) {
+          actualError = er;
+        }
+
+        // THEN
+        actualError.message.should.contains("Injection failed on Test\nOrigin: Unable to inject dependency.");
       });
     });
     describe("when error occur", () => {
@@ -435,6 +475,8 @@ describe("InjectorService", () => {
         const token1 = Symbol.for("TokenValue");
         const token2 = Symbol.for("TokenFactory");
         const token3 = class Test {
+          constructor(dep: any) {
+          }
         };
 
         const provider1 = new Provider<any>(token1);
@@ -465,6 +507,51 @@ describe("InjectorService", () => {
 
         // THEN
         actualError.message.should.eq("Injection failed on Test > TokenFactory > TokenValue\nOrigin: Unable to create new instance from undefined value. Check your provider declaration for TokenValue");
+      });
+    });
+    describe("when provider has Provider as dependencies", () => {
+      it("should inject Provider", () => {
+        // GIVEN
+        const injector = new InjectorService();
+        const token = Symbol.for("TokenProvider1");
+        injector.add(token, {
+          deps: [
+            Provider
+          ],
+          configuration: {
+            "test": "test"
+          },
+          useFactory(provider: any) {
+            return {to: provider};
+          }
+        });
+
+        // WHEN
+        const instance: any = injector.invoke(token)!;
+
+        // THEN
+        instance.should.deep.eq({to: injector.getProvider(token)});
+      });
+    });
+    describe("when provider has Configuration as dependencies", () => {
+      it("should inject Provider", () => {
+        // GIVEN
+        const injector = new InjectorService();
+        const token = Symbol.for("TokenProvider1");
+        injector.add(token, {
+          deps: [
+            Configuration
+          ],
+          useFactory(settings: any) {
+            return {to: settings};
+          }
+        });
+
+        // WHEN
+        const instance: any = injector.invoke(token)!;
+
+        // THEN
+        instance.should.deep.eq({to: injector.settings});
       });
     });
   });
@@ -697,6 +784,47 @@ describe("InjectorService", () => {
       injector.get.should.have.been.calledWithExactly(InterceptorTest);
 
       expect(result).to.eq("test called  intercepted");
+    });
+  });
+
+  describe("resolveConfiguration()", () => {
+    it("should load configuration from each providers", () => {
+      // GIVEN
+      const injector = new InjectorService();
+
+      injector.settings.set({
+        scopes: {
+          [ProviderType.VALUE]: ProviderScope.SINGLETON
+        }
+      });
+
+      injector.add(Symbol.for("TOKEN1"), {
+        configuration: {
+          custom: "config",
+          scopes: {
+            "provider_custom": ProviderScope.SINGLETON
+          }
+        }
+      });
+
+      injector.add(Symbol.for("TOKEN2"), {
+        configuration: {
+          scopes: {
+            "provider_custom_2": ProviderScope.SINGLETON
+          }
+        }
+      });
+
+      // WHEN
+      injector.resolveConfiguration();
+
+      // THEN
+      injector.settings.get<string>("custom").should.eq("config");
+      injector.settings.get<any>("scopes").should.deep.eq({
+        provider_custom_2: "singleton",
+        provider_custom: "singleton",
+        value: "singleton"
+      });
     });
   });
 });

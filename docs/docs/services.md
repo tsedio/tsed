@@ -8,10 +8,10 @@ All services annotated with `@Service()` are constructed one time.
 You must adding the `services` folder on `componentsScan` attribute in your server settings as follow :
  
 ```typescript
-import {ServerLoader} from "@tsed/common";
+import {ServerLoader, ServerSettings} from "@tsed/common";
 
 @ServerSettings({
-   rootDir,
+   rootDir: __dirname,
    mount: {
       '/rest': `./controllers/**/**.js`
    },
@@ -34,14 +34,15 @@ export class Server extends ServerLoader {
 Create a new file in your services folder. Create a new Class definition and add the `@Service()` annotation on your class.
 
 ```typescript
-@Service()
-export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady {
+import {Configuration, Injectable} from "@tsed/di";
+import {OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady} from "@tsed/common"
+
+@Injectable()
+export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnReady {
     private settings = {};
     
-    constructor(
-        private serverSettings: ServerSettingsService
-    ) {
-        this.settings = this.serverSettings.get('customServiceOptions');
+    constructor(@Configuration() private configuration: Configuration) {
+        this.settings = this.configuration.get<any>('customServiceOptions');
     }
     
     public getSettings() {
@@ -52,11 +53,12 @@ export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterR
 
 Finally, inject the service to another service:
 ```typescript
+import {Injectable} from "@tsed/di";
 import {MyService} from "./MyService";
 
-@Service()
+@Injectable()
 export class FooService {
-    constructor(private myService: myService) {
+    constructor(private myService: MyService) {
     
     }
 }
@@ -64,6 +66,8 @@ export class FooService {
 Or to another controller: 
 
 ```typescript
+import {Controller} from "@tsed/di";
+
 import {MyService} from "./MyService";
 
 @Controller('/rest') 
@@ -81,9 +85,10 @@ override some internal Ts.ED service like the [ParseService](/api/common/filters
 
 Example usage:
 ```typescript
-import {OverrideService, ParseService} from "@tsed/common"
+import {OverrideProvider} from "@tsed/di";
+import {ParseService} from "@tsed/common";
 
-@OverrideService(ParseService)
+@OverrideProvider(ParseService)
 class CustomParseService extends ParseService {
     
 }
@@ -106,15 +111,15 @@ Each interface has a single hook method whose name is the interface name prefixe
 interface has a hook method named `$onInit()` (old name `$onInjectorReady`) or that Ts.ED calls when all services are built.
 
 ```typescript
-import {Hooks, ServerSettingsService} from "@tsed/common";
-import {Injectable, OnInit} from "@tsed/di";
+import {Hooks} from "@tsed/common";
+import {Injectable, OnInit, Configuration} from "@tsed/di";
 
 @Injectable()
 export class MyService implements Hooks, OnInit {
   private settings = {};
 
-  constructor(private serverSettings: ServerSettingsService) {
-    this.settings = this.serverSettings.get('customServiceOptions');
+  constructor(@Configuration() private configuration: Configuration) {
+    this.settings = this.configuration.get<any>('customServiceOptions');
   }
 
   $onInit(): Promise<any> | void {

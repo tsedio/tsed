@@ -1,9 +1,9 @@
-import {Constant, Service} from "@tsed/di";
-import {$log} from "ts-log-debug";
 import {AfterRoutesInit} from "@tsed/common";
+import {Constant, Module} from "@tsed/di";
+import {$log} from "ts-log-debug";
 import {ISeqSettings} from "./interfaces/ISeqSettings";
 
-@Service()
+@Module()
 export class SeqModule implements AfterRoutesInit {
   @Constant("seq", {
     url: "http://localhost:5341"

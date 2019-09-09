@@ -3,7 +3,7 @@ import {IInjectableProperties} from "../interfaces/IInjectableProperties";
 import {InjectablePropertyType} from "../interfaces/InjectablePropertyType";
 
 /**
- * Return value from ServerSettingsService.
+ * Return value from Configuration.
  *
  * ## Example
  *

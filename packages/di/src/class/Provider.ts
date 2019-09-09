@@ -1,66 +1,46 @@
-import {Enumerable, getClass, getKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
-import {ProviderScope} from "../interfaces";
+import {classOf, Enumerable, getKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
+import {IDIConfigurationOptions, ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
 import {TokenProvider} from "../interfaces/TokenProvider";
 
 export class Provider<T> implements IProvider<T> {
-  /**
-   *
-   */
+  @Enumerable()
+  public root: boolean = false;
+
   @Enumerable()
   public type: ProviderType | any = ProviderType.PROVIDER;
-  /**
-   *
-   */
+
   @Enumerable()
   public injectable: boolean = true;
-  /**
-   *
-   */
+
   @Enumerable()
   public instance: T;
-  /**
-   *
-   */
+
   @Enumerable()
   public deps: any[];
-  /**
-   *
-   */
+
+  @Enumerable()
+  public imports: any[];
+
   @Enumerable()
   public useFactory: Function;
 
   @Enumerable()
   public useAsyncFactory: Function;
-  /**
-   *
-   */
+
   @Enumerable()
   public useValue: any;
-  /**
-   *
-   */
+
   @NotEnumerable()
   protected _provide: TokenProvider;
-  /**
-   *
-   */
+
   @NotEnumerable()
   protected _useClass: Type<T>;
-  /**
-   *
-   */
+
   @NotEnumerable()
   protected _instance: T;
-  /**
-   *
-   */
-  @NotEnumerable()
-  protected _scope: ProviderScope;
-  /**
-   *
-   */
+
   @NotEnumerable()
   private _store: Store;
 
@@ -75,26 +55,17 @@ export class Provider<T> implements IProvider<T> {
     return this._provide;
   }
 
-  /**
-   *
-   * @returns {any}
-   */
   get provide(): TokenProvider {
     return this._provide;
   }
 
-  /**
-   *
-   * @param value
-   */
   set provide(value: TokenProvider) {
-    this._provide = isClass(value) ? getClass(value) : value;
+    if (value) {
+      this._provide = isClass(value) ? classOf(value) : value;
+      this._store = Store.from(value);
+    }
   }
 
-  /**
-   *
-   * @returns {Type<T>}
-   */
   get useClass(): Type<T> {
     return this._useClass;
   }
@@ -106,30 +77,19 @@ export class Provider<T> implements IProvider<T> {
   @Enumerable()
   set useClass(value: Type<T>) {
     if (isClass(value)) {
-      this._useClass = getClass(value);
+      this._useClass = classOf(value);
       this._store = Store.from(value);
     }
   }
 
-  /**
-   *
-   * @returns {string}
-   */
   get className() {
     return this.name;
   }
 
-  /**
-   *
-   */
   get name() {
     return nameOf(this.provide);
   }
 
-  /**
-   *
-   * @returns {Store}
-   */
   public get store(): Store {
     return this._store;
   }
@@ -148,7 +108,7 @@ export class Provider<T> implements IProvider<T> {
       return ProviderScope.SINGLETON;
     }
 
-    return this._store ? this.store.get("scope") : this._scope;
+    return this.store.get("scope");
   }
 
   /**
@@ -157,21 +117,29 @@ export class Provider<T> implements IProvider<T> {
    */
   @Enumerable()
   set scope(scope: ProviderScope) {
-    this._store ? this.store.set("scope", scope) : this._scope;
+    this.store.set("scope", scope);
+  }
+
+  get configuration(): Partial<IDIConfigurationOptions> {
+    return this.store.get("configuration");
+  }
+
+  @Enumerable()
+  set configuration(configuration: Partial<IDIConfigurationOptions>) {
+    this.store.set("configuration", configuration);
   }
 
   isAsync(): boolean {
     return !!this.useAsyncFactory;
   }
 
-  /**
-   *
-   */
   clone(): Provider<any> {
-    const provider = new (getClass(this))(this.token);
+    const provider = new (classOf(this))(this.token);
 
     getKeys(this).forEach(key => {
-      provider[key] = this[key];
+      if (this[key] !== undefined) {
+        provider[key] = this[key];
+      }
     });
 
     return provider;

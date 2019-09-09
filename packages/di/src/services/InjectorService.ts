@@ -1,15 +1,16 @@
-import {deepClone, getClass, getClassOrSymbol, isFunction, Metadata, nameOf, prototypeOf, Store} from "@tsed/core";
+import {deepClone, getClass, getClassOrSymbol, isFunction, isInheritedFrom, Metadata, nameOf, prototypeOf, Store} from "@tsed/core";
 
 import * as util from "util";
 import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
+import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {
+  IDIConfigurationOptions,
   IDILogger,
-  IDISettings,
   IInjectableProperties,
   IInjectablePropertyService,
   IInjectablePropertyValue,
@@ -21,7 +22,7 @@ import {
   TokenProvider
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
-import {DISettings} from "./DISettings";
+import {DIConfiguration} from "./DIConfiguration";
 
 interface IInvokeSettings {
   token: TokenProvider;
@@ -29,6 +30,7 @@ interface IInvokeSettings {
   scope: ProviderScope;
   isBindable: boolean;
   deps: any[];
+  imports: any[];
 
   construct(deps: TokenProvider[]): any;
 }
@@ -62,8 +64,9 @@ interface IInvokeSettings {
   global: true
 })
 export class InjectorService extends Container {
-  public settings: IDISettings = new DISettings();
+  public settings: IDIConfigurationOptions & DIConfiguration = new DIConfiguration() as any;
   public logger: IDILogger = console;
+  private resolvedConfiguration: boolean = false;
 
   constructor() {
     super();
@@ -164,6 +167,8 @@ export class InjectorService extends Container {
     const provider = this.getProvider(token);
     let instance: any;
 
+    locals.set(Configuration, this.settings);
+
     if (locals.has(token)) {
       instance = locals.get(token);
     } else if (!provider || options.rebuild) {
@@ -205,28 +210,34 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (provider.isAsync()) {
-        await this.invoke(provider.token, locals);
-      }
+      if (!provider.root) {
+        if (!locals.has(provider.token)) {
+          if (provider.isAsync()) {
+            await this.invoke(provider.token, locals);
+          }
 
-      if (provider.instance) {
-        locals.set(provider.token, provider.instance);
+          if (provider.instance) {
+            locals.set(provider.token, provider.instance);
+          }
+        }
       }
     }
 
     return locals;
   }
 
-  async loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
+  loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
-        this.invoke(provider.token, locals);
-      }
+      if (!provider.root) {
+        if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+          this.invoke(provider.token, locals);
+        }
 
-      if (provider.instance) {
-        locals.set(provider.token, provider.instance);
+        if (provider.instance) {
+          locals.set(provider.token, provider.instance);
+        }
       }
     }
 
@@ -242,11 +253,42 @@ export class InjectorService extends Container {
     // Clone all providers in the container
     this.addProviders(container);
 
-    const locals = await this.loadSync(await this.loadAsync());
+    // Resolve configuration from providers
+    this.resolveConfiguration();
+
+    // build async and sync provider
+    let locals = await this.loadAsync();
+
+    // load sync provider
+    locals = this.loadSync(locals);
 
     await locals.emit("$onInit");
 
     return locals;
+  }
+
+  /**
+   * Load all configurations registered on providers
+   */
+  resolveConfiguration() {
+    if (this.resolvedConfiguration) {
+      return;
+    }
+
+    const rawSettings = this.settings.toRawObject();
+
+    // @ts-ignore
+    this.settings.map.clear();
+
+    super.forEach(provider => {
+      if (provider.configuration) {
+        this.settings.merge(provider.configuration);
+      }
+    });
+
+    this.settings.merge(rawSettings);
+
+    this.resolvedConfiguration = true;
   }
 
   /**
@@ -425,7 +467,7 @@ export class InjectorService extends Container {
    * @private
    */
   private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
-    const {token, deps, construct, isBindable} = this.mapInvokeOptions(target, options);
+    const {token, deps, construct, isBindable, imports} = this.mapInvokeOptions(target, options);
     const provider = this.getProvider(target);
 
     if (provider) {
@@ -440,17 +482,26 @@ export class InjectorService extends Container {
     }
 
     let instance: any;
+    let currentDependency: any = false;
 
     try {
-      const services = [];
-      for (const dependency of deps) {
-        const service = this.invoke(dependency, locals, {parent: token});
-        services.push(service);
-      }
+      const invokeDependency = (parent?: any) => (token: any, index: number): any => {
+        currentDependency = {token, index, deps};
+
+        return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
+      };
+
+      // Invoke manually imported providers
+      imports.forEach(invokeDependency());
+
+      // Inject dependencies
+      const services = deps.map(invokeDependency(token));
+
+      currentDependency = false;
 
       instance = construct(services);
     } catch (error) {
-      throw new InjectionError(token, error);
+      InjectionError.throwInjectorError(token, currentDependency, error);
     }
 
     if (instance === undefined) {
@@ -473,6 +524,7 @@ export class InjectorService extends Container {
    * @param options
    */
   private mapInvokeOptions(token: TokenProvider, options: Partial<IInvokeOptions<any>>): IInvokeSettings {
+    let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
     let construct;
@@ -486,6 +538,7 @@ export class InjectorService extends Container {
 
     scope = scope || this.scopeOf(provider);
     deps = deps || provider.deps;
+    imports = imports || provider.imports;
 
     if (provider.useValue) {
       construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
@@ -504,6 +557,7 @@ export class InjectorService extends Container {
       token,
       scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
       deps: deps! || [],
+      imports: imports || [],
       isBindable,
       construct
     };

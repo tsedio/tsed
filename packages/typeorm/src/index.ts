@@ -1,9 +1,11 @@
 import "@tsed/common";
 import {ConnectionOptions} from "typeorm";
 
-declare module "@tsed/common" {
-  interface IServerSettingsOptions {
-    typeorm: ConnectionOptions[];
+declare global {
+  namespace TsED {
+    interface Configuration {
+      typeorm: ConnectionOptions[];
+    }
   }
 }
 

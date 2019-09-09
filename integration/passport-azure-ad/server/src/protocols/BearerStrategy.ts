@@ -1,4 +1,4 @@
-import {$log, Req, ServerSettingsService} from "@tsed/common";
+import {$log, Req, Configuration} from "@tsed/common";
 import {registerFactory} from "@tsed/di";
 import {AuthService} from "../services/auth/AuthService";
 import {BearerStrategy, ITokenPayload, VerifyCallback} from "passport-azure-ad";
@@ -8,8 +8,8 @@ export const OAuthBearerOptions = Symbol.for("OAuthBearerOptions");
 
 registerFactory({
   provide: BearerStrategy,
-  deps: [AuthService, ServerSettingsService],
-  useFactory: (authService: AuthService, settings: ServerSettingsService) => {
+  deps: [AuthService, Configuration],
+  useFactory: (authService: AuthService, settings: Configuration) => {
     const verifier = async (req: Req, token: ITokenPayload, done: VerifyCallback) => {
       // Verify is the right place to check given token and return userinfo
       try {

@@ -1,6 +1,5 @@
 import {Deprecated, ProxyMap, Type} from "@tsed/core";
-import {Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+import {Configuration, Injectable, InjectorService, ProviderScope, ProviderType} from "@tsed/di";
 import {ControllerProvider} from "../models/ControllerProvider";
 import {ControllerRegistry} from "../registries/ControllerRegistry";
 import {IRouteController, RouteService} from "./RouteService";
@@ -14,13 +13,19 @@ import {IRouteController, RouteService} from "./RouteService";
   global: true
 })
 export class ControllerService extends ProxyMap<Type<any> | any, ControllerProvider> {
-  constructor(private injectorService: InjectorService, private settings: ServerSettingsService, private routeService: RouteService) {
+  constructor(
+    private injectorService: InjectorService,
+    @Configuration() private settings: Configuration,
+    private routeService: RouteService
+  ) {
     super(injectorService as any, {filter: {type: ProviderType.CONTROLLER}});
   }
 
   /**
    * @deprecated
    */
+
+  /* istanbul ignore next */
   get routes(): IRouteController[] {
     return this.routeService.routes || [];
   }

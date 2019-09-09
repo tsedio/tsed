@@ -1,16 +1,10 @@
-import {classOf, Deprecated} from "@tsed/core";
-import {InjectorService, IProvider} from "@tsed/di";
+import {Deprecated, Type} from "@tsed/core";
+import {IDIConfigurationOptions, InjectorService, IProvider} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
-import * as util from "util";
-import {IServerSettings, ServerSettingsService} from "../../config";
-import {getConfiguration} from "../../config/utils/getConfiguration";
+import {ServerSettingsService} from "../../config";
 import {IRoute, RouteService} from "../../mvc";
-import {createExpressApplication} from "../../server/utils/createExpressApplication";
-import {createHttpServer} from "../../server/utils/createHttpServer";
-import {createHttpsServer} from "../../server/utils/createHttpsServer";
-import {createInjector} from "../../server/utils/createInjector";
 
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
@@ -20,11 +14,19 @@ import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
+import {callHook} from "../utils/callHook";
 import {contextMiddleware} from "../utils/contextMiddleware";
+import {createContainer} from "../utils/createContainer";
+import {createExpressApplication} from "../utils/createExpressApplication";
+import {createHttpServer} from "../utils/createHttpServer";
+import {createHttpsServer} from "../utils/createHttpsServer";
+import {createInjector} from "../utils/createInjector";
+import {getConfiguration} from "../utils/getConfiguration";
 import {listenServer} from "../utils/listenServer";
 import {loadInjector} from "../utils/loadInjector";
 import {printRoutes} from "../utils/printRoutes";
 import {resolveProviders} from "../utils/resolveProviders";
+import {setLoggerLevel} from "../utils/setLoggerLevel";
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -77,9 +79,9 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    *
    */
-  constructor(settings: any = {}) {
+  constructor(settings: Partial<IDIConfigurationOptions> = {}) {
     // create injector with initial configuration
-    this.injector = createInjector(getConfiguration(classOf(this), settings));
+    this.injector = createInjector(getConfiguration(this, settings));
 
     createExpressApplication(this.injector);
     createHttpsServer(this.injector);
@@ -107,8 +109,8 @@ export abstract class ServerLoader implements IServerLifecycle {
    *
    * @returns {ServerSettingsService}
    */
-  get settings(): ServerSettingsService {
-    return this.injector.settings as ServerSettingsService;
+  get settings(): IDIConfigurationOptions & ServerSettingsService {
+    return this.injector.settings as IDIConfigurationOptions & ServerSettingsService;
   }
 
   /**
@@ -144,7 +146,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
-  static async bootstrap(module: any, settings: any = {}): Promise<ServerLoader> {
+  static async bootstrap(module: Type<ServerLoader>, settings: Partial<IDIConfigurationOptions> = {}): Promise<ServerLoader> {
     const server = new module(settings);
 
     await server.runLifecycle();
@@ -272,10 +274,14 @@ export abstract class ServerLoader implements IServerLifecycle {
     await this.startServers();
 
     await this.callHook("$afterListen");
-    await this.callHook("$onReady");
 
-    await this.injector.emit("$onServerReady");
+    await this.ready();
     this.injector.logger.info(`Started in ${new Date().getTime() - this.startedAt.getTime()} ms`);
+  }
+
+  public async ready() {
+    await this.callHook("$onReady");
+    await this.injector.emit("$onServerReady");
   }
 
   /**
@@ -328,7 +334,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param options
    */
   public addComponents(classes: any | any[], options: any = {}): ServerLoader {
-    this.settings.componentsScan = this.settings.componentsScan.concat(classes);
+    this.injector.settings.componentsScan = this.injector.settings.componentsScan.concat(classes);
 
     return this;
   }
@@ -378,39 +384,26 @@ export abstract class ServerLoader implements IServerLifecycle {
     return this;
   }
 
+  public callHook(key: string, ...args: any[]) {
+    return callHook(this.injector, this, key, ...args);
+  }
+
   /**
    *
    * @returns {Promise<void>}
    */
   protected async loadSettingsAndInjector() {
-    const level = this.settings.logger.level;
-
-    /* istanbul ignore next */
-    if (level && this.settings.env !== "test") {
-      this.injector.logger.level = level;
-    }
+    setLoggerLevel(this.injector);
 
     this.injector.logger.debug("Scan components");
 
-    const providers: IProvider<any>[] = await resolveProviders(this.injector);
-
-    this.routes = providers
-      .filter(provider => !!provider.endpoint)
-      .map(provider => ({
-        route: provider.endpoint,
-        token: provider.provide
-      }));
-
+    await this.resolveProviders();
     await this.callHook("$beforeInit");
     await this.callHook("$onInit");
 
-    this.settings.forEach((value, key) => {
-      this.injector.logger.debug(`settings.${key} =>`, value);
-    });
-
     this.injector.logger.info("Build providers");
 
-    await loadInjector(this.injector);
+    await loadInjector(this.injector, createContainer(this));
 
     this.injector.logger.debug("Settings and injector loaded");
     await this.callHook("$afterInit");
@@ -422,11 +415,10 @@ export abstract class ServerLoader implements IServerLifecycle {
   protected async loadMiddlewares(): Promise<any> {
     this.injector.logger.debug("Mount middlewares");
     this.use(contextMiddleware(this.injector));
-    this.use(LogIncomingRequestMiddleware);
+    this.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
 
     await this.callHook("$onMountingMiddlewares");
-    await this.callHook("$beforeRoutesInit");
-
+    await this.callHook("$beforeRoutesInit"); // deprecated
     this.injector.logger.info("Load routes");
 
     const routeService = this.injector.get<RouteService>(RouteService)!;
@@ -448,6 +440,16 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
   }
 
+  protected async resolveProviders() {
+    const providers: IProvider<any>[] = await resolveProviders(this.injector);
+
+    this.routes = providers.filter(provider => !!provider.route).map(({route, token}) => ({route, token}));
+  }
+
+  /**
+   * @deprecated
+   */
+
   /**
    * Create a new server from settings parameters.
    * @param http
@@ -465,12 +467,8 @@ export abstract class ServerLoader implements IServerLifecycle {
     return resolvedSettings;
   }
 
-  /**
-   * @deprecated
-   */
-
   /* istanbul ignore next */
-  protected setSettings(settings: IServerSettings) {
+  protected setSettings(settings: Partial<IDIConfigurationOptions>) {
     this.settings.set(settings);
 
     /* istanbul ignore next */
@@ -478,35 +476,6 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.stop();
     }
   }
-
-  private callHook = async (key: string, ...args: any[]) => {
-    const self: any = this;
-
-    this.injector.logger.info(`\x1B[1mCall hook ${key}\x1B[22m`);
-
-    if (key in this) {
-      const hookDepreciation = (hook: string, newHook?: string) =>
-        util.deprecate(() => {}, `${hook} hook is deprecated. ${newHook ? "Use" + newHook + "instead" : "Hook will be removed"}`)();
-
-      if (key === "$onInit") {
-        hookDepreciation("$onInit", "$beforeInit");
-      }
-      if (key === "$onMountingMiddlewares") {
-        hookDepreciation("$onMountingMiddlewares", "$beforeRoutesInit");
-      }
-
-      // istanbul ignore next
-      if (key === "$onServerInitError") {
-        hookDepreciation("$onServerInitError");
-      }
-
-      await self[key](...args);
-    }
-
-    if (!["$beforeInit", "$afterInit", "$onInit", "$onMountingMiddlewares"].includes(key)) {
-      await this.injector.emit(key);
-    }
-  };
 
   /**
    * Initialize all servers.

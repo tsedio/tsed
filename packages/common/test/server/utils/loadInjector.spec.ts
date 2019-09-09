@@ -1,9 +1,8 @@
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
-import {GlobalProviders, Injectable, InjectorService} from "../../../../di/src";
-import {ConverterService} from "../../../src/converters";
-import {ParseService, ValidationService} from "../../../src/mvc";
-import {createExpressApplication, createHttpServer, createHttpsServer, createInjector} from "../../../src/server";
+import {Container, Injectable, InjectorService, LocalsContainer} from "../../../../di/src";
+import {MvcModule} from "../../../src/mvc";
+import {createExpressApplication} from "../../../src/server";
 import {loadInjector} from "../../../src/server/utils/loadInjector";
 
 describe("loadInjector", () => {
@@ -13,22 +12,35 @@ describe("loadInjector", () => {
     class TestService {
     }
 
+    @Injectable()
+    class TestService2 {
+    }
+
     const injector = new InjectorService();
 
     Sinon.spy(injector, "addProviders");
     Sinon.spy(injector, "invoke");
-    Sinon.stub(injector, "load");
+    Sinon.stub(injector.logger, "debug");
+    Sinon.stub(injector, "load").resolves(new LocalsContainer());
 
     injector.add(TestService);
 
+    const container = new Container();
+
+    createExpressApplication(injector);
+
+    container.add(MvcModule);
+    container.add(TestService);
+    container.add(TestService2);
+
     // WHEN
-    loadInjector(injector);
+    loadInjector(injector, container);
 
     // THEN
-    stub(injector.addProviders).should.have.been.calledWithExactly(GlobalProviders);
-    stub(injector.invoke).should.have.been.calledWithExactly(ConverterService);
-    stub(injector.invoke).should.have.been.calledWithExactly(ParseService);
-    stub(injector.invoke).should.have.been.calledWithExactly(ValidationService);
-    stub(injector.load).should.have.been.calledWithExactly();
+    stub(injector.addProviders).should.have.been.calledWithExactly(container);
+    stub(injector.invoke).should.have.been.calledWithExactly(MvcModule);
+    stub(injector.load).should.have.been.calledWithExactly(container);
+
+    stub(injector.logger.debug).restore();
   });
 });

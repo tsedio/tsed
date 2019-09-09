@@ -5,6 +5,7 @@ import {
   createInjector,
   loadInjector,
   LocalsContainer,
+  OnInit,
   ServerLoader
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
@@ -58,15 +59,19 @@ export class TestContext {
    */
   static bootstrap(server: ServerLoader | any, options: any = {}): () => Promise<void> {
     return async function before(): Promise<void> {
-      const instance = new (server as any)(...(options.args || []));
+      const instance = await ServerLoader.bootstrap(server, {
+        logger: {
+          level: "off"
+        },
+        ...options
+      });
 
-      instance.startServers = () => Promise.resolve();
-      instance.settings.logger.level = "off";
+      await instance.callHook("$beforeListen");
+      await instance.callHook("$afterListen");
+      await instance.ready();
 
       // used by inject method
       TestContext._injector = instance.injector;
-
-      await instance.start();
     };
   }
 
@@ -114,7 +119,7 @@ export class TestContext {
       locals.set(p.provide, p.use);
     });
 
-    const instance: any = TestContext.injector.invoke(target, locals, {rebuild: true});
+    const instance: OnInit = TestContext.injector.invoke(target, locals, {rebuild: true});
 
     if (instance && instance.$onInit) {
       // await instance.$onInit();

@@ -1,14 +1,13 @@
-import {ServerSettingsService} from "@tsed/common";
-import {registerProvider} from "@tsed/di";
+import {Configuration, registerProvider} from "@tsed/di";
 import {DatabaseConnection} from "connection-lib";
 
 export const CONNECTION = Symbol.for("CONNECTION");
 
 registerProvider({
   provide: CONNECTION,
-  deps: [ServerSettingsService],
-  useFactory(settings: ServerSettingsService) {
-    const options = settings.get("myOptions");
+  deps: [Configuration],
+  useFactory(configuration: Configuration) {
+    const options = configuration.get<any>("myOptions");
 
     return new DatabaseConnection(options);
   }

@@ -1,4 +1,4 @@
-import {EndpointInfo, IMiddleware, Middleware, Req, Res, ServerSettingsService} from "@tsed/common";
+import {Configuration, EndpointInfo, IMiddleware, Middleware, Req, Res} from "@tsed/common";
 import * as multer from "multer";
 import {BadRequest} from "ts-httpexceptions";
 import {promisify} from "util";
@@ -10,7 +10,7 @@ import {promisify} from "util";
 export class MultipartFileMiddleware implements IMiddleware {
   private multer: any = multer;
 
-  constructor(private serverSettingsService: ServerSettingsService) {}
+  constructor(@Configuration() private configuration: Configuration) {}
 
   async use(@EndpointInfo() endpoint: EndpointInfo, @Req() request: Req, @Res() response: Res) {
     try {
@@ -23,8 +23,8 @@ export class MultipartFileMiddleware implements IMiddleware {
   }
 
   invoke(conf: any) {
-    const dest = this.serverSettingsService.uploadDir;
-    const options = Object.assign({dest}, this.serverSettingsService.get("multer") || {}, conf.options || {});
+    const dest = this.configuration.uploadDir;
+    const options = Object.assign({dest}, this.configuration.get("multer") || {}, conf.options || {});
 
     if (!conf.any) {
       const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));

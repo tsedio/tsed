@@ -1,11 +1,11 @@
-import {BeforeRoutesInit, Constant, ExpressApplication, Injectable, OnInit, Provider, ProviderScope} from "@tsed/common";
+import {BeforeRoutesInit, Constant, ExpressApplication, Module, OnInit, Provider, ProviderScope} from "@tsed/common";
 
 import * as Passport from "passport";
 import {ProtocolRegistry} from "./registries/ProtocolRegistries";
 import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";
 
-@Injectable({
+@Module({
   scope: ProviderScope.SINGLETON
 })
 export class PassportModule implements OnInit, BeforeRoutesInit {

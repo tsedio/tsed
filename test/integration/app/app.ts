@@ -57,10 +57,7 @@ Docs("authentication")(PassportCtrl);
       "path": "/api/graphql"
     }
   },
-  socketIO: {
-    adaptater() {
-    }
-  },
+  socketIO: {},
   swagger: [
     {
       path: "/api-doc",
@@ -151,10 +148,14 @@ export class ExampleServer extends ServerLoader {
 }
 
 if (process.env.NODE_ENV !== "test") {
-  ServerLoader
-    .bootstrap(ExampleServer)
-    .then((server) => server.listen())
-    .catch(er => {
+  async function bootstrap() {
+    try {
+      const server = await ServerLoader.bootstrap(ExampleServer);
+      await server.listen();
+    } catch (er) {
       console.error(er);
-    });
+    }
+  }
+
+  bootstrap();
 }

@@ -1,24 +1,16 @@
-import {
-  EndpointInfo,
-  EndpointMetadata,
-  IMiddleware,
-  OverrideMiddleware,
-  Req,
-  Res,
-  ServerSettingsService
-} from "@tsed/common";
-import {promisify} from "@tsed/core";
+import {Configuration, EndpointInfo, EndpointMetadata, IMiddleware, OverrideProvider, Req, Res} from "@tsed/common";
 import {MultipartFileMiddleware} from "@tsed/multipartfiles";
 import * as Express from "express";
 import * as multer from "multer";
 import {BadRequest} from "ts-httpexceptions";
+import {promisify} from "util";
 
-@OverrideMiddleware(MultipartFileMiddleware)
+@OverrideProvider(MultipartFileMiddleware)
 export class MultipartFileMiddlewareOverrided implements IMiddleware {
 
   private multer: any = multer;
 
-  constructor(private serverSettingsService: ServerSettingsService) {
+  constructor(@Configuration private configuration: Configuration) {
   }
 
   /**
@@ -37,15 +29,15 @@ export class MultipartFileMiddlewareOverrided implements IMiddleware {
     try {
       const endpointConfiguration = endpoint.store.get(MultipartFileMiddleware);
 
-      return await promisify(this.invoke(endpointConfiguration), request, response);
+      return await promisify(this.invoke(endpointConfiguration))(request, response);
     } catch (er) {
       throw er.code ? new BadRequest(`${er.message} ${er.field || ""}`.trim()) : er;
     }
   }
 
   invoke(conf: any) {
-    const dest = this.serverSettingsService.uploadDir;
-    const options = Object.assign({dest}, this.serverSettingsService.get("multer") || {}, conf.options || {});
+    const dest = this.configuration.uploadDir;
+    const options = Object.assign({dest}, this.configuration.get("multer") || {}, conf.options || {});
 
     if (!conf.any) {
       const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));

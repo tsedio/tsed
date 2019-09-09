@@ -1,10 +1,10 @@
-import {AfterRoutesInit, Constant, ExpressApplication, OnInit, Service} from "@tsed/common";
+import {AfterRoutesInit, Constant, ExpressApplication, Module, OnInit} from "@tsed/common";
 import * as Mongoose from "mongoose";
 import {MDBConnection} from "./interfaces";
 import {ValidationErrorMiddleware} from "./middlewares/ValidationErrorMiddleware";
 import {MongooseService} from "./services/MongooseService";
 
-@Service()
+@Module()
 export class MongooseModule implements OnInit, AfterRoutesInit {
   @Constant("mongoose.url")
   private url: string;

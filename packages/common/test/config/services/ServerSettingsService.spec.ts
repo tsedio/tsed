@@ -178,6 +178,17 @@ describe("ServerSettingsService", () => {
       });
     });
 
+    describe("port", () => {
+      it("should set port", () => {
+        const settings = new ServerSettingsService();
+
+        settings.set({port: 8081});
+
+        expect(settings.httpPort).to.eq(8081);
+        expect(settings.port).to.eq(8081);
+      });
+    });
+
     describe("resolve()", () => {
       it("should replace rootDir", () => {
         expect(settings.resolve("${rootDir}")).to.eq(process.cwd());

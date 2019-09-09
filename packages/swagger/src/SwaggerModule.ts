@@ -1,4 +1,4 @@
-import {AfterRoutesInit, ExpressApplication, OnReady, OnRoutesInit, ServerSettingsService, Service} from "@tsed/common";
+import {Configuration, ExpressApplication, Module, OnReady, OnRoutesInit} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
@@ -9,11 +9,11 @@ import {SwaggerService} from "./services/SwaggerService";
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 const ejs = require("ejs");
 
-@Service()
+@Module()
 export class SwaggerModule implements OnRoutesInit, OnReady {
   constructor(
     private swaggerService: SwaggerService,
-    private serverSettingsService: ServerSettingsService,
+    @Configuration() private configuration: Configuration,
     @ExpressApplication private expressApplication: Express.Application
   ) {}
 
@@ -21,7 +21,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
    *
    */
   $onRoutesInit() {
-    const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
+    const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
 
     const urls: any[] = swagger.reduce((acc: any[], conf) => {
       const {path = "/", doc, hidden} = conf;
@@ -54,8 +54,8 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   }
 
   $onReady() {
-    const host = this.serverSettingsService.getHttpPort();
-    const swagger: ISwaggerSettings[] = [].concat(this.serverSettingsService.get("swagger")).filter(o => !!o);
+    const host = this.configuration.getHttpPort();
+    const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
     swagger.forEach((conf: ISwaggerSettings) => {
       const {path = "/", doc} = conf;
       $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
@@ -124,7 +124,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   private middlewareCss(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any) => {
-      const content = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(path)), {encoding: "utf8"});
+      const content = Fs.readFileSync(PathUtils.resolve(this.configuration.resolve(path)), {encoding: "utf8"});
       res.set("Content-Type", "text/css");
       res.status(200).send(content);
     };
@@ -132,13 +132,12 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
 
   /**
    *
-   * @param {e.Router} router
    * @param {string} path
    */
   private middlewareJs(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any) => {
-      const content = Fs.readFileSync(PathUtils.resolve(this.serverSettingsService.resolve(path)), {encoding: "utf8"});
+      const content = Fs.readFileSync(PathUtils.resolve(this.configuration.resolve(path)), {encoding: "utf8"});
       res.set("Content-Type", "application/javascript");
       res.status(200).send(content);
     };
