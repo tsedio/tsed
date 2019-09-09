@@ -126,10 +126,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.3.tgz#62cf2a9b624edc795134135fe37fc2ae8ea36be3"
   integrity sha512-8zNeBkSKhU9a5cRNbpCKau2WWPfan+Q2zDlcXvXyhn9EsMqgYs4qzo0XHNVlXC6ABQL8fT6nV+zzo5RTHJzyXw==
 
-"@tsed/common@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.27.1.tgz#2ab54625cba1e248b223929377ef1c5237a0035c"
-  integrity sha512-XTv9n9nYCNuq/46vYGq2clTL7jAG6nkvZZQM913X1OjfX6msEMCROblz3lfN01sBrc/FWYDXrdYpLYoch3ddig==
+"@tsed/common@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.30.0.tgz#86e296dce463ce718ba0c52aaec509ef42a677bc"
+  integrity sha512-xSwZLN6WZzzaughpk+NZT7ZruvZXS/ji4tZhprDP4oZyMgF2EHPO/7ZU8dF4Fk/s1KKe/XY5e4zi5sBu3HlerA==
   dependencies:
     "@types/json-schema" "^7.0.3"
     globby "9.2.0"
@@ -139,49 +139,49 @@
     ts-log-debug "^5.1.0"
     tslib "^1.10.0"
 
-"@tsed/core@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.27.1.tgz#03c7c8e7e800f1ce7a44c905b5d5c7fbb328859a"
-  integrity sha512-GgF0h5/vXjwX3rcM8amGLoj9kZpQA5zdUe50DUFuafoEDRP2zwg9NMYzli0FymRkZvRE875aYynK8NAv6t1LBA==
+"@tsed/core@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.30.0.tgz#37c30d4dbb690eeb9e192148d8cc14369e6a425d"
+  integrity sha512-4AYp5TgmaULmeVcD8g5ju6yWFA18TUU/9DfDeDJDFwtZjd8fayXEXnN/kMZFwESO4JCNe0urPjx4IRbt9Ue3Gw==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "^0.5.12"
     tslib "^1.10.0"
 
-"@tsed/di@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.27.1.tgz#22fcd00a002c761d6e9e4dfe323771aeef07c7c0"
-  integrity sha512-dJZc64cALD87Q15oPlyVWXBWv3p61YGP/DGh8Bv41zhkkSsyROpZetc0/lUPfD4KtzHITlgFh/RWaxcVbeYa4w==
+"@tsed/di@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.30.0.tgz#24786f26183427b475864db26f87fd9907819333"
+  integrity sha512-T9oYiwZyafU/afcBZFvKlqjIYXWRnl1K1wdi4VY55MjpYYncPCC/m+ZFHAq0vLkAMIAA+a6n+HkGYSw7QHCBEw==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/socketio@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.27.1.tgz#8be48cfb4725669470d34f2cd2f06da2eb167f3a"
-  integrity sha512-tanqTAzGkYM9cVxd59+idTZmcMxyT/3xeljyW3n98c7Mk1jc+dfaTjbjQCGqskrcybmLwEezEUKpHyeLGkn8hQ==
+"@tsed/socketio@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.30.0.tgz#0e338db0459dd71199fe913db453d37ba994b3d8"
+  integrity sha512-63aUUCr68LUwyLCegfn6r7btckk/lN1S/yJ9Xs3iamfEhO6hGDXQoMi6NfVRtFiDNj9aVVIneXaFep8CAcK1Wg==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/swagger@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.27.1.tgz#5443041e7125cdd8da868e71f5c9c15eee75047b"
-  integrity sha512-+11+pQu7q5Tl18AaRO2Yt6abCbUX4xQxGtpNJiXZWU59HvzmWA5UMuu7WwnW7WI24fVaYPMpAVNLOgRmG8hIgA==
+"@tsed/swagger@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.30.0.tgz#f3a7f9ef74ad5d4fbf10c4cb4fc4dd1f844b2608"
+  integrity sha512-Ka3Y4FzTDvLCzCOs6Y3A1wn0MZqCfF9nXFcGejhBm1bp6PZy7cJsubiWH+czr7fcfr5k/429EUcwU/MGY25JUg==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.27.1.tgz#d332438026b086d4d06d1e11da8e1a8622ded55f"
-  integrity sha512-CRgc4P1hd84epb3V2r/cIEeshV9a51hpjq/OIe+l6bj+HWR5Bqb/cv5azU+dmYZQvgoKXzQ7+jZl99fNjPBG5w==
+"@tsed/testing@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.30.0.tgz#aa49ec5f3f6361bd26df1d4a5e2a6e081c0e9af7"
+  integrity sha512-NtZ0JQ/2iu3RBI/ltVC76siJfQgzukmC7nMcPkHP+ieXMFuVkrGMA/WIbAga7rsHblCbi+GJoF4qfJRSmQSGyA==
   dependencies:
     tslib "^1.9.0"
 
-"@tsed/typeorm@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/typeorm/-/typeorm-5.27.1.tgz#0fbb8b01da2001bf3bae52569cfc937ab6794ad3"
-  integrity sha512-3nApmGiEsF21Zf0xjjiEma/SeHq0itThetrP1FuVisqbWVQiJfyAROuFo88oa+bnZsNFKMdfmrMW+8Hk4niKVA==
+"@tsed/typeorm@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@tsed/typeorm/-/typeorm-5.30.0.tgz#2535a0e87a797282cdc0c8b2467fe4b29463179c"
+  integrity sha512-5qSi1JSpJOPxvmmW6PXpovvY4SxRhEKXXxhO0F3zhy28pRaiAjXRmIWe6lqp/dSWrzoyxh+NpfN1t6lpBnKJfQ==
   dependencies:
     tslib "^1.10.0"
     typeorm "^0.2.18"
