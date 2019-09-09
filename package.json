@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "5.29.0",
+  "version": "5.30.0",
   "description": "A TypeScript Framework on top of Express",
   "scripts": {
     "postinstall": "gulp repo:bootstrap",
