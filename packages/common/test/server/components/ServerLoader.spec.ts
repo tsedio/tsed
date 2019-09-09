@@ -1,14 +1,14 @@
-import {Metadata} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {$logStub} from "../../../../../test/helper/tools";
-import {RouteService, ServerLoader} from "../../../src";
+import {Configuration, getConfiguration, RouteService, ServerLoader, ServerSettings} from "../../../src";
 
 describe("ServerLoader", () => {
   const serverSandbox = Sinon.createSandbox();
   let server: any;
 
   before(() => {
+    @ServerSettings({debug: true, port: 8000, httpsPort: 8080})
     class TestServer extends ServerLoader {
       $onInit() {
       }
@@ -26,8 +26,6 @@ describe("ServerLoader", () => {
       $afterRoutesInit() {
       }
     }
-
-    Metadata.set("PLATFORM_SETTINGS", {debug: true, port: 8000, httpsPort: 8080}, TestServer);
 
     server = new TestServer();
     server.settings.httpPort = 8080;
@@ -246,6 +244,7 @@ describe("ServerLoader", () => {
   describe("bootstrap()", () => {
     it("should bootstrap server", async () => {
       // GIVEN
+      @ServerSettings()
       class TestServer extends ServerLoader {
         $onInit() {
         }
@@ -265,7 +264,6 @@ describe("ServerLoader", () => {
       }
 
       // WHEN
-
       const server = await ServerLoader.bootstrap(TestServer, {
         ownSettings: "test"
       });

@@ -1,10 +1,9 @@
-import {classOf, Deprecated} from "@tsed/core";
+import {Deprecated, Type} from "@tsed/core";
 import {IDIConfigurationOptions, InjectorService, IProvider} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {ServerSettingsService} from "../../config";
-import {getConfiguration} from "../../config/utils/getConfiguration";
 import {IRoute, RouteService} from "../../mvc";
 
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
@@ -22,6 +21,7 @@ import {createExpressApplication} from "../utils/createExpressApplication";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
 import {createInjector} from "../utils/createInjector";
+import {getConfiguration} from "../utils/getConfiguration";
 import {listenServer} from "../utils/listenServer";
 import {loadInjector} from "../utils/loadInjector";
 import {printRoutes} from "../utils/printRoutes";
@@ -81,7 +81,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   constructor(settings: Partial<IDIConfigurationOptions> = {}) {
     // create injector with initial configuration
-    this.injector = createInjector(getConfiguration(classOf(this), settings));
+    this.injector = createInjector(getConfiguration(this, settings));
 
     createExpressApplication(this.injector);
     createHttpsServer(this.injector);
@@ -146,7 +146,7 @@ export abstract class ServerLoader implements IServerLifecycle {
     return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
-  static async bootstrap(module: any, settings: Partial<IDIConfigurationOptions> = {}): Promise<ServerLoader> {
+  static async bootstrap(module: Type<ServerLoader>, settings: Partial<IDIConfigurationOptions> = {}): Promise<ServerLoader> {
     const server = new module(settings);
 
     await server.runLifecycle();
@@ -384,6 +384,10 @@ export abstract class ServerLoader implements IServerLifecycle {
     return this;
   }
 
+  public callHook(key: string, ...args: any[]) {
+    return callHook(this.injector, this, key, ...args);
+  }
+
   /**
    *
    * @returns {Promise<void>}
@@ -443,6 +447,10 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
+   * @deprecated
+   */
+
+  /**
    * Create a new server from settings parameters.
    * @param http
    * @param settings
@@ -459,10 +467,6 @@ export abstract class ServerLoader implements IServerLifecycle {
     return resolvedSettings;
   }
 
-  /**
-   * @deprecated
-   */
-
   /* istanbul ignore next */
   protected setSettings(settings: Partial<IDIConfigurationOptions>) {
     this.settings.set(settings);
@@ -472,10 +476,6 @@ export abstract class ServerLoader implements IServerLifecycle {
       this.injector.logger.stop();
     }
   }
-
-  private callHook = (key: string, ...args: any[]) => {
-    return callHook(this.injector, this, key, ...args);
-  };
 
   /**
    * Initialize all servers.

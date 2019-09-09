@@ -11,9 +11,7 @@ import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknowPropertyError} from "../errors/UnknowPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
-@Injectable({
-  deps: [InjectorService, Configuration, ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter]
-})
+@Injectable()
 export class ConverterService {
   private validationModelStrict = true;
 

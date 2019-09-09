@@ -1,7 +1,7 @@
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {Container, Injectable, InjectorService, LocalsContainer} from "../../../../di/src";
-import {MVC_MODULE} from "../../../src/mvc";
+import {MvcModule} from "../../../src/mvc";
 import {createExpressApplication} from "../../../src/server";
 import {loadInjector} from "../../../src/server/utils/loadInjector";
 
@@ -29,7 +29,7 @@ describe("loadInjector", () => {
 
     createExpressApplication(injector);
 
-    container.add(MVC_MODULE);
+    container.add(MvcModule);
     container.add(TestService);
     container.add(TestService2);
 
@@ -38,7 +38,7 @@ describe("loadInjector", () => {
 
     // THEN
     stub(injector.addProviders).should.have.been.calledWithExactly(container);
-    stub(injector.invoke).should.have.been.calledWithExactly(MVC_MODULE);
+    stub(injector.invoke).should.have.been.calledWithExactly(MvcModule);
     stub(injector.load).should.have.been.calledWithExactly(container);
 
     stub(injector.logger.debug).restore();

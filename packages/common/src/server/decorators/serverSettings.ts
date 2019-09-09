@@ -1,5 +1,4 @@
-import {StoreSet} from "@tsed/core";
-import {IDIConfigurationOptions} from "@tsed/di";
+import {IModuleOptions, Module} from "@tsed/di";
 
 /**
  * `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
@@ -49,6 +48,6 @@ import {IDIConfigurationOptions} from "@tsed/di";
  * @returns {(target:any)=>any}
  * @decorator
  */
-export function ServerSettings(settings: Partial<IDIConfigurationOptions>): Function {
-  return StoreSet("PLATFORM_SETTINGS", settings);
+export function ServerSettings(settings: Partial<IModuleOptions> = {}): Function {
+  return Module({...settings, root: true});
 }
