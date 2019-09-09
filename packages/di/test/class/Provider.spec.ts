@@ -19,13 +19,16 @@ describe("Provider", () => {
       expect(provider.useClass).to.eq(T1);
       expect(!!provider.store).to.eq(true);
       expect(getKeys(provider)).to.deep.eq([
+        "root",
         "type",
         "injectable",
         "customProp",
         "useClass",
         "scope",
+        "configuration",
         "instance",
         "deps",
+        "imports",
         "useFactory",
         "useAsyncFactory",
         "useValue"
@@ -40,12 +43,7 @@ describe("Provider", () => {
 
       expect(provider.provide).to.eq(S1);
       expect(!!provider.useClass).to.eq(false);
-      expect(!!provider.store).to.eq(false);
-    });
-
-    it("should should return scope", () => {
-      const provider = new Provider(T1);
-
+      expect(!!provider.store).to.eq(true);
     });
   });
 
@@ -55,12 +53,7 @@ describe("Provider", () => {
 
       expect(provider.provide).to.eq("test");
       expect(!!provider.useClass).to.eq(false);
-      expect(!!provider.store).to.eq(false);
-    });
-
-    it("should should return scope", () => {
-      const provider = new Provider(T1);
-
+      expect(!!provider.store).to.eq(true);
     });
   });
 

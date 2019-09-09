@@ -1,5 +1,6 @@
 import {expect} from "chai";
-import {Configuration, GlobalProviders, InjectorService, Provider} from "../../src";
+import {Store} from "../../../core/src";
+import {Configuration, GlobalProviders, Injectable, InjectorService, Provider} from "../../src";
 
 describe("@Configuration", () => {
   it("should declare a new provider with custom configuration", () => {
@@ -11,13 +12,14 @@ describe("@Configuration", () => {
     provider.injectable = false;
     provider.configuration = {};
 
-    GlobalProviders.get(Test)!.should.deep.eq(provider);
+    Store.from(Test).get("configuration").should.deep.eq({});
   });
 
   it("should inject configuration", async () => {
     @Configuration({
       "feature": "feature"
     })
+    @Injectable()
     class Test {
       constructor(@Configuration() public config: Configuration) {
       }

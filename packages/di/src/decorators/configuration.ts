@@ -1,9 +1,7 @@
-import {DecoratorParameters, getDecoratorType} from "@tsed/core";
-import {DIConfiguration, Inject} from "@tsed/di";
+import {DecoratorParameters, getDecoratorType, StoreSet} from "@tsed/core";
+import {Inject} from "../decorators/inject";
 import {IDIConfigurationOptions} from "../interfaces/IDIConfigurationOptions";
-import {ProviderScope} from "../interfaces/ProviderScope";
-import {ProviderType} from "../interfaces/ProviderType";
-import {Injectable} from "./injectable";
+import {DIConfiguration} from "../services/DIConfiguration";
 
 export type Configuration = IDIConfigurationOptions & DIConfiguration;
 
@@ -11,12 +9,7 @@ export function Configuration(configuration: Partial<IDIConfigurationOptions> = 
   return (...args: DecoratorParameters) => {
     switch (getDecoratorType(args, true)) {
       case "class":
-        Injectable({
-          type: ProviderType.PROVIDER,
-          scope: ProviderScope.SINGLETON,
-          configuration,
-          injectable: false
-        })(args[0]);
+        StoreSet("configuration", configuration)(args[0]);
 
         break;
       case "parameter.constructor":

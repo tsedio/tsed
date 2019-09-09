@@ -2,7 +2,6 @@ import {Type} from "@tsed/core";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
 import {TokenProvider} from "./TokenProvider";
-
 /**
  *
  */

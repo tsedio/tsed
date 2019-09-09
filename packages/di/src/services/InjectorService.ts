@@ -30,6 +30,7 @@ interface IInvokeSettings {
   scope: ProviderScope;
   isBindable: boolean;
   deps: any[];
+  imports: any[];
 
   construct(deps: TokenProvider[]): any;
 }
@@ -209,13 +210,15 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!locals.has(provider.token)) {
-        if (provider.isAsync()) {
-          await this.invoke(provider.token, locals);
-        }
+      if (!provider.root) {
+        if (!locals.has(provider.token)) {
+          if (provider.isAsync()) {
+            await this.invoke(provider.token, locals);
+          }
 
-        if (provider.instance) {
-          locals.set(provider.token, provider.instance);
+          if (provider.instance) {
+            locals.set(provider.token, provider.instance);
+          }
         }
       }
     }
@@ -227,12 +230,14 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
-        this.invoke(provider.token, locals);
-      }
+      if (!provider.root) {
+        if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+          this.invoke(provider.token, locals);
+        }
 
-      if (provider.instance) {
-        locals.set(provider.token, provider.instance);
+        if (provider.instance) {
+          locals.set(provider.token, provider.instance);
+        }
       }
     }
 
@@ -269,7 +274,9 @@ export class InjectorService extends Container {
     if (this.resolvedConfiguration) {
       return;
     }
+
     const rawSettings = this.settings.toRawObject();
+
     // @ts-ignore
     this.settings.map.clear();
 
@@ -460,7 +467,7 @@ export class InjectorService extends Container {
    * @private
    */
   private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
-    const {token, deps, construct, isBindable} = this.mapInvokeOptions(target, options);
+    const {token, deps, construct, isBindable, imports} = this.mapInvokeOptions(target, options);
     const provider = this.getProvider(target);
 
     if (provider) {
@@ -478,11 +485,17 @@ export class InjectorService extends Container {
     let currentDependency: any = false;
 
     try {
-      const services = deps.map((dependency, index) => {
-        currentDependency = {token: dependency, index, deps};
+      const invokeDependency = (parent?: any) => (token: any, index: number): any => {
+        currentDependency = {token, index, deps};
 
-        return isInheritedFrom(dependency, Provider, 1) ? provider : this.invoke(dependency, locals, {parent: token});
-      });
+        return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
+      };
+
+      // Invoke manually imported providers
+      imports.forEach(invokeDependency());
+
+      // Inject dependencies
+      const services = deps.map(invokeDependency(token));
 
       currentDependency = false;
 
@@ -511,6 +524,7 @@ export class InjectorService extends Container {
    * @param options
    */
   private mapInvokeOptions(token: TokenProvider, options: Partial<IInvokeOptions<any>>): IInvokeSettings {
+    let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
     let construct;
@@ -524,6 +538,7 @@ export class InjectorService extends Container {
 
     scope = scope || this.scopeOf(provider);
     deps = deps || provider.deps;
+    imports = imports || provider.imports;
 
     if (provider.useValue) {
       construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
@@ -542,6 +557,7 @@ export class InjectorService extends Container {
       token,
       scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
       deps: deps! || [],
+      imports: imports || [],
       isBindable,
       construct
     };
