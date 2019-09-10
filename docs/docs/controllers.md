@@ -30,7 +30,7 @@ map every corresponding request to this handler. Since we've declared a prefix f
 
 Ts.ED provide a decorator for each HTTP verb which can be use to handle a request:
 
-<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete'].indexOf(symbolName) > -1" />
+<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Options'].indexOf(symbolName) > -1" />
 
 ### Configuration
 
@@ -112,7 +112,7 @@ For the session, cookies or locals data attached on the request, is the same thi
 
 ### Decorators
 
-<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Use', 'UseAfter', 'UseBefore', 'UseBeforeEach'].indexOf(symbolName) === -1 && path.indexOf('mvc/decorators/method') > -1" />
+<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Options', 'Use', 'UseAfter', 'UseBefore', 'UseBeforeEach'].indexOf(symbolName) === -1 && path.indexOf('mvc/decorators/method') > -1" />
 
 ### Status
 
