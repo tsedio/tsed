@@ -4,7 +4,7 @@ import * as Sinon from "sinon";
 const middleware: any = Sinon.stub();
 const useStub: any = Sinon.stub().returns(middleware);
 
-const {All, Get, Post, Put, Delete, Head, Patch} = Proxyquire.load("../../../../src/mvc/decorators/method/route", {
+const {All, Get, Post, Put, Delete, Head, Patch, Options} = Proxyquire.load("../../../../src/mvc/decorators/method/route", {
   "./use": {Use: useStub}
 });
 
@@ -142,6 +142,25 @@ describe("Route decorators", () => {
 
       // THEN
       useStub.should.have.been.calledWithExactly("patch", "/");
+    });
+  });
+
+  describe("Options", () => {
+    it("should register route and middleware (1)", () => {
+      // WHEN
+      Options("/", () => {
+      });
+
+      // THEN
+      useStub.should.have.been.calledWithExactly("options", "/", Sinon.match.func);
+    });
+
+    it("should register route and middleware (2)", () => {
+      // WHEN
+      Options();
+
+      // THEN
+      useStub.should.have.been.calledWithExactly("options", "/");
     });
   });
 });
