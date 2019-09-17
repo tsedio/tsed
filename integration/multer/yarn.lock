@@ -133,10 +133,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.3.tgz#62cf2a9b624edc795134135fe37fc2ae8ea36be3"
   integrity sha512-8zNeBkSKhU9a5cRNbpCKau2WWPfan+Q2zDlcXvXyhn9EsMqgYs4qzo0XHNVlXC6ABQL8fT6nV+zzo5RTHJzyXw==
 
-"@tsed/common@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.27.1.tgz#2ab54625cba1e248b223929377ef1c5237a0035c"
-  integrity sha512-XTv9n9nYCNuq/46vYGq2clTL7jAG6nkvZZQM913X1OjfX6msEMCROblz3lfN01sBrc/FWYDXrdYpLYoch3ddig==
+"@tsed/common@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.31.1.tgz#ea3ff7ed7029078df1d4ab83b67457030e3f8719"
+  integrity sha512-dmh4ITDFEJWZBCC6p0ghFhcDsBBNUCiG7qhrMvxf1YQmS1FXvgZfWeAz/iVPUz/vPahDYfvy5fMBvIJtvyjW+A==
   dependencies:
     "@types/json-schema" "^7.0.3"
     globby "9.2.0"
@@ -146,43 +146,43 @@
     ts-log-debug "^5.1.0"
     tslib "^1.10.0"
 
-"@tsed/core@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.27.1.tgz#03c7c8e7e800f1ce7a44c905b5d5c7fbb328859a"
-  integrity sha512-GgF0h5/vXjwX3rcM8amGLoj9kZpQA5zdUe50DUFuafoEDRP2zwg9NMYzli0FymRkZvRE875aYynK8NAv6t1LBA==
+"@tsed/core@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.31.1.tgz#72d525f891ded5711f07139bcae59135c23552f0"
+  integrity sha512-O1QAqUONfGPnqhdAX7zNbZ4KtNJM5VvYKG/KvV20ZRZ9JSe1H4qaOn6mxXDwPJjh/fetIiT/qNf7haREyhlCXw==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "^0.5.12"
     tslib "^1.10.0"
 
-"@tsed/di@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.27.1.tgz#22fcd00a002c761d6e9e4dfe323771aeef07c7c0"
-  integrity sha512-dJZc64cALD87Q15oPlyVWXBWv3p61YGP/DGh8Bv41zhkkSsyROpZetc0/lUPfD4KtzHITlgFh/RWaxcVbeYa4w==
+"@tsed/di@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.31.1.tgz#9c1f499aac9bd8b4623580f6afb20c24d65c1b3e"
+  integrity sha512-bjIVywflSQPtE76IALJ7ds2U6IcbUTAyHuFAmp0zXmraToTYkIS81IhFZdS/oKr31ksJaIqkz/WvyEW1AG2OpA==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/multipartfiles@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/multipartfiles/-/multipartfiles-5.27.1.tgz#7e84d9aa863710b3cb6cf48fdedd4c097b4a3caa"
-  integrity sha512-Nx0GxwAzO9USTDqfGEL7tcbNFwjuqdHNy5Jl2/hv0SPZOO9LsSvdVzN+q29nwbMk2kG+b00Va9/ELWANZcTfcQ==
+"@tsed/multipartfiles@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/multipartfiles/-/multipartfiles-5.31.1.tgz#5a481d4888b3e8c0563d5443e494f42f1a454038"
+  integrity sha512-Lk3xk5Rg4SOsYDuZS2O3EWMLHEtpGKKQxYg6m+iPaYq7ATuJzKTq0orl4MVHBwrrFv8dL7koQ56bWWGpaqUmug==
   dependencies:
     multer "^1.3.0"
     tslib "^1.9.0"
 
-"@tsed/swagger@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.27.1.tgz#5443041e7125cdd8da868e71f5c9c15eee75047b"
-  integrity sha512-+11+pQu7q5Tl18AaRO2Yt6abCbUX4xQxGtpNJiXZWU59HvzmWA5UMuu7WwnW7WI24fVaYPMpAVNLOgRmG8hIgA==
+"@tsed/swagger@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.31.1.tgz#96db076cccf727234887e9b39d837170130701b7"
+  integrity sha512-QueuF/b2WEhTHG2YJyXGvu742fGB7+T0lZjvJTqPcCMMkk+2DSF8fxPVnolok1Rv/LzTveeQN80W5zK9WIhlfg==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.27.1":
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.27.1.tgz#d332438026b086d4d06d1e11da8e1a8622ded55f"
-  integrity sha512-CRgc4P1hd84epb3V2r/cIEeshV9a51hpjq/OIe+l6bj+HWR5Bqb/cv5azU+dmYZQvgoKXzQ7+jZl99fNjPBG5w==
+"@tsed/testing@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.31.1.tgz#26d33a85b960f041a5122d22a383d355cf7ce500"
+  integrity sha512-nj9cNbmEeIBpvRYiVwpCv4eeaL461c6AlAGnl7kw+Dojo2K25V+m4xKWFwMoFYVMTKIVX26zaMJ7cFWBbQ7K2g==
   dependencies:
     tslib "^1.9.0"
 
@@ -242,6 +242,15 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
+"@types/express@*":
+  version "4.17.1"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.1.tgz#4cf7849ae3b47125a567dfee18bfca4254b88c5c"
+  integrity sha512-VfH/XCP0QbQk5B5puLqTLEeFgR8lfCJHZJKkInZ9mkYd+u8byX0kztXEQxEk4wZXJs8HI+7km2ALXjn4YKcX9w==
+  dependencies:
+    "@types/body-parser" "*"
+    "@types/express-serve-static-core" "*"
+    "@types/serve-static" "*"
+
 "@types/express@^4.11.1":
   version "4.16.0"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.16.0.tgz#6d8bc42ccaa6f35cf29a2b7c3333cb47b5a32a19"
@@ -294,6 +303,13 @@
   version "5.2.5"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.5.tgz#8a4accfc403c124a0bafe8a9fc61a05ec1032073"
   integrity sha512-lAVp+Kj54ui/vLUFxsJTMtWvZraZxum3w3Nwkble2dNuV5VnPA+Mi2oGX9XYJAaIvZi3tn3cbjS/qcJXRb6Bww==
+
+"@types/multer@1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.3.9.tgz#da72b5d616cba2aa0eede71d9459e4234ec33a60"
+  integrity sha512-aKUwxl4yH87G8b3wgmruBVdOWiG9qqmc4Epjt5Uz3mqaMZwx3dkMm4tHn5nnwBk2NT+X4t5yADJiEv/NfMFQIg==
+  dependencies:
+    "@types/express" "*"
 
 "@types/node@*", "@types/node@^10.3.0":
   version "10.12.18"

@@ -24,7 +24,16 @@ export class MultipartFileMiddleware implements IMiddleware {
 
   invoke(conf: any) {
     const dest = this.configuration.uploadDir;
-    const options = Object.assign({dest}, this.configuration.get("multer") || {}, conf.options || {});
+    const options = {
+      dest,
+      ...(this.configuration.get("multer") || {}),
+      ...(conf.options || {})
+    };
+
+    /* istanbul ignore next */
+    if (options.storage) {
+      delete options.dest;
+    }
 
     if (!conf.any) {
       const fields = conf.fields.map(({name, maxCount}: any) => ({name, maxCount}));

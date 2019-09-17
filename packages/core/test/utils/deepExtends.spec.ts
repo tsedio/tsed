@@ -4,7 +4,7 @@ import {deepExtends} from "../../src";
 describe("deepExtends", () => {
   describe("without reducers", () => {
     describe("when is an object", () => {
-      it("should merge data", () => {
+      it("should merge data (1)", () => {
         expect(
           deepExtends(
             {
@@ -16,22 +16,30 @@ describe("deepExtends", () => {
           security: ["o"]
         });
       });
-      it("should merge data", () => {
-        expect(
-          deepExtends(
-            {
-              security: ["o"]
-            },
-            {
-              security: ["o", "o1"]
-            }
-          )
-        ).to.deep.eq({
-          security: ["o", "o1"]
+      it("should merge data (2)", () => {
+        const klass = class {
+          test = "test";
+        };
+        const result = deepExtends(
+          {
+            security: ["o"]
+          },
+          {
+            security: ["o", "o1"],
+            withClass: new klass
+          }
+        );
+        expect(result).to.deep.eq({
+          security: ["o", "o1"],
+          withClass: {
+            "test": "test"
+          }
         });
+
+        expect(result.withClass).to.be.instanceof(klass);
       });
 
-      it("should merge data", () => {
+      it("should merge data (3)", () => {
         expect(
           deepExtends(
             {
@@ -48,11 +56,11 @@ describe("deepExtends", () => {
     });
 
     describe("when is an array", () => {
-      it("should merge data", () => {
+      it("should merge data (1)", () => {
         expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
       });
 
-      it("should merge data", () => {
+      it("should merge data (2)", () => {
         expect(deepExtends([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).to.deep.eq([
           {"1": "1"},
           {"2": "2"},

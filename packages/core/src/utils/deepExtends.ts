@@ -5,7 +5,7 @@
  * @param {{[p: string]: (collection: any[], value: any) => any}} reducers
  * @returns {any}
  */
-import {isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./ObjectUtils";
+import {classOf, isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./ObjectUtils";
 
 export function deepExtends(out: any, obj: any, reducers: {[key: string]: (collection: any[], value: any) => any} = {}): any {
   if (obj === undefined || obj === null) {
@@ -19,7 +19,7 @@ export function deepExtends(out: any, obj: any, reducers: {[key: string]: (colle
   if (isArrayOrArrayClass(obj)) {
     out = out || [];
   } else {
-    out = out || {};
+    out = out || (obj ? (classOf(obj) !== Object ? Object.create(obj) : {}) : {});
   }
 
   const defaultReducer = reducers["default"]
