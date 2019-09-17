@@ -1,5 +1,6 @@
-import {GlobalAcceptMimesMiddleware, IServerSettings, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
+import {join} from "path";
 import {RestCtrl} from "./controllers/RestCtrl";
 
 const cookieParser = require("cookie-parser");
@@ -11,6 +12,7 @@ const rootDir = __dirname;
 @ServerSettings({
   rootDir,
   acceptMimes: ["application/json"],
+  httpPort: 8083,
   logger: {
     debug: true,
     logRequest: true,
@@ -22,8 +24,16 @@ const rootDir = __dirname;
       `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
     ]
   },
+  swagger: [
+    {
+      path: "/api-docs"
+    }
+  ],
   calendar: {
     token: true
+  },
+  statics: {
+    "/statics": join(__dirname, "..", "statics")
   }
 })
 export class Server extends ServerLoader {
