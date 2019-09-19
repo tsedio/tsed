@@ -84,7 +84,7 @@ This model can used on a method controller along with [@BodyParams](/api/common/
 <<< @/docs/tutorials/snippets/swagger/endpoint-documentation.ts
 
 ::: tip
-For endpoint which returns an array you have to use @@ReturnArray@@ decorator instead of @@Returns@@
+For endpoint which returns an array you have to use @@ReturnsArray@@ decorator instead of @@Returns@@
 :::
 
 ::: warning

@@ -8,8 +8,7 @@ This schemes resume the order of hooks regarding to ServerLoader and Providers:
 
 <figure><img src="./../assets/hooks-in-sequence.png" style="max-height: 500px; padding: 20px"></figure>
 
-[Open in fullscreen](./../assets/hooks-in-sequence.png)
-
+[Open in fullscreen](/assets/img/hooks-in-sequence.png)
 
 ### Examples
 
