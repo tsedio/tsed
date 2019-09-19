@@ -3,7 +3,6 @@ import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {BadRequest} from "ts-httpexceptions";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
-import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
@@ -255,11 +254,12 @@ export class ConverterService {
     } catch (err) {
       /* istanbul ignore next */
       (() => {
-        const castedErrorMessage = `Error for ${propertyName} with value ${propertyValue} \n ${err.message}`;
+        const castedErrorMessage = `Error for ${propertyName} with value ${JSON.stringify(propertyValue)} \n ${err.message}`;
         if (err instanceof BadRequest) {
           throw new BadRequest(castedErrorMessage);
         }
         const castedError: any = new Error(castedErrorMessage);
+        castedError.status = err.status;
         castedError.stack = err.stack;
         castedError.origin = err;
 
