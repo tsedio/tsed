@@ -23,22 +23,7 @@ npm install --save @types/swagger-schema-official @tsed/swagger
 
 Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/swagger"; // import swagger Ts.ED module
-
-@ServerSettings({
-  rootDir: __dirname,
-  swagger: [
-    {
-      path: "/api-docs"
-    }
-  ]
-})
-export class Server extends ServerLoader {
-
-}
-```
+<<< @/docs/tutorials/snippets/swagger/configuration.ts
 
 > The path option for swagger will be used to expose the documentation (ex: http://localhost:8000/api-docs).
 
@@ -68,45 +53,11 @@ operationIdFormat | `%c.%m` | Format of operationId field (`%c`: class name, `%m
 
 It also possible to create several swagger documentations with `doc` option:
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/swagger"; // import swagger Ts.ED module
-
-@ServerSettings({
-  rootDir: __dirname,
-  swagger: [
-    {
-      path: "/api-docs-v1",
-      doc: 'api-v1'
-    },
-    {
-      path: "/api-docs-v2",
-      doc: 'api-v2'
-    }
-  ]
-})
-export class Server extends ServerLoader {
-
-}
-```
+<<< @/docs/tutorials/snippets/swagger/multi-spec.ts
 
 Then use `@Docs` decorators on your controllers to specify where the controllers should be displayed.
 
-```typescript
-import {Controller} from "@tsed/common";
-import {Docs} from "@tsed/swagger";
-
-@Controller('/calendars')
-@Docs('api-v2') // display this controllers only for api-docs-v2
-export class CalendarCtrlV2 {
-}
-// OR 
-@Controller('/calendars')
-@Docs('api-v2', 'api-v1')  // display this controllers for api-docs-v2 and api-docs-v1
-export class CalendarCtrl {
-
-}
-```
+<<< @/docs/tutorials/snippets/swagger/multi-spec-controllers.ts
 
 ## Decorators
 
@@ -126,53 +77,16 @@ JSON Object (see [converters section](/docs/converters.md)).
 
 This model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators.
 
-```typescript
-import {JsonProperty} from "@tsed/common";
-import {Title, Description, Example} from "@tsed/swagger";
-
-export class CalendarModel {
-  @Title("iD")
-  @Description("Description of calendar model id")
-  @Example("example1", "Description example")
-  @JsonProperty()
-  public id: string;
-
-  @JsonProperty()
-  public name: string;
-}
-```
+<<< @/docs/tutorials/snippets/swagger/model.ts
 
 #### Endpoint documentation
 
-```typescript
-import {Controller, Get, Post} from "@tsed/common";
-import {Summary, Description, Responses,Deprecated, Security} from "@tsed/swagger";
-@Controller('/calendars')
-export class Calendar {
-    
-    @Get('/:id')
-    @Summary("Summary of this route")
-    @Description("Description of this route")
-    @Returns("404", {description: "Not found"})
-    async getCalendar(@QueryParam() id: string): Promise<CalendarModel> {
-      //...
-    }
-    
-    @Get('/v0/:id')
-    @Deprecated()
-    @Description("Deprecated route, use /rest/calendars/:id instead of.")
-    @Returns("404", {description: "Not found"})
-    getCalendarDeprecated(@QueryParam() id: string): Promise<CalendarModel> {
-      //...
-    }
+<<< @/docs/tutorials/snippets/swagger/endpoint-documentation.ts
 
-    @Post('/')
-    @Security("calendar_auth", "write:calendar", "read:calendar")
-    async createCalendar(): Promise<CalendarModel> {
-        //...
-    }
-}
-```
+::: tip
+For endpoint which returns an array you have to use @@ReturnArray@@ decorator instead of @@Returns@@
+:::
+
 ::: warning
 To update the `swagger.json` you have to reload the server before.
 :::
@@ -181,24 +95,7 @@ To update the `swagger.json` you have to reload the server before.
 
 It possible to import a Javascript in the Swagger-ui documentation. This script let you customize the swagger-ui instance. 
 
-
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/swagger"; // import swagger Ts.ED module
-
-@ServerSettings({
-  rootDir: __dirname,
-  swagger: [
-    {
-      path: "/api-docs",
-      jsPath: "/spec/main.js"
-    }
-  ]
-})
-export class Server extends ServerLoader {
-
-}
-```
+<<< @/docs/tutorials/snippets/swagger/configuration-with-js.ts
 
 In your JavaScript file, you can handle Swagger-ui configuration and the instance:
 
@@ -211,5 +108,5 @@ document.addEventListener('swagger.init', (evt) => {
 ```
 
 ::: tip Credits
-Thanks to [vologab](https://github.com/vologab) to his contribution.
+Thanks to [vologab](https://github.com/vologab) for his contribution.
 :::
