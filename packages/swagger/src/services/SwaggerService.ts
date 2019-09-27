@@ -53,7 +53,7 @@ export class SwaggerService {
    * Return the global api information.
    * @returns {Info}
    */
-  public getDefaultSpec(conf: ISwaggerSettings): Spec {
+  public getDefaultSpec(conf: Partial<ISwaggerSettings>): Spec {
     const {version} = this.configuration;
     const spec: ISwaggerSpec =
       conf.spec ||
