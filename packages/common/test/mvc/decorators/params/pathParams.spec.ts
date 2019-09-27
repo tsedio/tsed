@@ -25,7 +25,7 @@ describe("@PathParams", () => {
       index: 0,
       expression: "expression",
       useType: Test,
-      useConverter: false,
+      useConverter: true,
       useValidation: false
     });
   });
