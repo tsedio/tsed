@@ -139,5 +139,13 @@ describe("Response", () => {
         response.text.should.be.equal("value10");
       });
     });
+
+    describe("GET /rest/response/scenario9/:dynamic", () => {
+      it("should throw a badRequest when path params isn't set as number", async () => {
+        const response = await request.get("/rest/response/scenario9/kkk").expect(400);
+
+        response.text.should.be.equal("Cast error. Expression value is not a number.");
+      });
+    });
   });
 });

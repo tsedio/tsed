@@ -1,12 +1,14 @@
 {
-  "production": "production",
-  "develop": "master",
-  "charBranchNameSeparator": "_",
+  "flow": "gflow",
   "remote": "origin",
+  "develop": "master",
+  "production": "production",
   "ignores": [],
   "syncAfterFinish": false,
   "postFinish": "",
   "skipTest": false,
+  "charReplacement": "-",
+  "charBranchNameSeparator": "-",
   "branchTypes": {
     "feat": "feat",
     "fix": "fix",

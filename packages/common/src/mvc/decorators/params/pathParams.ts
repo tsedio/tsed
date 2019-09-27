@@ -41,7 +41,7 @@ export function PathParams(useType: Type<any>): ParameterDecorator;
 export function PathParams(options: IParamOptions<any>): ParameterDecorator;
 export function PathParams(): ParameterDecorator;
 export function PathParams(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useConverter = true, useValidation = false} = mapParamsOptions(args);
 
   return UseFilter(ParamTypes.PATH, {
     expression,
