@@ -33,7 +33,7 @@ $ npm install --save-dev ts-node nodemon
 :::
 
 ::: warning
-It's really import to keep the same version for all `@tsed/*` packages.
+It's really important to keep the same version for all `@tsed/*` packages.
 To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
