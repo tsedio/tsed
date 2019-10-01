@@ -126,10 +126,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.3.tgz#62cf2a9b624edc795134135fe37fc2ae8ea36be3"
   integrity sha512-8zNeBkSKhU9a5cRNbpCKau2WWPfan+Q2zDlcXvXyhn9EsMqgYs4qzo0XHNVlXC6ABQL8fT6nV+zzo5RTHJzyXw==
 
-"@tsed/common@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.30.0.tgz#86e296dce463ce718ba0c52aaec509ef42a677bc"
-  integrity sha512-xSwZLN6WZzzaughpk+NZT7ZruvZXS/ji4tZhprDP4oZyMgF2EHPO/7ZU8dF4Fk/s1KKe/XY5e4zi5sBu3HlerA==
+"@tsed/common@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.31.1.tgz#ea3ff7ed7029078df1d4ab83b67457030e3f8719"
+  integrity sha512-dmh4ITDFEJWZBCC6p0ghFhcDsBBNUCiG7qhrMvxf1YQmS1FXvgZfWeAz/iVPUz/vPahDYfvy5fMBvIJtvyjW+A==
   dependencies:
     "@types/json-schema" "^7.0.3"
     globby "9.2.0"
@@ -139,49 +139,49 @@
     ts-log-debug "^5.1.0"
     tslib "^1.10.0"
 
-"@tsed/core@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.30.0.tgz#37c30d4dbb690eeb9e192148d8cc14369e6a425d"
-  integrity sha512-4AYp5TgmaULmeVcD8g5ju6yWFA18TUU/9DfDeDJDFwtZjd8fayXEXnN/kMZFwESO4JCNe0urPjx4IRbt9Ue3Gw==
+"@tsed/core@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.31.1.tgz#72d525f891ded5711f07139bcae59135c23552f0"
+  integrity sha512-O1QAqUONfGPnqhdAX7zNbZ4KtNJM5VvYKG/KvV20ZRZ9JSe1H4qaOn6mxXDwPJjh/fetIiT/qNf7haREyhlCXw==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "^0.5.12"
     tslib "^1.10.0"
 
-"@tsed/di@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.30.0.tgz#24786f26183427b475864db26f87fd9907819333"
-  integrity sha512-T9oYiwZyafU/afcBZFvKlqjIYXWRnl1K1wdi4VY55MjpYYncPCC/m+ZFHAq0vLkAMIAA+a6n+HkGYSw7QHCBEw==
+"@tsed/di@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.31.1.tgz#9c1f499aac9bd8b4623580f6afb20c24d65c1b3e"
+  integrity sha512-bjIVywflSQPtE76IALJ7ds2U6IcbUTAyHuFAmp0zXmraToTYkIS81IhFZdS/oKr31ksJaIqkz/WvyEW1AG2OpA==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/socketio@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.30.0.tgz#0e338db0459dd71199fe913db453d37ba994b3d8"
-  integrity sha512-63aUUCr68LUwyLCegfn6r7btckk/lN1S/yJ9Xs3iamfEhO6hGDXQoMi6NfVRtFiDNj9aVVIneXaFep8CAcK1Wg==
+"@tsed/socketio@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.31.1.tgz#f96a0cf3d38de964b141c9574cd7c1886438f56e"
+  integrity sha512-tshZCblWN85Hzviy2332gVdgn8Ji/UpayAvLSfar0go72G8SgRJ77ZaqHlGw9qSeKxyizVOWZ+hMKmQOo5RunA==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/swagger@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.30.0.tgz#f3a7f9ef74ad5d4fbf10c4cb4fc4dd1f844b2608"
-  integrity sha512-Ka3Y4FzTDvLCzCOs6Y3A1wn0MZqCfF9nXFcGejhBm1bp6PZy7cJsubiWH+czr7fcfr5k/429EUcwU/MGY25JUg==
+"@tsed/swagger@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.31.1.tgz#96db076cccf727234887e9b39d837170130701b7"
+  integrity sha512-QueuF/b2WEhTHG2YJyXGvu742fGB7+T0lZjvJTqPcCMMkk+2DSF8fxPVnolok1Rv/LzTveeQN80W5zK9WIhlfg==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.30.0.tgz#aa49ec5f3f6361bd26df1d4a5e2a6e081c0e9af7"
-  integrity sha512-NtZ0JQ/2iu3RBI/ltVC76siJfQgzukmC7nMcPkHP+ieXMFuVkrGMA/WIbAga7rsHblCbi+GJoF4qfJRSmQSGyA==
+"@tsed/testing@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.31.1.tgz#26d33a85b960f041a5122d22a383d355cf7ce500"
+  integrity sha512-nj9cNbmEeIBpvRYiVwpCv4eeaL461c6AlAGnl7kw+Dojo2K25V+m4xKWFwMoFYVMTKIVX26zaMJ7cFWBbQ7K2g==
   dependencies:
     tslib "^1.9.0"
 
-"@tsed/typeorm@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/typeorm/-/typeorm-5.30.0.tgz#2535a0e87a797282cdc0c8b2467fe4b29463179c"
-  integrity sha512-5qSi1JSpJOPxvmmW6PXpovvY4SxRhEKXXxhO0F3zhy28pRaiAjXRmIWe6lqp/dSWrzoyxh+NpfN1t6lpBnKJfQ==
+"@tsed/typeorm@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/typeorm/-/typeorm-5.31.1.tgz#9dc05ef5e669f84cc5f08454f23341a4000021c2"
+  integrity sha512-gQDPbxbRuB8lyG0xdP15+/p+U5WB3Ucv4GqNN0cEgIpN5Wsa1vrB8ajimEz4JlhWKJbV8zEhA4FFCSx0bU8Lsg==
   dependencies:
     tslib "^1.10.0"
     typeorm "^0.2.18"
@@ -842,7 +842,7 @@ combined-stream@^1.0.6:
 
 commander@2.15.1:
   version "2.15.1"
-  resolved "http://registry.npmjs.org/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
+  resolved "https://registry.npmjs.org/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
 commander@^2.12.1, commander@~2.20.0:
   version "2.20.0"
@@ -1567,7 +1567,7 @@ globby@9.2.0:
 
 got@^6.7.1:
   version "6.7.1"
-  resolved "http://registry.npmjs.org/got/-/got-6.7.1.tgz#240cd05785a9a18e561dc1b44b41c763ef1e8db0"
+  resolved "https://registry.npmjs.org/got/-/got-6.7.1.tgz#240cd05785a9a18e561dc1b44b41c763ef1e8db0"
   dependencies:
     create-error-class "^3.0.0"
     duplexer3 "^0.1.4"
@@ -1883,7 +1883,7 @@ is-number@^3.0.0:
 
 is-obj@^1.0.0:
   version "1.0.1"
-  resolved "http://registry.npmjs.org/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
+  resolved "https://registry.npmjs.org/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
 
 is-path-inside@^1.0.0:
   version "1.0.1"
@@ -2086,12 +2086,7 @@ lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
-lodash@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
-
-lodash@^4.17.13, lodash@^4.17.15:
+lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -2247,7 +2242,7 @@ minimist@0.0.8:
 
 minimist@^1.2.0:
   version "1.2.0"
-  resolved "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
+  resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
 minimist@~0.0.1:
   version "0.0.10"
@@ -2905,7 +2900,7 @@ read-pkg@^4.0.1:
 
 readable-stream@^2.0.2, readable-stream@^2.0.6, readable-stream@^2.3.5:
   version "2.3.6"
-  resolved "http://registry.npmjs.org/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
+  resolved "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
   dependencies:
     core-util-is "~1.0.0"
     inherits "~2.0.3"
@@ -3478,7 +3473,7 @@ test-exclude@^5.1.0:
 
 text-encoding@^0.6.4:
   version "0.6.4"
-  resolved "http://registry.npmjs.org/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
+  resolved "https://registry.npmjs.org/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
 
 thenify-all@^1.0.0:
   version "1.6.0"
