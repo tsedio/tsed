@@ -149,10 +149,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-2.1.3.tgz#62cf2a9b624edc795134135fe37fc2ae8ea36be3"
   integrity sha512-8zNeBkSKhU9a5cRNbpCKau2WWPfan+Q2zDlcXvXyhn9EsMqgYs4qzo0XHNVlXC6ABQL8fT6nV+zzo5RTHJzyXw==
 
-"@tsed/common@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.30.0.tgz#86e296dce463ce718ba0c52aaec509ef42a677bc"
-  integrity sha512-xSwZLN6WZzzaughpk+NZT7ZruvZXS/ji4tZhprDP4oZyMgF2EHPO/7ZU8dF4Fk/s1KKe/XY5e4zi5sBu3HlerA==
+"@tsed/common@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.31.1.tgz#ea3ff7ed7029078df1d4ab83b67457030e3f8719"
+  integrity sha512-dmh4ITDFEJWZBCC6p0ghFhcDsBBNUCiG7qhrMvxf1YQmS1FXvgZfWeAz/iVPUz/vPahDYfvy5fMBvIJtvyjW+A==
   dependencies:
     "@types/json-schema" "^7.0.3"
     globby "9.2.0"
@@ -162,42 +162,42 @@
     ts-log-debug "^5.1.0"
     tslib "^1.10.0"
 
-"@tsed/core@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.30.0.tgz#37c30d4dbb690eeb9e192148d8cc14369e6a425d"
-  integrity sha512-4AYp5TgmaULmeVcD8g5ju6yWFA18TUU/9DfDeDJDFwtZjd8fayXEXnN/kMZFwESO4JCNe0urPjx4IRbt9Ue3Gw==
+"@tsed/core@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.31.1.tgz#72d525f891ded5711f07139bcae59135c23552f0"
+  integrity sha512-O1QAqUONfGPnqhdAX7zNbZ4KtNJM5VvYKG/KvV20ZRZ9JSe1H4qaOn6mxXDwPJjh/fetIiT/qNf7haREyhlCXw==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "^0.5.12"
     tslib "^1.10.0"
 
-"@tsed/di@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.30.0.tgz#24786f26183427b475864db26f87fd9907819333"
-  integrity sha512-T9oYiwZyafU/afcBZFvKlqjIYXWRnl1K1wdi4VY55MjpYYncPCC/m+ZFHAq0vLkAMIAA+a6n+HkGYSw7QHCBEw==
+"@tsed/di@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.31.1.tgz#9c1f499aac9bd8b4623580f6afb20c24d65c1b3e"
+  integrity sha512-bjIVywflSQPtE76IALJ7ds2U6IcbUTAyHuFAmp0zXmraToTYkIS81IhFZdS/oKr31ksJaIqkz/WvyEW1AG2OpA==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/socketio@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.30.0.tgz#0e338db0459dd71199fe913db453d37ba994b3d8"
-  integrity sha512-63aUUCr68LUwyLCegfn6r7btckk/lN1S/yJ9Xs3iamfEhO6hGDXQoMi6NfVRtFiDNj9aVVIneXaFep8CAcK1Wg==
+"@tsed/socketio@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/socketio/-/socketio-5.31.1.tgz#f96a0cf3d38de964b141c9574cd7c1886438f56e"
+  integrity sha512-tshZCblWN85Hzviy2332gVdgn8Ji/UpayAvLSfar0go72G8SgRJ77ZaqHlGw9qSeKxyizVOWZ+hMKmQOo5RunA==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/swagger@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.30.0.tgz#f3a7f9ef74ad5d4fbf10c4cb4fc4dd1f844b2608"
-  integrity sha512-Ka3Y4FzTDvLCzCOs6Y3A1wn0MZqCfF9nXFcGejhBm1bp6PZy7cJsubiWH+czr7fcfr5k/429EUcwU/MGY25JUg==
+"@tsed/swagger@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.31.1.tgz#96db076cccf727234887e9b39d837170130701b7"
+  integrity sha512-QueuF/b2WEhTHG2YJyXGvu742fGB7+T0lZjvJTqPcCMMkk+2DSF8fxPVnolok1Rv/LzTveeQN80W5zK9WIhlfg==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.30.0.tgz#aa49ec5f3f6361bd26df1d4a5e2a6e081c0e9af7"
-  integrity sha512-NtZ0JQ/2iu3RBI/ltVC76siJfQgzukmC7nMcPkHP+ieXMFuVkrGMA/WIbAga7rsHblCbi+GJoF4qfJRSmQSGyA==
+"@tsed/testing@5.31.1":
+  version "5.31.1"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.31.1.tgz#26d33a85b960f041a5122d22a383d355cf7ce500"
+  integrity sha512-nj9cNbmEeIBpvRYiVwpCv4eeaL461c6AlAGnl7kw+Dojo2K25V+m4xKWFwMoFYVMTKIVX26zaMJ7cFWBbQ7K2g==
   dependencies:
     tslib "^1.9.0"
 
@@ -606,13 +606,6 @@ async-limiter@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
   integrity sha512-jp/uFnooOiO+L211eZOoSyzpOITMXx1rBITauYykG3BRYPu8h0UcxsPNB04RR5vo4Tyz3+ay17tR6JVf9qzYWg==
-
-async@^2.5.0:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
-  integrity sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==
-  dependencies:
-    lodash "^4.17.10"
 
 async@^2.6.2:
   version "2.6.2"
@@ -1023,10 +1016,10 @@ commander@^2.12.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
 
-commander@~2.17.1:
-  version "2.17.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
-  integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
+commander@~2.20.0:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.1.tgz#3863ce3ca92d0831dcf2a102f5fb4b5926afd0f9"
+  integrity sha512-cCuLsMhJeWQ/ZpsFTbE765kvVfoeSddc4nU3up4fV+fDBcfUXnbITJ+JzhkdjzOqhURjZgujxaioam4RM9yGUg==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -1882,11 +1875,11 @@ growl@1.10.5:
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
 
 handlebars@^4.0.3:
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.12.tgz#2c15c8a96d46da5e266700518ba8cb8d919d5bc5"
-  integrity sha512-RhmTekP+FZL+XNhwS1Wf+bTTZpdLougwt5pcgA1tuz6Jcx0fpH/7z0qd71RKnZHBCxIRBHfBOnio4gViPemNzA==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.4.0.tgz#22e1a897c5d83023d39801f35f6b65cf97ed8b25"
+  integrity sha512-xkRtOt3/3DzTKMOt3xahj2M/EqNhY988T+imYSlMgs5fVhLN2fmKVVj0LtEGmb+3UUYV5Qmm1052Mm3dIQxOvw==
   dependencies:
-    async "^2.5.0"
+    neo-async "^2.6.0"
     optimist "^0.6.1"
     source-map "^0.6.1"
   optionalDependencies:
@@ -2548,15 +2541,15 @@ lodash.get@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
-lodash@^4.17.10, lodash@^4.17.5, lodash@^4.5.1:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
-
 lodash@^4.17.11, lodash@^4.17.4:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
+lodash@^4.17.5, lodash@^4.5.1:
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
 lolex@^2.3.2, lolex@^2.7.5:
   version "2.7.5"
@@ -2862,6 +2855,11 @@ negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
+
+neo-async@^2.6.0:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
+  integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
 nise@^1.4.5:
   version "1.4.8"
@@ -4327,11 +4325,11 @@ uglify-js@^2.6.1:
     uglify-to-browserify "~1.0.0"
 
 uglify-js@^3.1.4:
-  version "3.4.9"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.9.tgz#af02f180c1207d76432e473ed24a28f4a782bae3"
-  integrity sha512-8CJsbKOtEbnJsTyv6LE6m6ZKniqMiFWmm9sRbopbkGs3gMPPfd3Fh8iIA4Ykv5MgaTbqHr4BaoGLJLZNhsrW1Q==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.0.tgz#704681345c53a8b2079fb6cec294b05ead242ff5"
+  integrity sha512-W+jrUHJr3DXKhrsS7NUVxn3zqMOFn0hL/Ei6v0anCIMoKC93TjcflTagwIHLW7SfMFfiQuktQyFVCFHGUE0+yg==
   dependencies:
-    commander "~2.17.1"
+    commander "~2.20.0"
     source-map "~0.6.1"
 
 uglify-to-browserify@~1.0.0:
