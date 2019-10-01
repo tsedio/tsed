@@ -40,6 +40,7 @@ export class SeqAppender extends BaseAppender {
         streams: [
           createStream({
             serverUrl: this.config.url,
+            apiKey: this.config.apiKey,
             level: $log.level
           })
         ]
