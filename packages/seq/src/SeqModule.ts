@@ -14,7 +14,8 @@ export class SeqModule implements AfterRoutesInit {
     $log.appenders.set("seq", {
       type: "seq",
       levels: ["info", "debug", "trace", "fatal", "error", "warn"],
-      url: this.config.url
+      url: this.config.url,
+      apiKey: this.config.apiKey
     });
   }
 }
