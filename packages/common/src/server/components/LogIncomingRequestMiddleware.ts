@@ -29,7 +29,9 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param {e.Request} request
    */
   protected onLogStart(request: Req) {
-    const {debug, logRequest} = this.injector.settings.logger;
+    const {debug, logRequest, logStart} = this.injector.settings.logger;
+
+    if (logStart === false) return;
 
     if (request.log) {
       if (debug) {
@@ -50,7 +52,9 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param response
    */
   protected onLogEnd(request: Req, response: Res) {
-    const {debug, logRequest} = this.injector.settings.logger;
+    const {debug, logRequest, logEnd} = this.injector.settings.logger;
+
+    if (logEnd === false) return;
 
     if (request.log) {
       if (debug) {
