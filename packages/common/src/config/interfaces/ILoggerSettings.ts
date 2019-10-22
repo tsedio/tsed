@@ -20,6 +20,14 @@ export interface ILoggerSettings {
    */
   logRequest?: boolean;
   /**
+   * Log start of all incoming request. By default is true
+   */
+  logStart?: boolean;
+  /**
+   * Log end of all incoming request. By default is true
+   */
+  logEnd?: boolean;
+  /**
    * The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
    */
   jsonIndentation?: number;

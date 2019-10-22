@@ -1,5 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {IMiddleware, Middleware, RequestLogger, Res, Req} from "../../mvc";
+import {IMiddleware, Middleware, Req, RequestLogger, Res} from "../../mvc";
 
 /**
  * @middleware
@@ -29,9 +29,9 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param {e.Request} request
    */
   protected onLogStart(request: Req) {
-    const {debug, logRequest} = this.injector.settings.logger;
+    const {debug, logRequest, logStart} = this.injector.settings.logger;
 
-    if (request.log) {
+    if (request.log && logStart !== false) {
       if (debug) {
         request.log.debug({
           event: "request.start"
@@ -50,22 +50,23 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param response
    */
   protected onLogEnd(request: Req, response: Res) {
-    const {debug, logRequest} = this.injector.settings.logger;
+    const {debug, logRequest, logEnd} = this.injector.settings.logger;
 
     if (request.log) {
-      if (debug) {
-        request.log.debug({
-          event: "request.end",
-          status: response.statusCode,
-          data: request.ctx.data
-        });
-      } else if (logRequest) {
-        request.log.info({
-          event: "request.end",
-          status: response.statusCode
-        });
+      if (logEnd !== false) {
+        if (debug) {
+          request.log.debug({
+            event: "request.end",
+            status: response.statusCode,
+            data: request.ctx.data
+          });
+        } else if (logRequest) {
+          request.log.info({
+            event: "request.end",
+            status: response.statusCode
+          });
+        }
       }
-
       request.log.flush();
     }
   }
