@@ -8,7 +8,7 @@ export async function callHook(injector: InjectorService, rootModule: any, key: 
 
   if (key in rootModule) {
     const hookDepreciation = (hook: string, newHook?: string) =>
-      util.deprecate(() => {}, `${hook} hook is deprecated. ${newHook ? "Use" + newHook + "instead" : "Hook will be removed"}`)();
+      util.deprecate(() => {}, `${hook} hook is deprecated. ${newHook ? "Use " + newHook + " instead" : "Hook will be removed"}`)();
 
     if (key === "$onInit") {
       hookDepreciation("$onInit", "$beforeInit");
