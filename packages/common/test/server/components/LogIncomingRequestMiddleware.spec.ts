@@ -137,8 +137,7 @@ describe("LogIncomingRequestMiddleware", () => {
       middleware.$onResponse(request as any, response as any);
 
       // THEN
-      injector.logger.info.should.have.callCount(1);
-      injector.logger.debug.should.have.been.calledWithExactly(Sinon.match({
+      injector.logger.info.should.have.been.calledWithExactly(Sinon.match({
         event: "request.start",
         method: "GET",
         reqId: "id",
@@ -180,7 +179,6 @@ describe("LogIncomingRequestMiddleware", () => {
       middleware.$onResponse(request as any, response as any);
 
       // THEN
-      injector.logger.info.should.have.callCount(1);
       injector.logger.info.should.have.been.calledWithExactly(Sinon.match({
         event: "request.end",
         method: "GET",
