@@ -138,7 +138,8 @@ module.exports = {
       .src([
         `${packagesDir}/**`,
         `${packagesDir}/**/.npmignore`,
-        `!${packagesDir}/**/src/**/*.{js,js.map,d.ts}`,
+        `!${packagesDir}/**/src/**`,
+        `!${packagesDir}/**/test/**`,
         `!${packagesDir}/**/package-lock.json`,
         `!${packagesDir}/**/yarn.lock`,
         `!${packagesDir}/**/node_modules/**`
