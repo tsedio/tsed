@@ -43,19 +43,19 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   get version() {
-    return this.map.get("version");
+    return this.getRaw("version");
   }
 
   set version(v: string) {
-    this.map.set("version", v);
+    this.setRaw("version", v);
   }
 
   get rootDir() {
-    return this.map.get("rootDir");
+    return this.getRaw("rootDir");
   }
 
   set rootDir(value: string) {
-    this.map.set("rootDir", value);
+    this.setRaw("rootDir", value);
   }
 
   get port(): string | number {
@@ -67,27 +67,27 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   get httpsOptions(): Https.ServerOptions {
-    return this.map.get("httpsOptions");
+    return this.getRaw("httpsOptions");
   }
 
   set httpsOptions(value: Https.ServerOptions) {
-    this.map.set("httpsOptions", value);
+    this.setRaw("httpsOptions", value);
   }
 
   get httpPort(): string | number {
-    return this.map.get("httpPort");
+    return this.getRaw("httpPort");
   }
 
   set httpPort(value: string | number) {
-    this.map.set("httpPort", value);
+    this.setRaw("httpPort", value);
   }
 
   get httpsPort(): string | number {
-    return this.map.get("httpsPort");
+    return this.getRaw("httpsPort");
   }
 
   set httpsPort(value: string | number) {
-    this.map.set("httpsPort", value);
+    this.setRaw("httpsPort", value);
   }
 
   get uploadDir(): string {
@@ -95,15 +95,15 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   set uploadDir(value: string) {
-    this.map.set("uploadDir", value);
+    this.setRaw("uploadDir", value);
   }
 
   get env(): Env {
-    return this.map.get("env");
+    return this.getRaw("env");
   }
 
   set env(value: Env) {
-    this.map.set("env", value);
+    this.setRaw("env", value);
   }
 
   get mount(): IServerMountDirectories {
@@ -111,23 +111,23 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   set mount(value: IServerMountDirectories) {
-    this.map.set("mount", value);
+    this.setRaw("mount", value);
   }
 
   get componentsScan(): string[] {
-    return this.resolve(this.map.get("componentsScan"));
+    return this.resolve(this.getRaw("componentsScan"));
   }
 
   set componentsScan(value: string[]) {
-    this.map.set("componentsScan", value);
+    this.setRaw("componentsScan", value);
   }
 
   get statics(): IServerMountDirectories {
-    return this.map.get("statics") || this.map.get("serveStatic") || {};
+    return this.getRaw("statics") || this.getRaw("serveStatic") || {};
   }
 
   set statics(value: IServerMountDirectories) {
-    this.map.set("statics", value);
+    this.setRaw("statics", value);
   }
 
   /**
@@ -149,11 +149,11 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   get acceptMimes(): string[] {
-    return this.map.get("acceptMimes") || ["application/json"];
+    return this.getRaw("acceptMimes") || ["application/json"];
   }
 
   set acceptMimes(value: string[]) {
-    this.map.set("acceptMimes", value || []);
+    this.setRaw("acceptMimes", value || []);
   }
 
   get debug(): boolean {
@@ -169,17 +169,17 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   set routers(options: IRouterSettings) {
-    this.map.set("routers", options);
+    this.setRaw("routers", options);
   }
 
   get validationModelStrict(): boolean {
-    const value = this.map.get("validationModelStrict");
+    const value = this.getRaw("validationModelStrict");
 
     return value === undefined ? true : value;
   }
 
   set validationModelStrict(value: boolean) {
-    this.map.set("validationModelStrict", value);
+    this.setRaw("validationModelStrict", value);
   }
 
   get logger(): Partial<ILoggerSettings> {
@@ -190,8 +190,8 @@ export class ServerSettingsService extends DIConfiguration {
     const logger = {...this.logger, ...value};
     logger.debug = logger.level === "debug";
 
-    this.map.set("logger", logger);
-    this.map.set("debug", logger.debug);
+    this.setRaw("logger", logger);
+    this.setRaw("debug", logger.debug);
 
     if (logger.format) {
       $log.appenders.set("stdout", {
@@ -219,7 +219,7 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   set exclude(exclude: string[]) {
-    this.map.set("exclude", exclude);
+    this.setRaw("exclude", exclude);
   }
 
   /**
@@ -249,7 +249,7 @@ export class ServerSettingsService extends DIConfiguration {
    * @param {IRouterSettings} options
    */
   set errors(options: IErrorsSettings) {
-    this.map.set("errors", options);
+    this.setRaw("errors", options);
   }
 
   /**
@@ -274,7 +274,7 @@ export class ServerSettingsService extends DIConfiguration {
    * @returns {string|number}
    */
   getHttpPort(): {address: string; port: number} {
-    return ServerSettingsService.buildAddressAndPort(this.map.get("httpPort"));
+    return ServerSettingsService.buildAddressAndPort(this.getRaw("httpPort"));
   }
 
   /**
@@ -282,7 +282,7 @@ export class ServerSettingsService extends DIConfiguration {
    * @param settings
    */
   setHttpPort(settings: {address: string; port: number}) {
-    this.map.set("httpPort", `${settings.address}:${settings.port}`);
+    this.setRaw("httpPort", `${settings.address}:${settings.port}`);
   }
 
   /**
@@ -290,7 +290,7 @@ export class ServerSettingsService extends DIConfiguration {
    * @returns {string|number}
    */
   getHttpsPort(): {address: string; port: number} {
-    return ServerSettingsService.buildAddressAndPort(this.map.get("httpsPort"));
+    return ServerSettingsService.buildAddressAndPort(this.getRaw("httpsPort"));
   }
 
   /**
@@ -298,6 +298,6 @@ export class ServerSettingsService extends DIConfiguration {
    * @param settings
    */
   setHttpsPort(settings: {address: string; port: number}) {
-    this.map.set("httpsPort", `${settings.address}:${settings.port}`);
+    this.setRaw("httpsPort", `${settings.address}:${settings.port}`);
   }
 }
