@@ -14386,10 +14386,10 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-tsed@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-2.0.3.tgz#8ce8e73fe7f8131fea3fb47ecd8f213d5965d238"
-  integrity sha512-/7h7btAhiLOUWscIgxf2UYMKzgN9IC0nuVRMkhdmLlMkyd2Iv0odmCU5uiHQ9U9Mb7+P1jXn5/5dx301bGkkzQ==
+vuepress-theme-tsed@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-2.1.1.tgz#282bba8e56c75a1b4007bad385ae03b5bf9e11e5"
+  integrity sha512-fKLZ9PyMDxcJ7oz9Ve1nfJ9Xxmy1qUn0d7VP1JOhBscQFiajKSyNRRWWBZxlioDwUcZbMoaPZQzA8qJyeCvOfA==
   dependencies:
     "@vuepress/plugin-google-analytics" "^1.2.0"
     axios "0.19.0"

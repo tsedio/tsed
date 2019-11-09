@@ -158,7 +158,7 @@
     "typeorm": "^0.2.7",
     "typescript": "^3.5.3",
     "vue-analytics": "5.17.2",
-    "vuepress-theme-tsed": "2.0.3"
+    "vuepress-theme-tsed": "2.1.1"
   },
   "directories": {
     "packages": "packages",
