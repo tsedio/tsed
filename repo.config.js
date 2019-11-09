@@ -55,6 +55,9 @@ module.exports = {
     },
     "passport-azure-ad": {
       url: "https://github.com/TypedProject/tsed-example-passport-azure-ad.git"
+    },
+    "vuejs": {
+      url: "https://github.com/TypedProject/tsed-example-vuejs.git"
     }
   },
   tsdoc: {

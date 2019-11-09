@@ -4,6 +4,14 @@ Here an example to configure your server and how to create your first controller
 
 See [Ts.ED](https://tsed.io) project for more information.
 
+## Features
+
+- Docker and Docker compose
+- Travis CI
+
+[<img src="https://www.docker.com/sites/default/files/social/docker_facebook_share.png" height="100" />](https://docker.com)
+[<img src="https://travis-ci.com/images/logos/TravisCI-Mascot-pride.png" height="100" />](https://travis-ci.org)
+
 ## Checkout
 
 This repository provide getting started project example for each Ts.ED version since `v5.18.1`.

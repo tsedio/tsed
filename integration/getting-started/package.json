@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
-    "build": "npm run tsc",
-    "test": "npm run clean && npm run test:lint && npm run test:coverage",
+    "build": "yarn tsc",
+    "test": "yarn clean && yarn test:lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "test:lint": "tslint --project tsconfig.json",
@@ -15,10 +15,9 @@
     "travis:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",
     "tsc:w": "tsc --project tsconfig.json -w",
-    "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/index.ts",
-    "start": "ts-node src/index.ts",
+    "start": "nodemon --watch 'src/**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/index.ts",
     "start:prod": "cross-env NODE_ENV=production node dist/index.js",
-    "docker:build": "npm run build && docker-compose build",
+    "docker:build": "yarn build && docker-compose build",
     "deploy": "exit 0"
   },
   "author": "",

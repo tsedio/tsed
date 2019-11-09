@@ -154,7 +154,10 @@ export class DIConfiguration {
     }
 
     if (typeof value === "string") {
-      return value.replace(/\${([\w.]+)}/gi, (match, key) => getValue(key, this.map));
+      return value
+        .replace(/\${([\w.]+)}/gi, (match, key) => getValue(key, this.map))
+        .replace(/<([\w.]+)>/gi, (match, key) => getValue(key, this.map))
+        .replace(/{{([\w.]+)}}/gi, (match, key) => getValue(key, this.map));
     }
 
     return value;

@@ -6,8 +6,12 @@ export default ({
                   router, // the router instance for the app
                   siteData // site metadata
                 }) => {
-  Vue.use(VueAnalytics, {
-    id: siteData.themeConfig.ga,
-    router
-  });
+  try {
+    Vue.use(VueAnalytics, {
+      id: siteData.themeConfig.plugins[0][1].ga,
+      router
+    });
+  } catch (er) {
+    console.warn(er);
+  }
 }

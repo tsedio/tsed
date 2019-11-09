@@ -11,13 +11,11 @@ module.exports = {
     editLinks: true,
     docsDir: "docs",
     sidebar: "auto",
-    ga: "UA-35240348-1",
-    apiUrl: "/api.json",
+    api: require("./public/api.json"),
     algolia: {
       apiKey: "f8a038207e461aaac0e2fd16403c2b01",
       indexName: "ts_ed"
     },
-
     locales: {
       "/": {
         label: "English",
@@ -208,11 +206,19 @@ module.exports = {
           documentationGeneratedWith: "Documentation generated with"
         }
       }
-    }
+    },
+    plugins: [
+      [
+        "@vuepress/google-analytics",
+        {
+          ga: "UA-35240348-1"
+        }
+      ]
+    ]
   },
   markdown: {
     lineNumbers: true,
-    config: md => {
+    extendMarkdown: md => {
       md.use(require("vuepress-theme-tsed/plugins/markdown-it-symbol"));
     }
   }

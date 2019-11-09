@@ -1,0 +1,15 @@
+.calendars-page {
+  table {
+    margin: auto;
+    border-collapse: collapse;
+
+    thead tr {
+      border-bottom: 2px solid grey;
+    }
+
+    td, th {
+      padding: 5px 10px;
+      text-align: left;
+    }
+  }
+}

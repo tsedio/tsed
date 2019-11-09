@@ -13,7 +13,7 @@
 ## version         : 1.0                                                     ##
 ###############################################################################
 ###############################################################################
-FROM node:10.15.3-alpine
+FROM node:12.13.0-alpine
 
 RUN apk update && apk add build-base git python
 
@@ -24,6 +24,10 @@ COPY ./dist ./dist
 COPY ./resources ./resources
 COPY ./spec ./spec
 
-RUN yarn install --production && apk del --purge build-base git python
+RUN yarn install --production
+
+EXPOSE 8081
+ENV PORT 8081
+ENV NODE_ENV production
 
 CMD ["yarn", "start:prod"]
