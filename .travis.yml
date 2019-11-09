@@ -23,13 +23,7 @@ jobs:
       name: 'Deploy packages'
       node_js: 12
       if: branch = production
-      script: yarn build
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          on:
-            branch: production
-          script: yarn semantic-release && gulp docs:publish && gulp examples:publish
+      script: yarn semantic-release && gulp docs:publish && gulp examples:publish
 
 branches:
   except:

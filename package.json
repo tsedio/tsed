@@ -150,7 +150,6 @@
     "source-map-support": "^0.5.10",
     "supertest": "^4.0.2",
     "swagger-ui-dist": "^3.23.1",
-    "travis-deploy-once": "^5.0.4",
     "ts-node": "^8.3.0",
     "tsconfig-paths": "^3.7.0",
     "tslint": "^5.18.0",
