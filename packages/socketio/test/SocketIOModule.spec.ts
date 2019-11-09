@@ -1,22 +1,22 @@
 import {HttpServer, HttpsServer} from "@tsed/common";
-import {InjectorService} from "@tsed/di";
 import {inject, TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import {ServerSettingsService} from "../../common/src/config";
 import {SocketIOModule, SocketIOServer, SocketIOService} from "../src";
 
 describe("SocketIOModule", () => {
+  let getWebsocketServicesStub: any, printSocketEventsStub: any;
   describe("$afterListen()", () => {
     describe("with http server", () => {
       before(TestContext.create);
       before(() => {
-        this.getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
-        this.printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
+        getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
+        printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
       });
       after(() => {
         TestContext.reset();
-        this.getWebsocketServicesStub.restore();
-        this.printSocketEventsStub.restore();
+        getWebsocketServicesStub.restore();
+        printSocketEventsStub.restore();
       });
 
       it("should call attach method", inject([ServerSettingsService], async (serverSettingsService: ServerSettingsService) => {
@@ -35,7 +35,7 @@ describe("SocketIOModule", () => {
           {provide: SocketIOService, use: socketIOService}
         ]);
 
-        this.getWebsocketServicesStub.returns([{provider: "provider"}]);
+        getWebsocketServicesStub.returns([{provider: "provider"}]);
         // WHEN
         await socketIOModule.$afterListen();
 
@@ -48,7 +48,7 @@ describe("SocketIOModule", () => {
           config: "config"
         });
 
-        this.getWebsocketServicesStub.should.have.been.calledWithExactly();
+        getWebsocketServicesStub.should.have.been.calledWithExactly();
         socketIOServer.adapter.should.have.been.calledWithExactly("adapter");
         socketIOService.addSocketProvider.should.have.been.calledWithExactly({provider: "provider"});
       }));
@@ -56,13 +56,13 @@ describe("SocketIOModule", () => {
     describe("with https server", () => {
       before(TestContext.create);
       before(() => {
-        this.getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
-        this.printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
+        getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
+        printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
       });
       after(() => {
         TestContext.reset();
-        this.getWebsocketServicesStub.restore();
-        this.printSocketEventsStub.restore();
+        getWebsocketServicesStub.restore();
+        printSocketEventsStub.restore();
       });
 
       it("should call attach method", inject([ServerSettingsService], async (serverSettingsService: ServerSettingsService) => {
@@ -82,7 +82,7 @@ describe("SocketIOModule", () => {
           {provide: SocketIOService, use: socketIOService}
         ]);
 
-        this.getWebsocketServicesStub.returns([{provider: "provider"}]);
+        getWebsocketServicesStub.returns([{provider: "provider"}]);
         // WHEN
         await socketIOModule.$afterListen();
 
@@ -90,7 +90,7 @@ describe("SocketIOModule", () => {
           config: "config"
         });
 
-        this.getWebsocketServicesStub.should.have.been.calledWithExactly();
+        getWebsocketServicesStub.should.have.been.calledWithExactly();
         socketIOService.addSocketProvider.should.have.been.calledWithExactly({provider: "provider"});
       }));
     });
