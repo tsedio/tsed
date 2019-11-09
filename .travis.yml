@@ -9,15 +9,26 @@ notifications:
     on_success: change  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
+
 node_js:
-  - '11.6.0'
-  - '10'
-  - '8'
-after_success:
-  - npm run travis:deploy-once "npm run semantic-release"
-  - npm run travis:deploy-once "gulp docs:publish"
-  - npm run travis:deploy-once "gulp examples:publish"
-  - npm run travis:coveralls
+  - 12
+  - 10
+  - 8
+
+after_success: yarn travis:coveralls
+
+jobs:
+  include:
+    - stage: deploy
+      name: 'Deploy packages'
+      node_js: 12
+      if: branch = production
+      script: yarn build
+      deploy:
+        - provider: script
+          skip_cleanup: true
+          script: yarn semantic-release && gulp docs:publish && gulp examples:publish
+
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
