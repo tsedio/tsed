@@ -27,6 +27,8 @@ jobs:
       deploy:
         - provider: script
           skip_cleanup: true
+          on:
+            branch: production
           script: yarn semantic-release && gulp docs:publish && gulp examples:publish
 
 branches:
