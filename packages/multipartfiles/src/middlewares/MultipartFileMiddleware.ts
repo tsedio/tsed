@@ -26,7 +26,7 @@ export class MultipartFileMiddleware implements IMiddleware {
     const dest = this.configuration.uploadDir;
     const options = {
       dest,
-      ...(this.configuration.get("multer") || {}),
+      ...(this.configuration.get<any>("multer") || {}),
       ...(conf.options || {})
     };
 
