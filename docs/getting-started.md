@@ -3,6 +3,28 @@ sidebar: auto
 prev: /configuration.html
 next: /docs/controllers.html
 otherTopics: true
+projects:
+ - title: Kit basic
+   href: https://github.com/TypedProject/tsed-getting-started
+   src: /tsed.png
+ - title: Kit Vue.js
+   href: https://github.com/TypedProject/tsed-example-vuejs
+   src: /vuejs.png    
+ - title: Kit TypeORM
+   href: https://github.com/TypedProject/tsed-example-typeorm
+   src: /typeorm.png
+ - title: Kit Mongoose
+   href: https://github.com/TypedProject/tsed-example-mongoose
+   src: /mongoose.png
+ - title: Kit Socket.io
+   href: https://github.com/TypedProject/tsed-example-socketio
+   src: /socketio.png 
+ - title: Kit Passport.js
+   href: https://github.com/TypedProject/tsed-example-passportjs
+   src: /passportjs.png
+ - title: Kit AWS
+   href: https://github.com/TypedProject/tsed-example-aws
+   src: /aws.png
 meta:
  - name: description
    content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express and use TypeScript language.
@@ -12,7 +34,9 @@ meta:
 
 # Getting started
 
-You can start your project from the [getting started project boilerplate](https://github.com/TypedProject/tsed-getting-started).
+Save your time by starting your project on one of this kit:
+
+<Projects type="getting-started" />
 
 ## Installation from scratch
 

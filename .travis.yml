@@ -15,7 +15,7 @@ node_js:
   - 10
   - 8
 
-after_success: yarn travis:coveralls
+script: yarn test && yarn travis:coveralls
 
 jobs:
   include:
