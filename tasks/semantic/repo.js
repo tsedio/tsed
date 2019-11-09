@@ -22,8 +22,7 @@ module.exports = {
     await gulpRepo.build();
   },
   /**
-   *
-   * @returns {*}
+   * Publish packages
    */
   async publish(pluginConfig) {
     if (pluginConfig.dryRun) {

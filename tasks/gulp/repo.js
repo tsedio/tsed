@@ -138,7 +138,8 @@ module.exports = {
       .src([
         `${packagesDir}/**`,
         `${packagesDir}/**/.npmignore`,
-        `!${packagesDir}/**/src/**/*.{js,js.map,d.ts}`,
+        `!${packagesDir}/**/src/**`,
+        `!${packagesDir}/**/test/**`,
         `!${packagesDir}/**/package-lock.json`,
         `!${packagesDir}/**/yarn.lock`,
         `!${packagesDir}/**/node_modules/**`
@@ -199,13 +200,22 @@ module.exports = {
         const cwd = `./${path.join(outputDir, pkgName)}`;
 
         try {
-          const npmrc = `./${path.join(cwd, ".npmrc")}`;
-          fs.writeFileSync(npmrc, "//registry.npmjs.org/:_authToken=${NPM_TOKEN}", {encode: "utf8"});
+          const npmrc = path.join(cwd, ".npmrc");
+          const registry = "https://registry.npmjs.org/";
+          fs.writeFileSync(npmrc, "//registry.npmjs.org/:_authToken=${NPM_TOKEN}", {encoding: "utf8"});
 
-          sync("npm", ["publish", "--access", npmAccess], {
-            cwd,
-            stdio: ["inherit", "inherit", "inherit"]
-          });
+          sync("npm",
+            [
+              "publish",
+              cwd,
+              "--userconfig", npmrc,
+              "--access", npmAccess,
+              "--registry", registry
+            ],
+            {
+              cwd,
+              stdio: ["inherit", "inherit", "inherit"]
+            });
         } catch (er) {
           logger(chalk.red(er.message), chalk.red(er.stack));
         }

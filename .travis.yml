@@ -13,7 +13,8 @@ node_js:
   - 10
   - 8
 
-script: yarn test && yarn travis:coveralls
+script: skip
+  # && yarn test && yarn travis:coveralls
 
 jobs:
   include:

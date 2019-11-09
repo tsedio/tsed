@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "5.33.2",
+  "version": "5.33.4",
   "description": "A TypeScript Framework on top of Express",
   "scripts": {
     "postinstall": "gulp repo:bootstrap",
@@ -157,7 +157,7 @@
     "typeorm": "^0.2.7",
     "typescript": "^3.5.3",
     "vue-analytics": "5.17.2",
-    "vuepress-theme-tsed": "2.1.1"
+    "vuepress-theme-tsed": "2.1.3"
   },
   "directories": {
     "packages": "packages",

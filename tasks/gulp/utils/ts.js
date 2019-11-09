@@ -15,7 +15,8 @@ exports.getTsProject = (pkgName) => {
       "noResolve": false,
       "preserveConstEnums": true,
       "sourceMap": true,
-      "noEmit": false
+      "noEmit": false,
+      "inlineSources": true
     });
 
     if (STORE_CONFIG.indexOf(pkgName) === -1) {
