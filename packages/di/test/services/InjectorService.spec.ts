@@ -798,6 +798,10 @@ describe("InjectorService", () => {
         }
       });
 
+      expect(injector.settings.get("scopes")).to.deep.eq({
+        [ProviderType.VALUE]: ProviderScope.SINGLETON
+      });
+
       injector.add(Symbol.for("TOKEN1"), {
         configuration: {
           custom: "config",

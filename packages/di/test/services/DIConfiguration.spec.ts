@@ -11,7 +11,9 @@ describe("DIConfiguration", () => {
         scopes: {
           [ProviderType.VALUE]: ProviderScope.SINGLETON
         },
-        shouldResolved: "${scopes.value}"
+        shouldResolved: "${scopes.value}",
+        shouldResolved2: "<scopes.value>",
+        shouldResolved3: "{{scopes.value}}"
       });
       // WHEN
       configuration.merge({
@@ -34,10 +36,20 @@ describe("DIConfiguration", () => {
         [
           "shouldResolved",
           "${scopes.value}"
+        ],
+        [
+          "shouldResolved2",
+          "<scopes.value>"
+        ],
+        [
+          "shouldResolved3",
+          "{{scopes.value}}"
         ]
       ]);
 
       configuration.get<any>("shouldResolved")!.should.eq("singleton");
+      configuration.get<any>("shouldResolved2")!.should.eq("singleton");
+      configuration.get<any>("shouldResolved3")!.should.eq("singleton");
       configuration.shouldResolved.should.eq("singleton");
     });
   });
@@ -55,7 +67,7 @@ describe("DIConfiguration", () => {
     it("ownKeys", () => {
       const configuration = new DIConfiguration();
       configuration.test = "test";
-      expect(Reflect.ownKeys(configuration)).to.deep.eq(["map", "scopes", "test"]);
+      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "test"]);
     });
 
     it("defineProperty", () => {

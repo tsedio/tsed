@@ -1,0 +1,60 @@
+git:
+  depth: false
+
+language: node_js
+
+node_js:
+  - 12.13.0
+
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+    - "packages/server/node_modules"
+    - "packages/client/node_modules"
+
+services:
+  - docker
+
+env:
+  - CXX=g++-4.8 TZ=GMT
+
+before_install:
+  - npm install -g yarn@1.15.2
+
+install:
+  - yarn install --frozen-lockfile
+
+jobs:
+  include:
+    #######################################################################
+    # STAGE: TEST
+    #######################################################################
+    - stage: test
+      name: 'Tests'
+      script:
+        - yarn lint || travis_terminate 1;
+        - yarn test || travis_terminate 1;
+    #######################################################################
+    # STAGE: DEPLOY
+    #######################################################################
+    - stage: deploy
+      if: branch = master
+      name: 'Build & Deploy'
+      script: yarn docker:build
+      ## Add deploy script here
+
+stages:
+  - test
+  - deploy
+
+branches:
+  except:
+    - master
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8

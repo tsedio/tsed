@@ -1,18 +1,19 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as methodOverride from "method-override";
 import {join} from "path";
 import {RestCtrl} from "./controllers/RestCtrl";
 
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compress = require("compression");
-const methodOverride = require("method-override");
 const rootDir = __dirname;
 
 @ServerSettings({
   rootDir,
   acceptMimes: ["application/json"],
-  httpPort: 8083,
+  httpPort: process.env.PORT || 8083,
+  httpsPort: false, // CHANGE
   logger: {
     debug: true,
     logRequest: true,
@@ -20,7 +21,7 @@ const rootDir = __dirname;
   },
   mount: {
     "/rest": [
-      RestCtrl, // Manual import
+      RestCtrl, // Manual import (remove it)
       `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
     ]
   },
@@ -34,7 +35,13 @@ const rootDir = __dirname;
   },
   statics: {
     "/statics": join(__dirname, "..", "statics")
-  }
+  },
+  componentsScan: [
+    "${rootDir}/mvc/**/*.ts",
+    "${rootDir}/services/**/*.ts",
+    "${rootDir}/middlewares/**/*.ts",
+    "${rootDir}/converters/**/*.ts"
+  ]
 })
 export class Server extends ServerLoader {
   constructor(settings) {

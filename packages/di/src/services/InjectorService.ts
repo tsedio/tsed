@@ -1,4 +1,15 @@
-import {deepClone, getClass, getClassOrSymbol, isFunction, isInheritedFrom, Metadata, nameOf, prototypeOf, Store} from "@tsed/core";
+import {
+  deepClone,
+  deepExtends,
+  getClass,
+  getClassOrSymbol,
+  isFunction,
+  isInheritedFrom,
+  Metadata,
+  nameOf,
+  prototypeOf,
+  Store
+} from "@tsed/core";
 
 import * as util from "util";
 import {Container} from "../class/Container";
@@ -275,18 +286,14 @@ export class InjectorService extends Container {
       return;
     }
 
-    const rawSettings = this.settings.toRawObject();
-
     // @ts-ignore
-    this.settings.map.clear();
-
     super.forEach(provider => {
       if (provider.configuration) {
-        this.settings.merge(provider.configuration);
+        Object.entries(provider.configuration).forEach(([key, value]) => {
+          this.settings.default.set(key, deepExtends(this.settings.default.get(key) || {}, value));
+        });
       }
     });
-
-    this.settings.merge(rawSettings);
 
     this.resolvedConfiguration = true;
   }

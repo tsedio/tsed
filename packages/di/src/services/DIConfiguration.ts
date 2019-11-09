@@ -1,16 +1,19 @@
-import {deepClone, deepExtends, getValue, setValue} from "@tsed/core";
+import {deepExtends, getValue, setValue} from "@tsed/core";
 import {IDIConfigurationOptions} from "../interfaces/IDIConfigurationOptions";
 import {ProviderScope} from "../interfaces/ProviderScope";
 
 export class DIConfiguration {
+  readonly default: Map<string, any> = new Map();
   protected map: Map<string, any> = new Map();
 
   [key: string]: any;
 
   constructor(initialProps = {}) {
-    this.set({
+    Object.entries({
       scopes: {},
       ...initialProps
+    }).forEach(([key, value]) => {
+      this.default.set(key, value);
     });
 
     return new Proxy(this, {
@@ -51,17 +54,19 @@ export class DIConfiguration {
       },
 
       ownKeys(target: DIConfiguration): PropertyKey[] {
-        return Reflect.ownKeys(target).concat(Array.from(target.map.keys()));
+        return Reflect.ownKeys(target)
+          .concat(Array.from(target.default.keys()))
+          .concat(Array.from(target.map.keys()));
       }
     });
   }
 
   get scopes(): {[key: string]: ProviderScope} {
-    return this.map.get("scopes");
+    return this.getRaw("scopes");
   }
 
   set scopes(value: {[key: string]: ProviderScope}) {
-    this.map.set("scopes", value);
+    this.setRaw("scopes", value);
   }
 
   /**
@@ -70,7 +75,9 @@ export class DIConfiguration {
    * @param thisArg
    */
   forEach(callbackfn: (value: any, index: string, map: Map<string, any>) => void, thisArg?: any) {
-    return this.map.forEach(callbackfn, thisArg);
+    return new Set([...Array.from(this.default.keys()), ...Array.from(this.map.keys())]).forEach(key => {
+      callbackfn(this.getRaw(key), key, this.map);
+    }, thisArg);
   }
 
   /**
@@ -80,10 +87,16 @@ export class DIConfiguration {
    */
   set(propertyKey: string | Partial<IDIConfigurationOptions>, value?: any): this {
     if (typeof propertyKey === "string") {
-      setValue(propertyKey, value, this.map);
+      this.setRaw(propertyKey, value);
     } else {
       Object.assign(this, propertyKey);
     }
+
+    return this;
+  }
+
+  setRaw(propertyKey: string, value: any) {
+    setValue(propertyKey, value, this.map);
 
     return this;
   }
@@ -94,7 +107,24 @@ export class DIConfiguration {
    * @returns {undefined|any}
    */
   get<T>(propertyKey: string): T {
-    return this.resolve(getValue(propertyKey, this.map));
+    return this.resolve(this.getRaw(propertyKey));
+  }
+
+  getRaw(propertyKey: string): any {
+    if (["scopes"].includes(propertyKey)) {
+      return {
+        ...this.default.get(propertyKey),
+        ...this.map.get(propertyKey)
+      };
+    }
+
+    const value = getValue(propertyKey, this.map);
+
+    if (value !== undefined) {
+      return value;
+    }
+
+    return getValue(propertyKey, this.default);
   }
 
   merge(obj: Partial<IDIConfigurationOptions>) {
@@ -103,10 +133,8 @@ export class DIConfiguration {
       const originalValue = this.get(key);
       value = deepExtends(value, originalValue);
 
-      if (descriptor && ["set", "map", "get"].indexOf(key) === -1) {
+      if (descriptor && !["default", "set", "map", "get"].includes(key)) {
         this[key] = value;
-      } else {
-        this.set(key, value);
       }
     });
   }
@@ -126,17 +154,12 @@ export class DIConfiguration {
     }
 
     if (typeof value === "string") {
-      return value.replace(/\${([\w.]+)}/gi, (match, key) => getValue(key, this.map));
+      return value
+        .replace(/\${([\w.]+)}/gi, (match, key) => getValue(key, this.map))
+        .replace(/<([\w.]+)>/gi, (match, key) => getValue(key, this.map))
+        .replace(/{{([\w.]+)}}/gi, (match, key) => getValue(key, this.map));
     }
 
     return value;
-  }
-
-  toRawObject(): IDIConfigurationOptions {
-    return Array.from(this.map.entries()).reduce((obj: any, [key, value]) => {
-      obj[key] = deepClone(value);
-
-      return obj;
-    }, {});
   }
 }
