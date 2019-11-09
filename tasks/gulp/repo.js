@@ -199,8 +199,8 @@ module.exports = {
         const cwd = `./${path.join(outputDir, pkgName)}`;
 
         try {
-          const npmrc = `./${path.join(cwd, ".npmrc")}`;
-          fs.writeFileSync(npmrc, "//registry.npmjs.org/:_authToken=${NPM_TOKEN}", {encode: "utf8"});
+          const npmrc = path.join(cwd, ".npmrc");
+          fs.writeFileSync(npmrc, "//registry.npmjs.org/:_authToken=${NPM_TOKEN}", {encoding: "utf8"});
 
           sync("npm", ["publish", "--access", npmAccess], {
             cwd,
