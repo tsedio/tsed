@@ -49,7 +49,7 @@ Examples are available on [https://tsed.io/#/tutorials/overview](https://tsed.io
 You can get the latest release using npm:
 
 ```batch
-$ npm install --save @tsed/core @tsed/common express@4 @types/express
+$ npm install --save @tsed/core @tsed/common @tsed/di express@4 @types/express
 ```
 
 > **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
