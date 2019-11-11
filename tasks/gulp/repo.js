@@ -207,7 +207,6 @@ module.exports = {
           sync("npm",
             [
               "publish",
-              cwd,
               "--userconfig", npmrc,
               "--access", npmAccess,
               "--registry", registry
