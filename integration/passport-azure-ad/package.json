@@ -1,27 +1,64 @@
 {
-  "name": "@tsed/passportjs-example",
+  "name": "@project/passportjs-azure-ad",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
+  "private": true,
   "scripts": {
-    "postinstall": "yarn install:client && yarn install:server",
-    "install:client": "cd client && yarn",
-    "install:server": "cd server && yarn",
-    "start:client": "cd client && npm run start",
-    "start:server": "cd server && npm run start",
-    "start:prod": "cross-env NODE_ENV=production node dist/server/index.js",
-    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "cd client && npm run build",
-    "build:server": "cd server && npm run build",
-    "test": "npm run test:client && npm run test:server",
-    "test:client": "cd client && npm run test",
-    "test:server": "cd server && npm run test"
+    "postinstall": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
+    "bootstrap:production": "lerna bootstrap -- --production",
+    "test": "lerna run test --stream",
+    "test:e2e": "lerna run test:e2e",
+    "test:client": "lerna run test --scope=@project/client",
+    "test:server": "lerna run test --scope=@project/server",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
+    "build": "lerna run build",
+    "build:client": "lerna run build --scope=@project/client",
+    "build:server": "lerna run build --scope=@project/server",
+    "start": "lerna run start --stream --parallel",
+    "start:client": "lerna run start --scope=@project/client --stream",
+    "start:server": "lerna run start --scope=@project/server --stream",
+    "start:prod": "cross-env NODE_ENV=production pm2-docker --raw processes.config.js --no-deamon",
+    "docker:build": "yarn build && docker-compose build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lerna": "3.18.4",
+    "pm2": "4.1.2"
+  },
   "devDependencies": {
-    "concurrently": "^4.1.1",
+    "husky": "1.3.1",
+    "lint-staged": "9.4.2",
     "cross-env": "^5.2.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@types",
+      "**/@types/**",
+      "**/@tsed",
+      "**/@tsed/**"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again"
+    }
+  },
+  "lint-staged": {
+    "packages/client/**/*.{ts}": [
+      "cd packages/client && yarn lint:fix",
+      "git add"
+    ],
+    "packages/server/**/*.{ts}": [
+      "cd packages/server && yarn lint:fix",
+      "git add"
+    ]
   }
 }

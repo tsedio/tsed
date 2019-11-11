@@ -8,7 +8,7 @@ See [Ts.ED](https://tsed.io) project for more information.
 ## Features
 
 - Vue.js + Vue-cli
-- Lerna - monorepo manager
+- Lerna && Yarn workspaces - monorepo manager
 - PM2 - node process manager
 - Docker and Docker compose
 - Travis CI
@@ -18,6 +18,7 @@ See [Ts.ED](https://tsed.io) project for more information.
 [<img src="https://raw.githubusercontent.com/Unitech/pm2/development/pres/pm2-v4.png" height="80" />](https://pm2.keymetrics.io/)
 [<img src="https://www.docker.com/sites/default/files/social/docker_facebook_share.png" height="100" />](https://docker.com)
 [<img src="https://travis-ci.com/images/logos/TravisCI-Mascot-pride.png" height="100" />](https://travis-ci.org)
+[<img src="https://xebialabs.com/wp-content/uploads/2018/10/yarn.png" height="100" />](https://yarnpkg.com)
 
 ## Requirement
 

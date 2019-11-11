@@ -25,6 +25,9 @@ projects:
  - title: Kit AWS
    href: https://github.com/TypedProject/tsed-example-aws
    src: /aws.png
+ - title: Kit Azure AD
+   href: https://github.com/TypedProject/tsed-example-passport-azure-ad
+   src: /azure.png
 meta:
  - name: description
    content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express and use TypeScript language.

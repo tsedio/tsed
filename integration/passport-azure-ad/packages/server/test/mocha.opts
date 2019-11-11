@@ -1,0 +1,4 @@
+--require ts-node/register
+--require scripts/mocha/register
+--bail
+{src,test}/**/*.spec.ts

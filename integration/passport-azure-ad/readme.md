@@ -4,6 +4,32 @@ Here an example project with Passport.js and Ts.ED framework.
 
 See [Ts.ED](https://tsed.io) project for more information.
 
+## Features
+
+- Angular 8
+- Microsoft Passport Azure AD
+- Lerna && Yarn workspaces - monorepo manager
+- PM2 - node process manager
+- Docker and Docker compose
+- Travis CI
+
+[<img src="https://angular.io/assets/images/logos/angular/angular.svg" height="100" />](https://angular.io)
+[<img src="https://cloud.githubusercontent.com/assets/952783/15271604/6da94f96-1a06-11e6-8b04-dc3171f79a90.png" height="100" />](https://lerna.js.org/)
+[<img src="https://raw.githubusercontent.com/Unitech/pm2/development/pres/pm2-v4.png" height="80" />](https://pm2.keymetrics.io/)
+[<img src="https://www.docker.com/sites/default/files/social/docker_facebook_share.png" height="100" />](https://docker.com)
+[<img src="https://travis-ci.com/images/logos/TravisCI-Mascot-pride.png" height="100" />](https://travis-ci.org)
+[<img src="https://xebialabs.com/wp-content/uploads/2018/10/yarn.png" height="100" />](https://yarnpkg.com)
+[<img src="https://3er1viui9wo30pkxh1v2nh4w-wpengine.netdna-ssl.com/wp-content/uploads/prod/sites/113/2018/07/MS-Azure_logo_stacked_c-gray_rgb.png" height="100" />](https://www.microsoft.com/fr-fr/)
+
+## Requirement
+
+Because this project use lerna and workspaces, you have to install `yarn` before build and run project.
+
+```batch
+npm install -g yarn
+```
+
+
 ## Checkout
 
 This repository provide getting started project example for each Ts.ED version since `v5.18.1`.
