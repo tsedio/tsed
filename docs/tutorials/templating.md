@@ -1,6 +1,6 @@
 # Templating
 
-`@ResponseView()` or `@Render()` is a decorator which can be used on a controller method (endpoint).
+@@ResponseView@@ or @@Render@@ is a decorator which can be used on a controller method (endpoint).
 This decorator will use the response return by the method and will use the view to create the output.
 
 <figure><img src="./../assets/templating-engine.png" style="max-height: 300px; padding:20px"></figure>
@@ -9,43 +9,7 @@ This decorator will use the response return by the method and will use the view 
 
 This example use EJS as engine rendering. To use other engine, see the documentation of the concerned project. 
 
-```typescript
-import {ServerSettings, ServerLoader} from "@tsed/common"
-const cons = require("consolidate");
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const compress = require('compression');
-const methodOverride = require('method-override');
-const rootDir = __dirname;
-
-@ServerSettings({
-   rootDir,
-   viewsDir: `${rootDir}/views`,
-   mount: {
-      '/rest': `${rootDir}/controllers/**/**.js`
-   },
-   componentsScan: [
-       `${rootDir}/services/**/**.js`
-   ]
-})
-class Server extends ServerLoader {
-    $onInit(){
-        this.set("views", this.settings.get('viewsDir')); // le repertoire des vues
-        this.engine("ejs", cons.ejs);
-    }
-
-    async $beforeRoutesInit()  {
-        this.use(ServerLoader.AcceptMime("application/json"))
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }))
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride());
-    }
-}
-```
+<<< @/docs/tutorials/snippets/templating/configuration.ts
 
 > The configuration engine is exactly the same as Express configuration engine. 
 
@@ -67,6 +31,6 @@ And his view:
 ```
 
 ::: tip
-@Render() is an alias of @ResponseView().
+@@Render@@ is an alias of @@ResponseView@@.
 :::
 
