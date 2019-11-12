@@ -8,7 +8,7 @@ module.exports = {
   'apps': [
     {
       'script': 'packages/server/dist/index.js',
-      'instances': 2,
+      'instances': 1,
       'exec_mode': 'cluster',
       'out_file': defaultLogFile,
       'error_file': defaultLogFile,

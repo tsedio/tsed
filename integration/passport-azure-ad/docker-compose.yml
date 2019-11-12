@@ -8,12 +8,11 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: project/vue-js-example:latest
+    image: project/passportjs-azure-ad:latest
     # The app will restart until Mongo is listening
     restart: always
     ports:
-      - "8080:8080"
-      - "8000:8000"
+      - "8081:8081"
     stdin_open: true  # -i
     tty: true         # -t
 

@@ -12,6 +12,7 @@ import * as path from "path";
 dotenv.config();
 
 const rootDir = __dirname;
+const clientDir = path.join(rootDir, "../../client/dist");
 // In a local dev environment add these to a .env file (but don't commit it)
 // In Azure add these as application settings
 const {
@@ -82,7 +83,7 @@ $log.info(`Scopes to use: ${scopes}`);
     scope: scopes
   },
   statics: {
-    "/": path.join(rootDir, "../../client/dist")
+    "/": clientDir
   }
 })
 export class Server extends ServerLoader {
@@ -90,5 +91,11 @@ export class Server extends ServerLoader {
     this.settings
       .get<any[]>("middlewares")
       .forEach((middleware) => this.use(middleware));
+  }
+
+  $afterRoutesInit(): void {
+    this.expressApp.get(`*`, (req, res) => {
+      res.sendFile(path.join(clientDir, "index.html"));
+    });
   }
 }

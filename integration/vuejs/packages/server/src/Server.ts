@@ -1,12 +1,13 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
-import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 import * as path from "path";
 
 const rootDir = __dirname;
+const clientDir = path.join(rootDir, "../../client/dist");
 
 @ServerSettings({
   rootDir,
@@ -32,7 +33,7 @@ const rootDir = __dirname;
     token: true
   },
   statics: {
-    "/": path.join(rootDir, "../../client/dist")
+    "/": clientDir
   }
 })
 export class Server extends ServerLoader {
@@ -56,5 +57,11 @@ export class Server extends ServerLoader {
       }));
 
     return null;
+  }
+
+  $afterRoutesInit() {
+    this.expressApp.get(`*`, (req, res) => {
+      res.sendFile(path.join(clientDir, "index.html"));
+    });
   }
 }
