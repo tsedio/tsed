@@ -7,7 +7,7 @@ import * as methodOverride from "method-override";
 import * as path from "path";
 
 const rootDir = __dirname;
-const clientDir = path.join(rootDir, "../../client/dist");
+const clientDir = path.join(rootDir, "../../client/build");
 
 @ServerSettings({
   rootDir,

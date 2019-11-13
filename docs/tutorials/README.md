@@ -3,6 +3,9 @@ projects:
  - title: Kit basic
    href: https://github.com/TypedProject/tsed-getting-started
    src: /typescript.png
+ - title: Kit React
+   href: https://github.com/TypedProject/tsed-example-react
+   src: /react.png   
  - title: Kit Vue.js
    href: https://github.com/TypedProject/tsed-example-vuejs
    src: /vuejs.png    

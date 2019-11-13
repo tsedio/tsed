@@ -58,6 +58,9 @@ module.exports = {
     },
     "vuejs": {
       url: "https://github.com/TypedProject/tsed-example-vuejs.git"
+    },
+    "react": {
+      url: "https://github.com/TypedProject/tsed-example-react.git"
     }
   },
   tsdoc: {

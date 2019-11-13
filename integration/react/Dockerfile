@@ -26,7 +26,7 @@ RUN apk update && apk add build-base git python
 COPY package.json .
 COPY yarn.lock .
 COPY processes.config.js .
-COPY ./packages/client/dist ./packages/client/dist
+COPY ./packages/client/build ./packages/client/build
 COPY ./packages/server ./packages/server
 
 EXPOSE 8081
