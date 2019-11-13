@@ -1,8 +1,8 @@
-import {Container, InjectorService} from "@tsed/di";
+import {Container, InjectorService, LocalsContainer} from "@tsed/di";
 import {MvcModule} from "../../mvc";
 import {createContainer} from "./createContainer";
 
-export async function loadInjector(injector: InjectorService, container: Container = createContainer()) {
+export async function loadInjector(injector: InjectorService, container: Container = createContainer()): Promise<LocalsContainer<any>> {
   // Clone all providers in the container
   injector.addProviders(container);
 
