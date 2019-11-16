@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Filters
 
 Filters feature lets you create a custom decorators that will be 

@@ -1,3 +1,4 @@
+import {RequestContext} from "@tsed/common";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 import {mapParamsOptions} from "./utils/mapParamsOptions";
@@ -23,13 +24,13 @@ import {mapParamsOptions} from "./utils/mapParamsOptions";
  * class AuthTokenMiddleware {
  *   use(@Req() request: Express.Request, @Context() context: RequestContext) {
  *      if (!context.has('auth')){
- *        context.set('auth', new AuthToken(req))
+ *        context.set('auth', new AuthToken(request))
  *      }
  *
  *      try {
  *        context.get('auth').claims() // check token
  *      } catch(er){
- *        throw Forbidden("Access forbidden - Bad token")
+ *        throw new Forbidden("Access forbidden - Bad token")
  *      }
  *   }
  * }
@@ -62,3 +63,5 @@ export function Context(...args: any[]): ParameterDecorator {
     useValidation
   });
 }
+
+export type Context = RequestContext;

@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Converters
 
 The @@ConverterService@@ service is responsible for serializing and deserializing objects.

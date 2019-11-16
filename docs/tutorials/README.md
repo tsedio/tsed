@@ -1,8 +1,9 @@
 ---
+sidebar: auto
 projects:
  - title: Kit basic
    href: https://github.com/TypedProject/tsed-getting-started
-   src: /typescript.png
+   src: /tsed.png
  - title: Kit React
    href: https://github.com/TypedProject/tsed-example-react
    src: /react.png   

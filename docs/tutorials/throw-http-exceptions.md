@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Throw HTTP Exceptions
 
 You can use [ts-httpexceptions](https://github.com/TypedProject/ts-httpexceptions) or similar module to throw an http exception.

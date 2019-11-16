@@ -1,4 +1,5 @@
 ---
+sidebar: auto
 meta:
  - name: description
    content: Documentation over Controllers provided by Ts.ED framework. Use controllers to build your REST API.
@@ -100,13 +101,14 @@ Finally, @@BodyParams@@ accept to give a @@ParamOptions@@ object as parameters t
 
 <<< @/docs/docs/snippets/controllers/request-headers.ts
 
-### Session/Cookies/Locals
+### Session/Cookies/Locals/Context
 
-For the session, cookies or locals data attached on the request, is the same thing seen as previously. Use the following decorators to get the data:
+For the session, cookies, locals or context data attached on the request, is the same thing seen as previously. Use the following decorators to get the data:
 
 - @@Session@@
 - @@Cookies@@
 - @@Locals@@
+- @@Context@@
 
 ## Response
 

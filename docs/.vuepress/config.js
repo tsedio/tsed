@@ -57,6 +57,7 @@ module.exports = {
               {
                 text: "Advanced",
                 items: [
+                  {link: "/docs/request-data-persistence.html", text: "Request data persistence"},
                   {link: "/docs/injection-scopes.html", text: "Injection scopes"},
                   {link: "/docs/custom-providers.html", text: "Custom providers"},
                   {link: "/docs/custom-endpoint-decorators.html", text: "Custom endpoint decorators"},
@@ -119,6 +120,7 @@ module.exports = {
                 "filters",
                 "interceptors",
                 "authentication",
+                "request-data-persistence",
                 "hooks"
               ]
             },

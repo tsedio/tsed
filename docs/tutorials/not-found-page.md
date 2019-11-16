@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Customize 404
 
 The guide show how you can customize the 404 response error emitted by Express.js.

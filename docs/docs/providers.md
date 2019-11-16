@@ -1,4 +1,5 @@
 ---
+sidebar: auto
 meta:
  - name: description
    content: Documentation over Providers / DI provided by Ts.ED framework. Use providers to build your backend services.

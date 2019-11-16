@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Middlewares
 
 @@Middleware@@ is similar to the Express middleware with the difference that it's a class and you can use the IoC 
@@ -19,7 +22,7 @@ Then, create a new file in your middlewares folder. Create a new Class definitio
 
 <<< @/docs/docs/snippets/middlewares/middleware-example.ts
 
-You have differents usecases to declare and use a middleware as following:
+You have different usecases to declare and use a middleware as following:
 
  * Global Middleware, this middleware can be used on @@ServerLoader@@,
  * Endpoint Middleware, this middleware can be used on a controller method,

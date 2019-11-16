@@ -1,4 +1,5 @@
 ---
+sidebar: auto
 meta:
  - name: description
    content: Use AJV with Express, TypeScript and Ts.ED. AJV allows you to validate your data models from a JsonSchema.

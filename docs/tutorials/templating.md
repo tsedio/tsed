@@ -15,10 +15,10 @@ This example use EJS as engine rendering. To use other engine, see the documenta
 
 ## Usage
 
-Template feature depending on the engine rendering use by your application. Ts.ED provide decorator `@Render` to define a view which will be used
+Template feature depending on the engine rendering use by your application. Ts.ED provide decorator @@Render@@ to define a view which will be used
 by the Endpoint to generate the response.
 
-Here an example of a controller which use the `@Render` decorator:
+Here an example of a controller which use the @@Render@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-templating.ts
 

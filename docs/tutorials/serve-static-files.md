@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Serve static files
 
 `@ServerSettings` let you to configure a list of static folders. 

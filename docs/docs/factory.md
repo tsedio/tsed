@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Factory
 
 Factory is similar to the Service except that the factory uses an already instantiated object and you to use

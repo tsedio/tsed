@@ -1,4 +1,5 @@
 ---
+sidebar: auto
 meta:
  - name: description
    content: Guide to deploy your Ts.ED application on AWS.

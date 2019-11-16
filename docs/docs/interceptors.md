@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Interceptors
 
 An interceptor is a class annotated with the @@Interceptor@@ decorator. Interceptors should implement the @@IInterceptor@@ interface.

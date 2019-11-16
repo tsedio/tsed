@@ -7,7 +7,7 @@ export class RequestLogger {
   private readonly ignoreUrlPatterns: any[];
   private stack: any = [];
 
-  constructor(private logger: any, {id, startDate, url, ignoreUrlPatterns = [], minimalRequestPicker, completeRequestPicker}: any) {
+  constructor(private logger: any, {id, startDate, url, ignoreUrlPatterns, minimalRequestPicker, completeRequestPicker}: any) {
     this.id = id;
     this.url = url;
     this.startDate = startDate;

@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Global Error middleware
 
 `@MiddlewareError()` lets you handle all the errors when you add your middleware in your [ServerLoader](/api/common/server/components/ServerLoader.md).

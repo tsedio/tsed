@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Override Authentication <Badge text="deprecated" type="warn" />
 
 The annotation @@Authenticated@@ use the @@AuthenticatedMiddleware@@

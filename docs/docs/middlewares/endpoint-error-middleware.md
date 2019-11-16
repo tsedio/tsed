@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Endpoint error middleware
 
 `@MiddlewareError()` lets you handle all error when you add your middleware on an Endpoint.

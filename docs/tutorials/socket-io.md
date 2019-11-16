@@ -1,4 +1,5 @@
 ---
+sidebar: auto
 meta:
  - name: description
    content: Use Socket.io with Express, TypeScript and Ts.ED. Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.

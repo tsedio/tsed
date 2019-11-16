@@ -1,9 +1,9 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compress = require("compression");
-const methodOverride = require("method-override");
 const rootDir = __dirname;
 
 @ServerSettings({

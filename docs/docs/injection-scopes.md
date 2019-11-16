@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Injection scopes
 
 The scope of a [Providers](/docs/providers.md) defines the lifecycle and visibility of that bean in the contexts in which it's used.

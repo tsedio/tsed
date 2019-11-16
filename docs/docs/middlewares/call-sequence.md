@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Middleware call sequences
 
 As you see in the previous section, a middleware can be use on different context:

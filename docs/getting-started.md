@@ -84,67 +84,16 @@ the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compila
 options in your `tsconfig.json` file.
 :::
 
-```json
-{
-  "compilerOptions": {
-    "target": "es2016",
-    "lib": ["es2016"],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators":true,
-    "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "exclude": [
-    "node_modules"
-  ]
-}
-```
+<<< @/integration/getting-started/tsconfig.json
 
-### Optional
-
+::: tip
 You can copy this example of `package.json` to develop your application:
 
-```json
-{
-  "name": "test-ts-express-decorator",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "npm run tsc",
-    "coverage": "npm run test-cov && npm run test-remap",
-    "postinstall": "npm run build",
-    "tslint": "tslint ./*.ts ./lib/*.ts",
-    "test": "mocha --reporter spec --check-leaks --bail test/",
-    "tsc": "tsc --project tsconfig.json",
-    "tsc:w": "tsc -w",
-    "start": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/index.ts"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@tsed/core": "4.0.0",
-    "@tsed/common": "4.0.0",
-    "body-parser": "^1.15.2",
-    "compression": "^1.6.2",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.14.0",
-    "method-override": "^2.3.6"
-  },
-  "devDependencies": {
-    "@types/express": "^4.0.37",
-    "ts-node": "^3.3.0",
-    "nodemon": "^1.11.0",
-    "typescript": "^2.4.3"
-  }
-}
-```
+<<< @/integration/getting-started/package.json
 
-> Then use the command `npm install && npm start` to start your server.
+Then use the command `npm install && npm start` to start your server.
+:::
+
 
 ## Quick start
 ### Create your express server

@@ -958,10 +958,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@typedproject/ts-doc@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.3.tgz#7a9d3082fff41e549ef840b0b59d36b146b89c2b"
-  integrity sha512-S6Mgf99f3ujw3k2MWvJ/aAP473mzC9r+CTXBR1xVEK9vCmwCr24qIsPHyb5++jiJ4HHauz5F31PZNHWB8V6SpQ==
+"@typedproject/ts-doc@4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.5.tgz#fc58fc83a21324d6241c145b862656bda9d03194"
+  integrity sha512-qhlMejm8h+6MpAoJ3Y1ItQikujdV83LAEYtYEOx3ctdh0vJqzJRHpEf2l5eR7YrF3CbXFYw8M/2OpmYxwdyN4w==
   dependencies:
     chalk "3.0.0"
     ejs "2.7.1"
@@ -13869,10 +13869,10 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-tsed@2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-2.1.4.tgz#043fe00be04b3d8a44c8f631c2b0f77a8c781413"
-  integrity sha512-aMOhbqxs20mU6DE84YK3uQ3LKvRJD9hTIHRPnDXWO4IXeDSKOLUOCEqC7In+yc2XL1cxsbZmW2SB3nqZHspZiw==
+vuepress-theme-tsed@2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-2.1.7.tgz#03c1b27bb951f996f05a217f0e12337b0f2454aa"
+  integrity sha512-kkau9f8KR2kvl2JwcuBS/APXZkJVSbcTwKpRhncgu6K6zcIM+dDI0iFDGbmmaoY+S0PDkxDLsDHsOdlbtDk8CA==
   dependencies:
     "@vuepress/plugin-active-header-links" "1.2.0"
     "@vuepress/plugin-nprogress" "1.2.0"

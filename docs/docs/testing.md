@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 # Testing
 
 ## Unit test

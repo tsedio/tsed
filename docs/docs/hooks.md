@@ -1,3 +1,6 @@
+---
+sidebar: false
+---
 # Hooks
 
 Ts.ED emit different events during it's initialization
