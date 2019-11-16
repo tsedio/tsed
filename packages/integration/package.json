@@ -1,0 +1,28 @@
+{
+  "name": "@tsed/integration",
+  "version": "5.34.0",
+  "description": "Integration packages",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/index.ts"
+  },
+  "dependencies": {
+    "@tsed/common": "5.34.0",
+    "@tsed/core": "5.34.0",
+    "@tsed/di": "5.34.0",
+    "@tsed/swagger": "5.34.0",
+    "@tsed/ajv": "5.34.0",
+    "@tsed/graphql": "5.34.0",
+    "@tsed/mongoose": "5.34.0",
+    "@tsed/multipartfiles": "5.34.0",
+    "@tsed/passport": "5.34.0",
+    "@tsed/seq": "5.34.0",
+    "@tsed/servestatic": "5.34.0",
+    "@tsed/testing": "5.34.0",
+    "@tsed/typeorm": "5.34.0"
+  },
+  "devDependencies": {
+  },
+  "private": true
+}

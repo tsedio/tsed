@@ -28,30 +28,6 @@ module.exports = {
 
     return toPromise(stream);
   },
-  /**
-   *
-   */
-  async bootstrap() {
-    findPackages()
-      .filter((packageName) => packageName !== "legacy")
-      .map(pkgName => {
-        logger("Mount package", chalk.cyan(`'${pkgName}'`));
-
-        if (typescript) {
-          // sync("yarn", ["install"], {
-          //   stdio: "inherit",
-          //   cwd: `./${path.join(packagesDir, pkgName)}`
-          // });
-          return;
-        }
-
-        sync("npm", ["link", `./${path.join(packagesDir, pkgName)}`], {
-          stdio: "inherit"
-        });
-
-        return undefined;
-      });
-  },
 
   /**
    *

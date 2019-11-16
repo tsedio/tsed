@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "noResolve": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "noEmit": false,
+    "inlineSources": true
+  },
+  "exclude": [
+    "node_modules",
+    "test",
+    "lib"
+  ]
+}

@@ -1,18 +1,22 @@
 {
   "name": "@tsed/passport",
-  "version": "0.0.0-PLACEHOLDER",
+  "version": "5.34.0",
   "description": "Passport package for Ts.ED framework",
-  "main": "./src/index.js",
-  "typings": "./src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "build:doc": "tsc --build tsconfig.doc.json"
+  },
   "dependencies": {
-    "tslib": "^1.9.0"
+    "@tsed/core": "5.34.0",
+    "@tsed/di": "5.34.0",
+    "@tsed/common": "5.34.0",
+    "tslib": "^1.10.0"
   },
   "peerDependencies": {
     "@types/passport": "^1.0.0",
     "@types/passport-local": "^1.0.33",
-    "@tsed/core": "0.0.0-PLACEHOLDER",
-    "@tsed/di": "0.0.0-PLACEHOLDER",
-    "@tsed/common": "0.0.0-PLACEHOLDER",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
