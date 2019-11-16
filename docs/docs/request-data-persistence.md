@@ -9,7 +9,7 @@ next: true
 Express provide different way to persist data on request as following:
 
 - Directly on the request,
-- On `request.locals`,
+- On `response.locals`,
 - On `request.session` and `request.cookies`
 
 Ts.ED provide also a way to store and share data along all middlewares/endpoints during a request

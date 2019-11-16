@@ -20,7 +20,6 @@ export class AjvService extends ValidationService {
     super();
 
     const ajvSettings: IAjvSettings = this.configuration.get("ajv") || {};
-    this.ajv = new Ajv(this.options);
 
     this.options = Object.assign(
       {
@@ -28,6 +27,8 @@ export class AjvService extends ValidationService {
       },
       ajvSettings.options || {}
     );
+
+    this.ajv = new Ajv(this.options);
 
     this.errorFormatter = ajvSettings.errorFormat ? ajvSettings.errorFormat : this.defaultFormatter;
   }

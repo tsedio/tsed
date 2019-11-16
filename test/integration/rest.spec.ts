@@ -182,7 +182,7 @@ describe("Rest", () => {
             const obj = JSON.parse(response.text);
 
             expect(obj).to.be.an("object");
-            expect(obj.id).to.equal("1-local-10909");
+            expect(obj.id).to.equal("1-local-10909-ctx-10909");
 
             done();
           });
