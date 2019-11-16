@@ -18,7 +18,8 @@ import {
   Response,
   Status,
   Use,
-  UseAfter
+  UseAfter,
+  Context
 } from "@tsed/common";
 import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
@@ -56,6 +57,7 @@ export class CalendarCtrl extends BaseController {
   static middleware(request: any, response: Express.Response, next: Express.NextFunction) {
     request["user"] = 1;
     response.locals.id = "local-10909";
+    request.ctx.set("uid", "ctx-10909");
 
     // console.log(request.headers)
     next();
@@ -257,9 +259,9 @@ export class CalendarCtrl extends BaseController {
   @Get("/mvc")
   @Authenticated()
   @Use(CalendarCtrl.middleware)
-  public testStackMiddlewares(@Request("user") user: any, @Locals("id") id: any): CalendarModel {
+  public testStackMiddlewares(@Request("user") user: any, @Locals("id") id: any, @Context("uid") uid: string): CalendarModel {
     const model = new CalendarModel();
-    model.id = `${user}-${id}`;
+    model.id = `${user}-${id}-${uid}`;
     model.name = "test";
 
     return model;

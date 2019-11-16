@@ -1,4 +1,5 @@
-import {Store, StoreFn} from "@tsed/core";
+import {Store} from "../class/Store";
+import {StoreFn} from "./storeFn";
 
 export function StoreMerge(key: any, value: any): Function {
   return StoreFn((store: Store) => {
