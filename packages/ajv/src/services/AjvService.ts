@@ -3,7 +3,6 @@ import {nameOf, Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
-import {$log} from "ts-log-debug";
 import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter, IAjvOptions, IAjvSettings} from "../interfaces/IAjvSettings";
 
@@ -11,6 +10,7 @@ import {AjvErrorObject, ErrorFormatter, IAjvOptions, IAjvSettings} from "../inte
 export class AjvService extends ValidationService {
   private errorFormatter: ErrorFormatter;
   private options: IAjvOptions;
+  private ajv: Ajv.Ajv;
 
   constructor(
     private jsonSchemaService: JsonSchemesService,
@@ -20,6 +20,7 @@ export class AjvService extends ValidationService {
     super();
 
     const ajvSettings: IAjvSettings = this.configuration.get("ajv") || {};
+    this.ajv = new Ajv(this.options);
 
     this.options = Object.assign(
       {
@@ -49,10 +50,9 @@ export class AjvService extends ValidationService {
       };
 
       const test = (obj: any) => {
-        const ajv = new Ajv(this.options);
-        const valid = ajv.validate(schema, obj);
+        const valid = this.ajv.validate(schema, obj);
         if (!valid) {
-          throw this.buildErrors(ajv.errors!, targetType);
+          throw this.buildErrors(this.ajv.errors!, targetType);
         }
       };
 
@@ -71,8 +71,6 @@ export class AjvService extends ValidationService {
    * @returns {BadRequest}
    */
   private buildErrors(errors: ErrorObject[], targetType: Type<any>) {
-    $log.debug("AJV errors: ", errors);
-
     const message = errors
       .map((error: AjvErrorObject) => {
         error.modelName = nameOf(targetType);
