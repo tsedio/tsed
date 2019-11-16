@@ -1,5 +1,5 @@
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject, TestContext} from "@tsed/testing";
+import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {FakeServer} from "./app/FakeServer";
@@ -182,7 +182,7 @@ describe("Rest", () => {
             const obj = JSON.parse(response.text);
 
             expect(obj).to.be.an("object");
-            expect(obj.id).to.equal(1);
+            expect(obj.id).to.equal("1-local-10909");
 
             done();
           });

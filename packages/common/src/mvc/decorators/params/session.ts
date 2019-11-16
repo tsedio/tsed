@@ -21,18 +21,21 @@ import {mapParamsOptions} from "./utils/mapParamsOptions";
  *    create(@Session('id') id: string) {
  *       console.log('ID', id);
  *    }
+ *
+ *    @Post('/') // Example to deserialize use from session
+ *    create(@Session({expression: 'user', useConverter: true}) user: User) {
+ *       console.log('user', user);
+ *       console.log('instanceOf user', user instanceof User);
+ *    }
  * }
  * ```
  * > For more information on deserialization see [converters](/docs/converters.md) page.
  *
  * @param expression The path of the property to get.
- * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
  * @returns {Function}
  */
-export function Session(expression: string, useType: Type<any>): ParameterDecorator;
 export function Session(expression: string): ParameterDecorator;
-export function Session(useType: Type<any>): ParameterDecorator;
 export function Session(options: IParamOptions<any>): ParameterDecorator;
 export function Session(): ParameterDecorator;
 export function Session(...args: any[]): ParameterDecorator {

@@ -2,12 +2,12 @@ export class RequestLogger {
   readonly id: string;
   readonly url: string;
   readonly startDate: Date;
+  public minimalRequestPicker: Function;
+  public completeRequestPicker: Function;
   private readonly ignoreUrlPatterns: any[];
-  private readonly minimalRequestPicker: Function;
-  private readonly completeRequestPicker: Function;
   private stack: any = [];
 
-  constructor(private logger: any, {id, startDate, url, ignoreUrlPatterns, minimalRequestPicker, completeRequestPicker}: any) {
+  constructor(private logger: any, {id, startDate, url, ignoreUrlPatterns = [], minimalRequestPicker, completeRequestPicker}: any) {
     this.id = id;
     this.url = url;
     this.startDate = startDate;
@@ -15,8 +15,8 @@ export class RequestLogger {
       typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
     );
 
-    this.minimalRequestPicker = minimalRequestPicker;
-    this.completeRequestPicker = completeRequestPicker;
+    this.minimalRequestPicker = minimalRequestPicker || ((l: any) => l);
+    this.completeRequestPicker = completeRequestPicker || ((l: any) => l);
   }
 
   info(obj: any) {

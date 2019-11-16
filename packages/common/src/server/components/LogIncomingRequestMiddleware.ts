@@ -1,5 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {IMiddleware, Middleware, Req, RequestLogger, Res} from "../../mvc";
+import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 
 /**
  * @middleware
@@ -9,7 +9,8 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
 
   // tslint:disable-next-line: no-unused-variable
-  constructor(protected injector: InjectorService) {}
+  constructor(protected injector: InjectorService) {
+  }
 
   /**
    * Handle the request.
@@ -31,13 +32,13 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
   protected onLogStart(request: Req) {
     const {debug, logRequest, logStart} = this.injector.settings.logger;
 
-    if (request.log && logStart !== false) {
+    if (logStart !== false) {
       if (debug) {
-        request.log.debug({
+        request.ctx.logger.debug({
           event: "request.start"
         });
       } else if (logRequest) {
-        request.log.info({
+        request.ctx.logger.info({
           event: "request.start"
         });
       }
@@ -52,23 +53,21 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
   protected onLogEnd(request: Req, response: Res) {
     const {debug, logRequest, logEnd} = this.injector.settings.logger;
 
-    if (request.log) {
-      if (logEnd !== false) {
-        if (debug) {
-          request.log.debug({
-            event: "request.end",
-            status: response.statusCode,
-            data: request.ctx.data
-          });
-        } else if (logRequest) {
-          request.log.info({
-            event: "request.end",
-            status: response.statusCode
-          });
-        }
+    if (logEnd !== false) {
+      if (debug) {
+        request.ctx.logger.debug({
+          event: "request.end",
+          status: response.statusCode,
+          data: request.ctx.data
+        });
+      } else if (logRequest) {
+        request.ctx.logger.info({
+          event: "request.end",
+          status: response.statusCode
+        });
       }
-      request.log.flush();
     }
+    request.ctx.logger.flush();
   }
 
   /**
@@ -76,19 +75,11 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param request
    */
   protected configureRequest(request: Req) {
-    const {ignoreUrlPatterns = []} = this.injector.settings.logger;
-
     const minimalInfo = this.minimalRequestPicker(request);
     const requestObj = this.requestToObject(request);
 
-    request.log = new RequestLogger(this.injector.logger, {
-      id: request.ctx.id,
-      startDate: request.ctx.dateStart,
-      url: request.originalUrl || request.url,
-      ignoreUrlPatterns,
-      minimalRequestPicker: (obj: any) => ({...minimalInfo, ...obj}),
-      completeRequestPicker: (obj: any) => ({...requestObj, ...obj})
-    });
+    request.ctx.logger.minimalRequestPicker = (obj: any) => ({...minimalInfo, ...obj});
+    request.ctx.logger.completeRequestPicker = (obj: any) => ({...requestObj, ...obj});
   }
 
   /**

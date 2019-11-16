@@ -1,4 +1,4 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";
@@ -14,68 +14,47 @@ class Test {
 }
 
 describe("Location", () => {
-  before(() => {
-    this.descriptor = {};
-    this.options = "test";
-    Location(this.options)(Test, "test", this.descriptor);
-    this.middleware = useAfterStub.args[0][0];
-  });
+  const descriptor = {};
+  const options = "test";
+  let middleware: any;
 
-  after(() => {
-    delete this.descriptor;
-    delete this.options;
-    delete this.middleware;
+  beforeEach(() => {
+    // WHEN
+    Location(options)(Test, "test", descriptor);
+    middleware = useAfterStub.args[0][0];
   });
 
   it("should create middleware", () => {
-    expect(this.middleware).to.be.a("function");
-    assert(middleware.calledWith(Test, "test", this.descriptor));
+    expect(middleware).to.be.a("function");
   });
 
   describe("when middleware is executed", () => {
-    before(() => {
-      this.nextSpy = Sinon.stub();
-      this.response = new FakeResponse();
-      Sinon.stub(this.response, "location");
+    it("should call response method and call next", () => {
+      const nextSpy = Sinon.stub();
+      const response = new FakeResponse();
 
-      this.middleware({}, this.response, this.nextSpy);
-    });
+      Sinon.stub(response, "location");
 
-    after(() => {
-      delete this.response;
-      delete this.nextSpy;
-    });
+      middleware({}, response, nextSpy);
 
-    it("should call response method", () => {
-      assert(this.response.location.calledWith(this.options), "method not called");
-    });
+      response.location.should.have.been.calledWithExactly(options);
 
-    it("should call next function", () => {
-      assert(this.nextSpy.called, "function not called");
+      return nextSpy.should.have.been.calledOnce;
     });
   });
 
   describe("when middleware is executed but header is sent", () => {
-    before(() => {
-      this.nextSpy = Sinon.stub();
-      this.response = new FakeResponse();
-      this.response.headersSent = true;
-      Sinon.stub(this.response, "type");
+    it("should call response method and call next function", () => {
+      const nextSpy = Sinon.stub();
+      const response = new FakeResponse();
+      response.headersSent = true;
 
-      this.middleware({}, this.response, this.nextSpy);
-    });
+      Sinon.stub(response, "location");
+      Sinon.stub(response, "type");
 
-    after(() => {
-      delete this.response;
-      delete this.nextSpy;
-    });
+      middleware({}, response, nextSpy);
 
-    it("should call response method", () => {
-      assert(!this.response.location.called, "method is called");
-    });
-
-    it("should call next function", () => {
-      assert(this.nextSpy.called, "function not called");
+      return response.type.should.not.have.been.called && nextSpy.should.have.been.calledOnce;
     });
   });
 });

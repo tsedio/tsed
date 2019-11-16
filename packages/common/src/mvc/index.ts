@@ -13,15 +13,13 @@ export * from "./models/EndpointMetadata";
 export * from "./models/HandlerMetadata";
 export * from "./models/ParamMetadata";
 export * from "./models/ParamTypes";
+export * from "./models/RequestContext";
+export * from "./models/RequestLogger";
 
 // builders
 export * from "./builders/ControllerBuilder";
 export * from "./builders/HandlerBuilder";
 export * from "./builders/ParamBuilder";
-
-// provide
-export * from "./models/Context";
-export * from "./models/RequestLogger";
 
 // registries
 export * from "./registries/ControllerRegistry";

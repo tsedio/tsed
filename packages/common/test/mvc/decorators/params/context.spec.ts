@@ -1,9 +1,9 @@
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
-import {Locals, ParamRegistry, ParamTypes} from "../../../../src/mvc";
+import {Context, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
-describe("@Locals", () => {
+describe("@Context ", () => {
   before(() => {
     sandbox.stub(ParamRegistry, "useFilter");
   });
@@ -12,11 +12,11 @@ describe("@Locals", () => {
   });
   it("should call ParamFilter.useFilter method with the correct parameters", () => {
     class Ctrl {
-      test(@Locals("expression") test: any) {
+      test(@Context("expression") test: any) {
       }
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.LOCALS, {
+    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.CONTEXT, {
       target: prototypeOf(Ctrl),
       propertyKey: "test",
       index: 0,

@@ -1,5 +1,5 @@
-import {Context} from "../models/Context";
 import {EndpointMetadata} from "../models/EndpointMetadata";
+import {RequestContext} from "../models/RequestContext";
 import {RequestLogger} from "../models/RequestLogger";
 
 declare global {
@@ -12,11 +12,12 @@ declare global {
       headersSent: boolean;
     }
 
-    export interface Application {}
+    export interface Application {
+    }
 
     export interface Request {
       id: string;
-      ctx: Context;
+      ctx: RequestContext;
       log: RequestLogger;
 
       /**

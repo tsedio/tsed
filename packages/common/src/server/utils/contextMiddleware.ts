@@ -1,27 +1,40 @@
 import {applyBefore} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
-import {Context} from "../../mvc";
+import {RequestContext} from "../../mvc";
 
-let AUTO_INCREMENT_ID = 1;
+const uuidv4 = require("uuid/v4");
 
 /**
- * Bind request and create a new context to store information during the request lifecycle
+ * Bind request and create a new context to store information during the request lifecycle. See @@RequestContext@@ for more details.
+ *
  * @param injector
  */
 export function contextMiddleware(injector: InjectorService) {
-  const getId = injector.settings.logger.reqIdBuilder || (() => String(AUTO_INCREMENT_ID++));
+  const {
+    ignoreUrlPatterns = [],
+    reqIdBuilder = (() => uuidv4().replace(/-/gi, ""))
+  } = injector.settings.logger || {};
 
   return async (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
-    request.ctx = new Context({id: getId()});
-    request.id = request.ctx.id;
+    const id = reqIdBuilder();
 
-    await injector.emit("$onRequest", request, response);
+    request.ctx = new RequestContext({
+      id,
+      logger: injector.logger,
+      url: request.originalUrl || request.url,
+      ignoreUrlPatterns
+    });
+
+    request.id = id;
+    request.log = request.ctx.logger;
 
     applyBefore(response, "end", async () => {
       await injector.emit("$onResponse", request, response);
       await request.ctx.destroy();
     });
+
+    await injector.emit("$onRequest", request, response);
 
     next();
   };

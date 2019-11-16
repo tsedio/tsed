@@ -1,6 +1,6 @@
 import * as Sinon from "sinon";
-import {SinonStatic, SinonStub} from "sinon";
-import {Context} from "../../packages/common/src/mvc/models/Context";
+import {SinonStub} from "sinon";
+import {RequestContext} from "../../packages/common/src/mvc/models/RequestContext";
 
 export class FakeRequest {
   public url = "/";
@@ -59,7 +59,7 @@ export class FakeRequest {
     "content-type": "application/json"
   };
 
-  public ctx = new Context({id: "id"});
+  public ctx: RequestContext;
   public log: {[key: string]: SinonStub};
   public isAuthenticated: SinonStub;
   public accepts: SinonStub;
@@ -67,8 +67,8 @@ export class FakeRequest {
 
   [key: string]: any;
 
-  constructor(sandbox: SinonStatic = Sinon) {
-    this.log = {
+  constructor({logger, sandbox = Sinon}: any = {}) {
+    logger = logger || {
       debug: sandbox.stub(),
       info: sandbox.stub(),
       warn: sandbox.stub(),
@@ -77,9 +77,17 @@ export class FakeRequest {
       flush: sandbox.stub()
     };
 
+    this.ctx = new RequestContext({
+      id: "id",
+      url: "url",
+      logger
+    });
+
+    this.log = logger;
+
     this.isAuthenticated = sandbox.stub();
     this.accepts = sandbox.stub().callsFake((mime: string) => this.mime === mime);
-    this.get = sandbox.stub().callsFake((value) => {
+    this.get = sandbox.stub().callsFake((value: any) => {
       return value ? (this.headers[value.toLowerCase()] || "headerValue") : this.headers;
     });
   }

@@ -51,7 +51,7 @@ export function CookiesParams(...args: any[]): ParameterDecorator {
 }
 
 /**
- * Cookies o CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.
+ * Cookies or CookiesParams return the value from [request.cookies](http://expressjs.com/en/4x/api.html#req.cookies) object.
  *
  * #### Example
  *

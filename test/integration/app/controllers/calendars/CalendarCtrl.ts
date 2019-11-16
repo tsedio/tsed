@@ -55,6 +55,7 @@ export class CalendarCtrl extends BaseController {
    */
   static middleware(request: any, response: Express.Response, next: Express.NextFunction) {
     request["user"] = 1;
+    response.locals.id = "local-10909";
 
     // console.log(request.headers)
     next();
@@ -256,9 +257,9 @@ export class CalendarCtrl extends BaseController {
   @Get("/mvc")
   @Authenticated()
   @Use(CalendarCtrl.middleware)
-  public testStackMiddlewares(@Request() request: any): CalendarModel {
+  public testStackMiddlewares(@Request("user") user: any, @Locals("id") id: any): CalendarModel {
     const model = new CalendarModel();
-    model.id = request["user"];
+    model.id = `${user}-${id}`;
     model.name = "test";
 
     return model;
@@ -267,9 +268,9 @@ export class CalendarCtrl extends BaseController {
   @Get("/middlewares2")
   @Authenticated()
   @UseAfter(CalendarCtrl.middleware2)
-  public testUseAfter(@Request() request: any, @Locals() locals: any): Object {
+  public testUseAfter(@Request("user") user: any): Object {
     const model = new CalendarModel();
-    model.id = request["user"];
+    model.id = user;
     model.name = "test";
 
     return model;
