@@ -95,6 +95,7 @@ export class ParamBuilder {
 
   static getInitialPipe(param: ParamMetadata, injector: InjectorService): (context: IParamContext) => any {
     const requestPipe: (context: IParamContext) => any = context => context.request;
+    const responsePipe: (context: IParamContext) => any = context => context.response;
     const contextPipe: (context: IParamContext) => any = context => requestPipe(context).ctx;
 
     switch (param.service) {
@@ -117,10 +118,10 @@ export class ParamBuilder {
         return context => requestPipe(context).session;
 
       case ParamTypes.LOCALS:
-        return context => requestPipe(context).locals;
+        return context => responsePipe(context).locals;
 
       case ParamTypes.RESPONSE:
-        return context => context.response;
+        return responsePipe;
 
       case ParamTypes.REQUEST:
         return requestPipe;
