@@ -155,48 +155,49 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tsed/common@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.30.0.tgz#86e296dce463ce718ba0c52aaec509ef42a677bc"
-  integrity sha512-xSwZLN6WZzzaughpk+NZT7ZruvZXS/ji4tZhprDP4oZyMgF2EHPO/7ZU8dF4Fk/s1KKe/XY5e4zi5sBu3HlerA==
+"@tsed/common@5.34.1":
+  version "5.34.1"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.34.1.tgz#a38dd437423ef50b1ef0e0e120172a2ca4f09545"
+  integrity sha512-K7s6aQ7+VBxlzlV/IRH81O7xUsETU/JzKdKp7ljlzHa1wIDHF/jxq3fkV9zXTyYS09O5oIlTaCt+utJvfrrUlw==
   dependencies:
     "@types/json-schema" "^7.0.3"
     globby "9.2.0"
     json-schema "^0.2.3"
     rxjs "^6.5.2"
     ts-httpexceptions "^4.1.0"
-    ts-log-debug "^5.1.0"
-    tslib "^1.10.0"
+    ts-log-debug "^5.1.1"
+    tslib "1.10.0"
+    uuid "3.3.3"
 
-"@tsed/core@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.30.0.tgz#37c30d4dbb690eeb9e192148d8cc14369e6a425d"
-  integrity sha512-4AYp5TgmaULmeVcD8g5ju6yWFA18TUU/9DfDeDJDFwtZjd8fayXEXnN/kMZFwESO4JCNe0urPjx4IRbt9Ue3Gw==
+"@tsed/core@5.34.1":
+  version "5.34.1"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.34.1.tgz#08c6cb0a52611f9c41aa191e00dbd1faa482e1f1"
+  integrity sha512-04okW+Tgh1jeOHPvozNWftYjmO13A7+gCv+wdPiu1LKx+lpM5hqRNK8abqIWTfFmOVM01iMEDA21HHTbUTSHcA==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "^0.5.12"
     tslib "^1.10.0"
 
-"@tsed/di@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.30.0.tgz#24786f26183427b475864db26f87fd9907819333"
-  integrity sha512-T9oYiwZyafU/afcBZFvKlqjIYXWRnl1K1wdi4VY55MjpYYncPCC/m+ZFHAq0vLkAMIAA+a6n+HkGYSw7QHCBEw==
+"@tsed/di@5.34.1":
+  version "5.34.1"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.34.1.tgz#13866ba24436e483cfc4f39e829c711d2d88c2af"
+  integrity sha512-NJE2SoJJJx1/nZeYdvhNvExaASOYm3EKBjf/8tF9baJMdS6hlBOaF0I6d9baqKOg3vFl7hisoTdWuvglJTsloA==
   dependencies:
     tslib "^1.8.0"
 
-"@tsed/swagger@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.30.0.tgz#f3a7f9ef74ad5d4fbf10c4cb4fc4dd1f844b2608"
-  integrity sha512-Ka3Y4FzTDvLCzCOs6Y3A1wn0MZqCfF9nXFcGejhBm1bp6PZy7cJsubiWH+czr7fcfr5k/429EUcwU/MGY25JUg==
+"@tsed/swagger@5.34.1":
+  version "5.34.1"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.34.1.tgz#7741289eddb2792f685ee534b920993086676c56"
+  integrity sha512-/Oo3jd8abn9cjyfpyi7ds7S91GwhblAOStnXRHzkbVcBrMzgIc9Urfj84CDT4dLXbyHsrFFWTQyc5HFb+zzrmw==
   dependencies:
     ejs "^2.5.9"
     swagger-ui-dist "^3.13.6"
     tslib "^1.9.0"
 
-"@tsed/testing@5.30.0":
-  version "5.30.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.30.0.tgz#aa49ec5f3f6361bd26df1d4a5e2a6e081c0e9af7"
-  integrity sha512-NtZ0JQ/2iu3RBI/ltVC76siJfQgzukmC7nMcPkHP+ieXMFuVkrGMA/WIbAga7rsHblCbi+GJoF4qfJRSmQSGyA==
+"@tsed/testing@5.34.1":
+  version "5.34.1"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.34.1.tgz#3bf6454db779b441b304889cdb5b4851c128ac5b"
+  integrity sha512-RwwrNcYKNOJS6MnmoBFzJemM3BjQWwfBLCSE++Yl/p4iX2iiQYjTqx/yX1h5HCPzCO7lUCFt427QtKpcEmxysg==
   dependencies:
     tslib "^1.9.0"
 
@@ -886,10 +887,10 @@ commander@^2.12.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
 
-commander@~2.17.1:
-  version "2.17.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
-  integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
+commander@~2.20.3:
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -1696,9 +1697,9 @@ growl@1.10.5:
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
 
 handlebars@^4.1.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.1.tgz#6e4e41c18ebe7719ae4d38e5aca3d32fa3dd23d3"
-  integrity sha512-3Zhi6C0euYZL5sM0Zcy7lInLXKQ+YLcF/olbN010mzGQ4XVm50JeyBnMqofHh696GrciGruC7kCcApPDJvVgwA==
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.5.2.tgz#5a4eb92ab5962ca3415ac188c86dc7f784f76a0f"
+  integrity sha512-29Zxv/cynYB7mkT1rVWQnV7mGX6v7H/miQ6dbEpYTKq5eJBN7PsRB+ViYJlcT6JINTSu4dVB9kOqEun78h6Exg==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"
@@ -2586,9 +2587,9 @@ negotiator@0.6.1:
   integrity sha1-KzJxhOiZIQEXeyhWP7XnECrNDKk=
 
 neo-async@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
-  integrity sha512-MFh0d/Wa7vkKO3Y3LlacqAEeHK0mckVqzDieUKTT+KGxi+zIpeVsFxymkIiRpbpDziHc290Xr9A1O4Om7otoRA==
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
+  integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -3738,10 +3739,10 @@ ts-json-properties@2.0.3:
   resolved "https://registry.yarnpkg.com/ts-json-properties/-/ts-json-properties-2.0.3.tgz#508e7244071a198c2fd7c52d68a71a016e3f4021"
   integrity sha512-67gVjESvnci1mkPtqKWtVRxV88QUBF1nzWJRGMqMTMFlGPz3v7SoLvVo0KgwipNropmJPdXZWR/xlEennFlO0w==
 
-ts-log-debug@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.1.0.tgz#627ea14bf66119114cb33908db7137da0507f236"
-  integrity sha512-/7FZd9rgJYjUtJKt+mHot4sgTYhLAmsTjCusDlkhNAVOlqMOlseEuFfB4Z1MmbSp6xtmZv82S+gHuBvtw1EACA==
+ts-log-debug@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.1.1.tgz#ccd909b6e227ac4ca49108f031b7ee5d87cbe1f5"
+  integrity sha512-kpDkz26MGaQ682xjlRNTK+VjLF3bfOZ9Bvre20yZSQSr4E63JL/BsSPICflutx5LADQ9gdvcFKXmZczqhy4nPQ==
   dependencies:
     colors "^1.3.3"
     date-format "^2.0.0"
@@ -3763,7 +3764,7 @@ ts-node@^7.0.1:
     source-map-support "^0.5.6"
     yn "^2.0.0"
 
-tslib@^1.10.0:
+tslib@1.10.0, tslib@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
@@ -3826,11 +3827,11 @@ typescript@^3.2.2:
   integrity sha512-VCj5UiSyHBjwfYacmDuc/NOk4QQixbE+Wn7MFJuS0nRuPQbof132Pw4u53dm264O8LPc2MVsc7RJNml5szurkg==
 
 uglify-js@^3.1.4:
-  version "3.4.9"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.9.tgz#af02f180c1207d76432e473ed24a28f4a782bae3"
-  integrity sha512-8CJsbKOtEbnJsTyv6LE6m6ZKniqMiFWmm9sRbopbkGs3gMPPfd3Fh8iIA4Ykv5MgaTbqHr4BaoGLJLZNhsrW1Q==
+  version "3.6.9"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.9.tgz#85d353edb6ddfb62a9d798f36e91792249320611"
+  integrity sha512-pcnnhaoG6RtrvHJ1dFncAe8Od6Nuy30oaJ82ts6//sGSXOP5UjBMEthiProjXmMNHOfd93sqlkztifFMcb+4yw==
   dependencies:
-    commander "~2.17.1"
+    commander "~2.20.3"
     source-map "~0.6.1"
 
 undefsafe@^2.0.2:
@@ -3927,6 +3928,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+uuid@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
+  integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
 uuid@^3.3.2:
   version "3.3.2"
