@@ -6,8 +6,8 @@ export * from "./decorators/protocol";
 
 export * from "./interfaces/IProtocolOptions";
 export * from "./interfaces/IProtocol";
-export * from "./interfaces/onInstall";
-export * from "./interfaces/onVerify";
+export * from "./interfaces/OnInstall";
+export * from "./interfaces/OnVerify";
 
 export * from "./controllers/PassportCtrl";
 export * from "./protocols/LocalProtocol";
