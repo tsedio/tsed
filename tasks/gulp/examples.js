@@ -1,27 +1,51 @@
 const execa = require("execa");
 const fs = require("fs");
 const path = require("path");
-const {findIntegrationProjects} = require("./utils/findIntegrationProjects");
+const {findExamplesProjects} = require("./utils/findExamplesProjects");
 const {examples, projectsDir} = require("../../repo.config");
 
 function getVersion() {
-  const pkg = JSON.parse(fs.readFileSync("./package.json", {encoding: "utf8"}));
+  const pkg = JSON.parse(String(fs.readFileSync("./package.json", {encoding: "utf8"})));
   return pkg.version;
 }
 
-function build(project) {
-  const version = getVersion();
-  const cwd = path.join(projectsDir, project);
-  const pkgPath = path.join(cwd, "/package.json");
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, {encoding: "utf8"}));
+function getPkg(pkgPath) {
+  return JSON.parse(String(fs.readFileSync(pkgPath, {encoding: "utf8"})));
+}
 
+function setVersion(pkg, version) {
   Object.keys(pkg.dependencies).forEach((key) => {
     if (key.indexOf("@tsed") > -1) {
       pkg.dependencies[key] = version;
     }
   });
 
+  return pkg;
+}
+
+function writePackage(pkgPath, pkg) {
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2), {encoding: "utf8"});
+}
+
+function writePackageVersion(pkgPath, version) {
+  const pkg = getPkg(pkgPath);
+
+  writePackage(pkgPath, setVersion(pkg, version));
+}
+
+function build(project) {
+  const version = getVersion();
+  const cwd = path.join(projectsDir, project);
+  const pkgPath = path.join(cwd, "/package.json");
+
+  writePackageVersion(pkgPath, version);
+
+  const lernaProjectPath = path.join(cwd, "packages");
+
+  if (fs.existsSync(lernaProjectPath)) {
+    writePackageVersion(path.join(lernaProjectPath, "client", "package.json"), version);
+    writePackageVersion(path.join(lernaProjectPath, "server", "package.json"), version);
+  }
 }
 
 async function publish(project) {
@@ -51,15 +75,15 @@ async function publish(project) {
 
 module.exports = {
   async publish() {
-    return Promise.all(findIntegrationProjects().map(publish));
+    return Promise.all(findExamplesProjects().map(publish));
   },
 
   async build() {
-    return Promise.all(findIntegrationProjects().map(build));
+    return Promise.all(findExamplesProjects().map(build));
   }
 };
 
-findIntegrationProjects().forEach((project) => {
+findExamplesProjects().forEach((project) => {
   if (examples[project]) {
     module.exports[`publish:${project}`] = () => publish(project);
     module.exports[`build:${project}`] = () => build(project);

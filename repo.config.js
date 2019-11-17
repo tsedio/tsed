@@ -3,7 +3,7 @@ module.exports = {
   npmAccess: "public",
   versionPlaceholder: "0.0.0-PLACEHOLDER",
   packagesDir: "./packages",
-  projectsDir: "./integration",
+  projectsDir: "./examples",
   outputDir: "./dist",
   typescript: true,
 

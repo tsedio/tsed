@@ -29,10 +29,13 @@
   "linterOptions": {
     "exclude": [
       "docs",
-      "integration/**"
+      "integration",
+      "examples/**"
     ]
   },
   "exclude": [
-    "docs"
+    "docs",
+    "integration",
+    "examples/**"
   ]
 }

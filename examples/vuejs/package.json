@@ -1,0 +1,64 @@
+{
+  "name": "@project/vue-js-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
+    "bootstrap:production": "lerna bootstrap -- --production",
+    "test": "lerna run test --stream",
+    "test:e2e": "lerna run test:e2e",
+    "test:client": "lerna run test --scope=@project/client",
+    "test:server": "lerna run test --scope=@project/server",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
+    "build": "lerna run build --stream",
+    "build:client": "lerna run build --scope=@project/client --stream",
+    "build:server": "lerna run build --scope=@project/server --stream",
+    "start": "lerna run start --stream --parallel",
+    "start:client": "lerna run start --scope=@project/client --stream",
+    "start:server": "lerna run start --scope=@project/server --stream",
+    "start:prod": "cross-env NODE_ENV=production pm2-docker --raw processes.config.js --no-deamon",
+    "docker:build": "yarn build && docker-compose build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lerna": "3.18.4",
+    "pm2": "4.1.2"
+  },
+  "devDependencies": {
+    "husky": "1.3.1",
+    "lint-staged": "9.4.2",
+    "cross-env": "^5.2.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@types",
+      "**/@types/**",
+      "**/@tsed",
+      "**/@tsed/**"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again"
+    }
+  },
+  "lint-staged": {
+    "packages/client/**/*.{js,vue}": [
+      "cd packages/client && yarn lint:fix",
+      "git add"
+    ],
+    "packages/server/**/*.{ts}": [
+      "cd packages/server && yarn lint:fix",
+      "git add"
+    ]
+  }
+}

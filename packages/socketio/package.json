@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "5.34.0",
+  "version": "5.34.1",
   "description": "Socket.io package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,13 +9,12 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.34.0",
+    "@tsed/common": "5.34.1",
     "tslib": "^1.8.0"
   },
   "peerDependencies": {
     "@types/socket.io": "^2.1.4",
     "socket.io": "2.3.0"
   },
-  "devDependencies": {},
   "private": false
 }

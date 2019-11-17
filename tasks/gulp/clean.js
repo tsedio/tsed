@@ -23,17 +23,5 @@ module.exports = {
         "packages/**/node_modules"
       ], {read: false})
       .pipe(clean());
-  },
-  /**
-   *
-   * @param gulp
-   */
-  api(gulp) {
-    return gulp
-      .src([
-        "docs/api/*/*.md",
-        "docs/api/*/**"
-      ], {read: false})
-      .pipe(clean());
   }
 };

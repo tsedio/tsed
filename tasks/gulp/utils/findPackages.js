@@ -1,4 +1,5 @@
 const glob = require("globby");
+const {join} = require("path");
 const {packagesDir} = require("../../../repo.config");
 
 /**
@@ -10,5 +11,7 @@ exports.findPackages = () => {
     cwd: packagesDir
   });
 
-  return pkgs.map((pkg) => pkg.split("/")[0]);
+  return pkgs
+    .filter(file => require(join(process.cwd(), packagesDir, file)).private !== true)
+    .map((pkg) => pkg.split("/")[0]);
 };

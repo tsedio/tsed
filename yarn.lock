@@ -1701,10 +1701,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@typedproject/ts-doc@4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.5.tgz#fc58fc83a21324d6241c145b862656bda9d03194"
-  integrity sha512-qhlMejm8h+6MpAoJ3Y1ItQikujdV83LAEYtYEOx3ctdh0vJqzJRHpEf2l5eR7YrF3CbXFYw8M/2OpmYxwdyN4w==
+"@typedproject/ts-doc@4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.6.tgz#e22b304ab05305616515fa03c0283a8b1995409d"
+  integrity sha512-Wg/6aHNZGo5NftrT0UK4SRZ6LI6WunpNIlXGW+NgfbC7yf2I+Dpfy2IjYFKRnhllNT97roz9/4r3Y/9OWQKJpA==
   dependencies:
     chalk "3.0.0"
     ejs "2.7.1"
@@ -1712,6 +1712,7 @@
     fs-extra "8.1.0"
     glob "7.1.6"
     globby "8.0.2"
+    listr "^0.14.3"
     read-pkg-up "7.0.0"
     ts-log-debug "5.1.1"
 
@@ -5986,6 +5987,22 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
+execa@3.3.0, execa@^3.2.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-3.3.0.tgz#7e348eef129a1937f21ecbbd53390942653522c1"
+  integrity sha512-j5Vit5WZR/cbHlqU97+qcnw9WHRCIL4V1SVe75VcHcD1JRBdt8fv0zw89b7CQHQdUHTt2VjuhcF5ibAgVOxqpg==
+  dependencies:
+    cross-spawn "^7.0.0"
+    get-stream "^5.0.0"
+    human-signals "^1.1.1"
+    is-stream "^2.0.0"
+    merge-stream "^2.0.0"
+    npm-run-path "^4.0.0"
+    onetime "^5.1.0"
+    p-finally "^2.0.0"
+    signal-exit "^3.0.2"
+    strip-final-newline "^2.0.0"
+
 execa@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/execa/-/execa-0.7.0.tgz#944becd34cc41ee32a63a9faf27ad5a65fc59777"
@@ -6022,22 +6039,6 @@ execa@^2.0.3:
     is-stream "^2.0.0"
     merge-stream "^2.0.0"
     npm-run-path "^3.0.0"
-    onetime "^5.1.0"
-    p-finally "^2.0.0"
-    signal-exit "^3.0.2"
-    strip-final-newline "^2.0.0"
-
-execa@^3.2.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/execa/-/execa-3.3.0.tgz#7e348eef129a1937f21ecbbd53390942653522c1"
-  integrity sha512-j5Vit5WZR/cbHlqU97+qcnw9WHRCIL4V1SVe75VcHcD1JRBdt8fv0zw89b7CQHQdUHTt2VjuhcF5ibAgVOxqpg==
-  dependencies:
-    cross-spawn "^7.0.0"
-    get-stream "^5.0.0"
-    human-signals "^1.1.1"
-    is-stream "^2.0.0"
-    merge-stream "^2.0.0"
-    npm-run-path "^4.0.0"
     onetime "^5.1.0"
     p-finally "^2.0.0"
     signal-exit "^3.0.2"
