@@ -61,15 +61,13 @@ async function publish(project) {
 
     await build(project);
 
-    await execa.shell("git init", {cwd});
+    await execa("git", ["init"], {cwd});
 
-    await execa.shell("git add -A", {cwd});
+    await execa("git", ["add", "-A"], {cwd});
 
-    await execa.shell(`git commit -m 'Deploy project with Ts.ED v${version}'`, {
-      cwd
-    });
+    await execa("git", ["commit", "-m", `'Deploy project with Ts.ED v${version}'`], {cwd});
 
-    await execa.shell(`git push -f https://${GH_TOKEN}@${repository} master:v${version}`, {cwd});
+    await execa("git", ["push", "-f", `https://${GH_TOKEN}@${repository} master:v${version}`], {cwd});
   }
 }
 

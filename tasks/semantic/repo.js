@@ -1,4 +1,3 @@
-const fs = require("fs");
 const logger = require("fancy-log");
 const execa = require("execa");
 const gulpRepo = require("../gulp/repo");
@@ -15,15 +14,15 @@ module.exports = {
 
     logger("Update all packages with the right version");
 
-    await execa.shell(`lerna version ${version} --exact --yes --no-git-tag-version --no-push`, {
+    await execa("lerna", ["version", version, "--exact", "--yes", "--no-git-tag-version", "--no-push"], {
       cwd: process.cwd()
     });
 
-    await execa.shell(`yarn version --no-git-tag-version --new-version ${version}`, {
+    await execa("yarn", ["version", "--no-git-tag-version", "--new-version", version], {
       cwd: process.cwd()
     });
 
-    await execa.shell("yarn build", {
+    await execa("yarn", ["build"], {
       cwd: process.cwd()
     });
   },

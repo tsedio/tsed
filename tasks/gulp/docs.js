@@ -28,19 +28,19 @@ module.exports = {
 
       fs.writeFileSync(`${vuePressPath}/CNAME`, cname, {});
 
-      await execa.shell("git init", {
+      await execa("git", ["init"], {
         cwd: vuePressPath
       });
 
-      await execa.shell("git add -A", {
+      await execa("git", ["add", "-A"], {
         cwd: vuePressPath
       });
 
-      await execa.shell(`git commit -m 'Deploy documentation v${version}'`, {
+      await execa("git", ["commit", "-m", `'Deploy documentation v${version}'`], {
         cwd: vuePressPath
       });
 
-      await execa.shell(`git push -f https://${GH_TOKEN}@${repository} master:${branchDoc}`, {
+      await execa("git", ["push", "-f", `https://${GH_TOKEN}@${repository} master:${branchDoc}`], {
         cwd: vuePressPath
       });
     }
