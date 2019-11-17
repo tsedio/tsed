@@ -23,7 +23,8 @@ module.exports = {
     });
 
     await execa("yarn", ["build"], {
-      cwd: process.cwd()
+      cwd: process.cwd(),
+      stdio: ["inherit"]
     });
   },
   /**
