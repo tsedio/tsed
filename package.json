@@ -1,27 +1,31 @@
 {
-  "name": "ts-express-decorators",
+  "name": "@tsed/root",
   "version": "5.34.1",
   "description": "A TypeScript Framework on top of Express",
+  "private": true,
   "scripts": {
-    "postinstall": "gulp repo:bootstrap",
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run",
     "clean": "gulp clean:workspace",
-    "start": "ts-node -r tsconfig-paths/register test/integration/app/app.ts",
-    "test": "npm run clean && npm run test:lint && npm run test:coverage",
+    "start": "lerna run start --scope=@tsed/integration --stream",
+    "test": "yarn clean && yarn test:lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
-    "test:lint": "tslint --project tsconfig.json -e integration",
+    "test:lint": "tslint --project tsconfig.json -e examples",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
     "travis:deploy-once": "travis-deploy-once",
     "travis:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",
-    "build": "gulp repo:build",
-    "repo:build": "gulp repo:build",
-    "repo:bootstrap": "gulp repo:bootstrap",
-    "docs:serve": "gulp docs:serve",
-    "docs:build:api": "gulp docs:buildApi",
-    "docs:build": "gulp docs:build",
+    "build": "lerna run build --stream && gulp repo:build",
+    "publish:dryRun": "yarn build && gulp repo:publishDryRun",
+    "docs:serve": "yarn api:build && yarn vuepress:serve ",
+    "docs:build": "yarn api:build && yarn vuepress:build ",
+    "docs:publish": "yarn docs:build && gulp docs:publish",
+    "examples:build": "gulp examples:build",
+    "examples:publish": "gulp examples:publish",
+    "api:build": "lerna run build && ts-doc",
+    "vuepress:build": "vuepress build docs",
+    "vuepress:serve": "vuepress dev docs",
     "prettier": "prettier '{src,test}/**/*.ts' --write"
   },
   "husky": {
@@ -72,13 +76,14 @@
     "bunyan": "^1.8.12",
     "bunyan-seq": "^0.4.0",
     "globby": "^10.0.1",
+    "lerna": "3.18.4",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.4.0",
     "ts-httpexceptions": "^4.1.0",
     "ts-log-debug": "^5.1.0"
   },
   "devDependencies": {
-    "@typedproject/ts-doc": "4.0.5",
+    "@typedproject/ts-doc": "4.0.6",
     "@types/chai": "^4.0.1",
     "@types/chai-as-promised": "7.1.0",
     "@types/cookie-parser": "^1.3.29",
@@ -114,6 +119,7 @@
     "cross-env": "^5.1.3",
     "ejs": "^2.5.7",
     "ejs-lint": "^0.3.0",
+    "execa": "3.3.0",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fancy-log": "^1.3.2",
@@ -162,5 +168,10 @@
   "directories": {
     "packages": "packages",
     "test": "test"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
   }
 }

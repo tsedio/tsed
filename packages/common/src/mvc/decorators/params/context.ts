@@ -1,5 +1,5 @@
-import {RequestContext} from "@tsed/common";
 import {ParamTypes} from "../../models/ParamTypes";
+import {RequestContext} from "../../models/RequestContext";
 import {UseFilter} from "./useFilter";
 import {mapParamsOptions} from "./utils/mapParamsOptions";
 

@@ -13,8 +13,7 @@ node_js:
   - 10
   - 8
 
-script: skip
-  # && yarn test && yarn travis:coveralls
+script: yarn test && yarn travis:coveralls
 
 jobs:
   include:
@@ -22,7 +21,7 @@ jobs:
       name: 'Deploy packages'
       node_js: 12
       if: branch = production
-      script: yarn semantic-release && gulp docs:publish && gulp examples:publish
+      script: yarn semantic-release && yarn docs:publish && yarn examples:publish
 
 branches:
   except:

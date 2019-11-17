@@ -1,9 +1,7 @@
 import {applyDecorators} from "@tsed/core";
-import {Injectable, ProviderType} from "@tsed/di";
-import {IDIConfigurationOptions} from "../interfaces/IDIConfigurationOptions";
-import {ProviderScope} from "../interfaces/ProviderScope";
-import {TokenProvider} from "../interfaces/TokenProvider";
+import {IDIConfigurationOptions, ProviderScope, ProviderType, TokenProvider} from "../interfaces";
 import {Configuration} from "./configuration";
+import {Injectable} from "./injectable";
 
 export interface IModuleOptions extends IDIConfigurationOptions {
   /**

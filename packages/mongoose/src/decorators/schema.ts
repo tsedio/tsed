@@ -1,9 +1,9 @@
 import {Property} from "@tsed/common";
 import {applyDecorators, getDecoratorType, StoreMerge} from "@tsed/core";
-import {createSchema} from "@tsed/mongoose";
 import {SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
+import {createSchema} from "../utils/createSchema";
 
 /**
  * Define a class as a Mongoose Schema ready to be used to compose other schemes and models.

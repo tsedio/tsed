@@ -3,7 +3,7 @@ module.exports = {
   npmAccess: "public",
   versionPlaceholder: "0.0.0-PLACEHOLDER",
   packagesDir: "./packages",
-  projectsDir: "./integration",
+  projectsDir: "./examples",
   outputDir: "./dist",
   typescript: true,
 
@@ -63,37 +63,5 @@ module.exports = {
       url: "https://github.com/TypedProject/tsed-example-react.git"
     }
   },
-  tsdoc: {
-    rootDir: process.cwd(),
-    packagesDir: "packages/",
-    scanPatterns: [
-      "<rootDir>/packages/**/src/**/*.d.ts",
-      "!node_modules"
-    ],
-    outputDir: "<rootDir>/docs/api",
-    baseUrl: "/api",
-    jsonOutputDir: "<rootDir>/docs/.vuepress/public",
-    scope: "@tsed",
-    modules: {
-      "core": "core",
-      "di": "di",
-      "common": {
-        "config": "common/config",
-        "converters": "common/converters",
-        "filters": "common/filters",
-        "jsonschema": "common/jsonschema",
-        "mvc": "common/mvc",
-        "interceptors": "common/interceptors",
-        "server": "common/server"
-      },
-      "ajv": "ajv",
-      "mongoose": "mongoose",
-      "typeorm": "typeorm",
-      "multipartfiles": "multipartfiles",
-      "servestatic": "servestatic",
-      "socketio": "socketio",
-      "swagger": "swagger",
-      "testing": "testing"
-    }
-  }
+  tsdoc: require('./tsdoc.config.js')
 };

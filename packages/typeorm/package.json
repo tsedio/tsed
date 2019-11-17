@@ -1,17 +1,18 @@
 {
   "name": "@tsed/typeorm",
-  "version": "0.0.0-PLACEHOLDER",
+  "version": "5.34.1",
   "description": "TypeORM package for Ts.ED framework",
-  "main": "./src/index.js",
-  "typings": "./src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "build:doc": "tsc --build tsconfig.doc.json"
+  },
   "dependencies": {
+    "@tsed/common": "5.34.1",
+    "@tsed/core": "5.34.1",
     "tslib": "^1.10.0",
     "typeorm": "^0.2.18"
   },
-  "peerDependencies": {
-    "@tsed/common": "0.0.0-PLACEHOLDER",
-    "@tsed/core": "0.0.0-PLACEHOLDER"
-  },
-  "devDependencies": {},
   "private": false
 }

@@ -1,5 +1,6 @@
 import {Store} from "../class/Store";
 import {DecoratorParameters} from "../interfaces/DecoratorParameters";
+
 /**
  * Create a store correctly configured from the parameters given by the decorator.
  * The `fn` can return a decorator that will be initialized with the parameters (target, propertyKey, descriptor).
