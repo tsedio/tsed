@@ -1,6 +1,6 @@
 {
   "name": "@tsed/passport",
-  "version": "5.34.1",
+  "version": "5.34.2",
   "description": "Passport package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,9 +9,9 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.34.1",
-    "@tsed/core": "5.34.1",
-    "@tsed/di": "5.34.1",
+    "@tsed/common": "5.34.2",
+    "@tsed/core": "5.34.2",
+    "@tsed/di": "5.34.2",
     "tslib": "^1.10.0"
   },
   "peerDependencies": {
