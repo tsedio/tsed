@@ -28,8 +28,9 @@ Here an example:
 
 <<< @/docs/docs/snippets/request-data-persistence/locals-example.ts
 
-## Context
-
+## Context 
+<Badge text="v5.34.2+" />
+ 
 @@Context@@ decorator will give you a way to store any data and retrieve to another middleware or endpoint without exposing it in the template.
 
 Context decorator return the @@RequestContext@@ created by Ts.ED when request is handled by the server.

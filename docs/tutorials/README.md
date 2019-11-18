@@ -56,19 +56,9 @@ Some examples are available along these links :
 
 **Projects examples for v4.x.x**
 
-- [Basic usages](https://github.com/TypedProject/ts-express-decorators/tree/production/integration/getting-started)
+- [Basic usages](https://github.com/TypedProject/example-ts-express-decorators/tree/4.0.0/getting-started)
 - [Https](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-https)
 - [Authentication with Passport.js](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-passport)
 - [Mongoose & Swagger](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-mongoose)
 - [TypeORM](https://github.com/TypedProject/example-ts-express-decorator/tree/4.0.0/example-typeorm)
 - [Node Api Starter](https://github.com/scopsy/node-typescript-starter) by [Scopsy](https://github.com/scopsy)
-
-**Projects examples for v2.0.0 and more**
-
-- [Basic usages](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-basic)
-- [Https](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-https)
-- [Service declaration](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-services)
-- [Authentication with Passport.js](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-passport)
-- [Mongoose and deserialization](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-mongoose)
-- [Swagger UI](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-swagger)
-- [Testing](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-testing)
