@@ -28,21 +28,32 @@ module.exports = {
 
       fs.writeFileSync(`${vuePressPath}/CNAME`, cname, {});
 
-      await execa("git", ["init"], {
-        cwd: vuePressPath
-      });
+      try {
+        await execa("git", ["init"], {
+          cwd: vuePressPath,
+          stdio: ["inherit"]
+        });
 
-      await execa("git", ["add", "-A"], {
-        cwd: vuePressPath
-      });
+        await execa("git", ["add", "-A"], {
+          cwd: vuePressPath,
+          stdio: ["inherit"]
+        });
 
-      await execa("git", ["commit", "-m", `'Deploy documentation v${version}'`], {
-        cwd: vuePressPath
-      });
+        try {
+          await execa("git", ["commit", "-m", `'Deploy documentation v${version}'`], {
+            cwd: vuePressPath,
+            stdio: ["inherit"]
+          });
+        } catch (er) {
+        }
 
-      await execa("git", ["push", "-f", `https://${GH_TOKEN}@${repository} master:${branchDoc}`], {
-        cwd: vuePressPath
-      });
+        await execa("git", ["push", "--set-upstream", "-f", `https://${GH_TOKEN}@${repository}`, `master:${branchDoc}`], {
+          cwd: vuePressPath,
+          stdio: ["inherit"]
+        });
+      } catch (er) {
+        console.error(er);
+      }
     }
   }
 };

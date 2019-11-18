@@ -15,11 +15,13 @@ module.exports = {
     logger("Update all packages with the right version");
 
     await execa("lerna", ["version", version, "--exact", "--yes", "--no-git-tag-version", "--no-push"], {
-      cwd: process.cwd()
+      cwd: process.cwd(),
+      stdio: ["inherit"]
     });
 
     await execa("yarn", ["version", "--no-git-tag-version", "--new-version", version], {
-      cwd: process.cwd()
+      cwd: process.cwd(),
+      stdio: ["inherit"]
     });
 
     await execa("yarn", ["build"], {

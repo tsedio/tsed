@@ -47,6 +47,15 @@ Code review process
 
 The bigger the pull request, the longer it will take to review and merge. Try to break down large pull requests in smaller chunks that are easier to review and merge. It is also always helpful to have some context for your pull request. What was the purpose? Why does it matter to you?
 
+::: warning
+Ts.ED project use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) as format commit message.
+
+Release note and tagging version are based the message commits.
+If you don't follow the format, our CI won't be able to increment correctly the version and your feature won't be release on NPM.
+
+To write your commit message see [convention page here](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+:::
+
 ## Financial contributions
 
 We also welcome financial contributions in full transparency on our open collective. Anyone can file an expense. If the expense makes sense for the development of the community, it will be "merged" in the ledger of our [open collective](https://opencollective.com/tsed) by the core contributors and the person who filed the expense will be reimbursed.
@@ -141,7 +150,9 @@ To publish your feature on the production branch you need to run a this command:
 gflow finish
 ```
 
-> Note: This action works only on the Ts.ED repository (not on your fork).
+::: tip NOTE
+This action works only on the Ts.ED repository (not on your fork).
+:::
 
 ### Write documentation
 

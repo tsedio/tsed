@@ -61,13 +61,34 @@ async function publish(project) {
 
     await build(project);
 
-    await execa("git", ["init"], {cwd});
+    await execa("git", ["init"], {
+      cwd,
+      stdio: ["inherit"]
+    });
 
-    await execa("git", ["add", "-A"], {cwd});
+    await execa("git", ["add", "-A"], {
+      cwd,
+      stdio: ["inherit"]
+    });
 
-    await execa("git", ["commit", "-m", `'Deploy project with Ts.ED v${version}'`], {cwd});
+    try {
+      await execa("git", ["commit", "-m", `'Deploy project with Ts.ED v${version}'`], {
+        cwd,
+        stdio: ["inherit"]
+      });
+    } catch (er) {
 
-    await execa("git", ["push", "-f", `https://${GH_TOKEN}@${repository} master:v${version}`], {cwd});
+    }
+
+    await execa("git", ["push", "--set-upstream", "-f", `https://${GH_TOKEN}@${repository}`, `master:v${version}`], {
+      cwd,
+      stdio: ["inherit"]
+    });
+
+    await execa("git", ["push", "--set-upstream", "-f", `https://${GH_TOKEN}@${repository}`, `master:master`], {
+      cwd,
+      stdio: ["inherit"]
+    });
   }
 }
 
