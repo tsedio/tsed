@@ -12,10 +12,10 @@
     "@tsed/common": "5.34.4",
     "@tsed/core": "5.34.4",
     "@tsed/di": "5.34.4",
-    "tslib": "^1.10.0"
+    "tslib": "1.10.0"
   },
   "peerDependencies": {
-    "@types/passport": "^1.0.0",
+    "@types/passport": "^1.0.1",
     "@types/passport-local": "^1.0.33",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
@@ -24,5 +24,6 @@
   "directories": {
     "lib": "lib",
     "src": "src"
-  }
+  },
+  "devDependencies": {}
 }

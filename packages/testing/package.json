@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@tsed/common": "5.34.4",
-    "tslib": "^1.10.0"
+    "tslib": "1.10.0"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {},
+  "peerDependencies": {}
 }

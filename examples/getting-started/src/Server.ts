@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
+import * as cors from "cors";
 import {join} from "path";
 import {RestCtrl} from "./controllers/RestCtrl";
 
@@ -54,6 +55,7 @@ export class Server extends ServerLoader {
    */
   $beforeRoutesInit(): void | Promise<any> {
     this
+      .use(cors())
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))

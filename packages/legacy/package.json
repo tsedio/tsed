@@ -27,7 +27,9 @@
     "api",
     "validation"
   ],
-  "author": "Romain Lenzotti",
+  "author": {
+    "name": "Romain Lenzotti"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TypedProject/ts-express-decorators/issues"
@@ -35,7 +37,7 @@
   "homepage": "http://tsed.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TypedProject/ts-express-decorators.git"
+    "url": "git+https://github.com/TypedProject/ts-express-decorators.git"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
@@ -47,5 +49,7 @@
   },
   "directories": {
     "src": "src"
-  }
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
 }

@@ -11,8 +11,10 @@
   "dependencies": {
     "@tsed/common": "5.34.4",
     "@tsed/core": "5.34.4",
-    "tslib": "^1.10.0",
-    "typeorm": "^0.2.18"
+    "tslib": "1.10.0",
+    "typeorm": "0.2.20"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {},
+  "peerDependencies": {}
 }

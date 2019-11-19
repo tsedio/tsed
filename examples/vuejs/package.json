@@ -1,7 +1,7 @@
 {
   "name": "@project/vue-js-example",
   "version": "1.0.0",
-  "description": "",
+  "description": "This project show you how you can create a project based on Ts.ED + Vue.js as client application. This example can be used to create project based on other popular client frameworks like React or Angular.",
   "main": "index.js",
   "private": true,
   "scripts": {
@@ -30,9 +30,9 @@
     "pm2": "4.1.2"
   },
   "devDependencies": {
-    "husky": "1.3.1",
-    "lint-staged": "9.4.2",
-    "cross-env": "^5.2.0"
+    "husky": "3.1.0",
+    "lint-staged": "9.4.3",
+    "cross-env": "6.0.3"
   },
   "workspaces": {
     "packages": [

@@ -1,6 +1,12 @@
 const execa = require("execa");
 const fs = require("fs");
 const path = require("path");
+const chalk = require("chalk");
+const logger = require("fancy-log");
+const {updateVersions} = require("./utils/updateVersions");
+const {getDependencies} = require("./utils/getDependencies");
+const {readPackage} = require("./utils/readPackage");
+const {writePackage} = require("./utils/writePackage");
 const {findExamplesProjects} = require("./utils/findExamplesProjects");
 const {examples, projectsDir} = require("../../repo.config");
 
@@ -9,42 +15,64 @@ function getVersion() {
   return pkg.version;
 }
 
-function getPkg(pkgPath) {
-  return JSON.parse(String(fs.readFileSync(pkgPath, {encoding: "utf8"})));
-}
-
 function setVersion(pkg, version) {
-  Object.keys(pkg.dependencies).forEach((key) => {
-    if (key.indexOf("@tsed") > -1) {
-      pkg.dependencies[key] = version;
-    }
-  });
+  if (pkg.dependencies) {
+    Object.keys(pkg.dependencies).forEach((key) => {
+      if (key.indexOf("@tsed") > -1) {
+        pkg.dependencies[key] = version;
+      }
+    });
+  }
 
   return pkg;
 }
 
-function writePackage(pkgPath, pkg) {
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2), {encoding: "utf8"});
-}
-
-function writePackageVersion(pkgPath, version) {
-  const pkg = getPkg(pkgPath);
+async function writePackageVersion(pkgPath, version) {
+  const pkg = await readPackage(pkgPath);
 
   writePackage(pkgPath, setVersion(pkg, version));
 }
 
-function build(project) {
-  const version = getVersion();
+async function updatePackage(pkgPath) {
+  const currentPkg = await readPackage(pkgPath);
+  const dependencies = getDependencies();
+
+  logger("Update package", chalk.cyan(pkgPath));
+
+  currentPkg.dependencies = updateVersions(currentPkg.dependencies, dependencies);
+  currentPkg.devDependencies = updateVersions(currentPkg.devDependencies, dependencies);
+
+  writePackage(pkgPath, currentPkg);
+}
+
+async function syncDependencies(project) {
   const cwd = path.join(projectsDir, project);
   const pkgPath = path.join(cwd, "/package.json");
 
-  writePackageVersion(pkgPath, version);
+  await updatePackage(pkgPath);
 
   const lernaProjectPath = path.join(cwd, "packages");
 
   if (fs.existsSync(lernaProjectPath)) {
-    writePackageVersion(path.join(lernaProjectPath, "client", "package.json"), version);
-    writePackageVersion(path.join(lernaProjectPath, "server", "package.json"), version);
+    await updatePackage(path.join(lernaProjectPath, "server", "package.json"));
+  }
+}
+
+async function build(project) {
+  const version = getVersion();
+  const cwd = path.join(projectsDir, project);
+  const pkgPath = path.join(cwd, "/package.json");
+
+  await updatePackage(pkgPath);
+
+  await writePackageVersion(pkgPath, version);
+
+  const lernaProjectPath = path.join(cwd, "packages");
+
+  if (fs.existsSync(lernaProjectPath)) {
+    await updatePackage(path.join(lernaProjectPath, "server", "package.json"));
+    await writePackageVersion(path.join(lernaProjectPath, "client", "package.json"), version);
+    await writePackageVersion(path.join(lernaProjectPath, "server", "package.json"), version);
   }
 }
 
@@ -93,6 +121,10 @@ async function publish(project) {
 }
 
 module.exports = {
+  async syncDependencies() {
+    return Promise.all(findExamplesProjects().map(syncDependencies));
+  },
+
   async publish() {
     return Promise.all(findExamplesProjects().map(publish));
   },

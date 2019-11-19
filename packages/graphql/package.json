@@ -12,12 +12,13 @@
     "@tsed/common": "5.34.4",
     "@tsed/core": "5.34.4",
     "apollo-datasource": "^0.6.0",
-    "apollo-server-express": "^2.4.2",
-    "tslib": "^1.9.3",
-    "type-graphql": "^0.17.0"
+    "apollo-server-express": "2.9.9",
+    "tslib": "1.10.0",
+    "type-graphql": "0.17.5"
   },
   "peerDependencies": {
-    "@types/graphql": "14.0.2"
+    "@types/graphql": "^14.5.0"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {}
 }

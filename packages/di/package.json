@@ -6,11 +6,13 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "@tsed/core": "5.34.4",
-    "tslib": "^1.8.0"
+    "tslib": "1.10.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "build:doc": "tsc --build tsconfig.doc.json"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {},
+  "peerDependencies": {}
 }

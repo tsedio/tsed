@@ -10,12 +10,13 @@
   },
   "dependencies": {
     "@tsed/common": "5.34.4",
-    "ejs": "2.7.2",
-    "swagger-ui-dist": "^3.24.2",
-    "tslib": "^1.10.0"
+    "ejs": "2.7.3",
+    "swagger-ui-dist": "3.24.3",
+    "tslib": "1.10.0"
   },
   "peerDependencies": {
-    "@types/swagger-schema-official": "^2.0.7"
+    "@types/swagger-schema-official": "^2.0.20"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {}
 }
