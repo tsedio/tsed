@@ -11,10 +11,11 @@
   "dependencies": {
     "@tsed/common": "5.34.4",
     "@tsed/core": "5.34.4",
-    "tslib": "^1.10.0"
+    "tslib": "1.10.0"
   },
   "peerDependencies": {
-    "ajv": "^6.5.0"
+    "ajv": "^6.10.2"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {}
 }

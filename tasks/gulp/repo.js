@@ -7,7 +7,11 @@ const logger = require("fancy-log");
 const replace = require("gulp-replace");
 const clean = require("gulp-clean");
 const jeditor = require("gulp-json-editor");
+const {getDependencies} = require("./utils/getDependencies");
 const {sync} = require("execa");
+const semver = require("semver");
+const {updateVersions} = require("./utils/updateVersions");
+const {writePackage} = require("./utils/writePackage");
 
 const {all} = require("./utils/all");
 const {findPackages} = require("./utils/findPackages");
@@ -34,6 +38,27 @@ module.exports = {
     return toPromise(stream);
   },
 
+  async syncDependencies() {
+    const packages = findPackages();
+    const dependencies = getDependencies();
+    dependencies.delete("express");
+    dependencies.delete("@types/express");
+
+    const promises = packages.map(async (pkg) => {
+      const pkgPath = `./${path.join(packagesDir, pkg, "package.json")}`;
+      const currentPkg = await readPackage(pkgPath);
+
+      logger("Update package.json", chalk.cyan(`'${npmScope}/${pkg}'`));
+
+      currentPkg.dependencies = updateVersions(currentPkg.dependencies, dependencies);
+      currentPkg.devDependencies = updateVersions(currentPkg.devDependencies, dependencies);
+      currentPkg.peerDependencies = updateVersions(currentPkg.peerDependencies, dependencies, '^');
+
+      writePackage(pkgPath, currentPkg);
+    });
+
+    await Promise.all(promises);
+  },
   /**
    *
    * @param g
@@ -44,6 +69,11 @@ module.exports = {
     await module.exports.clean(g);
 
     logger(`Finished '${chalk.cyan("repo:clean")}'`);
+    logger(`Starting '${chalk.cyan("repo:syncDependencies")}'...`);
+
+    await module.exports.syncDependencies();
+
+    logger(`Finished '${chalk.cyan("repo:syncDependencies")}'...`);
     logger(`Starting '${chalk.cyan("repo:copy")}'...`);
 
     await module.exports.copy(g);

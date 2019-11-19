@@ -1,7 +1,7 @@
 {
   "name": "@project/passportjs-azure-ad",
   "version": "1.0.0",
-  "description": "",
+  "description": "Here an example project with Passport.js and Ts.ED framework.",
   "main": "index.js",
   "author": "",
   "license": "ISC",
@@ -30,9 +30,9 @@
     "pm2": "4.1.2"
   },
   "devDependencies": {
-    "husky": "1.3.1",
-    "lint-staged": "9.4.2",
-    "cross-env": "^5.2.0"
+    "husky": "3.1.0",
+    "lint-staged": "9.4.3",
+    "cross-env": "6.0.3"
   },
   "workspaces": {
     "packages": [
