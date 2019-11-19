@@ -1,6 +1,6 @@
 {
   "name": "@tsed/root",
-  "version": "5.34.4",
+  "version": "5.34.5",
   "description": "A TypeScript Framework on top of Express",
   "private": true,
   "scripts": {
@@ -134,7 +134,7 @@
     "gulp-replace": "^1.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^5.0.0",
-    "husky":"3.1.0",
+    "husky": "3.1.0",
     "lint-staged": "9.4.3",
     "method-override": "3.0.0",
     "mocha": "6.2.2",
