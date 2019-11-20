@@ -9,7 +9,7 @@ meta:
 # Multer
 ## Installation
 
-Before using the `@MultipartFile()` you must install [multer](https://github.com/expressjs/multer) and `@tsed/multipartfile` module on your project:
+Before using the @@MultipartFile@@ you must install [multer](https://github.com/expressjs/multer) and `@tsed/multipartfile` module on your project:
 
 ```bash
 npm install --save multer @types/multer @tsed/multipartfiles
@@ -17,32 +17,9 @@ npm install --save multer @types/multer @tsed/multipartfiles
 
 ## Configure the File upload directory
 
-By default the directory used is `${projetRoot}/uploads`. You can configure another directory on your `ServerLoader` settings.
+By default the directory used is `${projetRoot}/uploads`. You can configure another directory on your Server settings.
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/multipartfiles";
-import Path = require("path");
-const rootDir = Path.resolve(__dirname);
-
-@ServerSettings({
-   rootDir,
-   mount: {
-      '/rest': `${rootDir}/controllers/**/**.js`
-   },
-   uploadDir: `${rootDir}/custom-dir`,
-   componentsScan: [
-       `${rootDir}/services/**/**.js`
-   ],
-   
-   multer: {
-       // see multer options
-   }
-})
-export class Server extends ServerLoader {
-
-}
-```
+<<< @/docs/tutorials/snippets/multer/configuration.ts
 
 ## Options
 
@@ -63,39 +40,19 @@ export class Server extends ServerLoader {
 
 Ts.ED use multer to handler file uploads. Single file can be injected like this:
 
-```typescript
-import {Controller, Post} from "@tsed/common";
-import {MultipartFile, MulterOptions} from "@tsed/multipartfiles";
+<<< @/docs/tutorials/snippets/multer/controller.ts
 
-@Controller('/')
-class MyCtrl {
-    
-  @Post('/file')
-  private uploadFile(@MultipartFile('file') file: Express.Multer.File) {
+::: tip
+Many frontend example code are available on the web and some of this doesn't works correctly. So here a short example:
 
-  }
-     
-  @Post('/file')
-  @MulterOptions({dest: "/other-dir"})
-  private uploadFile(@MultipartFile('file') file: Express.Multer.File) {
-         
-  }
-}
-```
+<<< @/docs/tutorials/snippets/multer/loading-file.js
+
+:::
 
 For multiple files, just add Array type annotation like this:
-```typescript
-import {Controller, Post} from "@tsed/common";
-import {MultipartFile} from "@tsed/multipartfiles";
 
-@Controller('/')
-class MyCtrl {
-  @Post('/files')
-  private uploadFile(@MultipartFile("files", 4) files: Express.Multer.File[]) {
-    // multiple files with 4 as limits
-  }
-}
-```
+<<< @/docs/tutorials/snippets/multer/file-array.ts
+
 ::: warning
 Swagger spec (v2.0) doesn't support multiple files.
 :::
