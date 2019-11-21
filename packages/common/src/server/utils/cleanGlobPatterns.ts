@@ -10,7 +10,7 @@ export function cleanGlobPatterns(files: string | string[], excludes: string[]):
         file = file.replace(/\.ts$/i, ".js");
       }
 
-      return Path.resolve(file);
+      return Path.resolve(file).replace(/\\/g, '/');
     })
     .concat(excludes as any);
 }
