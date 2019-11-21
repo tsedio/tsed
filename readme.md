@@ -83,53 +83,62 @@ express quickly. Just create a `server.ts` in your root project, declare
 a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
 
 ```typescript
-import * as Express from "express";
 import {ServerLoader, ServerSettings} from "@tsed/common";
-import Path = require("path");
+import * as Path from "path";                              
+
+const rootDir = Path.resolve(__dirname);
 
 @ServerSettings({
-    rootDir: Path.resolve(__dirname),
+    rootDir,
     acceptMimes: ["application/json"]
 })
 export class Server extends ServerLoader {
-
-    /**
-     * This method let you configure the middleware required by your application to works.
-     * @returns {Server}
-     */
-    public $beforeRoutesInit(): void|Promise<any> {
-    
-        const cookieParser = require('cookie-parser'),
-            bodyParser = require('body-parser'),
-            compress = require('compression'),
-            methodOverride = require('method-override');
-
-
-        this
-            .use(GlobalAcceptMimesMiddleware)
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride())
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }));
-
-        return null;
-    }
-
-    public $onReady(){
-        console.log('Server started...');
-    }
-   
-    public $onServerInitError(err){
-        console.error(err);
-    }    
+  /**
+   * This method let you configure the middleware required by your application to works.
+   * @returns {Server}
+   */
+  public $beforeRoutesInit(): void|Promise<any> {
+    const cookieParser = require('cookie-parser'),
+      bodyParser = require('body-parser'),
+      compress = require('compression'),
+      methodOverride = require('method-override');
+ 
+    this
+      .use(GlobalAcceptMimesMiddleware)
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }));
+ 
+    return null;
+  }   
 }
-
-new Server().start();
 ```
 > By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
+
+And finally:
+
+```typescript
+import {$log, ServerLoader} from "@tsed/common";
+import {Server} from "./Server";
+
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const server = await ServerLoader.bootstrap(Server);
+
+    await server.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();
+```
 
 To customize the server settings see [Configure server with decorator](https://tsed.io/configuration.html)
 
@@ -155,7 +164,6 @@ export interface Calendar{
 
 @Controller("/calendars")
 export class CalendarCtrl {
-
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.
      * In this case, this route "/calendars/:id" are mounted on the "rest/" path.
