@@ -1,7 +1,7 @@
 import * as Path from "path";
 
 export function cleanGlobPatterns(files: string | string[], excludes: string[]): string[] {
-  excludes = excludes.map((s: string) => "!" + s.replace(/!/gi, ""));
+  excludes = excludes.map((s: string) => "!" + s.replace(/!/gi, "").replace(/\\/g, "/"));
 
   return []
     .concat(files as any)
@@ -10,7 +10,7 @@ export function cleanGlobPatterns(files: string | string[], excludes: string[]):
         file = file.replace(/\.ts$/i, ".js");
       }
 
-      return Path.resolve(file);
+      return Path.resolve(file).replace(/\\/g, "/");
     })
     .concat(excludes as any);
 }
