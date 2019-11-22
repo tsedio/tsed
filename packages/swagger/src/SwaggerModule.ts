@@ -54,13 +54,22 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   }
 
   $onReady() {
-    const host = this.configuration.getHttpPort();
-    const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
-    swagger.forEach((conf: ISwaggerSettings) => {
-      const {path = "/", doc} = conf;
-      $log.info(`[${doc || "default"}] Swagger JSON is available on http://${host.address}:${host.port}${path}/swagger.json`);
-      $log.info(`[${doc || "default"}] Swagger UI is available on http://${host.address}:${host.port}${path}/`);
-    });
+    const displayLog = (host: any) => {
+      const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
+      swagger.forEach((conf: ISwaggerSettings) => {
+        const {path = "/", doc} = conf;
+        $log.info(`[${doc || "default"}] Swagger JSON is available on ${host.protocol}://${host.address}:${host.port}${path}/swagger.json`);
+        $log.info(`[${doc || "default"}] Swagger UI is available on ${host.protocol}://${host.address}:${host.port}${path}/`);
+      });
+    };
+
+    if (this.configuration.httpsPort) {
+      const host = this.configuration.getHttpsPort();
+      displayLog({protocol: "https", ...host});
+    } else if (this.configuration.httpPort) {
+      const host = this.configuration.getHttpPort();
+      displayLog({protocol: "http", ...host});
+    }
   }
 
   /**

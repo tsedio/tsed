@@ -1,5 +1,5 @@
 import {Configuration, ExpressApplication} from "@tsed/common";
-import {inject} from "@tsed/testing";
+import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Express from "express";
 import * as Fs from "fs";
@@ -10,8 +10,11 @@ describe("SwaggerModule", () => {
   let swaggerModule: any;
   let settingsService: any;
   let expressApp: any;
+
+  before(() => TestContext.create());
+  after(() => TestContext.reset());
   before(
-    inject(
+    TestContext.inject(
       [SwaggerModule, Configuration, ExpressApplication],
       (swaggerModule_: SwaggerModule, configuration_: Configuration, expressApp_: ExpressApplication) => {
         swaggerModule = swaggerModule_;
@@ -115,11 +118,21 @@ describe("SwaggerModule", () => {
   });
 
   describe("$onReady()", () => {
-    let config: any;
-    let getHttpPortStub: any;
-    let getStub: any;
-    before(() => {
-      config = [
+    const sandbox = Sinon.createSandbox();
+
+    beforeEach(() => {
+      sandbox.stub(settingsService, "get");
+      sandbox.stub(settingsService, "getHttpPort");
+      sandbox.stub(settingsService, "getHttpsPort");
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it("it should call getHttpPort()", () => {
+      // GIVEN
+      const config = [
         {
           path: "/doc1",
           doc: "doc1",
@@ -141,20 +154,59 @@ describe("SwaggerModule", () => {
           hidden: true
         }
       ];
-      getHttpPortStub = Sinon.stub(settingsService, "getHttpPort").returns({
+
+      settingsService.getHttpPort.returns({
         address: "0.0.0.0",
         port: 8080
       });
-      getStub = Sinon.stub(settingsService, "get").returns(config);
-      swaggerModule.$onReady();
-    });
-    after(() => {
-      getHttpPortStub.restore();
-      getStub.restore();
-    });
 
-    it("it should call getHttpPort()", () => {
-      return getHttpPortStub.should.have.been.called;
+      settingsService.get.withArgs("swagger").returns(config);
+      settingsService.httpsPort = false;
+
+      // WHEN
+      swaggerModule.$onReady();
+
+      // THEN
+      return settingsService.getHttpPort.should.have.been.called;
+    });
+    it("it should call getHttpsPort()", () => {
+      // GIVEN
+      const config = [
+        {
+          path: "/doc1",
+          doc: "doc1",
+          options: "options",
+          outFile: "/path/outFile",
+          showExplorer: true,
+          cssPath: "cssPath",
+          jsPath: "jsPath",
+          hidden: false
+        },
+        {
+          path: "/doc2",
+          doc: "doc2",
+          options: "options",
+          outFile: null,
+          showExplorer: false,
+          cssPath: "cssPath",
+          jsPath: "jsPath",
+          hidden: true
+        }
+      ];
+
+      settingsService.getHttpsPort.returns({
+        address: "0.0.0.0",
+        port: 8081
+      });
+
+      settingsService.get.withArgs("swagger").returns(config);
+      settingsService.httpsPort = 8081;
+
+      // WHEN
+      swaggerModule.$onReady();
+
+      // THEN
+      return settingsService.getHttpsPort.should.have.been.called;
     });
   });
 

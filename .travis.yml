@@ -20,7 +20,7 @@ jobs:
     - stage: deploy
       name: 'Deploy packages'
       node_js: 12
-      if: branch = production
+      if: (NOT type IN (pull_request)) AND (branch = production)
       script: yarn semantic-release && yarn docs:publish && yarn examples:publish
 
 branches:
