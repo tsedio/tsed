@@ -189,13 +189,13 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tsed/common@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.34.5.tgz#7cdb053af90bae685eee98be66c6605603f79a71"
-  integrity sha512-WBYG7E38YYbxykN25W7cWL4y/SnOlK9EYgWcMbSqCpeRu4T1e33P2vEwOm3rj+gCpzeDYhlk+IzkoI+eQFW9hw==
+"@tsed/common@5.34.7":
+  version "5.34.7"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.34.7.tgz#f640979a5c9c3c33a085f32bb49672679009054f"
+  integrity sha512-4apftI1xoyqGV+QNCBY23l9hDeu+3szdmXfhr1PTLIqb2j1zREYY8nBEpJDuyefs7Akukyu0XI9lUbiUuDKcPQ==
   dependencies:
-    "@tsed/core" "5.34.5"
-    "@tsed/di" "5.34.5"
+    "@tsed/core" "5.34.7"
+    "@tsed/di" "5.34.7"
     "@types/json-schema" "^7.0.3"
     globby "10.0.1"
     json-schema "^0.2.3"
@@ -205,39 +205,39 @@
     tslib "1.10.0"
     uuid "3.3.3"
 
-"@tsed/core@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.34.5.tgz#4750b7abaf62fbcdb7c3b3c75e0a2fc6d5b4e1a8"
-  integrity sha512-cSv7/DU+wZEK/Bk8f9QXgmSzwumoghHAhIq4P2AvmF8i+r7D1MY76qcEtvs1ptJXKY0B6JacOOI0/Sc5LaTfag==
+"@tsed/core@5.34.7":
+  version "5.34.7"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.34.7.tgz#1c779b4cb53acedcb549cd91cb0750da73419d8c"
+  integrity sha512-Lrtzv5ZG1psZwK3/x6ldU3Ecgi5lsGdML8nvyXNRccrnohEPQWnJA/M2U5SM99FUNzUZcxQFnJsqHiTRVnSnrQ==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "0.5.16"
     tslib "1.10.0"
 
-"@tsed/di@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.34.5.tgz#f3032d0116578bf9ec9fc5bd84d95554d78f711d"
-  integrity sha512-fAbuQptyEansCpTedmyVEUOCga1ouoOgrri5A5BkWiU76qFwTVs005XzSMy/dGmoKdtvnzUebzvTPmXnf3ENKw==
+"@tsed/di@5.34.7":
+  version "5.34.7"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.34.7.tgz#a2b456cd554ad00b2c330ca060a3f1daa874614b"
+  integrity sha512-eFEfkMG1cQjuKdnuJChPoXr1Lz8Vc7cY+u0yda2ue0zXK9D919Ze5e+aQwSXrstJR9V6RfwhEjuwdJVArv62ZA==
   dependencies:
-    "@tsed/core" "5.34.5"
+    "@tsed/core" "5.34.7"
     tslib "1.10.0"
 
-"@tsed/swagger@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.34.5.tgz#4d47df263f5ca404ddb724d2a2fe1d7d5bbeaf05"
-  integrity sha512-+PRDph9blq3pf/qM7s7DtQU01AdGYOhkP2S97BZvRZ1OSKPxmuM8qn3RpZxEyq1IwNfhI/aO9LRfFq90I3BkfQ==
+"@tsed/swagger@5.34.7":
+  version "5.34.7"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.34.7.tgz#9063e758b989e8dae2d7383e991ed7bf5629b22f"
+  integrity sha512-H/sJyxjDHztd4mvZDvxwY11r2TtWdp5U87oO9itlDGL+ZDRugmoJOy13dY084oiHdoBC2v73rXZBJuUn9HL7JA==
   dependencies:
-    "@tsed/common" "5.34.5"
+    "@tsed/common" "5.34.7"
     ejs "2.7.3"
     swagger-ui-dist "3.24.3"
     tslib "1.10.0"
 
-"@tsed/testing@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.34.5.tgz#887e42d5550c2f9aebf100ee11796fe657d34e9e"
-  integrity sha512-NU+gEZQajuoW5V65S1tisMGMMuym3Z1lr+VQeVzDt0FTwURA1YXLbPR7PrJVxpYBeuiF9Gd5wZ7CBMVQpFw3OQ==
+"@tsed/testing@5.34.7":
+  version "5.34.7"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.34.7.tgz#d75a7f5005cda736db7a5530743f90e5bebf45b1"
+  integrity sha512-gOzYdEZ6h0bLNk9i+KNgkMp5EOb3W5cItVGiFsTI/KwX9gBcPpR90L0pen2oNjT7tBAbmFYy6n6/2g1NADExyA==
   dependencies:
-    "@tsed/common" "5.34.5"
+    "@tsed/common" "5.34.7"
     tslib "1.10.0"
 
 "@types/aws-lambda@*":
@@ -2550,9 +2550,9 @@ minizlib@^1.1.1:
     minipass "^2.2.1"
 
 mixin-deep@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.1.tgz#a49e7268dce1a0d9698e45326c5626df3543d0fe"
-  integrity sha512-8ZItLHeEgaqEvd5lYBXfm4EZSFCX29Jb9K+lAHhDKzReKBQKj3R+7NOF6tjqYi9t4oI8VUfaWITJQm86wnXGNQ==
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
+  integrity sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
