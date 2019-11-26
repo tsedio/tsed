@@ -131,7 +131,7 @@ This behavior can be change by editing the [componentScan configuration](/config
 :::
 
 ::: tip
-In addiction, it also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+In addition, it also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
 
 <<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
 
