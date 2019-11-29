@@ -48,6 +48,7 @@
     "@tsed/di": "5.34.7",
     "@types/json-schema": "^7.0.3",
     "globby": "10.0.1",
+    "normalize-path": "3.0.0",
     "json-schema": "^0.2.3",
     "rxjs": "^6.5.2",
     "ts-httpexceptions": "4.1.0",
