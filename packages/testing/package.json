@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing",
-  "version": "5.34.8",
+  "version": "5.34.9",
   "description": "A TypeScript Framework on top of Express",
   "main": "./src/index.js",
   "typings": ".src/index.ts",
@@ -9,7 +9,7 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.34.8",
+    "@tsed/common": "5.34.9",
     "tslib": "1.10.0"
   },
   "private": false,
