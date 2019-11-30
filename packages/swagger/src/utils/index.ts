@@ -1,7 +1,15 @@
 import {JsonSchema, PathParamsType} from "@tsed/common";
 import {deepExtends} from "@tsed/core";
 
-/** */
+function getVariable(subpath: string) {
+  const splited = subpath.split(".");
+  const name = splited.splice(0, 1)[0];
+
+  return {
+    name,
+    postfix: splited.length ? `.${splited.join(".")}` : ""
+  };
+}
 
 export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path: string; pathParams: any[]}[] {
   if (path instanceof RegExp) {
@@ -17,14 +25,15 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
   let isOptional = false;
   let current = "";
 
-  ("" + base + path)
+  `${base}${path}`
+    .replace(/\((.*)\)/gi, "")
     .split("/")
     .filter(o => !!o)
     .map(key => {
-      const name = key.replace(":", "").replace("?", "");
+      const subpath = key.replace(":", "").replace("?", "");
 
-      if (key.indexOf(":") > -1) {
-        const optional = key.indexOf("?") > -1;
+      if (key.includes(":")) {
+        const optional = key.includes("?");
 
         // Append previous config
         if (optional && !isOptional) {
@@ -36,7 +45,8 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
           });
         }
 
-        current += "/{" + name + "}";
+        const {name, postfix} = getVariable(subpath);
+        current += `/{${name}}${postfix}`;
 
         params.push({
           in: "path",
@@ -52,7 +62,7 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
           });
         }
       } else {
-        current += "/" + key;
+        current += `/${key}`;
       }
     });
 
@@ -120,11 +130,9 @@ export function getReducers(): {[key: string]: (collection: any[], value: any) =
   return {
     default: defaultReducer,
     security: (collection, value) => {
-      const current = collection.find(
-        (current: any): any => {
-          return Object.keys(value).find(key => !!current[key]);
-        }
-      );
+      const current = collection.find((current: any): any => {
+        return Object.keys(value).find(key => !!current[key]);
+      });
 
       if (current) {
         deepExtends(current, value, {default: defaultReducer});
