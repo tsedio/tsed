@@ -1,5 +1,5 @@
-import {parseSwaggerPath} from "../../src/utils";
 import {expect} from "chai";
+import {parseSwaggerPath} from "../../src/utils";
 
 describe("parseSwaggerPath()", () => {
   it("should return params and path(1)", () => {
@@ -57,7 +57,7 @@ describe("parseSwaggerPath()", () => {
     ]);
   });
 
-  it("should return params and path(2)", () => {
+  it("should return params and path(3)", () => {
     expect(parseSwaggerPath("/rest/", "/get/path1/path2")).to.deep.eq([
       {
         path: "/rest/get/path1/path2",
@@ -66,11 +66,42 @@ describe("parseSwaggerPath()", () => {
     ]);
   });
 
-  it("should return params and path(3)", () => {
+  it("should return params and path(4)", () => {
     expect(parseSwaggerPath("/rest/calendar/", "/")).to.deep.eq([
       {
         path: "/rest/calendar",
         pathParams: []
+      }
+    ]);
+  });
+  it("should return params and path /file/:filename.json", () => {
+    expect(parseSwaggerPath("/rest/", "/file/:filename.json")).to.deep.eq([
+      {
+        "path": "/rest/file/{filename}.json",
+        "pathParams": [
+          {
+            "in": "path",
+            "name": "filename",
+            "required": true,
+            "type": "string"
+          }
+        ]
+      }
+    ]);
+  });
+
+  it("should return params and path /category/:category([a-zA-Z\/_-]+).json", () => {
+    expect(parseSwaggerPath("/rest/", "/category/:category([a-zA-Z\/_-]+).json")).to.deep.eq([
+      {
+        "path": "/rest/category/{category}.json",
+        "pathParams": [
+          {
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "type": "string"
+          }
+        ]
       }
     ]);
   });
