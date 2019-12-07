@@ -199,6 +199,11 @@ export class HandlerBuilder {
    */
   private invoke(injector: InjectorService, context: IHandlerContext) {
     try {
+      /* istanbul ignore next */
+      if (context.response.headersSent) {
+        return;
+      }
+
       const {token, method} = this.handlerMetadata;
 
       this.checkContext(context);
