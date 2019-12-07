@@ -1,6 +1,6 @@
 import {getDecoratorType} from "@tsed/core";
 import {MongoosePostErrorHookCB, MongoosePostHookCB} from "../interfaces";
-import {applySchemaOptions} from "../utils/schemaOptions";
+import {schemaOptions} from "../utils/schemaOptions";
 
 /**
  * We can simply attach a `@PostHook` decorator to your model class and
@@ -51,7 +51,7 @@ export function PostHook(method: string, fn?: MongoosePostHookCB<any> | Mongoose
       fn = args[0][args[1]].bind(args[0]);
     }
 
-    applySchemaOptions(args[0], {
+    schemaOptions(args[0], {
       post: [
         {
           method,

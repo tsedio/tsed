@@ -1,7 +1,5 @@
-import {Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {applySchemaOptions, buildPreHook, schemaOptions} from "../../src/utils/schemaOptions";
 
 describe("schemaOptions", () => {
@@ -27,56 +25,47 @@ describe("schemaOptions", () => {
       });
     });
   });
-
   describe("buildPreHook()", () => {
     describe("when the function has 1 parameter", () => {
       before(() => {
-        this.ctx = {op: "op"};
-        const stub = (this.stub = Sinon.stub());
+      });
+
+      it("should call the fn with the right parameters", () => {
+        // GIVEN
+        const ctx = {op: "op"};
+        const stub = Sinon.stub();
         const hook = buildPreHook((t: any, next: any) => {
           stub(t, next);
         });
 
-        hook.call(this.ctx, "next");
-      });
-
-      it("should call the fn with the right parameters", () => {
-        this.stub.should.have.been.calledWithExactly(this.ctx, "next");
+        hook.call(ctx, "next");
+        stub.should.have.been.calledWithExactly(ctx, "next");
       });
     });
 
     describe("when the function has 2 parameters", () => {
-      before(() => {
-        this.ctx = {op: "op"};
-        const stub = (this.stub = Sinon.stub());
+      it("should call the fn with the right parameters", () => {
+        const ctx = {op: "op"};
+        const stub = Sinon.stub();
         const hook = buildPreHook((t: any, next: any, done: any) => {
           stub(t, next, done);
         });
 
-        hook.call(this.ctx, "next", "done");
-      });
-
-      it("should call the fn with the right parameters", () => {
-        this.stub.should.have.been.calledWithExactly(this.ctx, "next", "done");
+        hook.call(ctx, "next", "done");
+        stub.should.have.been.calledWithExactly(ctx, "next", "done");
       });
     });
   });
-
   describe("applySchemaOptions()", () => {
-    class Test {
-    }
+    const schema: any = {
+      pre: Sinon.stub(),
+      post: Sinon.stub(),
+      plugin: Sinon.stub(),
+      index: Sinon.stub()
+    };
 
     before(() => {
-      this.schema = {
-        pre: Sinon.stub(),
-        post: Sinon.stub(),
-        plugin: Sinon.stub(),
-        index: Sinon.stub()
-      };
-
-      Store.from(Test).set(MONGOOSE_SCHEMA, this.schema);
-
-      applySchemaOptions(Test, {
+      applySchemaOptions(schema, {
         pre: [
           {
             method: "method",
@@ -98,19 +87,19 @@ describe("schemaOptions", () => {
     });
 
     it("should call schema.pre", () => {
-      this.schema.pre.should.have.been.calledWithExactly("method", true, Sinon.match.func, "errorCb");
+      schema.pre.should.have.been.calledWithExactly("method", true, Sinon.match.func, "errorCb");
     });
 
     it("should call schema.post", () => {
-      this.schema.post.should.have.been.calledWithExactly("method", "fn");
+      schema.post.should.have.been.calledWithExactly("method", "fn");
     });
 
     it("should call schema.plugin", () => {
-      this.schema.plugin.should.have.been.calledWithExactly("plugin", "options");
+      schema.plugin.should.have.been.calledWithExactly("plugin", "options");
     });
 
     it("should call schema.index", () => {
-      this.schema.index.should.have.been.calledWithExactly("fields", "options");
+      schema.index.should.have.been.calledWithExactly("fields", "options");
     });
   });
 });

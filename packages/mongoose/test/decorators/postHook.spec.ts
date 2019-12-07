@@ -10,7 +10,6 @@ describe("@PostHook()", () => {
       const fn = sandbox.stub();
 
       // WHEN
-      @Model({name: "TestPostHook"})
       @PostHook("method", fn)
       class Test {
       }
@@ -19,7 +18,6 @@ describe("@PostHook()", () => {
       const options = schemaOptions(Test);
 
       options.should.deep.eq({
-        name: "TestPostHook",
         post: [
           {
             method: "method",

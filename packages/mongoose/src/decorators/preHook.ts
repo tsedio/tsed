@@ -1,7 +1,7 @@
 import {getDecoratorType} from "@tsed/core";
 import {HookErrorCallback} from "mongoose";
-import {MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces";
-import {applySchemaOptions} from "../utils/schemaOptions";
+import {MongoosePostErrorHookCB, MongoosePostHookCB, MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces";
+import {schemaOptions} from "../utils/schemaOptions";
 
 export interface PreHookOptions {
   parallel?: boolean;
@@ -66,14 +66,13 @@ export function PreHook(
       fn = args[0][args[1]].bind(args[0]);
     }
 
-    options = options || {};
-
-    applySchemaOptions(args[0], {
+    schemaOptions(args[0], {
       pre: [
-        Object.assign(options, {
+        {
+          ...(options || {}),
           method,
-          fn: fn as MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any>
-        })
+          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>
+        }
       ]
     });
   };

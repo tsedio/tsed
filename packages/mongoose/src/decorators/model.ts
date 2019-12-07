@@ -1,7 +1,10 @@
+import {nameOf, Store} from "@tsed/core";
+import {registerModel} from "@tsed/mongoose";
+import {MONGOOSE_MODEL_NAME} from "../constants";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
-import {registerModel} from "../registries/MongooseModelRegistry";
+import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
 import {createModel, getSchema} from "../utils";
-import {applySchemaOptions} from "../utils/schemaOptions";
+import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
 
 /**
  * Define a class as a Mongoose Model. The model can be injected to the Service, Controller, Middleware, Converters or Filter with
@@ -42,7 +45,19 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  */
 export function Model(options: MongooseModelOptions = {}) {
   return (target: any) => {
-    registerModel(target, createModel(target, getSchema(target, options), options.name, options.collection, options.skipInit));
-    applySchemaOptions(target, {});
+    const name = options.name || nameOf(target);
+    Store.from(target).set(MONGOOSE_MODEL_NAME, name);
+
+    const schema = getSchema(target, options);
+
+    registerModel({
+      provide: target,
+      deps: [MONGOOSE_CONNECTIONS],
+      useFactory(connections: MONGOOSE_CONNECTIONS) {
+        applySchemaOptions(schema, schemaOptions(target));
+
+        return createModel(target, schema, options.name, options.collection, options.skipInit, connections.get(options.connection));
+      }
+    });
   };
 }

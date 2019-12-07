@@ -1,26 +1,27 @@
-import {MongoosePlugin} from "../../src/decorators/mongoosePlugin";
-import * as mod from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
+import {MongoosePlugin} from "../../src/decorators/mongoosePlugin";
+import {schemaOptions} from "../../src/utils/schemaOptions";
 
+const sandbox = Sinon.createSandbox();
 describe("@MongoosePlugin()", () => {
-  class Test {}
+  it("should store options", () => {
 
-  before(() => {
-    this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-    this.fn = () => {};
-    MongoosePlugin("fn" as any, "options" as any)(Test);
-  });
+    // GIVEN
+    const fn = sandbox.stub();
 
-  after(() => {
-    this.applySchemaOptionsStub.restore();
-  });
+    // WHEN
+    @MongoosePlugin(fn, {})
+    class Test {
+    }
 
-  it("should call applySchemaOptions", () => {
-    this.applySchemaOptionsStub.should.have.been.calledWithExactly(Test, {
+    // THEN
+    const options = schemaOptions(Test);
+
+    options.should.deep.eq({
       plugins: [
         {
-          plugin: "fn",
-          options: "options"
+          plugin: fn,
+          options: {}
         }
       ]
     });

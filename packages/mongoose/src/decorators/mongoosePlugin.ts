@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import {applySchemaOptions} from "../utils/schemaOptions";
+import {schemaOptions} from "../utils/schemaOptions";
 
 /**
  *
@@ -12,7 +12,7 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  */
 export function MongoosePlugin(plugin: (schema: mongoose.Schema, options?: any) => void, options?: any): Function {
   return (target: any) => {
-    applySchemaOptions(target, {
+    schemaOptions(target, {
       plugins: [{plugin, options}]
     });
   };
