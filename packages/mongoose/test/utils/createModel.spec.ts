@@ -6,26 +6,24 @@ import {MONGOOSE_MODEL_NAME} from "../../src/constants";
 import {createModel} from "../../src/utils";
 
 describe("createModel()", () => {
+  let schema: any, modelStub: any;
   describe("when the model name is given", () => {
-    class Test {}
+    class Test {
+    }
 
     before(() => {
-      this.schema = {};
-      this.modelStub = Sinon.stub(mongoose, "model");
+      schema = {};
+      modelStub = Sinon.stub(mongoose, "model");
 
-      createModel(Test, this.schema, "name", "collection", true);
+      createModel(Test, schema, "name", "collection", true);
     });
 
     after(() => {
-      this.modelStub.restore();
-    });
-
-    it("should store the model name", () => {
-      expect(Store.from(Test).get(MONGOOSE_MODEL_NAME)).to.equals("name");
+      modelStub.restore();
     });
 
     it("should call mongoose.model", () => {
-      this.modelStub.should.have.been.calledWithExactly("name", this.schema, "collection", true);
+      modelStub.should.have.been.calledWithExactly("name", schema, "collection", true);
     });
   });
 
@@ -34,22 +32,18 @@ describe("createModel()", () => {
     }
 
     before(() => {
-      this.schema = {}
-      this.modelStub = Sinon.stub(mongoose, "model");
+      schema = {};
+      modelStub = Sinon.stub(mongoose, "model");
 
-      createModel(Test, this.schema);
+      createModel(Test, schema);
     });
 
     after(() => {
-      this.modelStub.restore();
-    });
-
-    it("should store the model name", () => {
-      expect(Store.from(Test).get(MONGOOSE_MODEL_NAME)).to.equals("Test");
+      modelStub.restore();
     });
 
     it("should call mongoose.model", () => {
-      this.modelStub.should.have.been.calledWithExactly("Test", this.schema, undefined, undefined);
+      modelStub.should.have.been.calledWithExactly("Test", schema, undefined, undefined);
     });
   });
 });

@@ -178,7 +178,7 @@ export class InjectorService extends Container {
     const provider = this.getProvider(token);
     let instance: any;
 
-    locals.set(Configuration, this.settings);
+    !locals.has(Configuration) && locals.set(Configuration, this.settings);
 
     if (locals.has(token)) {
       instance = locals.get(token);

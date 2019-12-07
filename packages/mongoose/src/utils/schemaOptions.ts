@@ -1,6 +1,6 @@
 import {deepExtends, Store} from "@tsed/core";
 import {HookDoneFunction, HookNextFunction, Schema} from "mongoose";
-import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 
 /**
@@ -39,31 +39,23 @@ export function buildPreHook(fn: Function) {
 
 /**
  *
- * @param target
+ * @param schema
  * @param {MongooseSchemaOptions} options
  */
-export function applySchemaOptions(target: any, options: MongooseSchemaOptions) {
-  const store = Store.from(target);
+export function applySchemaOptions(schema: Schema, options: MongooseSchemaOptions) {
+  if (options.plugins) {
+    options.plugins.forEach(item => schema.plugin(item.plugin, item.options));
+  }
 
-  options = schemaOptions(target, options);
+  if (options.indexes) {
+    options.indexes.forEach(item => schema.index(item.fields, item.options));
+  }
 
-  if (store.has(MONGOOSE_SCHEMA)) {
-    const schema: Schema = store.get(MONGOOSE_SCHEMA);
+  if (options.pre) {
+    options.pre.forEach(item => schema.pre(item.method, !!item.parallel, buildPreHook(item.fn), item.errorCb));
+  }
 
-    if (options.plugins) {
-      options.plugins.forEach(item => schema.plugin(item.plugin, item.options));
-    }
-
-    if (options.indexes) {
-      options.indexes.forEach(item => schema.index(item.fields, item.options));
-    }
-
-    if (options.pre) {
-      options.pre.forEach(item => schema.pre(item.method, !!item.parallel, buildPreHook(item.fn), item.errorCb));
-    }
-
-    if (options.post) {
-      options.post.forEach(item => schema.post(item.method, item.fn as any));
-    }
+  if (options.post) {
+    options.post.forEach(item => schema.post(item.method, item.fn as any));
   }
 }

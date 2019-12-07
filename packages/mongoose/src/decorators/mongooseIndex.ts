@@ -1,4 +1,4 @@
-import {applySchemaOptions} from "../utils/schemaOptions";
+import {schemaOptions} from "../utils/schemaOptions";
 
 /**
  * Calls schema.index() to define an index (most likely compound) for the schema.
@@ -26,9 +26,9 @@ import {applySchemaOptions} from "../utils/schemaOptions";
  * @mongoose
  * @class
  */
-export function MongooseIndex(fields: object, options: any): Function {
+export function MongooseIndex(fields: object, options?: any): Function {
   return (target: any) => {
-    applySchemaOptions(target, {
+    schemaOptions(target, {
       indexes: [{fields, options}]
     });
   };

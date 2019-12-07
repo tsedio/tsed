@@ -39,4 +39,4 @@ export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.cre
  *
  * @param provider Provider configuration.
  */
-export const registerModel = GlobalProviders.createRegisterFn("mongooseModel");
+export const registerModel = GlobalProviders.createRegisterFn(PROVIDER_TYPE_MONGOOSE_MODEL);

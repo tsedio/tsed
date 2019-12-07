@@ -38,12 +38,14 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @ServerSettings({
-   mongoose: {
+ mongoose: {
+   urls: {
+     default: {
        url: "mongodb://127.0.0.1:27017/db1",
-       connectionOptions: {
-           
-       }
-   }
+       connectionOptions: {}
+     }
+   }  
+ }
 })
 export class Server extends ServerLoader {
 
@@ -60,22 +62,20 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @ServerSettings({
-    mongoose: {
-       urls: {
-           db1: {
-               url: "mongodb://127.0.0.1:27017/db1",
-               connectionOptions: {
-                   
-               }
-           },
-           db2: {
-              url: "mongodb://127.0.0.1:27017/db2",
-              connectionOptions: {
-                  
-              }
-           }
-       }
+  mongoose: {
+    urls: {
+      default: { // connection use by default
+        url: "mongodb://127.0.0.1:27017/default",
+        connectionOptions: {
+        }
+      },
+      db2: {
+        url: "mongodb://127.0.0.1:27017/db2",
+        connectionOptions: {
+        }
+      }
     }
+  }
 })
 export class Server extends ServerLoader {
 
@@ -92,11 +92,10 @@ import {MongooseService} from "@tsed/mongoose";
 
 @Service()
 export class MyService {
-    
     constructor(mongooseService: MongooseService) {
         mongooseService.get(); // return the default instance of Mongoose.
         // If you have one or more database configured with Ts.ED
-        mongooseService.get("db1");
+        mongooseService.get("default");
         mongooseService.get("db2");
     }
 }
@@ -113,20 +112,19 @@ Here a model example:
 ```typescript
 import {
     Minimum, Maximum, MaxLength, MinLength, 
-    Enum, Pattern, IgnoreProperty, Required, 
+    Enum, Pattern, Required, 
     PropertyType
 } from "@tsed/common";
-import {Model, Unique, Indexed, Ref} from "@tsed/mongoose"
+import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose"
 
 enum Categories {
     CAT1 = "cat1",
     CAT2 = "cat2"
 }
 
-@Model()
+@Model({dbName: 'default'}) // dbName is optional. By default dbName is equal to default
 export class MyModel {
-    
-    @IgnoreProperty() // exclude _id from mongoose in the generated schema
+    @ObjectID()
     _id: string;
     
     @Unique()
@@ -169,7 +167,6 @@ import {MyModel} from "./models/MyModel";
 
 @Service()
 export class MyService {
-    
     constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
         console.log(model) // Mongoose.model class
     }
@@ -205,19 +202,18 @@ We can simply attach a `@PreHook` decorator to your model class and
  define the hook function like you normally would in Mongoose.
  
 ```typescript
-import {IgnoreProperty, Required} from "@tsed/common";
-import {PreHook, Model} from "@tsed/mongoose";
+import {Required} from "@tsed/common";
+import {PreHook, Model, ObjectID} from "@tsed/mongoose";
 
 @Model()
 @PreHook("save", (car: CarModel, next) => {
-    if (car.model === 'Tesla') {
-        car.isFast = true;
-      }
-      next();
+  if (car.model === 'Tesla') {
+    car.isFast = true;
+  }
+  next();
 })
 export class CarModel {
-    
-    @IgnoreProperty()
+    @ObjectID()
     _id: string;
     
     @Required()
@@ -245,7 +241,7 @@ We can simply attach a `@PostHook` decorator to your model class and
  define the hook function like you normally would in Mongoose.
  
 ```typescript
-import {IgnoreProperty, Required} from "@tsed/common";
+import {ObjectID, Required} from "@tsed/common";
 import {PostHook, Model} from "@tsed/mongoose";
 
 @Model()
@@ -255,8 +251,7 @@ import {PostHook, Model} from "@tsed/mongoose";
     }
 })
 export class CarModel {
-    
-    @IgnoreProperty()
+    @ObjectID()
     _id: string;
     
     @Required()
@@ -284,7 +279,7 @@ Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 param
 Multiple `plugin` decorator can be used for a single model class.
 
 ```typescript
-import {IgnoreProperty, Required} from "@tsed/common";
+import {Service} from "@tsed/common";
 import {MongoosePlugin, Model, MongooseModel} from "@tsed/mongoose";
 import * as findOrCreate from 'mongoose-findorcreate';
 

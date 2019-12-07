@@ -5,7 +5,7 @@ import {SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchema, MongooseSchemaOptions} from "../interfaces";
 import {cleanProps} from "./cleanProps";
-import {applySchemaOptions} from "./schemaOptions";
+import {schemaOptions} from "./schemaOptions";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
 
@@ -38,7 +38,7 @@ function isVirtualRef(options: SchemaTypeOpts<any>) {
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
   const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
 
-  applySchemaOptions(target, options);
+  schemaOptions(target, options);
   setUpTarget(target);
   schema.loadClass(target);
 

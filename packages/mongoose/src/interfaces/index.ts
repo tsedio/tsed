@@ -1,17 +1,13 @@
-import {ConnectionOptions} from "mongoose";
+import {IMDBOptions} from "./MDBOptions";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      mongoose: {
-        url?: string;
-        connectionOptions?: ConnectionOptions;
-        // urls?: {[key: string]: MDBConnection};
-      };
+      mongoose: IMDBOptions;
     }
   }
 }
-
+export * from "./MDBOptions";
 export * from "./MDBConnection";
 export * from "./MongooseDocument";
 export * from "./MongooseModel";

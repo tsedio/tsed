@@ -1,5 +1,6 @@
 import {ExpressApplication} from "@tsed/common";
 import {TestContext} from "@tsed/testing";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
@@ -8,12 +9,12 @@ describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(TestContext.bootstrap(Server));
+  before(TestMongooseContext.bootstrap(Server)); // Create a server with mocked database
   before(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
     request = SuperTest(expressApplication);
   }));
 
-  after(TestContext.reset);
+  after(TestMongooseContext.reset); // reset database and injector
 
   describe("GET /rest/calendars", () => {
     it("should do something", async () => {

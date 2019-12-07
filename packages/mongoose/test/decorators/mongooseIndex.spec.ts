@@ -1,26 +1,31 @@
-import {MongooseIndex} from "../../src/decorators/mongooseIndex";
-import * as mod from "../../src/utils/schemaOptions";
 import * as Sinon from "sinon";
+import {MongooseIndex} from "../../src/decorators/mongooseIndex";
+import {schemaOptions} from "../../src/utils/schemaOptions";
 
+const sandbox = Sinon.createSandbox();
 describe("@MongooseIndex()", () => {
-  class Test {}
+  class Test {
+  }
 
-  before(() => {
-    this.applySchemaOptionsStub = Sinon.stub(mod, "applySchemaOptions");
-    this.fields = {};
-    MongooseIndex("fields" as any, "options" as any)(Test);
-  });
+  it("should store options", () => {
+    // GIVEN
+    const fn = sandbox.stub();
 
-  after(() => {
-    this.applySchemaOptionsStub.restore();
-  });
+    // WHEN
+    @MongooseIndex({field: "1"}, {})
+    class Test {
+    }
 
-  it("should call applySchemaOptions", () => {
-    this.applySchemaOptionsStub.should.have.been.calledWithExactly(Test, {
+    // THEN
+    const options = schemaOptions(Test);
+
+    options.should.deep.eq({
       indexes: [
         {
-          fields: "fields",
-          options: "options"
+          fields: {
+            field: "1"
+          },
+          options: {}
         }
       ]
     });

@@ -1,5 +1,5 @@
 import * as Sinon from "sinon";
-import {Model, PreHook} from "../../src/decorators";
+import {PreHook} from "../../src/decorators";
 import {schemaOptions} from "../../src/utils/schemaOptions";
 
 const sandbox = Sinon.createSandbox();
@@ -11,7 +11,6 @@ describe("@PreHook()", () => {
       const errorCb = sandbox.stub();
 
       // WHEN
-      @Model({name: "TestPreHook"})
       @PreHook("method", fn, {parallel: true, errorCb: errorCb as any})
       class Test {
       }
@@ -20,7 +19,6 @@ describe("@PreHook()", () => {
       const options = schemaOptions(Test);
 
       options.should.deep.eq({
-        name: "TestPreHook",
         pre: [
           {
             method: "method",
