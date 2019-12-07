@@ -253,7 +253,6 @@ describe("HandlerBuilder", () => {
         expect(request2.ctx.data).to.eq("test");
       }));
     });
-
     describe("when there is an error in handler", () => {
       it("should return value", inject([InjectorService], async (injector: InjectorService) => {
         // GIVEN
@@ -570,88 +569,6 @@ describe("HandlerBuilder", () => {
       }));
     });
   });
-  // describe("build()", () => {
-  //   const sandbox = Sinon.createSandbox();
-  //   before(() => {
-  //     sandbox.stub(HandlerBuilder.prototype as any, "invoke");
-  //     sandbox.stub(ParamBuilder.prototype, "build");
-  //   });
-  //
-  //   after(() => {
-  //     sandbox.restore();
-  //   });
-  //
-  //   afterEach(() => {
-  //     sandbox.resetHistory();
-  //   });
-  //
-  //   describe("when is a middleware", () => {
-  //     it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
-  //       // GIVEN
-  //       const handlerMetadata = new HandlerMetadata({
-  //         target: Test,
-  //         type: HandlerType.MIDDLEWARE,
-  //         propertyKey: "use"
-  //       });
-  //
-  //       // WHEN
-  //       const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
-  //       middleware({request: "request"}, {response: "response"}, "function");
-  //
-  //       // @ts-ignore
-  //       HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function");
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.REQUEST});
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.RESPONSE});
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.NEXT_FN});
-  //     }));
-  //   });
-  //
-  //   describe("when is a middleware error", () => {
-  //     it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
-  //       // GIVEN
-  //       const handlerMetadata = new HandlerMetadata({
-  //         target: Test,
-  //         type: HandlerType.MIDDLEWARE,
-  //         propertyKey: "useErr"
-  //       });
-  //       const error = new Error();
-  //       // WHEN
-  //       const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
-  //       middleware(error, {request: "request"}, {response: "response"}, "function");
-  //
-  //       // @ts-ignore
-  //       HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function", error);
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.REQUEST});
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.RESPONSE});
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.NEXT_FN});
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.ERR});
-  //     }));
-  //   });
-  //
-  //   describe("when is a controller injectable", () => {
-  //     it("should have called invoke method with the correct parameters", inject([InjectorService], (injector: InjectorService) => {
-  //       // GIVEN
-  //       Metadata.set(PARAM_METADATA, [{service: ParamTypes.NEXT_FN}, {service: ParamTypes.ERR}], Test, "get");
-  //       const handlerMetadata = new HandlerMetadata({
-  //         target: Test,
-  //         type: HandlerType.CONTROLLER,
-  //         propertyKey: "get"
-  //       });
-  //
-  //       const error = new Error();
-  //       // WHEN
-  //       const middleware: any = new HandlerBuilder(handlerMetadata).build(injector);
-  //       middleware(error, {request: "request"}, {response: "response"}, "function");
-  //
-  //       // @ts-ignore
-  //       HandlerBuilder.prototype.invoke.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, "function", error);
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.NEXT_FN});
-  //       ParamBuilder.prototype.build.should.have.been.calledWithExactly({service: ParamTypes.ERR});
-  //
-  //       Metadata.set(PARAM_METADATA, undefined, Test, "get");
-  //     }));
-  //   });
-  // });
   describe("buildNext()", () => {
     describe("when header is not sent", () => {
       it("should change the nextCalled state", () => {
@@ -721,7 +638,6 @@ describe("HandlerBuilder", () => {
       }, false);
     });
   });
-
   describe("handle()", () => {
     describe("when process is a response", () => {
       it("should exec the function", () => {
