@@ -22,5 +22,8 @@
     "lib": "lib",
     "src": "src"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsed/testing": "5.34.10",
+    "@tsed/testing-mongoose": "5.34.10"
+  }
 }

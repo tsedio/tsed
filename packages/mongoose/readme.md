@@ -62,8 +62,8 @@ import "@tsed/mongoose"; // import mongoose ts.ed module
 @ServerSettings({
     mongoose: {
        urls: {
-           db1: {
-               url: "mongodb://127.0.0.1:27017/db1",
+           default: { // connection use by default
+               url: "mongodb://127.0.0.1:27017/default",
                connectionOptions: {
                    
                }
@@ -96,7 +96,7 @@ export class MyService {
     constructor(mongooseService: MongooseService) {
         mongooseService.get(); // return the default instance of Mongoose.
         // If you have one or more database configured with Ts.ED
-        mongooseService.get("db1");
+        mongooseService.get("default");
         mongooseService.get("db2");
     }
 }
@@ -123,7 +123,7 @@ enum Categories {
     CAT2 = "cat2"
 }
 
-@Model()
+@Model({dbName: 'default'}) // dbName is optional. By default dbName is equal to default
 export class MyModel {
     
     @IgnoreProperty() // exclude _id from mongoose in the generated schema
