@@ -21,6 +21,7 @@ All databases will be initialized when the server starts during the server's `On
 - Declare a Model from a class with annotation,
 - Add a plugin, PreHook method and PostHook on your model.
 - Inject a Model to a Service, Controller, Middleware, etc...
+- Create and manage multiple connection.
 
 ::: tip Note
 `@tsed/mongoose` use the JsonSchema and his decorators to generate the mongoose schema.
@@ -33,24 +34,12 @@ Before using the `@tsed/mongoose` package, we need to install the [mongoose](htt
 ```bash
 npm install --save mongoose
 npm install --save @tsed/mongoose
+npm install --save-dev @tsed/testing-mongoose
 ```
 
 Then import `@tsed/mongoose` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/mongoose"; // import mongoose ts.ed module
-
-@ServerSettings({
-  mongoose: {
-    url: "mongodb://127.0.0.1:27017/db1",
-    connectionOptions: {}
-  }
-})
-export class Server extends ServerLoader {
-
-}
-```
+<<< @/docs/tutorials/snippets/mongoose/configuration.ts
 
 ## MongooseService
 
@@ -63,7 +52,9 @@ import {MongooseService} from "@tsed/mongoose";
 @Service()
 export class MyService {
   constructor(mongooseService: MongooseService) {
-    mongooseService.get(); // return mongoose connection instance
+    const default = mongooseService.get(); // OR mongooseService.get("default");
+    // GET Other connection
+    const db2 = mongooseService.get('db2');
   }
 }
 ```
@@ -80,6 +71,10 @@ Ts.ED give some decorators and service to write your code:
 `@tsed/mongoose` works with models which must be explicitly declared.
 
 <<< @/docs/tutorials/snippets/mongoose/declaring-model.ts
+
+### Declaring a Model to a specific connection
+
+<<< @/docs/tutorials/snippets/mongoose/declaring-model-connection.ts
 
 ### Declaring a Schema
 
@@ -178,3 +173,23 @@ It's possible to inject a model into a Service (or Controller, Middleware, etc..
 ::: tip
 You can find a working example on [Mongoose here](https://github.com/TypedProject/tsed-example-mongoose).
 :::
+
+## Testing <Badge text="beta" type="warn"/> <Badge text="v5.35.0" />
+
+The package "@tsed/testing-mongoose" allow you to test your server with a memory database. 
+
+::: tip
+This package use amazing [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) to mock the mongo database.
+:::
+
+### Testing API
+
+This example show you how you can test your Rest API with superagent and a mocked mongo database:
+
+<<< @/docs/tutorials/snippets/mongoose/testing-api.ts
+
+### Testing Model
+
+This example show you how can test the model:
+
+<<< @/docs/tutorials/snippets/mongoose/testing-model.ts
