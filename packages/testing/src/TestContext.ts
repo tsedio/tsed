@@ -3,6 +3,7 @@ import {
   createHttpServer,
   createHttpsServer,
   createInjector,
+  IDIConfigurationOptions,
   loadInjector,
   LocalsContainer,
   OnInit,
@@ -30,8 +31,8 @@ export class TestContext {
     );
   }
 
-  static async create() {
-    TestContext._injector = TestContext.createInjector();
+  static async create(options: Partial<IDIConfigurationOptions> = {}) {
+    TestContext._injector = TestContext.createInjector(options);
 
     await loadInjector(TestContext._injector);
   }
@@ -53,13 +54,13 @@ export class TestContext {
   /**
    * Load the server silently without listening port and configure it on test profile.
    * @decorator
-   * @param server
+   * @param mod
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(server: ServerLoader | any, options: any = {}): () => Promise<void> {
+  static bootstrap(mod: Type<ServerLoader>, options: Partial<IDIConfigurationOptions> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
-      const instance = await ServerLoader.bootstrap(server, {
+      const instance = await ServerLoader.bootstrap(mod, {
         logger: {
           level: "off"
         },
