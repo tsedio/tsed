@@ -7,7 +7,8 @@ import {
   loadInjector,
   LocalsContainer,
   OnInit,
-  ServerLoader
+  ServerLoader,
+  TokenProvider
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
@@ -114,7 +115,7 @@ export class TestContext {
     };
   }
 
-  static invoke(target: Type<any>, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
+  static invoke(target: TokenProvider, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
       locals.set(p.provide, p.use);
