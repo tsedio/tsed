@@ -92,7 +92,6 @@ module.exports = {
           },
           {text: "4.x", link: "http://v4.tsed.io"}
         ],
-
         sidebar: {
           "/docs/middlewares/": [{
             title: "Middlewares",
@@ -106,7 +105,6 @@ module.exports = {
               "override/send-response"
             ]
           }],
-
           "/docs/": [
             {
               title: "Overview",
@@ -135,8 +133,6 @@ module.exports = {
               ]
             }
           ],
-
-
           "/tutorials/": [{
             title: "Guide",
             collapsable: false,

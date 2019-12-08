@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Override Response view
 
 There is the current implementation of the @@ResponseViewMiddleware@@:

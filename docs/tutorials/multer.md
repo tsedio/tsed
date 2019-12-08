@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 meta:
  - name: description
    content: Use Multer with Express, TypeScript and Ts.ED. Node.js middleware for handling `multipart/form-data`.

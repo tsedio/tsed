@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Override Send response
 
 There is the current implementation of the @@SendResponseMiddleware@@:

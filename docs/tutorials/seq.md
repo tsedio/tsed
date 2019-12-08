@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 meta:
  - name: description
    content: Use Seq logger, TypeScript and Ts.ED. Seq is the centralized structured logs for NodeJS, .NET, Java etc.

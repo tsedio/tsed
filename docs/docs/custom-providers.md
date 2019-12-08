@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Custom providers
 
 There are a lot of scenarios when you might want to bind something directly to the IoC container. 

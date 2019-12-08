@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 meta:
  - name: description
    content: Use GraphQL, Apollo and Type-graphql with Ts.ED framework. GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.

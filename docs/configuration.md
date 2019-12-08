@@ -48,8 +48,10 @@ or when you bootstrap your Server (e.g. `index.ts`):
 
 <<< @/docs/snippets/configuration/bootstrap.ts
 
-> Ts.ED support [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
+::: tip Note
+Ts.ED support [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
 ts-node isn't the runtime.
+:::
 
 ::: tip
 In addiction, it also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
@@ -125,7 +127,9 @@ export class Server extends ServerLoader {
 
 }
 ```
-> Note: mount attribute accept a list of glob for each endpoint. That lets you declare a resource versioning.
+::: tip Note
+mount attribute accept a list of glob for each endpoint. That lets you declare a resource versioning.
+:::
 
 ## HTTP & HTTPs server
 ### Change address
@@ -217,7 +221,9 @@ Some options is provided:
 - `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://TypedProject.github.io/ts-log-debug/).
 - `logger.ignoreUrlPatterns` (`String` or `RegExp`): List of pattern to ignore logged request according to the `request.url`.
 
-> It's recommended to disable logRequest in production. Logger have a cost on the performance.
+::: warning
+It's recommended to disable logRequest in production. Logger have a cost on the performance.
+:::
 
 ### Request logger
 

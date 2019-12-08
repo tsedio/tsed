@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Services
 
 The decorator `@Service()` declare a new service can be injected in other service or controller on there `constructor()`.

@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Global middleware 
 
 Global middlewares and Endpoint middlewares are almost similar but Global middleware cannot use the @@EndpointInfo@@.

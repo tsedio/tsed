@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 meta:
  - name: description
    content: Documentation over Controllers provided by Ts.ED framework. Use controllers to build your REST API.

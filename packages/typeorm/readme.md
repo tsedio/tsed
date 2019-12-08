@@ -1,7 +1,5 @@
 # @tsed/typeorm
 
-> Experimental feature. You can contribute to improve this feature !
-
 <div align="center">
 <a href="https://typeorm.io/">
 <img src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" height="128">

@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 meta:
  - name: description
    content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
@@ -14,14 +13,14 @@ This tutorials show you, how you can use mongoose package with Ts.ED.
 
 ## Feature
 
-Currently, `@tsed/mongoose` allows you:
+Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you:
  
 - Configure one or more MongoDB database connections via the `@ServerSettings` configuration. 
 All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation,
 - Add a plugin, PreHook method and PostHook on your model.
 - Inject a Model to a Service, Controller, Middleware, etc...
-- Create and manage multiple connection.
+- Create and manage multiple connections <Badge text="v5.35.0" />
 
 ::: tip Note
 `@tsed/mongoose` use the JsonSchema and his decorators to generate the mongoose schema.
@@ -176,7 +175,7 @@ You can find a working example on [Mongoose here](https://github.com/TypedProjec
 
 ## Testing <Badge text="beta" type="warn"/> <Badge text="v5.35.0" />
 
-The package "@tsed/testing-mongoose" allow you to test your server with a memory database. 
+The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allow you to test your server with a memory database. 
 
 ::: tip
 This package use amazing [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) to mock the mongo database.

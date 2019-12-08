@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 meta:
  - name: description
    content: Use Jest with Ts.ED framework. Jest is a testing framework.

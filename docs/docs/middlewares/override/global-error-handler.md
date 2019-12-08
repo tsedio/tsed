@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Override Global error handler
 
 All errors are intercepted by the @@GlobalErrorHandlerMiddleware@@.

@@ -1,5 +1,4 @@
 ---
-sidebar: auto
 projects:
  - title: Kit basic
    href: https://github.com/TypedProject/tsed-getting-started

@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Model
 
 The classes can be used as a model in your application.

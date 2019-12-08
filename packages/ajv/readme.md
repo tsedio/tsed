@@ -1,7 +1,5 @@
 # @tsed/ajv
 
-> Experimental feature. You can contribute to improve this feature !
-
 A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/ajv
 
 ## Installation

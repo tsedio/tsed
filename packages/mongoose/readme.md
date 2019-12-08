@@ -1,7 +1,5 @@
 # @tsed/mongoose
 
-> Experimental feature. You can contribute to improve this feature !
-
 <div align="center">
 <a href="http://mongoosejs.com/">
 <img src="http://mongodb-tools.com/img/mongoose.png" height="128">

@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Endpoint middleware
 ### Simple use case
 

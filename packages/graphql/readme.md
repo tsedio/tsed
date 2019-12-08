@@ -1,7 +1,5 @@
 # @tsed/graphql
 
-> Experimental feature. You can contribute to improve this feature !
-
 <div align="center">
 <a href="https://typeorm.io/">
 <img src="https://graphql.org/img/logo.svg" height="128">

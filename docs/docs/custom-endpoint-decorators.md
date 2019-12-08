@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Custom endpoint decorator
 
 Custom endpoint decorator could be interesting when you want to handle request and perform actions before or after the endpoint method.

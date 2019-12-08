@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Custom validator
 
 Ts.ED provide by default a [AJV](/tutorials/ajv.md) package to perform a validation on a Model. But, you can choose another library as model validator.

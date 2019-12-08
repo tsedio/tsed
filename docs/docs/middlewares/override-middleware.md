@@ -1,6 +1,3 @@
----
-sidebar: auto
----
 # Override a Middleware
 
 The decorator @@OverrideProvider@@ gives you the ability to override some internal Ts.ED middlewares.
