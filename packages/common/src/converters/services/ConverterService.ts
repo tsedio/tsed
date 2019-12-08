@@ -7,7 +7,7 @@ import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
-import {UnknowPropertyError} from "../errors/UnknowPropertyError";
+import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
 @Injectable()
@@ -275,8 +275,9 @@ export class ConverterService {
    */
   private checkRequiredValue(instance: any, properties: Map<string | symbol, PropertyMetadata>) {
     properties.forEach((propertyMetadata: PropertyMetadata) => {
-      if (propertyMetadata.isRequired(instance[propertyMetadata.propertyKey])) {
-        throw new RequiredPropertyError(getClass(instance), propertyMetadata.propertyKey);
+      const value = instance[propertyMetadata.propertyKey];
+      if (propertyMetadata.isRequired(value)) {
+        throw new RequiredPropertyError(getClass(instance), propertyMetadata.propertyKey, value);
       }
     });
   }
@@ -289,7 +290,7 @@ export class ConverterService {
    */
   private checkStrictModelValidation(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
     if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
-      throw new UnknowPropertyError(getClass(instance), propertyKey);
+      throw new UnknownPropertyError(getClass(instance), propertyKey);
     }
   }
 

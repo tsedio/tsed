@@ -490,7 +490,7 @@ describe("Rest", () => {
         .post("/rest/errors/required-model-2")
         .expect(400)
         .end((err: any, response: any) => {
-          expect(response.text).to.eq("Property name on class CustomModel is required.");
+          expect(response.text).to.eq("Property name on class CustomModel is required. Given value: undefined");
 
           expect(JSON.parse(response.headers.errors)).to.deep.eq([
             {

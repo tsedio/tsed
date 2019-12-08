@@ -1,21 +1,14 @@
 import {expect} from "chai";
-import {UnknowPropertyError} from "../../../src/converters/errors/UnknowPropertyError";
+import {UnknownPropertyError} from "../../../src/converters/errors/UnknownPropertyError";
 
-describe("UnknowPropertyError", () => {
-  before(() => {
-    this.errorInstance = new UnknowPropertyError(class Test {
-    }, "propertyKey");
-  });
-
-  after(() => {
-    delete this.errorInstance;
-  });
-
+describe("UnknownPropertyError", () => {
   it("should have a message", () => {
-    expect(this.errorInstance.message).to.equal("Property propertyKey on class Test is not allowed.");
-  });
+    class Test {
+    }
 
-  it("should have a name", () => {
-    expect(this.errorInstance.name).to.equal("BAD_REQUEST");
+    const errorInstance = new UnknownPropertyError(Test, "propertyKey");
+
+    expect(errorInstance.message).to.equal("Property propertyKey on class Test is not allowed.");
+    expect(errorInstance.name).to.equal("BAD_REQUEST");
   });
 });

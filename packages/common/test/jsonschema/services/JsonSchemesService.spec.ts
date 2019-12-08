@@ -4,15 +4,15 @@ import {Circular, IndirectCircular, JsonFoo2, Thingy} from "../../../../../test/
 import {JsonSchemesService} from "../../../src/jsonschema";
 
 describe("JsonSchemesService", () => {
+  let result: any;
   describe("use case 1", () => {
-    before(
-      inject([JsonSchemesService], (service: JsonSchemesService) => {
-        this.result = service.getSchemaDefinition(JsonFoo2);
-      })
-    );
     after(TestContext.reset);
-    it("should return a schema with his definitions", () => {
-      expect(this.result).to.deep.eq({
+    it("should return a schema with his definitions", inject([JsonSchemesService], (service: JsonSchemesService) => {
+      // GIVEN
+      const result = service.getSchemaDefinition(JsonFoo2);
+
+      // WHEN
+      expect(result).to.deep.eq({
         definitions: {
           JsonAgeModel: {
             properties: {
@@ -107,19 +107,19 @@ describe("JsonSchemesService", () => {
         required: ["test", "foo"],
         type: "object"
       });
-    });
+    }));
   });
 
-  describe("use case 1", () => {
+  describe("use case 2", () => {
     before(
       inject([JsonSchemesService], (service: JsonSchemesService) => {
-        this.result = service.getSchemaDefinition(Thingy);
+        result = service.getSchemaDefinition(Thingy);
       })
     );
     after(TestContext.reset);
 
     it("should return a schema with his definitions", () => {
-      expect(this.result).to.deep.eq({
+      expect(result).to.deep.eq({
         definitions: {
           Stuff: {
             properties: {
@@ -154,13 +154,13 @@ describe("JsonSchemesService", () => {
   describe("with circular reference", () => {
     before(
       inject([JsonSchemesService], (service: JsonSchemesService) => {
-        this.result = service.getSchemaDefinition(Circular);
+        result = service.getSchemaDefinition(Circular);
       })
     );
     after(TestContext.reset);
 
     it("should return a schema with his definitions", () => {
-      expect(this.result).to.deep.eq({
+      expect(result).to.deep.eq({
         definitions: {
           Circular: {
             properties: {
@@ -184,13 +184,13 @@ describe("JsonSchemesService", () => {
   describe("with indirect circular reference", () => {
     before(
       inject([JsonSchemesService], (service: JsonSchemesService) => {
-        this.result = service.getSchemaDefinition(IndirectCircular);
+        result = service.getSchemaDefinition(IndirectCircular);
       })
     );
     after(TestContext.reset);
 
     it("should return a schema with his definitions", () => {
-      expect(this.result).to.deep.eq({
+      expect(result).to.deep.eq({
         definitions: {
           Dependency: {
             properties: {
