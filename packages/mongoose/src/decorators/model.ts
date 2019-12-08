@@ -1,7 +1,7 @@
 import {nameOf, Store} from "@tsed/core";
-import {registerModel} from "@tsed/mongoose";
 import {MONGOOSE_MODEL_NAME} from "../constants";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
+import {registerModel} from "../registries/MongooseModelRegistry";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
 import {createModel, getSchema} from "../utils";
 import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";

@@ -2,8 +2,8 @@
   "name": "@tsed/testing-mongoose",
   "version": "5.34.10",
   "description": "A TypeScript Framework on top of Express",
-  "main": "./src/index.js",
-  "typings": ".src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "build:doc": "tsc --build tsconfig.doc.json"
