@@ -7,8 +7,8 @@ import {BadRequest} from "ts-httpexceptions";
 export class RequiredPropertyError extends BadRequest {
   errors: any[];
 
-  constructor(target: Type<any>, propertyName: string | symbol) {
-    super(RequiredPropertyError.buildMessage(target, propertyName));
+  constructor(target: Type<any>, propertyName: string | symbol, value: any) {
+    super(RequiredPropertyError.buildMessage(target, propertyName, value));
 
     this.errors = [
       {
@@ -29,8 +29,9 @@ export class RequiredPropertyError extends BadRequest {
    * @returns {string}
    * @param target
    * @param propertyName
+   * @param value
    */
-  static buildMessage(target: Type<any>, propertyName: string | symbol) {
-    return `Property ${propertyName as string} on class ${nameOf(target)} is required.`;
+  static buildMessage(target: Type<any>, propertyName: string | symbol, value: any) {
+    return `Property ${propertyName as string} on class ${nameOf(target)} is required. Given value: ${value}`;
   }
 }

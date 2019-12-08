@@ -5,16 +5,18 @@ import {MongoMemoryServer} from "mongodb-memory-server";
 import * as Mongoose from "mongoose";
 import {resolve} from "path";
 
+const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
+
 export class TestMongooseContext extends TestContext {
   private static mongod: MongoMemoryServer;
 
-  static install(options: any = {binary: {}}) {
+  static async install(options: any = {binary: {}}) {
     if (!this.mongod) {
       this.mongod = new MongoMemoryServer({
         ...options,
         binary: {
           ...(options.binary || {}),
-          downloadDir: resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`)
+          downloadDir
         }
       });
     }
@@ -24,9 +26,9 @@ export class TestMongooseContext extends TestContext {
    * Connect to the in-memory database.
    */
   static bootstrap(mod: Type<ServerLoader>, options: Partial<IDIConfigurationOptions> = {}): () => Promise<void> {
-    TestMongooseContext.install(options.mongod);
-
     return async function before(): Promise<void> {
+      await TestMongooseContext.install(options.mongod);
+
       const before = TestContext.bootstrap(mod, {
         ...options,
         mongoose: await TestMongooseContext.getMongooseOptions()
@@ -37,7 +39,7 @@ export class TestMongooseContext extends TestContext {
   }
 
   static async create(options: Partial<IDIConfigurationOptions> = {}) {
-    TestMongooseContext.install(options.mongod);
+    await TestMongooseContext.install(options.mongod);
 
     options.mongoose = await TestMongooseContext.getMongooseOptions();
 
@@ -50,6 +52,7 @@ export class TestMongooseContext extends TestContext {
   static async reset() {
     await TestContext.reset();
     await TestMongooseContext.mongod.stop();
+    delete TestMongooseContext.mongod;
   }
 
   /**
