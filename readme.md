@@ -12,12 +12,12 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![backers](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)
 
-> A TypeScript Framework on top of Express !
+> A TypeScript Framework on top of Express!
 
-## What is it
+## What it is
 
-Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provides a lot of decorators 
-to write your code.
+Ts.ED is a framework on top of Express that helps you write your application in TypeScript (or in ES6). It provides a lot of decorators 
+to make your code more readable and less error-prone.
 
 ## Features
 
@@ -78,7 +78,7 @@ options in your `tsconfig.json` file.
 ## Quick start
 #### Create your express server
 
-TsExpressDecorators provide a [`ServerLoader`](docs/server-loader.md) class to configure your 
+TsExpressDecorators provides a [`ServerLoader`](docs/server-loader.md) class to configure your 
 express quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
 
@@ -94,7 +94,7 @@ const rootDir = Path.resolve(__dirname);
 })
 export class Server extends ServerLoader {
   /**
-   * This method let you configure the middleware required by your application to works.
+   * This method lets you configure the middleware required for your application to work.
    * @returns {Server}
    */
   public $beforeRoutesInit(): void|Promise<any> {
@@ -117,7 +117,7 @@ export class Server extends ServerLoader {
   }   
 }
 ```
-> By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
+> By default ServerLoader loads controllers in `${rootDir}/controllers` and mounts them on the `/rest` endpoint.
 
 And finally:
 
@@ -144,13 +144,12 @@ To customize the server settings see [Configure server with decorator](https://t
 
 #### Create your first controller
 
-Create a new `calendarCtrl.ts` in your controllers directory configured 
-previously with `ServerLoader.mount()`. All controllers declared with `@Controller` 
-decorators is considered as an Express router. An Express router require a path 
+Create a new `calendarCtrl.ts` in your controllers directory, as previously configured with `ServerLoader.mount()`. All controllers declared with `@Controller` 
+decorators are considered Express routers. An Express router requires a path 
 (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it is a part of path, and entire exposed url depend on 
-the Server configuration (see `ServerLoader.setEndpoint()`) and the controllers 
-dependencies. In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
+More precisely, it is part of a path, and the entire exposed url depends on 
+the Server configuration (see `ServerLoader.setEndpoint()`) and the controller's 
+dependencies. In this case, we don't have dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
 ```typescript
@@ -166,7 +165,7 @@ export interface Calendar{
 export class CalendarCtrl {
     /**
      * Example of classic call. Use `@Get` for routing a request to your method.
-     * In this case, this route "/calendars/:id" are mounted on the "rest/" path.
+     * In this case, this route "/calendars/:id" is mounted on the "rest/" path.
      *
      * By default, the response is sent with status 200 and is serialized in JSON.
      *
