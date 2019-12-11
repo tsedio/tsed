@@ -20,6 +20,7 @@ Before using the Passport, we need to install the [Passport.js](https://www.npmj
 
 ```bash
 npm install --save passport
+npm install --save-dev @types/passport
 ```
 
 ## Override AuthenticatedMiddleware
@@ -27,10 +28,10 @@ npm install --save passport
 The annotation [`@Authenticated()`](/api/common/mvc/decorators/method/Authenticated.md) use the [`AuthenticatedMiddleware`](/api/common/mvc/components/AuthenticatedMiddleware.md)
 to check the authentication strategy.
 
-So, create a new file in your middlewares directory and past this code:
+Create a new file in your middlewares directory and paste this code:
 
 ```typescript
-import {OverrideMiddleware, AuthenticatedMiddleware} from "@tsed/common";
+import {OverrideMiddleware, AuthenticatedMiddleware, IMiddleware, EndpointMetadata, EndpointInfo, Request} from "@tsed/common";
 import {Forbidden} from "ts-httpexceptions";
 
 @OverrideMiddleware(AuthenticatedMiddleware)
@@ -90,17 +91,17 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 }
 ```
 > We use the hook service licecycle to autoloading some actions when the server start. 
-See the [service lifecycle](/docs/services.md#lifecyle-hooks) for more informations.
+See the [service lifecycle](/docs/services.md#lifecyle-hooks) for more information.
 
 ### Passport controller
 
-We'll need to prepare some routes. To work it, the Passport need 3 routes:
+We'll need to prepare some routes. For this to work, Passport needs 3 routes:
 
 - `/login`, email and password will be sent in the body request,
 - `/signup`, email, password and optional information will be sent in the body request,
 - `/logout`.
 
-So create the `PassportCtrl` in the controllers directory and put this code:
+Create the `PassportCtrl` in the controllers directory and paste the following code:
 
 ```typescript
 "use strict";
@@ -139,10 +140,9 @@ export class PassportCtrl {
 
 ### Signup
 
-We will use Passport to register the signup action with the LocalStrategy. Passport will call back the handler when the 
-the PassportCtrl call the `Passport.authenticate('signup')` method.
+We will use Passport to register the signup action with `LocalStrategy`. Passport will call the handler when `PassportCtrl` calls the `Passport.authenticate('signup')` method.
 
-In the PassportCtrl, we need to implement the `Passport.authenticate('signup')` like this:
+In `PassportCtrl`, we need to implement the `Passport.authenticate('signup')`:
 
 ```typescript
 import * as Express from "express";
@@ -188,7 +188,7 @@ export class PassportCtrl {
 ```
 > Now, when a Request is sent to the signup route, Passport will emit a signup event.
 
-In your PassportLocalService, we able to implement the Passport Local strategy on the signup event.
+In your `PassportLocalService`, we are able to implement the Passport Local strategy on the signup event.
 
 ```typescript
 import * as Passport from "passport";
@@ -258,7 +258,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 
 ### Login
 
-Implement login is the same principle that the signup. In the controller we need to use the `Passport.authenticate("login")`
+Implementing login is the same principle that the signup. In the controller we need to use the `Passport.authenticate("login")`
 method to emit the `login` event to each Passport Strategy.
 
 ```typescript
@@ -341,7 +341,7 @@ export class PassportLocalService implements BeforeRoutesInit, AfterRoutesInit {
 
 ### Logout
 
-Logout is very short, just place this code in the PassportCtrl and it's done:
+Logout is very short, just place this code in the `PassportCtrl` and it's done:
 
 ```typescript
 import * as Express from "express";
