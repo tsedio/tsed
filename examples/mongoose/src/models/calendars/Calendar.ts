@@ -1,12 +1,11 @@
-import {Property, Required, PropertyName} from "@tsed/common";
-import {Model} from "@tsed/mongoose";
+import {Property, Required} from "@tsed/common";
+import {Model, ObjectID} from "@tsed/mongoose";
 
 @Model()
 export class Calendar {
-  @PropertyName("id")
+  @ObjectID("id")
   _id: string;
 
-  @Property()
   @Required()
   name: string;
 

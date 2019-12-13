@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+  mongo:
+    image: mongo:4.1
+    restart: always
+    volumes:
+      - mdb-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: tsed/getting-started:latest
+    # The app will restart until Mongo is listening
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"
+    environment:
+      mongoose_url: mongodb://mongo:27017/tsed-mongoose
+    stdin_open: true  # -i
+    tty: true         # -t
+volumes:
+  mdb-data:
+
