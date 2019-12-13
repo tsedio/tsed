@@ -190,10 +190,7 @@ export class ParamBuilder {
   public build(injector: InjectorService) {
     const {param} = this;
     const subject = new Subject<IHandlerContext>();
-    const observable = subject.pipe(
-      map(ParamBuilder.getContextPipe(param)),
-      switchMap(ParamBuilder.getOperatorsPipe(param, injector))
-    );
+    const observable = subject.pipe(map(ParamBuilder.getContextPipe(param)), switchMap(ParamBuilder.getOperatorsPipe(param, injector)));
 
     return {subject, observable};
   }

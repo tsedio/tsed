@@ -1,5 +1,5 @@
-import {ConverterService, JsonSchemesService, OverrideService, ValidationService} from "@tsed/common";
-import {nameOf, Type} from "@tsed/core";
+import {ConverterService, JsonSchemesService, OverrideService, PropertyRegistry, ValidationService} from "@tsed/common";
+import {getValue, nameOf, setValue, Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
@@ -52,6 +52,7 @@ export class AjvService extends ValidationService {
 
       const test = (obj: any) => {
         const valid = this.ajv.validate(schema, obj);
+
         if (!valid) {
           throw this.buildErrors(this.ajv.errors!, targetType);
         }
@@ -75,6 +76,16 @@ export class AjvService extends ValidationService {
     const message = errors
       .map((error: AjvErrorObject) => {
         error.modelName = nameOf(targetType);
+        const propertyKey = getValue("params.missingProperty", error);
+
+        if (propertyKey) {
+          const prop = PropertyRegistry.get(targetType, propertyKey);
+
+          if (prop) {
+            setValue("params.missingProperty", error, prop.name || propertyKey);
+            error.message = error.message!.replace(`'${propertyKey}'`, `'${prop.name || propertyKey}'`);
+          }
+        }
 
         return this.errorFormatter.call(this, error);
       })

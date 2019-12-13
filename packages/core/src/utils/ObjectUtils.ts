@@ -81,7 +81,7 @@ export function primitiveOf(target: any): "string" | "number" | "boolean" | "any
  *
  * @param target
  */
-export function isSymbol(target: any) {
+export function isSymbol(target: any): target is symbol {
   return typeof target === "symbol" || target instanceof Symbol || target === Symbol;
 }
 
@@ -90,7 +90,7 @@ export function isSymbol(target: any) {
  * @param target
  * @returns {boolean}
  */
-export function isString(target: any): boolean {
+export function isString(target: any): target is string {
   return typeof target === "string" || target instanceof String || target === String;
 }
 
@@ -99,7 +99,7 @@ export function isString(target: any): boolean {
  * @param target
  * @returns {boolean}
  */
-export function isNumber(target: any): boolean {
+export function isNumber(target: any): target is number {
   return typeof target === "number" || target instanceof Number || target === Number;
 }
 
@@ -108,7 +108,7 @@ export function isNumber(target: any): boolean {
  * @param target
  * @returns {boolean}
  */
-export function isBoolean(target: any): boolean {
+export function isBoolean(target: any): target is boolean {
   return typeof target === "boolean" || target instanceof Boolean || target === Boolean;
 }
 
@@ -130,7 +130,7 @@ export function isPrimitive(target: any): boolean {
  * @param target
  * @returns {Boolean}
  */
-export function isArray(target: any): boolean {
+export function isArray(target: any): target is any[] {
   return Array.isArray(target);
 }
 
@@ -176,11 +176,11 @@ export function isDate(target: any): boolean {
  * @param target
  * @returns {boolean}
  */
-export function isClassObject(target: any): boolean {
+export function isClassObject(target: any): target is Object {
   return target === Object;
 }
 
-export function isObject(target: any): boolean {
+export function isObject(target: any): target is object {
   return typeof target === "object";
 }
 
@@ -201,7 +201,7 @@ export function isClass(target: any) {
   return !(isSymbol(target) || isPrimitiveOrPrimitiveClass(target) || isClassObject(target) || isDate(target) || isPromise(target));
 }
 
-export function isFunction(target: any) {
+export function isFunction(target: any): target is Function {
   return typeof target === "function";
 }
 
@@ -213,7 +213,7 @@ export function isArrowFn(target: any) {
  *
  * @param value
  */
-export function isNil(value: any) {
+export function isNil(value: any): boolean {
   return value === undefined || value === null;
 }
 
