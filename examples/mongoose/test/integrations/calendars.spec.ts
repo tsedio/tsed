@@ -1,34 +1,26 @@
 import {ExpressApplication} from "@tsed/common";
-import {bootstrap, Done, inject} from "@tsed/testing";
+import {TestContext} from "@tsed/testing";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "../../../../src/Server";
-import {expect} from "../../../tools";
+import {Server} from "../../src/Server";
 
 describe("Calendars", () => {
-
+  let request: SuperTest.SuperTest<SuperTest.Test>;
   // bootstrap your expressApplication in first
-  before(bootstrap(Server));
+  before(TestMongooseContext.bootstrap(Server));
+  before(TestMongooseContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
+    request = SuperTest(expressApplication);
+  }));
+  after(TestContext.reset);
 
   // then run your test
   describe("GET /rest/calendars", () => {
-    it("should return all calendars", inject([ExpressApplication, Done], (expressApplication: ExpressApplication, done: Done) => {
+    it("should return all calendars", async () => {
+      const response = await request.get("/rest/calendars").expect(200);
+      let obj = JSON.parse(response.text);
 
-      SuperTest(expressApplication)
-        .get("/rest/calendars")
-        .expect(200)
-        .end((err, response: any) => {
-          if (err) {
-            throw (err);
-          }
-
-          let obj = JSON.parse(response.text);
-
-          expect(obj).to.be.an("array");
-
-          done();
-        });
-
-    }));
+      expect(obj).to.be.an("array");
+    });
   });
-
 });

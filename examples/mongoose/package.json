@@ -4,8 +4,8 @@
   "description": "Here an example project with Mongoose and Ts.ED framework.",
   "scripts": {
     "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
-    "build": "npm run tsc",
-    "test": "npm run clean && npm run test:lint && npm run test:coverage",
+    "build": "yarn tsc",
+    "test": "yarn clean && yarn test:lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "test:lint": "tslint --project tsconfig.json",
@@ -14,10 +14,10 @@
     "travis:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "tsc": "tsc --project tsconfig.json",
     "tsc:w": "tsc --project tsconfig.json -w",
-    "start:dev": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
-    "start:db": "mongod --dbpath ./mongodb",
-    "start": "ts-node src/index.ts",
-    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js"
+    "start": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
+    "start:prod": "cross-env NODE_ENV=production node dist/index.js",
+    "docker:build": "yarn build && docker-compose build",
+    "deploy": "exit 0"
   },
   "author": "",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "@tsed/mongoose": "5.35.2",
     "@tsed/swagger": "5.35.2",
     "@tsed/testing": "5.35.2",
+    "@tsed/testing-mongoose": "5.35.2",
     "@types/swagger-schema-official": "2.0.20",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
@@ -36,8 +37,8 @@
     "express-session": "1.17.0",
     "method-override": "^3.0.0",
     "mongoose": "5.7.11",
-    "pg": "^7.4.3",
-    "serve-static": "^1.13.1"
+    "serve-static": "^1.13.1",
+    "cross-env": "6.0.3"
   },
   "devDependencies": {
     "@types/chai": "4.2.5",
@@ -54,7 +55,6 @@
     "chai": "4.2.0",
     "chai-as-promised": "^7.1.1",
     "concurrently": "^5.0.0",
-    "cross-env": "6.0.3",
     "mocha": "^6.2.2",
     "nodemon": "1.19.4",
     "nyc": "^14.1.1",

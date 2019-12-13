@@ -140,55 +140,56 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tsed/common@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.34.5.tgz#7cdb053af90bae685eee98be66c6605603f79a71"
-  integrity sha512-WBYG7E38YYbxykN25W7cWL4y/SnOlK9EYgWcMbSqCpeRu4T1e33P2vEwOm3rj+gCpzeDYhlk+IzkoI+eQFW9hw==
+"@tsed/common@5.35.2":
+  version "5.35.2"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.35.2.tgz#4044224a17453a470a83490c86a1076e7df15aeb"
+  integrity sha512-8Rvtxv5BXaujo512YHb8MM7PJLk6QftrLRW1AjArQ6HaJwOOr7ZadY7waA5xtmdfY1onEkejpraynXQSQwk0Vg==
   dependencies:
-    "@tsed/core" "5.34.5"
-    "@tsed/di" "5.34.5"
+    "@tsed/core" "5.35.2"
+    "@tsed/di" "5.35.2"
     "@types/json-schema" "^7.0.3"
     globby "10.0.1"
     json-schema "^0.2.3"
+    normalize-path "3.0.0"
     rxjs "^6.5.2"
     ts-httpexceptions "4.1.0"
     ts-log-debug "^5.1.1"
     tslib "1.10.0"
     uuid "3.3.3"
 
-"@tsed/core@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.34.5.tgz#4750b7abaf62fbcdb7c3b3c75e0a2fc6d5b4e1a8"
-  integrity sha512-cSv7/DU+wZEK/Bk8f9QXgmSzwumoghHAhIq4P2AvmF8i+r7D1MY76qcEtvs1ptJXKY0B6JacOOI0/Sc5LaTfag==
+"@tsed/core@5.35.2":
+  version "5.35.2"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.35.2.tgz#a854789ff0a98c3a75c029e26cd24013e760a4b8"
+  integrity sha512-F2r775G7/7ACPQwZoNZ9khEOaaFQayk4b99A7QKzBSlBK89+ZGUBGtjUamU1qaD24EOsVFBH6gNzBvHUBlTn1w==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "0.5.16"
     tslib "1.10.0"
 
-"@tsed/di@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.34.5.tgz#f3032d0116578bf9ec9fc5bd84d95554d78f711d"
-  integrity sha512-fAbuQptyEansCpTedmyVEUOCga1ouoOgrri5A5BkWiU76qFwTVs005XzSMy/dGmoKdtvnzUebzvTPmXnf3ENKw==
+"@tsed/di@5.35.2":
+  version "5.35.2"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.35.2.tgz#8979b7be9ebc007ea46ba609c162281c9662cba0"
+  integrity sha512-d4yp1uYtmXIXjEjhUzFN3yrIg8J0o7WVoFsXFLa2211xPLCFldwrS3MKlUqiPvTilsLmUwCifIIgNKWgij5i7w==
   dependencies:
-    "@tsed/core" "5.34.5"
+    "@tsed/core" "5.35.2"
     tslib "1.10.0"
 
-"@tsed/swagger@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.34.5.tgz#4d47df263f5ca404ddb724d2a2fe1d7d5bbeaf05"
-  integrity sha512-+PRDph9blq3pf/qM7s7DtQU01AdGYOhkP2S97BZvRZ1OSKPxmuM8qn3RpZxEyq1IwNfhI/aO9LRfFq90I3BkfQ==
+"@tsed/swagger@5.35.2":
+  version "5.35.2"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.35.2.tgz#bf7c9f4116b6e1e12a87e2c23380451db884f358"
+  integrity sha512-bhbYQUjQxo/N742pofF9YH+0Ccbd73qfsaxiap8qlmkeNNTpXcqjWn3+7VuR5v4/s7iRH/ZJMetokgp2lw2HAA==
   dependencies:
-    "@tsed/common" "5.34.5"
+    "@tsed/common" "5.35.2"
     ejs "2.7.3"
     swagger-ui-dist "3.24.3"
     tslib "1.10.0"
 
-"@tsed/testing@5.34.5":
-  version "5.34.5"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.34.5.tgz#887e42d5550c2f9aebf100ee11796fe657d34e9e"
-  integrity sha512-NU+gEZQajuoW5V65S1tisMGMMuym3Z1lr+VQeVzDt0FTwURA1YXLbPR7PrJVxpYBeuiF9Gd5wZ7CBMVQpFw3OQ==
+"@tsed/testing@5.35.2":
+  version "5.35.2"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.35.2.tgz#5ca9f7abefcac1611b79df844aabcbbff5fa20f8"
+  integrity sha512-W6E/DFMO3TIdwlynTOz/0dbCfeLUOUkgIhqmFm1px0zChLzvCmY7gw4HyvRS/tUb7aCyMCXtkQw+56M+HNTMtg==
   dependencies:
-    "@tsed/common" "5.34.5"
+    "@tsed/common" "5.35.2"
     tslib "1.10.0"
 
 "@types/bluebird@*":
@@ -2619,17 +2620,17 @@ normalize-package-data@^2.3.2:
     semver "2 || 3 || 4 || 5"
     validate-npm-package-license "^3.0.1"
 
+normalize-path@3.0.0, normalize-path@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
+  integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
+
 normalize-path@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-2.1.1.tgz#1ab28b556e198363a8c1a6f7e6fa20137fe6aed9"
   integrity sha1-GrKLVW4Zg2Oowab35vogE3/mrtk=
   dependencies:
     remove-trailing-separator "^1.0.1"
-
-normalize-path@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
-  integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
 npm-bundled@^1.0.1:
   version "1.0.6"
