@@ -11,9 +11,17 @@ registerProvider({
   provide: CONNECTION,
   deps: [Configuration],
   async useAsyncFactory(configuration: Configuration) {
-    const settings = configuration.get<ConnectionOptions[]>("typeorm")!;
+    const settings = configuration.get<ConnectionOptions[]>("typeorm")! || [];
     const connectionOptions = settings.find(o => o.name === CONNECTION_NAME);
 
-    return createConnection(connectionOptions!);
+    if (connectionOptions) {
+      try {
+        return createConnection(connectionOptions!);
+      } catch (er) {
+        console.error(er);
+      }
+    }
+
+    return {};
   }
 });

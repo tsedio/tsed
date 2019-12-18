@@ -1,22 +1,27 @@
-import {Service} from "@tsed/common";
-import {$log} from "ts-log-debug";
+import {Inject, InjectorService, Service} from "@tsed/common";
 import {Connection, ConnectionManager, ConnectionOptions, getConnectionManager} from "typeorm";
+import {createConnection} from "../utils/createConnection";
 
 @Service()
 export class TypeORMService {
-  /**
-   *
-   * @type {Map<any, any>}
-   * @deprecated
-   */
-  readonly instances: Map<string, Connection> = new Map();
-
   /**
    *
    * @type {"typeorm".ConnectionManager}
    * @private
    */
   readonly connectionManager: ConnectionManager = getConnectionManager();
+  @Inject(InjectorService)
+  private injector: InjectorService;
+
+  /**
+   *
+   * @type {Map<any, any>}
+   * @deprecated
+   */
+  // istanbul ignore next
+  get instances() {
+    return this.connectionManager;
+  }
 
   /**
    *
@@ -29,19 +34,18 @@ export class TypeORMService {
       return await this.get(key)!;
     }
 
-    $log.info(`Create connection with typeorm to database: ${key}`);
-    $log.debug(`options: ${JSON.stringify(settings)}`);
+    this.injector.logger.info(`Create connection with typeorm to database: ${key}`);
+    this.injector.logger.debug(`options: ${JSON.stringify(settings)}`);
 
     try {
-      const connection = this.connectionManager.create(settings!);
-      await connection.connect();
-      $log.info(`Connected with typeorm to database: ${key}`);
-      this.instances.set(key, connection);
+      const connection = await createConnection({...settings, name: key});
+
+      this.injector.logger.info(`Connected with typeorm to database: ${key}`);
 
       return connection;
     } catch (err) {
       /* istanbul ignore next */
-      $log.error(err);
+      console.error(err);
       /* istanbul ignore next */
       process.exit();
     }
@@ -65,7 +69,11 @@ export class TypeORMService {
   }
 
   closeConnections(): Promise<any> {
-    const promises = this.connectionManager.connections.map(instance => instance.close());
+    const promises = this.connectionManager.connections.map(instance => {
+      if (instance.isConnected) {
+        return instance.close();
+      }
+    });
 
     return Promise.all(promises);
   }
