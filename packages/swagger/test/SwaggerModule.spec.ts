@@ -23,13 +23,11 @@ describe("SwaggerModule", () => {
       }
     )
   );
-
-  describe("$onRoutesInit()", () => {
+  describe("$beforeRoutesInit()", () => {
     let config: any;
     let expressGet: any;
     let expressUse: any;
     let getStub: any;
-    let getOpenAPISpecStub: any;
     let createRouterStub: any;
     let writeFileSyncStub: any;
     before(() => {
@@ -60,17 +58,15 @@ describe("SwaggerModule", () => {
       expressUse = Sinon.stub(expressApp, "use");
 
       getStub = Sinon.stub(settingsService, "get").returns(config);
-      getOpenAPISpecStub = Sinon.stub(swaggerModule.swaggerService, "getOpenAPISpec").returns({spec: "spec"});
       createRouterStub = Sinon.stub(swaggerModule, "createRouter").returns({router: "router"});
       writeFileSyncStub = Sinon.stub(Fs, "writeFileSync");
 
-      swaggerModule.$onRoutesInit();
+      swaggerModule.$beforeRoutesInit();
     });
     after(() => {
       expressGet.restore();
       expressUse.restore();
       getStub.restore();
-      getOpenAPISpecStub.restore();
       createRouterStub.restore();
       writeFileSyncStub.restore();
     });
@@ -79,44 +75,72 @@ describe("SwaggerModule", () => {
       return getStub.should.have.been.calledWithExactly("swagger");
     });
 
-    it("it should call getOpenAPISpec()", () => {
-      getOpenAPISpecStub.getCall(0).should.have.been.calledWithExactly(config[0]);
-      getOpenAPISpecStub.getCall(1).should.have.been.calledWithExactly(config[1]);
-    });
-
     it("it should call createRouter()", () => {
-      createRouterStub.getCall(0).should.have.been.calledWithExactly(config[0], {
-        spec: {spec: "spec"},
+      createRouterStub.getCall(0).should.have.been.calledWithExactly(config[0], [{
         url: "/doc1/swagger.json",
-        urls: [{url: "/doc1/swagger.json", name: "doc1"}],
-        showExplorer: true,
-        cssPath: "cssPath",
-        jsPath: "jsPath",
-        swaggerOptions: "options"
-      });
+        name: "doc1"
+      }]);
 
-      createRouterStub.getCall(1).should.have.been.calledWithExactly(config[1], {
-        spec: {spec: "spec"},
-        url: "/doc2/swagger.json",
-        urls: [{url: "/doc1/swagger.json", name: "doc1"}],
-        showExplorer: false,
-        cssPath: "cssPath",
-        jsPath: "jsPath",
-        swaggerOptions: "options"
-      });
+      createRouterStub.getCall(1).should.have.been.calledWithExactly(config[1], [{
+        url: "/doc1/swagger.json",
+        name: "doc1"
+      }]);
     });
 
     it("it should call expressApp.use", () => {
       expressUse.getCall(0).should.have.been.calledWithExactly("/doc1", {router: "router"});
       expressUse.getCall(1).should.have.been.calledWithExactly("/doc2", {router: "router"});
     });
+  });
+  describe("$onRouteInit", () => {
+    const sandbox = Sinon.createSandbox();
+
+    beforeEach(() => {
+      sandbox.stub(Fs, "writeFileSync");
+      sandbox.stub(settingsService, "get");
+      sandbox.stub(swaggerModule.swaggerService, "getOpenAPISpec");
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
 
     it("should write spec.json", () => {
-      writeFileSyncStub.should.be.calledOnce;
-      writeFileSyncStub.should.be.calledWithExactly("/path/outFile", JSON.stringify({spec: "spec"}, null, 2));
+      // GIVEN
+      const config = [
+        {
+          path: "/doc1",
+          doc: "doc1",
+          options: "options",
+          outFile: "/path/outFile",
+          showExplorer: true,
+          cssPath: "cssPath",
+          jsPath: "jsPath",
+          hidden: false
+        },
+        {
+          path: "/doc2",
+          doc: "doc2",
+          options: "options",
+          outFile: null,
+          showExplorer: false,
+          cssPath: "cssPath",
+          jsPath: "jsPath",
+          hidden: true
+        }
+      ];
+      settingsService.get.returns(config);
+      swaggerModule.swaggerService.getOpenAPISpec.returns({spec: "spec"});
+
+      // WHEN
+      swaggerModule.$onRoutesInit();
+
+      // THEN
+      swaggerModule.swaggerService.getOpenAPISpec.getCall(0).should.have.been.calledWithExactly(config[0]);
+      swaggerModule.swaggerService.getOpenAPISpec.getCall(1).should.have.been.calledWithExactly(config[1]);
+      Fs.writeFileSync.should.be.calledOnceWithExactly("/path/outFile", JSON.stringify({spec: "spec"}, null, 2));
     });
   });
-
   describe("$onReady()", () => {
     const sandbox = Sinon.createSandbox();
 
@@ -209,7 +233,52 @@ describe("SwaggerModule", () => {
       return settingsService.getHttpsPort.should.have.been.called;
     });
   });
+  describe("mapSwaggerUIConfig()", () => {
+    const sandbox = Sinon.createSandbox();
 
+    beforeEach(() => {
+      sandbox.stub(swaggerModule.swaggerService, "getOpenAPISpec");
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it("should create spec", () => {
+      // GIVEN
+      const config = {
+        path: "/doc2",
+        doc: "doc2",
+        options: "options",
+        outFile: null,
+        showExplorer: false,
+        cssPath: "cssPath",
+        jsPath: "jsPath",
+        hidden: true
+      };
+
+      swaggerModule.swaggerService.getOpenAPISpec.returns({spec: "spec"});
+
+      // WHEN
+      const result = swaggerModule.mapSwaggerUIConfig(config, ["/urls"]);
+
+      // THEN
+      swaggerModule.swaggerService.getOpenAPISpec.should.have.been.calledWithExactly(config);
+      result.should.deep.eq({
+        "cssPath": "cssPath",
+        "jsPath": "jsPath",
+        "showExplorer": false,
+        "spec": {
+          "spec": "spec"
+        },
+        "swaggerOptions": "options",
+        "url": "/doc2/swagger.json",
+        "urls": [
+          "/urls"
+        ]
+      });
+    });
+  });
   describe("createRouter()", () => {
     let routerInstance: any;
     let routerStub: any;
@@ -255,7 +324,7 @@ describe("SwaggerModule", () => {
     });
 
     it("should call middlewareIndex", () => {
-      middelwareIndexStub.should.have.been.calledWithExactly({scope: "scope"});
+      middelwareIndexStub.should.have.been.calledWithExactly({cssPath: "cssPath", jsPath: "jsPath"}, {scope: "scope"});
     });
     it("should call middlewareCss", () => {
       middelwareCsstub.should.have.been.calledWithExactly("cssPath");
@@ -264,21 +333,58 @@ describe("SwaggerModule", () => {
       middelwareJstub.should.have.been.calledWithExactly("jsPath");
     });
   });
+  describe("middlewareSwaggerJson()", () => {
+    const sandbox = Sinon.createSandbox();
 
+    beforeEach(() => {
+      sandbox.stub(swaggerModule.swaggerService, "getOpenAPISpec");
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it("should create spec", () => {
+      // GIVEN
+      const config = {
+        path: "/doc2",
+        doc: "doc2",
+        options: "options",
+        outFile: null,
+        showExplorer: false,
+        cssPath: "cssPath",
+        jsPath: "jsPath",
+        hidden: true
+      };
+
+      swaggerModule.swaggerService.getOpenAPISpec.returns({spec: "spec"});
+
+      const req = {};
+      const res = {
+        status: sandbox.stub().returnsThis(),
+        json: sandbox.stub().returnsThis()
+      };
+      // WHEN
+      swaggerModule.middlewareSwaggerJson(config)(req, res);
+
+      // THEN
+      swaggerModule.swaggerService.getOpenAPISpec.should.have.been.calledWithExactly(config);
+      res.status.should.have.been.calledWithExactly(200);
+      res.json.should.have.been.calledWithExactly({ spec: "spec" });
+    });
+  });
   describe("middlewareIndex()", () => {
     it("should return a function", () => {
-      const result = swaggerModule.middlewareIndex({scope: "scope"});
+      const result = swaggerModule.middlewareIndex({cssPath: "cssPath", jsPath: "jsPath"}, {scope: "scope"});
       expect(result).to.be.a("function");
     });
   });
-
   describe("middlewareJs()", () => {
     it("should return a function", () => {
       const result = swaggerModule.middlewareJs("pathJs");
       expect(result).to.be.a("function");
     });
   });
-
   describe("middlewareCss()", () => {
     it("should return a function", () => {
       const result = swaggerModule.middlewareJs("pathCss");

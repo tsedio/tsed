@@ -1,4 +1,4 @@
-import {Configuration, ExpressApplication, Module, OnReady, OnRoutesInit} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, ExpressApplication, Module, OnReady} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
@@ -10,7 +10,9 @@ const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 const ejs = require("ejs");
 
 @Module()
-export class SwaggerModule implements OnRoutesInit, OnReady {
+export class SwaggerModule implements BeforeRoutesInit, OnReady {
+  private loaded = false;
+
   constructor(
     private swaggerService: SwaggerService,
     @Configuration() private configuration: Configuration,
@@ -20,7 +22,11 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   /**
    *
    */
-  $onRoutesInit() {
+  $beforeRoutesInit() {
+    if (this.loaded) {
+      return;
+    }
+
     const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
 
     const urls: any[] = swagger.reduce((acc: any[], conf) => {
@@ -33,20 +39,21 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
     }, []);
 
     swagger.forEach((conf: ISwaggerSettings) => {
-      const {path = "/", options = {}, outFile, showExplorer, cssPath, jsPath} = conf;
-      const spec = this.swaggerService.getOpenAPISpec(conf);
-      const scope = {
-        spec,
-        url: `${path}/swagger.json`,
-        urls,
-        showExplorer,
-        cssPath,
-        jsPath,
-        swaggerOptions: options
-      };
+      const {path = "/"} = conf;
 
       this.expressApplication.get(path, this.middlewareRedirect(path));
-      this.expressApplication.use(path, this.createRouter(conf, scope));
+      this.expressApplication.use(path, this.createRouter(conf, urls));
+    });
+    this.loaded = true;
+  }
+
+  $onRoutesInit() {
+    const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
+
+    swagger.forEach((conf: ISwaggerSettings) => {
+      const {outFile} = conf;
+      const spec = this.swaggerService.getOpenAPISpec(conf);
+
       if (outFile) {
         Fs.writeFileSync(outFile, JSON.stringify(spec, null, 2));
       }
@@ -58,8 +65,10 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
       const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
       swagger.forEach((conf: ISwaggerSettings) => {
         const {path = "/", doc} = conf;
-        $log.info(`[${doc || "default"}] Swagger JSON is available on ${host.protocol}://${host.address}:${host.port}${path}/swagger.json`);
-        $log.info(`[${doc || "default"}] Swagger UI is available on ${host.protocol}://${host.address}:${host.port}${path}/`);
+        const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+
+        $log.info(`[${doc || "default"}] Swagger JSON is available on ${url}${path}/swagger.json`);
+        $log.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
       });
     };
 
@@ -75,14 +84,14 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   /**
    *
    * @param {ISwaggerSettings} conf
-   * @param scope
+   * @param urls
    */
-  private createRouter(conf: ISwaggerSettings, scope: any) {
+  private createRouter(conf: ISwaggerSettings, urls: string[]) {
     const {cssPath, jsPath} = conf;
     const router = Express.Router();
 
-    router.get("/", this.middlewareIndex(scope));
-    router.get("/swagger.json", (req: any, res: any) => res.status(200).json(scope.spec));
+    router.get("/", this.middlewareIndex(conf, urls));
+    router.get("/swagger.json", this.middlewareSwaggerJson(conf));
     router.use(Express.static(swaggerUiPath));
 
     if (cssPath) {
@@ -96,11 +105,32 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
     return router;
   }
 
+  private middlewareSwaggerJson(conf: ISwaggerSettings) {
+    return (req: any, res: any) => {
+      res.status(200).json(this.swaggerService.getOpenAPISpec(conf));
+    };
+  }
+
+  private mapSwaggerUIConfig(conf: ISwaggerSettings, urls: string[]) {
+    const {path = "/", options = {}, showExplorer, cssPath, jsPath} = conf;
+    const spec = this.swaggerService.getOpenAPISpec(conf);
+
+    return {
+      spec,
+      url: `${path}/swagger.json`,
+      urls,
+      showExplorer,
+      cssPath,
+      jsPath,
+      swaggerOptions: options
+    };
+  }
+
   private middlewareRedirect(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any, next: any) => {
       if (req.url === path && !req.url.match(/\/$/)) {
-        res.redirect(path + "/");
+        res.redirect(`${path}/`);
       } else {
         next();
       }
@@ -109,13 +139,14 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
 
   /**
    *
-   * @param scope
    * @returns {(req: any, res: any) => any}
+   * @param conf
+   * @param urls
    */
-  private middlewareIndex(scope: any) {
+  private middlewareIndex(conf: ISwaggerSettings, urls: string[]) {
     /* istanbul ignore next */
     return (req: any, res: any) =>
-      ejs.renderFile(__dirname + "/../views/index.ejs", scope, {}, (err: any, str: string) => {
+      ejs.renderFile(__dirname + "/../views/index.ejs", this.mapSwaggerUIConfig(conf, urls), {}, (err: any, str: string) => {
         if (err) {
           $log.error(err);
           res.status(500).send(err.message);
