@@ -1,8 +1,8 @@
 import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import * as TypeORM from "typeorm";
-import {getConnectionManager} from "typeorm";
 import {TypeORMService} from "../../src";
+
 
 describe("TypeORMService", () => {
   describe("createConnection()", () => {
@@ -19,6 +19,7 @@ describe("TypeORMService", () => {
     it("should create connection and close connection", async () => {
       // GIVEN
       const connection: any = {
+        isConnected: true,
         connect: Sinon.stub().resolves(),
         close: Sinon.stub()
       };
@@ -41,6 +42,14 @@ describe("TypeORMService", () => {
       TypeORM.getConnectionManager.returns(connectionManager);
 
       const service = new TypeORMService();
+      // @ts-ignore
+      service.injector = {
+        logger: {
+          info: Sinon.stub(),
+          error: Sinon.stub(),
+          debug: Sinon.stub()
+        }
+      } as any;
 
       // WHEN
       const result1 = await service.createConnection("key", {config: "config"} as any);
@@ -49,7 +58,7 @@ describe("TypeORMService", () => {
       // THEN
       result1.should.deep.eq(connection);
       result2.should.deep.eq(connection);
-      connectionManager.create.should.have.been.calledOnce.and.calledWithExactly({config: "config"});
+      connectionManager.create.should.have.been.calledOnce.and.calledWithExactly({config: "config", name: "key"});
 
       // WHEN close
       await service.closeConnections();
