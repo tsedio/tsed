@@ -30,7 +30,7 @@ describe("ControllerBuilder", () => {
     Store.from(TestCtrl).clear();
   });
 
-  it("should build controller (1)", () => {
+  it("should build controller with single endpoint", () => {
     // GIVEN
     const injector = new InjectorService();
     const provider = new ControllerProvider(TestCtrl);
@@ -104,7 +104,7 @@ describe("ControllerBuilder", () => {
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
 
-  it("should build controller (2)", () => {
+  it("should build controller with only route configured", () => {
     // GIVEN
     const injector = new InjectorService();
     const provider = new ControllerProvider(TestCtrl);
@@ -175,7 +175,7 @@ describe("ControllerBuilder", () => {
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
 
-  it("should build controller (3)", () => {
+  it("should build controller without route and method", () => {
     // GIVEN
     const injector = new InjectorService();
     const provider = new ControllerProvider(TestCtrl);
@@ -240,5 +240,71 @@ describe("ControllerBuilder", () => {
     );
 
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
+  });
+
+  it("should build controller with a all endpoint and get endpoint", () => {
+    // GIVEN
+    const injector = new InjectorService();
+    const provider = new ControllerProvider(TestCtrl);
+    const endpointGet = new EndpointMetadata({target: TestCtrl, propertyKey: "getMethod"});
+    endpointGet.pathsMethods.push({
+      method: "get",
+      path: "/",
+      isFinal: true
+    });
+
+    const endpointAll = new EndpointMetadata({target: TestCtrl, propertyKey: "allMethod"});
+    endpointAll.pathsMethods.push({
+      method: "all",
+      path: "/",
+      isFinal: true
+    });
+
+    // @ts-ignore
+    EndpointRegistry.getEndpoints.returns([endpointAll, endpointGet]);
+
+    const router = {
+      all(...args: any) {
+        return this.use(...args);
+      },
+      get(...args: any) {
+        return this.use(...args);
+      },
+      use: sandbox.stub().returnsThis()
+    };
+
+    // @ts-ignore
+    HandlerBuilder.from.callsFake((middleware) => {
+      return {
+        build(injector: InjectorService) {
+          injector.should.instanceOf(InjectorService);
+
+          return middleware;
+        }
+      };
+    });
+
+    // @ts-ignore
+    Express.Router.returns(router);
+
+    const controllerProvider = new ControllerBuilder(provider);
+
+    // WHEN
+    const result = controllerProvider.build(injector);
+
+    // THEN
+    result.should.to.eq(router);
+    // ENDPOINT
+    router.use.getCall(0).should.have.been.calledWithExactly(
+      "/",
+      Sinon.match.func,
+      endpointAll
+    );
+    router.use.getCall(1).should.have.been.calledWithExactly(
+      "/",
+      Sinon.match.func,
+      endpointGet,
+      SendResponseMiddleware
+    );
   });
 });

@@ -1,11 +1,11 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
-import {ControllerProvider} from "../models/ControllerProvider";
-import {EndpointMetadata} from "../models/EndpointMetadata";
 import {bindEndpointMiddleware} from "../components/bindEndpointMiddleware";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
 import {IPathMethod} from "../interfaces/IPathMethod";
+import {ControllerProvider} from "../models/ControllerProvider";
+import {EndpointMetadata} from "../models/EndpointMetadata";
 import {HandlerBuilder} from "./HandlerBuilder";
 
 export class ControllerBuilder {
@@ -37,20 +37,29 @@ export class ControllerBuilder {
   private buildEndpoints(injector: InjectorService) {
     const {endpoints} = this.provider;
     const pathsMethodsMap: Map<string, IPathMethod> = new Map();
+    const getKey = (method: string, path: any) => `${method}-${path}`;
+
+    const updateFinalRouteState = (key: string) => {
+      if (pathsMethodsMap.has(key)) {
+        pathsMethodsMap.get(key)!.isFinal = false;
+      }
+    };
+
+    const setFinalRoute = (key: string, pathMethod: IPathMethod) => {
+      pathsMethodsMap.set(key, pathMethod);
+      pathMethod.isFinal = true;
+    };
 
     endpoints.forEach(({pathsMethods}) => {
       pathsMethods.forEach(pathMethod => {
         pathMethod.method = pathMethod.method || "use";
 
         if (pathMethod.method !== "use") {
-          const key = pathMethod.method + "-" + pathMethod.path;
+          const key = getKey(pathMethod.method, pathMethod.path);
+          updateFinalRouteState(key);
+          updateFinalRouteState(getKey("all", pathMethod.path));
 
-          if (pathsMethodsMap.has(key)) {
-            pathsMethodsMap.get(key)!.isFinal = false;
-          }
-
-          pathMethod.isFinal = true;
-          pathsMethodsMap.set(key, pathMethod);
+          setFinalRoute(key, pathMethod);
         }
       });
     });
