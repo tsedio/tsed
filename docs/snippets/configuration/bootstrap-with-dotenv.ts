@@ -6,7 +6,7 @@ const config = require('dotenv').config({ path: '/full/custom/path/to/your/env/v
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const server = await ServerLoader.bootstrap(Server, config /* or config.util.toObject() */);
+    const server = await ServerLoader.bootstrap(Server, config.parsed);
 
     await server.listen();
     $log.debug("Server initialized");
