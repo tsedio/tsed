@@ -1,10 +1,16 @@
-import {BodyParams, Controller, ConverterService, Get, Post, Required} from "@tsed/common";
+import {BodyParams, Controller, ConverterService, Get, Post, PropertyName, Required} from "@tsed/common";
 import {Description, Docs, Hidden, Responses, Summary} from "@tsed/swagger";
 import {CustomBadRequest} from "../../errors/CustomBadRequest";
 import {CustomInternalError} from "../../errors/CustomInternalError";
 
 class CustomModel {
   @Required() name: string;
+}
+
+class CustomPropModel {
+  @PropertyName("role_item")
+  @Required()
+  roleItem: string;
 }
 
 @Controller("/errors")
@@ -58,7 +64,7 @@ export class ErrorsCtrl {
     @BodyParams()
     model: CustomModel
   ) {
-    return name;
+    return model;
   }
 
   @Post("/required-model-2")
@@ -67,5 +73,17 @@ export class ErrorsCtrl {
   @Responses(400, {description: "Bad request"})
   public requiredModel2(@BodyParams() model: any) {
     return this.converterService.deserialize(model, CustomModel);
+  }
+
+  @Post("/required-prop-name")
+  @Summary("Throw a Required prop if prop name is required")
+  @Description(`Return a required error`)
+  @Responses(400, {description: "Bad request"})
+  public requiredPropName(
+    @Required()
+    @BodyParams()
+    model: CustomPropModel
+  ) {
+    return model;
   }
 }

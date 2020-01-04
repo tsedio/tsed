@@ -272,16 +272,17 @@ describe("Rest", () => {
     });
 
     describe("PATCH /rest/calendars/events/:id", () => {
-      it("should return headers", done => {
-        request
+      it("should return headers", async () => {
+        const response = await request
           .patch("/rest/calendars/events/1")
           .send({
             startDate: new Date(),
             endDate: new Date(),
-            name: "test"
-          })
-          .expect(200)
-          .end(done);
+            Name: "test"
+          });
+
+        console.log(response.text);
+        expect(response.status).to.eq(200);
       });
     });
 
@@ -289,13 +290,17 @@ describe("Rest", () => {
       it("should allow creation", done => {
         request
           .post(`/rest/user/`)
-          .send({name: "test", email: null, password: null})
+          .send({name: "test", email: null, password: null, role_item: "test"})
           .expect(201)
           .end((err: any, response: any) => {
             if (err) {
               return done(err);
             }
-            expect(JSON.parse(response.text)).to.deep.eq({name: "test", email: null, password: null});
+            expect(JSON.parse(response.text)).to.deep.eq({
+              name: "test",
+              email: null,
+              password: null
+            });
             done();
           });
       });
@@ -352,7 +357,7 @@ describe("Rest", () => {
         ]);
       });
 
-      it("should allow creation (2)", done => {
+      it("should allow creation with data", done => {
         request
           .post(`/rest/user/`)
           .send({name: "test", email: "test@test.fr", password: "test1267"})
@@ -504,6 +509,17 @@ describe("Rest", () => {
               schemaPath: "#/required"
             }
           ]);
+          done();
+        });
+    });
+
+    it("POST /rest/errors/required-prop-name", done => {
+      request
+        .post(`/rest/errors/required-prop-name`)
+        .send({})
+        .expect(400)
+        .end((err: any, response: any) => {
+          expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At CustomPropModel should have required property 'role_item'");
           done();
         });
     });
