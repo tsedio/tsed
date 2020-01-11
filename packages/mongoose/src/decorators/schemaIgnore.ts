@@ -1,4 +1,4 @@
-import {Schema} from "@tsed/mongoose";
+import {Schema} from "./schema";
 
 /**
  * Do not apply this property to schema (create virtual property)
