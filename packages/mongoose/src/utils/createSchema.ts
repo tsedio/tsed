@@ -75,6 +75,10 @@ export function buildMongooseSchema(target: any): MongooseSchema {
       // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
       const schemaTypeOptions = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
+      if (schemaTypeOptions.schemaIgnore) {
+        return;
+      }
+
       if (isVirtualRef(schemaTypeOptions)) {
         schemaTypeOptions.justOne = !propertyMetadata.isArray;
         schema.virtuals.set(key as string, schemaTypeOptions);
