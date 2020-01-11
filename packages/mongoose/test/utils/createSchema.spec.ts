@@ -15,6 +15,7 @@ import {Schema as SchemaMongoose} from "mongoose";
 import {OpenApiModelSchemaBuilder} from "../../../swagger/src/class/OpenApiModelSchemaBuilder";
 import {Model, ObjectID, Ref, Schema, VirtualRef} from "../../src/decorators";
 import {createSchema, getSchema} from "../../src/utils/createSchema";
+import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 
 describe("createSchema", () => {
   it("should create schema", () => {
@@ -574,5 +575,23 @@ describe("createSchema", () => {
 
     actualError.should.instanceof(Error);
     actualError.message.should.eq("Invalid collection type. Set is not supported.");
+  });
+  it("should not create schema property for ignored field", () => {
+      @Model()
+      class Test10 {
+          @Property()
+          field: string;
+          @Property()
+          @SchemaIgnore()
+          kind: string;
+      }
+
+      const testSchema = getSchema(Test10);
+      testSchema.obj.should.deep.eq({
+          field: {
+              required: false,
+              type: String
+          }
+      });
   });
 });
