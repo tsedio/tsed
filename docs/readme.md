@@ -12,7 +12,7 @@ actionLink: /getting-started.html
 repoText: Github
 repoLink: https://github.com/TypedProject/ts-express-decorators
 heroText: Ts.ED
-heroDescription: A Node.js Framework on top of Express
+heroDescription: A Node.js and TypeScript Framework on top of Express
 heroTerms:
 - Decorators
 - Rest API
@@ -20,7 +20,7 @@ heroTerms:
 - Controller
 testimonial:
   title: What is it ?
-  details: Ts.ED is a node.js framework on top of Express to write your application with TypeScript (or ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
+  details: Ts.ED is a Node.js and TypeScript framework on top of Express to write your application with TypeScript (or ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
 features:
 - title: Rest API
   details: Create your Rest API easily and create different version path of your API
