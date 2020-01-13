@@ -12,7 +12,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![backers](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)
 
-> A TypeScript Framework on top of Express!
+> A Node.js Framework on top of Express. It provides a lot of decorators and guidelines to write your code.
 
 ## What it is
 
