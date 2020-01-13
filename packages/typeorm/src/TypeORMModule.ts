@@ -1,5 +1,5 @@
-import {Configuration, OnDestroy, registerProvider} from "@tsed/common";
-import {ConnectionOptions} from "typeorm";
+import {Configuration, InjectorService, OnDestroy, registerProvider} from "@tsed/common";
+import {ConnectionOptions, ContainedType, useContainer} from "typeorm";
 import {TypeORMService} from "./services/TypeORMService";
 
 export class TypeORMModule implements OnDestroy {
@@ -22,9 +22,18 @@ export class TypeORMModule implements OnDestroy {
 
 registerProvider({
   provide: TypeORMModule,
-  deps: [Configuration, TypeORMService],
+  deps: [Configuration, TypeORMService, InjectorService],
   injectable: false,
-  async useAsyncFactory(configuration: Configuration, typeORMService: TypeORMService) {
+  async useAsyncFactory(configuration: Configuration, typeORMService: TypeORMService, injector: InjectorService) {
+    useContainer(
+      {
+        get<T>(type: ContainedType<T>): T {
+          return injector.get<T>(type as any)!;
+        }
+      },
+      {fallback: true}
+    );
+
     const typeORMModule = new TypeORMModule(configuration, typeORMService);
     await typeORMModule.init();
 
