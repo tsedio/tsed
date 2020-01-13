@@ -32,12 +32,12 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TypedProject/ts-express-decorators/issues"
+    "url": "https://github.com/TypedProject//tsed/issues"
   },
   "homepage": "http://tsed.io/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TypedProject/ts-express-decorators.git"
+    "url": "git+https://github.com/TypedProject//tsed.git"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",

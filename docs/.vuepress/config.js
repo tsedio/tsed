@@ -1,6 +1,6 @@
 module.exports = {
-  title: "Ts.ED - A Node.js Framework on top of Express.",
-  description: "A Node.js Framework on top of Express. It provides a lot of decorators and guidelines to write your code.",
+  title: "Ts.ED - A Node.jsc Framework on top of Express.",
+  description: "A Node.js Framework and TypeScript on top of Express. It provides a lot of decorators and guidelines to write your code.",
   serviceWorker: false,
   theme: "tsed",
   themeConfig: {
