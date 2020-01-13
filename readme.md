@@ -1,18 +1,18 @@
 # Ts.ED
 
-[![Build Status](https://travis-ci.org/TypedProject/ts-express-decorators.svg?branch=master)](https://travis-ci.org/TypedProject/ts-express-decorators)
-[![Coverage Status](https://coveralls.io/repos/github/TypedProject/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/TypedProject/ts-express-decorators?branch=master)
+[![Build Status](https://travis-ci.org/TypedProject/tsed.svg?branch=master)](https://travis-ci.org/TypedProject/tsed)
+[![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
 ![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
-[![Dependencies](https://david-dm.org/TypedProject/ts-express-decorators.svg)](https://david-dm.org/TypedProject/ts-express-decorators#info=dependencies)
-[![img](https://david-dm.org/TypedProject/ts-express-decorators/dev-status.svg)](https://david-dm.org/TypedProject/ts-express-decorators/#info=devDependencies)
-[![img](https://david-dm.org/TypedProject/ts-express-decorators/peer-status.svg)](https://david-dm.org/TypedProject/ts-express-decorators/#info=peerDependenciess)
-[![Known Vulnerabilities](https://snyk.io/test/github/TypedProject/ts-express-decorators/badge.svg)](https://snyk.io/test/github/TypedProject/ts-express-decorators)
+[![Dependencies](https://david-dm.org/TypedProject/tsed.svg)](https://david-dm.org/TypedProject/tsed#info=dependencies)
+[![img](https://david-dm.org/TypedProject/tsed/dev-status.svg)](https://david-dm.org/TypedProject/tsed/#info=devDependencies)
+[![img](https://david-dm.org/TypedProject/tsed/peer-status.svg)](https://david-dm.org/TypedProject/tsed/#info=peerDependenciess)
+[![Known Vulnerabilities](https://snyk.io/test/github/TypedProject/tsed/badge.svg)](https://snyk.io/test/github/TypedProject/tsed)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![backers](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)
 
-> A Node.js Framework on top of Express. It provides a lot of decorators and guidelines to write your code.
+> A Node.js and TypeScript Framework on top of Express. It provides a lot of decorators and guidelines to write your code.
 
 ## What it is
 
@@ -224,7 +224,7 @@ To test your method, just run your `server.ts` and send a http request on `/rest
 ## Contributors
 Please read [contributing guidelines here](./CONTRIBUTING.md).
 
-<a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/TypedProject/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 
 ## Backers
