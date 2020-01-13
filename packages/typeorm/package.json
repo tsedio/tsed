@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typeorm",
-  "version": "5.37.0",
+  "version": "5.37.1",
   "description": "TypeORM package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,8 +9,8 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.37.0",
-    "@tsed/core": "5.37.0",
+    "@tsed/common": "5.37.1",
+    "@tsed/core": "5.37.1",
     "tslib": "1.10.0",
     "typeorm": "0.2.20"
   },
