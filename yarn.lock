@@ -15023,7 +15023,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeorm@0.2.22, typeorm@~0.2.22:
+typeorm@0.2.22, typeorm@^0.2.22:
   version "0.2.22"
   resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.22.tgz#e85166e29ee4e4248ed73b2b8c977f364ffba606"
   integrity sha512-mDEnMtzRwX4zMYbyzM9xDn7jvGs8hfQ2ymOBq36Zxq1RVM642numwlRbr4W8dU7ZYx8CQUE9rmk+sU0baHD9Rw==
