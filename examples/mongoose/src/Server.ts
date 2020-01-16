@@ -1,6 +1,10 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/mongoose";
 import "@tsed/swagger";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as methodOverride from "method-override";
 
 @ServerSettings({
   rootDir: __dirname,
@@ -18,11 +22,6 @@ import "@tsed/swagger";
 })
 export class Server extends ServerLoader {
   $beforeRoutesInit(): void | Promise<any> {
-
-    const cookieParser = require("cookie-parser"),
-      bodyParser = require("body-parser"),
-      compress = require("compression"),
-      methodOverride = require("method-override");
 
     this
       .use(GlobalAcceptMimesMiddleware)

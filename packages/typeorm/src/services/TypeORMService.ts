@@ -31,7 +31,7 @@ export class TypeORMService {
     const key = settings.name || id;
 
     if (key && this.has(key)) {
-      return await this.get(key)!;
+      return this.get(key);
     }
 
     this.injector.logger.info(`Create connection with typeorm to database: ${key}`);
@@ -55,7 +55,7 @@ export class TypeORMService {
    *
    * @returns {"typeorm".Connection}
    */
-  get(id: string = "default"): Connection | undefined {
+  get(id: string = "default"): Connection {
     return this.connectionManager.get(id);
   }
 
