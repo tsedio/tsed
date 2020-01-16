@@ -162,7 +162,7 @@
     "tsconfig-paths": "3.9.0",
     "tslint": "5.20.1",
     "type-graphql": "0.17.5",
-    "typeorm": "0.2.20",
+    "typeorm": "0.2.22",
     "typescript": "3.5.3",
     "vue-analytics": "5.17.2",
     "vuepress-theme-tsed": "2.1.11",

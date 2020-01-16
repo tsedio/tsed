@@ -12,7 +12,7 @@
     "@tsed/common": "5.38.1",
     "@tsed/core": "5.38.1",
     "tslib": "1.10.0",
-    "typeorm": "0.2.20"
+    "typeorm": "^0.2.22"
   },
   "private": false,
   "devDependencies": {},

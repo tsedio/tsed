@@ -1,22 +1,26 @@
-import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
 import {ReturnsArray} from "@tsed/swagger";
-import {User} from "../../entity/User";
-import {UsersService} from "../../services/UsersService";
+import {User} from "../../entities/User";
+import {UserRepository} from "../../repositories/UserRepository";
 
 @Controller("/users")
 export class UsersCtrl {
-
-  constructor(private usersService: UsersService) {
+  constructor(private userRepository: UserRepository) {
   }
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {
-    return this.usersService.create(user);
+    return this.userRepository.save(user);
+  }
+
+  @Get("/:id")
+  async get(@PathParams() id: string): Promise<User> {
+    return this.userRepository.findByID(id);
   }
 
   @Get("/")
   @ReturnsArray(User)
   async getList(): Promise<User[]> {
-    return this.usersService.find();
+    return this.userRepository.find();
   }
 }

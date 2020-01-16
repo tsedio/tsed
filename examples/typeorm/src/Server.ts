@@ -5,9 +5,9 @@ import "@tsed/typeorm";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
 import * as cors from "cors";
 import * as session from "express-session";
+import * as methodOverride from "method-override";
 
 const rootDir = __dirname;
 
@@ -19,6 +19,10 @@ const rootDir = __dirname;
   mount: {
     "/v1": `${rootDir}/controllers/**/**Ctrl.{ts,js}`
   },
+  componentsScan: [
+    `${rootDir}/services/*{.ts,.js}`,
+    `${rootDir}/repositories/*{.ts,.js}`
+  ],
   typeorm: [
     {
       name: "default",
@@ -31,7 +35,7 @@ const rootDir = __dirname;
       logging: false,
       synchronize: true,
       entities: [
-        `${rootDir}/entity/*{.ts,.js}`
+        `${rootDir}/entities/*{.ts,.js}`
       ],
       migrations: [
         `${rootDir}/migrations/*{.ts,.js}`
