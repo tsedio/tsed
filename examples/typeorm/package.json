@@ -4,8 +4,8 @@
   "description": "Here an example project with TypeORM and Ts.ED framework.",
   "scripts": {
     "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
-    "build": "npm run tsc",
-    "test": "npm run clean && npm run test:lint && npm run test:coverage",
+    "build": "yarn tsc",
+    "test": "yarn clean && yarn test:lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "test:lint": "tslint --project tsconfig.json",
@@ -16,7 +16,9 @@
     "tsc:w": "tsc --project tsconfig.json -w",
     "start:dev": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
     "start": "ts-node src/index.ts",
-    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js"
+    "start:prod": "cross-env NODE_ENV=production node dist/index.js",
+    "docker:build": "yarn build && docker-compose build",
+    "deploy": "exit 0"
   },
   "author": "",
   "license": "MIT",
@@ -24,7 +26,6 @@
     "@tsed/common": "5.38.0",
     "@tsed/core": "5.38.0",
     "@tsed/di": "5.38.0",
-    "@tsed/socketio": "5.38.0",
     "@tsed/swagger": "5.38.0",
     "@tsed/testing": "5.38.0",
     "@tsed/typeorm": "5.38.0",
@@ -32,16 +33,19 @@
     "body-parser": "1.19.0",
     "compression": "1.7.4",
     "cookie-parser": "1.4.4",
+    "cors": "2.8.5",
     "express": "4.17.1",
     "express-session": "1.17.0",
     "method-override": "^3.0.0",
     "pg": "^7.4.3",
     "serve-static": "^1.13.1",
-    "typeorm": "0.2.20"
+    "typeorm": "0.2.22",
+    "cross-env": "6.0.3"
   },
   "devDependencies": {
     "@types/chai": "4.2.5",
     "@types/chai-as-promised": "^7.1.0",
+    "@types/cors": "2.8.6",
     "@types/express": "4.17.2",
     "@types/http-proxy": "^1.16.2",
     "@types/mocha": "5.2.7",
@@ -53,7 +57,6 @@
     "chai": "4.2.0",
     "chai-as-promised": "^7.1.1",
     "concurrently": "5.0.0",
-    "cross-env": "6.0.3",
     "mocha": "6.2.2",
     "nodemon": "1.19.1",
     "nyc": "14.1.1",

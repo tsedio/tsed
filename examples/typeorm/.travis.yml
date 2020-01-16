@@ -1,0 +1,26 @@
+language: node_js
+
+cache:
+  yarn: true
+
+node_js:
+  - '12.13.0'
+
+jobs:
+  include:
+    - stage: test
+      name: Unit tests
+      script: yarn test
+    - stage: build
+      name: Build
+      script: yarn docker:build
+    - stage: deploy
+      name: Deploy
+      script: yarn docker:build && yarn deploy
+
+stages:
+  - test
+  - name: build
+    if: branch != master
+  - name: deploy
+    if: branch = master

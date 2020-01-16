@@ -2,16 +2,19 @@ import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/c
 import "@tsed/swagger";
 import "@tsed/typeorm";
 
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compress = require("compression");
-const methodOverride = require("method-override");
-const session = require("express-session");
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as methodOverride from "method-override";
+import * as cors from "cors";
+import * as session from "express-session";
+
 const rootDir = __dirname;
 
 @ServerSettings({
   rootDir,
-  port: 3000,
+  httpPort: process.env.PORT || 8083,
+  httpsPort: false,
   acceptMimes: ["application/json"],
   mount: {
     "/v1": `${rootDir}/controllers/**/**Ctrl.{ts,js}`
@@ -20,13 +23,13 @@ const rootDir = __dirname;
     {
       name: "default",
       type: "postgres",
-      host: "localhost",
+      host: process.env.POSTGRES_HOST || "localhost",
       port: 5432,
-      username: "postgres",
-      password: "",
-      database: "romain.lenzotti",
-      synchronize: true,
+      username: process.env.POSTGRES_USER || "postgres",
+      password: process.env.POSTGRES_PASSWORD || "changeme",
+      database: process.env.POSTGRES_DB || "postgres",
       logging: false,
+      synchronize: true,
       entities: [
         `${rootDir}/entity/*{.ts,.js}`
       ],
@@ -46,6 +49,7 @@ export class Server extends ServerLoader {
   $beforeRoutesInit(): void | Promise<any> {
     this
       .use(GlobalAcceptMimesMiddleware)
+      .use(cors())
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
@@ -57,7 +61,7 @@ export class Server extends ServerLoader {
         secret: "mysecretkey",
         resave: true,
         saveUninitialized: true,
-        maxAge: 36000,
+        // maxAge: 36000,
         cookie: {
           path: "/",
           httpOnly: true,
