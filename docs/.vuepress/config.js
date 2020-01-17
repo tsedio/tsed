@@ -1,14 +1,34 @@
+const title = "Ts.ED - A Node.js and TypeScript Framework on top of Express.";
+const description = "A Node.js and TypeScript Framework on top of Express. It provides a lot of decorators and guidelines to write your code.";
+const url = "https://tsed.io";
 module.exports = {
-  title: 'Ts.ED - A Node.js and TypeScript Framework on top of Express.',
-  description: "A Node.js and TypeScript Framework on top of Express. It provides a lot of decorators and guidelines to write your code.",
+  title,
+  description,
   serviceWorker: false,
   theme: "tsed",
+  head: [
+    ["link", {canonical: url}],
+    ["meta", {property: "og:url", content: url}],
+    ["meta", {property: "og:type", content: "website"}],
+    ["meta", {property: "og:site_name", content: title}],
+    ["meta", {property: "og:title", content: title}],
+    ["meta", {property: "og:description", content: description}],
+    // ["meta", {property: "og:image", content: "https://nestjs.com/img/nest-og.png"}],
+    // ["meta", {property: "og:image:width", content: "1200"}],
+    // ["meta", {property: "og:image:height", content: "650"}],
+    ["meta", {name: "twitter:title", content: title}],
+    ["meta", {name: "twitter:description", content: description}],
+    ["meta", {name: "twitter:card", content: "summary"}]
+  ],
+
   themeConfig: {
     shortTitle: "Ts.ED",
     version: require("../../package").version,
     repo: "TypedProject/tsed",
     openCollective: "tsed",
     gitterUrl: "https://gitter.im/Tsed-io/community",
+    stackoverflowUrl: "https://stackoverflow.com/questions/tagged/tsed",
+    sponsorUrl: "https://opencollective.com/tsed",
     editLinks: true,
     docsDir: "docs",
     sidebar: "auto",
@@ -32,14 +52,17 @@ module.exports = {
         nav: [
           {
             text: "Getting started",
-            link: "/getting-started.html"
+            link: "/getting-started.html",
+            title: `Getting started | ${title}`
           },
           {
             text: "Configuration",
-            link: "/configuration.html"
+            link: "/configuration.html",
+            title: `Configuration | ${title}`
           },
           {
             text: "Docs",
+            title: `Documentation | ${title}`,
             items: [
               {
                 text: "Overview",
@@ -71,6 +94,7 @@ module.exports = {
           {
             text: "Guide",
             type: "links",
+            title: `Guide | ${title}`,
             items: [
               {link: "/tutorials/", text: "Examples"},
               {link: "/tutorials/session.html", text: "Session & cookies"},
@@ -91,7 +115,10 @@ module.exports = {
               {link: "/tutorials/jest.html", text: "Jest"}
             ]
           },
-          {text: "4.x", link: "http://v4.tsed.io"}
+          {
+            text: "4.x",
+            link: "http://v4.tsed.io"
+          }
         ],
         sidebar: {
           "/docs/middlewares/": [{
