@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "5.38.4",
+  "version": "5.38.5",
   "description": "Swagger package for Ts.ED framework",
   "main": "./src/index.js",
   "typings": "./src/index.ts",
@@ -9,7 +9,7 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.38.4",
+    "@tsed/common": "5.38.5",
     "ejs": "2.7.3",
     "swagger-ui-dist": "3.24.3",
     "tslib": "1.10.0"
