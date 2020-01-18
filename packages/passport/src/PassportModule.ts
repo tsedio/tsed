@@ -1,7 +1,6 @@
 import {BeforeRoutesInit, Constant, ExpressApplication, Module, OnInit, Provider, ProviderScope} from "@tsed/common";
 
 import * as Passport from "passport";
-import {ProtocolRegistry} from "./registries/ProtocolRegistries";
 import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";
 
@@ -25,7 +24,7 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
     Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer));
     Passport.deserializeUser(this.passportSerializer.deserialize.bind(this.passportSerializer));
 
-    ProtocolRegistry.forEach((provider: Provider<any>) => this.protocolsService.invoke(provider));
+    this.protocolsService.getProtocols().forEach((provider: Provider<any>) => this.protocolsService.invoke(provider));
 
     return undefined;
   }

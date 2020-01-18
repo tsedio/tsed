@@ -1,10 +1,9 @@
 import {HandlerBuilder, HandlerMetadata, HandlerType, InjectorService, Service} from "@tsed/common";
 import {Provider} from "@tsed/di";
-import * as Express from "express";
 import * as Passport from "passport";
 import {Strategy} from "passport-strategy";
-import {IProtocol} from "../interfaces/IProtocol";
-import {IProtocolOptions} from "../interfaces/IProtocolOptions";
+import {IProtocol, IProtocolOptions} from "../interfaces";
+import {PROVIDER_TYPE_PROTOCOL} from "../registries/ProtocolRegistries";
 
 @Service()
 export class ProtocolsService {
@@ -12,7 +11,11 @@ export class ProtocolsService {
 
   constructor(private injector: InjectorService) {}
 
-  invoke(provider: Provider<any>): any {
+  public getProtocols(): Provider<any>[] {
+    return Array.from(this.injector.getProviders(PROVIDER_TYPE_PROTOCOL));
+  }
+
+  public invoke(provider: Provider<any>): any {
     const {name, useStrategy: strategy, settings} = this.getOptions(provider);
     const handler = this.createHandler(provider);
     const protocol = this.injector.get<IProtocol>(provider.provide)!;
@@ -56,9 +59,9 @@ export class ProtocolsService {
     });
 
     const builder = new HandlerBuilder(handlerMetadata);
-    const middleware: any = builder.build(this.injector);
+    const middleware = builder.build(this.injector);
 
-    return (req: Express.Request, ...args: any[]) => {
+    return (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
 
       return middleware(req, req.res, (err: any) => {

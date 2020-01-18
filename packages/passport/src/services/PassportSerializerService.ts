@@ -14,6 +14,7 @@ export class PassportSerializerService {
     try {
       const obj = this.converterService.serialize(user);
 
+      // remove password from serialized object
       delete obj.password;
 
       done(null, JSON.stringify(obj));
