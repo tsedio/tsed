@@ -1,9 +1,8 @@
 import {Type} from "@tsed/core";
 import {Strategy} from "passport-strategy";
 
-export interface IProtocolOptions {
+export interface IProtocolOptions<T = any> {
   name: string;
   useStrategy: Type<Strategy>;
-  // seFor: string[];
-  settings: any;
+  settings: T;
 }

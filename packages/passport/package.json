@@ -15,10 +15,10 @@
     "tslib": "1.10.0"
   },
   "peerDependencies": {
-    "@types/passport": "^1.0.1",
-    "@types/passport-local": "^1.0.33",
+    "@types/passport": "1.0.2",
+    "@types/passport-strategy": "^0.2.35",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-strategy": "1.0.0"
   },
   "private": false,
   "directories": {

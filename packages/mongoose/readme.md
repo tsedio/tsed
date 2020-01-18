@@ -27,6 +27,7 @@ Before using the `@tsed/mongoose` package, we need to install the [mongoose](htt
 ```bash
 npm install --save mongoose
 npm install --save @tsed/mongoose
+npm install --save-dev @types/mongoose
 ```
 
 Then import `@tsed/mongoose` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):

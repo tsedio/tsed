@@ -33,6 +33,7 @@ Before using the `@tsed/mongoose` package, we need to install the [mongoose](htt
 ```bash
 npm install --save mongoose
 npm install --save @tsed/mongoose
+npm install --save-dev @types/mongoose
 npm install --save-dev @tsed/testing-mongoose
 ```
 

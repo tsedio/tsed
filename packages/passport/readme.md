@@ -14,7 +14,8 @@ A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/passport
 
 Run npm command (or yarn):
 ```bash
-npm install --save @tsed/passport
+npm install --save @tsed/passport passport
+npm install --save-dev @types/passport
 ```
 
 ## Configure your server
@@ -70,7 +71,7 @@ export class LocalProtocol implements OnVerify, OnInstall {
     const user = await this.userService.find(credentials);
 
     if (!user) {
-       throw new Unauthorized()
+       throw new Unauthorized("Unauthorized user")
     }
 
     return user;
@@ -115,7 +116,7 @@ export class PassportCtrl {
   }
 
   @Get("/userinfo")
-  @Authenticate("local")
+  @Authenticate("*")  // wildcard allow all protocols to access to this endpoint
   getUserInfo(@Req() req: Req): any {
     // FACADE
 
@@ -128,7 +129,7 @@ export class PassportCtrl {
   }
 
   @Get("/connect/:protocol") // Used by Passport OpenID, Facebook, etc...
-  @Authorize(":protocol")
+  @Authorize(":protocol") // :protocol will take the req.params.protocol value to authorize the consumer
   connectProvider(@Req() req: Req): any {
     // FACADE
     return req.user;

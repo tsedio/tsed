@@ -15,6 +15,10 @@ export class ProtocolsService {
     return Array.from(this.injector.getProviders(PROVIDER_TYPE_PROTOCOL));
   }
 
+  public getProviderNames(): string[] {
+    return this.getProtocols().map(provider => this.getOptions(provider).name);
+  }
+
   public invoke(provider: Provider<any>): any {
     const {name, useStrategy: strategy, settings} = this.getOptions(provider);
     const handler = this.createHandler(provider);

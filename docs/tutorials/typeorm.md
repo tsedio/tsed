@@ -33,6 +33,7 @@ Currently, `@tsed/typeorm` allows you:
 To begin, install the TypeORM module for TS.ED:
 ```bash
 npm install --save @tsed/typeorm
+npm install --save typeorm
 ```
 
 Then import `@tsed/typeorm` in your @@ServerLoader@@:
