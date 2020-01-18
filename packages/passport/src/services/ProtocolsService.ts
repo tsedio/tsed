@@ -15,7 +15,7 @@ export class ProtocolsService {
     return Array.from(this.injector.getProviders(PROVIDER_TYPE_PROTOCOL));
   }
 
-  public getProviderNames(): string[] {
+  public getProtocolsNames(): string[] {
     return this.getProtocols().map(provider => this.getOptions(provider).name);
   }
 

@@ -16,5 +16,4 @@ export * from "./services/ProtocolsService";
 export * from "./services/PassportSerializerService";
 
 // Middlewares
-export * from "./middlewares/AuthenticateMiddleware";
-export * from "./middlewares/AuthorizeMiddleware";
+export * from "./middlewares/PassportMiddleware";
