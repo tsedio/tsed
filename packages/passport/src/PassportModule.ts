@@ -1,5 +1,4 @@
 import {BeforeRoutesInit, Constant, ExpressApplication, Module, OnInit, Provider, ProviderScope} from "@tsed/common";
-
 import * as Passport from "passport";
 import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";

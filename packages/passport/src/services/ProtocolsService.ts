@@ -35,7 +35,7 @@ export class ProtocolsService {
   private getOptions(provider: Provider<any>): IProtocolOptions {
     const {name} = provider.store.get("protocol");
     const protocol: IProtocolOptions = provider.store.get("protocol") || {};
-    const serverProtocol: IProtocolOptions = this.injector.settings.get(`passport.${name}`) || {};
+    const serverProtocol: IProtocolOptions = this.injector.settings.get(`passport.protocols.${name}`) || {};
 
     const {useStrategy = Strategy} = {...protocol, ...serverProtocol};
 

@@ -17,25 +17,133 @@ Run npm command (or yarn):
 npm install --save @tsed/passport
 ```
 
-Then import `@tsed/passport` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+## Configure your server
 
+Add this configuration to your server:
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import {PassportCtrl} from "@tsed/passport";
+import {ServerSettings, ServerLoader} from "@tsed/common"
+
+const rootDir = __dirname;
 
 @ServerSettings({
-   mount:{
-     "/rest": [PassportCtrl]
-   }
+  componentsScan: [
+     `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
+  ],
+  passport: {
+    
+  }
 })
-export class Server extends ServerLoader {
+export class Server extends ServerLoader {}
+```
 
+## Create a new Protocol
+
+A Protocol is a special Ts.ED service which is used to declare a Passport Strategy and handle Passport lifecycle.
+
+Here an example with the PassportLocal:
+```typescript
+import {BodyParams, Req} from "@tsed/common";
+import {Strategy} from "passport-local";
+import {BadRequest, Unauthorized} from "ts-httpexceptions";
+import {Protocol, OnInstall, OnVerify, UserInfo} from "@tsed/passport"; 
+import {Inject} from "@tsed/di";
+import {UserService} from "../services/UserService"
+
+@Protocol({
+  name: "local",
+  useStrategy: Strategy,
+  settings: {
+    usernameField: "email",
+    passwordField: "password"
+  }
+})
+export class LocalProtocol implements OnVerify, OnInstall {
+  static REG_MAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  @Inject(UserService)
+  private userService: UserService;
+
+  async $onVerify(@Req() request: Req, @BodyParams() credentials: UserInfo): Promise<any> | any {
+    const {email} = credentials;
+    this.checkEmail(email);
+
+    const user = await this.userService.find(credentials);
+
+    if (!user) {
+       throw new Unauthorized()
+    }
+
+    return user;
+  }
+
+  $onInstall(strategy: Strategy): void {
+    // intercept the strategy instance to adding extra configuration
+  }
+
+  protected checkEmail(email: string) {
+    if (!(email && LocalProtocol.REG_MAIL.test(email))) {
+      throw new BadRequest("Email is invalid");
+    }
+  }
 }
 ```
 
-## Configure Local strategy
+## Create the Passport controller
 
-## Add and configure protocol
+Create a new Passport controller as following:
+
+```typescript
+import {BodyParams, Controller, Get, Post, ProviderScope, Req, Scope} from "@tsed/common";
+import {Authenticate} from "@tsed/passport";
+import {Authorize} from "@tsed/passport";
+
+@Controller("/")
+@Scope(ProviderScope.SINGLETON)
+export class PassportCtrl {
+  @Post("/login")
+  @Authenticate("local")
+  login(@Req() req: Req, @BodyParams("email") email: string, @BodyParams("password") password: string) {
+    // FACADE
+    return req.user;
+  }
+
+  @Post("/signup")
+  @Authenticate("local")
+  signup(@Req() req: Req, @BodyParams("email") email: string, @BodyParams("password") password: string) {
+    // FACADE
+    return req.user;
+  }
+
+  @Get("/userinfo")
+  @Authenticate("local")
+  getUserInfo(@Req() req: Req): any {
+    // FACADE
+
+    return req.user;
+  }
+
+  @Get("/logout")
+  logout(@Req() req: Req) {
+    req.logout();
+  }
+
+  @Get("/connect/:protocol") // Used by Passport OpenID, Facebook, etc...
+  @Authorize(":protocol")
+  connectProvider(@Req() req: Req): any {
+    // FACADE
+    return req.user;
+  }
+
+  @Get("/connect/:protocol/callback") // Used by Passport OpenID, Facebook, etc...
+  @Authorize(":protocol")
+  connectProviderCallback(@Req() req: Req): any {
+    // FACADE
+    return req.user;
+  }
+}
+```
+
+This controller will provide required all endpoints which will be used by the different protocols.
 
 ## Contributors
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)

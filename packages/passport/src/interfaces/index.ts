@@ -8,7 +8,7 @@ declare global {
         userProperty?: string;
         pauseStream?: string;
         userInfoModel?: Type<any>;
-        protocols: {
+        protocols?: {
           [protocolName: string]: IProtocolOptions;
         };
       };

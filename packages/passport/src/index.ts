@@ -1,14 +1,20 @@
 import "./PassportModule";
 
+// Decorator
 export * from "./decorators/authenticate";
+export * from "./decorators/authorize";
 export * from "./decorators/overrideProtocol";
 export * from "./decorators/protocol";
 
+// Interfaces
 export * from "./interfaces";
+export * from "./domain/UserInfo";
 
-export * from "./controllers/PassportCtrl";
-export * from "./protocols/LocalProtocol";
+// Registries and Services
 export * from "./registries/ProtocolRegistries";
 export * from "./services/ProtocolsService";
 export * from "./services/PassportSerializerService";
+
+// Middlewares
 export * from "./middlewares/AuthenticateMiddleware";
+export * from "./middlewares/AuthorizeMiddleware";
