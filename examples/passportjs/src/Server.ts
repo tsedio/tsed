@@ -2,7 +2,6 @@ import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/c
 import "@tsed/swagger";
 import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
 import {PassportCtrl} from "./controllers/passport/PassportCtrl";
-import {RestCtrl} from "./controllers/RestCtrl";
 
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -21,7 +20,6 @@ const rootDir = __dirname;
   },
   mount: {
     "/rest": [
-      RestCtrl,
       CalendarCtrl,
       PassportCtrl
     ]

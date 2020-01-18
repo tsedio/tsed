@@ -126,7 +126,7 @@ export class HandlerBuilder {
    *
    * @returns {any}
    */
-  public build(injector: InjectorService): any {
+  public build(injector: InjectorService): (...args: any[]) => void {
     const {hasErrorParam} = this.handlerMetadata;
 
     this.debug = injector.settings.debug;

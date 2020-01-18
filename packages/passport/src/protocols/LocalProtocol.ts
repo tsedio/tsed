@@ -14,6 +14,8 @@ import {OnVerify} from "../interfaces/OnVerify";
   }
 })
 export class LocalProtocol implements OnVerify, OnInstall {
+  static REG_MAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   $onVerify(@Req() request: Req, @BodyParams() credentials: any): Promise<any> | any {
     const {email} = credentials;
 
@@ -27,8 +29,7 @@ export class LocalProtocol implements OnVerify, OnInstall {
   $onInstall(strategy: Strategy): void {}
 
   protected checkEmail(email: string) {
-    const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!(email && regEmail.test(email))) {
+    if (!(email && LocalProtocol.REG_MAIL.test(email))) {
       throw new BadRequest("Email is invalid");
     }
   }
