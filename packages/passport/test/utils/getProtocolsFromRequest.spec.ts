@@ -10,6 +10,22 @@ describe("getProtocolsFromRequest", () => {
     expect(result).to.deep.equal(["default"]);
   });
 
+  it("should allow all protocol (from default protocols - array)", () => {
+    const defaultProtocols = ["default"];
+    const req = {};
+    const result = getProtocolsFromRequest(req, ["*"], defaultProtocols);
+
+    expect(result).to.deep.equal(["default"]);
+  });
+
+  it("should return providers", () => {
+    const defaultProtocols = ["default"];
+    const req = {};
+    const result = getProtocolsFromRequest(req, ["basic", "local"], defaultProtocols);
+
+    expect(result).to.deep.equal(["basic", "local"]);
+  });
+
   it("should get protocol from request (params)", () => {
     const defaultProtocols = ["default"];
     const req = {
@@ -55,7 +71,6 @@ describe("getProtocolsFromRequest", () => {
 
     expect(result).to.deep.equal(["basic"]);
   });
-
 
   it("should return basic protocol", () => {
     const defaultProtocols = ["default"];

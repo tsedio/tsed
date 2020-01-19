@@ -1,4 +1,4 @@
-import {Strategy} from "passport-strategy";
+import {Strategy} from "passport";
 
 export interface OnInstall {
   $onInstall(strategy: Strategy): void;

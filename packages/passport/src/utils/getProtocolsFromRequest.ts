@@ -1,35 +1,35 @@
+import {isArray} from "@tsed/core";
+
 function getProtocolName(req: any) {
   const {query = {}, params = {}, body = {}} = req;
 
   return params.protocol || query.protocol || body.protocol;
 }
 
-const add = (protocols: string[], protocol: string): string[] => {
-  if (!protocol || protocols.includes(protocol)) {
-    return protocols;
+export function getProtocolsFromRequest(req: any, protocol: string | string[], defaultProtocols: string[]): string[] {
+  if (!isArray(protocol)) {
+    if (protocol === "*") {
+      return defaultProtocols;
+    }
+
+    const protocolReq = getProtocolName(req);
+
+    if (protocol === ":protocol") {
+      return [protocolReq].filter(Boolean);
+    }
+
+    if (protocolReq && protocolReq !== protocol) {
+      return [];
+    }
+
+    return [protocol];
   }
 
-  return protocols.concat(protocol);
-};
-
-export function getProtocolsFromRequest(req: any, protocol: string | string[], defaultProtocols: string[]): string[] {
-  let protocols: string[] = [].concat(protocol as never);
+  const protocols: string[] = protocol;
 
   if (protocols.includes("*")) {
     return defaultProtocols;
   }
-
-  protocols = protocols.reduce((protocols: string[], protocol: string) => {
-    if (protocol === ":protocol") {
-      return add(protocols, getProtocolName(req));
-    }
-
-    if (protocol === getProtocolName(req)) {
-      return add(protocols, protocol);
-    }
-
-    return protocols;
-  }, [] as string[]);
 
   return protocols;
 }

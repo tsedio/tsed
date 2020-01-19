@@ -3,7 +3,6 @@ import "./PassportModule";
 // Decorator
 export * from "./decorators/authenticate";
 export * from "./decorators/authorize";
-export * from "./decorators/overrideProtocol";
 export * from "./decorators/protocol";
 
 // Interfaces

@@ -1,7 +1,5 @@
 # @tsed/passport
 
-> Pre release, your feedback are welcome. Do not use this package in production
-
 <div align="center">
 <a href="http://www.passportjs.org/">
 <img src="http://www.passportjs.org/images/logo.svg" height="128">

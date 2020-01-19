@@ -1,7 +1,7 @@
 import {HandlerBuilder, HandlerMetadata, HandlerType, InjectorService, Service} from "@tsed/common";
 import {Provider} from "@tsed/di";
 import * as Passport from "passport";
-import {Strategy} from "passport-strategy";
+import {Strategy} from "passport";
 import {IProtocol, IProtocolOptions} from "../interfaces";
 import {PROVIDER_TYPE_PROTOCOL} from "../registries/ProtocolRegistries";
 
@@ -16,14 +16,13 @@ export class ProtocolsService {
   }
 
   public getProtocolsNames(): string[] {
-    return this.getProtocols().map(provider => this.getOptions(provider).name);
+    return Array.from(this.strategies.keys());
   }
 
   public invoke(provider: Provider<any>): any {
     const {name, useStrategy: strategy, settings} = this.getOptions(provider);
-    const handler = this.createHandler(provider);
     const protocol = this.injector.get<IProtocol>(provider.provide)!;
-    const instance: Strategy = new strategy(settings, handler);
+    const instance = new strategy(settings, this.createHandler(provider));
 
     this.strategies.set(name, instance);
 

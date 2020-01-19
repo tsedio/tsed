@@ -18,6 +18,6 @@ export class PassportMiddleware {
     }
 
     // @ts-ignore
-    return Passport[method](protocols.length === 1 ? protocol[0] : protocols, options);
+    return Passport[method](protocols.length === 1 ? protocols[0] : protocols, options);
   }
 }
