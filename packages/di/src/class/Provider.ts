@@ -18,7 +18,7 @@ export class Provider<T> implements IProvider<T> {
   public instance: T;
 
   @Enumerable()
-  public deps: any[];
+  public deps: TokenProvider[];
 
   @Enumerable()
   public imports: any[];

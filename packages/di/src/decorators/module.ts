@@ -16,7 +16,20 @@ export interface IModuleOptions extends IDIConfigurationOptions {
   [key: string]: any;
 }
 
-export function Module({imports, deps, root, scope, ...configuration}: Partial<IModuleOptions> = {}) {
+/**
+ * Declare a new Ts.ED module
+ *
+ * ## Options
+ * - imports: List of Provider which must be built by injector before invoking the module
+ * - resolvers: List of external DI must be used to resolve unknown provider
+ * - deps: List of provider must be injected to the module constructor (explicit declaration)
+ *
+ * @param options
+ * @decorator
+ */
+export function Module(options: Partial<IModuleOptions> = {}) {
+  const {imports, resolvers, deps, root, scope, ...configuration} = options;
+
   return applyDecorators(
     Configuration(configuration),
     Injectable({
@@ -25,6 +38,7 @@ export function Module({imports, deps, root, scope, ...configuration}: Partial<I
       imports,
       deps,
       injectable: false,
+      resolvers,
       root
     })
   );

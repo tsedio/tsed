@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+import {IDIResolver} from "./IDIResolver";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
 import {TokenProvider} from "./TokenProvider";
@@ -42,6 +43,10 @@ export interface IProvider<T> {
    * Scope used by the injector to build the provider.
    */
   scope?: ProviderScope;
+  /**
+   * A list of resolvers which will be used to resolve missing Symbol/Class when injector invoke a Class. This property allow external DI usage.
+   */
+  resolvers?: IDIResolver[];
 
   /**
    *

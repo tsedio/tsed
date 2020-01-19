@@ -1,3 +1,4 @@
+import {IDIResolver} from "./IDIResolver";
 import {ProviderScope} from "./ProviderScope";
 
 declare global {
@@ -8,6 +9,7 @@ declare global {
 
 export interface IDIConfigurationOptions extends TsED.Configuration {
   scopes?: {[key: string]: ProviderScope};
+  resolvers?: IDIResolver[];
 
   [key: string]: any;
 }

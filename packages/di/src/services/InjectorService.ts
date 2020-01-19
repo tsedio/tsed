@@ -32,6 +32,7 @@ import {
   ProviderScope,
   TokenProvider
 } from "../interfaces";
+import {IDIResolver} from "../interfaces/IDIResolver";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {DIConfiguration} from "./DIConfiguration";
 
@@ -77,6 +78,7 @@ interface IInvokeSettings {
 export class InjectorService extends Container {
   public settings: IDIConfigurationOptions & DIConfiguration = new DIConfiguration() as any;
   public logger: IDILogger = console;
+  readonly resolvers: IDIResolver[] = [];
   private resolvedConfiguration: boolean = false;
 
   constructor() {
@@ -292,6 +294,9 @@ export class InjectorService extends Container {
         Object.entries(provider.configuration).forEach(([key, value]) => {
           this.settings.default.set(key, deepExtends(this.settings.default.get(key) || {}, value));
         });
+      }
+      if (provider.resolvers) {
+        this.resolvers.push(...provider.resolvers);
       }
     });
 
@@ -541,7 +546,22 @@ export class InjectorService extends Container {
       throw new UndefinedTokenError();
     }
 
-    const provider = this.hasProvider(token) ? this.getProvider(token)! : new Provider(token);
+    if (!this.hasProvider(token)) {
+      // find
+      const resolver = this.resolvers.find(resolver => {
+        return resolver.get(token);
+      });
+
+      const provider = new Provider(token);
+
+      if (resolver) {
+        provider.useFactory = () => resolver.get(token);
+      }
+
+      this.setProvider(token, provider);
+    }
+
+    const provider = this.getProvider(token)!;
 
     scope = scope || this.scopeOf(provider);
     deps = deps || provider.deps;

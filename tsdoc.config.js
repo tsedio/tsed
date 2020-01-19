@@ -23,11 +23,12 @@ module.exports = {
     },
     "ajv": "ajv",
     "mongoose": "mongoose",
-    "typeorm": "typeorm",
     "multipartfiles": "multipartfiles",
+    "passport": "passport",
     "servestatic": "servestatic",
     "socketio": "socketio",
     "swagger": "swagger",
+    "typeorm": "typeorm",
     "testing": "testing"
   }
 };

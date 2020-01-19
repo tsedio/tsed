@@ -102,6 +102,55 @@ With [dotenv](https://www.npmjs.com/package/dotenv):
 * `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/injection-scopes.md).
 * `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
 * `errors` &lt;[IErrorsSettings](/api/common/config/interfaces/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
+* `resolvers` &lt;[IDIResolver](/api/di/interfaces/IDIResolver.md)[]&gt;: List of resolver. This options allow the external DI usage like Inverfisy. 
+
+## Resolvers - External DI <Badge text="v5.39.0+" />
+
+Ts.ED has its own DI container, but sometime you have to work with other DI like Inversify or TypeDI. The version 5.39.0+
+now allow you to configure multiple external DI by using the `resolvers` options. 
+
+The resolvers options can be configured as following:
+
+```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+import {resolve}  from "path";
+const rootDir = resolve(__dirname);
+import { myContainer } from "./inversify.config";
+
+@ServerSettings({
+  rootDir,
+  resolvers: [
+    {
+      get(token: any) {
+        return myContainer.get(token)
+      }
+    }
+  ]
+})
+export class Server extends ServerLoader {
+
+}
+```
+
+It's also possible to register with the @@Module@@ decorator:
+
+```typescript
+import {Module} from "@tsed/di";
+import { myContainer } from "./inversify.config";
+
+@Module({
+  resolvers: [
+    {
+      get(token: any) {
+        return myContainer.get(token)
+      }
+    }
+  ]
+})
+export class MyModule {
+
+}
+```
 
 ## Versioning REST API
 
@@ -110,8 +159,8 @@ You have two methods to configure all global endpoints for each directories scan
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
-import Path = require("path");
-const rootDir = Path.resolve(__dirname);
+import {resolve}  from "path";
+const rootDir = resolve(__dirname);
 
 @ServerSettings({
    rootDir,

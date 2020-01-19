@@ -18,7 +18,7 @@ Controllers shall handle HTTP requests and delegate complex tasks to the **provi
 
 The providers are plain javascript class and use one of these decorators on top of them. Here the list:
 
-<ApiList query="['Injectable', 'Service', 'Controller', 'Interceptor', 'Converters', 'Middleware', 'MiddlewareError', 'Filter'].indexOf(symbolName) > -1" />
+<ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'Converter', 'Middleware', 'Filter', 'Protocol'].indexOf(symbolName) > -1" />
 
 ## Services
 
@@ -27,10 +27,10 @@ Let's start by creating a simple CalendarService provider.
 <<< @/docs/docs/snippets/providers/getting-started-service.ts
 
 ::: tip Note
-@@Service@@ and @@Injectable@@ as the same effect. `@Injectable` accept options, `@Service` not.
+@@Service@@ and @@Injectable@@ as the same effect. @@Injectable@@ accept options, @@Service@@ not.
 A Service is always configured as `singleton`.
 
-Example with `@Injectable`
+Example with @@Injectable@:
 
 <<< @/docs/docs/snippets/providers/getting-started-injectable.ts
 
@@ -63,7 +63,7 @@ You can read more about these techniques [here](/docs/injection-scopes.md).
 
 ## Binding configuration
 
-All configuration set in @@ServerLoader@@ or with @@ServerSettingsServive@@ can be retrieved with 
+All configuration set with @@ServerSettings@@, @@Module@@ or @@Configuration@@ can be retrieved with 
 @@Constant@@ and @@Value@@ decorators. Theses decorators can be used with:
  
  - [Service](/docs/services.md),
