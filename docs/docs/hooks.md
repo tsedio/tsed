@@ -11,11 +11,9 @@ This schemes resume the order of hooks regarding to ServerLoader and Providers:
 
 <figure><img src="./../assets/hooks-in-sequence.png" style="max-height: 500px; padding: 20px"></figure>
 
-[Open in fullscreen](/assets/img/hooks-in-sequence.png)
-
 ### Examples
 
-Hooks can be used on ServerLoader or on your Provider:
+Hooks can be used on @@ServerLoader@@:
 ```typescript
 import {ServerLoader} from "@tsed/common";
 
@@ -26,11 +24,13 @@ class Server extends ServerLoader implements BeforeInit {
 }
 ```
 
-```typescript
-import {Injectable, BeforeInit} from "@tsed/common";
+or on your @@Module@@ or @@Service@@:
 
-@Injectable()
-export class MyService implements BeforeInit  {
+```typescript
+import {Module, BeforeInit} from "@tsed/common";
+
+@Module()
+export class MyModule implements BeforeInit  {
   async $beforeInit(): Promise<any>  {
     
   }

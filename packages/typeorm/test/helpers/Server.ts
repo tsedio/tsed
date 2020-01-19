@@ -1,6 +1,6 @@
 import {ServerLoader, ServerSettings} from "@tsed/common";
 import * as Path from "path";
-import "../../src/TypeORMModule";
+import "../../src";
 import "./connections/ConnectionProvider";
 
 const cookieParser = require("cookie-parser"),

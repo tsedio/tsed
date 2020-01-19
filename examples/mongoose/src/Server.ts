@@ -9,7 +9,7 @@ import * as methodOverride from "method-override";
 @ServerSettings({
   rootDir: __dirname,
   acceptMimes: ["application/json"],
-  port: process.env.POST || 8000,
+  port: process.env.PORT || 8000,
   httpsPort: false,
   passport: {},
   mongoose: {

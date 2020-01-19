@@ -1,8 +1,10 @@
 import {TestContext} from "@tsed/testing";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {getCustomRepository} from "typeorm";
 import {User} from "./helpers/entity/User";
 import {UserRepository} from "./helpers/repository/UserRepository";
 import {Server} from "./helpers/Server";
+import {UserService} from "./helpers/services/UserService";
 
 describe("TypeORM integration", () => {
   beforeEach(async () => {
@@ -27,8 +29,9 @@ describe("TypeORM integration", () => {
   afterEach(TestMongooseContext.reset);
 
   it("should return repository", () => {
-    const repo: any = TestContext.injector.get(UserRepository)!;
+    const service = TestContext.injector.get<UserService>(UserService)!;
 
-    repo.should.instanceOf(UserRepository);
+    service.should.instanceOf(UserService);
+    service.repository.should.instanceOf(UserRepository);
   });
 });
