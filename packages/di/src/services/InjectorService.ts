@@ -186,6 +186,7 @@ export class InjectorService extends Container {
       instance = locals.get(token);
     } else if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
+      this.getProvider(token)!.instance = instance;
     } else {
       switch (this.scopeOf(provider)) {
         case ProviderScope.SINGLETON:
