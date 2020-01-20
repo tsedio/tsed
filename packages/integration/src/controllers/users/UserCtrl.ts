@@ -1,7 +1,8 @@
 import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Required, Scope, Session, Status} from "@tsed/common";
+import {Returns} from "@tsed/swagger/src/decorators/returns";
 import {MultipartFile} from "../../../../../packages/multipartfiles/src";
 import {Docs, Hidden} from "../../../../../packages/swagger/src";
-import {IUser, User} from "../../models/User";
+import {IUser, User, UserCreation} from "../../models/User";
 import {UserService} from "../../services/UserService";
 
 @Controller("/user")
@@ -26,8 +27,9 @@ export class UserCtrl {
 
   @Post("/")
   @Status(201)
-  async createUser(@BodyParams() userData: User) {
-    return await this.userService.create(userData);
+  @Returns(User)
+  async createUser(@BodyParams() userData: UserCreation) {
+    return this.userService.create(userData);
   }
 
   @Get("/:user")

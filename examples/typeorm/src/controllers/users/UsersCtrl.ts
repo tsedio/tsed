@@ -1,6 +1,7 @@
 import {BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
-import {ReturnsArray} from "@tsed/swagger";
+import {Returns, ReturnsArray} from "@tsed/swagger";
 import {User} from "../../entities/User";
+import {UserCreation} from "../../models/UserCreation";
 import {UserRepository} from "../../repositories/UserRepository";
 
 @Controller("/users")
@@ -9,12 +10,14 @@ export class UsersCtrl {
   }
 
   @Post("/")
-  create(@BodyParams() user: User): Promise<User> {
+  @Returns(User)
+  create(@BodyParams() user: UserCreation): Promise<User> {
     return this.userRepository.save(user);
   }
 
   @Get("/:id")
-  async get(@PathParams() id: string): Promise<User> {
+  @Returns(User)
+  async get(@PathParams('id') id: string): Promise<User> {
     return this.userRepository.findByID(id);
   }
 

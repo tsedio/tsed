@@ -71,11 +71,6 @@ export class ConverterService {
         return obj.serialize(options, this);
       }
 
-      // TODO revert change which break current projects
-      // if (options.type && !isPrimitiveOrPrimitiveClass(options.type)) {
-      //  return this.serializeClass(obj, options);
-      // }
-
       if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
         // deserialize from serialize method
         return obj.toJSON();
@@ -114,9 +109,8 @@ export class ConverterService {
         propertyMetadata = propertyMetadata || ({} as any);
 
         propertyValue = this.serialize(propertyValue, {
-          checkRequiredValue // ,
-          // TODO revert change
-          // type: propertyMetadata!.type
+          checkRequiredValue,
+          type: propertyMetadata!.type
         });
 
         if (typeof propertyMetadata!.onSerialize === "function") {

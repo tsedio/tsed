@@ -1,5 +1,5 @@
-import {mapReturnedResponse} from "@tsed/common";
-import {Store, StoreFn, Type} from "@tsed/core";
+import {mapReturnedResponse, ReturnType} from "@tsed/common";
+import {applyDecorators, Store, StoreFn, Type} from "@tsed/core";
 import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
 
 /**
@@ -103,15 +103,18 @@ export function Returns(...args: any[]) {
     options.type = type;
   }
 
-  return StoreFn((store: Store) => {
-    const response = mapReturnedResponse(options);
+  return applyDecorators(
+    type && ReturnType(type),
+    StoreFn((store: Store) => {
+      const response = mapReturnedResponse(options);
 
-    if (code !== undefined) {
-      store.merge("responses", {
-        [code]: response
-      });
-    } else {
-      store.merge("response", response);
-    }
-  });
+      if (code !== undefined) {
+        store.merge("responses", {
+          [code]: response
+        });
+      } else {
+        store.merge("response", response);
+      }
+    })
+  );
 }

@@ -140,13 +140,13 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tsed/common@5.38.0":
-  version "5.38.0"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.38.0.tgz#f601b334bf40de2b0f2513770061840ee81e8b6b"
-  integrity sha512-nh/5GKgkmoJ91l3DUxO9c4oz5GBI8nfqzpQCEzLeGN+1/RTFlUnA6QgnhFD9NuUr8D+YJOkpV4BXxkYJlQ5eXQ==
+"@tsed/common@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.39.0.tgz#c053f035fb6a620ea6ad56576528e85850f87730"
+  integrity sha512-WdBObtoZRdWl8QdDoYlD8uHMAu8rqWSz5LETiWlc5UWATfTuP82YKck8EZnc9upYgNRocdyCkvEKQGUYI6EK5g==
   dependencies:
-    "@tsed/core" "5.38.0"
-    "@tsed/di" "5.38.0"
+    "@tsed/core" "5.39.0"
+    "@tsed/di" "5.39.0"
     "@types/json-schema" "^7.0.3"
     globby "10.0.1"
     json-schema "^0.2.3"
@@ -157,50 +157,60 @@
     tslib "1.10.0"
     uuid "3.3.3"
 
-"@tsed/core@5.38.0":
-  version "5.38.0"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.38.0.tgz#efb1929c72400956c5ba0a08db75ff131d7d9ee4"
-  integrity sha512-ZclO+443EPcjzeE0CBXNONBL0dqaBgZOwcqK2nOacsL+3POeB6A2OgvX1n4tFnXWL8Sl7EWKp1IjYUlsR+KQeA==
+"@tsed/core@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.39.0.tgz#f0acf9d45542aa0c2624cb24e5b6e3ccad022b31"
+  integrity sha512-GpdDp+qdX6uT86ch0wn8DTR5RzOR8yajbUbEPXulX19C/+aVJZJwj4QLd++g8lajSiujtO8HpnnMa78/6yZz5Q==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "0.5.16"
     tslib "1.10.0"
 
-"@tsed/di@5.38.0":
-  version "5.38.0"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.38.0.tgz#0d990c894a01588ee72877d971ff8c8c8a8abe83"
-  integrity sha512-oGWRB29sI1h9pocYKPfH+aSWaHCv6ZxXTtto1e72jNBiuB9YBp1rQk2QtWkhlnybTEfWjDsWZQMvKqZOOFUBXw==
+"@tsed/di@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.39.0.tgz#2142ca4851a8933906100a2ccb6daf114fb0482b"
+  integrity sha512-iDFkBzz03WZlUvg8wcEU72+hGDuLm08RcZxyBEGk7DykKL4oqjN4FnyTC20rU0UvVn3wYzTTeY37Rv+nL3OGuA==
   dependencies:
-    "@tsed/core" "5.38.0"
+    "@tsed/core" "5.39.0"
     tslib "1.10.0"
 
-"@tsed/swagger@5.38.0":
-  version "5.38.0"
-  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.38.0.tgz#08bf7a49c3f745efe54aa325548551cc271d56d4"
-  integrity sha512-5c9mkxGDDGUq+BYWKLFJcJXzw/ryExVIb205orKMP19VLTC1NGsUwC0dPGN0GHyqMepgVNNtfYvzQT60aI179Q==
+"@tsed/passport@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/passport/-/passport-5.39.0.tgz#f5d5a9f29a403bfd41b5022fb1b06b8d7cb1982f"
+  integrity sha512-dNibT+ZmZB6ADXp2RABJoKp35OmbHgHN5lF1432mQG/k1BGym4lAmJ6IaMQw6kqko0XfUmZX3p2ITlGSS3+Wig==
   dependencies:
-    "@tsed/common" "5.38.0"
+    "@tsed/common" "5.39.0"
+    "@tsed/core" "5.39.0"
+    "@tsed/di" "5.39.0"
+    tslib "1.10.0"
+
+"@tsed/swagger@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.39.0.tgz#c268b63a682846d62aa0ecf7fda1c6eb94f60c4a"
+  integrity sha512-J1RTMexJEP7gF5iOQnRuJRgK3R0u/aPZqQrt3UDfvLXBd6MAcRNCs3rXstCUs++4yVpn3BQSb7pRKa0bTMZsIg==
+  dependencies:
+    "@tsed/common" "5.39.0"
     ejs "2.7.3"
     swagger-ui-dist "3.24.3"
     tslib "1.10.0"
 
-"@tsed/testing@5.38.0":
-  version "5.38.0"
-  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.38.0.tgz#9a76a489e09b927914d87a7aeab6cb5bde7ce968"
-  integrity sha512-A1BzQv22jSG7mbyHjnLy/qcimK8oPCJYl5CIEypgvROoMp7MTukYo18KCNilZje81bKCF4v4Mdv12SYXyUTrFw==
+"@tsed/testing@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/testing/-/testing-5.39.0.tgz#a219d6cc3bf3df0a5488d5d8897b9e86a0cd94f8"
+  integrity sha512-EWckvag8bMhyrVEZxY9Nu0aatKERCVGjOH1SV3Bo9y4oy2ecVaz4ZwfMrsnQcoKZyTTwUXtVY7pHv5B9eB/lxA==
   dependencies:
-    "@tsed/common" "5.38.0"
+    "@tsed/common" "5.39.0"
     tslib "1.10.0"
 
-"@tsed/typeorm@5.38.0":
-  version "5.38.0"
-  resolved "https://registry.yarnpkg.com/@tsed/typeorm/-/typeorm-5.38.0.tgz#325573af84a40134e95aa7c4297d147f4293217d"
-  integrity sha512-hzKlU+e82WCLBxEnh/d5zPAlnloLxHeXfDyiyNJJkcfNsDkPpRVtmwt5PqezJesTYr09ZDCSiDCFR/rtuSvcMw==
+"@tsed/typeorm@5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@tsed/typeorm/-/typeorm-5.39.0.tgz#3e8d13b5a315aca6c12b77adc3329d962ba20de9"
+  integrity sha512-M+/5eoNYfHmhUAMyyQsIYSfH5EnkWoEdgBSes6NAYI8svQQQt7hT8X5xgfxxCoGBzISvrvZp0wjtlYP0+wNiZw==
   dependencies:
-    "@tsed/common" "5.38.0"
-    "@tsed/core" "5.38.0"
+    "@tsed/common" "5.39.0"
+    "@tsed/core" "5.39.0"
     tslib "1.10.0"
-    typeorm "0.2.20"
+    typeorm "^0.2.22"
 
 "@types/bluebird@*":
   version "3.5.27"
@@ -323,6 +333,38 @@
   version "12.12.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.9.tgz#0b5ae05516b757cbff2e82c04500190aef986c7b"
   integrity sha512-kV3w4KeLsRBW+O2rKhktBwENNJuqAUQHS3kf4ia2wIaF/MN6U7ANgTsx7tGremcA0Pk3Yh0Hl0iKiLPuBdIgmw==
+
+"@types/passport-http@0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@types/passport-http/-/passport-http-0.3.8.tgz#e6f58eebbc22a9c92b9a5b9ec45419d3714c8d3f"
+  integrity sha512-PRjqOljk7pkOqXNTEL0SWS1wTxwuMGPkAjLJjg4wKpH2NPdSo0Z1rGndawMbqbB4/WaR6odwO3G8XEmR2FBk4g==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
+"@types/passport-local@^1.0.33":
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/@types/passport-local/-/passport-local-1.0.33.tgz#d245b60c5b801cb3aeca1ffab557d5fe1534260d"
+  integrity sha512-+rn6ZIxje0jZ2+DAiWFI8vGG7ZFKB0hXx2cUdMmudSWsigSq6ES7Emso46r4HJk0qCgrZVfI8sJiM7HIYf4SbA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+    "@types/passport-strategy" "*"
+
+"@types/passport-strategy@*":
+  version "0.2.35"
+  resolved "https://registry.yarnpkg.com/@types/passport-strategy/-/passport-strategy-0.2.35.tgz#e52f5212279ea73f02d9b06af67efe9cefce2d0c"
+  integrity sha512-o5D19Jy2XPFoX2rKApykY15et3Apgax00RRLf0RUotPDUsYrQa7x4howLYr9El2mlUApHmCMv5CZ1IXqKFQ2+g==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
+"@types/passport@*", "@types/passport@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/passport/-/passport-1.0.2.tgz#f085033e2b301b1f97d4b57bfa73d8e934650c63"
+  integrity sha512-Pf39AYKf8q+YoONym3150cEwfUD66dtwHJWvbeOzKxnA0GZZ/vAXhNWv9vMhKyRQBQZiQyWQnhYBEBlKW6G8wg==
+  dependencies:
+    "@types/express" "*"
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -458,11 +500,6 @@ anymatch@^2.0.0:
   dependencies:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
-
-app-root-path@^2.0.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/app-root-path/-/app-root-path-2.2.1.tgz#d0df4a682ee408273583d43f6f79e9892624bc9a"
-  integrity sha512-91IFKeKk7FjfmezPKkwtaRvSpnUc4gDwPAjA1YZ9Gn0q0PPeW+vbeUsZuyDwjI7+QTHhcLen2v25fi/AmhvbJA==
 
 app-root-path@^3.0.0:
   version "3.0.0"
@@ -2900,6 +2937,33 @@ pascalcase@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
 
+passport-http@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/passport-http/-/passport-http-0.3.0.tgz#8ee53d4380be9c60df2151925029826f77115603"
+  integrity sha1-juU9Q4C+nGDfIVGSUCmCb3cRVgM=
+  dependencies:
+    passport-strategy "1.x.x"
+
+passport-local@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
+  integrity sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4=
+  dependencies:
+    passport-strategy "1.x.x"
+
+passport-strategy@1.x.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
+  integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
+
+passport@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.4.1.tgz#941446a21cb92fc688d97a0861c38ce9f738f270"
+  integrity sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==
+  dependencies:
+    passport-strategy "1.x.x"
+    pause "0.0.1"
+
 path-dirname@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/path-dirname/-/path-dirname-1.0.2.tgz#cc33d24d525e099a5388c0336c6e32b9160609e0"
@@ -2959,6 +3023,11 @@ path-type@^4.0.0:
 pathval@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.0.tgz#b942e6d4bde653005ef6b71361def8727d0645e0"
+
+pause@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/pause/-/pause-0.0.1.tgz#1d408b3fdb76923b9543d96fb4c9dfd535d9cb5d"
+  integrity sha1-HUCLP9t2kjuVQ9lvtMnf1TXZy10=
 
 pg-connection-string@0.1.3:
   version "0.1.3"
@@ -3925,27 +3994,7 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typeorm@0.2.20:
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.20.tgz#efb60f2e55a7d08fc365f281ec2a71c87a9ebba5"
-  integrity sha512-VxB+9qH8D+PM19MIx18Zs3Fqv/ZINnnQvUGmBEiLYDrB9etdSdamgSTCIhWdFNndeJ6ldH4jbD0Z6HWsepMPlA==
-  dependencies:
-    app-root-path "^2.0.1"
-    buffer "^5.1.0"
-    chalk "^2.4.2"
-    cli-highlight "^2.0.0"
-    debug "^4.1.1"
-    dotenv "^6.2.0"
-    glob "^7.1.2"
-    js-yaml "^3.13.1"
-    mkdirp "^0.5.1"
-    reflect-metadata "^0.1.13"
-    tslib "^1.9.0"
-    xml2js "^0.4.17"
-    yargonaut "^1.1.2"
-    yargs "^13.2.1"
-
-typeorm@0.2.22:
+typeorm@0.2.22, typeorm@^0.2.22:
   version "0.2.22"
   resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.22.tgz#e85166e29ee4e4248ed73b2b8c977f364ffba606"
   integrity sha512-mDEnMtzRwX4zMYbyzM9xDn7jvGs8hfQ2ymOBq36Zxq1RVM642numwlRbr4W8dU7ZYx8CQUE9rmk+sU0baHD9Rw==

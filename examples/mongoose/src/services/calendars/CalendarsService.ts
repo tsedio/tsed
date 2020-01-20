@@ -49,7 +49,7 @@ export class CalendarsService {
 
     const model = new this.Calendar(calendar);
     $log.debug({message: "Save calendar", calendar});
-    await model.save();
+    await model.update(calendar, {upsert: true});
 
     $log.debug({message: "Calendar saved", model});
 

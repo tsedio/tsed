@@ -1,6 +1,6 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {ConverterService} from "../../converters";
-import {Middleware, Res, ResponseData} from "../decorators";
+import {Middleware, Req, Res} from "../decorators";
 import {IMiddleware} from "../interfaces/index";
 
 /**
@@ -11,7 +11,8 @@ import {IMiddleware} from "../interfaces/index";
 export class SendResponseMiddleware implements IMiddleware {
   constructor(protected converterService: ConverterService) {}
 
-  public use(@ResponseData() data: any, @Res() response: Res) {
+  public use(@Req() req: Req, @Res() response: Res) {
+    const {data, endpoint} = req.ctx;
     if (data === undefined) {
       return response.send();
     }
@@ -26,6 +27,6 @@ export class SendResponseMiddleware implements IMiddleware {
       return response.send(data);
     }
 
-    return response.json(this.converterService.serialize(data));
+    return response.json(this.converterService.serialize(data, {type: endpoint.type}));
   }
 }

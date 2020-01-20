@@ -84,7 +84,7 @@ export function decorateMethodsOf(klass: any, decorator: any) {
 export function applyDecorators(...decorators: any | Function[]): Function {
   return (...args: DecoratorParameters) => {
     decorators
-      // .filter((o: any) => !!o)
+      .filter((o: any) => !!o)
       .forEach((decorator: Function) => {
         decorator(...args);
       });

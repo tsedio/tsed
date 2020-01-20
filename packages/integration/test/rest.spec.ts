@@ -287,46 +287,39 @@ describe("Rest", () => {
     });
 
     describe("POST /rest/user/", () => {
-      it("should allow creation", done => {
-        request
+      it("should allow creation", async () => {
+        const response = await request
           .post(`/rest/user/`)
           .send({name: "test", email: null, password: null, role_item: "test"})
-          .expect(201)
-          .end((err: any, response: any) => {
-            if (err) {
-              return done(err);
-            }
-            expect(JSON.parse(response.text)).to.deep.eq({
-              name: "test",
-              email: null,
-              password: null
-            });
-            done();
-          });
+          .expect(201);
+
+        expect(response.body).to.deep.eq({
+          name: "test",
+          email: null
+        });
       });
 
-      it("should return an error when email is empty", done => {
-        request
+      it("should return an error when email is empty", async () => {
+        const response = await request
           .post(`/rest/user/`)
-          .send({name: "test", email: "", password: null})
-          .expect(400)
-          .end((err: any, response: any) => {
-            expect(JSON.parse(response.headers.errors)).to.deep.eq([
-              {
-                dataPath: ".email",
-                keyword: "format",
-                message: "should match format \"email\"",
-                modelName: "User",
-                params: {
-                  format: "email"
-                },
-                schemaPath: "#/properties/email/format"
-              }
-            ]);
+          .send({name: "test", email: ""})
+          .expect(400);
 
-            expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At User.email should match format \"email\"");
-            done();
-          });
+        // @ts-ignore
+        expect(JSON.parse(response.headers.errors)).to.deep.eq([
+          {
+            dataPath: ".email",
+            keyword: "format",
+            message: "should match format \"email\"",
+            modelName: "UserCreation",
+            params: {
+              format: "email"
+            },
+            schemaPath: "#/properties/email/format"
+          }
+        ]);
+
+        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At UserCreation.email should match format \"email\"");
       });
 
       it("should return an error when password is empty", async () => {
@@ -342,7 +335,7 @@ describe("Rest", () => {
         ]);
 
         expect(response.text).to.eq(
-          "Bad request on parameter \"request.body\".<br />At User.password should NOT be shorter than 6 characters"
+          "Bad request on parameter \"request.body\".<br />At UserCreation.password should NOT be shorter than 6 characters"
         );
 
         expect(JSON.parse(response.headers.errors)).to.deep.eq([
@@ -352,20 +345,18 @@ describe("Rest", () => {
             schemaPath: "#/properties/password/minLength",
             params: {limit: 6},
             message: "should NOT be shorter than 6 characters",
-            modelName: "User"
+            modelName: "UserCreation"
           }
         ]);
       });
 
-      it("should allow creation with data", done => {
-        request
+      it("should allow creation with data", async () => {
+        const response = await request
           .post(`/rest/user/`)
           .send({name: "test", email: "test@test.fr", password: "test1267"})
-          .expect(400)
-          .end((err: any, response: any) => {
-            expect(JSON.parse(response.text)).to.deep.eq({name: "test", email: "test@test.fr", password: "test1267"});
-            done();
-          });
+          .expect(201);
+
+        expect(JSON.parse(response.text)).to.deep.eq({name: "test", email: "test@test.fr"});
       });
     });
 

@@ -1,6 +1,6 @@
 import {Inject, Scope, Service} from "@tsed/common";
 import {MongooseModel} from "../../../../packages/mongoose/src/interfaces";
-import {User} from "../models/User";
+import {User, UserCreation} from "../models/User";
 
 @Service()
 @Scope("request")
@@ -9,7 +9,7 @@ export class UserService {
 
   public constructor(@Inject(User) private userModel: MongooseModel<User>) {}
 
-  create(userData: User) {
+  create(userData: UserCreation) {
     const user = new this.userModel(userData);
     const error = user.validateSync();
 

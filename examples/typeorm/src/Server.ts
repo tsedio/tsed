@@ -1,15 +1,53 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {
+  ConverterService,
+  EndpointInfo,
+  GlobalAcceptMimesMiddleware,
+  IMiddleware,
+  OverrideProvider,
+  Res,
+  ResponseData,
+  SendResponseMiddleware,
+  ServerLoader,
+  ServerSettings
+} from "@tsed/common";
+import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import "@tsed/passport";
 import "@tsed/swagger";
 import "@tsed/typeorm";
-
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as session from "express-session";
 import * as methodOverride from "method-override";
+import {User} from "./entities/User";
 
 const rootDir = __dirname;
+
+@OverrideProvider(SendResponseMiddleware)
+class CSendResponseMiddleware implements IMiddleware {
+  constructor(protected converterService: ConverterService) {
+  }
+
+  public use(@ResponseData() data: any, @Res() response: Res, @EndpointInfo() endpoint: EndpointInfo) {
+    if (data === undefined) {
+      return response.send();
+    }
+
+    if (isStream(data)) {
+      data.pipe(response);
+
+      return response;
+    }
+
+    if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
+      return response.send(data);
+    }
+
+    return response.json(this.converterService.serialize(data));
+  }
+}
+
 
 @ServerSettings({
   rootDir,
@@ -17,12 +55,18 @@ const rootDir = __dirname;
   httpsPort: false,
   acceptMimes: ["application/json"],
   mount: {
-    "/v1": `${rootDir}/controllers/**/**Ctrl.{ts,js}`
+    "/v1": [
+      `${rootDir}/controllers/**/**Ctrl.{ts,js}`
+    ]
   },
   componentsScan: [
     `${rootDir}/services/*{.ts,.js}`,
-    `${rootDir}/repositories/*{.ts,.js}`
+    `${rootDir}/repositories/*{.ts,.js}`,
+    `${rootDir}/protocols/*{.ts,.js}`
   ],
+  passport: {
+    userInfoModel: User
+  },
   typeorm: [
     {
       name: "default",
@@ -46,7 +90,14 @@ const rootDir = __dirname;
     }
   ],
   swagger: {
-    path: "/api-docs"
+    path: "/api-docs",
+    spec: {
+      securityDefinitions: {
+        "auth:basic": {
+          type: "basic"
+        }
+      }
+    }
   }
 })
 export class Server extends ServerLoader {

@@ -12,6 +12,7 @@ export * from "./method/status";
 export * from "./method/authenticated";
 export * from "./method/authOptions";
 export * from "./method/contentType";
+export * from "./method/returnType";
 
 // Shared
 export * from "./method/header";

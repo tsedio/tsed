@@ -67,7 +67,7 @@ export class FakeRequest {
 
   [key: string]: any;
 
-  constructor({logger, sandbox = Sinon}: any = {}) {
+  constructor({logger, data, endpoint, sandbox = Sinon}: any = {}) {
     logger = logger || {
       debug: sandbox.stub(),
       info: sandbox.stub(),
@@ -82,6 +82,8 @@ export class FakeRequest {
       url: "url",
       logger
     });
+    this.ctx.data = data;
+    this.ctx.endpoint = endpoint;
 
     this.log = logger;
 
