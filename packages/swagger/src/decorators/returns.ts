@@ -1,4 +1,4 @@
-import {mapReturnedResponse, ReturnType} from "@tsed/common";
+import {mapReturnedResponse, ReturnType, Status} from "@tsed/common";
 import {applyDecorators, Store, StoreFn, Type} from "@tsed/core";
 import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
 
@@ -104,7 +104,8 @@ export function Returns(...args: any[]) {
   }
 
   return applyDecorators(
-    type && ReturnType(type),
+    200 < code && code < 300 && Status(code),
+    type && (!code || 200 <= code && code < 300) && ReturnType(type),
     StoreFn((store: Store) => {
       const response = mapReturnedResponse(options);
 
