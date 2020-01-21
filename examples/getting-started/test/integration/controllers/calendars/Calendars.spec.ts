@@ -31,4 +31,12 @@ describe("Calendars", () => {
         ]);
     });
   });
+
+  describe("PUT /rest/calendars", () => {
+    it("should return a response with 201", async () => {
+      const response = await request.put("/rest/calendars").send({name: "Test"}).expect(201);
+
+      expect(response.body).to.be.an("object");
+    });
+  });
 });

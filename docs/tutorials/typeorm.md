@@ -79,6 +79,10 @@ We can use this model with a Controller like that:
 TypeORM provide EntityRepository to manipulate an Entity. TsED provide a decorator to declare @@EntityRepository@@
 for both TypeORM and TsED. This decorator is useful if you have to inject the repository to another TsED service, controller or provider.
 
+::: tip 
+Since v5.39.1, isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve injected repository to another class annotated by @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
+:::
+
 Here a quick example:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-entity-repository.ts
