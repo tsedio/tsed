@@ -598,11 +598,11 @@ describe("InjectorService", () => {
       Store.from(TestBind).set("injectableProperties", injectableProperties);
 
       // WHEN
-      injector.bindInjectableProperties(instance);
+      injector.bindInjectableProperties(instance, new Map(), {});
 
       // THEN
       injector.bindMethod.should.have.been.calledWithExactly(instance, injectableProperties.testMethod);
-      injector.bindProperty.should.have.been.calledWithExactly(instance, injectableProperties.testProp);
+      injector.bindProperty.should.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
       injector.bindConstant.should.have.been.calledWithExactly(instance, injectableProperties.testConst);
       injector.bindValue.should.have.been.calledWithExactly(instance, injectableProperties.testValue);
       injector.bindInterceptor.should.have.been.calledWithExactly(instance, injectableProperties.testInterceptor);
@@ -644,7 +644,7 @@ describe("InjectorService", () => {
       const instance = new Test();
 
       // WHEN
-      injector.bindProperty(instance, {bindingType: "property", propertyKey: "prop", useType: InjectorService} as any);
+      injector.bindProperty(instance, {bindingType: "property", propertyKey: "prop", useType: InjectorService} as any, new Map(), {});
 
       // THEN
       expect(instance.prop).to.eq(injector);

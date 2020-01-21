@@ -1,13 +1,13 @@
 import {Service} from "@tsed/common";
-import {Calendar} from "../../models/Calendar";
+import {Event} from "../../models/Event";
 import {MemoryCollection} from "../../utils/MemoryCollection";
 
 @Service()
-export class CalendarsService extends MemoryCollection<Calendar> {
+export class CalendarEventsService extends MemoryCollection<Event> {
   constructor() {
-    super(Calendar);
+    super(Event);
 
-    require("../../../resources/calendars.json")
+    require("../../../resources/events.json")
       .map((obj) => {
         return this.create(obj);
       });
@@ -18,7 +18,7 @@ export class CalendarsService extends MemoryCollection<Calendar> {
    * @param id
    * @returns {undefined|Calendar}
    */
-  async findById(id: string): Promise<Calendar> {
+  async findById(id: string): Promise<Event> {
     return this.findById(id);
   }
 }

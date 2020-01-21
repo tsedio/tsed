@@ -26,6 +26,12 @@ const rootDir = __dirname;
       `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
     ]
   },
+  componentsScan: [
+    "${rootDir}/mvc/**/*.ts",
+    "${rootDir}/services/**/*.ts",
+    "${rootDir}/middlewares/**/*.ts",
+    "${rootDir}/converters/**/*.ts"
+  ],
   swagger: [
     {
       path: "/api-docs"
@@ -36,13 +42,7 @@ const rootDir = __dirname;
   },
   statics: {
     "/statics": join(__dirname, "..", "statics")
-  },
-  componentsScan: [
-    "${rootDir}/mvc/**/*.ts",
-    "${rootDir}/services/**/*.ts",
-    "${rootDir}/middlewares/**/*.ts",
-    "${rootDir}/converters/**/*.ts"
-  ]
+  }
 })
 export class Server extends ServerLoader {
   constructor(settings) {

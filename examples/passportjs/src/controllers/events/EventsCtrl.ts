@@ -4,38 +4,47 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   MergeParams,
   PathParams,
   Post,
   Put,
   Required,
-  Status
+  Status,
+  UseBefore
 } from "@tsed/common";
+import {Responses, Returns} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
-import {Event} from "../../interfaces/Event";
-import {Task} from "../../interfaces/Task";
+import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
+import {Event} from "../../models/Event";
+import {Task} from "../../models/Task";
+import {CalendarEventsService} from "../../services/events/CalendarEventsService";
 
 
 @Controller("/:calendarId/events")
 @MergeParams(true)
+@UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
-  private AUTO_INC = 5;
-  private events: Event[] = require("../../../resources/events.json");
+  @Inject(CalendarEventsService)
+  calendarEventsService: CalendarEventsService;
 
   /**
    *
    * @returns {null}
    */
   @Get("/:id")
+  @Returns(Event)
+  @Responses(404, {description: "Event not found"})
   async get(@Required() @PathParams("calendarId") calendarId: string,
             @PathParams("id") id: string): Promise<Event> {
-    const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
 
-    if (event) {
-      return event;
+    const event = this.calendarEventsService.findById(id);
+
+    if (!event) {
+      throw new NotFound("Event not found");
     }
 
-    throw new NotFound("event not found");
+    return event;
   }
 
   /**
@@ -45,13 +54,9 @@ export class EventsCtrl {
   @Get("/:id/tasks")
   async getTasks(@Required() @PathParams("calendarId") calendarId: string,
                  @PathParams("id") id: string): Promise<Task[]> {
-    const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
+    const event = await this.get(calendarId, id);
 
-    if (event) {
-      return event.tasks || [];
-    }
-
-    throw new NotFound("event not found");
+    return event.tasks;
   }
 
   /**
@@ -59,18 +64,14 @@ export class EventsCtrl {
    * @returns {null}
    */
   @Put("/")
+  @Returns(Event)
   async save(@Required() @PathParams("calendarId") calendarId: string,
              @BodyParams("startDate") startDate: string,
              @BodyParams("endDate") endDate: string,
              @BodyParams("name") name: string): Promise<Event> {
 
 
-    this.AUTO_INC++;
-
-    const event: Event = {id: "" + this.AUTO_INC, calendarId, startDate, endDate, name};
-    this.events.push(event);
-
-    return event;
+    return this.calendarEventsService.create({calendarId, startDate, endDate, name});
   }
 
   /**
@@ -84,11 +85,7 @@ export class EventsCtrl {
                @BodyParams("endDate") endDate: string,
                @BodyParams("name") name: string): Promise<Event> {
 
-    const event = await this.get(calendarId, id);
-    event.name = name;
-    event.startDate = name;
-    event.endDate = name;
-    return event;
+    return this.calendarEventsService.update({_id: id, calendarId, startDate, endDate, name});
   }
 
   /**
@@ -99,6 +96,8 @@ export class EventsCtrl {
   @Status(204)
   async remove(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string): Promise<Event> {
+
+    this.calendarEventsService.remove
 
     this.events = this.events.filter(event => event.id === id && event.calendarId === calendarId);
     return null;

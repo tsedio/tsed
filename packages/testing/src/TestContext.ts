@@ -115,7 +115,7 @@ export class TestContext {
     };
   }
 
-  static invoke(target: TokenProvider, providers: {provide: any | symbol; use: any}[]): any | Promise<any> {
+  static invoke<T = any>(target: TokenProvider, providers: {provide: any | symbol; use: any}[]): T | Promise<any> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
       locals.set(p.provide, p.use);
@@ -131,6 +131,6 @@ export class TestContext {
       }
     }
 
-    return instance;
+    return instance as any;
   }
 }

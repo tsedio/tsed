@@ -2,7 +2,7 @@ import {BodyParams, Req} from "@tsed/common";
 import {OnInstall, OnVerify, Protocol} from "@tsed/passport";
 import {Strategy} from "passport";
 import {BasicStrategy} from "passport-http";
-import {UserRepository} from "../repositories/UserRepository";
+import {UsersService} from "../services/users/UsersService";
 import {checkEmail} from "../utils/checkEmail";
 
 @Protocol({
@@ -12,13 +12,13 @@ import {checkEmail} from "../utils/checkEmail";
   settings: {}
 })
 export class BasicProtocol implements OnVerify, OnInstall {
-  constructor(private userRepository: UserRepository) {
+  constructor(private usersService: UsersService) {
   }
 
   async $onVerify(@Req() request: Req, @BodyParams("username") username: string, @BodyParams("password") password: string) {
     checkEmail(username);
 
-    const user = await this.userRepository.findOne({email: username});
+    const user = await this.usersService.findOne({email: username});
 
     if (!user) {
       return false;

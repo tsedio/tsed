@@ -1,5 +1,4 @@
 import {
-  Authenticated,
   BodyParams,
   Controller,
   Delete,
@@ -7,11 +6,13 @@ import {
   PathParams,
   Post,
   Put,
+  QueryParams,
   Required,
   Status
 } from "@tsed/common";
+import {Responses, Returns} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
-import {Calendar} from "../../interfaces/Calendar";
+import {Calendar} from "../../models/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";
 
@@ -31,9 +32,10 @@ export class CalendarCtrl {
   }
 
   @Get("/:id")
+  @Returns(Calendar)
   async get(@Required() @PathParams("id") id: string): Promise<Calendar> {
 
-    const calendar = await this.calendarsService.find(id);
+    const calendar = await this.calendarsService.findById(id);
 
     if (calendar) {
       return calendar;
@@ -43,8 +45,9 @@ export class CalendarCtrl {
   }
 
   @Put("/")
-  save(@BodyParams("name") name: string) {
-    return this.calendarsService.create(name);
+  @Returns(Calendar)
+  save(@BodyParams("name") name: string): Promise<Calendar> {
+    return this.calendarsService.create({name});
   }
 
   /**
@@ -54,9 +57,17 @@ export class CalendarCtrl {
    * @returns {Promise<Calendar>}
    */
   @Post("/:id")
+  @Returns(Calendar)
+  @Responses(404, {description: "Calendar not found"})
   async update(@PathParams("id") @Required() id: string,
                @BodyParams("name") @Required() name: string): Promise<Calendar> {
-    return this.calendarsService.update({id, name});
+    const calendar = this.calendarsService.update({_id: id, name});
+
+    if (!calendar) {
+      throw new NotFound("Calendar not found");
+    }
+
+    return calendar;
   }
 
   /**
@@ -65,15 +76,19 @@ export class CalendarCtrl {
    * @returns {{id: string, name: string}}
    */
   @Delete("/")
-  @Authenticated()
   @Status(204)
+  @Responses(404, {description: "Calendar not found"})
   async remove(@BodyParams("id") @Required() id: string): Promise<void> {
-    this.calendarsService.remove(id);
+    if (!this.calendarsService.removeOne({_id: id})) {
+      throw new NotFound("Calendar not found");
+    }
   }
 
   @Get("/")
-  @Authenticated()
-  async getAllCalendars(): Promise<Calendar[]> {
-    return this.calendarsService.query();
+  async getAllCalendars(
+    @QueryParams("id") id: string,
+    @QueryParams("name") name: string
+  ): Promise<Calendar[]> {
+    return this.calendarsService.findAll({_id: id, name});
   }
 }

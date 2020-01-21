@@ -2,14 +2,13 @@ import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
-import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarCtrl} from "./CalendarCtrl";
 
 describe("CalendarsCtrl", () => {
   describe("without IOC", () => {
     it("should do something", () => {
       // GIVEN
-      const calendarsCtrl = new CalendarCtrl(new CalendarsService(new MemoryStorage()));
+      const calendarsCtrl = new CalendarCtrl(new CalendarsService());
 
       expect(calendarsCtrl).to.be.an.instanceof(CalendarCtrl);
     });
