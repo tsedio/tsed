@@ -5,10 +5,10 @@ import {MemoryCollection} from "../../utils/MemoryCollection";
 @Service()
 export class UsersService extends MemoryCollection<User> {
   constructor() {
-    super(User);
-    require("../../../resources/users.json")
-      .map((user) => {
-        this.create(user);
-      });
+    super(User, require("../../../resources/users.json"));
+  }
+
+  findById(id: string): User {
+    return this.findOne({_id: id});
   }
 }

@@ -4,12 +4,18 @@ meta:
    content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
  - name: keywords
    content: ts.ed express typescript mongoose node.js javascript decorators
+projects:   
+ - title: Kit Mongoose
+   href: https://github.com/TypedProject/tsed-example-mongoose
+   src: /mongoose.png   
 ---
 # Mongoose <Badge text="Contributors are welcome" />
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
 
 This tutorials show you, how you can use mongoose package with Ts.ED. 
+
+<Projects type="examples"/>
 
 ## Feature
 
@@ -193,3 +199,6 @@ This example show you how you can test your Rest API with superagent and a mocke
 This example show you how can test the model:
 
 <<< @/docs/tutorials/snippets/mongoose/testing-model.ts
+
+
+<div class="sharethis-inline-share-buttons"></div>

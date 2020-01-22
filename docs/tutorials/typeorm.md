@@ -4,6 +4,10 @@ meta:
    content: Use TypeORM with Express, TypeScript and Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.
  - name: keywords
    content: ts.ed express typescript typeorm node.js javascript decorators
+projects:   
+ - title: Kit TypeORM
+   href: https://github.com/TypedProject/tsed-example-typeorm
+   src: /typeorm.png
 ---
 # TypeORM <Badge text="Contributors are welcome" />
 
@@ -16,9 +20,7 @@ This tutorial provide two way to create connection:
 
 Additionally, this topic show you how you can use Entity from Typeorm with Ts.ED controller (on bottom of this page).
 
-::: tip
-You can find a working example on [TypeORM here](https://github.com/TypedProject/tsed-example-typeorm).
-:::
+<Projects type="typeorm"/>
 
 ### Feature
 
@@ -90,3 +92,5 @@ Here a quick example:
 Then inject your repository to another service:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-injection-entity-repository.ts
+
+<div class="sharethis-inline-share-buttons"></div>

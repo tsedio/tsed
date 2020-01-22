@@ -21,6 +21,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@tsed/ajv": "5.39.2",
     "@tsed/common": "5.39.2",
     "@tsed/core": "5.39.2",
     "@tsed/di": "5.39.2",

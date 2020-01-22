@@ -3,7 +3,7 @@ import {OnInstall, OnVerify, Protocol} from "@tsed/passport";
 import {Strategy} from "passport-local";
 import {Forbidden} from "ts-httpexceptions";
 import {UserCreation} from "../models/UserCreation";
-import {UsersService} from "../services/users/UsersService";
+import {UserRepository} from "../repositories/UserRepository";
 
 @Protocol({
   name: "signup",
@@ -14,18 +14,18 @@ import {UsersService} from "../services/users/UsersService";
   }
 })
 export class SignupLocalProtocol implements OnVerify, OnInstall {
-  constructor(private usersService: UsersService) {
+  constructor(private userRepository: UserRepository) {
   }
 
   async $onVerify(@Req() request: Req, @BodyParams() user: UserCreation) {
     const {email} = user;
-    const found = await this.usersService.findOne({email});
+    const found = await this.userRepository.findOne({email});
 
     if (found) {
       throw new Forbidden("Email is already registered");
     }
 
-    return this.usersService.create(user);
+    return this.userRepository.create(user);
   }
 
   $onInstall(strategy: Strategy): void {

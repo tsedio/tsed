@@ -5,7 +5,7 @@ meta:
  - name: keywords
    content: ts.ed express typescript mongoose node.js javascript decorators
 ---
-# GraphQL <Badge text="beta" type="warn"/> <Badge text="Contributors are welcome" />
+# GraphQL <Badge text="Contributors are welcome" /> <Badge text="Help wanted" />
 
 <Banner src="https://graphql.org/img/logo.svg" href="https://graphql.org/" height="128" />
 
@@ -97,3 +97,4 @@ Then you can retrieve your data source through the context in your resolver like
 
 <<< @/docs/tutorials/snippets/graphql/resolver-data-source.ts
 
+<div class="sharethis-inline-share-buttons"></div>

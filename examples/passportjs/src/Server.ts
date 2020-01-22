@@ -1,3 +1,4 @@
+import "@tsed/ajv";
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/passport";
 import "@tsed/swagger";

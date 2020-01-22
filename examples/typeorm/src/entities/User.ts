@@ -11,4 +11,8 @@ export class User extends UserCreation {
 
   @IgnoreProperty()
   password: string;
+
+  verifyPassword(password: string) {
+    return this.password === password;
+  }
 }

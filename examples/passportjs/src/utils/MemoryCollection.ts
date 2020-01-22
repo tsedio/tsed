@@ -1,28 +1,42 @@
-import {Type} from "@tsed/core";
+import {deepClone, Type} from "@tsed/core";
 
 export interface MemoryCollectionID {
   _id: string;
 }
 
+function match(obj, predicate) {
+  for (const [k, v] of Object.entries(predicate)) {
+    if (v !== undefined && obj[k] !== v) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function createInstance(model: any, obj: any = {}) {
+  return Object.assign(new model(), deepClone(obj));
+}
+
 export class MemoryCollection<T extends MemoryCollectionID> {
   protected collection: T[] = [];
 
-  constructor(protected model: Type<T>) {
+  constructor(protected model: Type<T>, resources: any[] = []) {
+    resources.forEach((item) => this.create(item));
   }
 
-  public async create(value: Partial<T>) {
+  public create(value: Partial<T>) {
     value._id = require("node-uuid").v4();
 
     const {model, collection} = this;
-    const instance = new model();
-    Object.assign(instance, value);
+    const instance = createInstance(model, value);
 
     collection.push(instance);
 
     return instance;
   }
 
-  public async update(value: Partial<T>): Promise<T | undefined> {
+  public update(value: Partial<T>): T | undefined {
     const index = this.collection.findIndex((obj) => {
       return obj._id === value._id;
     });
@@ -31,50 +45,39 @@ export class MemoryCollection<T extends MemoryCollectionID> {
       return;
     }
 
-    Object.assign(this.collection[index], value);
+    this.collection[index] = Object.assign(
+      createInstance(this.model, this.collection[index]),
+      value
+    );
 
     return this.collection[index];
   }
 
-  public async findOne(predicate: Partial<T>): Promise<T | undefined> {
-    return this.collection
-      .find((obj) => {
-        for (const [k, v] of Object.entries(predicate)) {
-          if (obj[k] !== v) {
-            return false;
-          }
-        }
+  public findOne(predicate: Partial<T>): T | undefined {
+    const item = this.collection.find((obj) => match(obj, predicate));
 
-        return true;
-      });
+    return item ? createInstance(this.model, item) : undefined;
   }
 
-  public async findAll(predicate: Partial<T> = {}): Promise<T[] | undefined> {
+  public findAll(predicate: Partial<T> = {}): T[] {
     return this
       .collection
-      .filter((obj) => {
-        for (const [k, v] of Object.entries(predicate)) {
-          if (v !== undefined && obj[k] !== v) {
-            return false;
-          }
-        }
-
-        return true;
-      });
+      .filter((obj) => match(obj, predicate))
+      .map((obj) => createInstance(this.model, obj));
   }
 
   public removeOne(predicate: Partial<T>): T | undefined {
     let removedItem: T | undefined;
-    this.collection = this.collection.filter((obj) => {
-      for (const [k, v] of Object.entries(predicate)) {
-        if (obj[k] !== v && !removedItem) {
+
+    this.collection = this.collection
+      .filter((obj) => {
+        if (match(obj, predicate) && !removedItem) {
           removedItem = obj;
           return false;
         }
-      }
 
-      return true;
-    });
+        return true;
+      });
 
     return removedItem;
   }
@@ -82,11 +85,9 @@ export class MemoryCollection<T extends MemoryCollectionID> {
   public removeAll(predicate: Partial<T>): T[] {
     let removedItems: T[] = [];
     this.collection = this.collection.filter((obj) => {
-      for (const [k, v] of Object.entries(predicate)) {
-        if (obj[k] !== v) {
-          removedItems.push(obj);
-          return false;
-        }
+      if (match(obj, predicate)) {
+        removedItems.push(obj);
+        return false;
       }
 
       return true;
@@ -96,26 +97,3 @@ export class MemoryCollection<T extends MemoryCollectionID> {
   }
 }
 
-//
-// @Service()
-// export class MemoryStorage {
-//   private collections: Map<string, MemoryCollection<any>> = new Map<string, MemoryCollection<any>>();
-//
-//
-//   /**
-//    * Return the value stored.
-//    * @param collectionName
-//    */
-//   protected get<T>(collectionName: string): MemoryCollection<T> {
-//     return this.collections.get(collectionName);
-//   }
-//
-//   /**
-//    * Serialize value and store it.
-//    * @param collectionName
-//    * @param value
-//    */
-//   protected set<T>(collectionName: string, value: any, model: Type<any>) {
-//     return this.states.set(collectionName, JSON.stringify(value));
-//   }
-// }

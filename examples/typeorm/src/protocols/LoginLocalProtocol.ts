@@ -2,8 +2,7 @@ import {BodyParams, Req} from "@tsed/common";
 import {OnInstall, OnVerify, Protocol} from "@tsed/passport";
 import {IStrategyOptions, Strategy} from "passport-local";
 import {Credentials} from "../models/Credentials";
-import {UsersService} from "../services/users/UsersService";
-
+import {UserRepository} from "../repositories/UserRepository";
 
 @Protocol<IStrategyOptions>({
   name: "login",
@@ -14,13 +13,13 @@ import {UsersService} from "../services/users/UsersService";
   }
 })
 export class LoginLocalProtocol implements OnVerify, OnInstall {
-  constructor(private usersService: UsersService) {
+  constructor(private userRepository: UserRepository) {
   }
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
     const {email, password} = credentials;
 
-    const user = await this.usersService.findOne({email});
+    const user = await this.userRepository.findOne({email});
 
     if (!user) {
       return false;

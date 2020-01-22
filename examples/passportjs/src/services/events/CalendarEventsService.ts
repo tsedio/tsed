@@ -5,20 +5,10 @@ import {MemoryCollection} from "../../utils/MemoryCollection";
 @Service()
 export class CalendarEventsService extends MemoryCollection<Event> {
   constructor() {
-    super(Event);
-
-    require("../../../resources/events.json")
-      .map((obj) => {
-        return this.create(obj);
-      });
+    super(Event, require("../../../resources/events.json"));
   }
 
-  /**
-   * Find a calendar by his ID.
-   * @param id
-   * @returns {undefined|Calendar}
-   */
-  async findById(id: string): Promise<Event> {
-    return this.findById(id);
+  findById(id: string): Event {
+    return this.findOne({_id: id});
   }
 }

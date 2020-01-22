@@ -4,7 +4,7 @@ import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../../../../src/Server";
 
-describe("Passport", () => {
+describe("Auth", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   // bootstrap your expressApplication in first
   before(TestContext.bootstrap(Server));
@@ -13,103 +13,94 @@ describe("Passport", () => {
   }));
   after(() => TestContext.reset());
 
-  describe("POST /rest/passport/login", () => {
+  describe("POST /rest/auth/login", () => {
     describe("when credential isn't given", () => {
       it("should respond 403", async () => {
         const response = await request
-          .post("/rest/passport/login")
+          .post("/rest/auth/login")
           .send({})
-          .expect(403);
+          .expect(400);
 
-        expect(response.badRequest).to.be.true;
-        expect(response.text).to.eq("Bad request, parameter request.body.email is required.");
+        expect(response.text).to.eq("Bad Request");
       });
     });
-
     describe("when credential is given but is wrong", () => {
-      before((done) => {
-
-      });
-      it("should respond 404", async () => {
+      it("should respond 401", async () => {
         const response = await request
-          .post("/rest/passport/login")
+          .post("/rest/auth/login")
           .send({email: "test@test.fr", password: "12345"})
-          .expect(404);
+          .expect(401);
 
-        expect(response.notFound).to.be.true;
-        expect(response.text).to.eq("User not found");
+        expect(response.text).to.eq("Unauthorized");
       });
     });
-
     describe("when credential is given but email is invalid", () => {
-      it("should respond 403", async () => {
+      it("should respond 400", async () => {
         const response = await request
-          .post("/rest/passport/login")
+          .post("/rest/auth/login")
           .send({email: "test_test.fr", password: "12345"})
-          .expect(403);
+          .expect(400);
 
-        expect(response.text).to.eq("Email is invalid");
+        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At Credentials.email should match format \"email\"");
       });
     });
-
     describe("when credential is given", () => {
       it("should respond 200 and return the user", async () => {
         const response = await request
-          .post("/rest/passport/login")
+          .post("/rest/auth/login")
           .send({email: "amy.riley@undefined.io", password: "583538ea97489c137ad54db5"})
           .expect(200);
 
-        expect(JSON.parse(response.text)).to.deep.eq({
-          "_id": "583538ea678f0ce762d3ce62",
+        expect(response.body).to.deep.include({
           "firstName": "Amy",
           "lastName": "Riley",
-          "password": "583538ea97489c137ad54db5",
           "email": "amy.riley@undefined.io",
           "phone": "+1 (841) 438-3631",
           "address": "399 Pilling Street, Verdi, North Carolina, 5810"
         });
+        expect(response.body).to.not.have.property("password");
+        expect(response.body).to.have.own.property("_id");
       });
     });
-
   });
 
-  describe("POST /rest/passport/signup", () => {
+  describe("POST /rest/auth/signup", () => {
     describe("when credential isn't given", () => {
-      it("should respond 403", async () => {
+      it("should respond 400", async () => {
         const response = await request
-          .post("/rest/passport/signup")
+          .post("/rest/auth/signup")
           .send({})
-          .expect(403);
+          .expect(400);
 
-        expect(response.text).to.eq("Bad request, parameter request.body.email is required.");
+        expect(response.text).to.eq("Bad Request");
       });
     });
 
     describe("when credential is given but email is invalid", () => {
       it("should respond 403", async () => {
         const response = await request
-          .post("/rest/passport/signup")
+          .post("/rest/auth/signup")
           .send({
             "firstName": "Wendi",
             "lastName": "Small",
             "password": "test",
             "email": "wendi.small_undefined.net"
           })
-          .expect(403);
+          .expect(400);
 
-        expect(response.text).to.eq("Email is invalid");
+        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At UserCreation.email should match format \"email\"");
       });
     });
 
     describe("when credential is given but the email is already registered", () => {
       it("should respond 403", async () => {
         const response = await request
-          .post("/rest/passport/signup")
+          .post("/rest/auth/signup")
           .send({
             "firstName": "Wendi",
             "lastName": "Small",
-            "password": "test",
-            "email": "wendi.small@undefined.net"
+            "email": "wendi.small@undefined.net",
+            "password": "utest"
           })
           .expect(403);
 
@@ -120,21 +111,23 @@ describe("Passport", () => {
     describe("when credential is given", () => {
       it("should respond 200 and return the user", async () => {
         const response = await request
-          .post("/rest/passport/signup")
+          .post("/rest/auth/signup")
           .send({
             "firstName": "Wendi",
             "lastName": "Small",
             "password": "test",
             "email": "wendi.small@console.net"
           })
-          .expect(200);
+          .expect(201);
 
-        const user = JSON.parse(response.text);
+        expect(response.body).to.deep.include({
+          email: "wendi.small@console.net",
+          firstName: "Wendi",
+          lastName: "Small"
+        });
 
-        expect(user.email).to.eq("wendi.small@console.net");
-        expect(user.firstName).to.eq("Wendi");
-        expect(user.lastName).to.eq("Small");
-        expect(user.password).to.eq("test");
+        expect(response.body).to.not.have.property("password");
+        expect(response.body).to.have.property("_id");
       });
     });
   });

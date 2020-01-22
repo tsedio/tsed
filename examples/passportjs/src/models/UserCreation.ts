@@ -16,8 +16,4 @@ export class UserCreation extends Credentials {
 
   @Description("User address")
   address: string;
-
-  verifyPassword(password: string) {
-    return this.password === password;
-  }
 }

@@ -187,6 +187,15 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
+"@tsed/ajv@5.39.1":
+  version "5.39.1"
+  resolved "https://registry.yarnpkg.com/@tsed/ajv/-/ajv-5.39.1.tgz#db7d6c5a7276cfcfc2d8fe46470d8bf0b14141c9"
+  integrity sha512-Td25gc3W1/J+ubhKXgVsennmeWSQECLJKdvhKg8zzBOoMeK/EUeia/Kys89o7KsllWZT1kqU31kS5F+8M7lTGA==
+  dependencies:
+    "@tsed/common" "5.39.1"
+    "@tsed/core" "5.39.1"
+    tslib "1.10.0"
+
 "@tsed/common@5.39.1":
   version "5.39.1"
   resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.39.1.tgz#4fcdabd899753b740f20837e1e1cc2d2c0084c28"

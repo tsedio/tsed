@@ -37,6 +37,36 @@ describe("PassportMiddleware", () => {
     // THEN
     Passport.authenticate.should.have.been.calledWithExactly("local", {});
   });
+  it("should skip auth when user is authenticated", () => {
+    // GIVEN
+    const middleware = new PassportMiddleware();
+    middleware.protocolsService = {
+      getProtocolsNames: sandbox.stub().returns(["local"])
+    } as any;
+
+    const request: any = {
+      user: {},
+      isAuthenticated() {
+        return true;
+      }
+    };
+    const endpoint: any = {
+      store: {
+        get: sandbox.stub().returns({
+          options: {},
+          protocol: "local",
+          method: "authenticate"
+        })
+      }
+    };
+
+    // WHEN
+    middleware.use(request, endpoint);
+
+    // THEN
+    return Passport.authenticate.should.not.have.been.called;
+  });
+
   it("should call passport with defaults protocols", () => {
     // GIVEN
     const middleware = new PassportMiddleware();
