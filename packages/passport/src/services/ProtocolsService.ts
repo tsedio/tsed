@@ -71,7 +71,7 @@ export class ProtocolsService {
         if (err) {
           done(err, false, {message: err.message});
         } else {
-          done(null, req.ctx.data);
+          done(null, ...[].concat(req.ctx.data));
         }
       });
     };

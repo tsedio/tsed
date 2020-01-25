@@ -1,15 +1,11 @@
-import {AuthOptions, UseAuth, UseBefore} from "@tsed/common";
 import {applyDecorators} from "@tsed/core";
+import {Authenticate} from "@tsed/passport";
 import {Operation, Responses, Security} from "@tsed/swagger";
-import * as Passport from "passport";
-import {OAuthBearerOptions} from "../protocols/BearerStrategy";
 import {OAuthHead} from "./OAuthHead";
 
 export function OAuthBearer(options: any = {}): Function {
   return applyDecorators(
-    AuthOptions(OAuthBearerOptions as any, options), // Add this to store all options and retrieve it in verify function
-    UseAuth(Passport.authenticate("oauth-bearer", {session: false, ...options}) as any),
-
+    Authenticate("azure-bearer", {session: false, ...options}),
     // Metadata for swagger
     Security("oauth", ...(options.scopes || [])),
     Operation({

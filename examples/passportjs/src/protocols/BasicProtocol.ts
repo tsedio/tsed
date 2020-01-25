@@ -7,7 +7,6 @@ import {checkEmail} from "../utils/checkEmail";
 
 @Protocol({
   name: "basic",
-  // @ts-ignore
   useStrategy: BasicStrategy,
   settings: {}
 })

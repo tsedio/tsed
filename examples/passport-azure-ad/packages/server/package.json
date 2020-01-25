@@ -23,10 +23,8 @@
     "@tsed/di": "5.39.3",
     "@tsed/swagger": "5.39.3",
     "@tsed/testing": "5.39.3",
+    "@tsed/passport": "5.39.3",
     "@types/compression": "0.0.36",
-    "@types/dotenv": "^6.1.1",
-    "@types/method-override": "0.0.31",
-    "@types/swagger-schema-official": "2.0.20",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
     "concurrently": "5.0.0",
@@ -42,6 +40,9 @@
     "ts-log-debug": "^5.1.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/method-override": "0.0.31",
+    "@types/swagger-schema-official": "2.0.20",
     "@types/body-parser": "^1.17.0",
     "@types/chai": "4.2.5",
     "@types/chai-as-promised": "^7.1.0",
