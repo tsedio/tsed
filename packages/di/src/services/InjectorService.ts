@@ -307,8 +307,10 @@ export class InjectorService extends Container {
   /**
    *
    * @param instance
+   * @param locals
+   * @param options
    */
-  public bindInjectableProperties(instance: any) {
+  public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions>) {
     const store = Store.from(getClass(instance));
 
     if (store && store.has("injectableProperties")) {
@@ -322,7 +324,7 @@ export class InjectorService extends Container {
               this.bindMethod(instance, definition);
               break;
             case InjectablePropertyType.PROPERTY:
-              this.bindProperty(instance, definition);
+              this.bindProperty(instance, definition, locals, options);
               break;
             case InjectablePropertyType.CONSTANT:
               this.bindConstant(instance, definition);
@@ -360,11 +362,18 @@ export class InjectorService extends Container {
    * @param instance
    * @param {string} propertyKey
    * @param {any} useType
+   * @param locals
+   * @param options
    */
-  public bindProperty(instance: any, {propertyKey, useType}: IInjectablePropertyService) {
+  public bindProperty(
+    instance: any,
+    {propertyKey, useType}: IInjectablePropertyService,
+    locals: Map<TokenProvider, any>,
+    options: Partial<IInvokeOptions>
+  ) {
     Object.defineProperty(instance, propertyKey, {
       get: () => {
-        return this.get(useType);
+        return this.invoke(useType, locals, options);
       }
     });
   }
@@ -525,7 +534,7 @@ export class InjectorService extends Container {
     }
 
     if (instance && isBindable) {
-      this.bindInjectableProperties(instance);
+      this.bindInjectableProperties(instance, locals, options);
     }
 
     return instance;
@@ -548,7 +557,7 @@ export class InjectorService extends Container {
     }
 
     if (!this.hasProvider(token)) {
-      // find
+      // findById
       const resolver = this.resolvers.find(resolver => {
         return resolver.get(token);
       });

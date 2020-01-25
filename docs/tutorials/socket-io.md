@@ -4,6 +4,10 @@ meta:
    content: Use Socket.io with Express, TypeScript and Ts.ED. Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
  - name: keywords
    content: ts.ed express typescript socket.io websocket node.js javascript decorators
+projects:
+ - title: Kit Socket.io
+   href: https://github.com/TypedProject/tsed-example-socketio
+   src: /socketio.png    
 ---
 # Socket.io
 
@@ -11,9 +15,7 @@ meta:
 
 Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
-## Example
-
-A complete example is available [here](https://github.com/TypedProject/tsed-example-socketio).
+<Projects type="examples"/>
 
 ## Installation
 

@@ -1,7 +1,7 @@
 import {ProviderScope} from "./ProviderScope";
 import {TokenProvider} from "./TokenProvider";
 
-export interface IInvokeOptions<T> {
+export interface IInvokeOptions<T = any> {
   deps: any[];
   imports: any[];
   parent?: TokenProvider;

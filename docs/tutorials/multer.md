@@ -4,14 +4,24 @@ meta:
    content: Use Multer with Express, TypeScript and Ts.ED. Node.js middleware for handling `multipart/form-data`.
  - name: keywords
    content: ts.ed express typescript multer node.js javascript decorators
+projects:   
+ - title: Kit Multer
+   href: https://github.com/TypedProject/tsed-example-multer
+   src: /express.png     
 ---
 # Multer
+
+Multer is a package used by Express server to handler uploaded file. Ts.ED provide a package `@tsed/multer` with some decorators to use multer on your Controller.
+
+<Projects type="examples"/>
+
 ## Installation
 
 Before using the @@MultipartFile@@ you must install [multer](https://github.com/expressjs/multer) and `@tsed/multipartfile` module on your project:
 
 ```bash
 npm install --save multer @types/multer @tsed/multipartfiles
+npm install --save @tsed/multer
 ```
 
 ## Configure the File upload directory

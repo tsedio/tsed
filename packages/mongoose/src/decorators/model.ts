@@ -25,7 +25,7 @@ import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
  * ```typescript
  * class MyService {
  *    constructor(@Inject(EventModel) eventModel: MongooseModel<EventModel>) {
- *        eventModel.find().exec();
+ *        eventModel.findById().exec();
  *    }
  * }
  * ```

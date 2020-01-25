@@ -18,7 +18,7 @@ you can use another module which follow the same convention.
 npm install --save express-session
 ```
 
-::: warn
+::: warning
 The default server-side session storage, MemoryStore, is purposely not designed for a production environment. It will leak memory under most conditions, does not scale past a single process, and is meant for debugging and developing.
 
 For a list of stores, see [compatible session stores](https://www.npmjs.com/package/express-session#compatible-session-stores).

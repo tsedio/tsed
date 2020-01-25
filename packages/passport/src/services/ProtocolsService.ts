@@ -69,7 +69,7 @@ export class ProtocolsService {
 
       return middleware(req, req.res, (err: any) => {
         if (err) {
-          done(err);
+          done(err, false, {message: err.message});
         } else {
           done(null, req.ctx.data);
         }

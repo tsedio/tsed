@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {Header} from "swagger-schema-official";
+import {Header, Schema} from "swagger-schema-official";
 
 export interface ISwaggerResponses {
   /**
@@ -12,4 +12,5 @@ export interface ISwaggerResponses {
   description?: string;
   examples?: {[exampleName: string]: string};
   headers?: {[headerName: string]: Header};
+  schema?: Schema;
 }

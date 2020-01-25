@@ -96,6 +96,6 @@ describe("ProtocolsService", () => {
 
     // THEN
     result.$onVerify.should.have.been.calledWithExactly(req);
-    expect(resultDone).to.deep.equal([error]);
+    expect(resultDone).to.deep.equal([error, false, {"message": "message"}]);
   }));
 });

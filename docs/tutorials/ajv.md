@@ -4,6 +4,10 @@ meta:
    content: Use AJV with Express, TypeScript and Ts.ED. AJV allows you to validate your data models from a JsonSchema.
  - name: keywords
    content: ts.ed express typescript ajv node.js javascript decorators jsonschema class models
+projects:
+ - title: Kit basic
+   href: https://github.com/TypedProject/tsed-getting-started
+   src: /tsed.png
 ---
 
 # AJV <Badge text="beta" type="warn"/>
@@ -14,6 +18,8 @@ This tutorials show you, how you can validate your data with decorators.
 
 Validation feature use [Ajv](https://github.com/epoberezkin/ajv)
  and [json-schema](http://json-schema.org/latest/json-schema-validation.html) to perform the model validation.
+ 
+<Projects type="examples"/>
 
 ## Installation
 
@@ -21,6 +27,7 @@ Before using the validation decorators, we need to install the [ajv](https://www
 
 ```bash
 npm install --save ajv
+npm install --save @tsed/ajv
 ```
 
 Then import `@tsed/ajv` in your [ServerLoader](/api/common/server/components/ServerLoader.md):

@@ -31,9 +31,9 @@ features:
 - title: Decorators
   details: A lot of decorators are provided to structure your code and define route and method.
 - title: Testing
-  details: Test or not to test? Isn't a question. Ts.ED embed some features to test your code!
+  details: Test or not to test? Isn't a question. Ts.ED embed some features to test your code! <a href="/docs/testing.html">See more</a>
 - title: And more
-  details: Find some guide to integrate TypeORM, Swagger, AJV validation, Passport, Socket.io, Templating, etc...
+  details: Find some guide to integrate <a href="/tutorials/typeorm.html">TypeORM</a>, <a href="/tutorials/swagger.html">Swagger</a>, <a href="/tutorials/ajv.html">AJV validation</a>, <a href="/tutorials/passport.html">Passport.js</a>, <a href="/tutorials/socket-io.html">Socket.io</a>, <a href="/tutorials/aws.html">AWS</a>, <a href="https://github.com/TypedProject/tsed-example-react" target="_blank">React</a>, <a href="https://github.com/TypedProject/tsed-example-vuejs" target="_blank">Vue.js</a>, <a href="/tutorials/templating.html">Templating</a>, etc...
 contributors:
  title : Our<br /><b>Contributors</b>
  button:

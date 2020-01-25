@@ -9,103 +9,89 @@ import {
   Post,
   Put,
   Required,
-  Status
+  Status,
+  UseBefore
 } from "@tsed/common";
+import {Authorize} from "@tsed/passport";
+import {Responses, Returns} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
-import {Event} from "../../interfaces/Event";
-import {Task} from "../../interfaces/Task";
+import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
+import {CalendarCreation} from "../../models/Calendar";
+import {Event, EventCreation} from "../../models/Event";
+import {Task} from "../../models/Task";
+import {CalendarEventsService} from "../../services/events/CalendarEventsService";
 
 
 @Controller("/:calendarId/events")
 @MergeParams(true)
+@UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
-  private AUTO_INC = 5;
-  private events: Event[] = require("../../../resources/events.json");
+  constructor(private calendarEventsService: CalendarEventsService) {
+  }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Get("/:id")
+  @Returns(Event)
+  @Responses(404, {description: "Event not found"})
+  @Authorize("*")
   async get(@Required() @PathParams("calendarId") calendarId: string,
             @PathParams("id") id: string): Promise<Event> {
-    const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
+    const event = await this.calendarEventsService.findById(id);
 
-    if (event) {
-      return event;
+    if (!event) {
+      throw new NotFound("Event not found");
     }
 
-    throw new NotFound("event not found");
+    return event;
   }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Get("/:id/tasks")
+  @Authorize("*")
   async getTasks(@Required() @PathParams("calendarId") calendarId: string,
                  @PathParams("id") id: string): Promise<Task[]> {
-    const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
+    const event = await this.get(calendarId, id);
 
-    if (event) {
-      return event.tasks || [];
-    }
-
-    throw new NotFound("event not found");
+    return event.tasks;
   }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Put("/")
-  async save(@Required() @PathParams("calendarId") calendarId: string,
-             @BodyParams("startDate") startDate: string,
-             @BodyParams("endDate") endDate: string,
-             @BodyParams("name") name: string): Promise<Event> {
-
-
-    this.AUTO_INC++;
-
-    const event: Event = {id: "" + this.AUTO_INC, calendarId, startDate, endDate, name};
-    this.events.push(event);
-
-    return event;
+  @Returns(201, {type: Event})
+  @Returns(Event)
+  @Authorize("*")
+  async create(@Required() @PathParams("calendarId") calendarId: string,
+               @BodyParams() event: EventCreation): Promise<Event> {
+    return this.calendarEventsService.create({calendarId, ...event});
   }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Post("/:id")
+  @Authorize("*")
   async update(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string,
-               @BodyParams("startDate") startDate: string,
-               @BodyParams("endDate") endDate: string,
-               @BodyParams("name") name: string): Promise<Event> {
+               @BodyParams() event: CalendarCreation): Promise<Event> {
+    const updatedEvent = await this.calendarEventsService.update({_id: id, calendarId, ...event});
 
-    const event = await this.get(calendarId, id);
-    event.name = name;
-    event.startDate = name;
-    event.endDate = name;
-    return event;
+    if (!updatedEvent) {
+      throw new NotFound("Event not found");
+    }
+
+    return updatedEvent;
   }
 
-  /**
-   *
-   */
   @Delete("/:id")
   @Authenticated()
   @Status(204)
+  @Authorize("*")
   async remove(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string): Promise<Event> {
+    if (!await this.calendarEventsService.removeOne({_id: id, calendarId})) {
+      throw new NotFound("Event not found");
+    }
 
-    this.events = this.events.filter(event => event.id === id && event.calendarId === calendarId);
     return null;
   }
 
   @Get("/")
-  async getEvents(@Required() @PathParams("calendarId") calendarId: string): Promise<Event[]> {
-    return this.events.filter(event => event.calendarId === calendarId);
+  @Authorize("*")
+  async getAll(@Required() @PathParams("calendarId") calendarId: string): Promise<Event[]> {
+    return this.calendarEventsService.findAll({calendarId});
   }
 }

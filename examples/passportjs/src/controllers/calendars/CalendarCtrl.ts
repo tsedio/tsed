@@ -1,5 +1,4 @@
 import {
-  Authenticated,
   BodyParams,
   Controller,
   Delete,
@@ -7,11 +6,16 @@ import {
   PathParams,
   Post,
   Put,
+  QueryParams,
+  Req,
   Required,
   Status
 } from "@tsed/common";
+import {Authorize} from "@tsed/passport";
+import {Responses, Returns} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
-import {Calendar} from "../../interfaces/Calendar";
+import {Calendar, CalendarCreation} from "../../models/Calendar";
+import {User} from "../../models/User";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";
 
@@ -25,55 +29,61 @@ import {EventsCtrl} from "../events/EventsCtrl";
  */
 @Controller("/calendars", EventsCtrl)
 export class CalendarCtrl {
-
   constructor(private calendarsService: CalendarsService) {
-
   }
 
   @Get("/:id")
-  async get(@Required() @PathParams("id") id: string): Promise<Calendar> {
+  @Returns(Calendar)
+  @Authorize("basic")
+  async get(@Req("user") user: User,
+            @Required() @PathParams("id") id: string): Promise<Calendar> {
+    const calendar = await this.calendarsService.findOne({_id: id, owner: user._id});
 
-    const calendar = await this.calendarsService.find(id);
-
-    if (calendar) {
-      return calendar;
+    if (!calendar) {
+      throw new NotFound("Calendar not found");
     }
 
-    throw new NotFound("Calendar not found");
+    return calendar;
   }
 
   @Put("/")
-  save(@BodyParams("name") name: string) {
-    return this.calendarsService.create(name);
+  @Returns(201, {type: Calendar})
+  @Authorize("basic")
+  create(@Req("user") user: User,
+         @BodyParams() calendar: CalendarCreation): Promise<Calendar> {
+    return this.calendarsService.create(calendar);
   }
 
-  /**
-   *
-   * @param id
-   * @param name
-   * @returns {Promise<Calendar>}
-   */
   @Post("/:id")
-  async update(@PathParams("id") @Required() id: string,
-               @BodyParams("name") @Required() name: string): Promise<Calendar> {
-    return this.calendarsService.update({id, name});
+  @Returns(200, {type: Calendar})
+  @Responses(404, {description: "Calendar not found"})
+  @Authorize("basic")
+  async update(@Req("user") user: User,
+               @PathParams("id") @Required() id: string,
+               @BodyParams() @Required() calendar: CalendarCreation): Promise<Calendar> {
+    await this.get(user, id);
+
+    return this.calendarsService.update({_id: id, ...calendar});
   }
 
-  /**
-   *
-   * @param id
-   * @returns {{id: string, name: string}}
-   */
   @Delete("/")
-  @Authenticated()
   @Status(204)
-  async remove(@BodyParams("id") @Required() id: string): Promise<void> {
-    this.calendarsService.remove(id);
+  @Responses(404, {description: "Calendar not found"})
+  @Authorize("basic")
+  async remove(@Req("user") user: User,
+               @BodyParams("id") @Required() id: string): Promise<void> {
+    if (!await this.calendarsService.removeOne({_id: id, owner: user._id})) {
+      throw new NotFound("Calendar not found");
+    }
   }
 
   @Get("/")
-  @Authenticated()
-  async getAllCalendars(): Promise<Calendar[]> {
-    return this.calendarsService.query();
+  @Authorize("basic")
+  async getAll(
+    @QueryParams("id") id: string,
+    @QueryParams("name") name: string,
+    @QueryParams("owner") owner: string
+  ): Promise<Calendar[]> {
+    return this.calendarsService.findAll({_id: id, name, owner});
   }
 }

@@ -4,6 +4,10 @@ meta:
    content: Guide to deploy your Ts.ED application on AWS.
  - name: keywords
    content: ts.ed express typescript aws node.js javascript decorators
+projects:   
+ - title: Kit AWS
+   href: https://github.com/TypedProject/tsed-example-aws
+   src: /aws.png   
 ---
 # AWS
 
@@ -12,6 +16,8 @@ Amazon Web Services is one possible way host your Node.js application.
 This tutorial show you how to configure the Express application written with Ts.ED, to be executed as aAWS Lambda Function.
 
 More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+
+<Projects type="examples"/>
 
 #### Installation
 

@@ -8,6 +8,8 @@ module.exports = {
   theme: "tsed",
   head: [
     ["link", {canonical: url}],
+    ["link", {rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon"}],
+    ["link", {rel: "icon", href: "/favicon.ico", type: "image/x-icon"}],
     ["meta", {property: "og:url", content: url}],
     ["meta", {property: "og:type", content: "website"}],
     ["meta", {property: "og:site_name", content: title}],
@@ -19,6 +21,11 @@ module.exports = {
     ["meta", {name: "twitter:title", content: title}],
     ["meta", {name: "twitter:description", content: description}],
     ["meta", {name: "twitter:card", content: "summary"}]
+    // ["script", {
+    //   type: "text/javascript",
+    //   src: "https://platform-api.sharethis.com/js/sharethis.js#property=5e294abd381cb7001234a73b&product=inline-share-buttons&cms=website",
+    //   async: "async"
+    // }]
   ],
 
   themeConfig: {

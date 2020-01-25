@@ -19,8 +19,4 @@ export class UserCreation extends Credentials {
   @Minimum(18)
   @Example(18)
   age: number;
-
-  verifyPassword(password: string) {
-    return this.password === password;
-  }
 }

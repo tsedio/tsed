@@ -14,8 +14,4 @@ export class Credentials {
   @Format("email")
   @Column({unique: true})
   email: string;
-
-  verifyPassword(password: string) {
-    return this.password === password;
-  }
 }
