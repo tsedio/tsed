@@ -1,3 +1,3 @@
 export interface OnVerify {
-  $onVerify(...args: any[]): Promise<any> | any;
+  $onVerify(...args: any[]): Promise<any | any[]> | any | any[];
 }

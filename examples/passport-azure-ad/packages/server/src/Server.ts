@@ -1,12 +1,12 @@
 import {$log, GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
-import * as Session from "express-session";
-import * as CookieParser from "cookie-parser";
 import * as BodyParser from "body-parser";
 import * as compress from "compression";
+import * as CookieParser from "cookie-parser";
+import * as dotenv from "dotenv";
+import * as Session from "express-session";
 // import * as cors from "cors";
 import * as methodOverride from "method-override";
-import * as dotenv from "dotenv";
 import * as path from "path";
 
 dotenv.config();
@@ -68,7 +68,7 @@ $log.info(`Scopes to use: ${scopes}`);
     path: "/api-docs"
   },
   passport: {},
-  azureBearerOptions: {
+  "azure-bearer": {
     identityMetadata: `https://login.microsoftonline.com/${tenantId}/v2.0/.well-known/openid-configuration`,
     clientID: clientId,
     validateIssuer: true,
@@ -94,6 +94,15 @@ export class Server extends ServerLoader {
   }
 
   $afterRoutesInit(): void {
+    this.expressApp.get("/", (req, res) => {
+      if (!res.headersSent) {
+        // prevent index.html caching
+        res.set({
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache"
+        });
+      }
+    });
     this.expressApp.get(`*`, (req, res) => {
       res.sendFile(path.join(clientDir, "index.html"));
     });

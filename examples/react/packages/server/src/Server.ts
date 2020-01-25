@@ -60,6 +60,15 @@ export class Server extends ServerLoader {
   }
 
   $afterRoutesInit() {
+    this.expressApp.get("/", (req, res) => {
+      if (!res.headersSent) {
+        // prevent index.html caching
+        res.set({
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache"
+        });
+      }
+    });
     this.expressApp.get(`*`, (req, res) => {
       res.sendFile(path.join(clientDir, "index.html"));
     });
