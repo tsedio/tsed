@@ -13,7 +13,7 @@ module.exports = {
       typings: "lib/index.d.ts",
       repository,
       bugs,
-      homepage: `https://github.com/TypedProject/ts-express-decorators/src/${pkgName}`,
+      homepage: `https://github.com/TypedProject/tsed/packages/${pkgName}`,
       author,
       contributors,
       license,
@@ -24,7 +24,7 @@ module.exports = {
   },
   doc: {
     publish: true,
-    url: "https://github.com/TypedProject/ts-express-decorators.git",
+    url: "https://github.com/TypedProject/tsed.git",
     branch: "gh-pages",
     cname: "tsed.io"
   },
