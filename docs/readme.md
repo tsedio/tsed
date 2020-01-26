@@ -10,7 +10,7 @@ meta:
 actionText: Get Started →
 actionLink: /getting-started.html
 repoText: Github
-repoLink: https://github.com/TypedProject/ts-express-decorators
+repoLink: https://github.com/TypedProject/tsed
 heroText: Ts.ED
 heroDescription: A Node.js and TypeScript Framework on top of Express
 heroTerms:

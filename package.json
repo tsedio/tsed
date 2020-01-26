@@ -165,8 +165,8 @@
     "typeorm": "0.2.22",
     "typescript": "3.5.3",
     "vue-analytics": "5.17.2",
-    "vuepress-theme-tsed": "2.5.0",
-    "semver": "latest"
+    "vuepress-theme-tsed": "2.5.4",
+    "semver": "7.1.1"
   },
   "directories": {
     "packages": "packages",

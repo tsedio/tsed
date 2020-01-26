@@ -63,7 +63,7 @@ async function bootstrap() {
 bootstrap();
 ```
 ::: tip
-You can find a project example with [AWS configurattion here](https://github.com/TypedProject/tsed-example-aws).
+You can find a project example with [AWS configuration here](https://github.com/TypedProject/tsed-example-aws).
 :::
 
 ::: tip Example
