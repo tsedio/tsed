@@ -18,12 +18,12 @@
     "start": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "5.40.0",
-    "@tsed/core": "5.40.0",
-    "@tsed/di": "5.40.0",
-    "@tsed/swagger": "5.40.0",
-    "@tsed/testing": "5.40.0",
-    "@tsed/passport": "5.40.0",
+    "@tsed/common": "5.40.1",
+    "@tsed/core": "5.40.1",
+    "@tsed/di": "5.40.1",
+    "@tsed/swagger": "5.40.1",
+    "@tsed/testing": "5.40.1",
+    "@tsed/passport": "5.40.1",
     "@types/compression": "0.0.36",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
