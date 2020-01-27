@@ -11,6 +11,11 @@ this:
 
 <<< @/docs/docs/snippets/middlewares/override-send-response.ts
 
+::: warning
+It's not preferable to use inheritance when you override SendResponse middleware. The use method signature may change in future and create a breaking change for your
+own implementation.
+:::
+
 ::: tip
 By default, the server import automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
 

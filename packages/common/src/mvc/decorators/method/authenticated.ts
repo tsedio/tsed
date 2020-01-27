@@ -15,10 +15,15 @@ import {UseAuth} from "./useAuth";
  * }
  * ```
  *
+ * ::: warning
+ * This usage is deprecated in favor of @@UseAuth@@. See [Authentication page](https://tsed.io/docs/authentication.html#usage).
+ * :::
+ *
  * @param options
  * @returns {Function}
  * @decorator
  * @endpoint
+ * @deprecated See [Authentication page](https://tsed.io/docs/authentication.html#usage).
  */
 export function Authenticated(options: IAuthOptions = {}): Function {
   options = {

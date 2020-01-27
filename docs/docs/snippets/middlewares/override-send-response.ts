@@ -1,12 +1,29 @@
-import {OverrideProvider, Res, ResponseData, SendResponseMiddleware} from "@tsed/common";
+import {ConverterService, OverrideProvider, Req, Res, SendResponseMiddleware} from "@tsed/common";
+import {isStream} from "@tsed/core/src";
 
 @OverrideProvider(SendResponseMiddleware)
-export class MySendResponseMiddleware extends SendResponseMiddleware {
-  public use(@ResponseData() data: any, @Res() response: Res): any {
+export class MySendResponseMiddleware {
+  constructor(private converterService: ConverterService) {
+  }
 
-    const originalResult = super.use(data, response);
+  public use(@Req() request: Req, @Res() response: Res): any {
+    const {ctx: {data, endpoint}} = request;
 
-    // ... your instruction
-    return {data: originalResult, errors: []};
+    if (data === undefined) {
+      return response.send();
+    }
+
+    if (isStream(data)) {
+      data.pipe(response);
+
+      return response;
+    }
+
+    const payload = {
+      data: this.converterService.serialize(data, {type: endpoint.type}),
+      errors: []
+    };
+
+    return response.json(payload);
   }
 }

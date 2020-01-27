@@ -24,31 +24,6 @@ import {User} from "./entities/User";
 
 const rootDir = __dirname;
 
-@OverrideProvider(SendResponseMiddleware)
-class CSendResponseMiddleware implements IMiddleware {
-  constructor(protected converterService: ConverterService) {
-  }
-
-  public use(@ResponseData() data: any, @Res() response: Res, @EndpointInfo() endpoint: EndpointInfo) {
-    if (data === undefined) {
-      return response.send();
-    }
-
-    if (isStream(data)) {
-      data.pipe(response);
-
-      return response;
-    }
-
-    if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
-      return response.send(data);
-    }
-
-    return response.json(this.converterService.serialize(data));
-  }
-}
-
-
 @ServerSettings({
   rootDir,
   httpPort: process.env.PORT || 8083,

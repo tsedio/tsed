@@ -7,7 +7,12 @@ import {IMiddleware} from "../interfaces";
 /**
  * This middleware manage the authentication based on passport strategy.
  *
+ * ::: warning
+ * This usage is deprecated in favor of @@UseAuth@@. See [Authentication page](https://tsed.io/docs/authentication.html#usage).
+ * :::
+ *
  * @middleware
+ * @deprecated See [Authentication page](https://tsed.io/docs/authentication.html#usage).
  */
 @Middleware()
 export class AuthenticatedMiddleware implements IMiddleware {

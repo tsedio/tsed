@@ -6,6 +6,10 @@ to check the authentication strategy.
 To customise this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 
 your authentication strategy (with [passport.js for example](/tutorials/passport.md)).
 
+::: warning
+This usage is deprecated in favor of @@UseAuth@@. See [Authentication page](https://tsed.io/docs/authentication.html#usage).
+:::
+
 ## Use case
 
 ```typescript
