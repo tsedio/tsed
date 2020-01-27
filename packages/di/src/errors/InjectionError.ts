@@ -1,5 +1,5 @@
 import {getConstructorArgNames, isClass, isString, nameOf} from "@tsed/core";
-import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
+import {colorize} from "ts-log-debug";
 import {TokenProvider} from "../interfaces";
 
 export class InjectionError extends Error {

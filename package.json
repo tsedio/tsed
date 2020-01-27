@@ -81,7 +81,7 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.4.0",
     "ts-httpexceptions": "^4.1.0",
-    "ts-log-debug": "^5.1.0"
+    "ts-log-debug": "^5.2.0"
   },
   "devDependencies": {
     "@typedproject/ts-doc": "4.0.6",

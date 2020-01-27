@@ -37,7 +37,7 @@
     "passport": "^0.4.0",
     "passport-azure-ad": "^4.1.0",
     "ts-json-properties": "2.0.3",
-    "ts-log-debug": "^5.1.0"
+    "ts-log-debug": "^5.2.0"
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",

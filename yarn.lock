@@ -1713,6 +1713,17 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@tsed/logger@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-5.2.0.tgz#cf74c880f1e011f1f011fb33db9f25d89637a2d0"
+  integrity sha512-fn90wAvV7ZDZZZefeNuR4oNJh0CXKx1IDD0P6dOm+LnDzG/CJ68qKsVthAdy9WFpkrZHxsSvOgovW8XLiKKKUA==
+  dependencies:
+    colors "^1.3.3"
+    date-format "^2.0.0"
+    semver "^5.6.0"
+    streamroller "^1.0.3"
+    tslib "1.10.0"
+
 "@typedproject/ts-doc@4.0.6":
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.6.tgz#e22b304ab05305616515fa03c0283a8b1995409d"
@@ -14915,7 +14926,7 @@ ts-invariant@^0.4.0:
   dependencies:
     tslib "^1.9.3"
 
-ts-log-debug@5.1.1, ts-log-debug@^5.1.0, ts-log-debug@^5.1.1:
+ts-log-debug@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.1.1.tgz#ccd909b6e227ac4ca49108f031b7ee5d87cbe1f5"
   integrity sha512-kpDkz26MGaQ682xjlRNTK+VjLF3bfOZ9Bvre20yZSQSr4E63JL/BsSPICflutx5LADQ9gdvcFKXmZczqhy4nPQ==
@@ -14925,6 +14936,13 @@ ts-log-debug@5.1.1, ts-log-debug@^5.1.0, ts-log-debug@^5.1.1:
     semver "^5.6.0"
     streamroller "^1.0.3"
     tslib "^1.9.3"
+
+ts-log-debug@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.2.0.tgz#c25678ea5efdefb9f5e6bbf780add44b6a9070af"
+  integrity sha512-O1UKfFTQVvwgTeGXMQA0GqKYveXSUe45eY8cUYDhspXg96266OksKNSl873NUSuD/fajSFN9b0HIWZlDHhnzAA==
+  dependencies:
+    "@tsed/logger" "5.2.0"
 
 ts-node@8.5.2:
   version "8.5.2"

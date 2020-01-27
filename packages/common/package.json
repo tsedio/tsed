@@ -52,7 +52,7 @@
     "normalize-path": "3.0.0",
     "rxjs": "^6.5.2",
     "ts-httpexceptions": "4.1.0",
-    "ts-log-debug": "^5.1.1",
+    "ts-log-debug": "^5.2.0",
     "tslib": "1.10.0",
     "uuid": "3.3.3"
   },

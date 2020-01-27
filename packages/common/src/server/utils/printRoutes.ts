@@ -1,5 +1,4 @@
-import {$log} from "ts-log-debug";
-import {colorize} from "ts-log-debug/lib/layouts/utils/colorizeUtils";
+import {$log, colorize} from "ts-log-debug";
 import {IRouteDetails} from "../../mvc/services/RouteService";
 
 export function printRoutes(routes: IRouteDetails[]) {
