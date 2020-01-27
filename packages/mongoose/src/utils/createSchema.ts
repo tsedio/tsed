@@ -1,13 +1,18 @@
 import {ConverterService, IConverterOptions, JsonSchema, PropertyMetadata, PropertyRegistry} from "@tsed/common";
 import {getClass, Store, Type} from "@tsed/core";
 import * as mongoose from "mongoose";
-import {SchemaTypeOpts} from "mongoose";
+import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
-import {MongooseSchema, MongooseSchemaOptions} from "../interfaces";
+import {MongooseSchemaOptions} from "../interfaces";
 import {cleanProps} from "./cleanProps";
 import {schemaOptions} from "./schemaOptions";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
+
+export interface MongooseSchemaMetadata {
+  schema: SchemaDefinition;
+  virtuals: Map<string, any>;
+}
 
 function setUpTarget(target: Type<any>) {
   target.prototype.serialize = function(options: IConverterOptions, converter: ConverterService) {
@@ -21,7 +26,7 @@ function setUpTarget(target: Type<any>) {
   };
 }
 
-function setUpSchema({schema, virtuals}: MongooseSchema, options?: mongoose.SchemaOptions) {
+function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: mongoose.SchemaOptions) {
   const mongooseSchema = new mongoose.Schema(schema, options);
 
   for (const [key, options] of virtuals.entries()) {
@@ -60,9 +65,9 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
  * @param target
  * @returns {MongooseSchema}
  */
-export function buildMongooseSchema(target: any): MongooseSchema {
+export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
   const properties = PropertyRegistry.getProperties(target);
-  const schema: MongooseSchema = {schema: {}, virtuals: new Map()};
+  const schema: MongooseSchemaMetadata = {schema: {}, virtuals: new Map()};
 
   if (properties) {
     const properties = PropertyRegistry.getProperties(target);

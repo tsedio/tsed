@@ -88,6 +88,10 @@ Ts.ED give some decorators and service to write your code:
 
 <<< @/docs/tutorials/snippets/mongoose/declaring-schema.ts
 
+::: tip
+Schema decorator accept a second parameter to configure the Schema (See [Mongoose Schema](https://mongoosejs.com/docs/guide.html#options))
+:::
+
 ### Declaring Properties
 
 By default, `@tsed/mongoose` reuse the metadata stored by the decorators dedicated

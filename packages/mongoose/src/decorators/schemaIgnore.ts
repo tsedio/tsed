@@ -1,4 +1,4 @@
-import {Schema} from "./schema";
+import {MongooseSchema} from "./schema";
 
 /**
  * Do not apply this property to schema (create virtual property)
@@ -20,5 +20,5 @@ import {Schema} from "./schema";
  */
 
 export function SchemaIgnore(): Function {
-  return Schema({schemaIgnore: true});
+  return MongooseSchema({schemaIgnore: true});
 }

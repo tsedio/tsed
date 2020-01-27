@@ -1,4 +1,4 @@
-import {Schema} from "./schema";
+import {MongooseSchema} from "./schema";
 
 /**
  * Tell Mongoose to ensure a unique index is created for this path.
@@ -19,5 +19,5 @@ import {Schema} from "./schema";
  * @mongoose
  */
 export function Unique(unique: boolean | any = true) {
-  return Schema({unique});
+  return MongooseSchema({unique});
 }

@@ -11,7 +11,7 @@ import {createSchema} from "../utils/createSchema";
  * ### Example
  *
  * ```typescript
- * @Schema()
+ * @MongooseSchema()
  * export class EventSchema {
  *   @Property()
  *   field: string;
@@ -30,14 +30,6 @@ import {createSchema} from "../utils/createSchema";
  * @class
  */
 export function Schema(options?: MongooseSchemaOptions): (target: any) => void;
-/**
- * Attach a schema on property class.
- *
- * @param {SchemaTypeOpts<any>} definition
- * @returns {Function}
- * @decorator
- * @mongoose
- */
 export function Schema(definition: SchemaTypeOpts<any>): Function;
 export function Schema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}) {
   return (...parameters: any[]) => {
@@ -50,4 +42,34 @@ export function Schema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}
         break;
     }
   };
+}
+
+/**
+ * Define a class as a Mongoose Schema ready to be used to compose other schemes and models.
+ *
+ * ### Example
+ *
+ * ```typescript
+ * @MongooseSchema()
+ * export class EventSchema {
+ *   @Property()
+ *   field: string;
+ * }
+ * ```
+ *
+ * ### Options
+ *
+ * - `schemaOptions` (mongoose.SchemaOptions): Option to configure the schema behavior.
+ *
+ * @param {MongooseSchemaOptions | undefined} options
+ * @returns {(target: any) => void}
+ * @decorator
+ * @mongoose
+ * @property
+ * @class
+ */
+export function MongooseSchema(options?: MongooseSchemaOptions): (target: any) => void;
+export function MongooseSchema(definition: SchemaTypeOpts<any>): Function;
+export function MongooseSchema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}) {
+  return Schema(options);
 }

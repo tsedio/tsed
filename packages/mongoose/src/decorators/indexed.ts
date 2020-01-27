@@ -1,5 +1,5 @@
 import {SchemaTypeOpts} from "mongoose";
-import {Schema} from "./schema";
+import {MongooseSchema} from "./schema";
 
 /**
  * Tell Mongoose whether to define an index for the property.
@@ -19,5 +19,5 @@ import {Schema} from "./schema";
  * @property
  */
 export function Indexed(index: SchemaTypeOpts.IndexOpts | boolean | string = true) {
-  return Schema({index});
+  return MongooseSchema({index});
 }
