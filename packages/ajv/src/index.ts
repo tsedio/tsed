@@ -1,3 +1,4 @@
+export * from "./errors/AjvValidationError";
 export * from "./services/AjvService";
 import {IAjvSettings} from "./interfaces/IAjvSettings";
 
