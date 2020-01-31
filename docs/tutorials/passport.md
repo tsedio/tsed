@@ -89,6 +89,40 @@ Then, add the protocol name on @@Authorize@@ decorator:
 
 <<< @/docs/tutorials/snippets/passport/guard-basic-auth.ts
 
+## Advanced Auth
+### JWT
+
+JWT auth scenario for example is different. The Strategy will produce a payload which contain data and jwt token. This information
+aren't attached no the request and cannot be retrieve by using the default Ts.ED decorator.
+
+To solve it, the `@tsed/passport` has two decorators @@Arg@@ and @@Args@@ to get argument given to the original verify function by the Strategy.
+
+For example, the official `passport-jwt` documentation give this javascript code to configure the strategy:
+
+<<< @/examples/passportjs/src/protocols/OriginalJwtPassport.js
+
+The example code can be written with Ts.ED as following:
+
+<<< @/docs/tutorials/snippets/passport/JwtProtocol.ts
+
+### Azure Bearer Auth
+
+Azure bearer, use another scenario which require to return multiple argument. The `$onVerify` method accept an `Array` to return multiple value.
+
+<<< @/docs/tutorials/snippets/passport/AzureBearerProtocol.ts
+
+### Discord Auth
+
+Discord passport give an example to refresh the token. To doing that you have to create a new Strategy and register with the refresh function from `passport-oauth2-refresh` module.
+
+Here the JavaScript code:
+
+<<< @/examples/passportjs/src/protocols/OriginalDiscordPassport.js
+
+Ts.ED provide a way to handle the strategy built by the `@tsed/passport` by using the `$onInstall` hook.
+
+<<< @/docs/tutorials/snippets/passport/DiscordProtocol.ts
+
 ## Decorators
 
 <ApiList query="module == '@tsed/passport' && symbolType === 'decorator'" />

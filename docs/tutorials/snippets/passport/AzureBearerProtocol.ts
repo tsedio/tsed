@@ -1,5 +1,5 @@
 import {Req} from "@tsed/common";
-import {OnVerify, PassportMiddleware, Protocol, Arg} from "@tsed/passport";
+import {Arg, OnVerify, PassportMiddleware, Protocol} from "@tsed/passport";
 import {BearerStrategy, ITokenPayload} from "passport-azure-ad";
 import {AuthService} from "../services/auth/AuthService";
 
@@ -7,7 +7,7 @@ import {AuthService} from "../services/auth/AuthService";
   name: "azure-bearer",
   useStrategy: BearerStrategy
 })
-export class BearerProtocol implements OnVerify {
+export class AzureBearerProtocol implements OnVerify {
   constructor(private authService: AuthService) {
   }
 
@@ -22,10 +22,12 @@ export class BearerProtocol implements OnVerify {
       if (!user) {
         authService.add(token);
         req.ctx.logger.info({event: "BearerStrategy - token: ", token});
+
         return token;
       }
 
       req.ctx.logger.info({event: "BearerStrategy - user: ", token});
+
       return [user, token];
     } catch (error) {
       req.ctx.logger.error({event: "BearerStrategy", token, error});
