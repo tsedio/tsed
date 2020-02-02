@@ -99,7 +99,7 @@ To solve it, the `@tsed/passport` has two decorators @@Arg@@ and @@Args@@ to get
 
 For example, the official `passport-jwt` documentation give this javascript code to configure the strategy:
 
-<<< @/examples/passportjs/src/protocols/OriginalJwtPassport.js
+<<< @/docs/tutorials/snippets/passport/OriginalJwtPassport.js
 
 The example code can be written with Ts.ED as following:
 
@@ -117,7 +117,7 @@ Discord passport give an example to refresh the token. To doing that you have to
 
 Here the JavaScript code:
 
-<<< @/examples/passportjs/src/protocols/OriginalDiscordPassport.js
+<<< @/docs/tutorials/snippets/passport/OriginalDiscordProtocol.js
 
 Ts.ED provide a way to handle the strategy built by the `@tsed/passport` by using the `$onInstall` hook.
 
