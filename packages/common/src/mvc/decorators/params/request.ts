@@ -2,7 +2,7 @@ import {Type} from "@tsed/core";
 import * as Express from "express";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
-import {mapParamsOptions} from "./utils/mapParamsOptions";
+import {mapParamsOptions} from "../utils/mapParamsOptions";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 
 export type Request = Express.Request;

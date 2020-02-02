@@ -1,6 +1,6 @@
 import {applyDecorators, StoreSet, StoreMerge} from "@tsed/core";
 import {IResponseOptions} from "../../interfaces/IResponseOptions";
-import {mapReturnedResponse} from "../../utils/mapReturnedResponse";
+import {mapReturnedResponse} from "../utils/mapReturnedResponse";
 import {UseAfter} from "./useAfter";
 
 /**

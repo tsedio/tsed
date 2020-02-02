@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {mapHeaders} from "../../../src/mvc";
+import {mapHeaders} from "../../../../src/mvc";
 
 describe("mapHeaders", () => {
   it("should map headers", () => {

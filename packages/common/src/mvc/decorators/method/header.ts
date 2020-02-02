@@ -1,7 +1,7 @@
 import {applyDecorators, StoreMerge} from "@tsed/core";
 import {IResponseHeader} from "../../interfaces/IResponseHeader";
 import {IHeadersOptions, IResponseHeaders} from "../../interfaces/IResponseHeaders";
-import {mapHeaders} from "../../utils/mapHeaders";
+import {mapHeaders} from "../utils/mapHeaders";
 import {UseAfter} from "./useAfter";
 
 /**

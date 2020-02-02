@@ -1,7 +1,7 @@
 import {ParamTypes} from "../../models/ParamTypes";
 import {RequestContext} from "../../models/RequestContext";
 import {UseFilter} from "./useFilter";
-import {mapParamsOptions} from "./utils/mapParamsOptions";
+import {mapParamsOptions} from "../utils/mapParamsOptions";
 
 /**
  * Context decorator return the @@RequestContext@@ created by Ts.ED when request is handled by the server.
