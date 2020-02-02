@@ -1,5 +1,11 @@
 import {Property, Required} from "@tsed/common";
-import {Model, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorators";
+import {Model, MongooseSchema, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorators";
+
+@MongooseSchema({schemaOptions: {_id: false}})
+export class TestRole {
+  @Property()
+  name: string;
+}
 
 @Model({schemaOptions: {timestamps: true}})
 @PreHook("save", (user: TestUser, next: any) => {
@@ -26,4 +32,7 @@ export class TestUser {
 
   @Property()
   post: string;
+
+  @Property()
+  role: TestRole;
 }
