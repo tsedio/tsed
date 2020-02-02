@@ -5,7 +5,7 @@ import * as refresh from "passport-oauth2-refresh";
 import {AuthService} from "../services/auth/AuthService";
 
 @Protocol<StrategyOptions>({
-  name: "azure-bearer",
+  name: "discord",
   useStrategy: Strategy,
   settings: {
     clientID: "id",
