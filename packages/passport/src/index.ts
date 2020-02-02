@@ -4,6 +4,7 @@ import "./PassportModule";
 export * from "./decorators/authenticate";
 export * from "./decorators/authorize";
 export * from "./decorators/protocol";
+export * from "./decorators/args";
 
 // Interfaces
 export * from "./interfaces";
