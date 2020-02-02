@@ -66,6 +66,7 @@ export class ProtocolsService {
 
     return (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
+      req.args = args.slice(0, -1);
 
       return middleware(req, req.res, (err: any) => {
         if (err) {
