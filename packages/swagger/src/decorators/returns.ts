@@ -1,5 +1,26 @@
-import {IResponseOptions, mapReturnedResponse, ReturnType, Status} from "@tsed/common";
-import {applyDecorators, Store, StoreFn, Type} from "@tsed/core";
+import {IResponseOptions, ReturnType} from "@tsed/common";
+import {Type} from "@tsed/core";
+
+function mapStatusResponseOptions(args: any[]): any {
+  const configuration: any = {};
+
+  args.forEach((value: any) => {
+    configuration[typeof value] = value;
+  });
+
+  const {number: code, object: options = {} as any, function: type} = configuration;
+
+  if (type) {
+    options.type = type;
+  }
+
+  return {
+    ...options,
+    code,
+    type: options.type || options.use,
+    collectionType: options.collectionType || options.collection
+  };
+}
 
 /**
  * Add responses documentation for a specific status code.
@@ -85,36 +106,105 @@ import {applyDecorators, Store, StoreFn, Type} from "@tsed/core";
  * @decorator
  * @swagger
  */
-export function Returns(statusCode: number, options: IResponseOptions): any;
-export function Returns(options: IResponseOptions): any;
+export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
+export function Returns(options: Partial<IResponseOptions>): any;
 export function Returns(model: Type<any>): any;
-export function Returns(model: Type<any>, options: IResponseOptions): any;
+export function Returns(model: Type<any>, options: Partial<IResponseOptions>): any;
 export function Returns(...args: any[]) {
-  const configuration: any = {};
+  return ReturnType(mapStatusResponseOptions(args));
+}
 
-  args.forEach((value: any) => {
-    configuration[typeof value] = value;
-  });
-
-  const {number: code, object: options = {} as any, function: type} = configuration;
-
-  if (type) {
-    options.type = type;
-  }
-
-  return applyDecorators(
-    200 < code && code < 300 && Status(code),
-    type && (!code || (200 <= code && code < 300)) && ReturnType(type),
-    StoreFn((store: Store) => {
-      const response = mapReturnedResponse(options);
-
-      if (code !== undefined) {
-        store.merge("responses", {
-          [code]: response
-        });
-      } else {
-        store.merge("response", response);
-      }
-    })
-  );
+/**
+ * Add responses documentation for a specific status code.
+ *
+ * ## Examples
+ * ## With status code
+ *
+ * ```typescript
+ *  @ReturnsArray(200, {description: "OK", type: Model})
+ *  async myMethod(): Promise<Model>  {
+ *
+ *  }
+ * ```
+ *
+ * This example will produce this documentation in swagger:
+ *
+ * ```json
+ * {
+ *   "responses": {
+ *     "2OO": {
+ *       "description": "Description",
+ *       "schema": {"type": "array"}
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### Without status code
+ *
+ * ReturnsArray can be use without status code. In this case, the response will be added to the default status code
+ * (200 or the status code seated with `@Status`).
+ *
+ * ```typescript
+ *  @ReturnsArray({description: "Description"})
+ *  async myMethod(): Promise<Model>  {
+ *
+ *  }
+ * ```
+ *
+ * This example will produce this documentation in swagger:
+ *
+ * ```json
+ * {
+ *   "responses": {
+ *     "200": {
+ *       "description": "Description",
+ *       "schema": {"type": "array"}
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With type schema
+ *
+ * ReturnsArray accept another signature with a type.
+ *
+ * ```typescript
+ *  @ReturnsArray(Model, {description: "Description"}) //OR
+ *  @ReturnsArray(Model)
+ *  async myMethod(): Promise<Model>  {
+ *
+ *  }
+ * ```
+ *
+ * This example will produce this documentation in swagger:
+ *
+ * ```json
+ * {
+ *   "responses": {
+ *     "200": {
+ *       "description": "Description",
+ *       "schema": {
+ *         "type": "array",
+ *         "items": {
+ *           $ref: "Model"
+ *         }
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @param statusCode Code status
+ * @param options Swagger responses documentations
+ * @returns {Function}
+ * @decorator
+ * @swagger
+ */
+export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
+export function ReturnsArray(options: Partial<IResponseOptions>): any;
+export function ReturnsArray(model: Type<any>): any;
+export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): any;
+export function ReturnsArray(...args: any[]) {
+  return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});
 }

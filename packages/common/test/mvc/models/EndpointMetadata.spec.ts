@@ -76,9 +76,7 @@ describe("EndpointMetadata", () => {
         const result = endpointMetadata.statusResponse(200);
 
         expect(result).to.deep.eq({
-          description: undefined,
-          headers: undefined,
-          examples: undefined
+          "code": 200
         });
 
         expect(endpointMetadata.type).to.eq(undefined);
@@ -103,9 +101,7 @@ describe("EndpointMetadata", () => {
 
         // THEN
         expect(result).to.deep.eq({
-          description: undefined,
-          examples: undefined,
-          headers: undefined
+          code: 200
         });
 
         expect(endpointMetadata.type).to.eq(undefined);
@@ -119,53 +115,7 @@ describe("EndpointMetadata", () => {
       it("should have type and headers and haven't collectionType", () => {
         // GIVEN
         const endpointMetadata = new EndpointMetadata({target: Test, propertyKey: "method"});
-        Sinon.stub(endpointMetadata.store, "get");
-        const responses = {
-          [200]: {
-            type: Test,
-            headers: {
-              headerName: {
-                type: "string",
-                value: "x-content"
-              }
-            }
-          }
-        };
-        stub(endpointMetadata.store.get).withArgs("responses").returns(responses);
-
-        // WHEN
-        const result = endpointMetadata.statusResponse(200);
-
-        // THEN
-        expect(result).to.deep.eq({
-          description: undefined,
-          examples: undefined,
-          headers: {
-            headerName: {
-              type: "string"
-            }
-          }
-        });
-        expect(endpointMetadata.type).to.eq(Test);
-        expect(endpointMetadata.collectionType).to.eq(undefined);
-        responses[200].headers.headerName.value.should.be.eq("x-content");
-
-        stub(endpointMetadata.store.get).restore();
-      });
-    });
-
-    describe("when the status code match with the default response", () => {
-      it("shouldn't change the original response, have type, haven't collectionType", () => {
-        // GIVEN
-        const endpointMetadata = new EndpointMetadata({target: Test, propertyKey: "method"});
-        Sinon.stub(endpointMetadata.store, "get");
-        const responses = {
-          [200]: {
-            type: Test,
-            description: "description"
-          }
-        };
-        const response = {
+        endpointMetadata.responses.set(200, {
           type: Test,
           headers: {
             headerName: {
@@ -173,30 +123,23 @@ describe("EndpointMetadata", () => {
               value: "x-content"
             }
           }
-        };
-
-        stub(endpointMetadata.store.get).withArgs("statusCode").returns(200);
-        stub(endpointMetadata.store.get).withArgs("responses").returns(responses);
-        stub(endpointMetadata.store.get).withArgs("response").returns(response);
+        } as any);
 
         // WHEN
         const result = endpointMetadata.statusResponse(200);
 
         // THEN
+        expect(result).to.deep.eq({
+          "headers": {
+            "headerName": {
+              "type": "string",
+              "value": "x-content"
+            }
+          },
+          "type": Test
+        });
         expect(endpointMetadata.type).to.eq(Test);
         expect(endpointMetadata.collectionType).to.eq(undefined);
-        expect(result).to.deep.eq({
-          examples: undefined,
-          description: "description",
-          headers: {
-            headerName: {
-              type: "string"
-            }
-          }
-        });
-        response.headers.headerName.value.should.be.eq("x-content");
-
-        stub(endpointMetadata.store.get).restore();
       });
     });
   });

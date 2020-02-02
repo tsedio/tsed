@@ -1,5 +1,8 @@
-import {getDecoratorType, Type} from "@tsed/core";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
+import {cleanObject, deepMerge} from "@tsed/core";
+import {IResponseOptions} from "../../interfaces/IResponseOptions";
+import {EndpointFn} from "./endpointFn";
+
+const isSuccessStatus = (code: number | undefined) => code && 200 <= code && code < 300;
 
 /**
  * Define the returned type for the serialization.
@@ -7,25 +10,36 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  * ```typescript
  * @Controller('/')
  * export class Ctrl {
- *
  *    @Get('/')
- *    @ReturnType(User)
- *    get(): Promise<User> { }
+ *    @ReturnType(200, {type: User, collectionType: Map})
+ *    get(): Promise<Map<User>> { }
  * }
  *
  * ```
  *
  * @returns {Function}
- * @param type
+ * @param response
  * @decorator
  * @endpoint
  */
-export function ReturnType(type: Type<any> | any): Function {
-  return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
-    if (getDecoratorType([target, targetKey, descriptor]) === "method") {
-      EndpointRegistry.get(target, targetKey!).type = type;
+export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
+  return EndpointFn(endpoint => {
+    const {responses, statusCode} = endpoint;
+    const code = response.code || statusCode; // implicit
 
-      return descriptor;
+    if (isSuccessStatus(response.code)) {
+      const {response} = endpoint;
+      responses.delete(statusCode);
+      endpoint.statusCode = code;
+      endpoint.responses.set(code, response);
     }
-  };
+
+    response = {
+      code,
+      description: "",
+      ...deepMerge(endpoint.get(code), cleanObject(response))
+    };
+
+    endpoint.responses.set(response.code!, response as IResponseOptions);
+  });
 }

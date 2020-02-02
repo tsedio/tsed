@@ -3,6 +3,7 @@ import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import {bindEndpointMiddleware} from "../components/bindEndpointMiddleware";
 import {SendResponseMiddleware} from "../components/SendResponseMiddleware";
+import {statusAndHeadersMiddleware} from "../components/statusAndHeadersMiddleware";
 import {IPathMethod} from "../interfaces/IPathMethod";
 import {ControllerProvider} from "../models/ControllerProvider";
 import {EndpointMetadata} from "../models/EndpointMetadata";
@@ -86,6 +87,7 @@ export class ControllerBuilder {
       .concat(beforeMiddlewares) // Endpoint before-middlewares
       .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint handler
+      .concat(statusAndHeadersMiddleware)
       .concat(afterMiddlewares) // Endpoint after-middlewares
       .filter((item: any) => !!item)
       .map((middleware: any) => HandlerBuilder.from(middleware).build(injector));

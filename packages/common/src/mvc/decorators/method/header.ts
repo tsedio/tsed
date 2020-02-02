@@ -1,8 +1,33 @@
-import {applyDecorators, StoreMerge} from "@tsed/core";
-import {IResponseHeader} from "../../interfaces/IResponseHeader";
-import {IHeadersOptions, IResponseHeaders} from "../../interfaces/IResponseHeaders";
-import {mapHeaders} from "../utils/mapHeaders";
-import {UseAfter} from "./useAfter";
+import {deepMerge} from "@tsed/core";
+import {IResponseHeader, IResponseHeaders} from "../../interfaces";
+import {EndpointFn} from "./endpointFn";
+
+export type IHeaderOptions = string | number | IResponseHeader;
+
+export interface IHeadersOptions {
+  [key: string]: IHeaderOptions;
+}
+
+export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
+  return Object.keys(headers).reduce<IResponseHeaders>((newHeaders: IResponseHeaders, key: string, index: number, array: string[]) => {
+    const value: any = headers[key];
+    let type = typeof value;
+    let options: any = {
+      value
+    };
+
+    if (type === "object") {
+      options = value;
+      type = typeof options.value;
+    }
+
+    options.type = options.type || type;
+
+    newHeaders[key] = options;
+
+    return newHeaders;
+  }, {});
+}
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
@@ -53,19 +78,15 @@ import {UseAfter} from "./useAfter";
  * @decorator
  * @endpoint
  */
-export function Header(headerName: string | number | IHeadersOptions, headerValue?: string | number | IResponseHeader): Function {
+export function Header(headerName: string | number | IHeadersOptions, headerValue?: IHeaderOptions): Function {
   if (headerValue !== undefined) {
     headerName = {[headerName as string]: headerValue};
   }
   const headers: IResponseHeaders = mapHeaders(headerName as IHeadersOptions);
 
-  return applyDecorators(
-    StoreMerge("response", {headers}),
-    UseAfter((request: any, response: any, next: any) => {
-      Object.keys(headers).forEach(key => {
-        response.set(key, headers[key].value);
-      });
-      next();
-    })
-  );
+  return EndpointFn(endpoint => {
+    const {response} = endpoint;
+
+    response.headers = deepMerge(response.headers || {}, headers);
+  });
 }

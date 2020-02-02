@@ -1,102 +1,181 @@
-import {Store} from "@tsed/core";
+import "@tsed/swagger";
 import {expect} from "chai";
-import * as Proxyquire from "proxyquire";
-import * as Sinon from "sinon";
-import {FakeResponse} from "../../../../../../test/helper";
-
-const middleware: any = Sinon.stub();
-const useAfterStub: any = Sinon.stub().returns(middleware);
-
-const {Status} = Proxyquire.load("../../../../src/mvc/decorators/method/status", {
-  "./useAfter": {UseAfter: useAfterStub}
-});
-
-class Test {
-}
+import {EndpointRegistry, Status} from "../../../../src/mvc";
 
 describe("Status", () => {
-  before(() => {
-    this.descriptor = {};
-    this.options = 200;
-    Status(this.options, {
-      description: "description",
-      use: "use",
-      collection: "collection",
-      headers: {
-        "200": {
-          value: "headers"
-        }
-      }
-    })(Test, "test", this.descriptor);
-    this.middleware = useAfterStub.args[0][0];
-    this.store = Store.from(Test, "test", this.descriptor);
-  });
+  it("should store metadata (200)", () => {
+    // GIVEN
+    class TypeC {
+    }
 
-  after(() => {
-    delete this.descriptor;
-    delete this.options;
-    delete this.middleware;
-  });
-
-  it("should create middleware", () => {
-    expect(this.middleware).to.be.a("function");
-    middleware.should.be.calledWithExactly(Test, "test", this.descriptor);
-  });
-
-  it("should store responses in the Store", () => {
-    expect(this.store.get("responses")).to.deep.eq({
-      "200": {
-        collectionType: "collection",
+    // WHEN
+    class Test {
+      @Status(200, {
+        type: TypeC,
+        collectionType: Array,
         description: "description",
-        type: "use",
         headers: {
-          "200": {
-            value: "headers"
+          "x-header": {
+            type: "string"
           }
         }
+      })
+      get() {
       }
-    });
+    }
 
-    expect(this.store.get("response")).to.deep.eq({
-      collectionType: "collection",
+    // THEN
+    const endpoint = EndpointRegistry.get(Test, "get");
+
+    const response = {
+      code: 200,
+      collectionType: Array,
       description: "description",
-      type: "use",
+      type: TypeC,
       headers: {
-        "200": {
-          value: "headers"
+        "x-header": {
+          type: "string"
+        }
+      }
+    };
+
+    expect(endpoint.responses.get(200)).to.deep.eq(response);
+    expect(endpoint.statusCode).to.eq(200);
+  });
+  it("should store metadata (204)", () => {
+    // GIVEN
+    class TypeC {
+    }
+
+    // WHEN
+    class Test {
+      @Status(204, {
+        type: TypeC,
+        collectionType: Array,
+        description: "description",
+        headers: {
+          "x-header": {
+            type: "string"
+          }
+        }
+      })
+      get() {
+      }
+    }
+
+    // THEN
+    const endpoint = EndpointRegistry.get(Test, "get");
+
+    const response = {
+      code: 204,
+      collectionType: Array,
+      description: "description",
+      type: TypeC,
+      headers: {
+        "x-header": {
+          type: "string"
+        }
+      }
+    };
+
+    expect(endpoint.responses.get(204)).to.deep.eq(response);
+    expect(endpoint.statusCode).to.eq(204);
+  });
+  it("should store metadata (201)", () => {
+    // GIVEN
+    class TypeC {
+    }
+
+    // WHEN
+    class Test {
+      @Status(201, {
+        type: TypeC,
+        collectionType: Array,
+        description: "description",
+        headers: {
+          "x-header": {
+            type: "string"
+          }
+        }
+      })
+      get() {
+      }
+    }
+
+    // THEN
+    const endpoint = EndpointRegistry.get(Test, "get");
+
+    const response = {
+      code: 201,
+      collectionType: Array,
+      description: "description",
+      type: TypeC,
+      headers: {
+        "x-header": {
+          type: "string"
+        }
+      }
+    };
+
+    expect(endpoint.responses.get(201)).to.deep.eq(response);
+    expect(endpoint.statusCode).to.eq(201);
+  });
+  it("should store metadata (404)", () => {
+    // GIVEN
+    class TypeC {
+    }
+
+    class CustomError {
+    }
+
+    // WHEN
+    class Test {
+      @Status(404, {
+        type: CustomError,
+        description: "description",
+        headers: {
+          "x-error": {
+            type: "string"
+          }
+        }
+      })
+      @Status(200, {
+        type: TypeC,
+        collectionType: Array,
+        description: "description",
+        headers: {
+          "x-map": {
+            type: "string"
+          }
+        }
+      })
+      get() {
+      }
+    }
+
+    // THEN
+    const endpoint = EndpointRegistry.get(Test, "get");
+    expect(endpoint.responses.get(404)).to.deep.eq({
+      code: 404,
+      description: "description",
+      type: CustomError,
+      headers: {
+        "x-error": {
+          type: "string"
         }
       }
     });
-  });
-
-  it("should store statusCode in the Store", () => {
-    expect(this.store.get("statusCode")).to.eq(200);
-  });
-
-  describe("when middleware is executed", () => {
-    before(() => {
-      this.nextSpy = Sinon.stub();
-      this.response = new FakeResponse();
-      Sinon.stub(this.response, "status");
-
-      this.middleware({}, this.response, this.nextSpy);
-    });
-
-    after(() => {
-      delete this.response;
-      delete this.nextSpy;
-    });
-
-    it("should call response method", () => {
-      this.response.status.should.be.calledWith(this.options);
-    });
-
-    it("should call next function", () => {
-      return this.nextSpy.should.be.calledOnce;
-    });
-
-    it("shoul store data in the Store", () => {
-      this.store.get("responses", {});
+    expect(endpoint.statusCode).to.eq(200);
+    expect(endpoint.responses.get(200)).to.deep.eq({
+      code: 200,
+      collectionType: Array,
+      description: "description",
+      type: TypeC,
+      headers: {
+        "x-map": {
+          type: "string"
+        }
+      }
     });
   });
 });

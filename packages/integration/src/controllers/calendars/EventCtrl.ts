@@ -13,7 +13,7 @@ import {
   Required,
   Response
 } from "@tsed/common";
-import {Responses, Returns, Title} from "@tsed/swagger";
+import {Responses, Returns, Title, ReturnsArray} from "@tsed/swagger";
 import {NotFound} from "ts-httpexceptions";
 import {EventModel} from "../../models/Event";
 import {BaseController} from "../base/BaseController";
@@ -80,7 +80,7 @@ export class EventCtrl extends BaseController {
    */
   @Post("/list")
   @Authenticated({role: "admin"})
-  @Returns(200, {use: EventModel, collection: Array})
+  @ReturnsArray(200, {type: EventModel})
   update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
     return event;
   }

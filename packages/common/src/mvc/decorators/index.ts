@@ -49,6 +49,4 @@ export * from "./params/endpointInfo";
 
 // utils
 export * from "./utils/mapReturnedResponse";
-export * from "./utils/mapHeaders";
-export * from "./utils/mapReturnedResponse";
 export * from "./utils/getStorableMetadata";

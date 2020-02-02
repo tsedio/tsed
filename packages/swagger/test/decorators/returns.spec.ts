@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {EndpointRegistry} from "@tsed/common/src";
 import {expect} from "chai";
 import {Returns} from "../../src";
 
@@ -21,22 +21,16 @@ describe("Returns()", () => {
         }
       }
 
-      const store = Store.fromMethod(Ctrl, "test");
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
 
-      expect(store.get("responses")).to.deep.eq({
-        "400": {
-          collectionType: undefined,
-          description: "Bad Request",
-          type: undefined
-        }
+      expect(endpoint.responses.get(400)).to.deep.eq({
+        code: 400,
+        description: "Bad Request"
       });
     });
   });
 
   describe("when a type and configuration are given", () => {
-    before(() => {
-
-    });
     it("should set the responses", () => {
       class Ctrl {
         @Returns(Test, {
@@ -47,10 +41,10 @@ describe("Returns()", () => {
         }
       }
 
-      const store = Store.fromMethod(Ctrl, "test");
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
 
-      expect(store.get("response")).to.deep.eq({
-        collectionType: undefined,
+      expect(endpoint.response).to.deep.eq({
+        code: 200,
         description: "Success",
         type: Test
       });
@@ -68,10 +62,11 @@ describe("Returns()", () => {
         }
       }
 
-      const store = Store.fromMethod(Ctrl, "test");
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
 
-      expect(store.get("response")).to.deep.eq({
-        collectionType: undefined,
+      expect(endpoint.response).to.deep.eq({
+        code: 200,
+        description: "",
         type: Test
       });
     });
@@ -85,19 +80,29 @@ describe("Returns()", () => {
       class Ctrl {
         @Returns({
           description: "Success",
-          type: Test
+          type: Test,
+          headers: {
+            "Content-Type": {
+              type: "string"
+            }
+          }
         })
         test() {
 
         }
       }
 
-      const store = Store.fromMethod(Ctrl, "test");
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
 
-      expect(store.get("response")).to.deep.eq({
-        collectionType: undefined,
+      expect(endpoint.response).to.deep.eq({
+        code: 200,
         description: "Success",
-        type: Test
+        type: Test,
+        "headers": {
+          "Content-Type": {
+            "type": "string"
+          }
+        }
       });
     });
   });

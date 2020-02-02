@@ -4,11 +4,7 @@ import {Header, Schema} from "swagger-schema-official";
 declare global {
   namespace TsED {
     interface ResponseHeader extends Header {}
-  }
-}
 
-declare global {
-  namespace TsED {
     interface ResponseOptions {
       description: string;
       schema?: Schema;

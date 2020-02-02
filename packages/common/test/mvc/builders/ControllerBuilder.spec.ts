@@ -98,6 +98,7 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
+      Sinon.match.func,
       endpoint.afterMiddlewares[0],
       SendResponseMiddleware
     );
@@ -169,6 +170,7 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
+      Sinon.match.func,
       endpoint.afterMiddlewares[0]
     );
 
@@ -236,6 +238,7 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
+      Sinon.match.func,
       endpoint.afterMiddlewares[0]
     );
 
@@ -298,12 +301,14 @@ describe("ControllerBuilder", () => {
     router.use.getCall(0).should.have.been.calledWithExactly(
       "/",
       Sinon.match.func,
-      endpointAll
+      endpointAll,
+      Sinon.match.func
     );
     router.use.getCall(1).should.have.been.calledWithExactly(
       "/",
       Sinon.match.func,
       endpointGet,
+      Sinon.match.func,
       SendResponseMiddleware
     );
   });
