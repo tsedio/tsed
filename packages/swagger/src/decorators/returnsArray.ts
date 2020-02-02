@@ -1,6 +1,5 @@
-import {mapReturnedResponse} from "@tsed/common";
+import {IResponseOptions, mapReturnedResponse} from "@tsed/common";
 import {Store, StoreFn, Type} from "@tsed/core";
-import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
 
 /**
  * Add responses documentation for a specific status code.
@@ -89,10 +88,10 @@ import {ISwaggerResponses} from "../interfaces/ISwaggerResponses";
  * @decorator
  * @swagger
  */
-export function ReturnsArray(statusCode: number, options: ISwaggerResponses): any;
-export function ReturnsArray(options: ISwaggerResponses): any;
+export function ReturnsArray(statusCode: number, options: IResponseOptions): any;
+export function ReturnsArray(options: IResponseOptions): any;
 export function ReturnsArray(model: Type<any>): any;
-export function ReturnsArray(model: Type<any>, options: ISwaggerResponses): any;
+export function ReturnsArray(model: Type<any>, options: IResponseOptions): any;
 export function ReturnsArray(...args: any[]) {
   const configuration: any = {};
 

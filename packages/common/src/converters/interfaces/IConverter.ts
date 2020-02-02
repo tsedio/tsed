@@ -1,7 +1,4 @@
-/**
- *
- */
-import {Type} from "@tsed/core";
+import {IMetadataType} from "@tsed/core";
 
 export interface IDeserializer {
   (obj: any, targetType: any, baseType?: any): any;
@@ -24,8 +21,7 @@ export interface ISerializer {
 /**
  *
  */
-export interface IConverterOptions {
-  type?: Type<any>;
+export interface IConverterOptions extends IMetadataType {
   ignoreCallback?: IConverterIgnoreCB;
   checkRequiredValue?: boolean;
 }

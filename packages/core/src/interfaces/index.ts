@@ -1,3 +1,4 @@
 export * from "./Type";
-export * from "./DecoratorParameters";
 export * from "./Env";
+export * from "./DecoratorParameters";
+export * from "./IMetadataType";

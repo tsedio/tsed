@@ -1,8 +1,7 @@
-export function mapReturnedResponse(options: any): any {
+export function mapReturnedResponse({use, collection, ...options}: any): any {
   return {
-    description: options.description,
-    type: options.type || options.use,
-    collectionType: options.collectionType || options.collection,
-    headers: options.headers
+    ...options,
+    type: options.type || use,
+    collectionType: options.collectionType || collection
   };
 }
