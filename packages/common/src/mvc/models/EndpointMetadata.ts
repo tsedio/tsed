@@ -11,6 +11,7 @@ export interface EndpointConstructorOptions {
   afterMiddlewares?: any[];
   pathsMethods?: IPathMethod[];
   type?: any;
+  parent?: EndpointMetadata;
 }
 
 /**
@@ -48,12 +49,12 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * Endpoint inherited from parent class.
    */
   @NotEnumerable()
-  private inheritedEndpoint: EndpointMetadata;
+  readonly parent: EndpointMetadata | undefined;
 
   constructor(options: EndpointConstructorOptions) {
     super(options.target, options.propertyKey, Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
 
-    const {target, propertyKey, beforeMiddlewares = [], middlewares = [], afterMiddlewares = [], pathsMethods = [], type} = options;
+    const {target, parent, propertyKey, beforeMiddlewares = [], middlewares = [], afterMiddlewares = [], pathsMethods = [], type} = options;
 
     this._type = Metadata.getReturnType(target, propertyKey);
 
@@ -62,6 +63,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
     this.afterMiddlewares = afterMiddlewares;
     this.pathsMethods = pathsMethods;
     this.type = type;
+    this.parent = parent;
   }
 
   get type(): Type<any> {
@@ -84,7 +86,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @returns {Store}
    */
   get store(): Store {
-    return this.inheritedEndpoint ? this.inheritedEndpoint.store : this._store;
+    return this.parent ? this.parent.store : this._store;
   }
 
   get statusCode() {
@@ -207,21 +209,5 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
     this.middlewares = this.middlewares.concat(filteredArg);
 
     return this;
-  }
-
-  /**
-   *
-   * @param {Type<any>} target
-   */
-  public inherit(target: Type<any>): EndpointMetadata {
-    const metadata = new EndpointMetadata({
-      ...this,
-      target,
-      type: this._type
-    });
-
-    metadata.inheritedEndpoint = this;
-
-    return metadata;
   }
 }

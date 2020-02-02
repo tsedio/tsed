@@ -116,10 +116,8 @@ export class EndpointRegistry {
     let inheritedClass = getInheritedClass(ctrlClass);
 
     while (inheritedClass && EndpointRegistry.hasEndpoints(inheritedClass)) {
-      this.getOwnEndpoints(inheritedClass).forEach((endpointInheritedClass: EndpointMetadata) => {
-        const endpoint = endpointInheritedClass.inherit(ctrlClass);
-
-        endpoints.push(endpoint);
+      this.getOwnEndpoints(inheritedClass).forEach((endpoint: EndpointMetadata) => {
+        endpoints.push(inheritEndpoint(ctrlClass, endpoint));
       });
 
       inheritedClass = getInheritedClass(inheritedClass);
@@ -127,4 +125,13 @@ export class EndpointRegistry {
 
     return endpoints;
   }
+}
+
+function inheritEndpoint(target: Type<any>, endpoint: EndpointMetadata): EndpointMetadata {
+  return new EndpointMetadata({
+    ...endpoint,
+    target,
+    type: endpoint.type,
+    parent: endpoint
+  });
 }

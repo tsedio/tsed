@@ -29,7 +29,7 @@ describe("EndpointMetadata", () => {
         afterMiddlewares: [() => {
         }]
       });
-      
+
       endpointMetadata.before([() => {
       }]);
       endpointMetadata.after([() => {
@@ -60,49 +60,6 @@ describe("EndpointMetadata", () => {
       expect(endpointMetadata.methodClassName).to.equal("method");
 
       expect(store).to.deep.equal({test: "value"});
-    });
-  });
-
-  describe("Inherited class", () => {
-    it("should return an endpointmetadata", () => {
-      // GIVEN
-      const endpointMetadata = new EndpointMetadata({target: Test2, propertyKey: "methodInherited"});
-      endpointMetadata.beforeMiddlewares = [() => {
-      }];
-      endpointMetadata.middlewares = [() => {
-      }];
-      endpointMetadata.afterMiddlewares = [() => {
-      }];
-      endpointMetadata.before([() => {
-      }]);
-      endpointMetadata.after([() => {
-      }]);
-
-      EndpointRegistry.store(Test2, "methodInherited").set("test2", "value2");
-
-      Metadata.set("design:returntype", Object, Test2, "methodInherited");
-
-      // WHEN
-      const endpointMetadataInherited = endpointMetadata.inherit(Test3);
-
-      const store: any = {};
-      endpointMetadataInherited.store.forEach((v: any, k: any) => (store[k] = v));
-
-      // THEN
-      expect(endpointMetadataInherited.beforeMiddlewares)
-        .to.be.an("array")
-        .and.have.length(2);
-      expect(endpointMetadataInherited.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
-      expect(endpointMetadataInherited.beforeMiddlewares)
-        .to.be.an("array")
-        .and.have.length(2);
-      expect(endpointMetadataInherited.target).to.equal(Test3);
-      // @ts-ignore
-      expect(endpointMetadataInherited.inheritedEndpoint.target).to.equal(Test2);
-      expect(endpointMetadata.methodClassName).to.equal("methodInherited");
-      expect(store).to.deep.equal({test2: "value2"});
     });
   });
 
