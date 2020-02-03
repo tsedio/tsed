@@ -1,15 +1,14 @@
-import {JsonSchema, JsonSchemesRegistry, PropertyRegistry} from "@tsed/common";
-import {Store} from "@tsed/core";
+import {JsonSchemesRegistry, Property, PropertyName, PropertyType, Required} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {Description} from "../../src";
 import {OpenApiModelSchemaBuilder} from "../../src/class/OpenApiModelSchemaBuilder";
 import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "./helpers/classes";
 
 describe("OpenApiModelSchemaBuilder", () => {
   describe("integration", () => {
     before(() => {
-      this.schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
-      this.schemaBuilder.build();
+
     });
 
     it("should not fail", () => {
@@ -23,7 +22,9 @@ describe("OpenApiModelSchemaBuilder", () => {
     });
 
     it("should create a schema", () => {
-      expect(this.schemaBuilder.schema).to.deep.eq({
+      const schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2).build();
+
+      expect(schemaBuilder.schema).to.deep.eq({
         title: "SwaFoo2",
         description: "Description Class",
         type: "object",
@@ -140,10 +141,7 @@ describe("OpenApiModelSchemaBuilder", () => {
           }
         }
       });
-    });
-
-    it("should create a definitions", () => {
-      expect(this.schemaBuilder.definitions).to.deep.eq({
+      expect(schemaBuilder.definitions).to.deep.eq({
         SwaFoo: {
           properties: {
             foo: {
@@ -310,15 +308,11 @@ describe("OpenApiModelSchemaBuilder", () => {
       });
     });
   });
-
   describe("inheritance integration", () => {
-    before(() => {
-      this.schemaBuilder = new OpenApiModelSchemaBuilder(ChildModelB);
-      this.schemaBuilder.build();
-    });
-
     it("should create a schema", () => {
-      expect(this.schemaBuilder.schema).to.deep.eq({
+      const schemaBuilder = new OpenApiModelSchemaBuilder(ChildModelB).build();
+
+      expect(schemaBuilder.schema).to.deep.eq({
         properties: {
           childPropertyB: {
             type: "string"
@@ -332,217 +326,209 @@ describe("OpenApiModelSchemaBuilder", () => {
       });
     });
   });
-
   describe("build()", () => {
-    before(() => {
-      this.getPropertiesStub = Sinon.stub(PropertyRegistry, "getProperties").returns([{name: "test"}, {propertyKey: "test2"}] as any);
-      this.storeStub = Sinon.stub(Store, "from").returns({
-        get: Sinon.stub().returns("description")
-      } as any);
+    describe("when is as a description and required field", () => {
+      it("should return a schema", () => {
+        @Description("description")
+        class Model {
+          @PropertyName("name")
+          nameTest: string;
 
-      this.schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
-      Sinon.stub(this.schemaBuilder, "getClassSchema").returns({schema: "classSchema", required: true});
-      Sinon.stub(this.schemaBuilder, "createSchema").returns({schema: "schema"});
+          @Property()
+          @Required()
+          test2: string;
+        }
 
-      this.schemaBuilder.build();
-    });
+        const schemaBuilder = new OpenApiModelSchemaBuilder(Model).build();
 
-    after(() => {
-      this.getPropertiesStub.restore();
-      this.storeStub.restore();
-    });
-
-    it("should call the getProperties method with the right parameters", () => {
-      this.getPropertiesStub.should.have.been.calledWithExactly(SwaFoo2);
-    });
-
-    it("should call the getClassSchema method with the right parameters", () => {
-      this.schemaBuilder.getClassSchema.should.have.been.calledWithExactly();
-    });
-
-    it("should call the createSchema method with the right parameters", () => {
-      this.schemaBuilder.createSchema.should.have.been.calledWithExactly({name: "test"});
-      this.schemaBuilder.createSchema.should.have.been.calledWithExactly({propertyKey: "test2"});
-    });
-
-    it("should build the schema", () => {
-      expect(this.schemaBuilder.schema).to.deep.equal({
-        description: "description",
-        properties: {
-          test: {
-            schema: "schema"
+        expect(schemaBuilder.schema).to.deep.equal({
+          "description": "description",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "test2": {
+              "type": "string"
+            }
           },
-          test2: {
-            schema: "schema"
+          "required": [
+            "test2"
+          ],
+          "type": "object"
+        });
+      });
+    });
+    describe("when the model is a primitive", () => {
+      before(() => {
+
+      });
+
+      it("should return the schema", () => {
+        class Model {
+          @Property()
+          test: string;
+        }
+
+        const builder = new OpenApiModelSchemaBuilder(Model).build();
+
+        expect(builder.schema).to.deep.equal({
+          "properties": {
+            "test": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        });
+
+        expect(builder.definitions).to.deep.equal({
+          "Model": {
+            "properties": {
+              "test": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           }
-        },
-        required: true,
-        schema: "classSchema",
-        type: "object"
+        });
+      });
+    });
+    describe("when the model is a class", () => {
+      it("should return the schema", () => {
+        class Model {
+          @Property()
+          test: Object;
+        }
+
+
+        const builder = new OpenApiModelSchemaBuilder(Model).build();
+
+        expect(builder.schema).to.deep.equal({
+          "properties": {
+            "test": {
+              "type": "object"
+            }
+          },
+          "type": "object"
+        });
+
+        expect(builder.definitions).to.deep.equal({
+          "Model": {
+            "properties": {
+              "test": {
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        });
+      });
+    });
+    describe("when the model is a collection (string[])", () => {
+      it("should return the schema", () => {
+        class Model {
+          @PropertyType(String)
+          test: string[];
+        }
+
+        const builder = new OpenApiModelSchemaBuilder(Model);
+
+        // @ts-ignore
+        builder.build();
+
+        expect(builder.definitions).to.deep.equal({
+          "Model": {
+            "properties": {
+              "test": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          }
+        });
+        expect(builder.schema).to.deep.equal({
+          "properties": {
+            "test": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        });
+      });
+    });
+    describe("when the model is a collection (Class[])", () => {
+      it("should return the schema", () => {
+        class Items {
+          @Property()
+          value: string;
+        }
+
+        class Model {
+          @PropertyType(Items)
+          test: Items[];
+        }
+
+        const builder = new OpenApiModelSchemaBuilder(Model).build();
+
+        expect(builder.schema).to.deep.equal({
+          "properties": {
+            "test": {
+              "items": {
+                "$ref": "#/definitions/Items"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        });
+
+        expect(builder.definitions).to.deep.equal({
+          "Items": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "Model": {
+            "properties": {
+              "test": {
+                "items": {
+                  "$ref": "#/definitions/Items"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          }
+        });
       });
     });
   });
-
-  describe("createSchema()", () => {
-    before(() => {
-    });
-  });
-
   describe("getClassSchema()", () => {
     before(() => {
-      this.registryStub = Sinon.stub(JsonSchemesRegistry, "getSchemaDefinition").returns({type: "string"});
-      this.schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
-      this.result = this.schemaBuilder.getClassSchema();
+      Sinon.stub(JsonSchemesRegistry, "getSchemaDefinition").returns({type: "string"});
     });
 
     after(() => {
-      this.registryStub.restore();
+      // @ts-ignore
+      JsonSchemesRegistry.getSchemaDefinition.restore();
     });
 
     it("should call getSchemaDefinition", () => {
-      this.registryStub.should.have.been.calledWithExactly(SwaFoo2);
-    });
-    it("should return the schema", () => {
-      expect(this.result).to.deep.eq({type: "string"});
-    });
-  });
+      const schemaBuilder = new OpenApiModelSchemaBuilder(SwaFoo2);
+      // @ts-ignore
+      const result = schemaBuilder.getClassSchema();
 
-  describe("createSchema", () => {
-    describe("when the model is a primitive", () => {
-      before(() => {
-        this.jsonSchema = new JsonSchema();
-
-        this.propertyMetadata = {
-          type: String,
-          isClass: false,
-          store: {
-            get: Sinon.stub().returns(this.jsonSchema)
-          }
-        };
-
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
-        });
-        this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
-      });
-
-      it("should return the schema", () => {
-        expect(this.result).to.deep.equal({
-          type: "string"
-        });
-      });
-
-      it("should add a Schema to the definitions fields", () => {
-        expect(this.schemaBuilder.definitions).to.deep.equal({});
-      });
-    });
-
-    describe("when the model is a class", () => {
-      before(() => {
-        this.jsonSchema = new JsonSchema();
-        this.jsonSchema.type = "object";
-
-        this.propertyMetadata = {
-          type: class Test2 {
-          },
-          typeName: "Test2",
-          isClass: true,
-          store: {
-            get: Sinon.stub().returns(this.jsonSchema)
-          }
-        };
-
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
-        });
-        this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
-      });
-
-      it("should return the schema", () => {
-        expect(this.result).to.deep.equal({
-          $ref: "#/definitions/Test2"
-        });
-      });
-
-      it("should add a Schema to the definitions fields", () => {
-        expect(this.schemaBuilder.definitions).to.deep.equal({
-          Test2: {
-            properties: {},
-            type: "object"
-          }
-        });
-      });
-    });
-
-    describe("when the model is a collection (string[])", () => {
-      before(() => {
-        this.jsonSchema = new JsonSchema();
-
-        this.propertyMetadata = {
-          type: String,
-          isCollection: true,
-          isArray: true,
-          isClass: false,
-          store: {
-            get: Sinon.stub().returns(this.jsonSchema)
-          }
-        };
-
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
-        });
-        this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
-      });
-
-      it("should return the schema", () => {
-        expect(this.result).to.deep.equal({
-          type: "array",
-          items: {
-            type: "string"
-          }
-        });
-      });
-
-      it("should add a Schema to the definitions fields", () => {
-        expect(this.schemaBuilder.definitions).to.deep.equal({});
-      });
-    });
-
-    describe("when the model is a collection (Class[])", () => {
-      before(() => {
-        this.jsonSchema = new JsonSchema();
-
-        this.propertyMetadata = {
-          type: class Test2 {
-          },
-          typeName: "Test2",
-          isArray: true,
-          isClass: true,
-          isCollection: true,
-          store: {
-            get: Sinon.stub().returns(this.jsonSchema)
-          }
-        };
-
-        this.schemaBuilder = new OpenApiModelSchemaBuilder(class Test {
-        });
-        this.result = this.schemaBuilder.createSchema(this.propertyMetadata);
-      });
-
-      it("should return the schema", () => {
-        expect(this.result).to.deep.equal({
-          type: "array",
-          items: {
-            $ref: "#/definitions/Test2"
-          }
-        });
-      });
-
-      it("should add a Schema to the definitions fields", () => {
-        expect(this.schemaBuilder.definitions).to.deep.equal({
-          Test2: {
-            properties: {},
-            type: "object"
-          }
-        });
-      });
+      expect(result).to.deep.eq({type: "string"});
+      // @ts-ignore
+      JsonSchemesRegistry.getSchemaDefinition.should.have.been.calledWithExactly(SwaFoo2);
     });
   });
 });

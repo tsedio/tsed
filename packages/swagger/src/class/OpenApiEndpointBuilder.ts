@@ -1,5 +1,5 @@
 import {EndpointMetadata, PathParamsType} from "@tsed/common";
-import {deepExtends, Store} from "@tsed/core";
+import {deepClone, deepExtends, isArrayOrArrayClass, isPromise, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
 import {parseSwaggerPath} from "../utils";
@@ -58,7 +58,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
 
     deepExtends(responses, builderResponses);
 
-    responses[this.endpoint.get("statusCode") || "200"] = {description: "Success"};
+    responses[String(this.endpoint.statusCode)] = {description: "Success"};
 
     Object.keys(responses).forEach(code => {
       responses[code] = this.createResponse(code, responses[code]);
@@ -112,15 +112,27 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
    * @returns {Response}
    */
   private createResponse(code: string | number, options: Response): Response {
-    const {description, headers, examples} = deepExtends(options, this.endpoint.statusResponse(code) || {});
+    const {type, collectionType, code: _, headers, ...obj} = deepExtends(options, this.endpoint.statusResponse(code) || {});
+    const response = deepClone(obj);
 
-    const response: Response = {description, headers, examples};
-
-    if (this.endpoint.type === undefined) {
-      return response;
+    if (type) {
+      response.schema = this.createSchema({
+        schema: this.endpoint.get("schema"),
+        type: isPromise(type) || isArrayOrArrayClass(type) || type === Object ? undefined! : type,
+        collectionType
+      });
     }
 
-    response.schema = this.createSchema(this.endpoint);
+    if (headers) {
+      response.headers = Object.entries(headers).reduce((obj, [key, {value, ...schema}]: any[]) => {
+        return {
+          ...obj,
+          [key]: {
+            ...schema
+          }
+        };
+      }, {});
+    }
 
     return response;
   }

@@ -1,4 +1,4 @@
-import {mapParamsOptions} from "../../../../../src/mvc/decorators/params/utils/mapParamsOptions";
+import {mapParamsOptions} from "../../../../src/mvc/decorators/utils/mapParamsOptions";
 
 class Test {
 }

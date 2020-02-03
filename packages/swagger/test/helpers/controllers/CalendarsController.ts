@@ -1,7 +1,6 @@
 import {Controller, Get} from "@tsed/common";
 import {PathParams} from "@tsed/common/src/mvc/decorators/params/pathParams";
-import {Returns} from "../../../src/decorators/returns";
-import {ReturnsArray} from "../../../src/decorators/returnsArray";
+import {Returns, ReturnsArray} from "../../../src/decorators/returns";
 import {Calendar} from "../models/Calendar";
 
 @Controller("/calendars")

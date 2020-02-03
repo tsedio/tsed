@@ -74,7 +74,14 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       deepExtends(this._responses, builder.responses);
     }
 
-    Object.assign(currentProperty, super.createSchema(param));
+    Object.assign(
+      currentProperty,
+      super.createSchema({
+        schema: param.store.get("schema"),
+        type: param.type,
+        collectionType: param.collectionType
+      })
+    );
 
     return schema;
   }
@@ -161,27 +168,31 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       builder.build();
 
       deepExtends(this._responses, builder.responses);
-      deepExtends(this._definitions, builder.definitions);
+
+      this._definitions = {
+        ...this._definitions,
+        ...builder.definitions
+      };
 
       if (param.required) {
         this.addResponse400();
       }
 
-      return Object.assign({}, param.store.get("baseParameter"), {
+      return Object.assign({description: ""}, param.store.get("baseParameter"), {
         in: "body",
         name: "body",
-        description: "",
         required: !!param.required,
-        schema: {
-          $ref: `#/definitions/${param.typeName}`
-        }
+        schema: this.createSchema({
+          schema: param.store.get("schema"),
+          type: param.type,
+          collectionType: param.collectionType
+        })
       });
     }
 
     let required = false;
     const model = `${this.name}Payload`;
-
-    this._definitions[model] = params.reduce((acc: any, param) => {
+    const schema = params.reduce((acc: any, param) => {
       deepExtends(acc, this.createSchemaFromBodyParam(param));
 
       if (param.required) {
@@ -191,6 +202,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
       return acc;
     }, {});
+
+    this._definitions[model] = schema;
 
     return {
       in: "body",

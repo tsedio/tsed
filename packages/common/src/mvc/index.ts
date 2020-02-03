@@ -50,8 +50,5 @@ export * from "./errors/UnknowFilterError";
 // decorators
 export * from "./decorators";
 
-// utils
-export * from "./utils/mapHeaders";
-export * from "./utils/mapReturnedResponse";
-
+// Module
 export * from "./MvcModule";

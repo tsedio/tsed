@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {mapReturnedResponse} from "../../../src/mvc";
+import {mapReturnedResponse} from "../../../../src/mvc";
 
 describe("mapReturnedResponse", () => {
   it("should map the response (1)", () => {

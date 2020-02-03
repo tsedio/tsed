@@ -1,53 +1,51 @@
-import {descriptorOf, Store} from "@tsed/core";
+import {EndpointRegistry} from "@tsed/common/src";
 import {expect} from "chai";
 import {Returns} from "../../src";
 
 class Test {
-  test1() {
-  }
 
-  test2() {
-  }
-
-  test3() {
-  }
-
-  test4() {
-  }
 }
 
 describe("Returns()", () => {
   describe("when status and configuration are given", () => {
     before(() => {
-      Returns(400, {
-        description: "Bad Request"
-      })(Test, "test1", descriptorOf(Test, "test1"));
-      this.store = Store.fromMethod(Test, "test1");
+
     });
     it("should set the responses", () => {
-      expect(this.store.get("responses")).to.deep.eq({
-        "400": {
-          collectionType: undefined,
-          description: "Bad Request",
-          headers: undefined,
-          type: undefined
+      class Ctrl {
+        @Returns(400, {
+          description: "Bad Request"
+        })
+        test() {
+
         }
+      }
+
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
+
+      expect(endpoint.responses.get(400)).to.deep.eq({
+        code: 400,
+        description: "Bad Request"
       });
     });
   });
 
   describe("when a type and configuration are given", () => {
-    before(() => {
-      Returns(Test, {
-        description: "Success"
-      })(Test, "test2", descriptorOf(Test, "test2"));
-      this.store = Store.fromMethod(Test, "test2");
-    });
     it("should set the responses", () => {
-      expect(this.store.get("response")).to.deep.eq({
-        collectionType: undefined,
+      class Ctrl {
+        @Returns(Test, {
+          description: "Success"
+        })
+        test() {
+
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
+
+      expect(endpoint.response).to.deep.eq({
+        code: 200,
         description: "Success",
-        headers: undefined,
         type: Test
       });
     });
@@ -55,14 +53,20 @@ describe("Returns()", () => {
 
   describe("when a type is given", () => {
     before(() => {
-      Returns(Test)(Test, "test3", descriptorOf(Test, "test3"));
-      this.store = Store.fromMethod(Test, "test3");
     });
     it("should set the responses", () => {
-      expect(this.store.get("response")).to.deep.eq({
-        collectionType: undefined,
-        description: undefined,
-        headers: undefined,
+      class Ctrl {
+        @Returns(Test)
+        test() {
+
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
+
+      expect(endpoint.response).to.deep.eq({
+        code: 200,
+        description: "",
         type: Test
       });
     });
@@ -70,18 +74,35 @@ describe("Returns()", () => {
 
   describe("when a configuration is given", () => {
     before(() => {
-      Returns({
-        description: "Success",
-        type: Test
-      })(Test, "test4", descriptorOf(Test, "test4"));
-      this.store = Store.fromMethod(Test, "test4");
+
     });
     it("should set the responses", () => {
-      expect(this.store.get("response")).to.deep.eq({
-        collectionType: undefined,
+      class Ctrl {
+        @Returns({
+          description: "Success",
+          type: Test,
+          headers: {
+            "Content-Type": {
+              type: "string"
+            }
+          }
+        })
+        test() {
+
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Ctrl, "test");
+
+      expect(endpoint.response).to.deep.eq({
+        code: 200,
         description: "Success",
-        headers: undefined,
-        type: Test
+        type: Test,
+        "headers": {
+          "Content-Type": {
+            "type": "string"
+          }
+        }
       });
     });
   });

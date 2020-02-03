@@ -1,7 +1,4 @@
-import {applyDecorators, StoreSet, StoreMerge} from "@tsed/core";
-import {IResponseOptions} from "../../interfaces/IResponseOptions";
-import {mapReturnedResponse} from "../../utils/mapReturnedResponse";
-import {UseAfter} from "./useAfter";
+import {ReturnType} from "./returnType";
 
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
@@ -46,18 +43,13 @@ import {UseAfter} from "./useAfter";
  * @decorator
  * @endpoint
  */
-export function Status(code: number, options: IResponseOptions = {}) {
-  const response = mapReturnedResponse(options);
+export function Status(code: number, options: Partial<TsED.ResponseOptions> = {}) {
+  const {use, collection} = options as any;
 
-  return applyDecorators(
-    StoreSet("statusCode", code),
-    StoreMerge("response", response),
-    StoreMerge("responses", {[code]: response}),
-    UseAfter((request: any, response: any, next: any) => {
-      if (response.statusCode === 200) {
-        response.status(code);
-      }
-      next();
-    })
-  );
+  return ReturnType({
+    ...options,
+    code,
+    type: options.type || use,
+    collectionType: options.collectionType || collection
+  });
 }

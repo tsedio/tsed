@@ -1,20 +1,26 @@
-import {Type} from "@tsed/core";
-import {IResponseHeaders} from "./IResponseHeaders";
+import {IMetadataType} from "@tsed/core";
 
-export interface IResponseOptions {
-  /**
-   * Use IResponseOptions.type instead of
-   * @deprecated
-   */
-  use?: Type<any>;
-  type?: Type<any>;
-  /**
-   * Use IResponseOptions.collectionType instead of
-   * @deprecated
-   */
-  collection?: Type<any>;
-  collectionType?: Type<any>;
-  description?: string;
-  examples?: {[exampleName: string]: string};
-  headers?: IResponseHeaders;
+declare global {
+  namespace TsED {
+    interface ResponseHeader {
+      value?: string | number;
+    }
+
+    interface ResponseHeaders {
+      [key: string]: ResponseHeader;
+    }
+
+    interface ResponseOptions extends IMetadataType {
+      code?: number;
+      headers?: {
+        [key: string]: ResponseHeader;
+      };
+    }
+  }
 }
+
+export interface IResponseOptions extends TsED.ResponseOptions {}
+
+export interface IResponseHeaders extends TsED.ResponseHeaders {}
+
+export interface IResponseHeader extends TsED.ResponseHeader {}

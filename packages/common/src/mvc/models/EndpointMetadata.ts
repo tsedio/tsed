@@ -1,6 +1,7 @@
 import {deepExtends, Enumerable, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
 import {EXPRESS_METHODS} from "../constants";
 import {IPathMethod} from "../interfaces/IPathMethod";
+import {IResponseOptions} from "../interfaces/IResponseOptions";
 import {ParamRegistry} from "../registries/ParamRegistry";
 
 export interface EndpointConstructorOptions {
@@ -11,6 +12,9 @@ export interface EndpointConstructorOptions {
   afterMiddlewares?: any[];
   pathsMethods?: IPathMethod[];
   type?: any;
+  parent?: EndpointMetadata;
+  responses?: Map<number, IResponseOptions>;
+  statusCode?: number;
 }
 
 /**
@@ -44,16 +48,33 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    */
   @Enumerable()
   public pathsMethods: IPathMethod[] = [];
+
+  @Enumerable()
+  readonly responses: Map<number, IResponseOptions> = new Map();
+
+  @Enumerable()
+  public statusCode: number = 200;
   /**
    * Endpoint inherited from parent class.
    */
   @NotEnumerable()
-  private inheritedEndpoint: EndpointMetadata;
+  readonly parent: EndpointMetadata | undefined;
 
   constructor(options: EndpointConstructorOptions) {
     super(options.target, options.propertyKey, Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
 
-    const {target, propertyKey, beforeMiddlewares = [], middlewares = [], afterMiddlewares = [], pathsMethods = [], type} = options;
+    const {
+      target,
+      parent,
+      statusCode,
+      responses,
+      propertyKey,
+      beforeMiddlewares = [],
+      middlewares = [],
+      afterMiddlewares = [],
+      pathsMethods = [],
+      type
+    } = options;
 
     this._type = Metadata.getReturnType(target, propertyKey);
 
@@ -62,6 +83,16 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
     this.afterMiddlewares = afterMiddlewares;
     this.pathsMethods = pathsMethods;
     this.type = type;
+    this.parent = parent;
+    statusCode && (this.statusCode = statusCode);
+
+    if (responses) {
+      this.responses = responses;
+    } else {
+      this.responses.set(this.statusCode, {
+        code: this.statusCode
+      } as any);
+    }
   }
 
   get type(): Type<any> {
@@ -84,15 +115,15 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @returns {Store}
    */
   get store(): Store {
-    return this.inheritedEndpoint ? this.inheritedEndpoint.store : this._store;
-  }
-
-  get statusCode() {
-    return this.store.get("statusCode") || 200;
+    return this.parent ? this.parent.store : this._store;
   }
 
   get params() {
     return ParamRegistry.getParams(this.target, this.propertyKey);
+  }
+
+  get response() {
+    return this.responses.get(this.statusCode)!;
   }
 
   /**
@@ -115,44 +146,20 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   /**
    * Change the type and the collection type from the status code.
    * @param {string | number} code
+   * @deprecated Use endpoint.responses.get(code)
    */
-  public statusResponse(code: string | number): {description: string; headers: any; examples: any} {
-    const get = (code: number | string) => (this.get("responses") || {})[code] || {};
-    let {description, headers, examples} = get(code);
-
-    if (code) {
-      const {type, collectionType} = get(code);
+  public statusResponse(code: string | number) {
+    if (code && this.responses.has(+code)) {
+      const {type, collectionType} = this.responses.get(+code)!;
+      this.type = type;
+      this.collectionType = collectionType;
+    } else {
+      const {type, collectionType} = this.responses.get(this.statusCode) || {};
       this.type = type;
       this.collectionType = collectionType;
     }
 
-    const expectedStatus = this.statusCode;
-
-    if (+code === +expectedStatus) {
-      const response = this.store.get("response");
-
-      if (response) {
-        headers = response.headers || headers;
-        examples = response.examples || examples;
-        description = response.description || description;
-
-        this.type = response.type || this.type;
-        this.collectionType = response.collectionType || this.collectionType;
-      }
-    }
-
-    if (headers) {
-      headers = deepExtends({}, headers);
-      Object.keys(headers).forEach(key => {
-        delete headers[key].value;
-      });
-    }
-
-    return {
-      headers,
-      examples,
-      description
-    };
+    return this.responses.get(+code) || {};
   }
 
   /**
@@ -207,21 +214,5 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
     this.middlewares = this.middlewares.concat(filteredArg);
 
     return this;
-  }
-
-  /**
-   *
-   * @param {Type<any>} target
-   */
-  public inherit(target: Type<any>): EndpointMetadata {
-    const metadata = new EndpointMetadata({
-      ...this,
-      target,
-      type: this._type
-    });
-
-    metadata.inheritedEndpoint = this;
-
-    return metadata;
   }
 }

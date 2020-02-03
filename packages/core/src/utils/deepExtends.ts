@@ -1,3 +1,5 @@
+import {classOf, isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./ObjectUtils";
+
 /**
  *
  * @param out
@@ -5,8 +7,6 @@
  * @param {{[p: string]: (collection: any[], value: any) => any}} reducers
  * @returns {any}
  */
-import {classOf, isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./ObjectUtils";
-
 export function deepExtends(out: any, obj: any, reducers: {[key: string]: (collection: any[], value: any) => any} = {}): any {
   if (obj === undefined || obj === null) {
     return out;

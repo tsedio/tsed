@@ -6,7 +6,6 @@ export * from "./IMiddlewareError";
 export * from "./IControllerMiddlewares";
 export * from "./PathParamsType";
 export * from "./IResponseOptions";
-export * from "./IResponseHeader";
 export * from "./IResponseError";
 export * from "./IParamOptions";
 export * from "./HandlerType";

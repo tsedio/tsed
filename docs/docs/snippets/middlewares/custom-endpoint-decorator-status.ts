@@ -1,17 +1,10 @@
-import {applyDecorators, StoreSet} from "@tsed/core";
-import {IResponseOptions, UseAfter, mapReturnedResponse} from "@tsed/common";
+import {UseAfter} from "@tsed/common";
+import {applyDecorators} from "@tsed/core";
 
-export function Status(code: number, options: IResponseOptions = {}) {
-  const response = mapReturnedResponse(options);
-
+export function CustomStatus(code: number) {
   return applyDecorators(
-    StoreSet("statusCode", code),
-    StoreSet("response", response),
-    StoreSet("responses", {[code]: response}),
-    UseAfter((request: any, response: any, next: any) => {
-      if (response.statusCode === 200) {
-        response.status(code);
-      }
+    UseAfter((req: any, res: any, next: any) => {
+      res.status(code);
       next();
     })
   );

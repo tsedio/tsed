@@ -1,16 +1,19 @@
-import {Type} from "@tsed/core";
+import {IResponseOptions} from "@tsed/common";
 import {Header, Schema} from "swagger-schema-official";
 
-export interface ISwaggerResponses {
-  /**
-   * Use IResponseOptions.type instead of
-   * @deprecated
-   */
-  use?: Type<any>;
-  type?: Type<any>;
-  collection?: Type<any>;
-  description?: string;
-  examples?: {[exampleName: string]: string};
-  headers?: {[headerName: string]: Header};
-  schema?: Schema;
+declare global {
+  namespace TsED {
+    interface ResponseHeader extends Header {}
+
+    interface ResponseOptions {
+      description: string;
+      schema?: Schema;
+      examples?: {[exampleName: string]: {}};
+    }
+  }
 }
+
+/**
+ * @deprecated
+ */
+export interface ISwaggerResponses extends IResponseOptions {}
