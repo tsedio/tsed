@@ -1,7 +1,9 @@
-import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
-import {Store} from "@tsed/core";
+import {ParamMetadata, ParamRegistry, ParamTypes, Property, Required} from "@tsed/common";
+import {BodyParams} from "@tsed/common/src/mvc/decorators/params/bodyParams";
+import {MultipartFile} from "@tsed/multipartfiles/src";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {Consumes, Description} from "../../src";
 import {OpenApiParamsBuilder} from "../../src/class/OpenApiParamsBuilder";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
 
@@ -13,223 +15,80 @@ param0.type = SwaFoo2;
 describe("OpenApiParamsBuilder", () => {
   describe("build()", () => {
     describe("when consumes has application/x-www-form-urlencoded", () => {
-      before(() => {
-        const storeGet = (key: string) => {
-          if (key === "hidden") {
-            return false;
-          }
-
-          return {test: "test"};
-        };
-
-        this.params = [
-          {
-            paramType: ParamTypes.BODY,
-            expression: "expression1",
-            required: true,
-            store: {
-              get: storeGet
-            }
-          }
-        ];
-
-        class FakeMetadata {
-          attr1: any;
-          attr2: any;
-
-          constructor(public target: any) {
-          }
-
-          test() {
-            return this.target;
-          }
-        }
-
-        this.store = new Store([FakeMetadata]);
-        this.store._map = new Map();
-        this.store._map.set("operation", {consumes: ["application/x-www-form-urlencoded"]});
-
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
-        this.fromMethodStub = Sinon.stub(Store, "fromMethod").returns(this.store);
-
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-      });
-      after(() => {
-        this.getParamsStub.restore();
-        this.fromMethodStub.restore();
-      });
       it("should set hasFromData to true", () => {
-        expect(this.builder.hasFormData).to.equal(true);
-      });
-    });
+        class Ctrl {
+          @Consumes("application/x-www-form-urlencoded")
+          test(@BodyParams("expression") param: string) {
 
-    describe("when consumes does not have application/x-www-form-urlencoded", () => {
-      before(() => {
-        const storeGet = (key: string) => {
-          if (key === "hidden") {
-            return false;
-          }
-
-          return {test: "test"};
-        };
-
-        this.params = [
-          {
-            paramType: ParamTypes.BODY,
-            expression: "expression1",
-            required: true,
-            store: {
-              get: storeGet
-            }
-          }
-        ];
-
-        class FakeMetadata {
-          attr1: any;
-          attr2: any;
-
-          constructor(public target: any) {
-          }
-
-          test() {
-            return this.target;
           }
         }
 
-        this.store = new Store([FakeMetadata]);
-        this.store._map = new Map();
-        this.store._map.set("operation", {consumes: ["application/json"]});
+        const builder = new OpenApiParamsBuilder(Ctrl, "test").build();
 
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
-        this.fromMethodStub = Sinon.stub(Store, "fromMethod").returns(this.store);
-
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+        // @ts-ignore
+        expect(builder.hasFormData).to.equal(true);
+        expect(builder.parameters).to.deep.equal([
+          {
+            "in": "formData",
+            "name": "expression",
+            "required": false,
+            "type": "string"
+          }
+        ]);
       });
-      after(() => {
-        this.getParamsStub.restore();
-        this.fromMethodStub.restore();
-      });
+    });
+    describe("when consumes does not have application/x-www-form-urlencoded", () => {
       it("should set hasFromData to false", () => {
-        expect(this.builder.hasFormData).to.equal(false);
+        class Ctrl {
+          @Consumes("application/json")
+          test(@BodyParams("expression") param: string) {
+
+          }
+        }
+
+        const builder = new OpenApiParamsBuilder(Ctrl, "test").build();
+
+        // @ts-ignore
+        expect(builder.hasFormData).to.equal(false);
+        expect(builder.parameters).to.deep.equal([
+          {
+            "description": "",
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CtrlTestPayload"
+            }
+          }
+        ]);
       });
     });
-
     describe("when formData", () => {
-      before(() => {
-        const storeGet = (key: string) => {
-          if (key === "hidden") {
-            return false;
-          }
-
-          return {test: "test"};
-        };
-
-        this.params = [
-          {
-            paramType: ParamTypes.FORM_DATA,
-            expression: "expression1",
-            required: true,
-            store: {
-              get: storeGet
-            }
-          },
-          {
-            paramType: ParamTypes.BODY,
-            expression: "expression1",
-            required: true,
-            store: {
-              get: storeGet
-            }
-          }
-        ];
-
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
-
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-        Sinon.stub(this.builder, "getInHeaders").returns("getInHeaders");
-        Sinon.stub(this.builder, "getInPathParams").returns("getInPathParams");
-        Sinon.stub(this.builder, "getInQueryParams").returns("getInQueryParams");
-        Sinon.stub(this.builder, "getInFormData").returns("getInFormData");
-        Sinon.stub(this.builder, "getInBodyParam").returns("getInBodyParam");
-
-        this.result = this.builder.build();
-      });
-
-      after(() => {
-        this.getParamsStub.restore();
-      });
-
-      it("should call getInHeaders()", () => this.builder.getInHeaders.should.have.been.called);
-
-      it("should call getInPathParams()", () => this.builder.getInPathParams.should.have.been.called);
-
-      it("should call getInQueryParams()", () => this.builder.getInQueryParams.should.have.been.called);
-
-      it("should call getInFormData()", () => this.builder.getInFormData.should.have.been.called);
-
-      it("shouldn't call getInBodyParam()", () => this.builder.getInBodyParam.should.not.have.been.called);
       it("should concat results", () => {
-        expect(this.builder._parameters).to.deep.equal(["getInHeaders", "getInPathParams", "getInQueryParams", "getInFormData"]);
-      });
-    });
-    describe("when body", () => {
-      before(() => {
-        const storeGet = (key: string) => {
-          if (key === "hidden") {
-            return false;
+        class Ctrl {
+          @Consumes("application/x-www-form-urlencoded")
+          test(@MultipartFile("expression1") param1: string, @BodyParams("expression2") param2: string) {
+
           }
+        }
 
-          return {test: "test"};
-        };
 
-        this.params = [
-          {
-            paramType: ParamTypes.BODY,
-            expression: "expression1",
-            required: true,
-            store: {
-              get: storeGet
-            }
-          },
-          {
-            paramType: ParamTypes.BODY,
-            expression: "expression1",
-            required: true,
-            store: {
-              get: storeGet
-            }
-          }
-        ];
+        const builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+        // @ts-ignore
+        Sinon.stub(builder, "getInHeaders").returns("getInHeaders");
+        // @ts-ignore
+        Sinon.stub(builder, "getInPathParams").returns("getInPathParams");
+        // @ts-ignore
+        Sinon.stub(builder, "getInQueryParams").returns("getInQueryParams");
+        // @ts-ignore
+        Sinon.stub(builder, "getInFormData").returns("getInFormData");
+        // @ts-ignore
+        Sinon.stub(builder, "getInBodyParam").returns("getInBodyParam");
 
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+        builder.build();
 
-        Sinon.stub(this.builder, "getInHeaders").returns("getInHeaders");
-        Sinon.stub(this.builder, "getInPathParams").returns("getInPathParams");
-        Sinon.stub(this.builder, "getInQueryParams").returns("getInQueryParams");
-        Sinon.stub(this.builder, "getInFormData").returns("getInFormData");
-        Sinon.stub(this.builder, "getInBodyParam").returns("getInBodyParam");
-
-        this.result = this.builder.build();
-      });
-
-      after(() => {
-        this.getParamsStub.restore();
-      });
-
-      it("should call getInHeaders()", () => this.builder.getInHeaders.should.have.been.called);
-
-      it("should call getInPathParams()", () => this.builder.getInPathParams.should.have.been.called);
-
-      it("should call getInQueryParams()", () => this.builder.getInQueryParams.should.have.been.called);
-
-      it("should call getInBodyParam()", () => this.builder.getInBodyParam.should.have.been.called);
-
-      it("shouldn't call getInFormData()", () => this.builder.getInFormData.should.not.have.been.called);
-      it("should concat results", () => {
-        expect(this.builder._parameters).to.deep.equal(["getInHeaders", "getInPathParams", "getInQueryParams", "getInBodyParam"]);
+        expect(builder.parameters).to.deep.equal(["getInHeaders", "getInPathParams", "getInQueryParams", "getInFormData"]);
       });
     });
   });
@@ -441,51 +300,42 @@ describe("OpenApiParamsBuilder", () => {
 
   describe("getInFormData()", () => {
     describe("when model", () => {
-      class Test {
-      }
+      it("should return data", () => {
+        class Model {
+          @Property()
+          prop: string;
+        }
 
-      before(() => {
-        const storeGet = (key: string) => {
-          if (key === "hidden") {
-            return false;
+        class Ctrl {
+          test(@BodyParams() @Required() @Description("Description") model: Model) {
+
           }
+        }
 
-          return {test: "test"};
-        };
+        const builder = new OpenApiParamsBuilder(Ctrl, "test").build();
 
-        this.params = [
+        expect(builder.definitions).to.deep.equal({
+          "Model": {
+            "properties": {
+              "prop": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        });
+
+        expect(builder.parameters).to.deep.equal([
           {
-            paramType: ParamTypes.BODY,
-            required: true,
-            type: Test,
-            typeName: "Test",
-            store: {
-              get: storeGet
+            "description": "Description",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Model"
             }
           }
-        ];
-
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
-
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-        this.result = this.builder.getInBodyParam();
-      });
-      after(() => {
-        this.getParamsStub.restore();
-      });
-
-      it("should return data", () => {
-        expect(this.result).to.deep.equal({
-          description: "",
-          in: "body",
-          name: "body",
-          required: true,
-          schema: {
-            $ref: "#/definitions/Test"
-          },
-          test: "test"
-        });
+        ]);
       });
     });
 
@@ -694,38 +544,42 @@ describe("OpenApiParamsBuilder", () => {
     });
 
     describe("when is a string[]", () => {
+      const sandbox = Sinon.createSandbox();
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
-
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-
-        this.result = this.builder.createSchemaFromBodyParam({
-          expression: "event",
-          type: String,
-          isClass: false,
-          isCollection: true,
-          store: {
-            get: () => {
-            }
-          }
-        });
+        sandbox.stub(ParamRegistry, "getParams");
       });
       after(() => {
-        this.getParamsStub.restore();
+        sandbox.restore();
       });
 
       it("should create a schema", () => {
-        expect(this.result).to.deep.eq({
-          properties: {
-            event: {
-              type: "object",
-              additionalProperties: {
+        const param0 = new ParamMetadata({target: Ctrl, propertyKey: "test", index: 0});
+        param0.service = ParamTypes.BODY;
+        param0.paramType = ParamTypes.BODY;
+        param0.type = String;
+        param0.collectionType = Array;
+
+        // @ts-ignore
+        ParamRegistry.getParams.returns([param0]);
+
+        const builder = new OpenApiParamsBuilder(Ctrl, "test");
+        // @ts-ignore
+        builder.build();
+
+        expect(builder.parameters).to.deep.eq([
+          {
+            "description": "",
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              type: "array",
+              items: {
                 type: "string"
               }
             }
-          },
-          type: "object"
-        });
+          }
+        ]);
       });
     });
 
@@ -848,18 +702,16 @@ describe("OpenApiParamsBuilder", () => {
   });
 
   describe("integration", () => {
-    before(() => {
-      this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
-
-      this.builder = new OpenApiParamsBuilder(Ctrl, "test");
-      this.builder.build();
-    });
-    after(() => {
-      this.getParamsStub.restore();
-    });
-
     it("should create a schema", () => {
-      expect(this.builder.parameters).to.deep.eq([
+
+      class Ctrl {
+        test(@BodyParams() test: SwaFoo2) {
+        }
+      }
+
+      const builder = new OpenApiParamsBuilder(Ctrl, "test").build();
+
+      expect(builder.parameters).to.deep.eq([
         {
           description: "",
           in: "body",
@@ -870,10 +722,8 @@ describe("OpenApiParamsBuilder", () => {
           }
         }
       ]);
-    });
 
-    it("should create a definitions", () => {
-      expect(this.builder.definitions).to.deep.eq({
+      expect(builder.definitions).to.deep.eq({
         SwaAgeModel: {
           properties: {
             age: {

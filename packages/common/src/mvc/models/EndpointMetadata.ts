@@ -146,6 +146,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   /**
    * Change the type and the collection type from the status code.
    * @param {string | number} code
+   * @deprecated Use endpoint.responses.get(code)
    */
   public statusResponse(code: string | number) {
     if (code && this.responses.has(+code)) {

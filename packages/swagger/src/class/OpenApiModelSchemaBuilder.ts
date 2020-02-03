@@ -1,5 +1,5 @@
 import {JsonSchema, JsonSchemesRegistry, PropertyMetadata, PropertyRegistry} from "@tsed/common";
-import {deepExtends, nameOf, Storable, Store, Type} from "@tsed/core";
+import {isArrayOrArrayClass, isClass, isCollection, isObject, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Schema} from "swagger-schema-official";
 import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
@@ -14,6 +14,18 @@ export class OpenApiModelSchemaBuilder {
   protected _schema: Schema;
 
   constructor(private target: Type<any>) {}
+
+  public get schema(): Schema {
+    return this._schema;
+  }
+
+  public get definitions(): OpenApiDefinitions {
+    return this._definitions;
+  }
+
+  public get responses(): OpenApiResponses {
+    return this._responses;
+  }
 
   /**
    * Build the Schema and his properties.
@@ -36,7 +48,11 @@ export class OpenApiModelSchemaBuilder {
 
     properties.forEach((property: PropertyMetadata) => {
       const propertyKey = property.name || property.propertyKey;
-      schema.properties![String(propertyKey)] = this.createSchema(property);
+      schema.properties![String(propertyKey)] = this.createSchema({
+        schema: property.store.get("schema"),
+        type: property.type,
+        collectionType: property.collectionType
+      });
     });
 
     this._schema = schema;
@@ -50,32 +66,43 @@ export class OpenApiModelSchemaBuilder {
    * @param {Storable} model
    * @returns {Schema}
    */
-  protected createSchema(model: Storable): Schema {
+  protected createSchema({
+    schema = {},
+    type,
+    collectionType
+  }: {
+    schema: Partial<Schema>;
+    type: Type<any>;
+    collectionType: Type<any>;
+  }): Schema {
     let builder;
-    let schema: any = (model.store.get("schema") as Schema) || {};
+    const typeName = nameOf(type);
 
     if (schema instanceof JsonSchema) {
       schema = schema.toObject();
     }
 
-    if (model.isClass) {
-      builder = new OpenApiModelSchemaBuilder(model.type);
+    if (isClass(type)) {
+      builder = new OpenApiModelSchemaBuilder(type);
       builder.build();
 
-      deepExtends(this._definitions, builder.definitions);
+      this._definitions = {
+        ...this._definitions,
+        ...builder.definitions
+      };
     }
 
-    if (model.isCollection) {
-      if (model.isArray) {
+    if (isCollection(collectionType)) {
+      if (isArrayOrArrayClass(collectionType)) {
         schema.type = "array";
 
         if (!schema.items) {
-          if (model.isClass) {
+          if (isClass(type)) {
             schema.items = {
-              $ref: `#/definitions/${model.typeName}`
+              $ref: `#/definitions/${typeName}`
             };
           } else {
-            schema.items = swaggerApplyType({}, (schema.additionalProperties && schema.additionalProperties.type) || model.type);
+            schema.items = swaggerApplyType({}, (isObject(schema.additionalProperties) && schema.additionalProperties.type) || type);
           }
         }
 
@@ -84,27 +111,30 @@ export class OpenApiModelSchemaBuilder {
 
       schema.type = schema.type || "object";
 
-      if (model.isClass) {
+      if (isClass(type)) {
         schema.additionalProperties = {
-          $ref: `#/definitions/${model.typeName}`
+          $ref: `#/definitions/${typeName}`
         };
 
         return schema;
       }
 
-      schema.additionalProperties = swaggerApplyType({}, (schema.additionalProperties && schema.additionalProperties.type) || model.type);
+      schema.additionalProperties = swaggerApplyType(
+        {},
+        (isObject(schema.additionalProperties) && schema.additionalProperties.type) || type
+      );
 
       return schema;
     }
 
-    if (model.isClass) {
-      schema.$ref = `#/definitions/${model.typeName}`;
+    if (isClass(type)) {
+      schema.$ref = `#/definitions/${typeName}`;
       delete schema.type;
 
       return schema;
     }
 
-    schema = swaggerApplyType(schema, schema.type || model.type);
+    schema = swaggerApplyType(schema, schema.type || type);
 
     return schema;
   }
@@ -118,18 +148,6 @@ export class OpenApiModelSchemaBuilder {
     delete schema.definitions;
 
     return schema as Schema;
-  }
-
-  public get schema(): Schema {
-    return this._schema;
-  }
-
-  public get definitions(): OpenApiDefinitions {
-    return this._definitions;
-  }
-
-  public get responses(): OpenApiResponses {
-    return this._responses;
   }
 }
 

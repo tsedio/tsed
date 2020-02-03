@@ -1,5 +1,5 @@
 import {EndpointMetadata, PathParamsType} from "@tsed/common";
-import {deepClone, deepExtends, Store} from "@tsed/core";
+import {deepClone, deepExtends, isArrayOrArrayClass, isPromise, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
 import {parseSwaggerPath} from "../utils";
@@ -116,7 +116,11 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     const response = deepClone(obj);
 
     if (type) {
-      response.schema = this.createSchema(this.endpoint);
+      response.schema = this.createSchema({
+        schema: this.endpoint.get("schema"),
+        type: isPromise(type) || isArrayOrArrayClass(type) || type === Object ? undefined! : type,
+        collectionType
+      });
     }
 
     if (headers) {
