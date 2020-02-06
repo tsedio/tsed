@@ -102,7 +102,7 @@ export class HandlerBuilder {
         process = process.toPromise();
       }
 
-      if (isStream(process)) {
+      if (isStream(process) || Buffer.isBuffer(process)) {
         return done(null, process);
       }
 

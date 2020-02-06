@@ -17,16 +17,24 @@ export class SendResponseMiddleware implements IMiddleware {
       return response.send();
     }
 
-    if (isStream(data)) {
+    if (this.shouldBeStreamed(data)) {
       data.pipe(response);
 
       return response;
     }
 
-    if (isBoolean(data) || isNumber(data) || isString(data) || data === null) {
+    if (this.shouldBeSent(data)) {
       return response.send(data);
     }
 
     return response.json(this.converterService.serialize(data, {type: endpoint.type}));
+  }
+
+  protected shouldBeSent(data: any) {
+    return Buffer.isBuffer(data) || isBoolean(data) || isNumber(data) || isString(data) || data === null;
+  }
+
+  protected shouldBeStreamed(data: any) {
+    return isStream(data);
   }
 }
