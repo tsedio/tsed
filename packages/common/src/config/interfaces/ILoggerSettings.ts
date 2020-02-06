@@ -44,4 +44,9 @@ export interface ILoggerSettings {
    * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://romakita.github.io/ts-log-debug/).
    */
   format?: string;
+  /**
+   * Specify the log stack size for the context.logger. When the stack.length is reach, the logger is flushed during the request.
+   * Default size is set to 30.
+   */
+  maxStackSize?: number;
 }

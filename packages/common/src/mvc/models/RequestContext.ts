@@ -7,6 +7,8 @@ export interface IRequestContextOptions {
   logger: any;
   url: string;
   ignoreUrlPatterns?: any[];
+  level?: "debug" | "info" | "warn" | "error" | "off";
+  maxStackSize?: number;
 }
 
 export class RequestContext extends Map<any, any> {
@@ -56,14 +58,13 @@ export class RequestContext extends Map<any, any> {
    */
   readonly logger: RequestLogger;
 
-  constructor({id, logger, url, ignoreUrlPatterns = []}: IRequestContextOptions) {
+  constructor({id, logger, ...options}: IRequestContextOptions) {
     super();
     this.id = id;
     this.logger = new RequestLogger(logger, {
       id,
       startDate: this.dateStart,
-      url,
-      ignoreUrlPatterns
+      ...options
     });
   }
 

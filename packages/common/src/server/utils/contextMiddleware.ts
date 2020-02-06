@@ -1,8 +1,8 @@
-import {applyBefore} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import {RequestContext} from "../../mvc";
 
+const onFinished = require("on-finished");
 const uuidv4 = require("uuid/v4");
 
 /**
@@ -11,25 +11,24 @@ const uuidv4 = require("uuid/v4");
  * @param injector
  */
 export function contextMiddleware(injector: InjectorService) {
-  const {
-    ignoreUrlPatterns = [],
-    reqIdBuilder = (() => uuidv4().replace(/-/gi, ""))
-  } = injector.settings.logger || {};
-
   return async (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
+    const {level, maxStackSize, ignoreUrlPatterns = [], reqIdBuilder = () => uuidv4().replace(/-/gi, "")} = injector.settings.logger || {};
+
     const id = reqIdBuilder();
 
     request.ctx = new RequestContext({
       id,
       logger: injector.logger,
       url: request.originalUrl || request.url,
-      ignoreUrlPatterns
+      ignoreUrlPatterns,
+      level,
+      maxStackSize
     });
 
     request.id = id;
     request.log = request.ctx.logger;
 
-    applyBefore(response, "end", async () => {
+    onFinished(response, async () => {
       await injector.emit("$onResponse", request, response);
       await request.ctx.destroy();
     });

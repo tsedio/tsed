@@ -169,4 +169,33 @@ describe("RequestLogger", () => {
     // THEN
     return logger.info.should.not.have.been.called;
   });
+  it("should create a new Context and flush log when maxStackSize is reached", () => {
+    const logger = {
+      info: Sinon.stub(),
+      debug: Sinon.stub(),
+      warn: Sinon.stub(),
+      error: Sinon.stub(),
+      trace: Sinon.stub()
+    };
+
+    const requestLogger = new RequestLogger(logger, {
+      id: "id",
+      startDate: new Date("2019-01-01"),
+      url: "/admin",
+      maxStackSize: 2,
+      minimalRequestPicker: (o: any) => ({...o, "minimal": "minimal"}),
+      completeRequestPicker: (o: any) => ({...o, "complete": "complete"})
+    });
+
+    Sinon.stub(requestLogger as any, "getDuration").returns(1);
+
+    // WHEN
+    requestLogger.info({test: "test"});
+    requestLogger.info({test: "test"});
+    requestLogger.info({test: "test"});
+    requestLogger.info({test: "test"});
+
+    // THEN
+    return logger.info.should.have.been.calledThrice;
+  });
 });
