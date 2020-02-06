@@ -1,6 +1,6 @@
 {
   "name": "@tsed/common",
-  "version": "5.41.2",
+  "version": "5.42.0",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -44,18 +44,18 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/core": "5.41.2",
-    "@tsed/di": "5.41.2",
+    "@tsed/core": "5.42.0",
+    "@tsed/di": "5.42.0",
     "@types/json-schema": "^7.0.3",
     "globby": "10.0.1",
     "json-schema": "^0.2.3",
     "normalize-path": "3.0.0",
+    "on-finished": "2.3.0",
     "rxjs": "^6.5.2",
     "ts-httpexceptions": "4.1.0",
     "ts-log-debug": "^5.2.0",
     "tslib": "1.10.0",
-    "uuid": "3.3.3",
-    "on-finished": "2.3.0"
+    "uuid": "3.3.3"
   },
   "peerDependencies": {
     "@types/express": "^4",
