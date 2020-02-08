@@ -1,4 +1,4 @@
-import {GlobalProviders, IDIConfigurationOptions, InjectorService, ProviderType} from "@tsed/di";
+import {GlobalProviders, IDIConfigurationOptions, InjectorService} from "@tsed/di";
 import {$log} from "ts-log-debug";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 
@@ -7,15 +7,8 @@ $log.level = "info";
 
 export function createInjector(settings: Partial<IDIConfigurationOptions> = {}) {
   const injector = new InjectorService();
-
-  // Init settings
   injector.settings = createSettingsService(injector);
   injector.logger = $log;
-
-  /* istanbul ignore next */
-  if (settings.controllerScope) {
-    injector.settings.scopes[ProviderType.CONTROLLER] = settings.controllerScope;
-  }
 
   // @ts-ignore
   injector.settings.set(settings);
@@ -28,11 +21,11 @@ export function createInjector(settings: Partial<IDIConfigurationOptions> = {}) 
   return injector;
 }
 
-function createSettingsService(injector: InjectorService) {
+function createSettingsService(injector: InjectorService): ServerSettingsService & TsED.Configuration {
   const provider = GlobalProviders.get(ServerSettingsService)!.clone();
 
   provider.instance = injector.invoke<ServerSettingsService>(provider.useClass);
   injector.addProvider(ServerSettingsService, provider);
 
-  return provider.instance;
+  return provider.instance as any;
 }
