@@ -10,7 +10,7 @@ export interface ILoggerSettings {
   /**
    * Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
    */
-  requestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
+  requestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration" | string)[];
   /**
    * List of regexp to ignore log.
    */

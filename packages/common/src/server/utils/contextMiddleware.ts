@@ -11,9 +11,9 @@ const uuidv4 = require("uuid/v4");
  * @param injector
  */
 export function contextMiddleware(injector: InjectorService) {
-  return async (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
-    const {level, maxStackSize, ignoreUrlPatterns = [], reqIdBuilder = () => uuidv4().replace(/-/gi, "")} = injector.settings.logger || {};
+  const {level, maxStackSize, ignoreUrlPatterns = [], reqIdBuilder = () => uuidv4().replace(/-/gi, "")} = injector.settings.logger || {};
 
+  return async (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
     const id = reqIdBuilder();
 
     request.ctx = new RequestContext({

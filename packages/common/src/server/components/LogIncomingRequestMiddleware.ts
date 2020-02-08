@@ -1,3 +1,4 @@
+import {ILoggerSettings} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 
@@ -7,9 +8,12 @@ import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 @Middleware()
 export class LogIncomingRequestMiddleware implements IMiddleware {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
+  protected settings: ILoggerSettings;
 
   // tslint:disable-next-line: no-unused-variable
   constructor(protected injector: InjectorService) {
+    this.settings = injector.settings.logger || {};
+    this.settings.requestFields = this.settings.requestFields || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
   }
 
   /**
@@ -30,7 +34,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param {e.Request} request
    */
   protected onLogStart(request: Req) {
-    const {debug, logRequest, logStart} = this.injector.settings.logger;
+    const {debug, logRequest, logStart} = this.settings;
 
     if (logStart !== false) {
       if (debug) {
@@ -104,10 +108,9 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @returns {Object}
    */
   protected minimalRequestPicker(request: Req): any {
-    const {requestFields = LogIncomingRequestMiddleware.DEFAULT_FIELDS} = this.injector.settings.logger;
     const info = this.requestToObject(request);
 
-    return requestFields.reduce((acc: any, key: string) => {
+    return this.settings.requestFields!.reduce((acc: any, key: string) => {
       acc[key] = info[key];
 
       return acc;
