@@ -1,5 +1,6 @@
 import {ILoggerSettings} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
+import {ILoggerSettings} from "../../config/interfaces/ILoggerSettings";
 import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 
 /**
