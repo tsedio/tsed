@@ -12,14 +12,15 @@ declare global {
       headersSent: boolean;
     }
 
-    export interface Application {
-    }
+    export interface Application {}
 
     export interface Request {
       id: string;
       ctx: RequestContext;
+      /**
+       * @deprecated
+       */
       log: RequestLogger;
-
       /**
        * @deprecated
        */

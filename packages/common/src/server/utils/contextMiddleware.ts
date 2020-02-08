@@ -5,6 +5,15 @@ import {RequestContext} from "../../mvc";
 const onFinished = require("on-finished");
 const uuidv4 = require("uuid/v4");
 
+const whenFinished = (request: any, response: any) => async () => {
+  const {injector} = request.ctx;
+
+  await injector.emit("$onResponse", request, response);
+  await request.ctx.destroy();
+  delete request.ctx;
+  delete request.log;
+};
+
 /**
  * Bind request and create a new context to store information during the request lifecycle. See @@RequestContext@@ for more details.
  *
@@ -15,23 +24,21 @@ export function contextMiddleware(injector: InjectorService) {
 
   return async (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
     const id = reqIdBuilder();
-
     request.ctx = new RequestContext({
       id,
       logger: injector.logger,
       url: request.originalUrl || request.url,
       ignoreUrlPatterns,
       level,
-      maxStackSize
+      maxStackSize,
+      injector
     });
 
     request.id = id;
+    // deprecated
     request.log = request.ctx.logger;
 
-    onFinished(response, async () => {
-      await injector.emit("$onResponse", request, response);
-      await request.ctx.destroy();
-    });
+    onFinished(response, whenFinished(request, response));
 
     await injector.emit("$onRequest", request, response);
 

@@ -1,4 +1,4 @@
-import {LocalsContainer} from "@tsed/di";
+import {InjectorService, LocalsContainer} from "@tsed/di";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {RequestLogger} from "./RequestLogger";
 
@@ -9,6 +9,7 @@ export interface IRequestContextOptions {
   ignoreUrlPatterns?: any[];
   level?: "debug" | "info" | "warn" | "error" | "off";
   maxStackSize?: number;
+  injector?: InjectorService;
 }
 
 export class RequestContext extends Map<any, any> {
@@ -44,7 +45,7 @@ export class RequestContext extends Map<any, any> {
   /**
    * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
    */
-  readonly container = new LocalsContainer<any>();
+  public container = new LocalsContainer<any>();
   /**
    * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
    */
@@ -56,9 +57,13 @@ export class RequestContext extends Map<any, any> {
   /**
    * Logger attached to the context request.
    */
-  readonly logger: RequestLogger;
+  public logger: RequestLogger;
+  /**
+   *
+   */
+  public injector: InjectorService;
 
-  constructor({id, logger, ...options}: IRequestContextOptions) {
+  constructor({id, injector, logger, ...options}: IRequestContextOptions) {
     super();
     this.id = id;
     this.logger = new RequestLogger(logger, {
@@ -66,9 +71,14 @@ export class RequestContext extends Map<any, any> {
       startDate: this.dateStart,
       ...options
     });
+    // @ts-ignore
+    this.injector = injector;
   }
 
   async destroy() {
     await this.container.destroy();
+    delete this.container;
+    delete this.logger;
+    delete this.injector;
   }
 }
