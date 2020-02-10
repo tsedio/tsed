@@ -162,7 +162,7 @@ export class ServerSettingsService extends DIConfiguration {
   }
 
   get debug(): boolean {
-    return this.logger.level === "info";
+    return this.logger.level === "debug";
   }
 
   set debug(debug: boolean) {
