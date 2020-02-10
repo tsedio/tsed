@@ -63,11 +63,11 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("rootDir", value);
   }
 
-  get port(): string | number {
+  get port(): string | number | false {
     return this.httpPort;
   }
 
-  set port(value: string | number) {
+  set port(value: string | number | false) {
     this.httpPort = value;
   }
 
@@ -79,19 +79,19 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("httpsOptions", value);
   }
 
-  get httpPort(): string | number {
+  get httpPort(): string | number | false {
     return this.getRaw("httpPort");
   }
 
-  set httpPort(value: string | number) {
+  set httpPort(value: string | number | false) {
     this.setRaw("httpPort", value);
   }
 
-  get httpsPort(): string | number {
+  get httpsPort(): string | number | false {
     return this.getRaw("httpsPort");
   }
 
-  set httpsPort(value: string | number) {
+  set httpsPort(value: string | number | false) {
     this.setRaw("httpsPort", value);
   }
 
