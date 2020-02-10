@@ -114,12 +114,15 @@ describe("ServerSettingsService", () => {
       expect(settings.statics).to.deep.equal({"/": "/publics"});
     });
 
-    it("should return debug", () => {
-      expect(settings.debug).to.equal(false);
-    });
+    describe("debug", () => {
+      it("should expose debug as initialized", () => {
+        expect(settings.debug).to.equal(true);
+      });
 
-    it("should return debug (2)", () => {
-      expect(settings.debug).to.equal(false);
+      it(".debug should be equal to the last set value", () => {
+        settings.debug = false;
+        expect(settings.debug).to.equal(false);
+      });
     });
 
     it("should return env", () => {
