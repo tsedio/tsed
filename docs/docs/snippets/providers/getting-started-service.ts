@@ -1,4 +1,4 @@
-import {Injectable} from "@tsed/common";
+import {Service} from "@tsed/di";
 import {Calendar} from "../models/Calendar";
 
 @Service()
