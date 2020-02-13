@@ -16,6 +16,7 @@ import {MongooseSchema} from "./schema";
  * @returns {Function}
  * @decorator
  * @mongoose
+ * @property
  */
 export function Trim() {
   return MongooseSchema({trim: true});
