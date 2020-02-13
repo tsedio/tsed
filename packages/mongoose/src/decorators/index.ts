@@ -12,3 +12,4 @@ export * from "./virtualRef";
 export * from "./objectID";
 export * from "./dynamicRef";
 export * from "./schemaIgnore";
+export * from "./trim";
