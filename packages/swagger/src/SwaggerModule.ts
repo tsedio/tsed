@@ -164,7 +164,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   private middlewareCss(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any) => {
-      const content = Fs.readFileSync(PathUtils.resolve(this.configuration.resolve(path)), {encoding: "utf8"});
+      const content = Fs.readFileSync(PathUtils.resolve(path), {encoding: "utf8"});
       res.set("Content-Type", "text/css");
       res.status(200).send(content);
     };
@@ -177,7 +177,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   private middlewareJs(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any) => {
-      const content = Fs.readFileSync(PathUtils.resolve(this.configuration.resolve(path)), {encoding: "utf8"});
+      const content = Fs.readFileSync(PathUtils.resolve(path), {encoding: "utf8"});
       res.set("Content-Type", "application/javascript");
       res.status(200).send(content);
     };

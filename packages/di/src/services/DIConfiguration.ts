@@ -106,18 +106,11 @@ export class DIConfiguration {
    * @param propertyKey
    * @returns {undefined|any}
    */
-  get<T>(propertyKey: string): T {
+  get<T = any>(propertyKey: string): T {
     return this.resolve(this.getRaw(propertyKey));
   }
 
   getRaw(propertyKey: string): any {
-    if (["scopes"].includes(propertyKey)) {
-      return {
-        ...this.default.get(propertyKey),
-        ...this.map.get(propertyKey)
-      };
-    }
-
     const value = getValue(propertyKey, this.map);
 
     if (value !== undefined) {
@@ -161,5 +154,14 @@ export class DIConfiguration {
     }
 
     return value;
+  }
+
+  build() {
+    this.forEach((value, key) => {
+      this.map.set(key, value);
+    });
+
+    this.set = this.setRaw;
+    this.get = this.getRaw = (propertyKey: string) => getValue(propertyKey, this.map);
   }
 }

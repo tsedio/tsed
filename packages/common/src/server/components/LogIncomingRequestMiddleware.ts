@@ -8,12 +8,17 @@ import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 @Middleware()
 export class LogIncomingRequestMiddleware implements IMiddleware {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
+  $onResponse: any;
   protected settings: ILoggerSettings;
 
   // tslint:disable-next-line: no-unused-variable
-  constructor(protected injector: InjectorService) {
+  constructor(injector: InjectorService) {
     this.settings = injector.settings.logger || {};
     this.settings.requestFields = this.settings.requestFields || LogIncomingRequestMiddleware.DEFAULT_FIELDS;
+
+    if (this.settings.level !== "off") {
+      this.$onResponse = this.onLogEnd;
+    }
   }
 
   /**
@@ -23,10 +28,6 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
   public use(@Req() request: Req): void {
     this.configureRequest(request);
     this.onLogStart(request);
-  }
-
-  $onResponse(request: Req, response: Res) {
-    this.onLogEnd(request, response);
   }
 
   /**
@@ -55,7 +56,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param response
    */
   protected onLogEnd(request: Req, response: Res) {
-    const {debug, logRequest, logEnd} = this.injector.settings.logger;
+    const {debug, logRequest, logEnd} = this.settings;
 
     if (logEnd !== false) {
       if (debug) {
@@ -108,9 +109,10 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @returns {Object}
    */
   protected minimalRequestPicker(request: Req): any {
+    const {requestFields} = this.settings;
     const info = this.requestToObject(request);
 
-    return this.settings.requestFields!.reduce((acc: any, key: string) => {
+    return requestFields!.reduce((acc: any, key: string) => {
       acc[key] = info[key];
 
       return acc;

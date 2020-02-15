@@ -66,15 +66,25 @@ export class RequestLogger {
   }
 
   public flush() {
-    this.stack.forEach(({level, data}: any) => {
-      this.logger[level](data);
-    });
-    delete this.stack;
-    this.stack = [];
+    if (this.stack.length) {
+      this.stack.forEach(({level, data}: any) => {
+        this.logger[level](data);
+      });
+
+      this.stack = [];
+    }
   }
 
   public isLevelEnabled(otherLevel: string | LogLevel) {
     return this.level.isLessThanOrEqualTo(otherLevel);
+  }
+
+  destroy() {
+    this.flush();
+    delete this.logger;
+    delete this.stack;
+    delete this.minimalRequestPicker;
+    delete this.completeRequestPicker;
   }
 
   /**

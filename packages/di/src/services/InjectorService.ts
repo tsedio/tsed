@@ -79,6 +79,7 @@ export class InjectorService extends Container {
   public settings: IDIConfigurationOptions & DIConfiguration = new DIConfiguration() as any;
   public logger: IDILogger = console;
   readonly resolvers: IDIResolver[] = [];
+  public scopes: {[key: string]: ProviderScope} = {};
   private resolvedConfiguration: boolean = false;
 
   constructor() {
@@ -92,7 +93,7 @@ export class InjectorService extends Container {
    * @param provider
    */
   public scopeOf(provider: Provider<any>) {
-    return provider.scope || this.settings.scopes[provider.type] || ProviderScope.SINGLETON;
+    return provider.scope || this.scopes[provider.type] || ProviderScope.SINGLETON;
   }
 
   /**
@@ -289,7 +290,6 @@ export class InjectorService extends Container {
       return;
     }
 
-    // @ts-ignore
     super.forEach(provider => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
@@ -300,6 +300,9 @@ export class InjectorService extends Container {
         this.resolvers.push(...provider.resolvers);
       }
     });
+
+    this.scopes = this.settings.scopes = Object.freeze(Object.assign({}, this.settings.default.get("scopes"), this.settings.scopes));
+    this.settings.build();
 
     this.resolvedConfiguration = true;
   }

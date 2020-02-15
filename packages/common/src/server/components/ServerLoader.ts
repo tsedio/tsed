@@ -417,7 +417,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   protected async loadMiddlewares(): Promise<any> {
     this.injector.logger.debug("Mount middlewares");
     this.use(contextMiddleware(this.injector));
-    this.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
+    this.settings.logger.level !== "off" && this.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
 
     await this.callHook("$onMountingMiddlewares");
     await this.callHook("$beforeRoutesInit"); // deprecated
@@ -447,6 +447,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     this.routes = providers.filter(provider => !!provider.route).map(({route, token}) => ({route, token}));
   }
+
   /**
    * Create a new server from settings parameters.
    * @param http

@@ -11,7 +11,8 @@ describe("contextMiddleware", () => {
     const request: any = {};
     const response: any = {
       send: sandbox.stub(),
-      end: sandbox.stub()
+      end: sandbox.stub(),
+      req: request
     };
 
     const next = sandbox.stub();
@@ -37,7 +38,8 @@ describe("contextMiddleware", () => {
     const injector = new InjectorService();
     const request: any = {};
     const response: any = {
-      end: sandbox.stub()
+      end: sandbox.stub(),
+      req: request
     };
 
     const next = sandbox.stub();
