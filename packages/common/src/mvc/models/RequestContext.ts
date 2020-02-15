@@ -58,27 +58,31 @@ export class RequestContext extends Map<any, any> {
    * Logger attached to the context request.
    */
   public logger: RequestLogger;
-  /**
-   *
-   */
+
   public injector: InjectorService;
 
   constructor({id, injector, logger, ...options}: IRequestContextOptions) {
     super();
     this.id = id;
+
+    injector && (this.injector = injector);
+
     this.logger = new RequestLogger(logger, {
       id,
       startDate: this.dateStart,
       ...options
     });
-    // @ts-ignore
-    this.injector = injector;
   }
 
   async destroy() {
     await this.container.destroy();
+    this.logger.destroy();
     delete this.container;
     delete this.logger;
     delete this.injector;
+  }
+
+  async emit(eventName: string, ...args: any[]) {
+    return this.injector && this.injector.emit(eventName, args);
   }
 }

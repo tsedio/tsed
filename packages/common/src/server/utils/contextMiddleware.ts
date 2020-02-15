@@ -1,18 +1,62 @@
 import {InjectorService} from "@tsed/di";
-import * as Express from "express";
 import {RequestContext} from "../../mvc";
 
 const onFinished = require("on-finished");
 const uuidv4 = require("uuid/v4");
 
-const whenFinished = (request: any, response: any) => async () => {
-  const {injector} = request.ctx;
+const defaultReqIdBuilder = () => uuidv4().replace(/-/gi, "");
 
-  await injector.emit("$onResponse", request, response);
-  await request.ctx.destroy();
-  delete request.ctx;
-  delete request.log;
-};
+export class ContextMiddleware {
+  level: "debug" | "info" | "warn" | "error" | "off" | undefined;
+  maxStackSize: number;
+  ignoreUrlPatterns: string[];
+  reqIdBuilder: any;
+
+  constructor(private injector: InjectorService) {
+    const {level, maxStackSize, ignoreUrlPatterns = [], reqIdBuilder = defaultReqIdBuilder} = injector.settings.logger || {};
+
+    this.level = level;
+    this.maxStackSize = maxStackSize!;
+    this.ignoreUrlPatterns = ignoreUrlPatterns;
+    this.reqIdBuilder = reqIdBuilder;
+  }
+
+  async use(request: any, response: any, next: any) {
+    const {level, ignoreUrlPatterns, maxStackSize} = this;
+
+    const id = this.reqIdBuilder();
+
+    request.ctx = new RequestContext({
+      id,
+      logger: this.injector.logger,
+      url: request.originalUrl || request.url,
+      ignoreUrlPatterns,
+      level,
+      maxStackSize,
+      injector: this.injector
+    });
+
+    // deprecated
+    request.log = request.ctx.logger;
+
+    onFinished(response, ContextMiddleware.onClose);
+
+    await this.injector.emit("$onRequest", request, response);
+
+    next();
+  }
+
+  static async onClose(err: any, response: any) {
+    const {req: request} = response;
+    try {
+      await request.ctx.emit("$onResponse", request, response);
+      await request.ctx.destroy();
+    } catch (er) {}
+
+    delete request.ctx;
+    delete request.log;
+  }
+}
 
 /**
  * Bind request and create a new context to store information during the request lifecycle. See @@RequestContext@@ for more details.
@@ -20,28 +64,7 @@ const whenFinished = (request: any, response: any) => async () => {
  * @param injector
  */
 export function contextMiddleware(injector: InjectorService) {
-  const {level, maxStackSize, ignoreUrlPatterns = [], reqIdBuilder = () => uuidv4().replace(/-/gi, "")} = injector.settings.logger || {};
+  const middleware = new ContextMiddleware(injector);
 
-  return async (request: Express.Request, response: Express.Response, next: Express.NextFunction) => {
-    const id = reqIdBuilder();
-    request.ctx = new RequestContext({
-      id,
-      logger: injector.logger,
-      url: request.originalUrl || request.url,
-      ignoreUrlPatterns,
-      level,
-      maxStackSize,
-      injector
-    });
-
-    request.id = id;
-    // deprecated
-    request.log = request.ctx.logger;
-
-    onFinished(response, whenFinished(request, response));
-
-    await injector.emit("$onRequest", request, response);
-
-    next();
-  };
+  return middleware.use.bind(middleware);
 }

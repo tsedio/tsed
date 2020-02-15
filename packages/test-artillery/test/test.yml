@@ -1,0 +1,43 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+#    - duration: 120
+#      arrivalRate: 10
+#      rampTo: 50
+#      name: "Warm up the application"
+    - duration: 1600
+      arrivalRate: 20
+      name: "Sustained max load"
+  defaults:
+     headers:
+        Accept: 'application/json'
+        Content-Type': 'application/json'
+  variables:
+     id:
+       - "8731"
+       - "9965"
+       - "2806"
+       - "2807"
+       - "2808"
+       - "2809"
+     names:
+       - "string"
+       - "name"
+       - "nitzan"
+       - "hardon"
+       - "memory"
+       - "leak"
+       - "aaaa"
+scenarios:
+  - flow:
+      - get:
+          url: "/ctrl/{{ id }}"
+      - post:
+          url: "/ctrl/{{ id }}"
+          json:
+            name: "{{ names }}"
+      - put:
+          url: "/ctrl/{{ id }}?name={{ names }}"
+      - delete:
+          url: "/ctrl/{{ id }}"
+

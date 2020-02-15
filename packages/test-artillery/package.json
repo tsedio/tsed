@@ -1,0 +1,48 @@
+{
+  "name": "@tsed/test-artillery",
+  "version": "5.42.1",
+  "description": "Artillery test packages",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "start": "node --expose-gc -r ts-node/register -r tsconfig-paths/register src/index.ts",
+    "start:express": "node --inspect --expose-gc test/server/express.js",
+    "start:prod": "node --expose-gc lib/index.js",
+    "build": "tsc --build tsconfig.compile.json",
+    "test:artillery": "artillery run test/test.yml",
+    "docker:build": "docker-compose build",
+    "docker:upd": "docker-compose up -d",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "plot": "yarn start && python plot.py",
+    "plot:express": "yarn start:express && python plot.py"
+  },
+  "dependencies": {
+    "@tsed/ajv": "5.42.1",
+    "@tsed/common": "5.42.1",
+    "@tsed/core": "5.42.1",
+    "@tsed/di": "5.42.1",
+    "@tsed/graphql": "5.42.1",
+    "@tsed/mongoose": "5.42.1",
+    "@tsed/multipartfiles": "5.42.1",
+    "@tsed/passport": "5.42.1",
+    "@tsed/seq": "5.42.1",
+    "@tsed/servestatic": "5.42.1",
+    "@tsed/swagger": "5.42.1",
+    "@tsed/testing": "5.42.1",
+    "@tsed/typeorm": "5.42.1",
+    "express": "4.17.1",
+    "compression": "1.7.4",
+    "body-parser": "1.19.0",
+    "cookie-parser": "1.4.4",
+    "method-override": "3.0.0"
+  },
+  "devDependencies": {
+    "@types/compression": "1.7.0",
+    "@types/body-parser": "1.19.0",
+    "@types/method-override": "0.0.31",
+    "artillery": "^1.6.0-29",
+    "heapdump": "0.3.15"
+  },
+  "private": true
+}
