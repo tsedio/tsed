@@ -11,13 +11,17 @@ describe("UserModel", () => {
   it("should run pre and post hook", TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
     // GIVEN
     const user = new userModel({
-      email: "test@test.fr"
+      email: "test@test.fr",
+      password: "test"
     });
 
     // WHEN
     await user.save();
 
     // THEN
+    expect(user.email).to.equal("test@test.fr");
+    expect(user.password).to.equal("test");
+
     expect(user.pre).to.equal("hello pre");
     expect(user.post).to.equal("hello post");
   }));

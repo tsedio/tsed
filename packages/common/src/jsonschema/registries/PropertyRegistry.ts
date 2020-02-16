@@ -22,9 +22,10 @@ export class PropertyRegistry {
   /**
    *
    * @param target
+   * @param options
    * @returns {Array}
    */
-  static getProperties(target: Type<any>): Map<string | symbol, PropertyMetadata> {
+  static getProperties(target: Type<any>, options: Partial<{withIgnoredProps: boolean}> = {}): Map<string | symbol, PropertyMetadata> {
     const map = new Map<string | symbol, PropertyMetadata>();
     const ignored: string[] = [];
 
@@ -34,11 +35,15 @@ export class PropertyRegistry {
         if (ignored.indexOf(k) !== -1) {
           return;
         }
-        if (!v.ignoreProperty) {
+        if (options.withIgnoredProps) {
           map.set(k, v);
         } else {
-          map.delete(k);
-          ignored.push(k);
+          if (!v.ignoreProperty) {
+            map.set(k, v);
+          } else {
+            map.delete(k);
+            ignored.push(k);
+          }
         }
       });
     });

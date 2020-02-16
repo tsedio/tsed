@@ -16,12 +16,13 @@ export interface MongooseSchemaMetadata {
 
 function setUpTarget(target: Type<any>) {
   target.prototype.serialize = function(options: IConverterOptions, converter: ConverterService) {
-    const {checkRequiredValue, ignoreCallback} = options;
+    const {checkRequiredValue, ignoreCallback, withIgnoredProps = true} = options;
 
     return converter.serializeClass(this, {
       type: getClass(target),
       checkRequiredValue,
-      ignoreCallback
+      ignoreCallback,
+      withIgnoredProps
     });
   };
 }
@@ -66,34 +67,30 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
  * @returns {MongooseSchema}
  */
 export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
-  const properties = PropertyRegistry.getProperties(target);
+  const properties = PropertyRegistry.getProperties(target, {withIgnoredProps: true});
   const schema: MongooseSchemaMetadata = {schema: {}, virtuals: new Map()};
 
-  if (properties) {
-    const properties = PropertyRegistry.getProperties(target);
+  properties.forEach((propertyMetadata, key) => {
+    if (MONGOOSE_RESERVED_KEYS.includes(key as string)) {
+      return;
+    }
 
-    properties.forEach((propertyMetadata, key) => {
-      if (MONGOOSE_RESERVED_KEYS.includes(key as string)) {
-        return;
-      }
+    // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
+    const schemaTypeOptions = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
-      // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
-      const schemaTypeOptions = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
+    if (schemaTypeOptions.schemaIgnore) {
+      return;
+    }
 
-      if (schemaTypeOptions.schemaIgnore) {
-        return;
-      }
+    if (isVirtualRef(schemaTypeOptions)) {
+      schemaTypeOptions.justOne = !propertyMetadata.isArray;
+      schema.virtuals.set(key as string, schemaTypeOptions);
 
-      if (isVirtualRef(schemaTypeOptions)) {
-        schemaTypeOptions.justOne = !propertyMetadata.isArray;
-        schema.virtuals.set(key as string, schemaTypeOptions);
+      return;
+    }
 
-        return;
-      }
-
-      schema.schema[key as string] = createSchemaTypeOptions(propertyMetadata);
-    });
-  }
+    schema.schema[key as string] = createSchemaTypeOptions(propertyMetadata);
+  });
 
   return schema;
 }

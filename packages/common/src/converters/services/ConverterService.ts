@@ -96,10 +96,10 @@ export class ConverterService {
    * @returns {any}
    */
   serializeClass(obj: any, options: IConverterOptions = {}) {
-    const {checkRequiredValue = true} = options;
+    const {checkRequiredValue = true, withIgnoredProps} = options;
 
     const plainObject: any = {};
-    const properties = PropertyRegistry.getProperties(options.type || obj);
+    const properties = PropertyRegistry.getProperties(options.type || obj, withIgnoredProps);
     const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
 
     keys.forEach(propertyKey => {
@@ -110,6 +110,7 @@ export class ConverterService {
 
         propertyValue = this.serialize(propertyValue, {
           checkRequiredValue,
+          withIgnoredProps,
           type: propertyMetadata!.type
         });
 
