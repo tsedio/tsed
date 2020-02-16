@@ -20,6 +20,7 @@
     "@tsed/servestatic": "5.42.2",
     "@tsed/swagger": "5.42.2",
     "@tsed/testing": "5.42.2",
+    "@tsed/testing-mongoose": "5.42.2",
     "@tsed/typeorm": "5.42.2"
   },
   "private": true

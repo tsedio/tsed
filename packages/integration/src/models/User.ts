@@ -9,7 +9,6 @@ export interface IUser {
 }
 
 @Hidden()
-@Model()
 export class UserCreation {
   @Property()
   name: string;

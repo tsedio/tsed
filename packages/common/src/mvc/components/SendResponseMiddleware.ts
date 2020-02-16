@@ -27,7 +27,7 @@ export class SendResponseMiddleware implements IMiddleware {
       return response.send(data);
     }
 
-    return response.json(this.converterService.serialize(data, {type: endpoint.type}));
+    return response.json(this.converterService.serialize(data, {type: endpoint.type, withIgnoredProps: false}));
   }
 
   protected shouldBeSent(data: any) {

@@ -1,5 +1,21 @@
-import {Property, Required} from "@tsed/common";
+import {Allow, IgnoreProperty, MinLength, Property, Required} from "@tsed/common";
 import {Model, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorators";
+
+
+export class TestUserCreation {
+  @ObjectID("id")
+  _id: string;
+
+  @Property()
+  @Required()
+  @Unique()
+  email: string;
+
+  @Required()
+  @MinLength(6)
+  @Allow(null)
+  password: string;
+}
 
 @Model({schemaOptions: {timestamps: true}})
 @PreHook("save", (user: TestUser, next: any) => {
@@ -12,14 +28,9 @@ import {Model, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorator
 
   next();
 })
-export class TestUser {
-  @ObjectID("id")
-  _id: string;
-
-  @Property()
-  @Required()
-  @Unique()
-  email: string;
+export class TestUser extends TestUserCreation {
+  @IgnoreProperty()
+  password: string;
 
   @Property()
   pre: string;
