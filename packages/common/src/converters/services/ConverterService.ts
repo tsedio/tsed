@@ -99,7 +99,7 @@ export class ConverterService {
     const {checkRequiredValue = true, withIgnoredProps} = options;
 
     const plainObject: any = {};
-    const properties = PropertyRegistry.getProperties(options.type || obj, withIgnoredProps);
+    const properties = PropertyRegistry.getProperties(options.type || obj, {withIgnoredProps});
     const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
 
     keys.forEach(propertyKey => {

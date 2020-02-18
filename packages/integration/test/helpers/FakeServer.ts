@@ -10,7 +10,6 @@ import {TaskCtrl} from "../../src/controllers/calendars/TaskCtrl";
 import {ErrorsCtrl} from "../../src/controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "../../src/controllers/pages/SocketPageCtrl";
 import {ProductsCtrl} from "../../src/controllers/products/ProductsCtrl";
-import {ResponseScenarioCtrl} from "../../src/controllers/responses/ResponseScenarioCtrl";
 import {RestCtrl} from "../../src/controllers/RestCtrl";
 import {UserCtrl} from "../../src/controllers/users/UserCtrl";
 import "../../src/middlewares/CustomAuthMiddleware";
@@ -32,8 +31,7 @@ const rootDir = __dirname + "/../../src";
       ProductsCtrl,
       UserCtrl,
       RestCtrl,
-      ErrorsCtrl,
-      ResponseScenarioCtrl
+      ErrorsCtrl
     ]
   },
   componentsScan: [

@@ -29,7 +29,7 @@ describe("UserModel", () => {
 
     expect(user.email).to.equal("test@test.fr");
     expect(user.password).to.equal("test123456");
-    expect(converterService.serialize(user, {type: User})).to.deep.eq({
+    expect(converterService.serialize(user, {type: User, withIgnoredProps: false})).to.deep.eq({
       name: "name",
       email: "test@test.fr"
     });

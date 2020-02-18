@@ -60,7 +60,7 @@ export class ParamBuilder {
   }
 
   static getParseExpressionPipe(param: ParamMetadata) {
-    const {service} = param;
+    const {service, type} = param;
     let {expression} = param;
 
     if (typeof service !== "string" || !expression) {
@@ -71,7 +71,15 @@ export class ParamBuilder {
       expression = (param.expression || "").toLowerCase();
     }
 
-    return (value: any) => getValue(expression, value);
+    return (value: any) => {
+      value = getValue(expression, value);
+
+      if ([ParamTypes.QUERY, ParamTypes.PATH].includes(service as any) && value === "" && type !== String) {
+        return undefined;
+      }
+
+      return value;
+    };
   }
 
   /**
