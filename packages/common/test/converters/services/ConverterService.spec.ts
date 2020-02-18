@@ -47,11 +47,11 @@ describe("ConverterService", () => {
       });
 
       it("should convert null to Boolean", () => {
-        expect(converterService.deserialize(null, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(null, Boolean)).to.be.equal(null);
       });
 
       it("should convert undefined to Boolean", () => {
-        expect(converterService.deserialize(undefined, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(undefined, Boolean)).to.be.equal(undefined);
       });
 
       it("should convert a string to Number", () => {
@@ -76,6 +76,11 @@ describe("ConverterService", () => {
         expect(converterService.deserialize(1, String))
           .to.be.a("string")
           .and.to.equals("1");
+      });
+
+      it("should convert a null/undefined to null/undefined", () => {
+        expect(converterService.deserialize(null, Number)).to.equal(null);
+        expect(converterService.deserialize(undefined, Number)).to.equal(undefined);
       });
     });
 

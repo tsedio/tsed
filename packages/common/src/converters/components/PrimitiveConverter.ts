@@ -9,12 +9,14 @@ import {IConverter} from "../interfaces/index";
  */
 @Converter(String, Number, Boolean)
 export class PrimitiveConverter implements IConverter {
-  deserialize(data: string, target: any): String | Number | Boolean | void {
+  deserialize(data: string, target: any): String | Number | Boolean | void | null {
     switch (target) {
       case String:
         return "" + data;
 
       case Number:
+        if ([null, "null"].includes(data)) return null;
+
         const n = +data;
 
         if (isNaN(n)) {
@@ -24,8 +26,10 @@ export class PrimitiveConverter implements IConverter {
         return n;
 
       case Boolean:
-        if (data === "true") return true;
-        if (data === "false") return false;
+        if (["true", "1", true].includes(data)) return true;
+        if (["false", "0", false].includes(data)) return false;
+        if ([null, "null"].includes(data)) return null;
+        if (data === undefined) return undefined;
 
         return !!data;
     }

@@ -35,15 +35,6 @@ node_modules
 typings/
 
 # Typescript
-index.js
-index.js.map
-!testing/index.js
-!swagger/index.js
-!multipartfiles/index.js
-!servestatic/index.js
-!ajv/index.js
-!socketio/index.js
-packages/**/*.js
 packages/**/*.js.map
 packages/**/*.d.ts
 packages/**/*.d.ts.map
