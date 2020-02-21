@@ -83,6 +83,6 @@ export class RequestContext extends Map<any, any> {
   }
 
   async emit(eventName: string, ...args: any[]) {
-    return this.injector && this.injector.emit(eventName, args);
+    return this.injector && this.injector.emit(eventName, ...args);
   }
 }

@@ -21,6 +21,16 @@ export class ContextMiddleware {
     this.reqIdBuilder = reqIdBuilder;
   }
 
+  static async onClose(err: any, response: any) {
+    const {req: request} = response;
+
+    await request.ctx.emit("$onResponse", request, response);
+    await request.ctx.destroy();
+
+    delete request.ctx;
+    delete request.log;
+  }
+
   async use(request: any, response: any, next: any) {
     const {level, ignoreUrlPatterns, maxStackSize} = this;
 
@@ -44,17 +54,6 @@ export class ContextMiddleware {
     await this.injector.emit("$onRequest", request, response);
 
     next();
-  }
-
-  static async onClose(err: any, response: any) {
-    const {req: request} = response;
-    try {
-      await request.ctx.emit("$onResponse", request, response);
-      await request.ctx.destroy();
-    } catch (er) {}
-
-    delete request.ctx;
-    delete request.log;
   }
 }
 

@@ -72,6 +72,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
         });
       }
     }
+
     request.ctx.logger.flush();
   }
 
