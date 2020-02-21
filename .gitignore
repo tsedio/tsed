@@ -35,6 +35,10 @@ node_modules
 typings/
 
 # Typescript
+index.js
+index.js.map
+!packages/test-artillery/test/server/express.js
+packages/**/src/**/*.js
 packages/**/*.js.map
 packages/**/*.d.ts
 packages/**/*.d.ts.map
