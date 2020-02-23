@@ -1,6 +1,5 @@
 import {expect} from "chai";
-import {Metadata} from "../../../../core/src";
-import {IHandlerConstructorOptions, ParamTypes} from "../../../src/mvc";
+import {IHandlerConstructorOptions, ParamMetadata, ParamTypes} from "../../../src/mvc";
 import {PARAM_METADATA} from "../../../src/mvc/constants";
 import {HandlerType} from "../../../src/mvc/interfaces/HandlerType";
 import {HandlerMetadata} from "../../../src/mvc/models/HandlerMetadata";
@@ -54,23 +53,24 @@ describe("HandlerMetadata", () => {
       handlerMetadata.hasNextFunction.should.eq(true);
       handlerMetadata.hasErrorParam.should.eq(true);
       expect(handlerMetadata.propertyKey).to.eq(undefined);
-      expect(handlerMetadata.services).to.deep.eq([
-        {
-          "index": 0,
-          "service": "ERR"
-        },
-        {
-          "index": 1,
-          "service": "REQUEST"
-        },
-        {
-          "index": 2,
-          "service": "RESPONSE"
-        },
-        {
-          "index": 3,
-          "service": "NEXT_FN"
-        }
+
+      expect(handlerMetadata.parameters).to.deep.eq([
+        new ParamMetadata({
+          index: 0,
+          paramType: ParamTypes.ERR
+        }),
+        new ParamMetadata({
+          index: 1,
+          paramType: ParamTypes.REQUEST
+        }),
+        new ParamMetadata({
+          index: 2,
+          paramType: ParamTypes.RESPONSE
+        }),
+        new ParamMetadata({
+          index: 3,
+          paramType: ParamTypes.NEXT_FN
+        })
       ]);
     });
   });
@@ -118,7 +118,7 @@ describe("HandlerMetadata", () => {
   describe("from endpoint/middleware with injection", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
-      Metadata.set(PARAM_METADATA, [{service: ParamTypes.NEXT_FN}], Test, "test");
+      Metadata.set(PARAM_METADATA, [{paramType: ParamTypes.NEXT_FN}], Test, "test");
 
       const options = {
         target: Test,
@@ -162,7 +162,7 @@ describe("HandlerMetadata", () => {
   describe("from middleware with injection and error", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
-      Metadata.set(PARAM_METADATA, [{service: ParamTypes.NEXT_FN}, {service: ParamTypes.ERR}], Test2, "use");
+      Metadata.set(PARAM_METADATA, [{paramType: ParamTypes.NEXT_FN}, {paramType: ParamTypes.ERR}], Test2, "use");
       const options = {
         target: Test2,
         propertyKey: "use",

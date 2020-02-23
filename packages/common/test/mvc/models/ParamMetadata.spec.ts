@@ -1,13 +1,15 @@
 import {Store} from "@tsed/core";
 import {expect} from "chai";
-import {ParamMetadata, ParamTypes} from "../../../src/mvc";
+import {IFilter, ParamMetadata, ParamTypes} from "../../../src/mvc";
 
 class Test {
-  method(arg1: any, arg2: any) {
-  }
+  method(arg1: any, arg2: any) {}
 }
 
-class TestFilter {
+class TestFilter implements IFilter {
+  transform(value: any) {
+    return value;
+  }
 }
 
 describe("ParamMetadata", () => {
@@ -18,8 +20,6 @@ describe("ParamMetadata", () => {
       paramMetadata.required = true;
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
-      paramMetadata.useConverter = true;
-      paramMetadata.useValidation = true;
     });
     it("should return the required value", () => {
       expect(paramMetadata.required)
@@ -44,14 +44,6 @@ describe("ParamMetadata", () => {
     it("should return index", () => {
       expect(paramMetadata.index).to.eq(0);
     });
-
-    it("should return useConverter", () => {
-      expect(paramMetadata.useConverter).to.eq(true);
-    });
-    it("should return useConverter", () => {
-      expect(paramMetadata.useValidation).to.eq(true);
-    });
-
     it("should return store", () => {
       expect(paramMetadata.store).to.be.an.instanceof(Store);
     });
@@ -65,9 +57,7 @@ describe("ParamMetadata", () => {
       paramMetadata.required = true;
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
-      paramMetadata.useConverter = true;
-      paramMetadata.useValidation = true;
-      paramMetadata.service = ParamTypes.ERR;
+      paramMetadata.paramType = ParamTypes.ERR;
     });
 
     it("should return the service", () => {
@@ -85,9 +75,7 @@ describe("ParamMetadata", () => {
       paramMetadata.required = true;
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
-      paramMetadata.useConverter = true;
-      paramMetadata.useValidation = true;
-      paramMetadata.service = TestFilter;
+      paramMetadata.filter = TestFilter;
     });
 
     it("should return the service", () => {

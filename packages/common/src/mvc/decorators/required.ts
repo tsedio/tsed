@@ -1,5 +1,7 @@
+import {applyDecorators, DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
+import {ParamMetadata} from "../models/ParamMetadata";
+import {RequiredPipe} from "../pipes/RequiredPipe";
 import {Allow} from "./allow";
-import {applyDecorators, DecoratorParameters, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {getStorableMetadata} from "./utils/getStorableMetadata";
 
 /**
@@ -57,6 +59,10 @@ export function Required(...allowedRequiredValues: any[]): any {
 
       if (allowedRequiredValues.length) {
         Allow(...allowedRequiredValues)(...decoratorArgs);
+      }
+
+      if (getDecoratorType(decoratorArgs) === "parameter") {
+        (metadata as ParamMetadata).pipes.push(RequiredPipe);
       }
     },
     StoreMerge("responses", {

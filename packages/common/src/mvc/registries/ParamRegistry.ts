@@ -1,7 +1,13 @@
-import {Deprecated, Metadata, Type} from "@tsed/core";
+import {Metadata, Type} from "@tsed/core";
 import {PARAM_METADATA} from "../constants";
-import {IParamConstructorOptions, ParamMetadata} from "../models/ParamMetadata";
+import {IParamOptions} from "../interfaces/IParamOptions";
+import {IParamConstructorOptions, ParamMetadata, IPipe} from "../models/ParamMetadata";
 import {ParamTypes} from "../models/ParamTypes";
+import {DeserializerPipe} from "../pipes/DeserializerPipe";
+import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe";
+import {ValidationPipe} from "../pipes/ValidationPipe";
+
+export interface IUseFilterOptions extends IParamConstructorOptions, IParamOptions<any> {}
 
 export class ParamRegistry {
   static get(target: Type<any>, propertyKey: string | symbol, index: number): ParamMetadata {
@@ -31,69 +37,18 @@ export class ParamRegistry {
     return Metadata.has(PARAM_METADATA, target, propertyKey) ? Metadata.get(PARAM_METADATA, target, propertyKey) : [];
   }
 
-  /**
-   *
-   * @param target
-   * @param propertyKey
-   * @param parameterIndex
-   * @param allowedRequiredValues
-   * @deprecated
-   */
-  // istanbul ignore next
-  @Deprecated("ParamRegistry.decorate are deprecated.")
-  static required(target: Type<any>, propertyKey: string | symbol, parameterIndex: number, allowedRequiredValues: any[] = []) {
-    const param = ParamRegistry.get(target, propertyKey, parameterIndex);
-
-    param.required = true;
-    param.allowedRequiredValues = allowedRequiredValues;
-
-    param.store.merge("responses", {
-      "400": {
-        description: "BadRequest"
-      }
-    });
-
-    return this;
-  }
-
-  /**
-   * Create a parameters decorators
-   * @param token
-   * @param {Partial<IParamConstructorOptions<any>>} options
-   * @returns {Function}
-   * @deprecated
-   */
-  // istanbul ignore next
-  @Deprecated("ParamRegistry.decorate are deprecated. Use UseFilter decorator instead")
-  static decorate(token: string | Type<any> | ParamTypes, options: Partial<IParamConstructorOptions> = {}): ParameterDecorator {
-    return (target: Type<any>, propertyKey: string | symbol, index: number): any => {
-      if (typeof index === "number") {
-        const settings = Object.assign(
-          {
-            target,
-            propertyKey,
-            index
-          },
-          options
-        );
-
-        ParamRegistry.useFilter(token, settings);
-      }
-    };
-  }
-
-  static useFilter(filter: string | Type<any> | ParamTypes, options: IParamConstructorOptions): ParamMetadata {
+  static useFilter(filter: string | Type<any> | ParamTypes, options: IUseFilterOptions): ParamMetadata {
     const {expression, useType, propertyKey, index, target, useConverter, useValidation} = options;
     let {paramType} = options;
 
-    const param = ParamRegistry.get(target, propertyKey, index);
+    const param = ParamRegistry.get(target!, propertyKey!, index);
 
     if (typeof filter === "string") {
       paramType = filter as ParamTypes;
+    } else {
+      param.filter = filter;
     }
 
-    param.service = filter;
-    param.useValidation = !!useValidation;
     param.expression = expression!;
 
     if (paramType) {
@@ -104,9 +59,12 @@ export class ParamRegistry {
       param.type = useType;
     }
 
-    if (useConverter !== undefined) {
-      param.useConverter = useConverter;
-    }
+    param.pipes = [
+      param.expression && ParseExpressionPipe,
+      useValidation && (param.type || param.collectionType) && ValidationPipe,
+      useConverter && DeserializerPipe,
+      ...param.pipes
+    ].filter(Boolean) as Type<IPipe>[];
 
     return param;
   }

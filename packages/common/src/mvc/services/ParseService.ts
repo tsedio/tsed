@@ -2,7 +2,7 @@ import {getValue, isEmpty} from "@tsed/core";
 import {Service} from "@tsed/di";
 
 /**
- *
+ * @deprecated Will be removed in future
  */
 @Service()
 export class ParseService {
