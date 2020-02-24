@@ -63,11 +63,4 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
       this.filter = service;
     }
   }
-
-  /**
-   *
-   */
-  in() {
-    return this.paramType;
-  }
 }

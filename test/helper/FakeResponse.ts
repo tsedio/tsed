@@ -6,6 +6,7 @@ export class FakeResponse {
   _json: any;
   _body: any = "";
   _headers: string = "";
+  headersSent: boolean = false
 
   constructor(sandbox?: any) {
     if (sandbox) {
@@ -76,10 +77,12 @@ export class FakeResponse {
 
   public send(value: any) {
     this._body = "" + value;
+    this.headersSent = true;
   }
 
   public render(viewPath: string, data: Object) {
     this._body = viewPath + data;
+    this.headersSent = true;
   }
 
   public location() {
@@ -89,6 +92,7 @@ export class FakeResponse {
   public json(value: any) {
     this._json = value;
     this._body = JSON.stringify(value);
+    this.headersSent = true;
 
     return this;
   }

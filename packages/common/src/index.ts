@@ -4,5 +4,6 @@ export * from "./config";
 export * from "./jsonschema";
 export * from "./converters";
 export * from "./mvc";
+export * from "./platform";
 export * from "./server";
 export {$log} from "ts-log-debug";
