@@ -1,4 +1,4 @@
-import {BeforeRoutesInit, Configuration, ExpressApplication, Module, OnReady, PlatformApplication} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, Module, OnReady, PlatformApplication} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";

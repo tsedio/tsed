@@ -10,6 +10,7 @@
   "exclude": [
     "node_modules",
     "test",
-    "lib"
+    "lib",
+    "**/*.spec.ts"
   ]
 }

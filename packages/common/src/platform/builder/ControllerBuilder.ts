@@ -1,12 +1,13 @@
-import {IPlatformDriver, PlatformRouter} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {IPathMethod} from "../../mvc/interfaces/IPathMethod";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ControllerProvider} from "../../platform/domain/ControllerProvider";
+import {IPlatformDriver} from "../interfaces/IPlatformDriver";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {SendResponseMiddleware} from "../middlewares/SendResponseMiddleware";
 import {statusAndHeadersMiddleware} from "../middlewares/statusAndHeadersMiddleware";
+import {PlatformRouter} from "../services/PlatformRouter";
 
 export class ControllerBuilder {
   constructor(private provider: ControllerProvider) {}

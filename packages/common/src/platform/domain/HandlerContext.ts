@@ -1,6 +1,7 @@
-import {HandlerMetadata, InjectorService} from "@tsed/common";
 import {isFunction, isPromise, isStream} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
 import {isObservable} from "rxjs";
+import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {IHandlerContext} from "../interfaces/IHandlerContext";
 
 export class HandlerContext {
@@ -21,9 +22,6 @@ export class HandlerContext {
     this.err = err;
     this.metadata = metadata!;
     this.args = args || [];
-
-    // @ts-ignore
-    this.$meta = this.metadata;
 
     this.next = this.next.bind(this);
   }
@@ -132,6 +130,7 @@ export class HandlerContext {
     delete this._next;
     delete this.metadata;
     delete this.injector;
+    delete this.err;
     this._isDone = true;
   }
 }
