@@ -19,16 +19,15 @@ export * from "./registries/ParamRegistry";
 export * from "./registries/FilterRegistry";
 
 // components
-export * from "./components/AuthenticatedMiddleware";
-export * from "./components/AcceptMimesMiddleware";
-export * from "./components/ResponseViewMiddleware";
+export * from "./middlewares/AuthenticatedMiddleware";
+export * from "./middlewares/AcceptMimesMiddleware";
+export * from "./middlewares/ResponseViewMiddleware";
 
 // pipes
 export * from "./pipes/RequiredPipe";
 export * from "./pipes/ValidationPipe";
 export * from "./pipes/ParseExpressionPipe";
 export * from "./pipes/DeserializerPipe";
-
 
 // services
 export * from "./services/ParseService";

@@ -1,4 +1,4 @@
-import {AuthenticatedMiddleware} from "../../components/AuthenticatedMiddleware";
+import {AuthenticatedMiddleware} from "../../middlewares/AuthenticatedMiddleware";
 import {IAuthOptions} from "./authOptions";
 import {UseAuth} from "./useAuth";
 
