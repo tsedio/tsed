@@ -1,5 +1,5 @@
 import {$log, colorize} from "ts-log-debug";
-import {IRouteDetails} from "../../mvc/services/RouteService";
+import {IRouteDetails} from "../../platform";
 
 export function printRoutes(routes: IRouteDetails[]) {
   const mapColor: {[key: string]: string} = {

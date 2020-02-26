@@ -1,5 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {RequestContext} from "../../mvc";
+import {RequestContext} from "../../platform";
 
 const onFinished = require("on-finished");
 const uuidv4 = require("uuid/v4");

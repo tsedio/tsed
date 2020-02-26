@@ -180,7 +180,7 @@ describe("Response", () => {
     });
   });
 
-  describe("Scenario5: when endpoint return a function", () => {
+  describe("Scenario5: when endpoint response from promise", () => {
     describe("GET /rest/response/scenario5", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario5");

@@ -8,7 +8,6 @@ import {OpenApiParamsBuilder} from "../../src/class/OpenApiParamsBuilder";
 import {Ctrl, SwaFoo2} from "./helpers/classes";
 
 const param0 = new ParamMetadata({target: Ctrl, propertyKey: "test", index: 0});
-param0.service = ParamTypes.BODY;
 param0.paramType = ParamTypes.BODY;
 param0.type = SwaFoo2;
 
@@ -554,7 +553,6 @@ describe("OpenApiParamsBuilder", () => {
 
       it("should create a schema", () => {
         const param0 = new ParamMetadata({target: Ctrl, propertyKey: "test", index: 0});
-        param0.service = ParamTypes.BODY;
         param0.paramType = ParamTypes.BODY;
         param0.type = String;
         param0.collectionType = Array;

@@ -1,5 +1,4 @@
 export * from "./IFilter";
-export * from "./IPipe";
 export * from "./IMiddleware";
 export * from "./IMiddlewareError";
 export * from "./PathParamsType";

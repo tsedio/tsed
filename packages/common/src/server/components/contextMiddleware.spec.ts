@@ -1,7 +1,7 @@
 import {InjectorService} from "@tsed/di";
 import * as Sinon from "sinon";
-import {RequestLogger} from "../../../src/mvc";
-import {contextMiddleware} from "../../../src/server";
+import {RequestLogger} from "../../../src/platform";
+import {contextMiddleware} from "./contextMiddleware";
 
 describe("contextMiddleware", () => {
   const sandbox = Sinon.createSandbox();

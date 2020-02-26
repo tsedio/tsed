@@ -59,7 +59,7 @@ describe("ProtocolsService", () => {
     expect(protocolService.getProtocolsNames()).to.deep.equal(["local"]);
   }));
 
-  it("should call handler", inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
+  it("should call metadata", inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
     // GIVEN
     stub(LocalProtocol.prototype.$onVerify).returns({id: 0});
     const provider = injector.getProvider(LocalProtocol)!;
@@ -78,7 +78,7 @@ describe("ProtocolsService", () => {
     expect(resultDone).to.deep.equal([null, {id: 0}]);
   }));
 
-  it("should call handler and catch error", inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
+  it("should call metadata and catch error", inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
     // GIVEN
     const error = new Error("message");
     stub(LocalProtocol.prototype.$onVerify).rejects(error);

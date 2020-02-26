@@ -1,20 +1,17 @@
+import {createExpressApplication, PlatformModule} from "@tsed/common";
+import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
-import {Container, Injectable, InjectorService, LocalsContainer} from "../../../../di/src";
-import {MvcModule} from "../../../src/mvc";
-import {createExpressApplication} from "../../../src/server";
-import {loadInjector} from "../../../src/server/utils/loadInjector";
+import {loadInjector} from "./loadInjector";
 
 describe("loadInjector", () => {
   it("should load injector", () => {
     // GIVEN
     @Injectable()
-    class TestService {
-    }
+    class TestService {}
 
     @Injectable()
-    class TestService2 {
-    }
+    class TestService2 {}
 
     const injector = new InjectorService();
 
@@ -29,7 +26,7 @@ describe("loadInjector", () => {
 
     createExpressApplication(injector);
 
-    container.add(MvcModule);
+    container.add(PlatformModule);
     container.add(TestService);
     container.add(TestService2);
 
@@ -38,7 +35,7 @@ describe("loadInjector", () => {
 
     // THEN
     stub(injector.addProviders).should.have.been.calledWithExactly(container);
-    stub(injector.invoke).should.have.been.calledWithExactly(MvcModule);
+    stub(injector.invoke).should.have.been.calledWithExactly(PlatformModule);
     stub(injector.load).should.have.been.calledWithExactly(container);
 
     stub(injector.logger.debug).restore();
