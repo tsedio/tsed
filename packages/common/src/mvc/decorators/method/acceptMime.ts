@@ -1,5 +1,5 @@
 import {applyDecorators, StoreSet} from "@tsed/core";
-import {AcceptMimesMiddleware} from "../../components/AcceptMimesMiddleware";
+import {AcceptMimesMiddleware} from "../../middlewares/AcceptMimesMiddleware";
 import {UseBefore} from "./useBefore";
 
 /**

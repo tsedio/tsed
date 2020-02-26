@@ -1,4 +1,4 @@
-import {BeforeRoutesInit, Configuration, ExpressApplication, Module, OnReady} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, Module, OnReady, PlatformApplication} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
@@ -16,7 +16,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   constructor(
     private swaggerService: SwaggerService,
     @Configuration() private configuration: Configuration,
-    @ExpressApplication private expressApplication: Express.Application
+    private platformApplication: PlatformApplication
   ) {}
 
   /**
@@ -41,8 +41,8 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     swagger.forEach((conf: ISwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.expressApplication.get(path, this.middlewareRedirect(path));
-      this.expressApplication.use(path, this.createRouter(conf, urls));
+      this.platformApplication.get(path, this.middlewareRedirect(path));
+      this.platformApplication.use(path, this.createRouter(conf, urls));
     });
     this.loaded = true;
   }

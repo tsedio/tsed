@@ -13,7 +13,9 @@ export abstract class Storable extends EntityDescription {
 
   constructor(_target: Type<any>, _propertyKey: string | symbol, _index?: number | PropertyDescriptor) {
     super(_target, _propertyKey, _index);
-    this._store = Store.from(_target, _propertyKey, _index);
+    if (_target) {
+      this._store = Store.from(_target, _propertyKey, _index);
+    }
   }
 
   /**

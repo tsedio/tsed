@@ -1,5 +1,5 @@
 import {applyDecorators, StoreSet} from "@tsed/core";
-import {ResponseViewMiddleware} from "../../components/ResponseViewMiddleware";
+import {ResponseViewMiddleware} from "../../middlewares/ResponseViewMiddleware";
 import {UseAfter} from "./useAfter";
 
 /**

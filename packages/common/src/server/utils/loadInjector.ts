@@ -1,5 +1,5 @@
 import {Container, InjectorService, LocalsContainer} from "@tsed/di";
-import {MvcModule} from "../../mvc";
+import {PlatformModule} from "../../platform";
 import {createContainer} from "./createContainer";
 
 export async function loadInjector(injector: InjectorService, container: Container = createContainer()): Promise<LocalsContainer<any>> {
@@ -13,7 +13,7 @@ export async function loadInjector(injector: InjectorService, container: Contain
     injector.logger.debug(`settings.${key} =>`, value);
   });
 
-  injector.invoke(MvcModule);
+  injector.invoke(PlatformModule);
 
   return injector.load(container);
 }

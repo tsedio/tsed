@@ -1,11 +1,11 @@
-import {HandlerBuilder, HandlerMetadata, HandlerType, InjectorService, Service} from "@tsed/common";
-import {Provider} from "@tsed/di";
+import {HandlerMetadata, HandlerType, Platform} from "@tsed/common";
+import {Injectable, InjectorService, Provider} from "@tsed/di";
 import * as Passport from "passport";
 import {Strategy} from "passport";
 import {IProtocol, IProtocolOptions} from "../interfaces";
 import {PROVIDER_TYPE_PROTOCOL} from "../registries/ProtocolRegistries";
 
-@Service()
+@Injectable()
 export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();
 
@@ -61,8 +61,8 @@ export class ProtocolsService {
       propertyKey: "$onVerify"
     });
 
-    const builder = new HandlerBuilder(handlerMetadata);
-    const middleware = builder.build(this.injector);
+    const platform = this.injector.get<Platform>(Platform)!;
+    const middleware = platform.createHandler(handlerMetadata);
 
     return (req: any, ...args: any[]) => {
       const done = args[args.length - 1];

@@ -53,13 +53,6 @@ export class HandlerMetadata {
     }
   }
 
-  /**
-   * @deprecated
-   */
-  get services() {
-    return this.parameters;
-  }
-
   get parameters(): ParamMetadata[] {
     if (this.injectable) {
       return this.getParams();
@@ -68,14 +61,34 @@ export class HandlerMetadata {
     const parameters: any[] = [];
 
     if (this.hasErrorParam) {
-      parameters.push({index: 0, service: ParamTypes.ERR});
+      parameters.push(
+        new ParamMetadata({
+          index: 0,
+          paramType: ParamTypes.ERR
+        })
+      );
     }
 
-    parameters.push({index: parameters.length, service: ParamTypes.REQUEST});
-    parameters.push({index: parameters.length, service: ParamTypes.RESPONSE});
+    parameters.push(
+      new ParamMetadata({
+        index: parameters.length,
+        paramType: ParamTypes.REQUEST
+      })
+    );
+    parameters.push(
+      new ParamMetadata({
+        index: parameters.length,
+        paramType: ParamTypes.RESPONSE
+      })
+    );
 
     if (this.hasNextFunction) {
-      parameters.push({index: parameters.length, service: ParamTypes.NEXT_FN});
+      parameters.push(
+        new ParamMetadata({
+          index: parameters.length,
+          paramType: ParamTypes.NEXT_FN
+        })
+      );
     }
 
     return parameters;
@@ -86,6 +99,6 @@ export class HandlerMetadata {
   }
 
   public hasParamType(paramType: any): boolean {
-    return this.getParams().findIndex(p => p.service === paramType) > -1;
+    return this.getParams().findIndex(p => p.paramType === paramType) > -1;
   }
 }

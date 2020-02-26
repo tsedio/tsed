@@ -4,8 +4,7 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {ServerSettingsService} from "../../config";
-import {IRoute, RouteService} from "../../mvc";
-
+import {IRoute, PlatformApplication, Platform} from "../../platform";
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 
@@ -15,7 +14,7 @@ import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {callHook} from "../utils/callHook";
-import {contextMiddleware} from "../utils/contextMiddleware";
+import {contextMiddleware} from "../components/contextMiddleware";
 import {createContainer} from "../utils/createContainer";
 import {createExpressApplication} from "../utils/createExpressApplication";
 import {createHttpServer} from "../utils/createHttpServer";
@@ -221,7 +220,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public use(...args: any[]): ServerLoader {
-    this.expressApp.use(...args);
+    this.injector.get<PlatformApplication>(PlatformApplication)!.use(...args);
 
     return this;
   }
@@ -231,6 +230,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param setting
    * @param val
    * @returns {ServerLoader}
+   * @deprecated Use this.expressApp.set() instead of
    */
   public set(setting: string, val: any): ServerLoader {
     this.expressApp.set(setting, val);
@@ -243,6 +243,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param ext
    * @param fn
    * @returns {ServerLoader}
+   * @deprecated Use this.expressApp.engine() instead of
    */
   public engine(ext: string, fn: (path: string, options: object, callback: (e: any, rendered: string) => void) => void): ServerLoader {
     this.expressApp.engine(ext, fn);
@@ -423,8 +424,8 @@ export abstract class ServerLoader implements IServerLifecycle {
     await this.callHook("$beforeRoutesInit"); // deprecated
     this.injector.logger.info("Load routes");
 
-    const routeService = this.injector.get<RouteService>(RouteService)!;
-    routeService.addRoutes(this.routes);
+    const platform = this.injector.get<Platform>(Platform)!;
+    platform.addRoutes(this.routes);
 
     await this.callHook("$onRoutesInit");
 
@@ -438,7 +439,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     if (!this.settings.logger.disableRoutesSummary) {
       this.injector.logger.info("Routes mounted :");
-      this.injector.logger.info(printRoutes(routeService.getRoutes()));
+      this.injector.logger.info(printRoutes(platform.getRoutes()));
     }
   }
 

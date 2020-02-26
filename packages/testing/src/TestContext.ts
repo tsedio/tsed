@@ -13,6 +13,15 @@ import {
 import {Env, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 
+export interface IInvokeOptions {
+  token?: TokenProvider;
+  /**
+   * @deprecated
+   */
+  provide?: TokenProvider;
+  use: any;
+}
+
 export class TestContext {
   private static _injector: InjectorService | null = null;
 
@@ -115,10 +124,10 @@ export class TestContext {
     };
   }
 
-  static invoke<T = any>(target: TokenProvider, providers: {provide: any | symbol; use: any}[]): T | Promise<any> {
+  static invoke<T = any>(target: TokenProvider, providers: IInvokeOptions[]): T | Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
-      locals.set(p.provide, p.use);
+      locals.set(p.token || p.provide, p.use);
     });
 
     const instance: OnInit = TestContext.injector.invoke(target, locals, {rebuild: true});
@@ -127,7 +136,7 @@ export class TestContext {
       // await instance.$onInit();
       const result = instance.$onInit();
       if (result instanceof Promise) {
-        return result.then(() => instance);
+        return result.then(() => instance as any);
       }
     }
 

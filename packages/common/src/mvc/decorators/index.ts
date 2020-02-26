@@ -36,7 +36,6 @@ export * from "./params/bodyParams";
 export * from "./params/cookies";
 export * from "./params/headerParams";
 export * from "./params/locals";
-export * from "./params/context";
 export * from "./params/pathParams";
 export * from "./params/queryParams";
 export * from "./params/session";

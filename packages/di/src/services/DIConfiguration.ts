@@ -139,11 +139,15 @@ export class DIConfiguration {
    */
   resolve(value: any) {
     if (typeof value === "object" && value !== null) {
-      Object.entries(value).forEach(([k, v]) => {
-        value[k] = this.resolve(v);
-      });
+      return Object.entries(value).reduce(
+        (o, [k, v]) => {
+          // @ts-ignore
+          o[k] = this.resolve(v);
 
-      return value;
+          return o;
+        },
+        Array.isArray(value) ? [] : {}
+      );
     }
 
     if (typeof value === "string") {
@@ -157,9 +161,7 @@ export class DIConfiguration {
   }
 
   build() {
-    this.forEach((value, key) => {
-      this.map.set(key, value);
-    });
+    this.forEach((value, key) => this.map.set(key, this.resolve(value)));
 
     this.set = this.setRaw;
     this.get = this.getRaw = (propertyKey: string) => getValue(propertyKey, this.map);

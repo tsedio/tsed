@@ -1,7 +1,8 @@
 import * as Express from "express";
-// import {IParamContext} from "../../mvc/interfaces/IHandlerContext";
 
+/**
+ * @deprecated Use pipe instead
+ */
 export interface IFilter {
-  // transform(value: any, context: IParamContext): any;
   transform(expression: string, request: Express.Request, response: Express.Response): any;
 }

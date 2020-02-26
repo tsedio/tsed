@@ -8,7 +8,7 @@ export class UnknowFilterError extends InternalServerError {
   name: "UNKNOW_FILTER_ERROR";
   status: 500;
 
-  constructor(target: Type<any> | string) {
+  constructor(target: Type<any>) {
     super(UnknowFilterError.buildMessage(target));
   }
 
@@ -16,7 +16,7 @@ export class UnknowFilterError extends InternalServerError {
    *
    * @returns {string}
    */
-  static buildMessage(target: Type<any> | string) {
+  static buildMessage(target: Type<any>) {
     return `Filter ${nameOf(target)} not found.`;
   }
 }
