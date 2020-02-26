@@ -69,22 +69,24 @@ export abstract class EntityDescription {
    */
   set target(target: Type<any>) {
     this._target = target;
-    let type;
 
-    if (typeof this.index === "number") {
-      type = Metadata.getParamTypes(this._target, this.propertyKey)[this.index];
-    } else {
-      type = Metadata.getType(this._target, this.propertyKey);
+    if (target) {
+      let type;
+
+      if (typeof this.index === "number") {
+        type = Metadata.getParamTypes(this._target, this.propertyKey)[this.index];
+      } else {
+        type = Metadata.getType(this._target, this.propertyKey);
+      }
+
+      if (isCollection(type)) {
+        this.collectionType = type;
+        this._type = Object;
+      } else {
+        this._type = type;
+      }
+      this.name = nameOf(this.propertyKey);
     }
-
-    if (isCollection(type)) {
-      this.collectionType = type;
-      this._type = Object;
-    } else {
-      this._type = type;
-    }
-
-    this.name = nameOf(this.propertyKey);
   }
 
   /**
