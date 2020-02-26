@@ -12,7 +12,7 @@ It'll be played only when the url request match with the path associated to the 
 When a request is sent to the server all middlewares added in the @@ServerLoader@@, [Controller](/docs/controllers.md) or Endpoint with decorators
  will be called while a response isn't sent by one of the middleware in the stack.
 
-<figure><img src="./../../assets/middleware-call-sequence.svg" style="max-width:400px; padding:30px"></figure>
+<figure><img src="./../../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
 ::: tip Note
 The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that match 

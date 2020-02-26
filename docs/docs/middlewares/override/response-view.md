@@ -2,7 +2,7 @@
 
 There is the current implementation of the @@ResponseViewMiddleware@@:
 
-<<< @/packages/common/src/mvc/components/ResponseViewMiddleware.ts
+<<< @/packages/common/src/mvc/middlewares/ResponseViewMiddleware.ts
 
 But for some reason, this implementation isn't enough to meet your needs.
 

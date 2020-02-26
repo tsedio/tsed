@@ -5,7 +5,7 @@ It's based on the middleware but this offer you more options and controller over
 
 One of the usecase already implemented by Ts.ED is the @@AcceptMimesMiddleware@@:
 
-<<< @/packages/common/src/mvc/components/AcceptMimesMiddleware.ts
+<<< @/packages/common/src/mvc/middlewares/AcceptMimesMiddleware.ts
 
 You can see in this example the usage of `endpoint.get` from @@EndpointInfo@@. This method contain all options
 which can be passed to decorator associated to AcceptMimesMiddleware.

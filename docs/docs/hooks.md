@@ -1,5 +1,6 @@
 ---
-sidebar: false
+prev: true
+next: true
 ---
 # Hooks
 
