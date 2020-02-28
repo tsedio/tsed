@@ -1,3 +1,4 @@
+import {Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {
   EndpointMetadata,
@@ -64,6 +65,8 @@ export class PlatformHandler {
     if (metadata.type === HandlerType.FUNCTION) {
       return metadata.handler;
     }
+
+    this.sortPipes(metadata);
 
     if (metadata.hasErrorParam) {
       return (err: any, request: any, response: any, next: any) =>
@@ -151,11 +154,11 @@ export class PlatformHandler {
    * Return a custom filter
    * @param param
    * @param context
+   * @deprecated
    */
   getFilter(param: ParamMetadata, context: HandlerContext) {
-    const {expression} = param;
-
     if (param.filter) {
+      const {expression} = param;
       const instance = this.injector.get<IFilter>(param.filter);
 
       if (!instance || !instance.transform) {
@@ -182,6 +185,16 @@ export class PlatformHandler {
     } catch (error) {
       context.next(error);
     }
+  }
+
+  private sortPipes(metadata: HandlerMetadata) {
+    const get = (pipe: Type<any>) => {
+      return this.injector.getProvider(pipe)!.priority || 0;
+    };
+
+    metadata.parameters.forEach(
+      (param: ParamMetadata) => (param.pipes = param.pipes.sort((p1: Type<any>, p2: Type<any>) => (get(p1) < get(p2) ? -1 : 1)))
+    );
   }
 
   /**

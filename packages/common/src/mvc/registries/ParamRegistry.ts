@@ -37,6 +37,11 @@ export class ParamRegistry {
     return Metadata.has(PARAM_METADATA, target, propertyKey) ? Metadata.get(PARAM_METADATA, target, propertyKey) : [];
   }
 
+  /**
+   * @param filter
+   * @param options
+   * @deprecated
+   */
   static useFilter(filter: string | Type<any> | ParamTypes, options: IUseFilterOptions): ParamMetadata {
     const {expression, useType, propertyKey, index, target, useConverter, useValidation} = options;
     let {paramType} = options;

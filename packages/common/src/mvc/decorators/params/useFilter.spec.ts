@@ -1,17 +1,23 @@
-import {prototypeOf} from "@tsed/core";
-import * as Sinon from "sinon";
-import {ParamRegistry, ParamTypes, UseFilter} from "../../../../src/mvc";
+import {Property} from "@tsed/common";
+import {nameOf} from "@tsed/core";
+import {Description, Example, Title} from "@tsed/swagger";
+import {BodyParams, ParamRegistry, ParamTypes, Put, Required, UseFilter} from "../../../../src/mvc";
 
-const sandbox = Sinon.createSandbox();
+export class MyModel {
+  @Title("iD")
+  @Description("Description of calendar model id")
+  @Example("example1", "Description example")
+  @Property()
+  public id: string;
+
+  @Property()
+  @Required()
+  public name: string;
+}
+
 describe("@UseFilter", () => {
   describe("when filter is a class", () => {
-    before(() => {
-      sandbox.stub(ParamRegistry, "useFilter");
-    });
-    after(() => {
-      sandbox.restore();
-    });
-    it("should call ParamFilter.useFilter method with the correct parameters", () => {
+    it("should create ParamMetadata", () => {
       class Test {}
 
       class Ctrl {
@@ -27,16 +33,33 @@ describe("@UseFilter", () => {
         ) {}
       }
 
-      ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.BODY, {
-        target: prototypeOf(Ctrl),
-        propertyKey: "test",
-        index: 0,
-        expression: "expression",
-        useType: Test,
-        useConverter: true,
-        useValidation: true,
-        paramType: ParamTypes.BODY
-      });
+      const param = ParamRegistry.get(Ctrl, "test", 0);
+      param.expression.should.eq("expression");
+      param.paramType.should.eq(ParamTypes.BODY);
+      param.type.should.eq(Test);
+    });
+    it("should store pipes", () => {
+      class Ctrl {
+        @Put("/")
+        public save(
+          @BodyParams("name")
+          @Required()
+          name: string
+        ): MyModel {
+          const model = new MyModel();
+          model.id = "2";
+          model.name = "test";
+
+          return model;
+        }
+      }
+
+      const param = ParamRegistry.get(Ctrl, "save", 0);
+      param.expression.should.eq("name");
+      param.paramType.should.eq(ParamTypes.BODY);
+      param.type.should.eq(String);
+
+      param.pipes.map(nameOf).should.deep.eq(["ParseExpressionPipe", "ValidationPipe", "DeserializerPipe"]);
     });
   });
 });
