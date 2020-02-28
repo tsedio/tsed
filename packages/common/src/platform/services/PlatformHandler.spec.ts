@@ -19,7 +19,7 @@ import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {PlatformHandler} from "./PlatformHandler";
 
-function build(injector: InjectorService, type: ParamTypes | Type<any>, {expression, required}: any = {}) {
+function build(injector: InjectorService, type: string | ParamTypes | Type<any>, {expression, required}: any = {}) {
   class Test {
     test() {}
   }
@@ -419,6 +419,20 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq("test value application/json");
+      }
+    ));
+    it("should return request by default", inject(
+      [InjectorService, PlatformHandler],
+      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, "UNKNOWN");
+        param.expression = "test";
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.request);
       }
     ));
     it("should throw an error when custom filter is missing", inject(

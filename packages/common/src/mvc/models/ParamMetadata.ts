@@ -35,9 +35,7 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
 
   @Enumerable()
   pipes: Type<IPipe>[] = [];
-  /**
-   * @deprecated use pipe instead
-   */
+
   @Enumerable()
   filter?: Type<IFilter>;
 

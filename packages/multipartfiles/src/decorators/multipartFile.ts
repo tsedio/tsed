@@ -1,8 +1,7 @@
-import {ParamTypes, UseBefore, UseFilter} from "@tsed/common";
-import {descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
+import {ParamTypes, Req, UseBefore} from "@tsed/common";
+import {UseParamType} from "@tsed/common/src/mvc/decorators/params/useParamType";
+import {applyDecorators, descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
-import {MultipartFileFilter} from "../components/MultipartFileFilter";
-import {MultipartFilesFilter} from "../components/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
 
 /**
@@ -86,14 +85,7 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
             options,
             any: true
           });
-
-          UseFilter(multiple ? MultipartFilesFilter : MultipartFileFilter, {
-            useConverter: false,
-            paramType: ParamTypes.FORM_DATA
-          })(target, propertyKey, index);
         } else {
-          const expression = multiple ? (name as string) : name + ".0";
-
           store.merge(MultipartFileMiddleware, {
             fields: [
               {
@@ -103,13 +95,11 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
             ],
             options
           });
-
-          UseFilter(MultipartFilesFilter, {
-            expression,
-            useConverter: false,
-            paramType: ParamTypes.FORM_DATA
-          })(target, propertyKey, index);
         }
+
+        const expression = ["files", name, !multiple && "0"].filter(Boolean).join(".");
+
+        applyDecorators(Req(expression), UseParamType(ParamTypes.FORM_DATA))(target, propertyKey, index);
 
         break;
     }

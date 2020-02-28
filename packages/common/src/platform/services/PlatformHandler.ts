@@ -1,3 +1,4 @@
+import {Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {
   EndpointMetadata,
@@ -65,6 +66,8 @@ export class PlatformHandler {
       return metadata.handler;
     }
 
+    this.sortPipes(metadata);
+
     if (metadata.hasErrorParam) {
       return (err: any, request: any, response: any, next: any) =>
         this.onRequest(
@@ -100,6 +103,9 @@ export class PlatformHandler {
    */
   getParam(param: ParamMetadata, context: HandlerContext) {
     switch (param.paramType) {
+      case ParamTypes.FORM_DATA:
+        return context.request;
+
       case ParamTypes.BODY:
         return context.request.body;
 
@@ -143,7 +149,11 @@ export class PlatformHandler {
         return context.request.ctx.data;
 
       default:
-        return this.getFilter(param, context);
+        if (param.filter) {
+          return this.getFilter(param, context);
+        }
+
+        return context.request;
     }
   }
 
@@ -151,19 +161,17 @@ export class PlatformHandler {
    * Return a custom filter
    * @param param
    * @param context
+   * @deprecated
    */
   getFilter(param: ParamMetadata, context: HandlerContext) {
     const {expression} = param;
+    const instance = this.injector.get<IFilter>(param.filter);
 
-    if (param.filter) {
-      const instance = this.injector.get<IFilter>(param.filter);
-
-      if (!instance || !instance.transform) {
-        throw new UnknowFilterError(param.filter!);
-      }
-
-      return instance.transform(expression, context.request, context.response);
+    if (!instance || !instance.transform) {
+      throw new UnknowFilterError(param.filter!);
     }
+
+    return instance.transform(expression, context.request, context.response);
   }
 
   /**
@@ -182,6 +190,16 @@ export class PlatformHandler {
     } catch (error) {
       context.next(error);
     }
+  }
+
+  private sortPipes(metadata: HandlerMetadata) {
+    const get = (pipe: Type<any>) => {
+      return this.injector.getProvider(pipe)!.priority || 0;
+    };
+
+    metadata.parameters.forEach(
+      (param: ParamMetadata) => (param.pipes = param.pipes.sort((p1: Type<any>, p2: Type<any>) => (get(p1) < get(p2) ? -1 : 1)))
+    );
   }
 
   /**

@@ -3,7 +3,9 @@ import {Injectable} from "@tsed/di";
 import {IPipe, ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "../models/ParamTypes";
 
-@Injectable()
+@Injectable({
+  priority: -1
+})
 export class ParseExpressionPipe implements IPipe {
   transform(value: any, param: ParamMetadata) {
     if (!value) {

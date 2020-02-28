@@ -1,25 +1,13 @@
-import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {ParamRegistry, ParamTypes, Res} from "../../../../src/mvc";
 
-const sandbox = Sinon.createSandbox();
 describe("@Res", () => {
-  before(() => {
-    sandbox.stub(ParamRegistry, "useFilter");
-  });
-  after(() => {
-    sandbox.restore();
-  });
-
-  it("should call ParamFilter.usePrehandler method with the correct parameters", () => {
+  it("should register a new ParamMetadata instance with the correct property", () => {
     class Ctrl {
       test(@Res() arg: Res) {}
     }
 
-    ParamRegistry.useFilter.should.have.been.calledOnce.and.calledWithExactly(ParamTypes.RESPONSE, {
-      target: prototypeOf(Ctrl),
-      propertyKey: "test",
-      index: 0
-    });
+    const param = ParamRegistry.get(Ctrl, "test", 0);
+    param.paramType.should.eq(ParamTypes.RESPONSE);
   });
 });

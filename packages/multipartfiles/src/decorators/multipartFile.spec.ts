@@ -3,8 +3,6 @@ import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {MultipartFile} from "../../src";
-import {MultipartFileFilter} from "../../src/components/MultipartFileFilter";
-import {MultipartFilesFilter} from "../../src/components/MultipartFilesFilter";
 import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
 
 class Test {
@@ -17,7 +15,6 @@ describe("@MultipartFile()", () => {
     sandbox.stub(Metadata, "getParamTypes");
     sandbox.stub(Store, "fromMethod");
     sandbox.stub(EndpointRegistry, "useBefore");
-    sandbox.stub(ParamRegistry, "useFilter");
   });
 
   after(() => {
@@ -62,14 +59,9 @@ describe("@MultipartFile()", () => {
       });
 
       it("should set params metadata", () => {
-        ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFilesFilter, {
-          expression: "file1.0",
-          propertyKey: "test",
-          index: 0,
-          target: Test.prototype,
-          useConverter: false,
-          paramType: ParamTypes.FORM_DATA
-        });
+        const param = ParamRegistry.get(Test, "test", 0);
+        param.expression.should.eq("files.file1.0");
+        param.paramType.should.eq(ParamTypes.FORM_DATA);
       });
     });
     describe("multiple files", () => {
@@ -109,14 +101,9 @@ describe("@MultipartFile()", () => {
       });
 
       it("should set params metadata", () => {
-        ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFilesFilter, {
-          expression: "file1",
-          propertyKey: "test",
-          index: 0,
-          target: Test.prototype,
-          useConverter: false,
-          paramType: ParamTypes.FORM_DATA
-        });
+        const param = ParamRegistry.get(Test, "test", 0);
+        param.expression.should.eq("files.file1");
+        param.paramType.should.eq(ParamTypes.FORM_DATA);
       });
     });
   });
@@ -159,13 +146,9 @@ describe("@MultipartFile()", () => {
         });
 
         it("should set params metadata", () => {
-          ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFileFilter, {
-            propertyKey: "test",
-            index: 0,
-            target: Test.prototype,
-            useConverter: false,
-            paramType: ParamTypes.FORM_DATA
-          });
+          const param = ParamRegistry.get(Test, "test", 0);
+          param.expression.should.eq("files.0");
+          param.paramType.should.eq(ParamTypes.FORM_DATA);
         });
       });
 
@@ -203,13 +186,8 @@ describe("@MultipartFile()", () => {
         });
 
         it("should set params metadata", () => {
-          ParamRegistry.useFilter.should.have.been.calledWithExactly(MultipartFilesFilter, {
-            propertyKey: "test",
-            index: 0,
-            target: Test.prototype,
-            useConverter: false,
-            paramType: ParamTypes.FORM_DATA
-          });
+          const param = ParamRegistry.get(Test, "test", 0);
+          param.expression.should.eq("files");
         });
       });
     });
