@@ -1,5 +1,4 @@
-import {ParamTypes, Req, UseBefore} from "@tsed/common";
-import {UseParamType} from "@tsed/common/src/mvc/decorators/params/useParamType";
+import {ParamTypes, Req, UseBefore, UseParamType} from "@tsed/common";
 import {applyDecorators, descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";

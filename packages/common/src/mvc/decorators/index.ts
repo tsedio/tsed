@@ -32,6 +32,11 @@ export * from "./class/caseSensitive";
 
 // Params
 export * from "./params/useFilter";
+export * from "./params/usePipe";
+export * from "./params/useValidation";
+export * from "./params/useDeserialization";
+export * from "./params/useParamExpression";
+export * from "./params/useParamType";
 export * from "./params/bodyParams";
 export * from "./params/cookies";
 export * from "./params/headerParams";
