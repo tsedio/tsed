@@ -142,7 +142,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     return this.injectedParams
       .filter((param: ParamMetadata) => param.paramType === ParamTypes.BODY || param.paramType === ParamTypes.FORM_DATA)
       .map(param => {
-        const name = ((param.expression as string) || "").replace(".0", "");
+        const name = ((param.expression as string) || "").replace(".0", "").replace(/^files./, "");
+
         const type = param.paramType === ParamTypes.FORM_DATA ? "file" : swaggerType(param.paramType);
 
         return Object.assign({}, param.store.get("baseParameter"), {

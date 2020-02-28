@@ -6,7 +6,8 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build:doc": "tsc --build tsconfig.doc.json",
+    "start": "ts-node -r tsconfig-paths/register test/helpers/index.ts"
   },
   "dependencies": {
     "@tsed/common": "5.44.0",

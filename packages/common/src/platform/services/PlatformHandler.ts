@@ -103,6 +103,9 @@ export class PlatformHandler {
    */
   getParam(param: ParamMetadata, context: HandlerContext) {
     switch (param.paramType) {
+      case ParamTypes.FORM_DATA:
+        return context.request;
+
       case ParamTypes.BODY:
         return context.request.body;
 
@@ -146,7 +149,11 @@ export class PlatformHandler {
         return context.request.ctx.data;
 
       default:
-        return this.getFilter(param, context);
+        if (param.filter) {
+          return this.getFilter(param, context);
+        }
+
+        return context.request;
     }
   }
 
@@ -157,16 +164,14 @@ export class PlatformHandler {
    * @deprecated
    */
   getFilter(param: ParamMetadata, context: HandlerContext) {
-    if (param.filter) {
-      const {expression} = param;
-      const instance = this.injector.get<IFilter>(param.filter);
+    const {expression} = param;
+    const instance = this.injector.get<IFilter>(param.filter);
 
-      if (!instance || !instance.transform) {
-        throw new UnknowFilterError(param.filter!);
-      }
-
-      return instance.transform(expression, context.request, context.response);
+    if (!instance || !instance.transform) {
+      throw new UnknowFilterError(param.filter!);
     }
+
+    return instance.transform(expression, context.request, context.response);
   }
 
   /**

@@ -1,7 +1,6 @@
 import {Property} from "@tsed/common";
-import {nameOf} from "@tsed/core";
 import {Description, Example, Title} from "@tsed/swagger";
-import {BodyParams, ParamRegistry, ParamTypes, Put, Required, UseFilter} from "../../../../src/mvc";
+import {ParamRegistry, ParamTypes, Required, UseFilter} from "../../../../src/mvc";
 
 export class MyModel {
   @Title("iD")
@@ -17,7 +16,7 @@ export class MyModel {
 
 describe("@UseFilter", () => {
   describe("when filter is a class", () => {
-    it("should create ParamMetadata", () => {
+    it("should create ParamMetadata (without filter)", () => {
       class Test {}
 
       class Ctrl {
@@ -38,28 +37,29 @@ describe("@UseFilter", () => {
       param.paramType.should.eq(ParamTypes.BODY);
       param.type.should.eq(Test);
     });
-    it("should store pipes", () => {
-      class Ctrl {
-        @Put("/")
-        public save(
-          @BodyParams("name")
-          @Required()
-          name: string
-        ): MyModel {
-          const model = new MyModel();
-          model.id = "2";
-          model.name = "test";
+    it("should create ParamMetadata (with filter)", () => {
+      class Test {}
 
-          return model;
-        }
+      class MyFilter {}
+
+      class Ctrl {
+        test(
+          @UseFilter(MyFilter, {
+            expression: "expression",
+            useConverter: true,
+            useValidation: true,
+            paramType: ParamTypes.BODY,
+            useType: Test
+          })
+          body: Test
+        ) {}
       }
 
-      const param = ParamRegistry.get(Ctrl, "save", 0);
-      param.expression.should.eq("name");
+      const param = ParamRegistry.get(Ctrl, "test", 0);
+      param.expression.should.eq("expression");
       param.paramType.should.eq(ParamTypes.BODY);
-      param.type.should.eq(String);
-
-      param.pipes.map(nameOf).should.deep.eq(["ParseExpressionPipe", "ValidationPipe", "DeserializerPipe"]);
+      param.type.should.eq(Test);
+      param.filter!.should.eq(MyFilter);
     });
   });
 });

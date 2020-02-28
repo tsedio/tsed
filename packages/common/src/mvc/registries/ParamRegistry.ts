@@ -42,6 +42,7 @@ export class ParamRegistry {
    * @param options
    * @deprecated
    */
+  /* istanbul ignore next */
   static useFilter(filter: string | Type<any> | ParamTypes, options: IUseFilterOptions): ParamMetadata {
     const {expression, useType, propertyKey, index, target, useConverter, useValidation} = options;
     let {paramType} = options;
