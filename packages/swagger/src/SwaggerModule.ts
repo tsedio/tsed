@@ -1,8 +1,7 @@
-import {BeforeRoutesInit, Configuration, Module, OnReady, PlatformApplication} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import * as PathUtils from "path";
-import {$log} from "ts-log-debug";
 import {ISwaggerSettings} from "./interfaces";
 import {SwaggerService} from "./services/SwaggerService";
 
@@ -14,6 +13,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   private loaded = false;
 
   constructor(
+    private injector: InjectorService,
     private swaggerService: SwaggerService,
     @Configuration() private configuration: Configuration,
     private platformApplication: PlatformApplication
@@ -67,8 +67,8 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
         const {path = "/", doc} = conf;
         const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-        $log.info(`[${doc || "default"}] Swagger JSON is available on ${url}${path}/swagger.json`);
-        $log.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
+        this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${path}/swagger.json`);
+        this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
       });
     };
 
@@ -148,7 +148,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     return (req: any, res: any) =>
       ejs.renderFile(__dirname + "/../views/index.ejs", this.mapSwaggerUIConfig(conf, urls), {}, (err: any, str: string) => {
         if (err) {
-          $log.error(err);
+          this.injector.logger.error(err);
           res.status(500).send(err.message);
         } else {
           res.send(str);

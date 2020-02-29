@@ -1,5 +1,5 @@
 import {GlobalProviders, IDIConfigurationOptions, InjectorService} from "@tsed/di";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import {ServerSettingsService} from "../../config/services/ServerSettingsService";
 
 $log.name = "TSED";

@@ -1,12 +1,11 @@
 import "@tsed/ajv";
-import {ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/common";
+import {ProviderScope, ProviderType, ServerLoader, ServerSettings, $log} from "@tsed/common";
 import "@tsed/graphql";
 import "@tsed/mongoose";
 import "@tsed/multipartfiles";
 import "@tsed/seq";
 import "@tsed/socketio";
 import * as Path from "path";
-import {$log} from "ts-log-debug";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 import {ProductsCtrl} from "./controllers/products/ProductsCtrl";

@@ -1,4 +1,4 @@
-import {levels, LogLevel} from "ts-log-debug";
+import {levels, LogLevel} from "@tsed/logger";
 
 export class RequestLogger {
   readonly id: string;

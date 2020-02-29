@@ -41,7 +41,7 @@ export interface ILoggerSettings {
    */
   disableRoutesSummary?: boolean;
   /**
-   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://romakita.github.io/ts-log-debug/).
+   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://typedproject.github.io/logger/).
    */
   format?: string;
   /**

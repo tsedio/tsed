@@ -1,7 +1,7 @@
 import {Env} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import * as Https from "https";
-import {$log} from "ts-log-debug";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories} from "../interfaces";
 
 const rootDir = process.cwd();

@@ -1,6 +1,5 @@
-import {BodyParams, Controller, Get, Post, Scope} from "@tsed/common";
+import {$log, BodyParams, Controller, Get, Post, Scope} from "@tsed/common";
 import {Docs, Hidden} from "@tsed/swagger";
-import {$log} from "ts-log-debug";
 import {CalendarModel} from "../../models/Calendar";
 import {AdminProductPostModel, UserProductPostModel} from "../../models/Product";
 import {InnerService} from "../../services/InnerService";

@@ -1,4 +1,4 @@
-import {$log, colorize} from "ts-log-debug";
+import {$log, colorize} from "@tsed/logger";
 import {IRouteDetails} from "../../platform";
 
 export function printRoutes(routes: IRouteDetails[]) {

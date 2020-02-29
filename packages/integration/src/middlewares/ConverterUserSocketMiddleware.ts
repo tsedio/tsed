@@ -1,5 +1,4 @@
 import {ConverterService} from "@tsed/common";
-import {$log} from "ts-log-debug";
 import {Args, SocketSession} from "../../../../packages/socketio/src";
 import {SocketMiddleware} from "../../../../packages/socketio/src/decorators/socketMiddleware";
 import {User} from "../models/User";
@@ -11,7 +10,6 @@ export class ConverterUserSocketMiddleware {
   use(@Args(0) user: any[], @SocketSession session: Map<string, any>) {
     session.set("test", "test2");
     user = this.converterService.deserialize(user, User);
-    $log.info("User =>", user);
 
     return [user];
   }

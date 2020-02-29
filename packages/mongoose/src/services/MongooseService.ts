@@ -1,6 +1,5 @@
-import {Service} from "@tsed/common";
+import {$log, Service} from "@tsed/common";
 import * as Mongoose from "mongoose";
-import {$log} from "ts-log-debug";
 
 @Service()
 export class MongooseService {

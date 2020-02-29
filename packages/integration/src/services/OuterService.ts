@@ -1,5 +1,4 @@
-import {Scope, Service} from "@tsed/common";
-import {$log} from "ts-log-debug";
+import {$log, Scope, Service} from "@tsed/common";
 import {InnerService} from "./InnerService";
 
 @Service()

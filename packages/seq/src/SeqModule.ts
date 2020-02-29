@@ -1,6 +1,5 @@
-import {AfterRoutesInit} from "@tsed/common";
+import {AfterRoutesInit, $log} from "@tsed/common";
 import {Constant, Module} from "@tsed/di";
-import {$log} from "ts-log-debug";
 import {ISeqSettings} from "./interfaces/ISeqSettings";
 
 @Module()

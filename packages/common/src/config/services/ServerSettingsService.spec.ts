@@ -1,7 +1,7 @@
 import {Env} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import {ProviderScope, ProviderType} from "../../../../di/src/interfaces";
 import {ServerSettingsService} from "../../../src/config/services/ServerSettingsService";
 

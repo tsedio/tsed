@@ -3,7 +3,6 @@ import {Type} from "@tsed/core";
 import {DataSource} from "apollo-datasource";
 import {ApolloServer} from "apollo-server-express";
 import {GraphQLSchema} from "graphql";
-import {$log} from "ts-log-debug";
 import * as typeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
 import {IGraphQLServer} from "../interfaces/IGraphQLServer";
@@ -48,8 +47,8 @@ export class GraphQLService {
       return await this.get(id)!;
     }
 
-    $log.info(`Create server with apollo-server-express for: ${id}`);
-    $log.debug(`options: ${JSON.stringify({path})}`);
+    this.injectorService.logger.info(`Create server with apollo-server-express for: ${id}`);
+    this.injectorService.logger.debug(`options: ${JSON.stringify({path})}`);
 
     try {
       // istanbul ignore next
@@ -89,7 +88,7 @@ export class GraphQLService {
       return server;
     } catch (err) {
       /* istanbul ignore next */
-      $log.error(err);
+      this.injectorService.logger.error(err);
       /* istanbul ignore next */
       process.exit();
     }

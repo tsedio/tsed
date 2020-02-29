@@ -1,5 +1,4 @@
-import {Scope, Service} from "@tsed/common";
-import {$log} from "ts-log-debug";
+import {Scope, Service, $log} from "@tsed/common";
 
 @Service()
 @Scope("request")

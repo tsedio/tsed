@@ -1,4 +1,4 @@
-import {$log, Appender, LogEvent, BaseAppender} from "ts-log-debug";
+import {$log, Appender, LogEvent, BaseAppender} from "@tsed/logger";
 import {createLogger} from "bunyan";
 import {createStream} from "bunyan-seq";
 
@@ -16,7 +16,7 @@ import {createStream} from "bunyan-seq";
  * ## Example
  *
  * ```typescript
- * import {Logger} from "ts-log-debug";
+ * import {Logger} from "@tsed/logger";
  *
  * const logger = new Logger("loggerName");
  *

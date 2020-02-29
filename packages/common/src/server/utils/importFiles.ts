@@ -1,5 +1,5 @@
 import * as globby from "globby";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import {cleanGlobPatterns} from "./cleanGlobPatterns";
 
 export async function importFiles(patterns: string | string[], exclude: string[]): Promise<any[]> {
