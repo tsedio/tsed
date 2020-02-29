@@ -29,4 +29,16 @@ describe("Multer integration", () => {
 
     expect(result.text).to.eq("file.txt");
   });
+
+  // it("should load a file parse payload", async () => {
+  //   const result = await request
+  //     .post("/rest/archives/with-payload")
+  //     .attach("media", `${__dirname}/data/file.txt`)
+  //     .field("form_id", 1)
+  //     .field("event", JSON.stringify({
+  //       id: 1
+  //     }));
+  //
+  //   expect(result.text).to.eq("file.txt");
+  // });
 });

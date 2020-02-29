@@ -6,7 +6,8 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "@tsed/core": "5.44.2",
-    "tslib": "1.10.0"
+    "tslib": "1.10.0",
+    "chalk": "3.0.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",

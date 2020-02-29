@@ -1,5 +1,5 @@
 import {getConstructorArgNames, isClass, isString, nameOf} from "@tsed/core";
-import {colorize} from "ts-log-debug";
+import * as chalk from "chalk";
 import {TokenProvider} from "../interfaces";
 
 export class InjectionError extends Error {
@@ -51,7 +51,7 @@ function printDependencyInjectionError(token: any, options: {token: any; index: 
     .map((arg, index) => {
       if (options.index === index) {
         erroredArg = arg;
-        arg = colorize(arg, "red");
+        arg = chalk.red(arg);
       }
 
       return `${arg}: ${nameOf(options.deps[index])}`;
@@ -60,7 +60,7 @@ function printDependencyInjectionError(token: any, options: {token: any; index: 
 
   const signature = nameOf(token) + "->constructor(" + args + ")";
   const indexOf = signature.indexOf(erroredArg) - 5;
-  const drawline = (indexOf: number) => " ".repeat(indexOf) + colorize("^" + "‾".repeat(erroredArg.length - 1), "red");
+  const drawline = (indexOf: number) => " ".repeat(indexOf) + chalk.red("^" + "‾".repeat(erroredArg.length - 1));
 
   return "Unable to inject dependency. " + options.message + "\n\n" + signature + "\n" + (indexOf > -1 ? drawline(indexOf) : "");
 }
