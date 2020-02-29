@@ -1,13 +1,13 @@
 {
   "name": "@tsed/di",
-  "version": "5.44.2",
+  "version": "5.44.3",
   "description": "DI module for Ts.ED Framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "dependencies": {
-    "@tsed/core": "5.44.2",
-    "tslib": "1.10.0",
-    "chalk": "3.0.0"
+    "@tsed/core": "5.44.3",
+    "chalk": "3.0.0",
+    "tslib": "1.10.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
