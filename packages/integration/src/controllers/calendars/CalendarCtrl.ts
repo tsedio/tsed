@@ -70,7 +70,7 @@ export class CalendarCtrl extends BaseController {
    * @param next
    */
   static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
-    request.getStoredData().id = 10909;
+    request.ctx.data.id = 10909;
 
     // console.log(request.headers)
     next();

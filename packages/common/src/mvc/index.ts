@@ -1,5 +1,3 @@
-import "./utils/extendsRequest";
-
 // constants
 export * from "./constants";
 

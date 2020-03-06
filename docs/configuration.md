@@ -279,11 +279,19 @@ It's recommended to disable logRequest in production. Logger have a cost on the 
 For each Express.Request, a logger will be attached and can be used like here:
 
 ```typescript
-request.log.info({customData: "test"}) // parameter is optional
-request.log.debug({customData: "test"})
-request.log.warn({customData: "test"})
-request.log.error({customData: "test"})
-request.log.trace({customData: "test"})
+import {Controller, Context, Get, RequestLogger} from "@tsed/common";
+
+@Controller("/")
+class MyController {
+  @Get('/')
+  get(@Context("logger") logger: RequestLogger) {
+    logger.info({customData: "test"}); // parameter is optional
+    logger.debug({customData: "test"})
+    logger.warn({customData: "test"})
+    logger.error({customData: "test"})
+    logger.trace({customData: "test"})
+  }
+}
 ```
 
 A call with once of this method will generate a log according to the `logger.requestFields` configuration:

@@ -15,7 +15,7 @@ describe("Auth", () => {
 
   describe("POST /rest/auth/login", () => {
     describe("when credential isn't given", () => {
-      it("should respond 403", async () => {
+      it("should respond 400", async () => {
         const response = await request
           .post("/rest/auth/login")
           .send({})

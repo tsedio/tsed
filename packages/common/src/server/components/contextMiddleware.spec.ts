@@ -29,7 +29,6 @@ describe("contextMiddleware", () => {
     injector.emit.should.have.been.calledWithExactly("$onRequest", request, response);
     // injector.emit.should.have.been.calledWithExactly("$onResponse", request, response);
 
-    request.log.should.instanceof(RequestLogger);
     request.log.id.should.deep.equal(request.ctx.id);
   });
 
@@ -63,8 +62,7 @@ describe("contextMiddleware", () => {
     injector.emit.should.have.been.calledWithExactly("$onRequest", request, response);
     // injector.emit.should.have.been.calledWithExactly("$onResponse", request, response);
 
-    request.log.should.instanceof(RequestLogger);
-    request.log.id.should.deep.equal(request.ctx.id);
-    request.log.id.should.equal("1");
+    request.ctx.logger.id.should.deep.equal(request.ctx.id);
+    request.ctx.logger.id.should.equal("1");
   });
 });

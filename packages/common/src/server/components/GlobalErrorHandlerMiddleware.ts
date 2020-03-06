@@ -12,10 +12,12 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
   protected headerName: string;
 
   use(@Err() error: any, @Req() request: Req, @Res() response: Res): any {
+    const logger = request.ctx.logger;
+
     const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 
     if (error instanceof Exception || error.status) {
-      request.log.error({
+      logger.error({
         error: {
           message: error.message,
           stack: error.stack,
@@ -37,7 +39,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
       return;
     }
 
-    request.log.error({
+    logger.error({
       error: {
         status: 500,
         message: error.message,
