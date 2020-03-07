@@ -81,7 +81,7 @@ export function decorateMethodsOf(klass: any, decorator: any) {
   });
 }
 
-export function applyDecorators(...decorators: any | Function[]): Function {
+export function applyDecorators(...decorators: (any | ClassDecorator | MethodDecorator | PropertyDescriptor | ParameterDecorator)[]): any {
   return (...args: DecoratorParameters) => {
     decorators
       .filter((o: any) => !!o)
