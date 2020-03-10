@@ -19,7 +19,7 @@ In this example all request on `/random` endpoint return the same random value.
 Request scope will create a new instance of provider for each incoming request. A new container will be created
 and attached to the request. It'll contains all provider annotated by `@Scope(ProviderScope.REQUEST)`.
 
-<<< @/docs/docs/snippets/providers/scope-singleton.ts
+<<< @/docs/docs/snippets/providers/scope-request.ts
 
 Each request on `/random` will return a different random value.
 
