@@ -30,9 +30,9 @@
     "pm2": "4.1.2"
   },
   "devDependencies": {
-    "husky": "3.1.0",
-    "lint-staged": "9.4.3",
-    "cross-env": "6.0.3"
+    "husky": "4.2.3",
+    "lint-staged": "10.0.8",
+    "cross-env": "7.0.2"
   },
   "workspaces": {
     "packages": [

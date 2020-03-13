@@ -11,12 +11,8 @@ export class UploadController {
   @Put("/")
   @Status(201)
   @Responses("201", {description: "Created"})
-  @Responses("400", {description: "Bad Request"})
   @MulterOptions({dest: `${process.cwd()}/.tmp`})
   async add(@MultipartFile("file") file: Express.Multer.File): Promise<any> {
-
-    console.log("file: ", file);
-
     return true;
   }
 }

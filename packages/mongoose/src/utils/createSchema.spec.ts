@@ -271,7 +271,7 @@ describe("createSchema", () => {
 
     // THEN
     testSchema.obj.should.deep.eq({});
-    testSchema.virtuals.test.options.should.deep.eq({
+    testSchema.virtuals.test.options.should.deep.includes({
       foreignField: "foo",
       justOne: true,
       localField: "test",
@@ -431,7 +431,7 @@ describe("createSchema", () => {
     // THEN
     testSchema.obj.should.deep.eq({});
     // @ts-ignore
-    testSchema.virtuals.tests.options.should.deep.eq({
+    testSchema.virtuals.tests.options.should.deep.includes({
       foreignField: "foo",
       justOne: false,
       localField: "tests",

@@ -11,11 +11,11 @@
   "dependencies": {
     "@tsed/common": "5.44.6",
     "@tsed/core": "5.44.6",
-    "tslib": "1.10.0"
+    "tslib": "1.11.1"
   },
   "peerDependencies": {
-    "@types/mongoose": "^5.5.32",
-    "mongoose": "^5.7.11"
+    "@types/mongoose": "^5.7.6",
+    "mongoose": "^5.9.4"
   },
   "private": false,
   "directories": {

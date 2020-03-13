@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@tsed/common": "5.44.6",
-    "ejs": "2.7.3",
-    "swagger-ui-dist": "3.24.3",
-    "tslib": "1.10.0"
+    "ejs": "^3.0.1",
+    "swagger-ui-dist": "^3.25.0",
+    "tslib": "1.11.1"
   },
   "peerDependencies": {
     "@types/swagger-schema-official": "^2.0.20"
