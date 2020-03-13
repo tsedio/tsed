@@ -24,7 +24,7 @@
     "examples:build": "gulp examples:build",
     "examples:publish": "gulp examples:publish",
     "api:build": "lerna run build && ts-doc",
-    "vuepress:build": "vuepress build docs",
+    "vuepress:build": "cross-env NODE_ENV=production vuepress build docs",
     "vuepress:serve": "vuepress dev docs",
     "prettier": "prettier '{src,test}/**/*.ts' --write"
   },
@@ -83,7 +83,7 @@
     "ts-log-debug": "^5.2.0"
   },
   "devDependencies": {
-    "@typedproject/ts-doc": "4.0.6",
+    "@typedproject/ts-doc": "4.0.7",
     "@types/chai": "4.2.10",
     "@types/chai-as-promised": "7.1.2",
     "@types/cookie-parser": "1.4.2",
@@ -164,6 +164,7 @@
     "type-graphql": "0.17.6",
     "typeorm": "0.2.24",
     "typescript": "3.8.3",
+    "vuepress": "1.3.1",
     "vue-analytics": "5.22.1",
     "vuepress-theme-tsed": "2.6.0"
   },
