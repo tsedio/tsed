@@ -64,3 +64,4 @@ test/**/*.d.ts.map
 /test/integration/app/spec/swagger.json
 /docs/.vuepress/dist
 /mongodb-binaries
+/packages/multipartfiles/test/.tmp/

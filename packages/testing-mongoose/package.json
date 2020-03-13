@@ -12,13 +12,13 @@
     "@tsed/common": "5.44.6",
     "@tsed/core": "5.44.6",
     "@tsed/testing": "5.44.6",
-    "mongodb-memory-server": "6.0.2",
-    "tslib": "1.10.0"
+    "mongodb-memory-server": "^6.3.3",
+    "tslib": "1.11.1"
   },
   "private": false,
   "peerDependencies": {
-    "@types/mongoose": "^5.5.32",
-    "mongoose": "^5.7.11"
+    "@types/mongoose": "^5.7.6",
+    "mongoose": "^5.9.4"
   },
   "devDependencies": {}
 }
