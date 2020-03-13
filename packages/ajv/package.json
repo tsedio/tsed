@@ -1,6 +1,6 @@
 {
   "name": "@tsed/ajv",
-  "version": "5.44.6",
+  "version": "5.44.7",
   "description": "AJV package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,8 +9,8 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.44.6",
-    "@tsed/core": "5.44.6",
+    "@tsed/common": "5.44.7",
+    "@tsed/core": "5.44.7",
     "tslib": "1.11.1"
   },
   "peerDependencies": {
