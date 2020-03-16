@@ -1,11 +1,23 @@
 import {Service} from "@tsed/di";
 import * as Express from "express";
 import {IServerMountDirectories} from "../../config";
-import {ExpressApplication} from "../decorators/expressApplication";
+import {PlatformApplication} from "../../platform/services/PlatformApplication";
+
+function statics(directory: string) {
+  const middleware = Express.static(directory);
+
+  return (request: any, response: any, next: any) => {
+    if (!response.headersSent) {
+      middleware(request, response, next);
+    } else {
+      next();
+    }
+  };
+}
 
 @Service()
 export class ServeStaticService {
-  constructor(@ExpressApplication private expressApp: Express.Application) {}
+  constructor(private platformApplication: PlatformApplication) {}
 
   statics(statics: IServerMountDirectories) {
     /* istanbul ignore else */
@@ -15,13 +27,6 @@ export class ServeStaticService {
   }
 
   mount(path: string, directory: string) {
-    const middleware = Express.static(directory);
-    this.expressApp.use(path, (request: any, response: any, next: any) => {
-      if (!response.headersSent) {
-        middleware(request, response, next);
-      } else {
-        next();
-      }
-    });
+    this.platformApplication.use(path, statics(directory));
   }
 }
