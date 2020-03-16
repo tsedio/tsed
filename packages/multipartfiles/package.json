@@ -1,6 +1,6 @@
 {
   "name": "@tsed/multipartfiles",
-  "version": "5.44.7",
+  "version": "5.44.8",
   "description": "Multer package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -10,8 +10,8 @@
     "start": "ts-node -r tsconfig-paths/register test/helpers/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "5.44.7",
-    "@tsed/core": "5.44.7",
+    "@tsed/common": "5.44.8",
+    "@tsed/core": "5.44.8",
     "multer": "^1.4.2",
     "tslib": "1.11.1"
   },
