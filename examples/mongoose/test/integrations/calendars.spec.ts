@@ -23,4 +23,13 @@ describe("Calendars", () => {
       expect(obj).to.be.an("array");
     });
   });
+
+  // describe("POST /rest/calendars", () => {
+  //   it("should update a calendar information", async () => {
+  //     const response = await request.post("/rest/calendars").expect(200);
+  //     let obj = JSON.parse(response.text);
+  //
+  //     expect(obj).to.be.an("array");
+  //   });
+  // });
 });

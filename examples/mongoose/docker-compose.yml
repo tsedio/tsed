@@ -18,7 +18,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: tsed/getting-started:latest
+    image: tsed/server:latest
     # The app will restart until Mongo is listening
     restart: always
     depends_on:

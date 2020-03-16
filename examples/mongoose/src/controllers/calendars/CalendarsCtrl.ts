@@ -62,8 +62,8 @@ export class CalendarsCtrl {
   @Summary("Update calendar information")
   @Status(200, {description: "Success", type: Calendar})
   async update(@PathParams("id") @Required() id: string,
-               @BodyParams() calendar: Calendar): Promise<Calendar> {
-
+               @BodyParams() @Required() calendar: Calendar): Promise<Calendar> {
+    console.log("====", calendar);
     calendar._id = id;
 
     return this.calendarsService.save

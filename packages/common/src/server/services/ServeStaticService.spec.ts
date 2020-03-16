@@ -1,4 +1,4 @@
-import {ExpressApplication, ServerSettingsService} from "@tsed/common";
+import {PlatformApplication, ServerSettingsService} from "@tsed/common";
 import * as Express from "express";
 import * as Sinon from "sinon";
 import {TestContext} from "../../../../testing/src";
@@ -32,7 +32,7 @@ describe("ServeStaticService", () => {
         };
         const nextSpy = sandbox.spy();
         const middlewareServeStatic = sandbox.stub();
-        const expressApplication = {
+        const platformApp = {
           use: sandbox.stub()
         };
 
@@ -44,8 +44,8 @@ describe("ServeStaticService", () => {
 
         const serveStaticService = await TestContext.invoke(ServeStaticService, [
           {
-            provide: ExpressApplication,
-            use: expressApplication
+            provide: PlatformApplication,
+            use: platformApp
           },
           {
             provide: ServerSettingsService,
@@ -60,8 +60,8 @@ describe("ServeStaticService", () => {
         serveStaticService.mount("/path", "/views");
 
         // THEN
-        expressApplication.use.getCall(0).args[1](request, response, nextSpy);
-        expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
+        platformApp.use.getCall(0).args[1](request, response, nextSpy);
+        platformApp.use.should.be.calledWithExactly("/path", Sinon.match.func);
         Express.static.should.be.calledWithExactly(Sinon.match("/views"));
         middlewareServeStatic.should.be.calledWithExactly(request, response, nextSpy);
       });
@@ -80,7 +80,7 @@ describe("ServeStaticService", () => {
         };
         const nextSpy = sandbox.spy();
         const middlewareServeStatic = sandbox.stub();
-        const expressApplication = {
+        const platformApp = {
           use: sandbox.stub()
         };
 
@@ -92,8 +92,8 @@ describe("ServeStaticService", () => {
 
         const serveStaticService = await TestContext.invoke(ServeStaticService, [
           {
-            provide: ExpressApplication,
-            use: expressApplication
+            provide: PlatformApplication,
+            use: platformApp
           },
           {
             provide: ServerSettingsService,
@@ -108,8 +108,8 @@ describe("ServeStaticService", () => {
         serveStaticService.mount("/path", "/views");
 
         // THEN
-        expressApplication.use.getCall(0).args[1](request, response, nextSpy);
-        expressApplication.use.should.be.calledWithExactly("/path", Sinon.match.func);
+        platformApp.use.getCall(0).args[1](request, response, nextSpy);
+        platformApp.use.should.be.calledWithExactly("/path", Sinon.match.func);
         Express.static.should.be.calledWithExactly(Sinon.match("/views"));
 
         nextSpy.should.be.calledWithExactly();
