@@ -13,9 +13,11 @@ import {EventsCtrl} from "../events/EventsCtrl";
  * In this case, EventsCtrl is a dependency of CalendarsCtrl.
  * All routes of EventsCtrl will be mounted on the `/calendars` path.
  */
-@Controller("/calendars", EventsCtrl)
+@Controller({
+  path: "/calendars",
+  children: [EventsCtrl]
+})
 export class CalendarsCtrl {
-
   constructor(private calendarsService: CalendarsService) {
 
   }
@@ -48,7 +50,7 @@ export class CalendarsCtrl {
   @Summary("Create a new Calendar")
   @Status(201, {description: "Created", type: Calendar})
   save(@Description("Calendar model")
-       @BodyParams() calendar: Calendar) {
+       @BodyParams() @Required() calendar: Calendar) {
     return this.calendarsService.save(calendar);
   }
 
@@ -63,11 +65,9 @@ export class CalendarsCtrl {
   @Status(200, {description: "Success", type: Calendar})
   async update(@PathParams("id") @Required() id: string,
                @BodyParams() @Required() calendar: Calendar): Promise<Calendar> {
-    console.log("====", calendar);
     calendar._id = id;
 
-    return this.calendarsService.save
-    (calendar);
+    return this.calendarsService.save(calendar);
   }
 
   /**
@@ -80,13 +80,6 @@ export class CalendarsCtrl {
   @Status(204, {description: "No content"})
   async remove(@PathParams("id") id: string): Promise<void> {
     await this.calendarsService.remove(id);
-  }
-
-  @Delete("/")
-  @Summary("Remove all calendars.")
-  @Status(204, {description: "No content"})
-  async clear(@PathParams("id") id: string): Promise<void> {
-    await this.calendarsService.clear();
   }
 
   /**

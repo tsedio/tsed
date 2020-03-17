@@ -17,12 +17,30 @@ registerProvider({
     const promises: Promise<Mongoose.Mongoose>[] = [];
 
     if (url) {
-      promises.push(mongooseService.connect("default", url, connectionOptions || {}));
+      promises.push(
+        mongooseService.connect(
+          "default",
+          url,
+          connectionOptions || {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+          }
+        )
+      );
     }
 
     if (urls) {
       Object.keys(urls).forEach((key: string) => {
-        promises.push(mongooseService.connect(key, urls[key].url, urls[key].connectionOptions || {}));
+        promises.push(
+          mongooseService.connect(
+            key,
+            urls[key].url,
+            urls[key].connectionOptions || {
+              useNewUrlParser: true,
+              useUnifiedTopology: true
+            }
+          )
+        );
       });
     }
 

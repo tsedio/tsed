@@ -49,7 +49,7 @@ export class CalendarsService {
 
     const model = new this.Calendar(calendar);
     $log.debug({message: "Save calendar", calendar});
-    await model.update(calendar, {upsert: true});
+    await model.updateOne(calendar, {upsert: true});
 
     $log.debug({message: "Calendar saved", model});
 
@@ -71,13 +71,5 @@ export class CalendarsService {
    */
   async remove(id: string): Promise<Calendar> {
     return await this.Calendar.findById(id).remove().exec();
-  }
-
-  async clear() {
-    const calendars = await this.query();
-
-    await Promise.all(calendars.map((calendar) => {
-      return this.remove(calendar._id);
-    }));
   }
 }
