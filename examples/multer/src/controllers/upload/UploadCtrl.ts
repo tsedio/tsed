@@ -1,13 +1,11 @@
-import {Controller, Put, Status} from "@tsed/common";
+import {Controller, Put, Status, UseBefore} from "@tsed/common";
 import {MulterOptions, MultipartFile} from "@tsed/multipartfiles";
 import {Responses} from "@tsed/swagger";
+import {BeforeMiddleware} from "../../middlewares/BeforeMiddleware";
 
 @Controller("/upload")
+@UseBefore(BeforeMiddleware, {})
 export class UploadController {
-
-  constructor() {
-  }
-
   @Put("/")
   @Status(201)
   @Responses("201", {description: "Created"})
