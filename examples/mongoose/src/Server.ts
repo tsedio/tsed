@@ -13,7 +13,11 @@ import * as methodOverride from "method-override";
   httpsPort: false,
   passport: {},
   mongoose: {
-    url: process.env.mongoose_url || "mongodb://127.0.0.1:27017/example-mongoose-test"
+    url: process.env.mongoose_url || "mongodb://127.0.0.1:27017/example-mongoose-test",
+    connectionOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
   },
   swagger: {
     path: "/api-docs"
