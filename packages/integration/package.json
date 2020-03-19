@@ -1,6 +1,6 @@
 {
   "name": "@tsed/integration",
-  "version": "5.44.9",
+  "version": "5.44.10",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,20 +8,20 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
-    "@tsed/ajv": "5.44.9",
-    "@tsed/common": "5.44.9",
-    "@tsed/core": "5.44.9",
-    "@tsed/di": "5.44.9",
-    "@tsed/graphql": "5.44.9",
-    "@tsed/mongoose": "5.44.9",
-    "@tsed/multipartfiles": "5.44.9",
-    "@tsed/passport": "5.44.9",
-    "@tsed/seq": "5.44.9",
-    "@tsed/servestatic": "5.44.9",
-    "@tsed/swagger": "5.44.9",
-    "@tsed/testing": "5.44.9",
-    "@tsed/testing-mongoose": "5.44.9",
-    "@tsed/typeorm": "5.44.9"
+    "@tsed/ajv": "5.44.10",
+    "@tsed/common": "5.44.10",
+    "@tsed/core": "5.44.10",
+    "@tsed/di": "5.44.10",
+    "@tsed/graphql": "5.44.10",
+    "@tsed/mongoose": "5.44.10",
+    "@tsed/multipartfiles": "5.44.10",
+    "@tsed/passport": "5.44.10",
+    "@tsed/seq": "5.44.10",
+    "@tsed/servestatic": "5.44.10",
+    "@tsed/swagger": "5.44.10",
+    "@tsed/testing": "5.44.10",
+    "@tsed/testing-mongoose": "5.44.10",
+    "@tsed/typeorm": "5.44.10"
   },
   "private": true
 }
