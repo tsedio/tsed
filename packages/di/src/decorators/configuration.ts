@@ -12,6 +12,7 @@ export function Configuration(configuration: Partial<IDIConfigurationOptions> = 
         StoreSet("configuration", configuration)(args[0]);
 
         break;
+      default:
       case "parameter.constructor":
         return Inject(Configuration)(...args);
     }
