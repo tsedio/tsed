@@ -2,12 +2,16 @@ import {resolve} from "path";
 
 const normalizePath = require("normalize-path");
 
+function isTsEnv() {
+  return require.extensions[".ts"] || process.env["TS_TEST"] || process.env.JEST_WORKER_ID !== undefined || process.env.NODE_ENV === "test";
+}
+
 function mapExcludes(excludes: string[]) {
   return excludes.map((s: string) => `!${s.replace(/!/gi, "")}`);
 }
 
 function mapExtensions(file: string): string {
-  if (!require.extensions[".ts"] && !process.env["TS_TEST"]) {
+  if (!isTsEnv()) {
     file = file.replace(/\.ts$/i, ".js");
   }
 
