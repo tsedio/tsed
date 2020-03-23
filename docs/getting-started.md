@@ -44,6 +44,14 @@ Save your time by starting your project on one of this kit:
 
 <Projects type="getting-started" />
 
+or by using the Ts.ED CLI:
+
+```
+npm install -g @tsed/cli@beta
+tsed init .
+```
+See our [CLI website](https://cli.tsed.io) for more details.
+
 ## Installation from scratch
 
 You can get the latest version of Ts.ED using the following npm command:
