@@ -5,7 +5,6 @@ module.exports = {
   packagesDir: "./packages",
   projectsDir: "./examples",
   outputDir: "./dist",
-  typescript: true,
 
   pkgTemplate: (pkgName, {repository, bugs, author, license, gitHead, contributors}) => (json) => {
     Object.assign(json, {

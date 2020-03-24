@@ -23,5 +23,7 @@
     "@tsed/testing-mongoose": "5.44.11",
     "@tsed/typeorm": "5.44.11"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {},
+  "peerDependencies": {}
 }

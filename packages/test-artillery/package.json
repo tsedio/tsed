@@ -43,5 +43,6 @@
     "@types/method-override": "0.0.31",
     "artillery": "^1.6.0-29"
   },
-  "private": true
+  "private": true,
+  "peerDependencies": {}
 }

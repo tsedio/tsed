@@ -3,11 +3,9 @@ const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
 const logger = require("fancy-log");
-const {updateVersions} = require("./utils/updateVersions");
-const {getDependencies} = require("./utils/getDependencies");
-const {readPackage} = require("./utils/readPackage");
-const {writePackage} = require("./utils/writePackage");
+const {updateVersions, writePackage, readPackage} = require("@tsed/monorepo-utils");
 const {findExamplesProjects} = require("./utils/findExamplesProjects");
+const {monoRepo} = require("./utils/monorepo");
 const {examples, projectsDir} = require("../../repo.config");
 
 function getVersion() {
@@ -30,19 +28,19 @@ function setVersion(pkg, version) {
 async function writePackageVersion(pkgPath, version) {
   const pkg = await readPackage(pkgPath);
 
-  writePackage(pkgPath, setVersion(pkg, version));
+  await writePackage(pkgPath, setVersion(pkg, version));
 }
 
 async function updatePackage(pkgPath) {
   const currentPkg = await readPackage(pkgPath);
-  const dependencies = getDependencies();
+  const dependencies = await monoRepo.getDependencies();
 
   logger("Update package", chalk.cyan(pkgPath));
 
-  currentPkg.dependencies = updateVersions(currentPkg.dependencies, dependencies);
-  currentPkg.devDependencies = updateVersions(currentPkg.devDependencies, dependencies);
+  currentPkg.dependencies = updateVersions(currentPkg.dependencies, dependencies, {});
+  currentPkg.devDependencies = updateVersions(currentPkg.devDependencies, dependencies, {});
 
-  writePackage(pkgPath, currentPkg);
+  await writePackage(pkgPath, currentPkg);
 }
 
 async function syncDependencies(project) {

@@ -4,7 +4,8 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {ServerSettingsService} from "../../config";
-import {IRoute, PlatformApplication, Platform} from "../../platform";
+import {IRoute, Platform, PlatformApplication} from "../../platform";
+import {contextMiddleware} from "../components/contextMiddleware";
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 
@@ -14,7 +15,6 @@ import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {callHook} from "../utils/callHook";
-import {contextMiddleware} from "../components/contextMiddleware";
 import {createContainer} from "../utils/createContainer";
 import {createExpressApplication} from "../utils/createExpressApplication";
 import {createHttpServer} from "../utils/createHttpServer";
@@ -26,6 +26,8 @@ import {loadInjector} from "../utils/loadInjector";
 import {printRoutes} from "../utils/printRoutes";
 import {resolveProviders} from "../utils/resolveProviders";
 import {setLoggerLevel} from "../utils/setLoggerLevel";
+
+const VERSION = require("../../../package.json").version;
 
 /**
  * ServerLoader provider all method to instantiate an ExpressServer.
@@ -70,7 +72,7 @@ import {setLoggerLevel} from "../utils/setLoggerLevel";
  *
  */
 export abstract class ServerLoader implements IServerLifecycle {
-  public version: string = "0.0.0-PLACEHOLDER";
+  public version: string = VERSION;
   readonly injector: InjectorService;
   private routes: IRoute[] = [];
   private startedAt = new Date();
