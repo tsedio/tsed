@@ -50,6 +50,7 @@ export * from "./params/request";
 export * from "./params/next";
 export * from "./params/error";
 export * from "./params/endpointInfo";
+export * from "./params/paramFn";
 
 // utils
 export * from "./utils/mapReturnedResponse";
