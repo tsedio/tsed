@@ -125,8 +125,8 @@ export class CalendarModel {
 #### Endpoint documentation
 
 ```typescript
-import {Controller, Get, Post} from "@tsed/common";
-import {Summary, Description, Responses,Deprecated, Security} from "@tsed/swagger";
+import {Controller, Get, Post, QueryParams} from "@tsed/common";
+import {Summary, Description, Returns, Deprecated, Security} from "@tsed/swagger";
 @Controller('/calendars')
 export class Calendar {
     
@@ -134,7 +134,7 @@ export class Calendar {
     @Summary("Summary of this route")
     @Description("Description of this route")
     @Returns("404", {description: "Not found"})
-    async getCalendar(@QueryParam() id: string): Promise<CalendarModel> {
+    async getCalendar(@QueryParams('id') id: string): Promise<CalendarModel> {
       //...
     }
     
@@ -142,7 +142,7 @@ export class Calendar {
     @Deprecated()
     @Description("Deprecated route, use /rest/calendars/:id instead of.")
     @Returns("404", {description: "Not found"})
-    getCalendarDeprecated(@QueryParam() id: string): Promise<CalendarModel> {
+    getCalendarDeprecated(@QueryParams('id') id: string): Promise<CalendarModel> {
       //...
     }
 
