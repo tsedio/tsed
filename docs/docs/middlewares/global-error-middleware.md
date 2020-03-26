@@ -12,7 +12,7 @@ Create your middleware error:
 
 ```typescript
 import { NextFunction as ExpressNext, Request as ExpressRequest, Response as ExpressResponse } from "express";
-import { MiddlewareError, MiddlewareError, Request, Response, Next, Err } from "@tsed/common";
+import { IMiddlewareError, MiddlewareError, Request, Response, Next, Err } from "@tsed/common";
 import { Exception } from "ts-httpexceptions";
 import { $log } from "ts-log-debug";
 
