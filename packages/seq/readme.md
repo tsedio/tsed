@@ -40,14 +40,14 @@ export class Server extends ServerLoader {
 ## Example
 
 ```typescript
-import {Controller, Get, Post} from "@tsed/common";
+import {Controller, Get, QueryParams} from "@tsed/common";
 import {$log} from "ts-log-debug";
 
 @Controller('/calendars')
 export class Calendar {
     
     @Get('/:id')
-    async getCalendar(@QueryParam() id: string): Promise<CalendarModel> {
+    async getCalendar(@QueryParams('id') id: string): Promise<CalendarModel> {
       $log.info(id);
     }
    
