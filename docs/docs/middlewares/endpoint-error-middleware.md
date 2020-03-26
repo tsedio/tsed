@@ -4,7 +4,7 @@
 
 Create your middleware error:
 ```typescript
-import {IMiddleware, MiddlewareError, Request, Response, Next, Err} from "@tsed/common";
+import {IMiddlewareError, MiddlewareError, Request, Response, Next, Err} from "@tsed/common";
 import {$log} from "ts-log-debug";
 
 @MiddlewareError()
@@ -45,7 +45,7 @@ export default class ErrorMiddleware implements IMiddlewareError {
 Then, add your middleware on your endpoint controller's:
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
+import {Controller, Get, UseAfter} from "@tsed/common";
 import {NotFound} from "ts-httpexceptions";
 
 @Controller('/test')
