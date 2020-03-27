@@ -5,10 +5,10 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "start": "node --expose-gc -r ts-node/register -r tsconfig-paths/register src/index.ts",
+    "start:dev": "node --expose-gc -r ts-node/register -r tsconfig-paths/register src/index.ts",
     "start:express": "node --inspect --expose-gc test/server/express.js",
     "start:prod": "node --expose-gc lib/index.js",
-    "build": "tsc --build tsconfig.compile.json",
+    "build:dev": "tsc --build tsconfig.compile.json",
     "test:artillery": "artillery run test/test.yml",
     "docker:build": "docker-compose build",
     "docker:upd": "docker-compose up -d",
