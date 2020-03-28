@@ -1,0 +1,24 @@
+{
+  "name": "@tsed/schema",
+  "version": "5.49.0",
+  "description": "JsonSchema module for Ts.ED Framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "change-case": "4.1.1",
+    "@tsed/core": "5.49.0",
+    "tslib": "1.11.1"
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "build:doc": "tsc --build tsconfig.doc.json"
+  },
+  "private": false,
+  "devDependencies": {
+    "@types/change-case": "2.3.1",
+    "@apidevtools/swagger-parser": "9.0.1",
+    "@types/fs-extra": "9.0.1",
+    "fs-extra": "9.0.0"
+  },
+  "peerDependencies": {}
+}

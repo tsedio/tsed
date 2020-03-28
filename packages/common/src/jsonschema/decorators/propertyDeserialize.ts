@@ -2,7 +2,7 @@ import {PropertyMetadata} from "../class/PropertyMetadata";
 import {PropertyFn} from "./property";
 
 /**
- * Call the function before property is deserialization.
+ * Call the function before property deserialization.
  *
  * ## Example
  *
