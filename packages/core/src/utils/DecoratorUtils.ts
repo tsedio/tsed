@@ -1,16 +1,24 @@
 import {DecoratorParameters} from "../interfaces";
 import {classOf, descriptorOf, getClass, methodsOf, nameOf, prototypeOf} from "./ObjectUtils";
 
+export enum DecoratorTypes {
+  PARAM = "parameter",
+  PARAM_CTOR = "parameter.constructor",
+  PARAM_STC = "parameter.static",
+  PROP = "property",
+  PROP_STC = "property.static",
+  METHOD = "method",
+  METHOD_STC = "method.static",
+  CLASS = "class"
+}
+
 /**
  *
  * @param {any[]} args
  * @param longType
  * @returns {"parameter" | "property" | "property.static" | "method" | "method.static" | "class"}
  */
-export function getDecoratorType(
-  args: any[],
-  longType = false
-): "parameter" | "parameter.constructor" | "parameter.static" | "property" | "property.static" | "method" | "method.static" | "class" {
+export function getDecoratorType(args: any[], longType = false): DecoratorTypes {
   const [target, propertyKey, descriptor] = args;
 
   const staticType = (type: string): any => {

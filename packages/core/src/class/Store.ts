@@ -1,6 +1,5 @@
 import {DecoratorParameters} from "../interfaces";
 import {deepClone, deepExtends, descriptorOf, getDecoratorType, isSymbol, nameOf} from "../utils";
-
 import {Metadata} from "./Metadata";
 
 export const CLASS_STORE = "tsed:class:store";
@@ -12,13 +11,11 @@ export type StoreMap = Map<string, any>;
 
 const stores = new Map<symbol, any>();
 
-/**
- *
- */
-export class Store {
+export class Store extends Metadata {
   private _map: StoreMap;
 
   constructor(args: any[]) {
+    super();
     const [target, propertyKey, descriptor] = args;
     this._map = (() => {
       switch (getDecoratorType(args)) {
