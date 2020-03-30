@@ -1,4 +1,4 @@
-import {deepExtends, getValue, setValue} from "@tsed/core";
+import {classOf, deepExtends, getValue, setValue} from "@tsed/core";
 import {IDIConfigurationOptions} from "../interfaces/IDIConfigurationOptions";
 import {ProviderScope} from "../interfaces/ProviderScope";
 
@@ -89,7 +89,9 @@ export class DIConfiguration {
     if (typeof propertyKey === "string") {
       this.setRaw(propertyKey, value);
     } else {
-      Object.assign(this, propertyKey);
+      Object.entries(propertyKey).forEach(([key, value]) => {
+        this[key] = value;
+      });
     }
 
     return this;
@@ -139,6 +141,10 @@ export class DIConfiguration {
    */
   resolve(value: any) {
     if (typeof value === "object" && value !== null) {
+      if (![Array, Object].includes(classOf(value))) {
+        return value;
+      }
+
       return Object.entries(value).reduce(
         (o, [k, v]) => {
           // @ts-ignore

@@ -1,7 +1,7 @@
 import {Env} from "@tsed/core";
+import {$log} from "@tsed/logger";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {$log} from "@tsed/logger";
 import {ProviderScope, ProviderType} from "../../../../di/src/interfaces";
 import {ServerSettingsService} from "../../../src/config/services/ServerSettingsService";
 
@@ -195,6 +195,23 @@ describe("ServerSettingsService", () => {
     describe("resolve()", () => {
       it("should replace rootDir", () => {
         expect(settings.resolve("${rootDir}")).to.eq(process.cwd());
+      });
+
+      it("should preserve class", () => {
+        class Storage {
+          static _path = "${rootDir}";
+        }
+
+        const store = new Storage();
+        const result = settings.resolve({
+          path: "${rootDir}",
+          storage: store
+        });
+
+        expect(result).to.deep.eq({
+          path: process.cwd(),
+          storage: new Storage()
+        });
       });
 
       it("should replace rootDir", () => {
