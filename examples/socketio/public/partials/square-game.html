@@ -1,0 +1,136 @@
+<div class="row">
+    <div class="col s12 m-12">
+        <form name="formData" novalidate ng-if="$ctrl.showForm">
+
+            <h5>Nouvelle partie</h5>
+
+
+            <div class="form-group">
+                <label for="name">Saisissez votre nom de joueur : </label>
+                <input type="text" ng-model="$ctrl.player.name" id="name" class="name" required autocomplete="off"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" ng-click="$ctrl.submit()"
+                        ng-disabled="formData.$invalid  || !$ctrl.hasSocketNetwork"
+                        class="btn btn-default">
+                    Commencer
+                </button>
+
+                <div class="waiting-server" ng-show="!$ctrl.hasSocketNetwork">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span>En attente du serveur...</span>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="zoom-layer animated" ng-class="{zoomIn: !$ctrl.showForm}">
+
+    <div class="row">
+        <div class="col s12 m3 l2">
+            <div class="players">
+                <div class="row">
+                    <div class="col s12 m8 l9">
+                        Joueurs : {{ $ctrl.players.length }} / {{$ctrl.maxPlayers}}
+                    </div>
+
+                    <div class="col s12 m3 l3">
+                        <i class="material-icons" ng-click="$ctrl.openSettings()">settings</i>
+                    </div>
+                </div>
+                <br/>
+                <div class="chip" ng-repeat="player in $ctrl.players">
+                    {{player.name}} ({{player.isReady ? player.score : 'zzZ'}})
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col s12 m9 l10">
+            <div class="content-square-game">
+
+                <div class="square-game-area" ng-style="{'height': $ctrl.widthViewport}">
+
+                    <square index="$index"
+                            current-square="$ctrl.currentSquare"
+                            ng-click="$ctrl.onClickSquare($index)"
+                            ng-repeat="item in $ctrl.squares track by $index">
+
+
+                    </square>
+
+                    <div class="layer layer-count-down" ng-show="$ctrl.showCountdown">
+                        <div class="anim">{{$ctrl.countdown}}</div>
+                    </div>
+
+                    <div class="layer layer-ready"
+                         ng-show="$ctrl.player.isReady && $ctrl.playersNotReady()">
+                        <div>Patientez</div>
+                    </div>
+
+                    <div class="layer layer-ready"
+                         ng-show="!$ctrl.player.isReady"
+                         ng-click="$ctrl.onClickReady()">
+                        <div>Prêt ?
+                            <small>(click moi)</small>
+                        </div>
+                    </div>
+
+                    <div class="layer layer-win" ng-show="$ctrl.win === true">
+                        <div>Vous avez gagné</div>
+
+                        <div>
+                            <a class="btn-floating" ng-click="$ctrl.restart()"><i class="material-icons">refresh</i></a>
+                        </div>
+                    </div>
+                    <div class="layer layer-loose" ng-show="$ctrl.loose === true">
+                        <div>{{$ctrl.playerWinner.name}} a gagné</div>
+                        <div>
+                            <a class="btn-floating" ng-click="$ctrl.restart()"><i class="material-icons">refresh</i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col s12 m12 l12">
+            {{$ctrl.info}}
+        </div>
+    </div>
+</div>
+
+<div class="modal settings-modal">
+    <div class="modal-content">
+        <h4>Changer la configuration</h4>
+
+        <div class="form-group">
+            <label for="maxPlayers">Nombre de joueur : </label>
+            <input type="text" ng-model="$ctrl.settings.maxPlayers" id="maxPlayers" class="maxPlayers" required
+                   autocomplete="off"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Nombre de point : </label>
+            <input type="text" ng-model="$ctrl.settings.scoreMax" id="scoreMax" class="scoreMax" required
+                   autocomplete="off"/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="$ctrl.submitSettings($ctrl.settings)"
+           class="modal-action modal-close waves-effect waves-green btn-flat">Enregistrer</a>
+    </div>
+</div>

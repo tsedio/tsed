@@ -74,15 +74,18 @@ export class Platform {
 
     if (injector.hasProvider(token)) {
       const provider: ControllerProvider = injector.getProvider(token)! as any;
-      const route = provider.getEndpointUrl(endpoint);
 
-      if (!provider.hasParent()) {
-        this._routes.push({
-          route,
-          provider
-        });
+      if (provider.type === ProviderType.CONTROLLER) {
+        const route = provider.getEndpointUrl(endpoint);
 
-        this.app.use(route, provider.router);
+        if (!provider.hasParent()) {
+          this._routes.push({
+            route,
+            provider
+          });
+
+          this.app.use(route, provider.router);
+        }
       }
     }
 
