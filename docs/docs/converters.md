@@ -17,52 +17,24 @@ The ConverterService is used by the following decorators:
 Models can be used at the controller level.
 Here is our model:
 
-```typescript
-import  {Property, Minimum, PropertyType} from "@tsed/common";
-import  {Description} from "@tsed/swagger";
-
-class Person {
-    @Property()
-    firstName: string;
-    
-    @Property()
-    lastName: string;
-    
-    @Description("Age in years")
-    @Minimum(0)
-    age: number;
-    
-    @PropertyType(String)
-    skills: Array<string>;
-}
-```
+<<< @/docs/docs/snippets/converters/model-usage.ts
 
 > Note: @@PropertyType@@ allow to specify the type of a collection.
 
 And its uses on a controller:
 
-```typescript
-import {Post, Controller, BodyParams} from "@tsed/common";
-import {Person} from "../models/Person";
+<<< @/docs/docs/snippets/converters/controller-usage.ts
 
-@Controller("/")
-export class PersonsCtrl {
+In this example, Person model is used both as input and output types.
 
-     @Post("/")
-     save(@BodyParams() person: Person): Person {
-          console.log(person instanceof Person); // true
-          return person; // will be serialized according to your annotation on Person class.
-     } 
+::: tip
+Because, in most case we use asynchronous calls (with async or promise), we have to use @@Returns@@ or @@ReturnsArray@@ decorators to 
+tell swagger what is the model returns by your endpoint. If you don't use swagger, you can also use @@ReturnType@@ decorator instead to 
+force converter serialization.
 
-     //OR
-     @Post("/")
-     save(@BodyParams('person') person: Person): Person {
-          console.log(person instanceof Person); // true
-          return person; // will be serialized according to your annotation on Person class.
-     }
-}
-```
-> In this example, Person model is used both as input and output types.
+<<< @/docs/docs/snippets/converters/controller-usage-with-return-type.ts
+
+:::
 
 ## Serialisation
 
@@ -120,23 +92,7 @@ Our serialized `User` object will be:
 
 You can also explicitly tell the Converters service that the field should not be serialized with the decorator `@IgnoreProperty`.
 
-```typescript
-import {NotSerialize, Property,IgnoreProperty} from "@tsed/common"
-
-class User {
-    @NotSerialize()
-    _id: string;
-    
-    @Property()
-    firstName: string;
-    
-    @Property()
-    lastName: string;
-    
-    @IgnoreProperty()
-    password: string;
-}
-```
+<<< @/docs/docs/snippets/converters/model-ignore-props.ts
 
 ## Type converters
 
@@ -297,8 +253,8 @@ InjectorService.load();
 const convertersService = InjectorService.get(ConvertersService);
 convertersService.validationModelStrict = true;
 
-const result = convertersService.deserialize({unknowProperty: "test"}, TaskModel);
-console.log(result) // TaskModel {unknowProperty: "test"}
+const result = convertersService.deserialize({unknownProperty: "test"}, TaskModel);
+console.log(result) // TaskModel {unknownProperty: "test"}
 ```
 
 ::: tip

@@ -11,7 +11,7 @@ const isSuccessStatus = (code: number | undefined) => code && 200 <= code && cod
  * @Controller('/')
  * export class Ctrl {
  *    @Get('/')
- *    @ReturnType(200, {type: User, collectionType: Map})
+ *    @ReturnType({code: 200, type: User, collectionType: Map})
  *    get(): Promise<Map<User>> { }
  * }
  *
