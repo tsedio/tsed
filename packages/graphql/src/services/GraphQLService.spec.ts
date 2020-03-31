@@ -55,7 +55,10 @@ describe("GraphQLService", () => {
 
         result2.should.deep.eq(result1);
         result1.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
-        service.createSchema.should.have.been.calledOnceWithExactly({resolvers: [], container: service.injectorService});
+        service.createSchema.should.have.been.calledOnceWithExactly({
+          resolvers: [],
+          container: service.injectorService
+        });
         result1.applyMiddleware.should.have.been.calledOnceWithExactly(
           Sinon.match({
             app: Sinon.match.func,
@@ -99,7 +102,10 @@ describe("GraphQLService", () => {
         } as any);
 
         result.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
-        service.createSchema.should.have.been.calledOnceWithExactly({resolvers: [], container: service.injectorService});
+        service.createSchema.should.have.been.calledOnceWithExactly({
+          resolvers: [],
+          container: service.injectorService
+        });
 
         result.applyMiddleware.should.have.been.calledOnceWithExactly(
           Sinon.match({
@@ -163,5 +169,32 @@ describe("GraphQLService", () => {
 
       fn().should.deep.eq({});
     }));
+  });
+  describe("getDataSources", () => {
+    class DataSource {}
+
+    let service: any;
+    before(
+      inject([GraphQLService], (_service: any) => {
+        service = _service;
+        sandbox.stub(service.injectorService, "getProviders").returns([
+          {
+            name: DataSource.name,
+            provide: DataSource
+          }
+        ]);
+        sandbox.stub(service.injectorService, "invoke").returns(new DataSource());
+      })
+    );
+    after(() => {
+      sandbox.restore();
+    });
+    it("should return a function with all dataSources", () => {
+      const result = service.getDataSources();
+
+      result.should.deep.eq({
+        dataSource: new DataSource()
+      });
+    });
   });
 });
