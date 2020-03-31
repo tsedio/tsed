@@ -156,9 +156,9 @@ export class GraphQLService {
    * @param serverConfigSources
    */
   protected createDataSources(dataSources: Function | undefined, serverConfigSources: Function | undefined) {
-    const sources = this.getDataSources();
-
     return () => {
+      const sources = this.getDataSources();
+
       return {
         ...sources,
         ...(dataSources ? dataSources() : {}),
