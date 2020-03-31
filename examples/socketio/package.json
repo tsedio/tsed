@@ -17,7 +17,8 @@
     "tsc:w": "tsc --project tsconfig.json -w",
     "start:dev": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
     "start": "ts-node src/index.ts",
-    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js"
+    "start:prod": "npm run build && cross-env NODE_ENV=production node dist/index.js",
+    "ejs:lint": "ejslint views/**"
   },
   "author": "",
   "license": "MIT",
@@ -67,6 +68,7 @@
     "supertest": "4.0.2",
     "ts-node": "8.6.2",
     "tslint": "6.1.0",
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "ejs-lint": "1.0.1"
   }
 }

@@ -105,7 +105,6 @@ export class SquareGameService {
 
     if (this.players.size === this._maxPlayers) {
       $log.debug("stack overflow :p");
-
       return;
     }
 
@@ -143,11 +142,11 @@ export class SquareGameService {
   }
 
   @Input("client.delete.square")
-  public deleteSquare(@Args(0) id: string, @Socket socket: SocketIO.Socket, @SocketSession session: SocketSession) {
+  public deleteSquare(@Args(0) id: number, @Socket socket: SocketIO.Socket, @SocketSession session: SocketSession) {
     const player = session.get("player");
     $log.debug("Player has clicked on the square =>", player.name);
 
-    if (id === this.currentSquare.id) {
+    if (+id === this.currentSquare.id) {
       player.scoreUp();
       this.nsp.emit("server.deleted.square", this.getPlayers(), player);
     }

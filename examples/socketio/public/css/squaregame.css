@@ -1,0 +1,134 @@
+square-game {
+    display: block;
+    overflow: hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+square-game  .players .chip{
+    min-width:150px;
+}
+
+square-game .preloader-wrapper{
+    height:300px;
+    width:100%;
+}
+
+square-game .content-square-game{
+    position:relative;
+    max-width: 400px;
+    margin:auto;
+
+}
+
+square-game .content-square-game .square-game-area{
+    margin:auto;
+    padding:0px;
+    position: relative;
+    margin-right:-6px;
+}
+
+square-game .content-square-game .layer{
+    position: absolute;
+    background: rgba(255,255,255, 0.7);
+    top:0;
+    right:0;
+    bottom: 0;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+square-game .content-square-game .layer div{
+    font-weight: bold;
+    text-align: center;
+    font-size: 85px;
+}
+square-game .content-square-game .layer.layer-loose div,
+square-game .content-square-game .layer.layer-win div,
+square-game .content-square-game .layer.layer-ready div{
+    font-size: 50px;
+}
+square-game .content-square-game .layer div small{
+    display: block;
+    color: grey;
+}
+
+square-game .content-square-game .square-game-area > square{
+    float: left;
+    display: block;
+    border:1px solid #ccc;
+    width: calc(25% - 1px);
+    height: calc(25% - 1px);
+    margin-right:-1px;
+    margin-bottom:-1px;
+    box-sizing: border-box;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+square-game .content-square-game .layer.layer-count-down > div.anim{
+    -webkit-animation: count-down 1s linear 0s 11 normal;
+    -moz-animation: count-down 1s linear 0s 11 normal;
+    animation: count-down 1s linear 0s 11 normal;
+}
+
+.zoom-layer{
+    opacity: 0;
+}
+.zoom-layer.zoomIn{
+    opacity: 1;
+}
+@-webkit-keyframes count-down {
+    0% {
+        font-size: 50px;
+        opacity: 0;
+    }
+    45% {
+        font-size: 170px;
+        opacity: 1;
+    }
+    50%{
+        font-size: 170px;
+        opacity: 1;
+    }
+    55%{
+        font-size: 170px;
+        opacity: 1;
+    }
+    100%{
+        font-size: 50px;
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes count-down {
+    0% {
+        font-size: 50px;
+        opacity: 0;
+    }
+    45% {
+        font-size: 170px;
+        opacity: 1;
+    }
+    50%{
+        font-size: 170px;
+        opacity: 1;
+    }
+    55%{
+        font-size: 170px;
+        opacity: 1;
+    }
+    100%{
+        font-size: 50px;
+        opacity: 0;
+    }
+}
