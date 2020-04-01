@@ -48,7 +48,7 @@
     "@tsed/di": "5.44.15",
     "@tsed/logger": "^5.4.1",
     "@types/json-schema": "^7.0.3",
-    "globby": "10.0.1",
+    "globby": "11.0.0",
     "json-schema": "^0.2.3",
     "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
