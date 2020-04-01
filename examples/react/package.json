@@ -26,7 +26,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lerna": "3.18.4",
+    "lerna": "3.20.2",
     "pm2": "4.1.2"
   },
   "devDependencies": {
