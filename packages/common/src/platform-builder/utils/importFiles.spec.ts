@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {join} from "path";
-import {importFiles} from "../../../src/server/utils/importFiles";
+import {importFiles} from "./importFiles";
 import {Test1} from "./data/Test1";
 import {Test2} from "./data/Test2";
 

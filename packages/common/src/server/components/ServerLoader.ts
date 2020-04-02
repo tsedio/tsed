@@ -1,31 +1,30 @@
 import {Deprecated, Type} from "@tsed/core";
-import {IDIConfigurationOptions, InjectorService, IProvider} from "@tsed/di";
+import {IDIConfigurationOptions, InjectorService} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {ServerSettingsService} from "../../config";
 import {IRoute, Platform, PlatformApplication} from "../../platform";
+import {
+  callHook,
+  createContainer,
+  createInjector,
+  getConfiguration,
+  importProviders,
+  loadInjector,
+  printRoutes,
+  setLoggerLevel
+} from "../../platform-builder";
 import {contextMiddleware} from "../components/contextMiddleware";
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
-import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 
+import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
 import {ExpressApplication} from "../decorators/expressApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {ServeStaticService} from "../services/ServeStaticService";
-import {callHook} from "../utils/callHook";
-import {createContainer} from "../utils/createContainer";
-import {createExpressApplication} from "../utils/createExpressApplication";
-import {createHttpServer} from "../utils/createHttpServer";
-import {createHttpsServer} from "../utils/createHttpsServer";
-import {createInjector} from "../utils/createInjector";
-import {getConfiguration} from "../utils/getConfiguration";
-import {listenServer} from "../utils/listenServer";
-import {loadInjector} from "../utils/loadInjector";
-import {printRoutes} from "../utils/printRoutes";
-import {resolveProviders} from "../utils/resolveProviders";
-import {setLoggerLevel} from "../utils/setLoggerLevel";
+import {createExpressApplication, createHttpServer, createHttpsServer, listenServer} from "../utils";
 
 const VERSION = require("../../../package.json").version;
 
@@ -446,9 +445,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   protected async resolveProviders() {
-    const providers: IProvider<any>[] = await resolveProviders(this.injector);
-
-    this.routes = providers.filter(provider => !!provider.route).map(({route, token}) => ({route, token}));
+    this.routes = await importProviders(this.injector);
   }
 
   /**

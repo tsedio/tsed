@@ -1,10 +1,12 @@
-import {createExpressApplication, PlatformModule} from "@tsed/common";
 import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
+import {PlatformModule} from "../../platform/PlatformModule";
 import {loadInjector} from "./loadInjector";
 
+const sandbox = Sinon.createSandbox();
 describe("loadInjector", () => {
+  after(() => sandbox.restore());
   it("should load injector", () => {
     // GIVEN
     @Injectable()
@@ -15,16 +17,14 @@ describe("loadInjector", () => {
 
     const injector = new InjectorService();
 
-    Sinon.spy(injector, "addProviders");
-    Sinon.spy(injector, "invoke");
-    Sinon.stub(injector.logger, "debug");
-    Sinon.stub(injector, "load").resolves(new LocalsContainer());
+    sandbox.spy(injector, "addProviders");
+    sandbox.spy(injector, "invoke");
+    sandbox.stub(injector.logger, "debug");
+    sandbox.stub(injector, "load").resolves(new LocalsContainer());
 
     injector.add(TestService);
 
     const container = new Container();
-
-    createExpressApplication(injector);
 
     container.add(PlatformModule);
     container.add(TestService);

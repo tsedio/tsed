@@ -25,6 +25,7 @@ export class InjectionError extends Error {
           this.origin = origin.origin;
         } else {
           this.origin = origin;
+          this.stack = origin.stack;
         }
       }
     }

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {cleanGlobPatterns} from "../../../src/server/utils/cleanGlobPatterns";
+import {cleanGlobPatterns} from "./cleanGlobPatterns";
 
 describe("cleanGlobPatterns()", () => {
   let compilerBackup: any;

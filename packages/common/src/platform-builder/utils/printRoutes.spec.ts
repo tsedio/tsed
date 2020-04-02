@@ -1,6 +1,6 @@
-import {inject} from "../../../../testing/src";
-import {RouteService} from "../../../src";
-import {printRoutes} from "../../../src/server/utils/printRoutes";
+import {inject} from "@tsed/testing/src";
+import {RouteService} from "../../index";
+import {printRoutes} from "./printRoutes";
 
 describe("printRoutes()", () => {
   it("should return routes", inject([RouteService], (routeService: RouteService) => {

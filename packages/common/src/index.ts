@@ -5,5 +5,6 @@ export * from "./jsonschema";
 export * from "./converters";
 export * from "./mvc";
 export * from "./platform";
+export * from "./platform-builder";
 export * from "./server";
 export {$log} from "@tsed/logger";
