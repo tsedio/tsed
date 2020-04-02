@@ -1,4 +1,4 @@
-import {Deprecated, Type} from "@tsed/core";
+import {constructorOf, Deprecated, Type} from "@tsed/core";
 import {IDIConfigurationOptions, InjectorService} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
@@ -81,7 +81,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    */
   constructor(settings: Partial<IDIConfigurationOptions> = {}) {
     // create injector with initial configuration
-    this.injector = createInjector(getConfiguration(this, settings));
+    this.injector = createInjector(getConfiguration(constructorOf(this), settings));
 
     createExpressApplication(this.injector);
     createHttpsServer(this.injector);
@@ -407,7 +407,7 @@ export abstract class ServerLoader implements IServerLifecycle {
 
     this.injector.logger.info("Build providers");
 
-    await loadInjector(this.injector, createContainer(this));
+    await loadInjector(this.injector, createContainer(constructorOf(this)));
 
     this.injector.logger.debug("Settings and injector loaded");
     await this.callHook("$afterInit");

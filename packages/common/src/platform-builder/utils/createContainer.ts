@@ -1,11 +1,11 @@
-import {constructorOf} from "@tsed/core";
+import {Type} from "@tsed/core";
 import {Container, GlobalProviders} from "@tsed/di";
 
-export function createContainer(rootModule?: any) {
+export function createContainer(rootModule?: Type<any>) {
   const container = new Container(GlobalProviders.entries());
 
   if (rootModule) {
-    container.delete(constructorOf(rootModule));
+    container.delete(rootModule);
   }
 
   return container;
