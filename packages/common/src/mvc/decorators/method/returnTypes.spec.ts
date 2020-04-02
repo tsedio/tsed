@@ -1,4 +1,3 @@
-import {Store} from "@tsed/core";
 import {expect} from "chai";
 import {EndpointRegistry, ReturnType} from "../../../../src/mvc";
 
@@ -14,6 +13,7 @@ describe("ReturnType", () => {
         type: TypeC,
         collectionType: Array,
         headers: {
+          // @ts-ignore
           "x-header": {
             value: "test"
           }
@@ -48,6 +48,7 @@ describe("ReturnType", () => {
         type: TypeC,
         collectionType: Array,
         headers: {
+          // @ts-ignore
           "x-header": {
             value: "test"
           }

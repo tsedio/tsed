@@ -1,20 +1,18 @@
-import {
-  ControllerProvider,
-  EndpointMetadata,
-  EndpointRegistry,
-  PlatformDriver,
-  PlatformRouter,
-  SendResponseMiddleware,
-  statusAndHeadersMiddleware
-} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
-import * as Express from "express";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
+import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
+import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
+import {ControllerProvider} from "../../platform";
+import {SendResponseMiddleware} from "../middlewares/SendResponseMiddleware";
+import {statusAndHeadersMiddleware} from "../middlewares/statusAndHeadersMiddleware";
+import {PlatformDriver} from "../services/PlatformDriver";
+import {PlatformRouter} from "../services/PlatformRouter";
 import {ControllerBuilder} from "./ControllerBuilder";
 
 function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any = {}) {
   class TestCtrl {}
+
   const use = Sinon.stub();
   const router = {
     get: use,
@@ -23,7 +21,8 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     all: use
   };
 
-  stub(Express.Router).returns(router);
+  // @ts-ignore
+  stub(PlatformRouter.createRawRouter).returns(router);
 
   const injector = new InjectorService();
   const provider = new ControllerProvider(TestCtrl);
@@ -55,7 +54,8 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
 const sandbox = Sinon.createSandbox();
 describe("ControllerBuilder", () => {
   beforeEach(() => {
-    sandbox.stub(Express, "Router");
+    // @ts-ignore
+    sandbox.stub(PlatformRouter, "createRawRouter");
     sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake(o => o);
     sandbox.stub(EndpointRegistry, "getEndpoints");
   });

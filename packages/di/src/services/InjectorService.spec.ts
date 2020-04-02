@@ -1,8 +1,7 @@
 import {Store} from "@tsed/core";
-import {Inject, InjectorService, Provider, ProviderScope} from "@tsed/di";
+import {Container, Inject, InjectorService, Provider, ProviderScope, GlobalProviders, LocalsContainer} from "@tsed/di";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {GlobalProviders, LocalsContainer} from "../../src";
 import {Configuration} from "../../src/decorators/configuration";
 import {ProviderType} from "../../src/interfaces";
 
@@ -83,9 +82,10 @@ describe("InjectorService", () => {
         provider.deps = [InjectorService];
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector as any, "invoke");
@@ -118,9 +118,10 @@ describe("InjectorService", () => {
         provider.scope = ProviderScope.SINGLETON;
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector, "get");
@@ -150,9 +151,10 @@ describe("InjectorService", () => {
         provider.scope = ProviderScope.REQUEST;
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector, "get");
@@ -189,9 +191,10 @@ describe("InjectorService", () => {
         provider.scope = ProviderScope.INSTANCE;
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         Sinon.spy(injector as any, "resolve");
         Sinon.spy(injector, "get");
@@ -256,9 +259,10 @@ describe("InjectorService", () => {
         provider.useValue = "TEST";
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         // WHEN
         const result: any = injector.invoke(token);
@@ -276,9 +280,10 @@ describe("InjectorService", () => {
         provider.useValue = () => "TEST";
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         // WHEN
         const result: any = injector.invoke(token);
@@ -297,9 +302,10 @@ describe("InjectorService", () => {
         provider.useFactory = () => ({factory: "factory"});
 
         const injector = new InjectorService();
-        injector.set(token, provider);
+        const container = new Container();
+        container.set(token, provider);
 
-        await injector.load();
+        await injector.load(container);
 
         // WHEN
         const result: any = injector.invoke(token);
@@ -326,11 +332,12 @@ describe("InjectorService", () => {
         providerSync.useFactory = (asyncInstance: any) => asyncInstance.factory;
 
         const injector = new InjectorService();
-        injector.set(tokenChild, providerChild);
-        injector.set(token, provider);
-        injector.set(tokenSync, providerSync);
+        const container = new Container();
+        container.set(tokenChild, providerChild);
+        container.set(token, provider);
+        container.set(tokenSync, providerSync);
 
-        await injector.load();
+        await injector.load(container);
 
         // WHEN
         const result: any = injector.invoke(token);
@@ -628,7 +635,16 @@ describe("InjectorService", () => {
       const instance = new Test();
 
       // WHEN
-      injector.bindProperty(instance, {bindingType: "property", propertyKey: "prop", useType: InjectorService} as any, new Map(), {});
+      injector.bindProperty(
+        instance,
+        {
+          bindingType: "property",
+          propertyKey: "prop",
+          useType: InjectorService
+        } as any,
+        new Map(),
+        {}
+      );
 
       // THEN
       expect(instance.prop).to.eq(injector);
@@ -712,9 +728,10 @@ describe("InjectorService", () => {
       }
 
       const injector = new InjectorService();
-      injector.addProvider(InterceptorTest);
+      const container = new Container();
+      container.addProvider(InterceptorTest);
 
-      await injector.load();
+      await injector.load(container);
 
       const instance = new Test();
       const originalMethod = instance["test"];
@@ -745,9 +762,10 @@ describe("InjectorService", () => {
       }
 
       const injector = new InjectorService();
-      injector.addProvider(InterceptorTest);
+      const container = new Container();
+      container.addProvider(InterceptorTest);
 
-      await injector.load();
+      await injector.load(container);
 
       const instance = new Test();
       const originalMethod = instance["test"];

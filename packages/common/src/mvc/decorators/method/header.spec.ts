@@ -12,7 +12,7 @@ describe("mapHeaders", () => {
           value: "content2",
           type: "string"
         }
-      })
+      } as any)
     ).to.deep.eq({
       header1: {value: 1, type: "number"},
       header2: {value: "content", type: "string"},

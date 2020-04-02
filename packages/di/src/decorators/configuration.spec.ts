@@ -1,6 +1,7 @@
+import {Store} from "@tsed/core";
+import {Container, GlobalProviders, Injectable, InjectorService, Provider} from "@tsed/di";
 import {expect} from "chai";
-import {Store} from "../../../core/src";
-import {Configuration, GlobalProviders, Injectable, InjectorService, Provider} from "../../src";
+import {Configuration} from "./configuration";
 
 describe("@Configuration", () => {
   it("should declare a new provider with custom configuration", () => {
@@ -26,10 +27,11 @@ describe("@Configuration", () => {
     }
 
     const injector = new InjectorService();
+    const container = new Container();
 
     injector.setProvider(Test, GlobalProviders.get(Test)!.clone());
 
-    await injector.load();
+    await injector.load(container);
 
     const instance = injector.invoke<Test>(Test);
 

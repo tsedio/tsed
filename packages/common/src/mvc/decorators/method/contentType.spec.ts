@@ -13,44 +13,28 @@ const {ContentType} = Proxyquire.load("../../../../src/mvc/decorators/method/con
 class Test {}
 
 describe("ContentType", () => {
-  before(() => {
-    this.descriptor = {};
-    this.options = "application/json";
-    ContentType(this.options)(Test, "test", this.descriptor);
-    this.middleware = useAfterStub.args[0][0];
-  });
-
-  after(() => {
-    delete this.descriptor;
-    delete this.options;
-    delete this.middleware;
-  });
+  const descriptor = {};
+  const options = "application/json";
 
   it("should create middleware", () => {
-    expect(this.middleware).to.be.a("function");
-    assert(middleware.calledWith(Test, "test", this.descriptor));
+    ContentType(options)(Test, "test", descriptor);
+
+    expect(useAfterStub.args[0][0]).to.be.a("function");
+    assert(middleware.calledWith(Test, "test", descriptor));
   });
 
-  describe("when middleware is executed", () => {
-    before(() => {
-      this.nextSpy = Sinon.stub();
-      this.response = new FakeResponse();
-      Sinon.stub(this.response, "type");
+  it("should call response method", () => {
+    const nextSpy = Sinon.stub();
+    const response = new FakeResponse();
+    Sinon.stub(response, "type");
 
-      this.middleware({}, this.response, this.nextSpy);
-    });
+    ContentType(options)(Test, "test", descriptor);
 
-    after(() => {
-      delete this.response;
-      delete this.nextSpy;
-    });
+    const middleware = useAfterStub.args[0][0];
+    middleware({}, response, nextSpy);
 
-    it("should call response method", () => {
-      assert(this.response.type.calledWith(this.options), "method not called");
-    });
-
-    it("should call next function", () => {
-      assert(this.nextSpy.called, "function not called");
-    });
+    // @ts-ignore
+    assert(response.type.calledWith(options), "method not called");
+    assert(nextSpy.called, "function not called");
   });
 });

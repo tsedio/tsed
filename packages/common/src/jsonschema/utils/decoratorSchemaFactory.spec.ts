@@ -4,58 +4,47 @@ import {decoratorSchemaFactory} from "../../../src/jsonschema/utils/decoratorSch
 
 class Test {}
 
+const sandbox = Sinon.createSandbox();
 describe("decoratorSchemaFactory()", () => {
-  describe("when there is a property", () => {
-    before(() => {
-      this.getStub = Sinon.stub(PropertyRegistry, "get");
-      this.getStub.returns({schema: "schema"});
-
-      this.decoratorStub = Sinon.stub();
-      this.cbStub = Sinon.stub().returns(this.decoratorStub);
-      decoratorSchemaFactory(this.cbStub)(Test, "test");
+  describe("when it's a property", () => {
+    beforeEach(() => {
+      // @ts-ignore
+      sandbox.stub(PropertyRegistry, "get").returns({schema: "schema"});
+    });
+    afterEach(() => {
+      // @ts-ignore
+      sandbox.restore();
     });
 
-    after(() => {
-      this.getStub.restore();
-    });
+    it("should call PropertyRegistry", () => {
+      const decoratorStub = Sinon.stub();
+      const cbStub = Sinon.stub().returns(decoratorStub);
 
-    it("should call PropertyRegistry.get()", () => {
-      this.getStub.should.be.calledWithExactly(Test, "test");
-    });
+      decoratorSchemaFactory(cbStub)(Test, "test");
 
-    it("should call the fn callback with the correct parameters", () => {
-      this.cbStub.should.be.calledWithExactly("schema", [Test, "test"]);
-    });
-
-    it("should cal the decorators returned by the fn callback", () => {
-      this.decoratorStub.should.be.calledWithExactly(Test, "test");
+      PropertyRegistry.get.should.be.calledWithExactly(Test, "test");
+      cbStub.should.be.calledWithExactly("schema", [Test, "test"]);
+      decoratorStub.should.be.calledWithExactly(Test, "test");
     });
   });
 
-  describe("when there is a class", () => {
-    before(() => {
-      this.getStub = Sinon.stub(JsonSchemesRegistry, "get");
-      this.getStub.returns("schema");
-
-      this.decoratorStub = Sinon.stub();
-      this.cbStub = Sinon.stub().returns(this.decoratorStub);
-      decoratorSchemaFactory(this.cbStub)(Test);
+  describe("when it's is a class", () => {
+    beforeEach(() => {
+      // @ts-ignore
+      sandbox.stub(JsonSchemesRegistry, "createIfNotExists");
     });
-
-    after(() => {
-      this.getStub.restore();
+    afterEach(() => {
+      // @ts-ignore
+      sandbox.restore();
     });
 
     it("should call PropertyRegistry.get()", () => {
-      this.getStub.should.be.calledWithExactly(Test);
-    });
+      const decoratorStub = Sinon.stub();
+      const cbStub = Sinon.stub().returns(decoratorStub);
 
-    it("should call the fn callback with the correct parameters", () => {
-      this.cbStub.should.be.calledWithExactly("schema", [Test]);
-    });
+      decoratorSchemaFactory(cbStub)(Test);
 
-    it("should cal the decorators returned by the fn callback", () => {
-      this.decoratorStub.should.be.calledWithExactly(Test);
+      JsonSchemesRegistry.createIfNotExists.should.be.calledWithExactly(Test);
     });
   });
 });

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ProxyRegistry, Registry} from "../../src";
+import {ProxyRegistry, Registry} from "@tsed/core";
 
 class FakeMetadata {
   attr1: any;
@@ -13,67 +13,65 @@ class FakeMetadata {
 }
 
 describe("ProxyRegistry", () => {
+  let service: any;
+  let proxy: any;
+  let registry: any;
   before(() => {
-    this.proxy = class extends ProxyRegistry<any, any> {
+    proxy = class extends ProxyRegistry<any, any> {
       invoke(target: any, locals?: Map<Function, any>, designParamTypes?: any[]): any {
         return null;
       }
     };
-    this.registry = new Registry(FakeMetadata);
-    this.service = new this.proxy(this.registry);
+    registry = new Registry(FakeMetadata);
+    service = new proxy(registry);
   });
 
   describe("set", () => {
-    before(() => {
-      this.clazz = class {};
-    });
+    before(() => {});
     it("should add a metadata", () => {
-      this.service.set(this.clazz, {});
-      expect(this.service.size).to.equal(1);
+      const clazz = class {};
+      service.set(clazz, {});
+      expect(service.size).to.equal(1);
     });
   });
 
   describe("has", () => {
+    const clazz = class {};
     before(() => {
-      this.clazz = class {};
+      service.set(clazz, {});
     });
     it("should add a metadata", () => {
-      this.service.set(this.clazz, {});
-      expect(this.service.size).to.equal(2);
+      expect(service.size).to.equal(2);
     });
     it("should return true if class is known", () => {
-      expect(this.service.has(this.clazz)).to.be.true;
+      expect(service.has(clazz)).to.be.true;
     });
     it("should return false if class is unknown", () => {
-      expect(this.service.has(class {})).to.be.false;
+      expect(service.has(class {})).to.be.false;
     });
   });
 
   describe("get", () => {
-    before(() => {
-      this.clazz = class {};
-    });
+    const clazz = class {};
     it("should add a metadata", () => {
-      this.service.set(this.clazz, {test: true});
-      expect(this.service.size).to.equal(3);
+      service.set(clazz, {test: true});
+      expect(service.size).to.equal(3);
     });
     it("should get metadata", () => {
-      expect(this.service.get(this.clazz).test).to.be.true;
+      expect(service.get(clazz).test).to.be.true;
     });
   });
 
   describe("forEach", () => {
-    before(() => {
-      this.clazz = class {};
-    });
+    const clazz = class {};
     it("should add a metadata", () => {
-      this.service.set(this.clazz, {test: true});
-      expect(this.service.size).to.equal(4);
+      service.set(clazz, {test: true});
+      expect(service.size).to.equal(4);
     });
 
     it("should loop for each item stored in service", () => {
       const o: any = [];
-      this.service.forEach((e: any) => o.push(e));
+      service.forEach((e: any) => o.push(e));
       expect(o.length).to.equal(4);
     });
   });

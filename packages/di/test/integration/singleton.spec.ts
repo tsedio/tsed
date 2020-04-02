@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {GlobalProviders, InjectorService, ProviderScope, Scope, Service} from "../../src";
+import {Container, GlobalProviders, InjectorService, ProviderScope, Scope, Service} from "@tsed/di";
 
 describe("DI Singleton", () => {
   @Service()
@@ -48,12 +48,18 @@ describe("DI Singleton", () => {
     it("should get the service instance", async () => {
       // GIVEN
       const injector = new InjectorService();
+      const container = new Container();
+      container.addProvider(ServiceSingleton);
+      container.addProvider(ServiceRequest);
+      container.addProvider(ServiceInstance);
+      container.addProvider(ServiceSingletonWithRequestDep);
+      container.addProvider(ServiceSingletonWithInstanceDep);
 
       // WHEN
-      await injector.load();
+      await injector.load(container);
 
       // THEN
-      injector.get(ServiceSingleton)!.should.be.instanceof(ServiceSingleton);
+      injector.get<ServiceSingleton>(ServiceSingleton)!.should.be.instanceof(ServiceSingleton);
     });
   });
   describe("when it has a REQUEST dependency", () => {
@@ -61,8 +67,15 @@ describe("DI Singleton", () => {
       // GIVEN
       const injector = new InjectorService();
 
+      const container = new Container();
+      container.addProvider(ServiceSingleton);
+      container.addProvider(ServiceRequest);
+      container.addProvider(ServiceInstance);
+      container.addProvider(ServiceSingletonWithRequestDep);
+      container.addProvider(ServiceSingletonWithInstanceDep);
+
       // WHEN
-      await injector.load();
+      await injector.load(container);
       const serviceSingletonWithReqDep = injector.get<ServiceSingletonWithRequestDep>(ServiceSingletonWithRequestDep)!;
       const serviceRequest = injector.get<ServiceRequest>(ServiceRequest)!;
 
@@ -82,9 +95,14 @@ describe("DI Singleton", () => {
     it("should get the service instance", async () => {
       // GIVEN
       const injector = new InjectorService();
-
+      const container = new Container();
+      container.addProvider(ServiceSingleton);
+      container.addProvider(ServiceRequest);
+      container.addProvider(ServiceInstance);
+      container.addProvider(ServiceSingletonWithRequestDep);
+      container.addProvider(ServiceSingletonWithInstanceDep);
       // WHEN
-      await injector.load();
+      await injector.load(container);
       const serviceWithInstDep = injector.get<ServiceSingletonWithInstanceDep>(ServiceSingletonWithInstanceDep)!;
       const serviceInstance = injector.get<ServiceInstance>(ServiceInstance)!;
 

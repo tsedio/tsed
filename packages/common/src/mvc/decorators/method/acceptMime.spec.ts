@@ -14,24 +14,13 @@ const {AcceptMime} = Proxyquire.load("../../../../src/mvc/decorators/method/acce
 class Test {}
 
 describe("AcceptMime", () => {
-  before(() => {
-    this.descriptor = {};
-    this.options = "application/json";
-    AcceptMime("application/json")(Test, "test", this.descriptor);
-    this.store = Store.from(Test, "test", this.descriptor);
-  });
-
-  after(() => {
-    delete this.descriptor;
-    delete this.options;
-  });
-
   it("should set metadata", () => {
-    expect(this.store.get(AcceptMimesMiddleware)).to.deep.eq([this.options]);
-  });
-
-  it("should create middleware", () => {
+    const descriptor = {};
+    const options = "application/json";
+    AcceptMime("application/json")(Test, "test", descriptor);
+    const store = Store.from(Test, "test", descriptor);
+    expect(store.get(AcceptMimesMiddleware)).to.deep.eq([options]);
     useBeforeStub.should.be.calledWith(AcceptMimesMiddleware);
-    middleware.should.be.calledWith(Test, "test", this.descriptor);
+    middleware.should.be.calledWith(Test, "test", descriptor);
   });
 });

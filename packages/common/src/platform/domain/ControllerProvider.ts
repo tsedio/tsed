@@ -61,7 +61,7 @@ export class ControllerProvider extends Provider<any> {
    * @returns {IRouterSettings}
    */
   get routerOptions(): IRouterSettings {
-    return this.store.get("routerOptions");
+    return this.store.get("routerOptions") || {};
   }
 
   /**

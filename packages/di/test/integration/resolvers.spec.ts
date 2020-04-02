@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Container, InjectorService, TokenProvider} from "../../src";
+import {Container, InjectorService, TokenProvider} from "@tsed/di";
 
 describe("DI Resolvers", () => {
   describe("create new injector", () => {
@@ -23,13 +23,13 @@ describe("DI Resolvers", () => {
         }
       });
 
-      const providers = new Container();
-      providers.add(MyService, {
+      const container = new Container();
+      container.add(MyService, {
         deps: [ExternalService]
       });
 
       // WHEN
-      await injector.load(providers);
+      await injector.load(container);
 
       // THEN
       expect(injector.get(MyService)).to.instanceOf(MyService);

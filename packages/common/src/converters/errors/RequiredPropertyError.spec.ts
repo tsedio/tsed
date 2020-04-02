@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {RequiredPropertyError} from "../../../src/converters/errors/RequiredPropertyError";
+import {RequiredPropertyError} from "./RequiredPropertyError";
 
 describe("RequiredPropertyError", () => {
   it("should have a message", () => {

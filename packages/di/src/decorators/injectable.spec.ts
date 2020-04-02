@@ -1,5 +1,5 @@
+import {Injectable, ProviderScope} from "@tsed/di";
 import * as Sinon from "sinon";
-import {Injectable, ProviderScope} from "../../src";
 import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
 
 describe("@Injectable()", () => {

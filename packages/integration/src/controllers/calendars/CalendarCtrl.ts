@@ -2,6 +2,7 @@ import {
   Authenticated,
   BodyParams,
   ContentType,
+  Context,
   Controller,
   CookiesParams,
   Delete,
@@ -9,17 +10,19 @@ import {
   Header,
   HeaderParams,
   Locals,
+  Next,
   PathParams,
   Post,
   Put,
   QueryParams,
+  Req,
   Request,
   Required,
+  Res,
   Response,
   Status,
   Use,
-  UseAfter,
-  Context
+  UseAfter
 } from "@tsed/common";
 import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
 import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
@@ -69,7 +72,7 @@ export class CalendarCtrl extends BaseController {
    * @param response
    * @param next
    */
-  static middleware2(request: Express.Request, response: Express.Response, next: Express.NextFunction) {
+  static middleware2(request: Req, response: Res, next: Next) {
     request.ctx.data.id = 10909;
 
     // console.log(request.headers)

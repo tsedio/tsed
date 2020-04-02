@@ -2,17 +2,15 @@ import {Email, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
 describe("Email", () => {
-  before(() => {
-    this.decorateStub = stubSchemaDecorator();
-    this.schema = new JsonSchema();
-    Email();
-    this.decorateStub.getCall(0).args[0](this.schema);
-  });
-  after(() => {
-    this.decorateStub.restore();
-  });
-
   it("should store data", () => {
-    this.schema.format.should.eq("email");
+    const decorateStub = stubSchemaDecorator();
+    const schema = new JsonSchema();
+    Email();
+
+    // @ts-ignore
+    decorateStub.getCall(0).args[0](schema);
+    schema.format.should.eq("email");
+
+    decorateStub.restore();
   });
 });

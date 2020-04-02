@@ -4,7 +4,7 @@ import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";
 
 const middleware: any = Sinon.stub();
-const useAfterStub: any = Sinon.stub().returns(middleware);
+const useAfterStub: any = Sinon.stub();
 
 const {Redirect} = Proxyquire.load("../../../../src/mvc/decorators/method/redirect", {
   "./useAfter": {UseAfter: useAfterStub}
@@ -13,112 +13,71 @@ const {Redirect} = Proxyquire.load("../../../../src/mvc/decorators/method/redire
 class Test {}
 
 describe("Redirect", () => {
+  beforeEach(() => {
+    useAfterStub.returns(middleware);
+  });
+  afterEach(() => useAfterStub.reset());
   describe("with one parameter", () => {
-    before(() => {
-      this.descriptor = {};
-      this.options = "test";
-      Redirect(this.options)(Test, "test", this.descriptor);
-      this.middleware = useAfterStub.args[0][0];
-    });
-
-    after(() => {
-      delete this.descriptor;
-      delete this.options;
-      delete this.middleware;
-    });
-
     it("should create middleware", () => {
-      expect(this.middleware).to.be.a("function");
-      assert(middleware.calledWith(Test, "test", this.descriptor));
+      const descriptor = {};
+      const options = "test";
+
+      Redirect(options)(Test, "test", descriptor);
+
+      expect(useAfterStub.args[0][0]).to.be.a("function");
+      assert(middleware.calledWith(Test, "test", descriptor));
     });
 
-    describe("when middleware is executed", () => {
-      before(() => {
-        this.nextSpy = Sinon.stub();
-        this.response = new FakeResponse();
-        Sinon.stub(this.response, "redirect");
+    it("should call response method", () => {
+      const descriptor = {};
+      const nextSpy = Sinon.stub();
+      const response = new FakeResponse();
+      const options = "test";
+      Sinon.stub(response, "redirect");
 
-        this.middleware({}, this.response, this.nextSpy);
-      });
+      Redirect(options)(Test, "test", descriptor);
+      const middleware = useAfterStub.args[0][0];
 
-      after(() => {
-        delete this.response;
-        delete this.nextSpy;
-      });
+      middleware({}, response, nextSpy);
 
-      it("should call response method", () => {
-        assert(this.response.redirect.calledWith(this.options), "method not called");
-      });
-
-      it("should call next function", () => {
-        assert(this.nextSpy.called, "function not called");
-      });
+      // @ts-ignore
+      assert(response.redirect.calledWith(options), "method not called");
+      assert(nextSpy.called, "function not called");
     });
 
-    describe("when middleware is executed but header is sent", () => {
-      before(() => {
-        this.nextSpy = Sinon.stub();
-        this.response = new FakeResponse();
-        this.response.headersSent = true;
-        Sinon.stub(this.response, "type");
+    it("should call response method", () => {
+      const descriptor = {};
+      const nextSpy = Sinon.stub();
+      const response = new FakeResponse();
+      const options = "test";
 
-        this.middleware({}, this.response, this.nextSpy);
-      });
+      response.headersSent = true;
+      Sinon.stub(response, "type");
 
-      after(() => {
-        delete this.response;
-        delete this.nextSpy;
-      });
+      Redirect(options)(Test, "test", descriptor);
+      const middleware = useAfterStub.args[0][0];
 
-      it("should call response method", () => {
-        assert(!this.response.redirect.called, "method is called");
-      });
-
-      it("should call next function", () => {
-        assert(this.nextSpy.called, "function not called");
-      });
+      middleware({}, response, nextSpy);
+      // @ts-ignore
+      assert(!response.redirect.called, "method is called");
+      assert(nextSpy.called, "function not called");
     });
   });
 
   describe("with two parameters", () => {
-    before(() => {
-      this.descriptor = {};
-      Redirect(200, "test2")(Test, "test", this.descriptor);
-      this.middleware = useAfterStub.args[1][0];
-    });
+    it("should call response method", () => {
+      const nextSpy = Sinon.stub();
+      const response = new FakeResponse();
+      Sinon.stub(response, "redirect");
 
-    after(() => {
-      delete this.descriptor;
-      delete this.options;
-      delete this.middleware;
-    });
+      const descriptor = {};
+      Redirect(200, "test2")(Test, "test", descriptor);
+      const middleware = useAfterStub.args[0][0];
 
-    it("should create middleware", () => {
-      expect(this.middleware).to.be.a("function");
-      assert(middleware.calledWith(Test, "test", this.descriptor));
-    });
-
-    describe("when middleware is executed", () => {
-      before(() => {
-        this.nextSpy = Sinon.stub();
-        this.response = new FakeResponse();
-        Sinon.stub(this.response, "redirect");
-
-        this.middleware({}, this.response, this.nextSpy);
-      });
-
-      after(() => {
-        delete this.response;
-        delete this.nextSpy;
-      });
-
-      it("should call response method", () => {
-        assert(this.response.redirect.calledWith(200, "test2"), "method not called");
-      });
-
-      it("should call next function", () => {
-        assert(this.nextSpy.called, "function not called");
-      });
+      middleware({}, response, nextSpy);
+      // @ts-ignore
+      response.redirect.should.have.been.calledWithExactly(200, "test2");
+      assert(nextSpy.called, "function not called");
     });
   });
 });

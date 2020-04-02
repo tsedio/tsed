@@ -18,7 +18,7 @@ describe("LogIncomingRequestMiddleware", () => {
         flush: Sinon.stub()
       };
 
-      const middleware = new LogIncomingRequestMiddleware(injector);
+      const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
         logger: injector.logger
@@ -74,7 +74,7 @@ describe("LogIncomingRequestMiddleware", () => {
         flush: Sinon.stub()
       };
 
-      const middleware = new LogIncomingRequestMiddleware(injector);
+      const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
         logger: injector.logger
@@ -127,7 +127,7 @@ describe("LogIncomingRequestMiddleware", () => {
         flush: Sinon.stub()
       };
 
-      const middleware = new LogIncomingRequestMiddleware(injector);
+      const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
         logger: injector.logger
@@ -167,7 +167,7 @@ describe("LogIncomingRequestMiddleware", () => {
         flush: Sinon.stub()
       };
 
-      const middleware = new LogIncomingRequestMiddleware(injector);
+      const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
         logger: injector.logger
