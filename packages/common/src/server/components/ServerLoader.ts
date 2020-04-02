@@ -7,6 +7,7 @@ import {ServerSettingsService} from "../../config";
 import {IRoute, Platform, PlatformApplication} from "../../platform";
 import {
   callHook,
+  ContextMiddleware,
   createContainer,
   createInjector,
   getConfiguration,
@@ -15,7 +16,6 @@ import {
   printRoutes,
   setLoggerLevel
 } from "../../platform-builder";
-import {contextMiddleware} from "../components/contextMiddleware";
 import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
 
 import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
@@ -413,12 +413,18 @@ export abstract class ServerLoader implements IServerLifecycle {
     await this.callHook("$afterInit");
   }
 
+  protected createContext() {
+    const middleware = new ContextMiddleware(this.injector);
+
+    this.use(middleware.use.bind(middleware));
+  }
+
   /**
    * Initialize configuration of the express app.
    */
   protected async loadMiddlewares(): Promise<any> {
     this.injector.logger.debug("Mount middlewares");
-    this.use(contextMiddleware(this.injector));
+    this.createContext();
     this.settings.logger.level !== "off" && this.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
 
     await this.callHook("$onMountingMiddlewares");

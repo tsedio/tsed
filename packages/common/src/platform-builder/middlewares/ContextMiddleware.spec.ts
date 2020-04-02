@@ -1,7 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import * as Sinon from "sinon";
-import {RequestLogger} from "../../../src/platform";
-import {contextMiddleware} from "./contextMiddleware";
+import {ContextMiddleware} from "./ContextMiddleware";
 
 describe("contextMiddleware", () => {
   const sandbox = Sinon.createSandbox();
@@ -20,8 +19,8 @@ describe("contextMiddleware", () => {
     sandbox.stub(injector, "emit");
 
     // WHEN
-    const middleware = contextMiddleware(injector);
-    await middleware(request, response, next);
+    const middleware = new ContextMiddleware(injector);
+    await middleware.use(request, response, next);
 
     // response.send({});
 
@@ -53,8 +52,8 @@ describe("contextMiddleware", () => {
     sandbox.stub(injector, "emit");
 
     // WHEN
-    const middleware = contextMiddleware(injector);
-    await middleware(request, response, next);
+    const middleware = new ContextMiddleware(injector);
+    await middleware.use(request, response, next);
 
     // response.end();
 

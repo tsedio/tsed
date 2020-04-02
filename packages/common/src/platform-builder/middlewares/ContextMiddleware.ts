@@ -56,14 +56,3 @@ export class ContextMiddleware {
     next();
   }
 }
-
-/**
- * Bind request and create a new context to store information during the request lifecycle. See @@RequestContext@@ for more details.
- *
- * @param injector
- */
-export function contextMiddleware(injector: InjectorService) {
-  const middleware = new ContextMiddleware(injector);
-
-  return middleware.use.bind(middleware);
-}

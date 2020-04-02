@@ -3,7 +3,6 @@ export * from "./components/ServerLoader";
 export * from "./components/GlobalAcceptMimesMiddleware";
 export * from "./components/GlobalErrorHandlerMiddleware";
 export * from "./components/LogIncomingRequestMiddleware";
-export * from "./components/contextMiddleware";
 
 // DECORATORS
 export * from "./decorators/serverSettings";

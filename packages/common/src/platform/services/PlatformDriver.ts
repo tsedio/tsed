@@ -3,17 +3,19 @@ import {IPlatformDriver, IPlatformRouteOptions} from "../interfaces/IPlatformDri
 import {PlatformHandler} from "./PlatformHandler";
 
 export class PlatformDriver<T> implements IPlatformDriver<T> {
-  public raw: T & any;
+  public raw: T;
 
   constructor(protected platformHandler: PlatformHandler) {}
 
   use(...handlers: any[]) {
+    // @ts-ignore
     this.raw.use(...this.mapHandlers(handlers));
 
     return this;
   }
 
   addRoute({method, path, handlers}: IPlatformRouteOptions) {
+    // @ts-ignore
     this.raw[method](path, ...this.mapHandlers(handlers));
 
     return this;
