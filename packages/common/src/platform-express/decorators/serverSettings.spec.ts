@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {ServerSettings} from "../../../src/server";
+import {ServerSettings} from "./serverSettings";
 
 class Test {}
 

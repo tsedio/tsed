@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {$logStub} from "../../../../../test/helper/tools";
-import {RouteService, ServerLoader, ServerSettings} from "../../../src";
+import {ServerLoader, ServerSettings} from "../../../src";
 
 function createServer() {
   @ServerSettings({debug: true, port: 8000, httpsPort: 8080})
@@ -33,113 +33,6 @@ function createServer() {
 }
 
 describe("ServerLoader", () => {
-  describe("startServer()", () => {
-    let createServerStub: any;
-    before(() => {
-      const {server, serverSandbox} = createServer();
-      createServerStub = {
-        on: Sinon.stub(),
-        listen: Sinon.stub(),
-        address: Sinon.stub().returns({port: 8080})
-      };
-
-      createServerStub.on.returns(createServerStub);
-      // @ts-ignore
-      const promise = server.startServer(createServerStub, {address: "0.0.0.0", port: 8080});
-      createServerStub.on.getCall(0).args[1]();
-
-      return promise;
-    });
-
-    it("should have been called server.listen with the correct params", () => {
-      createServerStub.listen.should.have.been.calledWithExactly(8080, "0.0.0.0");
-    });
-
-    it("should have been called server.on with the correct params", () => {
-      createServerStub.on.should.have.been.calledWithExactly("listening", Sinon.match.func);
-      createServerStub.on.should.have.been.calledWithExactly("error", Sinon.match.func);
-    });
-  });
-
-  describe("loadMiddlewares()", () => {
-    const sandbox = Sinon.createSandbox();
-
-    after(() => {
-      sandbox.restore();
-    });
-
-    it("should load middlewares and init routes", async () => {
-      const {server} = createServer();
-      sandbox.stub(server, "$onMountingMiddlewares");
-      sandbox.stub(server, "$beforeRoutesInit");
-      sandbox.stub(server, "$afterRoutesInit");
-      sandbox.stub(server, "injectorService");
-
-      // GIVEN
-      // @ts-ignore
-      server.$beforeRoutesInit.resolves();
-      // @ts-ignore
-      server.$onMountingMiddlewares.resolves();
-      // @ts-ignore
-      server.$afterRoutesInit.resolves();
-
-      // @ts-ignore
-      server.routes = [
-        {
-          route: "/",
-          token: class {}
-        }
-      ];
-
-      server.injectorService.addProvider(RouteService, {
-        useFactory() {
-          return {
-            addRoutes: sandbox.stub(),
-            getRoutes: sandbox.stub().returns([])
-          };
-        }
-      });
-
-      // WHEN
-      // @ts-ignore
-      await server.loadSettingsAndInjector();
-
-      sandbox.spy(server.injectorService, "emit");
-
-      // @ts-ignore
-      await server.loadMiddlewares();
-
-      server.injectorService.emit.should.have.been.calledWithExactly("$beforeRoutesInit");
-      server.injectorService.emit.should.have.been.calledWithExactly("$onRoutesInit");
-      server.injectorService.emit.should.have.been.calledWithExactly("$afterRoutesInit");
-
-      // @ts-ignore
-      server.routes = [];
-
-      return (
-        server.$beforeRoutesInit.should.have.been.calledOnce &&
-        server.$onMountingMiddlewares.should.have.been.calledOnce &&
-        server.$afterRoutesInit.should.have.been.calledOnce
-      );
-    });
-  });
-
-  // describe("scan()", () => {
-  //   it("should add new path to componentScan", () => {
-  //     const {server, serverSandbox} = createServer();
-  //     server.scan(require("path").join(__dirname, "/data/*.ts"), "/context");
-  //
-  //     return server.settings.mount["/context"].should.exist;
-  //   });
-  //
-  //   it("should add symbol to componentScan", () => {
-  //     const {server, serverSandbox} = createServer();
-  //     server.scan(require("path").join(__dirname, "/data/*.ts"));
-  //
-  //     return server.settings.mount["/context"].should.exist;
-  //   });
-  // });
-
   describe("mount()", () => {
     const sandbox = Sinon.createSandbox();
     const {server, serverSandbox} = createServer();
@@ -168,12 +61,7 @@ describe("ServerLoader", () => {
       before(() => {
         $logStub.$log.info.reset();
         // @ts-ignore
-        sandbox.stub(server, "startServer").returns(
-          Promise.resolve({
-            address: "0.0.0.0",
-            port: 8080
-          })
-        );
+        sandbox.stub(server, "listenServers");
         // @ts-ignore
         sandbox.spy(server, "loadSettingsAndInjector");
         // @ts-ignore
@@ -202,19 +90,9 @@ describe("ServerLoader", () => {
 
       it("should have been called $onReady hook", () => server.$onReady.should.have.been.calledOnce);
 
-      it("should have been called startServer() with the right parameters", () => {
+      it("should have been called listenServers() with the right parameters", () => {
         // @ts-ignore
-        server.startServer.should.have.been.calledTwice.and
-          .calledWithExactly(server.httpServer, {
-            address: "0.0.0.0",
-            https: false,
-            port: 8080
-          })
-          .and.calledWithExactly(server.httpsServer, {
-            address: "0.0.0.0",
-            https: true,
-            port: 8000
-          });
+        return server.listenServers.should.have.been.called;
       });
     });
     describe("when error", () => {

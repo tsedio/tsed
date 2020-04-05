@@ -30,6 +30,9 @@ export type ExpressApplication = Express.Application;
 /**
  * Inject the express application instance.
  *
+ * ::: tip
+ * Prefer @@PlatformApplication@@ usage if you want to be compliant with the new Platform abstraction.
+ * :::
  *
  * ```typescript
  * import {ExpressApplication, Service, Inject} from "@tsed/common";

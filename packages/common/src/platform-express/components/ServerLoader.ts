@@ -3,26 +3,12 @@ import {IDIConfigurationOptions, InjectorService} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
-import {ServerSettingsService} from "../../config";
-import {IRoute, Platform, PlatformApplication} from "../../platform";
-import {
-  callHook,
-  ContextMiddleware,
-  createContainer,
-  createInjector,
-  getConfiguration,
-  importProviders,
-  loadInjector,
-  printRoutes,
-  setLoggerLevel
-} from "../../platform-builder";
-import {GlobalErrorHandlerMiddleware} from "../components/GlobalErrorHandlerMiddleware";
-
-import {LogIncomingRequestMiddleware} from "../components/LogIncomingRequestMiddleware";
+import {IRoute} from "../../platform";
+import {HttpServer, HttpsServer, importProviders, PlatformBuilder, setLoggerLevel} from "../../platform-builder";
 import {ExpressApplication} from "../decorators/expressApplication";
-import {HttpServer} from "../decorators/httpServer";
-import {HttpsServer} from "../decorators/httpsServer";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {GlobalErrorHandlerMiddleware} from "../middlewares/GlobalErrorHandlerMiddleware";
+import {LogIncomingRequestMiddleware} from "../middlewares/LogIncomingRequestMiddleware";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {createExpressApplication, createHttpServer, createHttpsServer, listenServer} from "../utils";
 
@@ -49,73 +35,37 @@ const VERSION = require("../../../package.json").version;
  *      "/rest": "${rootDir}/controllers/**\/*.js"
  *    }
  * })
- * export class Server extends ServerLoader {
- *
- *     $onReady(){
- *         console.log('Server started...');
- *     }
- *
- *     $onServerInitError(err){
- *         console.error(err);
- *     }
+ * export class Server {
+ *   $beforeRoutesInit(){
+ *     // add middlewares here
+ *   }
  * }
  *
- * // In app.ts
+ * // In index.ts
  * import Server from "./server";
- * new Server()
- *     .start()
- *     .then(() => console.log('started'))
- *     .catch(er => console.error(er));
  *
+ * function bootstrap(settings: any) {
+ *   const server = ServerLoader.bootstrap(settings);
+ *
+ *   await server.listen()
+ * }
+ *
+ * bootstrap();
  * ```
- *
  */
-export abstract class ServerLoader implements IServerLifecycle {
+export abstract class ServerLoader extends PlatformBuilder implements IServerLifecycle {
   public version: string = VERSION;
-  readonly injector: InjectorService;
-  private routes: IRoute[] = [];
-  private startedAt = new Date();
 
-  /**
-   *
-   */
   constructor(settings: Partial<IDIConfigurationOptions> = {}) {
-    // create injector with initial configuration
-    this.injector = createInjector(getConfiguration(constructorOf(this), settings));
-
-    createExpressApplication(this.injector);
-    createHttpsServer(this.injector);
-    createHttpServer(this.injector);
-  }
-
-  /**
-   * Return the settings configured by the decorator @@ServerSettings@@.
-   *
-   * ```typescript
-   * @ServerSettings({
-   *    rootDir: Path.resolve(__dirname),
-   *    port: 8000,
-   *    httpsPort: 8080,
-   *    mount: {
-   *      "/rest": "${rootDir}/controllers/**\/*.js"
-   *    }
-   * })
-   * export class Server extends ServerLoader {
-   *     $onInit(){
-   *         console.log(this.settings); // {rootDir, port, httpsPort,...}
-   *     }
-   * }
-   * ```
-   *
-   * @returns {ServerSettingsService}
-   */
-  get settings(): IDIConfigurationOptions & ServerSettingsService {
-    return this.injector.settings as IDIConfigurationOptions & ServerSettingsService;
+    super();
+    this._rootModule = this;
+    this.createInjector(constructorOf(this), settings);
   }
 
   /**
    * Return Express Application instance.
    * @returns {core.Express}
+   * @deprecated Use this.app.raw
    */
   get expressApp(): Express.Application {
     return this.injector.get<ExpressApplication>(ExpressApplication)!;
@@ -124,7 +74,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Return the InjectorService initialized by the server.
    * @returns {InjectorService}
-   * @deprecated
+   * @deprecated use this.injector
    */
   get injectorService(): InjectorService {
     return this.injector;
@@ -157,7 +107,7 @@ export abstract class ServerLoader implements IServerLifecycle {
   /**
    * Create a new HTTP server with the provided `port`.
    * @returns {ServerLoader}
-   * @deprecated
+   * @deprecated Use this.settings.httpPort instead
    */
   // istanbul ignore next
   public createHttpServer(port: string | number): ServerLoader {
@@ -204,14 +154,9 @@ export abstract class ServerLoader implements IServerLifecycle {
    *     $beforeRoutesInit(): void|Promise<any> {
    *         const methodOverride = require('method-override');
    *
-   *         this.use(GlobalAcceptMimesMiddleware)
+   *         this.app
+   *             .use(GlobalAcceptMimesMiddleware)
    *             .use(methodOverride());
-   *
-   *         // similar to
-   *         this.expressApp.use(methodOverride());
-   *
-   *         // but not similar to
-   *         this.expressApp.use(GlobalAcceptMimesMiddleware); // in this case, this middleware will not be added correctly to express.
    *
    *         return null;
    *     }
@@ -221,7 +166,7 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    */
   public use(...args: any[]): ServerLoader {
-    this.injector.get<PlatformApplication>(PlatformApplication)!.use(...args);
+    this.app.use(...args);
 
     return this;
   }
@@ -231,10 +176,10 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param setting
    * @param val
    * @returns {ServerLoader}
-   * @deprecated Use this.expressApp.set() instead of
+   * @deprecated Use this.app.raw.set() instead of
    */
   public set(setting: string, val: any): ServerLoader {
-    this.expressApp.set(setting, val);
+    this.app.raw.set(setting, val);
 
     return this;
   }
@@ -244,10 +189,10 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param ext
    * @param fn
    * @returns {ServerLoader}
-   * @deprecated Use this.expressApp.engine() instead of
+   * @deprecated Use this.app.raw.engine() instead of
    */
   public engine(ext: string, fn: (path: string, options: object, callback: (e: any, rendered: string) => void) => void): ServerLoader {
-    this.expressApp.engine(ext, fn);
+    this.app.raw.engine(ext, fn);
 
     return this;
   }
@@ -267,15 +212,22 @@ export abstract class ServerLoader implements IServerLifecycle {
     }
   }
 
+  /**
+   * Run server lifecycle
+   */
   public async runLifecycle() {
-    await this.loadSettingsAndInjector();
-    await this.loadMiddlewares();
+    const routes = await this.loadSettingsAndInjector();
+
+    await this.loadMiddlewares(routes);
   }
 
+  /**
+   * Run listen event and start servers
+   */
   public async listen() {
     await this.callHook("$beforeListen");
 
-    await this.startServers();
+    await this.listenServers();
 
     await this.callHook("$afterListen");
 
@@ -283,6 +235,9 @@ export abstract class ServerLoader implements IServerLifecycle {
     this.injector.logger.info(`Started in ${new Date().getTime() - this.startedAt.getTime()} ms`);
   }
 
+  /**
+   * Run ready event
+   */
   public async ready() {
     await this.callHook("$onReady");
     await this.injector.emit("$onServerReady");
@@ -321,7 +276,9 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @param patterns
    * @param endpoint
    * @returns {ServerLoader}
+   * @deprecated Will be removed in future
    */
+  @Deprecated("Use ServerLoader.addControllers or ServerLoader.addComponents instead")
   public scan(patterns: string | string[], endpoint?: string): ServerLoader {
     if (endpoint) {
       this.addControllers(endpoint, [].concat(patterns as any));
@@ -332,40 +289,8 @@ export abstract class ServerLoader implements IServerLifecycle {
     return this;
   }
 
-  /**
-   * Add classes to the components list
-   * @param classes
-   * @param options
-   */
-  public addComponents(classes: any | any[], options: any = {}): ServerLoader {
-    this.injector.settings.componentsScan = this.injector.settings.componentsScan.concat(classes);
-
-    return this;
-  }
-
-  /**
-   * Add classes decorated by @@Controller()@@ to components container.
-   *
-   * ### Example
-   *
-   * ```typescript
-   * @Controller('/ctrl')
-   * class MyController{
-   * }
-   *
-   * new ServerLoader().addControllers('/rest', [MyController])
-   * ```
-   *
-   * ::: tip
-   * If the MyController class isn't decorated, the class will be ignored.
-   * :::
-   *
-   * @param {string} endpoint
-   * @param {any[]} controllers
-   * @returns {ServerLoader}
-   */
-  public addControllers(endpoint: string, controllers: any | string | (any | string)[]) {
-    this.settings.mount[endpoint] = (this.settings.mount[endpoint] || []).concat(controllers);
+  addComponents(classes: any | any[], options: any = {}) {
+    return super.addComponents(classes);
   }
 
   /**
@@ -381,94 +306,54 @@ export abstract class ServerLoader implements IServerLifecycle {
    * @returns {ServerLoader}
    * @deprecated use ServerLoader.addControllers instead
    */
-  @Deprecated("Use ServerLoader.addControllers git instead")
+  @Deprecated("Use ServerLoader.addControllers instead")
   public mount(endpoint: string, list: any | string | (any | string)[]): ServerLoader {
     this.addControllers(endpoint, list);
 
     return this;
   }
 
-  public callHook(key: string, ...args: any[]) {
-    return callHook(this.injector, this, key, ...args);
-  }
-
   /**
    *
    * @returns {Promise<void>}
    */
-  protected async loadSettingsAndInjector() {
+  protected async loadSettingsAndInjector(): Promise<IRoute[]> {
     setLoggerLevel(this.injector);
 
-    this.injector.logger.debug("Scan components");
+    const routes = await importProviders(this.injector);
 
-    await this.resolveProviders();
-    await this.callHook("$beforeInit");
-    await this.callHook("$onInit");
+    await this.loadInjector();
 
-    this.injector.logger.info("Build providers");
-
-    await loadInjector(this.injector, createContainer(constructorOf(this)));
-
-    this.injector.logger.debug("Settings and injector loaded");
-    await this.callHook("$afterInit");
-  }
-
-  protected createContext() {
-    const middleware = new ContextMiddleware(this.injector);
-
-    this.use(middleware.use.bind(middleware));
+    return routes;
   }
 
   /**
    * Initialize configuration of the express app.
    */
-  protected async loadMiddlewares(): Promise<any> {
-    this.injector.logger.debug("Mount middlewares");
-    this.createContext();
-    this.settings.logger.level !== "off" && this.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
-
-    await this.callHook("$onMountingMiddlewares");
-    await this.callHook("$beforeRoutesInit"); // deprecated
-    this.injector.logger.info("Load routes");
-
-    const platform = this.injector.get<Platform>(Platform)!;
-    platform.addRoutes(this.routes);
-
-    await this.callHook("$onRoutesInit");
-
-    const staticsService = this.injector.get<ServeStaticService>(ServeStaticService)!;
-    staticsService.statics(this.injector.settings.statics);
-
-    await this.callHook("$afterRoutesInit");
-
-    // Import the globalErrorHandler
-    this.use(GlobalErrorHandlerMiddleware);
-
-    if (!this.settings.logger.disableRoutesSummary) {
-      this.injector.logger.info("Routes mounted :");
-      this.injector.logger.info(printRoutes(platform.getRoutes()));
-    }
-  }
-
-  protected async resolveProviders() {
-    this.routes = await importProviders(this.injector);
+  protected async loadMiddlewares(routes: IRoute[]): Promise<any> {
+    await this.createContext();
+    await this.loadRoutes(routes);
+    await this.logRoutes();
   }
 
   /**
-   * Create a new server from settings parameters.
-   * @param http
-   * @param settings
-   * @returns {Promise<TResult2|TResult1>}
+   * Load given routes and add GlobalErrorHandlerMiddleware
+   * @param routes
    */
-  protected async startServer(
-    http: Http.Server | Https.Server,
-    settings: {https: boolean; address: string | number; port: number}
-  ): Promise<{address: string; port: number; https: boolean}> {
-    this.injector.logger.debug(`Start server on ${settings.https ? "https" : "http"}://${settings.address}:${settings.port}`);
-    const resolvedSettings = await listenServer(http, settings);
-    this.injector.logger.info(`Listen server on ${settings.https ? "https" : "http"}://${settings.address}:${settings.port}`);
+  protected async loadRoutes(routes: IRoute[]) {
+    this.settings.logger.level !== "off" && this.app.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
 
-    return resolvedSettings;
+    await this.callHook("$onMountingMiddlewares"); // deprecated
+
+    await super.loadRoutes(routes);
+
+    // Import the globalErrorHandler
+    this.use(GlobalErrorHandlerMiddleware);
+  }
+
+  protected async loadStatics() {
+    const staticsService = this.injector.get<ServeStaticService>(ServeStaticService)!;
+    staticsService.statics(this.injector.settings.statics);
   }
 
   /* istanbul ignore next */
@@ -482,32 +367,14 @@ export abstract class ServerLoader implements IServerLifecycle {
   }
 
   /**
-   * Initialize all servers.
-   * @returns {Promise<any>}
+   * Create Server.injector with express application, Http and Https server
+   * @param module
+   * @param settings
    */
-  private async startServers(): Promise<any> {
-    const promises: Promise<any>[] = [];
-
-    /* istanbul ignore else */
-    if ((this.settings.httpPort as any) !== false) {
-      const settings = this.settings.getHttpPort();
-      promises.push(
-        this.startServer(this.httpServer, {https: false, ...settings}).then(settings => {
-          this.settings.setHttpPort(settings);
-        })
-      );
-    }
-
-    /* istanbul ignore else */
-    if ((this.settings.httpsPort as any) !== false) {
-      const settings = this.settings.getHttpsPort();
-      promises.push(
-        this.startServer(this.httpsServer, {https: true, ...settings}).then(settings => {
-          this.settings.setHttpsPort(settings);
-        })
-      );
-    }
-
-    return Promise.all<any>(promises);
+  protected createInjector(module: Type<any> | any, settings: any) {
+    super.createInjector(module, settings);
+    createExpressApplication(this.injector);
+    createHttpsServer(this.injector);
+    createHttpServer(this.injector);
   }
 }

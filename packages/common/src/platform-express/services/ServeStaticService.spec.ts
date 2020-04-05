@@ -1,8 +1,8 @@
 import {PlatformApplication, ServerSettingsService} from "@tsed/common";
+import {TestContext} from "@tsed/testing";
 import * as Express from "express";
 import * as Sinon from "sinon";
-import {TestContext} from "../../../../testing/src";
-import {ServeStaticService} from "../../../src/server";
+import {ServeStaticService} from "./ServeStaticService";
 
 const sandbox = Sinon.createSandbox();
 

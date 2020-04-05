@@ -1,7 +1,7 @@
+import {InjectorService} from "@tsed/di/src";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {InjectorService} from "../../../../di/src";
-import {LogIncomingRequestMiddleware} from "../../../src/server";
+import {LogIncomingRequestMiddleware} from "./LogIncomingRequestMiddleware";
 
 describe("LogIncomingRequestMiddleware", () => {
   describe("use()", () => {

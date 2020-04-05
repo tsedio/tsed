@@ -28,6 +28,7 @@ export type ExpressRouter = Express.Router & {
  * @param {TypedPropertyDescriptor<Function> | number} descriptor
  * @returns {any}
  * @decorator
+ * @deprecated
  */
 export function ExpressRouter(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(ExpressRouter)(target, targetKey, descriptor);
