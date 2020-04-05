@@ -13,7 +13,6 @@ export function createInjector(settings: Partial<IDIConfigurationOptions> = {}) 
   // @ts-ignore
   injector.settings.set(settings);
 
-  /* istanbul ignore next */
   if (injector.settings.env === "test") {
     injector.logger.stop();
   }
