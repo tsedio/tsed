@@ -1,8 +1,13 @@
-import * as Express from "express";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 
-export type Next = Express.NextFunction;
+declare global {
+  namespace TsED {
+    export interface NextFunction extends Function {}
+  }
+}
+
+export type Next = TsED.NextFunction;
 
 /**
  *

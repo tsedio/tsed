@@ -1,22 +1,23 @@
-import {Configuration, Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
-import * as Express from "express";
+import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {PlatformDriver} from "./PlatformDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
 export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
 
+declare global {
+  namespace TsED {
+    export interface Router {}
+  }
+}
+
 @Injectable({
   scope: ProviderScope.INSTANCE
 })
-export class PlatformRouter extends PlatformDriver<Express.Router> {
-  constructor(
-    platform: PlatformHandler,
-    @Configuration() configuration: Configuration,
-    @Inject(PLATFORM_ROUTER_OPTIONS) routerOptions: any
-  ) {
+export class PlatformRouter extends PlatformDriver<TsED.Router> {
+  constructor(platform: PlatformHandler) {
     super(platform);
 
-    this.raw = Express.Router(Object.assign({}, configuration.routers, routerOptions));
+    this.raw = PlatformRouter.createRawRouter();
   }
 
   /**
@@ -29,5 +30,25 @@ export class PlatformRouter extends PlatformDriver<Express.Router> {
     locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
 
     return injector.invoke<PlatformRouter>(PlatformRouter, locals);
+  }
+
+  protected static createRawRouter(): any {
+    function fakeRouter() {}
+
+    function use() {
+      return this;
+    }
+
+    fakeRouter.use = use;
+    fakeRouter.all = use;
+    fakeRouter.get = use;
+    fakeRouter.patch = use;
+    fakeRouter.post = use;
+    fakeRouter.put = use;
+    fakeRouter.head = use;
+    fakeRouter.delete = use;
+    fakeRouter.options = use;
+
+    return fakeRouter;
   }
 }

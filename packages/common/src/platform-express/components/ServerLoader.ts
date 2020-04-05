@@ -4,13 +4,24 @@ import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
 import {IRoute} from "../../platform";
-import {HttpServer, HttpsServer, importProviders, PlatformBuilder, setLoggerLevel} from "../../platform-builder";
+import {
+  createHttpServer,
+  createHttpsServer,
+  HttpServer,
+  HttpsServer,
+  importProviders,
+  PlatformBuilder,
+  setLoggerLevel
+} from "../../platform-builder";
 import {ExpressApplication} from "../decorators/expressApplication";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {GlobalErrorHandlerMiddleware} from "../middlewares/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../middlewares/LogIncomingRequestMiddleware";
 import {ServeStaticService} from "../services/ServeStaticService";
-import {createExpressApplication, createHttpServer, createHttpsServer, listenServer} from "../utils";
+import {createExpressApplication} from "../utils";
+
+import "../services/PlatformExpressApplication";
+import "../services/PlatformExpressRouter";
 
 const VERSION = require("../../../package.json").version;
 

@@ -1,3 +1,3 @@
 export interface OnResponse {
-  $onResponse(request: Express.Request, response: Express.Response): void;
+  $onResponse(request: TsED.Request, response: TsED.Response): void;
 }

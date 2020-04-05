@@ -30,7 +30,7 @@ export abstract class PlatformBuilder {
     return this._rootModule;
   }
 
-  get app() {
+  get app(): PlatformApplication {
     return this.injector.get<PlatformApplication>(PlatformApplication)!;
   }
 

@@ -1,5 +1,3 @@
-import "./interfaces/Express";
-
 // Module
 export * from "./PlatformModule";
 

@@ -1,5 +1,4 @@
 import {Constant} from "@tsed/di";
-import * as Express from "express";
 import {Exception} from "ts-httpexceptions";
 import {Err, IMiddlewareError, IResponseError, Middleware, Req, Res} from "../../mvc";
 
@@ -55,7 +54,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
     return;
   }
 
-  setHeaders(response: Express.Response, ...args: IResponseError[]) {
+  setHeaders(response: Res, ...args: IResponseError[]) {
     let hErrors: any = [];
 
     args

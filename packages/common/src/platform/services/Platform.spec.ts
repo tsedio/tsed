@@ -1,8 +1,11 @@
-import {Controller, GlobalProviders, InjectorService, PlatformApplication, PlatformRouter} from "@tsed/common";
+import {GlobalProviders, InjectorService} from "@tsed/di";
 import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {Controller} from "../../mvc";
 import {Platform} from "./Platform";
+import {PlatformApplication} from "./PlatformApplication";
+import {PlatformRouter} from "./PlatformRouter";
 
 const sandbox = Sinon.createSandbox();
 

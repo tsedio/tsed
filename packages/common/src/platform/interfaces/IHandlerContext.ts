@@ -1,12 +1,11 @@
 import {InjectorService} from "@tsed/di";
-import * as Express from "express";
 import {HandlerMetadata, ParamMetadata} from "../../mvc";
 
 export interface IHandlerContext {
   injector: InjectorService;
-  request: Express.Request;
-  response: Express.Response;
-  next: Express.NextFunction;
+  request: TsED.Response;
+  response: TsED.Response;
+  next: TsED.NextFunction;
   metadata: HandlerMetadata;
   args: any[];
   err?: any;

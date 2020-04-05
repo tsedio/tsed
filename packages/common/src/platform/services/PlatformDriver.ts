@@ -7,6 +7,10 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
 
   constructor(protected platformHandler: PlatformHandler) {}
 
+  callback() {
+    return this.raw;
+  }
+
   use(...handlers: any[]) {
     // @ts-ignore
     this.raw.use(...this.mapHandlers(handlers));
