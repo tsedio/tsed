@@ -1,4 +1,4 @@
-import {ControllerProvider, ExpressRouter, PlatformRouter} from "@tsed/common";
+import {ControllerProvider, PlatformRouter} from "@tsed/common";
 import {GlobalProviders, ProviderType} from "@tsed/di";
 import {expect} from "chai";
 
@@ -19,9 +19,7 @@ describe("ControllerRegistry", () => {
 
     settings.onInvoke!(provider, locals, []);
 
-    expect(locals.has(ExpressRouter)).to.eq(true);
     expect(locals.has(PlatformRouter)).to.eq(true);
     expect(locals.get(PlatformRouter)).to.deep.eq(provider.router);
-    expect(locals.get(ExpressRouter)).to.deep.eq({});
   });
 });

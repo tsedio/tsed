@@ -4,7 +4,7 @@ import {Platform} from "./Platform";
 
 /**
  * `RouteService` is used to provide all routes collected by annotation `@Controller`.
- * @deprecated
+ * @deprecated Use Platform instead
  */
 @Injectable()
 export class RouteService {

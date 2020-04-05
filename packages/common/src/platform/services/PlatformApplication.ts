@@ -14,4 +14,8 @@ export class PlatformApplication extends PlatformDriver<Express.Application> {
     super(platformHandler);
     this.raw = Express();
   }
+
+  callback() {
+    return this.raw;
+  }
 }

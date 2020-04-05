@@ -1,5 +1,4 @@
 import {GlobalProviders, ProviderType, TypedProvidersRegistry} from "@tsed/di";
-import {ExpressRouter} from "../decorators/ExpressRouter";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouter} from "../services/PlatformRouter";
 
@@ -8,7 +7,6 @@ export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.create
   injectable: false,
 
   onInvoke(provider: ControllerProvider, locals: any) {
-    locals.set(ExpressRouter, provider.router.raw);
     locals.set(PlatformRouter, provider.router);
   }
 });
