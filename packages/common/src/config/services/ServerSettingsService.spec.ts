@@ -53,6 +53,9 @@ describe("ServerSettingsService", () => {
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
       settings.debug = true;
+
+      settings.setHttpPort({address: "address", port: 8081});
+      settings.setHttpsPort({address: "address", port: 8080});
     });
 
     it("should return rootDir", () => {
@@ -75,19 +78,25 @@ describe("ServerSettingsService", () => {
     });
 
     it("should return httpsPort", () => {
-      expect(settings.httpsPort).to.equal(8000);
+      expect(settings.httpsPort).to.equal("address:8080");
     });
 
     it("should return httpPort", () => {
-      expect(settings.httpPort).to.equal(8080);
+      expect(settings.httpPort).to.equal("address:8081");
     });
 
     it("should return httpsPort", () => {
-      expect(settings.getHttpsPort()).to.deep.equal({address: "0.0.0.0", port: 8000});
+      expect(settings.getHttpsPort()).to.deep.equal({
+        address: "address",
+        port: 8080
+      });
     });
 
     it("should return httpPort", () => {
-      expect(settings.getHttpPort()).to.deep.equal({address: "0.0.0.0", port: 8080});
+      expect(settings.getHttpPort()).to.deep.equal({
+        address: "address",
+        port: 8081
+      });
     });
 
     it("should return componentsScan", () => {

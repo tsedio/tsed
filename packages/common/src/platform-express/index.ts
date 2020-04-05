@@ -1,10 +1,16 @@
 import {GlobalProviders, LocalsContainer, ProviderType} from "@tsed/di";
-import {ControllerProvider, PlatformRouter} from "../platform";
+import {ControllerProvider} from "../platform";
 import {ExpressRouter} from "./decorators/ExpressRouter";
 
-GlobalProviders.getRegistrySettings(ProviderType.CONTROLLER).onInvoke = (provider: ControllerProvider, locals: LocalsContainer<any>) => {
+const {onInvoke}: any = GlobalProviders.getRegistrySettings(ProviderType.CONTROLLER);
+
+GlobalProviders.getRegistrySettings(ProviderType.CONTROLLER).onInvoke = (
+  provider: ControllerProvider,
+  locals: LocalsContainer<any>,
+  deps: any[]
+) => {
   locals.set(ExpressRouter, provider.router);
-  locals.set(PlatformRouter, provider.router);
+  onInvoke(provider, locals, deps);
 };
 
 export * from "./interfaces";

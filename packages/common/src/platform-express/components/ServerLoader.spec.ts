@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {$logStub} from "../../../../../test/helper/tools";
-import {ServerLoader, ServerSettings} from "../../../src";
+import {InjectorService, ServerLoader, ServerSettings} from "../../../src";
 
 function createServer() {
   @ServerSettings({debug: true, port: 8000, httpsPort: 8080})
@@ -163,9 +163,15 @@ describe("ServerLoader", () => {
         ownSettings: "test"
       });
 
+      server.scan(["/rest"], "/rest");
+      server.scan(["/services"]);
+      server.addComponents(class Test {});
       // THEN
       expect(server).to.be.instanceof(TestServer);
       expect(server.listen).to.be.a("function");
+      expect(server.injectorService).to.be.instanceof(InjectorService);
+      expect(!!server.httpServer).to.be.eq(true);
+      expect(!!server.httpsServer).to.be.eq(true);
       expect(server.settings.get("ownSettings")).to.eq("test");
     });
   });
