@@ -139,7 +139,7 @@ export class InjectorService extends Container {
    * @param token The class or symbol registered in InjectorService.
    * @returns {boolean}
    */
-  get<T>(token: TokenProvider): T | undefined {
+  get<T = any>(token: TokenProvider): T | undefined {
     return (super.has(token) && super.get(getClassOrSymbol(token))!.instance) || undefined;
   }
 
