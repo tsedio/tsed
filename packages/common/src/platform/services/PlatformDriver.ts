@@ -7,7 +7,7 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
 
   constructor(protected platformHandler: PlatformHandler) {}
 
-  callback() {
+  callback(): any {
     return this.raw;
   }
 
@@ -57,14 +57,14 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
     return this.addRoute({method: "options", path, handlers});
   }
 
-  mapHandlers(handlers: any[]) {
+  mapHandlers(handlers: any[]): any[] {
     return handlers.map(handler => {
       if (typeof handler === "string") {
         return handler;
       }
 
       if (handler instanceof PlatformDriver) {
-        return handler.raw;
+        return handler.callback();
       }
 
       return this.platformHandler.createHandler(handler);

@@ -69,7 +69,7 @@ describe("Platform", () => {
         // THEN
         const provider = injector.getProvider(MyCtrl)!;
         platform.routes.should.deep.eq([{provider, route: "/test/my-route"}]);
-        driver.use.should.have.been.calledWithExactly("/test/my-route", provider.router);
+        driver.use.should.have.been.calledWithExactly("/test/my-route", provider.router.raw);
       })
     );
   });

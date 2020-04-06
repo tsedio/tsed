@@ -1,5 +1,5 @@
 import {TestContext} from "@tsed/testing";
-import * as Sinon from "Sinon";
+import * as Sinon from "sinon";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarsCtrl} from "./CalendarsCtrl";

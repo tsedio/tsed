@@ -17,7 +17,6 @@ import {
 } from "../utils";
 
 export abstract class PlatformBuilder {
-  protected routes: IRoute[] = [];
   protected startedAt = new Date();
   protected _rootModule: any;
   protected _injector: InjectorService;

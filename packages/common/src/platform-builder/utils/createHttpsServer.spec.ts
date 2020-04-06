@@ -2,7 +2,7 @@ import {createHttpsServer, HttpsServer, listenHttpsServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {expect} from "chai";
-import * as Sinon from "Sinon";
+import * as Sinon from "sinon";
 
 describe("createHttpsServer", () => {
   it("should fork the create http server", () => {

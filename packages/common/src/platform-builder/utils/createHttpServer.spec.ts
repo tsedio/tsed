@@ -2,7 +2,7 @@ import {createHttpServer, listenHttpServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {expect} from "chai";
-import * as Sinon from "Sinon";
+import * as Sinon from "sinon";
 import {HttpServer} from "../decorators/httpServer";
 
 describe("createHttpServer", () => {

@@ -82,8 +82,7 @@ export class Platform {
             route,
             provider
           });
-
-          this.app.use(route, provider.router);
+          this.app.use(route, provider.router.callback());
         }
       }
     }
