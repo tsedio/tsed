@@ -1,15 +1,22 @@
-import * as Express from "express";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseFilter} from "./useFilter";
 
-export type Response = Express.Response;
-export type Res = Express.Response;
+declare global {
+  namespace TsED {
+    export interface Response {}
+  }
+}
+
+export interface Response extends TsED.Response {}
+
+export interface Res extends TsED.Response {}
 
 /**
  * Response service.
  * @returns {function(Function, (string|symbol), number): void}
  * @decorator
  */
+export function Response(): ParameterDecorator;
 export function Response(): ParameterDecorator {
   return Res();
 }
@@ -20,6 +27,7 @@ export function Response(): ParameterDecorator {
  * @decorator
  * @alias Request
  */
+export function Res(): ParameterDecorator;
 export function Res(): ParameterDecorator {
   return UseFilter(ParamTypes.RESPONSE);
 }

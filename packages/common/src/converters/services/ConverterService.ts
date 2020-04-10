@@ -207,7 +207,7 @@ export class ConverterService {
    * @param targetType
    * @returns {any}
    */
-  getConverter(targetType: any): IConverter | undefined {
+  getConverter<T extends IConverter>(targetType: any): T | undefined {
     if (Metadata.has(CONVERTER, targetType)) {
       const converter = Metadata.get(CONVERTER, targetType);
 

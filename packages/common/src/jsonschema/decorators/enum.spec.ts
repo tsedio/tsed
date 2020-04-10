@@ -3,18 +3,14 @@ import {stubSchemaDecorator} from "./utils";
 
 describe("Enum", () => {
   describe("when enum is a list of values", () => {
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Enum("0", "1");
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store data", () => {
-      this.schema.enum.should.deep.eq(["0", "1"]);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Enum("0", "1");
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+      schema.enum.should.deep.eq(["0", "1"]);
+      decorateStub.restore();
     });
   });
 
@@ -24,19 +20,17 @@ describe("Enum", () => {
       ENUM_2 = "enum2"
     }
 
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Enum(SomeEnum);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store data", () => {
-      this.schema.type.should.eq("string");
-      this.schema.enum.should.deep.eq(["enum1", "enum2"]);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Enum(SomeEnum);
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+
+      schema.type.should.eq("string");
+      schema.enum.should.deep.eq(["enum1", "enum2"]);
+
+      decorateStub.restore();
     });
   });
 
@@ -46,19 +40,16 @@ describe("Enum", () => {
       ENUM_2
     }
 
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Enum(SomeEnum);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store data", () => {
-      this.schema.type.should.eq("number");
-      this.schema.enum.should.deep.eq([0, 1]);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Enum(SomeEnum);
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+
+      schema.type.should.eq("number");
+      schema.enum.should.deep.eq([0, 1]);
+      decorateStub.restore();
     });
   });
 
@@ -69,19 +60,17 @@ describe("Enum", () => {
       ENUM_3 = "test2"
     }
 
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Enum(SomeEnum);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store data", () => {
-      this.schema.type.should.deep.eq(["number", "string"]);
-      this.schema.enum.should.deep.eq([0, "test", "test2"]);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Enum(SomeEnum);
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+
+      schema.type.should.deep.eq(["number", "string"]);
+      schema.enum.should.deep.eq([0, "test", "test2"]);
+
+      decorateStub.restore();
     });
   });
 });

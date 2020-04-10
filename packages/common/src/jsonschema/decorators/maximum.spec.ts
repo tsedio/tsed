@@ -3,33 +3,25 @@ import {stubSchemaDecorator} from "./utils";
 
 describe("Maximum", () => {
   describe("when it used without exclusive value", () => {
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Maximum(10);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store data", () => {
-      this.schema.maximum.should.eq(10);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Maximum(10);
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+      schema.maximum.should.eq(10);
+      decorateStub.restore();
     });
   });
   describe("when it used with exclusive value", () => {
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Maximum(10, true);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store exclusiveMaximum data", () => {
-      this.schema.exclusiveMaximum.should.eq(10);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Maximum(10, true);
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+      schema.exclusiveMaximum.should.eq(10);
+      decorateStub.restore();
     });
   });
 });

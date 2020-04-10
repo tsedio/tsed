@@ -1,12 +1,19 @@
+import {RequestContext} from "@tsed/common";
 import {Type} from "@tsed/core";
-import * as Express from "express";
-import {ParamTypes} from "../../models/ParamTypes";
-import {UseFilter} from "./useFilter";
-import {mapParamsOptions} from "../utils/mapParamsOptions";
 import {IParamOptions} from "../../interfaces/IParamOptions";
+import {ParamTypes} from "../../models/ParamTypes";
+import {mapParamsOptions} from "../utils/mapParamsOptions";
+import {UseFilter} from "./useFilter";
 
-export type Request = Express.Request;
-export type Req = Express.Request;
+declare global {
+  namespace TsED {
+    export interface Request {}
+  }
+}
+
+export interface Request extends TsED.Request {}
+
+export interface Req extends TsED.Request {}
 
 /**
  * Request service.

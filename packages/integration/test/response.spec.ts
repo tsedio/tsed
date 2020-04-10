@@ -1,5 +1,4 @@
 import {ContentType, Controller, ExpressApplication, Get, Next, PathParams, Post, Req, Res, Status} from "@tsed/common";
-import {Docs, Hidden} from "@tsed/swagger";
 import {inject, TestContext} from "@tsed/testing";
 import {createReadStream} from "fs";
 import {join} from "path";

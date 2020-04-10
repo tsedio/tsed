@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {Registry} from "../../src";
+import {Registry} from "./Registry";
 
 class FakeMetadata {
   attr1: any;
@@ -15,238 +15,261 @@ class FakeMetadata {
 
 describe("Registry", () => {
   describe("constructor()", () => {
-    before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
-    });
     it("should create new registry from class", () => {
-      expect(!!this.registry).to.be.true;
+      const registry = new Registry(FakeMetadata);
+      const clazz = class {};
+      expect(!!registry).to.be.true;
     });
   });
 
   describe("set()", () => {
-    before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
-    });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {});
-      expect(this.registry.size).to.equal(1);
+      const registry = new Registry(FakeMetadata);
+      const clazz = class {};
+      // @ts-ignore
+      registry.set(clazz, {});
+      expect(registry.size).to.equal(1);
     });
   });
 
   describe("has()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {});
+      expect(registry.size).to.equal(1);
     });
     it("should return true if class is known", () => {
-      expect(this.registry.has(this.clazz)).to.be.true;
+      expect(registry.has(clazz)).to.be.true;
     });
     it("should return false if class is unknown", () => {
-      expect(this.registry.has(class {})).to.be.false;
+      expect(registry.has(class {})).to.be.false;
     });
   });
 
   describe("get()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
     it("should get metadata", () => {
-      expect(this.registry.get(this.clazz).test).to.be.true;
+      expect(registry.get(clazz).test).to.be.true;
     });
   });
 
   describe("entries()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
 
     it("should return entries", () => {
-      expect(typeof this.registry.entries()).to.equal("object");
+      expect(typeof registry.entries()).to.equal("object");
     });
   });
 
   describe("keys()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
 
     it("should return the keys", () => {
-      expect(typeof this.registry.keys()).to.equal("object");
+      expect(typeof registry.keys()).to.equal("object");
     });
   });
 
   describe("clear()", () => {
+    let registry: any;
+    const clazz = class {};
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry = new Registry(FakeMetadata);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
 
     it("should remove all keys", () => {
-      this.registry.clear();
-      expect(this.registry.size).to.equal(0);
+      registry.clear();
+      expect(registry.size).to.equal(0);
     });
   });
 
   describe("delete()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
 
     it("should remove all keys", () => {
-      this.registry.delete(this.clazz);
-      expect(this.registry.size).to.equal(0);
+      registry.delete(clazz);
+      expect(registry.size).to.equal(0);
     });
   });
 
   describe("forEach()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
 
     it("should loop for each item stored in registry", () => {
       const o: any = [];
-      this.registry.forEach((e: any) => o.push(e));
+      registry.forEach((e: any) => o.push(e));
       expect(o.length).to.equal(1);
     });
   });
 
   describe("values()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should add a metadata", () => {
-      this.registry.set(this.clazz, {test: true});
-      expect(this.registry.size).to.equal(1);
+      registry.set(clazz, {test: true});
+      expect(registry.size).to.equal(1);
     });
 
     it("should return the values", () => {
-      expect(typeof this.registry.values()).to.equal("object");
+      expect(typeof registry.values()).to.equal("object");
     });
   });
 
   describe("merge()", () => {
+    let registry: any;
+    let clazz: any;
     before(() => {
-      this.registry = new Registry(FakeMetadata);
-      this.clazz = class {};
+      registry = new Registry(FakeMetadata);
+      clazz = class {};
     });
     it("should create new metadata", () => {
-      this.registry.merge(this.clazz, {attr1: 1});
-      expect(this.registry.get(this.clazz).attr1).to.equal(1);
-      expect(this.registry.get(this.clazz)).to.instanceof(FakeMetadata);
+      registry.merge(clazz, {attr1: 1});
+      expect(registry.get(clazz).attr1).to.equal(1);
+      expect(registry.get(clazz)).to.instanceof(FakeMetadata);
     });
 
     it("should merge metadata", () => {
-      this.registry.merge(this.clazz, {attr2: 2});
-      expect(this.registry.get(this.clazz).attr1).to.equal(1);
-      expect(this.registry.get(this.clazz).attr2).to.equal(2);
-      expect(this.registry.get(this.clazz).target).to.equal(this.clazz);
+      registry.merge(clazz, {attr2: 2});
+      expect(registry.get(clazz).attr1).to.equal(1);
+      expect(registry.get(clazz).attr2).to.equal(2);
+      expect(registry.get(clazz).target).to.equal(clazz);
     });
   });
 
   describe("createIfNotExists()", () => {
+    let registry: any;
+    let clazz: any;
+    let hasStub: any;
+    let setStub: any;
+    let getStub: any;
+    let result: any;
     describe("when Registry is not configured with hook options", () => {
       before(() => {
-        this.registry = new Registry(FakeMetadata);
-        this.hasStub = Sinon.stub(this.registry, "has").returns(false);
-        this.setStub = Sinon.stub(this.registry, "set");
-        this.getStub = Sinon.stub(this.registry, "get").returns("instance");
-        this.clazz = class {};
+        registry = new Registry(FakeMetadata);
+        hasStub = Sinon.stub(registry, "has").returns(false);
+        setStub = Sinon.stub(registry, "set");
+        getStub = Sinon.stub(registry, "get").returns("instance");
+        clazz = class {};
 
-        this.result = this.registry.createIfNotExists("key");
+        result = registry.createIfNotExists("key");
       });
 
       after(() => {
-        this.hasStub.restore();
-        this.setStub.restore();
-        this.getStub.restore();
+        hasStub.restore();
+        setStub.restore();
+        getStub.restore();
       });
 
       it("should call Registry.has()", () => {
-        this.hasStub.should.have.been.calledWithExactly("key");
+        hasStub.should.have.been.calledWithExactly("key");
       });
 
       it("should call Registry.set()", () => {
-        this.setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+        setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
       });
 
       it("should call Registry.get()", () => {
-        this.getStub.should.have.been.calledWithExactly("key");
+        getStub.should.have.been.calledWithExactly("key");
       });
 
       it("should return an instance of FakeMetadata", () => {
-        expect(this.result).to.eq("instance");
+        expect(result).to.eq("instance");
       });
     });
     describe("when Registry is configured with hook options", () => {
+      let hooks: any;
       before(() => {
-        this.hooks = {
+        hooks = {
           onCreate: Sinon.stub()
         };
-        this.registry = new Registry(FakeMetadata, this.hooks);
-        this.hasStub = Sinon.stub(this.registry, "has").returns(false);
-        this.setStub = Sinon.stub(this.registry, "set");
-        this.getStub = Sinon.stub(this.registry, "get").returns("instance");
-        this.clazz = class {};
+        registry = new Registry(FakeMetadata, hooks);
+        hasStub = Sinon.stub(registry, "has").returns(false);
+        setStub = Sinon.stub(registry, "set");
+        getStub = Sinon.stub(registry, "get").returns("instance");
+        clazz = class {};
 
-        this.result = this.registry.createIfNotExists("key");
+        result = registry.createIfNotExists("key");
       });
 
       after(() => {
-        this.hasStub.restore();
-        this.setStub.restore();
-        this.getStub.restore();
+        hasStub.restore();
+        setStub.restore();
+        getStub.restore();
       });
 
       it("should call Registry.has()", () => {
-        this.hasStub.should.have.been.calledWithExactly("key");
+        hasStub.should.have.been.calledWithExactly("key");
       });
 
       it("should call Registry.set()", () => {
-        this.setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+        setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
       });
 
       it("should call Registry.get()", () => {
-        this.getStub.should.have.been.calledWithExactly("key");
+        getStub.should.have.been.calledWithExactly("key");
       });
 
       it("should return an instance of FakeMetadata", () => {
-        expect(this.result).to.eq("instance");
+        expect(result).to.eq("instance");
       });
 
       it("should call the onCreate hook", () => {
-        this.hooks.onCreate.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+        hooks.onCreate.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
       });
     });
   });

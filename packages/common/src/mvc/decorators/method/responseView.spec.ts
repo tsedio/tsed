@@ -13,27 +13,16 @@ const {ResponseView} = Proxyquire.load("../../../../src/mvc/decorators/method/re
 class Test {}
 
 describe("ResponseView", () => {
-  before(() => {
-    this.descriptor = {};
-    this.options = ["page", {}];
-    ResponseView(...this.options)(Test, "test", this.descriptor);
-    this.store = Store.from(Test, "test", this.descriptor);
-  });
-
-  after(() => {
-    delete this.descriptor;
-    delete this.options;
-  });
-
   it("should set metadata", () => {
-    expect(this.store.get(ResponseViewMiddleware)).to.deep.eq({
-      viewPath: this.options[0],
-      viewOptions: this.options[1]
+    const descriptor = {};
+    const options = ["page", {}];
+    ResponseView(...options)(Test, "test", descriptor);
+    const store = Store.from(Test, "test", descriptor);
+    expect(store.get(ResponseViewMiddleware)).to.deep.eq({
+      viewPath: options[0],
+      viewOptions: options[1]
     });
-  });
-
-  it("should create middleware", () => {
     useAfterStub.should.be.calledWith(ResponseViewMiddleware);
-    middleware.should.be.calledWith(Test, "test", this.descriptor);
+    middleware.should.be.calledWith(Test, "test", descriptor);
   });
 });

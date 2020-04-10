@@ -34,9 +34,9 @@ export interface IControllerOptions extends Partial<IProvider<any>> {
  *
  *    @Get("/:id")
  *    public get(
- *      @Request() request: Express.Request,
- *      @Response() response: Express.Response,
- *      @Next() next: Express.NextFunction
+ *      @Req() request: Req,
+ *      @Res() response: Res,
+ *      @Next() next: Next
  *    ): void {
  *
  *    }

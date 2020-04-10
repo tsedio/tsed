@@ -1,8 +1,10 @@
+import {Type} from "../interfaces/Type";
+
 /**
  * Get the class constructor
  * @param target
  */
-export function getConstructor(target: any): Function {
+export function getConstructor(target: any): Type<any> {
   return typeof target === "function" ? target : target.constructor;
 }
 
@@ -10,7 +12,7 @@ export function getConstructor(target: any): Function {
  * Get the class constructor
  * @param target
  */
-export function constructorOf(target: any): Function {
+export function constructorOf(target: any): Type<any> {
   return getConstructor(target);
 }
 

@@ -3,33 +3,31 @@ import {stubSchemaDecorator} from "./utils";
 
 describe("Minimum", () => {
   describe("when it used without exclusive value", () => {
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Minimum(10);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
-
     it("should store data", () => {
-      this.schema.minimum.should.eq(10);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Minimum(10);
+
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+      schema.minimum.should.eq(10);
+      decorateStub.restore();
     });
   });
   describe("when it used with exclusive value", () => {
-    before(() => {
-      this.decorateStub = stubSchemaDecorator();
-      this.schema = new JsonSchema();
-      Minimum(10, true);
-      this.decorateStub.getCall(0).args[0](this.schema);
-    });
-    after(() => {
-      this.decorateStub.restore();
-    });
+    before(() => {});
+    after(() => {});
 
     it("should store exclusiveMinimum data", () => {
-      this.schema.exclusiveMinimum.should.eq(10);
+      const decorateStub = stubSchemaDecorator();
+      const schema = new JsonSchema();
+      Minimum(10, true);
+      // @ts-ignore
+      decorateStub.getCall(0).args[0](schema);
+
+      schema.exclusiveMinimum.should.eq(10);
+
+      decorateStub.restore();
     });
   });
 });

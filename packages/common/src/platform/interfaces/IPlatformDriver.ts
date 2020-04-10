@@ -12,4 +12,6 @@ export interface IPlatformDriver<T = any> {
   addRoute(routeOptions: IPlatformRouteOptions): this;
 
   use(...handlers: any[]): this;
+
+  callback(): any;
 }

@@ -17,7 +17,7 @@ import {HandlerContext} from "../domain/HandlerContext";
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
-  constructor(private injector: InjectorService) {}
+  constructor(protected injector: InjectorService) {}
 
   createHandlerMetadata(obj: any | EndpointMetadata) {
     const {injector} = this;
@@ -68,32 +68,7 @@ export class PlatformHandler {
 
     this.sortPipes(metadata);
 
-    if (metadata.hasErrorParam) {
-      return (err: any, request: any, response: any, next: any) =>
-        this.onRequest(
-          new HandlerContext({
-            injector: this.injector,
-            request,
-            response,
-            next,
-            err,
-            metadata,
-            args: []
-          })
-        );
-    } else {
-      return (request: any, response: any, next: any) =>
-        this.onRequest(
-          new HandlerContext({
-            injector: this.injector,
-            request,
-            response,
-            next,
-            metadata,
-            args: []
-          })
-        );
-    }
+    return this.createHandlerContext(metadata);
   }
 
   /**
@@ -172,6 +147,35 @@ export class PlatformHandler {
     }
 
     return instance.transform(expression, context.request, context.response);
+  }
+
+  createHandlerContext(metadata: HandlerMetadata) {
+    if (metadata.hasErrorParam) {
+      return (err: any, request: any, response: any, next: any) =>
+        this.onRequest(
+          new HandlerContext({
+            injector: this.injector,
+            request,
+            response,
+            next,
+            err,
+            metadata,
+            args: []
+          })
+        );
+    } else {
+      return (request: any, response: any, next: any) =>
+        this.onRequest(
+          new HandlerContext({
+            injector: this.injector,
+            request,
+            response,
+            next,
+            metadata,
+            args: []
+          })
+        );
+    }
   }
 
   /**

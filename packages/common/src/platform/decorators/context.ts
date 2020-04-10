@@ -22,7 +22,7 @@ import {mapParamsOptions} from "../../mvc/decorators/utils/mapParamsOptions";
  * ```typescript
  * @Middleware()
  * class AuthTokenMiddleware {
- *   use(@Req() request: Express.Request, @Context() context: RequestContext) {
+ *   use(@Req() request: Req, @Context() context: RequestContext) {
  *      if (!context.has('auth')){
  *        context.set('auth', new AuthToken(request))
  *      }

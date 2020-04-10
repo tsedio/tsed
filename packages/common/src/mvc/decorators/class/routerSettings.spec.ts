@@ -6,41 +6,26 @@ class Test {}
 
 describe("RouterSettings", () => {
   describe("MergeParams", () => {
-    before(() => {
-      MergeParams(true)(Test);
-      this.store = Store.from(Test).get("routerOptions");
-    });
-
-    after(() => {});
-
     it("should call merge method for mergeParams options", () => {
-      expect(this.store.mergeParams).to.eq(true);
+      MergeParams(true)(Test);
+      const store = Store.from(Test).get("routerOptions");
+      expect(store.mergeParams).to.eq(true);
     });
   });
 
   describe("CaseSensitive", () => {
-    before(() => {
-      CaseSensitive(true)(Test);
-      this.store = Store.from(Test).get("routerOptions");
-    });
-
-    after(() => {});
-
     it("should call merge method for mergeParams options", () => {
-      expect(this.store.caseSensitive).to.eq(true);
+      CaseSensitive(true)(Test);
+      const store = Store.from(Test).get("routerOptions");
+      expect(store.caseSensitive).to.eq(true);
     });
   });
 
   describe("Strict", () => {
-    before(() => {
-      Strict(true)(Test);
-      this.store = Store.from(Test).get("routerOptions");
-    });
-
-    after(() => {});
-
     it("should call merge method for mergeParams options", () => {
-      expect(this.store.strict).to.eq(true);
+      Strict(true)(Test);
+      const store = Store.from(Test).get("routerOptions");
+      expect(store.strict).to.eq(true);
     });
   });
 });

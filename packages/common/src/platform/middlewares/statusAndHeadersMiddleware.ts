@@ -1,6 +1,8 @@
-import * as Express from "express";
+import {Next} from "../../mvc/decorators/params/next";
+import {Req} from "../../mvc/decorators/params/request";
+import {Res} from "../../mvc/decorators/params/response";
 
-export function statusAndHeadersMiddleware(request: Express.Request, response: Express.Response, next: any) {
+export function statusAndHeadersMiddleware(request: Req, response: Res, next: Next) {
   const {
     statusCode,
     response: {headers = {}}

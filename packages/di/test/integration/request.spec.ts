@@ -1,6 +1,5 @@
 import * as Sinon from "sinon";
-import {GlobalProviders, InjectorService, OnDestroy, ProviderScope, Scope, Service} from "../../src";
-import {LocalsContainer} from "../../src/class/LocalsContainer";
+import {LocalsContainer, Container, GlobalProviders, InjectorService, OnDestroy, ProviderScope, Scope, Service} from "@tsed/di";
 
 describe("DI Request", () => {
   @Service()
@@ -40,7 +39,13 @@ describe("DI Request", () => {
     it("should get a new instance of ServiceRequest", async () => {
       // GIVEN
       const injector = new InjectorService();
-      await injector.load();
+      const container = new Container();
+
+      container.addProvider(ServiceSingleton);
+      container.addProvider(ServiceRequest);
+      container.addProvider(ServiceInstance);
+
+      await injector.load(container);
 
       // we use a local container to create a new context
       const locals = new LocalsContainer();

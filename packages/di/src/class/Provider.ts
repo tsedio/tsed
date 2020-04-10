@@ -44,6 +44,9 @@ export class Provider<T> implements IProvider<T> {
   @NotEnumerable()
   private _store: Store;
 
+  @NotEnumerable()
+  private _tokenStore: Store;
+
   [key: string]: any;
 
   constructor(token: TokenProvider) {
@@ -62,7 +65,7 @@ export class Provider<T> implements IProvider<T> {
   set provide(value: TokenProvider) {
     if (value) {
       this._provide = isClass(value) ? classOf(value) : value;
-      this._store = Store.from(value);
+      this._tokenStore = this._store = Store.from(value);
     }
   }
 
@@ -108,7 +111,7 @@ export class Provider<T> implements IProvider<T> {
       return ProviderScope.SINGLETON;
     }
 
-    return this.store.get("scope");
+    return this.get("scope");
   }
 
   /**
@@ -121,12 +124,16 @@ export class Provider<T> implements IProvider<T> {
   }
 
   get configuration(): Partial<IDIConfigurationOptions> {
-    return this.store.get("configuration");
+    return this.get("configuration");
   }
 
   @Enumerable()
   set configuration(configuration: Partial<IDIConfigurationOptions>) {
     this.store.set("configuration", configuration);
+  }
+
+  get(key: string) {
+    return this.store.get(key) || this._tokenStore.get(key);
   }
 
   isAsync(): boolean {

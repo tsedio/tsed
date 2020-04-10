@@ -31,7 +31,8 @@ async function getPlatformApp() {
       use: platformHandler
     }
   ]);
-  platformApp.raw = createDriver();
+
+  platformApp.raw = createDriver() as any;
 
   return {platformApp, platformHandler};
 }
@@ -42,7 +43,8 @@ describe("PlatformApplication", () => {
 
   describe("use()", () => {
     beforeEach(() => {
-      sandbox.stub(Express, "Router").returns(createDriver() as any);
+      // @ts-ignore
+      sandbox.stub(PlatformRouter, "createRawRouter").returns(createDriver() as any);
     });
     afterEach(() => {
       sandbox.restore();
@@ -63,19 +65,15 @@ describe("PlatformApplication", () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
 
-      const configuration: any = {
-        routers: {test: "globalOptions"}
-      };
-      const routerOptions: any = {
-        test: "options"
-      };
-      const handler = new PlatformRouter(platformHandler as any, configuration, routerOptions);
+      // @ts-ignore
+      const handler = new PlatformRouter(platformHandler as any);
 
       // WHEN
       platformApp.use("/", handler);
 
       // THEN
-      Express.Router.should.have.been.calledWithExactly({...configuration.routers, ...routerOptions});
+      // @ts-ignore
+      PlatformRouter.createRawRouter.should.have.been.calledWithExactly();
       platformApp.raw.use.should.have.been.calledWithExactly("/", handler.raw);
     });
   });

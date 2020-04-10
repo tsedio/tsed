@@ -1,4 +1,5 @@
 import {
+  Container,
   GlobalProviders,
   IInterceptor,
   IInterceptorContext,
@@ -6,7 +7,7 @@ import {
   Intercept,
   Interceptor,
   Service
-} from "../../src";
+} from "@tsed/di";
 
 describe("DI Interceptor", () => {
   @Interceptor()
@@ -39,10 +40,11 @@ describe("DI Interceptor", () => {
   it("should intercept the method", async () => {
     // GIVEN
     const injector = new InjectorService();
-    injector.addProvider(MyInterceptor);
-    injector.addProvider(ServiceTest);
+    const container = new Container();
+    container.addProvider(MyInterceptor);
+    container.addProvider(ServiceTest);
 
-    await injector.load();
+    await injector.load(container);
 
     const serviceTest = injector.invoke<ServiceTest>(ServiceTest)!;
 
@@ -56,10 +58,11 @@ describe("DI Interceptor", () => {
   it("should intercept the method and throw error", async () => {
     // GIVEN
     const injector = new InjectorService();
-    injector.addProvider(MyInterceptor);
-    injector.addProvider(ServiceTest);
+    const container = new Container();
+    container.addProvider(MyInterceptor);
+    container.addProvider(ServiceTest);
 
-    await injector.load();
+    await injector.load(container);
 
     const serviceTest = await injector.invoke<ServiceTest>(ServiceTest)!;
 

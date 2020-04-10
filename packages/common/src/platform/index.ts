@@ -1,5 +1,3 @@
-import "./interfaces/Express";
-
 // Module
 export * from "./PlatformModule";
 
@@ -8,7 +6,6 @@ export * from "./builder/ControllerBuilder";
 
 // decorators
 export * from "./decorators/context";
-export * from "./decorators/ExpressRouter"; // TODO will be moved to express in v6
 
 // interfaces
 export * from "./interfaces/IRoute";

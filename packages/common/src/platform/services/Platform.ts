@@ -14,7 +14,6 @@ import {PlatformRouter} from "./PlatformRouter";
   scope: ProviderScope.SINGLETON
 })
 export class Platform {
-  readonly routers: any[];
   private _routes: IRouteController[] = [];
 
   constructor(
@@ -83,8 +82,7 @@ export class Platform {
             route,
             provider
           });
-
-          this.app.use(route, provider.router);
+          this.app.use(route, provider.router.callback());
         }
       }
     }
