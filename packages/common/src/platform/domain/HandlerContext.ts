@@ -4,17 +4,25 @@ import {isObservable} from "rxjs";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {IHandlerContext} from "../interfaces/IHandlerContext";
 
+const isFinish = (request: TsED.Request, response: TsED.Response) => {
+  if (!response || !request) {
+    return true;
+  }
+
+  return request.aborted || response.headersSent || response.writableEnded || response.writableFinished;
+};
+
 export class HandlerContext {
   public injector: InjectorService;
   public metadata: HandlerMetadata;
-  public request: any;
-  public response: any;
+  public request: TsED.Request;
+  public response: TsED.Response;
   public err: any;
   public args: any[];
   private _isDone: boolean = false;
   private _next: any;
 
-  constructor({injector, request, response, next, err, metadata, args}: Partial<IHandlerContext>) {
+  constructor({injector, request, response, next, err, metadata, args}: IHandlerContext) {
     this.injector = injector!;
     this.request = request;
     this.response = response;
@@ -27,14 +35,25 @@ export class HandlerContext {
   }
 
   get isDone(): boolean {
+    const {response, request} = this;
+
+    // @ts-ignore
+    if (!this._isDone && (isFinish(request, response))) {
+      this.destroy();
+    }
+
     return this._isDone;
   }
 
   get container() {
-    return this.request.ctx.container;
+    return this.request?.ctx?.container;
   }
 
   done(error: any, result?: any) {
+    if (this.isDone) {
+      return;
+    }
+
     const {
       metadata: {hasNextFunction},
       request: {ctx}
@@ -45,8 +64,7 @@ export class HandlerContext {
     }
 
     if (!hasNextFunction) {
-      // @ts-ignore
-      if (!this.nextIsCalled && result !== undefined) {
+      if (!result !== undefined) {
         ctx.data = result;
       }
       this.next();
@@ -82,6 +100,7 @@ export class HandlerContext {
       }
 
       if (isFunction(process)) {
+
         // when process return a middleware
         return process(request, response, next.bind(this));
       }
@@ -114,13 +133,11 @@ export class HandlerContext {
   }
 
   next(error?: any) {
-    if (!this.isDone) {
-      const {response, _next} = this;
+    const {_next: next} = this;
 
-      this.destroy();
+    this.destroy();
 
-      return !response.headersSent ? _next(error) : undefined;
-    }
+    return next && next(error);
   }
 
   destroy() {

@@ -3,7 +3,7 @@ import {HandlerMetadata, ParamMetadata} from "../../mvc";
 
 export interface IHandlerContext {
   injector: InjectorService;
-  request: TsED.Response;
+  request: TsED.Request;
   response: TsED.Response;
   next: TsED.NextFunction;
   metadata: HandlerMetadata;

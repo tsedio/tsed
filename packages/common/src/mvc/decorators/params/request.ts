@@ -1,4 +1,3 @@
-import {RequestContext} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
@@ -7,13 +6,17 @@ import {UseFilter} from "./useFilter";
 
 declare global {
   namespace TsED {
-    export interface Request {}
+    export interface Request {
+      aborted: boolean;
+    }
   }
 }
 
-export interface Request extends TsED.Request {}
+export interface Request extends TsED.Request {
+}
 
-export interface Req extends TsED.Request {}
+export interface Req extends TsED.Request {
+}
 
 /**
  * Request service.

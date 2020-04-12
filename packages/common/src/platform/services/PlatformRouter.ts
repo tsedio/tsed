@@ -1,4 +1,5 @@
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformDriver} from "./PlatformDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
@@ -6,7 +7,8 @@ export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
 
 declare global {
   namespace TsED {
-    export interface Router {}
+    export interface Router {
+    }
   }
 }
 
@@ -33,22 +35,6 @@ export class PlatformRouter extends PlatformDriver<TsED.Router> {
   }
 
   protected static createRawRouter(): any {
-    function fakeRouter() {}
-
-    function use() {
-      return this;
-    }
-
-    fakeRouter.use = use;
-    fakeRouter.all = use;
-    fakeRouter.get = use;
-    fakeRouter.patch = use;
-    fakeRouter.post = use;
-    fakeRouter.put = use;
-    fakeRouter.head = use;
-    fakeRouter.delete = use;
-    fakeRouter.options = use;
-
-    return fakeRouter;
+    return createFakeRawDriver();
   }
 }

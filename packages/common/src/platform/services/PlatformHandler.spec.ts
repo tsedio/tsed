@@ -21,7 +21,8 @@ import {PlatformHandler} from "./PlatformHandler";
 
 function build(injector: InjectorService, type: string | ParamTypes | Type<any>, {expression, required}: any = {}) {
   class Test {
-    test() {}
+    test() {
+    }
   }
 
   const param = new ParamMetadata({target: Test, propertyKey: "test", index: 0});
@@ -35,6 +36,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
     request,
     response,
     next,
+    args: [],
     metadata: {} as any
   });
 
@@ -66,7 +68,8 @@ class Test {
     return error;
   }
 
-  useErr(err: any, req: any, res: any, next: any) {}
+  useErr(err: any, req: any, res: any, next: any) {
+  }
 }
 
 describe("PlatformHandler", () => {
@@ -120,7 +123,8 @@ describe("PlatformHandler", () => {
         sandbox.stub(injector, "getProvider").returns(undefined);
 
         // WHEN
-        const handlerMetadata = platformHandler.createHandlerMetadata(() => {});
+        const handlerMetadata = platformHandler.createHandlerMetadata(() => {
+        });
 
         // THEN
         handlerMetadata.type.should.eq(HandlerType.FUNCTION);
@@ -209,6 +213,35 @@ describe("PlatformHandler", () => {
         handler.length.should.eq(4);
         Test.prototype.use.should.have.been.calledWithExactly(error);
         request.ctx.data.should.deep.eq(error);
+      }
+    ));
+
+    it("should do nothing when request is aborted", inject(
+      [InjectorService, PlatformHandler],
+      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(injector, "invoke").callsFake(() => new Test());
+
+        const request = new FakeRequest();
+        request.aborted = true;
+        const response = new FakeRequest();
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          type: HandlerType.CONTROLLER,
+          propertyKey: "get"
+        });
+
+        // WHEN
+        const handler = platformHandler.createHandler(handlerMetadata);
+        const next = Sinon.stub();
+
+        handler(request, response, next);
+
+        // THEN
+        return next.should.not.have.been.called;
       }
     ));
   });
