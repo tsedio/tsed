@@ -1,6 +1,6 @@
-import {createInjector, IDIConfigurationOptions, loadInjector, LocalsContainer, OnInit, PlatformBuilder, TokenProvider} from "@tsed/common";
 import {Env, Type} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
+import {IDIConfigurationOptions, InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
+import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
 
 export interface ITestInvokeOptions {
   token?: TokenProvider;
@@ -9,7 +9,7 @@ export interface ITestInvokeOptions {
 
 export class PlatformTest {
   public static platformBuilder: Type<PlatformBuilder>;
-  private static _injector: InjectorService | null = null;
+  protected static _injector: InjectorService | null = null;
 
   static get injector(): InjectorService {
     if (this._injector) {
@@ -19,11 +19,11 @@ export class PlatformTest {
     /* istanbul ignore next */
     throw new Error(
       "PlatformTest.injector is not initialized. Use PlatformTest.create(): Promise before PlatformTest.invoke() or PlatformTest.injector.\n" +
-        "Example:\n" +
-        "before(async () => {\n" +
-        "   await PlatformTest.create()\n" +
-        "   await PlatformTest.invoke(MyService, [])\n" +
-        "})"
+      "Example:\n" +
+      "before(async () => {\n" +
+      "   await PlatformTest.create()\n" +
+      "   await PlatformTest.invoke(MyService, [])\n" +
+      "})"
     );
   }
 
