@@ -1,6 +1,6 @@
 {
   "name": "@tsed/integration-express",
-  "version": "5.44.16",
+  "version": "5.45.0",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,10 +8,10 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
+    "@tsed/common": "5.44.16",
     "@tsed/core": "5.44.16",
     "@tsed/di": "5.44.16",
-    "@tsed/common": "5.44.16",
-    "@tsed/platform-express": "5.44.16"
+    "@tsed/platform-express": "5.45.0"
   },
   "private": true,
   "devDependencies": {},
