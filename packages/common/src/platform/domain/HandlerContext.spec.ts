@@ -60,13 +60,16 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
   });
   const request: any = new FakeRequest();
   const response: any = new FakeResponse();
+  const next = () => {
+  };
 
   const handlerContext: HandlerContext = new HandlerContext({
     injector,
     metadata,
     request,
     response,
-    args
+    args,
+    next
   });
 
   return {
@@ -254,5 +257,53 @@ describe("HandlerContext", () => {
     // THEN
     expect(request.ctx.data).to.eq(undefined);
     expect(response.headersSent).to.eq(true);
+  });
+  it("should do when request is aborted", async () => {
+    const {request, handlerContext} = await getHandlerContext({
+      token: Test,
+      propertyKey: "getValue",
+      args: []
+    });
+
+    request.aborted = true;
+    Sinon.stub(handlerContext, "next");
+
+    // WHEN
+    handlerContext.done(null, {});
+
+    // THEN
+    return handlerContext.next.should.not.have.been.called;
+  });
+  it("should do when request is detached", async () => {
+    const {request, handlerContext} = await getHandlerContext({
+      token: Test,
+      propertyKey: "getValue",
+      args: []
+    });
+
+    delete handlerContext.request;
+    Sinon.stub(handlerContext, "next");
+
+    // WHEN
+    handlerContext.done(null, {});
+
+    // THEN
+    return handlerContext.next.should.not.have.been.called;
+  });
+  it("should do when response is detached", async () => {
+    const {request, handlerContext} = await getHandlerContext({
+      token: Test,
+      propertyKey: "getValue",
+      args: []
+    });
+
+    delete handlerContext.response;
+    Sinon.stub(handlerContext, "next");
+
+    // WHEN
+    handlerContext.done(null, {});
+
+    // THEN
+    return handlerContext.next.should.not.have.been.called;
   });
 });

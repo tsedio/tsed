@@ -17,7 +17,8 @@ import {HandlerContext} from "../domain/HandlerContext";
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
-  constructor(protected injector: InjectorService) {}
+  constructor(protected injector: InjectorService) {
+  }
 
   createHandlerMetadata(obj: any | EndpointMetadata) {
     const {injector} = this;
@@ -68,7 +69,7 @@ export class PlatformHandler {
 
     this.sortPipes(metadata);
 
-    return this.createHandlerContext(metadata);
+    return this.createRawHandler(metadata);
   }
 
   /**
@@ -149,7 +150,7 @@ export class PlatformHandler {
     return instance.transform(expression, context.request, context.response);
   }
 
-  createHandlerContext(metadata: HandlerMetadata) {
+  createRawHandler(metadata: HandlerMetadata): Function {
     if (metadata.hasErrorParam) {
       return (err: any, request: any, response: any, next: any) =>
         this.onRequest(
@@ -178,11 +179,11 @@ export class PlatformHandler {
     }
   }
 
-  /**
-   *
-   * @param context
-   */
   protected async onRequest(context: HandlerContext) {
+    if (context.isDone) {
+      return;
+    }
+
     const {
       metadata: {parameters}
     } = context;

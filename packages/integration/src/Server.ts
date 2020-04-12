@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {ProviderScope, ProviderType, ServerLoader, ServerSettings, $log} from "@tsed/common";
+import {$log, ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/graphql";
 import "@tsed/mongoose";
 import "@tsed/multipartfiles";
@@ -8,6 +8,7 @@ import "@tsed/socketio";
 import * as Path from "path";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
+import {PingCtrl} from "./controllers/ping/PingCtrl";
 import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
 
 import {RestCtrl} from "./controllers/RestCtrl";
@@ -29,7 +30,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   },
   mount: {
     "/": [SocketPageCtrl],
-    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl, ProductsCtrl],
+    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl, ProductsCtrl, PingCtrl],
     "/rest/v1": "${rootDir}/controllers/{calendars,users}/**.ts"
   },
 
@@ -131,5 +132,6 @@ export class Server extends ServerLoader {
     $log.info("Server started...");
   }
 
-  public onServerInitError() {}
+  public onServerInitError() {
+  }
 }
