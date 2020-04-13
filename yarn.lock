@@ -1897,13 +1897,13 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tsed/common@5.44.17":
-  version "5.44.17"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.44.17.tgz#dd9a7b192fd9cac3ac6d7fdae32684b2480dbb53"
-  integrity sha512-iE3mK7cKdTryQ2iYcTOx1BvZI095yW+dZ6aUohF7qXh0fLW4bFndaJ4wUn5hB76qpAYWpoU2sE3zuvVS3d1kvQ==
+"@tsed/common@5.44.16":
+  version "5.44.16"
+  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-5.44.16.tgz#03290ae27d4d58c82ae30bf2cb3c93091ffae28f"
+  integrity sha512-GXfcT4FRQ/TH4jT1u7L1xwFxjemvnG1edSeKhnTfO1L6Kl09z8Q8eUBGNqbw3FM29uTfchuDoveODT+Kq7nK+g==
   dependencies:
-    "@tsed/core" "5.44.17"
-    "@tsed/di" "5.44.17"
+    "@tsed/core" "5.44.16"
+    "@tsed/di" "5.44.16"
     "@tsed/logger" "^5.4.1"
     "@types/json-schema" "^7.0.3"
     globby "11.0.0"
@@ -1916,21 +1916,21 @@
     tslib "1.11.1"
     uuid "3.3.3"
 
-"@tsed/core@5.44.17":
-  version "5.44.17"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.44.17.tgz#bba3d68f97744e73fa2e2f6a6b99edc435736259"
-  integrity sha512-EWz5oUp7oIsSnlsqo71RGxU92ugKAttyj7jyyZtQZEKRVUyD/DFPKTYod2hSPxTVVCuJjxFNCyRjzsMNssD3hQ==
+"@tsed/core@5.44.16":
+  version "5.44.16"
+  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-5.44.16.tgz#85ee8d526436a9e639b571e7e285ccbdab663e0a"
+  integrity sha512-D/h7Tael7uGH626jilAM8qyuBjQoX3/7NKuqwHeXWyAWpwOq4ixTB4nTRfIaCZ0Lp6smNVuaH8F3bQvHyBBMsg==
   dependencies:
     reflect-metadata "^0.1.13"
     source-map-support "0.5.16"
     tslib "1.11.1"
 
-"@tsed/di@5.44.17":
-  version "5.44.17"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.44.17.tgz#2f94369d69303040c2843066fac8e18deebe6387"
-  integrity sha512-86GFDNhWfpMa2lB0HZ07yxcGlkSj88wEfVh6uG2JrGETKnnA6l5EdXq1qUA65Kj6ChBd5Hk53RLTX9yUjru/VA==
+"@tsed/di@5.44.16":
+  version "5.44.16"
+  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-5.44.16.tgz#871a3207289669c6b664d4abafa113f943146a64"
+  integrity sha512-Kwg4HsJ3x8/oDI+ao+/iklx3kpPNEmZCC9v/7bcMsr1YzkGDw7wy9CzcKLcU07OPFffTnyBJ19SUpMi5PtiMwA==
   dependencies:
-    "@tsed/core" "5.44.17"
+    "@tsed/core" "5.44.16"
     chalk "3.0.0"
     tslib "1.11.1"
 

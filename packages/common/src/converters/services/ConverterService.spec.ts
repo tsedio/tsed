@@ -293,6 +293,62 @@ describe("ConverterService", () => {
           )
         ).to.deep.eq(foo);
       });
+
+      describe("when removeAdditionalProperty is enabled", () => {
+        before(() => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = true;
+        });
+        after(() => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = false;
+        });
+
+        it("should remove additional properties that are not in the Model", () => {
+          const foo = new JsonFoo5();
+          Object.assign(foo, {
+            foo: "test",
+            notPropertyAllowed: "tst",
+            test: 1
+          });
+
+          const deserializedFoo = converterService.deserialize(foo, JsonFoo5 as any);
+
+          expect(deserializedFoo.notPropertyAllowed).to.equal(undefined);
+          expect(deserializedFoo.foo).to.equal(undefined);
+
+          expect(deserializedFoo).to.deep.eq({
+            test: 1
+          });
+        });
+      });
+
+      describe("when removeAdditionalProperty is disabled", () => {
+        before(() => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = false;
+        });
+
+        it("should not remove additional properties", () => {
+          const foo = new JsonFoo5();
+          Object.assign(foo, {
+            foo: "test",
+            notPropertyAllowed: "tst",
+            test: 1
+          });
+
+          expect(
+            converterService.deserialize(
+              {
+                test: 1,
+                foo: "test",
+                notPropertyAllowed: "tst"
+              },
+              JsonFoo5 as any
+            )
+          ).to.deep.eq(foo);
+        });
+      });
     });
 
     describe("when an attribute is required", () => {
@@ -572,6 +628,41 @@ describe("ConverterService", () => {
           });
 
           it("should return false", () => expect(result).to.be.false);
+        });
+      });
+    });
+
+    describe("hasRemoveAdditionalPropertyEnabled()", () => {
+      describe("when removeAdditionalProperty = false", () => {
+        before(() => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = false;
+        });
+
+        it("should return false", () => {
+          // @ts-ignore
+          const result = converterService.hasRemoveAdditionalPropertyEnabled();
+          expect(result).to.be.false;
+        });
+      });
+
+      describe("when removeAdditionalProperty = true", () => {
+        before(() => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = true;
+        });
+
+        after(() => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = false;
+        });
+
+        it("should return true", () => {
+          // @ts-ignore
+          converterService.removeAdditionalProperty = true;
+          // @ts-ignore
+          const result = converterService.hasRemoveAdditionalPropertyEnabled();
+          expect(result).to.be.true;
         });
       });
     });

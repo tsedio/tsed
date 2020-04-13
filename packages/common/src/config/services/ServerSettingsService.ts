@@ -187,6 +187,16 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("validationModelStrict", value);
   }
 
+  get removeAdditionalProperty(): boolean {
+    const value = this.getRaw("removeAdditionalProperty");
+
+    return value === undefined ? false : value;
+  }
+
+  set removeAdditionalProperty(value: boolean) {
+    this.setRaw("removeAdditionalProperty", value);
+  }
+
   get logger(): Partial<ILoggerSettings> {
     return this.get("logger");
   }

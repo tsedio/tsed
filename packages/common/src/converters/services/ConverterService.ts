@@ -13,9 +13,11 @@ import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../inte
 @Injectable()
 export class ConverterService {
   private validationModelStrict = true;
+  private removeAdditionalProperty = false;
 
   constructor(private injectorService: InjectorService, @Configuration() configuration: Configuration) {
     this.validationModelStrict = configuration.get<boolean>("validationModelStrict");
+    this.removeAdditionalProperty = configuration.get<boolean>("removeAdditionalProperty");
   }
 
   /**
@@ -228,6 +230,10 @@ export class ConverterService {
   private convertProperty(obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata, options?: any) {
     this.checkStrictModelValidation(instance, propertyName, propertyMetadata);
 
+    if (this.hasRemoveAdditionalPropertyEnabled() && propertyMetadata === undefined) {
+      return;
+    }
+
     propertyMetadata = propertyMetadata || ({} as any);
 
     let propertyValue = obj[propertyMetadata!.name] || obj[propertyName];
@@ -306,5 +312,13 @@ export class ConverterService {
     }
 
     return false;
+  }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  private hasRemoveAdditionalPropertyEnabled(): boolean {
+    return this.removeAdditionalProperty;
   }
 }

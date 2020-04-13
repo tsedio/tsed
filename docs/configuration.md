@@ -98,6 +98,7 @@ With [dotenv](https://www.npmjs.com/package/dotenv):
 * `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](/tutorials/swagger.md).
 * `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 * `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)). By default true.
+* `removeAdditionalProperty` &lt;boolean&gt;: When strict validation is disabled. Remove additional property when a model is used by the converter. By default false.
 * `logger` &lt;[ILoggerSettings](/api/common/config/interfaces/ILoggerSettings.md)&gt;: Logger configuration.
 * `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/injection-scopes.md).
 * `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.

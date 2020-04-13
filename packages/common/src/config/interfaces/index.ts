@@ -72,6 +72,12 @@ declare global {
        */
       validationModelStrict: boolean;
       /**
+       * When strict validation is disabled.
+       * Remove additional property when a model is used by the converter.
+       * By default false.
+       */
+      removeAdditionalProperty: boolean;
+      /**
        * Logger configuration.
        */
       logger: Partial<ILoggerSettings>;

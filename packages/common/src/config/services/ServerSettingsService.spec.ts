@@ -166,6 +166,14 @@ describe("ServerSettingsService", () => {
       expect(settings.validationModelStrict).to.equal(false);
     });
 
+    it("should return removeAdditionalProperty", () => {
+      expect(settings.removeAdditionalProperty).to.equal(false);
+      expect(settings.removeAdditionalProperty).to.equal(false);
+
+      settings.removeAdditionalProperty = true;
+      expect(settings.removeAdditionalProperty).to.equal(true);
+    });
+
     describe("forEach()", () => {
       it("should loop on items", () => {
         const result = [];
