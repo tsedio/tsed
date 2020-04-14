@@ -132,13 +132,13 @@ export class Server extends ServerLoader {
 }
 ```
 
-It's also possible to register with the @@Module@@ decorator:
+It's also possible to register with the @@Configuration@@ decorator:
 
 ```typescript
-import {Module} from "@tsed/di";
+import { Configuration } from "@tsed/di";
 import { myContainer } from "./inversify.config";
 
-@Module({
+@Configuration({
   resolvers: [
     {
       get(token: any) {
@@ -147,9 +147,7 @@ import { myContainer } from "./inversify.config";
     }
   ]
 })
-export class MyModule {
-
-}
+export class MyModule {}
 ```
 
 ## Versioning REST API
