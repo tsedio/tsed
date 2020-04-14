@@ -13,7 +13,7 @@ All of them can inject dependencies, meaning, they can create various relationsh
  
 <figure><img src="./../assets/providers.png" style="max-height: 300px"></figure>
 
-In controllers chapter, we've seen how to build a Controller, handle request and create a response.
+In controllers chapter, we've seen how to build a Controller, handle a request and create a response.
 Controllers shall handle HTTP requests and delegate complex tasks to the **providers**.
 
 The providers are plain javascript class and use one of these decorators on top of them. Here the list:
@@ -27,7 +27,7 @@ Let's start by creating a simple CalendarService provider.
 <<< @/docs/docs/snippets/providers/getting-started-service.ts
 
 ::: tip Note
-@@Service@@ and @@Injectable@@ as the same effect. @@Injectable@@ accept options, @@Service@@ not.
+@@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
 A Service is always configured as `singleton`.
 
 Example with @@Injectable@:
@@ -46,7 +46,7 @@ Finally, we can load the injector and use it:
 
 ## Dependency injection
 
-Ts.ED is built around the **dependency injection** pattern. TypeScript emit type metadata on the constructor
+Ts.ED is built around the **dependency injection** pattern. TypeScript emits type metadata on the constructor
 which will be exploited by the @@InjectorService@@ to resolve dependencies automatically.
 
 ```typescript
@@ -55,15 +55,15 @@ constructor(private calendarsService: CalendarsService) {}
 
 ## Scopes
 
-All providers has a lifetime strictly dependent on the application lifecycle.
+All providers have a lifetime strictly dependent on the application lifecycle.
 Once the server is created, all providers have to be instantiated. 
-Similarly, when the application shutdown, all providers will be destroyed. 
+Similarly, when the application shuts down, all providers will be destroyed. 
 However, there are ways to make your provider lifetime **request-scoped** as well. 
 You can read more about these techniques [here](/docs/injection-scopes.md).
 
 ## Binding configuration
 
-All configuration set with @@ServerSettings@@, @@Module@@ or @@Configuration@@ can be retrieved with 
+All configurations set with @@ServerSettings@@, @@Module@@ or @@Configuration@@ can be retrieved with 
 @@Constant@@ and @@Value@@ decorators. Theses decorators can be used with:
  
  - [Service](/docs/services.md),
@@ -72,13 +72,13 @@ All configuration set with @@ServerSettings@@, @@Module@@ or @@Configuration@@ c
  - [Filter](/docs/filters.md)
  - [Converter](/docs/converters.md).
  
-@@Constant@@ and @@Value@@ accept an expression as parameters to
+@@Constant@@ and @@Value@@ accept an expression as parameter to
 inspect the configuration object and return the value.
 
 <<< @/docs/docs/snippets/providers/binding-configuration.ts
 
 ::: warning
-@@Constant@@ return an Object.freeze() value.
+@@Constant@@ returns an Object.freeze() value.
 :::
 
 ::: tip NOTE
@@ -87,7 +87,7 @@ The values for the decorated properties aren't available on constructor. Use $on
 
 ## Custom providers
 
-The Ts.ED IoC resolve relationships providers for you, but sometimes, you want to tell to the DI how you want to instantiate
+The Ts.ED IoC resolves relationships providers for you, but sometimes, you want to tell to the DI how you want to instantiate
 a specific service or inject different kind of providers based on values, on asynchronous or synchronous factory or on external library.
 Look [here](/docs/custom-providers.md) to find more examples.
 
