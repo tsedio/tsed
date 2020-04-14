@@ -68,7 +68,7 @@ export class Container extends LocalsContainer<Provider<any>> {
 
   public addProviders(container: Map<TokenProvider, Provider<any>>) {
     container.forEach(provider => {
-      if (!this.hasProvider(provider.provide) && !provider.root) {
+      if (!this.hasProvider(provider.provide)) {
         this.setProvider(provider.provide, provider.clone());
       }
     });

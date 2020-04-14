@@ -1,4 +1,4 @@
-import {IModuleOptions, Module} from "@tsed/di";
+import {Configuration, IModuleOptions} from "@tsed/di";
 
 /**
  * `@ServerSettings` let you to configure quickly your server via decorator. This decorator take your configuration and merge it with the default server configuration.
@@ -47,7 +47,8 @@ import {IModuleOptions, Module} from "@tsed/di";
  * @param settings
  * @returns {(target:any)=>any}
  * @decorator
+ * @alias @Configuration
  */
 export function ServerSettings(settings: Partial<IModuleOptions> = {}): Function {
-  return Module({...settings, root: true});
+  return Configuration(settings);
 }

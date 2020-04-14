@@ -25,7 +25,6 @@ describe("ControllerProvider", () => {
 
   it("should return all keys available for serialisation", () => {
     expect(getKeys(controllerProvider)).to.deep.equal([
-      "root",
       "type",
       "injectable",
       "path",

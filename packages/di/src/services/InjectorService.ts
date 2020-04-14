@@ -225,15 +225,13 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!provider.root) {
-        if (!locals.has(provider.token)) {
-          if (provider.isAsync()) {
-            await this.invoke(provider.token, locals);
-          }
+      if (!locals.has(provider.token)) {
+        if (provider.isAsync()) {
+          await this.invoke(provider.token, locals);
+        }
 
-          if (provider.instance) {
-            locals.set(provider.token, provider.instance);
-          }
+        if (provider.instance) {
+          locals.set(provider.token, provider.instance);
         }
       }
     }
@@ -245,14 +243,12 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!provider.root) {
-        if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
-          this.invoke(provider.token, locals);
-        }
+      if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+        this.invoke(provider.token, locals);
+      }
 
-        if (provider.instance) {
-          locals.set(provider.token, provider.instance);
-        }
+      if (provider.instance) {
+        locals.set(provider.token, provider.instance);
       }
     }
 
@@ -289,11 +285,11 @@ export class InjectorService extends Container {
     if (this.resolvedConfiguration) {
       return;
     }
-
     super.forEach(provider => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          this.settings.default.set(key, deepExtends(this.settings.default.get(key) || {}, value));
+          value = this.settings.default.has(key) ? deepExtends(this.settings.default.get(key), value) : deepClone(value);
+          this.settings.default.set(key, value);
         });
       }
       if (provider.resolvers) {

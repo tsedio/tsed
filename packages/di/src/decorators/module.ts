@@ -28,7 +28,7 @@ export interface IModuleOptions extends IDIConfigurationOptions {
  * @decorator
  */
 export function Module(options: Partial<IModuleOptions> = {}) {
-  const {imports, resolvers, deps, root, scope, ...configuration} = options;
+  const {imports, resolvers, deps, scope, ...configuration} = options;
 
   return applyDecorators(
     Configuration(configuration),
@@ -38,8 +38,7 @@ export function Module(options: Partial<IModuleOptions> = {}) {
       imports,
       deps,
       injectable: false,
-      resolvers,
-      root
+      resolvers
     })
   );
 }
