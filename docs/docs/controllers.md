@@ -78,7 +78,7 @@ In order to avoid such side-effects, simply move `findAll()` method above `findO
 ## Request
 ### Input parameters
 
-Getting parameters from Express Request can be down by using the following decorators:
+Getting parameters from Express Request can be done by using the following decorators:
 
 - @@BodyParams@@: `Express.request.body`
 - @@PathParams@@: `Express.request.params`
