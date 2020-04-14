@@ -175,10 +175,10 @@ In this case, injection on the method isn't available.
 ## Advanced usage
 ### Templating
 
-Template feature depending on the engine rendering use by your application. Ts.ED provide decorator @@Render@@ to define a view which will be used
-by the Endpoint to generate the response.
+A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your the endpoint.
+Like Express.js, you need to configure the templating engine so that you can use it later with the @@Render@@ decorator.
 
-Here an example of a controller which use the @@Render@@ decorator:
+Here an example of a controller which uses the @@Render@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-templating.ts
 
@@ -192,7 +192,7 @@ And his view:
 ```
 
 ::: tip
-See our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
+To configure a template engine with Ts.ED, see our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
 :::
 
 ### Middlewares
