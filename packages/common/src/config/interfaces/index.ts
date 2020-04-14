@@ -5,6 +5,7 @@ import {IErrorsSettings} from "./IErrorSettings";
 import {ILoggerSettings} from "./ILoggerSettings";
 import {IRouterSettings} from "./IRouterSettings";
 import {IServerMountDirectories} from "./IServerMountDirectories";
+import {IConverterSettings} from "./IConverterSettings";
 
 declare global {
   namespace TsED {
@@ -69,8 +70,14 @@ declare global {
        * Use a strict validation when a model is used by the converter.
        * When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)).
        * By default true.
+       *
+       * @deprecated Use converter.additionalProperty
        */
       validationModelStrict: boolean;
+      /**
+       * Converter configuration.
+       */
+      converter: Partial<IConverterSettings>;
       /**
        * Logger configuration.
        */

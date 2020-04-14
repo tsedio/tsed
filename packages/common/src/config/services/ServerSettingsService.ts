@@ -3,6 +3,7 @@ import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di
 import {$log} from "@tsed/logger";
 import * as Https from "https";
 import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories} from "../interfaces";
+import {IConverterSettings} from "../interfaces/IConverterSettings";
 
 const rootDir = process.cwd();
 
@@ -185,6 +186,14 @@ export class ServerSettingsService extends DIConfiguration {
 
   set validationModelStrict(value: boolean) {
     this.setRaw("validationModelStrict", value);
+  }
+
+  get converter(): Partial<IConverterSettings> {
+    return this.get("converter") || {};
+  }
+
+  set converter(options: Partial<IConverterSettings>) {
+    this.setRaw("converter", options);
   }
 
   get logger(): Partial<ILoggerSettings> {

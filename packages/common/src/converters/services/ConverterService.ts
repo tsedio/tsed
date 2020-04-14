@@ -3,36 +3,25 @@ import {Configuration, GlobalProviders, Injectable, InjectorService} from "@tsed
 import {BadRequest} from "ts-httpexceptions";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
-import {
-  ArrayConverter,
-  DateConverter,
-  MapConverter,
-  PrimitiveConverter,
-  SetConverter,
-  SymbolConverter
-} from "../components";
+import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
+import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 
 @Injectable({
-  imports: [
-    ArrayConverter,
-    DateConverter,
-    MapConverter,
-    PrimitiveConverter,
-    SetConverter,
-    SymbolConverter
-  ]
+  imports: [ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter]
 })
 export class ConverterService {
   private validationModelStrict = true;
+  private converterSettings: IConverterSettings;
 
   constructor(private injectorService: InjectorService, @Configuration() configuration: Configuration) {
     this.validationModelStrict = configuration.get<boolean>("validationModelStrict");
+    this.converterSettings = configuration.get<IConverterSettings>("converter") || {};
   }
 
   /**
@@ -243,7 +232,9 @@ export class ConverterService {
    * @param options
    */
   private convertProperty(obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata, options?: any) {
-    this.checkStrictModelValidation(instance, propertyName, propertyMetadata);
+    if (this.skipAdditionalProperty(instance, propertyName, propertyMetadata)) {
+      return;
+    }
 
     propertyMetadata = propertyMetadata || ({} as any);
 
@@ -300,9 +291,27 @@ export class ConverterService {
    * @param {string} propertyKey
    * @param {PropertyMetadata | undefined} propertyMetadata
    */
-  private checkStrictModelValidation(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
-    if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
-      throw new UnknownPropertyError(getClass(instance), propertyKey);
+  private skipAdditionalProperty(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
+    if (propertyMetadata !== undefined) {
+      return false;
+    }
+
+    let additionalPropertyLevel = this.getAdditionalPropertyLevel();
+
+    if (getClass(instance) !== Object) {
+      if (Store.from(getClass(instance)).has("modelStrict")) {
+        additionalPropertyLevel = !!Store.from(getClass(instance)).get("modelStrict") ? "error" : "accept";
+      }
+    }
+
+    switch (additionalPropertyLevel) {
+      case "error":
+        throw new UnknownPropertyError(getClass(instance), propertyKey);
+      case "ignore":
+        return true;
+      default:
+      case "accept":
+        return false;
     }
   }
 
@@ -323,5 +332,13 @@ export class ConverterService {
     }
 
     return false;
+  }
+
+  /**
+   *
+   * @returns {"error" | "accept" | "ignore"}
+   */
+  private getAdditionalPropertyLevel() {
+    return this.converterSettings.additionalProperty || this.validationModelStrict ? "error" : "accept";
   }
 }
