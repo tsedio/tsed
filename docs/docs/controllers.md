@@ -175,10 +175,10 @@ In this case, injection on the method isn't available.
 ## Advanced usage
 ### Templating
 
-A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your the endpoint.
+A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your endpoint.
 Like Express.js, you need to configure the templating engine so that you can use it later with the @@Render@@ decorator.
 
-Here an example of a controller which uses the @@Render@@ decorator:
+Here is an example of a controller which uses the @@Render@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-templating.ts
 

@@ -18,7 +18,6 @@ describe("Provider", () => {
       expect(provider.useClass).to.eq(T1);
       expect(!!provider.store).to.eq(true);
       expect(getKeys(provider)).to.deep.eq([
-        "root",
         "type",
         "injectable",
         "customProp",

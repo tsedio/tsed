@@ -6,9 +6,6 @@ import {TokenProvider} from "../interfaces/TokenProvider";
 
 export class Provider<T = any> implements IProvider<T> {
   @Enumerable()
-  public root: boolean = false;
-
-  @Enumerable()
   public type: ProviderType | any = ProviderType.PROVIDER;
 
   @Enumerable()

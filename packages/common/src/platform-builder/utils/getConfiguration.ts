@@ -1,8 +1,7 @@
-import {Type} from "@tsed/core";
-import {GlobalProviders} from "@tsed/di";
+import {Store, Type} from "@tsed/core";
 
 export function getConfiguration(module: Type<any>, configuration: any = {}) {
-  const provider = GlobalProviders.get(module)!;
+  const store = Store.from(module).get("configuration") || {};
 
-  return {...(provider.configuration || {}), ...configuration};
+  return {...store, ...configuration};
 }

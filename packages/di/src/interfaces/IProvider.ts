@@ -6,7 +6,7 @@ import {TokenProvider} from "./TokenProvider";
 /**
  *
  */
-export interface IProvider<T> {
+export interface IProvider<T = any> {
   /**
    * An injection token. (Typically an instance of `Type` or `InjectionToken`, but can be `any`).
    */
