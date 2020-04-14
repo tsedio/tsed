@@ -12,12 +12,12 @@ this:
 <<< @/docs/docs/snippets/middlewares/override-response-view.ts
 
 ::: warning
-It's not preferable to use inheritance when you override ResponseViewMiddleware middleware. The use method signature may change in future and create a breaking change for your
+It's not preferable to use inheritance when you override ResponseViewMiddleware middleware. The used method signature may change in future and create a breaking change for your
 own implementation.
 :::
 
 ::: tip
-By default, the server import automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+By default, the server imports automatically your middlewares matching with this rule `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
 
 ```
 .

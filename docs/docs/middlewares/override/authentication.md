@@ -1,9 +1,9 @@
 # Override Authentication <Badge text="deprecated" type="warn" />
 
-The annotation @@Authenticated@@ use the @@AuthenticatedMiddleware@@
+The annotation @@Authenticated@@ uses the @@AuthenticatedMiddleware@@
 to check the authentication strategy. 
 
-To customise this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 
+To customize this behavior, the right way is to override the default `AuthenticatedMiddleware` then implement directly 
 your authentication strategy (with [passport.js for example](/tutorials/passport.md)).
 
 ::: warning
@@ -42,7 +42,7 @@ export class AuthenticatedMiddleware implements IMiddleware {
 ```
 
 ::: tip
-By default, the server import automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+By default, the server imports automatically your middlewares matching with this rule `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
 
 ```
 .
