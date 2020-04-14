@@ -47,7 +47,6 @@ import {IModuleOptions, Module} from "@tsed/di";
  * @param settings
  * @returns {(target:any)=>any}
  * @decorator
- * @deprecated Use Module decorator instead
  */
 export function ServerSettings(settings: Partial<IModuleOptions> = {}): Function {
   return Module({...settings, root: true});
