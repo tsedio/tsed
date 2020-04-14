@@ -4,7 +4,7 @@ The @@ConverterService@@ service is responsible for serializing and deserializin
 
 It has two operation's modes:
 
-- The first case use the [class models](/docs/model.md) to convert an object into a class (and vice versa).
+- The first case uses the [class models](/docs/model.md) to convert an object into a class (and vice versa).
 - The second case is based on the JSON object itself to provide an object with the right types. For example the deserialization of dates.
 
 
@@ -19,17 +19,17 @@ Here is our model:
 
 <<< @/docs/docs/snippets/converters/model-usage.ts
 
-> Note: @@PropertyType@@ allow to specify the type of a collection.
+> Note: @@PropertyType@@ allows to specify the type of a collection.
 
-And its uses on a controller:
+And its use on a controller:
 
 <<< @/docs/docs/snippets/converters/controller-usage.ts
 
 In this example, Person model is used both as input and output types.
 
 ::: tip
-Because, in most case we use asynchronous calls (with async or promise), we have to use @@Returns@@ or @@ReturnsArray@@ decorators to 
-tell swagger what is the model returns by your endpoint. If you don't use swagger, you can also use @@ReturnType@@ decorator instead to 
+Because in most cases we use asynchronous calls (with async or promise), we have to use @@Returns@@ or @@ReturnsArray@@ decorators to 
+tell swagger what is the model returned by your endpoint. If you don't use swagger, you can also use @@ReturnType@@ decorator instead to 
 force converter serialization.
 
 <<< @/docs/docs/snippets/converters/controller-usage-with-return-type.ts
@@ -75,7 +75,7 @@ export class UsersCtrl {
         user.firstName = "John";
         user.lastName = "Doe";
         user.password = "secretpassword";
-        return 
+        return user
     }
 }
 ```
@@ -150,7 +150,7 @@ It is therefore quite possible to replace all converters with your own classes (
 
 ## Validation
 
-The Converter service provides some of the validation of a class model.
+The Converters service provides some validation of a class model.
 It will check the consistency of the JSON object with the data model. For example :
 
 - If the JSON object contains one more field than expected in the model (`validationModelStrict` or `@ModelStrict`).
@@ -225,7 +225,7 @@ export class Server extends ServerLoader {
    
 }      
 ```
-> By default, the Converters service is configured on the `strict` mode.
+> By default, the Converters service is configured on `strict` mode.
 
 #### ModelStrict
 
