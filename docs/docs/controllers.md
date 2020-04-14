@@ -78,11 +78,7 @@ In order to avoid such side-effects, simply move `findAll()` method above `findO
 ## Request
 ### Input parameters
 
-@@BodyParams@@ decorator provide quick access to an attribute `Express.request.body`.
-
-<<< @/docs/docs/snippets/controllers/params-decorator.ts
-
-Same decorator is available to get other params. Use these decorators to get parameters send by the client:
+Getting parameters from Express Request can be down by using the following decorators:
 
 - @@BodyParams@@: `Express.request.body`
 - @@PathParams@@: `Express.request.params`

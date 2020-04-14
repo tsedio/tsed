@@ -26,14 +26,13 @@ module.exports = {
 
       const pkg = JSON.parse(fs.readFileSync("./package.json", {encoding: "utf8"}));
       const {version} = pkg;
-      const {url, branch: branchDoc} = doc;
+      const {url, cname, branch: branchDoc} = doc;
 
       const {GH_TOKEN} = process.env;
       const repository = url.replace("https://", "");
-
-      await exports.cnameBuild();
-
       const vuePressPath = "./docs/.vuepress/dist";
+
+      fs.writeFileSync(`${vuePressPath}/CNAME`, cname, {});
 
       try {
         await execa("git", ["init"], {
