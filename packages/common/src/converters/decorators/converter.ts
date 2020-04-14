@@ -1,8 +1,3 @@
-/**
- * @module common/converters
- */
-/** */
-
 import {Metadata} from "@tsed/core";
 import {CONVERTER} from "../constants/index";
 import {registerConverter} from "../registries/ConverterRegistries";
@@ -22,7 +17,10 @@ export function Converter(...classes: any[]): Function {
       throw new Error("Converter decorator need at least one type like String, Date, Class, etc...");
     }
 
-    registerConverter({provide: target, type: "converter"});
+    registerConverter({
+      provide: target,
+      type: "converter"
+    });
 
     classes.forEach(clazz => Metadata.set(CONVERTER, target, clazz));
   };
