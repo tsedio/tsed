@@ -19,7 +19,7 @@
     "build": "yarn gulp examples:build && gulp repo:build",
     "publish:dryRun": "yarn build && gulp repo:publishDryRun",
     "docs:serve": "yarn api:build && yarn vuepress:serve ",
-    "docs:build": "yarn api:build && yarn vuepress:build ",
+    "docs:build": "yarn api:build && yarn vuepress:build && gulp docs:cnameBuild",
     "docs:publish": "yarn docs:build && gulp docs:publish",
     "examples:build": "gulp examples:build",
     "examples:publish": "gulp examples:publish",
