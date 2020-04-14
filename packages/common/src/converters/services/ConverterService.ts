@@ -1,16 +1,11 @@
-import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
-import {Configuration, GlobalProviders, Injectable, InjectorService} from "@tsed/di";
+import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Type} from "@tsed/core";
+import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {BadRequest} from "ts-httpexceptions";
+import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
-import {
-  ArrayConverter,
-  DateConverter,
-  MapConverter,
-  PrimitiveConverter,
-  SetConverter,
-  SymbolConverter
-} from "../components";
+import {getJsonSchema} from "../../jsonschema/utils/getSchema";
+import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
@@ -19,20 +14,18 @@ import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
 @Injectable({
-  imports: [
-    ArrayConverter,
-    DateConverter,
-    MapConverter,
-    PrimitiveConverter,
-    SetConverter,
-    SymbolConverter
-  ]
+  imports: [ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter]
 })
 export class ConverterService {
-  private validationModelStrict = true;
+  private converterSettings: IConverterSettings;
 
   constructor(private injectorService: InjectorService, @Configuration() configuration: Configuration) {
-    this.validationModelStrict = configuration.get<boolean>("validationModelStrict");
+    this.converterSettings = configuration.get<IConverterSettings>("converter") || {};
+
+    if (this.converterSettings.additionalProperties === undefined) {
+      const validationModelStrict = configuration.get<boolean>("validationModelStrict");
+      this.converterSettings.additionalProperties = validationModelStrict || validationModelStrict === undefined ? "error" : "accept";
+    }
   }
 
   /**
@@ -236,6 +229,25 @@ export class ConverterService {
 
   /**
    *
+   * @param {Type<any>} target
+   * @returns {"error" | "accept" | "ignore"}
+   */
+  public getAdditionalPropertiesLevel(target: Type<any>) {
+    if (target !== Object) {
+      const {additionalProperties} = getJsonSchema(target);
+
+      if (additionalProperties !== undefined) {
+        return !additionalProperties ? "error" : "accept";
+      }
+
+      return this.converterSettings.additionalProperties;
+    }
+
+    return "accept";
+  }
+
+  /**
+   *
    * @param obj
    * @param instance
    * @param {string} propertyName
@@ -243,7 +255,9 @@ export class ConverterService {
    * @param options
    */
   private convertProperty(obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata, options?: any) {
-    this.checkStrictModelValidation(instance, propertyName, propertyMetadata);
+    if (this.skipAdditionalProperty(instance, propertyName, propertyMetadata)) {
+      return;
+    }
 
     propertyMetadata = propertyMetadata || ({} as any);
 
@@ -300,28 +314,20 @@ export class ConverterService {
    * @param {string} propertyKey
    * @param {PropertyMetadata | undefined} propertyMetadata
    */
-  private checkStrictModelValidation(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
-    if (this.isStrictModelValidation(getClass(instance)) && propertyMetadata === undefined) {
-      throw new UnknownPropertyError(getClass(instance), propertyKey);
-    }
-  }
-
-  /**
-   *
-   * @param {Type<any>} target
-   * @returns {boolean}
-   */
-  private isStrictModelValidation(target: Type<any>): boolean {
-    if (target !== Object) {
-      const modelStrict = Store.from(target).get("modelStrict");
-
-      if (this.validationModelStrict) {
-        return modelStrict === undefined ? true : modelStrict;
-      } else {
-        return modelStrict === true;
-      }
+  private skipAdditionalProperty(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
+    if (propertyMetadata !== undefined) {
+      return false;
     }
 
-    return false;
+    const additionalPropertiesLevel = this.getAdditionalPropertiesLevel(getClass(instance));
+
+    switch (additionalPropertiesLevel) {
+      case "error":
+        throw new UnknownPropertyError(getClass(instance), propertyKey);
+      case "ignore":
+        return true;
+      case "accept":
+        return false;
+    }
   }
 }

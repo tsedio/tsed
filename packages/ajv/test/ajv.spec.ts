@@ -1,6 +1,7 @@
-import {Format, JsonSchemesService, ParseExpressionError, Required} from "@tsed/common";
+import {ConverterService, Format, JsonSchemesService, ParseExpressionError, Required} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import {inject, TestContext} from "@tsed/testing";
+import {Configuration} from "@tsed/di/src/decorators/configuration";
+import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import {AjvService} from "../src";
 
@@ -24,12 +25,19 @@ const runValidation = (obj: any, targetType: any, collectionType?: any): Chai.As
 
 describe("AJV", () => {
   let jsonSchemesService: JsonSchemesService;
-  before(
-    inject([AjvService, JsonSchemesService], (_ajvService_: AjvService, _jsonSchemesService_: JsonSchemesService) => {
-      ajvService = _ajvService_;
-      jsonSchemesService = _jsonSchemesService_;
-    })
-  );
+  beforeEach(TestContext.inject([Configuration], async (configuration: Configuration) => {
+    ajvService = await TestContext.invoke<AjvService>(AjvService, [
+      {
+        token: ConverterService,
+        use: {
+          deserialize(obj: any) {
+            return obj;
+          }
+        }
+      }
+    ]);
+    jsonSchemesService = TestContext.injector.get(JsonSchemesService)!;
+  }));
 
   after(TestContext.reset);
 

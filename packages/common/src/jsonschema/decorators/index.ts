@@ -1,3 +1,4 @@
+export * from "./additionalProperties";
 export * from "./property";
 export * from "./propertyName";
 export * from "./propertyType";

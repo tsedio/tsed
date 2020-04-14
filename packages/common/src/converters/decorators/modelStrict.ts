@@ -1,4 +1,4 @@
-import {StoreSet} from "@tsed/core";
+import {AdditionalProperties} from "../../jsonschema/decorators/additionalProperties";
 
 /**
  * Change the default behavior when the converters deserialize/serialize your model.
@@ -54,8 +54,8 @@ import {StoreSet} from "@tsed/core";
  * const convertersService = injector.get(ConvertersService);
  * convertersService.validationModelStrict = true;
  *
- * const result = convertersService.deserialize({unknowProperty: "test"}, TaskModel);
- * console.log(result) // TaskModel {unknowProperty: "test"}
+ * const result = convertersService.deserialize({unknownProperty: "test"}, TaskModel);
+ * console.log(result) // TaskModel {unknownProperty: "test"}
  * ```
  *
  * > If the validationModelStrict is false, you can use `@ModelStrict` decorator to enable the strict validation for a specific model.
@@ -63,7 +63,8 @@ import {StoreSet} from "@tsed/core";
  * @decorator
  * @endpoint
  * @converters
+ * @deprecated Use AdditionalProperty decorator instead
  */
 export function ModelStrict(value: boolean) {
-  return StoreSet("modelStrict", value);
+  return AdditionalProperties(!value);
 }
