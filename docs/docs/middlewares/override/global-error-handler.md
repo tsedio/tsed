@@ -6,7 +6,7 @@ sent as Internal Server Error.
 
 Here the original @@GlobalErrorHandlerMiddleware@@:
 
-<<< @/packages/common/src/server/components/GlobalErrorHandlerMiddleware.ts
+<<< @/packages/common/src/platform-express/middlewares/GlobalErrorHandlerMiddleware.ts
 
 With @@OverrideProvider@@  it's possible to change the default implementation like
 this:
