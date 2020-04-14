@@ -101,7 +101,7 @@ export class InjectorService extends Container {
    * @param token
    * @param instance
    */
-  public forkProvider(token: TokenProvider, instance?: any): Provider<any> {
+  public forkProvider(token: TokenProvider, instance?: any): Provider {
     const provider = this.addProvider(token).getProvider(token)!;
 
     if (!instance) {
@@ -178,7 +178,7 @@ export class InjectorService extends Container {
     locals: Map<TokenProvider, any> = new LocalsContainer(),
     options: Partial<IInvokeOptions<T>> = {}
   ): T {
-    const provider = this.getProvider(token);
+    const provider = this.ensureProvider(token);
     let instance: any;
 
     !locals.has(Configuration) && locals.set(Configuration, this.settings);
@@ -472,6 +472,14 @@ export class InjectorService extends Container {
         next
       );
     };
+  }
+
+  protected ensureProvider(token: TokenProvider): Provider | undefined {
+    if (!this.hasProvider(token) && GlobalProviders.has(token)) {
+      this.addProvider(token);
+    }
+
+    return this.getProvider(token)!;
   }
 
   /**

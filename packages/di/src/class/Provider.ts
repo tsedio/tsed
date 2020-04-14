@@ -4,7 +4,7 @@ import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
 import {TokenProvider} from "../interfaces/TokenProvider";
 
-export class Provider<T> implements IProvider<T> {
+export class Provider<T = any> implements IProvider<T> {
   @Enumerable()
   public root: boolean = false;
 

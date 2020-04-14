@@ -1,10 +1,12 @@
-import {Store} from "@tsed/core";
+import {Metadata, Store} from "@tsed/core";
+import {InjectorService} from "@tsed/di";
 import {inject, TestContext} from "@tsed/testing";
 import {assert, expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService} from "../../../src/converters";
-import {PropertyDeserialize, PropertySerialize} from "../../../src/jsonschema/decorators";
+import {Default, PropertyDeserialize, PropertySerialize, PropertyType} from "../../../src/jsonschema/decorators";
 import {Property} from "../../../src/jsonschema/decorators/property";
+import {CONVERTER} from "../constants";
 
 class JsonFoo5 {
   @Property()
@@ -335,8 +337,28 @@ describe("ConverterService", () => {
         );
       });
     });
-  });
 
+    describe("With model annotation", () => {
+      it("should convert model", () => {
+        class Model {
+          @Default("foo")
+          @PropertyType(String)
+          public readonly foo: string = "foo";
+        }
+
+        const injector = new InjectorService();
+        injector.invoke(ConverterService);
+
+        const converter = injector.get<ConverterService>(ConverterService)!;
+
+        const obj = {foo: "bar"};
+        const result = converter.deserialize(obj, Model);
+
+        expect(result).to.be.instanceof(Model);
+        expect(result.foo).to.equal("bar");
+      });
+    });
+  });
   describe("serialize()", () => {
     describe("primitive", () => {
       it("should convert empty string to string", () => {
@@ -469,7 +491,8 @@ describe("ConverterService", () => {
     });
 
     describe("isStrictModelValidation()", () => {
-      class Test {}
+      class Test {
+      }
 
       describe("when model is an Object", () => {
         it("should return false", () => {

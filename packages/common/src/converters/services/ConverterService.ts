@@ -1,8 +1,16 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Store, Type} from "@tsed/core";
-import {Configuration, Injectable, InjectorService} from "@tsed/di";
+import {Configuration, GlobalProviders, Injectable, InjectorService} from "@tsed/di";
 import {BadRequest} from "ts-httpexceptions";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
+import {
+  ArrayConverter,
+  DateConverter,
+  MapConverter,
+  PrimitiveConverter,
+  SetConverter,
+  SymbolConverter
+} from "../components";
 import {CONVERTER} from "../constants/index";
 import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
 import {ConverterSerializationError} from "../errors/ConverterSerializationError";
@@ -10,7 +18,16 @@ import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
-@Injectable()
+@Injectable({
+  imports: [
+    ArrayConverter,
+    DateConverter,
+    MapConverter,
+    PrimitiveConverter,
+    SetConverter,
+    SymbolConverter
+  ]
+})
 export class ConverterService {
   private validationModelStrict = true;
 
@@ -62,17 +79,17 @@ export class ConverterService {
       const serializer: ISerializer = (o: any, opt?: any) => this.serialize(o, Object.assign({}, options, opt));
 
       if (converter && converter.serialize) {
-        // deserialize from a custom JsonConverter
+        // serialize from a custom JsonConverter
         return converter.serialize(obj, serializer);
       }
 
       if (typeof obj.serialize === "function") {
-        // deserialize from serialize method
+        // serialize from serialize method
         return obj.serialize(options, this);
       }
 
       if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
-        // deserialize from serialize method
+        // serialize from serialize method
         return obj.toJSON();
       }
 

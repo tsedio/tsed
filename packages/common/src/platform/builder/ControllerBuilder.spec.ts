@@ -3,7 +3,7 @@ import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
-import {ControllerProvider} from "../../platform";
+import {ControllerProvider, Platform, PlatformApplication, PlatformHandler} from "../../platform";
 import {SendResponseMiddleware} from "../middlewares/SendResponseMiddleware";
 import {statusAndHeadersMiddleware} from "../middlewares/statusAndHeadersMiddleware";
 import {PlatformDriver} from "../services/PlatformDriver";
@@ -11,7 +11,8 @@ import {PlatformRouter} from "../services/PlatformRouter";
 import {ControllerBuilder} from "./ControllerBuilder";
 
 function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any = {}) {
-  class TestCtrl {}
+  class TestCtrl {
+  }
 
   const use = Sinon.stub();
   const router = {
@@ -25,22 +26,42 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
   stub(PlatformRouter.createRawRouter).returns(router);
 
   const injector = new InjectorService();
+
+  injector.addProvider(PlatformRouter, {
+    useClass: PlatformRouter
+  });
+  injector.addProvider(PlatformHandler, {
+    useClass: PlatformHandler
+  });
+  injector.addProvider(PlatformApplication, {
+    useClass: PlatformApplication
+  });
+  injector.addProvider(Platform, {
+    useClass: Platform
+  });
+
   const provider = new ControllerProvider(TestCtrl);
 
   if (withMiddleware) {
     provider.middlewares = {
-      use: [function controllerUse() {}],
-      useAfter: [function controllerAfter() {}],
-      useBefore: [function controllerBefore() {}]
+      use: [function controllerUse() {
+      }],
+      useAfter: [function controllerAfter() {
+      }],
+      useBefore: [function controllerBefore() {
+      }]
     };
   }
 
   const endpoint = new EndpointMetadata({target: TestCtrl, propertyKey});
 
   if (withMiddleware) {
-    endpoint.before([function endpointBefore() {}]);
-    endpoint.after([function endpointAfter() {}]);
-    endpoint.middlewares = [function endpointUse() {}];
+    endpoint.before([function endpointBefore() {
+    }]);
+    endpoint.after([function endpointAfter() {
+    }]);
+    endpoint.middlewares = [function endpointUse() {
+    }];
   }
 
   // @ts-ignore
@@ -116,15 +137,15 @@ describe("ControllerBuilder", () => {
     router.use
       .getCall(1)
       .should.have.been.calledWithExactly(
-        "/",
-        Sinon.match.func,
-        provider.middlewares.use[0],
-        endpoint.beforeMiddlewares[0],
-        endpoint.middlewares[0],
-        endpoint,
-        Sinon.match.func,
-        endpoint.afterMiddlewares[0]
-      );
+      "/",
+      Sinon.match.func,
+      provider.middlewares.use[0],
+      endpoint.beforeMiddlewares[0],
+      endpoint.middlewares[0],
+      endpoint,
+      Sinon.match.func,
+      endpoint.afterMiddlewares[0]
+    );
 
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
@@ -144,14 +165,14 @@ describe("ControllerBuilder", () => {
     router.use
       .getCall(1)
       .should.have.been.calledWithExactly(
-        Sinon.match.func,
-        provider.middlewares.use[0],
-        endpoint.beforeMiddlewares[0],
-        endpoint.middlewares[0],
-        endpoint,
-        Sinon.match.func,
-        endpoint.afterMiddlewares[0]
-      );
+      Sinon.match.func,
+      provider.middlewares.use[0],
+      endpoint.beforeMiddlewares[0],
+      endpoint.middlewares[0],
+      endpoint,
+      Sinon.match.func,
+      endpoint.afterMiddlewares[0]
+    );
 
     router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
