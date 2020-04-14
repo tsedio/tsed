@@ -403,7 +403,7 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
+  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue): PropertyDescriptor {
     const clone = (o: any) => {
       if (o) {
         return Object.freeze(deepClone(o));
