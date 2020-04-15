@@ -261,3 +261,30 @@ console.log(result) // TaskModel {unknownProperty: "test"}
 If you have disabled `strict` validation at the global level, you can use the `@ModelStrict(true)` decorator
 to enable validation for a specific model.
 :::
+
+### Converter AdditionalProperty Policy
+
+```typescript
+import {ServerLoader, ServerSettings} from "@tsed/common";
+
+@ServerSettings({
+    converter: {
+        additionalProperty: "error" | "accept" | "ignore"
+    }
+})
+export class Server extends ServerLoader {
+   
+}      
+```
+AdditionalProperty define the policy to adopt if the JSON object contains one more field than expected in the model.
+
+- "error" Throw an error. Equal to `validationModelStrict: true`.
+- "accept" Return original JSON object with additional properties `validationModelStrict: false`.
+- "ignore" Remove all additional properties that not defined in the model.
+
+::: Note
+`additionalProperty` setting override `validationModelStrict` and is overrided by `@ModelStrict`.
+:::
+
+
+
