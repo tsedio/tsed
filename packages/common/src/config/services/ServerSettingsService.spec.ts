@@ -150,6 +150,10 @@ describe("ServerSettingsService", () => {
       expect(settings.routers).to.deep.equal({mergeParams: true});
     });
 
+    it("should return converter settings", () => {
+      expect(settings.converter).to.deep.equal({});
+    });
+
     it("should return controllerScope", () => {
       expect(settings.controllerScope).to.equal("singleton");
     });

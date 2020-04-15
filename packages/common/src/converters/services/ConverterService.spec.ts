@@ -297,6 +297,95 @@ describe("ConverterService", () => {
       });
     });
 
+    describe("when converter.additionalProperty = \"error\"", () => {
+      before(() => {
+        // @ts-ignore
+        converterService.converterSettings.additionalProperty = "error";
+      });
+
+      after(() => {
+        // @ts-ignore
+        delete converterService.converterSettings.additionalProperty;
+      });
+
+      it("should emit a BadRequest when a property is not in the Model", () => {
+        assert.throws(
+          () =>
+            converterService.deserialize(
+              {
+                test: 1,
+                foo: "test",
+                notPropertyAllowed: "tst"
+              },
+              JsonFoo4 as any
+            ),
+          "Property notPropertyAllowed on class JsonFoo4 is not allowed."
+        );
+      });
+    });
+
+    describe("when converter.additionalProperty = \"ignore\"", () => {
+      before(() => {
+        // @ts-ignore
+        converterService.converterSettings.additionalProperty = "ignore";
+      });
+
+      after(() => {
+        // @ts-ignore
+        delete converterService.converterSettings.additionalProperty;
+      });
+
+      it("should ignore additional properties that are not in the Model", () => {
+        const foo = new JsonFoo5();
+        Object.assign(foo, {
+          foo: "test",
+          notPropertyAllowed: "tst",
+          test: 1
+        });
+
+        const deserializedFoo = converterService.deserialize(foo, JsonFoo5 as any);
+
+        expect(deserializedFoo.notPropertyAllowed).to.equal(undefined);
+        expect(deserializedFoo.foo).to.equal(undefined);
+
+        expect(deserializedFoo).to.deep.eq({
+          test: 1
+        });
+      });
+    });
+
+    describe("when converter.additionalProperty = \"accept\"", () => {
+      before(() => {
+        // @ts-ignore
+        converterService.converterSettings.additionalProperty = "accept";
+      });
+
+      after(() => {
+        // @ts-ignore
+        delete converterService.converterSettings.additionalProperty;
+      });
+
+      it("should not remove additional properties", () => {
+        const foo = new JsonFoo5();
+        Object.assign(foo, {
+          foo: "test",
+          notPropertyAllowed: "tst",
+          test: 1
+        });
+
+        expect(
+          converterService.deserialize(
+            {
+              test: 1,
+              foo: "test",
+              notPropertyAllowed: "tst"
+            },
+            JsonFoo5 as any
+          )
+        ).to.deep.eq(foo);
+      });
+    });
+
     describe("when an attribute is required", () => {
       it("should throw a bad request (undefined value)", () => {
         assert.throws(
@@ -490,59 +579,79 @@ describe("ConverterService", () => {
         }, "Property foo on class JsonFoo4 is required."));
     });
 
-    describe("isStrictModelValidation()", () => {
-      class Test {
-      }
+    describe("getAdditionalPropertyLevel()", () => {
+      class Test {}
 
       describe("when model is an Object", () => {
-        it("should return false", () => {
+        it("should return \"accept\"", () => {
           // @ts-ignore
           converterService.validationModelStrict = true;
           // @ts-ignore
-          const result = converterService.isStrictModelValidation(Object);
-          expect(result).to.be.false;
+          const result = converterService.getAdditionalPropertyLevel(Object);
+          expect(result).to.equals("accept");
         });
       });
 
-      describe("when validationModelStrict = true", () => {
-        describe("when modelStrict = true", () => {
-          it("should return true", () => {
-            Store.from(Test).set("modelStrict", true);
+      describe("when converter.additionalproperty is not defined", () => {
+        describe("when validationModelStrict = true", () => {
+          it("should return \"error\"", () => {
             // @ts-ignore
             converterService.validationModelStrict = true;
             // @ts-ignore
-            const result = converterService.isStrictModelValidation(Test);
-
-            return expect(result).to.be.true;
+            const result = converterService.getAdditionalPropertyLevel(Test);
+            expect(result).to.equals("error");
           });
         });
 
-        describe("when modelStrict = false", () => {
-          it("should return false", () => {
-            Store.from(Test).set("modelStrict", false);
+        describe("when validationModelStrict = false", () => {
+          after(() => {
             // @ts-ignore
             converterService.validationModelStrict = true;
-            // @ts-ignore
-            const result = converterService.isStrictModelValidation(Test);
-
-            return expect(result).to.be.false;
           });
-        });
 
-        describe("when modelStrict = undefined", () => {
-          it("should return true", () => {
-            Store.from(Test).set("modelStrict", undefined);
+          it("should return \"accept\"", () => {
             // @ts-ignore
-            converterService.validationModelStrict = true;
+            converterService.validationModelStrict = false;
             // @ts-ignore
-            const result = converterService.isStrictModelValidation(Test);
-
-            return expect(result).to.be.true;
+            const result = converterService.getAdditionalPropertyLevel(Object);
+            expect(result).to.equals("accept");
           });
         });
       });
 
-      describe("when validationModelStrict = false", () => {
+      describe("when converter.additionalProperty is defined", () => {
+        describe("when converterSettings.additionalProperty = \"error\"", () => {
+          it("should return \"error\"", () => {
+            // @ts-ignore
+            converterService.converterSettings.additionalProperty = "error";
+            // @ts-ignore
+            const result = converterService.getAdditionalPropertyLevel(Test);
+            expect(result).to.equals("error");
+          });
+        });
+
+        describe("when converterSettings.additionalproperty = \"accept\"", () => {
+          it("should return \"accept\"", () => {
+            // @ts-ignore
+            converterService.converterSettings.additionalProperty = "accept";
+            // @ts-ignore
+            const result = converterService.getAdditionalPropertyLevel(Test);
+            expect(result).to.equals("accept");
+          });
+        });
+
+        describe("when converterSettings.additionalproperty = \"ignore\"", () => {
+          it("should return \"ignore\"", () => {
+            // @ts-ignore
+            converterService.converterSettings.additionalProperty = "ignore";
+            // @ts-ignore
+            const result = converterService.getAdditionalPropertyLevel(Test);
+            expect(result).to.equals("ignore");
+          });
+        });
+      });
+
+      describe("when modelStrict decorator is defined", () => {
         describe("when modelStrict = true", () => {
           let result: any;
           before(() => {
@@ -550,7 +659,7 @@ describe("ConverterService", () => {
             // @ts-ignore
             converterService.validationModelStrict = false;
             // @ts-ignore
-            result = converterService.isStrictModelValidation(Test);
+            result = converterService.getAdditionalPropertyLevel(Test);
           });
 
           after(() => {
@@ -558,7 +667,7 @@ describe("ConverterService", () => {
             converterService.validationModelStrict = true;
           });
 
-          it("should return true", () => expect(result).to.be.true);
+          it("should return \"error\"", () => expect(result).to.equals("error"));
         });
 
         describe("when modelStrict = false", () => {
@@ -568,7 +677,7 @@ describe("ConverterService", () => {
             // @ts-ignore
             converterService.validationModelStrict = false;
             // @ts-ignore
-            result = converterService.isStrictModelValidation(Test);
+            result = converterService.getAdditionalPropertyLevel(Test);
           });
 
           after(() => {
@@ -576,7 +685,7 @@ describe("ConverterService", () => {
             converterService.validationModelStrict = true;
           });
 
-          it("should return false", () => expect(result).to.be.false);
+          it("should return \"accept\"", () => expect(result).to.equals("accept"));
         });
 
         describe("when modelStrict = undefined", () => {
@@ -586,7 +695,7 @@ describe("ConverterService", () => {
             // @ts-ignore
             converterService.validationModelStrict = false;
             // @ts-ignore
-            result = converterService.isStrictModelValidation(Test);
+            result = converterService.getAdditionalPropertyLevel(Test);
           });
 
           after(() => {
@@ -594,7 +703,7 @@ describe("ConverterService", () => {
             converterService.validationModelStrict = true;
           });
 
-          it("should return false", () => expect(result).to.be.false);
+          it("should return \"error\"", () => expect(result).to.equals("error"));
         });
       });
     });

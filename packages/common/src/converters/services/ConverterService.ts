@@ -293,16 +293,10 @@ export class ConverterService {
    */
   private skipAdditionalProperty(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
     if (propertyMetadata !== undefined) {
-      return false;
+      return false; // Property isn't an additional property
     }
 
-    let additionalPropertyLevel = this.getAdditionalPropertyLevel();
-
-    if (getClass(instance) !== Object) {
-      if (Store.from(getClass(instance)).has("modelStrict")) {
-        additionalPropertyLevel = !!Store.from(getClass(instance)).get("modelStrict") ? "error" : "accept";
-      }
-    }
+    const additionalPropertyLevel = this.getAdditionalPropertyLevel(getClass(instance));
 
     switch (additionalPropertyLevel) {
       case "error":
@@ -318,27 +312,22 @@ export class ConverterService {
   /**
    *
    * @param {Type<any>} target
-   * @returns {boolean}
-   */
-  private isStrictModelValidation(target: Type<any>): boolean {
-    if (target !== Object) {
-      const modelStrict = Store.from(target).get("modelStrict");
-
-      if (this.validationModelStrict) {
-        return modelStrict === undefined ? true : modelStrict;
-      } else {
-        return modelStrict === true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   *
    * @returns {"error" | "accept" | "ignore"}
    */
-  private getAdditionalPropertyLevel() {
-    return this.converterSettings.additionalProperty || this.validationModelStrict ? "error" : "accept";
+  private getAdditionalPropertyLevel(target: Type<any>) {
+    if (target !== Object) {
+      if (Store.from(target).has("modelStrict")) {
+        const modelStrict = Store.from(target).get("modelStrict");
+
+        return modelStrict === undefined || modelStrict ? "error" : "accept";
+      }
+      if (this.converterSettings.additionalProperty !== undefined) {
+        return this.converterSettings.additionalProperty;
+      }
+
+      return this.validationModelStrict ? "error" : "accept";
+    }
+
+    return "accept";
   }
 }
