@@ -53,6 +53,7 @@ describe("ServerSettingsService", () => {
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
       settings.debug = true;
+      settings.converter = {};
 
       settings.setHttpPort({address: "address", port: 8081});
       settings.setHttpsPort({address: "address", port: 8080});
