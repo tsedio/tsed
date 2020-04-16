@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Container, Inject, InjectorService, Provider, ProviderScope, GlobalProviders, LocalsContainer} from "@tsed/di";
+import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {Configuration} from "../../src/decorators/configuration";
@@ -831,6 +831,36 @@ describe("InjectorService", () => {
         provider_custom: "singleton",
         value: "singleton"
       });
+    });
+  });
+
+  describe("resolvers", () => {
+    it("should load all providers with the SINGLETON scope only", async () => {
+      class ExternalService {
+        constructor() {}
+      }
+
+      class MyService {
+        constructor(public externalService: ExternalService) {}
+      }
+
+      const externalDi = new Map();
+      externalDi.set(ExternalService, "MyClass");
+      // GIVEN
+      const injector = new InjectorService();
+      injector.settings.resolvers.push(externalDi);
+
+      const container = new Container();
+      container.add(MyService, {
+        deps: [ExternalService]
+      });
+
+      // WHEN
+      await injector.load(container);
+
+      // THEN
+      expect(injector.get(MyService)).to.instanceOf(MyService);
+      expect(injector.get<MyService>(MyService)!.externalService).to.eq("MyClass");
     });
   });
 });

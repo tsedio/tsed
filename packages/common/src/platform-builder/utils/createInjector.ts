@@ -5,7 +5,7 @@ import {ServerSettingsService} from "../../config/services/ServerSettingsService
 $log.name = "TSED";
 $log.level = "info";
 
-export function createInjector(settings: Partial<IDIConfigurationOptions> = {}) {
+export function createInjector(settings: Partial<TsED.Configuration> = {}) {
   const injector = new InjectorService();
   injector.settings = createSettingsService(injector);
   injector.logger = $log;

@@ -1,14 +1,5 @@
-import {
-  createExpressApplication,
-  createHttpServer,
-  createHttpsServer,
-  IDIConfigurationOptions,
-  PlatformTest,
-  ServerLoader,
-  TokenProvider
-} from "@tsed/common";
-import {Env, Type} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
+import {PlatformTest, ServerLoader, TokenProvider} from "@tsed/common";
+import {Type} from "@tsed/core";
 
 export interface IInvokeOptions {
   token?: TokenProvider;
@@ -27,7 +18,7 @@ export class TestContext extends PlatformTest {
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: Type<ServerLoader>, options: Partial<IDIConfigurationOptions> = {}): () => Promise<void> {
+  static bootstrap(mod: Type<ServerLoader>, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       const instance = await ServerLoader.bootstrap(mod, {
         logger: {
@@ -46,7 +37,7 @@ export class TestContext extends PlatformTest {
   }
 
   static invoke<T = any>(target: TokenProvider, providers: IInvokeOptions[]): T | Promise<T> {
-    providers = providers.map((p) => {
+    providers = providers.map(p => {
       return {
         token: p.token || p.provide,
         use: p.use

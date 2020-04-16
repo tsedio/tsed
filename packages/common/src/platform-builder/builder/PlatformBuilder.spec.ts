@@ -23,7 +23,7 @@ describe("PlatformBuilder", () => {
   class RestCtrl {}
 
   class PlatformTest extends PlatformBuilder {
-    static async bootstrap(module: Type<any>, settings: Partial<IDIConfigurationOptions> = {}) {
+    static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
       return PlatformBuilder.build<PlatformTest>(this).bootstrap(module, settings);
     }
 

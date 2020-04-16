@@ -1,5 +1,5 @@
 import {Env, Type} from "@tsed/core";
-import {IDIConfigurationOptions, InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
+import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
 
 export interface ITestInvokeOptions {
@@ -19,15 +19,15 @@ export class PlatformTest {
     /* istanbul ignore next */
     throw new Error(
       "PlatformTest.injector is not initialized. Use PlatformTest.create(): Promise before PlatformTest.invoke() or PlatformTest.injector.\n" +
-      "Example:\n" +
-      "before(async () => {\n" +
-      "   await PlatformTest.create()\n" +
-      "   await PlatformTest.invoke(MyService, [])\n" +
-      "})"
+        "Example:\n" +
+        "before(async () => {\n" +
+        "   await PlatformTest.create()\n" +
+        "   await PlatformTest.invoke(MyService, [])\n" +
+        "})"
     );
   }
 
-  static async create(options: Partial<IDIConfigurationOptions> = {}) {
+  static async create(options: Partial<TsED.Configuration> = {}) {
     PlatformTest._injector = PlatformTest.createInjector(options);
 
     await loadInjector(PlatformTest._injector);
@@ -51,7 +51,7 @@ export class PlatformTest {
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: Type<any>, options: Partial<IDIConfigurationOptions> = {}): () => Promise<void> {
+  static bootstrap(mod: Type<any>, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       // @ts-ignore
       const instance = await PlatformBuilder.build(PlatformTest.platformBuilder).bootstrap(mod, {
