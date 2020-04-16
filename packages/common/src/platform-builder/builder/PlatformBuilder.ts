@@ -150,7 +150,7 @@ export abstract class PlatformBuilder {
     return callHook(this.injector, this.rootModule, key, ...args);
   }
 
-  protected async bootstrap(module: Type<any>, settings: Partial<IDIConfigurationOptions> = {}) {
+  protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     this.createInjector(module, settings);
     this.createRootModule(module);
 
@@ -201,6 +201,8 @@ export abstract class PlatformBuilder {
   }
 
   protected createRootModule(module: Type<any>) {
-    this._rootModule = this.injector.invoke(module);
+    this._rootModule = this.injector.invoke(module, undefined, {
+      imports: this.settings.imports
+    });
   }
 }

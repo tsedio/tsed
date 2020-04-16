@@ -1,18 +1,29 @@
 import {applyDecorators} from "@tsed/core";
-import {IDIConfigurationOptions, ProviderScope, ProviderType, TokenProvider} from "../interfaces";
+import {IDIResolver, ProviderScope, ProviderType, TokenProvider} from "../interfaces";
 import {Configuration} from "./configuration";
 import {Injectable} from "./injectable";
 
-export interface IModuleOptions extends IDIConfigurationOptions {
+export interface IModuleOptions extends Omit<TsED.Configuration, "scopes"> {
   /**
-   * Define dependencies to build the provider
+   * Provider scope
+   */
+  scope?: ProviderScope;
+  /**
+   * Providers must be initialized before building this module
    */
   imports?: TokenProvider[];
   /**
-   *
+   * Explicit token must be injected in the constructor
    */
-  scope?: ProviderScope;
+  deps?: TokenProvider[];
+  /**
+   * A list of resolvers to inject provider from external DI.
+   */
+  resolvers?: IDIResolver[];
 
+  /**
+   * Additional properties are stored as provider configuration.
+   */
   [key: string]: any;
 }
 
@@ -28,7 +39,7 @@ export interface IModuleOptions extends IDIConfigurationOptions {
  * @decorator
  */
 export function Module(options: Partial<IModuleOptions> = {}) {
-  const {imports, resolvers, deps, scope, ...configuration} = options;
+  const {scopes, imports, resolvers, deps, scope, ...configuration} = options;
 
   return applyDecorators(
     Configuration(configuration),

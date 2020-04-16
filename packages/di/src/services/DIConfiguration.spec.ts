@@ -45,6 +45,36 @@ describe("DIConfiguration", () => {
     });
   });
 
+  describe("scopes()", () => {
+    it("should get scopes", () => {
+      // GIVEN
+      const configuration = new DIConfiguration();
+
+      configuration.scopes = {};
+      expect(configuration.scopes).to.deep.equal({});
+    });
+  });
+
+  describe("imports()", () => {
+    it("should get imports", () => {
+      // GIVEN
+      const configuration = new DIConfiguration();
+
+      configuration.imports = [];
+      expect(configuration.imports).to.deep.equal([]);
+    });
+  });
+
+  describe("resolvers()", () => {
+    it("should get resolvers", () => {
+      // GIVEN
+      const configuration = new DIConfiguration();
+
+      configuration.resolvers = [];
+      expect(configuration.resolvers).to.deep.equal([]);
+    });
+  });
+
   describe("proxy", () => {
     it("should set and get data", () => {
       const configuration = new DIConfiguration();
@@ -58,7 +88,7 @@ describe("DIConfiguration", () => {
     it("ownKeys", () => {
       const configuration = new DIConfiguration();
       configuration.test = "test";
-      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "test"]);
+      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "resolvers", "imports", "test"]);
     });
 
     it("defineProperty", () => {

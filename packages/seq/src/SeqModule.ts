@@ -2,7 +2,7 @@ import {AfterRoutesInit, $log} from "@tsed/common";
 import {Constant, Module} from "@tsed/di";
 import {ISeqSettings} from "./interfaces/ISeqSettings";
 
-@Module()
+@Module({})
 export class SeqModule implements AfterRoutesInit {
   @Constant("seq", {
     url: "http://localhost:5341"
