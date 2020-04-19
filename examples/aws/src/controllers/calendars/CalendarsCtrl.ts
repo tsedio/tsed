@@ -1,5 +1,5 @@
 import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Required, Status} from "@tsed/common";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {Calendar} from "../../interfaces/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";

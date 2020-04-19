@@ -1,5 +1,5 @@
 import {EndpointInfo, Middleware, Req} from "@tsed/common";
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 
 @Middleware()
 export class AcceptRolesMiddleware {

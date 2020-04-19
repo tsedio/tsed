@@ -1,6 +1,6 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {$log} from "ts-log-debug";
 import {CalendarEvent} from "../../models/events/CalendarEvent";
 

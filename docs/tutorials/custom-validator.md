@@ -10,7 +10,7 @@ To do that, you need to create a custom validation service that will inherit fro
 In your project, create a new file named `CustomValidationService.ts` and create a class based on this example:
 
 ```typescript
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {OverrideService, JsonSchemesService, ValidationService} from "@tsed/common";
 
 @OverrideService(ValidationService)

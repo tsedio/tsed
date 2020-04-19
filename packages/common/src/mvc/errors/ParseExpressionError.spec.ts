@@ -12,6 +12,7 @@ describe("ParseExpressionError", () => {
     expect(errorInstance.requestType).to.equal("name");
     expect(JSON.parse(JSON.stringify(errorInstance))).to.deep.equal({
       dataPath: "expression",
+      headers: {},
       errorMessage: "Bad request on parameter \"request.name.expression\".\nmessage",
       name: "BAD_REQUEST",
       requestType: "name",

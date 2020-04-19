@@ -1,5 +1,5 @@
 import {$log, Constant, Service} from "@tsed/common";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {Calendar} from "../../interfaces/Calendar";
 import {MemoryStorage} from "../storage/MemoryStorage";
 

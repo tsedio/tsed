@@ -1,4 +1,4 @@
-import {Forbidden} from "ts-httpexceptions";
+import {Forbidden} from "@tsed/exceptions";
 
 
 export class InsufficientScopePermissions extends Forbidden {

@@ -26,6 +26,10 @@ export class Exception extends Error {
    *
    */
   public body: any;
+  /**
+   * Headers must be sent to the response
+   */
+  public headers: {[key: string]: any} = {};
 
   [key: string]: any;
 
@@ -36,6 +40,21 @@ export class Exception extends Error {
     this.message = message;
 
     this.setOrigin(origin);
+  }
+
+  setHeaders(headers: {[key: string]: any}) {
+    this.headers = {
+      ...this.headers,
+      ...headers
+    };
+
+    return this;
+  }
+
+  setHeader(key: string, value: any) {
+    this.headers[key] = value;
+
+    return this;
   }
 
   setOrigin(origin: Error | string | any) {

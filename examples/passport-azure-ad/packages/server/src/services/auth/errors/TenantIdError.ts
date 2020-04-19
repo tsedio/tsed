@@ -1,4 +1,4 @@
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 
 export class TenantIdError extends Unauthorized {
   constructor() {

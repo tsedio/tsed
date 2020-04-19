@@ -1,5 +1,5 @@
 import {Controller, Get, PathParams} from "@tsed/common";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 
 @Controller("/calendars")
 export class CalendarCtrl {

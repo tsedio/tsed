@@ -3,7 +3,7 @@ import * as Sinon from "sinon";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarsCtrl} from "./CalendarsCtrl";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 
 describe("CalendarsCtrl", () => {
   describe("get()", () => {
