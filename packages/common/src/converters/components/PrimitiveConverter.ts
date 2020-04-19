@@ -1,4 +1,4 @@
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 

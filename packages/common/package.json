@@ -46,6 +46,7 @@
   "dependencies": {
     "@tsed/core": "5.46.0",
     "@tsed/di": "5.46.0",
+    "@tsed/exceptions": "5.46.0",
     "@tsed/logger": "^5.4.1",
     "@types/json-schema": "^7.0.3",
     "globby": "11.0.0",
@@ -53,7 +54,6 @@
     "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
     "rxjs": "^6.5.2",
-    "ts-httpexceptions": "4.1.0",
     "ts-log-debug": "^5.4.1",
     "tslib": "1.11.1",
     "uuid": "3.3.3"

@@ -1,4 +1,4 @@
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 
 export class RecipeNotFoundError extends NotFound {
   constructor(private id: string) {

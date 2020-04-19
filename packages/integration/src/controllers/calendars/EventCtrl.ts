@@ -14,7 +14,7 @@ import {
   Response
 } from "@tsed/common";
 import {Responses, Returns, Title, ReturnsArray} from "@tsed/swagger";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {EventModel} from "../../models/Event";
 import {BaseController} from "../base/BaseController";
 import {TaskCtrl} from "./TaskCtrl";

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 import {FakeRequest} from "../../../../../test/helper";
 import {AuthenticatedMiddleware, EndpointMetadata} from "../../../src/mvc";
 

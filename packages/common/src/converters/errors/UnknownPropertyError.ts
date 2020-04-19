@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 
 /**
  * @private

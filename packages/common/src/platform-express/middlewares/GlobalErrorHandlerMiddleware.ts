@@ -1,5 +1,5 @@
 import {Constant} from "@tsed/di";
-import {Exception} from "ts-httpexceptions";
+import {Exception} from "@tsed/exceptions";
 import {Err, IMiddlewareError, IResponseError, Middleware, Req, Res} from "../../mvc";
 
 /**

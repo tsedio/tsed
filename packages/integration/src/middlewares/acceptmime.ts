@@ -1,5 +1,5 @@
 import * as Express from "express";
-import {NotAcceptable} from "ts-httpexceptions";
+import {NotAcceptable} from "@tsed/exceptions";
 import {IMiddleware, Middleware, Next, Request} from "@tsed/common";
 
 @Middleware()

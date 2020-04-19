@@ -1,6 +1,6 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Type} from "@tsed/core";
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
