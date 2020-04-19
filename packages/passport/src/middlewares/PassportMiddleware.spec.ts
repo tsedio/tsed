@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import * as Passport from "passport";
 import * as Sinon from "sinon";
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 import {PassportMiddleware} from "./PassportMiddleware";
 
 const sandbox = Sinon.createSandbox();

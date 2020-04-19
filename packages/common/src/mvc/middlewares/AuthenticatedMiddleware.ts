@@ -1,4 +1,4 @@
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 import {Middleware} from "../decorators/class/middleware";
 import {EndpointInfo} from "../decorators/params/endpointInfo";
 import {Req} from "../decorators/params/request";

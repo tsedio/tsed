@@ -1,6 +1,6 @@
 import {Err, Middleware} from "@tsed/common";
 import {getClass, nameOf} from "@tsed/core";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 
 /**
  * @middleware

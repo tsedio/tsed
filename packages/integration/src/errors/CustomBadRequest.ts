@@ -1,5 +1,5 @@
 import {IResponseError} from "@tsed/common";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 
 export class CustomBadRequest extends BadRequest implements IResponseError {
   name = "CUSTOM_BAD_REQUEST";

@@ -1,7 +1,7 @@
 import {Controller, Delete, Get, Post, Put, Required, ReturnType, Status} from "@tsed/common";
 import {BodyParams} from "@tsed/common/src/mvc/decorators/params/bodyParams";
 import {PathParams} from "@tsed/common/src/mvc/decorators/params/pathParams";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {Resource} from "../domains/Resource";
 
 @Controller("/resources")

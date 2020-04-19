@@ -13,7 +13,7 @@ import {
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
 import {Responses, Returns} from "@tsed/swagger";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {Calendar, CalendarCreation} from "../../models/Calendar";
 import {User} from "../../models/User";
 import {CalendarsService} from "../../services/calendars/CalendarsService";

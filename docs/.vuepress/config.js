@@ -82,7 +82,8 @@ module.exports = {
                   {link: "/docs/filters.html", text: "Filters"},
                   {link: "/docs/interceptors.html", text: "Interceptors"},
                   {link: "/docs/authentication.html", text: "Authentication"},
-                  {link: "/docs/hooks.html", text: "Hooks"}
+                  {link: "/docs/hooks.html", text: "Hooks"},
+                  {link: "/docs/exceptions.html", text: "Exceptions"},
                 ]
               },
               {
@@ -153,14 +154,15 @@ module.exports = {
                 "filters",
                 "interceptors",
                 "authentication",
-                "request-data-persistence",
-                "hooks"
+                "hooks",
+                "exceptions"
               ]
             },
             {
               title: "Advanced",
               collapsable: false,
               children: [
+                "request-data-persistence",
                 "injection-scopes",
                 "custom-providers",
                 "custom-endpoint-decorators",

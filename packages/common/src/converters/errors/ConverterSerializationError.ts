@@ -1,4 +1,4 @@
-import {InternalServerError} from "ts-httpexceptions";
+import {InternalServerError} from "@tsed/exceptions";
 import {Type, nameOf} from "@tsed/core";
 
 /**

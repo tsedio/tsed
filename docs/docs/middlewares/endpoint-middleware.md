@@ -6,7 +6,7 @@ create a middleware to do something on request or response like that:
 
 ```typescript
 import {IMiddleware, Middleware, Request, Configuration} from "@tsed/common";
-import {NotAcceptable} from "ts-httpexceptions";
+import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
 export class AcceptMimesMiddleware implements IMiddleware {
@@ -82,7 +82,7 @@ export function AcceptMimes(...mimes: string[]) {
 ```typescript
 // middlewares/accept-mimes.ts
 import {IMiddleware, Middleware, EndpointInfo, Endpoint, Request} from "@tsed/common";
-import {NotAcceptable} from "ts-httpexceptions";
+import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
 export default class AcceptMimesMiddleware implements IMiddleware {
@@ -126,7 +126,7 @@ Here the code of the middleware:
 // middlewares/response-view.ts
 
 import {IMiddleware, Middleware, ResponseData, Response, EndpointInfo, Endpoint} from "@tsed/common";
-import {InternalServerError} from "ts-httpexceptions";
+import {InternalServerError} from "@tsed/exceptions";
 
 @Middleware()
 export default class ResponseViewMiddleware implements IMiddleware {

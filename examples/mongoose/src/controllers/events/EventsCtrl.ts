@@ -12,7 +12,7 @@ import {
   UseBefore
 } from "@tsed/common";
 import {Description, Summary} from "@tsed/swagger";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/calendars/CheckCalendarId";
 import {CalendarEvent} from "../../models/events/CalendarEvent";
 import {CalendarEventsService} from "../../services/calendars/CalendarEventsService";

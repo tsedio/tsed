@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {InternalServerError} from "ts-httpexceptions";
+import {InternalServerError} from "@tsed/exceptions";
 
 /**
  * @private

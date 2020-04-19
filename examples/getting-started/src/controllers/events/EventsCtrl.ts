@@ -12,7 +12,7 @@ import {
   Status,
   UseBefore
 } from "@tsed/common";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";

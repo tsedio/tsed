@@ -1,6 +1,6 @@
 # Throw HTTP Exceptions
 
-You can use [ts-httpexceptions](https://github.com/TypedProject/ts-httpexceptions) or similar module to throw an http exception.
+You can use [@tsed/exceptions](/docs/exceptions.md) or similar module to throw an http exception.
 All exception will be intercepted by the [Global error handler](/docs/middlewares/override/global-error-handler.md)
 and are sent to the client.
 
@@ -15,10 +15,10 @@ This example will produce a response with status code 400 and "Not a number" mes
 
 ## Create custom exception
 
-It also possible to create your own exception from any Exception of `ts-httpexceptions` and customize the response headers.
+It also possible to create your own exception from any Exception of [@tsed/exceptions](/docs/exceptions.md)  and customize the response headers.
 
 ```typescript
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {IResponseError} from "@tsed/common";
 
 export class RequiredUserName extends BadRequest implements IResponseError {
