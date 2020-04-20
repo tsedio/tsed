@@ -1,11 +1,11 @@
 # Factory
 
-Factory is similar to the Service except that the factory uses an already instantiated object and you to use
+Factory is similar to Service except that the factory uses an already instantiated object and you have to use
 the `@Inject()` decorator to inject the factory to other `Service` or `Controller`.
 
 ## Declare a factory from an instance
 
-This example show you how you can add a service already constructed like a npm module.
+This example shows you how you can add an already constructed service like a npm module.
 
 ```typescript
 // MyFooFactory.ts
@@ -34,7 +34,7 @@ export default class OtherService {
      }
 }
 ```
-> Note: TypeScript transform and store `MyFooFactory` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
+> Note: TypeScript transforms and stores `MyFooFactory` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
 
 ## Built-in Factory
 
@@ -58,7 +58,7 @@ export default class OtherService {
      }
 }
 ```
-> Note: TypeScript transform and store `ExpressApplication` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
+> Note: TypeScript transforms and stores `ExpressApplication` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
 
 ## Inject HttpServer or HttpsServer
 
