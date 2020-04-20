@@ -1,7 +1,7 @@
 # Endpoint middleware
 ### Simple use case
 
-Middleware for an endpoint lets you manage request and response directly on a method controller. In most case you will
+Middleware for an endpoint lets you manage request and response directly on a method controller. In most cases you will
 create a middleware to do something on request or response like that:
 
 ```typescript
@@ -45,11 +45,11 @@ class MyCtrl {
 
 ### Create your own decorator
 
-The previous example work fine in most case, but it doesn't allow us to configure specific parameters for an endpoint. To do that, we need to use the Endpoint API, `@EndpointInfo()` and create our custom decorator.
+The previous example works fine in most cases, but it doesn't allow us to configure specific parameters for an endpoint. To do that, we need to use the Endpoint API, `@EndpointInfo()` and create our custom decorator.
 
 #### 1) Create your decorator
 
-To do that we'll proposed a new decorator that take the configuration and wrap the `@UseBefore` decorator as following:
+To do that we'll suggest a new decorator that takes the configuration and wraps the `@UseBefore` decorator as following:
 
 ```typescript
 // decorators/accept-mimes.ts
@@ -100,7 +100,7 @@ export default class AcceptMimesMiddleware implements IMiddleware {
 }
 ```
 
-#### 3) Use the decorator on you method Controller
+#### 3) Use the decorator on your method Controller
 
 ```typescript
 import {Controller, Get} from "@tsed/common";
@@ -115,13 +115,13 @@ class MyCtrl {
 ```
 > Now our middleware is configurable via decorator !
 
-With this method you can create your own decorators. **You can propose your own decorators and middlewares via Pull Request or via an new issue.**
+With this method you can create your own decorators. **You can propose your own decorators and middlewares via Pull Request or via a new issue.**
 
 ### How to format the Response with middleware
 
-In next part, we see how we can create a decorator and middleware to check the mime of the request. In this part, we'll see how we can use a decorator and middleware to change the response format. To do that, we take as example the `ResponseViewMiddleware` implemented in Ts.ED.
+In the previous part, we saw how we can create a decorator and middleware to check the mime of the request. In this part, we'll see how we can use a decorator and middleware to change the response format. To do that, we take for example the `ResponseViewMiddleware` implemented in Ts.ED.
 
-Here the code of the middleware:
+Here is the code of the middleware:
 ```typescript
 // middlewares/response-view.ts
 
@@ -164,7 +164,7 @@ export default class ResponseViewMiddleware implements IMiddleware {
     }
 }
 ```
-And his decorator:
+And its decorator:
 ```typescript
 // middlewares/response-view.ts
 import {Endpoint, Store, UseAfter} from "@tsed/common";
@@ -190,7 +190,7 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
     });
 }
 ```
-> Note: Store is recommended if your decorator can be used in different context.
+> Note: Store is recommended if your decorator can be used in different contexts.
 
 Finally, we can use this decorator on a controller:
 
