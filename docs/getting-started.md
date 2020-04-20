@@ -33,14 +33,14 @@ projects:
    src: /azure.png
 meta:
  - name: description
-   content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express and use TypeScript language.
+   content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express and uses TypeScript language.
  - name: keywords
    content: getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 
 # Getting started
 
-Save your time by starting your project on one of this kit:
+Save your time by starting your project on one of these kits:
 
 <Projects type="getting-started" />
 
@@ -71,7 +71,7 @@ $ npm install --save-dev ts-node nodemon
 :::
 
 ::: warning
-It's really important to keep the same version for all `@tsed/*` packages.
+It is really important to keep the same version for all `@tsed/*` packages.
 To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
@@ -106,13 +106,13 @@ Then use the command `npm install && npm start` to start your server.
 ## Quick start
 ### Create your express server
 
-Ts.ED provide a @@ServerLoader@@ class to configure your 
+Ts.ED provides a @@ServerLoader@@ class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
 <<< @/docs/snippets/getting-started/server.ts
 
-> By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
+> By default ServerLoader loads controllers in `${rootDir}/controllers` and mounts it to `/rest` endpoint.
 
 To customize the server settings see [Configuration](configuration.md) page.
 
@@ -120,7 +120,7 @@ Finally create an `index.ts` file to bootstrap your server, on the same level of
 
 <<< @/docs/snippets/configuration/bootstrap.ts
 
-You should have this tree directories: 
+You should have this directory tree: 
 
 ```
 .
@@ -134,16 +134,16 @@ You should have this tree directories:
 ```
 
 ::: tip
-By default ServerLoader load automatically Services, Controllers and Middlewares in a specific directories.
-This behavior can be change by editing the [componentScan configuration](/configuration.md).
+By default ServerLoader loads automatically Services, Controllers and Middlewares in specific directories.
+This behavior can be changed by editing the [componentScan configuration](/configuration.md).
 :::
 
 ::: tip
-In addition, it also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+In addition, it is also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
 
 <<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
 
-You should have this tree directories: 
+You should have this directory tree: 
 
 ```
 .
@@ -167,18 +167,18 @@ With [dotenv](https://www.npmjs.com/package/dotenv):
 ## Create your first controller
 
 Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/controllers`).
-All controllers declared with @@Controller@@ decorators is considered as an Express router. 
-An Express router require a path (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it's a part of path, and entire exposed url depend on the Server configuration (see [Configuration](configuration.md)) 
+All controllers declared with @@Controller@@ decorators are considered as Express routers. 
+An Express router requires a path (here, the path is `/calendars`) to expose an url on your server. 
+More precisely, it's a part of path, and the entire exposed url depends on the Server configuration (see [Configuration](configuration.md)) 
 and the [children controllers](/docs/controllers.md).
 
-In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
+In this case, we haven't dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
 <<< @/docs/docs/snippets/controllers/basic-controller.ts
 
 ::: tip
-Decorators @@Get@@, @@Post@@, @@Delete@@, @@Put@@, etc..., supports dynamic pathParams (eg: `/:id`) and `RegExp` like Express API.
+Decorators @@Get@@, @@Post@@, @@Delete@@, @@Put@@, etc..., support dynamic pathParams (eg: `/:id`) and `RegExp` like Express API.
 
 See [Controllers](/docs/controllers.md) section for more details
 :::
@@ -187,7 +187,7 @@ See [Controllers](/docs/controllers.md) section for more details
 You have to configure [engine rendering](/tutorials/templating) if you want to use the decorator @@Render@@.
 :::
 
-To test your method, just run your `server.ts` and send a HTTP request on `/rest/calendars/1`.
+To test your method, just run your `server.ts` and send an HTTP request on `/rest/calendars/1`.
 
 ### Ready for More?
 
