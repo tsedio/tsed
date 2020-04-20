@@ -3,7 +3,7 @@
 `@MiddlewareError()` lets you handle all the errors when you add your middleware in your [ServerLoader](/api/common/server/components/ServerLoader.md).
 
 ::: tip
-You have two to handle error (globally). The first (better) way is to override the default [Global Error Handler](/docs/middlewares/override/global-error-handler.md).
+You have two ways to handle errors (globally). The first (better) way is to override the default [Global Error Handler](/docs/middlewares/override/global-error-handler.md).
 
 This method is useful if you want to keep Ts.ED error handler. Your error middleware will be called before Ts.ED error handler.
 :::
