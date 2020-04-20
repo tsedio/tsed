@@ -4,8 +4,8 @@ next: true
 ---
 # Hooks
 
-Ts.ED emit different events during it's initialization
-phase (lifecycle). This lifecycle hooks that provide visibility into these key life moments and the ability to act
+Ts.ED emits different events during its initialization
+phase (lifecycle). These lifecycle hooks provide visibility into these key life moments and the ability to act
 when they occur.
 
 This schemes resume the order of hooks regarding to ServerLoader and Providers:
