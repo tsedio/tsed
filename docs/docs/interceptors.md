@@ -4,7 +4,7 @@ An interceptor is a class annotated with the @@Interceptor@@ decorator. Intercep
 
 Interceptors have a set of useful capabilities which are inspired by the [Aspect Oriented Programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) (AOP) technique.
 
-Creating and consuming an interceptor is two-step process:
+Creating and consuming an interceptor is a two-step process:
 1. Create and annotate the interceptor class that will intercept calls to service methods
 2. Decide which methods will be **intercepted** by which **interceptor**
 
@@ -22,14 +22,14 @@ They make it possible to:
 
 ## Interceptor class
 
-To create interceptor class you need to implement he `IInterceptor` interface and implement the
-`aroundInvoke(ctx: IInterceptorContext)` method, and use the `@Interceptor()` annotation to register your interceptor class. Inside your `src/interceptors/MyInterceptor.ts` folder create the following simple interceptor.
+To create an interceptor class you need to implement the `IInterceptor` interface and implement the
+`aroundInvoke(ctx: IInterceptorContext)` method, and use the `@Interceptor()` annotation to register your interceptor class. Inside your `src/interceptors/MyInterceptor.ts` folder, create the following simple interceptor.
 
 <<< @/docs/docs/snippets/interceptors/interceptor-example.ts
 
 ## Use the interceptor
 
-Now that your interceptor logic is in place you can use it in any other service. You need to use the `@Intercept(InterceptorClass, opts)` annotation to register which interceptor should be used for the specific method you want to intercept. An example service in `src/services/MyService.ts`:
+Now that your interceptor logic is in place, you can use it in any other service. You need to use the `@Intercept(InterceptorClass, opts)` annotation to register which interceptor should be used for the specific method you want to intercept. An example service in `src/services/MyService.ts`:
 
 <<< @/docs/docs/snippets/interceptors/interceptor-usage.ts
 
