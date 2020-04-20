@@ -9,7 +9,7 @@ The decorator @@OverrideProvider@@ gives you the ability to override some intern
 <<< @/docs/docs/snippets/middlewares/override-middleware.ts
 
 ::: tip
-By default, the server import automatically you middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+By default, the server imports automatically your middlewares matching with this rule `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
 
 ```
 .
