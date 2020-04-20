@@ -1,27 +1,27 @@
 # Middleware call sequences
 
-As you see in the previous section, a middleware can be use on different context:
+As you have seen in the previous section, a middleware can be used on different contexts:
 
 - @@ServerLoader@@,
 - [Controller](/docs/controllers.md),
 - [Endpoint](/docs/controllers.md).
 
-Middleware associated to a controller or endpoint as a same constraint that an endpoint.
-It'll be played only when the url request match with the path associated to the controller and his endpoint method.
+Middleware associated to a controller or endpoint has the same constraint as an endpoint.
+It will be played only when the url request matches with the path associated to the controller and its endpoint method.
 
-When a request is sent to the server all middlewares added in the @@ServerLoader@@, [Controller](/docs/controllers.md) or Endpoint with decorators
+When a request is sent to the server, all middlewares added in the @@ServerLoader@@, [Controller](/docs/controllers.md) or Endpoint with decorators
  will be called while a response isn't sent by one of the middleware in the stack.
 
 <figure><img src="./../../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
 ::: tip Note
-The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that match 
+The middlewares shown in the Endpoints box will be replayed as many times as it has an endpoint that matches 
 the request url.
 :::
 
-> (1) Render middleware is called only when a the @@Render@@ decorator is used on the endpoint.
+> (1) Render middleware is called only when the @@Render@@ decorator is used on the endpoint.
 
-> (2) SendResponse middleware send a response only when a data is return by the endpoint method or if the endpoint is the latest called endpoint for the resolved route. 
+> (2) SendResponse middleware send a response only when data is returned by the endpoint method or if the endpoint is the latest called endpoint for the resolved route. 
 
 For example:
 
