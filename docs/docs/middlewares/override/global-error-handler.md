@@ -1,10 +1,10 @@
 # Override Global error handler
 
 All errors are intercepted by the @@GlobalErrorHandlerMiddleware@@.
-By default, all HTTP Exceptions are automatically sent to the client, and technical error are
+By default, all HTTP Exceptions are automatically sent to the client, and technical errors are
 sent as Internal Server Error. 
 
-Here the original @@GlobalErrorHandlerMiddleware@@:
+Here is the original @@GlobalErrorHandlerMiddleware@@:
 
 <<< @/packages/common/src/platform-express/middlewares/GlobalErrorHandlerMiddleware.ts
 
@@ -14,7 +14,7 @@ this:
 <<< @/docs/docs/snippets/middlewares/override-global-error-handler-middleware.ts
 
 ::: tip
-By default, the server import automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+By default, the server imports automatically your middlewares matching with this rule `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
 
 ```
 .
