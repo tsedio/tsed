@@ -1,11 +1,11 @@
 # Filters
 
-Filters feature lets you create a custom decorators that will be 
+Filters feature lets you create custom decorators that will be 
 used on the methods parameters like @@BodyParams@@ or @@Locals@@.
 
 ### Example
 
-This example show you, how you can implement a filter and decorator to use these, on a method Controller.
+This example shows you how you can implement a filter and decorator to use these, on a method Controller.
 In this case, we need to retrieve the body content from an Express.Request.
 
 So to do that, you must create a class and annotate it with the @@Filter@@
@@ -23,10 +23,10 @@ And finally you can use your custom filter on your controller/middleware:
 
 ### UseFilter Options
 
-@@UseFilter@@ allow you to register your custom decorator with few options as following:
+@@UseFilter@@ allows you to register your custom decorator with few options as following:
 
 - `paramType` (ParamTypes): Parameter type like BODY, QUERY, PARAMS, etc...,
-- `required` (boolean, optional): Throw an error when if the value is undefined,
+- `required` (boolean, optional): Throw an error if the value is undefined,
 - `expression` (string, optional): An expression to parse,
 - `useConverter` (boolean): Enable converterService to deserialize value,
 - `useValidation` (boolean): Enable ValidationService,
