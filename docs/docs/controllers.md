@@ -49,11 +49,27 @@ You can add more configuration to mount different endpoint associated to a folde
 
 ### Async and Promise
 
-Ts.ED support Promise and `async` instruction to send a response. Just return a promise
-in your method and the controller will be waiting for your promised response before
-sending a response to the client.
+Ts.ED works well with Promise and `async` function. 
+Every async function has to return a `Promise`.
+This means that you can return a deferred value that Ts.ED will be able to resolve by itself. 
+
+Let's see an example of this:
 
 <<< @/docs/docs/snippets/controllers/async-controller.ts
+
+### Observable/Stream/Buffer
+
+Also, Ts.ED support function that return `Observable`, `Stream` or `Buffer`.
+
+<<< @/docs/docs/snippets/controllers/observable-stream-buffer-controller.ts
+
+### Axios response
+<Badge text="5.48.0+"/>
+
+Sometime, you just want call another API to proxy a webservice. 
+Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an Express.js response.
+
+<<< @/docs/docs/snippets/controllers/observable-stream-buffer-controller.ts
 
 ### Multiple endpoint, single method
 
