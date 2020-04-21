@@ -12,6 +12,10 @@ const isFinish = (request: TsED.Request, response: TsED.Response) => {
   return request.aborted || response.headersSent || response.writableEnded || response.writableFinished;
 };
 
+function isResponse(obj: any) {
+  return obj.data && obj.headers && obj.status && obj.statusText;
+}
+
 export class HandlerContext {
   public injector: InjectorService;
   public metadata: HandlerMetadata;
@@ -38,7 +42,7 @@ export class HandlerContext {
     const {response, request} = this;
 
     // @ts-ignore
-    if (!this._isDone && (isFinish(request, response))) {
+    if (!this._isDone && isFinish(request, response)) {
       this.destroy();
     }
 
@@ -71,7 +75,7 @@ export class HandlerContext {
     }
   }
 
-  handle(process: any) {
+  handle(process: any): any {
     if (this.isDone) {
       return;
     }
@@ -95,12 +99,18 @@ export class HandlerContext {
         process = process.toPromise();
       }
 
+      if (isResponse(process)) {
+        response.set(process.headers);
+        response.status(process.status);
+
+        return this.handle(process.data);
+      }
+
       if (isStream(process) || Buffer.isBuffer(process)) {
         return this.done(null, process);
       }
 
       if (isFunction(process)) {
-
         // when process return a middleware
         return process(request, response, next.bind(this));
       }

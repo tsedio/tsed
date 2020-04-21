@@ -41,6 +41,17 @@ class Test {
     return createReadStream(__dirname + "/__mock__/response.txt");
   }
 
+  getResponse() {
+    return {
+      data: "data",
+      headers: {
+        "Content-Type": "type"
+      },
+      status: 200,
+      statusText: "OK"
+    };
+  }
+
   async returnMiddleware() {
     return (req: any, res: any, next: any) => {
       next();
@@ -60,8 +71,7 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
   });
   const request: any = new FakeRequest();
   const response: any = new FakeResponse();
-  const next = () => {
-  };
+  const next = () => {};
 
   const handlerContext: HandlerContext = new HandlerContext({
     injector,
@@ -185,6 +195,20 @@ describe("HandlerContext", () => {
     // THEN
     expect(result).to.eq(undefined);
     expect(isStream(request.ctx.data)).to.eq(true);
+  });
+  it("should proxy axios/custom response", async () => {
+    const {run, request} = await getHandlerContext({
+      token: Test,
+      propertyKey: "getResponse",
+      args: ["value"]
+    });
+
+    // WHEN
+    const result = await run();
+
+    // THEN
+    expect(result).to.eq(undefined);
+    expect(request.ctx.data).to.eq("data");
   });
   it("should return the value from OBSERVABLE", async () => {
     const {run, request} = await getHandlerContext({
