@@ -18,7 +18,7 @@ export class TestContext extends PlatformTest {
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: Type<ServerLoader>, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
+  static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       const instance = await ServerLoader.bootstrap(mod, {
         logger: {

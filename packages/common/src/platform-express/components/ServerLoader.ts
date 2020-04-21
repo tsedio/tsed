@@ -107,7 +107,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
     return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
-  static async bootstrap(module: Type<ServerLoader>, settings: Partial<TsED.Configuration> = {}): Promise<ServerLoader> {
+  static async bootstrap(module: any, settings: Partial<TsED.Configuration> = {}): Promise<ServerLoader> {
     const server = new module(settings);
 
     await server.runLifecycle();

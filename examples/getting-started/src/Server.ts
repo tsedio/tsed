@@ -6,7 +6,6 @@ import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 import * as cors from "cors";
 import {join} from "path";
-import {RestCtrl} from "./controllers/RestCtrl";
 
 const rootDir = __dirname;
 
@@ -22,7 +21,6 @@ const rootDir = __dirname;
   },
   mount: {
     "/rest": [
-      RestCtrl, // Manual import (remove it)
       `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
     ]
   },
