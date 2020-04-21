@@ -10,12 +10,12 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "5.47.0",
-    "@tsed/core": "5.47.0",
-    "@tsed/di": "5.47.0",
     "tslib": "1.11.1"
   },
   "devDependencies": {
+    "@tsed/common": "5.47.0",
+    "@tsed/core": "5.47.0",
+    "@tsed/di": "5.47.0",
     "@types/passport": "1.0.3",
     "@types/passport-http": "0.3.8",
     "@types/passport-local": "1.0.33",
@@ -28,5 +28,6 @@
     "lib": "lib",
     "src": "src"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+  }
 }

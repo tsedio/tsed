@@ -9,12 +9,13 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.47.0",
-    "@tsed/core": "5.47.0",
     "tslib": "1.11.1",
     "typeorm": "^0.2.24"
   },
   "private": false,
-  "devDependencies": {},
+  "devDependencies": {
+    "@tsed/common": "5.47.0",
+    "@tsed/core": "5.47.0"
+  },
   "peerDependencies": {}
 }

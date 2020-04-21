@@ -44,13 +44,14 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.47.0",
-    "@tsed/core": "5.47.0",
-    "@tsed/di": "5.47.0"
   },
   "peerDependencies": {
     "@types/express": "^4",
     "express": "^4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsed/common": "5.47.0",
+    "@tsed/core": "5.47.0",
+    "@tsed/di": "5.47.0"
+  }
 }

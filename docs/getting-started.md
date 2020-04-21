@@ -47,7 +47,7 @@ Save your time by starting your project on one of this kit:
 or by using the Ts.ED CLI:
 
 ```
-npm install -g @tsed/cli@beta
+npm install -g @tsed/cli
 tsed init .
 ```
 See our [CLI website](https://cli.tsed.io) for more details.

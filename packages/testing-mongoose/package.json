@@ -9,9 +9,6 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.47.0",
-    "@tsed/core": "5.47.0",
-    "@tsed/testing": "5.47.0",
     "mongodb-memory-server": "^6.3.3",
     "tslib": "1.11.1"
   },
@@ -20,5 +17,9 @@
     "@types/mongoose": "^5.7.6",
     "mongoose": "^5.9.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsed/common": "5.47.0",
+    "@tsed/core": "5.47.0",
+    "@tsed/testing": "5.47.0"
+  }
 }

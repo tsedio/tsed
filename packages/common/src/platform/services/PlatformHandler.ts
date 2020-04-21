@@ -17,8 +17,7 @@ import {HandlerContext} from "../domain/HandlerContext";
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
-  constructor(protected injector: InjectorService) {
-  }
+  constructor(protected injector: InjectorService) {}
 
   createHandlerMetadata(obj: any | EndpointMetadata) {
     const {injector} = this;
@@ -202,9 +201,11 @@ export class PlatformHandler {
       return this.injector.getProvider(pipe)!.priority || 0;
     };
 
-    metadata.parameters.forEach(
-      (param: ParamMetadata) => (param.pipes = param.pipes.sort((p1: Type<any>, p2: Type<any>) => (get(p1) < get(p2) ? -1 : 1)))
-    );
+    metadata.parameters.forEach((param: ParamMetadata) => {
+      return (param.pipes = param.pipes.sort((p1: Type<any>, p2: Type<any>) => {
+        return get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0;
+      }));
+    });
   }
 
   /**

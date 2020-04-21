@@ -9,7 +9,6 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.47.0",
     "tslib": "1.11.1"
   },
   "peerDependencies": {
@@ -17,5 +16,7 @@
     "socket.io": "^2.3.0"
   },
   "private": false,
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsed/common": "5.47.0"
+  }
 }
