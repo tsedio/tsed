@@ -18,7 +18,7 @@ Each approach are a valid way to persist data, but it's important understand the
 
 ## Locals
 
-Locals is a request property used by third-party like template engine to render a page by the server.
+@@Locals@@ is a request property used by third-party like template engine to render a page by the server.
 If you attach a data on it, you'll expose this data to the template.
 
 If you don't want that don't use this attributes!
