@@ -26,3 +26,4 @@ export * from "./any";
 export * from "./schema";
 export * from "./title";
 export * from "./ignoreProperty";
+export * from "./const";
