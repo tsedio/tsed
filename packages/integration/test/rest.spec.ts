@@ -231,7 +231,7 @@ describe("Rest", () => {
           .put("/rest/calendars")
           .expect(400)
           .end((err: any, response: any) => {
-            expect(response.error.text).to.contains("Bad request, parameter \"request.body.name\" is required.");
+            expect(response.error.text).to.eq("Bad request on parameter \"request.body.name\".<br />It should have required parameter 'name'");
             done();
           });
       });
@@ -318,7 +318,7 @@ describe("Rest", () => {
           }
         ]);
 
-        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At UserCreation.email should match format \"email\"");
+        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />UserCreation.email should match format \"email\". Given value: \"undefined\"");
       });
 
       it("should return an error when password is empty", async () => {
@@ -334,7 +334,7 @@ describe("Rest", () => {
         ]);
 
         expect(response.text).to.eq(
-          "Bad request on parameter \"request.body\".<br />At UserCreation.password should NOT be shorter than 6 characters"
+          "Bad request on parameter \"request.body\".<br />UserCreation.password should NOT be shorter than 6 characters. Given value: \"undefined\""
         );
 
         expect(JSON.parse(response.headers.errors)).to.deep.eq([
@@ -437,13 +437,13 @@ describe("Rest", () => {
         .post("/rest/errors/required-param")
         .expect(400)
         .end((err: any, response: any) => {
-          expect(response.text).to.eq("Bad request, parameter \"request.body.name\" is required.");
+          expect(response.text).to.eq("Bad request on parameter \"request.body.name\".<br />It should have required parameter 'name'");
 
           expect(JSON.parse(response.headers.errors)).to.deep.eq([
             {
               dataPath: "",
               keyword: "required",
-              message: "should have required param 'name'",
+              message: "It should have required parameter 'name'",
               modelName: "body",
               params: {
                 missingProperty: "name"
@@ -461,7 +461,7 @@ describe("Rest", () => {
         .expect(400)
         .end((err: any, response: any) => {
           expect(response.text).to.eq(
-            "Bad request on parameter \"request.body\".<br />At CustomModel should have required property 'name'"
+            "Bad request on parameter \"request.body\".<br />CustomModel should have required property 'name'. Given value: \"undefined\""
           );
 
           expect(JSON.parse(response.headers.errors)).to.deep.eq([
@@ -509,7 +509,7 @@ describe("Rest", () => {
         .send({})
         .expect(400)
         .end((err: any, response: any) => {
-          expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At CustomPropModel should have required property 'role_item'");
+          expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />CustomPropModel should have required property 'role_item'. Given value: \"undefined\"");
           done();
         });
     });

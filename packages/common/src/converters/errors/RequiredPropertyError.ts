@@ -1,16 +1,14 @@
 import {nameOf, Type} from "@tsed/core";
-import {BadRequest} from "@tsed/exceptions";
+import {ValidationError} from "../../mvc/errors/ValidationError";
 
 /**
- * @private
+ * @deprecated Ajv or validation library must perform this validation
  */
-export class RequiredPropertyError extends BadRequest {
+export class RequiredPropertyError extends ValidationError {
   errors: any[];
 
   constructor(target: Type<any>, propertyName: string | symbol, value: any) {
-    super(RequiredPropertyError.buildMessage(target, propertyName, value));
-
-    this.errors = [
+    super(`Property ${propertyName as string} on class ${nameOf(target)} is required. Given value: ${value}`, [
       {
         dataPath: "",
         keyword: "required",
@@ -21,17 +19,6 @@ export class RequiredPropertyError extends BadRequest {
         },
         schemaPath: "#/required"
       }
-    ];
-  }
-
-  /**
-   *
-   * @returns {string}
-   * @param target
-   * @param propertyName
-   * @param value
-   */
-  static buildMessage(target: Type<any>, propertyName: string | symbol, value: any) {
-    return `Property ${propertyName as string} on class ${nameOf(target)} is required. Given value: ${value}`;
+    ]);
   }
 }

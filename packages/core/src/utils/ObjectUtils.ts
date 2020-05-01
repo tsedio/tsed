@@ -132,7 +132,7 @@ export function isPrimitive(target: any): boolean {
  * @param target
  * @returns {Boolean}
  */
-export function isArray(target: any): target is any[] {
+export function isArray<T = any>(target: any): target is T[] {
   return Array.isArray(target);
 }
 

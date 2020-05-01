@@ -1,10 +1,10 @@
 import {OverrideProvider} from "./overrideProvider";
-
+// tslint:disable: variable-name
 /**
  * Override a service which is already registered in ProviderRegistry.
  * @returns {Function}
  * @decorators
  * @param targetService
+ * @deprecated Use OverrideProvider
  */
-// tslint:disable-next-line: variable-name
 export const OverrideService = OverrideProvider;

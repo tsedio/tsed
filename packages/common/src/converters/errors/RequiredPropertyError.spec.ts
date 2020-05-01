@@ -6,6 +6,6 @@ describe("RequiredPropertyError", () => {
     const errorInstance = new RequiredPropertyError(class Test {}, "propertyKey", "value");
 
     expect(errorInstance.message).to.equal("Property propertyKey on class Test is required. Given value: value");
-    expect(errorInstance.name).to.equal("BAD_REQUEST");
+    expect(errorInstance.name).to.equal("VALIDATION_ERROR");
   });
 });

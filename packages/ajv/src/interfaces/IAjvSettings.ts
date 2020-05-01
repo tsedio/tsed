@@ -1,4 +1,4 @@
-import {ErrorObject} from "ajv";
+import {ErrorObject, Options} from "ajv";
 
 /**
  *
@@ -15,14 +15,14 @@ export type ErrorFormatter = (error: AjvErrorObject) => string;
 /**
  *
  */
-export interface IAjvSettings {
+export interface IAjvSettings extends Options {
+  /**
+   * @deprecated Use errorFormatter instead
+   */
   errorFormat?: ErrorFormatter;
-  options?: IAjvOptions;
-}
-
-/**
- *
- */
-export interface IAjvOptions {
-  verbose?: boolean;
+  errorFormatter?: ErrorFormatter;
+  /**
+   * @deprecated set options directly on ajv root object.
+   */
+  options?: Options;
 }

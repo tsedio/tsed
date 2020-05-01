@@ -45,7 +45,7 @@ describe("Auth scenario", () => {
         .set({authorization: "token-admin"})
         .expect(400);
 
-      expect(response.error.text).to.contains("Bad request, parameter \"request.body.id\" is required.");
+      expect(response.error.text).to.equal("Bad request on parameter \"request.body.id\".<br />It should have required parameter 'id'");
     });
 
     it("should return a 204 response", async () => {
@@ -88,7 +88,7 @@ describe("Auth scenario", () => {
         .set({authorization: "token-admin"})
         .expect(400);
 
-      expect(response.error.text).to.contains("Bad request, parameter \"request.body.id\" is required.");
+      expect(response.error.text).to.contains("Bad request on parameter \"request.body.id\".<br />It should have required parameter 'id'");
     });
 
     it("should return a 204 response", async () => {

@@ -22,7 +22,6 @@ export * from "./middlewares/AcceptMimesMiddleware";
 export * from "./middlewares/ResponseViewMiddleware";
 
 // pipes
-export * from "./pipes/RequiredPipe";
 export * from "./pipes/ValidationPipe";
 export * from "./pipes/ParseExpressionPipe";
 export * from "./pipes/DeserializerPipe";
@@ -33,9 +32,8 @@ export * from "./services/ValidationService";
 
 // errors
 export * from "./errors/TemplateRenderingError";
-export * from "./errors/ParseExpressionError";
-export * from "./errors/RequiredParamError";
-export * from "./errors/UnknowFilterError";
+export * from "./errors/RequiredValidationError";
+export * from "./errors/ValidationError";
 
 // decorators
 export * from "./decorators";

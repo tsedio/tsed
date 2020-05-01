@@ -21,8 +21,7 @@ import {PlatformHandler} from "./PlatformHandler";
 
 function build(injector: InjectorService, type: string | ParamTypes | Type<any>, {expression, required}: any = {}) {
   class Test {
-    test() {
-    }
+    test() {}
   }
 
   const param = new ParamMetadata({target: Test, propertyKey: "test", index: 0});
@@ -68,8 +67,7 @@ class Test {
     return error;
   }
 
-  useErr(err: any, req: any, res: any, next: any) {
-  }
+  useErr(err: any, req: any, res: any, next: any) {}
 }
 
 describe("PlatformHandler", () => {
@@ -123,8 +121,7 @@ describe("PlatformHandler", () => {
         sandbox.stub(injector, "getProvider").returns(undefined);
 
         // WHEN
-        const handlerMetadata = platformHandler.createHandlerMetadata(() => {
-        });
+        const handlerMetadata = platformHandler.createHandlerMetadata(() => {});
 
         // THEN
         handlerMetadata.type.should.eq(HandlerType.FUNCTION);
@@ -137,7 +134,7 @@ describe("PlatformHandler", () => {
       async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(Test.prototype, "get").callsFake(o => o);
-        sandbox.stub(injector, "invoke").callsFake(() => new Test());
+        injector.invoke(Test);
 
         const request = new FakeRequest();
         const response = new FakeRequest();

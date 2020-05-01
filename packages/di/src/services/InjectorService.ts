@@ -375,9 +375,13 @@ export class InjectorService extends Container {
     locals: Map<TokenProvider, any>,
     options: Partial<IInvokeOptions>
   ) {
+    options = {...options};
     Object.defineProperty(instance, propertyKey, {
       get: () => {
-        return this.invoke(useType, locals, options);
+        const instance = this.invoke(useType, locals, options);
+        options.rebuild = false; // invalid
+
+        return instance;
       }
     });
   }

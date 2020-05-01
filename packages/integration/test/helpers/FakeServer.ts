@@ -53,9 +53,6 @@ const rootDir = __dirname + "/../../src";
   }
 })
 export class FakeServer extends ServerLoader {
-  // tslint:disable-next-line: variable-name
-  static Server: FakeServer;
-
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}

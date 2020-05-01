@@ -4,7 +4,7 @@ import {Strategy, StrategyOptions} from "passport-facebook";
 import {AuthService} from "../services/auth/AuthService";
 
 @Protocol<StrategyOptions>({
-  name: "discord",
+  name: "facebook",
   useStrategy: Strategy,
   settings: {
     clientID: "FACEBOOK_APP_ID",

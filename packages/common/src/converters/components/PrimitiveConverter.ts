@@ -1,4 +1,4 @@
-import {BadRequest} from "@tsed/exceptions";
+import {ValidationError} from "../../mvc/errors/ValidationError";
 import {Converter} from "../decorators/converter";
 import {IConverter} from "../interfaces/index";
 
@@ -20,7 +20,7 @@ export class PrimitiveConverter implements IConverter {
         const n = +data;
 
         if (isNaN(n)) {
-          throw new BadRequest("Cast error. Expression value is not a number.");
+          throw new ValidationError("Cast error. Expression value is not a number.", []);
         }
 
         return n;

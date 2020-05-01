@@ -17,7 +17,7 @@ export class Exception extends Error {
    * Stack calling
    */
   public stack: string;
-  public origin: Error;
+  public origin: Error & any;
   /**
    * HTTP Code Status
    */

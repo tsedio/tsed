@@ -1,5 +1,4 @@
 import {PlatformTest, ServerLoader, TokenProvider} from "@tsed/common";
-import {Type} from "@tsed/core";
 
 export interface IInvokeOptions {
   token?: TokenProvider;
@@ -36,7 +35,7 @@ export class TestContext extends PlatformTest {
     };
   }
 
-  static invoke<T = any>(target: TokenProvider, providers: IInvokeOptions[]): T | Promise<T> {
+  static invoke<T = any>(target: TokenProvider, providers: IInvokeOptions[] = []): T | Promise<T> {
     providers = providers.map(p => {
       return {
         token: p.token || p.provide,

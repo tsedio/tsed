@@ -141,7 +141,7 @@ export abstract class EntityDescription {
    *
    * @returns {boolean}
    */
-  get isArray() {
+  get isArray(): boolean {
     return isArrayOrArrayClass(this.collectionType);
   }
 
@@ -183,6 +183,6 @@ export abstract class EntityDescription {
    * @returns {boolean}
    */
   isRequired(value: any): boolean {
-    return this.required && [undefined, null, ""].indexOf(value) > -1 && this.allowedRequiredValues.indexOf(value) === -1;
+    return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 }

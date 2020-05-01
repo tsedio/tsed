@@ -1,4 +1,3 @@
-import {Store} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {Configuration} from "@tsed/di/src/decorators/configuration";
 import {TestContext} from "@tsed/testing";
@@ -581,21 +580,6 @@ describe("ConverterService", () => {
       it("should use toJSON method", () => {
         expect(converterService.serialize(new JsonFoo3())).to.be.an("object");
       });
-    });
-
-    describe("serialization error", () => {
-      let converterService: ConverterService;
-      beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
-          converterService = _converterService_;
-        })
-      );
-
-      it("should emit a BadRequest when attribute is required", () =>
-        assert.throws(() => {
-          const foo4: any = new JsonFoo4();
-          converterService.serialize(foo4);
-        }, "Property foo on class JsonFoo4 is required."));
     });
     describe("@PropertySerialize", () => {
       it("should use function to Deserialize property", async () => {

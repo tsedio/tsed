@@ -1,23 +1,22 @@
-import {nameOf} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {ParseExpressionError} from "../errors/ParseExpressionError";
+import {RequiredValidationError} from "../errors/RequiredValidationError";
 import {IPipe, ParamMetadata} from "../models/ParamMetadata";
 import {ValidationService} from "../services/ValidationService";
 
-@Injectable()
+@Injectable({
+  type: "validator"
+})
 export class ValidationPipe implements IPipe {
-  constructor(private validationService: ValidationService) {}
+  constructor(protected validationService: ValidationService) {}
 
-  transform(value: any, param: ParamMetadata) {
-    if (this.shouldValidate(param)) {
-      const {collectionType} = param;
-      const type = param.type || param.collectionType;
+  transform(value: any, metadata: ParamMetadata) {
+    this.checkIsRequired(value, metadata);
 
-      try {
-        this.validationService.validate(value, type, collectionType);
-      } catch (err) {
-        throw new ParseExpressionError(nameOf(param.service), param.expression, err);
-      }
+    if (this.shouldValidate(metadata)) {
+      const {collectionType} = metadata;
+      const type = metadata.type || metadata.collectionType;
+
+      this.validationService.validate(value, type, collectionType);
     }
 
     return value;
@@ -25,5 +24,13 @@ export class ValidationPipe implements IPipe {
 
   protected shouldValidate(param: ParamMetadata) {
     return !!(param.type || param.collectionType);
+  }
+
+  protected checkIsRequired(value: any, metadata: ParamMetadata) {
+    if (metadata.isRequired(value)) {
+      throw RequiredValidationError.from(metadata);
+    }
+
+    return true;
   }
 }

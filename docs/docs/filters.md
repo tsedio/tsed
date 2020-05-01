@@ -22,12 +22,13 @@ And finally you can use your custom filter on your controller/middleware:
 <<< @/docs/docs/snippets/filters/filter-usage.ts
 
 ### UseFilter Options
+<Badge type="warning" text="deprecated" />
 
 @@UseFilter@@ allows you to register your custom decorator with few options as following:
 
 - `paramType` (ParamTypes): Parameter type like BODY, QUERY, PARAMS, etc...,
 - `required` (boolean, optional): Throw an error if the value is undefined,
 - `expression` (string, optional): An expression to parse,
-- `useConverter` (boolean): Enable converterService to deserialize value,
-- `useValidation` (boolean): Enable ValidationService,
+- `useConverter` (boolean): Enable json mapper to deserialize value,
+- `useValidation` (boolean): Enable validation,
 - `useType` (boolean): Set explicitly the class/model used by the parameters.

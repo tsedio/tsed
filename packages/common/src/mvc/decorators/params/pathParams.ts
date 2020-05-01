@@ -1,8 +1,8 @@
 import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
-import {UseParam} from "./useParam";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
+import {UseParam} from "./useParam";
 
 /**
  * PathParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
@@ -49,4 +49,35 @@ export function PathParams(...args: any[]): ParameterDecorator {
     useConverter,
     useValidation
   });
+}
+
+/**
+ * RawPathParams return the raw value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
+ *
+ * Any validation and transformation are performed on the value. Use [pipes](/docs/pipes.html) to validate and/or transform the value.
+ *
+ * #### Example
+ *
+ * ```typescript
+ * @Controller('/')
+ * class MyCtrl {
+ *    @Get('/')
+ *    get(@RawPathParams() params: string) {
+ *       console.log('Entire params', params);
+ *    }
+ *
+ *    @Get('/')
+ *    get(@RawPathParams('id') id: string) {
+ *       console.log('ID', id);
+ *    }
+ * }
+ * ```
+ * > For more information on deserialization see [converters](/docs/converters.md) page.
+ *
+ * @param expression The path of the property to get.
+ * @decorator
+ * @returns {ParameterDecorator}
+ */
+export function RawPathParams(expression: string) {
+  return UseParam(ParamTypes.PATH, {expression});
 }
