@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
 
 /**
@@ -41,7 +41,7 @@ export function Session(): ParameterDecorator;
 export function Session(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(ParamTypes.SESSION, {
+  return UseParam(ParamTypes.SESSION, {
     expression,
     useType,
     useConverter,

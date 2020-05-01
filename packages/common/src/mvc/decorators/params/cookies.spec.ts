@@ -1,7 +1,7 @@
 import {Cookies, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@Cookies", () => {
-  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+  it("should call ParamFilter.useParam method with the correct parameters", () => {
     class Test {}
 
     class Ctrl {

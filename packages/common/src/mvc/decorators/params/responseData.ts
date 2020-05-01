@@ -1,5 +1,5 @@
 import {ParamTypes} from "../../models/ParamTypes";
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 
 /**
  *
@@ -7,5 +7,5 @@ import {UseFilter} from "./useFilter";
  * @decorator
  */
 export function ResponseData(): ParameterDecorator {
-  return UseFilter(ParamTypes.RESPONSE_DATA);
+  return UseParam(ParamTypes.RESPONSE_DATA);
 }

@@ -1,7 +1,7 @@
 import {HeaderParams, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@HeaderParams", () => {
-  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+  it("should call ParamFilter.useParam method with the correct parameters", () => {
     class Ctrl {
       test(@HeaderParams("expression") header: string) {}
     }

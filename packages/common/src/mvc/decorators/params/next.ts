@@ -1,5 +1,5 @@
 import {ParamTypes} from "../../models/ParamTypes";
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 
 declare global {
   namespace TsED {
@@ -15,7 +15,7 @@ export type Next = TsED.NextFunction;
  * @decorator
  */
 export function Next(): ParameterDecorator {
-  return UseFilter(ParamTypes.NEXT_FN, {
+  return UseParam(ParamTypes.NEXT_FN, {
     useConverter: false,
     useValidation: false
   });

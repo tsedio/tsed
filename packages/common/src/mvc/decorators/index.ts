@@ -31,8 +31,9 @@ export * from "./class/strict";
 export * from "./class/caseSensitive";
 
 // Params
-export * from "./params/useFilter";
 export * from "./params/usePipe";
+export * from "./params/useParam";
+export * from "./params/useParamType";
 export * from "./params/useValidation";
 export * from "./params/useDeserialization";
 export * from "./params/useParamExpression";
