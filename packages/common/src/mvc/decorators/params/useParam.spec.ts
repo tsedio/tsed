@@ -1,6 +1,6 @@
-import {Property} from "@tsed/common";
+import {ParamRegistry, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
-import {ParamRegistry, ParamTypes, Required, UseFilter} from "../../../../src/mvc";
+import {IFilter} from "../../interfaces/IFilter";
 
 export class MyModel {
   @Title("iD")
@@ -14,9 +14,30 @@ export class MyModel {
   public name: string;
 }
 
-describe("@UseFilter", () => {
+describe("@UseParam", () => {
   describe("when filter is a class", () => {
-    it("should create ParamMetadata (without filter)", () => {
+    it("should create useParam", () => {
+      class Test {}
+
+      class Ctrl {
+        test(
+          @UseParam(ParamTypes.BODY, {
+            expression: "expression",
+            useConverter: true,
+            useValidation: true,
+            paramType: ParamTypes.BODY,
+            useType: Test
+          })
+          body: Test
+        ) {}
+      }
+
+      const param = ParamRegistry.get(Ctrl, "test", 0);
+      param.expression.should.eq("expression");
+      param.paramType.should.eq(ParamTypes.BODY);
+      param.type.should.eq(Test);
+    });
+    it("should create useFilter (withoutFilter)", () => {
       class Test {}
 
       class Ctrl {
@@ -37,10 +58,14 @@ describe("@UseFilter", () => {
       param.paramType.should.eq(ParamTypes.BODY);
       param.type.should.eq(Test);
     });
-    it("should create ParamMetadata (with filter)", () => {
+    it("should create useFilter (withFilter", () => {
       class Test {}
 
-      class MyFilter {}
+      class MyFilter implements IFilter {
+        transform(expression: string, request: TsED.Request, response: TsED.Response): any {
+          return "";
+        }
+      }
 
       class Ctrl {
         test(

@@ -1,4 +1,4 @@
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 import {EndpointMetadata} from "../../models/EndpointMetadata";
 import {ParamTypes} from "../../models/ParamTypes";
 
@@ -10,7 +10,7 @@ export type EndpointInfo = EndpointMetadata;
  * @decorator
  */
 export function EndpointInfo(): Function {
-  return UseFilter(ParamTypes.ENDPOINT_INFO, {
+  return UseParam(ParamTypes.ENDPOINT_INFO, {
     useConverter: false,
     useValidation: false
   });

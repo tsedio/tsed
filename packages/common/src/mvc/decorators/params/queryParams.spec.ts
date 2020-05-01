@@ -3,7 +3,7 @@ import {ParamRegistry, ParamTypes, QueryParams} from "../../../../src/mvc";
 
 const sandbox = Sinon.createSandbox();
 describe("@QueryParams", () => {
-  it("should call ParamFilter.useFilter method with the correct parameters", () => {
+  it("should call ParamFilter.useParam method with the correct parameters", () => {
     class Test {}
 
     class Ctrl {
