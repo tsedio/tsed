@@ -1,6 +1,6 @@
 # Endpoint error middleware
 
-`@MiddlewareError()` lets you handle all error when you add your middleware on an Endpoint.
+`@MiddlewareError()` lets you handle all errors when you add your middleware on an Endpoint.
 
 Create your middleware error:
 ```typescript
@@ -42,7 +42,7 @@ export default class ErrorMiddleware implements IMiddlewareError {
 }
 ```
 
-Then, add your middleware on your endpoint controller's:
+Then, add your middleware on your endpoint's controller:
 
 ```typescript
 import {Controller, Get, UseAfter} from "@tsed/common";

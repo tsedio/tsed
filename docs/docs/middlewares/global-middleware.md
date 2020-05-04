@@ -1,7 +1,7 @@
 # Global middleware 
 
-Global middlewares and Endpoint middlewares are almost similar but Global middleware cannot use the @@EndpointInfo@@.
-Global middlewares lets you manage request and response on @@ServerLoader@@.
+Global middlewares and Endpoint middlewares are almost similar but Global middlewares cannot use the @@EndpointInfo@@.
+Global middlewares let you manage request and response on @@ServerLoader@@.
 
 ## Usage
 
@@ -21,7 +21,7 @@ Express allows you to handle any error when your middleware have 4 parameters li
 function (error, req, res, next){}
 ```
 Ts.ED has the same mechanism with @@Err@@ decorator. The following example is the GlobalErrorHandlerMiddleware
-used by Ts.ED to handle all errors throw by your application.
+used by Ts.ED to handle all errors thrown by your application.
 
 
 <<< @/docs/docs/snippets/middlewares/global-middleware-error.ts

@@ -12,33 +12,33 @@ npm install --save-dev mocha chai @types/mocha @types/chai
 
 ### Usage
 
-Ts.ED are bundled with a testing module `@tsed/testing`.
-This module provide @@TestContext@@ to create new context and `inject` function to inject your Services, Controllers, Middlewares, etc... registered with annotation like @@Service@@.
+Ts.ED is bundled with a testing module `@tsed/testing`.
+This module provides @@TestContext@@ to create a new context and `inject` function to inject your Services, Controllers, Middlewares, etc... registered with annotations like @@Service@@.
 
-The process to test any components is the same things:
+The process to test any components is the same thing:
 
 - Create a new context for your unit test with `TestContext.create`,
 - Inject or invoke your component with `TestContext.inject` or `TestContext.invoke`,
 - Reset the context with `TestContext.reset`.
 
-Here an example to test the ParseService:
+Here is an example to test the ParseService:
 
 <<< @/docs/docs/snippets/testing/parse-service.ts
 
 ### Async / Await
 
-Testing asynchronous method is also possible using `Promise`s (`async`/`await`):
+Testing asynchronous method is also possible using `Promises` (`async`/`await`):
 
 <<< @/docs/docs/snippets/testing/db-service-async-await.ts
 
 ### Mock dependencies
 
-TestContext API provide an `invoke` method to create a new instance of your component with mocked dependencies.
+TestContext API provides an `invoke` method to create a new instance of your component with mocked dependencies.
 
 <<< @/docs/docs/snippets/testing/db-service-mock-dependencies.ts
 
 ::: tip
-`TestContext.invoke()` execute automatically the `$onInit` hook!
+`TestContext.invoke()` executes automatically the `$onInit` hook!
 :::
 
 ## Test your Rest API
@@ -58,8 +58,8 @@ npm install --save-dev supertest @types/supertest
 
 ### Disable Logs
 
-If you like to disable log output for any reason, you can do it by calling `$log.level` or `$log.stop()`.
-It's useful to suppress logging during unit tests runs so that your passed/failed test summary does not get polluted with information.
+If you would like to disable logs output for any reason, you can do it by calling `$log.level` or `$log.stop()`.
+It's useful to remove logging during unit tests runs so that your passed/failed tests summary does not get polluted with information.
 
 ```typescript
 import { $log } from "ts-log-debug";
@@ -76,6 +76,6 @@ describe('A test that will not print logs :', () => {
 
 ## Utils (recommended)
 
-In addiction, you can use some library like Sinon and Chai-promised for your unit test. To help you, here the `tools.ts` code used by the unit test for Ts.ED:
+In addition, you can use some libraries like Sinon and Chai-promised for your unit tests. To help you, here is the `tools.ts` code used by the unit tests for Ts.ED:
 
 <Gist repo="Romakita" id="a95fe9d491f453d038b5bec0cbe72e8f" filename="tools.ts"></Gist>
