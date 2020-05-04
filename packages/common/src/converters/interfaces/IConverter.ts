@@ -25,6 +25,7 @@ export interface IConverterOptions extends IMetadataType {
   ignoreCallback?: IConverterIgnoreCB;
   checkRequiredValue?: boolean;
   withIgnoredProps?: boolean;
+  additionalProperties?: "error" | "ignore" | "accept";
 }
 
 /**

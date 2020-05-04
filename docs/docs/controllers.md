@@ -98,13 +98,36 @@ Getting parameters from Express Request can be done by using the following decor
 
 - @@BodyParams@@: `Express.request.body`
 - @@PathParams@@: `Express.request.params`
+- @@RawPathParams@@: `Express.request.params` without transformation and validation,
 - @@QueryParams@@: `Express.request.query`
+- @@RawQueryParams@@: `Express.request.query` without transformation and validation,
 
 <<< @/docs/docs/snippets/controllers/params-decorator.ts
 
-Finally, @@BodyParams@@ accepts to give a @@ParamOptions@@ object as parameter to change the decorator behavior:
+Finally, @@BodyParams@@ accepts to give a @@IParamOptions@@ object as parameter to change the decorator behavior:
 
 <<< @/docs/docs/snippets/controllers/params-advanced-usage.ts
+
+::: tip
+Since v5.51.0+, @@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
+
+```typescript
+class QueryParamsModel {
+  @Required()
+  @MinLength(1)
+  name: string;
+
+  @Property()
+  duration: number;
+}
+
+@Controller("/")
+class QueryController {
+  @Get("/")
+  get(@QueryParams() params: QueryParamsModel, @QueryParams("locale") locale: string) {}
+}
+```
+:::
 
 ### Headers
 

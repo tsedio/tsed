@@ -238,7 +238,7 @@ export class ConverterService {
    * @param options
    */
   private convertProperty(obj: any, instance: any, propertyName: string, propertyMetadata?: PropertyMetadata, options?: any) {
-    if (this.skipAdditionalProperty(instance, propertyName, propertyMetadata)) {
+    if (this.skipAdditionalProperty(instance, propertyName, propertyMetadata, options)) {
       return;
     }
 
@@ -280,13 +280,19 @@ export class ConverterService {
    * @param instance
    * @param {string} propertyKey
    * @param {PropertyMetadata | undefined} propertyMetadata
+   * @param options
    */
-  private skipAdditionalProperty(instance: any, propertyKey: string | symbol, propertyMetadata: PropertyMetadata | undefined) {
+  private skipAdditionalProperty(
+    instance: any,
+    propertyKey: string | symbol,
+    propertyMetadata: PropertyMetadata | undefined,
+    options: any
+  ) {
     if (propertyMetadata !== undefined) {
       return false;
     }
 
-    const additionalPropertiesLevel = this.getAdditionalPropertiesLevel(getClass(instance));
+    const additionalPropertiesLevel = options.additionalProperties || this.getAdditionalPropertiesLevel(getClass(instance));
 
     switch (additionalPropertiesLevel) {
       case "error":

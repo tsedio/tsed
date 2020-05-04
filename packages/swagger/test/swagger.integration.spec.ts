@@ -1,12 +1,36 @@
-import {ExpressApplication} from "@tsed/common/src";
-import {inject, TestContext} from "@tsed/testing/src";
+import {Controller, ExpressApplication, Get, PathParams} from "@tsed/common";
+import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
+import {Returns, ReturnsArray} from "../src";
+import {Calendar} from "./helpers/models/Calendar";
 import {Server} from "./helpers/Server";
+
+@Controller("/calendars")
+export class CalendarsController {
+  @Get("/:id")
+  @Returns(200, {type: Calendar})
+  async get(@PathParams("id") id: string): Promise<Calendar> {
+    return new Calendar({id, name: "test"});
+  }
+
+  @Get("/")
+  @ReturnsArray(200, {type: Calendar})
+  async getAll(): Promise<Calendar[]> {
+    return [
+      new Calendar({id: 1, name: "name"}),
+      new Calendar({id: 2, name: "name"})
+    ];
+  }
+}
 
 describe("Swagger integration", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(TestContext.bootstrap(Server));
+  beforeEach(TestContext.bootstrap(Server, {
+    mount: {
+      "/rest": [CalendarsController]
+    }
+  }));
   beforeEach(
     inject([ExpressApplication], (expressApplication: ExpressApplication) => {
       request = SuperTest(expressApplication);

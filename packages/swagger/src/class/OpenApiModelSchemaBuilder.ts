@@ -73,7 +73,7 @@ export class OpenApiModelSchemaBuilder {
   }: {
     schema: Partial<Schema>;
     type: Type<any>;
-    collectionType: Type<any>;
+    collectionType: Type<any> | undefined;
   }): Schema {
     let builder;
     const typeName = nameOf(type);
