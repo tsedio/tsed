@@ -1,13 +1,10 @@
 import {classOf, Enumerable, getKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
-import {IDIConfigurationOptions, ProviderScope} from "../interfaces";
+import {ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
 import {TokenProvider} from "../interfaces/TokenProvider";
 
 export class Provider<T = any> implements IProvider<T> {
-  @Enumerable()
-  public root: boolean = false;
-
   @Enumerable()
   public type: ProviderType | any = ProviderType.PROVIDER;
 
@@ -123,12 +120,12 @@ export class Provider<T = any> implements IProvider<T> {
     this.store.set("scope", scope);
   }
 
-  get configuration(): Partial<IDIConfigurationOptions> {
+  get configuration(): Partial<TsED.Configuration> {
     return this.get("configuration");
   }
 
   @Enumerable()
-  set configuration(configuration: Partial<IDIConfigurationOptions>) {
+  set configuration(configuration: Partial<TsED.Configuration>) {
     this.store.set("configuration", configuration);
   }
 

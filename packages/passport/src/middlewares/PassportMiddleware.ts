@@ -1,6 +1,6 @@
 import {EndpointInfo, Inject, Middleware, Req} from "@tsed/common";
 import * as Passport from "passport";
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 import {ProtocolsService} from "../services/ProtocolsService";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest";
 

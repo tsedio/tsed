@@ -1,7 +1,7 @@
 import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {Calendar} from "../../models/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";

@@ -1,6 +1,6 @@
 import {Configuration, EndpointInfo, IMiddleware, Middleware, Req, Res} from "@tsed/common";
 import * as multer from "multer";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {promisify} from "util";
 
 /**

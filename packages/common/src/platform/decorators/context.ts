@@ -1,6 +1,6 @@
 import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {RequestContext} from "../domain/RequestContext";
-import {UseFilter} from "../../mvc/decorators/params/useFilter";
+import {UseParam} from "../../mvc/decorators/params/useParam";
 import {mapParamsOptions} from "../../mvc/decorators/utils/mapParamsOptions";
 
 /**
@@ -56,7 +56,7 @@ export function Context(): ParameterDecorator;
 export function Context(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(ParamTypes.CONTEXT, {
+  return UseParam(ParamTypes.CONTEXT, {
     expression,
     useType,
     useConverter,

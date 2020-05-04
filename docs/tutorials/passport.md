@@ -123,6 +123,50 @@ Ts.ED provide a way to handle the strategy built by the `@tsed/passport` by usin
 
 <<< @/docs/tutorials/snippets/passport/DiscordProtocol.ts
 
+### Facebook Auth
+
+Facebook passport give an example to use scope on routes (permissions). We'll see how we can configure a route with mandatory `scope`.
+
+Here the corresponding Facebook protocol:
+
+<<< @/docs/tutorials/snippets/passport/FacebookProtocol.ts
+
+::: tip Note
+In order to use Facebook authentication, you must first create an app at Facebook Developers. When created, an app is assigned an App ID and App Secret. Your application must also implement a redirect URL, to which Facebook will redirect users after they have approved access for your application.
+
+The verify callback for Facebook authentication accepts `accessToken`, `refreshToken`, and `profile` arguments. `profile` will contain user profile information provided by Facebook; refer to User [Profile](http://www.passportjs.org/guide/profile/) for additional information.
+:::
+
+::: warning
+For security reasons, the redirection URL must reside on the same host that is registered with Facebook.
+:::
+
+Then we have to implement routes as following:
+
+<<< @/docs/tutorials/snippets/passport/PassportFacebookCtrl.ts
+
+::: tip Note
+@@Authenticate@@ decorator accept a second options to configure the `scope`. Is equivalent to `passport.authenticate('facebook', {scope: 'read_stream' })`
+:::
+
+## Roles
+
+Roles access management isn't a part of Passport.js and Ts.ED doesn't provide a way to handle this because is specific for each application.
+
+This section will give basic examples to implement your own roles strategy access.
+
+To begin we have to implement a middleware which will be responsible to check the user role:
+
+<<< @/docs/tutorials/snippets/passport/AcceptRolesMiddleware.ts
+
+Then, we have to create a decorator `AcceptRoles`. This decorator will store the given roles and register the AcceptRolesMiddleware created before.
+
+<<< @/docs/tutorials/snippets/passport/acceptRoles.ts
+
+Finally, we can use this decorator on an Endpoint like this:
+
+<<< @/docs/tutorials/snippets/passport/roles-usage.ts
+
 ## Decorators
 
 <ApiList query="module == '@tsed/passport' && symbolType === 'decorator'" />

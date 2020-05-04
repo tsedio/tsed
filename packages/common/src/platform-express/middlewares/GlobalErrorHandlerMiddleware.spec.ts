@@ -1,7 +1,7 @@
 import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {BadRequest} from "ts-httpexceptions/lib";
+import {BadRequest} from "@tsed/exceptions";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {GlobalErrorHandlerMiddleware} from "./GlobalErrorHandlerMiddleware";
 

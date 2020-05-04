@@ -1,5 +1,5 @@
 import {Err, Middleware, Req, Res} from "@tsed/common";
-import {Exception} from "ts-httpexceptions";
+import {Exception} from "@tsed/exceptions";
 import {$log} from "ts-log-debug";
 
 @Middleware()

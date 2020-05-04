@@ -1,4 +1,4 @@
-import {NotAcceptable} from "ts-httpexceptions";
+import {NotAcceptable} from "@tsed/exceptions";
 import {EndpointInfo, Middleware, Req} from "../decorators";
 import {IMiddleware} from "../interfaces";
 

@@ -187,77 +187,114 @@ class TaskModel {
 }
 ```
 
-### validationModelStrict
+### Additional properties Policy
 
-The `strict` validation of an object can be modified either globally or for a specific model.
+<<< @/docs/docs/snippets/converters/server-usage.ts
 
-Here is an example of `strict` validation:
+`additionalProperties` define the policy to adopt if the JSON object contains one more field than expected in the model.
 
+You are able to change the @@ConverterService@@ behavior about any additional properties when it try to deserialize a Plain JavaScript Object
+to a Ts.ED Model.
+
+#### Emit error
+
+By setting `error` on `converter.additionalProperties`, the deserializer will throw an @@UnknownPropertyError@@.
+
+If the model is the following:
 
 ```typescript
-import {InjectorService, ConvertersService, Required, Property} from "@tsed/common";
+import {Property} from "@tsed/common";
 
-InjectorService.load();
-
-class TaskModel {
-    @Required()
-    subject: string;
-    
-    @Property()
-    rate: number;
+export class Person {
+  @Property()
+  firstName: string;
 }
-
-const convertersService = InjectorService.get(ConvertersService);
-convertersService.validationModelStrict = true;
-
-convertersService.deserialize({unknowProperty: "test"}, TaskModel); // BadRequest
 ```
 
-#### Global
+Sending this object will throw an error:
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-
-@ServerSettings({
-   validationModelStrict: true | false
-})
-export class Server extends ServerLoader {
-   
-}      
-```
-> By default, the Converters service is configured on `strict` mode.
-
-#### ModelStrict
-
-```typescript
-import {ModelStrict, Required, Property} from "@tsed/common";
-
-@ModelStrict(false)
-class TaskModel {
-   @Required()
-   subject: string;
-   
-   @Property()
-   rate: number;
-   [key: string]: any; // recommended
+```json
+{
+  "firstName": "John",
+  "unknownProp": "Doe"
 }
-````
-
-In this case, the service will not raise more exception:
-
-```typescript
-import {InjectorService, ConvertersService} from "@tsed/common";
-
-InjectorService.load();
-
-const convertersService = InjectorService.get(ConvertersService);
-convertersService.validationModelStrict = true;
-
-const result = convertersService.deserialize({unknownProperty: "test"}, TaskModel);
-console.log(result) // TaskModel {unknownProperty: "test"}
 ```
 
-::: tip
-If you have disabled `strict` validation at the global level, you can use the `@ModelStrict(true)` decorator
-to enable validation for a specific model.
+::: tip Note
+The legacy `validationModelStrict: true` has the same behavior has  `converter.additionalProperties: true`.
 :::
+
+#### Merge additional property
+
+By setting `accept` on `converter.additionalProperties`, the deserializer will merge Plain Object JavaScript
+with the given Model.
+
+Here is the model:
+
+<<< @/docs/docs/snippets/converters/additional-property-accept-model-usage.ts
+
+And his controller:
+
+<<< @/docs/docs/snippets/converters/additional-property-accept-controller-usage.ts
+
+So sending this object won't throw an error:
+
+```json
+{
+  "firstName": "John",
+  "unknownProp": "Doe"
+}
+```
+
+::: tip Note
+The legacy `validationModelStrict: true` has the same behavior has  `converter.additionalProperties: true`.
+:::
+
+#### Ignore additional property
+
+By setting `ignore` on `converter.additionalProperties`, the deserializer will ignore additional properties
+when a Model is used on a Controller.
+
+```typescript
+import {Property} from "@tsed/common";
+
+export class Person {
+  @Property()
+  firstName: string;
+}
+```
+
+<<< @/docs/docs/snippets/converters/additional-property-ignore-controller-usage.ts
+
+#### AdditionalProperties decorator 
+<Badge text="v5.55.0+" /> 
+
+It also possible to change the @@ConverterService@@ behavior by using the @@AdditionalProperties@@ decorator directly on a model.
+
+This example will accept additional properties regardless of the value configured on `converter.additionalProperties`:
+
+```typescript
+import {Property, AdditionalProperties} from "@tsed/common"; 
+
+@AdditionalProperties(true) // is equivalent to converter.additionalProperties: 'accept'
+export class Person {
+  @Property()
+  firstName: string;
+ 
+  [key: string]: any;
+}
+```
+
+Also with falsy value, the converter will emit an error:
+```typescript
+import {Property, AdditionalProperties} from "@tsed/common"; 
+
+@AdditionalProperties(false) // is equivalent to converter.additionalProperty: 'error'
+export class Person {
+  @Property()
+  firstName: string;
+ 
+  [key: string]: any;
+}
+```
+

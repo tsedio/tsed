@@ -4,7 +4,7 @@ const {doc} = require("../../repo.config");
 const {branch} = require("../../release.config");
 
 module.exports = {
-  cnameBuild() {
+  async cnameBuild() {
     const {cname} = doc;
     const vuePressPath = "./docs/.vuepress/dist";
 
@@ -26,14 +26,13 @@ module.exports = {
 
       const pkg = JSON.parse(fs.readFileSync("./package.json", {encoding: "utf8"}));
       const {version} = pkg;
-      const {url, branch: branchDoc} = doc;
+      const {url, cname, branch: branchDoc} = doc;
 
       const {GH_TOKEN} = process.env;
       const repository = url.replace("https://", "");
-
-      exports.cnameBuild();
-
       const vuePressPath = "./docs/.vuepress/dist";
+
+      fs.writeFileSync(`${vuePressPath}/CNAME`, cname, {});
 
       try {
         await execa("git", ["init"], {

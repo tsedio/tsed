@@ -49,13 +49,29 @@ You can add more configurations to mount different endpoints associated to a fol
 
 ### Async and Promise
 
-Ts.ED supports Promise and `async` instruction to send a response. Just return a promise
-in your method and the controller will be waiting for your promised response before
-sending a response to the client.
+Ts.ED works well with Promise and `async` function. 
+Every async function has to return a `Promise`.
+This means that you can return a deferred value that Ts.ED will be able to resolve by itself. 
+
+Let's see an example of this:
 
 <<< @/docs/docs/snippets/controllers/async-controller.ts
 
-### Multiple endpoints, single method
+### Observable/Stream/Buffer
+
+Also, Ts.ED support function that return `Observable`, `Stream` or `Buffer`.
+
+<<< @/docs/docs/snippets/controllers/observable-stream-buffer-controller.ts
+
+### Axios response
+<Badge text="5.48.0+"/>
+
+Sometime, you just want call another API to proxy a webservice. 
+Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an Express.js response.
+
+<<< @/docs/docs/snippets/controllers/axios-controller.ts
+
+### Multiple endpoint, single method
 
 Ts.ED lets you define multiple endpoints on the same method, with the same verb like `GET` or `POST`, or with another
 verb like this:
@@ -78,11 +94,7 @@ In order to avoid such side-effects, simply move `findAll()` method above `findO
 ## Request
 ### Input parameters
 
-@@BodyParams@@ decorator provides quick access to an attribute `Express.request.body`.
-
-<<< @/docs/docs/snippets/controllers/params-decorator.ts
-
-Same decorator is available to get other params. Use these decorators to get parameters send by the client:
+Getting parameters from Express Request can be done by using the following decorators:
 
 - @@BodyParams@@: `Express.request.body`
 - @@PathParams@@: `Express.request.params`
@@ -135,7 +147,7 @@ You can set the response header with the @@Header@@ decorator:
 
 ### Throw exceptions
 
-You can use [ts-httpexceptions](https://github.com/TypedProject/ts-httpexceptions) or similar module to throw an http exception.
+You can use [@tsed/exceptions](/docs/exceptions.md)  or similar module to throw an http exception.
 All exception will be intercepted by the [Global error handler](/docs/middlewares/override/global-error-handler.md)
 and are sent to the client.
 
@@ -179,10 +191,10 @@ In this case, injection on the method isn't available.
 ## Advanced usage
 ### Templating
 
-Template feature depending on the engine rendering use by your application. Ts.ED provides a decorator @@Render@@ to define a view which will be used
-by the Endpoint to generate the response.
+A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your endpoint.
+Like Express.js, you need to configure the templating engine so that you can use it later with the @@Render@@ decorator.
 
-Here an example of a controller which use the @@Render@@ decorator:
+Here is an example of a controller which uses the @@Render@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-templating.ts
 
@@ -196,7 +208,7 @@ And its view:
 ```
 
 ::: tip
-See our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
+To configure a template engine with Ts.ED, see our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
 :::
 
 ### Middlewares

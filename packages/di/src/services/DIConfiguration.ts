@@ -1,6 +1,5 @@
 import {classOf, deepExtends, getValue, setValue} from "@tsed/core";
-import {IDIConfigurationOptions} from "../interfaces/IDIConfigurationOptions";
-import {ProviderScope} from "../interfaces/ProviderScope";
+import {IDIResolver, ProviderScope, TokenProvider} from "../interfaces";
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();
@@ -11,6 +10,8 @@ export class DIConfiguration {
   constructor(initialProps = {}) {
     Object.entries({
       scopes: {},
+      resolvers: [],
+      imports: [],
       ...initialProps
     }).forEach(([key, value]) => {
       this.default.set(key, value);
@@ -69,6 +70,22 @@ export class DIConfiguration {
     this.setRaw("scopes", value);
   }
 
+  get resolvers(): IDIResolver[] {
+    return this.getRaw("resolvers");
+  }
+
+  set resolvers(resolvers: IDIResolver[]) {
+    this.setRaw("resolvers", resolvers);
+  }
+
+  get imports(): TokenProvider[] {
+    return this.getRaw("imports");
+  }
+
+  set imports(imports: TokenProvider[]) {
+    this.setRaw("imports", imports);
+  }
+
   /**
    *
    * @param callbackfn
@@ -85,7 +102,7 @@ export class DIConfiguration {
    * @param propertyKey
    * @param value
    */
-  set(propertyKey: string | Partial<IDIConfigurationOptions>, value?: any): this {
+  set(propertyKey: string | Partial<TsED.Configuration>, value?: any): this {
     if (typeof propertyKey === "string") {
       this.setRaw(propertyKey, value);
     } else {
@@ -122,7 +139,7 @@ export class DIConfiguration {
     return getValue(propertyKey, this.default);
   }
 
-  merge(obj: Partial<IDIConfigurationOptions>) {
+  merge(obj: Partial<TsED.Configuration>) {
     Object.entries(obj).forEach(([key, value]) => {
       const descriptor = Object.getOwnPropertyDescriptor(DIConfiguration.prototype, key);
       const originalValue = this.get(key);

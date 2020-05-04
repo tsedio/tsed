@@ -1,5 +1,5 @@
 import {Constant, IMiddleware, Middleware, Req} from "@tsed/common";
-import {NotAcceptable} from "ts-httpexceptions";
+import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
 export default class GlobalAcceptMimesMiddleware implements IMiddleware {

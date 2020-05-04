@@ -281,7 +281,6 @@ describe("Rest", () => {
             Name: "test"
           });
 
-        console.log(response.text);
         expect(response.status).to.eq(200);
       });
     });
@@ -290,7 +289,7 @@ describe("Rest", () => {
       it("should allow creation", async () => {
         const response = await request
           .post(`/rest/user/`)
-          .send({name: "test", email: null, password: null, role_item: "test"})
+          .send({name: "test", email: null, password: null})
           .expect(201);
 
         expect(response.body).to.deep.eq({

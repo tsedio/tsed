@@ -1,5 +1,5 @@
 import {ParamTypes} from "../../models/ParamTypes";
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 
 declare global {
   namespace TsED {
@@ -29,5 +29,5 @@ export function Response(): ParameterDecorator {
  */
 export function Res(): ParameterDecorator;
 export function Res(): ParameterDecorator {
-  return UseFilter(ParamTypes.RESPONSE);
+  return UseParam(ParamTypes.RESPONSE);
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/servestatic",
-  "version": "5.45.1",
+  "version": "5.49.2",
   "description": "Serve-static package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,12 +9,13 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.45.1",
     "tslib": "1.11.1"
   },
   "peerDependencies": {
     "serve-static": "^1.14.1"
   },
   "private": false,
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsed/common": "5.49.2"
+  }
 }

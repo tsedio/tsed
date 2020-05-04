@@ -1,4 +1,4 @@
-import {constructorOf, Type} from "@tsed/core";
+import {classOf, constructorOf, Type} from "@tsed/core";
 import {IDIConfigurationOptions, InjectorService} from "@tsed/di";
 import {IRoute, Platform, PlatformApplication} from "../../platform";
 import {ContextMiddleware} from "../middlewares/ContextMiddleware";
@@ -150,7 +150,7 @@ export abstract class PlatformBuilder {
     return callHook(this.injector, this.rootModule, key, ...args);
   }
 
-  protected async bootstrap(module: Type<any>, settings: Partial<IDIConfigurationOptions> = {}) {
+  protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     this.createInjector(module, settings);
     this.createRootModule(module);
 
@@ -201,6 +201,11 @@ export abstract class PlatformBuilder {
   }
 
   protected createRootModule(module: Type<any>) {
-    this._rootModule = this.injector.invoke(module);
+    this._rootModule = this.injector.invoke(module, undefined, {
+      imports: this.settings.imports
+    });
+
+    this.injector.delete(constructorOf(this._rootModule));
+    this.injector.delete(classOf(this._rootModule));
   }
 }

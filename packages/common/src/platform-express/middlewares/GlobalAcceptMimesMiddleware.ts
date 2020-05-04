@@ -1,5 +1,5 @@
 import {Configuration} from "@tsed/di";
-import {NotAcceptable} from "ts-httpexceptions";
+import {NotAcceptable} from "@tsed/exceptions";
 import {IMiddleware, Middleware, Req} from "../../mvc";
 
 /**

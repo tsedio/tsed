@@ -1,5 +1,5 @@
+import {Container, InjectorService} from "@tsed/di";
 import {expect} from "chai";
-import {Container, InjectorService, TokenProvider} from "@tsed/di";
 
 describe("DI Resolvers", () => {
   describe("create new injector", () => {
@@ -15,13 +15,11 @@ describe("DI Resolvers", () => {
         }
       }
 
+      const externalDi = new Map();
+      externalDi.set(ExternalService, "MyClass");
       // GIVEN
       const injector = new InjectorService();
-      injector.resolvers.push({
-        get<T = any>(type: TokenProvider): T | undefined {
-          return type === ExternalService ? "MyClass" as any : undefined;
-        }
-      });
+      injector.settings.resolvers.push(externalDi);
 
       const container = new Container();
       container.add(MyService, {

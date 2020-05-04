@@ -3,7 +3,7 @@ import {Calendar} from "../models/Calendar";
 import {CalendarsService} from "../services/CalendarsService";
 
 @Controller("/calendars")
-export class CalendarCtrl {
+export class CalendarsController {
   constructor(private readonly calendarsService: CalendarsService) {
   }
 

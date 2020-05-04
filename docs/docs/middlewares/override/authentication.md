@@ -26,7 +26,7 @@ class MyCtrl {
 ## Example
 
 ```typescript
-import {Unauthorized} from "ts-httpexceptions";
+import {Unauthorized} from "@tsed/exceptions";
 import {IMiddleware, EndpointInfo, Req, Middleware} from "@tsed/common";
 
 @Middleware()

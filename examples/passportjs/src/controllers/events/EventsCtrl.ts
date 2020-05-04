@@ -14,7 +14,7 @@ import {
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
 import {Responses, Returns} from "@tsed/swagger";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {CalendarCreation} from "../../models/Calendar";
 import {Event, EventCreation} from "../../models/Event";

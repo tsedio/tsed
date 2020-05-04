@@ -1,6 +1,6 @@
 {
   "name": "@tsed/seq",
-  "version": "5.45.1",
+  "version": "5.49.2",
   "description": "Seq package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./src/index.ts",
@@ -20,8 +20,6 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/common": "5.45.1",
-    "@tsed/core": "5.45.1",
     "tslib": "1.11.1"
   },
   "peerDependencies": {
@@ -31,5 +29,8 @@
     "bunyan-seq": "^0.4.0"
   },
   "private": false,
-  "devDependencies": {}
+  "devDependencies": {
+    "@tsed/common": "5.49.2",
+    "@tsed/core": "5.49.2"
+  }
 }

@@ -2,6 +2,7 @@ import {IServerMountDirectories, PlatformApplication} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import * as Express from "express";
 
+// istanbul ignore next
 function statics(directory: string) {
   const middleware = Express.static(directory);
 

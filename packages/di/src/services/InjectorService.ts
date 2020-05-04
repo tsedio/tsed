@@ -20,7 +20,6 @@ import {Injectable} from "../decorators/injectable";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {
-  IDIConfigurationOptions,
   IDILogger,
   IInjectableProperties,
   IInjectablePropertyService,
@@ -32,7 +31,6 @@ import {
   ProviderScope,
   TokenProvider
 } from "../interfaces";
-import {IDIResolver} from "../interfaces/IDIResolver";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {DIConfiguration} from "./DIConfiguration";
 
@@ -41,8 +39,8 @@ interface IInvokeSettings {
   parent?: TokenProvider;
   scope: ProviderScope;
   isBindable: boolean;
-  deps: any[];
-  imports: any[];
+  deps: TokenProvider[];
+  imports: TokenProvider[];
 
   construct(deps: TokenProvider[]): any;
 }
@@ -76,16 +74,22 @@ interface IInvokeSettings {
   global: true
 })
 export class InjectorService extends Container {
-  public settings: IDIConfigurationOptions & DIConfiguration = new DIConfiguration() as any;
+  public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
   public logger: IDILogger = console;
-  readonly resolvers: IDIResolver[] = [];
-  public scopes: {[key: string]: ProviderScope} = {};
   private resolvedConfiguration: boolean = false;
 
   constructor() {
     super();
     const provider = this.addProvider(InjectorService).getProvider(InjectorService)!;
     provider.instance = this;
+  }
+
+  get resolvers() {
+    return this.settings.resolvers!;
+  }
+
+  get scopes() {
+    return this.settings.scopes!;
   }
 
   /**
@@ -225,15 +229,13 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!provider.root) {
-        if (!locals.has(provider.token)) {
-          if (provider.isAsync()) {
-            await this.invoke(provider.token, locals);
-          }
+      if (!locals.has(provider.token)) {
+        if (provider.isAsync()) {
+          await this.invoke(provider.token, locals);
+        }
 
-          if (provider.instance) {
-            locals.set(provider.token, provider.instance);
-          }
+        if (provider.instance) {
+          locals.set(provider.token, provider.instance);
         }
       }
     }
@@ -245,14 +247,12 @@ export class InjectorService extends Container {
     const providers = super.toArray();
 
     for (const provider of providers) {
-      if (!provider.root) {
-        if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
-          this.invoke(provider.token, locals);
-        }
+      if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
+        this.invoke(provider.token, locals);
+      }
 
-        if (provider.instance) {
-          locals.set(provider.token, provider.instance);
-        }
+      if (provider.instance) {
+        locals.set(provider.token, provider.instance);
       }
     }
 
@@ -293,7 +293,8 @@ export class InjectorService extends Container {
     super.forEach(provider => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          this.settings.default.set(key, deepExtends(this.settings.default.get(key) || {}, value));
+          value = this.settings.default.has(key) ? deepExtends(this.settings.default.get(key), value) : deepClone(value);
+          this.settings.default.set(key, value);
         });
       }
       if (provider.resolvers) {
@@ -301,7 +302,7 @@ export class InjectorService extends Container {
       }
     });
 
-    this.scopes = this.settings.scopes = Object.freeze(Object.assign({}, this.settings.default.get("scopes"), this.settings.scopes));
+    this.settings["scopes"] = Object.freeze(Object.assign({}, this.settings.default.get("scopes"), this.settings.scopes));
     this.settings.build();
 
     this.resolvedConfiguration = true;
@@ -403,7 +404,7 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
+  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue): PropertyDescriptor {
     const clone = (o: any) => {
       if (o) {
         return Object.freeze(deepClone(o));
@@ -569,10 +570,7 @@ export class InjectorService extends Container {
 
     if (!this.hasProvider(token)) {
       // findById
-      const resolver = this.resolvers.find(resolver => {
-        return resolver.get(token);
-      });
-
+      const resolver = this.resolvers.find(resolver => resolver.get(token));
       const provider = new Provider(token);
 
       if (resolver) {

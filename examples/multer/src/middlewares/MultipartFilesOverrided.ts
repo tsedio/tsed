@@ -2,7 +2,7 @@
 // import {MultipartFileMiddleware} from "@tsed/multipartfiles";
 // import * as Express from "express";
 // import * as multer from "multer";
-// import {BadRequest} from "ts-httpexceptions";
+// import {BadRequest} from "@tsed/exceptions";
 // import {promisify} from "util";
 //
 // @OverrideProvider(MultipartFileMiddleware)

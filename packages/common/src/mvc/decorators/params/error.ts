@@ -1,5 +1,5 @@
 import {ParamTypes} from "../../models/ParamTypes";
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 
 /**
  *
@@ -7,7 +7,7 @@ import {UseFilter} from "./useFilter";
  * @decorators
  */
 export function Err(): Function {
-  return UseFilter(ParamTypes.ERR, {
+  return UseParam(ParamTypes.ERR, {
     useValidation: false,
     useConverter: false
   });

@@ -1,7 +1,7 @@
 import {JsonSchemesService, OverrideService, ValidationService} from "@tsed/common";
 import * as Ajv from "ajv";
 import {ErrorObject} from "ajv";
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 
 @OverrideService(ValidationService)
 export class AjvService extends ValidationService {

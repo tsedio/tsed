@@ -43,7 +43,7 @@ Here an example with the PassportLocal:
 ```typescript
 import {BodyParams, Req, Format, Required} from "@tsed/common";
 import {Strategy} from "passport-local";
-import {BadRequest, Unauthorized} from "ts-httpexceptions";
+import {BadRequest, Unauthorized} from "@tsed/exceptions";
 import {Protocol, OnInstall, OnVerify} from "@tsed/passport"; 
 import {Inject} from "@tsed/di";
 import {UserService} from "../services/UserService"

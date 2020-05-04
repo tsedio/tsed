@@ -1,4 +1,4 @@
-import {BadRequest} from "ts-httpexceptions";
+import {BadRequest} from "@tsed/exceptions";
 
 export class RequiredParamError extends BadRequest {
   errors: any[];

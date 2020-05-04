@@ -4,7 +4,12 @@ import {$logStub} from "../../../../../test/helper/tools";
 import {InjectorService, ServerLoader, ServerSettings} from "../../../src";
 
 function createServer() {
-  @ServerSettings({debug: true, port: 8000, httpsPort: 8080})
+  @ServerSettings({
+    debug: true,
+    port: 8000,
+    httpsPort: 8080,
+    imports: [class Test {}]
+  })
   class TestServer extends ServerLoader {
     $onInit() {}
 

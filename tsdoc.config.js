@@ -28,6 +28,7 @@ module.exports = {
       "interceptors": "common/interceptors",
       "server": "common/server"
     },
+    "exceptions": "exceptions",
     "ajv": "ajv",
     "mongoose": "mongoose",
     "multipartfiles": "multipartfiles",

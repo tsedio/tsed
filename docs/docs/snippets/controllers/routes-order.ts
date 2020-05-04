@@ -1,7 +1,7 @@
 import {Controller, Get, PathParams} from "@tsed/common";
 
 @Controller("/calendars")
-export class CatsController {
+export class CalendarsController {
   @Get(":id")
   findOne(@PathParams("id") id: string) {
     return `This action returns a #${id} cat`;

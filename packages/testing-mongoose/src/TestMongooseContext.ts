@@ -1,4 +1,4 @@
-import {IDIConfigurationOptions, ServerLoader} from "@tsed/common";
+import {ServerLoader} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {TestContext} from "@tsed/testing";
 import {MongoMemoryServer} from "mongodb-memory-server";
@@ -25,7 +25,7 @@ export class TestMongooseContext extends TestContext {
   /**
    * Connect to the in-memory database.
    */
-  static bootstrap(mod: Type<ServerLoader>, options: Partial<IDIConfigurationOptions> = {}): () => Promise<void> {
+  static bootstrap(mod: Type<ServerLoader>, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       await TestMongooseContext.install(options.mongod);
 
@@ -38,7 +38,7 @@ export class TestMongooseContext extends TestContext {
     };
   }
 
-  static async create(options: Partial<IDIConfigurationOptions> = {}) {
+  static async create(options: Partial<TsED.Configuration> = {}) {
     await TestMongooseContext.install(options.mongod);
 
     options.mongoose = await TestMongooseContext.getMongooseOptions();

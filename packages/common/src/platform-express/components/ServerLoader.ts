@@ -1,5 +1,5 @@
 import {constructorOf, Deprecated, Type} from "@tsed/core";
-import {IDIConfigurationOptions, InjectorService} from "@tsed/di";
+import {InjectorService} from "@tsed/di";
 import * as Express from "express";
 import * as Http from "http";
 import * as Https from "https";
@@ -17,11 +17,11 @@ import {ExpressApplication} from "../decorators/expressApplication";
 import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
 import {GlobalErrorHandlerMiddleware} from "../middlewares/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../middlewares/LogIncomingRequestMiddleware";
-import {ServeStaticService} from "../services/ServeStaticService";
-import {createExpressApplication} from "../utils";
 
 import "../services/PlatformExpressApplication";
 import "../services/PlatformExpressRouter";
+import {ServeStaticService} from "../services/ServeStaticService";
+import {createExpressApplication} from "../utils";
 
 const VERSION = require("../../../package.json").version;
 
@@ -67,7 +67,7 @@ const VERSION = require("../../../package.json").version;
 export abstract class ServerLoader extends PlatformBuilder implements IServerLifecycle {
   public version: string = VERSION;
 
-  constructor(settings: Partial<IDIConfigurationOptions> = {}) {
+  constructor(settings: Partial<TsED.Configuration> = {}) {
     super();
     this._rootModule = this;
     this.createInjector(constructorOf(this), settings);
@@ -107,7 +107,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
     return this.injector.get<HttpsServer>(HttpsServer)!;
   }
 
-  static async bootstrap(module: Type<ServerLoader>, settings: Partial<IDIConfigurationOptions> = {}): Promise<ServerLoader> {
+  static async bootstrap(module: any, settings: Partial<TsED.Configuration> = {}): Promise<ServerLoader> {
     const server = new module(settings);
 
     await server.runLifecycle();
@@ -368,7 +368,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
   }
 
   /* istanbul ignore next */
-  protected setSettings(settings: Partial<IDIConfigurationOptions>) {
+  protected setSettings(settings: Partial<TsED.Configuration>) {
     this.settings.set(settings);
 
     /* istanbul ignore next */
@@ -387,5 +387,9 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
     createExpressApplication(this.injector);
     createHttpsServer(this.injector);
     createHttpServer(this.injector);
+
+    this.settings.imports?.forEach(token => {
+      this.injector.invoke(token);
+    });
   }
 }

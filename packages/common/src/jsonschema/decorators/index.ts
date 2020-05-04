@@ -1,3 +1,4 @@
+export * from "./additionalProperties";
 export * from "./property";
 export * from "./propertyName";
 export * from "./propertyType";
@@ -25,3 +26,4 @@ export * from "./any";
 export * from "./schema";
 export * from "./title";
 export * from "./ignoreProperty";
+export * from "./const";

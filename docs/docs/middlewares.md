@@ -72,6 +72,7 @@ As you see in the previous section, a middleware can be used on different contex
 - [Endpoint](/docs/controllers.md).
 
 A middleware added to a controller or endpoint level has the same constraint as the endpoint method itself. 
+
 It'll be played only when the url request matches with the path associated to the controller and its endpoint method.
 
 When a request is sent to the server all middlewares added in the @@ServerLoader@@, [Controller](/docs/controllers.md) or Endpoint with decorators

@@ -2,7 +2,7 @@ import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
-import {UseFilter} from "./useFilter";
+import {UseParam} from "./useParam";
 
 declare global {
   namespace TsED {
@@ -12,11 +12,9 @@ declare global {
   }
 }
 
-export interface Request extends TsED.Request {
-}
+export interface Request extends TsED.Request {}
 
-export interface Req extends TsED.Request {
-}
+export interface Req extends TsED.Request {}
 
 /**
  * Request service.
@@ -47,7 +45,7 @@ export function Req(): ParameterDecorator;
 export function Req(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseFilter(ParamTypes.REQUEST, {
+  return UseParam(ParamTypes.REQUEST, {
     expression,
     useType,
     useConverter,

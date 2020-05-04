@@ -46,7 +46,7 @@ Then, add your middleware on your endpoint's controller:
 
 ```typescript
 import {Controller, Get, UseAfter} from "@tsed/common";
-import {NotFound} from "ts-httpexceptions";
+import {NotFound} from "@tsed/exceptions";
 
 @Controller('/test')
 class MyCtrl {

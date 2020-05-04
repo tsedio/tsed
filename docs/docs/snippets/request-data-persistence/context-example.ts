@@ -1,5 +1,5 @@
 import {Context, Controller, Get, Middleware, Req, UseBefore} from "@tsed/common";
-import {Forbidden} from "ts-httpexceptions";
+import {Forbidden} from "@tsed/exceptions";
 
 @Middleware()
 class AuthTokenMiddleware {

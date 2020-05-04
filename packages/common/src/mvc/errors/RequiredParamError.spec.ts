@@ -9,6 +9,7 @@ describe("RequiredParamError", () => {
     expect(JSON.parse(JSON.stringify(errorInstance))).to.deep.equal({
       name: "BAD_REQUEST",
       status: 400,
+      headers: {},
       type: "HTTP_EXCEPTION",
       errors: [
         {

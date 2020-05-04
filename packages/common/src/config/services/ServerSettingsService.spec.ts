@@ -53,6 +53,7 @@ describe("ServerSettingsService", () => {
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
       settings.debug = true;
+      settings.converter = {};
 
       settings.setHttpPort({address: "address", port: 8081});
       settings.setHttpsPort({address: "address", port: 8080});
@@ -150,6 +151,10 @@ describe("ServerSettingsService", () => {
       expect(settings.routers).to.deep.equal({mergeParams: true});
     });
 
+    it("should return converter settings", () => {
+      expect(settings.converter).to.deep.equal({});
+    });
+
     it("should return controllerScope", () => {
       expect(settings.controllerScope).to.equal("singleton");
     });
@@ -159,9 +164,6 @@ describe("ServerSettingsService", () => {
     });
 
     it("should return validationModelStrict", () => {
-      expect(settings.validationModelStrict).to.equal(true);
-      expect(settings.validationModelStrict).to.equal(true);
-
       settings.validationModelStrict = false;
       expect(settings.validationModelStrict).to.equal(false);
     });
