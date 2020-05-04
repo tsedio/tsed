@@ -8,6 +8,6 @@ describe("UnknownPropertyError", () => {
     const errorInstance = new UnknownPropertyError(Test, "propertyKey");
 
     expect(errorInstance.message).to.equal("Property propertyKey on class Test is not allowed.");
-    expect(errorInstance.name).to.equal("BAD_REQUEST");
+    expect(errorInstance.name).to.equal("UNKNOWN_PROPERTY_ERROR");
   });
 });

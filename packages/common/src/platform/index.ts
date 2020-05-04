@@ -24,6 +24,10 @@ export * from "./domain/RequestLogger";
 export * from "./domain/RequestLogger";
 export * from "./domain/ControllerProvider";
 
+// errors
+export * from "./errors/ParamValidationError";
+export * from "./errors/UnknownFilterError";
+
 // providers
 export * from "./services/Platform";
 export * from "./services/PlatformDriver";

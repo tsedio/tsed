@@ -43,7 +43,6 @@ describe("Query spec", () => {
   after(TestContext.reset);
 
   describe("Scenario1: Boolean value", () => {
-
     it("should return true when query is true", async () => {
       const response = await request.get("/rest/test-scenario-1?test=true").expect(200);
 
@@ -136,7 +135,7 @@ describe("Query spec", () => {
     });
     it("should throw bad request", async () => {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
-
+      // FIXME REMOVE THIS when @tsed/schema is out
       response.text.should.be.deep.equal("Bad request on parameter \"request.query.test\".<br />Cast error. Expression value is not a number.");
     });
     it("should return undefined when query is empty", async () => {

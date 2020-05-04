@@ -8,10 +8,12 @@ import {
   IHandlerConstructorOptions,
   IPipe,
   ParamMetadata,
-  ParamTypes,
-  UnknowFilterError
+  ParamTypes
 } from "../../mvc";
+import {ValidationError} from "../../mvc/errors/ValidationError";
 import {HandlerContext} from "../domain/HandlerContext";
+import {ParamValidationError} from "../errors/ParamValidationError";
+import {UnknownFilterError} from "../errors/UnknownFilterError";
 
 @Injectable({
   scope: ProviderScope.SINGLETON
@@ -143,7 +145,7 @@ export class PlatformHandler {
     const instance = this.injector.get<IFilter>(param.filter);
 
     if (!instance || !instance.transform) {
-      throw new UnknowFilterError(param.filter!);
+      throw new UnknownFilterError(param.filter!);
     }
 
     return instance.transform(expression, context.request, context.response);
@@ -188,7 +190,7 @@ export class PlatformHandler {
     } = context;
 
     try {
-      context.args = parameters.map(param => this.mapParam(param, context));
+      context.args = await Promise.all(parameters.map(param => this.mapParam(param, context)));
 
       await context.callHandler();
     } catch (error) {
@@ -210,13 +212,26 @@ export class PlatformHandler {
 
   /**
    *
-   * @param param
+   * @param metadata
    * @param context
    */
-  private mapParam(param: ParamMetadata, context: HandlerContext) {
+  private async mapParam(metadata: ParamMetadata, context: HandlerContext) {
     const {injector} = context;
-    const value = this.getParam(param, context);
+    const value = this.getParam(metadata, context);
 
-    return param.pipes.reduce((value, pipe) => injector.get<IPipe>(pipe)!.transform(value, param), value);
+    // istanbul ignore next
+    const handleError = async (cb: Function) => {
+      try {
+        return await cb();
+      } catch (er) {
+        throw er instanceof ValidationError ? ParamValidationError.from(metadata, er) : er;
+      }
+    };
+
+    return metadata.pipes.reduce(async (value, pipe) => {
+      value = await value;
+
+      return handleError(() => injector.get<IPipe>(pipe)!.transform(value, metadata));
+    }, value);
   }
 }

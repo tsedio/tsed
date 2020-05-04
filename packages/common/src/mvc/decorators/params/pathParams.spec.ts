@@ -1,7 +1,5 @@
-import * as Sinon from "sinon";
-import {ParamRegistry, ParamTypes, PathParams} from "../../../../src/mvc";
+import {ParamRegistry, ParamTypes, PathParams, RawPathParams} from "../../../../src/mvc";
 
-const sandbox = Sinon.createSandbox();
 describe("@PathParams", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {
     class Test {}
@@ -14,5 +12,14 @@ describe("@PathParams", () => {
     param.expression.should.eq("expression");
     param.paramType.should.eq(ParamTypes.PATH);
     param.type.should.eq(Test);
+  });
+  it("should call ParamFilter.useParam method with the correct parameters (raw)", () => {
+    class Ctrl {
+      test(@RawPathParams("expression") header: string) {}
+    }
+
+    const param = ParamRegistry.get(Ctrl, "test", 0);
+    param.expression.should.eq("expression");
+    param.paramType.should.eq(ParamTypes.PATH);
   });
 });

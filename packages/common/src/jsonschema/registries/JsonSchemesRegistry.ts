@@ -1,4 +1,5 @@
-import {ancestorsOf, deepExtends, isClass, Registry, Store, Type} from "@tsed/core";
+import {getJsonType} from "../utils/getJsonType";
+import {ancestorsOf, deepExtends, isClass, isPrimitiveOrPrimitiveClass, Registry, Store, Type} from "@tsed/core";
 import {JSONSchema6} from "json-schema";
 import {JsonSchema} from "../class/JsonSchema";
 
@@ -85,6 +86,12 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
    * @returns {JSONSchema6}
    */
   getSchemaDefinition(target: Type<any>): JSONSchema6 {
+    if (isPrimitiveOrPrimitiveClass(target)) {
+      return {
+        type: getJsonType(target)
+      };
+    }
+
     return ancestorsOf(target).reduce((acc: JSONSchema6, target: Type<any>) => {
       deepExtends(acc, this.getSchema(target));
 

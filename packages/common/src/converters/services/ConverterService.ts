@@ -1,14 +1,11 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Type} from "@tsed/core";
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
-import {BadRequest} from "@tsed/exceptions";
 import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
 import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
-import {getJsonSchema} from "../../jsonschema/utils/getSchema";
+import {getJsonSchema} from "../../jsonschema/utils/getJsonSchema";
 import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
 import {CONVERTER} from "../constants/index";
-import {ConverterDeserializationError} from "../errors/ConverterDeserializationError";
-import {ConverterSerializationError} from "../errors/ConverterSerializationError";
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
@@ -63,36 +60,31 @@ export class ConverterService {
    * @param options
    */
   serialize(obj: any, options: IConverterOptions = {}): any {
-    try {
-      if (isEmpty(obj)) {
-        return obj;
-      }
+    if (isEmpty(obj)) {
+      return obj;
+    }
 
-      const converter = this.getConverter(obj);
-      const serializer: ISerializer = (o: any, opt?: any) => this.serialize(o, Object.assign({}, options, opt));
+    const converter = this.getConverter(obj);
+    const serializer: ISerializer = (o: any, opt?: any) => this.serialize(o, Object.assign({}, options, opt));
 
-      if (converter && converter.serialize) {
-        // serialize from a custom JsonConverter
-        return converter.serialize(obj, serializer);
-      }
+    if (converter && converter.serialize) {
+      // serialize from a custom JsonConverter
+      return converter.serialize(obj, serializer);
+    }
 
-      if (typeof obj.serialize === "function") {
-        // serialize from serialize method
-        return obj.serialize(options, this);
-      }
+    if (typeof obj.serialize === "function") {
+      // serialize from serialize method
+      return obj.serialize(options, this);
+    }
 
-      if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
-        // serialize from serialize method
-        return obj.toJSON();
-      }
+    if (typeof obj.toJSON === "function" && !obj.toJSON.$ignore) {
+      // serialize from serialize method
+      return obj.toJSON();
+    }
 
-      // Default converter
-      if (!isPrimitiveOrPrimitiveClass(obj)) {
-        return this.serializeClass(obj, options);
-      }
-    } catch (err) {
-      /* istanbul ignore next */
-      throw err.name === "BAD_REQUEST" ? err : new ConverterSerializationError(getClass(obj), err);
+    // Default converter
+    if (!isPrimitiveOrPrimitiveClass(obj)) {
+      return this.serializeClass(obj, options);
     }
 
     /* istanbul ignore next */
@@ -132,11 +124,6 @@ export class ConverterService {
       }
     });
 
-    // Required validation
-    if (checkRequiredValue) {
-      this.checkRequiredValue(obj, properties);
-    }
-
     return plainObject;
   }
 
@@ -157,59 +144,55 @@ export class ConverterService {
   deserialize(obj: any, targetType: any, baseType?: any, options: IConverterOptions = {}): any {
     const {ignoreCallback, checkRequiredValue = true} = options;
 
-    try {
-      if (ignoreCallback && ignoreCallback(obj, targetType, baseType)) {
-        return obj;
-      }
+    if (ignoreCallback && ignoreCallback(obj, targetType, baseType)) {
+      return obj;
+    }
 
-      if (targetType !== Boolean && (isEmpty(obj) || isEmpty(targetType) || targetType === Object)) {
-        return obj;
-      }
+    if (targetType !== Boolean && (isEmpty(obj) || isEmpty(targetType) || targetType === Object)) {
+      return obj;
+    }
 
-      const converter = this.getConverter(targetType);
-      const deserializer: IDeserializer = (o: any, targetType: any, baseType: any) => this.deserialize(o, targetType, baseType, options);
+    const converter = this.getConverter(targetType);
+    const deserializer: IDeserializer = (o: any, targetType: any, baseType: any) => this.deserialize(o, targetType, baseType, options);
 
-      if (converter) {
-        // deserialize from a custom JsonConverter
-        return converter!.deserialize!(obj, targetType, baseType, deserializer);
-      }
+    if (converter) {
+      // deserialize from a custom JsonConverter
+      return converter!.deserialize!(obj, targetType, baseType, deserializer);
+    }
 
-      /* istanbul ignore next */
-      if (isArrayOrArrayClass(obj)) {
-        const converter = this.getConverter(Array);
+    /* istanbul ignore next */
+    if (isArrayOrArrayClass(obj)) {
+      const converter = this.getConverter(Array);
 
-        return converter!.deserialize!(obj, Array, baseType, deserializer);
-      }
+      return converter!.deserialize!(obj, Array, baseType, deserializer);
+    }
 
-      if ((targetType as any).prototype && typeof (targetType as any).prototype.deserialize === "function") {
-        // deserialize from method
+    if ((targetType as any).prototype && typeof (targetType as any).prototype.deserialize === "function") {
+      // deserialize from method
 
-        const instance = new targetType();
-        instance.deserialize(obj);
-
-        return instance;
-      }
-
-      // Default converter
       const instance = new targetType();
-      const properties = PropertyRegistry.getProperties(targetType);
-
-      Object.keys(obj).forEach((propertyName: string) => {
-        const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
-
-        return this.convertProperty(obj, instance, propertyName, propertyMetadata, options);
-      });
-
-      // Required validation
-      if (checkRequiredValue) {
-        this.checkRequiredValue(instance, properties);
-      }
+      instance.deserialize(obj);
 
       return instance;
-    } catch (err) {
-      /* istanbul ignore next */
-      throw err.name === "BAD_REQUEST" ? err : new ConverterDeserializationError(targetType, obj, err);
     }
+
+    // Default converter
+    const instance = new targetType();
+    const properties = PropertyRegistry.getProperties(targetType);
+
+    Object.keys(obj).forEach((propertyName: string) => {
+      const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
+
+      return this.convertProperty(obj, instance, propertyName, propertyMetadata, options);
+    });
+
+    // Required validation
+    if (checkRequiredValue) {
+      // TODO v6 REMOVE REQUIRED check
+      this.checkRequiredValue(instance, properties);
+    }
+
+    return instance;
   }
 
   /**
@@ -264,38 +247,22 @@ export class ConverterService {
     let propertyValue = obj[propertyMetadata!.name] || obj[propertyName];
     const propertyKey = propertyMetadata!.propertyKey || propertyName;
 
-    try {
-      if (typeof instance[propertyKey] !== "function") {
-        if (typeof propertyMetadata!.onDeserialize === "function") {
-          propertyValue = propertyMetadata!.onDeserialize(propertyValue);
-        }
-
-        instance[propertyKey] = this.deserialize(
-          propertyValue,
-          propertyMetadata!.isCollection ? propertyMetadata!.collectionType : propertyMetadata!.type,
-          propertyMetadata!.type,
-          options
-        );
+    if (typeof instance[propertyKey] !== "function") {
+      if (typeof propertyMetadata!.onDeserialize === "function") {
+        propertyValue = propertyMetadata!.onDeserialize(propertyValue);
       }
-    } catch (err) {
-      /* istanbul ignore next */
-      (() => {
-        const castedErrorMessage = `Error for ${propertyName} with value ${JSON.stringify(propertyValue)} \n ${err.message}`;
-        if (err instanceof BadRequest) {
-          throw new BadRequest(castedErrorMessage);
-        }
-        const castedError: any = new Error(castedErrorMessage);
-        castedError.status = err.status;
-        castedError.stack = err.stack;
-        castedError.origin = err;
 
-        throw castedError;
-      })();
+      instance[propertyKey] = this.deserialize(
+        propertyValue,
+        propertyMetadata!.isCollection ? propertyMetadata!.collectionType : propertyMetadata!.type,
+        propertyMetadata!.type,
+        options
+      );
     }
   }
 
   /**
-   *
+   * @deprecated
    * @param instance
    * @param {Map<string | symbol, PropertyMetadata>} properties
    */

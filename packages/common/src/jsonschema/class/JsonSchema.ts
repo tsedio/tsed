@@ -1,21 +1,7 @@
-import {
-  deepExtends,
-  descriptorOf,
-  Enumerable,
-  isArrayOrArrayClass,
-  isDate,
-  isPrimitiveOrPrimitiveClass,
-  nameOf,
-  NotEnumerable,
-  primitiveOf
-} from "@tsed/core";
+import {deepExtends, descriptorOf, Enumerable, isArrayOrArrayClass, nameOf, NotEnumerable} from "@tsed/core";
 import {JSONSchema6, JSONSchema6Type, JSONSchema6TypeName} from "json-schema";
+import {getJsonType} from "../utils/getJsonType";
 
-/**
- *
- * @type {string[]}
- */
-export const JSON_TYPES = ["string", "number", "integer", "boolean", "object", "array", "null", "any"];
 /**
  *
  * @type {string[]}
@@ -160,7 +146,7 @@ export class JsonSchema implements JSONSchema6 {
   set type(value: any | JSONSchema6TypeName | JSONSchema6TypeName[]) {
     if (value) {
       this._refName = nameOf(value);
-      this._type = JsonSchema.getJsonType(value);
+      this._type = getJsonType(value);
     } else {
       delete this._refName;
       delete this._type;
@@ -208,30 +194,11 @@ export class JsonSchema implements JSONSchema6 {
   /**
    *
    * @param value
+   * @deprecated
    * @returns {JSONSchema6TypeName | JSONSchema6TypeName[]}
    */
   static getJsonType(value: any): JSONSchema6TypeName | JSONSchema6TypeName[] {
-    if (isPrimitiveOrPrimitiveClass(value)) {
-      if (JSON_TYPES.indexOf(value as string) > -1) {
-        return value;
-      }
-
-      return primitiveOf(value);
-    }
-
-    if (isArrayOrArrayClass(value)) {
-      if (value !== Array) {
-        return value;
-      }
-
-      return "array";
-    }
-
-    if (isDate(value)) {
-      return "string";
-    }
-
-    return "object";
+    return getJsonType(value);
   }
 
   /**

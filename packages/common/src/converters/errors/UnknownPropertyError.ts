@@ -1,16 +1,14 @@
 import {nameOf, Type} from "@tsed/core";
-import {BadRequest} from "@tsed/exceptions";
+import {ValidationError} from "../../mvc/errors/ValidationError";
 
 /**
- * @private
+ *
  */
-export class UnknownPropertyError extends BadRequest {
-  errors: any[];
+export class UnknownPropertyError extends ValidationError {
+  public name: string = "UNKNOWN_PROPERTY_ERROR";
 
   constructor(target: Type<any>, propertyName: string | symbol) {
-    super(UnknownPropertyError.buildMessage(target, propertyName));
-
-    this.errors = [
+    super(`Property ${String(propertyName)} on class ${nameOf(target)} is not allowed.`, [
       {
         dataPath: "",
         keyword: "unknown",
@@ -21,16 +19,6 @@ export class UnknownPropertyError extends BadRequest {
         },
         schemaPath: "#/unknown"
       }
-    ];
-  }
-
-  /**
-   *
-   * @returns {string}
-   * @param target
-   * @param propertyName
-   */
-  static buildMessage(target: Type<any>, propertyName: string | symbol) {
-    return `Property ${String(propertyName)} on class ${nameOf(target)} is not allowed.`;
+    ]);
   }
 }

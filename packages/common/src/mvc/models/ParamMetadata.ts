@@ -17,8 +17,8 @@ export interface IParamConstructorOptions {
   pipes?: Type<IPipe>[];
 }
 
-export interface IPipe {
-  transform(value: any, context: ParamMetadata): any;
+export interface IPipe<T = any, R = any> {
+  transform(value: T, metadata: ParamMetadata): R;
 }
 
 export class ParamMetadata extends Storable implements IParamConstructorOptions {

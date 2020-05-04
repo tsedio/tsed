@@ -92,7 +92,7 @@ export class Store {
    * @param key Required. The key of the element to return from the Map object.
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
-  get(key: any): any {
+  get<T = any>(key: any): T {
     return this._map.get(nameOf(key));
   }
 

@@ -80,8 +80,8 @@ class MyController {
 
 ## Override a Service
 
-The decorator [@OverrideService](/api/di/decorators/OverrideService.md) gives you the ability to
-override some internal Ts.ED service like the [ParseService](/api/common/filters/services/ParseService.md).
+The decorator @@OverrideProvider@@ gives you the ability to
+override some internal Ts.ED service like the @@ParseService@@.
 
 Example usage:
 ```typescript

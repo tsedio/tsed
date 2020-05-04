@@ -1,4 +1,5 @@
 export * from "./applyBefore";
+export * from "./catchError";
 export * from "./DecoratorUtils";
 export * from "./deepExtends";
 export * from "./deepClone";

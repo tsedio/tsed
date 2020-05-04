@@ -1,4 +1,4 @@
-import {JsonSchema, PathParamsType} from "@tsed/common";
+import {getJsonType, PathParamsType} from "@tsed/common";
 import {deepExtends} from "@tsed/core";
 
 function getVariable(subpath: string) {
@@ -82,7 +82,7 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
  * @returns {string | string[]}
  */
 export function swaggerType(type: any): string {
-  return JsonSchema.getJsonType(type) as any;
+  return getJsonType(type) as any;
 }
 
 /**

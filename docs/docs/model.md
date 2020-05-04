@@ -12,6 +12,19 @@ The classes models can be used in the following cases:
 To create a model, Ts.ED provides decorators which will store and generate a 
 standard [JsonSchema](http://json-schema.org/) model.
 
+::: warning
+Validation is only available when you import `@tsed/ajv` package in your server.
+
+```typescript
+import "@tsed/ajv";
+
+@ServerSettings()
+class Server extends ServerLoader {}
+```
+
+Without this package, decorators like @@Email@@ won't have any effect.
+:::
+
 ## Example
 
 The example below uses decorators to describe a property of the class and store metadata
@@ -50,10 +63,31 @@ use @@PropertyType@@ decorator as following:
 ## Use JsonSchema
 
 In some cases, it may be useful to retrieve the JSON Schema from a Model to use with another library.
-
-Here is an example of use with the AJV library:
+This is possible by using @@getJsonSchema@@. Here a small example:
 
 <<< @/docs/docs/snippets/model/jsonschema.ts
+
+Result:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "minLength": 3
+    },
+    "lastName": {
+      "type": "string",
+      "minLength": 3
+    }
+  },
+  "required": [
+    "firstName",
+    "lastName"
+  ]
+}
+```
 
 ## Decorators
 
