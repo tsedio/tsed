@@ -12,6 +12,7 @@ Pipes have two typical use cases:
 Pipes are called when an Incoming request is handled by the controller route handler and operate on the `Request` object.
 Pipe receive the argument where the pipe is placed. This means, each parameters can invoke a list of pipes, and it can be different for each parameters.
 Any transformation or validation operation takes place at that time, after which the route handler is invoked with any (potentially) transformed arguments.
+Finally, both of transformation or validation must implement a `transform()` method and return the expected value.
 
 ::: tip
 Pipes run inside an exception zones. This means that when a Pipe throws an exception, it will be handled by the @@GlobalExceptionHandler@@. Given the above, 
