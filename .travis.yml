@@ -12,7 +12,9 @@ node_js:
   - 12
   - 10
 
-script: yarn test && yarn travis:coveralls
+script:
+  - yarn test
+  - yarn travis:coveralls
 
 jobs:
   include:

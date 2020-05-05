@@ -1,6 +1,7 @@
 import {Env, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
+import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
 export interface ITestInvokeOptions {
   token?: TokenProvider;
@@ -125,5 +126,25 @@ export class PlatformTest {
     }
 
     return instance as any;
+  }
+
+  /**
+   * Return the raw application (express or koa).
+   * Use this callback with SuperTest.
+   *
+   * ```typescript
+   * let request: SuperTest.SuperTest<SuperTest.Test>;
+   * beforeEach(PlatformTest.bootstrap(Server, {
+   *   mount: {
+   *     "/rest": [ProductsController]
+   *   }
+   * }));
+   * beforeEach(() => {
+   *   request = SuperTest(PlatformTest.callback());
+   * });
+   * ```
+   */
+  static callback() {
+    return PlatformTest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
   }
 }
