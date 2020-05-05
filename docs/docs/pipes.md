@@ -74,7 +74,8 @@ class ParamMetadata {
   required: boolean;
   paramType: string | ParamTypes;
   expression: string;
-  useType: Type<any>;
+  type: Type<any>;
+  collectionType: Type<any>;
   pipes: Type<IPipe>[];
   store: Store;
 }
