@@ -1,6 +1,6 @@
 import {ConverterService, getJsonSchema, Inject, IPipe, OverrideProvider, ParamMetadata, ParamTypes, ValidationPipe} from "@tsed/common";
 import {isEmpty} from "@tsed/core";
-import {Ajv} from "../services/Ajv";
+import {AJV} from "../services/Ajv";
 import {AjvErrorFormatterPipe} from "./AjvErrorFormatterPipe";
 
 @OverrideProvider(ValidationPipe)
@@ -11,8 +11,8 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
   @Inject()
   formatter: AjvErrorFormatterPipe;
 
-  @Inject()
-  ajv: Ajv;
+  @Inject(AJV)
+  ajv: AJV;
 
   transform(value: any, metadata: ParamMetadata): any {
     const {schema} = metadata.store.get(AjvValidationPipe) || {};
