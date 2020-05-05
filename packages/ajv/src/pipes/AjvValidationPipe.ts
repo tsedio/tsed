@@ -1,4 +1,4 @@
-import {ConverterService, getJsonSchema, Inject, IPipe, OverrideProvider, ParamMetadata, ValidationPipe} from "@tsed/common";
+import {ConverterService, getJsonSchema, Inject, IPipe, OverrideProvider, ParamMetadata, ParamTypes, ValidationPipe} from "@tsed/common";
 import {isEmpty} from "@tsed/core";
 import {Ajv} from "../services/Ajv";
 import {AjvErrorFormatterPipe} from "./AjvErrorFormatterPipe";
@@ -63,16 +63,17 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
 
     const options = {
       ignoreCallback: (obj: any, type: any) => type === Date,
-      checkRequiredValue: false
+      checkRequiredValue: false,
+      additionalProperties: metadata.paramType === ParamTypes.QUERY ? "ignore" : undefined
     };
 
     if (metadata.isCollection) {
       Object.entries(value).forEach(([key, item]) => {
-        item = this.converterService.deserialize(item, metadata.type, undefined, options); // FIXME REMOVE THIS when @tsed/schema is out
+        item = this.converterService.deserialize(item, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
         this.validate(schema, item, {type: metadata.type, index: key});
       });
     } else {
-      value = this.converterService.deserialize(value, metadata.type, undefined, options); // FIXME REMOVE THIS when @tsed/schema is out
+      value = this.converterService.deserialize(value, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
       this.validate(schema, value, {type: metadata.type});
     }
   }

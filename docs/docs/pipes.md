@@ -1,4 +1,5 @@
 # Pipes
+<Badge text="5.50.0+"/>
 
 A pipe is a class annotated with the @@Injectable@@ decorator. 
 Pipes should implement the @@IPipe@@ interface.

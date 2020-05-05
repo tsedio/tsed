@@ -1,8 +1,20 @@
-import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
+import {getJsonSchema, ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
 import {deepExtends, nameOf, Store, Type} from "@tsed/core";
 import {BodyParameter, FormDataParameter, HeaderParameter, Parameter, PathParameter, QueryParameter, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
+
+function serializeModelToParameter(model: ParamMetadata) {
+  const schema = getJsonSchema(model.type);
+
+  return Object.entries(schema.properties!).map(([key, item]: any[]) => {
+    return {
+      name: [model.expression, key].filter(Boolean).join("."),
+      required: (schema.required || []).includes(key),
+      ...item
+    };
+  });
+}
 
 export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
   private _parameters: Parameter[] = [];
@@ -91,30 +103,40 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
    * @param {ParamMetadata} model
    * @returns {Schema}
    */
-  protected createSchemaFromQueryParam(model: ParamMetadata): Schema {
+  protected createSchemaFromQueryParam(model: ParamMetadata): Schema[] {
     const type: any = swaggerType(model.type);
     if (model.isCollection) {
       if (model.isArray) {
-        return {
-          type: "array",
-          collectionFormat: "multi",
-          items: {
-            type
+        return [
+          {
+            type: "array",
+            collectionFormat: "multi",
+            items: {
+              type
+            }
           }
-        } as any;
+        ] as any[];
       }
 
-      return {
-        type: "object",
-        additionalProperties: {
-          type
+      return [
+        {
+          type: "object",
+          additionalProperties: {
+            type
+          }
         }
-      };
+      ];
     }
 
-    return {
-      type
-    };
+    if (model.isClass) {
+      return serializeModelToParameter(model);
+    }
+
+    return [
+      {
+        type
+      }
+    ];
   }
 
   /**
@@ -253,22 +275,24 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
   private getInQueryParams(): QueryParameter[] {
     return this.injectedParams
       .filter((param: ParamMetadata) => param.paramType === ParamTypes.QUERY)
-      .map(param => {
+      .reduce((params, param) => {
         if (param.required) {
           this.addResponse400();
         }
 
-        return Object.assign(
-          {},
-          param.store.get("baseParameter"),
-          {
-            in: "query",
-            name: param.expression,
-            required: !!param.required
-          },
-          this.createSchemaFromQueryParam(param)
-        );
-      });
+        return [
+          ...params,
+          ...this.createSchemaFromQueryParam(param).map(item => {
+            return {
+              ...(param.store.get<any>("baseParameter") || {}),
+              in: "query",
+              name: param.expression,
+              required: Boolean(param.required),
+              ...item
+            };
+          })
+        ];
+      }, []);
   }
 
   /**

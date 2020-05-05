@@ -1,16 +1,18 @@
-import {ParamMetadata, ParamRegistry, ParamTypes, Property, Required} from "@tsed/common";
+import {MinLength, ParamMetadata, ParamRegistry, ParamTypes, Property, Required} from "@tsed/common";
 import {BodyParams} from "@tsed/common/src/mvc/decorators/params/bodyParams";
+import {QueryParams} from "@tsed/common/src/mvc/decorators/params/queryParams";
 import {MultipartFile} from "@tsed/multipartfiles/src";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {Ctrl, SwaFoo2} from "../../test/helpers/class/classes";
 import {Consumes, Description} from "../index";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
-import {Ctrl, SwaFoo2} from "../../test/helpers/class/classes";
 
 const param0 = new ParamMetadata({target: Ctrl, propertyKey: "test", index: 0});
 param0.paramType = ParamTypes.BODY;
 param0.type = SwaFoo2;
 
+const sandbox = Sinon.createSandbox();
 describe("OpenApiParamsBuilder", () => {
   describe("build()", () => {
     describe("when consumes has application/x-www-form-urlencoded", () => {
@@ -85,7 +87,7 @@ describe("OpenApiParamsBuilder", () => {
     });
   });
 
-  describe("getInQueryParams()", () => {
+  describe("getInQueryParams()", function test() {
     before(() => {
       const storeGet = (key: string) => {
         if (key === "hidden") {
@@ -124,7 +126,7 @@ describe("OpenApiParamsBuilder", () => {
 
       this.builder = new OpenApiParamsBuilder(Ctrl, "test");
       Sinon.stub(this.builder, "addResponse400");
-      Sinon.stub(this.builder, "createSchemaFromQueryParam").returns({type: "string"});
+      Sinon.stub(this.builder, "createSchemaFromQueryParam").returns([{type: "string"}]);
 
       this.result = this.builder.getInQueryParams();
     });
@@ -626,9 +628,11 @@ describe("OpenApiParamsBuilder", () => {
         this.getParamsStub.restore();
       });
       it("should return the right schema", () => {
-        this.result.should.deep.equal({
-          type: "string"
-        });
+        this.result.should.deep.equal([
+          {
+            type: "string"
+          }
+        ]);
       });
     });
 
@@ -650,40 +654,48 @@ describe("OpenApiParamsBuilder", () => {
         this.getParamsStub.restore();
       });
       it("should return the right schema", () => {
-        this.result.should.deep.equal({
-          type: "array",
-          collectionFormat: "multi",
-          items: {
-            type: "string"
+        this.result.should.deep.equal([
+          {
+            type: "array",
+            collectionFormat: "multi",
+            items: {
+              type: "string"
+            }
           }
-        });
+        ]);
       });
     });
 
     describe("when there is an object of string", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        sandbox.stub(ParamRegistry, "getParams");
+      });
+      after(() => {
+        sandbox.restore();
+      });
+      it("should return the right schema", () => {
+        // @ts-ignore
+        ParamRegistry.getParams.returns([param0]);
 
-        this.builder = new OpenApiParamsBuilder(Ctrl, "test");
+        const builder = new OpenApiParamsBuilder(Ctrl, "test");
 
-        this.result = this.builder.createSchemaFromQueryParam({
+        // @ts-ignore
+        const result = builder.createSchemaFromQueryParam({
           expression: "t1",
           type: String,
           isClass: false,
           isCollection: true,
           isArray: false
         });
-      });
-      after(() => {
-        this.getParamsStub.restore();
-      });
-      it("should return the right schema", () => {
-        this.result.should.deep.equal({
-          type: "object",
-          additionalProperties: {
-            type: "string"
+
+        result.should.deep.equal([
+          {
+            type: "object",
+            additionalProperties: {
+              type: "string"
+            }
           }
-        });
+        ]);
       });
     });
   });
@@ -872,6 +884,45 @@ describe("OpenApiParamsBuilder", () => {
           type: "object"
         }
       });
+    });
+    it("should create query params", () => {
+      class ParameterModel {
+        @Property()
+        @Required()
+        name: string;
+
+        @Property()
+        @MinLength(1)
+        start: string;
+      }
+
+      class Ctrl {
+        test(@QueryParams() test: ParameterModel, @QueryParams("id") id: string) {}
+      }
+
+      const builder = new OpenApiParamsBuilder(Ctrl, "test").build();
+
+      expect(builder.parameters).to.deep.eq([
+        {
+          in: "query",
+          name: "name",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "query",
+          minLength: 1,
+          name: "start",
+          required: false,
+          type: "string"
+        },
+        {
+          in: "query",
+          name: "id",
+          required: false,
+          type: "string"
+        }
+      ]);
     });
   });
 });

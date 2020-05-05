@@ -32,7 +32,31 @@ describe("DeserializerPipe", () => {
       expect(pipe.transform({}, param)).to.deep.eq({});
 
       // @ts-ignore
-      pipe.converterService.deserialize.should.have.been.calledWithExactly({}, Array, String);
+      pipe.converterService.deserialize.should.have.been.calledWithExactly({}, Array, String, {additionalProperties: undefined});
+    })
+  );
+  it(
+    "should transform an object to a model (Query)",
+    TestContext.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
+      // @ts-ignore
+      sandbox.stub(pipe.converterService, "deserialize").returns({});
+
+      class Test {}
+
+      const param = new ParamMetadata({
+        index: 0,
+        target: Test,
+        propertyKey: "test",
+        paramType: ParamTypes.QUERY
+      });
+      // @ts-ignore
+      param._type = String;
+      param.collectionType = Array;
+      // WHEN
+      expect(pipe.transform({}, param)).to.deep.eq({});
+
+      // @ts-ignore
+      pipe.converterService.deserialize.should.have.been.calledWithExactly({}, Array, String, {additionalProperties: "ignore"});
     })
   );
 });
