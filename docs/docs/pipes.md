@@ -10,13 +10,13 @@ Pipes have two typical use cases:
 - **validation**: evaluate input data and if valid, simply pass it through unchanged; otherwise, throw an exception when the data is incorrect
 
 Pipes are called when an Incoming request is handled by the controller route handler and operate on the `Request` object.
-Pipe receive the argument where the pipe is placed. This means, each parameters can invoke a list of pipes, and it can be different for each parameters.
+Pipe receives the argument where it is placed. This means that each parameter can invoke a list of pipes, which can be different for each parameter.
 Any transformation or validation operation takes place at that time, after which the route handler is invoked with any (potentially) transformed arguments.
-Finally, both of transformation or validation must implement a `transform()` method and return the expected value.
+Finally, both transformation and validation must implement a `transform()` method and return the expected value.
 
 ::: tip
-Pipes run inside an exception zones. This means that when a Pipe throws an exception, it will be handled by the @@GlobalExceptionHandler@@. Given the above, 
-any method controller are called when an exception is thrown inside a Pipe.
+Pipes run inside an exception zone. It means that when a Pipe throws an exception, it will be handled by the @@GlobalExceptionHandler@@. Given the above, 
+any method controller is called when an exception is thrown inside a Pipe.
 :::
 
 ## Built-in pipes
@@ -27,10 +27,10 @@ Ts.ED comes with the following pipes:
 - @@ValidationPipe@@,
 - @@DeserializerPipe@@
 
-Theses pipes are exported to allow pipes overriding. Theses decorators are commonly used by @@BodyParams@@, @@QueryParams@@, etc...
-In this case, the pipes are added by using @@UseParam@@ on a parameters.
+These pipes are exported to allow pipes overriding. These decorators are commonly used by @@BodyParams@@, @@QueryParams@@, etc.
+In this case, the pipes are added by using @@UseParam@@ on a parameter.
 
-For example, the @@BodyParams@@ use on a parameters call the @@UseParams@@ with some options, and @@UseParams@@ call also different decorators
+For example, the use of @@BodyParams@@ on a parameter calls the @@UseParams@@ with some options, and @@UseParams@@ calls also different decorators
 to add Pipes:
 
 <Tabs class="-code">
@@ -63,7 +63,7 @@ Every pipe has to provide the transform() method. This method has two parameters
 - `value`
 - `metadata`
 
-The `value` is the currently processed argument (before it is received by the route handling method), while metadata is its `metadata`. 
+The `value` is the currently processed argument (before it is received by the route handling method), while metadata is its `metadata`.
 The metadata object has these properties (see also @@ParamMetadata@@):
 
 ```typescript
@@ -74,8 +74,7 @@ class ParamMetadata {
   required: boolean;
   paramType: string | ParamTypes;
   expression: string;
-  type: Type<any>;
-  collectionType: Type<any>;
+  useType: Type<any>;
   pipes: Type<IPipe>[];
   store: Store;
 }
@@ -85,15 +84,15 @@ These properties describe the current processed argument.
 
 Property | Description
 ---|---
-`target` | The class of the parameter
-`propertyKey` | The method of the parameter
+`target` | The parameter's class
+`propertyKey` | The parameter's method
 `index` | The position of the parameter in the method signature
-`required` | Indicates whether the parameter is required
-`paramType` | @@ParamTypes@@ represents the starting object used by the first pipe,  
-`expression` | Expression used to get the property from the object injected with paramType,
+`required` | Indicates whether the parameter is required or not
+`paramType` | @@ParamTypes@@ represents the starting object used by the first pipe
+`expression` | Expression used to get the property from the object injected with paramType
 `type` | Class used to deserialize the plain object
 `collectionType` | Collection type used to deserialize a collection of plain object
-`store` | @@Store@@ contain extra options collected by the decorators used on the parameter.
+`store` | @@Store@@ contains extra options collected by the decorators used on the parameter.
 
 ::: warning
 TypeScript interfaces disappear during transpilation. Thus, if a method parameter's `type` is declared as an interface instead of a class, the type value will be `Object`. 
@@ -101,14 +100,14 @@ TypeScript interfaces disappear during transpilation. Thus, if a method paramete
 
 ## Validation use case
 
-The goal of validation use case is to ensure that the input parameter is valid before use in a method.
+The goal of validation use case is to ensure that the input parameter is valid before using it in a method.
 
-Officially, Ts.ED use @@JsonSchema@@ two ways to declare a JsonSchema:
+Officially, Ts.ED uses @@JsonSchema@@ two ways to declare a JsonSchema:
 
 - With [model](/docs/models.html) decorators,
 - With @@UseSchema@@ decorator.
 
-We'll takes the model declaration to explain the Validation pipe use case. Let's focus in on the a `PersonModel`:
+We'll take the model declaration to explain the Validation pipe use case. Let's focus on the `PersonModel`:
 
 ```typescript
 import {MinLength, Required} from "@tsed/common";
@@ -151,13 +150,13 @@ So we have to validate the two members of the `PersonModel` object, used as type
 
 <<< @/docs/docs/snippets/pipes/controller-model-validation.ts
 
-By using a pipe, we'll are able to handle the parameter, get his schema and use a validation library (here is AJV)
-and throw exception when the payload is not valid.
+By using a pipe, we are able to handle the parameter, get its schema and use a validation library (here AJV)
+and throw an exception when the payload is not valid.
  
 <<< @/docs/docs/snippets/pipes/validation-pipe-with-ajv.ts
 
-The validation pipe is a very specific use case because, Ts.ED use it automatically when a parameter is handled
- by the **routing request**. The previous pipe example, to works, need to be registered with the @@OverrideProvider@@ decorator instead of @@Injectable@@.
+The validation pipe is a very specific use case because Ts.ED uses it automatically when a parameter is handled
+ by the **routing request**. The previous pipe example, in order to work, needs to be registered with the @@OverrideProvider@@ decorator instead of @@Injectable@@.
 
 See more details on the [validation page](/docs/validation.html).
 
@@ -167,7 +166,7 @@ Validation isn't the sole use case for **Pipes**.
 At the beginning of this chapter, we mentioned that a pipe can also **transform** the input data to the desired output. 
 This is possible because the value returned from the transform function completely overrides the previous value of the argument.
 
-When is this useful? Consider that sometimes the data passed from the client needs to undergo some change - *for example converting plain object javascript to class* - before it can be properly handled by the route handler method. 
+When is this useful? Consider that sometimes the data passed from the client needs to undergo some changes - *for example converting plain object javascript to class* - before it can be properly handled by the route handler method. 
 Furthermore, some required data fields may be missing, and we would like to apply default values. 
 
 Transformer pipes can perform these functions by interposing a processing function between the client request and the request handler.
@@ -184,8 +183,8 @@ On the previous example, we use @@RawPathParams@@ to get the raw value, without 
 
 ## Async transformation use case
 
-Pipe transformation support also `async` and promise as returned value. 
-This is useful, when you have to get data from **database** based on an input data like an ID. 
+Pipe transformation also supports `async` and promise as a returned value. 
+This is useful when you have to get data from **database** based on an input data like an ID. 
 
 Given this `PersonModel`:
 
@@ -216,14 +215,14 @@ Then, we can use this pipe on a parameter with @@UsePipe@@:
 <<< @/docs/docs/snippets/pipes/async-transformer-pipe-usage.ts
 
 ::: tip
-The previous example use two pipes decorators which are dependent to each other. We can summarize it by declaring a custom decorator:
+The previous example uses two pipes decorators which are dependent on each other. We can summarize it by declaring a custom decorator:
 
 <<< @/docs/docs/snippets/pipes/pipes-decorator.ts
 :::
 
 ## Get options from decorator
 
-Sometime it might be useful to forward option from decorator used on parameters to the registered Pipe.
+Sometimes it might be useful to forward options from a decorator used on parameters to the registered Pipe.
 
 Let's focus on our previous decorator example, by adding extra parameter options:
 
