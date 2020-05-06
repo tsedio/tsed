@@ -2,9 +2,9 @@ import {RawPathParams, UsePipe} from "@tsed/common";
 import {applyDecorators} from "@tsed/core";
 import {PersonPipe} from "../services/PersonPipe";
 
-export function UsePersonParam(): ParameterDecorator {
+export function UsePersonParam(expression: string): ParameterDecorator {
   return applyDecorators(
-    RawPathParams("id"),
+    RawPathParams(expression),
     UsePipe(PersonPipe)
   );
 }
