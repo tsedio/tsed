@@ -262,3 +262,35 @@ Let's focus on our previous decorator example, by adding extra parameter options
 Now, we can retrieve the options by using the `metadata.store`:
 
 <<< @/docs/docs/snippets/pipes/async-transformer-pipe-with-options.ts
+
+And finally, we can use our new decorator on a parameter:
+
+```typescript
+import {Controller, Put, RawPathParams, UsePipe} from "@tsed/common";
+import {PersonModel} from "../models/PersonModel";
+import {PersonPipe} from "../services/PersonPipe";
+
+@Controller("/persons")
+export class PersonsController {
+  @Put("/:id")
+  async update(@UsePersonParam("id") person: PersonModel) {
+
+    // do something
+
+    return person;
+  }
+}import {Controller, Put, RawPathParams, UsePipe} from "@tsed/common";
+import {PersonModel} from "../models/PersonModel";
+import {PersonPipe} from "../services/PersonPipe";
+
+@Controller("/persons")
+export class PersonsController {
+  @Put("/:id")
+  async update(@UsePersonParam("id", {optional: true}) person: PersonModel) {
+
+    // do something
+
+    return person;
+  }
+}
+```
