@@ -9,14 +9,19 @@ Pipes have two typical use cases:
 - **transformation**: transform input data to the desired output
 - **validation**: evaluate input data and if valid, simply pass it through unchanged; otherwise, throw an exception when the data is incorrect
 
-Pipes are called when an Incoming request is handled by the controller route handler and operate on the `Request` object.
+Pipes are called when an Incoming request is handled by the controller route handler and operate on **the method's parameters**. It takes **Request** or **Response** object and transform theses object to the expected value.
+
 Pipe receives the argument where it is placed. This means that each parameter can invoke a list of pipes, which can be different for each parameter.
-Any transformation or validation operation takes place at that time, after which the route handler is invoked with any (potentially) transformed arguments.
+
+```typescript
+@Get("/")
+getMethod(@UsePipe(MyPipe) value: string, @UsePipe(MyPipe2) @UsePipe(MyPipe3) value2: string) {}
+```
+
 Finally, both transformation and validation must implement a `transform()` method and return the expected value.
 
 ::: tip
-Pipes run inside an exception zone. It means that when a Pipe throws an exception, it will be handled by the @@GlobalExceptionHandler@@. Given the above, 
-any method controller is called when an exception is thrown inside a Pipe.
+Pipes run inside an exception zone. It means that when a Pipe throws an exception, it will be handled by the @@GlobalExceptionHandler@@. Given the above, it should be clear that when an exception is thrown in a Pipe, no controller method is subsequently executed.
 :::
 
 ## Built-in pipes
@@ -58,7 +63,7 @@ Initially, we'll have it simply take an input value and immediately return the s
 `IPipe<T, R>` is a generic interface in which `T` indicates the type of the input value, and `R` indicates the return type of the `transform()` method. 
 :::
 
-Every pipe has to provide the transform() method. This method has two parameters:
+Every pipe has to provide the `transform()` method. This method has two parameters:
 
 - `value`
 - `metadata`
@@ -74,7 +79,8 @@ class ParamMetadata {
   required: boolean;
   paramType: string | ParamTypes;
   expression: string;
-  useType: Type<any>;
+  type: Type<any>;
+  collectionType: Type<any>;
   pipes: Type<IPipe>[];
   store: Store;
 }
@@ -102,10 +108,10 @@ TypeScript interfaces disappear during transpilation. Thus, if a method paramete
 
 The goal of validation use case is to ensure that the input parameter is valid before using it in a method.
 
-Officially, Ts.ED uses @@JsonSchema@@ two ways to declare a JsonSchema:
+Officially, Ts.ED has two way to declare a @@JsonShema@@ validation:
 
 - With [model](/docs/models.html) decorators,
-- With @@UseSchema@@ decorator.
+- With @@UseSchema@@ decorator, it's a decorator Pipe provided by @tsed/ajv package.
 
 We'll take the model declaration to explain the Validation pipe use case. Let's focus on the `PersonModel`:
 
@@ -214,11 +220,36 @@ Then, we can use this pipe on a parameter with @@UsePipe@@:
 
 <<< @/docs/docs/snippets/pipes/async-transformer-pipe-usage.ts
 
-::: tip
-The previous example uses two pipes decorators which are dependent on each other. We can summarize it by declaring a custom decorator:
+## Custom pipe decorator
+
+In the previous section, we show you how to use a Pipe on a parameter:
+
+<<< @/docs/docs/snippets/pipes/async-transformer-pipe-usage.ts
+
+In this example, our pipe need to be called with @@RawPathParams@@ two work properly, because our pipe return an instance of `PersonModel`. @@PathParams@@ call automatically the @@DeserializerPipe@@ and it's not what we want. This is why we using @@RawPathParams@@.
+
+To avoid future mistakes, it could be a good idea to summarize these two decorators in one as following:
 
 <<< @/docs/docs/snippets/pipes/pipes-decorator.ts
-:::
+
+Now, we can use our custom decorator on parameter:
+
+```typescript
+import {Controller, Put, RawPathParams, UsePipe} from "@tsed/common";
+import {PersonModel} from "../models/PersonModel";
+import {PersonPipe} from "../services/PersonPipe";
+
+@Controller("/persons")
+export class PersonsController {
+  @Put("/:id")
+  async update(@UsePersonParam("id") person: PersonModel) {
+
+    // do something
+
+    return person;
+  }
+}
+```
 
 ## Get options from decorator
 
