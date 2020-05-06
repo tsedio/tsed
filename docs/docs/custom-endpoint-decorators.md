@@ -1,7 +1,22 @@
 # Custom endpoint decorator
 
-Custom endpoint decorator could be interesting when you want to handle a request and perform actions before or after the endpoint method.
-It's based on the middleware but offers you more options and control over your decorated endpoint.
+Custom endpoint decorator could be interesting when you want to handle a request and perform actions before or after the endpoint method. 
+
+Unlike [Pipes](/docs/pipes.html) that operate on the parameters of a method, the endpoint decorator will operate on the method itself.
+
+It's based on the middleware and use one of these decorators to work:
+
+- @@UseBefore@@: use the given middleware before the method,
+- @@Use@@: use the given middleware after `UseBefore` but before the method,
+- @@UseAfter@@: use the given middleware after the method.
+
+## Built-in
+
+Many other decorators are implemented and can be taken as an example to build your own endpoint decorator. Just follow the links here and click on source link to see source code on Github:
+
+<ApiList query="status.indexOf('endpoint') > -1 && status.indexOf('decorator') > -1" />
+
+## Build your own decorator
 
 One of the usecases already implemented by Ts.ED is the @@AcceptMimesMiddleware@@:
 
@@ -35,9 +50,3 @@ you can register a pure express middleware to reach better performance.
 
 <<< @/docs/docs/snippets/middlewares/custom-endpoint-decorator-status.ts
 :::
-
-## Built-in endpoint decorators
-
-Many other decorators are implemented and can be taken as an example to build your own endpoint decorator. Just follow the links here and click on source link to see source code on Github:
-
-<ApiList query="status.indexOf('endpoint') > -1 && status.indexOf('decorator') > -1" />
