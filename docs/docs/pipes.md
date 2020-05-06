@@ -273,19 +273,6 @@ import {PersonPipe} from "../services/PersonPipe";
 @Controller("/persons")
 export class PersonsController {
   @Put("/:id")
-  async update(@UsePersonParam("id") person: PersonModel) {
-
-    // do something
-
-    return person;
-  }
-}import {Controller, Put, RawPathParams, UsePipe} from "@tsed/common";
-import {PersonModel} from "../models/PersonModel";
-import {PersonPipe} from "../services/PersonPipe";
-
-@Controller("/persons")
-export class PersonsController {
-  @Put("/:id")
   async update(@UsePersonParam("id", {optional: true}) person: PersonModel) {
 
     // do something
