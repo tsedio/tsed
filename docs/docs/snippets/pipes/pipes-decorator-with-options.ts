@@ -6,9 +6,9 @@ export interface IUsePersonParamOptions {
   optional?: boolean;
 }
 
-export function UsePersonParam(options: IUsePersonParamOptions = {}): ParameterDecorator {
+export function UsePersonParam(expression: string, options: IUsePersonParamOptions = {}): ParameterDecorator {
   return applyDecorators(
-    RawPathParams("id"),
+    RawPathParams(expression),
     UsePipe(PersonPipe, options) // UsePipe accept second parameter to store your options
   );
 }
