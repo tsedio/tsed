@@ -22,7 +22,7 @@ export async function listenHttpServer(injector: InjectorService) {
   const {settings} = injector;
   const server = injector.get<HttpServer>(HttpServer);
 
-  if (settings.httpPort && server) {
+  if (settings.httpPort !== false && server) {
     const {address, port} = settings.getHttpPort();
     injector.logger.debug(`Start server on http://${address}:${port}`);
 

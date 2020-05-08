@@ -1,4 +1,4 @@
-import {createHttpServer, listenHttpServer} from "@tsed/common";
+import {createHttpServer, createHttpsServer, HttpsServer, listenHttpServer, listenHttpsServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {expect} from "chai";
@@ -45,5 +45,66 @@ describe("createHttpServer", () => {
     await promise;
 
     injector.settings.setHttpPort.should.have.been.calledWithExactly({address: "address", port: 8080});
+  });
+  it("should listen the server with port 0", async () => {
+    const injector = new InjectorService();
+    injector.logger = $log;
+    injector.logger.stop();
+    // @ts-ignore
+    injector.settings = {
+      httpPort: 0,
+      getHttpPort: Sinon.stub().returns({address: "address", port: 0}),
+      setHttpPort: Sinon.stub()
+    };
+
+    createHttpServer(injector);
+
+    const http = injector.get<HttpServer>(HttpServer)!;
+
+    // @ts-ignore
+    Sinon.stub(http, "on").callsFake((event, fn: any) => {
+      if (event === "listening") {
+        fn();
+      }
+    });
+    Sinon.stub(http, "listen");
+    // @ts-ignore
+    Sinon.stub(http, "address").returns({port: 0});
+
+    const promise = listenHttpServer(injector);
+
+    http.listen.should.have.been.calledWithExactly(0, "address");
+
+    await promise;
+
+    injector.settings.setHttpPort.should.have.been.calledWithExactly({address: "address", port: 0});
+  });
+  it("should not listen the server when it's false", async () => {
+    const injector = new InjectorService();
+    injector.logger = $log;
+    injector.logger.stop();
+    // @ts-ignore
+    injector.settings = {
+      httpPort: false
+    };
+
+    createHttpServer(injector);
+
+    const http = injector.get<HttpServer>(HttpServer)!;
+
+    // @ts-ignore
+    Sinon.stub(http, "on").callsFake((event, fn: any) => {
+      // @ts-ignore
+      if (event === "listening") {
+        fn();
+      }
+    });
+    Sinon.stub(http, "listen");
+    // @ts-ignore
+    Sinon.stub(http, "address").returns({port: 8080});
+
+    await listenHttpServer(injector);
+
+    return http.listen.should.not.have.been.called;
   });
 });
