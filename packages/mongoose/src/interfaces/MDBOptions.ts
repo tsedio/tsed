@@ -4,5 +4,8 @@ import {MDBConnection} from "./MDBConnection";
 export interface IMDBOptions {
   url?: string;
   connectionOptions?: ConnectionOptions;
-  urls?: {[key: string]: MDBConnection};
+  /**
+   * @deprecated
+   */
+  urls?: {[key: string]: MDBConnection & {id?: string}};
 }

@@ -14,7 +14,7 @@ export class MongooseService {
    *
    * @returns {Promise<"mongoose".Connection>}
    */
-  async connect(id: string, url: string, connectionOptions: Mongoose.ConnectionOptions): Promise<any> {
+  async connect(id: string, url: string, connectionOptions: Mongoose.ConnectionOptions, isDefault = false): Promise<any> {
     if (this.has(id)) {
       return await this.get(id)!;
     }
@@ -26,6 +26,10 @@ export class MongooseService {
     try {
       const mongoose = await Mongoose.connect(url, connectionOptions);
       this._instances.set(id, mongoose);
+
+      if (id === "default" || isDefault) {
+        this._instances.set("default", mongoose);
+      }
 
       return mongoose;
     } catch (er) {

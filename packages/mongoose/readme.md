@@ -37,14 +37,13 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @ServerSettings({
- mongoose: {
-   urls: {
-     default: {
-       url: "mongodb://127.0.0.1:27017/db1",
-       connectionOptions: {}
-     }
-   }  
- }
+ mongoose: [
+   {
+     id: "default",
+     url: "mongodb://127.0.0.1:27017/db1",
+     connectionOptions: {}
+   }
+ ]
 })
 export class Server extends ServerLoader {
 
@@ -61,20 +60,18 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @ServerSettings({
-  mongoose: {
-    urls: {
-      default: { // connection use by default
-        url: "mongodb://127.0.0.1:27017/default",
-        connectionOptions: {
-        }
-      },
-      db2: {
-        url: "mongodb://127.0.0.1:27017/db2",
-        connectionOptions: {
-        }
-      }
-    }
-  }
+ mongoose: [
+   {
+     id: "default",
+     url: "mongodb://127.0.0.1:27017/db1",
+     connectionOptions: {}
+   },
+   {
+     id: "default",
+     url: "mongodb://127.0.0.1:27017/db2",
+     connectionOptions: {}
+   }
+ ]
 })
 export class Server extends ServerLoader {
 
@@ -117,8 +114,8 @@ import {
 import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose"
 
 enum Categories {
-    CAT1 = "cat1",
-    CAT2 = "cat2"
+  CAT1 = "cat1",
+  CAT2 = "cat2"
 }
 
 @Model({dbName: 'default'}) // dbName is optional. By default dbName is equal to default

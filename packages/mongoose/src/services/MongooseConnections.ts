@@ -1,6 +1,7 @@
 import {Configuration, registerProvider} from "@tsed/common";
+import {isArray} from "@tsed/core";
 import * as Mongoose from "mongoose";
-import {IMDBOptions} from "../interfaces";
+import {IMDBOptions, MDBConnection} from "../interfaces";
 import {MongooseService} from "../services/MongooseService";
 
 // tslint:disable-next-line:variable-name
@@ -12,35 +13,41 @@ registerProvider({
   injectable: false,
   deps: [Configuration, MongooseService],
   async useAsyncFactory(configuration: Configuration, mongooseService: MongooseService) {
-    const {url, connectionOptions, urls} = configuration.get<IMDBOptions>("mongoose") || ({} as IMDBOptions);
-
+    const settings = configuration.get<IMDBOptions | MDBConnection[]>("mongoose");
     const promises: Promise<Mongoose.Mongoose>[] = [];
+    let isDefault = true;
 
-    if (url) {
+    const addConnection = (id: string, url: string, connectionOptions: any) => {
       promises.push(
         mongooseService.connect(
-          "default",
+          id,
           url,
           connectionOptions || {
             useNewUrlParser: true,
             useUnifiedTopology: true
-          }
+          },
+          isDefault
         )
       );
-    }
 
-    if (urls) {
-      Object.keys(urls).forEach((key: string) => {
-        promises.push(
-          mongooseService.connect(
-            key,
-            urls[key].url,
-            urls[key].connectionOptions || {
-              useNewUrlParser: true,
-              useUnifiedTopology: true
-            }
-          )
-        );
+      isDefault = false;
+    };
+
+    if (!isArray(settings)) {
+      const {url, connectionOptions, urls} = settings || {};
+
+      if (url) {
+        addConnection("default", url, connectionOptions);
+      }
+
+      if (urls) {
+        Object.entries(urls).forEach(([id, current]) => {
+          addConnection(current.id || id, current.url, current.connectionOptions);
+        });
+      }
+    } else {
+      settings.forEach(current => {
+        addConnection(current.id!, current.url!, current.connectionOptions);
       });
     }
 
