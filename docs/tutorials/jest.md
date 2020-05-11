@@ -26,7 +26,7 @@ npm i -D jest ts-jest @types/jest
 ## Configuration
 
 Now you need to configure `jest` to work with Typescript.
-To do that crate a new file in your project root called `jest.config.js` and put the following configuration in it:
+To do that, create a new file in your project root called `jest.config.js` and put the following configuration in it:
 
 ```js
 module.exports = {

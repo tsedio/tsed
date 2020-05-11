@@ -7,12 +7,12 @@ meta:
 ---
 # Session & cookies
 
-Ts.ED provide two decorators to get @@Session@@ and @@Cookies@@ values in your controller.
+Ts.ED provides two decorators to get @@Session@@ and @@Cookies@@ values in your controller.
 
 ## Installation
 
-Before using the Session and Cookies, we need to install the a module like [express-session](https://www.npmjs.com/package/express-session) but 
-you can use another module which follow the same convention. 
+Before using the Session and Cookies, we need to install a module like [express-session](https://www.npmjs.com/package/express-session) but 
+you can use another module which follows the same convention. 
 
 ```bash
 npm install --save express-session
@@ -42,9 +42,9 @@ Edit your Server and add these lines:
 
 ## Initialize session
 
-Sometime we want to be sure that the session is correctly initialized with the right values.
+Sometimes we want to be sure that the session is correctly initialized with the right values.
 
-Let's start, by creating a middleware CreateRequestSessionMiddleware in `middlewares` directory:
+Let's start by creating a middleware CreateRequestSessionMiddleware in `middlewares` directory:
 
 <<< @/docs/tutorials/snippets/session/example-create-session.ts
 
@@ -56,8 +56,8 @@ Finally, you can read and write values in your controller:
 
 <<< @/docs/tutorials/snippets/session/example-session.ts
 
-In addiction, you can add integration test with SuperTest and `@tsed/testing` package.
-Here an example of Rest API test:
+In addition, you can add integration tests with SuperTest and `@tsed/testing` package.
+Here is an example of Rest API test:
 
 <<< @/docs/tutorials/snippets/session/example-test.ts
 

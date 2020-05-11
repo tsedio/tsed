@@ -9,8 +9,8 @@ meta:
 
 <Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="128" />
 
-This tutorials show you, how you can configure Swagger-ui with Ts.ED. Swagger use the OpenApi
-to describe a Rest API. Ts.ED operates the existing decorators as well as new decorators to build the
+This tutorial shows you how you can configure Swagger-ui with Ts.ED. Swagger uses the OpenApi
+to describe a Rest API. Ts.ED operates the existing decorators as well as new decorators to build
 a spec compliant with Swagger.
 
 ## Installation
@@ -25,15 +25,15 @@ Then add the following configuration in your [ServerLoader](/api/common/server/c
 
 <<< @/docs/tutorials/snippets/swagger/configuration.ts
 
-> The path option for swagger will be used to expose the documentation (ex: http://localhost:8000/api-docs).
+> The path option for Swagger will be used to expose the documentation (ex: http://localhost:8000/api-docs).
 
-Normally, Swagger-ui is ready. You can start your server and check if it work fine.
+Normally, Swagger-ui is ready. You can start your server and check if it works fine.
 
 > Note: Ts.ED will print the swagger url in the console.
 
 ### Swagger options
 
-Some options is available to configure Swagger-ui, Ts.ED and the default spec information.
+Some options are available to configure Swagger-ui, Ts.ED and the default spec information.
 
 Key | Example | Description
 ---|---|---
@@ -51,7 +51,7 @@ operationIdFormat | `%c.%m` | Format of operationId field (`%c`: class name, `%m
 
 ### Multi documentations
 
-It also possible to create several swagger documentations with `doc` option:
+It is also possible to create several swagger documentations with the `doc` option:
 
 <<< @/docs/tutorials/snippets/swagger/multi-spec.ts
 
@@ -61,11 +61,11 @@ Then use `@Docs` decorators on your controllers to specify where the controllers
 
 ## Decorators
 
-These decorators already add a documentation on swagger:
+These decorators already add a documentation on Swagger:
 
 <ApiList query="['Header', 'Status'].indexOf(symbolName) > -1 || status.indexOf('jsonschema') > -1" />
 
-In addition, the Ts.ED swagger plugin given some decorators to write documentation:
+In addition, the Ts.ED Swagger plugin gives some decorators to write documentation:
 
 <ApiList query="module === '@tsed/swagger' && symbolType === 'decorator'" />
 
@@ -75,7 +75,7 @@ In addition, the Ts.ED swagger plugin given some decorators to write documentati
 One of the feature of Ts.ED is the model definition to serialize or deserialize a
 JSON Object (see [converters section](/docs/converters.md)).
 
-This model can used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators.
+This model can be used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators.
 
 <<< @/docs/tutorials/snippets/swagger/model.ts
 
@@ -84,7 +84,7 @@ This model can used on a method controller along with [@BodyParams](/api/common/
 <<< @/docs/tutorials/snippets/swagger/endpoint-documentation.ts
 
 ::: tip
-For endpoint which returns an array you have to use @@ReturnsArray@@ decorator instead of @@Returns@@
+For endpoints returning an array you have to use the @@ReturnsArray@@ decorator instead of @@Returns@@
 :::
 
 ::: warning
@@ -93,7 +93,7 @@ To update the `swagger.json` you have to reload the server before.
 
 ## Import Javascript
 
-It possible to import a Javascript in the Swagger-ui documentation. This script let you customize the swagger-ui instance. 
+It is possible to import a Javascript in the Swagger-ui documentation. This script lets you customize the swagger-ui instance. 
 
 <<< @/docs/tutorials/snippets/swagger/configuration-with-js.ts
 

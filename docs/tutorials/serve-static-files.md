@@ -1,6 +1,6 @@
 # Serve static files
 
-`@ServerSettings` let you to configure a list of static folders. 
+`@ServerSettings` lets you configure a list of static folders. 
 
 ### Configuration
 
@@ -21,5 +21,5 @@ export class Server extends ServerLoader {
 }
 ```
 ::: tip
-serveStatic attributes supports multiple directories
+serveStatic attribute supports multiple directories
 :::

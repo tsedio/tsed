@@ -13,23 +13,23 @@ projects:
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
 
-This tutorials show you, how you can use mongoose package with Ts.ED. 
+This tutorial show yous how you can use mongoose package with Ts.ED. 
 
 <Projects type="examples"/>
 
 ## Feature
 
-Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you:
+Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you to:
  
 - Configure one or more MongoDB database connections via the `@ServerSettings` configuration. 
 All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation,
-- Add a plugin, PreHook method and PostHook on your model.
-- Inject a Model to a Service, Controller, Middleware, etc...
+- Add a plugin, PreHook method and PostHook on your model
+- Inject a Model to a Service, Controller, Middleware, etc.
 - Create and manage multiple connections <Badge text="v5.35.0" />
 
 ::: tip Note
-`@tsed/mongoose` use the JsonSchema and his decorators to generate the mongoose schema.
+`@tsed/mongoose` uses the JsonSchema and its decorators to generate the mongoose schema.
 :::
 
 ## Installation
@@ -49,7 +49,7 @@ Then import `@tsed/mongoose` in your [ServerLoader](/api/common/server/component
 
 ## MongooseService
 
-@@MongooseService@@ let you to retrieve an instance of Mongoose.Connection. 
+@@MongooseService@@ lets you to retrieve an instance of Mongoose.Connection. 
 
 ```typescript
 import {Service} from "@tsed/common";
@@ -67,11 +67,11 @@ export class MyService {
 
 ## API
 
-Ts.ED give some decorators and service to write your code:
+Ts.ED gives some decorators and services to write your code:
 
 <ApiList query="labels.indexOf('mongoose') > -1 || module === '@tsed/mongoose' && symbolType === 'decorator'" />
 
-## Declaring a mongoose object (schema or model)
+## Declaring a Mongoose object (schema or model)
 ### Declaring a Model
 
 `@tsed/mongoose` works with models which must be explicitly declared.
@@ -89,33 +89,33 @@ Ts.ED give some decorators and service to write your code:
 <<< @/docs/tutorials/snippets/mongoose/declaring-schema.ts
 
 ::: tip
-Schema decorator accept a second parameter to configure the Schema (See [Mongoose Schema](https://mongoosejs.com/docs/guide.html#options))
+Schema decorator accepts a second parameter to configure the Schema (See [Mongoose Schema](https://mongoosejs.com/docs/guide.html#options))
 :::
 
 ### Declaring Properties
 
-By default, `@tsed/mongoose` reuse the metadata stored by the decorators dedicated
+By default, `@tsed/mongoose` reuses the metadata stored by the decorators dedicated
 to describe a JsonSchema. These decorators come from the `@tsed/common` package.
 
 <<< @/docs/tutorials/snippets/mongoose/example-model-mongoose.ts
 
 ::: tip
-Isn't necessary to use @@Property@@ decorator on property when you use one of theses decorators:
+It isn't necessary to use @@Property@@ decorator on property when you use one of these decorators:
 
 <ApiList query="(status.indexOf('jsonschema') > -1 || status.indexOf('mongoose') > -1 && status.indexOf('property') > -1) && status.indexOf('decorator') > -1" />
 
-Theses decorators call automatically @@Property@@ decorator.
+These decorators call automatically the @@Property@@ decorator.
 :::
 
 ### Collections
 
-Mongoose and `@tsed/mongoose` supports both list and map. 
+Mongoose and `@tsed/mongoose` support both lists and maps. 
 
 <<< @/docs/tutorials/snippets/mongoose/collections.ts
 
 ### Subdocuments
 
-`@tsed/mongoose` supports `mongoose` subdocuments as long as they are defined schema. Therefore, subdocuments must be decorated by `@Schema()`.
+`@tsed/mongoose` supports `mongoose` subdocuments as long as they are defined schemas. Therefore, subdocuments must be decorated by `@Schema()`.
 
 <<< @/docs/tutorials/snippets/mongoose/subdocuments.ts
 
@@ -129,7 +129,7 @@ Mongoose and `@tsed/mongoose` supports both list and map.
 
 `@tsed/mongoose` supports `mongoose` virtual references between defined models.
 
-Be wary of circular dependencies. Direct references must be declared after the refered class has been declared. This mean the virtual reference cannot know the refered class directly at runtime. Type definitions removed at transpilation are fine.
+Be aware of circular dependencies. Direct references must be declared after the refered class has been declared. This means the virtual reference cannot know the refered class directly at runtime. Type definitions removed at transpilation are fine.
 
 <<< @/docs/tutorials/snippets/mongoose/virtual-references.ts
 
@@ -146,12 +146,12 @@ This works by having a field with the referenced object model's name and a field
 Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema. 
 With this it is possible to add document transformations and observations before or after validation, save and more.
 
-Ts.ED provide class decorator to register middlewares on the pre and post hook.
+Ts.ED provides class decorator to register middlewares on the pre and post hook.
 
 ### Pre hook
 
-We can simply attach a @@PreHook@@ decorator to your model class and
- define the hook function like you normally would in Mongoose.
+We can simply attach a @@PreHook@@ decorator to the model class and
+ define the hook function like we would normally do in Mongoose.
  
 <<< @/docs/tutorials/snippets/mongoose/pre-hook.ts
 
@@ -159,8 +159,8 @@ This will execute the pre-save hook each time a `CarModel` document is saved.
 
 ### Post hook
 
-We can simply attach a @@PostHook@@ decorator to your model class and
- define the hook function like you normally would in Mongoose.
+We can simply attach a @@PostHook@@ decorator to the model class and
+ define the hook function like we would normally do in Mongoose.
  
 <<< @/docs/tutorials/snippets/mongoose/post-hook.ts
 
@@ -186,21 +186,21 @@ You can find a working example on [Mongoose here](https://github.com/TypedProjec
 
 ## Testing <Badge text="beta" type="warn"/> <Badge text="v5.35.0" />
 
-The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allow you to test your server with a memory database. 
+The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allows you to test your server with a memory database. 
 
 ::: tip
-This package use amazing [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) to mock the mongo database.
+This package uses the amazing [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) to mock the mongo database.
 :::
 
 ### Testing API
 
-This example show you how you can test your Rest API with superagent and a mocked mongo database:
+This example shows you how you can test your Rest API with superagent and a mocked Mongo database:
 
 <<< @/docs/tutorials/snippets/mongoose/testing-api.ts
 
 ### Testing Model
 
-This example show you how can test the model:
+This example shows you how can test the model:
 
 <<< @/docs/tutorials/snippets/mongoose/testing-model.ts
 

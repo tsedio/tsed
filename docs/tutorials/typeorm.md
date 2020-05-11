@@ -13,22 +13,22 @@ projects:
 
 <Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="128" />
 
-This tutorial provide two way to create connection:
+This tutorial provides two ways to create connection:
 
-- The first one use @tsed/typeorm module to creation multiple connections with @@ServerSettings@@,
-- The seconds use the new async provider feature introduced in v5.27 to create connection.
+- The first one uses @tsed/typeorm module to create multiple connections with @@ServerSettings@@,
+- The second uses the new async provider feature introduced in v5.27 to create connection.
 
-Additionally, this topic show you how you can use Entity from Typeorm with Ts.ED controller (on bottom of this page).
+Additionally, this topic shows you how you can use Entity from Typeorm with Ts.ED controller (on the bottom of this page).
 
 <Projects type="typeorm"/>
 
 ### Feature
 
-Currently, `@tsed/typeorm` allows you:
+Currently, `@tsed/typeorm` allows you to:
 
 - Configure one or more TypeORM connections via the `@ServerSettings` configuration. All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
-- Declare connection with asyncProvider or automatically by server configuration.
+- Declare a connection with asyncProvider or automatically by server configuration.
 
 ### Installation
 
@@ -44,18 +44,18 @@ Then import `@tsed/typeorm` in your @@ServerLoader@@:
 
 ### TypeORMService
 
-TypeORMService let you to retrieve an instance of TypeORM Connection.
+TypeORMService lets you retrieve an instance of TypeORM Connection.
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-usage.ts
 
-For more information about TypeORM look his documentation [here](https://github.com/typeorm/typeorm);
+For more information about TypeORM, look its documentation [here](https://github.com/typeorm/typeorm);
 
 ### Declare your connection as provider
 
-It also possible to create your connection with `useAsyncFactory` feature (See [custom providers](/docs/custom-provider.md))
-This approach allow to inject your connection as a Service to another one.
+It is also possible to create your connection with the `useAsyncFactory` feature (See [custom providers](/docs/custom-provider.md))
+This approach allows you to inject your connection as a Service to another one.
 
-To create a new connection, declare your custom provider as follow:
+To create a new connection, declare your custom provider as follows:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-async-provider.ts
 
@@ -78,14 +78,14 @@ We can use this model with a Controller like that:
 
 ## EntityRepository
 
-TypeORM provide EntityRepository to manipulate an Entity. TsED provide a decorator to declare @@EntityRepository@@
-for both TypeORM and TsED. This decorator is useful if you have to inject the repository to another TsED service, controller or provider.
+TypeORM provides EntityRepository to manipulate an Entity. TsED provides a decorator to declare @@EntityRepository@@
+for both TypeORM and Ts.ED. This decorator is useful if you have to inject the repository to another Ts.ED service, controller or provider.
 
 ::: tip 
-Since v5.39.1, isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve injected repository to another class annotated by @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
+Since v5.39.1, it isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve injected repository to another class annotated by @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
 :::
 
-Here a quick example:
+Here is a quick example:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-entity-repository.ts
 

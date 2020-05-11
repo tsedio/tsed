@@ -13,8 +13,8 @@ meta:
 
 ## Feature
 
-Currently, `@tsed/graphql` allows you to configure a graphql server in your project.
-This package use [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
+Currently, `@tsed/graphql` allows you to configure a GraphQL server in your project.
+This package uses [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
 for the decorators.
 
 ## Installation
@@ -24,7 +24,7 @@ To begin, install the GraphQL module for TS.ED:
 npm install --save @tsed/graphql
 ```
 
-[Type-graphql](https://19majkel94.github.io/type-graphql/) require to update your `tsconfig.json` by adding extra options as following:
+[Type-graphql](https://19majkel94.github.io/type-graphql/) requires to update your `tsconfig.json` by adding extra options as following:
 
 ```json
 {
@@ -40,16 +40,16 @@ Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your [Ser
 
 ## GraphQlService
 
-GraphQlService let you to retrieve an instance of ApolloServer.
+GraphQlService lets you to retrieve an instance of ApolloServer.
 
 <<< @/docs/tutorials/snippets/graphql/get-server-instance.ts
 
-For more information about ApolloServer look his documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
+For more information about ApolloServer, look at its documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
 
 ## Type-graphql
 ### Types
 
-We want to get equivalent of this type described in SDL:
+We want to get the equivalent of this type described in SDL:
 
 ```
 type Recipe {
@@ -74,22 +74,22 @@ class Recipe {
 }
 ```
 
-Then we decorate the class and it properties with decorators:
+Then we decorate the class and its properties with decorators:
 
 <<< @/docs/tutorials/snippets/graphql/recipe-type-graphql.ts
 
-The detailed rules when to use nullable, array and others are described in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
+The detailed rules for when to use nullable, array and others are described in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
 
 ###  Resolvers
 
-After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in constructor:
+After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in the constructor:
 
 <<< @/docs/tutorials/snippets/graphql/resolver-service.ts
 
 ### Data Source
 
-Data sources is one of the Apollo server feature which can be used as option for your Resolver or Query.
-Ts.ED provide a @@DataSourceService@@ decorator to declare a DataSource which will be injected to the apollo server context.
+Data source is one of the Apollo server features which can be used as option for your Resolver or Query.
+Ts.ED provides a @@DataSourceService@@ decorator to declare a DataSource which will be injected to the Apollo server context.
 
 <<< @/docs/tutorials/snippets/graphql/datasource-service.ts
 
