@@ -1,8 +1,8 @@
 # Customize 404
 
-The guide show how you can customize the 404 response error emitted by Express.js.
+The guide shows you how you can customize the 404 response error emitted by Express.js.
 
-To begin create a new Middleware named `NotFoundMiddleware`:
+To begin, create a new Middleware named `NotFoundMiddleware`:
 
 ```typescript
 import {Middleware, Res} from "@tsed/common";
