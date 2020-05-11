@@ -9,7 +9,7 @@ meta:
 
 <Banner src="https://blog.datalust.co/content/images/2018/09/Seq-380px-1.png" href="https://datalust.co/seq" :height="128" />
 
-This tutorials show you, how you can configure Seq logger with Ts.ED. Seq is centralized structured logs for NodeJS, .NET, Java etc.
+This tutorial shows you how you can configure Seq logger with Ts.ED. Seq is centralized structured logs for NodeJS, .NET, Java etc.
 
 ## Installation
 
@@ -35,9 +35,9 @@ export class Server extends ServerLoader {
 
 }
 ```
-> Note: Seq module use the [ts-log-debug](https://github.com/TypedProject/ts-log-debug) as a default system logger
+> Note: Seq module uses the [ts-log-debug](https://github.com/TypedProject/ts-log-debug) as a default system logger
 
-> Note: Seq module use the log level from the @@LoggerSettings@@ (default level is debug)
+> Note: Seq module uses the log level from the @@LoggerSettings@@ (default level is debug)
 
 ## Example
 
