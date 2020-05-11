@@ -1,9 +1,10 @@
+import {MDBConnection} from "./MDBConnection";
 import {IMDBOptions} from "./MDBOptions";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      mongoose: IMDBOptions;
+      mongoose: IMDBOptions | MDBConnection[];
     }
   }
 }

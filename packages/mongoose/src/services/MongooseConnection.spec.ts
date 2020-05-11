@@ -36,7 +36,38 @@ describe("MongooseConnections", () => {
     ]);
 
     // THEN
-    connectStub.should.have.been.calledWithExactly("default", "mongodb://test", {options: "options"});
+    connectStub.should.have.been.calledWithExactly("default", "mongodb://test", {options: "options"}, true);
+  });
+  it("should init with a list of connection", async () => {
+    // GIVEN
+    const connectStub = sandbox.stub().resolves("test");
+
+    // WHEN
+    await TestContext.invoke(MONGOOSE_CONNECTIONS, [
+      {
+        provide: Configuration,
+        use: {
+          get() {
+            return [
+              {
+                id: "id",
+                url: "mongodb://test",
+                connectionOptions: {options: "options"}
+              }
+            ];
+          }
+        }
+      },
+      {
+        provide: MongooseService,
+        use: {
+          connect: connectStub
+        }
+      }
+    ]);
+
+    // THEN
+    connectStub.should.have.been.calledWithExactly("id", "mongodb://test", {options: "options"}, true);
   });
   it("should init connection with urls", async () => {
     // GIVEN
@@ -68,6 +99,6 @@ describe("MongooseConnections", () => {
     ]);
 
     // THEN
-    connectStub.should.have.been.calledWithExactly("db1", "mongodb://test", {options: "options"});
+    connectStub.should.have.been.calledWithExactly("db1", "mongodb://test", {options: "options"}, true);
   });
 });
