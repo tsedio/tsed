@@ -11,7 +11,7 @@ projects:
 ---
 # Multer
 
-Multer is a package used by Express server to handle uploaded files. Ts.ED provides a package `@tsed/multer` with some decorators to use multer on your Controller.
+Multer is a package used by Express server to handle uploaded files. Ts.ED provides a package `@tsed/multer` with some decorators to use Multer on your Controller.
 
 <Projects type="examples"/>
 
