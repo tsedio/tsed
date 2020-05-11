@@ -1,10 +1,10 @@
 # Throw HTTP Exceptions
 
 You can use [@tsed/exceptions](/docs/exceptions.md) or similar module to throw an http exception.
-All exception will be intercepted by the [Global error handler](/docs/middlewares/override/global-error-handler.md)
+All exceptions will be intercepted by the [Global error handler](/docs/middlewares/override/global-error-handler.md)
 and are sent to the client.
 
-Here an example:
+Here is an example:
 
 <<< @/docs/docs/snippets/controllers/response-throw-exceptions.ts
 
@@ -15,7 +15,7 @@ This example will produce a response with status code 400 and "Not a number" mes
 
 ## Create custom exception
 
-It also possible to create your own exception from any Exception of [@tsed/exceptions](/docs/exceptions.md)  and customize the response headers.
+It is also possible to create your own exception from any Exception of [@tsed/exceptions](/docs/exceptions.md) and customize the response headers.
 
 ```typescript
 import {BadRequest} from "@tsed/exceptions";
