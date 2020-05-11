@@ -11,7 +11,7 @@ projects:
 ---
 # Multer
 
-Multer is a package used by Express server to handler uploaded file. Ts.ED provide a package `@tsed/multer` with some decorators to use multer on your Controller.
+Multer is a package used by Express server to handle uploaded files. Ts.ED provides a package `@tsed/multer` with some decorators to use multer on your Controller.
 
 <Projects type="examples"/>
 
@@ -48,12 +48,12 @@ By default the directory used is `${projetRoot}/uploads`. You can configure anot
 
 ## Example 
 
-Ts.ED use multer to handler file uploads. Single file can be injected like this:
+Ts.ED uses Multer to handle file uploads. Single file can be injected like this:
 
 <<< @/docs/tutorials/snippets/multer/controller.ts
 
 ::: tip
-Many frontend example code are available on the web and some of this doesn't works correctly. So here a short example:
+Many frontend code examples are available on the web and some of them don't work correctly. So here is a short example:
 
 <<< @/docs/tutorials/snippets/multer/loading-file.js
 
