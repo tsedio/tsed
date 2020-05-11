@@ -13,7 +13,7 @@ meta:
 
 ## Feature
 
-Currently, `@tsed/graphql` allows you to configure a graphql server in your project.
+Currently, `@tsed/graphql` allows you to configure a GraphQL server in your project.
 This package uses [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
 for the decorators.
 
@@ -44,7 +44,7 @@ GraphQlService lets you to retrieve an instance of ApolloServer.
 
 <<< @/docs/tutorials/snippets/graphql/get-server-instance.ts
 
-For more information about ApolloServer, look its documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
+For more information about ApolloServer, look at its documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
 
 ## Type-graphql
 ### Types
