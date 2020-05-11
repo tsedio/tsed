@@ -11,9 +11,9 @@ projects:
 ---
 # AWS
 
-Amazon Web Services is one possible way host your Node.js application.
+Amazon Web Services is one possible way to host your Node.js application.
 
-This tutorial show you how to configure the Express application written with Ts.ED, to be executed as aAWS Lambda Function.
+This tutorial shows you how to configure the Express application written with Ts.ED, to be executed as an AWS Lambda Function.
 
 More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 
@@ -32,10 +32,10 @@ npm install --save aws-serverless-express
 You need to create three files:
 
  - One for the `ServerLoader` configuration,
- - One for aws, named `lambda.ts` (the entry point on AWS Lambda, that contains the function handler),
+ - One for AWS, named `lambda.ts` (the entry point on AWS Lambda, which contains the function handler),
  - One for the local development, for example "index.js" (that you can use to run the app locally with `ts-node local.ts`)
 
-Create the server and add the aws middleware: 
+Create the server and add the AWS middleware: 
 
 <<< @/docs/tutorials/snippets/aws/server-configuration.ts
 
