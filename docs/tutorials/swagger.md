@@ -39,6 +39,7 @@ Key | Example | Description
 ---|---|---
 path | `/api-doc` |  The url subpath to access to the documentation.
 doc | `hidden-doc` |  The documentation key used by `@Docs` decorator to create several swagger documentations.
+viewPath | `${rootDir}/../views/swagger.ejs` or `false` | The path to the ejs template. Set false to disabled swagger-ui.
 cssPath | `${rootDir}/spec/style.css` | The path to the CSS file.
 jsPath | `${rootDir}/spec/main.js` | The path to the JS file.
 showExplorer | `true` | Display the search field in the navbar.

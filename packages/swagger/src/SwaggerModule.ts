@@ -1,12 +1,11 @@
 import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
-import * as PathUtils from "path";
+import {join, resolve} from "path";
 import {ISwaggerSettings} from "./interfaces";
 import {SwaggerService} from "./services/SwaggerService";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
-const ejs = require("ejs");
 
 @Module()
 export class SwaggerModule implements BeforeRoutesInit, OnReady {
@@ -87,19 +86,22 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
    * @param urls
    */
   private createRouter(conf: ISwaggerSettings, urls: string[]) {
-    const {cssPath, jsPath} = conf;
+    const {cssPath, jsPath, viewPath = join(__dirname, "../views/index.ejs")} = conf;
     const router = Express.Router();
 
-    router.get("/", this.middlewareIndex(conf, urls));
     router.get("/swagger.json", this.middlewareSwaggerJson(conf));
-    router.use(Express.static(swaggerUiPath));
 
-    if (cssPath) {
-      router.get("/main.css", this.middlewareCss(cssPath));
-    }
+    if (viewPath) {
+      if (cssPath) {
+        router.get("/main.css", this.middlewareCss(cssPath));
+      }
 
-    if (jsPath) {
-      router.get("/main.js", this.middlewareJs(jsPath));
+      if (jsPath) {
+        router.get("/main.js", this.middlewareJs(jsPath));
+      }
+
+      router.get("/", this.middlewareIndex({...conf, viewPath}, urls));
+      router.use(Express.static(swaggerUiPath));
     }
 
     return router;
@@ -145,26 +147,20 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
    */
   private middlewareIndex(conf: ISwaggerSettings, urls: string[]) {
     /* istanbul ignore next */
-    return (req: any, res: any) =>
-      ejs.renderFile(__dirname + "/../views/index.ejs", this.mapSwaggerUIConfig(conf, urls), {}, (err: any, str: string) => {
-        if (err) {
-          this.injector.logger.error(err);
-          res.status(500).send(err.message);
-        } else {
-          res.send(str);
-        }
-      });
+    return (req: any, res: any) => {
+      const data = this.mapSwaggerUIConfig(conf, urls);
+      res.render(conf.viewPath, data);
+    };
   }
 
   /**
    *
-   * @param {e.Router} router
    * @param {string} path
    */
   private middlewareCss(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any) => {
-      const content = Fs.readFileSync(PathUtils.resolve(path), {encoding: "utf8"});
+      const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});
       res.set("Content-Type", "text/css");
       res.status(200).send(content);
     };
@@ -177,7 +173,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   private middlewareJs(path: string) {
     /* istanbul ignore next */
     return (req: any, res: any) => {
-      const content = Fs.readFileSync(PathUtils.resolve(path), {encoding: "utf8"});
+      const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});
       res.set("Content-Type", "application/javascript");
       res.status(200).send(content);
     };
