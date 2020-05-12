@@ -296,7 +296,7 @@ describe("SwaggerModule", () => {
       middelwareCsstub = Sinon.stub(swaggerModule, "middlewareCss").returns("cssMdlw");
       middelwareJstub = Sinon.stub(swaggerModule, "middlewareJs").returns("jsMdlw");
 
-      swaggerModule.createRouter({cssPath: "cssPath", jsPath: "jsPath"}, {scope: "scope"});
+      swaggerModule.createRouter({cssPath: "cssPath", jsPath: "jsPath", viewPath: "viewPath"}, {scope: "scope"});
     });
     after(() => {
       routerStub.restore();
@@ -326,7 +326,14 @@ describe("SwaggerModule", () => {
     });
 
     it("should call middlewareIndex", () => {
-      middelwareIndexStub.should.have.been.calledWithExactly({cssPath: "cssPath", jsPath: "jsPath"}, {scope: "scope"});
+      middelwareIndexStub.should.have.been.calledWithExactly(
+        {
+          cssPath: "cssPath",
+          viewPath: "viewPath",
+          jsPath: "jsPath"
+        },
+        {scope: "scope"}
+      );
     });
     it("should call middlewareCss", () => {
       middelwareCsstub.should.have.been.calledWithExactly("cssPath");

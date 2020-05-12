@@ -39,6 +39,7 @@ export interface ISwaggerSettings {
   doc?: string;
   cssPath?: string;
   jsPath?: string;
+  viewPath?: string | false;
   options?: ISwaggerUIOptions;
   showExplorer?: boolean;
   specPath?: string;

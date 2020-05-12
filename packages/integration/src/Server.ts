@@ -5,7 +5,7 @@ import "@tsed/mongoose";
 import "@tsed/multipartfiles";
 import "@tsed/seq";
 import "@tsed/socketio";
-import * as Path from "path";
+import {join, resolve} from "path";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 import {PingCtrl} from "./controllers/ping/PingCtrl";
@@ -17,7 +17,7 @@ import "./middlewares/CustomAuthMiddleware";
 import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
 import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 
-const rootDir = Path.resolve(__dirname);
+const rootDir = resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
 
 @ServerSettings({
@@ -51,6 +51,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
     {
       path: "/api-doc",
       cssPath: "${rootDir}/spec/style.css",
+      viewPath: join(rootDir, "views", "swagger.ejs"),
       showExplorer: true,
       spec
     },
@@ -132,6 +133,5 @@ export class Server extends ServerLoader {
     $log.info("Server started...");
   }
 
-  public onServerInitError() {
-  }
+  public onServerInitError() {}
 }
