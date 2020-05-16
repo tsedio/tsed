@@ -15,13 +15,15 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
   ajv: AJV;
 
   transform(value: any, metadata: ParamMetadata): any {
+    this.checkIsRequired(value, metadata);
+
     const {schema} = metadata.store.get(AjvValidationPipe) || {};
 
     if (schema) {
       this.validate(schema, value);
     } else if (metadata.isPrimitive) {
       this.validateFromPrimitive(value, metadata);
-    } else if (this.shouldValidate(metadata)) {
+    } else if (this.shouldValidate(metadata) && value !== undefined) {
       this.validateFromModel(value, metadata);
     }
 
@@ -68,10 +70,12 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
     };
 
     if (metadata.isCollection) {
-      Object.entries(value).forEach(([key, item]) => {
-        item = this.converterService.deserialize(item, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
-        this.validate(schema, item, {type: metadata.type, index: key});
-      });
+      if (value) {
+        Object.entries(value).forEach(([key, item]) => {
+          item = this.converterService.deserialize(item, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
+          this.validate(schema, item, {type: metadata.type, index: key});
+        });
+      }
     } else {
       value = this.converterService.deserialize(value, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
       this.validate(schema, value, {type: metadata.type});
