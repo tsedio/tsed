@@ -8,6 +8,6 @@ export const Type = Function;
 /**
  *
  */
-export interface Type<T> extends Function {
+export interface Type<T = any> extends Function {
   new (...args: any[]): T;
 }

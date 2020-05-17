@@ -1,4 +1,4 @@
-import {IMetadataType} from "@tsed/core";
+import {MetadataTypes} from "@tsed/core";
 
 declare global {
   namespace TsED {
@@ -10,7 +10,7 @@ declare global {
       [key: string]: ResponseHeader;
     }
 
-    interface ResponseOptions extends IMetadataType {
+    interface ResponseOptions extends Partial<MetadataTypes> {
       code?: number;
       headers?: {
         [key: string]: ResponseHeader;
