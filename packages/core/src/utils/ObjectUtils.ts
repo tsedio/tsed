@@ -182,6 +182,10 @@ export function isClassObject(target: any): target is Object {
   return target === Object;
 }
 
+export function isPlainObject(target: any): boolean {
+  return isClassObject(classOf(target));
+}
+
 export function isObject(target: any): target is object {
   return typeof target === "object";
 }

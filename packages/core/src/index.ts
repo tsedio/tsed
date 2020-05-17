@@ -6,6 +6,7 @@ import "reflect-metadata";
 export * from "./interfaces";
 export * from "./utils";
 export * from "./class/Metadata";
+export * from "./class/Hooks";
 export * from "./class/Registry";
 export * from "./class/ProxyMap";
 export * from "./class/ProxyRegistry";

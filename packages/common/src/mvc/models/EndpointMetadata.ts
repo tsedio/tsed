@@ -132,7 +132,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param key
    * @returns {any}
    */
-  get(key: any) {
+  get<T = any>(key: any): T {
     const ctrlValue = Store.from(this.target).get(key);
     let meta = deepExtends(undefined, ctrlValue);
     const endpointValue = this.store.get(key);
