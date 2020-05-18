@@ -1,4 +1,4 @@
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import * as Sinon from "sinon";
 import {SinonStub} from "sinon";
 

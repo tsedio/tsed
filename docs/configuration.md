@@ -249,11 +249,11 @@ See the example [projet HTTPs](https://github.com/TypedProject/example-ts-expres
 ## Logger
 ### Default logger
 
-Default logger used by Ts.ED is [ts-log-debug](https://TypedProject.github.io/ts-log-debug/). 
+Default logger used by Ts.ED is [@tsed/logger](https://logger.tsed.io). 
 
- - [Configuration](https://TypedProject.github.io/ts-log-debug#/getting-started?id=installation),
- - [Customize appender (chanel)](https://TypedProject.github.io/ts-log-debug#/appenders/custom),
- - [Customize layout](https://TypedProject.github.io/ts-log-debug#/layouts/custom)
+ - [Configuration](https://logger.tsed.io/getting-started.html),
+ - [Customize appender (chanel)](https://logger.tsed.io/appenders/custom.html),
+ - [Customize layout](https://logger.tsed.io/layouts/custom.html)
 
 ### Configuration
 
@@ -265,7 +265,7 @@ Some options are provided:
 - `logger.reqIdBuilder`: A function called for each incoming request to create a request id.
 - `logger.jsonIndentation`: The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
 - `logger.disableRoutesSummary`: Disable routes table displayed in the logger. By default debug is `false`.
-- `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [ts-log-debug configuration](https://TypedProject.github.io/ts-log-debug/).
+- `logger.format`: Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://logger.tsed.io).
 - `logger.ignoreUrlPatterns` (`String` or `RegExp`): List of patterns to ignore logged request according to the `request.url`.
 
 ::: warning
@@ -339,11 +339,11 @@ Example:
 
 ### Shutdown logger
 
-Shutdown returns a Promise that will be resolved when ts-log-debug has closed all appenders and finished writing log events. 
+Shutdown returns a Promise that will be resolved when @tsed/logger has closed all appenders and finished writing log events. 
 Use this when your program exits to make sure all your logs are written to files, sockets are closed, etc.
 
 ```typescript
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 
 $log
   .shutdown()

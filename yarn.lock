@@ -1945,6 +1945,17 @@
     streamroller "^1.0.3"
     tslib "1.10.0"
 
+"@tsed/logger@5.5.0", "@tsed/logger@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-5.5.0.tgz#2fcfd2e6baadc93b2a16bde0a20ea28ac9b075b9"
+  integrity sha512-NzLc+CRob8tGPXf9jMt++JpckqG8uZACLWK5Ep3rJOz40t9y7Uyh4rOUfRgj33QiUz3/sATfB1S/5uYtvjTVdA==
+  dependencies:
+    colors "^1.3.3"
+    date-format "^2.0.0"
+    semver "^5.6.0"
+    streamroller "^1.0.3"
+    tslib "1.10.0"
+
 "@tsed/monorepo-utils@1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.3.3.tgz#bd25a817edf05541c9763ca625b9707923d6f031"
@@ -15764,12 +15775,19 @@ ts-log-debug@5.1.1:
     streamroller "^1.0.3"
     tslib "^1.9.3"
 
-ts-log-debug@^5.2.0, ts-log-debug@^5.4.1:
+ts-log-debug@^5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.4.1.tgz#18baf8de7ba8337ea9b7d6364bf6bd247ac9b3a8"
   integrity sha512-fKvqHR8eRK6gNBN+5glxHEGXjWCdmFktr8AW7KPW/Tx1EbqakD5NdrleIa/P9p1+4kZA9qSGOVAraCOTgVrVzg==
   dependencies:
     "@tsed/logger" "5.4.1"
+
+ts-log-debug@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.5.0.tgz#9561f7f40276c26e406c64c98155f9eb844effb1"
+  integrity sha512-arMfr8UfHNehIFxOVoxue1A1M/WkY9W1lLfRqUcTq4/XX6FU56IIq5uWFPg+3VjGtGTnA6nhDBnDN6jukvZRzg==
+  dependencies:
+    "@tsed/logger" "5.5.0"
 
 ts-node@8.6.2:
   version "8.6.2"

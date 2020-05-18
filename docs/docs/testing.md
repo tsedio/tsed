@@ -62,7 +62,7 @@ If you would like to disable logs output for any reason, you can do it by callin
 It's useful to remove logging during unit tests runs so that your passed/failed tests summary does not get polluted with information.
 
 ```typescript
-import { $log } from "ts-log-debug";
+import { $log } from "@tsed/logger";
 
 describe('A test that will not print logs :', () => {
 

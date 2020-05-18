@@ -70,6 +70,7 @@
   },
   "homepage": "http://tsed.io/",
   "dependencies": {
+    "@tsed/logger": "5.5.0",
     "@types/bunyan": "^1.8.6",
     "@types/bunyan-seq": "^0.2.2",
     "@types/json-schema": "^7.0.0",
@@ -78,8 +79,7 @@
     "globby": "^11.0.0",
     "lerna": "3.20.2",
     "reflect-metadata": "^0.1.12",
-    "rxjs": "^6.4.0",
-    "ts-log-debug": "^5.2.0"
+    "rxjs": "^6.4.0"
   },
   "devDependencies": {
     "@tsed/monorepo-utils": "1.3.3",

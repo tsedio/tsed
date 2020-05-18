@@ -1,6 +1,6 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 // import "./middlewares/MultipartFilesOverrided"; // Uncomment to enable the upload middleware override
 
 const cookieParser = require("cookie-parser");

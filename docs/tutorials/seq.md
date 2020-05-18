@@ -35,7 +35,7 @@ export class Server extends ServerLoader {
 
 }
 ```
-> Note: Seq module uses the [ts-log-debug](https://github.com/TypedProject/ts-log-debug) as a default system logger
+> Note: Seq module uses the [@tsed/logger](https://logger.tsed.io/) as a default system logger
 
 > Note: Seq module uses the log level from the @@LoggerSettings@@ (default level is debug)
 
@@ -43,7 +43,7 @@ export class Server extends ServerLoader {
 
 ```typescript
 import {Controller, Get, QueryParams} from "@tsed/common";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 
 @Controller('/calendars')
 export class Calendar {
