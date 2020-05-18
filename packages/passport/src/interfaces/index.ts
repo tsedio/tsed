@@ -9,7 +9,7 @@ declare global {
         pauseStream?: string;
         userInfoModel?: Type<any>;
         protocols?: {
-          [protocolName: string]: IProtocolOptions;
+          [protocolName: string]: Partial<IProtocolOptions>;
         };
       };
     }
