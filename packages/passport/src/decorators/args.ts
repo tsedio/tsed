@@ -9,6 +9,6 @@ export function Args() {
   return applyDecorators(Req("args"));
 }
 
-export function Arg(index: 0) {
-  return applyDecorators(Req("args." + index));
+export function Arg(index: number) {
+  return applyDecorators(Req(`args.${index}`));
 }
