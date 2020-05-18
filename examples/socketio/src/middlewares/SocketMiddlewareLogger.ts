@@ -1,5 +1,5 @@
 import {Args, SocketMiddleware} from "@tsed/socketio";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 
 @SocketMiddleware()
 export class SocketMiddlewareLogger {

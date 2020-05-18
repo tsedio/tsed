@@ -5,7 +5,7 @@
 Create your middleware error:
 ```typescript
 import {IMiddlewareError, MiddlewareError, Request, Response, Next, Err} from "@tsed/common";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 
 @MiddlewareError()
 export default class ErrorMiddleware implements IMiddlewareError {

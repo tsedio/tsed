@@ -1,6 +1,6 @@
 import {Args, Broadcast, Input, Nsp, Socket, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import {Namespace} from "socket.io";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import {SocketMiddlewareLogger} from "../middlewares/SocketMiddlewareLogger";
 import {PlayerSG} from "../models/PlayerSG";
 

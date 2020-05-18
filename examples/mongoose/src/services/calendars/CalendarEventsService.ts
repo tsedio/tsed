@@ -1,7 +1,7 @@
 import {Inject, Service} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {BadRequest} from "@tsed/exceptions";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import {CalendarEvent} from "../../models/events/CalendarEvent";
 
 @Service()

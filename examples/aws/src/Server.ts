@@ -1,6 +1,6 @@
 import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
 import "@tsed/swagger";
-import {$log} from "ts-log-debug";
+import {$log} from "@tsed/logger";
 import {RestCtrl} from "./controllers/RestCtrl";
 
 const cookieParser = require("cookie-parser");
