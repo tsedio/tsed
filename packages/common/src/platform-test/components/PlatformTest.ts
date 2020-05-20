@@ -109,7 +109,7 @@ export class PlatformTest {
     };
   }
 
-  static invoke<T = any>(target: TokenProvider, providers: ITestInvokeOptions[]): T | Promise<T> {
+  static invoke<T = any>(target: TokenProvider, providers: ITestInvokeOptions[] = []): T | Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
       locals.set(p.token, p.use);
