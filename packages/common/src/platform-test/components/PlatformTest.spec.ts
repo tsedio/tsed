@@ -10,7 +10,8 @@ import {
   IRoute,
   LogIncomingRequestMiddleware,
   PlatformBuilder,
-  PlatformTest
+  PlatformTest,
+  RequestContext
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {expect} from "chai";
@@ -73,5 +74,11 @@ describe("PlatformTest", () => {
   it("should create server and mount the controller", async () => {
     const result = await request.get("/rest");
     expect(result.text).to.equal("hello");
+  });
+
+  describe("createRequestContext", () => {
+    it("should return request context", () => {
+      expect(PlatformTest.createRequestContext()).to.be.instanceOf(RequestContext);
+    });
   });
 });

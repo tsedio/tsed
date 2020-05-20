@@ -1,6 +1,7 @@
 import {Env, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
+import {IRequestContextOptions, RequestContext} from "../../platform/domain/RequestContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
 export interface ITestInvokeOptions {
@@ -109,7 +110,7 @@ export class PlatformTest {
     };
   }
 
-  static invoke<T = any>(target: TokenProvider, providers: ITestInvokeOptions[]): T | Promise<T> {
+  static invoke<T = any>(target: TokenProvider, providers: ITestInvokeOptions[] = []): T | Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
       locals.set(p.token, p.use);
@@ -146,5 +147,14 @@ export class PlatformTest {
    */
   static callback() {
     return PlatformTest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
+  }
+
+  static createRequestContext(options: Partial<IRequestContextOptions> = {}) {
+    return new RequestContext({
+      id: "id",
+      logger: this.injector.logger,
+      url: "/",
+      ...options
+    });
   }
 }

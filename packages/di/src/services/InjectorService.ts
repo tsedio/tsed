@@ -1,4 +1,6 @@
 import {
+  ancestorsOf,
+  classOf,
   deepClone,
   deepExtends,
   getClass,
@@ -315,33 +317,34 @@ export class InjectorService extends Container {
    * @param options
    */
   public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions>) {
-    const store = Store.from(getClass(instance));
+    const properties: IInjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
+      const store = Store.from(target);
 
-    if (store && store.has("injectableProperties")) {
-      const properties: IInjectableProperties = store.get("injectableProperties") || [];
+      return {
+        ...properties,
+        ...(store.get("injectableProperties") || {})
+      };
+    }, {});
 
-      Object.keys(properties)
-        .map(key => properties[key])
-        .forEach(definition => {
-          switch (definition.bindingType) {
-            case InjectablePropertyType.METHOD:
-              this.bindMethod(instance, definition);
-              break;
-            case InjectablePropertyType.PROPERTY:
-              this.bindProperty(instance, definition, locals, options);
-              break;
-            case InjectablePropertyType.CONSTANT:
-              this.bindConstant(instance, definition);
-              break;
-            case InjectablePropertyType.VALUE:
-              this.bindValue(instance, definition);
-              break;
-            case InjectablePropertyType.INTERCEPTOR:
-              this.bindInterceptor(instance, definition);
-              break;
-          }
-        });
-    }
+    Object.values(properties).forEach(definition => {
+      switch (definition.bindingType) {
+        case InjectablePropertyType.METHOD:
+          this.bindMethod(instance, definition);
+          break;
+        case InjectablePropertyType.PROPERTY:
+          this.bindProperty(instance, definition, locals, options);
+          break;
+        case InjectablePropertyType.CONSTANT:
+          this.bindConstant(instance, definition);
+          break;
+        case InjectablePropertyType.VALUE:
+          this.bindValue(instance, definition);
+          break;
+        case InjectablePropertyType.INTERCEPTOR:
+          this.bindInterceptor(instance, definition);
+          break;
+      }
+    });
   }
 
   /**
@@ -376,12 +379,13 @@ export class InjectorService extends Container {
     options: Partial<IInvokeOptions>
   ) {
     options = {...options};
+    let bean: any;
     Object.defineProperty(instance, propertyKey, {
       get: () => {
-        const instance = this.invoke(useType, locals, options);
+        bean = bean || this.invoke(useType, locals, options);
         options.rebuild = false; // invalid
 
-        return instance;
+        return bean;
       }
     });
   }
