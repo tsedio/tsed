@@ -79,10 +79,13 @@ describe("DI", () => {
     class NestedService extends BaseService {
     }
 
-    @Injectable()
-    class MyService {
+    class BaseMyService {
       @Inject(NestedService)
       nested: BaseService;
+    }
+
+    @Injectable()
+    class MyService extends BaseMyService {
     }
 
     after(() => {
@@ -91,7 +94,6 @@ describe("DI", () => {
     });
 
     it("should inject the expected class", async () => {
-
       const injector = new InjectorService();
       const providers = new Container();
       providers.add(MyService);
