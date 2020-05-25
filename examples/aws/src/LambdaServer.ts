@@ -27,11 +27,9 @@ const binaryMimeTypes = [
 ];
 
 // The function handler to setup on AWS Lambda console -- the name of this function must match the one configured on AWS
-export async function awsHanlder(event: any, context: any, done: any) {
+export async function awsHanlder(event: any, context: any) {
   const server = await ServerLoader.bootstrap(Server);
   const lambdaServer = awsServerlessExpress.createServer(server.expressApp, null, binaryMimeTypes);
 
-  awsServerlessExpress.proxy(lambdaServer, event, context);
-
-  done();
+  return awsServerlessExpress.proxy(lambdaServer, event, context).promise;
 }
