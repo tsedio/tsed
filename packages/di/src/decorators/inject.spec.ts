@@ -20,7 +20,7 @@ describe("@Inject()", () => {
       }
 
       // THEN
-      expect(actualError.message).to.deep.eq("Inject cannot used as method.static decorator on Test.test");
+      expect(actualError.message).to.deep.eq("Inject cannot be used as method.static decorator on Test.test");
     });
   });
 

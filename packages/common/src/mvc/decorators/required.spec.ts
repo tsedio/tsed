@@ -59,7 +59,7 @@ describe("Required", () => {
         actualError = er;
       }
 
-      actualError.message.should.deep.eq("Required cannot used as class decorator on Test");
+      actualError.message.should.deep.eq("Required cannot be used as class decorator on Test");
     });
   });
 });

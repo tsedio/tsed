@@ -82,7 +82,7 @@ describe("Allow", () => {
         actualError = er;
       }
 
-      actualError.message.should.deep.eq("Allow cannot used as class decorator on Test");
+      actualError.message.should.deep.eq("Allow cannot be used as class decorator on Test");
     });
   });
 });
