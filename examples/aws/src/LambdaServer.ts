@@ -31,5 +31,5 @@ export async function awsHanlder(event: any, context: any) {
   const server = await ServerLoader.bootstrap(Server);
   const lambdaServer = awsServerlessExpress.createServer(server.expressApp, null, binaryMimeTypes);
 
-  return awsServerlessExpress.proxy(lambdaServer, event, context).promise;
+  return awsServerlessExpress.proxy(lambdaServer, event, context, 'PROMISE').promise;
 }
