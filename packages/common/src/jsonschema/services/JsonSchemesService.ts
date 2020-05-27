@@ -18,6 +18,7 @@ export class JsonSchemesService extends ProxyRegistry<any, JsonSchema> {
    *
    * @param {Type<any>} target
    * @returns {JSONSchema4}
+   * @deprecated use getJsonSchema instead
    */
   getSchemaDefinition(target: Type<any>): JSONSchema6 | undefined {
     return getJsonSchema(target);

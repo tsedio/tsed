@@ -12,6 +12,9 @@ describe("Property()", () => {
           properties: {
             age: {
               type: "number"
+            },
+            id: {
+              type: "string"
             }
           },
           type: "object"
@@ -28,6 +31,9 @@ describe("Property()", () => {
         JsonNameModel: {
           properties: {
             name: {
+              type: "string"
+            },
+            id: {
               type: "string"
             }
           },
