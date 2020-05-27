@@ -291,12 +291,12 @@ export class InjectorService extends Container {
     if (this.resolvedConfiguration) {
       return;
     }
+    const mergedConfiguration = new Map();
 
     super.forEach(provider => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          value = this.settings.default.has(key) ? deepExtends(this.settings.default.get(key), value) : deepClone(value);
-          this.settings.default.set(key, value);
+          mergedConfiguration.set(key, mergedConfiguration.has(key) ? deepExtends(mergedConfiguration.get(key), value) : deepClone(value));
         });
       }
       if (provider.resolvers) {
@@ -304,7 +304,10 @@ export class InjectorService extends Container {
       }
     });
 
-    this.settings["scopes"] = Object.freeze(Object.assign({}, this.settings.default.get("scopes"), this.settings.scopes));
+    mergedConfiguration.forEach((value, key) => {
+      this.settings[key] = deepExtends(value, this.settings[key]);
+    });
+
     this.settings.build();
 
     this.resolvedConfiguration = true;
