@@ -13,6 +13,7 @@ import {ProductsCtrl} from "../../src/controllers/products/ProductsCtrl";
 import {RestCtrl} from "../../src/controllers/RestCtrl";
 import {UserCtrl} from "../../src/controllers/users/UserCtrl";
 import "../../src/middlewares/CustomAuthMiddleware";
+import {FeatureModule} from "../../src/module/feature/FeatureModule";
 
 const rootDir = __dirname + "/../../src";
 
@@ -50,7 +51,10 @@ const rootDir = __dirname + "/../../src";
     "default": {
       "path": "/api/graphql"
     }
-  }
+  },
+  imports: [
+    FeatureModule
+  ]
 })
 export class FakeServer extends ServerLoader {
   /**

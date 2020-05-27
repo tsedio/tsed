@@ -16,6 +16,7 @@ import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import "./middlewares/CustomAuthMiddleware";
 import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
 import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
+import {FeatureModule} from "./module/feature/FeatureModule";
 
 const rootDir = resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
@@ -35,6 +36,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   },
 
   componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts"],
+  imports: [FeatureModule],
 
   uploadDir: "${rootDir}/uploads",
 

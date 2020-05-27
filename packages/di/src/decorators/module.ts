@@ -44,7 +44,7 @@ export function Module(options: Partial<IModuleOptions> = {}) {
   return applyDecorators(
     Configuration(configuration),
     Injectable({
-      type: ProviderType.PROVIDER,
+      type: ProviderType.MODULE,
       scope: ProviderScope.SINGLETON,
       imports,
       deps,

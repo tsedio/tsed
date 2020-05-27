@@ -30,23 +30,30 @@ export function mapConfiguration(config: any): {endpoint?: string; values: any[]
 }
 
 export async function importComponents(config: any, excludes: string[]): Promise<Partial<IProvider<any>>[]> {
-  config = mapConfiguration(config);
-
-  const list: Partial<IProvider<any>>[] = [];
-
-  for (const option of config) {
-    for (const value of option.values) {
-      const symbols = await resolveSymbols(value, excludes);
-
-      symbols
-        .filter(symbol => isClass(symbol))
-        .forEach(symbol => {
-          const provider: Partial<IProvider<any>> = {token: symbol, route: option.endpoint};
-
-          list.push(provider);
-        });
-    }
+  if (!config) {
+    return [];
   }
 
-  return list;
+  config = mapConfiguration(config);
+
+  const promises: any = [];
+  for (const option of config) {
+    promises.push(
+      ...option.values.map(async (value: any) => {
+        const symbols = await resolveSymbols(value, excludes);
+
+        return symbols
+          .filter(symbol => isClass(symbol))
+          .map(symbol => {
+            const provider: Partial<IProvider<any>> = {token: symbol, route: option.endpoint};
+
+            return provider;
+          });
+      })
+    );
+  }
+
+  const result = await Promise.all(promises);
+
+  return ([] as any).concat(...result);
 }
