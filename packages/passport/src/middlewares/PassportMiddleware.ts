@@ -1,6 +1,6 @@
 import {EndpointInfo, Inject, Middleware, Req} from "@tsed/common";
-import * as Passport from "passport";
 import {Unauthorized} from "@tsed/exceptions";
+import * as Passport from "passport";
 import {ProtocolsService} from "../services/ProtocolsService";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest";
 
@@ -14,11 +14,15 @@ export class PassportMiddleware {
       return;
     }
 
-    const {options, protocol, method} = endpoint.store.get(PassportMiddleware);
+    const {options, protocol, method, originalUrl = true} = endpoint.store.get(PassportMiddleware);
     const protocols = getProtocolsFromRequest(request, protocol, this.protocolsService.getProtocolsNames());
 
     if (protocols.length === 0) {
       throw new Unauthorized("Not authorized");
+    }
+
+    if (originalUrl) {
+      request.url = request.originalUrl;
     }
 
     // @ts-ignore
