@@ -1,7 +1,7 @@
+import {Unauthorized} from "@tsed/exceptions";
 import {expect} from "chai";
 import * as Passport from "passport";
 import * as Sinon from "sinon";
-import {Unauthorized} from "@tsed/exceptions";
 import {PassportMiddleware} from "./PassportMiddleware";
 
 const sandbox = Sinon.createSandbox();
@@ -99,6 +99,8 @@ describe("PassportMiddleware", () => {
     } as any;
 
     const request: any = {
+      url: "/",
+      originalUrl: "/rest",
       query: {
         protocol: "basic"
       }
@@ -117,6 +119,7 @@ describe("PassportMiddleware", () => {
     middleware.use(request, endpoint);
 
     // THEN
+    expect(request.url).to.eq(request.originalUrl);
     Passport.authenticate.should.have.been.calledWithExactly("basic", {});
   });
   it("should throw errors", () => {
