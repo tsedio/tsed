@@ -1,7 +1,7 @@
 import {
   ancestorsOf,
   deepExtends,
-  descriptorOf,
+  descriptorOf, EntityOptions,
   Enumerable,
   isArrayOrArrayClass,
   isFunction,
@@ -17,10 +17,7 @@ import {IPathMethod} from "../interfaces/IPathMethod";
 import {IResponseOptions} from "../interfaces/IResponseOptions";
 import {ParamMetadata} from "./ParamMetadata";
 
-export interface EndpointConstructorOptions {
-  target: Type<any>;
-  propertyKey: string | symbol;
-  descriptor: PropertyDescriptor;
+export interface EndpointConstructorOptions extends EntityOptions {
   beforeMiddlewares?: Function[];
   middlewares?: Function[];
   afterMiddlewares?: Function[];
@@ -70,7 +67,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   public statusCode: number = 200;
 
   constructor(options: EndpointConstructorOptions) {
-    super(options.target, options.propertyKey, options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
+    super(options.target, options.propertyKey!, options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey!));
 
     const {
       target,
