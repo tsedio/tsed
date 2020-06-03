@@ -52,7 +52,7 @@ describe("PathParams", () => {
     }
   }));
   before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
+    TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
       request = SuperTest(expressApplication);
     })
   );
