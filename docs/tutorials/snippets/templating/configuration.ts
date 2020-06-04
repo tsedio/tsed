@@ -1,36 +1,24 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import bodyParser from "body-parser";
-import compress from "compression";
+import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common";
 import cons from "consolidate";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
-  viewsDir: `${rootDir}/views`,
-  mount: {
-    "/rest": `${rootDir}/controllers/**/**.js`
-  },
-  componentsScan: [
-    `${rootDir}/services/**/**.js`
-  ]
+  viewsDir: `${rootDir}/views`
 })
-class Server extends ServerLoader {
-  $onInit() {
-    this.set("views", this.settings.get("viewsDir")); // le repertoire des vues
-    this.engine("ejs", cons.ejs);
-  }
+class Server {
+  @Configuration()
+  settings: Configuration;
 
-  async $beforeRoutesInit() {
-    this.use(ServerLoader.AcceptMime("application/json"))
-      .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }))
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride());
+  @Constant("viewsDir")
+  viewsDir: string;
+
+  @Inject()
+  app: PlatformApplication;
+
+  $onInit() {
+    this.app.raw.set("views", this.viewsDir);
+    this.app.raw.engine("ejs", cons.ejs);
   }
 }

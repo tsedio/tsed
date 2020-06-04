@@ -1,17 +1,31 @@
 # Templating
 
-@@ResponseView@@ or @@Render@@ is a decorator which can be used on a controller method (endpoint).
+@@Render@@ is a decorator which can be used on a controller method (endpoint).
 This decorator will use the response returned by the method and will use the view to create the output.
 
 <figure><img src="./../assets/templating-engine.png" style="max-height: 300px; padding:20px"></figure>
 
 ## Installation
 
-This example uses [EJS](https://ejs.co/) as engine rendering. To use an other engine, see the documentation of the concerned project. 
+This example uses [EJS](https://ejs.co/) and [consolidate](https://npmjs.com/package/consolidate). 
+To use an other engine, see the documentation of the concerned project. 
 
+<Tabs class="-code">
+  <Tab label="v5.56.0+">
+  
 <<< @/docs/tutorials/snippets/templating/configuration.ts
 
-> The configuration engine is exactly the same as Express configuration engine. 
+  </Tab>
+  <Tab label="Legacy">
+    
+<<< @/docs/tutorials/snippets/templating/configuration-legacy.ts
+  
+  </Tab>
+</Tabs>  
+
+::: tip 
+The configuration engine is exactly the same as Express configuration engine. 
+:::
 
 ## Usage
 
@@ -29,8 +43,3 @@ And its view:
     Start: <%- startDate %>
 </div>
 ```
-
-::: tip
-@@Render@@ is an alias of @@ResponseView@@.
-:::
-
