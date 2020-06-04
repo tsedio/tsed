@@ -1814,6 +1814,21 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@sass-collective/sass-rem@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@sass-collective/sass-rem/-/sass-rem-1.4.0.tgz#af1ee242ab448efe2380157de7a75bbddbee9d79"
+  integrity sha512-p2WwRglhPlcHK1oil68EJm2aXIlHjjbeFVqrTGueZ+WcKElFTouDGTq67u9IlgsYtX8UerfMekW+iY7PrXNidA==
+  dependencies:
+    "@sass-collective/strip-unit" "^1.0.1"
+    sass "^1.26.5"
+
+"@sass-collective/strip-unit@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@sass-collective/strip-unit/-/strip-unit-1.0.1.tgz#5b2edb39b2a180d6aee452ce4838fdcc620d992e"
+  integrity sha512-BLkRFHmtI248ZqYkH69GlXTjbU/WNZH+gbuifzDhDi6Z8fZX75KQP5drV9Vu3m2JP1NDg8PtYnTi1+mBVmXxTA==
+  dependencies:
+    sass "^1.26.3"
+
 "@semantic-release/commit-analyzer@^6.1.0":
   version "6.3.3"
   resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-6.3.3.tgz#885f7e46e2f0aef23a23be0904dbf18d6ece45ca"
@@ -4738,7 +4753,7 @@ chokidar@3.3.0:
   optionalDependencies:
     fsevents "~2.1.1"
 
-"chokidar@>=2.0.0 <4.0.0", chokidar@^3.4.0:
+"chokidar@>=2.0.0 <4.0.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.0.tgz#b30611423ce376357c765b9b8f904b9fba3c0be8"
   integrity sha512-aXAaho2VJtisB/1fg1+3nlLJqGOuewTzQpd/Tz0yTg2R0e4IGtshYvtjowyEumcBv2z+y4+kc75Mz7j5xJskcQ==
@@ -14148,10 +14163,12 @@ sass-loader@^8.0.2:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-sass-rem@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/sass-rem/-/sass-rem-2.0.1.tgz#dd863ec9ca5e0597eae5dd239f1f00a6c0f729b0"
-  integrity sha512-Fuf7i1Wr7n1lIdCiImhCJ1/S0jEYq1OmrlqyKuJKSU2B2kHbU09HJIo5AuADvbf3DJLlRxU7b8Jm8D6m5lfqmA==
+sass@^1.26.3:
+  version "1.26.7"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.26.7.tgz#d3c9f3dd9771632bfb60af8746c308da3765166d"
+  integrity sha512-xgNazdkr6yvgHEfNaOjKtZzhDZmKYMCmoRKMPrTDo7YvjaITIzU2DDYsIUuN/atAg7/JOxPeCQHH7TtCo5Tq2g==
+  dependencies:
+    chokidar ">=2.0.0 <4.0.0"
 
 sass@^1.26.5:
   version "1.26.5"
@@ -16565,11 +16582,12 @@ vuepress-plugin-smooth-scroll@^0.0.9:
   dependencies:
     smoothscroll-polyfill "^0.4.4"
 
-vuepress-theme-tsed@2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-2.8.1.tgz#7c3e98087db4489b8dd3212a2efdae6e72dcdb17"
-  integrity sha512-UfRLqDwkK3NlavJwhAVj/0nnYtyfYDjkvfqzMU9/4siWtB4BRFAGkGqlahLa770OULO1DHXSkI1Eh4k1EQf+9w==
+vuepress-theme-tsed@2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-2.8.2.tgz#528549909f1636744f48340a39dc5e0970f43984"
+  integrity sha512-RcfYNuANq0BfxIARMRhHLdJYE6s8l1NB4bOK97pxf+sQ6e29FhJtGpXFYXrqiOxREUcENul21uCWoL0JQRzv4w==
   dependencies:
+    "@sass-collective/sass-rem" "^1.4.0"
     "@vuepress/plugin-active-header-links" "1.2.0"
     "@vuepress/plugin-nprogress" "1.5.0"
     "@vuepress/plugin-search" "1.2.0"
@@ -16580,7 +16598,6 @@ vuepress-theme-tsed@2.8.1:
     lodash "^4.17.15"
     sass "^1.26.5"
     sass-loader "^8.0.2"
-    sass-rem "2.0.1"
     stylus "^0.54.5"
     stylus-loader "^3.0.2"
     vuepress-plugin-container "^2.0.2"
@@ -16598,23 +16615,14 @@ vuepress@1.4.0:
     opencollective-postinstall "^2.0.2"
     update-notifier "^4.0.0"
 
-watchpack-chokidar2@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/watchpack-chokidar2/-/watchpack-chokidar2-2.0.0.tgz#9948a1866cbbd6cb824dea13a7ed691f6c8ddff0"
-  integrity sha512-9TyfOyN/zLUbA288wZ8IsMZ+6cbzvsNyEzSBp6e/zkifi6xxbl8SmQ/CxQq32k8NNqrdVEVUVSEf56L4rQ/ZxA==
+watchpack@1.6.1, watchpack@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.6.1.tgz#280da0a8718592174010c078c7585a74cd8cd0e2"
+  integrity sha512-+IF9hfUFOrYOOaKyfaI7h7dquUIOgyEMoQMLA7OP5FxegKA2+XdXThAZ9TU2kucfhDH7rfMHs1oPYziVGWRnZA==
   dependencies:
     chokidar "^2.1.8"
-
-watchpack@^1.6.1:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.2.tgz#c02e4d4d49913c3e7e122c3325365af9d331e9aa"
-  integrity sha512-ymVbbQP40MFTp+cNMvpyBpBtygHnPzPkHqoIwRRj/0B8KhqQwV8LaKjtbaxF2lK4vl8zN9wCxS46IFCU5K4W0g==
-  dependencies:
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-  optionalDependencies:
-    chokidar "^3.4.0"
-    watchpack-chokidar2 "^2.0.0"
 
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"

@@ -14,16 +14,38 @@ This schemes resume the order of hooks regarding to ServerLoader and Providers:
 
 ### Examples
 
-Hooks can be used on @@ServerLoader@@:
-```typescript
-import {ServerLoader} from "@tsed/common";
+Hooks can be used on you Server:
 
-class Server extends ServerLoader implements BeforeInit {
+<Tabs class="-code">
+  <Tab label="v5.56.0+">
+  
+```typescript
+import {BeforeInit, Configuration} from "@tsed/common";
+
+@Configuration({})
+class Server implements BeforeInit {
   async $beforeInit(): Promise<any>  {
     
   }
 }
 ```
+
+  </Tab>
+  <Tab label="Legacy">
+
+```typescript
+import {ServerLoader, ServerSettings, BeforeInit} from "@tsed/common";
+
+@ServerSettings({})
+export class Server extends ServerLoader implements BeforeInit {
+  async $beforeInit(): Promise<any>  {
+    
+  }
+}
+```
+  
+  </Tab>
+</Tabs>  
 
 or on your @@Module@@ or @@Service@@:
 

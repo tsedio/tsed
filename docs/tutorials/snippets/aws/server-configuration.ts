@@ -1,22 +1,24 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as cors from "cors";
+import * as methodOverride from "method-override";
 
-@ServerSettings({
+const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
+
+@Configuration({
   port: 3000,
   rootDir: __dirname
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit() {
-
-    const cookieParser = require("cookie-parser"),
-      bodyParser = require("body-parser"),
-      compress = require("compression"),
-      methodOverride = require("method-override"),
-      cors = require("cors"),
-      compression = require("compression"),
-      awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
-
-    this
-      .use(compression())
+    this.app
+      .use(compress())
       .use(cors())
       .use(cookieParser())
       .use(compress({}))
@@ -25,7 +27,6 @@ export class Server extends ServerLoader {
       .use(bodyParser.urlencoded({
         extended: true
       }))
-
-    this.use(awsServerlessExpressMiddleware.eventContext());
+      .use(awsServerlessExpressMiddleware.eventContext());
   }
 }

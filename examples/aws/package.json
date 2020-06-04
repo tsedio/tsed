@@ -44,6 +44,7 @@
     "@tsed/di": "5.56.0",
     "@tsed/exceptions": "5.56.0",
     "@tsed/swagger": "5.56.0",
+    "@tsed/platform-express": "5.56.0",
     "@tsed/testing": "5.56.0",
     "@types/swagger-schema-official": "2.0.20",
     "@types/aws-serverless-express": "3.3.1",

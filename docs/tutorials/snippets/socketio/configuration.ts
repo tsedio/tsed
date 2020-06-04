@@ -1,12 +1,12 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/socketio"; // import socketio Ts.ED module
+import {Configuration} from "@tsed/common";
+import "@tsed/platform-express";
+import "@tsed/socketio"; // import socket.io Ts.ED module
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   socketIO: {
     // ... see configuration
   }
 })
-export class Server extends ServerLoader {
-
+export class Server {
 }

@@ -1,21 +1,19 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as session from "express-session";
+import * as methodOverride from "method-override";
 
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compress = require("compression");
-const methodOverride = require("method-override");
-const session = require("express-session");
+@Configuration({})
+export class Server {
+  @Inject()
+  app: PlatformApplication;
 
-@ServerSettings({})
-class Server extends ServerLoader {
-
-  /**
-   * This method let you configure the express middleware required by your application to works.
-   * @returns {Server}
-   */
   public $beforeRoutesInit(): void | Promise<any> {
 
-    this
+    this.app
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
@@ -24,8 +22,8 @@ class Server extends ServerLoader {
         extended: true
       }));
 
-    this.set("trust proxy", 1); // trust first proxy
-    this.use(session({
+    this.app.raw.set("trust proxy", 1); // trust first proxy
+    this.app.raw.use(session({
       secret: "keyboard cat",
       resave: false,
       saveUninitialized: true,

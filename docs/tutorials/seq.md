@@ -22,22 +22,26 @@ npm install --save @tsed/seq bunyan bunyan-seq @types/bunyan @types/bunyan-seq
 Then add the following configuration in your @@ServerLoader@@:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/seq"; // import seq Ts.ED module
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   seq: {
     url: "http://localhost:5341"
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```
-> Note: Seq module uses the [@tsed/logger](https://logger.tsed.io/) as a default system logger
+::: tip Note
+Seq module uses the [@tsed/logger](https://logger.tsed.io/) as a default system logger
+:::
 
-> Note: Seq module uses the log level from the @@LoggerSettings@@ (default level is debug)
+::: tip Note
+Seq module uses the log level from the @@LoggerSettings@@ (default level is debug)
+:::
 
 ## Example
 

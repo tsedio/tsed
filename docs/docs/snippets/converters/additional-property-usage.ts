@@ -1,9 +1,9 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
   converter: {
     additionalProperties: "error" // default: "error", "accept" | "ignore"
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 }

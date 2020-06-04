@@ -1,13 +1,15 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
+import "@tsed/platform-express";
 import "@tsed/socketio";
 import "@tsed/swagger";
+import * as  bodyParser from "body-parser";
+import {ejs} from "consolidate";
+import * as methodOverride from "method-override";
 
-const bodyParser = require("body-parser");
-const methodOverride = require("method-override");
-const cons = require("consolidate");
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   viewsDir: `${rootDir}/../views`,
   port: 3008,
@@ -28,14 +30,20 @@ const rootDir = __dirname;
   },
   socketIO: {}
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Configuration()
+  settings: Configuration;
+
+  @Inject()
+  app: PlatformApplication;
+
   $onInit(): void | Promise<any> {
-    this.expressApp.set("views", this.settings.get("viewsDir")); // le repertoire des vues
-    this.expressApp.engine("ejs", cons.ejs);
+    this.app.raw.set("views", this.settings.get("viewsDir"));
+    this.app.raw.engine("ejs", ejs);
   }
 
   $beforeRoutesInit() {
-    this
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(methodOverride())
       .use(bodyParser.json())

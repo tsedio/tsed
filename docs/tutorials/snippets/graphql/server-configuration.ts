@@ -1,6 +1,7 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
+import "@tsed/platform-express";
 
-@ServerSettings({
+@Configuration({
   componentsScan: [
     "${rootDir}/graphql/**/*.ts" // add this pattern to scan resolvers or datasources
   ],
@@ -10,6 +11,5 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
     }
   }
 })
-export class Server extends ServerLoader {
-
+export class Server {
 }

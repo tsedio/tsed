@@ -1,20 +1,21 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import * as Path from "path";
 import {MyController} from "./controllers/manual/MyController";
 
 const rootDir = Path.resolve(__dirname);
 
-@ServerSettings({
+@Configuration({
   rootDir, // optional. By default it's equal to process.cwd()
   mount: {
-    "/rest": "${rootDir}/controllers/current/**/*.js",
-    "/rest/v1": [
-      "${rootDir}/controllers/v1/users/*.js",
-      "${rootDir}/controllers/v1/groups/**/*.ts", // support ts entry
-      "!${rootDir}/controllers/v1/groups/old/*.ts", // support ts entry
+    "/rest": [
+      `${rootDir}/controllers/current/**/*.ts`,
       MyController // support manual import
+    ],
+    "/rest/v0": [ // versioning
+      `${rootDir}/controllers/v0/users/*.js`,
+      `!${rootDir}/controllers/v0/groups/old/*.ts` // Exclusion
     ]
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 }

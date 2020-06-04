@@ -19,7 +19,8 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "../../../../../Library/Application Support/JetBrains/WebStorm2020.1/javascript/nodejs/12.13.1/node-typings/node_modules/@types/node/globals.d.ts"
   ],
   "exclude": [
     "node_modules",

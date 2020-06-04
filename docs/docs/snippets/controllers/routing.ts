@@ -1,7 +1,7 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import {CalendarCtrl} from "./controllers/CalendarCtrl";
 
-@ServerSettings({
+@Configuration({
   mount: {
     "/rest": `./controllers/*.ts`, // using componentScan
     // Using manual import
@@ -10,5 +10,5 @@ import {CalendarCtrl} from "./controllers/CalendarCtrl";
     ]
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 }

@@ -1,9 +1,8 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import Path = require("path");
+import {Configuration} from "@tsed/common";
 
-const rootDir = Path.resolve(__dirname);
+const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   mount: {
     "/rest": `${rootDir}/controllers/**/**.ts`
@@ -13,6 +12,6 @@ const rootDir = Path.resolve(__dirname);
     `${rootDir}/middlewares/**/**.ts`
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }

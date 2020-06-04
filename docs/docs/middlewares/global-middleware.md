@@ -1,7 +1,7 @@
 # Global middleware 
 
 Global middlewares and Endpoint middlewares are almost similar but Global middlewares cannot use the @@EndpointInfo@@.
-Global middlewares let you manage request and response on @@ServerLoader@@.
+Global middlewares let you manage request and response handled by the Server.
 
 ## Usage
 
@@ -9,7 +9,7 @@ Create your middleware:
 
 <<< @/docs/docs/snippets/middlewares/global-middleware.ts
 
-Then, add your middleware in @@ServerLoader@@:
+Then, add your middleware in Server:
 
 <<< @/docs/docs/snippets/middlewares/global-middleware-configuration.ts
 

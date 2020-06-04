@@ -38,7 +38,7 @@ npm install --save @tsed/typeorm
 npm install --save typeorm
 ```
 
-Then import `@tsed/typeorm` in your @@ServerLoader@@:
+Then import `@tsed/typeorm` in your Server:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-configuration.ts
 

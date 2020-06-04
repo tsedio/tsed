@@ -1,7 +1,8 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
+import "@tsed/platform-express";
 
-@ServerSettings({
+@Configuration({
   mongoose: [
     {
       id: "default", // Recommended: define default connection. All models without dbName will be assigned to this connection
@@ -15,6 +16,6 @@ import "@tsed/mongoose"; // import mongoose ts.ed module
     }
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }

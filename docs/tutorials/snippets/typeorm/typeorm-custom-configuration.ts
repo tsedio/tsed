@@ -1,7 +1,8 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
+import "@tsed/platform-express";
 import "./connections/CONNECTION";
 
-@ServerSettings({
+@Configuration({
   customConnection: {
     name: "default",
     type: "postgres",
@@ -18,6 +19,6 @@ import "./connections/CONNECTION";
     ]
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }

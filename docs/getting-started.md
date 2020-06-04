@@ -40,34 +40,63 @@ meta:
 
 # Getting started
 
-Save your time by starting your project on one of these kits:
-
-<Projects type="getting-started" />
-
-or by using the Ts.ED CLI:
+Save your time by starting your project with our Cli:
 
 ```
 npm install -g @tsed/cli
 tsed init .
 ```
+
 See our [CLI website](https://cli.tsed.io) for more details.
+ 
+Or by using on one of these kits:
+
+<Projects type="getting-started" />
 
 ## Installation from scratch
 
 You can get the latest version of Ts.ED using the following npm command:
 
+<Tabs class="-code">
+  <Tab label="Yarn">
+  
+```bash
+$ yarn add -D typescript @types/express
+$ yarn add express@4 @tsed/core @tsed/di @tsed/common
+```
+
+  </Tab>
+  <Tab label="Npm">
+  
 ```bash
 $ npm install --save-dev typescript @types/express
 $ npm install --save express@4 @tsed/core @tsed/di @tsed/common
 ```
+     
+  </Tab>
+</Tabs>  
 
 ::: tip
-The following modules are also recommended:
+The following modules also are recommended: 
 
+<Tabs class="-code">
+  <Tab label="Yarn">
+  
+```bash
+$ yarn add body-parser compression cookie-parser method-override
+$ yarn add -D ts-node nodemon
+```
+
+  </Tab>
+  <Tab label="Npm">
+    
 ```bash
 $ npm install --save body-parser compression cookie-parser method-override
 $ npm install --save-dev ts-node nodemon
 ```
+  
+  </Tab>
+</Tabs>
 :::
 
 ::: warning
@@ -76,18 +105,19 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/common": "5.0.7",
-    "@tsed/di": "5.0.7",
-    "@tsed/core": "5.0.7",
-    "@tsed/swagger": "5.0.7",
-    "@tsed/testing": "5.0.7"
+    "@tsed/common": "5.56.0",
+    "@tsed/di": "5.56.0",
+    "@tsed/core": "5.56.0",
+    "@tsed/exceptions": "5.56.0",
+    "@tsed/plaftorm-express": "5.56.0",
+    "@tsed/swagger": "5.56.0"
   }
 } 
 ```
 :::
 
 ::: warning
-Ts.ED requires Node >= 8, Express >= 4, TypeScript >= 2.0 and 
+Ts.ED requires Node >= 10, Express >= 4, TypeScript >= 3.0 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 :::
@@ -106,19 +136,45 @@ Then use the command `npm install && npm start` to start your server.
 ## Quick start
 ### Create your express server
 
+<Tabs>
+  <Tab label="v5.56.0+">
+
+Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
+Just create a `server.ts` in your root project :
+
+
+<<< @/docs/snippets/getting-started/server.ts
+
+  </Tab>
+  <Tab label="Legacy"> 
+
 Ts.ED provides a @@ServerLoader@@ class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
-<<< @/docs/snippets/getting-started/server.ts
+<<< @/docs/snippets/getting-started/server-legacy.ts
+  
+> By default, ServerLoader loads controllers in `${rootDir}/controllers` and mounts it to `/rest` endpoint.
 
-> By default ServerLoader loads controllers in `${rootDir}/controllers` and mounts it to `/rest` endpoint.
+  </Tab>
+</Tabs>
 
 To customize the server settings see [Configuration](configuration.md) page.
 
-Finally create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
+Finally, create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
 
+<Tabs class="-code">
+  <Tab label="v5.56.0+">
+  
 <<< @/docs/snippets/configuration/bootstrap.ts
+  
+  </Tab>
+  <Tab label="Legacy">
+  
+<<< @/docs/snippets/configuration/bootstrap-legacy.ts
+  
+  </Tab>  
+</Tabs>    
 
 You should have this directory tree: 
 
@@ -133,36 +189,28 @@ You should have this directory tree:
 └── package.json
 ```
 
-::: tip
-By default ServerLoader loads automatically Services, Controllers and Middlewares in specific directories.
-This behavior can be changed by editing the [componentScan configuration](/configuration.md).
-:::
 
 ::: tip
-In addition, it is also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+By default Ts.ED loads automatically Services, Controllers and Middlewares in specific directories.
+This behavior can be changed by editing the [componentsScan configuration](/configuration.md).
+:::
+
+## Load configuration from file
+
+It is also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+
+<Tabs class="-code">
+  <Tab label="node-config">
 
 <<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
 
-You should have this directory tree: 
-
-```
-.
-├── config
-│   └── default.json (or .yaml)
-├── src
-│   ├── controllers
-│   ├── services
-│   ├── middlewares
-│   ├── index.ts
-│   └── Server.ts
-└── package.json
-```
-
-With [dotenv](https://www.npmjs.com/package/dotenv):
+  </Tab>
+  <Tab label="dotenv">
 
 <<< @/docs/snippets/configuration/bootstrap-with-dotenv.ts
 
-:::
+  </Tab>  
+</Tabs>
 
 ## Create your first controller
 

@@ -67,9 +67,6 @@ interface IInvokeSettings {
  *
  * const myService1 = injector.get<MyService1>(MyServcice1);
  * ```
- *
- * > Note: `ServerLoader` make this automatically when you use `ServerLoader.mount()` method (or settings attributes) and load services and controllers during the starting server.
- *
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
