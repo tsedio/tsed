@@ -269,7 +269,30 @@ See [middlewares section](/docs/middlewares.md) for more information.
 A controller can have one or more child controllers. This feature allows you to combine your controllers with each other to define your routes. 
 One controller can be added to multiple controllers, so you can easily reuse the same controller.
 
-<<< @/docs/docs/snippets/controllers/child-controllers.ts
+<Tabs class="-code">
+  <Tab label="RestCtrl.ts">
+
+<<< @/docs/docs/snippets/controllers/child-controllers-rest.ts
+
+  </Tab>
+  <Tab label="CalendarCtrl.ts">
+
+<<< @/docs/docs/snippets/controllers/child-controllers-calendar.ts
+
+  </Tab>  
+  <Tab label="EventCtrl.ts">
+
+<<< @/docs/docs/snippets/controllers/child-controllers-event.ts
+
+  </Tab>
+  <Tab label="Server.ts">
+
+<<< @/docs/docs/snippets/controllers/child-controllers-server.ts
+
+  </Tab>      
+</Tabs>  
+
+
 
 This example will produce these following routes:
 

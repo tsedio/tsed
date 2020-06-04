@@ -51,7 +51,7 @@ declare global {
        */
       componentsScan: (string | RegExp)[];
       /**
-       * List of glob patterns. Exclude all files which matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
+       * List of glob patterns. Exclude all files which matching with this list when Server scan all components with the `mount` or `scanComponents` options.
        */
       exclude: string[];
       /**

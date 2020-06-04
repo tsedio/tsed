@@ -1,15 +1,16 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, GlobalAcceptMimesMiddleware} from "@tsed/common";
+import {Inject, PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
 import "@tsed/swagger";
-import {$log} from "@tsed/logger";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as methodOverride from "method-override";
 // import "./middlewares/MultipartFilesOverrided"; // Uncomment to enable the upload middleware override
 
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compress = require("compression");
-const methodOverride = require("method-override");
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   acceptMimes: ["application/json", "multipart/form-data"],
   logger: {
@@ -21,13 +22,12 @@ const rootDir = __dirname;
     path: "/api-docs"
   }
 })
-export class Server extends ServerLoader {
-  /**
-   * This method let you configure the middleware required by your application to works.
-   * @returns {Server}
-   */
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit(): void | Promise<any> {
-    this
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))

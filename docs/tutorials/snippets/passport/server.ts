@@ -1,21 +1,25 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/passport";
-import * as methodOverride from "method-override";
+import "@tsed/platform-express";
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
+import * as methodOverride from "method-override";
 
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   componentsScan: [
     `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
   ],
   passport: {}
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit() {
-    this
+    this.app
       .use(cookieParser())
       .use(methodOverride())
       .use(bodyParser.json())

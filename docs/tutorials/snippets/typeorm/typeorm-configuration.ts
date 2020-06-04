@@ -1,7 +1,8 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
+import "@tsed/platform-express";
 import "@tsed/typeorm"; // import typeorm ts.ed module
 
-@ServerSettings({
+@Configuration({
   typeorm: [
     {
       name: "default",
@@ -25,6 +26,6 @@ import "@tsed/typeorm"; // import typeorm ts.ed module
     }
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }

@@ -1,7 +1,8 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
+import "@tsed/platform-express";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   swagger: [
     {
@@ -10,6 +11,5 @@ import "@tsed/swagger"; // import swagger Ts.ED module
     }
   ]
 })
-export class Server extends ServerLoader {
-
+export class Server {
 }

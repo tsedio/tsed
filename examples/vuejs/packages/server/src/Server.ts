@@ -1,4 +1,6 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {Inject} from "@tsed/di";
+import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
@@ -9,7 +11,7 @@ import * as path from "path";
 const rootDir = __dirname;
 const clientDir = path.join(rootDir, "../../client/dist");
 
-@ServerSettings({
+@Configuration({
   rootDir,
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8081,
@@ -36,17 +38,12 @@ const clientDir = path.join(rootDir, "../../client/dist");
     "/": clientDir
   }
 })
-export class Server extends ServerLoader {
-  constructor(settings) {
-    super(settings);
-  }
+export class Server {
+  @Inject()
+  app: PlatformApplication;
 
-  /**
-   * This method let you configure the middleware required by your application to works.
-   * @returns {Server}
-   */
   $beforeRoutesInit(): void | Promise<any> {
-    this
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
@@ -60,7 +57,7 @@ export class Server extends ServerLoader {
   }
 
   $afterRoutesInit() {
-    this.expressApp.get("/", (req, res) => {
+    this.app.get("/", (req, res) => {
       if (!res.headersSent) {
         // prevent index.html caching
         res.set({
@@ -69,7 +66,7 @@ export class Server extends ServerLoader {
         });
       }
     });
-    this.expressApp.get(`*`, (req, res) => {
+    this.app.get(`*`, (req, res) => {
       res.sendFile(path.join(clientDir, "index.html"));
     });
   }

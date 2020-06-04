@@ -8,7 +8,7 @@ import {IConverterSettings} from "../interfaces/IConverterSettings";
 const rootDir = process.cwd();
 
 /**
- * `ServerSettingsService` contains all information about [ServerLoader](/api/common/server/components/ServerLoader.md) configuration.
+ * `ServerSettingsService` contains all information about your Server configuration.
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,

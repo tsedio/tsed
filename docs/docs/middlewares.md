@@ -67,14 +67,14 @@ Endpoint middleware must be used on class controller or endpoint method with the
 
 As you see in the previous section, a middleware can be used on different contexts:
 
-- @@ServerLoader@@,
+- [Server](/getting-started.md),
 - [Controller](/docs/controllers.md),
 - [Endpoint](/docs/controllers.md).
 
 A middleware added to a controller or endpoint level has the same constraint as the endpoint method itself. 
 It'll be played only when the url request matches with the path associated to the controller and its endpoint method.
 
-When a request is sent to the server all middlewares added in the @@ServerLoader@@, [Controller](/docs/controllers.md) or Endpoint with decorators
+When a request is sent to the server all middlewares added in the Server, [Controller](/docs/controllers.md) or Endpoint with decorators
  will be called while a response isn't sent by one of the handlers/middlewares in the stack.
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>

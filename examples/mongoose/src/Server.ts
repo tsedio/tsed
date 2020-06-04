@@ -1,12 +1,15 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import "@tsed/mongoose";
+import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   acceptMimes: ["application/json"],
   port: process.env.PORT || 8000,
@@ -24,10 +27,12 @@ import * as methodOverride from "method-override";
   },
   debug: false
 })
-export class Server extends ServerLoader {
-  $beforeRoutesInit(): void | Promise<any> {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
 
-    this
+  $beforeRoutesInit(): void | Promise<any> {
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))

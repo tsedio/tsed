@@ -136,17 +136,21 @@ Then use the command `npm install && npm start` to start your server.
 ## Quick start
 ### Create your express server
 
-Ts.ED provides a @@ServerLoader@@ class to configure your 
-Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server`.
-
-<Tabs class="-code">
+<Tabs>
   <Tab label="v5.56.0+">
+
+Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
+Just create a `server.ts` in your root project :
+
 
 <<< @/docs/snippets/getting-started/server.ts
 
   </Tab>
   <Tab label="Legacy"> 
+
+Ts.ED provides a @@ServerLoader@@ class to configure your 
+Express application quickly. Just create a `server.ts` in your root project, declare 
+a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
 
 <<< @/docs/snippets/getting-started/server-legacy.ts
   

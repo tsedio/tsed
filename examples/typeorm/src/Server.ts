@@ -1,17 +1,7 @@
-import {
-  ConverterService,
-  EndpointInfo,
-  GlobalAcceptMimesMiddleware,
-  IMiddleware,
-  OverrideProvider,
-  Res,
-  ResponseData,
-  SendResponseMiddleware,
-  ServerLoader,
-  ServerSettings
-} from "@tsed/common";
-import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
 import "@tsed/passport";
+import "@tsed/platform-express";
 import "@tsed/swagger";
 import "@tsed/typeorm";
 import * as bodyParser from "body-parser";
@@ -24,7 +14,7 @@ import {User} from "./entities/User";
 
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   httpPort: process.env.PORT || 8083,
   httpsPort: false,
@@ -75,9 +65,12 @@ const rootDir = __dirname;
     }
   }
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit(): void | Promise<any> {
-    this
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(cors())
       .use(cookieParser())

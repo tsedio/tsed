@@ -1,5 +1,6 @@
 import {ServerLoader, ServerSettings} from "@tsed/common";
-import cons from "consolidate";
+import "@tsed/platform-express";
+import {ejs} from "consolidate";
 
 const rootDir = __dirname;
 
@@ -10,6 +11,6 @@ const rootDir = __dirname;
 class Server extends ServerLoader {
   $onInit() {
     this.set("views", this.settings.get("viewsDir"));
-    this.engine("ejs", cons.ejs);
+    this.engine("ejs", ejs);
   }
 }

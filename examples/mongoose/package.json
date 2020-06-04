@@ -25,6 +25,7 @@
     "@tsed/common": "5.56.0",
     "@tsed/core": "5.56.0",
     "@tsed/di": "5.56.0",
+    "@tsed/platform-express": "5.56.0",
     "@tsed/exceptions": "5.56.0",
     "@tsed/mongoose": "5.56.0",
     "@tsed/swagger": "5.56.0",

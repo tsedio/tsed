@@ -1,15 +1,16 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/swagger";
+import "@tsed/platform-express";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
 import * as cors from "cors";
+import * as methodOverride from "method-override";
 import {join} from "path";
 
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
@@ -42,17 +43,16 @@ const rootDir = __dirname;
     "/statics": join(__dirname, "..", "statics")
   }
 })
-export class Server extends ServerLoader {
-  constructor(settings) {
-    super(settings);
-  }
+export class Server {
+  @Inject()
+  app: PlatformApplication;
 
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
   $beforeRoutesInit(): void | Promise<any> {
-    this
+    this.app
       .use(cors())
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())

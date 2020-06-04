@@ -38,10 +38,10 @@ export abstract class PlatformBuilder {
   }
 
   /**
-   * Return the settings configured by the decorator @@ServerSettings@@.
+   * Return the settings configured by the decorator @@Configuration@@.
    *
    * ```typescript
-   * @ServerSettings({
+   * @Configuration({
    *    rootDir: Path.resolve(__dirname),
    *    port: 8000,
    *    httpsPort: 8080,
@@ -49,7 +49,7 @@ export abstract class PlatformBuilder {
    *      "/rest": "${rootDir}/controllers/**\/*.js"
    *    }
    * })
-   * export class Server extends ServerLoader {
+   * export class Server {
    *     $onInit(){
    *         console.log(this.settings); // {rootDir, port, httpsPort,...}
    *     }
@@ -81,7 +81,7 @@ export abstract class PlatformBuilder {
   }
 
   /**
-   * Add classes decorated by @@Controller()@@ to components container.
+   * Add classes decorated by @@Controller@@ to components container.
    *
    * ### Example
    *
@@ -90,7 +90,7 @@ export abstract class PlatformBuilder {
    * class MyController{
    * }
    *
-   * new ServerLoader().addControllers('/rest', [MyController])
+   * platform.addControllers('/rest', [MyController])
    * ```
    *
    * ::: tip
@@ -99,7 +99,6 @@ export abstract class PlatformBuilder {
    *
    * @param {string} endpoint
    * @param {any[]} controllers
-   * @returns {ServerLoader}
    */
   public addControllers(endpoint: string, controllers: any | string | (any | string)[]) {
     this.settings.mount[endpoint] = (this.settings.mount[endpoint] || []).concat(controllers);

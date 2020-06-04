@@ -1,16 +1,19 @@
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {Configuration} from "@tsed/di";
+import {Inject} from "@tsed/di/src";
+import "@tsed/platform-express";
 import "@tsed/swagger";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as session from "express-session";
+import * as methodOverride from "method-override";
 import {RestCtrl} from "./controllers/RestCtrl";
 import {CreateRequestSessionMiddleware} from "./middlewares/CreateRequestSessionMiddleware";
 
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compress = require("compression");
-const methodOverride = require("method-override");
-const session = require("express-session");
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   acceptMimes: ["application/json"],
   mount: {
@@ -22,13 +25,14 @@ const rootDir = __dirname;
     path: "/api-docs"
   }
 })
-export class Server extends ServerLoader {
-  /**
-   * This method let you configure the middleware required by your application to works.
-   * @returns {Server}
-   */
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit(): void | Promise<any> {
-    this
+    this.app.raw.set("trust proxy", 1); // trust first proxy
+
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
@@ -36,18 +40,15 @@ export class Server extends ServerLoader {
       .use(bodyParser.json())
       .use(bodyParser.urlencoded({
         extended: true
-      }));
-
-    this.set("trust proxy", 1); // trust first proxy
-    this.use(session({
-      secret: "keyboard cat", // change secret key
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        secure: false // set true if HTTPS is enabled
-      }
-    }));
-
-    this.use(CreateRequestSessionMiddleware);
+      }))
+      .use(session({
+        secret: "keyboard cat", // change secret key
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          secure: false // set true if HTTPS is enabled
+        }
+      }))
+      .use(CreateRequestSessionMiddleware);
   }
 }

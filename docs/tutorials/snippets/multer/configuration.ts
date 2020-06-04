@@ -1,10 +1,10 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/multipartfiles";
-import * as Path from "path";
+import "@tsed/platform-express";
 
-const rootDir = Path.resolve(__dirname);
+const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   mount: {
     "/rest": `${rootDir}/controllers/**/**.js`
@@ -18,6 +18,6 @@ const rootDir = Path.resolve(__dirname);
     // see multer options
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }

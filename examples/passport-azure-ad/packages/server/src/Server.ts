@@ -1,4 +1,6 @@
-import {$log, GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {$log, GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
+import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as BodyParser from "body-parser";
 import * as compress from "compression";
@@ -27,7 +29,7 @@ const level: "info" | "warn" | "error" = "info";
 const scopes = UseScopeLevelAuth === "true" ? Scopes.split(",") : null;
 $log.info(`Scopes to use: ${scopes}`);
 
-@ServerSettings({
+@Configuration({
   rootDir,
   acceptMimes: ["application/json"],
   port: process.env.PORT || "8081",
@@ -86,15 +88,21 @@ $log.info(`Scopes to use: ${scopes}`);
     "/": clientDir
   }
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Configuration()
+  settings: Configuration;
+
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit(): void {
     this.settings
       .get<any[]>("middlewares")
-      .forEach((middleware) => this.use(middleware));
+      .forEach((middleware) => this.app.use(middleware));
   }
 
   $afterRoutesInit(): void {
-    this.expressApp.get("/", (req, res) => {
+    this.app.get("/", (req, res) => {
       if (!res.headersSent) {
         // prevent index.html caching
         res.set({
@@ -103,7 +111,8 @@ export class Server extends ServerLoader {
         });
       }
     });
-    this.expressApp.get(`*`, (req, res) => {
+
+    this.app.get(`*`, (req, res) => {
       res.sendFile(path.join(clientDir, "index.html"));
     });
   }

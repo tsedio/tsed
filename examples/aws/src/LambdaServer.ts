@@ -1,4 +1,4 @@
-import {ServerLoader} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
 import * as awsServerlessExpress from "aws-serverless-express";
 import {Server} from "./Server";
 
@@ -28,8 +28,8 @@ const binaryMimeTypes = [
 
 // The function handler to setup on AWS Lambda console -- the name of this function must match the one configured on AWS
 export async function awsHanlder(event: any, context: any) {
-  const server = await ServerLoader.bootstrap(Server);
-  const lambdaServer = awsServerlessExpress.createServer(server.expressApp, null, binaryMimeTypes);
+  const platform = await PlatformExpress.bootstrap(Server);
+  const lambdaServer = awsServerlessExpress.createServer(platform.app.callback(), null, binaryMimeTypes);
 
-  return awsServerlessExpress.proxy(lambdaServer, event, context, 'PROMISE').promise;
+  return awsServerlessExpress.proxy(lambdaServer, event, context, "PROMISE").promise;
 }

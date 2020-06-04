@@ -1,14 +1,15 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import {resolve}  from "path";
-const rootDir = resolve(__dirname);
-import { myContainer } from "./inversify.config";
+import {Configuration} from "@tsed/common";
+import {resolve} from "path";
+import {myContainer} from "./inversify.config";
 
-@ServerSettings({
+const rootDir = resolve(__dirname);
+
+@Configuration({
   rootDir,
   resolvers: [
     {
       get(token: any) {
-        return myContainer.get(token)
+        return myContainer.get(token);
       }
     }
   ]

@@ -1,5 +1,5 @@
 import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common";
-import cons from "consolidate";
+import {ejs} from "consolidate";
 
 const rootDir = __dirname;
 
@@ -19,6 +19,6 @@ class Server {
 
   $onInit() {
     this.app.raw.set("views", this.viewsDir);
-    this.app.raw.engine("ejs", cons.ejs);
+    this.app.raw.engine("ejs", ejs);
   }
 }

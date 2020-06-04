@@ -1,9 +1,11 @@
 import {Configuration} from "@tsed/common";
+import {RestCtrl} from "./controllers/RestCtrl";
 
 @Configuration({
   mount: {
-    "/rest/v0": "./controllers/v0/**/*.ts",
-    "/rest/v1": "./controllers/v1/**/*.ts"
+    "/": [
+      RestCtrl
+    ]
   }
 })
 export class Server {

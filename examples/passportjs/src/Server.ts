@@ -1,6 +1,9 @@
 import "@tsed/ajv";
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {Configuration} from "@tsed/di";
+import {Inject} from "@tsed/di/src";
 import "@tsed/passport";
+import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
@@ -14,7 +17,7 @@ import {User} from "./models/User";
 
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   acceptMimes: ["application/json"],
   logger: {
@@ -42,13 +45,12 @@ const rootDir = __dirname;
     userInfoModel: User
   }
 })
-export class Server extends ServerLoader {
-  /**
-   * This method let you configure the middleware required by your application to works.
-   * @returns {Server}
-   */
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $beforeRoutesInit(): void | Promise<any> {
-    this
+    this.app
       .use(GlobalAcceptMimesMiddleware)
       .use(cors())
       .use(cookieParser())
