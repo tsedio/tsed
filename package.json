@@ -162,7 +162,7 @@
     "typescript": "3.8.3",
     "vuepress": "1.4.0",
     "vue-analytics": "5.22.1",
-    "vuepress-theme-tsed": "2.8.1"
+    "vuepress-theme-tsed": "2.8.2"
   },
   "directories": {
     "packages": "packages",
@@ -172,5 +172,8 @@
     "packages": [
       "packages/*"
     ]
+  },
+  "resolutions": {
+    "watchpack": "1.6.1"
   }
 }

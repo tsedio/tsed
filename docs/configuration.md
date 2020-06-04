@@ -25,7 +25,7 @@ The default configuration is as following:
   "httpsPort": 8000,
   "uploadDir": "${rootDir}/uploads",
   "mount": {
-    "/rest": "${rootDir}/controllers/**/*.ts" // support ts with ts-node then fallback to js
+    "/rest": "${rootDir}/controllers/**/*.ts"
   },
   "componentsScan": [
     "${rootDir}/middlewares/**/*.ts",
@@ -42,7 +42,18 @@ The default configuration is as following:
 
 You can customize your configuration as following on `Server.ts`level:
 
+<Tabs class="-code">
+  <Tab label="v5.56.0+">
+  
 <<< @/docs/snippets/configuration/server.ts
+
+  </Tab>
+  <Tab label="Legacy">
+    
+<<< @/docs/snippets/configuration/server-legacy.ts
+  
+  </Tab>
+</Tabs>  
 
 or when you bootstrap your Server (e.g. `index.ts`):
 
@@ -53,130 +64,215 @@ Ts.ED supports [ts-node](https://github.com/TypeStrong/ts-node). Ts extension wi
 ts-node isn't the runtime.
 :::
 
-::: tip
-In addition, it is also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+## Load configuration from file
+
+It is also possible to use [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv) to load your configuration from file:
+
+<Tabs class="-code">
+  <Tab label="node-config">
 
 <<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
 
-You should have this directory tree: 
-
-```
-.
-├── config
-│   └── default.json (or .yaml)
-├── src
-│   ├── controllers
-│   ├── services
-│   ├── middlewares
-│   ├── index.ts
-│   └── Server.ts
-└── package.json
-```
-
-With [dotenv](https://www.npmjs.com/package/dotenv):
+  </Tab>
+  <Tab label="dotenv">
 
 <<< @/docs/snippets/configuration/bootstrap-with-dotenv.ts
 
-:::
+  </Tab>  
+</Tabs>
+
 
 ## Options
+### rootDir
 
-* `rootDir` &lt;string&gt;: The root directory where you build run project. By default, it is equal to `process.cwd()`.
-* `env` &lt;Env&gt;: The environment profile. By default the environment profile is equal to `NODE_ENV`.
-* `port` &lt;string | number&gt;: Port number for the [HTTP.Server](https://nodejs.org/api/http.html#http_class_http_server).
-* `httpsPort` &lt;string | number | boolean&gt;: Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class_https_server).
-* `httpsOptions` &lt;[Https.ServerOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener))&gt;:
-  * `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms, an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers making use of private keys.
-  * `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
-  * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
-  * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted, several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
-* `uploadDir` &lt;string&gt;: The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md).
-* `mount` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountDirectories.md)&gt;: Mount all controllers under a directory to an endpoint.
-* `componentsScan` &lt;string[]&gt;: List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
-* `exclude` &lt;string[]&gt;: List of glob patterns. Exclude all files which are matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
-* `statics` &lt;[IServerMountDirectories](/api/common/config/interfaces/IServerMountdirectories.md)&gt;: Object to mount all directories under to these endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
-* `swagger` &lt;Object&gt;: Object configure swagger. See more on [Swagger](/tutorials/swagger.md).
-* `routers` &lt;object&gt;: Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
-* `validationModelStrict` &lt;boolean&gt;: Use a strict validation when a model is used by the converter. When a property is unknown, it throws a `BadRequest` (see [Converters](/docs/converters.md)). By default true.
-* `logger` &lt;[ILoggerSettings](/api/common/config/interfaces/ILoggerSettings.md)&gt;: Logger configuration.
-* `controllerScope` &lt;`request`|`singleton`&gt;: Configure the default scope of the controllers. Default: `singleton`. See [Scope](/docs/injection-scopes.md).
-* `acceptMimes` &lt;string[]&gt;: Configure the mimes accepted by default by the server.
-* `errors` &lt;[IErrorsSettings](/api/common/config/interfaces/IErrorsSettings.md)&gt;: Errors configuration (see [Throw Http exceptions](/tutorials/throw-http-exceptions.md)).
-* `resolvers` &lt;[IDIResolver](/api/di/interfaces/IDIResolver.md)[]&gt;: List of resolvers. This option allows the external DI usage like Inverfisy. 
+- type: `string`
 
-## Resolvers - External DI <Badge text="v5.39.0+" />
+The root directory where you build run project. By default, it is equal to `process.cwd()`.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import {resolve} from "path";
+
+const rootDir = resolve(__dirname);
+
+@Configuration({
+  rootDir
+})
+export class Server {}
+```
+
+### env
+
+- type: @@Env@@
+
+The environment profiles. By default the environment profile is equal to `NODE_ENV`.
+
+```typescript
+import {Env} from "@tsed/core";
+import {Configuration, Constant} from "@tsed/di";
+
+@Configuration({
+  env: Env.PROD
+})
+export class Server {
+  @Constant('env')
+  env: Env;
+  
+  $beforeRoutesInit() {
+    if (this.env === Env.PROD) {
+      // do something
+    }
+  }
+}
+```
+
+### httpPort
+
+- type: `string` | `number` | `false`
+
+Port number for the [HTTP.Server](https://nodejs.org/api/http.html#http_class_http_server).
+Set `false` to disable the http port.
+
+### httpsPort
+
+- type: `string` | `number` | `false`
+
+Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class_https_server).
+
+### httpsOptions
+
+- type: [Https.ServerOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener))
+
+* `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms, an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers making use of private keys.
+* `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
+* `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
+* `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted, several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
+
+See the [HTTPs project example](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-https)
+
+### mount
+
+- type: @@IServerMountDirectories@@
+
+Mount all controllers under a directory to an endpoint.
+
+Ts.ED provides the possibility to mount multiple Rest path instead of the default path `/rest`.
+This option allow you to define a version for an endpoint and select which controllers you want associate with the given path.
+
+<<< @/docs/snippets/configuration/server-endpoint-versionning.ts
+
+It also possible to split the configuration by using the @@Module@@:
+
+<Tabs class="-code">
+  <Tab label="Server.ts">
+
+<<< @/docs/snippets/configuration/server-endpoint-versionning-with-module.ts
+
+  </Tab>
+  <Tab label="ModuleV1.ts">
+
+<<< @/docs/snippets/configuration/modulev1-endpoint-versionning.ts
+
+  </Tab>  
+  <Tab label="ModuleV0.ts">
+
+<<< @/docs/snippets/configuration/modulev0-endpoint-versionning.ts
+
+  </Tab>    
+</Tabs>
+
+### componentsScan
+
+- type: `string[]`
+
+List of glob pattern to scan directories which contains [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
+
+### imports
+
+- type: `Type<any>[]`
+
+Add providers or modules here. These modules or provider will be built before the server itself.
+
+<Tabs class="-code">
+  <Tab label="Server.ts">
+
+<<< @/docs/snippets/configuration/server-options-imports.ts
+
+  </Tab>
+  <Tab label="MyModule.ts">
+
+<<< @/docs/snippets/configuration/module-options-imports.ts
+
+  </Tab>
+</Tabs>
+
+### exclude
+
+- type: `string[]`
+
+List of glob patterns. Exclude all files which are matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
+
+### scopes
+
+- type: `{[key: string]: ProviderScope}`
+
+Change the default scope for a given provider. See [injection scopes](/docs/injection-scopes.md) for more details.
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+
+@Configuration({
+  scopes: {
+    [ProviderType.CONTROLLER]: ProviderScope.REQUEST
+  }
+})
+export class Server {
+}
+```
+### logger
+
+- type: @@ILoggerSettings@@
+
+Logger configuration.
+
+### errors
+
+- type: @@IErrorsSettings@@
+
+Errors configuration. See [Throw Http exceptions](/tutorials/throw-http-exceptions.md) for more details.
+ 
+### resolvers - External DI <Badge text="v5.39.0+" />
+
+- type: @@IDIResolver@@
 
 Ts.ED has its own DI container, but sometimes you have to work with other DI like Inversify or TypeDI. The version 5.39.0+
 now allows you to configure multiple external DI by using the `resolvers` options. 
 
 The resolvers options can be configured as following:
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import {resolve}  from "path";
-const rootDir = resolve(__dirname);
-import { myContainer } from "./inversify.config";
+<<< @/docs/snippets/configuration/server-resolvers.ts
 
-@ServerSettings({
-  rootDir,
-  resolvers: [
-    {
-      get(token: any) {
-        return myContainer.get(token)
-      }
-    }
-  ]
-})
-export class Server extends ServerLoader {
+It's also possible to register resolvers with the @@Module@@ decorator:
 
-}
-```
+<<< @/docs/snippets/configuration/module-resolvers.ts
 
-It's also possible to register with the @@Configuration@@ decorator:
+## Express options
 
-```typescript
-import { Configuration } from "@tsed/di";
-import { myContainer } from "./inversify.config";
+Some configuration options are related to PlatformExpress itself.
 
-@Configuration({
-  resolvers: [
-    {
-      get(token: any) {
-        return myContainer.get(token)
-      }
-    }
-  ]
-})
-export class MyModule {}
-```
+### routers
 
-## Versioning REST API
+The global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 
-Ts.ED provides the possibility to mount multiple Rest path instead of the default path `/rest`.
-You have two methods to configure all global endpoints for each directories scanned by the [ServerLoader](/api/common/server/components/ServerLoader.md).
+### statics
 
-```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import {resolve}  from "path";
-const rootDir = resolve(__dirname);
+- type: @@IServerMountDirectories@@
 
-@ServerSettings({
-   rootDir,
-   mount: {
-     "/rest": "${rootDir}/controllers/current/**/*.js",
-     "/rest/v1": [
-        "${rootDir}/controllers/v1/users/*.js",
-        "${rootDir}/controllers/v1/groups/*.js"
-     ]
-   }
-})
-export class Server extends ServerLoader {
+Object to mount all directories under to these endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
 
-}
-```
-::: tip Note
-mount attribute accepts a list of glob for each endpoint. That lets you declare a resource versioning.
-:::
+### acceptMimes
+ 
+Configure the mimes accepted by default for each request by the server. Require adding @@GlobalAcceptMimeMiddleware@@ to work.
 
 ## HTTP & HTTPs server
 ### Change address
@@ -240,10 +336,6 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
 })
 export class Server extends ServerLoader {}
 ```
-
-### HTTPs configuration
-
-See the example [projet HTTPs](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-https)
 
 
 ## Logger
