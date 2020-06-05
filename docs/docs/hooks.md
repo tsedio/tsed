@@ -14,7 +14,7 @@ This schemes resume the order of hooks regarding to ServerLoader and Providers:
 
 ### Examples
 
-Hooks can be used on you Server:
+Hooks can be used on your Server:
 
 <Tabs class="-code">
   <Tab label="v5.56.0+">
