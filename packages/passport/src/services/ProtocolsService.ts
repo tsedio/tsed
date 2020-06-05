@@ -37,17 +37,13 @@ export class ProtocolsService {
 
   private getOptions(provider: Provider<any>): IProtocolOptions {
     const {name} = provider.store.get("protocol");
-    const protocol: IProtocolOptions = provider.store.get("protocol") || {};
-    const serverProtocol: IProtocolOptions = this.injector.settings.get(`passport.protocols.${name}`) || {};
-
-    const {useStrategy = Strategy} = {...protocol, ...serverProtocol};
+    const {useStrategy = Strategy, settings = {}}: IProtocolOptions = this.injector.settings.get(`passport.protocols.${name}`) || {};
 
     return {
       name,
       useStrategy,
       settings: {
-        ...(protocol.settings || {}),
-        ...(serverProtocol.settings || {}),
+        ...settings,
         passReqToCallback: true
       }
     };

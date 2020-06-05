@@ -17,7 +17,8 @@ describe("ProtocolsService", () => {
     name: "local",
     useStrategy: Strategy as any,
     settings: {
-      settings: "settings"
+      prop1: "prop1",
+      prop2: "prop2"
     }
   })
   class LocalProtocol {
@@ -28,7 +29,20 @@ describe("ProtocolsService", () => {
     }
   }
 
-  beforeEach(() => TestContext.create());
+  beforeEach(() =>
+    TestContext.create({
+      passport: {
+        protocols: {
+          local: {
+            settings: {
+              prop2: "prop2-server",
+              prop3: "prop3"
+            }
+          }
+        }
+      }
+    })
+  );
   afterEach(TestContext.reset);
 
   beforeEach(() => {
@@ -55,7 +69,15 @@ describe("ProtocolsService", () => {
       result.should.be.instanceOf(LocalProtocol);
       result.$onInstall.should.have.been.calledWithExactly(protocolService.strategies.get("local"));
       Passport.use.should.have.been.calledWithExactly("local", protocolService.strategies.get("local"));
-      Strategy.should.have.been.calledWithExactly({passReqToCallback: true, settings: "settings"}, Sinon.match.func);
+      Strategy.should.have.been.calledWithExactly(
+        {
+          passReqToCallback: true,
+          prop1: "prop1",
+          prop2: "prop2-server",
+          prop3: "prop3"
+        },
+        Sinon.match.func
+      );
       expect(protocolService.getProtocolsNames()).to.deep.equal(["local"]);
     }
   ));

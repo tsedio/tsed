@@ -1,18 +1,26 @@
-import {Type} from "@tsed/core";
+import {applyDecorators, StoreSet} from "@tsed/core";
+import {Configuration} from "@tsed/di";
 import {IProtocolOptions} from "../interfaces/IProtocolOptions";
-import {ProtocolRegistry, registerProtocol} from "../registries/ProtocolRegistries";
+import {registerProtocol} from "../registries/ProtocolRegistries";
 
 /**
  * Declare a new Protocol base on a Passport Strategy
  *
- * @param settings
  * @decorator
+ * @class
  */
-export function Protocol<T = any>(settings: ProtocolOptionsDecorator<T>) {
-  return (target: Type<any>) => {
-    registerProtocol(target);
-    ProtocolRegistry.get(target)!.store.set("protocol", settings);
-  };
+export function Protocol<T = any>(options: ProtocolOptionsDecorator<T>) {
+  return applyDecorators(
+    registerProtocol,
+    StoreSet("protocol", options),
+    Configuration({
+      passport: {
+        protocols: {
+          [options.name]: options
+        }
+      }
+    })
+  );
 }
 
 export type ProtocolOptionsDecorator<T = any> = {name: string} & Partial<IProtocolOptions<T>>;
