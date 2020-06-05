@@ -1,15 +1,17 @@
-import {ParseService} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
-import {expect} from "chai";
+import {getValue, isEmpty} from "@tsed/core";
+import {Injectable} from "@tsed/di";
 
-describe("ParseService", () => {
-  before(TestContext.create);
-  after(TestContext.reset);
-  describe("eval()", () => {
-    it("should evaluate expression with a scope and return value", inject([ParseService], (parseService: ParseService) => {
-      expect(parseService.eval("test", {
-        test: "yes"
-      })).to.equal("yes");
-    }));
-  });
-});
+@Injectable()
+export class ParseService {
+  static clone = (src: any): any => JSON.parse(JSON.stringify(src));
+
+  eval(expression: string, scope: any, clone: boolean = true): any {
+    if (isEmpty(expression)) {
+      return typeof scope === "object" && clone ? ParseService.clone(scope) : scope;
+    }
+
+    const value = getValue(expression, scope);
+
+    return typeof value === "object" && clone ? ParseService.clone(value) : value;
+  }
+}

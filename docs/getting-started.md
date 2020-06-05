@@ -136,12 +136,17 @@ Then use the command `npm install && npm start` to start your server.
 ## Quick start
 ### Create your express server
 
+Ts.ED use now, the Platform API to create an application. Platform API give an abstraction layer 
+between your code written with Ts.ED and the Express code. It means, a large part of your code
+isn't coupled with Express itself and can be used with another Platform like Koa in future (Ts.ED v6).
+
+To facilitate, the v6 migration, the Platform API is already available in v5, but only for Express support with @@PlatformExpress@@.
+
 <Tabs>
   <Tab label="v5.56.0+">
 
 Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
 Just create a `server.ts` in your root project :
-
 
 <<< @/docs/snippets/getting-started/server.ts
 
@@ -150,11 +155,13 @@ Just create a `server.ts` in your root project :
 
 Ts.ED provides a @@ServerLoader@@ class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](/docs/server-loader.md).
+a new `Server` class that extends ServerLoader.
 
 <<< @/docs/snippets/getting-started/server-legacy.ts
   
-> By default, ServerLoader loads controllers in `${rootDir}/controllers` and mounts it to `/rest` endpoint.
+::: tip
+By default, ServerLoader loads controllers in `${rootDir}/controllers` and mounts it to `/rest` endpoint.
+:::
 
   </Tab>
 </Tabs>

@@ -48,6 +48,7 @@ import {Configuration, IModuleOptions} from "@tsed/di";
  * @returns {(target:any)=>any}
  * @decorator
  * @alias @Configuration
+ * @deprecated Use new Platform API (with PlatformExpress) instead of. See https://tsed.io/getting-started.html#quick-start
  */
 export function ServerSettings(settings: Partial<IModuleOptions> = {}): Function {
   return Configuration(settings);
