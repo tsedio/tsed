@@ -75,7 +75,9 @@ module.exports = {
      
   </Tab>
   <Tab label="Mocha + chai">
+  
 Run these commands to install mocha chai and sinon:
+
 ```bash
 $ yarn add -D nyc mocha chai chai-as-promised @types/mocha @types/chai @types/chai-as-promised 
 $ yarn add -D sinon sinon-chai @types/sinon @types/sinon-chai
