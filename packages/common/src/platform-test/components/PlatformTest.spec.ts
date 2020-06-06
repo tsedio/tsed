@@ -7,6 +7,7 @@ import {
   Get,
   GlobalAcceptMimesMiddleware,
   GlobalErrorHandlerMiddleware,
+  InjectorService,
   IRoute,
   LogIncomingRequestMiddleware,
   PlatformBuilder,
@@ -69,6 +70,10 @@ describe("PlatformTest", () => {
   afterEach(PlatformTest.reset);
   afterEach(() => {
     delete PlatformTest.platformBuilder;
+  });
+
+  it("should get symbol from injector", () => {
+    expect(PlatformTest.get(InjectorService)).to.be.instanceOf(InjectorService);
   });
 
   it("should create server and mount the controller", async () => {

@@ -1,4 +1,4 @@
-import {RequestContext} from "@tsed/common/src";
+import {PlatformTest, RequestContext} from "@tsed/common/src";
 import {Req} from "@tsed/common/src/mvc/decorators/params/request";
 import {InjectorService} from "@tsed/di/src";
 import {inject, TestContext} from "@tsed/testing";
@@ -30,7 +30,7 @@ describe("ProtocolsService", () => {
   }
 
   beforeEach(() =>
-    TestContext.create({
+    PlatformTest.create({
       passport: {
         protocols: {
           local: {
@@ -43,7 +43,7 @@ describe("ProtocolsService", () => {
       }
     })
   );
-  afterEach(TestContext.reset);
+  afterEach(PlatformTest.reset);
 
   beforeEach(() => {
     sandbox.stub(LocalProtocol.prototype, "$onInstall");

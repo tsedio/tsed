@@ -1,10 +1,11 @@
-import {Env, Type} from "@tsed/core";
+import {Env, isInheritedFrom, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
+import {ServerLoader} from "../../platform-express/components/ServerLoader";
 import {IRequestContextOptions, RequestContext} from "../../platform/domain/RequestContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
-export interface ITestInvokeOptions {
+export interface PlatformTestInvokeOptions {
   token?: TokenProvider;
   use: any;
 }
@@ -53,15 +54,26 @@ export class PlatformTest {
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: Type<any>, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
+  static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
-      // @ts-ignore
-      const instance = await PlatformBuilder.build(PlatformTest.platformBuilder).bootstrap(mod, {
-        logger: {
-          level: "off"
-        },
-        ...options
-      });
+      let instance: any;
+
+      if (isInheritedFrom(mod, ServerLoader)) {
+        instance = await ServerLoader.bootstrap(mod, {
+          logger: {
+            level: "off"
+          },
+          ...options
+        });
+      } else {
+        // @ts-ignore
+        instance = await PlatformBuilder.build(PlatformTest.platformBuilder).bootstrap(mod, {
+          logger: {
+            level: "off"
+          },
+          ...options
+        });
+      }
 
       await instance.callHook("$beforeListen");
       await instance.callHook("$afterListen");
@@ -115,7 +127,7 @@ export class PlatformTest {
    * @param target
    * @param providers
    */
-  static invoke<T = any>(target: TokenProvider, providers: ITestInvokeOptions[] = []): T | Promise<T> {
+  static invoke<T = any>(target: TokenProvider, providers: PlatformTestInvokeOptions[] = []): T | Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
       locals.set(p.token, p.use);

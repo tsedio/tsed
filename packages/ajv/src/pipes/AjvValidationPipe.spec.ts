@@ -4,18 +4,18 @@ import {
   ParamRegistry,
   ParamTypes,
   ParamValidationError,
+  PlatformTest,
   Property,
   QueryParams,
   Required,
   UseParam,
   ValidationError
 } from "@tsed/common";
-import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import {AjvValidationPipe} from "./AjvValidationPipe";
 
 async function validate(value: any, metadata: any) {
-  const pipe: AjvValidationPipe = await TestContext.invoke<AjvValidationPipe>(AjvValidationPipe);
+  const pipe: AjvValidationPipe = await PlatformTest.invoke<AjvValidationPipe>(AjvValidationPipe);
 
   try {
     return pipe.transform(value, metadata);
@@ -30,13 +30,13 @@ async function validate(value: any, metadata: any) {
 
 describe("AjvValidationPipe", () => {
   beforeEach(() =>
-    TestContext.create({
+    PlatformTest.create({
       ajv: {
         verbose: true
       }
     })
   );
-  afterEach(() => TestContext.reset());
+  afterEach(() => PlatformTest.reset());
 
   describe("With raw json schema", () => {
     it("should validate object", async () => {

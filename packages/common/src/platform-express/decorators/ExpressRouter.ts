@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
-import * as Express from "express";
 import {Inject} from "@tsed/di";
+import * as Express from "express";
 
 /**
  *
@@ -28,7 +28,7 @@ export type ExpressRouter = Express.Router & {
  * @param {TypedPropertyDescriptor<Function> | number} descriptor
  * @returns {any}
  * @decorator
- * @deprecated
+ * @deprecated Use PlatformRouter instead of.
  */
 export function ExpressRouter(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(ExpressRouter)(target, targetKey, descriptor);

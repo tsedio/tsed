@@ -1,8 +1,8 @@
 import {GlobalProviders, InjectorService} from "@tsed/di";
-import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {Controller} from "../../mvc";
+import {PlatformTest} from "../../platform-test/components/PlatformTest";
 import {Platform} from "./Platform";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformRouter} from "./PlatformRouter";
@@ -10,13 +10,13 @@ import {PlatformRouter} from "./PlatformRouter";
 const sandbox = Sinon.createSandbox();
 
 describe("Platform", () => {
-  beforeEach(TestContext.create);
-  afterEach(TestContext.reset);
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
   afterEach(() => sandbox.restore());
   describe("createRouter", () => {
     it(
       "should create a router",
-      TestContext.inject([InjectorService, Platform], async (injector: InjectorService, platform: Platform) => {
+      PlatformTest.inject([InjectorService, Platform], async (injector: InjectorService, platform: Platform) => {
         const givenRouter = {
           use: sandbox.stub()
         };
@@ -47,7 +47,7 @@ describe("Platform", () => {
 
     it(
       "should add a route",
-      TestContext.inject([InjectorService], async (injector: InjectorService) => {
+      PlatformTest.inject([InjectorService], async (injector: InjectorService) => {
         // GIVEN
         const driver = {
           use: sandbox.stub(),
@@ -56,9 +56,9 @@ describe("Platform", () => {
           }
         };
 
-        const platform = await TestContext.invoke<Platform>(Platform, [
+        const platform = await PlatformTest.invoke<Platform>(Platform, [
           {
-            provide: PlatformApplication,
+            token: PlatformApplication,
             use: driver
           }
         ]);
@@ -92,9 +92,9 @@ describe("Platform", () => {
         }
       };
 
-      const platform = await TestContext.invoke<Platform>(Platform, [
+      const platform = await PlatformTest.invoke<Platform>(Platform, [
         {
-          provide: PlatformApplication,
+          token: PlatformApplication,
           use: driver
         }
       ]);

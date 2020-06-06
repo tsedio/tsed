@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@tsed/common": "5.57.0",
-    "@tsed/core": "5.57.0",
-    "@tsed/testing": "5.57.0"
+    "@tsed/core": "5.57.0"
   }
 }

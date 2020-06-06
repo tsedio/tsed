@@ -1,5 +1,4 @@
-import {PlatformApplication, ServerSettingsService} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {PlatformApplication, PlatformTest, ServerSettingsService} from "@tsed/common";
 import * as Express from "express";
 import * as Sinon from "sinon";
 import {ServeStaticService} from "./ServeStaticService";
@@ -7,13 +6,13 @@ import {ServeStaticService} from "./ServeStaticService";
 const sandbox = Sinon.createSandbox();
 
 describe("ServeStaticService", () => {
-  before(TestContext.create);
+  before(PlatformTest.create);
   before(async () => {
     sandbox.stub(Express, "static");
   });
 
   after(() => {
-    TestContext.reset();
+    PlatformTest.reset();
     sandbox.restore();
   });
 
@@ -42,13 +41,13 @@ describe("ServeStaticService", () => {
           }
         };
 
-        const serveStaticService = await TestContext.invoke(ServeStaticService, [
+        const serveStaticService = await PlatformTest.invoke(ServeStaticService, [
           {
-            provide: PlatformApplication,
+            token: PlatformApplication,
             use: platformApp
           },
           {
-            provide: ServerSettingsService,
+            token: ServerSettingsService,
             use: serverSettingService
           }
         ]);
@@ -90,13 +89,13 @@ describe("ServeStaticService", () => {
           }
         };
 
-        const serveStaticService = await TestContext.invoke(ServeStaticService, [
+        const serveStaticService = await PlatformTest.invoke(ServeStaticService, [
           {
-            provide: PlatformApplication,
+            token: PlatformApplication,
             use: platformApp
           },
           {
-            provide: ServerSettingsService,
+            token: ServerSettingsService,
             use: serverSettingService
           }
         ]);

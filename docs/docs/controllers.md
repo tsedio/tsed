@@ -202,13 +202,13 @@ Here an example to use these decorators:
 
 ## Inject router
 
-Each controller has an [Express.Router](http://expressjs.com/en/guide/routing.html) instance associated with it.
-The [ExpressRouter](/api/common/mvc/services/ExpressRouter.md) decorator is here to inject this instance into your controller.
+Each controller has a @@PlatformRouter@@ which wrap the original router from [Express.Router](http://expressjs.com/en/guide/routing.html
+You can inject @@PlatformRouter@@ in your controller to add anything related to the Router itself.
 
 <<< @/docs/docs/snippets/controllers/handle-router-controller.ts
 
 ::: warning
-In this case, injection on the method isn't available.
+All of these routes added by this way won't be discovered by Ts.ED to produce Swagger documentation.
 :::
 
 ## Advanced usage

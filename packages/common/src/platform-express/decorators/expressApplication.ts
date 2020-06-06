@@ -48,6 +48,7 @@ export type ExpressApplication = Express.Application;
  * @param {TypedPropertyDescriptor<Function> | number} descriptor
  * @returns {any}
  * @decorator
+ * @deprecated use PlatformApplication instead of
  */
 export function ExpressApplication(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(ExpressApplication)(target, targetKey, descriptor);

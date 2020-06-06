@@ -1,7 +1,7 @@
 import {TestContext} from "./TestContext";
 
 /**
- * @deprecated Use TestContext.create instead of.
+ * @deprecated Use PlatformTest.create instead of.
  */
 /* istanbul ignore next */
 export async function loadInjector() {

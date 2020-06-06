@@ -1,6 +1,4 @@
-import {PlatformRouter} from "@tsed/common";
-import {TestContext} from "@tsed/testing/src";
-import * as Express from "express";
+import {PlatformRouter, PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
@@ -25,7 +23,7 @@ async function getPlatformApp() {
   const platformHandler = {
     createHandler: sandbox.stub().callsFake(o => o)
   };
-  const platformApp = await TestContext.invoke<PlatformApplication>(PlatformApplication, [
+  const platformApp = await PlatformTest.invoke<PlatformApplication>(PlatformApplication, [
     {
       token: PlatformHandler,
       use: platformHandler
@@ -38,8 +36,8 @@ async function getPlatformApp() {
 }
 
 describe("PlatformApplication", () => {
-  beforeEach(TestContext.create);
-  afterEach(TestContext.reset);
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
 
   describe("use()", () => {
     beforeEach(() => {

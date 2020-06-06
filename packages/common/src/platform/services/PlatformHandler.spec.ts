@@ -9,11 +9,11 @@ import {
   IFilter,
   ParamMetadata,
   ParamTypes,
+  PlatformTest,
   QueryParams
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {InjectorService, Provider} from "@tsed/di";
-import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
@@ -71,16 +71,16 @@ class Test {
 }
 
 describe("PlatformHandler", () => {
-  beforeEach(TestContext.create);
-  afterEach(TestContext.reset);
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
   afterEach(() => {
     sandbox.restore();
   });
 
   describe("createHandlerMetadata", () => {
-    it("should return metadata from Endpoint", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+    it(
+      "should return metadata from Endpoint",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(injector, "getProvider").returns(new Provider(Test));
         const endpoint = new EndpointMetadata({
@@ -95,12 +95,12 @@ describe("PlatformHandler", () => {
         handlerMetadata.target.should.eq(Test);
         handlerMetadata.propertyKey.should.eq("get");
         handlerMetadata.type.should.eq(HandlerType.CONTROLLER);
-      }
-    ));
+      })
+    );
 
-    it("should return metadata from Middleware", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+    it(
+      "should return metadata from Middleware",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(injector, "getProvider").returns(new Provider(Test));
 
@@ -111,12 +111,12 @@ describe("PlatformHandler", () => {
         handlerMetadata.target.should.eq(Test);
         handlerMetadata.propertyKey.should.eq("use");
         handlerMetadata.type.should.eq(HandlerType.MIDDLEWARE);
-      }
-    ));
+      })
+    );
 
-    it("should return metadata from Function", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+    it(
+      "should return metadata from Function",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(injector, "getProvider").returns(undefined);
 
@@ -125,13 +125,13 @@ describe("PlatformHandler", () => {
 
         // THEN
         handlerMetadata.type.should.eq(HandlerType.FUNCTION);
-      }
-    ));
+      })
+    );
   });
   describe("createHandler", () => {
-    it("should return a native metadata (success middleware)", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+    it(
+      "should return a native metadata (success middleware)",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(Test.prototype, "get").callsFake(o => o);
         injector.invoke(Test);
@@ -158,11 +158,11 @@ describe("PlatformHandler", () => {
         handler.length.should.eq(3);
         Test.prototype.get.should.have.been.calledWithExactly("testValue");
         request.ctx.data.should.eq("testValue");
-      }
-    ));
-    it("should return a native metadata (from native metadata)", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return a native metadata (from native metadata)",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(Test.prototype, "get").callsFake(o => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
@@ -178,11 +178,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(nativeHandler).to.eq(handler);
-      }
-    ));
-    it("should return a native metadata (error middleware)", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return a native metadata (error middleware)",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(Test.prototype, "use").callsFake(o => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
@@ -210,12 +210,12 @@ describe("PlatformHandler", () => {
         handler.length.should.eq(4);
         Test.prototype.use.should.have.been.calledWithExactly(error);
         request.ctx.data.should.deep.eq(error);
-      }
-    ));
+      })
+    );
 
-    it("should do nothing when request is aborted", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+    it(
+      "should do nothing when request is aborted",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         sandbox.stub(Test.prototype, "get").callsFake(o => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
@@ -239,13 +239,13 @@ describe("PlatformHandler", () => {
 
         // THEN
         return next.should.not.have.been.called;
-      }
-    ));
+      })
+    );
   });
   describe("getParam()", () => {
-    it("should return REQUEST", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+    it(
+      "should return REQUEST",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, request, context} = build(injector, ParamTypes.REQUEST);
 
@@ -254,11 +254,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(request);
-      }
-    ));
-    it("should return RESPONSE", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return RESPONSE",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, response, context} = build(injector, ParamTypes.RESPONSE);
 
@@ -267,11 +267,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(response);
-      }
-    ));
-    it("should return NEXT", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return NEXT",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, next, context} = build(injector, ParamTypes.NEXT_FN);
 
@@ -280,11 +280,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.next);
-      }
-    ));
-    it("should return ERR", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return ERR",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.ERR);
         context.err = new Error();
@@ -294,11 +294,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.err);
-      }
-    ));
-    it("should return BODY", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return BODY",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.BODY);
 
@@ -307,11 +307,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.body);
-      }
-    ));
-    it("should return PATH", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return PATH",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.PATH);
 
@@ -320,11 +320,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.params);
-      }
-    ));
-    it("should return QUERY", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return QUERY",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.QUERY);
 
@@ -333,11 +333,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.query);
-      }
-    ));
-    it("should return HEADER", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return HEADER",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.HEADER);
 
@@ -346,11 +346,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq({"content-type": "application/json"});
-      }
-    ));
-    it("should return COOKIES", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return COOKIES",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.COOKIES);
 
@@ -359,11 +359,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.cookies);
-      }
-    ));
-    it("should return SESSION", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return SESSION",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.SESSION);
 
@@ -372,11 +372,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.session);
-      }
-    ));
-    it("should return LOCALS", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return LOCALS",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.LOCALS);
         context.err = new Error();
@@ -386,11 +386,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.response.locals);
-      }
-    ));
-    it("should return CONTEXT", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return CONTEXT",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.CONTEXT);
 
@@ -399,11 +399,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.ctx);
-      }
-    ));
-    it("should return RESPONSE_DATA", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return RESPONSE_DATA",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, ParamTypes.RESPONSE_DATA);
 
@@ -412,11 +412,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request.ctx.data);
-      }
-    ));
-    it("should return ENDPOINT_INFO", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return ENDPOINT_INFO",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, request, context} = build(injector, ParamTypes.ENDPOINT_INFO);
 
@@ -426,11 +426,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(request.ctx.endpoint);
-      }
-    ));
-    it("should return custom filter", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return custom filter",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         @Filter()
         class CustomFilter implements IFilter {
@@ -449,11 +449,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq("test value application/json");
-      }
-    ));
-    it("should return request by default", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should return request by default",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         const {param, context} = build(injector, "UNKNOWN");
         param.expression = "test";
@@ -463,11 +463,11 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request);
-      }
-    ));
-    it("should throw an error when custom filter is missing", inject(
-      [InjectorService, PlatformHandler],
-      async (injector: InjectorService, platformHandler: PlatformHandler) => {
+      })
+    );
+    it(
+      "should throw an error when custom filter is missing",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
         class CustomFilter implements IFilter {
           transform(expression: string, request: any, response: any): any {
@@ -488,7 +488,7 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(actualError.message).to.deep.eq("Filter CustomFilter not found.");
-      }
-    ));
+      })
+    );
   });
 });

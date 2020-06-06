@@ -1,6 +1,5 @@
-import {ServerSettingsService} from "@tsed/common";
+import {PlatformTest, ServerSettingsService} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../test/helper/tools";
@@ -12,13 +11,16 @@ describe("SwaggerService", () => {
   let swaggerService: SwaggerService;
   let settingsService: ServerSettingsService;
 
-  before(() => TestContext.create());
-  after(() => TestContext.reset());
+  before(() => PlatformTest.create());
+  after(() => PlatformTest.reset());
   before(
-    inject([SwaggerService, ServerSettingsService], (_swaggerService: SwaggerService, _serverSettingsService: ServerSettingsService) => {
-      swaggerService = _swaggerService;
-      settingsService = _serverSettingsService;
-    })
+    PlatformTest.inject(
+      [SwaggerService, ServerSettingsService],
+      (_swaggerService: SwaggerService, _serverSettingsService: ServerSettingsService) => {
+        swaggerService = _swaggerService;
+        settingsService = _serverSettingsService;
+      }
+    )
   );
 
   describe("getDefaultSpec()", () => {

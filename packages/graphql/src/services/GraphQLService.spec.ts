@@ -1,4 +1,5 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {inject} from "@tsed/testing";
 import * as proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 
@@ -26,7 +27,7 @@ describe("GraphQLService", () => {
   describe("createServer()", () => {
     describe("when server options isn't given", () => {
       let service: any;
-      before(TestContext.create);
+      before(PlatformTest.create);
       before(
         inject([GraphQLService], (_service_: any) => {
           service = _service_;
@@ -37,7 +38,7 @@ describe("GraphQLService", () => {
       );
 
       after(() => {
-        TestContext.reset();
+        PlatformTest.reset();
         sandbox.restore();
       });
 
@@ -70,7 +71,7 @@ describe("GraphQLService", () => {
 
     describe("when server options is given", () => {
       let service: any;
-      before(TestContext.create);
+      before(PlatformTest.create);
       before(
         inject([GraphQLService], (_service_: any) => {
           service = _service_;
@@ -82,7 +83,7 @@ describe("GraphQLService", () => {
       );
 
       after(() => {
-        TestContext.reset();
+        PlatformTest.reset();
         sandbox.restore();
       });
 
@@ -120,7 +121,7 @@ describe("GraphQLService", () => {
   });
   describe("getSchema()", () => {
     let service: any;
-    before(TestContext.create);
+    before(PlatformTest.create);
     before(
       inject([GraphQLService], (_service_: any) => {
         service = _service_;
@@ -130,7 +131,7 @@ describe("GraphQLService", () => {
     );
 
     after(() => {
-      TestContext.reset();
+      PlatformTest.reset();
       sandbox.restore();
     });
 

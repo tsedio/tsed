@@ -1,10 +1,11 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {inject} from "@tsed/testing";
 import {expect} from "chai";
 import {ConverterService} from "../../../src/converters";
 
 describe("SymbolConverter", () => {
-  after(TestContext.create);
-  after(TestContext.reset);
+  after(PlatformTest.create);
+  after(PlatformTest.reset);
 
   describe("deserialize()", () => {
     it("should deserialize data as symbol when a string is given", inject([ConverterService], (converterService: ConverterService) => {

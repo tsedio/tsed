@@ -1,5 +1,4 @@
-import {Platform} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {Platform, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {RouteService} from "./RouteService";
@@ -7,8 +6,8 @@ import {RouteService} from "./RouteService";
 class Test {}
 
 describe("RouteService", () => {
-  beforeEach(TestContext.create);
-  afterEach(TestContext.reset);
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
   it("should return a routerService", async () => {
     const platform = {
       routes: [],
@@ -16,7 +15,7 @@ describe("RouteService", () => {
       addRoute: Sinon.stub(),
       getRoutes: Sinon.stub()
     };
-    const routeService = await TestContext.invoke<RouteService>(RouteService, [
+    const routeService = await PlatformTest.invoke<RouteService>(RouteService, [
       {
         token: Platform,
         use: platform

@@ -1,5 +1,4 @@
-import {Configuration, ExpressApplication, PlatformApplication} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {Configuration, ExpressApplication, PlatformApplication, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Express from "express";
 import * as Fs from "fs";
@@ -11,10 +10,10 @@ describe("SwaggerModule", () => {
   let settingsService: any;
   let app: any;
 
-  before(() => TestContext.create());
-  after(() => TestContext.reset());
+  before(() => PlatformTest.create());
+  after(() => PlatformTest.reset());
   before(
-    TestContext.inject(
+    PlatformTest.inject(
       [SwaggerModule, Configuration, ExpressApplication],
       (swaggerModule_: SwaggerModule, configuration_: Configuration, app_: PlatformApplication) => {
         swaggerModule = swaggerModule_;

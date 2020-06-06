@@ -1,5 +1,5 @@
+import {PlatformTest} from "@tsed/common";
 import {Configuration} from "@tsed/di";
-import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import {MongooseService} from "../../src";
 import {MONGOOSE_CONNECTIONS} from "../../src/services/MongooseConnections";
@@ -7,17 +7,17 @@ import {MONGOOSE_CONNECTIONS} from "../../src/services/MongooseConnections";
 const sandbox = Sinon.createSandbox();
 
 describe("MongooseConnections", () => {
-  beforeEach(TestContext.create);
-  afterEach(TestContext.reset);
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
 
   it("should init connection with url", async () => {
     // GIVEN
     const connectStub = sandbox.stub().resolves("test");
 
     // WHEN
-    await TestContext.invoke(MONGOOSE_CONNECTIONS, [
+    await PlatformTest.invoke(MONGOOSE_CONNECTIONS, [
       {
-        provide: Configuration,
+        token: Configuration,
         use: {
           get() {
             return {
@@ -28,7 +28,7 @@ describe("MongooseConnections", () => {
         }
       },
       {
-        provide: MongooseService,
+        token: MongooseService,
         use: {
           connect: connectStub
         }
@@ -43,9 +43,9 @@ describe("MongooseConnections", () => {
     const connectStub = sandbox.stub().resolves("test");
 
     // WHEN
-    await TestContext.invoke(MONGOOSE_CONNECTIONS, [
+    await PlatformTest.invoke(MONGOOSE_CONNECTIONS, [
       {
-        provide: Configuration,
+        token: Configuration,
         use: {
           get() {
             return [
@@ -59,7 +59,7 @@ describe("MongooseConnections", () => {
         }
       },
       {
-        provide: MongooseService,
+        token: MongooseService,
         use: {
           connect: connectStub
         }
@@ -74,9 +74,9 @@ describe("MongooseConnections", () => {
     const connectStub = sandbox.stub().resolves("test");
 
     // WHEN
-    await TestContext.invoke(MONGOOSE_CONNECTIONS, [
+    await PlatformTest.invoke(MONGOOSE_CONNECTIONS, [
       {
-        provide: Configuration,
+        token: Configuration,
         use: {
           get() {
             return {
@@ -91,7 +91,7 @@ describe("MongooseConnections", () => {
         }
       },
       {
-        provide: MongooseService,
+        token: MongooseService,
         use: {
           connect: connectStub
         }

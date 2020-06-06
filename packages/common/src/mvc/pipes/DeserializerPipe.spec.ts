@@ -1,19 +1,18 @@
-import {ParamMetadata, ParamTypes} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {ParamMetadata, ParamTypes, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {DeserializerPipe} from "./DeserializerPipe";
 
 const sandbox = Sinon.createSandbox();
 describe("DeserializerPipe", () => {
-  beforeEach(TestContext.create);
-  beforeEach(TestContext.reset);
+  beforeEach(PlatformTest.create);
+  beforeEach(PlatformTest.reset);
   afterEach(() => {
     sandbox.restore();
   });
   it(
     "should transform an object to a model",
-    TestContext.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
+    PlatformTest.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
       // @ts-ignore
       sandbox.stub(pipe.converterService, "deserialize").returns({});
 
@@ -37,7 +36,7 @@ describe("DeserializerPipe", () => {
   );
   it(
     "should transform an object to a model (Query)",
-    TestContext.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
+    PlatformTest.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
       // @ts-ignore
       sandbox.stub(pipe.converterService, "deserialize").returns({});
 

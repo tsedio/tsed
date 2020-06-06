@@ -1,12 +1,11 @@
 import {PlatformTest} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
 import {MongoMemoryServer} from "mongodb-memory-server";
 import * as Mongoose from "mongoose";
 import {resolve} from "path";
 
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
 
-export class TestMongooseContext extends TestContext {
+export class TestMongooseContext extends PlatformTest {
   private static mongod: MongoMemoryServer;
 
   static async install(options: any = {binary: {}}) {
@@ -29,36 +28,26 @@ export class TestMongooseContext extends TestContext {
   static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       const config = await TestMongooseContext.install(options.mongod);
+      const before = PlatformTest.bootstrap(mod, {
+        ...options,
+        mongoose: config
+      });
 
-      if (mod.isServerLoader) {
-        const before = TestContext.bootstrap(mod, {
-          ...options,
-          mongoose: config
-        });
-
-        await before();
-      } else {
-        const before = PlatformTest.bootstrap(mod, {
-          ...options,
-          mongoose: config
-        });
-
-        await before();
-      }
+      await before();
     };
   }
 
   static async create(options: Partial<TsED.Configuration> = {}) {
     options.mongoose = await TestMongooseContext.install(options.mongod);
 
-    return TestContext.create(options);
+    return PlatformTest.create(options);
   }
 
   /**
    * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
    */
   static async reset() {
-    await TestContext.reset();
+    await PlatformTest.reset();
     await TestMongooseContext.mongod.stop();
     delete TestMongooseContext.mongod;
   }

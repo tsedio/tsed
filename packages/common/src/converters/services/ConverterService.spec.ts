@@ -1,6 +1,6 @@
+import {PlatformTest} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {Configuration} from "@tsed/di/src/decorators/configuration";
-import {TestContext} from "@tsed/testing";
 import {assert, expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService, ModelStrict} from "../../../src/converters";
@@ -14,16 +14,14 @@ class JsonFoo5 {
 }
 
 describe("ConverterService", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
   describe("deserialize()", () => {
     describe("primitive", () => {
       let converterService: ConverterService;
-      beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
-          converterService = _converterService_;
-        })
-      );
+      beforeEach(() => {
+        converterService = PlatformTest.get<ConverterService>(ConverterService);
+      });
 
       it("should convert boolean to Boolean", () => {
         expect(converterService.deserialize(true, Boolean)).to.be.equal(true);
@@ -89,14 +87,14 @@ describe("ConverterService", () => {
     describe("object", () => {
       it(
         "should convert object",
-        TestContext.inject([ConverterService], (converterService: ConverterService) => {
+        PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
           expect(converterService.deserialize({}, Object)).to.be.an("object");
         })
       );
 
       it(
         "should convert a date",
-        TestContext.inject([ConverterService], (converterService: ConverterService) => {
+        PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
           expect(converterService.deserialize(new Date().toISOString(), Date)).to.be.instanceof(Date);
         })
       );
@@ -104,7 +102,7 @@ describe("ConverterService", () => {
 
     it(
       "should deserialize Foo model",
-      TestContext.inject([ConverterService], (converterService: ConverterService) => {
+      PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
         const foo = converterService.deserialize(
           {
             test: 1,
@@ -126,7 +124,7 @@ describe("ConverterService", () => {
 
     it(
       "should deserialize Map, Array and Set",
-      TestContext.inject([ConverterService], (converterService: ConverterService) => {
+      PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
         // WHEN
         const foo2 = converterService.deserialize(
           {
@@ -183,7 +181,7 @@ describe("ConverterService", () => {
 
     it(
       "should use function onDeserialize to Deserialize property",
-      TestContext.inject([ConverterService], (converterService: ConverterService) => {
+      PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
         class Test {
           @PropertyDeserialize(v => v + "to")
           test: string;
@@ -198,7 +196,7 @@ describe("ConverterService", () => {
 
     it(
       "should emit a BadRequest when the number parsing failed",
-      TestContext.inject([ConverterService], (converterService: ConverterService) => {
+      PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
         assert.throws(() => converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.");
       })
     );
@@ -206,7 +204,7 @@ describe("ConverterService", () => {
     describe("validationModelStrict options", () => {
       it(
         "should emit a BadRequest error when a property is not in the Model",
-        TestContext.inject([Configuration], async (configuration: Configuration) => {
+        PlatformTest.inject([Configuration], async (configuration: Configuration) => {
           // GIVEN
           const converterService = await invokeConverterService({
             validationModelStrict: true,
@@ -233,7 +231,7 @@ describe("ConverterService", () => {
       );
       it(
         "should deserialize model",
-        TestContext.inject([Configuration], async (configuration: Configuration) => {
+        PlatformTest.inject([Configuration], async (configuration: Configuration) => {
           // GIVEN
           const converterService = await invokeConverterService({
             validationModelStrict: false,
@@ -263,7 +261,7 @@ describe("ConverterService", () => {
     describe("converter.additionalProperties options", () => {
       it(
         "(error) should emit a BadRequest error when a property is not in the Model",
-        TestContext.inject([Configuration], async (configuration: Configuration) => {
+        PlatformTest.inject([Configuration], async (configuration: Configuration) => {
           // GIVEN
           const converterService = await invokeConverterService({
             additionalProperties: "error",
@@ -290,7 +288,7 @@ describe("ConverterService", () => {
       );
       it(
         "(ignore) should deserialize model without additional property",
-        TestContext.inject([Configuration], async (configuration: Configuration) => {
+        PlatformTest.inject([Configuration], async (configuration: Configuration) => {
           // GIVEN
           const converterService = await invokeConverterService({
             additionalProperties: "ignore",
@@ -315,7 +313,7 @@ describe("ConverterService", () => {
       );
       it(
         "(accept) should deserialize model with additional property",
-        TestContext.inject([Configuration], async (configuration: Configuration) => {
+        PlatformTest.inject([Configuration], async (configuration: Configuration) => {
           // GIVEN
           const converterService = await invokeConverterService({
             additionalProperties: "accept",
@@ -345,7 +343,7 @@ describe("ConverterService", () => {
     describe("when an attribute is required", () => {
       it("should throw a bad request (undefined value)", async () => {
         // GIVEN
-        const converterService = await TestContext.invoke<ConverterService>(ConverterService, []);
+        const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
         // WHEN
         let actualError;
@@ -365,7 +363,7 @@ describe("ConverterService", () => {
 
       it("should throw a bad request (null value)", async () => {
         // GIVEN
-        const converterService = await TestContext.invoke<ConverterService>(ConverterService, []);
+        const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
         // WHEN
         let actualError;
@@ -385,7 +383,7 @@ describe("ConverterService", () => {
 
       it("should throw a bad request (empty value)", async () => {
         // GIVEN
-        const converterService = await TestContext.invoke<ConverterService>(ConverterService, []);
+        const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
         // WHEN
         let actualError;
@@ -429,7 +427,7 @@ describe("ConverterService", () => {
     describe("primitive", () => {
       let converterService: ConverterService;
       beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
+        PlatformTest.inject([ConverterService], (_converterService_: ConverterService) => {
           converterService = _converterService_;
         })
       );
@@ -460,7 +458,7 @@ describe("ConverterService", () => {
     describe("object", () => {
       let converterService: ConverterService;
       beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
+        PlatformTest.inject([ConverterService], (_converterService_: ConverterService) => {
           converterService = _converterService_;
         })
       );
@@ -477,7 +475,7 @@ describe("ConverterService", () => {
     describe("array", () => {
       let converterService: ConverterService;
       beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
+        PlatformTest.inject([ConverterService], (_converterService_: ConverterService) => {
           converterService = _converterService_;
         })
       );
@@ -498,7 +496,7 @@ describe("ConverterService", () => {
     describe("class Foo2", () => {
       let converterService: ConverterService;
       beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
+        PlatformTest.inject([ConverterService], (_converterService_: ConverterService) => {
           converterService = _converterService_;
         })
       );
@@ -573,7 +571,7 @@ describe("ConverterService", () => {
     describe("class Foo3", () => {
       let converterService: ConverterService;
       beforeEach(
-        TestContext.inject([ConverterService], (_converterService_: ConverterService) => {
+        PlatformTest.inject([ConverterService], (_converterService_: ConverterService) => {
           converterService = _converterService_;
         })
       );
@@ -583,7 +581,7 @@ describe("ConverterService", () => {
     });
     describe("@PropertySerialize", () => {
       it("should use function to Deserialize property", async () => {
-        const converterService = await TestContext.invoke<ConverterService>(ConverterService, []);
+        const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
         class Test {
           @PropertySerialize(v => v + "to")
@@ -606,7 +604,7 @@ describe("ConverterService", () => {
 
     it(
       "should return accept when there is no model",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           validationModelStrict: true,
           configuration
@@ -619,7 +617,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return error when validationModelStrict = true",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           validationModelStrict: true,
           configuration
@@ -632,7 +630,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return accept when validationModelStrict = false",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           validationModelStrict: false,
           configuration
@@ -645,7 +643,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return error when converter.additionalProperties = error",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           additionalProperties: "error",
           configuration
@@ -658,7 +656,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return accept when converter.additionalProperties = error",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           additionalProperties: "accept",
           configuration
@@ -671,7 +669,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return ignore when converter.additionalProperties = ignore",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           additionalProperties: "ignore",
           configuration
@@ -684,7 +682,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return return return error when model is strict and global is acccept",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         @ModelStrict(true)
         class Test {}
 
@@ -700,7 +698,7 @@ describe("ConverterService", () => {
     );
     it(
       "should return return return error when model is strict and global is acccept",
-      TestContext.inject([Configuration], async (configuration: Configuration) => {
+      PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         @ModelStrict(false)
         class Test {}
 
@@ -718,7 +716,7 @@ describe("ConverterService", () => {
 });
 
 async function invokeConverterService({validationModelStrict = true, additionalProperties, configuration}: any) {
-  return TestContext.invoke<ConverterService>(ConverterService, [
+  return PlatformTest.invoke<ConverterService>(ConverterService, [
     {
       token: Configuration,
       use: {
