@@ -1,4 +1,4 @@
-import {Constant, ExpressApplication, HttpServer, InjectorService, Provider, Service} from "@tsed/common";
+import {Constant, HttpServer, InjectorService, PlatformApplication, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {DataSource} from "apollo-datasource";
 import {ApolloServer} from "apollo-server-express";
@@ -21,11 +21,7 @@ export class GraphQLService {
    */
   private _servers: Map<string, IGraphQLServer> = new Map();
 
-  constructor(
-    @ExpressApplication private expressApp: ExpressApplication,
-    @HttpServer private httpServer: HttpServer,
-    private injectorService: InjectorService
-  ) {}
+  constructor(private app: PlatformApplication, @HttpServer private httpServer: HttpServer, private injectorService: InjectorService) {}
 
   /**
    *
@@ -74,7 +70,7 @@ export class GraphQLService {
       const server = customServer ? customServer(defaultServerConfig) : new ApolloServer(defaultServerConfig);
 
       // @ts-ignore
-      server.applyMiddleware({path, ...serverRegistration, app: this.expressApp});
+      server.applyMiddleware({path, ...serverRegistration, app: this.app.callback()});
 
       if (installSubscriptionHandlers && this.httpPort) {
         server.installSubscriptionHandlers(this.httpServer);

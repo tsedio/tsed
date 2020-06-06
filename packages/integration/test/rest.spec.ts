@@ -1,4 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import {inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -8,8 +8,8 @@ describe("Rest", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   before(TestContext.bootstrap(FakeServer));
   before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
+    inject([PlatformApplication], (app: PlatformApplication) => {
+      request = SuperTest(app.callback());
     })
   );
   after(TestContext.reset);

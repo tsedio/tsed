@@ -1,18 +1,17 @@
-import {PlatformTest} from "@tsed/common/src";
+import {ExpressApplication, PlatformTest} from "@tsed/common";
 import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
-import {ExpressApplication} from "@tsed/common";
 
 describe("Session", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
-  after(PlatformTest.reset);
-  before(TestContext.bootstrap(Server));
+  let request: any;
+
+  before(PlatformTest.bootstrap(Server));
   before(() => {
     request = SuperTest.agent(PlatformTest.callback());
   });
-  after(TestContext.reset);
+  after(PlatformTest.reset);
 
   describe("Login / Logout", () => {
     it("should create session return hello world and connect a fake user", async () => {

@@ -1,4 +1,4 @@
-import {Configuration, ExpressApplication} from "@tsed/common";
+import {Configuration, ExpressApplication, PlatformApplication} from "@tsed/common";
 import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Express from "express";
@@ -9,17 +9,17 @@ import {SwaggerModule} from "./index";
 describe("SwaggerModule", () => {
   let swaggerModule: any;
   let settingsService: any;
-  let expressApp: any;
+  let app: any;
 
   before(() => TestContext.create());
   after(() => TestContext.reset());
   before(
     TestContext.inject(
       [SwaggerModule, Configuration, ExpressApplication],
-      (swaggerModule_: SwaggerModule, configuration_: Configuration, expressApp_: ExpressApplication) => {
+      (swaggerModule_: SwaggerModule, configuration_: Configuration, app_: PlatformApplication) => {
         swaggerModule = swaggerModule_;
         settingsService = configuration_;
-        expressApp = expressApp_;
+        app = app_;
       }
     )
   );
@@ -54,8 +54,8 @@ describe("SwaggerModule", () => {
         }
       ];
 
-      expressGet = Sinon.stub(expressApp, "get");
-      expressUse = Sinon.stub(expressApp, "use");
+      expressGet = Sinon.stub(app, "get");
+      expressUse = Sinon.stub(app, "use");
 
       getStub = Sinon.stub(settingsService, "get").returns(config);
       createRouterStub = Sinon.stub(swaggerModule, "createRouter").returns({router: "router"});

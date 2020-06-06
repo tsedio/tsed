@@ -1,5 +1,5 @@
-import {ExpressApplication} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../../../../src/Server";
@@ -9,14 +9,15 @@ describe("Calendars", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   // bootstrap your expressApplication in first
   before(TestContext.bootstrap(Server));
-  beforeEach(inject([ExpressApplication], async (expressApplication: ExpressApplication) => {
-    agent = SuperTest.agent(expressApplication);
-    request = SuperTest(expressApplication);
-    const res = await agent
+  beforeEach(async () => {
+    const app = PlatformTest.callback();
+    agent = SuperTest.agent(app);
+    request = SuperTest(app);
+    await agent
       .post("/rest/auth/login")
       .send({email: "amy.riley@undefined.io", password: "583538ea97489c137ad54db5"})
       .expect(200);
-  }));
+  });
   after(() => TestContext.reset());
 
   // then run your test

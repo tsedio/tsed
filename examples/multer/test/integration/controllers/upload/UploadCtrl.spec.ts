@@ -1,19 +1,17 @@
-import {ExpressApplication} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Path from "path";
 import * as SuperTest from "supertest";
-import {Test} from "supertest";
 import {Server} from "../../../../src/Server";
 
 describe("Upload", () => {
-  let request: SuperTest.SuperTest<Test>;
-  // bootstrap the express application
-  before(TestContext.bootstrap(Server));
-  before(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
-  after(TestContext.reset);
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+  // bootstrap your expressApplication in first
+  before(PlatformTest.bootstrap(Server));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   describe("PUT /rest/upload", () => {
     it("should return 201", async () => {

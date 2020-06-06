@@ -110,6 +110,11 @@ export class PlatformTest {
     };
   }
 
+  /**
+   * Invoke a provider and return a fresh instance
+   * @param target
+   * @param providers
+   */
   static invoke<T = any>(target: TokenProvider, providers: ITestInvokeOptions[] = []): T | Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach(p => {
@@ -127,6 +132,14 @@ export class PlatformTest {
     }
 
     return instance as any;
+  }
+
+  /**
+   * Return the instance from injector registry
+   * @param target
+   */
+  static get<T = any>(target: TokenProvider): T {
+    return PlatformTest.injector.get<T>(target)!;
   }
 
   /**

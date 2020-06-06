@@ -59,7 +59,23 @@ Finally, you can read and write values in your controller:
 In addition, you can add integration tests with SuperTest and `@tsed/testing` package.
 Here is an example of Rest API test:
 
-<<< @/docs/tutorials/snippets/session/example-test.ts
+<Tabs class="-code">
+<Tab label="Jest">
+
+<<< @/docs/tutorials/snippets/session/example-test.jest.ts
+
+</Tab>
+<Tab label="Mocha">
+
+<<< @/docs/tutorials/snippets/session/example-test.mocha.ts
+
+</Tab>
+<Tab label="Legacy">
+
+<<< @/docs/tutorials/snippets/session/example-test.legacy.ts
+
+</Tab>
+</Tabs>
 
 ::: tip
 You can find a working example on [Express Session here](https://github.com/TypedProject/tsed-example-session).

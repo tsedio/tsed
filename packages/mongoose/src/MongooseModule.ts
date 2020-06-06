@@ -1,4 +1,4 @@
-import {AfterRoutesInit, ExpressApplication, Module, PlatformApplication} from "@tsed/common";
+import {AfterRoutesInit, Module, PlatformApplication} from "@tsed/common";
 import {ValidationErrorMiddleware} from "./middlewares/ValidationErrorMiddleware";
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections";
 import {MongooseService} from "./services/MongooseService";

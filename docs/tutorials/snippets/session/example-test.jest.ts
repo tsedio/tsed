@@ -1,18 +1,15 @@
-import {PlatformTest} from "@tsed/common/src";
-import {TestContext} from "@tsed/testing";
-import {expect} from "chai";
+import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
-import {ExpressApplication} from "@tsed/common";
 
 describe("Session", () => {
-  let request: SuperTest.SuperTest<SuperTest.Test>;
-  after(PlatformTest.reset);
-  before(TestContext.bootstrap(Server));
+  let request: any;
+
+  before(PlatformTest.bootstrap(Server));
   before(() => {
     request = SuperTest.agent(PlatformTest.callback());
   });
-  after(TestContext.reset);
+  after(PlatformTest.reset);
 
   describe("Login / Logout", () => {
     it("should create session return hello world and connect a fake user", async () => {
@@ -28,9 +25,9 @@ describe("Session", () => {
       const response3 = await request.get("/rest/whoami").expect(200);
 
       // THEN
-      expect(response1.text).to.eq("Hello world");
-      expect(response2.text).to.eq("Hello user UserName");
-      expect(response3.text).to.eq("Hello world");
+      expect(response1.text).toEqual("Hello world");
+      expect(response2.text).toEqual("Hello user UserName");
+      expect(response3.text).toEqual("Hello world");
     });
   });
 });

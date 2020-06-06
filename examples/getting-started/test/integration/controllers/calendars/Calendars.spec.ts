@@ -1,5 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../../../../src/Server";
@@ -7,11 +6,11 @@ import {Server} from "../../../../src/Server";
 describe("Calendars", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   // bootstrap your expressApplication in first
-  before(TestContext.bootstrap(Server));
-  before(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
-  after(TestContext.reset);
+  before(PlatformTest.bootstrap(Server));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   // then run your test
   describe("GET /rest/calendars", () => {

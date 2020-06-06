@@ -1,4 +1,4 @@
-import {BeforeRoutesInit, Constant, ExpressApplication, Module, OnInit, Provider, ProviderScope} from "@tsed/common";
+import {BeforeRoutesInit, Constant, Module, OnInit, PlatformApplication, Provider, ProviderScope} from "@tsed/common";
 import * as Passport from "passport";
 import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";
@@ -14,7 +14,7 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   pauseStream: boolean;
 
   constructor(
-    @ExpressApplication private expressApplication: ExpressApplication,
+    private app: PlatformApplication,
     private protocolsService: ProtocolsService,
     private passportSerializer: PassportSerializerService
   ) {}
@@ -30,7 +30,7 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
 
   $beforeRoutesInit(): void | Promise<any> {
     const {userProperty, pauseStream} = this;
-    this.expressApplication.use(Passport.initialize({userProperty}));
-    this.expressApplication.use(Passport.session({pauseStream}));
+    this.app.use(Passport.initialize({userProperty}));
+    this.app.use(Passport.session({pauseStream}));
   }
 }

@@ -6,8 +6,9 @@ describe("DbService", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
 
-  it("should data from db", PlatformTest.inject([DbService], async (dbService: DbService) => {
+  it("should data from db", async () => {
+    const dbService = await PlatformTest.get<DbService>(DbService);
     const result = await dbService.getData();
     expect(result).to.be.an("object");
-  }));
+  });
 });

@@ -1,5 +1,4 @@
-import {ServerLoader} from "@tsed/common";
-import {Type} from "@tsed/core";
+import {PlatformTest} from "@tsed/common";
 import {TestContext} from "@tsed/testing";
 import {MongoMemoryServer} from "mongodb-memory-server";
 import * as Mongoose from "mongoose";
@@ -20,28 +19,37 @@ export class TestMongooseContext extends TestContext {
         }
       });
     }
+
+    return TestMongooseContext.getMongooseOptions();
   }
 
   /**
    * Connect to the in-memory database.
    */
-  static bootstrap(mod: Type<ServerLoader>, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
+  static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
-      await TestMongooseContext.install(options.mongod);
+      const config = await TestMongooseContext.install(options.mongod);
 
-      const before = TestContext.bootstrap(mod, {
-        ...options,
-        mongoose: await TestMongooseContext.getMongooseOptions()
-      });
+      if (mod.isServerLoader) {
+        const before = TestContext.bootstrap(mod, {
+          ...options,
+          mongoose: config
+        });
 
-      await before();
+        await before();
+      } else {
+        const before = PlatformTest.bootstrap(mod, {
+          ...options,
+          mongoose: config
+        });
+
+        await before();
+      }
     };
   }
 
   static async create(options: Partial<TsED.Configuration> = {}) {
-    await TestMongooseContext.install(options.mongod);
-
-    options.mongoose = await TestMongooseContext.getMongooseOptions();
+    options.mongoose = await TestMongooseContext.install(options.mongod);
 
     return TestContext.create(options);
   }

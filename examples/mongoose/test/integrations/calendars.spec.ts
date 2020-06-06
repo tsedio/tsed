@@ -1,4 +1,4 @@
-import {ExpressApplication} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -14,9 +14,9 @@ describe("Calendars", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   // bootstrap your expressApplication in first
   before(TestMongooseContext.bootstrap(Server));
-  before(TestMongooseContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
   after(TestMongooseContext.reset);
 
   // then run your test

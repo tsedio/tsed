@@ -1,4 +1,4 @@
-import {Controller, ExpressApplication, Get, QueryParams} from "@tsed/common";
+import {Controller, PlatformApplication, Get, QueryParams} from "@tsed/common";
 import {inject, TestContext} from "@tsed/testing";
 import * as SuperTest from "supertest";
 import {TestServer} from "./helpers/TestServer";
@@ -36,8 +36,8 @@ describe("Query spec", () => {
     }
   }));
   before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
+    inject([PlatformApplication], (app: PlatformApplication) => {
+      request = SuperTest(app.callback());
     })
   );
   after(TestContext.reset);

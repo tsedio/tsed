@@ -1,4 +1,4 @@
-import {ExpressApplication, PlatformTest} from "@tsed/common";
+import {PlatformApplication, PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
 
@@ -7,10 +7,9 @@ describe("Rest", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   before(PlatformTest.bootstrap(Server));
-  before(PlatformTest.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
-
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
   after(PlatformTest.reset);
 
   describe("GET /rest/calendars", () => {

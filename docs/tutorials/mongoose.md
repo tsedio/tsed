@@ -196,13 +196,46 @@ This package uses the amazing [mongodb-memory-server](https://www.npmjs.com/pack
 
 This example shows you how you can test your Rest API with superagent and a mocked Mongo database:
 
-<<< @/docs/tutorials/snippets/mongoose/testing-api.ts
+<Tabs class="-code">
+<Tab label="Jest">
+
+<<< @/docs/tutorials/snippets/mongoose/testing-api.jest.ts
+
+</Tab>
+<Tab label="Mocha">
+
+<<< @/docs/tutorials/snippets/mongoose/testing-api.mocha.ts
+
+</Tab>
+<Tab label="Legacy">
+
+<<< @/docs/tutorials/snippets/mongoose/testing-api.legacy.ts
+
+</Tab>
+</Tabs>
+
 
 ### Testing Model
 
 This example shows you how can test the model:
 
-<<< @/docs/tutorials/snippets/mongoose/testing-model.ts
+<Tabs class="-code">
+<Tab label="Jest">
+
+<<< @/docs/tutorials/snippets/mongoose/testing-model.jest.ts
+
+</Tab>
+<Tab label="Mocha">
+
+<<< @/docs/tutorials/snippets/mongoose/testing-model.mocha.ts
+
+</Tab>
+<Tab label="Legacy">
+
+<<< @/docs/tutorials/snippets/mongoose/testing-model.legacy.ts
+
+</Tab>
+</Tabs>
 
 
 <div class="sharethis-inline-share-buttons"></div>

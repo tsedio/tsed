@@ -1,7 +1,6 @@
-import * as SuperTest from "supertest";
-import {Controller, ExpressApplication, Get, PathParams, Post, Res} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {Controller, Get, PathParams, PlatformTest, Post, Res} from "@tsed/common";
 import {expect} from "chai";
+import * as SuperTest from "supertest";
 import {Server} from "../../src/Server";
 
 @Controller("/")
@@ -46,17 +45,12 @@ export class PathParamsCtrl {
 
 describe("PathParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(Server, {
-    mount: {
-      "/rest": PathParamsCtrl
-    }
-  }));
-  before(
-    TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  after(TestContext.reset);
+  // bootstrap your expressApplication in first
+  before(PlatformTest.bootstrap(Server));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   it("scenario 1: GET /rest/scope/scopeId", async () => {
     const response = await request.get("/rest/scenario1/abc/1").expect(200);

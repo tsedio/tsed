@@ -303,20 +303,24 @@ $ npm install --save-dev supertest @types/supertest
   </Tab>  
 </Tabs>
 
-### Disable Logs
+### Testing session
 
-If you would like to disable logs output for any reason, you can do it by calling `$log.level` or `$log.stop()`.
-It's useful to remove logging during unit tests runs so that your passed/failed tests summary does not get polluted with information.
+To install session with Ts.ED see our [tutorial](/tutorials/session.md).
 
-```typescript
-import { $log } from "@tsed/logger";
+<Tabs class="-code">
+<Tab label="Jest">
 
-describe('A test that will not print logs :', () => {
+<<< @/docs/tutorials/snippets/session/example-test.jest.ts
 
-    before(() => {
-        $log.level = "OFF"
-    });
+</Tab>
+<Tab label="Mocha">
 
-    /* you tests here */
-});
-```
+<<< @/docs/tutorials/snippets/session/example-test.mocha.ts
+
+</Tab>
+<Tab label="Legacy">
+
+<<< @/docs/tutorials/snippets/session/example-test.legacy.ts
+
+</Tab>
+</Tabs>

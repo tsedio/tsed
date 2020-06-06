@@ -66,6 +66,7 @@ const VERSION = require("../../../package.json").version;
  * @deprecated Use Platform API (with PlatformExpress) instead of. See https://tsed.io/getting-started.html#quick-start
  */
 export abstract class ServerLoader extends PlatformBuilder implements IServerLifecycle {
+  static readonly isServerLoader = true;
   public version: string = VERSION;
 
   constructor(settings: Partial<TsED.Configuration> = {}) {
