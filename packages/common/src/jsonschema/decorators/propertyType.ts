@@ -6,7 +6,7 @@ import {PropertyFn} from "./property";
  * Set the type of the array items. The possible value is String, Boolean, Number, Date, Object, Class, etc...
  *
  * ::: tip
- * This decorator is used by the Converters to deserialize correctly your model.
+ * This decorator is used by the Converters to correctly deserialize your model.
  * :::
  *
  * ```typescript
@@ -16,10 +16,10 @@ import {PropertyFn} from "./property";
  * }
  * ```
  * ::: warning
- * You didn't use the `type Type = string | number` as parameters Type.
+ * Don't use `type Type = string | number` as Type parameter.
  * :::
  *
- * Didn't works:
+ * The following code doesn't work:
  *
  * ```typescript
  * type Type = "string" | "number"
@@ -29,7 +29,7 @@ import {PropertyFn} from "./property";
  * }
  * ```
  *
- * Works with converter and AJV:
+ * Instead, this code works with converter and AJV:
  *
  * ```typescript
  * type Type = "string" | "number"
