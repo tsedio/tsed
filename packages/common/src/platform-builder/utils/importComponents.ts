@@ -4,10 +4,15 @@ import {importFiles} from "./importFiles";
 
 async function resolveSymbols(item: any, excludes: string[]) {
   if (isClass(item)) {
-    return await [item];
+    return [item];
+  }
+  /* istanbul ignore else */
+  if (!process.env.WEBPACK) {
+    return importFiles(item, excludes);
   }
 
-  return importFiles(item, excludes);
+  /* istanbul ignore next */
+  return [];
 }
 
 export function mapConfiguration(config: any): {endpoint?: string; values: any[]}[] {
