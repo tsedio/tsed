@@ -3,7 +3,12 @@ import {resolve} from "path";
 const normalizePath = require("normalize-path");
 
 function isTsEnv() {
-  return require.extensions[".ts"] || process.env["TS_TEST"] || process.env.JEST_WORKER_ID !== undefined || process.env.NODE_ENV === "test";
+  return (
+    (require && require.extensions && require.extensions[".ts"]) ||
+    process.env["TS_TEST"] ||
+    process.env.JEST_WORKER_ID !== undefined ||
+    process.env.NODE_ENV === "test"
+  );
 }
 
 function mapExcludes(excludes: string[]) {
