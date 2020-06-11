@@ -1,4 +1,4 @@
-if (!require.extensions[".ts"]) {
+if (require?.extensions?.[".ts"]) {
   require("source-map-support").install();
 }
 import "reflect-metadata";
