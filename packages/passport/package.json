@@ -1,6 +1,6 @@
 {
   "name": "@tsed/passport",
-  "version": "5.57.1",
+  "version": "5.57.2",
   "description": "Passport package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -13,9 +13,9 @@
     "tslib": "1.11.1"
   },
   "devDependencies": {
-    "@tsed/common": "5.57.1",
-    "@tsed/core": "5.57.1",
-    "@tsed/di": "5.57.1",
+    "@tsed/common": "5.57.2",
+    "@tsed/core": "5.57.2",
+    "@tsed/di": "5.57.2",
     "@types/passport": "1.0.3",
     "@types/passport-http": "0.3.8",
     "@types/passport-local": "1.0.33",

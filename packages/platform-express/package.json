@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "5.57.1",
+  "version": "5.57.2",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -48,9 +48,9 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@tsed/common": "5.57.1",
-    "@tsed/core": "5.57.1",
-    "@tsed/di": "5.57.1"
+    "@tsed/common": "5.57.2",
+    "@tsed/core": "5.57.2",
+    "@tsed/di": "5.57.2"
   },
   "dependencies": {}
 }

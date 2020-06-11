@@ -1,4 +1,4 @@
-import {PlatformApplication, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {Server} from "../Server";
 
@@ -6,11 +6,11 @@ describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(PlatformTest.bootstrap(Server));
-  before(() => {
+  beforeAll(PlatformTest.bootstrap(Server));
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("GET /rest/calendars", () => {
     it("should do something", async () => {
