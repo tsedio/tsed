@@ -1,5 +1,5 @@
 import {EndpointMetadata, PathParamsType} from "@tsed/common";
-import {deepClone, deepExtends, isArrayOrArrayClass, isPromise, Store} from "@tsed/core";
+import {deepClone, deepExtends, getValue, isArrayOrArrayClass, isPromise, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
 import {parseSwaggerPath} from "../utils";
@@ -81,7 +81,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
     return deepExtends(
       {
         operationId,
-        tags: [this.getTagName()],
+        tags: getValue("tags", this.endpoint.get("operation"), [this.getTagName()]),
         parameters: builder.parameters.length ? builder.parameters : undefined,
         consumes,
         responses: this.createResponses(builder.responses),

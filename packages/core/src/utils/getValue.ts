@@ -11,6 +11,10 @@ export function getValue(expression: string | undefined, scope: any, defaultValu
     return scope;
   }
 
+  if (!scope) {
+    return defaultValue;
+  }
+
   const keys: string[] = expression.split(separator);
 
   const getValue = (key: string) => {
