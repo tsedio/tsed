@@ -1,8 +1,15 @@
-import {Controller, ExpressApplication, Post, Required} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {Controller, PlatformTest, Post, Property, Required, BodyParams} from "@tsed/common";
+import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {BodyParams} from "../../../docs/docs/snippets/pipes/body-params";
 import {TestServer} from "./helpers/TestServer";
+
+class BodyParamModel {
+  @Property()
+  id: string;
+
+  @Property()
+  name: string;
+}
 
 @Controller("/")
 export class BodyCtrl {
@@ -20,23 +27,49 @@ export class BodyCtrl {
   testScenario3(@Required() @BodyParams("test") value: string[]): any {
     return {value};
   }
+
+  @Post("/test-scenario-4")
+  testScenario4(@BodyParams() user: BodyParamModel) {
+    expect(user).to.be.instanceof(BodyParamModel);
+
+    return user;
+  }
+
+  @Post("/test-scenario-5")
+  testScenario5(@BodyParams("user") user: BodyParamModel) {
+    expect(user).to.be.instanceof(BodyParamModel);
+
+    return user;
+  }
+
+  @Post("/test-scenario-6")
+  testScenario6(@BodyParams(BodyParamModel) users: BodyParamModel[]) {
+    expect(users[0]).to.be.instanceof(BodyParamModel);
+
+    return users[0];
+  }
+
+  @Post("/test-scenario-7")
+  testScenario7(@BodyParams("users", BodyParamModel) users: BodyParamModel[]) {
+    expect(users[0]).to.be.instanceof(BodyParamModel);
+
+    return users[0];
+  }
 }
 
 describe("Body spec", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(TestServer, {
+  before(PlatformTest.bootstrap(TestServer, {
     mount: {
       "/rest": [
         BodyCtrl
       ]
     }
   }));
-  before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  after(TestContext.reset);
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   describe("Scenario1: with expression Array<string>", () => {
     it("should return value", async () => {
@@ -82,6 +115,76 @@ describe("Body spec", () => {
       const response = await request.post("/rest/test-scenario-3").send().expect(400);
 
       response.text.should.be.deep.equal("Bad request on parameter \"request.body.test\".<br />It should have required parameter 'test'");
+    });
+  });
+  describe("Scenario4: with model", () => {
+    it("should return value", async () => {
+      const response = await request
+        .post("/rest/test-scenario-4")
+        .send({
+          id: "id",
+          name: "name"
+        })
+        .expect(200);
+
+      response.body.should.be.deep.equal({
+        id: "id",
+        name: "name"
+      });
+    });
+  });
+  describe("Scenario5: with model and expression", () => {
+    it("should return value", async () => {
+      const response = await request
+        .post("/rest/test-scenario-5")
+        .send({
+          user: {
+            id: "id",
+            name: "name"
+          }
+        })
+        .expect(200);
+
+      response.body.should.be.deep.equal({
+        id: "id",
+        name: "name"
+      });
+    });
+  });
+  describe("Scenario6: with Array<model>", () => {
+    it("should return value", async () => {
+      const response = await request
+        .post("/rest/test-scenario-6")
+        .send([{
+          id: "id",
+          name: "name"
+        }])
+        .expect(200);
+
+      response.body.should.be.deep.equal({
+        id: "id",
+        name: "name"
+      });
+    });
+  });
+  describe("Scenario7: with Array<model> and expression", () => {
+    it("should return value", async () => {
+      const response = await request
+        .post("/rest/test-scenario-7")
+        .send({
+          users: [
+            {
+              id: "id",
+              name: "name"
+            }
+          ]
+        })
+        .expect(200);
+
+      response.body.should.be.deep.equal({
+        id: "id",
+        name: "name"
+      });
     });
   });
 });
