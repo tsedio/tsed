@@ -163,11 +163,6 @@ describe("ServerSettingsService", () => {
       expect(settings.exclude).to.deep.equal(["./**/*.spec.ts"]);
     });
 
-    it("should return validationModelStrict", () => {
-      settings.validationModelStrict = false;
-      expect(settings.validationModelStrict).to.equal(false);
-    });
-
     describe("forEach()", () => {
       it("should loop on items", () => {
         const result = [];

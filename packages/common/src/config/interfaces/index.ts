@@ -62,18 +62,6 @@ declare global {
        */
       debug: boolean;
       /**
-       * @deprecated Use logger.requestField
-       */
-      logRequestFields: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
-      /**
-       * Use a strict validation when a model is used by the converter.
-       * When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)).
-       * By default true.
-       *
-       * @deprecated Use converter.additionalProperties
-       */
-      validationModelStrict: boolean;
-      /**
        * Converter configuration.
        */
       converter: Partial<IConverterSettings>;
@@ -86,23 +74,9 @@ declare global {
        */
       errors: Partial<IErrorsSettings>;
       /**
-       * Configure the default scope of the controllers.
-       *
-       * - Default: `singleton`. See [Scope](/docs/injection-scopes.md).
-       * - Values: `singleton`, `request`.
-       *
-       * @deprecated Use scopes["CONTROLLER"] instead.
-       */
-      controllerScope: ProviderScope;
-      /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
       statics: IServerMountDirectories;
-      /**
-       * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
-       * @deprecated
-       */
-      serveStatic: IServerMountDirectories;
     }
   }
 }
