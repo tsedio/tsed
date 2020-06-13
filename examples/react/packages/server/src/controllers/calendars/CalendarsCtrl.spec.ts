@@ -1,20 +1,25 @@
-import {TestContext} from "@tsed/testing";
-import {expect} from "chai";
+import { TestContext } from "@tsed/testing";
+import { expect } from "chai";
 import * as Sinon from "sinon";
-import {NotFound} from "@tsed/exceptions";
-import {Calendar} from "../../models/Calendar";
-import {CalendarsService} from "../../services/calendars/CalendarsService";
-import {MemoryStorage} from "../../services/storage/MemoryStorage";
-import {CalendarsCtrl} from "./CalendarsCtrl";
+import { NotFound } from "@tsed/exceptions";
+import { Calendar } from "../../models/Calendar";
+import { CalendarsService } from "../../services/calendars/CalendarsService";
+import { MemoryStorage } from "../../services/storage/MemoryStorage";
+import { CalendarsCtrl } from "./CalendarsCtrl";
+import EmployeeRepository from "./../../repositories/EmployeeRepository";
+import { TypeORMService } from "@tsed/typeorm";
 
 describe("CalendarCtrl", () => {
   describe("get()", () => {
     describe("without IOC", () => {
       it("should do something", () => {
-        const calendarsCtrl = new CalendarsCtrl(new CalendarsService(new MemoryStorage()));
+        const calendarsCtrl = new CalendarsCtrl(
+          new CalendarsService(new MemoryStorage(),  new EmployeeRepository()  ,  new TypeORMService())
+        );
         calendarsCtrl.should.an.instanceof(CalendarsCtrl);
       });
     });
+
 
     describe("via TestContext to mock other service", () => {
       before(() => TestContext.create());
@@ -23,19 +28,21 @@ describe("CalendarCtrl", () => {
       it("should return a result from mocked service", async () => {
         // GIVEN
         const calendarsService = {
-          find: Sinon.stub().resolves({id: "1"})
+          find: Sinon.stub().resolves({ id: "1" }),
         };
 
-        const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-          provide: CalendarsService,
-          use: calendarsService
-        }]);
+        const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [
+          {
+            provide: CalendarsService,
+            use: calendarsService,
+          },
+        ]);
 
         // WHEN
         const result = await calendarsCtrl.get("1");
 
         // THEN
-        result.should.deep.equal({id: "1"});
+        result.should.deep.equal({ id: "1" });
         calendarsService.find.should.be.calledWithExactly("1");
 
         calendarsCtrl.should.be.an.instanceof(CalendarsCtrl);
@@ -43,20 +50,25 @@ describe("CalendarCtrl", () => {
       });
     });
 
-    describe("when calendar isn\'t found", () => {
+    describe("when calendar isn't found", () => {
       before(() => TestContext.create());
       after(() => TestContext.reset());
 
       it("should throw error", async () => {
         // GIVEN
         const calendarsService = {
-          find: Sinon.stub().resolves()
+          find: Sinon.stub().resolves(),
         };
 
-        const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-          provide: CalendarsService,
-          use: calendarsService
-        }]);
+        const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(
+          CalendarsCtrl,
+          [
+            {
+              provide: CalendarsService,
+              use: calendarsService,
+            },
+          ]
+        );
 
         // WHEN
         let actualError;
@@ -87,19 +99,24 @@ describe("CalendarCtrl", () => {
       calendar.owner = "owner";
 
       const calendarsService = {
-        create: Sinon.stub().resolves(calendar)
+        create: Sinon.stub().resolves(calendar),
       };
 
-      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-        provide: CalendarsService,
-        use: calendarsService
-      }]);
+      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(
+        CalendarsCtrl,
+        [
+          {
+            provide: CalendarsService,
+            use: calendarsService,
+          },
+        ]
+      );
 
       // WHEN
-      const result = await calendarsCtrl.save({name: "name"});
+      const result = await calendarsCtrl.save({ name: "name" });
 
       // THEN
-      calendarsService.create.should.be.calledWithExactly({name: "name"});
+      calendarsService.create.should.be.calledWithExactly({ name: "name" });
       result.should.deep.eq(calendar);
     });
   });
@@ -115,19 +132,27 @@ describe("CalendarCtrl", () => {
       calendar.owner = "owner";
 
       const calendarsService = {
-        update: Sinon.stub().resolves(calendar)
+        update: Sinon.stub().resolves(calendar),
       };
 
-      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-        provide: CalendarsService,
-        use: calendarsService
-      }]);
+      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(
+        CalendarsCtrl,
+        [
+          {
+            provide: CalendarsService,
+            use: calendarsService,
+          },
+        ]
+      );
 
       // WHEN
-      const result = await calendarsCtrl.update("id", {name: "name"});
+      const result = await calendarsCtrl.update("id", { name: "name" });
 
       // THEN
-      calendarsService.update.should.be.calledWithExactly({id: "id", name: "name"});
+      calendarsService.update.should.be.calledWithExactly({
+        id: "id",
+        name: "name",
+      });
       result.should.deep.eq(calendar);
     });
   });
@@ -138,13 +163,18 @@ describe("CalendarCtrl", () => {
     it("should return update data", async () => {
       // GIVEN
       const calendarsService = {
-        remove: Sinon.stub().resolves()
+        remove: Sinon.stub().resolves(),
       };
 
-      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-        provide: CalendarsService,
-        use: calendarsService
-      }]);
+      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(
+        CalendarsCtrl,
+        [
+          {
+            provide: CalendarsService,
+            use: calendarsService,
+          },
+        ]
+      );
 
       // WHEN
       const result = await calendarsCtrl.remove("id");

@@ -5,9 +5,9 @@ import {Server} from "./Server";
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformExpress.bootstrap(Server, {});
+    const server = await PlatformExpress.bootstrap(Server, {});
 
-    await platform.listen();
+    await server.listen();
     $log.debug("Server initialized");
   } catch (er) {
     $log.error(er);

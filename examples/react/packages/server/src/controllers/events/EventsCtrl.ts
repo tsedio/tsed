@@ -10,12 +10,12 @@ import {
   Put,
   Required,
   Status,
-  UseBefore
+  UseBefore,
 } from "@tsed/common";
-import {NotFound} from "@tsed/exceptions";
-import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
-import {Event} from "../../interfaces/Event";
-import {Task} from "../../interfaces/Task";
+import { NotFound } from "@tsed/exceptions";
+import { CheckCalendarIdMiddleware } from "../../middlewares/CheckCalendarIdMiddleware";
+import { Event } from "../../interfaces/Event";
+import { Task } from "../../interfaces/Task";
 
 @Controller("/:calendarId/events")
 @MergeParams(true)
@@ -25,10 +25,13 @@ export class EventsCtrl {
   private events: Event[] = require("../../../resources/events.json");
 
   @Get("/:id")
-  async get(@Required() @PathParams("calendarId") calendarId: string,
-            @PathParams("id") id: string): Promise<Event> {
-
-    const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
+  async get(
+    @Required() @PathParams("calendarId") calendarId: string,
+    @PathParams("id") id: string
+  ): Promise<Event> {
+    const event = this.events.find(
+      (event) => event.id === id && event.calendarId === calendarId
+    );
 
     if (event) {
       return event;
@@ -38,9 +41,13 @@ export class EventsCtrl {
   }
 
   @Get("/:id/tasks")
-  async getTasks(@Required() @PathParams("calendarId") calendarId: string,
-                 @PathParams("id") id: string): Promise<Task[]> {
-    const event = this.events.find(event => event.id === id && event.calendarId === calendarId);
+  async getTasks(
+    @Required() @PathParams("calendarId") calendarId: string,
+    @PathParams("id") id: string
+  ): Promise<Task[]> {
+    const event = this.events.find(
+      (event) => event.id === id && event.calendarId === calendarId
+    );
 
     if (event) {
       return event.tasks || [];
@@ -50,27 +57,34 @@ export class EventsCtrl {
   }
 
   @Put("/")
-  async save(@Required() @PathParams("calendarId") calendarId: string,
-             @BodyParams("startDate") startDate: string,
-             @BodyParams("endDate") endDate: string,
-             @BodyParams("name") name: string): Promise<Event> {
-
-
+  async save(
+    @Required() @PathParams("calendarId") calendarId: string,
+    @BodyParams("startDate") startDate: string,
+    @BodyParams("endDate") endDate: string,
+    @BodyParams("name") name: string
+  ): Promise<Event> {
     this.AUTO_INC++;
 
-    const event: Event = {id: String(this.AUTO_INC), calendarId, startDate, endDate, name};
+    const event: Event = {
+      id: String(this.AUTO_INC),
+      calendarId,
+      startDate,
+      endDate,
+      name,
+    };
     this.events.push(event);
 
     return event;
   }
 
   @Post("/:id")
-  async update(@Required() @PathParams("calendarId") calendarId: string,
-               @PathParams("id") id: string,
-               @BodyParams("startDate") startDate: string,
-               @BodyParams("endDate") endDate: string,
-               @BodyParams("name") name: string): Promise<Event> {
-
+  async update(
+    @Required() @PathParams("calendarId") calendarId: string,
+    @PathParams("id") id: string,
+    @BodyParams("startDate") startDate: string,
+    @BodyParams("endDate") endDate: string,
+    @BodyParams("name") name: string
+  ): Promise<Event> {
     const event = await this.get(calendarId, id);
     event.name = name;
     event.startDate = name;
@@ -82,13 +96,19 @@ export class EventsCtrl {
   @Delete("/:id")
   @Authenticated()
   @Status(204)
-  async remove(@Required() @PathParams("calendarId") calendarId: string,
-               @PathParams("id") id: string): Promise<void> {
-    this.events = this.events.filter(event => event.id === id && event.calendarId === calendarId);
+  async remove(
+    @Required() @PathParams("calendarId") calendarId: string,
+    @PathParams("id") id: string
+  ): Promise<void> {
+    this.events = this.events.filter(
+      (event) => event.id === id && event.calendarId === calendarId
+    );
   }
 
   @Get("/")
-  async getEvents(@Required() @PathParams("calendarId") calendarId: string): Promise<Event[]> {
-    return this.events.filter(event => event.calendarId === calendarId);
+  async getEvents(
+    @Required() @PathParams("calendarId") calendarId: string
+  ): Promise<Event[]> {
+    return this.events.filter((event) => event.calendarId === calendarId);
   }
 }
