@@ -79,7 +79,7 @@
     "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.8.8",
+    "@tsed/monorepo-utils": "1.9.0",
     "@typedproject/ts-doc": "4.0.8",
     "@types/bunyan": "1.8.6",
     "@types/bunyan-seq": "0.2.2",
@@ -136,7 +136,7 @@
     "passport-strategy": "1.0.0",
     "prettier": "1.19.1",
     "proxyquire": "2.1.3",
-    "semantic-release": "^15.13.18",
+    "semantic-release": "17.1.1",
     "sinon": "9.0.2",
     "sinon-chai": "3.5.0",
     "socket.io": "2.3.0",
@@ -169,17 +169,18 @@
     "watchpack": "1.6.1"
   },
   "monorepo": {
-    "productionBranch": "production",
+    "productionBranch": "alpha",
     "npmAccess": "public",
+    "npmDistTag": "alpha",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
     ],
     "ghpages": {
       "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/TypedProject/tsed.git",
-      "branch": "gh-pages",
-      "cname": "tsed.io"
+      "url": "https://github.com/TypedProject/v6.tsed.io.git",
+      "branch": "master",
+      "cname": "v6.tsed.io"
     },
     "examples": {
       "dir": "./examples",

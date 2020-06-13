@@ -20,7 +20,7 @@ jobs:
     - stage: deploy-npm
       name: 'Deploy packages'
       node_js: 12
-      if: (NOT type IN (pull_request)) AND (branch = production)
+      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha)
       script: yarn release
     - stage: deploy-artifacts
       name: 'Deploy github pages'
