@@ -34,7 +34,7 @@ module.exports = {
     repo: "TypedProject/tsed",
     openCollective: "tsed",
     gitterUrl: "https://gitter.im/Tsed-io/community",
-    stackoverflowUrl: "https://stackoverflow.com/questions/tagged/tsed",
+    stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
     sponsorUrl: "https://opencollective.com/tsed",
     editLinks: true,
     docsDir: "docs",
