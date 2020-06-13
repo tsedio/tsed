@@ -58,7 +58,6 @@ Async factory will always be considered as `SINGLETON`. It is not possible to us
 
 Some factories are built-in Ts.ED. These factories are :
 
-- @@ExpressApplication@@: An instance of [Express.Application](http://expressjs.com/fr/4x/api.html#app).
 - @@HttpServer@@: An instance of [Http.Server](https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server) from `http` module.
 - @@HttpsServer@@: An instance of [Https.Server](https://nodejs.org/dist/latest/docs/api/https.html#https_class_https_server) from `https` module.
 

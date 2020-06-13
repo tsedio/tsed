@@ -16,11 +16,6 @@ To use an other engine, see the documentation of the concerned project.
 <<< @/docs/tutorials/snippets/templating/configuration.ts
 
   </Tab>
-  <Tab label="Legacy">
-    
-<<< @/docs/tutorials/snippets/templating/configuration-legacy.ts
-  
-  </Tab>
 </Tabs>  
 
 ::: tip 

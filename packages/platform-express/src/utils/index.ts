@@ -1,3 +1,3 @@
-import {createExpressApplication, createHttpServer, createHttpsServer, listenServer} from "@tsed/common";
+import {createHttpServer, createHttpsServer, listenServer} from "@tsed/common";
 
-export {createExpressApplication, createHttpServer, createHttpsServer, listenServer};
+export {createHttpServer, createHttpsServer, listenServer};

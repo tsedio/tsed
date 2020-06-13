@@ -4,6 +4,7 @@ import * as Express from "express";
 import * as Fs from "fs";
 import * as Sinon from "sinon";
 import {SwaggerModule} from "./index";
+import {ExpressApplication} from "@tsed/platform-express";
 
 const sandbox = Sinon.createSandbox();
 describe("SwaggerModule", () => {

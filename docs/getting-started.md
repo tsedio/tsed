@@ -140,48 +140,16 @@ Ts.ED use now, the Platform API to create an application. Platform API give an a
 between your code written with Ts.ED and the Express code. It means, a large part of your code
 isn't coupled with Express itself and can be used with another Platform like Koa in future (Ts.ED v6).
 
-To facilitate, the v6 migration, the Platform API is already available in v5, but only for Express support with @@PlatformExpress@@.
-
-<Tabs>
-  <Tab label="v5.56.0+">
-
 Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
 Just create a `server.ts` in your root project :
 
 <<< @/docs/snippets/getting-started/server.ts
 
-  </Tab>
-  <Tab label="Legacy"> 
-
-Ts.ED provides a @@ServerLoader@@ class to configure your 
-Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class which inherit from ServerLoader.
-
-<<< @/docs/snippets/getting-started/server-legacy.ts
-  
-::: tip
-By default, ServerLoader loads controllers in `${rootDir}/controllers` and mounts it to `/rest` endpoint.
-:::
-
-  </Tab>
-</Tabs>
-
 To customize the server settings see [Configuration](configuration.md) page.
 
 Finally, create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
-
-<Tabs class="-code">
-  <Tab label="v5.56.0+">
-  
+ 
 <<< @/docs/snippets/configuration/bootstrap.ts
-  
-  </Tab>
-  <Tab label="Legacy">
-  
-<<< @/docs/snippets/configuration/bootstrap-legacy.ts
-  
-  </Tab>  
-</Tabs>    
 
 You should have this directory tree: 
 

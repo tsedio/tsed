@@ -11,14 +11,12 @@ npm install --save @tsed/testing-mongoose
 ```
 
 ## Example usage
-
 ### Testing server
 
 Here an example to your server with a mocked database:
 
 ```typescript
-import {ExpressApplication} from "@tsed/common";
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -29,9 +27,9 @@ describe("Rest", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   before(TestMongooseContext.bootstrap(Server)); // Create a server with mocked database
-  before(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
 
   after(TestMongooseContext.reset); // reset database and injector
 

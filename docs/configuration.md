@@ -48,11 +48,6 @@ You can customize your configuration as following on `Server.ts`level:
 <<< @/docs/snippets/configuration/server.ts
 
   </Tab>
-  <Tab label="Legacy">
-    
-<<< @/docs/snippets/configuration/server-legacy.ts
-  
-  </Tab>
 </Tabs>  
 
 or when you bootstrap your Server (e.g. `index.ts`):

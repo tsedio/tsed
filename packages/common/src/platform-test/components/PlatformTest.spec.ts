@@ -1,7 +1,6 @@
 import {
   Configuration,
   Controller,
-  createExpressApplication,
   createHttpServer,
   createHttpsServer,
   Get,
@@ -52,7 +51,6 @@ describe("PlatformTest", () => {
 
       protected createInjector(module: Type<any>, settings: any) {
         super.createInjector(module, settings);
-        createExpressApplication(this.injector);
         createHttpsServer(this.injector);
         createHttpServer(this.injector);
       }

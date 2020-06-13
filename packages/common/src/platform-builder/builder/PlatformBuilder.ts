@@ -118,7 +118,6 @@ export abstract class PlatformBuilder {
   async loadInjector() {
     const {injector, logger} = this;
     await this.callHook("$beforeInit");
-    await this.callHook("$onInit");
 
     logger.info("Build providers");
 

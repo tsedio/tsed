@@ -42,10 +42,6 @@ describe("PlatformBuilder", () => {
     }
   })
   class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
-    $onInit(): Promise<any> | void {
-      return undefined;
-    }
-
     $beforeRoutesInit(): void | Promise<any> {
       return undefined;
     }
@@ -76,7 +72,6 @@ describe("PlatformBuilder", () => {
   }
 
   beforeEach(() => {
-    sandbox.stub(ServerModule.prototype, "$onInit");
     sandbox.stub(ServerModule.prototype, "$beforeRoutesInit");
     sandbox.stub(ServerModule.prototype, "$afterRoutesInit");
     sandbox.stub(ServerModule.prototype, "$afterInit");
@@ -103,7 +98,6 @@ describe("PlatformBuilder", () => {
       });
 
       // THEN
-      expect(server.rootModule.$onInit).to.have.been.calledWithExactly();
       expect(server.rootModule.$beforeRoutesInit).to.have.been.calledWithExactly();
       expect(server.rootModule.$afterRoutesInit).to.have.been.calledWithExactly();
       expect(server.rootModule.$afterInit).to.have.been.calledWithExactly();
@@ -111,7 +105,6 @@ describe("PlatformBuilder", () => {
       expect(server.injector.emit).to.have.been.calledWithExactly("$beforeRoutesInit");
       expect(server.injector.emit).to.have.been.calledWithExactly("$afterRoutesInit");
       expect(server.injector.emit).to.not.have.been.calledWithExactly("$afterInit");
-      expect(server.injector.emit).to.not.have.been.calledWithExactly("$onInit");
       expect(server.injector.emit).to.not.have.been.calledWithExactly("$beforeInit");
 
       await server.listen();
