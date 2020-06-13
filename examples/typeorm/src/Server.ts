@@ -12,7 +12,7 @@ import * as session from "express-session";
 import * as methodOverride from "method-override";
 import {User} from "./entities/User";
 
-const rootDir = __dirname;
+export const rootDir = __dirname;
 
 @Configuration({
   rootDir,

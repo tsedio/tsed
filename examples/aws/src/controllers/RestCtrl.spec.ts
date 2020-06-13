@@ -1,11 +1,11 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {RestCtrl} from "./RestCtrl";
 
 describe("RestCtrl", () => {
-  before(() => TestContext.create());
-  after(() => TestContext.reset());
+  before(() => PlatformTest.create());
+  after(() => PlatformTest.reset());
 
-  it("should be a RestCtrl", inject([RestCtrl], (restCtrl: RestCtrl) => {
+  it("should be a RestCtrl", PlatformTest.inject([RestCtrl], (restCtrl: RestCtrl) => {
     restCtrl.should.be.instanceof(RestCtrl);
   }));
 });

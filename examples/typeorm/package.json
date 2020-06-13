@@ -41,6 +41,7 @@
     "express-session": "1.17.0",
     "method-override": "^3.0.0",
     "pg": "^7.4.3",
+    "sqlite3": "4.2.0",
     "serve-static": "^1.13.1",
     "typeorm": "0.2.24",
     "cross-env": "7.0.2",

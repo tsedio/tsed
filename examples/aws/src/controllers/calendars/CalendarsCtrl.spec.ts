@@ -1,9 +1,9 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
+import {NotFound} from "@tsed/exceptions";
 import * as Sinon from "sinon";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
 import {CalendarsCtrl} from "./CalendarsCtrl";
-import {NotFound} from "@tsed/exceptions";
 
 describe("CalendarsCtrl", () => {
   describe("get()", () => {
@@ -15,8 +15,8 @@ describe("CalendarsCtrl", () => {
     });
 
     describe("via TestContext to mock other service", () => {
-      before(() => TestContext.create());
-      after(() => TestContext.reset());
+      before(() => PlatformTest.create());
+      after(() => PlatformTest.reset());
 
       it("should return a result from mocked service", async () => {
         // GIVEN
@@ -24,8 +24,8 @@ describe("CalendarsCtrl", () => {
           find: Sinon.stub().resolves({id: "1"})
         };
 
-        const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-          provide: CalendarsService,
+        const calendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
+          token: CalendarsService,
           use: calendarsService
         }]);
 
@@ -43,8 +43,8 @@ describe("CalendarsCtrl", () => {
 
     describe("when calendar isn\'t found", () => {
       it("should throw error", () => {
-        before(() => TestContext.create());
-        after(() => TestContext.reset());
+        before(() => PlatformTest.create());
+        after(() => PlatformTest.reset());
 
         it("should return a result from mocked service", async () => {
           // GIVEN
@@ -52,8 +52,8 @@ describe("CalendarsCtrl", () => {
             find: Sinon.stub().rejects({id: "1"})
           };
 
-          const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
-            provide: CalendarsService,
+          const calendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
+            token: CalendarsService,
             use: calendarsService
           }]);
 

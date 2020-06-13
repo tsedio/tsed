@@ -1,5 +1,4 @@
-import {Controller, ExpressApplication, Get, PathParams} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Returns, ReturnsArray} from "../src";
@@ -26,17 +25,15 @@ export class CalendarsController {
 
 describe("Swagger integration", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(TestContext.bootstrap(Server, {
+  beforeEach(PlatformTest.bootstrap(Server, {
     mount: {
       "/rest": [CalendarsController]
     }
   }));
-  beforeEach(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  afterEach(TestContext.reset);
+  beforeEach(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterEach(PlatformTest.reset);
 
   it("should swagger spec", async () => {
     const response = await request.get("/api-doc/swagger.json").expect(200);

@@ -1,11 +1,11 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {EventsCtrl} from "./EventsCtrl";
 
 describe("EventsCtrl", () => {
-  before(() => TestContext.create());
-  after(() => TestContext.reset());
+  before(() => PlatformTest.create());
+  after(() => PlatformTest.reset());
 
-  it("should be a EventsCtrl", inject([EventsCtrl], (eventsCtrl: EventsCtrl) => {
+  it("should be a EventsCtrl", PlatformTest.inject([EventsCtrl], (eventsCtrl: EventsCtrl) => {
     eventsCtrl.should.be.instanceof(EventsCtrl);
   }));
 });
