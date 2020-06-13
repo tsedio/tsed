@@ -1,18 +1,4 @@
-import {
-  Authenticated,
-  BodyParams,
-  Controller,
-  Delete,
-  Get,
-  Head,
-  MergeParams,
-  Patch,
-  Post,
-  Put,
-  QueryParams,
-  Response,
-  Status
-} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, Head, MergeParams, Patch, Post, Put, QueryParams, Response, Status} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Required, Returns, Title} from "@tsed/schema";
 import {EventModel} from "../../models/Event";
@@ -29,8 +15,7 @@ export class EventCtrl extends BaseController {
    *
    */
   @Head("/")
-  head() {
-  }
+  head() {}
 
   /**
    *
@@ -38,12 +23,12 @@ export class EventCtrl extends BaseController {
    */
   @Patch("/:id")
   @Returns(200, EventModel)
-  @Returns(404, String).Description("Not found")
+  @(Returns(404, String).Description("Not found"))
   patch(
     @Title("Title event")
     @Required()
     @BodyParams()
-      event: EventModel
+    event: EventModel
   ): EventModel {
     if (event.id === "0" || event.id === "") {
       throw new NotFound("Not found");
@@ -81,8 +66,9 @@ export class EventCtrl extends BaseController {
    * @returns {null}
    */
   @Post("/list")
-  @Authenticated({role: "admin"})
-  @Returns(200, Array).Of(EventModel).Description("Success")
+  @(Returns(200, Array)
+    .Of(EventModel)
+    .Description("Success"))
   update(@BodyParams("event", EventModel) event: EventModel[]): EventModel[] {
     return event;
   }

@@ -9,7 +9,6 @@ export * from "./method/acceptMime";
 export * from "./method/location";
 export * from "./method/redirect";
 export * from "./method/status";
-export * from "./method/authenticated";
 export * from "./method/authOptions";
 export * from "./method/contentType";
 export * from "./method/returnType";

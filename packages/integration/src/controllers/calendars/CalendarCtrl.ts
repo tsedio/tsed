@@ -1,5 +1,4 @@
 import {
-  Authenticated,
   BodyParams,
   ContentType,
   Context,
@@ -116,7 +115,7 @@ export class CalendarCtrl extends BaseController {
   public updateToken(
     @PathParams("token")
     @Description("Token required to update token")
-      token: string
+    token: string
   ): string {
     this.tokenService.token(token);
 
@@ -142,7 +141,7 @@ export class CalendarCtrl extends BaseController {
     @Response() response: Express.Response,
     @PathParams("id")
     @Required()
-      id: string
+    id: string
   ): void {
     const model = new CalendarModel();
     model.id = "1";
@@ -214,7 +213,7 @@ export class CalendarCtrl extends BaseController {
   public save(
     @BodyParams("name")
     @Required()
-      name: string
+    name: string
   ): CalendarModel {
     const model = new CalendarModel();
     model.id = "2";
@@ -225,13 +224,12 @@ export class CalendarCtrl extends BaseController {
 
   @Delete("/")
   @Status(204)
-  @Authenticated({role: "admin"})
   @Security("global_auth", "read:global")
   @Security("calendar_auth", "write:calendar", "read:calendar")
   public remove(
     @BodyParams("id")
     @Required()
-      id: string
+    id: string
   ): void {
     return undefined;
   }
@@ -259,7 +257,6 @@ export class CalendarCtrl extends BaseController {
   }
 
   @Get("/mvc")
-  @Authenticated()
   @Use(CalendarCtrl.middleware)
   public testStackMiddlewares(@Request("user") user: any, @Locals("id") id: any, @Context("uid") uid: string): CalendarModel {
     const model = new CalendarModel();
@@ -270,7 +267,6 @@ export class CalendarCtrl extends BaseController {
   }
 
   @Get("/middlewares2")
-  @Authenticated()
   @UseAfter(CalendarCtrl.middleware2)
   public testUseAfter(@Request("user") user: any): Object {
     const model = new CalendarModel();

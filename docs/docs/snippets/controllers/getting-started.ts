@@ -1,4 +1,4 @@
-import {Authenticated, BodyParams, Controller, Delete, Get, Post, Render, Required} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, Post, Render, Required} from "@tsed/common";
 
 export interface Calendar {
   id: string;
@@ -14,7 +14,6 @@ export class CalendarCtrl {
   }
 
   @Post("/")
-  @Authenticated()
   async post(
     @Required() @BodyParams("calendar") calendar: Calendar
   ): Promise<Calendar> {
@@ -24,7 +23,6 @@ export class CalendarCtrl {
   }
 
   @Delete("/")
-  @Authenticated()
   async deleteItem(
     @BodyParams("calendar.id") @Required() id: string
   ): Promise<Calendar> {
