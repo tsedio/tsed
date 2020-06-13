@@ -2,18 +2,11 @@ import {Controller, Req} from "@tsed/common";
 import {prototypeOf, Store} from "@tsed/core";
 import {expect} from "chai";
 import {Get} from "../decorators/method/route";
-import {IFilter} from "../interfaces/IFilter";
 import {ParamMetadata} from "./ParamMetadata";
 import {ParamTypes} from "./ParamTypes";
 
 class Test {
   method(arg1: any, arg2: any) {}
-}
-
-class TestFilter implements IFilter {
-  transform(value: any) {
-    return value;
-  }
 }
 
 describe("ParamMetadata", () => {
@@ -50,18 +43,6 @@ describe("ParamMetadata", () => {
       expect(paramMetadata.service)
         .to.be.a("string")
         .to.eq(ParamTypes.ERR);
-    });
-  });
-
-  describe("as a filter", () => {
-    it("should return the service", () => {
-      const paramMetadata = ParamMetadata.get(Test, "method", 0);
-      paramMetadata.required = true;
-      paramMetadata.expression = "test";
-      paramMetadata.type = Test;
-      paramMetadata.filter = TestFilter;
-
-      expect(paramMetadata.service).to.eq(TestFilter);
     });
   });
 

@@ -13,7 +13,6 @@ export * from "./models/PropertyMetadata";
 
 // registries
 export * from "./registries/MiddlewareRegistry";
-export * from "./registries/FilterRegistry";
 
 // components
 export * from "./middlewares/AcceptMimesMiddleware";

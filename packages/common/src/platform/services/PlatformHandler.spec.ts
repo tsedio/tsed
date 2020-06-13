@@ -1,25 +1,22 @@
 import {
   EndpointMetadata,
   Err,
-  Filter,
   Get,
   HandlerContext,
   HandlerMetadata,
   HandlerType,
-  IFilter,
   ParamMetadata,
   ParamTypes,
   PlatformTest,
   QueryParams
 } from "@tsed/common";
-import {Type} from "@tsed/core";
 import {InjectorService, Provider} from "@tsed/di";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {PlatformHandler} from "./PlatformHandler";
 
-function build(injector: InjectorService, type: string | ParamTypes | Type<any>, {expression, required}: any = {}) {
+function build(injector: InjectorService, type: string, {expression, required}: any = {}) {
   class Test {
     test() {}
   }
@@ -335,29 +332,6 @@ describe("PlatformHandler", () => {
       })
     );
     it(
-      "should return custom filter",
-      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
-        // GIVEN
-        @Filter()
-        class CustomFilter implements IFilter {
-          transform(expression: string, request: any, response: any): any {
-            return expression + " value " + request.get("content-type");
-          }
-        }
-
-        injector.invoke(CustomFilter);
-
-        const {param, context} = build(injector, CustomFilter);
-        param.expression = "test";
-
-        // WHEN
-        const value = platformHandler.getParam(param, context);
-
-        // THEN
-        expect(value).to.deep.eq("test value application/json");
-      })
-    );
-    it(
       "should return request by default",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
@@ -369,31 +343,6 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(context.request);
-      })
-    );
-    it(
-      "should throw an error when custom filter is missing",
-      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
-        // GIVEN
-        class CustomFilter implements IFilter {
-          transform(expression: string, request: any, response: any): any {
-            return expression + " value " + request.get("content-type");
-          }
-        }
-
-        const {param, context} = build(injector, CustomFilter);
-        param.expression = "test";
-
-        // WHEN
-        let actualError: any;
-        try {
-          platformHandler.getParam(param, context);
-        } catch (er) {
-          actualError = er;
-        }
-
-        // THEN
-        expect(actualError.message).to.deep.eq("Filter CustomFilter not found.");
       })
     );
   });

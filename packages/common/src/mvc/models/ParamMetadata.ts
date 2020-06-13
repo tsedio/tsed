@@ -1,6 +1,5 @@
 import {DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/core";
 import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
-import {IFilter} from "../interfaces/IFilter";
 import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {ParamTypes} from "./ParamTypes";
 
@@ -11,10 +10,6 @@ export interface ParamConstructorOptions extends JsonEntityStoreOptions {
   required?: boolean;
   expression?: string;
   useType?: Type<any>;
-  /**
-   * @deprecated use pipe instead
-   */
-  filter?: Type<IFilter>;
   paramType?: string | ParamTypes;
   pipes?: Type<IPipe>[];
 }
@@ -39,17 +34,13 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
   @Enumerable()
   pipes: Type<IPipe>[] = [];
 
-  @Enumerable()
-  filter?: Type<IFilter>;
-
   constructor(options: ParamConstructorOptions) {
     super(options);
 
-    const {expression, paramType, filter, pipes} = options;
+    const {expression, paramType, pipes} = options;
 
     this.expression = expression || this.expression;
     this.paramType = paramType || this.paramType;
-    this.filter = filter;
     this.pipes = pipes || [];
   }
 
@@ -60,16 +51,12 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
     return this._parameter;
   }
 
-  get service(): string | Type<any> | ParamTypes {
-    return this.filter || this.paramType;
+  get service(): string | ParamTypes {
+    return this.paramType;
   }
 
-  set service(service: string | Type<any> | ParamTypes) {
-    if (typeof service === "string") {
-      this.paramType = service;
-    } else {
-      this.filter = service;
-    }
+  set service(service: string | ParamTypes) {
+    this.paramType = service;
   }
 
   get required(): boolean {
