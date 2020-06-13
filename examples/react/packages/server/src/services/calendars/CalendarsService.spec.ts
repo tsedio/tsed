@@ -1,7 +1,9 @@
-import {inject, TestContext} from "@tsed/testing";
-import {expect} from "chai";
-import {MemoryStorage} from "../storage/MemoryStorage";
-import {CalendarsService} from "./CalendarsService";
+import { inject, TestContext } from "@tsed/testing";
+import { expect } from "chai";
+import { MemoryStorage } from "../storage/MemoryStorage";
+import { CalendarsService } from "./CalendarsService";
+import EmployeeRepository from "./../../repositories/EmployeeRepository";
+import { TypeORMService } from "@tsed/typeorm";
 
 describe("CalendarsService", () => {
   before(() => TestContext.create());
@@ -9,30 +11,35 @@ describe("CalendarsService", () => {
 
   describe("without IOC", () => {
     it("should do something", () => {
-      expect(new CalendarsService(new MemoryStorage())).to.be.an.instanceof(CalendarsService);
+      /* new EmployeeRepository(), */
+      expect(new CalendarsService(new MemoryStorage(), new EmployeeRepository() ,  new TypeORMService())).to.be.an.instanceof(
+        CalendarsService
+      );
     });
   });
 
   describe("with inject()", () => {
-    it("should get the service from the inject method", inject([CalendarsService], (calendarsService: CalendarsService) => {
-      expect(calendarsService).to.be.an.instanceof(CalendarsService);
-    }));
+    it("should get the service from the inject method", inject(
+      [CalendarsService],
+      (calendarsService: CalendarsService) => {
+        expect(calendarsService).to.be.an.instanceof(CalendarsService);
+      }
+    ));
   });
 
   describe("via TestContext to mock other service", () => {
     it("should get the service from InjectorService", async () => {
       // GIVEN
       const memoryStorage = {
-        set: () => {
-        },
-        get: () => {
-        }
+        set: () => {},
+        get: () => {},
       };
 
       // WHEN
-      const calendarsService: CalendarsService = await TestContext.invoke(CalendarsService, [
-        {provide: MemoryStorage, use: memoryStorage}
-      ]);
+      const calendarsService: CalendarsService = await TestContext.invoke(
+        CalendarsService,
+        [{ provide: MemoryStorage, use: memoryStorage }]
+      );
 
       // THEN
       expect(calendarsService).to.be.an.instanceof(CalendarsService);

@@ -1,13 +1,10 @@
-import {Service} from "@tsed/common";
+import { Service } from "@tsed/common";
 
 @Service()
 export class MemoryStorage {
-
   private states: Map<string, string> = new Map<string, string>();
 
-  constructor() {
-
-  }
+  constructor() {}
 
   /**
    * Return the value stored.

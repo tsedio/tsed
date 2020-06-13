@@ -1,18 +1,28 @@
-import {Constant, Service} from "@tsed/common";
-import {NotFound} from "@tsed/exceptions";
-import {Calendar, CreateCalendar} from "../../models/Calendar";
-import {MemoryStorage} from "../storage/MemoryStorage";
+import { Constant, Service, $log } from "@tsed/common";
+import { NotFound } from "@tsed/exceptions";
+import { TypeORMService } from "@tsed/typeorm";
+import { Calendar, CreateCalendar } from "../../models/Calendar";
+import { MemoryStorage } from "../storage/MemoryStorage";
+import EmployeeRepository from "../../repositories/EmployeeRepository";
+import { Employee } from "../../entities/Employee";
 
 @Service()
 export class CalendarsService {
-
   @Constant("calendar.token")
   useToken: boolean;
 
-  constructor(private memoryStorage: MemoryStorage) {
-    this.memoryStorage.set("calendars", require("../../../resources/calendars.json").map((o) => {
-      return Object.assign(new Calendar, o);
-    }));
+  constructor(
+    private memoryStorage: MemoryStorage,
+    private empRepository: EmployeeRepository,
+    private typeORMService: TypeORMService
+  ) {
+    // console.log("EMPLOYEE RESTS = " + empRepository);
+    this.memoryStorage.set(
+      "calendars",
+      require("../../../resources/calendars.json").map((o) => {
+        return Object.assign(new Calendar(), o);
+      })
+    );
   }
 
   /**
@@ -23,7 +33,7 @@ export class CalendarsService {
   async find(id: string): Promise<Calendar> {
     const calendars: Calendar[] = await this.query();
 
-    return calendars.find(calendar => calendar.id === id);
+    return calendars.find((calendar) => calendar.id === id);
   }
 
   /**
@@ -50,6 +60,10 @@ export class CalendarsService {
    * @returns {Calendar[]}
    */
   async query(): Promise<Calendar[]> {
+    console.log(await this.typeORMService.get().manager.count(Employee));
+    const noOfEmps: number = await this.empRepository.count({});
+    $log.info("TOTAL users = " + noOfEmps);
+
     return this.memoryStorage.get<Calendar[]>("calendars");
   }
 
@@ -61,7 +75,9 @@ export class CalendarsService {
   async update(updatedCalendar: Partial<Calendar>): Promise<Calendar> {
     const calendars = await this.query();
 
-    const index = calendars.findIndex((value: Calendar) => value.id === updatedCalendar.id);
+    const index = calendars.findIndex(
+      (value: Calendar) => value.id === updatedCalendar.id
+    );
 
     calendars[index].name = updatedCalendar.name;
 
@@ -76,7 +92,6 @@ export class CalendarsService {
    * @returns {Promise<Calendar>}
    */
   async remove(id: string): Promise<Calendar> {
-
     const calendar = await this.find(id);
 
     if (!calendar) {
@@ -85,7 +100,10 @@ export class CalendarsService {
 
     const calendars = await this.query();
 
-    this.memoryStorage.set("calendars", calendars.filter(calendar => calendar.id === id));
+    this.memoryStorage.set(
+      "calendars",
+      calendars.filter((calendar) => calendar.id === id)
+    );
 
     return calendar;
   }

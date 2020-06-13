@@ -1,4 +1,4 @@
-import {Property, Required} from "@tsed/common";
+import { Property, Required } from "@tsed/common";
 
 export class CreateCalendar {
   @Required()

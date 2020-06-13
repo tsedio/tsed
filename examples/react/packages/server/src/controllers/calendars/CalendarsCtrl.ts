@@ -1,9 +1,19 @@
-import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Required, Status} from "@tsed/common";
-import {Returns, ReturnsArray} from "@tsed/swagger";
-import {NotFound} from "@tsed/exceptions";
-import {Calendar, CreateCalendar} from "../../models/Calendar";
-import {CalendarsService} from "../../services/calendars/CalendarsService";
-import {EventsCtrl} from "../events/EventsCtrl";
+import {
+  BodyParams,
+  Controller,
+  Delete,
+  Get,
+  PathParams,
+  Post,
+  Put,
+  Required,
+  Status,
+} from "@tsed/common";
+import { Returns, ReturnsArray } from "@tsed/swagger";
+import { NotFound } from "@tsed/exceptions";
+import { Calendar, CreateCalendar } from "../../models/Calendar";
+import { CalendarsService } from "../../services/calendars/CalendarsService";
+import { EventsCtrl } from "../events/EventsCtrl";
 
 /**
  * Add @Controller annotation to declare your class as Router controller.
@@ -15,13 +25,10 @@ import {EventsCtrl} from "../events/EventsCtrl";
  */
 @Controller({
   path: "/calendars",
-  children: [
-    EventsCtrl
-  ]
+  children: [EventsCtrl],
 })
 export class CalendarsCtrl {
-  constructor(private calendarsService: CalendarsService) {
-  }
+  constructor(private calendarsService: CalendarsService) {}
 
   @Get("/:id")
   @Returns(Calendar)
@@ -44,9 +51,11 @@ export class CalendarsCtrl {
 
   @Post("/:id")
   @Returns(Calendar)
-  async update(@PathParams("id") @Required() id: string,
-               @BodyParams() @Required() calendar: CreateCalendar): Promise<Calendar> {
-    return this.calendarsService.update({id, ...calendar});
+  async update(
+    @PathParams("id") @Required() id: string,
+    @BodyParams() @Required() calendar: CreateCalendar
+  ): Promise<Calendar> {
+    return this.calendarsService.update({ id, ...calendar });
   }
 
   @Delete("/")
