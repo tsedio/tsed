@@ -13,15 +13,7 @@ export interface IHandlerConstructorOptions {
 export class HandlerMetadata {
   readonly target: any;
   readonly token: Type<any>;
-  /**
-   * @deprecated
-   */
-  readonly methodClassName: string;
   readonly propertyKey: string | symbol;
-  /**
-   * @deprecated
-   */
-  readonly method: string;
   readonly injectable: boolean = false;
   readonly type: HandlerType = HandlerType.FUNCTION;
   readonly hasErrorParam: boolean = false;

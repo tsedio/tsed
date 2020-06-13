@@ -46,9 +46,6 @@ export class ContextMiddleware {
       injector: this.injector
     });
 
-    // deprecated
-    request.log = request.ctx.logger;
-
     onFinished(response, ContextMiddleware.onClose);
 
     await this.injector.emit("$onRequest", request, response);

@@ -1,5 +1,4 @@
 import {HttpServer} from "@tsed/common";
-import {classOf} from "@tsed/core";
 import {expect} from "chai";
 
 describe("HttpServer", () => {

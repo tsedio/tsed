@@ -2,24 +2,20 @@ import {isArrayOrArrayClass, Type} from "@tsed/core";
 import {IProvider, registerController} from "@tsed/di";
 import {PathParamsType} from "../../interfaces";
 
-export interface IControllerMiddlewares {
+export interface ControllerMiddlewares {
   useBefore: any[];
   use: any[];
   useAfter: any[];
 }
 
-export interface IControllerOptions extends Partial<IProvider<any>> {
+export interface ControllerOptions extends Partial<IProvider<any>> {
   path?: PathParamsType;
-  /**
-   * @deprecated
-   */
-  dependencies?: Type<any>[];
   children?: Type<any>[];
   routerOptions?: any;
-  middlewares?: Partial<IControllerMiddlewares>;
+  middlewares?: Partial<ControllerMiddlewares>;
 }
 
-function mapOptions(options: any): IControllerOptions {
+function mapOptions(options: any): ControllerOptions {
   if (typeof options === "string" || options instanceof RegExp || isArrayOrArrayClass(options)) {
     return {
       path: options
@@ -58,10 +54,10 @@ function mapOptions(options: any): IControllerOptions {
  * @decorator
  * @classDecorator
  */
-export function Controller(options: PathParamsType | IControllerOptions, ...children: Type<any>[]): ClassDecorator {
+export function Controller(options: PathParamsType | ControllerOptions, ...children: Type<any>[]): ClassDecorator {
   const opts = mapOptions(options);
 
-  return (target) => {
+  return target => {
     registerController({
       provide: target,
       ...opts,

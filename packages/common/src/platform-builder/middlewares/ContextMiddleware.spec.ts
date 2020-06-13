@@ -28,8 +28,6 @@ describe("contextMiddleware", () => {
     // THEN
     expect(injector.emit).to.have.been.calledWithExactly("$onRequest", request, response);
     // expect(injector.emit).to.have.been.calledWithExactly("$onResponse", request, response);
-
-    expect(request.log.id).to.deep.equal(request.ctx.id);
   });
 
   it("should create context and attach it to the request with reqIdBuilder", async () => {

@@ -1,4 +1,4 @@
-import {Controller, Get, RouteService, ServerLoader, ServerSettings} from "@tsed/common";
+import {Controller, Get} from "@tsed/common";
 
 @Controller("/events")
 export class EventCtrl {

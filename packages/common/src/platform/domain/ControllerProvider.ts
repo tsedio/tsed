@@ -1,7 +1,7 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
-import {EndpointMetadata, IControllerMiddlewares} from "../../mvc";
+import {EndpointMetadata, ControllerMiddlewares} from "../../mvc";
 
 import {IPlatformDriver} from "../interfaces/IPlatformDriver";
 
@@ -92,7 +92,7 @@ export class ControllerProvider extends Provider<any> {
    *
    * @returns {any[]}
    */
-  get middlewares(): IControllerMiddlewares {
+  get middlewares(): ControllerMiddlewares {
     return Object.assign(
       {
         use: [],
@@ -107,7 +107,7 @@ export class ControllerProvider extends Provider<any> {
    *
    * @param middlewares
    */
-  set middlewares(middlewares: IControllerMiddlewares) {
+  set middlewares(middlewares: ControllerMiddlewares) {
     const mdlwrs = this.middlewares;
     const concat = (key: string, a: any, b: any) => (a[key] = a[key].concat(b[key]));
 
