@@ -7,6 +7,7 @@
     "node_modules",
     "packages/**/*.spec.ts",
     "packages/integration/**",
+    "packages/testing/**",
     "**/interfaces/**",
     "**/legacy/**",
     "**/index.ts"
@@ -21,8 +22,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.98,
-  "statements": 99.98,
-  "functions": 99.85,
-  "branches": 88.71
+  "lines": 99.93,
+  "statements": 99.93,
+  "functions": 99.43,
+  "branches": 83.94
 }
