@@ -36,7 +36,7 @@ describe("ServeStaticService", () => {
         };
 
         const serverSettingService = {
-          serveStatic: {
+          statics: {
             "/path": "/views"
           }
         };
@@ -84,7 +84,7 @@ describe("ServeStaticService", () => {
         };
 
         const serverSettingService = {
-          serveStatic: {
+          statics: {
             "/path": "/views"
           }
         };

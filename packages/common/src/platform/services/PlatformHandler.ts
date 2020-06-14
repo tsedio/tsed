@@ -83,27 +83,6 @@ export class PlatformHandler {
       case ParamTypes.FORM_DATA:
         return context.request;
 
-      case ParamTypes.BODY:
-        return context.request.body;
-
-      case ParamTypes.QUERY:
-        return context.request.query;
-
-      case ParamTypes.PATH:
-        return context.request.params;
-
-      case ParamTypes.HEADER:
-        return context.request.headers;
-
-      case ParamTypes.COOKIES:
-        return context.request.cookies;
-
-      case ParamTypes.SESSION:
-        return context.request.session;
-
-      case ParamTypes.LOCALS:
-        return context.response.locals;
-
       case ParamTypes.RESPONSE:
         return context.response;
 

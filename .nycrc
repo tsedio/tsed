@@ -8,6 +8,8 @@
     "packages/**/*.spec.ts",
     "packages/integration/**",
     "packages/testing/**",
+    "packages/**/ExpressRouter.ts",
+    "packages/**/RouteService.ts",
     "**/interfaces/**",
     "**/legacy/**",
     "**/index.ts"

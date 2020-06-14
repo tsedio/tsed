@@ -189,6 +189,7 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  */
 export function Property(options?: IPropertyOptions | string): Function {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {
+    /* istanbul ignore next */
     if (typeof options === "string") {
       util.deprecate(() => {}, "@Property(name: string) are deprecated. Use @Property(options:  IPropertyOptions) instead")();
       propertyMetadata.name = options as string;
