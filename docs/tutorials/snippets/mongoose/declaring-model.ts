@@ -1,4 +1,4 @@
-import {Property} from "@tsed/common";
+import {Property} from "@tsed/schema";
 import {Model, ObjectID} from "@tsed/mongoose";
 
 @Model()

@@ -1,4 +1,4 @@
-import {Required} from "@tsed/common";
+import {Required} from "@tsed/schema";
 import {Model, ObjectID, PreHook} from "@tsed/mongoose";
 
 @Model()

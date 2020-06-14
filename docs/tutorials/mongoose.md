@@ -217,11 +217,6 @@ This example shows you how you can test your Rest API with superagent and a mock
 <<< @/docs/tutorials/snippets/mongoose/testing-api.mocha.ts
 
 </Tab>
-<Tab label="Legacy">
-
-<<< @/docs/tutorials/snippets/mongoose/testing-api.legacy.ts
-
-</Tab>
 </Tabs>
 
 
@@ -238,11 +233,6 @@ This example shows you how can test the model:
 <Tab label="Mocha">
 
 <<< @/docs/tutorials/snippets/mongoose/testing-model.mocha.ts
-
-</Tab>
-<Tab label="Legacy">
-
-<<< @/docs/tutorials/snippets/mongoose/testing-model.legacy.ts
 
 </Tab>
 </Tabs>

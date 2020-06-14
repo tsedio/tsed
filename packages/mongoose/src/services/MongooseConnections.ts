@@ -15,27 +15,16 @@ function mapOptions(options: IMDBOptions | MDBConnection[]): MDBConnection[] {
   if (!isArray(options)) {
     const {
       url,
-      connectionOptions,
-      urls
+      connectionOptions
     } = options || {};
 
-    if (url) {
-      return [{
+    return [
+      {
         id: "default",
         url,
         connectionOptions
-      }];
-    }
-
-    if (urls) {
-      return Object.entries(urls).map(([id, options]) => {
-        return {
-          id: options.id || id,
-          ...options,
-          connectionOptions: options.connectionOptions
-        };
-      });
-    }
+      }
+    ];
   }
 
   return (options as MDBConnection[]).map((settings) => {
@@ -51,7 +40,7 @@ registerProvider({
   injectable: false,
   deps: [Configuration, MongooseService],
   async useAsyncFactory(configuration: Configuration, mongooseService: MongooseService) {
-    const settings = mapOptions(configuration.get<IMDBOptions | MDBConnection[]>("mongoose"));
+    const settings = mapOptions(configuration.get<MDBConnection | MDBConnection[]>("mongoose"));
     let isDefault = true;
 
     for (const current of settings) {
