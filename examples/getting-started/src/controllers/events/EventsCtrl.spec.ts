@@ -50,7 +50,7 @@ describe("EventsCtrl", () => {
       result.should.deep.equal([
         {
           "name": "Task n°1",
-          "percent": 0,
+          "percent": 0
         },
         {
           "name": "Task n°2",

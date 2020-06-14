@@ -1,11 +1,11 @@
-import {UseFilter} from "@tsed/common";
-import {OAuthParamsFilter} from "../filters/OAuthParamsFilter";
+import {applyDecorators, StoreSet} from "@tsed/core";
+import {UsePipe, Context} from "@tsed/common";
+import {OAuthParamsPipe} from "../pipes/OAuthParamsPipe";
 
 export function OAuthParams(expression) {
-  return UseFilter(OAuthParamsFilter, {
-    expression,
-    useConverter: false,
-    useValidation: false,
-    paramType: "AUTH" as any
-  });
+  return applyDecorators(
+    Context,
+    StoreSet(OAuthParamsPipe, expression),
+    UsePipe(OAuthParamsPipe)
+  )
 }

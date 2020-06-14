@@ -1,4 +1,4 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {NotFound} from "@tsed/exceptions";
@@ -16,9 +16,9 @@ describe("CalendarCtrl", () => {
       });
     });
 
-    describe("via TestContext to mock other service", () => {
-      before(() => TestContext.create());
-      after(() => TestContext.reset());
+    describe("via PlatformTest to mock other service", () => {
+      before(() => PlatformTest.create());
+      after(() => PlatformTest.reset());
 
       it("should return a result from mocked service", async () => {
         // GIVEN
@@ -26,7 +26,7 @@ describe("CalendarCtrl", () => {
           find: Sinon.stub().resolves({id: "1"})
         };
 
-        const calendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+        const calendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
           provide: CalendarsService,
           use: calendarsService
         }]);
@@ -44,8 +44,8 @@ describe("CalendarCtrl", () => {
     });
 
     describe("when calendar isn\'t found", () => {
-      before(() => TestContext.create());
-      after(() => TestContext.reset());
+      before(() => PlatformTest.create());
+      after(() => PlatformTest.reset());
 
       it("should throw error", async () => {
         // GIVEN
@@ -53,7 +53,7 @@ describe("CalendarCtrl", () => {
           find: Sinon.stub().resolves()
         };
 
-        const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+        const calendarsCtrl: CalendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
           provide: CalendarsService,
           use: calendarsService
         }]);
@@ -76,8 +76,8 @@ describe("CalendarCtrl", () => {
   });
 
   describe("save()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return saved data", async () => {
       // GIVEN
@@ -90,7 +90,7 @@ describe("CalendarCtrl", () => {
         create: Sinon.stub().resolves(calendar)
       };
 
-      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+      const calendarsCtrl: CalendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
         provide: CalendarsService,
         use: calendarsService
       }]);
@@ -104,8 +104,8 @@ describe("CalendarCtrl", () => {
     });
   });
   describe("update()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return update data", async () => {
       // GIVEN
@@ -118,7 +118,7 @@ describe("CalendarCtrl", () => {
         update: Sinon.stub().resolves(calendar)
       };
 
-      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+      const calendarsCtrl: CalendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
         provide: CalendarsService,
         use: calendarsService
       }]);
@@ -132,8 +132,8 @@ describe("CalendarCtrl", () => {
     });
   });
   describe("remove()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return update data", async () => {
       // GIVEN
@@ -141,7 +141,7 @@ describe("CalendarCtrl", () => {
         remove: Sinon.stub().resolves()
       };
 
-      const calendarsCtrl: CalendarsCtrl = await TestContext.invoke(CalendarsCtrl, [{
+      const calendarsCtrl: CalendarsCtrl = await PlatformTest.invoke(CalendarsCtrl, [{
         provide: CalendarsService,
         use: calendarsService
       }]);

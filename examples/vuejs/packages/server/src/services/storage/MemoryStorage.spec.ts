@@ -1,12 +1,12 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {MemoryStorage} from "./MemoryStorage";
 
 describe("MemoryStorage", () => {
-  before(() => TestContext.create());
-  before(() => TestContext.reset());
+  before(() => PlatformTest.create());
+  before(() => PlatformTest.reset());
 
   describe("get()", () => {
-    it("should return value stored in memoryStorage", inject([MemoryStorage], (memoryStorage: MemoryStorage) => {
+    it("should return value stored in memoryStorage", PlatformTest.inject([MemoryStorage], (memoryStorage: MemoryStorage) => {
       // GIVEN
       memoryStorage.set("key", "value");
 

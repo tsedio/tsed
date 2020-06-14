@@ -12,7 +12,7 @@ export class CalendarEvent {
   @Description("Calendar ID")
   calendarId: Ref<Calendar>;
 
-  @Property("name")
+  @PropertyName("name")
   @Description("The name of the event")
   name: string;
 

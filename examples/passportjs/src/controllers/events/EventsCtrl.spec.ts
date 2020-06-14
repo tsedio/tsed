@@ -1,13 +1,13 @@
-import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import {Event} from "../../models/Event";
 import {Task} from "../../models/Task";
 import {CalendarEventsService} from "../../services/events/CalendarEventsService";
 import {EventsCtrl} from "./EventsCtrl";
+import {PlatformTest} from "@tsed/common";
 
 describe("EventsCtrl", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe(".get()", () => {
     it("should return a event", async () => {
@@ -17,9 +17,9 @@ describe("EventsCtrl", () => {
         findById: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -37,9 +37,9 @@ describe("EventsCtrl", () => {
         findById: Sinon.stub().resolves(undefined)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -68,9 +68,9 @@ describe("EventsCtrl", () => {
         findById: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -93,9 +93,9 @@ describe("EventsCtrl", () => {
         create: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -119,9 +119,9 @@ describe("EventsCtrl", () => {
         update: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -144,9 +144,9 @@ describe("EventsCtrl", () => {
         update: Sinon.stub().resolves(undefined)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -174,9 +174,9 @@ describe("EventsCtrl", () => {
         removeOne: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -194,9 +194,9 @@ describe("EventsCtrl", () => {
         removeOne: Sinon.stub().resolves(undefined)
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);
@@ -221,9 +221,9 @@ describe("EventsCtrl", () => {
         findAll: Sinon.stub().resolves([event])
       };
 
-      const eventsCtrl: EventsCtrl = TestContext.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
         {
-          provide: CalendarEventsService,
+          token: CalendarEventsService,
           use: calendarEventsService
         }
       ]);

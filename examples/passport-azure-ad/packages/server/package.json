@@ -24,7 +24,6 @@
     "@tsed/platform-express": "5.57.5",
     "@tsed/exceptions": "5.57.5",
     "@tsed/swagger": "5.57.5",
-    "@tsed/testing": "5.57.5",
     "@tsed/passport": "5.57.5",
     "@tsed/logger": "5.57.5",
     "@types/compression": "0.0.36",

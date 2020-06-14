@@ -1,15 +1,15 @@
-import { TestContext } from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import { EventsCtrl } from "./EventsCtrl";
 import { expect } from "chai";
 
 describe("EventsCtrl", () => {
   describe("get()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
-      const eventsCtrl: EventsCtrl = await TestContext.invoke(EventsCtrl, []);
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, []);
 
       // WHEN
       const result = await eventsCtrl.get("2", "1");
@@ -35,12 +35,12 @@ describe("EventsCtrl", () => {
     });
   });
   describe("getTasks()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
-      const eventsCtrl: EventsCtrl = await TestContext.invoke(EventsCtrl, []);
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, []);
 
       // WHEN
       const result = await eventsCtrl.getTasks("2", "1");
@@ -59,12 +59,12 @@ describe("EventsCtrl", () => {
     });
   });
   describe("save()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
-      const eventsCtrl: EventsCtrl = await TestContext.invoke(EventsCtrl, []);
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, []);
       const calendarId = "1";
       const startDate = "startDate";
       const endDate = "endDate";
@@ -89,12 +89,12 @@ describe("EventsCtrl", () => {
     });
   });
   describe("update()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
-      const eventsCtrl: EventsCtrl = await TestContext.invoke(EventsCtrl, []);
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, []);
       const calendarId = "2";
       const startDate = "startDate";
       const endDate = "endDate";
@@ -131,12 +131,12 @@ describe("EventsCtrl", () => {
     });
   });
   describe("getEvents()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
-      const eventsCtrl: EventsCtrl = await TestContext.invoke(EventsCtrl, []);
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, []);
       const calendarId = "3";
 
       // WHEN
@@ -147,12 +147,12 @@ describe("EventsCtrl", () => {
     });
   });
   describe("delete()", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should return a result from mocked service", async () => {
       // GIVEN
-      const eventsCtrl: EventsCtrl = await TestContext.invoke(EventsCtrl, []);
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, []);
       const calendarId = "2";
       const id = "7";
 

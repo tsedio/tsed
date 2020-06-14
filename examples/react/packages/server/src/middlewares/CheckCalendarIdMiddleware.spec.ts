@@ -1,4 +1,4 @@
-import { TestContext } from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import { expect } from "chai";
 import { NotFound } from "@tsed/exceptions";
@@ -7,8 +7,8 @@ import { CheckCalendarIdMiddleware } from "./CheckCalendarIdMiddleware";
 
 describe("CheckCalendarIdMiddleware", () => {
   describe("when calendar isn't found", () => {
-    before(() => TestContext.create());
-    after(() => TestContext.reset());
+    before(() => PlatformTest.create());
+    after(() => PlatformTest.reset());
 
     it("should do nothing when calendar is found", async () => {
       // GIVEN
@@ -16,11 +16,11 @@ describe("CheckCalendarIdMiddleware", () => {
         find: Sinon.stub().resolves({}),
       };
 
-      const middleware: CheckCalendarIdMiddleware = await TestContext.invoke(
+      const middleware: CheckCalendarIdMiddleware = await PlatformTest.invoke(
         CheckCalendarIdMiddleware,
         [
           {
-            provide: CalendarsService,
+            token: CalendarsService,
             use: calendarsService,
           },
         ]
@@ -39,11 +39,11 @@ describe("CheckCalendarIdMiddleware", () => {
         find: Sinon.stub().resolves(),
       };
 
-      const middleware: CheckCalendarIdMiddleware = await TestContext.invoke(
+      const middleware: CheckCalendarIdMiddleware = await PlatformTest.invoke(
         CheckCalendarIdMiddleware,
         [
           {
-            provide: CalendarsService,
+            token: CalendarsService,
             use: calendarsService,
           },
         ]

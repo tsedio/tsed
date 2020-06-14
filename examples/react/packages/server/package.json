@@ -24,7 +24,6 @@
     "@tsed/exceptions": "5.57.2",
     "@tsed/platform-express": "^5.57.2",
     "@tsed/swagger": "5.57.2",
-    "@tsed/testing": "5.57.2",
     "@tsed/typeorm": "^5.57.2",
     "@types/dotenv": "^8.2.0",
     "@types/swagger-schema-official": "^2.0.9",

@@ -1,12 +1,10 @@
-import {Configuration, GlobalAcceptMimesMiddleware} from "@tsed/common";
-import {Inject, PlatformApplication} from "@tsed/common/src";
+import {Inject, PlatformApplication, Configuration, GlobalAcceptMimesMiddleware} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import *as methodOverride from "method-override";
-import {RestCtrl} from "./controllers/RestCtrl";
 
 const rootDir = __dirname;
 
@@ -20,8 +18,7 @@ const rootDir = __dirname;
   },
   mount: {
     "/rest": [
-      RestCtrl, // Manual import
-      `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
+      `${rootDir}/controllers/**/*.ts`
     ]
   },
   swagger: {

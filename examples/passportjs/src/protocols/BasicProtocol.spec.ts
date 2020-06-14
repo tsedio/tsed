@@ -1,12 +1,12 @@
-import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {BasicProtocol} from "./BasicProtocol";
+import {PlatformTest} from "@tsed/common";
 
 describe("BasicProtocol", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe(".$onVerify()", () => {
     it("should return a user", async () => {
@@ -22,9 +22,9 @@ describe("BasicProtocol", () => {
         findOne: Sinon.stub().resolves(user)
       };
 
-      const protocol: BasicProtocol = await TestContext.invoke(BasicProtocol, [
+      const protocol: BasicProtocol = await PlatformTest.invoke(BasicProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
@@ -49,9 +49,9 @@ describe("BasicProtocol", () => {
         findOne: Sinon.stub().resolves(user)
       };
 
-      const protocol: BasicProtocol = await TestContext.invoke(BasicProtocol, [
+      const protocol: BasicProtocol = await PlatformTest.invoke(BasicProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
@@ -73,9 +73,9 @@ describe("BasicProtocol", () => {
         findOne: Sinon.stub().resolves(undefined)
       };
 
-      const protocol: BasicProtocol = TestContext.invoke(BasicProtocol, [
+      const protocol: BasicProtocol = PlatformTest.invoke(BasicProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);

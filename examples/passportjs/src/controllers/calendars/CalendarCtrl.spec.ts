@@ -1,4 +1,4 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {Calendar} from "../../models/Calendar";
 import {User} from "../../models/User";
@@ -6,8 +6,8 @@ import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {CalendarCtrl} from "./CalendarCtrl";
 
 describe("CalendarsCtrl", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe(".get()", () => {
     it("should return a calendar", async () => {
@@ -20,7 +20,7 @@ describe("CalendarsCtrl", () => {
         findOne: Sinon.stub().resolves(calendar)
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
           provide: CalendarsService,
           use: calendarsService
@@ -42,9 +42,9 @@ describe("CalendarsCtrl", () => {
         findOne: Sinon.stub().resolves(undefined)
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);
@@ -75,9 +75,9 @@ describe("CalendarsCtrl", () => {
         create: Sinon.stub().resolves(calendar)
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);
@@ -102,9 +102,9 @@ describe("CalendarsCtrl", () => {
         update: Sinon.stub().resolves(calendar)
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);
@@ -127,9 +127,9 @@ describe("CalendarsCtrl", () => {
       const user = new User();
       user._id = "u1";
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);
@@ -157,9 +157,9 @@ describe("CalendarsCtrl", () => {
         removeOne: Sinon.stub().resolves(calendar)
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);
@@ -180,9 +180,9 @@ describe("CalendarsCtrl", () => {
         removeOne: Sinon.stub().resolves(undefined)
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);
@@ -208,9 +208,9 @@ describe("CalendarsCtrl", () => {
         findAll: Sinon.stub().resolves([calendar])
       };
 
-      const calendarController: CalendarCtrl = TestContext.invoke(CalendarCtrl, [
+      const calendarController: CalendarCtrl = PlatformTest.invoke(CalendarCtrl, [
         {
-          provide: CalendarsService,
+          token: CalendarsService,
           use: calendarsService
         }
       ]);

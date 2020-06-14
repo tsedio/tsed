@@ -19,7 +19,7 @@ describe("CalendarsService", () => {
     }));
   });
 
-  describe("via TestContext to mock other service", () => {
+  describe("via PlatformTest to mock other service", () => {
     it("should get the service from InjectorService", async () => {
       // GIVEN
       const memoryStorage = {

@@ -14,7 +14,7 @@ describe("CalendarsCtrl", () => {
       });
     });
 
-    describe("via TestContext to mock other service", () => {
+    describe("via PlatformTest to mock other service", () => {
       before(() => PlatformTest.create());
       after(() => PlatformTest.reset());
 

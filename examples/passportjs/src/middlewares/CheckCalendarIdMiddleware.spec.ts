@@ -1,5 +1,5 @@
-import {TestContext} from "@tsed/testing";
 import {expect} from "chai";
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {Calendar} from "../models/Calendar";
 import {User} from "../models/User";
@@ -18,15 +18,15 @@ describe("CheckCalendarIdMiddleware", () => {
   };
 
   beforeEach(async () => {
-    await TestContext.create();
-    middleware = TestContext.invoke(CheckCalendarIdMiddleware, [
+    await PlatformTest.create();
+    middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
       {
         provide: CalendarsService,
         use: calendarsService
       }
     ]);
   });
-  afterEach(() => TestContext.reset());
+  afterEach(() => PlatformTest.reset());
   afterEach(() => sandbox.reset());
 
   it("should return nothing", async () => {

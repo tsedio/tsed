@@ -1,7 +1,6 @@
-import {PlatformTest} from "@tsed/common";
-import {NotFound} from "@tsed/exceptions";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {NotFound} from "@tsed/exceptions";
 import {Calendar} from "../../models/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {MemoryStorage} from "../../services/storage/MemoryStorage";
@@ -16,7 +15,7 @@ describe("CalendarCtrl", () => {
       });
     });
 
-    describe("via TestContext to mock other service", () => {
+    describe("via PlatformTest to mock other service", () => {
       before(() => PlatformTest.create());
       after(() => PlatformTest.reset());
 

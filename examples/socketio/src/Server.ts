@@ -37,7 +37,7 @@ export class Server {
   @Inject()
   app: PlatformApplication;
 
-  $onInit(): void | Promise<any> {
+  $beforeInit(): void | Promise<any> {
     this.app.raw.set("views", this.settings.get("viewsDir"));
     this.app.raw.engine("ejs", ejs);
   }

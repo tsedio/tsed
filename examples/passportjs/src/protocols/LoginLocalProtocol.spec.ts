@@ -1,12 +1,12 @@
-import {TestContext} from "@tsed/testing";
 import * as Sinon from "sinon";
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {LoginLocalProtocol} from "./LoginLocalProtocol";
+import {PlatformTest} from "@tsed/common/src";
 
 describe("LoginLocalProtocol", () => {
-  beforeEach(() => TestContext.create());
-  afterEach(() => TestContext.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe(".$onVerify()", () => {
     it("should return a user", async () => {
@@ -22,9 +22,9 @@ describe("LoginLocalProtocol", () => {
         findOne: Sinon.stub().resolves(user)
       };
 
-      const protocol: LoginLocalProtocol = await TestContext.invoke(LoginLocalProtocol, [
+      const protocol: LoginLocalProtocol = await PlatformTest.invoke(LoginLocalProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
@@ -49,9 +49,9 @@ describe("LoginLocalProtocol", () => {
         findOne: Sinon.stub().resolves(user)
       };
 
-      const protocol: LoginLocalProtocol = await TestContext.invoke(LoginLocalProtocol, [
+      const protocol: LoginLocalProtocol = await PlatformTest.invoke(LoginLocalProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
@@ -73,9 +73,9 @@ describe("LoginLocalProtocol", () => {
         findOne: Sinon.stub().resolves(undefined)
       };
 
-      const protocol: LoginLocalProtocol = await TestContext.invoke(LoginLocalProtocol, [
+      const protocol: LoginLocalProtocol = await PlatformTest.invoke(LoginLocalProtocol, [
         {
-          provide: UsersService,
+          token: UsersService,
           use: usersService
         }
       ]);
