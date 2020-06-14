@@ -1,6 +1,6 @@
 import {applyDecorators, StoreSet} from "@tsed/core";
-import {ResponseViewMiddleware} from "../../middlewares/ResponseViewMiddleware";
-import {UseAfter} from "./useAfter";
+import {UseAfter} from "../../mvc";
+import {ResponseViewMiddleware} from "../middlewares/ResponseViewMiddleware";
 
 /**
  * Renders a view and sends the rendered HTML string to the client. Optional parameter:

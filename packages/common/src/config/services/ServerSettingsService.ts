@@ -2,7 +2,7 @@ import {Env} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import * as Https from "https";
-import {IErrorsSettings, ILoggerSettings, IRouterSettings, IServerMountDirectories} from "../interfaces";
+import {IErrorsSettings, ILoggerSettings, IServerMountDirectories} from "../interfaces";
 import {IConverterSettings} from "../interfaces/IConverterSettings";
 
 const rootDir = process.cwd();
@@ -168,14 +168,6 @@ export class ServerSettingsService extends DIConfiguration {
 
   set debug(debug: boolean) {
     this.logger = {...this.logger, level: debug ? "debug" : "info"};
-  }
-
-  get routers(): IRouterSettings {
-    return this.get("routers") || {};
-  }
-
-  set routers(options: IRouterSettings) {
-    this.setRaw("routers", options);
   }
 
   /**

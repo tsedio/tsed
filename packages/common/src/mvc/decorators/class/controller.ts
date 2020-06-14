@@ -1,6 +1,5 @@
 import {isArrayOrArrayClass, Type} from "@tsed/core";
 import {IProvider, registerController} from "@tsed/di";
-import {IRouterSettings} from "../../../config";
 import {PathParamsType} from "../../interfaces";
 
 export interface IControllerMiddlewares {
@@ -16,7 +15,7 @@ export interface IControllerOptions extends Partial<IProvider<any>> {
    */
   dependencies?: Type<any>[];
   children?: Type<any>[];
-  routerOptions?: IRouterSettings;
+  routerOptions?: any;
   middlewares?: Partial<IControllerMiddlewares>;
 }
 

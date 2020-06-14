@@ -35,9 +35,9 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
     }
 
     response = {
-      code,
       description: "",
-      ...deepMerge(endpoint.get(code), cleanObject(response))
+      ...deepMerge(endpoint.responses.get(code), cleanObject(response)),
+      code
     };
 
     endpoint.responses.set(response.code!, response as IResponseOptions);

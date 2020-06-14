@@ -130,32 +130,31 @@ export class PlatformHandler {
     return instance.transform(expression, context.request, context.response);
   }
 
+  mapHandlerContext(metadata: HandlerMetadata, {request, response, err, next}: any): HandlerContext {
+    return new HandlerContext({
+      injector: this.injector,
+      request,
+      response,
+      next,
+      err,
+      metadata,
+      args: []
+    });
+  }
+
   createRawHandler(metadata: HandlerMetadata): Function {
     if (metadata.hasErrorParam) {
       return (err: any, request: any, response: any, next: any) =>
         this.onRequest(
-          new HandlerContext({
-            injector: this.injector,
+          this.mapHandlerContext(metadata, {
             request,
             response,
             next,
-            err,
-            metadata,
-            args: []
+            err
           })
         );
     } else {
-      return (request: any, response: any, next: any) =>
-        this.onRequest(
-          new HandlerContext({
-            injector: this.injector,
-            request,
-            response,
-            next,
-            metadata,
-            args: []
-          })
-        );
+      return (request: any, response: any, next: any) => this.onRequest(this.mapHandlerContext(metadata, {request, response, next}));
     }
   }
 

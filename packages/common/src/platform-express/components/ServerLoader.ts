@@ -14,7 +14,7 @@ import {
   setLoggerLevel
 } from "../../platform-builder";
 import {ExpressApplication} from "../decorators/expressApplication";
-import {IHTTPSServerOptions, IServerLifecycle} from "../interfaces";
+import {IServerLifecycle} from "../interfaces";
 import {GlobalErrorHandlerMiddleware} from "../middlewares/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../middlewares/LogIncomingRequestMiddleware";
 
@@ -149,7 +149,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
    * @deprecated
    */
   // istanbul ignore next
-  public createHttpsServer(options: IHTTPSServerOptions): ServerLoader {
+  public createHttpsServer(options: any): ServerLoader {
     this.settings.httpsPort = options.port;
 
     return this;

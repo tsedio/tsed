@@ -1,4 +1,5 @@
-import {Controller, Get, PathParams, MergeParams} from "@tsed/common";
+import {Controller, Get, PathParams} from "@tsed/common";
+import {MergeParams} from "@tsed/platform-express";
 
 @Controller("/:calendarId/events")
 @MergeParams()

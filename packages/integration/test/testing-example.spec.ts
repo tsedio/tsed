@@ -1,4 +1,4 @@
-import {PlatformTest, AcceptMimesMiddleware, Controller, Get, InjectorService, Service} from "@tsed/common";
+import {AcceptMimesMiddleware, Controller, Get, InjectorService, PlatformTest, Service} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -98,16 +98,18 @@ describe("Example Test", () => {
   describe("AcceptMimesMiddleware", () => {
     it("should accept mime", PlatformTest.inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
       const request: any = {
-        accepts: Sinon.stub().returns(true)
+        accepts: Sinon.stub().returns(true),
+        ctx: {
+          endpoint: {
+            get: () => {
+              return ["application/json"];
+            }
+          }
+        }
       };
       request.mime = "application/json";
 
       middleware.use(
-        {
-          get: () => {
-            return ["application/json"];
-          }
-        } as any,
         request as any
       );
     }));

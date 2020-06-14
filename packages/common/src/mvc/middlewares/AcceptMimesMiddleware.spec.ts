@@ -1,6 +1,6 @@
+import {AcceptMimesMiddleware, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {AcceptMimesMiddleware, PlatformTest} from "@tsed/common";
 
 describe("AcceptMimesMiddleware", () => {
   describe("when success", () => {
@@ -12,16 +12,18 @@ describe("AcceptMimesMiddleware", () => {
         acceptStub.withArgs("application/json").returns(false);
 
         const request = {
-          accepts: acceptStub
-        };
-        const endpoint = {
-          get: () => {
-            return ["application/json", "application/xml"];
+          accepts: acceptStub,
+          ctx: {
+            endpoint: {
+              get: () => {
+                return ["application/json", "application/xml"];
+              }
+            }
           }
         };
 
         // @ts-ignore
-        const result = middleware.use(endpoint, request);
+        const result = middleware.use(request);
         expect(result).to.equal(undefined);
         request.accepts.should.have.been.calledWithExactly("application/json").and.calledWithExactly("application/xml");
       })
@@ -37,18 +39,20 @@ describe("AcceptMimesMiddleware", () => {
         acceptStub.withArgs("application/json").returns(false);
 
         const request = {
-          accepts: acceptStub
-        };
-        const endpoint = {
-          get: () => {
-            return ["application/json", "application/xml"];
+          accepts: acceptStub,
+          ctx: {
+            endpoint: {
+              get: () => {
+                return ["application/json", "application/xml"];
+              }
+            }
           }
         };
         let error: any;
 
         try {
           // @ts-ignore
-          middleware.use(endpoint, request);
+          middleware.use(request);
         } catch (er) {
           error = er;
         }

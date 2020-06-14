@@ -1,5 +1,7 @@
 import {UseAfter} from "./useAfter";
-
+import {Next} from "../params/next";
+import {Req} from "../params/request";
+import {Res} from "../params/response";
 /**
  * Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
  *
@@ -49,12 +51,12 @@ import {UseAfter} from "./useAfter";
  * @endpoint
  */
 export function Redirect(status: string | number, location?: string): Function {
-  return UseAfter((request: any, response: any, next: any) => {
+  return UseAfter((request: Req, response: Res, next: Next) => {
     /* istanbul ignore else */
     if (typeof status === "string") {
       response.redirect(status);
     } else {
-      response.redirect(status, location);
+      response.redirect(status as number, location!);
     }
     next();
   });

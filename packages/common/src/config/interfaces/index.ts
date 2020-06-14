@@ -3,7 +3,6 @@ import {ProviderScope} from "@tsed/di";
 import * as Https from "https";
 import {IErrorsSettings} from "./IErrorSettings";
 import {ILoggerSettings} from "./ILoggerSettings";
-import {IRouterSettings} from "./IRouterSettings";
 import {IServerMountDirectories} from "./IServerMountDirectories";
 import {IConverterSettings} from "./IConverterSettings";
 
@@ -96,10 +95,6 @@ declare global {
        */
       controllerScope: ProviderScope;
       /**
-       * Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
-       */
-      routers: IRouterSettings;
-      /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
       statics: IServerMountDirectories;
@@ -114,6 +109,5 @@ declare global {
 
 export * from "./IErrorSettings";
 export * from "./ILoggerSettings";
-export * from "./IRouterSettings";
 export * from "./IServerMountDirectories";
 export * from "./IServerSettings";

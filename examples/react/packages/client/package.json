@@ -16,7 +16,6 @@
     "lint": "eslint --config .eslintrc --cache --quiet ./src/**/*.js ./src/*.js",
     "prettier": "prettier --write \"{,!(node_modules|dist|build|coverage)/**/}*.{js,jsx,ts,tsx,json}\""
   },
-
   "browserslist": {
     "production": [
       ">0.2%",
@@ -28,5 +27,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)."
 }

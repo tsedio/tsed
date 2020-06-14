@@ -1,8 +1,7 @@
 import {applyDecorators, StoreMerge} from "@tsed/core";
-/**
- * @module common/mvc
- */
-/** */
+import {Next} from "../params/next";
+import {Req} from "../params/request";
+import {Res} from "../params/response";
 import {UseAfter} from "./useAfter";
 
 /**
@@ -26,8 +25,8 @@ import {UseAfter} from "./useAfter";
 export function ContentType(type: string) {
   return applyDecorators(
     StoreMerge("produces", [type]),
-    UseAfter((request: any, response: any, next: any) => {
-      response.type(type);
+    UseAfter((request: Req, response: Res, next: Next) => {
+      response.contentType(type);
       next();
     })
   );

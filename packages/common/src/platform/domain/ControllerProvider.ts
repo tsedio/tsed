@@ -1,6 +1,5 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
-import {IRouterSettings} from "../../config/interfaces";
 import {EndpointMetadata, EndpointRegistry, IControllerMiddlewares} from "../../mvc";
 
 import {IPlatformDriver} from "../interfaces/IPlatformDriver";
@@ -60,7 +59,7 @@ export class ControllerProvider extends Provider<any> {
    *
    * @returns {IRouterSettings}
    */
-  get routerOptions(): IRouterSettings {
+  get routerOptions(): any {
     return this.store.get("routerOptions") || {};
   }
 
@@ -68,7 +67,7 @@ export class ControllerProvider extends Provider<any> {
    *
    * @param value
    */
-  set routerOptions(value: IRouterSettings) {
+  set routerOptions(value: any) {
     this.store.set("routerOptions", value);
   }
 

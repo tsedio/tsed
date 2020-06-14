@@ -19,7 +19,6 @@ export * from "./registries/FilterRegistry";
 // components
 export * from "./middlewares/AuthenticatedMiddleware";
 export * from "./middlewares/AcceptMimesMiddleware";
-export * from "./middlewares/ResponseViewMiddleware";
 
 // pipes
 export * from "./pipes/ValidationPipe";

@@ -1,3 +1,3 @@
-import {ExpressApplication} from "@tsed/common";
+import {ExpressApplication, Render, CaseSensitive, Strict, RouterSettings, MergeParams} from "@tsed/common";
 
-export {ExpressApplication};
+export {ExpressApplication, Render, CaseSensitive, Strict, RouterSettings, MergeParams};

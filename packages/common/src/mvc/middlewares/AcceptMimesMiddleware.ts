@@ -1,15 +1,14 @@
 import {NotAcceptable} from "@tsed/exceptions";
-import {EndpointInfo, Middleware, Req} from "../decorators";
-import {IMiddleware} from "../interfaces";
+import {Middleware, Req} from "../../mvc/decorators";
+import {IMiddleware} from "../../mvc/interfaces";
 
 /**
  * @middleware
  */
 @Middleware()
 export class AcceptMimesMiddleware implements IMiddleware {
-  public use(@EndpointInfo() endpoint: EndpointInfo, @Req() request: Req): void {
-    const mimes = endpoint.get(AcceptMimesMiddleware) || [];
-
+  public use(@Req() request: Req): void {
+    const mimes = request.ctx.endpoint.get(AcceptMimesMiddleware) || [];
     const find = mimes.find((mime: string) => request.accepts(mime));
 
     if (!find) {

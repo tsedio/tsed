@@ -1,9 +1,4 @@
-import {Middleware} from "../decorators/class/middleware";
-import {EndpointInfo} from "../decorators/params/endpointInfo";
-import {Res} from "../decorators/params/response";
-import {ResponseData} from "../decorators/params/responseData";
-import {TemplateRenderingError} from "../errors/TemplateRenderingError";
-import {IMiddleware} from "../interfaces";
+import {Middleware, EndpointInfo, Res, IMiddleware, ResponseData, TemplateRenderingError} from "../../mvc";
 
 /**
  * See example to override ResponseViewMiddleware [here](/docs/middlewares/override/response-view.md).
