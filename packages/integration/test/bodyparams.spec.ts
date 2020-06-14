@@ -1,7 +1,5 @@
-import {Controller, ExpressApplication, Post, Required} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {Controller, Post, Required, PlatformTest, BodyParams} from "@tsed/common";
 import * as SuperTest from "supertest";
-import {BodyParams} from "../../../docs/docs/snippets/pipes/body-params";
 import {TestServer} from "./helpers/TestServer";
 
 @Controller("/")
@@ -24,19 +22,17 @@ export class BodyCtrl {
 
 describe("Body spec", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(TestServer, {
+  before(PlatformTest.bootstrap(TestServer, {
     mount: {
       "/rest": [
         BodyCtrl
       ]
     }
   }));
-  before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  after(TestContext.reset);
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   describe("Scenario1: with expression Array<string>", () => {
     it("should return value", async () => {

@@ -1,56 +1,60 @@
-import {HttpServer, HttpsServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {SocketIOService} from "../index";
 
 describe("SocketIOService", () => {
   describe("getNsp()", () => {
+    let namespace: any;
+    let ioStub: any;
+    let socket: any;
+    let instance: any;
+
     before(
-      inject([InjectorService], (injector: InjectorService) => {
-        this.namespace = {
+      PlatformTest.inject([InjectorService], (injector: InjectorService) => {
+        namespace = {
           on: Sinon.stub()
         };
-        this.ioStub = {
-          of: Sinon.stub().returns(this.namespace)
+        ioStub = {
+          of: Sinon.stub().returns(namespace)
         };
-        this.instance = {
+        instance = {
           onConnection: Sinon.stub(),
           onDisconnect: Sinon.stub()
         };
-        this.socket = {
+        socket = {
           on: Sinon.stub()
         };
 
-        const service = new SocketIOService(injector, this.ioStub, {} as any);
+        const service = new SocketIOService(injector, ioStub, {} as any);
         const nspConf = service.getNsp("/");
-        nspConf.instances.push(this.instance);
+        nspConf.instances.push(instance);
 
-        this.namespace.on.getCall(0).args[1](this.socket);
-        this.socket.on.getCall(0).args[1]();
+        namespace.on.getCall(0).args[1](socket);
+        socket.on.getCall(0).args[1]();
       })
     );
 
-    after(TestContext.reset);
+    after(PlatformTest.reset);
 
     it("should call io.of and create namespace", () => {
-      this.ioStub.of.should.have.been.calledWithExactly("/");
+      ioStub.of.should.have.been.calledWithExactly("/");
     });
 
     it("should call namespace.on", () => {
-      this.namespace.on.should.have.been.calledWithExactly("connection", Sinon.match.func);
+      namespace.on.should.have.been.calledWithExactly("connection", Sinon.match.func);
     });
 
     it("should call builder.onConnection", () => {
-      this.instance.onConnection.should.have.been.calledWithExactly(this.socket, this.namespace);
+      instance.onConnection.should.have.been.calledWithExactly(socket, namespace);
     });
 
     it("should call socket.on when socket is disconnected", () => {
-      this.socket.on.should.have.been.calledWithExactly("disconnect", Sinon.match.func);
+      socket.on.should.have.been.calledWithExactly("disconnect", Sinon.match.func);
     });
 
     it("should call builder.onDisconnect", () => {
-      this.instance.onDisconnect.should.have.been.calledWithExactly(this.socket, this.namespace);
+      instance.onDisconnect.should.have.been.calledWithExactly(socket, namespace);
     });
   });
 });

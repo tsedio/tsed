@@ -1,4 +1,4 @@
-import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest, Get, PathParams} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Returns, ReturnsArray} from "../src";

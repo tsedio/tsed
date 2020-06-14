@@ -1,5 +1,5 @@
-import {ServerLoader} from "@tsed/common";
 import {Server} from "./Server";
+import {PlatformExpress} from "@tsed/platform-express";
 
 const fs = require("fs");
 const chalk = require("chalk");
@@ -12,7 +12,7 @@ let timestamp = 0;
 let last = 0;
 
 async function bootstrap() {
-  const server = await ServerLoader.bootstrap(Server);
+  const server = await PlatformExpress.bootstrap(Server);
   await server.listen();
 }
 

@@ -1,4 +1,4 @@
-import {Configuration, ExpressApplication, PlatformApplication, PlatformTest} from "@tsed/common";
+import {Configuration, PlatformApplication, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Express from "express";
 import * as Fs from "fs";
@@ -14,11 +14,11 @@ describe("SwaggerModule", () => {
   after(() => PlatformTest.reset());
   before(
     PlatformTest.inject(
-      [SwaggerModule, Configuration, ExpressApplication],
+      [SwaggerModule, Configuration, PlatformApplication],
       (swaggerModule_: SwaggerModule, configuration_: Configuration, app_: PlatformApplication) => {
         swaggerModule = swaggerModule_;
         settingsService = configuration_;
-        app = app_;
+        app = app_.raw;
       }
     )
   );

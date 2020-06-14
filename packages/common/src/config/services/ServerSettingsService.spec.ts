@@ -120,7 +120,7 @@ describe("ServerSettingsService", () => {
       expect(settings.acceptMimes[0]).to.equal("application/json");
     });
 
-    it("should return serveStatic", () => {
+    it("should return statics", () => {
       expect(settings.statics).to.deep.equal({"/": "/publics"});
     });
 

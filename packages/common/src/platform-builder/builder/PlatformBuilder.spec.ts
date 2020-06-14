@@ -10,7 +10,7 @@ import {
   OnReady
 } from "@tsed/common";
 import {Type} from "@tsed/core";
-import {IDIConfigurationOptions, Module} from "@tsed/di";
+import {Configuration} from "@tsed/di";
 import {join} from "path";
 import * as Sinon from "sinon";
 import {Platform} from "../../platform/services/Platform";
@@ -32,7 +32,7 @@ describe("PlatformBuilder", () => {
     }
   }
 
-  @Module({
+  @Configuration({
     logger: {
       level: "off"
     },

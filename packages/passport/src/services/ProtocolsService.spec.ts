@@ -1,7 +1,5 @@
-import {PlatformTest, RequestContext} from "@tsed/common/src";
-import {Req} from "@tsed/common/src/mvc/decorators/params/request";
-import {InjectorService} from "@tsed/di/src";
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest, RequestContext, Req} from "@tsed/common";
+import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import * as Passport from "passport";
 import * as Sinon from "sinon";
@@ -56,9 +54,9 @@ describe("ProtocolsService", () => {
     sandbox.restore();
   });
 
-  it("should create a protocol", inject(
-    [ProtocolsService, InjectorService],
-    (protocolService: ProtocolsService, injector: InjectorService) => {
+  it(
+    "should create a protocol",
+    PlatformTest.inject([ProtocolsService, InjectorService], (protocolService: ProtocolsService, injector: InjectorService) => {
       // GIVEN
       const provider = injector.getProvider(LocalProtocol)!;
 
@@ -79,12 +77,12 @@ describe("ProtocolsService", () => {
         Sinon.match.func
       );
       expect(protocolService.getProtocolsNames()).to.deep.equal(["local"]);
-    }
-  ));
+    })
+  );
 
-  it("should call metadata", inject(
-    [ProtocolsService, InjectorService],
-    async (protocolService: ProtocolsService, injector: InjectorService) => {
+  it(
+    "should call metadata",
+    PlatformTest.inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
       // GIVEN
       stub(LocalProtocol.prototype.$onVerify).returns({id: 0});
       const provider = injector.getProvider(LocalProtocol)!;
@@ -101,12 +99,12 @@ describe("ProtocolsService", () => {
       // THEN
       result.$onVerify.should.have.been.calledWithExactly(req);
       expect(resultDone).to.deep.equal([null, {id: 0}]);
-    }
-  ));
+    })
+  );
 
-  it("should call metadata and catch error", inject(
-    [ProtocolsService, InjectorService],
-    async (protocolService: ProtocolsService, injector: InjectorService) => {
+  it(
+    "should call metadata and catch error",
+    PlatformTest.inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
       // GIVEN
       const error = new Error("message");
       stub(LocalProtocol.prototype.$onVerify).rejects(error);
@@ -125,6 +123,6 @@ describe("ProtocolsService", () => {
       // THEN
       result.$onVerify.should.have.been.calledWithExactly(req);
       expect(resultDone).to.deep.equal([error, false, {message: "message"}]);
-    }
-  ));
+    })
+  );
 });

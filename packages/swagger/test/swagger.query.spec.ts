@@ -1,6 +1,12 @@
-import {Controller, ExpressApplication, Get, MinLength, Property, Required} from "@tsed/common/src";
-import {QueryParams} from "@tsed/common/src/mvc/decorators/params/queryParams";
-import {inject, TestContext} from "@tsed/testing/src";
+import {
+  Controller,
+  PlatformTest,
+  QueryParams,
+  Get,
+  MinLength,
+  Property,
+  Required
+} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "./helpers/Server";
@@ -39,17 +45,15 @@ class QueryParamsSwaggerController {
 
 describe("QueryParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(TestContext.bootstrap(Server, {
+  beforeEach(PlatformTest.bootstrap(Server, {
     mount: {
       "/rest": [QueryParamsSwaggerController]
     }
   }));
-  beforeEach(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  afterEach(TestContext.reset);
+  beforeEach(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterEach(PlatformTest.reset);
 
   it("should generate swagger", async () => {
     const response = await request.get("/api-doc/swagger.json").expect(200);

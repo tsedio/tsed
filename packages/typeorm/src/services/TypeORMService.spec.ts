@@ -1,4 +1,4 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import * as TypeORM from "typeorm";
 import {TypeORMService} from "../index";
@@ -10,7 +10,7 @@ describe("TypeORMService", () => {
     });
 
     after(() => {
-      TestContext.reset();
+      PlatformTest.reset();
       // @ts-ignore
       TypeORM.getConnectionManager.restore();
     });

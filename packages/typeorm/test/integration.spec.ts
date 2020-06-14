@@ -1,4 +1,4 @@
-import {TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import {User} from "./helpers/entity/User";
@@ -10,7 +10,7 @@ describe("TypeORM integration", () => {
   beforeEach(async () => {
     await TestMongooseContext.install();
     const {url} = await TestMongooseContext.getMongooseOptions();
-    const bstrp = TestContext.bootstrap(Server, {
+    const bstrp = PlatformTest.bootstrap(Server, {
       typeorm: [
         {
           name: "default",
@@ -29,9 +29,9 @@ describe("TypeORM integration", () => {
   afterEach(TestMongooseContext.reset);
 
   it("should return repository", () => {
-    const service = TestContext.injector.get<UserService>(UserService)!;
+    const service = PlatformTest.injector.get<UserService>(UserService)!;
 
-    expect(!!TestContext.injector.getProvider(UserRepository)).to.eq(true);
+    expect(!!PlatformTest.injector.getProvider(UserRepository)).to.eq(true);
     service.should.instanceOf(UserService);
     service.repository.should.instanceOf(UserRepository);
     service.repo2.should.instanceOf(UserRepository);

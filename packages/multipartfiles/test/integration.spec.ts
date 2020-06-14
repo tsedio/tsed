@@ -1,18 +1,15 @@
-import {ExpressApplication} from "@tsed/common/src";
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "./helpers/Server";
 
 describe("Multer integration", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(TestContext.bootstrap(Server));
-  beforeEach(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  afterEach(TestContext.reset);
+  beforeEach(PlatformTest.bootstrap(Server));
+  beforeEach(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterEach(PlatformTest.reset);
 
   it("should load a file (with name)", async () => {
     const result = await request
@@ -29,16 +26,4 @@ describe("Multer integration", () => {
 
     expect(result.text).to.eq("file.txt");
   });
-
-  // it("should load a file parse payload", async () => {
-  //   const result = await request
-  //     .post("/rest/archives/with-payload")
-  //     .attach("media", `${__dirname}/data/file.txt`)
-  //     .field("form_id", 1)
-  //     .field("event", JSON.stringify({
-  //       id: 1
-  //     }));
-  //
-  //   expect(result.text).to.eq("file.txt");
-  // });
 });

@@ -1,7 +1,8 @@
 import "@tsed/ajv";
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/graphql";
 import "@tsed/swagger";
+import "@tsed/platform-express";
 import {CalendarCtrl} from "../../src/controllers/calendars/CalendarCtrl";
 import {EmptyCtrl} from "../../src/controllers/calendars/EmptyCtrl";
 import {EventCtrl} from "../../src/controllers/calendars/EventCtrl";
@@ -10,14 +11,13 @@ import {TaskCtrl} from "../../src/controllers/calendars/TaskCtrl";
 import {ErrorsCtrl} from "../../src/controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "../../src/controllers/pages/SocketPageCtrl";
 import {ProductsCtrl} from "../../src/controllers/products/ProductsCtrl";
-import {RestCtrl} from "../../src/controllers/RestCtrl";
 import {UserCtrl} from "../../src/controllers/users/UserCtrl";
 import "../../src/middlewares/CustomAuthMiddleware";
 import {FeatureModule} from "../../src/module/feature/FeatureModule";
 
 const rootDir = __dirname + "/../../src";
 
-@ServerSettings({
+@Configuration({
   rootDir,
   port: 8002,
   httpsPort: 8082,
@@ -31,7 +31,6 @@ const rootDir = __dirname + "/../../src";
       SocketPageCtrl,
       ProductsCtrl,
       UserCtrl,
-      RestCtrl,
       ErrorsCtrl
     ]
   },
@@ -39,7 +38,7 @@ const rootDir = __dirname + "/../../src";
     `${rootDir}/services/**/**.ts`,
     `${rootDir}/graphql/**/*.ts`
   ],
-  serveStatic: {
+  statics: {
     "/": `${rootDir}/views`
   },
   acceptMimes: ["application/json"],
@@ -56,7 +55,10 @@ const rootDir = __dirname + "/../../src";
     FeatureModule
   ]
 })
-export class FakeServer extends ServerLoader {
+export class FakeServer {
+  @Inject()
+  app: PlatformApplication;
+
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
@@ -67,7 +69,8 @@ export class FakeServer extends ServerLoader {
       compress = require("compression"),
       methodOverride = require("method-override");
 
-    this.use(GlobalAcceptMimesMiddleware)
+    this.app
+      .use(GlobalAcceptMimesMiddleware)
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
@@ -78,7 +81,8 @@ export class FakeServer extends ServerLoader {
       .use(compress({}))
       .use(methodOverride());
 
-    this.engine(".html", require("ejs").__express)
+    this.app.raw
+      .engine(".html", require("ejs").__express)
       .set("views", `${rootDir}/views`)
       .set("view engine", "html");
   }

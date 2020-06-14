@@ -1,7 +1,4 @@
-import {Controller, ExpressApplication, Get, Post} from "@tsed/common";
-import {PathParams} from "@tsed/common/src/mvc/decorators/params/pathParams";
-import {Res} from "@tsed/common/src/mvc/decorators/params/response";
-import {inject, TestContext} from "@tsed/testing/src";
+import {PlatformTest, Controller, Get, Post, PathParams, Res} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {TestServer} from "./helpers/TestServer";
@@ -48,17 +45,15 @@ export class PathParamsCtrl {
 
 describe("PathParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(TestServer, {
+  before(PlatformTest.bootstrap(TestServer, {
     mount: {
       "/rest": PathParamsCtrl
     }
   }));
-  before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  after(TestContext.reset);
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   it("scenario 1: GET /rest/scope/scopeId", async () => {
     const response = await request.get("/rest/scenario1/abc/1").expect(200);

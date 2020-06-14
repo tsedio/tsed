@@ -1,4 +1,4 @@
-import {Configuration, ControllerProvider, EndpointMetadata, InjectorService, RouteService, Service} from "@tsed/common";
+import {Configuration, ControllerProvider, EndpointMetadata, InjectorService, Platform, Service} from "@tsed/common";
 import {deepExtends, nameOf, Store} from "@tsed/core";
 import * as Fs from "fs";
 import {Schema, Spec, Tag} from "swagger-schema-official";
@@ -10,7 +10,7 @@ import {getReducers} from "../utils";
 export class SwaggerService {
   constructor(
     private injectorService: InjectorService,
-    private routeService: RouteService,
+    private platform: Platform,
     @Configuration() private configuration: Configuration
   ) {}
 
@@ -27,7 +27,7 @@ export class SwaggerService {
 
     const getOperationId = this.createOperationIdFormatter(conf);
 
-    this.routeService.routes.forEach(({provider, route}) => {
+    this.platform.routes.forEach(({provider, route}) => {
       const hidden = provider.store.get("hidden");
       const docs = provider.store.get("docs") || [];
 

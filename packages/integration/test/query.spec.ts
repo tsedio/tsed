@@ -1,5 +1,4 @@
-import {Controller, PlatformApplication, Get, QueryParams} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {Controller, PlatformTest, Get, QueryParams} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {TestServer} from "./helpers/TestServer";
 
@@ -28,19 +27,17 @@ export class QueryCtrl {
 
 describe("Query spec", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(TestServer, {
+  before(PlatformTest.bootstrap(TestServer, {
     mount: {
       "/rest": [
         QueryCtrl
       ]
     }
   }));
-  before(
-    inject([PlatformApplication], (app: PlatformApplication) => {
-      request = SuperTest(app.callback());
-    })
-  );
-  after(TestContext.reset);
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   describe("Scenario1: Boolean value", () => {
     it("should return true when query is true", async () => {

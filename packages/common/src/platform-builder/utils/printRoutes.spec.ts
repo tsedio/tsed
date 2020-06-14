@@ -1,12 +1,14 @@
-import {inject} from "@tsed/testing/src";
-import {RouteService} from "../../index";
+import {Platform, PlatformTest} from "@tsed/common";
 import {printRoutes} from "./printRoutes";
 
 describe("printRoutes()", () => {
-  it("should return routes", inject([RouteService], (routeService: RouteService) => {
-    const routes = routeService.getRoutes();
+  it(
+    "should return routes",
+    PlatformTest.inject([Platform], (platform: Platform) => {
+      const routes = platform.getRoutes();
 
-    // tslint:disable-next-line: no-unused-variable
-    printRoutes(routes).should.be.a("string");
-  }));
+      // tslint:disable-next-line: no-unused-variable
+      printRoutes(routes).should.be.a("string");
+    })
+  );
 });

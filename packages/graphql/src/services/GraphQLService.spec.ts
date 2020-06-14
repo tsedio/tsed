@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {inject} from "@tsed/testing";
 import * as proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 
@@ -29,7 +28,7 @@ describe("GraphQLService", () => {
       let service: any;
       before(PlatformTest.create);
       before(
-        inject([GraphQLService], (_service_: any) => {
+        PlatformTest.inject([GraphQLService], (_service_: any) => {
           service = _service_;
           sandbox.stub(_service_, "createSchema");
           sandbox.stub(_service_, "createDataSources");
@@ -73,7 +72,7 @@ describe("GraphQLService", () => {
       let service: any;
       before(PlatformTest.create);
       before(
-        inject([GraphQLService], (_service_: any) => {
+        PlatformTest.inject([GraphQLService], (_service_: any) => {
           service = _service_;
           sandbox.stub(_service_, "createSchema");
           sandbox.stub(_service_, "createDataSources");
@@ -123,7 +122,7 @@ describe("GraphQLService", () => {
     let service: any;
     before(PlatformTest.create);
     before(
-      inject([GraphQLService], (_service_: any) => {
+      PlatformTest.inject([GraphQLService], (_service_: any) => {
         service = _service_;
         sandbox.stub(_service_, "createSchema");
         sandbox.stub(ApolloServer.prototype, "applyMiddleware");
@@ -150,33 +149,39 @@ describe("GraphQLService", () => {
     });
   });
   describe("createDataSources", () => {
-    it("should return a function with all dataSources", inject([GraphQLService], (service: any) => {
-      const dataSources = sandbox.stub().returns({
-        api: "api"
-      });
-      const serverConfigSources = sandbox.stub().returns({
-        api2: "api2"
-      });
+    it(
+      "should return a function with all dataSources",
+      PlatformTest.inject([GraphQLService], (service: any) => {
+        const dataSources = sandbox.stub().returns({
+          api: "api"
+        });
+        const serverConfigSources = sandbox.stub().returns({
+          api2: "api2"
+        });
 
-      const fn = service.createDataSources(dataSources, serverConfigSources);
+        const fn = service.createDataSources(dataSources, serverConfigSources);
 
-      fn().should.deep.eq({
-        api2: "api2",
-        api: "api"
-      });
-    }));
-    it("should do nothing", inject([GraphQLService], (service: any) => {
-      const fn = service.createDataSources();
+        fn().should.deep.eq({
+          api2: "api2",
+          api: "api"
+        });
+      })
+    );
+    it(
+      "should do nothing",
+      PlatformTest.inject([GraphQLService], (service: any) => {
+        const fn = service.createDataSources();
 
-      fn().should.deep.eq({});
-    }));
+        fn().should.deep.eq({});
+      })
+    );
   });
   describe("getDataSources", () => {
     class DataSource {}
 
     let service: any;
     before(
-      inject([GraphQLService], (_service: any) => {
+      PlatformTest.inject([GraphQLService], (_service: any) => {
         service = _service;
         sandbox.stub(service.injectorService, "getProviders").returns([
           {

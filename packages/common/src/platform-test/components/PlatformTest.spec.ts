@@ -30,8 +30,10 @@ class MyController {
 }
 
 describe("PlatformTest", () => {
+  let platform: any;
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(() => {
+    platform = PlatformTest.platformBuilder;
     PlatformTest.platformBuilder = class PlatformExpress extends PlatformBuilder {
       static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
         return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
@@ -69,7 +71,7 @@ describe("PlatformTest", () => {
 
   afterEach(PlatformTest.reset);
   afterEach(() => {
-    delete PlatformTest.platformBuilder;
+    PlatformTest.platformBuilder = platform;
   });
 
   it("should get symbol from injector", () => {

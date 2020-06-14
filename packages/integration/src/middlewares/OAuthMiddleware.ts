@@ -1,4 +1,4 @@
-import {AuthenticatedMiddleware, EndpointInfo, EndpointMetadata, Middleware, Req} from "@tsed/common";
+import {EndpointInfo, EndpointMetadata, Middleware, Req} from "@tsed/common";
 import * as Express from "express";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
 import {TokenService} from "../services/TokenService";

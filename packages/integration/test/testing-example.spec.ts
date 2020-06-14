@@ -1,6 +1,5 @@
-import {AcceptMimesMiddleware, Controller, Get, InjectorService, ParseService, Service} from "@tsed/common";
+import {PlatformTest, AcceptMimesMiddleware, Controller, Get, InjectorService, Service} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
-import {bootstrap, inject, TestContext} from "@tsed/testing";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {CalendarCtrl} from "../src/controllers/calendars/CalendarCtrl";
@@ -26,26 +25,10 @@ export class MyCtrl {
 }
 
 describe("Example Test", () => {
-  describe("ParseService", () => {
-    it("should clone object", () => {
-      const source = {};
-
-      expect(ParseService.clone(source)).not.to.be.equal(source);
-    });
-
-    it("should evaluate expression with a scope and return value", inject([ParseService], (parserService: ParseService) => {
-      expect(
-        parserService.eval("test", {
-          test: "yes"
-        })
-      ).to.equal("yes");
-    }));
-  });
-
   describe("DbService", () => {
     let result: any;
     before(
-      inject([DbService], (dbService: DbService) => {
+      PlatformTest.inject([DbService], (dbService: DbService) => {
         return dbService.getData().then(data => {
           result = data;
         });
@@ -60,13 +43,13 @@ describe("Example Test", () => {
     let instance: any;
 
     // bootstrap your Server to load all endpoints before run your test
-    before(bootstrap(FakeServer));
+    before(PlatformTest.bootstrap(FakeServer));
     before(
-      inject([CalendarCtrl], (calendarCtrl: CalendarCtrl) => {
+      PlatformTest.inject([CalendarCtrl], (calendarCtrl: CalendarCtrl) => {
         instance = calendarCtrl;
       })
     );
-    after(TestContext.reset);
+    after(PlatformTest.reset);
 
     it("should do something", () => {
       expect(!!instance).to.be.true;
@@ -76,14 +59,14 @@ describe("Example Test", () => {
   describe("CalendarCtrl2", () => {
     let instance: any;
     // bootstrap your Server to load all endpoints before run your test
-    before(bootstrap(FakeServer));
+    before(PlatformTest.bootstrap(FakeServer));
 
     before(
-      inject([InjectorService], (injectorService: InjectorService) => {
+      PlatformTest.inject([InjectorService], (injectorService: InjectorService) => {
         instance = injectorService.invoke(CalendarCtrl);
       })
     );
-    after(TestContext.reset);
+    after(PlatformTest.reset);
 
     it("should do something", () => {
       expect(!!instance).to.be.true;
@@ -92,13 +75,13 @@ describe("Example Test", () => {
 
   describe("Mock dependencies", () => {
     // bootstrap your Server to load all endpoints before run your test
-    before(bootstrap(FakeServer));
-    after(TestContext.reset);
+    before(PlatformTest.bootstrap(FakeServer));
+    after(PlatformTest.reset);
 
     it("should do something", async () => {
       // give the locals map to the invoke method
-      const instance: MyCtrl = await TestContext.invoke(MyCtrl, [{
-        provide: DbService,
+      const instance: MyCtrl = await PlatformTest.invoke(MyCtrl, [{
+        token: DbService,
         use: {
           getData: () => {
             return "test";
@@ -113,7 +96,7 @@ describe("Example Test", () => {
   });
 
   describe("AcceptMimesMiddleware", () => {
-    it("should accept mime", inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
+    it("should accept mime", PlatformTest.inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
       const request: any = {
         accepts: Sinon.stub().returns(true)
       };

@@ -1,5 +1,11 @@
 import "@tsed/ajv";
-import {GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings} from "@tsed/common";
+import {
+  Configuration,
+  GlobalAcceptMimesMiddleware,
+  PlatformApplication,
+  Inject
+} from "@tsed/common";
+import "@tsed/platform-express"
 
 const cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),
@@ -8,18 +14,22 @@ const cookieParser = require("cookie-parser"),
 
 const rootDir = `${__dirname}/src`;
 
-@ServerSettings({
+@Configuration({
   rootDir,
   port: 8002,
   httpsPort: false
 })
-export class TestServer extends ServerLoader {
+export class TestServer {
+  @Inject()
+  app: PlatformApplication;
+
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
    */
   public $beforeRoutesInit(): void {
-    this.use(GlobalAcceptMimesMiddleware)
+    this.app
+      .use(GlobalAcceptMimesMiddleware)
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
@@ -30,7 +40,8 @@ export class TestServer extends ServerLoader {
       .use(compress({}))
       .use(methodOverride());
 
-    this.engine(".html", require("ejs").__express)
+    this.app.raw
+      .engine(".html", require("ejs").__express)
       .set("views", `${rootDir}/views`)
       .set("view engine", "html");
   }

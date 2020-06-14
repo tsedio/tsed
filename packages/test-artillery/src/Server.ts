@@ -1,4 +1,4 @@
-import {$log, ServerLoader, ServerSettings} from "@tsed/common";
+import {$log, Configuration, PlatformApplication, Inject} from "@tsed/common";
 import {configuration} from "./configuration";
 
 const bodyParser = require("body-parser");
@@ -7,8 +7,11 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const methodOverride = require("method-override");
 
-@ServerSettings(configuration)
-export class Server extends ServerLoader {
+@Configuration(configuration)
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   $afterInit(): void {
     // this.use();
   }
@@ -20,8 +23,9 @@ export class Server extends ServerLoader {
     // if (this.httpsServer) {
     //   this.httpsServer.keepAliveTimeout = 600000;
     // }
-    this.use(bodyParser.json());
-    this.use(cookieParser())
+    this.app.use(bodyParser.json());
+    this.app
+      .use(cookieParser())
       .use(compression({}))
       .use(cors())
       .use(methodOverride())

@@ -1,4 +1,4 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {ArrayConverter, ConverterService} from "../../../src/converters";
@@ -6,11 +6,11 @@ import {ArrayConverter, ConverterService} from "../../../src/converters";
 describe("ArrayConverter", () => {
   let arrayConverter: ArrayConverter;
   before(
-    inject([ConverterService], (converterService: ConverterService) => {
+    PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
       arrayConverter = converterService.getConverter<ArrayConverter>(Array)!;
     })
   );
-  after(TestContext.reset);
+  after(PlatformTest.reset);
 
   it("should do something", () => {
     expect(!!arrayConverter).to.be.true;

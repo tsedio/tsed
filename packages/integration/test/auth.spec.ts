@@ -1,18 +1,15 @@
-import {ExpressApplication} from "@tsed/common";
-import {bootstrap, inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {FakeServer} from "./helpers/FakeServer";
 
 describe("Auth scenario", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(bootstrap(FakeServer));
-  before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  after(TestContext.reset);
+  before(PlatformTest.bootstrap(FakeServer));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   describe("DELETE /rest/calendars", () => {
     it("should throw a Unauthorized", async () => {

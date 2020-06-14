@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {$log, ProviderScope, ProviderType, ServerLoader, ServerSettings} from "@tsed/common";
+import {$log, Configuration, PlatformApplication, ProviderScope, ProviderType, Inject} from "@tsed/common";
 import "@tsed/graphql";
 import "@tsed/mongoose";
 import "@tsed/multipartfiles";
@@ -11,9 +11,7 @@ import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 import {PingCtrl} from "./controllers/ping/PingCtrl";
 import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
 
-import {RestCtrl} from "./controllers/RestCtrl";
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
-import "./middlewares/CustomAuthMiddleware";
 import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
 import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 import {FeatureModule} from "./module/feature/FeatureModule";
@@ -21,7 +19,7 @@ import {FeatureModule} from "./module/feature/FeatureModule";
 const rootDir = resolve(__dirname);
 const spec = require(`${rootDir}/spec/swagger.default.json`);
 
-@ServerSettings({
+@Configuration({
   rootDir,
   port: 8001,
   httpsPort: false,
@@ -31,7 +29,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   },
   mount: {
     "/": [SocketPageCtrl],
-    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, RestCtrl, ProductsCtrl, PingCtrl],
+    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, ProductsCtrl, PingCtrl],
     "/rest/v1": "${rootDir}/controllers/{calendars,users}/**.ts"
   },
 
@@ -40,7 +38,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
 
   uploadDir: "${rootDir}/uploads",
 
-  serveStatic: {
+  statics: {
     "/": "${rootDir}/views"
   },
   graphql: {
@@ -84,7 +82,10 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
     url: "http://localhost:5341"
   }
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   /**
    * This method let you configure the middleware required by your application to works.
    * @returns {Server}
@@ -96,7 +97,8 @@ export class Server extends ServerLoader {
       methodOverride = require("method-override"),
       expressSession = require("express-session");
 
-    this.use(TestAcceptMimeMiddleware)
+    this.app
+      .use(TestAcceptMimeMiddleware)
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
@@ -107,25 +109,26 @@ export class Server extends ServerLoader {
       .use(compress({}))
       .use(methodOverride());
 
-    this.engine(".html", require("ejs").__express)
+    this.app.raw
+      .engine(".html", require("ejs").__express)
       .set("views", `${rootDir}/views`)
-      .set("view engine", "html");
+      .set("view engine", "html")
+      .set("trust proxy", 1);
 
-    this.set("trust proxy", 1);
-    this.use(
-      expressSession({
-        secret: "keyboard cat",
-        resave: false,
-        saveUninitialized: true,
-        cookie: {}
-      })
-    );
-
-    this.use(InitSessionMiddleware);
+    this.app
+      .use(
+        expressSession({
+          secret: "keyboard cat",
+          resave: false,
+          saveUninitialized: true,
+          cookie: {}
+        })
+      )
+      .use(InitSessionMiddleware);
   }
 
   public $afterRoutesInit() {
-    this.use(NotFoundMiddleware);
+    this.app.use(NotFoundMiddleware);
   }
 
   /**
@@ -134,6 +137,4 @@ export class Server extends ServerLoader {
   public $onReady() {
     $log.info("Server started...");
   }
-
-  public onServerInitError() {}
 }

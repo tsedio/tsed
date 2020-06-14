@@ -1,4 +1,4 @@
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import {ConverterService, DateConverter} from "../../../src/converters";
 
@@ -6,11 +6,11 @@ describe("DateConverter", () => {
   const date = new Date();
   let dateConverter: DateConverter;
   before(
-    inject([ConverterService], (converterService: ConverterService) => {
+    PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
       dateConverter = converterService.getConverter<DateConverter>(Date)!;
     })
   );
-  after(TestContext.reset);
+  after(PlatformTest.reset);
 
   it("should do something", () => {
     expect(!!dateConverter).to.be.true;

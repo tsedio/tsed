@@ -1,5 +1,4 @@
-import {ContentType, Controller, ExpressApplication, Get, Next, PathParams, Post, Req, Res, Status} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest, ContentType, Controller, Get, Next, PathParams, Post, Req, Res, Status} from "@tsed/common";
 import {createReadStream} from "fs";
 import {join} from "path";
 import {of} from "rxjs";
@@ -120,17 +119,15 @@ export class ResponseScenarioCtrl {
 
 describe("Response", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(TestServer, {
+  before(PlatformTest.bootstrap(TestServer, {
     mount: {
       "/rest": ResponseScenarioCtrl
     }
   }));
-  before(
-    inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-      request = SuperTest(expressApplication);
-    })
-  );
-  after(TestContext.reset);
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
 
   describe("Scenario1: when multiple endpoint for the same path (classic)", () => {
     describe("GET /rest/response/scenario1/:id", () => {

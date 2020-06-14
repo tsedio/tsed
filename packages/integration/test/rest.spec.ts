@@ -1,36 +1,16 @@
-import {PlatformApplication} from "@tsed/common";
-import {inject, TestContext} from "@tsed/testing";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {FakeServer} from "./helpers/FakeServer";
 
 describe("Rest", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(TestContext.bootstrap(FakeServer));
-  before(
-    inject([PlatformApplication], (app: PlatformApplication) => {
-      request = SuperTest(app.callback());
-    })
-  );
-  after(TestContext.reset);
+  before(PlatformTest.bootstrap(FakeServer));
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
   describe("integration", () => {
-    describe("GET /rest", () => {
-      it("should return html content", done => {
-        request
-          .get("/rest/html")
-          .expect(200)
-          .end((err: any, response: any) => {
-            if (err) {
-              throw err;
-            }
-
-            expect(response.text).to.be.an("string");
-
-            done();
-          });
-      });
-    });
-
     describe("GET /rest/calendars", () => {
       it("should return an object (without annotation)", done => {
         request
