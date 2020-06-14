@@ -6,7 +6,6 @@ export * from "./interfaces";
 export * from "./decorators/scope";
 export * from "./decorators/service";
 export * from "./decorators/overrideProvider";
-export * from "./decorators/overrideService";
 export * from "./decorators/inject";
 export * from "./decorators/injectable";
 export * from "./decorators/constant";
