@@ -22,7 +22,7 @@ export default ({
         <a href="https://artips.fr" target="_blank"><img src="https://artips.fr/resources/img/artips/artips.png" alt="Artips meetup" /></a>
       </div>
       <div class="news-banner__content">
-        <span>organize his first online meetup on our Ts.ED framework - <span class="text-orange">25 June 2020</span>. <a href="https://t.co/DllOb3foLh?amp=1" target="_blank">See details here.</a></span>
+        <span>organize his first online <strong>#meetup</strong> on our Ts.ED framework - <span class="text-orange">25 June 2020</span>. <a href="https://t.co/DllOb3foLh?amp=1" target="_blank">See details here.</a></span>
       </div>
     </div>
     `;
