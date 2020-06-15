@@ -66,6 +66,13 @@ export class PlatformTest {
           ...options
         });
       } else {
+        /* istanbul ignore next */
+        if (!PlatformTest.platformBuilder) {
+          throw new Error(
+            "Platform type is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?"
+          );
+        }
+
         // @ts-ignore
         instance = await PlatformBuilder.build(PlatformTest.platformBuilder).bootstrap(mod, {
           logger: {
