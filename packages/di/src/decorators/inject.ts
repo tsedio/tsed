@@ -2,6 +2,17 @@ import {DecoratorTypes, getDecoratorType, Metadata, Store, UnsupportedDecoratorT
 import {INJECTABLE_PROP} from "../constants";
 
 /**
+ * Inject a provider to another provider.
+ *
+ * Use this decorator to inject a custom provider on constructor parameter or property.
+ *
+ * ```typescript
+ * @Injectable()
+ * export class MyService {
+ *   @Inject(CONNECTION)
+ *   connection: CONNECTION;
+ * }
+ * ```
  *
  * @param symbol
  * @returns {Function}

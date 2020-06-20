@@ -21,7 +21,7 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * @returns {Function}
  * @decorator
  */
-export function Injectable(options: Partial<IProvider<any>> = {scope: ProviderScope.SINGLETON}): Function {
+export function Injectable(options: Partial<IProvider<any>> = {}): Function {
   return (provide: Type<any>) => {
     registerProvider({
       ...options,
