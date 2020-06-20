@@ -11,4 +11,5 @@ declare global {
 export * from "./utils/createConnection";
 export * from "./services/TypeORMService";
 export * from "./decorators/entityRepository";
+export * from "./decorators/useConnection";
 export * from "./TypeORMModule";

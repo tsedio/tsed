@@ -26,9 +26,9 @@ registerProvider({
   resolvers: [
     {
       deps: [TypeORMModule],
-      get(type) {
+      get(type, options: any) {
         try {
-          return getCustomRepository(type);
+          return getCustomRepository(type, options.connection || "default");
         } catch (er) {}
       }
     }

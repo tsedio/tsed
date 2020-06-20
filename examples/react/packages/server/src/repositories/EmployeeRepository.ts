@@ -1,5 +1,4 @@
-import { EntityRepository } from "@tsed/typeorm";
-import { Repository } from "typeorm";
+import { Repository, EntityRepository } from "typeorm";
 import { Employee } from "./../entities/Employee";
 
 @EntityRepository(Employee)

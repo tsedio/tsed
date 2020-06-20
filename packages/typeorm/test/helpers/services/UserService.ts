@@ -1,11 +1,16 @@
 import {Inject, Injectable} from "@tsed/di/src";
+import {UseConnection} from "../../../src";
 import {UserRepository} from "../repository/UserRepository";
 
 @Injectable()
 export class UserService {
-  @Inject(UserRepository)
+  @Inject()
   repo2: UserRepository;
 
-  constructor(public repository: UserRepository) {
+  @Inject()
+  @UseConnection("db2")
+  repo3: UserRepository;
+
+  constructor(@UseConnection("db2") public repo4: UserRepository, public repo1: UserRepository) {
   }
 }
