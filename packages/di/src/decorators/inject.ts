@@ -1,4 +1,5 @@
-import {getDecoratorType, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorTypes, getDecoratorType, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {INJECTABLE_PROP} from "../constants";
 
 /**
  *
@@ -11,8 +12,8 @@ export function Inject(symbol?: any): Function {
     const bindingType = getDecoratorType([target, propertyKey, descriptor], true);
 
     switch (bindingType) {
-      case "parameter":
-      case "parameter.constructor":
+      case DecoratorTypes.PARAM:
+      case DecoratorTypes.PARAM_CTOR:
         if (symbol) {
           const paramTypes = Metadata.getParamTypes(target, propertyKey);
 
@@ -21,8 +22,8 @@ export function Inject(symbol?: any): Function {
         }
         break;
 
-      case "property":
-        Store.from(target).merge("injectableProperties", {
+      case DecoratorTypes.PROP:
+        Store.from(target).merge(INJECTABLE_PROP, {
           [propertyKey]: {
             bindingType,
             propertyKey,
@@ -31,8 +32,8 @@ export function Inject(symbol?: any): Function {
         });
         break;
 
-      case "method":
-        Store.from(target).merge("injectableProperties", {
+      case DecoratorTypes.METHOD:
+        Store.from(target).merge(INJECTABLE_PROP, {
           [propertyKey]: {
             bindingType,
             propertyKey

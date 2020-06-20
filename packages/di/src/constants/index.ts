@@ -1,0 +1,1 @@
+export const INJECTABLE_PROP = "INJECTABLE_PROP";

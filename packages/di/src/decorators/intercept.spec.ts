@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
 import {IInterceptor, IInterceptorContext, InjectablePropertyType, Intercept} from "../../src";
+import {INJECTABLE_PROP} from "../constants";
 
 describe("@Intercept", () => {
   it("should store metadata", () => {
@@ -17,7 +18,7 @@ describe("@Intercept", () => {
     }
 
     // THEN
-    const injectableProperties = Store.from(TestService).get("injectableProperties");
+    const injectableProperties = Store.from(TestService).get(INJECTABLE_PROP);
     injectableProperties.test.bindingType.should.eq(InjectablePropertyType.INTERCEPTOR);
     injectableProperties.test.useType.should.eq(TestInterceptor);
     injectableProperties.test.options.should.deep.eq({options: "options"});

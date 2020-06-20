@@ -17,6 +17,7 @@ import * as util from "util";
 import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
+import {INJECTABLE_PROP} from "../constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
 import {InjectionError} from "../errors/InjectionError";
@@ -322,7 +323,7 @@ export class InjectorService extends Container {
 
       return {
         ...properties,
-        ...(store.get("injectableProperties") || {})
+        ...(store.get(INJECTABLE_PROP) || {})
       };
     }, {});
 
