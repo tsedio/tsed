@@ -98,3 +98,15 @@ Any provider (Provider, Service, Controller, Middleware, etc...) already registe
 <<< @/docs/docs/snippets/providers/override-provider.ts
 
 > Just don't forgot to import your provider in your project !
+
+## Configurable provider <Badge text="v5.58.0+" />
+
+Sometimes you need to inject a provider with a specific configuration to another one.
+
+This is possible with the combination of @@Opts@@ and @@UseOpts@@ decorators.
+
+<<< @/docs/docs/snippets/providers/configurable-provider.ts
+
+::: warning
+Using @@Opts@@ decorator on a constructor parameter change the scope of the provider to `ProviderScope.INSTANCE`.
+:::

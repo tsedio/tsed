@@ -1,4 +1,5 @@
 import {Store} from "@tsed/core";
+import {INJECTABLE_PROP} from "../constants";
 import {IInjectableProperties} from "../interfaces/IInjectableProperties";
 import {InjectablePropertyType} from "../interfaces/InjectablePropertyType";
 
@@ -39,7 +40,7 @@ import {InjectablePropertyType} from "../interfaces/InjectablePropertyType";
  */
 export function Value(expression: any, defaultValue?: any) {
   return (target: any, propertyKey: string) => {
-    Store.from(target).merge("injectableProperties", {
+    Store.from(target).merge(INJECTABLE_PROP, {
       [propertyKey]: {
         bindingType: InjectablePropertyType.VALUE,
         propertyKey,

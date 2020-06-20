@@ -2,6 +2,32 @@ import "reflect-metadata";
 import {getClass} from "../utils";
 
 /**
+ * Metadata key
+ * @private
+ * @type {string}
+ */
+const DESIGN_PARAM_TYPES = "design:paramtypes";
+/**
+ * Metadata key
+ * @private
+ * @type {string}
+ */
+const DESIGN_TYPE = "design:type";
+/**
+ * Metadata key
+ * @private
+ * @type {string}
+ */
+const DESIGN_RETURN_TYPE = "design:returntype";
+
+/**
+ * Properties collections
+ * @private
+ * @type {string}
+ */
+const PROPERTIES: Map<string | symbol, any[]> = new Map<string | symbol, any[]>();
+
+/**
  * @stable
  */
 export class Metadata {
@@ -494,29 +520,3 @@ export class Metadata {
     return Reflect.getOwnMetadata(DESIGN_PARAM_TYPES, target, propertyKey!) || [];
   }
 }
-
-/**
- * Metadata key
- * @private
- * @type {string}
- */
-const DESIGN_PARAM_TYPES = "design:paramtypes";
-/**
- * Metadata key
- * @private
- * @type {string}
- */
-const DESIGN_TYPE = "design:type";
-/**
- * Metadata key
- * @private
- * @type {string}
- */
-const DESIGN_RETURN_TYPE = "design:returntype";
-
-/**
- * Properties collections
- * @private
- * @type {string}
- */
-const PROPERTIES: Map<string | symbol, any[]> = new Map<string | symbol, any[]>();

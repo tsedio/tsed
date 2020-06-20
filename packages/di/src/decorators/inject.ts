@@ -1,6 +1,18 @@
-import {getDecoratorType, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorTypes, getDecoratorType, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {INJECTABLE_PROP} from "../constants";
 
 /**
+ * Inject a provider to another provider.
+ *
+ * Use this decorator to inject a custom provider on constructor parameter or property.
+ *
+ * ```typescript
+ * @Injectable()
+ * export class MyService {
+ *   @Inject(CONNECTION)
+ *   connection: CONNECTION;
+ * }
+ * ```
  *
  * @param symbol
  * @returns {Function}
@@ -11,8 +23,8 @@ export function Inject(symbol?: any): Function {
     const bindingType = getDecoratorType([target, propertyKey, descriptor], true);
 
     switch (bindingType) {
-      case "parameter":
-      case "parameter.constructor":
+      case DecoratorTypes.PARAM:
+      case DecoratorTypes.PARAM_CTOR:
         if (symbol) {
           const paramTypes = Metadata.getParamTypes(target, propertyKey);
 
@@ -21,8 +33,8 @@ export function Inject(symbol?: any): Function {
         }
         break;
 
-      case "property":
-        Store.from(target).merge("injectableProperties", {
+      case DecoratorTypes.PROP:
+        Store.from(target).merge(INJECTABLE_PROP, {
           [propertyKey]: {
             bindingType,
             propertyKey,
@@ -31,8 +43,8 @@ export function Inject(symbol?: any): Function {
         });
         break;
 
-      case "method":
-        Store.from(target).merge("injectableProperties", {
+      case DecoratorTypes.METHOD:
+        Store.from(target).merge(INJECTABLE_PROP, {
           [propertyKey]: {
             bindingType,
             propertyKey

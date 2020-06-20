@@ -47,8 +47,7 @@ describe("@Injectable()", () => {
 
       // THEN
       ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
-        provide: Test,
-        scope: ProviderScope.SINGLETON
+        provide: Test
       });
     });
   });

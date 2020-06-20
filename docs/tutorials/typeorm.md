@@ -82,7 +82,8 @@ TypeORM provides EntityRepository to manipulate an Entity. TsED provides a decor
 for both TypeORM and Ts.ED. This decorator is useful if you have to inject the repository to another Ts.ED service, controller or provider.
 
 ::: tip 
-Since v5.39.1, it isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve injected repository to another class annotated by @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
+Since v5.39.1, it isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve 
+injected repository to another class annotated with @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
 :::
 
 Here is a quick example:
@@ -93,4 +94,6 @@ Then inject your repository to another service:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-injection-entity-repository.ts
 
-<div class="sharethis-inline-share-buttons"></div>
+::: tip
+Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (require Ts.ED v5.58.0+).
+:::

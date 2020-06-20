@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
 import {Constant} from "../../src";
+import {INJECTABLE_PROP} from "../constants";
 
 class Test {}
 
@@ -9,7 +10,7 @@ describe("@Constant()", () => {
     Constant("expression")(Test, "test");
 
     // THEN
-    const store = Store.from(Test).get("injectableProperties");
+    const store = Store.from(Test).get(INJECTABLE_PROP);
 
     store.should.deep.eq({
       test: {

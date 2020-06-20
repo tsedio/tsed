@@ -3,7 +3,6 @@ import {
   classOf,
   deepClone,
   deepExtends,
-  getClass,
   getClassOrSymbol,
   isFunction,
   isInheritedFrom,
@@ -17,6 +16,7 @@ import * as util from "util";
 import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
 import {InjectionError} from "../errors/InjectionError";
@@ -190,7 +190,7 @@ export class InjectorService extends Container {
       instance = locals.get(token);
     } else if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
-      this.getProvider(token)!.instance = instance;
+      this.hasProvider(token) && (this.getProvider(token)!.instance = instance);
     } else {
       switch (this.scopeOf(provider)) {
         case ProviderScope.SINGLETON:
@@ -322,7 +322,7 @@ export class InjectorService extends Container {
 
       return {
         ...properties,
-        ...(store.get("injectableProperties") || {})
+        ...(store.get(INJECTABLE_PROP) || {})
       };
     }, {});
 
@@ -353,7 +353,7 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    */
   public bindMethod(instance: any, {propertyKey}: IInjectablePropertyService) {
-    const target = getClass(instance);
+    const target = classOf(instance);
     const originalMethod = instance[propertyKey];
     const deps = Metadata.getParamTypes(prototypeOf(target), propertyKey);
 
@@ -370,23 +370,23 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    * @param {any} useType
    * @param locals
-   * @param options
+   * @param invokeOptions
    */
   public bindProperty(
     instance: any,
-    {propertyKey, useType}: IInjectablePropertyService,
+    {propertyKey, useType, options}: IInjectablePropertyService,
     locals: Map<TokenProvider, any>,
-    options: Partial<IInvokeOptions>
+    invokeOptions: Partial<IInvokeOptions>
   ) {
-    options = {...options};
-    let bean: any;
-    Object.defineProperty(instance, propertyKey, {
-      get: () => {
-        bean = bean || this.invoke(useType, locals, options);
-        options.rebuild = false; // invalid
+    invokeOptions = {...invokeOptions};
+    locals.set(DI_PARAM_OPTIONS, {...options});
 
-        return bean;
-      }
+    const bean: any = this.invoke(useType, locals, invokeOptions);
+
+    locals.delete(DI_PARAM_OPTIONS);
+
+    Object.defineProperty(instance, propertyKey, {
+      get: () => bean
     });
   }
 
@@ -440,7 +440,7 @@ export class InjectorService extends Container {
    * @param options
    */
   public bindInterceptor(instance: any, {propertyKey, useType, options}: IInjectablePropertyService) {
-    const target = getClass(instance);
+    const target = classOf(instance);
     const originalMethod = instance[propertyKey];
 
     instance[propertyKey] = (...args: any[]) => {
@@ -509,8 +509,7 @@ export class InjectorService extends Container {
    * @private
    */
   private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
-    const {token, deps, construct, isBindable, imports} = this.mapInvokeOptions(target, options);
-    const provider = this.getProvider(target);
+    const {token, deps, construct, isBindable, imports, provider} = this.mapInvokeOptions(target, locals, options);
 
     if (provider) {
       if (!provider.injectable && options.parent) {
@@ -529,6 +528,12 @@ export class InjectorService extends Container {
     try {
       const invokeDependency = (parent?: any) => (token: any, index: number): any => {
         currentDependency = {token, index, deps};
+
+        if (token !== DI_PARAM_OPTIONS) {
+          const options = provider?.store?.get(`${DI_PARAM_OPTIONS}:${index}`);
+
+          locals.set(DI_PARAM_OPTIONS, options || {});
+        }
 
         return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
       };
@@ -563,9 +568,10 @@ export class InjectorService extends Container {
   /**
    * Create options to invoke a provider or class.
    * @param token
+   * @param locals
    * @param options
    */
-  private mapInvokeOptions(token: TokenProvider, options: Partial<IInvokeOptions<any>>): IInvokeSettings {
+  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<any>>): any {
     let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
@@ -576,19 +582,21 @@ export class InjectorService extends Container {
       throw new UndefinedTokenError();
     }
 
+    let provider: Provider;
+
     if (!this.hasProvider(token)) {
-      // findById
-      const resolver = this.resolvers.find(resolver => resolver.get(token));
-      const provider = new Provider(token);
+      provider = new Provider(token);
 
-      if (resolver) {
-        provider.useFactory = () => resolver.get(token);
-      }
+      this.resolvers.forEach(resolver => {
+        const result = resolver.get(token, locals.get(DI_PARAM_OPTIONS));
 
-      this.setProvider(token, provider);
+        if (result !== undefined) {
+          provider.useFactory = () => result;
+        }
+      });
+    } else {
+      provider = this.getProvider(token)!;
     }
-
-    const provider = this.getProvider(token)!;
 
     scope = scope || this.scopeOf(provider);
     deps = deps || provider.deps;
@@ -613,7 +621,8 @@ export class InjectorService extends Container {
       deps: deps! || [],
       imports: imports || [],
       isBindable,
-      construct
+      construct,
+      provider
     };
   }
 }

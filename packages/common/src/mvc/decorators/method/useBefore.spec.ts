@@ -92,7 +92,7 @@ describe("UseBefore()", () => {
 
       // THEN
       actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseBefore cannot used as property.static decorator on Test.property");
+      actualError.message.should.eq("UseBefore cannot be used as property.static decorator on Test.property");
     });
   });
 });

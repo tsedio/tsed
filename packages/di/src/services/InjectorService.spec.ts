@@ -4,6 +4,7 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 import {Configuration} from "../../src/decorators/configuration";
 import {ProviderType} from "../../src/interfaces";
+import {INJECTABLE_PROP} from "../constants";
 
 class Test {
   @Inject()
@@ -586,7 +587,7 @@ describe("InjectorService", () => {
         }
       };
 
-      Store.from(TestBind).set("injectableProperties", injectableProperties);
+      Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
 
       // WHEN
       injector.bindInjectableProperties(instance, new Map(), {});

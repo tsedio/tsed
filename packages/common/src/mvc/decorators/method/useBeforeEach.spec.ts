@@ -91,7 +91,7 @@ describe("UseBeforeEach()", () => {
 
       // THEN
       actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseBeforeEach cannot used as property.static decorator on Test.property");
+      actualError.message.should.eq("UseBeforeEach cannot be used as property.static decorator on Test.property");
     });
   });
 });

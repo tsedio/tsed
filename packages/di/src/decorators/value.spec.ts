@@ -1,5 +1,6 @@
 import {Store} from "@tsed/core";
 import {Value} from "../../src";
+import {INJECTABLE_PROP} from "../constants";
 
 describe("@Value()", () => {
   it("should store metadata", () => {
@@ -11,7 +12,7 @@ describe("@Value()", () => {
 
     // THEN
     Store.from(Test)
-      .get("injectableProperties")
+      .get(INJECTABLE_PROP)
       .should.deep.eq({
         test: {
           bindingType: "value",

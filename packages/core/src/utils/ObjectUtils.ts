@@ -200,7 +200,14 @@ export function isClass(target: any) {
     return false;
   }
 
-  return !(isSymbol(target) || isPrimitiveOrPrimitiveClass(target) || isClassObject(target) || isDate(target) || isPromise(target));
+  return !(
+    isSymbol(target) ||
+    isPrimitiveOrPrimitiveClass(target) ||
+    isClassObject(target) ||
+    isDate(target) ||
+    isPromise(target) ||
+    isArray(target)
+  );
 }
 
 export function isFunction(target: any): target is Function {
