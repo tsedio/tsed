@@ -53,6 +53,6 @@ If your provider doesn't necessarily need to be request-scoped, you should rathe
 
 ## Instance scope
 
-Instance scope used on provider tells the injector to create a new instance each time the provider is injected to another one.
+Instance scope used on a provider tells the injector to create a new instance each time the provider is injected to another one.
 
 <<< @/docs/docs/snippets/providers/scope-instance.ts

@@ -5,13 +5,15 @@ import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
  * Add options to invoke the Service.
  *
  * ```typescript
+ * import {Injectable, Opts, UseOpts} from "@tsed/di";
+ *
  * @Injectable()
  * class MyConfigurableService {
  *   source: string;
  *   constructor(@Opts options: any = {}) {
  *      console.log("Hello ", options.source); // log: Hello Service1 then Hello Service2
  *
- *      this.source = source;
+ *      this.source = options.source;
  *   }
  * }
  *
@@ -31,7 +33,7 @@ import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
  * ```
  *
  * ::: warning
- * Use @@Opts@@ decorator on a constructor parameter change the Scope of the service to `ProviderScope.INSTANCE`.
+ * Using @@Opts@@ decorator on a constructor parameter change the Scope of the provider to `ProviderScope.INSTANCE`.
  * :::
  *
  * @returns {Function}

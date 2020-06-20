@@ -8,13 +8,15 @@ import {Scope} from "./scope";
  * Get instance options. This options depending on his invocation context.
  *
  * ```typescript
+ * import {Injectable, Opts, UseOpts} from "@tsed/di";
+ *
  * @Injectable()
  * class MyConfigurableService {
  *   source: string;
  *   constructor(@Opts options: any = {}) {
  *      console.log("Hello ", options.source); // log: Hello Service1 then Hello Service2
  *
- *      this.source = source;
+ *      this.source = options.source;
  *   }
  * }
  *
@@ -34,7 +36,7 @@ import {Scope} from "./scope";
  * ```
  *
  * ::: warning
- * Use @Option decorator on a constructor parameter change the Scope of the service to `ProviderScope.INSTANCE`.
+ * Using @@Opts@@ decorator on a constructor parameter change the Scope of the provider to `ProviderScope.INSTANCE`.
  * :::
  *
  * @param target
