@@ -303,6 +303,17 @@ $ npm install --save-dev supertest @types/supertest
   </Tab>  
 </Tabs>
 
+::: warning
+If you use the PlatformTest, you'll probably get an error when you'll run the unit test:
+
+```
+Platform type is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?
+```
+
+To solve it, just add the `import @tsed/platform-express` on your `Server.ts`. PlatformTest need this import to know on which Platform
+your server must be executed for integration test. 
+:::
+
 ### Testing session
 
 To install session with Ts.ED see our [tutorial](/tutorials/session.md).
