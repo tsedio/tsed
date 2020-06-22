@@ -156,9 +156,10 @@ export class PlatformTest {
   /**
    * Return the instance from injector registry
    * @param target
+   * @param options
    */
-  static get<T = any>(target: TokenProvider): T {
-    return PlatformTest.injector.get<T>(target)!;
+  static get<T = any>(target: TokenProvider, options: any = {}): T {
+    return PlatformTest.injector.get<T>(target, options)!;
   }
 
   /**

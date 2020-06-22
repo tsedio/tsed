@@ -38,7 +38,7 @@ registerProvider({
     useContainer(
       {
         get<T>(type: ContainedType<T>): T {
-          return injector.get<T>(type as any)!;
+          return injector.hasProvider(type) ? injector.get<T>(type as any)! : undefined!;
         }
       },
       {fallback: true}

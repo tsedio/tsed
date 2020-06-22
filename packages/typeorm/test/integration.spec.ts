@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {expect} from "chai";
 import {User} from "./helpers/entity/User";
 import {UserRepository} from "./helpers/repository/UserRepository";
 import {Server} from "./helpers/Server";
@@ -38,7 +39,9 @@ describe("TypeORM integration", () => {
 
   it("should return repository", () => {
     const service = PlatformTest.injector.get<UserService>(UserService)!;
+    const repository = PlatformTest.injector.get(UserRepository);
 
+    expect(!!repository).to.equal(true);
     service.should.instanceOf(UserService);
     service.repo1.should.instanceOf(UserRepository);
     service.repo1.manager.connection.name.should.equal("default");

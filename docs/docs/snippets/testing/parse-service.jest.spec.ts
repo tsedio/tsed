@@ -5,10 +5,12 @@ describe("ParseService", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
   describe("eval()", () => {
-    it("should evaluate expression with a scope and return value", PlatformTest.inject([ParseService], (parseService: ParseService) => {
-      expect(parseService.eval("test", {
+    it("should evaluate expression with a scope and return value", () => {
+      const service = PlatformTest.get<ParseService>(ParseService);
+
+      expect(service.eval("test", {
         test: "yes"
       })).toEqual("yes");
-    }));
+    });
   });
 });

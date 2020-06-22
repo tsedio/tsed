@@ -36,13 +36,14 @@ import {
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {DIConfiguration} from "./DIConfiguration";
 
-interface IInvokeSettings {
+interface InvokeSettings {
   token: TokenProvider;
   parent?: TokenProvider;
   scope: ProviderScope;
   isBindable: boolean;
   deps: TokenProvider[];
   imports: TokenProvider[];
+  provider: Provider<any>;
 
   construct(deps: TokenProvider[]): any;
 }
@@ -140,10 +141,25 @@ export class InjectorService extends Container {
    * ```
    *
    * @param token The class or symbol registered in InjectorService.
+   * @param options
    * @returns {boolean}
    */
-  get<T = any>(token: TokenProvider): T | undefined {
-    return (super.has(token) && super.get(getClassOrSymbol(token))!.instance) || undefined;
+  get<T = any>(token: TokenProvider, options: any = {}): T | undefined {
+    const instance = super.has(token) && super.get(getClassOrSymbol(token))!.instance;
+
+    if (instance) {
+      return instance;
+    }
+
+    if (!this.hasProvider(token)) {
+      for (const resolver of this.resolvers) {
+        const result = resolver.get(token, options);
+
+        if (result !== undefined) {
+          return result;
+        }
+      }
+    }
   }
 
   /**
@@ -571,7 +587,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<any>>): any {
+  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<any>>): InvokeSettings {
     let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
