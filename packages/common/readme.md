@@ -1,26 +1,29 @@
 # Ts.ED
 
-[![Build Status](https://travis-ci.org/TypedProject/ts-express-decorators.svg?branch=master)](https://travis-ci.org/TypedProject/ts-express-decorators)
-[![Coverage Status](https://coveralls.io/repos/github/TypedProject/ts-express-decorators/badge.svg?branch=master)](https://coveralls.io/github/TypedProject/ts-express-decorators?branch=master)
+[![Build Status](https://travis-ci.org/TypedProject/tsed.svg?branch=master)](https://travis-ci.org/TypedProject/tsed)
+[![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
 ![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
+[![Package Quality](https://npm.packagequality.com/badge/@tsed/common.png)](https://packagequality.com/#?package=@tsed/common)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
-[![Dependencies](https://david-dm.org/TypedProject/ts-express-decorators.svg)](https://david-dm.org/TypedProject/ts-express-decorators#info=dependencies)
-[![img](https://david-dm.org/TypedProject/ts-express-decorators/dev-status.svg)](https://david-dm.org/TypedProject/ts-express-decorators/#info=devDependencies)
-[![img](https://david-dm.org/TypedProject/ts-express-decorators/peer-status.svg)](https://david-dm.org/TypedProject/ts-express-decorators/#info=peerDependenciess)
-[![Known Vulnerabilities](https://snyk.io/test/github/TypedProject/ts-express-decorators/badge.svg)](https://snyk.io/test/github/TypedProject/ts-express-decorators)
+[![Dependencies](https://david-dm.org/TypedProject/tsed.svg)](https://david-dm.org/TypedProject/tsed#info=dependencies)
+[![img](https://david-dm.org/TypedProject/tsed/dev-status.svg)](https://david-dm.org/TypedProject/tsed/#info=devDependencies)
+[![img](https://david-dm.org/TypedProject/tsed/peer-status.svg)](https://david-dm.org/TypedProject/tsed/#info=peerDependenciess)
+[![Known Vulnerabilities](https://snyk.io/test/github/TypedProject/tsed/badge.svg)](https://snyk.io/test/github/TypedProject/tsed)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![backers](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)](https://opencollective.com/tsed/tiers/backer/badge.svg?label=backer&color=brightgreen)
 
-> A TypeScript Framework on top of Express !
+> A Node.js and TypeScript Framework on top of Express. It provides a lot of decorators and guidelines to write your code.
 
-## What is it
+## What it is
 
-Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provides a lot of decorators 
-to write your code.
+Ts.ED is a framework on top of Express that helps you to write your application in TypeScript (or in ES6). It provides a lot of decorators 
+to make your code more readable and less error-prone.
 
 ## Features
 
+* Use our CLI to create a new project https://cli.tsed.io
+* Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
 * Define class as Controller,
 * Define class as Service (IoC),
 * Define class as Middleware and MiddlewareError,
@@ -33,191 +36,150 @@ to write your code.
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
 * Template (View),
-* Swagger documentation and Swagger-ui,
 * Testing.
 
 ## Documentation
 
 Documentation is available on [https://tsed.io](https://tsed.io)
 
+## Getting started 
+
+See our [getting started here](https://tsed.io/getting-started.html) to create new Ts.ED project or use
+our [CLI](https://cli.tsed.io)
+
 ## Examples
 
-Examples are available on [https://tsed.io/tutorials](https://tsed.io/tutorials/)
+Examples are available on [https://tsed.io/tutorials/](https://tsed.io/tutorials/)
 
-## Installation
 
-You can get the latest release using npm:
+## Overview
+### Server example
 
-```batch
-$ npm install --save @tsed/core @tsed/common express@4 @types/express
-```
-
-> **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
-the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
-options in your `tsconfig.json` file.
-
-```json
-{
-  "compilerOptions": {
-    "target": "es2015",
-    "lib": ["es2015"],
-    "types": ["reflect-metadata"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators":true,
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "declaration": false
-  },
-  "exclude": [
-    "node_modules"
-  ]
-}
-```
-
-## Quick start
-#### Create your express server
-
-TsExpressDecorators provide a [`ServerLoader`](https://tsed.io/docs/server-loader.html) class to configure your 
-express quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](https://tsed.io/docs/server-loader.html).
+Here an example to create a Server with Ts.ED:
 
 ```typescript
-import * as Express from "express";
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import Path = require("path");
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
+import * as Path from "path";                              
 
-@ServerSettings({
-    rootDir: Path.resolve(__dirname),
-    acceptMimes: ["application/json"]
+export const rootDir = Path.resolve(__dirname);
+
+@Configuration({
+  rootDir,
+  port: 3000
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
 
-    /**
-     * This method let you configure the middleware required by your application to works.
-     * @returns {Server}
-     */
-    public $beforeRoutesInit(): void|Promise<any> {
-    
-        const cookieParser = require('cookie-parser'),
-            bodyParser = require('body-parser'),
-            compress = require('compression'),
-            methodOverride = require('method-override');
+  public $beforeRoutesInit() {
+    const cookieParser = require('cookie-parser'),
+      bodyParser = require('body-parser'),
+      compress = require('compression'),
+      methodOverride = require('method-override');
+ 
+    this.app
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }));
+  }   
+}
+```
 
+To run your server, you have to use Platform API to bootstrap your application with the expected 
+platform like Express.
 
-        this
-            .use(GlobalAcceptMimesMiddleware)
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride())
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }));
+```typescript
+import {$log} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
+import {Server} from "./Server";
 
-        return null;
-    }
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const platform = await PlatformExpress.bootstrap(Server);
 
-    public $onReady(){
-        console.log('Server started...');
-    }
-   
-    public $onServerInitError(err){
-        console.error(err);
-    }    
+    await platform.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
 }
 
-new Server().start();
+bootstrap();
 ```
-> By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
 To customize the server settings see [Configure server with decorator](https://tsed.io/configuration.html)
 
-#### Create your first controller
+#### Controller example
 
-Create a new `calendarCtrl.ts` in your controllers directory configured 
-previously with `ServerLoader.mount()`. All controllers declared with `@Controller` 
-decorators is considered as an Express router. An Express router require a path 
-(here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it is a part of path, and entire exposed url depend on 
-the Server configuration (see `ServerLoader.setEndpoint()`) and the controllers 
-dependencies. In this case, we haven't a dependencies and the root endpoint is set to `/rest`. 
-So the controller's url will be `http://host/rest/calendars`.
+This is a simple controller to expose user resource. It use decorators to build the endpoints:
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
-import * as Express from "express";
+import {Inject} from "@tsed/di";
+import {Summary, Returns, ReturnsArray} from "@tsed/swagger";
+import {Controller, Get, QueryParams, PathParams, Delete, Post, Required, BodyParams, Status, Put} from "@tsed/common";
+import {BadRequest} from "@tsed/exceptions";
+import {UsersService} from "../services/UsersService";
+import {User} from "../models/User"; 
 
-export interface Calendar{
-    id: string;
-    name: string;
-}
+@Controller("/users")
+export class UsersCtrl {
+  @Inject()
+  usersService: UsersService;
 
-@Controller("/calendars")
-export class CalendarCtrl {
+  @Get("/:id")
+  @Summary("Get a user from his Id")
+  @Returns(User)
+  async getUser(@PathParams("id") id: string): Promise<User> {
+     return this.usersService.findById(id);
+  }
 
-    /**
-     * Example of classic call. Use `@Get` for routing a request to your method.
-     * In this case, this route "/calendars/:id" are mounted on the "rest/" path.
-     *
-     * By default, the response is sent with status 200 and is serialized in JSON.
-     *
-     * @param request
-     * @param response
-     * @returns {{id: any, name: string}}
-     */
-    @Get("/:id")
-    async get(request: Express.Request, response: Express.Response): Promise<Calendar> {
-        return {id: request.params.id, name: "test"};
+  @Post("/")
+  @Status(201)
+  @Summary("Create a new user")
+  @Returns(User)
+  async postUser(@Required() @BodyParams() user: User): Promise<User> {
+    return this.usersService.save(user);
+  }
+
+  @Put("/:id")
+  @Status(201)
+  @Summary("Update the given user")
+  @Returns(User)
+  async putUser(@PathParams("id") id: string, @Required() @BodyParams() user: User): Promise<User> {
+    if (user.id !== id) {
+      throw new BadRequest("ID mismatch with the given payload")
     }
 
-    @Get("/")
-    @ResponseView("calendars/index") // Render "calendars/index" file using Express.Response.render internal
-    async renderCalendars(request: Express.Request, response: Express.Response): Promise<Array<Calendar>> {
-
-        return [{id: '1', name: "test"}];
-    }
-    
-    @Post("/")
-    @Authenticated()
-    async post(
-        @Required() @BodyParams("calendar") calendar: Calendar
-    ): Promise<ICalendar> {
-    
-        return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = 1;
-            
-            resolve(calendar);
-            
-        });
-    }
-    
-    @Delete("/")
-    @Authenticated()
-    async post(
-        @BodyParams("calendar.id") @Required() id: string 
-    ): Promise<ICalendar> {
-    
-        return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = id;
-            
-            resolve(calendar);
-            
-        });
-    }
+    return this.usersService.save(user);
+  }
+  
+  @Delete("/:id")
+  @Summary("Remove a user")
+  @Status(204)
+  async deleteUser(@PathParams("id") @Required() id: string ): Promise<User> {
+     await this.usersService.delete(user);
+  }
+  
+  @Get("/")
+  @Summary("Get all users")
+  @ReturnsArray(User)
+  async findUser(@QueryParams("name") name: string){
+    return this.usersService.find({name});
+  }
 }
 ```
 
-To test your method, just run your `server.ts` and send a http request on `/rest/calendars/1`.
-
-> **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
-
 ## Contributors
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
+Please read [contributing guidelines here](./CONTRIBUTING.md).
 
-<a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/TypedProject/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 
 ## Backers
@@ -235,7 +197,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 The MIT License (MIT)
 
-Copyright (c) 2016 - 2018 Romain Lenzotti
+Copyright (c) 2016 - 2020 Romain Lenzotti
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

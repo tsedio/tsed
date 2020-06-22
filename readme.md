@@ -17,11 +17,13 @@
 
 ## What it is
 
-Ts.ED is a framework on top of Express that helps you write your application in TypeScript (or in ES6). It provides a lot of decorators 
+Ts.ED is a framework on top of Express that helps you to write your application in TypeScript (or in ES6). It provides a lot of decorators 
 to make your code more readable and less error-prone.
 
 ## Features
 
+* Use our CLI to create a new project https://cli.tsed.io
+* Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
 * Define class as Controller,
 * Define class as Service (IoC),
 * Define class as Middleware and MiddlewareError,
@@ -34,78 +36,50 @@ to make your code more readable and less error-prone.
 * Inject data from query string, path parameters, entire body, cookies, session or header,
 * Inject Request, Response, Next object from Express request,
 * Template (View),
-* Swagger documentation and Swagger-ui,
 * Testing.
 
 ## Documentation
 
 Documentation is available on [https://tsed.io](https://tsed.io)
 
+## Getting started 
+
+See our [getting started here](https://tsed.io/getting-started.html) to create new Ts.ED project or use
+our [CLI](https://cli.tsed.io)
+
 ## Examples
 
-Examples are available on [https://tsed.io/#/tutorials/overview](https://tsed.io/#/tutorials/overview)
+Examples are available on [https://tsed.io/tutorials/](https://tsed.io/tutorials/)
 
-## Installation
 
-You can get the latest release using npm:
+## Overview
+### Server example
 
-```batch
-$ npm install --save @tsed/core @tsed/common express@4 @types/express
-```
-
-> **Important!** TsExpressDecorators requires Node >= 6, Express >= 4, TypeScript >= 2.0 and 
-the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
-options in your `tsconfig.json` file.
-
-```json
-{
-  "compilerOptions": {
-    "target": "es2015",
-    "lib": ["es2015"],
-    "types": ["reflect-metadata"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators":true,
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "declaration": false
-  },
-  "exclude": [
-    "node_modules"
-  ]
-}
-```
-
-## Quick start
-#### Create your express server
-
-TsExpressDecorators provides a [`ServerLoader`](docs/server-loader.md) class to configure your 
-express quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends [`ServerLoader`](docs/server-loader.md).
+Here an example to create a Server with Ts.ED:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
 import * as Path from "path";                              
 
-const rootDir = Path.resolve(__dirname);
+export const rootDir = Path.resolve(__dirname);
 
-@ServerSettings({
-    rootDir,
-    acceptMimes: ["application/json"]
+@Configuration({
+  rootDir,
+  port: 3000
 })
-export class Server extends ServerLoader {
-  /**
-   * This method lets you configure the middleware required for your application to work.
-   * @returns {Server}
-   */
-  public $beforeRoutesInit(): void|Promise<any> {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
+  public $beforeRoutesInit() {
     const cookieParser = require('cookie-parser'),
       bodyParser = require('body-parser'),
       compress = require('compression'),
       methodOverride = require('method-override');
  
-    this
-      .use(GlobalAcceptMimesMiddleware)
+    this.app
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
@@ -113,25 +87,24 @@ export class Server extends ServerLoader {
       .use(bodyParser.urlencoded({
         extended: true
       }));
- 
-    return null;
   }   
 }
 ```
-> By default ServerLoader loads controllers in `${rootDir}/controllers` and mounts them on the `/rest` endpoint.
 
-And finally:
+To run your server, you have to use Platform API to bootstrap your application with the expected 
+platform like Express.
 
 ```typescript
-import {$log, ServerLoader} from "@tsed/common";
+import {$log} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server";
 
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const server = await ServerLoader.bootstrap(Server);
+    const platform = await PlatformExpress.bootstrap(Server);
 
-    await server.listen();
+    await platform.listen();
     $log.debug("Server initialized");
   } catch (er) {
     $log.error(er);
@@ -143,84 +116,65 @@ bootstrap();
 
 To customize the server settings see [Configure server with decorator](https://tsed.io/configuration.html)
 
-#### Create your first controller
+#### Controller example
 
-Create a new `calendarCtrl.ts` in your controllers directory, as previously configured with `ServerLoader.mount()`. All controllers declared with `@Controller` 
-decorators are considered Express routers. An Express router requires a path 
-(here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it is part of a path, and the entire exposed url depends on 
-the Server configuration (see `ServerLoader.setEndpoint()`) and the controller's 
-dependencies. In this case, we don't have dependencies and the root endpoint is set to `/rest`. 
-So the controller's url will be `http://host/rest/calendars`.
+This is a simple controller to expose user resource. It use decorators to build the endpoints:
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
-import * as Express from "express";
+import {Inject} from "@tsed/di";
+import {Summary, Returns, ReturnsArray} from "@tsed/swagger";
+import {Controller, Get, QueryParams, PathParams, Delete, Post, Required, BodyParams, Status, Put} from "@tsed/common";
+import {BadRequest} from "@tsed/exceptions";
+import {UsersService} from "../services/UsersService";
+import {User} from "../models/User"; 
 
-export interface Calendar{
-    id: string;
-    name: string;
-}
+@Controller("/users")
+export class UsersCtrl {
+  @Inject()
+  usersService: UsersService;
 
-@Controller("/calendars")
-export class CalendarCtrl {
-    /**
-     * Example of classic call. Use `@Get` for routing a request to your method.
-     * In this case, this route "/calendars/:id" is mounted on the "rest/" path.
-     *
-     * By default, the response is sent with status 200 and is serialized in JSON.
-     *
-     * @param request
-     * @param response
-     * @returns {{id: any, name: string}}
-     */
-    @Get("/:id")
-    async get(request: Express.Request, response: Express.Response): Promise<Calendar> {
-        return {id: request.params.id, name: "test"};
+  @Get("/:id")
+  @Summary("Get a user from his Id")
+  @Returns(User)
+  async getUser(@PathParams("id") id: string): Promise<User> {
+     return this.usersService.findById(id);
+  }
+
+  @Post("/")
+  @Status(201)
+  @Summary("Create a new user")
+  @Returns(User)
+  async postUser(@Required() @BodyParams() user: User): Promise<User> {
+    return this.usersService.save(user);
+  }
+
+  @Put("/:id")
+  @Status(201)
+  @Summary("Update the given user")
+  @Returns(User)
+  async putUser(@PathParams("id") id: string, @Required() @BodyParams() user: User): Promise<User> {
+    if (user.id !== id) {
+      throw new BadRequest("ID mismatch with the given payload")
     }
 
-    @Get("/")
-    @ResponseView("calendars/index") // Render "calendars/index" file using Express.Response.render internal
-    async renderCalendars(request: Express.Request, response: Express.Response): Promise<Array<Calendar>> {
-
-        return [{id: '1', name: "test"}];
-    }
-    
-    @Post("/")
-    @Authenticated()
-    async post(
-        @Required() @BodyParams("calendar") calendar: Calendar
-    ): Promise<ICalendar> {
-    
-        return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = 1;
-            
-            resolve(calendar);
-            
-        });
-    }
-    
-    @Delete("/")
-    @Authenticated()
-    async post(
-        @BodyParams("calendar.id") @Required() id: string 
-    ): Promise<ICalendar> {
-    
-        return new Promise((resolve: Function, reject: Function) => {
-        
-            calendar.id = id;
-            
-            resolve(calendar);
-            
-        });
-    }
+    return this.usersService.save(user);
+  }
+  
+  @Delete("/:id")
+  @Summary("Remove a user")
+  @Status(204)
+  async deleteUser(@PathParams("id") @Required() id: string ): Promise<User> {
+     await this.usersService.delete(user);
+  }
+  
+  @Get("/")
+  @Summary("Get all users")
+  @ReturnsArray(User)
+  async findUser(@QueryParams("name") name: string){
+    return this.usersService.find({name});
+  }
 }
 ```
-
-To test your method, just run your `server.ts` and send a http request on `/rest/calendars/1`.
-
-> **Note** : Decorators `@Get` support dynamic pathParams (see `/:id`) and `RegExp` like Express API. 
 
 ## Contributors
 Please read [contributing guidelines here](./CONTRIBUTING.md).
