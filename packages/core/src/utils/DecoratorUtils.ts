@@ -40,6 +40,11 @@ export function getDecoratorType(args: any[], longType = false): DecoratorTypes 
   return descriptor && descriptor.value ? staticType("method") : "class";
 }
 
+/* istanbul ignore next */
+export function decoratorTypeOf(args: any[]): DecoratorTypes {
+  return getDecoratorType(args, true);
+}
+
 /**
  *
  */
