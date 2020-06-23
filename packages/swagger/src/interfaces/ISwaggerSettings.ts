@@ -1,21 +1,17 @@
 import {BodyParameter, ExternalDocs, Info, Path, QueryParameter, Response, Schema, Security, Tag} from "swagger-schema-official";
 
-export interface ISwaggerUIOptions {
+export interface SwaggerUIOptions {
   configUrl?: string;
   url?: string;
   urls?: {url: string; name: string; primaryName?: string}[];
   layout?: string;
-  validatorUrl?: any;
+  validatorUrl?: string;
   oauth?: any;
   authorize?: any;
+  [key: string]: any;
 }
 
-/**
- * @deprecated
- */
-export interface SwaggerOptions extends ISwaggerUIOptions {}
-
-export interface ISwaggerSpec {
+export interface SwaggerSpec {
   swagger?: string;
   info?: Info;
   externalDocs?: ExternalDocs;
@@ -40,10 +36,10 @@ export interface ISwaggerSettings {
   cssPath?: string;
   jsPath?: string;
   viewPath?: string | false;
-  options?: ISwaggerUIOptions;
+  options?: SwaggerUIOptions;
   showExplorer?: boolean;
   specPath?: string;
   outFile?: string;
   operationIdFormat?: string;
-  spec?: ISwaggerSpec;
+  spec?: SwaggerSpec;
 }
