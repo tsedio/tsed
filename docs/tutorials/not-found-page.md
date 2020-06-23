@@ -5,38 +5,36 @@ The guide shows you how you can customize the 404 response error emitted by Expr
 To begin, create a new Middleware named `NotFoundMiddleware`:
 
 ```typescript
-import {Middleware, Res} from "@tsed/common";
-import * as Express from "express";
+import {Middleware, Res, Next} from "@tsed/common";
 
 @Middleware()
 export class NotFoundMiddleware {
-  use(
-    @Res() response: Express.Response
-  ) {
+  use(@Res() response: Res, @Next() next: Next) {
     // Json response
     response.status(404).json({status: 404, message: 'Not found'});
 
     // Or with ejs
-    response.status(404).render("404.ejs");
+    response.status(404).render("404.ejs", {}, next);
   }
 }
 ```
 
-
 Then register your middleware on the `$afterRoutesInit` in your Server:
 
 ```typescript
-import {ServerSettings, ServerLoader} from "@tsed/common";
-import {NotFoundMiddleware} from "./src/middlewares";
+import {Inject} from "@tsed/di";
+import {Configuration, PlatformApplication} from "@tsed/common";
+import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
 
-@ServerSettings({
+@Configuration({
   // ...
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
 
   public $afterRoutesInit() {
-    this.use(NotFoundMiddleware);
+    this.app.use(NotFoundMiddleware);
   }
-
 }
 ```
