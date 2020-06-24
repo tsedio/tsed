@@ -48,9 +48,6 @@
       "name": "EventCtrl"
     },
     {
-      "name": "RestCtrl"
-    },
-    {
       "name": "TaskCtrl"
     }
   ],
@@ -652,10 +649,10 @@
           "200": {
             "description": "Success",
             "headers": {
-              "x-token-test-2": {
+              "x-token-test": {
                 "type": "string"
               },
-              "x-token-test": {
+              "x-token-test-2": {
                 "type": "string"
               }
             }
@@ -763,67 +760,6 @@
           }
         },
         "summary": "Return all elements from a service"
-      }
-    },
-    "/rest/html": {
-      "get": {
-        "operationId": "RestCtrl.render",
-        "tags": [
-          "RestCtrl"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/rest/test/{required}": {
-      "get": {
-        "operationId": "RestCtrl.test",
-        "tags": [
-          "RestCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "required",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/rest/test/{required}/{optional}": {
-      "get": {
-        "operationId": "RestCtrl.test_1",
-        "tags": [
-          "RestCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "required",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "optional",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
       }
     }
   },

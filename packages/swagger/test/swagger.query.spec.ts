@@ -186,7 +186,6 @@ describe("QueryParams", () => {
       ]
     });
 
-    const result = await request.get("/rest/scenarios/4?name=name&duration=1&locale=fr-FR");
-    console.log(result.text);
+    await request.get("/rest/scenarios/4?name=name&duration=1&locale=fr-FR");
   });
 });

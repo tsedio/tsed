@@ -54,7 +54,7 @@ describe("Swagger", () => {
 
     it("should be equals to the expected swagger.spec.json", () => {
       // require("fs").writeFileSync(__dirname + "/data/swagger.spec.json", JSON.stringify(spec, null, 2), {});
-      // expect(spec).to.deep.eq(require("./data/swagger.spec.json"));
+      expect(spec).to.deep.eq(require("./data/swagger.spec.json"));
     });
   });
 });

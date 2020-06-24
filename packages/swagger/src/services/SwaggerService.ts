@@ -3,7 +3,7 @@ import {deepExtends, nameOf, Store} from "@tsed/core";
 import * as Fs from "fs";
 import {Schema, Spec, Tag} from "swagger-schema-official";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
-import {ISwaggerPaths, ISwaggerSettings, ISwaggerSpec} from "../interfaces";
+import {ISwaggerPaths, ISwaggerSettings, SwaggerSpec} from "../interfaces";
 import {getReducers} from "../utils";
 
 @Service()
@@ -55,7 +55,7 @@ export class SwaggerService {
    */
   public getDefaultSpec(conf: Partial<ISwaggerSettings>): Spec {
     const {version} = this.configuration;
-    const spec: ISwaggerSpec =
+    const spec: SwaggerSpec =
       conf.spec ||
       ({
         info: {},
@@ -160,13 +160,11 @@ export class SwaggerService {
     const clazz = ctrl.useClass;
     const ctrlStore = Store.from(clazz);
 
-    return Object.assign(
-      {
-        name: ctrlStore.get("name") || nameOf(clazz),
-        description: ctrlStore.get("description")
-      },
-      ctrlStore.get("tag") || {}
-    );
+    return {
+      name: ctrlStore.get("name") || nameOf(clazz),
+      description: ctrlStore.get("description"),
+      ...(ctrlStore.get("tag") || {})
+    };
   }
 
   /**
