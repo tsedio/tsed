@@ -123,8 +123,8 @@ describe("HandlerContext", () => {
     expect(handlerContext.args).to.eq(undefined);
     // @ts-ignore
     expect(handlerContext._next).to.eq(undefined);
-    handlerContext.handle.should.have.been.calledWithExactly("value");
-    handlerContext.handle.should.have.been.callCount(1);
+    expect(handlerContext.handle).to.have.been.calledWithExactly("value");
+    expect(handlerContext.handle).to.have.been.callCount(1);
   });
   it("should declare a new HandlerContext and catch error", async () => {
     const {request, run, handlerContext} = await getHandlerContext({
@@ -151,7 +151,7 @@ describe("HandlerContext", () => {
     // @ts-ignore
     expect(handlerContext._next).to.eq(undefined);
 
-    handlerContext.handle.should.have.been.callCount(0);
+    expect(handlerContext.handle).to.have.been.callCount(0);
   });
   it("should return the value from PROMISE", async () => {
     const {request, run} = await getHandlerContext({
@@ -296,7 +296,7 @@ describe("HandlerContext", () => {
     handlerContext.done(null, {});
 
     // THEN
-    return handlerContext.next.should.not.have.been.called;
+    return expect(handlerContext.next).to.not.have.been.called;
   });
   it("should do when request is detached", async () => {
     const {request, handlerContext} = await getHandlerContext({
@@ -312,7 +312,7 @@ describe("HandlerContext", () => {
     handlerContext.done(null, {});
 
     // THEN
-    return handlerContext.next.should.not.have.been.called;
+    return expect(handlerContext.next).to.not.have.been.called;
   });
   it("should do when response is detached", async () => {
     const {request, handlerContext} = await getHandlerContext({
@@ -328,6 +328,6 @@ describe("HandlerContext", () => {
     handlerContext.done(null, {});
 
     // THEN
-    return handlerContext.next.should.not.have.been.called;
+    return expect(handlerContext.next).to.not.have.been.called;
   });
 });

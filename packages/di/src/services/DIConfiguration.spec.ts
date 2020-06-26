@@ -25,7 +25,7 @@ describe("DIConfiguration", () => {
 
       // THEN
       // @ts-ignore
-      Array.from(configuration.map.entries()).should.deep.eq([
+      expect(Array.from(configuration.map.entries())).to.deep.eq([
         [
           "scopes",
           {
@@ -38,10 +38,10 @@ describe("DIConfiguration", () => {
         ["shouldResolved3", "{{scopes.value}}"]
       ]);
 
-      configuration.get<any>("shouldResolved")!.should.eq("singleton");
-      configuration.get<any>("shouldResolved2")!.should.eq("singleton");
-      configuration.get<any>("shouldResolved3")!.should.eq("singleton");
-      configuration.shouldResolved.should.eq("singleton");
+      expect(configuration.get<any>("shouldResolved")!).to.eq("singleton");
+      expect(configuration.get<any>("shouldResolved2")!).to.eq("singleton");
+      expect(configuration.get<any>("shouldResolved3")!).to.eq("singleton");
+      expect(configuration.shouldResolved).to.eq("singleton");
     });
   });
 

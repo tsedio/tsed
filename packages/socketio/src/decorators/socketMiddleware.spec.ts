@@ -31,7 +31,7 @@ describe("@SocketMiddleware", () => {
   });
 
   it("should register the middleware", () => {
-    this.middlewareStub.should.have.been.called;
-    this.decoratorStub.should.have.been.calledWithExactly(Test);
+    expect(this.middlewareStub).to.have.been.calledWithExactly();
+    expect(this.decoratorStub).to.have.been.calledWithExactly(Test);
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {AuthenticatedMiddleware} from "@tsed/common";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
@@ -22,7 +23,7 @@ describe("Authenticated", () => {
       }
 
       // THEN
-      UseAuth.should.be.calledWithExactly(AuthenticatedMiddleware, {
+      expect(UseAuth).to.have.been.calledWithExactly(AuthenticatedMiddleware, {
         options: "options",
         responses: {
           "401": {

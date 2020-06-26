@@ -35,7 +35,7 @@ describe("Header", () => {
 
         const endpoint = EndpointRegistry.get(MyController, "test");
 
-        endpoint.response.should.deep.eq({
+        expect(endpoint.response).to.deep.eq({
           code: 200,
           headers: {
             "Content-Type": {
@@ -55,7 +55,7 @@ describe("Header", () => {
 
         const endpoint = EndpointRegistry.get(MyController, "test");
 
-        endpoint.response.should.deep.eq({
+        expect(endpoint.response).to.deep.eq({
           code: 200,
           headers: {
             "Content-Type": {
@@ -82,7 +82,7 @@ describe("Header", () => {
 
         const endpoint = EndpointRegistry.get(MyController, "test");
 
-        endpoint.response.should.deep.eq({
+        expect(endpoint.response).to.deep.eq({
           code: 200,
           headers: {
             "Content-Length": {

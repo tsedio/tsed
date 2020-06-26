@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {MongoosePlugin} from "../../src/decorators/mongoosePlugin";
 import {schemaOptions} from "../../src/utils/schemaOptions";
@@ -15,7 +16,7 @@ describe("@MongoosePlugin()", () => {
     // THEN
     const options = schemaOptions(Test);
 
-    options.should.deep.eq({
+    expect(options).to.deep.eq({
       plugins: [
         {
           plugin: fn,

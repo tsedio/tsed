@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {MongooseModelRegistry, registerModel} from "../../src";
 
@@ -16,7 +17,7 @@ describe("registerModel()", () => {
     });
 
     it("should call ProviderRegistry.merge()", () => {
-      mergeStub.should.have.been.calledWithExactly(Test, {
+      expect(mergeStub).to.have.been.calledWithExactly(Test, {
         instance: {model: "model"},
         provide: Test,
         type: "mongooseModel"
@@ -38,7 +39,7 @@ describe("registerModel()", () => {
     });
 
     it("should call ProviderRegistry.merge()", () => {
-      mergeStub.should.have.been.calledWithExactly(Test, {
+      expect(mergeStub).to.have.been.calledWithExactly(Test, {
         instance: {model: "model"},
         provide: Test,
         type: "mongooseModel"

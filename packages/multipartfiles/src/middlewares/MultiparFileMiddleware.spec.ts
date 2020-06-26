@@ -36,11 +36,11 @@ describe("MultipartFileMiddleware", () => {
     });
 
     it("should call multer with some options", () => {
-      this.middleware.multer.should.be.calledWithExactly({dest: "/", options: "options"});
+      expect(this.middleware.multer).to.have.been.calledWithExactly({dest: "/", options: "options"});
     });
 
     it("should create middleware and call it", () => {
-      this.expressMiddleware.should.be.calledWithExactly({request: "request"}, {response: "response"}, Sinon.match.func);
+      expect(this.expressMiddleware).to.have.been.calledWithExactly({request: "request"}, {response: "response"}, Sinon.match.func);
     });
   });
 
@@ -79,11 +79,11 @@ describe("MultipartFileMiddleware", () => {
     });
 
     it("should call multer with some options", () => {
-      this.middleware.multer.should.have.been.calledWithExactly({dest: "/", options: "options"});
+      expect(this.middleware.multer).to.have.been.calledWithExactly({dest: "/", options: "options"});
     });
 
     it("should call multer.field()", () => {
-      this.multerApiStub.fields.should.have.been.calledWithExactly([
+      expect(this.multerApiStub.fields).to.have.been.calledWithExactly([
         {
           maxCount: undefined,
           name: "test"
@@ -95,7 +95,7 @@ describe("MultipartFileMiddleware", () => {
       ]);
     });
     it("should create middleware and call it", () => {
-      this.expressMiddleware.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, Sinon.match.func);
+      expect(this.expressMiddleware).to.have.been.calledWithExactly({request: "request"}, {response: "response"}, Sinon.match.func);
     });
   });
 
@@ -139,11 +139,11 @@ describe("MultipartFileMiddleware", () => {
     });
 
     it("should call multer with some options", () => {
-      this.middleware.multer.should.have.been.calledWithExactly({dest: "/", options: "options"});
+      expect(this.middleware.multer).to.have.been.calledWithExactly({dest: "/", options: "options"});
     });
 
     it("should call multer.field()", () => {
-      this.multerApiStub.fields.should.have.been.calledWithExactly([
+      expect(this.multerApiStub.fields).to.have.been.calledWithExactly([
         {
           maxCount: undefined,
           name: "test"
@@ -156,7 +156,7 @@ describe("MultipartFileMiddleware", () => {
     });
 
     it("should create middleware and call it", () => {
-      this.expressMiddleware.should.have.been.calledWithExactly({request: "request"}, {response: "response"}, Sinon.match.func);
+      expect(this.expressMiddleware).to.have.been.calledWithExactly({request: "request"}, {response: "response"}, Sinon.match.func);
     });
 
     it("should throw an error", () => {

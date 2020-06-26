@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes, Session} from "../../../../src/mvc";
 
 describe("@Session", () => {
@@ -9,8 +10,8 @@ describe("@Session", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.SESSION);
-    param.type.should.eq(Test);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.SESSION);
+    expect(param.type).to.eq(Test);
   });
 });

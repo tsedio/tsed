@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {InjectorService} from "@tsed/di";
 import * as Sinon from "sinon";
 import {ContextMiddleware} from "./ContextMiddleware";
@@ -25,10 +26,10 @@ describe("contextMiddleware", () => {
     // response.send({});
 
     // THEN
-    injector.emit.should.have.been.calledWithExactly("$onRequest", request, response);
-    // injector.emit.should.have.been.calledWithExactly("$onResponse", request, response);
+    expect(injector.emit).to.have.been.calledWithExactly("$onRequest", request, response);
+    // expect(injector.emit).to.have.been.calledWithExactly("$onResponse", request, response);
 
-    request.log.id.should.deep.equal(request.ctx.id);
+    expect(request.log.id).to.deep.equal(request.ctx.id);
   });
 
   it("should create context and attach it to the request with reqIdBuilder", async () => {
@@ -58,10 +59,10 @@ describe("contextMiddleware", () => {
     // response.end();
 
     // THEN
-    injector.emit.should.have.been.calledWithExactly("$onRequest", request, response);
-    // injector.emit.should.have.been.calledWithExactly("$onResponse", request, response);
+    expect(injector.emit).to.have.been.calledWithExactly("$onRequest", request, response);
+    // expect(injector.emit).to.have.been.calledWithExactly("$onResponse", request, response);
 
-    request.ctx.logger.id.should.deep.equal(request.ctx.id);
-    request.ctx.logger.id.should.equal("1");
+    expect(request.ctx.logger.id).to.deep.equal(request.ctx.id);
+    expect(request.ctx.logger.id).to.equal("1");
   });
 });

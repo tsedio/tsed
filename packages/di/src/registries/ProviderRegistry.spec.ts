@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {GlobalProviders, ProviderScope, ProviderType, registerFactory, registerProvider, registerValue} from "../../src";
 
@@ -30,7 +31,7 @@ describe("ProviderRegistry", () => {
         actualError = er;
       }
 
-      actualError.message.should.deep.eq("Provider.provide is required");
+      expect(actualError.message).to.deep.eq("Provider.provide is required");
     });
 
     it("should add provider", () => {
@@ -38,7 +39,7 @@ describe("ProviderRegistry", () => {
 
       registerProvider({provide: Test});
 
-      GlobalProviders.merge.should.have.been.calledWithExactly(Test, {
+      expect(GlobalProviders.merge).to.have.been.calledWithExactly(Test, {
         provide: Test
       });
     });
@@ -61,7 +62,7 @@ describe("ProviderRegistry", () => {
 
       registerValue(token, "myValue");
 
-      GlobalProviders.merge.should.have.been.calledWithExactly(token, {
+      expect(GlobalProviders.merge).to.have.been.calledWithExactly(token, {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.SINGLETON,
@@ -74,7 +75,7 @@ describe("ProviderRegistry", () => {
 
       registerValue({provide: token, useValue: "myValue", scope: ProviderScope.REQUEST});
 
-      GlobalProviders.merge.should.have.been.calledWithExactly(token, {
+      expect(GlobalProviders.merge).to.have.been.calledWithExactly(token, {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.REQUEST,
@@ -101,7 +102,7 @@ describe("ProviderRegistry", () => {
 
       const factoryRegistry = GlobalProviders.getRegistry(ProviderType.FACTORY);
 
-      factoryRegistry.merge.should.have.been.calledWithExactly(token, {
+      expect(factoryRegistry.merge).to.have.been.calledWithExactly(token, {
         provide: token,
         useFactory: Sinon.match.func,
         scope: ProviderScope.SINGLETON,
@@ -109,7 +110,7 @@ describe("ProviderRegistry", () => {
       });
 
       // @ts-ignore
-      factoryRegistry.merge.args[0][1].useFactory().should.deep.eq({factory: "factory"});
+      expect(factoryRegistry.merge.args[0][1].useFactory()).to.deep.eq({factory: "factory"});
     });
 
     it("should add provider (2)", () => {
@@ -123,7 +124,7 @@ describe("ProviderRegistry", () => {
         }
       });
 
-      GlobalProviders.getRegistry(ProviderType.FACTORY).merge.should.have.been.calledWithExactly(token, {
+      expect(GlobalProviders.getRegistry(ProviderType.FACTORY).merge).to.have.been.calledWithExactly(token, {
         provide: token,
         useFactory: Sinon.match.func,
         scope: ProviderScope.REQUEST,

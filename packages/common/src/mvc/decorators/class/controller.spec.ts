@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {GlobalProviders, ProviderScope, ProviderType} from "../../../../../di/src";
 import {Controller} from "../../../../src/mvc";
 
@@ -17,9 +18,9 @@ describe("@Controller", () => {
     const provider = GlobalProviders.get(Test)!;
 
     // THEN
-    provider.type.should.equal(ProviderType.CONTROLLER);
-    provider.path.should.equal("/test");
-    provider.children.should.deep.equal([Dep]);
+    expect(provider.type).to.equal(ProviderType.CONTROLLER);
+    expect(provider.path).to.equal("/test");
+    expect(provider.children).to.deep.equal([Dep]);
   });
 
   it("should register a controller with customer provider options", () => {
@@ -34,9 +35,9 @@ describe("@Controller", () => {
     const provider = GlobalProviders.get(Test)!;
 
     // THEN
-    provider.type.should.equal(ProviderType.CONTROLLER);
-    provider.scope.should.equal(ProviderScope.REQUEST);
-    provider.path.should.equal("/test");
-    provider.children.should.deep.equal([Dep]);
+    expect(provider.type).to.equal(ProviderType.CONTROLLER);
+    expect(provider.scope).to.equal(ProviderScope.REQUEST);
+    expect(provider.path).to.equal("/test");
+    expect(provider.children).to.deep.equal([Dep]);
   });
 });

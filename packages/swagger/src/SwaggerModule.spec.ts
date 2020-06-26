@@ -71,18 +71,18 @@ describe("SwaggerModule", () => {
     });
 
     it("it should call serviceSetting.get()", () => {
-      return getStub.should.have.been.calledWithExactly("swagger");
+      return expect(getStub).to.have.been.calledWithExactly("swagger");
     });
 
     it("it should call createRouter()", () => {
-      createRouterStub.getCall(0).should.have.been.calledWithExactly(config[0], [
+      expect(createRouterStub.getCall(0)).to.have.been.calledWithExactly(config[0], [
         {
           url: "/doc1/swagger.json",
           name: "doc1"
         }
       ]);
 
-      createRouterStub.getCall(1).should.have.been.calledWithExactly(config[1], [
+      expect(createRouterStub.getCall(1)).to.have.been.calledWithExactly(config[1], [
         {
           url: "/doc1/swagger.json",
           name: "doc1"
@@ -91,8 +91,8 @@ describe("SwaggerModule", () => {
     });
 
     it("it should call expressApp.use", () => {
-      expressUse.getCall(0).should.have.been.calledWithExactly("/doc1", {router: "router"});
-      expressUse.getCall(1).should.have.been.calledWithExactly("/doc2", {router: "router"});
+      expect(expressUse.getCall(0)).to.have.been.calledWithExactly("/doc1", {router: "router"});
+      expect(expressUse.getCall(1)).to.have.been.calledWithExactly("/doc2", {router: "router"});
     });
   });
   describe("$onRouteInit", () => {
@@ -139,9 +139,9 @@ describe("SwaggerModule", () => {
       swaggerModule.$onRoutesInit();
 
       // THEN
-      swaggerModule.swaggerService.getOpenAPISpec.getCall(0).should.have.been.calledWithExactly(config[0]);
-      swaggerModule.swaggerService.getOpenAPISpec.getCall(1).should.have.been.calledWithExactly(config[1]);
-      Fs.writeFileSync.should.be.calledOnceWithExactly("/path/outFile", JSON.stringify({spec: "spec"}, null, 2));
+      expect(swaggerModule.swaggerService.getOpenAPISpec.getCall(0)).to.have.been.calledWithExactly(config[0]);
+      expect(swaggerModule.swaggerService.getOpenAPISpec.getCall(1)).to.have.been.calledWithExactly(config[1]);
+      expect(Fs.writeFileSync).to.have.been.calledOnceWithExactly("/path/outFile", JSON.stringify({spec: "spec"}, null, 2));
     });
   });
   describe("$onReady()", () => {
@@ -194,7 +194,7 @@ describe("SwaggerModule", () => {
       swaggerModule.$onReady();
 
       // THEN
-      return settingsService.getHttpPort.should.have.been.called;
+      return expect(settingsService.getHttpPort).to.have.been.calledWithExactly();
     });
     it("it should call getHttpsPort()", () => {
       // GIVEN
@@ -233,7 +233,7 @@ describe("SwaggerModule", () => {
       swaggerModule.$onReady();
 
       // THEN
-      return settingsService.getHttpsPort.should.have.been.called;
+      return expect(settingsService.getHttpsPort).to.have.been.calledWithExactly();
     });
   });
   describe("mapSwaggerUIConfig()", () => {
@@ -266,8 +266,8 @@ describe("SwaggerModule", () => {
       const result = swaggerModule.mapSwaggerUIConfig(config, ["/urls"]);
 
       // THEN
-      swaggerModule.swaggerService.getOpenAPISpec.should.have.been.calledWithExactly(config);
-      result.should.deep.eq({
+      expect(swaggerModule.swaggerService.getOpenAPISpec).to.have.been.calledWithExactly(config);
+      expect(result).to.deep.eq({
         cssPath: "cssPath",
         jsPath: "jsPath",
         showExplorer: false,
@@ -306,26 +306,26 @@ describe("SwaggerModule", () => {
     });
 
     it("should call Express.Router", () => {
-      return routerStub.should.have.been.called;
+      return expect(routerStub).to.have.been.calledWithExactly();
     });
 
     it("should call router.get", () => {
-      routerInstance.get.should.have.been.calledWithExactly("/swagger.json", Sinon.match.func);
-      routerInstance.get.should.have.been.calledWithExactly("/", "indexMdlw");
-      routerInstance.get.should.have.been.calledWithExactly("/main.js", "jsMdlw");
-      routerInstance.get.should.have.been.calledWithExactly("/main.css", "cssMdlw");
+      expect(routerInstance.get).to.have.been.calledWithExactly("/swagger.json", Sinon.match.func);
+      expect(routerInstance.get).to.have.been.calledWithExactly("/", "indexMdlw");
+      expect(routerInstance.get).to.have.been.calledWithExactly("/main.js", "jsMdlw");
+      expect(routerInstance.get).to.have.been.calledWithExactly("/main.css", "cssMdlw");
     });
 
     it("should call router.use", () => {
-      routerInstance.use.should.have.been.calledWithExactly(Sinon.match.func);
+      expect(routerInstance.use).to.have.been.calledWithExactly(Sinon.match.func);
     });
 
     it("should call Express.use", () => {
-      staticStub.should.have.been.calledWithExactly(Sinon.match("swagger-ui-dist"));
+      expect(staticStub).to.have.been.calledWithExactly(Sinon.match("swagger-ui-dist"));
     });
 
     it("should call middlewareIndex", () => {
-      middelwareIndexStub.should.have.been.calledWithExactly(
+      expect(middelwareIndexStub).to.have.been.calledWithExactly(
         {
           cssPath: "cssPath",
           viewPath: "viewPath",
@@ -335,10 +335,10 @@ describe("SwaggerModule", () => {
       );
     });
     it("should call middlewareCss", () => {
-      middelwareCsstub.should.have.been.calledWithExactly("cssPath");
+      expect(middelwareCsstub).to.have.been.calledWithExactly("cssPath");
     });
     it("should call middlewareJs", () => {
-      middelwareJstub.should.have.been.calledWithExactly("jsPath");
+      expect(middelwareJstub).to.have.been.calledWithExactly("jsPath");
     });
   });
   describe("middlewareSwaggerJson()", () => {
@@ -376,9 +376,9 @@ describe("SwaggerModule", () => {
       swaggerModule.middlewareSwaggerJson(config)(req, res);
 
       // THEN
-      swaggerModule.swaggerService.getOpenAPISpec.should.have.been.calledWithExactly(config);
-      res.status.should.have.been.calledWithExactly(200);
-      res.json.should.have.been.calledWithExactly({spec: "spec"});
+      expect(swaggerModule.swaggerService.getOpenAPISpec).to.have.been.calledWithExactly(config);
+      expect(res.status).to.have.been.calledWithExactly(200);
+      expect(res.json).to.have.been.calledWithExactly({spec: "spec"});
     });
   });
   describe("middlewareIndex()", () => {

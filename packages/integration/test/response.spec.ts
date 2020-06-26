@@ -1,4 +1,5 @@
-import {PlatformTest, ContentType, Controller, Get, Next, PathParams, Post, Req, Res, Status} from "@tsed/common";
+import {ContentType, Controller, Get, Next, PathParams, PlatformTest, Post, Req, Res, Status} from "@tsed/common";
+import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
 import {of} from "rxjs";
@@ -134,7 +135,7 @@ describe("Response", () => {
       it("should return the id + test", async () => {
         const response = await request.get("/rest/response/scenario1/10").expect(200);
 
-        response.text.should.be.equal("10value");
+        expect(response.text).to.equal("10value");
       });
     });
   });
@@ -144,7 +145,7 @@ describe("Response", () => {
       it("should return the id + test", async () => {
         const response = await request.get("/rest/response/scenario2/10").expect(200);
 
-        response.text.should.be.equal("10value");
+        expect(response.text).to.equal("10value");
       });
     });
   });
@@ -154,7 +155,7 @@ describe("Response", () => {
       it("should return nothing with a 204 status", async () => {
         const response = await request.post("/rest/response/scenario3/10").expect(204);
 
-        response.text.should.be.equal("");
+        expect(response.text).to.equal("");
       });
 
       it("should return a body with ", async () => {
@@ -162,7 +163,7 @@ describe("Response", () => {
           .post("/rest/response/scenario3")
           .expect(201);
 
-        response.body.should.deep.equal({id: 1});
+        expect(response.body).to.deep.equal({id: 1});
       });
     });
   });
@@ -171,7 +172,7 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario4/10");
 
-        response.text.should.deep.equal("10value");
+        expect(response.text).to.deep.equal("10value");
       });
     });
   });
@@ -181,7 +182,7 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario5");
 
-        response.body.should.deep.equal({id: 1});
+        expect(response.body).to.deep.equal({id: 1});
       });
     });
   });
@@ -191,7 +192,7 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario6");
 
-        response.body.should.deep.equal({id: 1});
+        expect(response.body).to.deep.equal({id: 1});
       });
     });
 
@@ -199,7 +200,7 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario6b");
 
-        response.body.should.deep.equal({id: 1});
+        expect(response.body).to.deep.equal({id: 1});
       });
     });
   });
@@ -209,7 +210,7 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario7");
 
-        response.body.should.deep.equal({id: "1"});
+        expect(response.body).to.deep.equal({id: "1"});
       });
     });
 
@@ -217,7 +218,7 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario7b");
 
-        response.body.should.deep.equal({id: "1"});
+        expect(response.body).to.deep.equal({id: "1"});
       });
     });
   });
@@ -227,14 +228,14 @@ describe("Response", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario8");
 
-        response.body.should.deep.equal({id: 1});
+        expect(response.body).to.deep.equal({id: 1});
       });
     });
     describe("GET /rest/response/scenario8b", () => {
       it("should return a body with ", async () => {
         const response = await request.get("/rest/response/scenario8b");
 
-        response.body.should.deep.equal({id: 1});
+        expect(response.body).to.deep.equal({id: 1});
       });
     });
   });
@@ -244,7 +245,7 @@ describe("Response", () => {
       it("should return the test", async () => {
         const response = await request.get("/rest/response/scenario9/static").expect(200);
 
-        response.text.should.be.equal("value");
+        expect(response.text).to.equal("value");
       });
     });
 
@@ -252,7 +253,7 @@ describe("Response", () => {
       it("should return the test + id", async () => {
         const response = await request.get("/rest/response/scenario9/10").expect(200);
 
-        response.text.should.be.equal("value10");
+        expect(response.text).to.equal("value10");
       });
     });
 
@@ -260,7 +261,7 @@ describe("Response", () => {
       it("should throw a badRequest when path params isn't set as number", async () => {
         const response = await request.get("/rest/response/scenario9/kkk").expect(400);
 
-        response.text.should.be.equal("Bad request on parameter \"request.path.id\".<br />Cast error. Expression value is not a number.");
+        expect(response.text).to.equal("Bad request on parameter \"request.path.id\".<br />Cast error. Expression value is not a number.");
       });
     });
   });

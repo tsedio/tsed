@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Platform, PlatformTest} from "@tsed/common";
 import {printRoutes} from "./printRoutes";
 
@@ -8,7 +9,7 @@ describe("printRoutes()", () => {
       const routes = platform.getRoutes();
 
       // tslint:disable-next-line: no-unused-variable
-      printRoutes(routes).should.be.a("string");
+      expect(printRoutes(routes)).to.be.a("string");
     })
   );
 });

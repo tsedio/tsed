@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {HttpServer, HttpsServer, PlatformTest} from "@tsed/common";
 import {ServerSettingsService} from "@tsed/common/src/config";
 import * as Sinon from "sinon";
@@ -40,18 +41,18 @@ describe("SocketIOModule", () => {
           // WHEN
           await socketIOModule.$afterListen();
 
-          socketIOServer.attach.should.have.been.calledWithExactly(httpServer, {
+          expect(socketIOServer.attach).to.have.been.calledWithExactly(httpServer, {
             adapter: "adapter",
             config: "config"
           });
-          socketIOServer.attach.should.have.been.calledWithExactly(httpsServer, {
+          expect(socketIOServer.attach).to.have.been.calledWithExactly(httpsServer, {
             adapter: "adapter",
             config: "config"
           });
 
-          getWebsocketServicesStub.should.have.been.calledWithExactly();
-          socketIOServer.adapter.should.have.been.calledWithExactly("adapter");
-          socketIOService.addSocketProvider.should.have.been.calledWithExactly({provider: "provider"});
+          expect(getWebsocketServicesStub).to.have.been.calledWithExactly();
+          expect(socketIOServer.adapter).to.have.been.calledWithExactly("adapter");
+          expect(socketIOService.addSocketProvider).to.have.been.calledWithExactly({provider: "provider"});
         })
       );
     });
@@ -90,12 +91,12 @@ describe("SocketIOModule", () => {
           // WHEN
           await socketIOModule.$afterListen();
 
-          socketIOServer.attach.should.have.been.calledWithExactly(httpsServer, {
+          expect(socketIOServer.attach).to.have.been.calledWithExactly(httpsServer, {
             config: "config"
           });
 
-          getWebsocketServicesStub.should.have.been.calledWithExactly();
-          socketIOService.addSocketProvider.should.have.been.calledWithExactly({provider: "provider"});
+          expect(getWebsocketServicesStub).to.have.been.calledWithExactly();
+          expect(socketIOService.addSocketProvider).to.have.been.calledWithExactly({provider: "provider"});
         })
       );
     });

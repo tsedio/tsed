@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {EndpointInfo, Next, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@Next", () => {
@@ -7,6 +8,6 @@ describe("@Next", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.paramType.should.eq(ParamTypes.NEXT_FN);
+    expect(param.paramType).to.eq(ParamTypes.NEXT_FN);
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {descriptorOf, Store} from "@tsed/core";
 import {prototypeOf, UnsupportedDecoratorType} from "@tsed/core/src/utils";
 import {Operation} from "../index";
@@ -17,7 +18,7 @@ describe("Operation()", () => {
       // THEN
       const store = Store.fromMethod(Test, "test");
 
-      store.get("operation").should.deep.eq({
+      expect(store.get("operation")).to.deep.eq({
         security: [{auth: ["scope"]}]
       });
     });
@@ -37,7 +38,7 @@ describe("Operation()", () => {
       // THEN
       const store = Store.fromMethod(Test, "test");
 
-      store.get("operation").should.deep.eq({
+      expect(store.get("operation")).to.deep.eq({
         security: [{auth: ["scope"]}]
       });
     });
@@ -60,7 +61,7 @@ describe("Operation()", () => {
       }
 
       // THEN
-      actualError.should.instanceOf(UnsupportedDecoratorType);
+      expect(actualError).to.instanceOf(UnsupportedDecoratorType);
     });
   });
 });

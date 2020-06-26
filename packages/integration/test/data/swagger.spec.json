@@ -56,7 +56,8 @@
       "get": {
         "operationId": "TaskCtrl.get",
         "tags": [
-          "TaskCtrl"
+          "api",
+          "task"
         ],
         "parameters": [
           {

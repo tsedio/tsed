@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {GlobalProviders, ProviderType} from "@tsed/di";
 import * as Sinon from "sinon";
 import {Interceptor} from "../../src";
@@ -21,7 +22,7 @@ describe("@Interceptor", () => {
     Interceptor()(Test);
 
     // THEN
-    interceptorRegistry.merge.should.have.been.calledWithExactly(Test, {
+    expect(interceptorRegistry.merge).to.have.been.calledWithExactly(Test, {
       instance: undefined,
       provide: Test,
       type: ProviderType.INTERCEPTOR

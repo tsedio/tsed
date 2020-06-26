@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, MinProperties} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -8,7 +9,7 @@ describe("MinProperties", () => {
     MinProperties(10);
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
-    schema.minProperties.should.eq(10);
+    expect(schema.minProperties).to.eq(10);
     decorateStub.restore();
   });
   it("should throw an error when the given parameters is as negative integer", () => {
@@ -18,6 +19,6 @@ describe("MinProperties", () => {
     } catch (er) {
       error = er;
     }
-    error.message.should.deep.equal("The value of minProperties MUST be a non-negative integer.");
+    expect(error.message).to.deep.equal("The value of minProperties MUST be a non-negative integer.");
   });
 });

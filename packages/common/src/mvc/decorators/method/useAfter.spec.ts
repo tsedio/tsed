@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
 import * as Sinon from "sinon";
 import {EndpointRegistry, UseAfter} from "../../../../src/mvc";
@@ -31,9 +32,9 @@ describe("UseAfter()", () => {
       UseAfter(CustomMiddleware)(Test);
 
       // THEN
-      Store.from(Test)
-        .get("middlewares")
-        .should.deep.eq({useAfter: [CustomMiddleware]});
+      const store = Store.from(Test).get("middlewares");
+
+      expect(store).to.deep.eq({useAfter: [CustomMiddleware]});
     });
   });
   describe("when the decorator is use on a method", () => {
@@ -59,7 +60,7 @@ describe("UseAfter()", () => {
       }
 
       // THEN
-      EndpointRegistry.useAfter.should.be.calledWithExactly(prototypeOf(Test), "test", [CustomMiddleware]);
+      expect(EndpointRegistry.useAfter).to.have.been.calledWithExactly(prototypeOf(Test), "test", [CustomMiddleware]);
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -91,8 +92,8 @@ describe("UseAfter()", () => {
       }
 
       // THEN
-      actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseAfter cannot be used as property.static decorator on Test.property");
+      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).to.eq("UseAfter cannot be used as property.static decorator on Test.property");
     });
   });
 });

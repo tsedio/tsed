@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, Maximum} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -9,7 +10,7 @@ describe("Maximum", () => {
       Maximum(10);
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.maximum.should.eq(10);
+      expect(schema.maximum).to.eq(10);
       decorateStub.restore();
     });
   });
@@ -20,7 +21,7 @@ describe("Maximum", () => {
       Maximum(10, true);
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.exclusiveMaximum.should.eq(10);
+      expect(schema.exclusiveMaximum).to.eq(10);
       decorateStub.restore();
     });
   });

@@ -55,13 +55,13 @@ describe("@MultipartFile()", () => {
       });
 
       it("should create middleware", () => {
-        EndpointRegistry.useBefore.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+        expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
       });
 
       it("should set params metadata", () => {
         const param = ParamRegistry.get(Test, "test", 0);
-        param.expression.should.eq("files.file1.0");
-        param.paramType.should.eq(ParamTypes.FORM_DATA);
+        expect(param.expression).to.eq("files.file1.0");
+        expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
       });
     });
     describe("multiple files", () => {
@@ -97,13 +97,13 @@ describe("@MultipartFile()", () => {
       });
 
       it("should create middleware", () => {
-        EndpointRegistry.useBefore.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+        expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
       });
 
       it("should set params metadata", () => {
         const param = ParamRegistry.get(Test, "test", 0);
-        param.expression.should.eq("files.file1");
-        param.paramType.should.eq(ParamTypes.FORM_DATA);
+        expect(param.expression).to.eq("files.file1");
+        expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
       });
     });
   });
@@ -142,13 +142,13 @@ describe("@MultipartFile()", () => {
         });
 
         it("should create middleware", () => {
-          EndpointRegistry.useBefore.should.be.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+          expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
         });
 
         it("should set params metadata", () => {
           const param = ParamRegistry.get(Test, "test", 0);
-          param.expression.should.eq("files.0");
-          param.paramType.should.eq(ParamTypes.FORM_DATA);
+          expect(param.expression).to.eq("files.0");
+          expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
         });
       });
 
@@ -182,12 +182,12 @@ describe("@MultipartFile()", () => {
         });
 
         it("should create middleware", () => {
-          EndpointRegistry.useBefore.should.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
+          expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
         });
 
         it("should set params metadata", () => {
           const param = ParamRegistry.get(Test, "test", 0);
-          param.expression.should.eq("files");
+          expect(param.expression).to.eq("files");
         });
       });
     });

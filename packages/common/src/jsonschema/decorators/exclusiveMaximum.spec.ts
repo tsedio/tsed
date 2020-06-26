@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ExclusiveMaximum, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -11,14 +12,16 @@ describe("ExclusiveMaximum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.exclusiveMaximum.should.eq(10);
+      expect(schema.exclusiveMaximum).to.eq(10);
       decorateStub.restore();
     });
   });
 
   describe("without explicit parameter", () => {
-    before(() => {});
-    after(() => {});
+    before(() => {
+    });
+    after(() => {
+    });
 
     it("should store data", () => {
       const decorateStub = stubSchemaDecorator();
@@ -27,7 +30,7 @@ describe("ExclusiveMaximum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.exclusiveMaximum.should.eq(10);
+      expect(schema.exclusiveMaximum).to.eq(10);
       decorateStub.restore();
     });
   });

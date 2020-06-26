@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, Schema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -8,7 +9,7 @@ describe("Schema()", () => {
     Schema({description: "description"});
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
-    schema.description.should.be.eq("description");
+    expect(schema.description).to.eq("description");
     decorateStub.restore();
   });
 });

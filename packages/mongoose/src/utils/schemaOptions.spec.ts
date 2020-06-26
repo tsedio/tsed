@@ -36,7 +36,7 @@ describe("schemaOptions", () => {
         });
 
         hook.call(ctx, "next");
-        stub.should.have.been.calledWithExactly(ctx, "next");
+        expect(stub).to.have.been.calledWithExactly(ctx, "next");
       });
     });
 
@@ -49,7 +49,7 @@ describe("schemaOptions", () => {
         });
 
         hook.call(ctx, "next", "done");
-        stub.should.have.been.calledWithExactly(ctx, "next", "done");
+        expect(stub).to.have.been.calledWithExactly(ctx, "next", "done");
       });
     });
   });
@@ -83,19 +83,19 @@ describe("schemaOptions", () => {
     });
 
     it("should call schema.pre", () => {
-      schema.pre.should.have.been.calledWithExactly("method", true, Sinon.match.func, "errorCb");
+      expect(schema.pre).to.have.been.calledWithExactly("method", true, Sinon.match.func, "errorCb");
     });
 
     it("should call schema.post", () => {
-      schema.post.should.have.been.calledWithExactly("method", "fn");
+      expect(schema.post).to.have.been.calledWithExactly("method", "fn");
     });
 
     it("should call schema.plugin", () => {
-      schema.plugin.should.have.been.calledWithExactly("plugin", "options");
+      expect(schema.plugin).to.have.been.calledWithExactly("plugin", "options");
     });
 
     it("should call schema.index", () => {
-      schema.index.should.have.been.calledWithExactly("fields", "options");
+      expect(schema.index).to.have.been.calledWithExactly("fields", "options");
     });
   });
 });

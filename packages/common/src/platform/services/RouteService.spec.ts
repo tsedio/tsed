@@ -32,13 +32,13 @@ describe("RouteService", () => {
     routeService.getRoutes();
 
     expect(routeService.routes).to.deep.eq([]);
-    platform.addRoute.should.have.been.calledWithExactly("/", Test);
-    platform.addRoutes.should.have.been.calledWithExactly([
+    expect(platform.addRoute).to.have.been.calledWithExactly("/", Test);
+    expect(platform.addRoutes).to.have.been.calledWithExactly([
       {
         token: Test,
         route: "/"
       }
     ]);
-    platform.getRoutes.should.have.been.calledWithExactly();
+    expect(platform.getRoutes).to.have.been.calledWithExactly();
   });
 });

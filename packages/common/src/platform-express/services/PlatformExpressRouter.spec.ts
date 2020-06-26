@@ -52,7 +52,7 @@ describe("PlatformExpressRouter", () => {
       const router = PlatformRouter.create(injector, routerOptions);
 
       // THEN
-      Express.Router.should.have.been.calledWithExactly({...injector.settings.routers, ...routerOptions});
+      expect(Express.Router).to.have.been.calledWithExactly({...injector.settings.routers, ...routerOptions});
 
       expect(router.raw).to.deep.eq(nativeDriver);
     });

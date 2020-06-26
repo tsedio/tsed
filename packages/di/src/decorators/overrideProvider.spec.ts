@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {GlobalProviders, Provider} from "../../src";
 import {OverrideProvider} from "../../src/decorators/overrideProvider";
@@ -25,7 +26,7 @@ describe("OverrideProvider", () => {
     OverrideProvider(Test)(Test2);
 
     // THEN
-    provider.provide.should.eq(Test);
-    provider.useClass.should.eq(Test2);
+    expect(provider.provide).to.eq(Test);
+    expect(provider.useClass).to.eq(Test2);
   });
 });

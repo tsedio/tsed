@@ -26,10 +26,10 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
       // THEN
 
-      handlerMetadata.injectable.should.eq(false);
-      handlerMetadata.type.should.eq(HandlerType.FUNCTION);
-      handlerMetadata.hasNextFunction.should.eq(true);
-      handlerMetadata.hasErrorParam.should.eq(false);
+      expect(handlerMetadata.injectable).to.eq(false);
+      expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
+      expect(handlerMetadata.hasNextFunction).to.eq(true);
+      expect(handlerMetadata.hasErrorParam).to.eq(false);
       expect(handlerMetadata.method).to.eq(undefined);
     });
   });
@@ -44,10 +44,10 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      handlerMetadata.injectable.should.eq(false);
-      handlerMetadata.type.should.eq(HandlerType.FUNCTION);
-      handlerMetadata.hasNextFunction.should.eq(true);
-      handlerMetadata.hasErrorParam.should.eq(true);
+      expect(handlerMetadata.injectable).to.eq(false);
+      expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
+      expect(handlerMetadata.hasNextFunction).to.eq(true);
+      expect(handlerMetadata.hasErrorParam).to.eq(true);
       expect(handlerMetadata.propertyKey).to.eq(undefined);
 
       expect(handlerMetadata.parameters).to.deep.eq([
@@ -82,10 +82,10 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      handlerMetadata.injectable.should.eq(false);
-      handlerMetadata.type.should.eq(HandlerType.FUNCTION);
-      handlerMetadata.hasNextFunction.should.eq(false);
-      handlerMetadata.hasErrorParam.should.eq(false);
+      expect(handlerMetadata.injectable).to.eq(false);
+      expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
+      expect(handlerMetadata.hasNextFunction).to.eq(false);
+      expect(handlerMetadata.hasErrorParam).to.eq(false);
       expect(handlerMetadata.propertyKey).to.eq(undefined);
     });
   });
@@ -124,11 +124,11 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      handlerMetadata.injectable.should.eq(true);
-      handlerMetadata.type.should.eq(HandlerType.CONTROLLER);
-      handlerMetadata.hasNextFunction.should.eq(true);
-      handlerMetadata.hasErrorParam.should.eq(false);
-      handlerMetadata.propertyKey.should.eq("test");
+      expect(handlerMetadata.injectable).to.eq(true);
+      expect(handlerMetadata.type).to.eq(HandlerType.CONTROLLER);
+      expect(handlerMetadata.hasNextFunction).to.eq(true);
+      expect(handlerMetadata.hasErrorParam).to.eq(false);
+      expect(handlerMetadata.propertyKey).to.eq("test");
 
       Metadata.set(PARAM_METADATA, undefined, Test, "test");
     });
@@ -146,10 +146,10 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      handlerMetadata.injectable.should.eq(false);
-      handlerMetadata.type.should.eq(HandlerType.MIDDLEWARE);
-      handlerMetadata.hasNextFunction.should.eq(true);
-      handlerMetadata.hasErrorParam.should.eq(true);
+      expect(handlerMetadata.injectable).to.eq(false);
+      expect(handlerMetadata.type).to.eq(HandlerType.MIDDLEWARE);
+      expect(handlerMetadata.hasNextFunction).to.eq(true);
+      expect(handlerMetadata.hasErrorParam).to.eq(true);
       expect(handlerMetadata.propertyKey).to.eq("use");
     });
   });
@@ -167,10 +167,10 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      handlerMetadata.injectable.should.eq(true);
-      handlerMetadata.type.should.eq(HandlerType.MIDDLEWARE);
-      handlerMetadata.hasNextFunction.should.eq(true);
-      handlerMetadata.hasErrorParam.should.eq(true);
+      expect(handlerMetadata.injectable).to.eq(true);
+      expect(handlerMetadata.type).to.eq(HandlerType.MIDDLEWARE);
+      expect(handlerMetadata.hasNextFunction).to.eq(true);
+      expect(handlerMetadata.hasErrorParam).to.eq(true);
       expect(handlerMetadata.propertyKey).to.eq("use");
 
       Metadata.set(PARAM_METADATA, undefined, Test2, "use");

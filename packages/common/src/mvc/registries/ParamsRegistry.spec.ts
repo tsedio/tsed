@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamMetadata, ParamTypes, Req} from "@tsed/common";
 import {prototypeOf} from "@tsed/core";
 import {ParamRegistry} from "../../../src/mvc";
@@ -17,7 +18,7 @@ describe("ParamRegistry", () => {
       const param1 = new ParamMetadata({target: prototypeOf(Test), propertyKey: "test", index: 0});
       param1.paramType = ParamTypes.REQUEST;
 
-      result.should.deep.eq([param1]);
+      expect(result).to.deep.eq([param1]);
     });
   });
 });

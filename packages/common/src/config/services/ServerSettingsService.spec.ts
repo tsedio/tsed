@@ -129,7 +129,7 @@ describe("ServerSettingsService", () => {
         expect(settings.debug).to.equal(true);
       });
 
-      it(".debug should be equal to the last set value", () => {
+      it("debug should be equal to the last set value", () => {
         settings.debug = false;
         expect(settings.debug).to.equal(false);
       });
@@ -272,7 +272,7 @@ describe("ServerSettingsService", () => {
     });
 
     it("should call $log.appenders.set()", () => {
-      $log.appenders.set.should.have.been.calledWithExactly("stdout", {
+      expect($log.appenders.set).to.have.been.calledWithExactly("stdout", {
         type: "stdout",
         levels: ["info", "debug"],
         layout: {
@@ -281,7 +281,7 @@ describe("ServerSettingsService", () => {
         }
       });
 
-      $log.appenders.set.should.have.been.calledWithExactly("stderr", {
+      expect($log.appenders.set).to.have.been.calledWithExactly("stderr", {
         levels: ["trace", "fatal", "error", "warn"],
         type: "stderr",
         layout: {

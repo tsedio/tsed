@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import * as TypeORM from "typeorm";
@@ -55,15 +56,15 @@ describe("TypeORMService", () => {
       const result2 = await service.createConnection("key", {config: "config"} as any);
 
       // THEN
-      result1.should.deep.eq(connection);
-      result2.should.deep.eq(connection);
-      connectionManager.create.should.have.been.calledOnce.and.calledWithExactly({config: "config", name: "key"});
+      expect(result1).to.deep.eq(connection);
+      expect(result2).to.deep.eq(connection);
+      expect(connectionManager.create).to.have.been.calledOnce.and.calledWithExactly({config: "config", name: "key"});
 
       // WHEN close
       await service.closeConnections();
 
       // THEN
-      connection.close.should.have.been.calledWithExactly();
+      expect(connection.close).to.have.been.calledWithExactly();
     });
   });
 });

@@ -3,7 +3,7 @@ import {expect} from "chai";
 
 describe("createContainer", () => {
   it("should createContainer", () => {
-    createContainer().should.instanceof(Container);
+    expect(createContainer()).to.instanceof(Container);
   });
 
   it("should createContainer without rootModule", () => {

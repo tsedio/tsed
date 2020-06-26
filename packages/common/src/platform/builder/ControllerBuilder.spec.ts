@@ -1,4 +1,5 @@
 import {InjectorService} from "@tsed/di";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
@@ -98,14 +99,14 @@ describe("ControllerBuilder", () => {
     const result = controllerBuilder.build(injector);
 
     // THEN
-    result.should.be.instanceof(PlatformRouter);
-    // router.use.callCount.should.deep.eq(3);
-    router.use.should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+    expect(result).to.be.instanceof(PlatformRouter);
+    // expect(router.use.callCount).to.deep.eq(3);
+    expect(router.use).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
-    router.use.should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
+    expect(router.use).to.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
 
     // ENDPOINT
-    router.get.should.have.been.calledWithExactly(
+    expect(router.get).to.have.been.calledWithExactly(
       "/",
       Sinon.match.func,
       provider.middlewares.use[0],
@@ -130,13 +131,12 @@ describe("ControllerBuilder", () => {
     const result = controllerBuilder.build(injector);
 
     // THEN
-    result.should.be.instanceof(PlatformRouter);
-    router.use.getCall(0).should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+    expect(result).to.be.instanceof(PlatformRouter);
+    expect(router.use.getCall(0)).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
     // ENDPOINT
-    router.use
-      .getCall(1)
-      .should.have.been.calledWithExactly(
+    expect(router.use.getCall(1))
+      .to.have.been.calledWithExactly(
       "/",
       Sinon.match.func,
       provider.middlewares.use[0],
@@ -147,7 +147,7 @@ describe("ControllerBuilder", () => {
       endpoint.afterMiddlewares[0]
     );
 
-    router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
+    expect(router.use.getCall(2)).to.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
 
   it("should build controller without route and method", () => {
@@ -158,13 +158,13 @@ describe("ControllerBuilder", () => {
     const result = controllerBuilder.build(injector);
 
     // THEN
-    result.should.be.instanceof(PlatformRouter);
-    router.use.getCall(0).should.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+    expect(result).to.be.instanceof(PlatformRouter);
+    expect(router.use.getCall(0)).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
     // ENDPOINT
-    router.use
-      .getCall(1)
-      .should.have.been.calledWithExactly(
+    expect(router.use
+      .getCall(1))
+      .to.have.been.calledWithExactly(
       Sinon.match.func,
       provider.middlewares.use[0],
       endpoint.beforeMiddlewares[0],
@@ -174,7 +174,7 @@ describe("ControllerBuilder", () => {
       endpoint.afterMiddlewares[0]
     );
 
-    router.use.getCall(2).should.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
+    expect(router.use.getCall(2)).to.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
 
   it("should build controller with a all endpoint and get endpoint", () => {
@@ -204,9 +204,9 @@ describe("ControllerBuilder", () => {
     const result = controllerBuilder.build(injector);
 
     // THEN
-    result.should.be.instanceof(PlatformRouter);
+    expect(result).to.be.instanceof(PlatformRouter);
     // ENDPOINT
-    router.use.getCall(0).should.have.been.calledWithExactly("/", Sinon.match.func, endpointAll, statusAndHeadersMiddleware);
-    router.use.getCall(1).should.have.been.calledWithExactly("/", Sinon.match.func, endpoint, Sinon.match.func, SendResponseMiddleware);
+    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, endpointAll, statusAndHeadersMiddleware);
+    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, endpoint, Sinon.match.func, SendResponseMiddleware);
   });
 });

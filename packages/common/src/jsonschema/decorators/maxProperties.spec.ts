@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, MaxProperties} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -10,7 +11,7 @@ describe("MaxProperties", () => {
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
 
-    schema.maxProperties.should.eq(10);
+    expect(schema.maxProperties).to.eq(10);
 
     decorateStub.restore();
   });
@@ -22,6 +23,6 @@ describe("MaxProperties", () => {
       error = er;
     }
 
-    error.message.should.deep.equal("The value of maxProperties MUST be a non-negative integer.");
+    expect(error.message).to.deep.equal("The value of maxProperties MUST be a non-negative integer.");
   });
 });

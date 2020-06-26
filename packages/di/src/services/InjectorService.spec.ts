@@ -67,8 +67,8 @@ describe("InjectorService", () => {
       const provider = await injector.forkProvider(InjectorService);
 
       // THEN
-      provider.should.be.instanceof(Provider);
-      provider.provide.should.eq(InjectorService);
+      expect(provider).to.be.instanceof(Provider);
+      expect(provider.provide).to.eq(InjectorService);
     });
   });
 
@@ -101,11 +101,11 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(token, locals, {rebuild: true});
 
         // THEN
-        result1.should.not.eq(result2);
-        injector.getProvider.should.have.been.calledWithExactly(token);
-        injector.get.should.have.been.calledWithExactly(token);
-        (injector as any).resolve.should.have.been.calledWithExactly(token, locals, {rebuild: true});
-        (injector as any).invoke.should.have.been.calledWithExactly(InjectorService, locals, {
+        expect(result1).to.not.eq(result2);
+        expect(injector.getProvider).to.have.been.calledWithExactly(token);
+        expect(injector.get).to.have.been.calledWithExactly(token);
+        expect((injector as any).resolve).to.have.been.calledWithExactly(token, locals, {rebuild: true});
+        expect((injector as any).invoke).to.have.been.calledWithExactly(InjectorService, locals, {
           parent: token
         });
       });
@@ -136,11 +136,11 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(token, locals);
 
         // THEN
-        result1.should.eq(result2);
-        injector.getProvider.should.have.been.calledWithExactly(token);
-        injector.get.should.have.been.calledWithExactly(token);
+        expect(result1).to.eq(result2);
+        expect(injector.getProvider).to.have.been.calledWithExactly(token);
+        expect(injector.get).to.have.been.calledWithExactly(token);
 
-        return (injector as any).resolve.should.not.have.been.called;
+        return expect((injector as any).resolve).to.not.have.been.called;
       });
     });
     describe("when provider is a REQUEST", () => {
@@ -172,15 +172,15 @@ describe("InjectorService", () => {
         const result3: any = injector.invoke(token, locals2);
 
         // THEN
-        result1.should.eq(result2);
-        result2.should.not.eq(result3);
+        expect(result1).to.eq(result2);
+        expect(result2).to.not.eq(result3);
 
-        injector.getProvider.should.have.been.calledWithExactly(token);
-        (injector as any).resolve.should.have.been.calledWithExactly(token, locals, {});
-        locals.get(token).should.eq(result1);
-        locals2.get(token).should.eq(result3);
+        expect(injector.getProvider).to.have.been.calledWithExactly(token);
+        expect((injector as any).resolve).to.have.been.calledWithExactly(token, locals, {});
+        expect(locals.get(token)).to.eq(result1);
+        expect(locals2.get(token)).to.eq(result3);
 
-        return injector.get.should.not.have.been.called;
+        return expect(injector.get).to.not.have.been.called;
       });
     });
     describe("when provider is a INSTANCE", () => {
@@ -208,13 +208,13 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(token, locals);
 
         // THEN
-        result1.should.not.eq(result2);
+        expect(result1).to.not.eq(result2);
 
-        injector.getProvider.should.have.been.calledWithExactly(token);
-        (injector as any).resolve.should.have.been.calledWithExactly(token, locals, {});
-        locals.has(token).should.eq(false);
+        expect(injector.getProvider).to.have.been.calledWithExactly(token);
+        expect((injector as any).resolve).to.have.been.calledWithExactly(token, locals, {});
+        expect(locals.has(token)).to.eq(false);
 
-        return injector.get.should.not.have.been.called;
+        return expect(injector.get).to.not.have.been.called;
       });
     });
     describe("when provider is a SINGLETON", () => {
@@ -246,8 +246,8 @@ describe("InjectorService", () => {
         const result: any = injector.invoke(token);
 
         // THEN
-        result.should.instanceof(token);
-        registry.onInvoke.should.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
+        expect(result).to.instanceof(token);
+        expect(registry.onInvoke).to.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
       });
     });
     describe("when provider is a Value (useValue)", () => {
@@ -269,7 +269,7 @@ describe("InjectorService", () => {
         const result: any = injector.invoke(token);
 
         // THEN
-        result.should.eq("TEST");
+        expect(result).to.eq("TEST");
       });
 
       it("should invoke the provider from container (2)", async () => {
@@ -290,7 +290,7 @@ describe("InjectorService", () => {
         const result: any = injector.invoke(token);
 
         // THEN
-        result.should.eq("TEST");
+        expect(result).to.eq("TEST");
       });
     });
     describe("when provider is a Factory (useFactory)", () => {
@@ -312,7 +312,7 @@ describe("InjectorService", () => {
         const result: any = injector.invoke(token);
 
         // THEN
-        result.should.deep.eq({factory: "factory"});
+        expect(result).to.deep.eq({factory: "factory"});
       });
     });
     describe("when provider is an AsyncFactory (useAsyncFactory)", () => {
@@ -345,8 +345,8 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(tokenSync);
 
         // THEN
-        result.should.deep.eq({factory: "test async factory"});
-        result2.should.deep.eq("test async factory");
+        expect(result).to.deep.eq({factory: "test async factory"});
+        expect(result2).to.deep.eq("test async factory");
       });
     });
     describe("when provider is an unknow provider", () => {
@@ -360,7 +360,7 @@ describe("InjectorService", () => {
         const result: any = injector.invoke(token);
 
         // THEN
-        result.should.instanceof(token);
+        expect(result).to.instanceof(token);
       });
     });
     describe("when one of dependencies isn't injectable", () => {
@@ -392,7 +392,7 @@ describe("InjectorService", () => {
         }
 
         // THEN
-        actualError.message.should.eq("Injection failed on Test > Ctrl\nOrigin: Ctrl controller is not injectable to another provider");
+        expect(actualError.message).to.eq("Injection failed on Test > Ctrl\nOrigin: Ctrl controller is not injectable to another provider");
       });
     });
     describe("when one of dependencies is undefined", () => {
@@ -427,7 +427,7 @@ describe("InjectorService", () => {
         }
 
         // THEN
-        actualError.message.should.contains(
+        expect(actualError.message).to.contains(
           "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?"
         );
       });
@@ -462,7 +462,7 @@ describe("InjectorService", () => {
         }
 
         // THEN
-        actualError.message.should.contains("Injection failed on Test\nOrigin: Unable to inject dependency.");
+        expect(actualError.message).to.contains("Injection failed on Test\nOrigin: Unable to inject dependency.");
       });
     });
     describe("when error occur", () => {
@@ -501,7 +501,7 @@ describe("InjectorService", () => {
         }
 
         // THEN
-        actualError.message.should.eq(
+        expect(actualError.message).to.eq(
           "Injection failed on Test > TokenFactory > TokenValue\nOrigin: Unable to create new instance from undefined value. Check your provider declaration for TokenValue"
         );
       });
@@ -525,7 +525,7 @@ describe("InjectorService", () => {
         const instance: any = injector.invoke(token)!;
 
         // THEN
-        instance.should.deep.eq({to: injector.getProvider(token)});
+        expect(instance).to.deep.eq({to: injector.getProvider(token)});
       });
     });
     describe("when provider has Configuration as dependencies", () => {
@@ -544,7 +544,7 @@ describe("InjectorService", () => {
         const instance: any = injector.invoke(token)!;
 
         // THEN
-        instance.should.deep.eq({to: injector.settings});
+        expect(instance).to.deep.eq({to: injector.settings});
       });
     });
   });
@@ -593,11 +593,11 @@ describe("InjectorService", () => {
       injector.bindInjectableProperties(instance, new Map(), {});
 
       // THEN
-      injector.bindMethod.should.have.been.calledWithExactly(instance, injectableProperties.testMethod);
-      injector.bindProperty.should.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
-      injector.bindConstant.should.have.been.calledWithExactly(instance, injectableProperties.testConst);
-      injector.bindValue.should.have.been.calledWithExactly(instance, injectableProperties.testValue);
-      injector.bindInterceptor.should.have.been.calledWithExactly(instance, injectableProperties.testInterceptor);
+      expect(injector.bindMethod).to.have.been.calledWithExactly(instance, injectableProperties.testMethod);
+      expect(injector.bindProperty).to.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
+      expect(injector.bindConstant).to.have.been.calledWithExactly(instance, injectableProperties.testConst);
+      expect(injector.bindValue).to.have.been.calledWithExactly(instance, injectableProperties.testValue);
+      expect(injector.bindInterceptor).to.have.been.calledWithExactly(instance, injectableProperties.testInterceptor);
     });
   });
 
@@ -619,8 +619,8 @@ describe("InjectorService", () => {
       const result = (instance as any).test2();
 
       // THEN
-      spyTest2.should.have.been.calledWithExactly(injector);
-      injector.get.should.have.been.calledWithExactly(InjectorService);
+      expect(spyTest2).to.have.been.calledWithExactly(injector);
+      expect(injector.get).to.have.been.calledWithExactly(InjectorService);
       expect(result).to.eq(injector);
     });
   });
@@ -749,8 +749,8 @@ describe("InjectorService", () => {
       const result = (instance as any).test3("test");
 
       // THEN
-      expect(originalMethod).should.not.eq(instance.test3);
-      injector.get.should.have.been.calledWithExactly(InterceptorTest);
+      expect(expect(originalMethod)).to.not.eq(instance.test3);
+      expect(injector.get).to.have.been.calledWithExactly(InterceptorTest);
 
       expect(result).to.eq("test called  intercepted");
     });
@@ -783,8 +783,8 @@ describe("InjectorService", () => {
       const result = (instance as any).test3("test");
 
       // THEN
-      expect(originalMethod).should.not.eq(instance.test3);
-      injector.get.should.have.been.calledWithExactly(InterceptorTest);
+      expect(expect(originalMethod)).to.not.eq(instance.test3);
+      expect(injector.get).to.have.been.calledWithExactly(InterceptorTest);
 
       expect(result).to.eq("test called  intercepted");
     });
@@ -826,8 +826,8 @@ describe("InjectorService", () => {
       injector.resolveConfiguration();
 
       // THEN
-      injector.settings.get<string>("custom").should.eq("config");
-      injector.settings.get<any>("scopes").should.deep.eq({
+      expect(injector.settings.get<string>("custom")).to.eq("config");
+      expect(injector.settings.get<any>("scopes")).to.deep.eq({
         provider_custom_2: "singleton",
         provider_custom: "singleton",
         value: "singleton"

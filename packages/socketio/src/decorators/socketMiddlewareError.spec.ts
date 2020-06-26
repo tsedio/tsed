@@ -33,7 +33,7 @@ describe("@SocketMiddlewareError", () => {
       }
     });
 
-    common.Middleware.should.have.been.calledWithExactly();
-    decoratorStub.should.have.been.calledWithExactly(Test);
+    expect(common.Middleware).to.have.been.calledWithExactly();
+    expect(decoratorStub).to.have.been.calledWithExactly(Test);
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Controller, Post, Required, PlatformTest, BodyParams} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {TestServer} from "./helpers/TestServer";
@@ -41,17 +42,17 @@ describe("Body spec", () => {
           test: ["value"]
         }).expect(200);
 
-      response.body.should.be.deep.equal({value: ["value"]});
+      expect(response.body).to.deep.equal({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
       const response = await request.post("/rest/test-scenario-1").send().expect(200);
 
-      response.body.should.be.deep.equal({});
+      expect(response.body).to.deep.equal({});
     });
     it("should return an empty value (2)", async () => {
       const response = await request.post("/rest/test-scenario-1").send({}).expect(200);
 
-      response.body.should.be.deep.equal({});
+      expect(response.body).to.deep.equal({});
     });
   });
   describe("Scenario2: without expression Array<string>", () => {
@@ -59,12 +60,12 @@ describe("Body spec", () => {
       const response = await request.post("/rest/test-scenario-2")
         .send(["value"]).expect(200);
 
-      response.body.should.be.deep.equal({value: ["value"]});
+      expect(response.body).to.deep.equal({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
       const response = await request.post("/rest/test-scenario-2").send().expect(200);
 
-      response.body.should.be.deep.equal({value: [{}]});
+      expect(response.body).to.deep.equal({value: [{}]});
     });
   });
   describe("Scenario3: with expression required Array<string>", () => {
@@ -72,12 +73,12 @@ describe("Body spec", () => {
       const response = await request.post("/rest/test-scenario-3")
         .send({test: ["value"]}).expect(200);
 
-      response.body.should.be.deep.equal({value: ["value"]});
+      expect(response.body).to.deep.equal({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
       const response = await request.post("/rest/test-scenario-3").send().expect(400);
 
-      response.text.should.be.deep.equal("Bad request on parameter \"request.body.test\".<br />It should have required parameter 'test'");
+      expect(response.text).to.deep.equal("Bad request on parameter \"request.body.test\".<br />It should have required parameter 'test'");
     });
   });
 });

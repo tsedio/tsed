@@ -46,7 +46,7 @@ describe("@Inject()", () => {
 
       // THEN
       const store = Store.from(Test).get(INJECTABLE_PROP);
-      store.should.deep.eq({
+      expect(store).to.deep.eq({
         test: {
           bindingType: "method",
           propertyKey: "test"
@@ -69,7 +69,7 @@ describe("@Inject()", () => {
 
       // THEN
       const store = Store.from(Test).get(INJECTABLE_PROP);
-      store.should.deep.eq({
+      expect(store).to.deep.eq({
         test: {
           bindingType: "property",
           propertyKey: "test",
@@ -102,8 +102,8 @@ describe("@Inject()", () => {
       Inject(String)(Test.prototype, undefined, 0);
 
       // THEN
-      Metadata.getParamTypes.should.have.been.calledWithExactly(Test.prototype, undefined);
-      Metadata.setParamTypes.should.have.been.calledWithExactly(Test.prototype, undefined, [String]);
+      expect(Metadata.getParamTypes).to.have.been.calledWithExactly(Test.prototype, undefined);
+      expect(Metadata.setParamTypes).to.have.been.calledWithExactly(Test.prototype, undefined, [String]);
     });
   });
 
@@ -130,8 +130,8 @@ describe("@Inject()", () => {
       Inject(String)(Test.prototype, "propertyKey", 0);
 
       // THEN
-      Metadata.getParamTypes.should.have.been.calledWithExactly(Test.prototype, "propertyKey");
-      Metadata.setParamTypes.should.have.been.calledWithExactly(Test.prototype, "propertyKey", [String]);
+      expect(Metadata.getParamTypes).to.have.been.calledWithExactly(Test.prototype, "propertyKey");
+      expect(Metadata.setParamTypes).to.have.been.calledWithExactly(Test.prototype, "propertyKey", [String]);
     });
   });
 });

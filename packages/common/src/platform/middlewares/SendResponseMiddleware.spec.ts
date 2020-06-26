@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
@@ -24,8 +25,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly();
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly();
       })
     );
   });
@@ -44,8 +45,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly(null);
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly(null);
       })
     );
   });
@@ -64,8 +65,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly(false);
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly(false);
       })
     );
   });
@@ -84,8 +85,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly(true);
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly(true);
       })
     );
   });
@@ -104,8 +105,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly("");
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly("");
       })
     );
   });
@@ -124,8 +125,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly("test");
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly("test");
       })
     );
   });
@@ -144,8 +145,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.send.should.have.been.calledWithExactly(1);
+        expect(result).to.eq(response);
+        expect(response.send).to.have.been.calledWithExactly(1);
       })
     );
   });
@@ -165,8 +166,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.json.should.have.been.calledWithExactly(data);
+        expect(result).to.eq(response);
+        expect(response.json).to.have.been.calledWithExactly(data);
       })
     );
   });
@@ -194,8 +195,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.json.should.have.been.calledWithExactly({data: "data"});
+        expect(result).to.eq(response);
+        expect(response.json).to.have.been.calledWithExactly({data: "data"});
       })
     );
   });
@@ -215,8 +216,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.json.should.have.been.calledWithExactly(data);
+        expect(result).to.eq(response);
+        expect(response.json).to.have.been.calledWithExactly(data);
       })
     );
   });
@@ -236,8 +237,8 @@ describe("SendResponseMiddleware", () => {
         const result = middleware.use(request as any, response as any);
 
         // THEN
-        result.should.eq(response);
-        response.json.should.have.been.calledWithExactly("2019-01-01T00:00:00.000Z");
+        expect(result).to.eq(response);
+        expect(response.json).to.have.been.calledWithExactly("2019-01-01T00:00:00.000Z");
       })
     );
   });

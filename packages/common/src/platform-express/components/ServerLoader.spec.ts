@@ -55,7 +55,7 @@ describe("ServerLoader", () => {
       server.mount("/", [Test]);
 
       // THEN
-      server.addControllers.should.have.been.calledWithExactly("/", [Test]);
+      expect(server.addControllers).to.have.been.calledWithExactly("/", [Test]);
     });
   });
 
@@ -82,22 +82,22 @@ describe("ServerLoader", () => {
         sandbox.restore();
       });
 
-      it("should have been called onInit hook", () => server.$onInit.should.have.been.calledOnce);
+      it("should have been called onInit hook", () => expect(server.$onInit).to.have.been.calledOnceWithExactly());
       it("should have been called loadSettingsAndInjector", () => {
         // @ts-ignore
-        return server.loadSettingsAndInjector.should.have.been.calledOnce;
+        return expect(server.loadSettingsAndInjector).to.have.been.calledOnceWithExactly();
       });
 
       it("should have been called loadMiddlewares", () => {
         // @ts-ignore
-        server.loadMiddlewares.should.have.been.calledOnce;
+        expect(server.loadMiddlewares).to.have.been.calledOnceWithExactly([]);
       });
 
-      it("should have been called $onReady hook", () => server.$onReady.should.have.been.calledOnce);
+      it("should have been called $onReady hook", () => expect(server.$onReady).to.have.been.calledOnceWithExactly());
 
       it("should have been called listenServers() with the right parameters", () => {
         // @ts-ignore
-        return server.listenServers.should.have.been.called;
+        return expect(server.listenServers).to.have.been.calledWithExactly();
       });
     });
     describe("when error", () => {
@@ -120,7 +120,7 @@ describe("ServerLoader", () => {
 
       it("should have been called loadSettingsAndInjector", () => {
         // @ts-ignore
-        return server.loadSettingsAndInjector.should.have.been.called;
+        return expect(server.loadSettingsAndInjector).to.have.been.calledWithExactly();
       });
     });
   });
@@ -132,7 +132,7 @@ describe("ServerLoader", () => {
     });
 
     it("should call express.set() with the right parameters", () => {
-      server.expressApp.set.should.have.been.calledWithExactly("view engine", "html");
+      expect(server.expressApp.set).to.have.been.calledWithExactly("view engine", "html");
     });
   });
 
@@ -143,7 +143,7 @@ describe("ServerLoader", () => {
     });
 
     it("should call express.engine() with the right parameters", () => {
-      server.expressApp.engine.should.have.been.calledWithExactly("jade", Sinon.match.func);
+      expect(server.expressApp.engine).to.have.been.calledWithExactly("jade", Sinon.match.func);
     });
   });
 

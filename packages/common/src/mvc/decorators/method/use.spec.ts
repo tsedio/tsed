@@ -21,8 +21,8 @@ describe("Use()", () => {
     it("should add the middleware on the use stack", () => {
       const returns = Use(() => {})(...decoratorArgs(Test, "test"));
 
-      EndpointRegistry.use.should.be.calledWithExactly(Test, "test", [Sinon.match.func]);
-      returns.should.be.deep.eq(descriptorOf(Test, "test"));
+      expect(EndpointRegistry.use).to.have.been.calledWithExactly(Test, "test", [Sinon.match.func]);
+      expect(returns).to.deep.eq(descriptorOf(Test, "test"));
     });
   });
 

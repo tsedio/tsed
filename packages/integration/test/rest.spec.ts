@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";

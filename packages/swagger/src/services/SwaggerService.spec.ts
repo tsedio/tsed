@@ -30,7 +30,7 @@ describe("SwaggerService", () => {
           specPath: __dirname + "/data/spec.json"
         });
 
-        result.should.be.deep.equals(require("./data/spec.expected.json"));
+        expect(result).to.deep.equals(require("./data/spec.expected.json"));
       });
     });
 
@@ -42,7 +42,7 @@ describe("SwaggerService", () => {
           }
         });
 
-        result.should.be.deep.equals({
+        expect(result).to.deep.equals({
           swagger: "2.0",
           info: {
             contact: undefined,
@@ -62,7 +62,7 @@ describe("SwaggerService", () => {
     describe("when nothing is given", () => {
       it("should return default spec", () => {
         const result = swaggerService.getDefaultSpec({});
-        result.should.be.deep.equals({
+        expect(result).to.deep.equals({
           consumes: ["application/json"],
           info: {
             contact: undefined,
@@ -84,7 +84,7 @@ describe("SwaggerService", () => {
         // @ts-ignore
         const result = swaggerService.getDefaultSpec({spec: {info: {}}});
 
-        result.should.be.deep.equals({
+        expect(result).to.deep.equals({
           consumes: ["application/json"],
           info: {
             contact: undefined,
@@ -128,7 +128,7 @@ describe("SwaggerService", () => {
         const result = swaggerService.buildTags({useClass: Test});
 
         // THEN
-        result.should.deep.eq({description: "description", name: "Test", test: "tag"});
+        expect(result).to.deep.eq({description: "description", name: "Test", test: "tag"});
       });
     });
     describe("when name is defined", () => {
@@ -155,7 +155,7 @@ describe("SwaggerService", () => {
         // @ts-ignore
         const result = swaggerService.buildTags({useClass: Test});
 
-        result.should.deep.eq({description: "description", name: "name", test: "tag"});
+        expect(result).to.deep.eq({description: "description", name: "name", test: "tag"});
       });
     });
   });

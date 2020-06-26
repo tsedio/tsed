@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes} from "@tsed/common";
 import {Context} from "./context";
 
@@ -8,7 +9,7 @@ describe("@Context ", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.CONTEXT);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.CONTEXT);
   });
 });

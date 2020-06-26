@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {EndpointInfo, Err, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@Err", () => {
@@ -7,6 +8,6 @@ describe("@Err", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.paramType.should.eq(ParamTypes.ERR);
+    expect(param.paramType).to.eq(ParamTypes.ERR);
   });
 });

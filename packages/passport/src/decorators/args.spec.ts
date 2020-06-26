@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes} from "@tsed/common/src";
 import {Arg, Args} from "./args";
 
@@ -8,8 +9,8 @@ describe("@Args", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("args");
-    param.paramType.should.eq(ParamTypes.REQUEST);
+    expect(param.expression).to.eq("args");
+    expect(param.paramType).to.eq(ParamTypes.REQUEST);
   });
 });
 
@@ -20,7 +21,7 @@ describe("@Arg", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("args.0");
-    param.paramType.should.eq(ParamTypes.REQUEST);
+    expect(param.expression).to.eq("args.0");
+    expect(param.paramType).to.eq(ParamTypes.REQUEST);
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformRouter, PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {PlatformApplication} from "./PlatformApplication";
@@ -56,8 +57,8 @@ describe("PlatformApplication", () => {
       platformApp.use("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.use.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.use).to.have.been.calledWithExactly("/", handler);
     });
     it("should add router to app", async () => {
       // GIVEN
@@ -71,8 +72,8 @@ describe("PlatformApplication", () => {
 
       // THEN
       // @ts-ignore
-      PlatformRouter.createRawRouter.should.have.been.calledWithExactly();
-      platformApp.raw.use.should.have.been.calledWithExactly("/", handler.raw);
+      expect(PlatformRouter.createRawRouter).to.have.been.calledWithExactly();
+      expect(platformApp.raw.use).to.have.been.calledWithExactly("/", handler.raw);
     });
   });
   describe("get()", () => {
@@ -85,8 +86,8 @@ describe("PlatformApplication", () => {
       platformApp.get("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.get.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.get).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("all()", () => {
@@ -99,8 +100,8 @@ describe("PlatformApplication", () => {
       platformApp.all("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.all.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.all).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("post()", () => {
@@ -113,8 +114,8 @@ describe("PlatformApplication", () => {
       platformApp.post("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.post.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.post).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("put()", () => {
@@ -127,8 +128,8 @@ describe("PlatformApplication", () => {
       platformApp.put("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.put.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.put).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("patch()", () => {
@@ -141,8 +142,8 @@ describe("PlatformApplication", () => {
       platformApp.patch("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.patch.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.patch).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("head()", () => {
@@ -155,8 +156,8 @@ describe("PlatformApplication", () => {
       platformApp.head("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.head.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.head).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("delete()", () => {
@@ -169,8 +170,8 @@ describe("PlatformApplication", () => {
       platformApp.delete("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.delete.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.delete).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("options()", () => {
@@ -183,8 +184,8 @@ describe("PlatformApplication", () => {
       platformApp.options("/", handler);
 
       // THEN
-      platformHandler.createHandler.should.have.been.calledWithExactly(handler);
-      platformApp.raw.options.should.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformApp.raw.options).to.have.been.calledWithExactly("/", handler);
     });
   });
 });

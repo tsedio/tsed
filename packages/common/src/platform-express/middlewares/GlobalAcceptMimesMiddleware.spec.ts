@@ -1,4 +1,5 @@
-import {assert, expect} from "chai";
+import {catchError} from "@tsed/core";
+import {expect} from "chai";
 import {FakeRequest} from "../../../../../test/helper";
 import {ServerSettingsService} from "../../config";
 import {GlobalAcceptMimesMiddleware} from "./GlobalAcceptMimesMiddleware";
@@ -28,9 +29,9 @@ describe("GlobalAcceptMimesMiddleware", () => {
 
       const middleware = new GlobalAcceptMimesMiddleware(settings as any);
 
-      assert.throws(() => {
-        middleware.use(request as any);
-      }, "You must accept content-type application/json");
+      const error: any = catchError(() => middleware.use(request as any));
+
+      expect(error.message).to.eq("You must accept content-type application/json");
     });
   });
 });

@@ -33,7 +33,7 @@ describe("Store", () => {
       });
 
       it("should have been called the Metadata.get()", () => {
-        spyGet.should.have.been.calledWithExactly(CLASS_STORE, FakeMetadata);
+        expect(spyGet).to.have.been.calledWithExactly(CLASS_STORE, FakeMetadata);
       });
 
       it("should share the same StoreMap when the signature is equals", () => {
@@ -62,7 +62,7 @@ describe("Store", () => {
       });
 
       it("should have been called the Metadata.get()", () => {
-        spyGet.should.have.been.calledWithExactly(METHOD_STORE, FakeMetadata, "get");
+        expect(spyGet).to.have.been.calledWithExactly(METHOD_STORE, FakeMetadata, "get");
       });
     });
 
@@ -77,7 +77,7 @@ describe("Store", () => {
       });
 
       it("should have been called the Metadata.get()", () => {
-        spyGet.should.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+        expect(spyGet).to.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
       });
     });
 
@@ -98,7 +98,7 @@ describe("Store", () => {
       });
 
       it("should have been called the Metadata.get()", () => {
-        spyGet.should.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+        expect(spyGet).to.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
       });
     });
 
@@ -119,7 +119,7 @@ describe("Store", () => {
       });
 
       it("should have been called the Metadata.get()", () => {
-        spyGet.should.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+        expect(spyGet).to.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
       });
     });
 
@@ -134,7 +134,7 @@ describe("Store", () => {
       });
 
       it("should have been called the Metadata.get()", () => {
-        spyGet.should.have.been.calledWithExactly(PARAM_STORE, FakeMetadata, "get");
+        expect(spyGet).to.have.been.calledWithExactly(PARAM_STORE, FakeMetadata, "get");
       });
     });
   });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 import {IFilter} from "../../interfaces/IFilter";
@@ -33,9 +34,9 @@ describe("@UseParam", () => {
       }
 
       const param = ParamRegistry.get(Ctrl, "test", 0);
-      param.expression.should.eq("expression");
-      param.paramType.should.eq(ParamTypes.BODY);
-      param.type.should.eq(Test);
+      expect(param.expression).to.eq("expression");
+      expect(param.paramType).to.eq(ParamTypes.BODY);
+      expect(param.type).to.eq(Test);
     });
     it("should create useFilter (withoutFilter)", () => {
       class Test {}
@@ -54,9 +55,9 @@ describe("@UseParam", () => {
       }
 
       const param = ParamRegistry.get(Ctrl, "test", 0);
-      param.expression.should.eq("expression");
-      param.paramType.should.eq(ParamTypes.BODY);
-      param.type.should.eq(Test);
+      expect(param.expression).to.eq("expression");
+      expect(param.paramType).to.eq(ParamTypes.BODY);
+      expect(param.type).to.eq(Test);
     });
     it("should create useFilter (withFilter", () => {
       class Test {}
@@ -81,10 +82,10 @@ describe("@UseParam", () => {
       }
 
       const param = ParamRegistry.get(Ctrl, "test", 0);
-      param.expression.should.eq("expression");
-      param.paramType.should.eq(ParamTypes.BODY);
-      param.type.should.eq(Test);
-      param.filter!.should.eq(MyFilter);
+      expect(param.expression).to.eq("expression");
+      expect(param.paramType).to.eq(ParamTypes.BODY);
+      expect(param.type).to.eq(Test);
+      expect(param.filter!).to.eq(MyFilter);
     });
   });
 });

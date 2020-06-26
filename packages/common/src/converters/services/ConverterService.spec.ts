@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
-import {InjectorService} from "@tsed/di";
-import {Configuration} from "@tsed/di/src/decorators/configuration";
-import {assert, expect} from "chai";
+import {catchError} from "@tsed/core";
+import {Configuration, InjectorService} from "@tsed/di";
+import {expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService, ModelStrict} from "../../../src/converters";
 import {Default, PropertyDeserialize, PropertySerialize, PropertyType} from "../../../src/jsonschema/decorators";
@@ -189,15 +189,17 @@ describe("ConverterService", () => {
 
         const result = converterService.deserialize({test: "test"}, Test);
 
-        result.should.instanceof(Test);
-        result.test.should.eq("testto");
+        expect(result).to.be.instanceof(Test);
+        expect(result.test).to.eq("testto");
       })
     );
 
     it(
       "should emit a BadRequest when the number parsing failed",
       PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
-        assert.throws(() => converterService.deserialize("NK1", Number), "Cast error. Expression value is not a number.");
+        const error: any = catchError(() => converterService.deserialize("NK1", Number));
+
+        expect(error.message).to.eq("Cast error. Expression value is not a number.");
       })
     );
 
@@ -593,14 +595,15 @@ describe("ConverterService", () => {
 
         const result = converterService.serialize(input);
 
-        result.should.not.instanceof(Test);
-        result.test.should.eq("testto");
+        expect(result).to.be.not.instanceof(Test);
+        expect(result.test).to.eq("testto");
       });
     });
   });
 
   describe("getAdditionalPropertyLevel()", () => {
-    class Test {}
+    class Test {
+    }
 
     it(
       "should return accept when there is no model",
@@ -684,7 +687,8 @@ describe("ConverterService", () => {
       "should return return return error when model is strict and global is acccept",
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         @ModelStrict(true)
-        class Test {}
+        class Test {
+        }
 
         const converterService = await invokeConverterService({
           additionalProperties: "accept",
@@ -700,7 +704,8 @@ describe("ConverterService", () => {
       "should return return return error when model is strict and global is acccept",
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         @ModelStrict(false)
-        class Test {}
+        class Test {
+        }
 
         const converterService = await invokeConverterService({
           additionalProperties: "error",

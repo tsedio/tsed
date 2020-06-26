@@ -63,7 +63,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call $onNamespaceInit hook", () => {
-      this.provider.instance.$onNamespaceInit.should.have.been.calledWithExactly("namespace1");
+      expect(this.provider.instance.$onNamespaceInit).to.have.been.calledWithExactly("namespace1");
     });
 
     it("should add namespace1", () => {
@@ -117,15 +117,15 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call the buildHandlers method", () => {
-      this.buildHandlersStub.should.have.been.calledWithExactly(this.socketStub, this.nspStub);
+      expect(this.buildHandlersStub).to.have.been.calledWithExactly(this.socketStub, this.nspStub);
     });
 
     it("should call the createSession method", () => {
-      this.createSessionStub.should.have.been.calledWithExactly(this.socketStub);
+      expect(this.createSessionStub).to.have.been.calledWithExactly(this.socketStub);
     });
 
     it("should add metadata when $onConnection exists", () => {
-      this.invokeStub.should.have.been.calledWithExactly(
+      expect(this.invokeStub).to.have.been.calledWithExactly(
         this.provider.instance,
         {eventName: "onConnection"},
         {
@@ -167,11 +167,11 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call the createSession method", () => {
-      this.destroySessionStub.should.have.been.calledWithExactly(this.socketStub);
+      expect(this.destroySessionStub).to.have.been.calledWithExactly(this.socketStub);
     });
 
     it("should add metadata when $onDisconnect exists", () => {
-      this.invokeStub.should.have.been.calledWithExactly(
+      expect(this.invokeStub).to.have.been.calledWithExactly(
         this.provider.instance,
         {eventName: "onDisconnect"},
         {
@@ -249,11 +249,11 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call socket.on() method", () => {
-      this.socketStub.on.should.have.been.calledWithExactly("eventName", Sinon.match.func);
+      expect(this.socketStub.on).to.have.been.calledWithExactly("eventName", Sinon.match.func);
     });
 
     it("should call runQueue method", () => {
-      this.runQueueStub.should.have.been.calledWithExactly(this.metadata.handlers.testHandler, ["arg1"], this.socketStub, "ws");
+      expect(this.runQueueStub).to.have.been.calledWithExactly(this.metadata.handlers.testHandler, ["arg1"], this.socketStub, "ws");
     });
   });
 
@@ -289,13 +289,13 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call buildParameters", () => {
-      this.buildParametersStub.should.have.been.calledWithExactly(["param"], {
+      expect(this.buildParametersStub).to.have.been.calledWithExactly(["param"], {
         scope: "scope"
       });
     });
 
     it("should call the method instance", () => {
-      this.provider.instance.testHandler.should.have.been.calledWithExactly("argMapped");
+      expect(this.provider.instance.testHandler).to.have.been.calledWithExactly("argMapped");
     });
   });
 
@@ -520,7 +520,7 @@ describe("SocketHandlersBuilder", () => {
         )({response: "response"});
       });
       it("should call the ws.emit method", () => {
-        this.nspStub.emit.should.have.been.calledWithExactly("eventName", {response: "response"});
+        expect(this.nspStub.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
       });
     });
     describe("when BROADCAST_OTHERS", () => {
@@ -542,7 +542,7 @@ describe("SocketHandlersBuilder", () => {
         )({response: "response"});
       });
       it("should call the socket.broadcast.emit method", () => {
-        this.socketStub.broadcast.emit.should.have.been.calledWithExactly("eventName", {response: "response"});
+        expect(this.socketStub.broadcast.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
       });
     });
 
@@ -563,7 +563,7 @@ describe("SocketHandlersBuilder", () => {
         )({response: "response"});
       });
       it("should call the socket.emit method", () => {
-        this.socketStub.emit.should.have.been.calledWithExactly("eventName", {response: "response"});
+        expect(this.socketStub.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
       });
     });
   });
@@ -608,7 +608,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler before global)", () => {
-      this.bindMiddlewareStub.getCall(0).should.have.been.calledWithExactly(
+      expect(this.bindMiddlewareStub.getCall(0)).to.have.been.calledWithExactly(
         {target: "target before global"},
         {
           eventName: "eventName",
@@ -621,7 +621,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler before)", () => {
-      this.bindMiddlewareStub.getCall(1).should.have.been.calledWithExactly(
+      expect(this.bindMiddlewareStub.getCall(1)).to.have.been.calledWithExactly(
         {target: "target before"},
         {
           eventName: "eventName",
@@ -634,7 +634,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should invoke method instance", () => {
-      this.builder.invoke.should.have.been.calledWithExactly(this.provider.instance, this.handlerMetadata, {
+      expect(this.builder.invoke).to.have.been.calledWithExactly(this.provider.instance, this.handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -643,7 +643,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call SocketHandlersBuilder.bindResponseMiddleware", () => {
-      this.bindResponseMiddlewareStub.should.have.been.calledWithExactly(this.handlerMetadata, {
+      expect(this.bindResponseMiddlewareStub).to.have.been.calledWithExactly(this.handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -652,7 +652,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler after)", () => {
-      this.bindMiddlewareStub.getCall(2).should.have.been.calledWithExactly(
+      expect(this.bindMiddlewareStub.getCall(2)).to.have.been.calledWithExactly(
         {target: "target after"},
         {
           eventName: "eventName",
@@ -665,7 +665,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler after global)", () => {
-      this.bindMiddlewareStub.getCall(3).should.have.been.calledWithExactly(
+      expect(this.bindMiddlewareStub.getCall(3)).to.have.been.calledWithExactly(
         {target: "target after global"},
         {
           eventName: "eventName",
@@ -678,7 +678,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call deserialize()", () => {
-      this.deserializeStub.should.have.been.calledWithExactly(this.handlerMetadata, {
+      expect(this.deserializeStub).to.have.been.calledWithExactly(this.handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -721,11 +721,11 @@ describe("SocketHandlersBuilder", () => {
       });
 
       it("should call Middleware.get", () => {
-        this.getStub.should.have.been.calledWithExactly({target: "target"});
+        expect(this.getStub).to.have.been.calledWithExactly({target: "target"});
       });
 
       it("should invoke method", () => {
-        return this.invokeStub.should.not.have.been.called;
+        return expect(this.invokeStub).to.not.have.been.called;
       });
     });
 
@@ -776,8 +776,8 @@ describe("SocketHandlersBuilder", () => {
           await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
 
           // THEN
-          injector.getProvider.should.have.been.calledWithExactly({target: "target"});
-          builder.invoke.should.have.been.calledWithExactly(instance, "use", scope);
+          expect(injector.getProvider).to.have.been.calledWithExactly({target: "target"});
+          expect(builder.invoke).to.have.been.calledWithExactly(instance, "use", scope);
           expect(scope.args).to.deep.eq([{result: "result"}]);
         })
       );
@@ -832,8 +832,8 @@ describe("SocketHandlersBuilder", () => {
           await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
 
           // THEN
-          injector.getProvider.should.have.been.calledWithExactly({target: "target"});
-          builder.invoke.should.have.been.calledWithExactly(instance, "use", {error, ...scope});
+          expect(injector.getProvider).to.have.been.calledWithExactly({target: "target"});
+          expect(builder.invoke).to.have.been.calledWithExactly(instance, "use", {error, ...scope});
         })
       );
     });
@@ -869,7 +869,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call ConverterService.deserialize", () => {
-      this.converterService.deserialize.should.have.been.calledWithExactly("any", String, Array);
+      expect(this.converterService.deserialize).to.have.been.calledWithExactly("any", String, Array);
     });
   });
 });

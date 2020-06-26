@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Locals, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@Locals", () => {
@@ -7,7 +8,7 @@ describe("@Locals", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.LOCALS);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.LOCALS);
   });
 });

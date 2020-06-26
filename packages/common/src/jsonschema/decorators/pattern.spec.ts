@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, Pattern} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -9,7 +10,7 @@ describe("Pattern", () => {
       Pattern("patternValue");
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.pattern.should.be.eq("patternValue");
+      expect(schema.pattern).to.eq("patternValue");
       decorateStub.restore();
     });
   });
@@ -21,7 +22,7 @@ describe("Pattern", () => {
 
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.pattern.should.be.eq("abc");
+      expect(schema.pattern).to.eq("abc");
       decorateStub.restore();
     });
   });

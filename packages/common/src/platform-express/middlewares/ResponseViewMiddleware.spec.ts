@@ -30,7 +30,7 @@ describe("ResponseViewMiddleware :", () => {
         middleware.use({}, endpoint, response as any);
 
         expect(middleware).not.to.be.undefined;
-        response.render.should.be.calledWithExactly("page.html", {test: "test"}, Sinon.match.func);
+        expect(response.render).to.have.been.calledWithExactly("page.html", {test: "test"}, Sinon.match.func);
       })
     );
   });
@@ -59,7 +59,7 @@ describe("ResponseViewMiddleware :", () => {
         middleware.use({}, endpoint as any, response as any);
 
         expect(middleware).not.to.be.undefined;
-        response.render.should.not.be.called;
+        expect(response.render).to.not.be.called;
       })
     );
   });

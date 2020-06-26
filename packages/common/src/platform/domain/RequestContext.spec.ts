@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {RequestContext} from "./RequestContext";
 
 describe("RequestContext", () => {
@@ -5,8 +6,8 @@ describe("RequestContext", () => {
     // @ts-ignore
     const context = new RequestContext({id: "id"});
 
-    context.id.should.eq("id");
-    context.dateStart.should.be.instanceof(Date);
-    context.container.should.be.instanceof(Map);
+    expect(context.id).to.eq("id");
+    expect(context.dateStart).to.be.instanceof(Date);
+    expect(context.container).to.be.instanceof(Map);
   });
 });

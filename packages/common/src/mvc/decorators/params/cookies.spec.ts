@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Cookies, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@Cookies", () => {
@@ -9,8 +10,8 @@ describe("@Cookies", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.COOKIES);
-    param.type.should.eq(Test);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.COOKIES);
+    expect(param.type).to.eq(Test);
   });
 });

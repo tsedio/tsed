@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Store} from "@tsed/core";
 import {Constant} from "../../src";
 import {INJECTABLE_PROP} from "../constants";
@@ -12,7 +13,7 @@ describe("@Constant()", () => {
     // THEN
     const store = Store.from(Test).get(INJECTABLE_PROP);
 
-    store.should.deep.eq({
+    expect(store).to.deep.eq({
       test: {
         bindingType: "constant",
         propertyKey: "test",

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes, PathParams, RawPathParams} from "../../../../src/mvc";
 
 describe("@PathParams", () => {
@@ -9,9 +10,9 @@ describe("@PathParams", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.PATH);
-    param.type.should.eq(Test);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.PATH);
+    expect(param.type).to.eq(Test);
   });
   it("should call ParamFilter.useParam method with the correct parameters (raw)", () => {
     class Ctrl {
@@ -19,7 +20,7 @@ describe("@PathParams", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.PATH);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.PATH);
   });
 });

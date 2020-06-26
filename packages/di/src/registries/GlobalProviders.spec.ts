@@ -20,9 +20,9 @@ describe("GlobalProviderRegistry", () => {
       });
 
       // THEN
-      result.should.be.instanceOf(Registry);
+      expect(result).to.be.instanceof(Registry);
 
-      setStub.should.have.been.calledWithExactly("test", {
+      expect(setStub).to.have.been.calledWithExactly("test", {
         registry: result,
         injectable: false
       });
@@ -46,10 +46,10 @@ describe("GlobalProviderRegistry", () => {
 
         // THEN
         expect(result).to.eq("instance");
-        getStub.should.have.been.calledWithExactly("type");
-        hasStub.should.have.been.calledWithExactly("type");
+        expect(getStub).to.have.been.calledWithExactly("type");
+        expect(hasStub).to.have.been.calledWithExactly("type");
 
-        return providers.get.should.not.have.been.called;
+        return expect(providers.get).to.not.have.been.called;
       });
     });
 
@@ -72,11 +72,11 @@ describe("GlobalProviderRegistry", () => {
         const result = providers.getRegistrySettings(Test);
 
         // THEN
-        result.should.eq("instance");
+        expect(result).to.eq("instance");
 
-        hasStub.should.have.been.calledWithExactly("type");
-        getStub.should.have.been.calledWithExactly("type");
-        providers.get.should.have.been.calledWithExactly(Test);
+        expect(hasStub).to.have.been.calledWithExactly("type");
+        expect(getStub).to.have.been.calledWithExactly("type");
+        expect(providers.get).to.have.been.calledWithExactly(Test);
       });
     });
 
@@ -94,13 +94,13 @@ describe("GlobalProviderRegistry", () => {
         const result = providers.getRegistrySettings("type");
 
         // THEN
-        result.should.deep.eq({
+        expect(result).to.deep.eq({
           registry: providers,
           injectable: true
         });
-        hasStub.should.have.been.calledWithExactly("type");
+        expect(hasStub).to.have.been.calledWithExactly("type");
 
-        return providers.get.should.not.have.been.called && getStub.should.not.have.been.called;
+        return expect(providers.get).to.not.have.been.called && expect(getStub).to.not.have.been.called;
       });
     });
   });
@@ -121,8 +121,8 @@ describe("GlobalProviderRegistry", () => {
       fn("provide");
 
       // THEN
-      providers.getRegistry.should.have.been.calledWithExactly("type");
-      registryStub.merge.should.have.been.calledWithExactly("provide", {
+      expect(providers.getRegistry).to.have.been.calledWithExactly("type");
+      expect(registryStub.merge).to.have.been.calledWithExactly("provide", {
         provide: "provide",
         instance: undefined,
         type: "type"
@@ -142,8 +142,8 @@ describe("GlobalProviderRegistry", () => {
       const result = providers.getRegistry("type");
 
       // THEN
-      providers.getRegistrySettings.should.have.been.calledWithExactly("type");
-      result.should.eq("registry");
+      expect(providers.getRegistrySettings).to.have.been.calledWithExactly("type");
+      expect(result).to.eq("registry");
     });
   });
 });

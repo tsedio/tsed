@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {EndpointMetadata} from "@tsed/common";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
@@ -31,8 +32,8 @@ describe("statusAndHeadersMiddleware", () => {
     });
 
     // THEN
-    response.set.should.have.been.calledWithExactly("x-header", "test");
-    response.status.should.have.been.calledWithExactly(200);
+    expect(response.set).to.have.been.calledWithExactly("x-header", "test");
+    expect(response.status).to.have.been.calledWithExactly(200);
   });
 
   it("should set header", async () => {
@@ -58,6 +59,6 @@ describe("statusAndHeadersMiddleware", () => {
     });
 
     // THEN
-    response.set.should.have.been.calledWithExactly("x-header", "test");
+    expect(response.set).to.have.been.calledWithExactly("x-header", "test");
   });
 });

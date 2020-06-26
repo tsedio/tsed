@@ -59,7 +59,7 @@ describe("DI Singleton", () => {
       await injector.load(container);
 
       // THEN
-      injector.get<ServiceSingleton>(ServiceSingleton)!.should.be.instanceof(ServiceSingleton);
+      expect(injector.get<ServiceSingleton>(ServiceSingleton)!).to.be.instanceof(ServiceSingleton);
     });
   });
   describe("when it has a REQUEST dependency", () => {
@@ -80,12 +80,12 @@ describe("DI Singleton", () => {
       const serviceRequest = injector.get<ServiceRequest>(ServiceRequest)!;
 
       // THEN
-      serviceSingletonWithReqDep.should.be.instanceof(ServiceSingletonWithRequestDep);
-      serviceSingletonWithReqDep.serviceRequest.should.be.instanceof(ServiceRequest);
-      serviceSingletonWithReqDep.serviceRequest2.should.be.instanceof(ServiceRequest);
+      expect(serviceSingletonWithReqDep).to.be.instanceof(ServiceSingletonWithRequestDep);
+      expect(serviceSingletonWithReqDep.serviceRequest).to.be.instanceof(ServiceRequest);
+      expect(serviceSingletonWithReqDep.serviceRequest2).to.be.instanceof(ServiceRequest);
 
       // The same service injected twice or more are considered as a Singleton (REQUEST downgraded to SINGLETON)
-      serviceSingletonWithReqDep.serviceRequest.should.eq(serviceSingletonWithReqDep.serviceRequest2);
+      expect(serviceSingletonWithReqDep.serviceRequest).to.eq(serviceSingletonWithReqDep.serviceRequest2);
 
       // The service isn't registered in the injectorService
       expect(serviceRequest).to.eq(undefined);
@@ -107,12 +107,12 @@ describe("DI Singleton", () => {
       const serviceInstance = injector.get<ServiceInstance>(ServiceInstance)!;
 
       // THEN
-      serviceWithInstDep.should.be.instanceof(ServiceSingletonWithInstanceDep);
-      serviceWithInstDep.serviceInstance.should.be.instanceof(ServiceInstance);
-      serviceWithInstDep.serviceInstance2.should.be.instanceof(ServiceInstance);
+      expect(serviceWithInstDep).to.be.instanceof(ServiceSingletonWithInstanceDep);
+      expect(serviceWithInstDep.serviceInstance).to.be.instanceof(ServiceInstance);
+      expect(serviceWithInstDep.serviceInstance2).to.be.instanceof(ServiceInstance);
 
       // A same service injected twice or more are considered as a new INSTANCE for each injection
-      serviceWithInstDep.serviceInstance.should.not.eq(serviceWithInstDep.serviceInstance2);
+      expect(serviceWithInstDep.serviceInstance).to.not.eq(serviceWithInstDep.serviceInstance2);
 
       // The service isn't registered in the injectorService
       expect(serviceInstance).to.eq(undefined);

@@ -1,5 +1,6 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
-import {Model, PostHook} from "../../src/decorators";
+import {PostHook} from "../../src/decorators";
 import {schemaOptions} from "../../src/utils/schemaOptions";
 
 const sandbox = Sinon.createSandbox();
@@ -11,12 +12,13 @@ describe("@PostHook()", () => {
 
       // WHEN
       @PostHook("method", fn)
-      class Test {}
+      class Test {
+      }
 
       // THEN
       const options = schemaOptions(Test);
 
-      options.should.deep.eq({
+      expect(options).to.deep.eq({
         post: [
           {
             method: "method",
@@ -31,15 +33,16 @@ describe("@PostHook()", () => {
     it("should call applySchemaOptions", () => {
       class Test {
         @PostHook("save")
-        static method() {}
+        static method() {
+        }
       }
 
       const {
         post: [options]
       } = schemaOptions(Test);
 
-      options.method.should.eq("save");
-      options.fn.should.be.a("function");
+      expect(options.method).to.eq("save");
+      expect(options.fn).to.be.a("function");
     });
   });
 });

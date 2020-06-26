@@ -216,15 +216,15 @@ describe("Registry", () => {
       });
 
       it("should call Registry.has()", () => {
-        hasStub.should.have.been.calledWithExactly("key");
+        expect(hasStub).to.have.been.calledWithExactly("key");
       });
 
       it("should call Registry.set()", () => {
-        setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+        expect(setStub).to.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
       });
 
       it("should call Registry.get()", () => {
-        getStub.should.have.been.calledWithExactly("key");
+        expect(getStub).to.have.been.calledWithExactly("key");
       });
 
       it("should return an instance of FakeMetadata", () => {
@@ -253,15 +253,15 @@ describe("Registry", () => {
       });
 
       it("should call Registry.has()", () => {
-        hasStub.should.have.been.calledWithExactly("key");
+        expect(hasStub).to.have.been.calledWithExactly("key");
       });
 
       it("should call Registry.set()", () => {
-        setStub.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+        expect(setStub).to.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
       });
 
       it("should call Registry.get()", () => {
-        getStub.should.have.been.calledWithExactly("key");
+        expect(getStub).to.have.been.calledWithExactly("key");
       });
 
       it("should return an instance of FakeMetadata", () => {
@@ -269,7 +269,7 @@ describe("Registry", () => {
       });
 
       it("should call the onCreate hook", () => {
-        hooks.onCreate.should.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
+        expect(hooks.onCreate).to.have.been.calledWithExactly("key", Sinon.match.instanceOf(FakeMetadata));
       });
     });
   });

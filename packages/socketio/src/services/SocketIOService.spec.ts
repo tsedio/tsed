@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {InjectorService} from "@tsed/di";
 import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
@@ -38,23 +39,23 @@ describe("SocketIOService", () => {
     after(PlatformTest.reset);
 
     it("should call io.of and create namespace", () => {
-      ioStub.of.should.have.been.calledWithExactly("/");
+      expect(ioStub.of).to.have.been.calledWithExactly("/");
     });
 
     it("should call namespace.on", () => {
-      namespace.on.should.have.been.calledWithExactly("connection", Sinon.match.func);
+      expect(namespace.on).to.have.been.calledWithExactly("connection", Sinon.match.func);
     });
 
     it("should call builder.onConnection", () => {
-      instance.onConnection.should.have.been.calledWithExactly(socket, namespace);
+      expect(instance.onConnection).to.have.been.calledWithExactly(socket, namespace);
     });
 
     it("should call socket.on when socket is disconnected", () => {
-      socket.on.should.have.been.calledWithExactly("disconnect", Sinon.match.func);
+      expect(socket.on).to.have.been.calledWithExactly("disconnect", Sinon.match.func);
     });
 
     it("should call builder.onDisconnect", () => {
-      instance.onDisconnect.should.have.been.calledWithExactly(socket, namespace);
+      expect(instance.onDisconnect).to.have.been.calledWithExactly(socket, namespace);
     });
   });
 });

@@ -121,6 +121,6 @@ describe("PropertyFn", () => {
       test: string;
     }
 
-    stub.should.have.been.calledWithExactly(prototypeOf(Test), "test", undefined);
+    expect(stub).to.have.been.calledWithExactly(prototypeOf(Test), "test", undefined);
   });
 });

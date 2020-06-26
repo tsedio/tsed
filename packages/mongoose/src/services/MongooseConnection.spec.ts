@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
 import {Configuration} from "@tsed/di";
 import * as Sinon from "sinon";
@@ -36,7 +37,7 @@ describe("MongooseConnections", () => {
     ]);
 
     // THEN
-    connectStub.should.have.been.calledWithExactly("default", "mongodb://test", {options: "options"}, true);
+    expect(connectStub).to.have.been.calledWithExactly("default", "mongodb://test", {options: "options"}, true);
   });
   it("should init with a list of connection", async () => {
     // GIVEN
@@ -67,7 +68,7 @@ describe("MongooseConnections", () => {
     ]);
 
     // THEN
-    connectStub.should.have.been.calledWithExactly("id", "mongodb://test", {options: "options"}, true);
+    expect(connectStub).to.have.been.calledWithExactly("id", "mongodb://test", {options: "options"}, true);
   });
   it("should init connection with urls", async () => {
     // GIVEN
@@ -99,6 +100,6 @@ describe("MongooseConnections", () => {
     ]);
 
     // THEN
-    connectStub.should.have.been.calledWithExactly("db1", "mongodb://test", {options: "options"}, true);
+    expect(connectStub).to.have.been.calledWithExactly("db1", "mongodb://test", {options: "options"}, true);
   });
 });

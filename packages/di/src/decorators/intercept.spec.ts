@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Store} from "@tsed/core";
 import {IInterceptor, IInterceptorContext, InjectablePropertyType, Intercept} from "../../src";
 import {INJECTABLE_PROP} from "../constants";
@@ -19,9 +20,9 @@ describe("@Intercept", () => {
 
     // THEN
     const injectableProperties = Store.from(TestService).get(INJECTABLE_PROP);
-    injectableProperties.test.bindingType.should.eq(InjectablePropertyType.INTERCEPTOR);
-    injectableProperties.test.useType.should.eq(TestInterceptor);
-    injectableProperties.test.options.should.deep.eq({options: "options"});
-    injectableProperties.test.propertyKey.should.eq("test");
+    expect(injectableProperties.test.bindingType).to.eq(InjectablePropertyType.INTERCEPTOR);
+    expect(injectableProperties.test.useType).to.eq(TestInterceptor);
+    expect(injectableProperties.test.options).to.deep.eq({options: "options"});
+    expect(injectableProperties.test.propertyKey).to.eq("test");
   });
 });

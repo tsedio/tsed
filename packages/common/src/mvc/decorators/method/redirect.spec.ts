@@ -1,4 +1,4 @@
-import {assert, expect} from "chai";
+import {expect} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";
@@ -25,7 +25,7 @@ describe("Redirect", () => {
       Redirect(options)(Test, "test", descriptor);
 
       expect(useAfterStub.args[0][0]).to.be.a("function");
-      assert(middleware.calledWith(Test, "test", descriptor));
+      expect(middleware).to.have.been.calledWithExactly(Test, "test", descriptor);
     });
 
     it("should call response method", () => {
@@ -41,8 +41,8 @@ describe("Redirect", () => {
       middleware({}, response, nextSpy);
 
       // @ts-ignore
-      assert(response.redirect.calledWith(options), "method not called");
-      assert(nextSpy.called, "function not called");
+      expect(response.redirect).to.have.been.calledWithExactly("test");
+      expect(nextSpy).to.have.been.calledWithExactly();
     });
 
     it("should call response method", () => {
@@ -58,9 +58,7 @@ describe("Redirect", () => {
       const middleware = useAfterStub.args[0][0];
 
       middleware({}, response, nextSpy);
-      // @ts-ignore
-      assert(!response.redirect.called, "method is called");
-      assert(nextSpy.called, "function not called");
+      expect(nextSpy).to.have.been.calledWithExactly();
     });
   });
 
@@ -76,8 +74,8 @@ describe("Redirect", () => {
 
       middleware({}, response, nextSpy);
       // @ts-ignore
-      response.redirect.should.have.been.calledWithExactly(200, "test2");
-      assert(nextSpy.called, "function not called");
+      expect(response.redirect).to.have.been.calledWithExactly(200, "test2");
+      expect(nextSpy).to.have.been.calledWithExactly();
     });
   });
 });

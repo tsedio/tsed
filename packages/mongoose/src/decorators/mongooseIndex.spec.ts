@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {MongooseIndex} from "../../src/decorators/mongooseIndex";
 import {schemaOptions} from "../../src/utils/schemaOptions";
@@ -17,7 +18,7 @@ describe("@MongooseIndex()", () => {
     // THEN
     const options = schemaOptions(Test);
 
-    options.should.deep.eq({
+    expect(options).to.deep.eq({
       indexes: [
         {
           fields: {

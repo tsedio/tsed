@@ -21,7 +21,7 @@ describe("AuthenticatedMiddleware", () => {
     const result = middleware.use(request as any, endpoint);
 
     // THEN
-    request.isAuthenticated.should.have.been.calledWithExactly({options: "options"});
+    expect(request.isAuthenticated).to.have.been.calledWithExactly({options: "options"});
     expect(result).to.eq(undefined);
   });
 
@@ -44,7 +44,7 @@ describe("AuthenticatedMiddleware", () => {
     }
 
     // THEN
-    request.isAuthenticated.should.have.been.calledWithExactly({options: "options"});
-    actualError.should.instanceOf(Unauthorized);
+    expect(request.isAuthenticated).to.have.been.calledWithExactly({options: "options"});
+    expect(actualError).to.be.instanceOf(Unauthorized);
   });
 });

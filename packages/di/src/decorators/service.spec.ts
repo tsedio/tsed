@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {GlobalProviders, ProviderType, Service} from "@tsed/di";
 import * as Sinon from "sinon";
 
@@ -19,7 +20,7 @@ describe("Service", () => {
     Service()(Test);
 
     // THEN
-    serviceRegistry.merge.should.have.been.calledWithExactly(Test, {
+    expect(serviceRegistry.merge).to.have.been.calledWithExactly(Test, {
       instance: undefined,
       provide: Test,
       type: ProviderType.SERVICE

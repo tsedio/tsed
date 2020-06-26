@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {
   AfterInit,
   AfterListen,
@@ -102,33 +103,33 @@ describe("PlatformBuilder", () => {
       });
 
       // THEN
-      server.rootModule.$onInit.should.have.been.calledWithExactly();
-      server.rootModule.$beforeRoutesInit.should.have.been.calledWithExactly();
-      server.rootModule.$afterRoutesInit.should.have.been.calledWithExactly();
-      server.rootModule.$afterInit.should.have.been.calledWithExactly();
-      server.rootModule.$beforeInit.should.have.been.calledWithExactly();
-      server.injector.emit.should.have.been.calledWithExactly("$beforeRoutesInit");
-      server.injector.emit.should.have.been.calledWithExactly("$afterRoutesInit");
-      server.injector.emit.should.not.have.been.calledWithExactly("$afterInit");
-      server.injector.emit.should.not.have.been.calledWithExactly("$onInit");
-      server.injector.emit.should.not.have.been.calledWithExactly("$beforeInit");
+      expect(server.rootModule.$onInit).to.have.been.calledWithExactly();
+      expect(server.rootModule.$beforeRoutesInit).to.have.been.calledWithExactly();
+      expect(server.rootModule.$afterRoutesInit).to.have.been.calledWithExactly();
+      expect(server.rootModule.$afterInit).to.have.been.calledWithExactly();
+      expect(server.rootModule.$beforeInit).to.have.been.calledWithExactly();
+      expect(server.injector.emit).to.have.been.calledWithExactly("$beforeRoutesInit");
+      expect(server.injector.emit).to.have.been.calledWithExactly("$afterRoutesInit");
+      expect(server.injector.emit).to.not.have.been.calledWithExactly("$afterInit");
+      expect(server.injector.emit).to.not.have.been.calledWithExactly("$onInit");
+      expect(server.injector.emit).to.not.have.been.calledWithExactly("$beforeInit");
 
       await server.listen();
       // THEN
       // @ts-ignore
-      server.listenServers.should.have.been.calledWithExactly();
-      server.loadStatics.should.have.been.calledWithExactly();
-      server.rootModule.$afterListen.should.have.been.calledWithExactly();
-      server.rootModule.$beforeListen.should.have.been.calledWithExactly();
-      server.rootModule.$onReady.should.have.been.calledWithExactly();
-      server.injector.emit.should.have.been.calledWithExactly("$afterListen");
-      server.injector.emit.should.have.been.calledWithExactly("$beforeListen");
-      server.injector.emit.should.have.been.calledWithExactly("$onServerReady");
-      server.injector.emit.should.have.been.calledWithExactly("$onReady");
+      expect(server.listenServers).to.have.been.calledWithExactly();
+      expect(server.loadStatics).to.have.been.calledWithExactly();
+      expect(server.rootModule.$afterListen).to.have.been.calledWithExactly();
+      expect(server.rootModule.$beforeListen).to.have.been.calledWithExactly();
+      expect(server.rootModule.$onReady).to.have.been.calledWithExactly();
+      expect(server.injector.emit).to.have.been.calledWithExactly("$afterListen");
+      expect(server.injector.emit).to.have.been.calledWithExactly("$beforeListen");
+      expect(server.injector.emit).to.have.been.calledWithExactly("$onServerReady");
+      expect(server.injector.emit).to.have.been.calledWithExactly("$onReady");
 
       // THEN
-      server.rootModule.should.be.instanceOf(ServerModule);
-      server.platform.addRoutes.should.have.been.calledWithExactly([
+      expect(server.rootModule).to.be.instanceof(ServerModule);
+      expect(server.platform.addRoutes).to.have.been.calledWithExactly([
         {
           route: "/rest",
           token: RestCtrl
@@ -148,7 +149,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      server.injector.settings.componentsScan.should.deep.eq([
+      expect(server.injector.settings.componentsScan).to.deep.eq([
         join(process.cwd(), "mvc/**/*.ts"),
         join(process.cwd(), "services/**/*.ts"),
         join(process.cwd(), "middlewares/**/*.ts"),
@@ -168,7 +169,7 @@ describe("PlatformBuilder", () => {
       server.addControllers("/test", MyClass);
 
       // THEN
-      server.injector.settings.mount["/test"].should.deep.eq([MyClass]);
+      expect(server.injector.settings.mount["/test"]).to.deep.eq([MyClass]);
     });
   });
 });

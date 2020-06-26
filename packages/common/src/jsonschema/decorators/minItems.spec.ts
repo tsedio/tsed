@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, MinItems} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -10,7 +11,7 @@ describe("MinItems", () => {
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
 
-    schema.minItems.should.eq(10);
+    expect(schema.minItems).to.eq(10);
 
     decorateStub.restore();
   });
@@ -21,6 +22,6 @@ describe("MinItems", () => {
     } catch (er) {
       error = er;
     }
-    error.message.should.deep.equal("The value of minItems MUST be a non-negative integer.");
+    expect(error.message).to.deep.equal("The value of minItems MUST be a non-negative integer.");
   });
 });

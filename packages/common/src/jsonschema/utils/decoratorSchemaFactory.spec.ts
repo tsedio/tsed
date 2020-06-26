@@ -1,8 +1,10 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {JsonSchemesRegistry, PropertyRegistry} from "../../../src/jsonschema";
 import {decoratorSchemaFactory} from "../../../src/jsonschema/utils/decoratorSchemaFactory";
 
-class Test {}
+class Test {
+}
 
 const sandbox = Sinon.createSandbox();
 describe("decoratorSchemaFactory()", () => {
@@ -22,9 +24,9 @@ describe("decoratorSchemaFactory()", () => {
 
       decoratorSchemaFactory(cbStub)(Test, "test");
 
-      PropertyRegistry.get.should.be.calledWithExactly(Test, "test");
-      cbStub.should.be.calledWithExactly("schema", [Test, "test"]);
-      decoratorStub.should.be.calledWithExactly(Test, "test");
+      expect(PropertyRegistry.get).to.have.been.calledWithExactly(Test, "test");
+      expect(cbStub).to.have.been.calledWithExactly("schema", [Test, "test"]);
+      expect(decoratorStub).to.have.been.calledWithExactly(Test, "test");
     });
   });
 
@@ -44,7 +46,7 @@ describe("decoratorSchemaFactory()", () => {
 
       decoratorSchemaFactory(cbStub)(Test);
 
-      JsonSchemesRegistry.createIfNotExists.should.be.calledWithExactly(Test);
+      expect(JsonSchemesRegistry.createIfNotExists).to.have.been.calledWithExactly(Test);
     });
   });
 });

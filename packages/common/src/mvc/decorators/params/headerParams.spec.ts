@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {HeaderParams, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@HeaderParams", () => {
@@ -7,7 +8,7 @@ describe("@HeaderParams", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.HEADER);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.HEADER);
   });
 });

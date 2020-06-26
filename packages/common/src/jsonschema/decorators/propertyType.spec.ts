@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {prototypeOf} from "@tsed/core";
 import {PropertyRegistry, PropertyType} from "../../../src/jsonschema";
 
@@ -10,7 +11,7 @@ describe("@PropertyType", () => {
 
     const propertyMetadata = PropertyRegistry.get(prototypeOf(Test), "test");
 
-    propertyMetadata.type.should.eq(Number);
-    propertyMetadata.isCollection.should.eq(true);
+    expect(propertyMetadata.type).to.eq(Number);
+    expect(propertyMetadata.isCollection).to.eq(true);
   });
 });

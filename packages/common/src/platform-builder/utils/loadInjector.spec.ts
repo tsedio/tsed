@@ -1,4 +1,5 @@
 import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {PlatformModule} from "../../platform/PlatformModule";
@@ -10,10 +11,12 @@ describe("loadInjector", () => {
   it("should load injector", () => {
     // GIVEN
     @Injectable()
-    class TestService {}
+    class TestService {
+    }
 
     @Injectable()
-    class TestService2 {}
+    class TestService2 {
+    }
 
     const injector = new InjectorService();
 
@@ -34,9 +37,9 @@ describe("loadInjector", () => {
     loadInjector(injector, container);
 
     // THEN
-    stub(injector.addProviders).should.have.been.calledWithExactly(container);
-    stub(injector.invoke).should.have.been.calledWithExactly(PlatformModule);
-    stub(injector.load).should.have.been.calledWithExactly(container);
+    expect(stub(injector.addProviders)).to.have.been.calledWithExactly(container);
+    expect(stub(injector.invoke)).to.have.been.calledWithExactly(PlatformModule);
+    expect(stub(injector.load)).to.have.been.calledWithExactly(container);
 
     stub(injector.logger.debug).restore();
   });

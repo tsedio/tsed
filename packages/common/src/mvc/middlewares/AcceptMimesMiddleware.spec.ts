@@ -25,7 +25,7 @@ describe("AcceptMimesMiddleware", () => {
         // @ts-ignore
         const result = middleware.use(request);
         expect(result).to.equal(undefined);
-        request.accepts.should.have.been.calledWithExactly("application/json").and.calledWithExactly("application/xml");
+        expect(request.accepts).to.have.been.calledWithExactly("application/json").and.calledWithExactly("application/xml");
       })
     );
   });

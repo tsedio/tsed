@@ -32,7 +32,7 @@ describe("Platform", () => {
         const router = platform.createRouter({options: "options"});
 
         // THEN
-        injector.invoke.should.have.been.calledWithExactly(PlatformRouter, Sinon.match.any);
+        expect(injector.invoke).to.have.been.calledWithExactly(PlatformRouter, Sinon.match.any);
         expect(router).to.deep.eq(givenRouter);
       })
     );
@@ -68,8 +68,8 @@ describe("Platform", () => {
 
         // THEN
         const provider = injector.getProvider(MyCtrl)!;
-        platform.routes.should.deep.eq([{provider, route: "/test/my-route"}]);
-        driver.use.should.have.been.calledWithExactly("/test/my-route", provider.router.raw);
+        expect(platform.routes).to.deep.eq([{provider, route: "/test/my-route"}]);
+        expect(driver.use).to.have.been.calledWithExactly("/test/my-route", provider.router.raw);
       })
     );
   });
@@ -105,7 +105,7 @@ describe("Platform", () => {
       const result = platform.getRoutes();
 
       // THEN
-      result.should.deep.eq([]);
+      expect(result).to.deep.eq([]);
     });
   });
 });

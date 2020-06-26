@@ -40,11 +40,11 @@ describe("createHttpServer", () => {
 
     const promise = listenHttpServer(injector);
 
-    http.listen.should.have.been.calledWithExactly("port", "address");
+    expect(http.listen).to.have.been.calledWithExactly("port", "address");
 
     await promise;
 
-    injector.settings.setHttpPort.should.have.been.calledWithExactly({address: "address", port: 8080});
+    expect(injector.settings.setHttpPort).to.have.been.calledWithExactly({address: "address", port: 8080});
   });
   it("should listen the server with port 0", async () => {
     const injector = new InjectorService();
@@ -73,11 +73,11 @@ describe("createHttpServer", () => {
 
     const promise = listenHttpServer(injector);
 
-    http.listen.should.have.been.calledWithExactly(0, "address");
+    expect(http.listen).to.have.been.calledWithExactly(0, "address");
 
     await promise;
 
-    injector.settings.setHttpPort.should.have.been.calledWithExactly({address: "address", port: 0});
+    expect(injector.settings.setHttpPort).to.have.been.calledWithExactly({address: "address", port: 0});
   });
   it("should not listen the server when it's false", async () => {
     const injector = new InjectorService();
@@ -105,6 +105,6 @@ describe("createHttpServer", () => {
 
     await listenHttpServer(injector);
 
-    return http.listen.should.not.have.been.called;
+    return expect(http.listen).to.not.have.been.called;
   });
 });

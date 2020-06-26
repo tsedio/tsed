@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes, QueryParams, RawQueryParams} from "../../../../src/mvc";
 
 describe("@QueryParams", () => {
@@ -9,9 +10,9 @@ describe("@QueryParams", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.QUERY);
-    param.type.should.eq(Test);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.QUERY);
+    expect(param.type).to.eq(Test);
   });
 
   it("should call ParamFilter.useParam method with the correct parameters (rawQueryParams)", () => {
@@ -20,7 +21,7 @@ describe("@QueryParams", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.QUERY);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.QUERY);
   });
 });

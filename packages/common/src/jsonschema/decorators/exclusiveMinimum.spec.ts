@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ExclusiveMinimum, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -11,7 +12,7 @@ describe("ExclusiveMinimum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.exclusiveMinimum.should.eq(10);
+      expect(schema.exclusiveMinimum).to.eq(10);
 
       decorateStub.restore();
     });
@@ -24,7 +25,7 @@ describe("ExclusiveMinimum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.exclusiveMinimum.should.eq(10);
+      expect(schema.exclusiveMinimum).to.eq(10);
 
       decorateStub.restore();
     });

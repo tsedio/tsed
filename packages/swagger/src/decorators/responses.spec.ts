@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {descriptorOf, Store} from "@tsed/core";
 import {prototypeOf, UnsupportedDecoratorType} from "@tsed/core/src/utils";
 import {Responses} from "../index";
@@ -17,7 +18,7 @@ describe("Responses()", () => {
       // THEN
       const store = Store.fromMethod(Test, "test");
 
-      store.get("responses").should.deep.eq({
+      expect(store.get("responses")).to.deep.eq({
         "400": {
           description: "Bad Request"
         }
@@ -39,7 +40,7 @@ describe("Responses()", () => {
       // THEN
       const store = Store.fromMethod(Test, "test");
 
-      store.get("responses").should.deep.eq({
+      expect(store.get("responses")).to.deep.eq({
         "400": {
           description: "Bad Request"
         }
@@ -64,7 +65,7 @@ describe("Responses()", () => {
       }
 
       // THEN
-      actualError.should.instanceOf(UnsupportedDecoratorType);
+      expect(actualError).to.instanceOf(UnsupportedDecoratorType);
     });
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Const, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -9,7 +10,7 @@ describe("Const", () => {
       Const("0");
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.const.should.eq("0");
+      expect(schema.const).to.eq("0");
       decorateStub.restore();
     });
   });
@@ -21,7 +22,7 @@ describe("Const", () => {
       Const(false);
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.const.should.eq(false);
+      expect(schema.const).to.eq(false);
       decorateStub.restore();
     });
   });

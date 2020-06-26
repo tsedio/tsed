@@ -58,24 +58,24 @@ describe("PathParams", () => {
   it("scenario 1: GET /rest/scope/scopeId", async () => {
     const response = await request.get("/rest/scenario1/abc/1").expect(200);
 
-    response.text.should.be.deep.equal("abc");
+    expect(response.text).to.deep.equal("abc");
   });
 
   it("scenario 2: GET /rest/scope/scopeId", async () => {
     const response = await request.get("/rest/scenario2/abc/1").expect(200);
 
-    response.text.should.be.deep.equal("abc");
+    expect(response.text).to.deep.equal("abc");
   });
 
   it("scenario 3: POST /rest/scope/scopeId", async () => {
     const response = await request.post("/rest/scenario3/abc/1").expect(200);
 
-    response.body.should.be.deep.equal(["a", "b", "c"]);
+    expect(response.body).to.deep.equal(["a", "b", "c"]);
   });
 
   it("scenario 4: POST /rest/scope/scopeId", async () => {
     const response = await request.post("/rest/scenario4/abc/1").expect(200);
 
-    response.body.should.be.deep.equal(["a", "b", "c"]);
+    expect(response.body).to.deep.equal(["a", "b", "c"]);
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {BodyParams, ParamRegistry, ParamTypes} from "../../../../src/mvc";
 
 describe("@BodyParams", () => {
@@ -9,8 +10,8 @@ describe("@BodyParams", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.expression.should.eq("expression");
-    param.paramType.should.eq(ParamTypes.BODY);
-    param.type.should.eq(Test);
+    expect(param.expression).to.eq("expression");
+    expect(param.paramType).to.eq(ParamTypes.BODY);
+    expect(param.type).to.eq(Test);
   });
 });

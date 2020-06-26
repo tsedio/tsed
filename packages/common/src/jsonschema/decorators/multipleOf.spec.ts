@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, MultipleOf} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -9,7 +10,7 @@ describe("MultipleOf", () => {
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
 
-    schema.multipleOf.should.eq(10);
+    expect(schema.multipleOf).to.eq(10);
     decorateStub.restore();
   });
 
@@ -20,6 +21,6 @@ describe("MultipleOf", () => {
     } catch (er) {
       error = er;
     }
-    error.message.should.deep.equal("The value of multipleOf MUST be a number, strictly greater than 0.");
+    expect(error.message).to.deep.equal("The value of multipleOf MUST be a number, strictly greater than 0.");
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Store} from "@tsed/core";
 import {Value} from "../../src";
 import {INJECTABLE_PROP} from "../constants";
@@ -11,9 +12,9 @@ describe("@Value()", () => {
     Value("expression")(Test, "test");
 
     // THEN
-    Store.from(Test)
-      .get(INJECTABLE_PROP)
-      .should.deep.eq({
+    expect(Store.from(Test)
+      .get(INJECTABLE_PROP))
+      .to.deep.eq({
         test: {
           bindingType: "value",
           propertyKey: "test",

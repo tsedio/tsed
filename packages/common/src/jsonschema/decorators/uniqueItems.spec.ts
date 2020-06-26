@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {JsonSchema, UniqueItems} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -10,7 +11,7 @@ describe("UniqueItems", () => {
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
 
-    schema.uniqueItems.should.be.eq(true);
+    expect(schema.uniqueItems).to.eq(true);
 
     decorateStub.restore();
   });

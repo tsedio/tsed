@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
 import * as proxyquire from "proxyquire";
 import * as Sinon from "sinon";
@@ -53,13 +54,13 @@ describe("GraphQLService", () => {
         } as any);
         const result2 = await service.createServer("key", {path: "/path"} as any);
 
-        result2.should.deep.eq(result1);
-        result1.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
-        service.createSchema.should.have.been.calledOnceWithExactly({
+        expect(result2).to.deep.eq(result1);
+        expect(result1.args).to.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
+        expect(service.createSchema).to.have.been.calledOnceWithExactly({
           resolvers: [],
           container: service.injectorService
         });
-        result1.applyMiddleware.should.have.been.calledOnceWithExactly(
+        expect(result1.applyMiddleware).to.have.been.calledOnceWithExactly(
           Sinon.match({
             app: Sinon.match.func,
             path: "/path"
@@ -101,20 +102,20 @@ describe("GraphQLService", () => {
           installSubscriptionHandlers: true
         } as any);
 
-        result.args.should.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
-        service.createSchema.should.have.been.calledOnceWithExactly({
+        expect(result.args).to.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
+        expect(service.createSchema).to.have.been.calledOnceWithExactly({
           resolvers: [],
           container: service.injectorService
         });
 
-        result.applyMiddleware.should.have.been.calledOnceWithExactly(
+        expect(result.applyMiddleware).to.have.been.calledOnceWithExactly(
           Sinon.match({
             app: Sinon.match.func,
             path: "/path"
           })
         );
 
-        result.installSubscriptionHandlers.should.have.been.calledWithExactly(service.httpServer);
+        expect(result.installSubscriptionHandlers).to.have.been.calledWithExactly(service.httpServer);
       });
     });
   });
@@ -145,7 +146,7 @@ describe("GraphQLService", () => {
       // WHEN
       const result = service.getSchema("key");
 
-      result.should.deep.eq({schema: "schema"});
+      expect(result).to.deep.eq({schema: "schema"});
     });
   });
   describe("createDataSources", () => {
@@ -161,7 +162,7 @@ describe("GraphQLService", () => {
 
         const fn = service.createDataSources(dataSources, serverConfigSources);
 
-        fn().should.deep.eq({
+        expect(fn()).to.deep.eq({
           api2: "api2",
           api: "api"
         });
@@ -172,7 +173,7 @@ describe("GraphQLService", () => {
       PlatformTest.inject([GraphQLService], (service: any) => {
         const fn = service.createDataSources();
 
-        fn().should.deep.eq({});
+        expect(fn()).to.deep.eq({});
       })
     );
   });
@@ -198,7 +199,7 @@ describe("GraphQLService", () => {
     it("should return a function with all dataSources", () => {
       const result = service.getDataSources();
 
-      result.should.deep.eq({
+      expect(result).to.deep.eq({
         dataSource: new DataSource()
       });
     });

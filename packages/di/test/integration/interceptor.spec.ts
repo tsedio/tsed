@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {
   Container,
   GlobalProviders,
@@ -52,7 +53,7 @@ describe("DI Interceptor", () => {
     const result = serviceTest.exec("param data");
 
     // THEN
-    result.should.deep.eq("Original data - param data - options data - intercepted");
+    expect(result).to.deep.eq("Original data - param data - options data - intercepted");
   });
 
   it("should intercept the method and throw error", async () => {
@@ -74,6 +75,6 @@ describe("DI Interceptor", () => {
       actualError = er;
     }
     // THEN
-    actualError.message.should.eq("Error message");
+    expect(actualError.message).to.eq("Error message");
   });
 });

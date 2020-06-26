@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {LocalsContainer, Container, GlobalProviders, InjectorService, OnDestroy, ProviderScope, Scope, Service} from "@tsed/di";
 
@@ -60,13 +61,13 @@ describe("DI Request", () => {
 
       locals.destroy();
       // THEN
-      result1.should.eq(result2);
-      result1.serviceSingleton.should.eq(serviceSingleton1);
-      result1.serviceInstance.should.instanceof(ServiceInstance);
+      expect(result1).to.eq(result2);
+      expect(result1.serviceSingleton).to.eq(serviceSingleton1);
+      expect(result1.serviceInstance).to.instanceof(ServiceInstance);
 
-      serviceSingleton1.should.eq(serviceSingleton2);
+      expect(serviceSingleton1).to.eq(serviceSingleton2);
 
-      return result1.$onDestroy.should.have.been.called;
+      return expect(result1.$onDestroy).to.have.been.calledWithExactly();
     });
   });
 });

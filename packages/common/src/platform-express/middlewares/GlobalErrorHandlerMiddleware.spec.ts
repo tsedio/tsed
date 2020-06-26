@@ -24,7 +24,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
           // @ts-ignore
           middleware.use(error, request, response);
 
-          middleware.setHeaders.should.have.been.calledWithExactly(response, error, "origin");
+          expect(middleware.setHeaders).to.have.been.calledWithExactly(response, error, "origin");
           expect(response._body).is.equal("test");
           expect(response.statusCode).is.equal(error.status);
         })
@@ -63,7 +63,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
           expect(response.statusCode).is.equal(500);
           expect(response._body).is.equal("Internal Error");
-          middleware.setHeaders.should.have.been.calledWithExactly(response, error, undefined);
+          expect(middleware.setHeaders).to.have.been.calledWithExactly(response, error, undefined);
         })
       );
     });
@@ -82,8 +82,8 @@ describe("GlobalErrorHandlerMiddleware", () => {
 
         middleware.setHeaders(response, error);
 
-        response.set.getCall(0).should.have.been.calledWithExactly({"x-header": "value"});
-        response.set.getCall(1).should.have.been.calledWithExactly("errors", JSON.stringify(["test", "test2"]));
+        expect(response.set.getCall(0)).to.have.been.calledWithExactly({"x-header": "value"});
+        expect(response.set.getCall(1)).to.have.been.calledWithExactly("errors", JSON.stringify(["test", "test2"]));
       })
     );
   });

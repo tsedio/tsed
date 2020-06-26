@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {LocalsContainer} from "../../src/class/LocalsContainer";
 
@@ -13,8 +14,8 @@ describe("LocalsContainer", () => {
 
       await container.destroy();
 
-      instance.$onDestroy.should.have.been.calledWithExactly();
-      container.size.should.eq(0);
+      expect(instance.$onDestroy).to.have.been.calledWithExactly();
+      expect(container.size).to.eq(0);
     });
   });
 });

@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {AllowTypes, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -10,7 +11,7 @@ describe("AllowTypes", () => {
     // @ts-ignore
     decoratorStub.getCall(0).args[0](schema);
 
-    schema.type.should.deep.eq(["string", "number"]);
+    expect(schema.type).to.deep.eq(["string", "number"]);
 
     decoratorStub.restore();
   });

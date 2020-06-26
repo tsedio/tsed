@@ -27,7 +27,7 @@ describe("SocketService", () => {
     });
 
     it("should call socketServiceRegistry", () => {
-      registerSocketService.should.have.been.calledWithExactly(Test);
+      expect(registerSocketService).to.have.been.calledWithExactly(Test);
     });
   });
   describe("case 2", () => {
@@ -48,7 +48,7 @@ describe("SocketService", () => {
       });
     });
     it("should call socketServiceRegistry", () => {
-      registerSocketService.should.have.been.calledWithExactly(Test);
+      expect(registerSocketService).to.have.been.calledWithExactly(Test);
     });
   });
 });

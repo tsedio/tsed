@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {PlatformApplication, PlatformTest, ServerSettingsService} from "@tsed/common";
 import * as Express from "express";
 import * as Sinon from "sinon";
@@ -60,9 +61,9 @@ describe("ServeStaticService", () => {
 
         // THEN
         platformApp.use.getCall(0).args[1](request, response, nextSpy);
-        platformApp.use.should.be.calledWithExactly("/path", Sinon.match.func);
-        Express.static.should.be.calledWithExactly(Sinon.match("/views"));
-        middlewareServeStatic.should.be.calledWithExactly(request, response, nextSpy);
+        expect(platformApp.use).to.have.been.calledWithExactly("/path", Sinon.match.func);
+        expect(Express.static).to.have.been.calledWithExactly(Sinon.match("/views"));
+        expect(middlewareServeStatic).to.have.been.calledWithExactly(request, response, nextSpy);
       });
     });
     describe("when headers is sent", () => {
@@ -108,12 +109,12 @@ describe("ServeStaticService", () => {
 
         // THEN
         platformApp.use.getCall(0).args[1](request, response, nextSpy);
-        platformApp.use.should.be.calledWithExactly("/path", Sinon.match.func);
-        Express.static.should.be.calledWithExactly(Sinon.match("/views"));
+        expect(platformApp.use).to.have.been.calledWithExactly("/path", Sinon.match.func);
+        expect(Express.static).to.have.been.calledWithExactly(Sinon.match("/views"));
 
-        nextSpy.should.be.calledWithExactly();
+        expect(nextSpy).to.have.been.calledWithExactly();
 
-        return middlewareServeStatic.should.not.be.called;
+        return expect(middlewareServeStatic).to.not.be.called;
       });
     });
   });

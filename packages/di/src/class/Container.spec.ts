@@ -16,7 +16,7 @@ describe("Container", () => {
       const result = container.getProvider(Test);
 
       // THEN
-      result!.should.instanceof(Provider);
+      expect(result!).to.instanceof(Provider);
     });
   });
   describe("getProviders()", () => {
@@ -42,7 +42,7 @@ describe("Container", () => {
 
       const result = providers.find((item: any) => item.type !== ProviderType.MIDDLEWARE);
 
-      providers[0].type.should.eq(ProviderType.MIDDLEWARE);
+      expect(providers[0].type).to.eq(ProviderType.MIDDLEWARE);
       expect(result).to.eq(undefined);
     });
 
@@ -51,7 +51,7 @@ describe("Container", () => {
 
       const result = providers.find((item: any) => item.type !== ProviderType.CONTROLLER);
 
-      providers[0].type.should.eq(ProviderType.CONTROLLER);
+      expect(providers[0].type).to.eq(ProviderType.CONTROLLER);
       expect(result).to.eq(undefined);
     });
 
@@ -78,7 +78,7 @@ describe("Container", () => {
       container.addProviders(childContainer);
 
       // THEN
-      container.getProvider(Test)!.should.instanceof(Provider);
+      expect(container.getProvider(Test)!).to.instanceof(Provider);
     });
   });
 });

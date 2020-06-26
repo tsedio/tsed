@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Enum, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -9,7 +10,7 @@ describe("Enum", () => {
       Enum("0", "1");
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
-      schema.enum.should.deep.eq(["0", "1"]);
+      expect(schema.enum).to.deep.eq(["0", "1"]);
       decorateStub.restore();
     });
   });
@@ -27,8 +28,8 @@ describe("Enum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.type.should.eq("string");
-      schema.enum.should.deep.eq(["enum1", "enum2"]);
+      expect(schema.type).to.eq("string");
+      expect(schema.enum).to.deep.eq(["enum1", "enum2"]);
 
       decorateStub.restore();
     });
@@ -47,8 +48,8 @@ describe("Enum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.type.should.eq("number");
-      schema.enum.should.deep.eq([0, 1]);
+      expect(schema.type).to.eq("number");
+      expect(schema.enum).to.deep.eq([0, 1]);
       decorateStub.restore();
     });
   });
@@ -67,8 +68,8 @@ describe("Enum", () => {
       // @ts-ignore
       decorateStub.getCall(0).args[0](schema);
 
-      schema.type.should.deep.eq(["number", "string"]);
-      schema.enum.should.deep.eq([0, "test", "test2"]);
+      expect(schema.type).to.deep.eq(["number", "string"]);
+      expect(schema.enum).to.deep.eq([0, "test", "test2"]);
 
       decorateStub.restore();
     });

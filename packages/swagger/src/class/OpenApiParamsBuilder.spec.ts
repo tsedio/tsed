@@ -135,9 +135,9 @@ describe("OpenApiParamsBuilder", () => {
     });
 
     it("should call createSchemaFromQueryParam()", () => {
-      this.builder.createSchemaFromQueryParam.should.have.been.calledTwice.and
-        .calledWithExactly(this.params[0])
-        .and.calledWithExactly(this.params[2]);
+      expect(this.builder.createSchemaFromQueryParam).to.have.callCount(2);
+      expect(this.builder.createSchemaFromQueryParam).to.have.calledWithExactly(this.params[0]);
+      expect(this.builder.createSchemaFromQueryParam).to.have.calledWithExactly(this.params[2]);
     });
 
     it("should return data", () => {
@@ -628,7 +628,7 @@ describe("OpenApiParamsBuilder", () => {
         this.getParamsStub.restore();
       });
       it("should return the right schema", () => {
-        this.result.should.deep.equal([
+        expect(this.result).to.deep.equal([
           {
             type: "string"
           }
@@ -654,7 +654,7 @@ describe("OpenApiParamsBuilder", () => {
         this.getParamsStub.restore();
       });
       it("should return the right schema", () => {
-        this.result.should.deep.equal([
+        expect(this.result).to.deep.equal([
           {
             type: "array",
             collectionFormat: "multi",
@@ -688,7 +688,7 @@ describe("OpenApiParamsBuilder", () => {
           isArray: false
         });
 
-        result.should.deep.equal([
+        expect(result).to.deep.equal([
           {
             type: "object",
             additionalProperties: {

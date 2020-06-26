@@ -34,7 +34,7 @@ describe("MongooseModule", () => {
   //     after(TestContext.reset);
   //
   //     it("should call the connect method", () => {
-  //       this.connectStub.should.have.been.calledWithExactly("default", "mongodb://test", {options: "options"});
+  //       expect(this.connectStub).to.have.been.calledWithExactly("default", "mongodb://test", {options: "options"});
   //     });
   //
   //     it("should return a promise", () => {
@@ -76,7 +76,7 @@ describe("MongooseModule", () => {
   //     );
   //
   //     it("should call the connect method", () => {
-  //       this.connectStub.should.have.been.calledWithExactly("db1", "mongodb://test", {options: "options"});
+  //       expect(this.connectStub).to.have.been.calledWithExactly("db1", "mongodb://test", {options: "options"});
   //     });
   //
   //     it("should return a promise", () => {

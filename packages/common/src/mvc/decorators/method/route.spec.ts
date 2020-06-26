@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 
@@ -18,7 +19,7 @@ describe("Route decorators", () => {
       All("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("all", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("all", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -26,7 +27,7 @@ describe("Route decorators", () => {
       All();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("all", "/");
+      expect(useStub).to.have.been.calledWithExactly("all", "/");
     });
   });
 
@@ -36,7 +37,7 @@ describe("Route decorators", () => {
       Get("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("get", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("get", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -44,7 +45,7 @@ describe("Route decorators", () => {
       Get();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("get", "/");
+      expect(useStub).to.have.been.calledWithExactly("get", "/");
     });
   });
 
@@ -54,7 +55,7 @@ describe("Route decorators", () => {
       Post("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("post", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("post", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -62,7 +63,7 @@ describe("Route decorators", () => {
       Post();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("post", "/");
+      expect(useStub).to.have.been.calledWithExactly("post", "/");
     });
   });
 
@@ -72,7 +73,7 @@ describe("Route decorators", () => {
       Put("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("put", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("put", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -80,7 +81,7 @@ describe("Route decorators", () => {
       Put();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("put", "/");
+      expect(useStub).to.have.been.calledWithExactly("put", "/");
     });
   });
 
@@ -90,7 +91,7 @@ describe("Route decorators", () => {
       Delete("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("delete", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("delete", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -98,7 +99,7 @@ describe("Route decorators", () => {
       Delete();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("delete", "/");
+      expect(useStub).to.have.been.calledWithExactly("delete", "/");
     });
   });
 
@@ -108,7 +109,7 @@ describe("Route decorators", () => {
       Head("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("head", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("head", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -116,7 +117,7 @@ describe("Route decorators", () => {
       Head();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("head", "/");
+      expect(useStub).to.have.been.calledWithExactly("head", "/");
     });
   });
 
@@ -126,7 +127,7 @@ describe("Route decorators", () => {
       Patch("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("patch", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("patch", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -134,7 +135,7 @@ describe("Route decorators", () => {
       Patch();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("patch", "/");
+      expect(useStub).to.have.been.calledWithExactly("patch", "/");
     });
   });
 
@@ -144,7 +145,7 @@ describe("Route decorators", () => {
       Options("/", () => {});
 
       // THEN
-      useStub.should.have.been.calledWithExactly("options", "/", Sinon.match.func);
+      expect(useStub).to.have.been.calledWithExactly("options", "/", Sinon.match.func);
     });
 
     it("should register route and middleware (2)", () => {
@@ -152,7 +153,7 @@ describe("Route decorators", () => {
       Options();
 
       // THEN
-      useStub.should.have.been.calledWithExactly("options", "/");
+      expect(useStub).to.have.been.calledWithExactly("options", "/");
     });
   });
 });

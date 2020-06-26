@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {descriptorOf, Store} from "@tsed/core";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {VirtualRef} from "../../src/decorators";
@@ -13,7 +14,7 @@ describe("@VirtualRef()", () => {
       VirtualRef("RefTest", "foreign")(Test, "test", descriptorOf(Test, "test"));
 
       // THEN
-      store.get(MONGOOSE_SCHEMA).should.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
         foreignField: "foreign",
         localField: "test"
@@ -32,7 +33,7 @@ describe("@VirtualRef()", () => {
       VirtualRef(options)(Test, "test", descriptorOf(Test, "test"));
 
       // THEN
-      store.get(MONGOOSE_SCHEMA).should.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
         localField: "test",
         foreignField: "foreign",
@@ -59,7 +60,7 @@ describe("@VirtualRef()", () => {
       VirtualRef(options)(Test, "test", descriptorOf(Test, "test"));
 
       // THEN
-      store.get(MONGOOSE_SCHEMA).should.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
         localField: "test_2",
         foreignField: "foreign",

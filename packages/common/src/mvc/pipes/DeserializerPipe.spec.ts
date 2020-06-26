@@ -31,7 +31,7 @@ describe("DeserializerPipe", () => {
       expect(pipe.transform({}, param)).to.deep.eq({});
 
       // @ts-ignore
-      pipe.converterService.deserialize.should.have.been.calledWithExactly({}, Array, String, {additionalProperties: undefined});
+      expect(pipe.converterService.deserialize).to.have.been.calledWithExactly({}, Array, String, {additionalProperties: undefined});
     })
   );
   it(
@@ -55,7 +55,7 @@ describe("DeserializerPipe", () => {
       expect(pipe.transform({}, param)).to.deep.eq({});
 
       // @ts-ignore
-      pipe.converterService.deserialize.should.have.been.calledWithExactly({}, Array, String, {additionalProperties: "ignore"});
+      expect(pipe.converterService.deserialize).to.have.been.calledWithExactly({}, Array, String, {additionalProperties: "ignore"});
     })
   );
 });

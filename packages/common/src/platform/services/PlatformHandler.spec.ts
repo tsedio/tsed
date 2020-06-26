@@ -92,9 +92,9 @@ describe("PlatformHandler", () => {
         const handlerMetadata = platformHandler.createHandlerMetadata(endpoint);
 
         // THEN
-        handlerMetadata.target.should.eq(Test);
-        handlerMetadata.propertyKey.should.eq("get");
-        handlerMetadata.type.should.eq(HandlerType.CONTROLLER);
+        expect(handlerMetadata.target).to.eq(Test);
+        expect(handlerMetadata.propertyKey).to.eq("get");
+        expect(handlerMetadata.type).to.eq(HandlerType.CONTROLLER);
       })
     );
 
@@ -108,9 +108,9 @@ describe("PlatformHandler", () => {
         const handlerMetadata = platformHandler.createHandlerMetadata(Test);
 
         // THEN
-        handlerMetadata.target.should.eq(Test);
-        handlerMetadata.propertyKey.should.eq("use");
-        handlerMetadata.type.should.eq(HandlerType.MIDDLEWARE);
+        expect(handlerMetadata.target).to.eq(Test);
+        expect(handlerMetadata.propertyKey).to.eq("use");
+        expect(handlerMetadata.type).to.eq(HandlerType.MIDDLEWARE);
       })
     );
 
@@ -124,7 +124,7 @@ describe("PlatformHandler", () => {
         const handlerMetadata = platformHandler.createHandlerMetadata(() => {});
 
         // THEN
-        handlerMetadata.type.should.eq(HandlerType.FUNCTION);
+        expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
       })
     );
   });
@@ -155,7 +155,7 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(result).to.eq(undefined);
-        handler.length.should.eq(3);
+        expect(handler.length).to.eq(3);
       })
     );
     it(
@@ -205,9 +205,9 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(result).to.eq(undefined);
-        handler.length.should.eq(4);
-        Test.prototype.use.should.have.been.calledWithExactly(error);
-        request.ctx.data.should.deep.eq(error);
+        expect(handler.length).to.eq(4);
+        expect(Test.prototype.use).to.have.been.calledWithExactly(error);
+        expect(request.ctx.data).to.deep.eq(error);
       })
     );
 
@@ -236,7 +236,7 @@ describe("PlatformHandler", () => {
         handler(request, response, next);
 
         // THEN
-        return next.should.not.have.been.called;
+        return expect(next).to.not.have.been.called;
       })
     );
   });

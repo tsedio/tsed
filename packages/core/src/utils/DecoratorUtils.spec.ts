@@ -1,7 +1,16 @@
 import {expect} from "chai";
-import {applyDecorators, decorateMethodsOf, descriptorOf, getDecoratorType, Store, StoreFn, UnsupportedDecoratorType} from "../../src";
+import {
+  applyDecorators,
+  decorateMethodsOf,
+  descriptorOf,
+  getDecoratorType,
+  Store,
+  StoreFn,
+  UnsupportedDecoratorType
+} from "../../src";
 
-class Test {}
+class Test {
+}
 
 describe("DecoratorUtils", () => {
   describe("getDecoratorType()", () => {
@@ -24,7 +33,8 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              get: () => {}
+              get: () => {
+              }
             }
           ])
         ).to.equal("property");
@@ -36,7 +46,8 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              set: () => {}
+              set: () => {
+              }
             }
           ])
         ).to.equal("property");
@@ -48,7 +59,8 @@ describe("DecoratorUtils", () => {
             Test,
             "props",
             {
-              value: () => {}
+              value: () => {
+              }
             }
           ])
         ).to.equal("method");
@@ -60,7 +72,8 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              value: () => {}
+              value: () => {
+              }
             }
           ])
         ).to.equal("method");
@@ -98,7 +111,8 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                get: () => {}
+                get: () => {
+                }
               }
             ],
             true
@@ -113,7 +127,8 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                set: () => {}
+                set: () => {
+                }
               }
             ],
             true
@@ -128,7 +143,8 @@ describe("DecoratorUtils", () => {
               Test,
               "props",
               {
-                value: () => {}
+                value: () => {
+                }
               }
             ],
             true
@@ -143,7 +159,8 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                value: () => {}
+                value: () => {
+                }
               }
             ],
             true
@@ -188,7 +205,8 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            get: () => {}
+            get: () => {
+            }
           }
         ])
       ).to.equal("Decorator cannot be used as property decorator on Test.props");
@@ -200,7 +218,8 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            set: () => {}
+            set: () => {
+            }
           }
         ])
       ).to.equal("Decorator cannot be used as property decorator on Test.props");
@@ -212,7 +231,8 @@ describe("DecoratorUtils", () => {
           Test,
           "props",
           {
-            value: () => {}
+            value: () => {
+            }
           }
         ])
       ).to.equal("Decorator cannot be used as method.static decorator on Test.props");
@@ -224,7 +244,8 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            value: () => {}
+            value: () => {
+            }
           }
         ])
       ).to.equal("Decorator cannot be used as method decorator on Test.props");
@@ -262,18 +283,18 @@ describe("DecoratorUtils", () => {
       // WHEN
       @decorate()
       class Test extends TestParent {
-        test() {}
+        test() {
+        }
       }
 
       // THEN
-      Store.from(Test, "test", descriptorOf(Test, "test"))
-        .get("test")
-        .should.eq("test");
-      Store.from(Test, "test2", descriptorOf(Test, "test2"))
-        .get("test")
-        .should.eq("test2");
+      const result = Store.from(Test, "test", descriptorOf(Test, "test")).get("test");
+      expect(result).to.eq("test");
 
-      new Test().test2("1").should.eq("test1");
+      const result2 = Store.from(Test, "test2", descriptorOf(Test, "test2")).get("test");
+      expect(result2).to.eq("test2");
+
+      expect(new Test().test2("1")).to.eq("test1");
     });
   });
 
@@ -295,15 +316,16 @@ describe("DecoratorUtils", () => {
     }
 
     @decorate()
-    class Test {}
+    class Test {
+    }
 
     it("should apply all decorators", () => {
-      Store.from(Test)
-        .get("decorator1")
-        .should.eq("test1");
-      Store.from(Test)
-        .get("decorator2")
-        .should.eq("test2");
+      expect(Store.from(Test)
+        .get("decorator1"))
+        .to.eq("test1");
+      expect(Store.from(Test)
+        .get("decorator2"))
+        .to.eq("test2");
     });
   });
 });

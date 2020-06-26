@@ -12,9 +12,9 @@ describe("@Configuration", () => {
     provider.injectable = false;
     provider.configuration = {};
 
-    Store.from(Test)
-      .get("configuration")
-      .should.deep.eq({});
+    expect(Store.from(Test)
+      .get("configuration"))
+      .to.deep.eq({});
   });
 
   it("should inject configuration", async () => {

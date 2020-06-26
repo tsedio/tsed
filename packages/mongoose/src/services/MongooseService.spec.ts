@@ -38,8 +38,8 @@ describe("MongooseService", () => {
         const result = await mongooseService.connect("key", "mongodb://test", {options: "options"} as any);
 
         // THEN
-        result.should.eq("mongooseinstance");
-        (Mongoose.connect as any).should.have.been.calledOnce.and.calledWithExactly("mongodb://test", {options: "options"});
+        expect(result).to.eq("mongooseinstance");
+        expect(Mongoose.connect).to.have.been.calledOnce.and.calledWithExactly("mongodb://test", {options: "options"});
         expect(mongooseService.get()).to.eq(undefined);
         expect(mongooseService.has()).to.eq(false);
       })
@@ -62,7 +62,7 @@ describe("MongooseService", () => {
         await mongooseService.closeConnections();
 
         // THEN
-        instance.disconnect.should.have.been.calledWithExactly();
+        expect(instance.disconnect).to.have.been.calledWithExactly();
       })
     );
 
@@ -83,7 +83,7 @@ describe("MongooseService", () => {
         await mongooseService.closeConnections();
 
         // THEN
-        instance.disconnect.should.have.been.calledWithExactly();
+        expect(instance.disconnect).to.have.been.calledWithExactly();
       })
     );
   });

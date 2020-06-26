@@ -521,7 +521,7 @@ describe("OpenApiModelSchemaBuilder", () => {
 
       expect(result).to.deep.eq({type: "string"});
       // @ts-ignore
-      JsonSchemesRegistry.getSchemaDefinition.should.have.been.calledWithExactly(SwaFoo2);
+      expect(JsonSchemesRegistry.getSchemaDefinition).to.have.been.calledWithExactly(SwaFoo2);
     });
   });
 });

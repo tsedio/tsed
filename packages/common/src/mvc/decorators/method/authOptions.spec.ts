@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {decoratorArgs} from "@tsed/core";
 import {Store} from "../../../../../core/src";
 import {prototypeOf, UnsupportedDecoratorType} from "../../../../../core/src/utils";
@@ -31,14 +32,14 @@ describe("AuthOptions()", () => {
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
 
-      store.get("operation").should.deep.eq({
+      expect(store.get("operation")).to.deep.eq({
         security: [
           {
             auth: ["email"]
           }
         ]
       });
-      store.get("responses").should.deep.eq({
+      expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
         }
@@ -70,14 +71,14 @@ describe("AuthOptions()", () => {
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
 
-      store.get("operation").should.deep.eq({
+      expect(store.get("operation")).to.deep.eq({
         security: [
           {
             auth: ["email"]
           }
         ]
       });
-      store.get("responses").should.deep.eq({
+      expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
         }
@@ -102,8 +103,8 @@ describe("AuthOptions()", () => {
       // THEN
       const storeTest = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
-      storeTest.get(Guard).should.deep.eq({role: "test2"});
-      storeTest2.get(Guard).should.deep.eq({role: "test"});
+      expect(storeTest.get(Guard)).to.deep.eq({role: "test2"});
+      expect(storeTest2.get(Guard)).to.deep.eq({role: "test"});
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -121,8 +122,8 @@ describe("AuthOptions()", () => {
       }
 
       // THEN
-      actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("AuthOptions cannot be used as property.static decorator on Test.property");
+      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).to.eq("AuthOptions cannot be used as property.static decorator on Test.property");
     });
   });
 });

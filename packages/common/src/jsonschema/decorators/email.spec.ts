@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Email, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -9,7 +10,7 @@ describe("Email", () => {
 
     // @ts-ignore
     decorateStub.getCall(0).args[0](schema);
-    schema.format.should.eq("email");
+    expect(schema.format).to.eq("email");
 
     decorateStub.restore();
   });

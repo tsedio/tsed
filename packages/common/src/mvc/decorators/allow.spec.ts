@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {ParamRegistry} from "../../../src/mvc";
@@ -21,8 +22,8 @@ describe("Allow", () => {
 
       const metadata = ParamRegistry.get(prototypeOf(Test), "test", 0);
       // THEN
-      ParamRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
-      metadata.allowedRequiredValues.should.deep.eq([null]);
+      expect(ParamRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
+      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });
 
@@ -37,9 +38,9 @@ describe("Allow", () => {
       const metadata = PropertyRegistry.get(prototypeOf(Test), "test");
 
       // THEN
-      PropertyRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test");
-      metadata.allowedRequiredValues.should.deep.eq([null]);
-      metadata.schema.toJSON().should.deep.eq({type: ["string", "null"]});
+      expect(PropertyRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
+      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
+      expect(metadata.schema.toJSON()).to.deep.eq({type: ["string", "null"]});
     });
 
     it("should called with the correct parameters (class)", () => {
@@ -54,9 +55,9 @@ describe("Allow", () => {
       const metadata = PropertyRegistry.get(prototypeOf(Test), "test");
 
       // THEN
-      PropertyRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test");
-      metadata.allowedRequiredValues.should.deep.eq([null]);
-      metadata.schema.toJSON().should.deep.eq({
+      expect(PropertyRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
+      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
+      expect(metadata.schema.toJSON()).to.deep.eq({
         oneOf: [
           {
             type: "null"
@@ -82,7 +83,7 @@ describe("Allow", () => {
         actualError = er;
       }
 
-      actualError.message.should.deep.eq("Allow cannot be used as class decorator on Test");
+      expect(actualError.message).to.deep.eq("Allow cannot be used as class decorator on Test");
     });
   });
 });

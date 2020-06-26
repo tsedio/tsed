@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {EndpointMetadata, Property} from "@tsed/common";
 import {Store} from "@tsed/core";
 import * as Sinon from "sinon";
@@ -49,7 +50,7 @@ describe("OpenApiParamsBuilder", () => {
 
       it("should return an array with tags", () => {
         // @ts-ignore
-        builder.getTagName().should.deep.eq("name");
+        expect(builder.getTagName()).to.deep.eq("name");
       });
     });
 
@@ -64,7 +65,7 @@ describe("OpenApiParamsBuilder", () => {
 
       it("should return an array with tags", () => {
         // @ts-ignore
-        builder.getTagName().should.deep.eq("tagName");
+        expect(builder.getTagName()).to.deep.eq("tagName");
       });
     });
 
@@ -79,7 +80,7 @@ describe("OpenApiParamsBuilder", () => {
 
       it("should return an array with tags", () => {
         // @ts-ignore
-        builder.getTagName().should.deep.eq("Test");
+        expect(builder.getTagName()).to.deep.eq("Test");
       });
     });
   });
@@ -115,7 +116,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       } as any);
 
-      result.should.deep.eq({
+      expect(result).to.deep.eq({
         description: "description",
         examples: "examples",
         headers: {
@@ -137,7 +138,7 @@ describe("OpenApiParamsBuilder", () => {
       });
       endpoint.responses.set(200, {
         type: MyModel
-      });
+      } as any);
 
       const builder = new OpenApiEndpointBuilder(
         endpoint,
@@ -161,7 +162,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       } as any);
 
-      result.should.deep.eq({
+      expect(result).to.deep.eq({
         description: "description",
         examples: "examples",
         headers: {
@@ -186,7 +187,7 @@ describe("OpenApiParamsBuilder", () => {
       });
       endpoint.responses.set(400, {
         type: NotFound
-      });
+      } as any);
       endpoint.responses.set(200, {
         type: undefined,
         description: "Success"
@@ -214,7 +215,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       } as any);
 
-      result.should.deep.eq({
+      expect(result).to.deep.eq({
         description: "description",
         examples: "examples",
         headers: {
@@ -239,7 +240,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       } as any);
 
-      result2.should.deep.eq({
+      expect(result2).to.deep.eq({
         description: "Success",
         examples: "examples",
         headers: {

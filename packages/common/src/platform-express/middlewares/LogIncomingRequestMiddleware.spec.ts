@@ -1,4 +1,5 @@
-import {InjectorService} from "@tsed/di/src";
+import {expect} from "chai";
+import {InjectorService} from "@tsed/di";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {LogIncomingRequestMiddleware} from "./LogIncomingRequestMiddleware";
@@ -38,7 +39,7 @@ describe("LogIncomingRequestMiddleware", () => {
       middleware.$onResponse(request as any, response as any);
 
       // THEN
-      injector.logger.info.should.have.been.calledWithExactly(
+      expect(injector.logger.info).to.have.been.calledWithExactly(
         Sinon.match({
           event: "request.start",
           method: "GET",
@@ -46,7 +47,7 @@ describe("LogIncomingRequestMiddleware", () => {
           url: "originalUrl"
         })
       );
-      injector.logger.info.should.have.been.calledWithExactly(
+      expect(injector.logger.info).to.have.been.calledWithExactly(
         Sinon.match({
           event: "request.end",
           method: "GET",
@@ -55,8 +56,8 @@ describe("LogIncomingRequestMiddleware", () => {
           status: 200
         })
       );
-      injector.logger.info.should.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
-      injector.logger.info.should.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
+      expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
+      expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
     });
     it("should configure request and create context logger (debug, logRequest)", () => {
       // GIVEN
@@ -93,7 +94,7 @@ describe("LogIncomingRequestMiddleware", () => {
       middleware.$onResponse(request as any, response as any);
 
       // THEN
-      injector.logger.debug.should.have.been.calledWithExactly(
+      expect(injector.logger.debug).to.have.been.calledWithExactly(
         Sinon.match({
           event: "request.start",
           method: "GET",
@@ -101,7 +102,7 @@ describe("LogIncomingRequestMiddleware", () => {
           url: "url"
         })
       );
-      injector.logger.debug.should.have.been.calledWithExactly(
+      expect(injector.logger.debug).to.have.been.calledWithExactly(
         Sinon.match({
           event: "request.end",
           method: "GET",
@@ -111,8 +112,8 @@ describe("LogIncomingRequestMiddleware", () => {
           data: "test"
         })
       );
-      injector.logger.debug.should.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
-      injector.logger.debug.should.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
+      expect(injector.logger.debug).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
+      expect(injector.logger.debug).to.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
     });
     it("should configure request and create context logger (no debug, logRequest, logEnd)", () => {
       // GIVEN
@@ -146,13 +147,13 @@ describe("LogIncomingRequestMiddleware", () => {
       middleware.$onResponse(request as any, response as any);
 
       // THEN
-      injector.logger.info.should.have.been.calledWithExactly(
+      expect(injector.logger.info).to.have.been.calledWithExactly(
         Sinon.match({
           event: "request.start"
         })
       );
-      injector.logger.info.should.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
-      injector.logger.info.should.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
+      expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
+      expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
     });
     it("should configure request and create context logger (no debug, logRequest, logStart)", () => {
       // GIVEN
@@ -186,7 +187,7 @@ describe("LogIncomingRequestMiddleware", () => {
       middleware.$onResponse(request as any, response as any);
 
       // THEN
-      injector.logger.info.should.have.been.calledWithExactly(
+      expect(injector.logger.info).to.have.been.calledWithExactly(
         Sinon.match({
           event: "request.end",
           method: "GET",
@@ -195,8 +196,8 @@ describe("LogIncomingRequestMiddleware", () => {
           status: 200
         })
       );
-      injector.logger.info.should.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
-      injector.logger.info.should.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
+      expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
+      expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("time", Sinon.match.instanceOf(Date)));
     });
   });
 });

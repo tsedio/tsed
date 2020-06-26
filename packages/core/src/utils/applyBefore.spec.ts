@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {applyBefore} from "../../src";
 
@@ -12,9 +13,9 @@ describe("applyBefore", () => {
 
     applyBefore(obj, "method", cbStub);
     const result = obj.method("arg", "arg2");
-    obj.method.should.not.eq(originalMethod);
-    cbStub.should.be.calledOnce.and.calledWithExactly("arg", "arg2");
-    originalMethod.should.be.calledOnce.and.calledWithExactly("arg", "arg2");
-    result.should.be.eq("returns");
+    expect(obj.method).to.not.eq(originalMethod);
+    expect(cbStub).to.have.been.calledOnce.and.calledWithExactly("arg", "arg2");
+    expect(originalMethod).to.have.been.calledOnce.and.calledWithExactly("arg", "arg2");
+    expect(result).to.eq("returns");
   });
 });

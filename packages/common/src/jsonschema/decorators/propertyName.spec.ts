@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {prototypeOf} from "@tsed/core";
 import {PropertyName, PropertyRegistry} from "../../../src/jsonschema";
 
@@ -10,6 +11,6 @@ describe("@PropertyName", () => {
 
     const propertyMetadata = PropertyRegistry.get(prototypeOf(Test), "test");
 
-    propertyMetadata.name.should.deep.eq("name");
+    expect(propertyMetadata.name).to.deep.eq("name");
   });
 });

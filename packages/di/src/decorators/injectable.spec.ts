@@ -1,4 +1,5 @@
-import {Injectable, ProviderScope} from "@tsed/di";
+import {Injectable} from "@tsed/di";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
 
@@ -16,13 +17,14 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       // GIVEN
-      class Test {}
+      class Test {
+      }
 
       // WHEN
       Injectable({options: "options"})(Test);
 
       // THEN
-      ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
+      expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
         options: "options",
         provide: Test
       });
@@ -40,13 +42,14 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       // GIVEN
-      class Test {}
+      class Test {
+      }
 
       // WHEN
       Injectable()(Test);
 
       // THEN
-      ProviderRegistry.registerProvider.should.have.been.calledWithExactly({
+      expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
         provide: Test
       });
     });

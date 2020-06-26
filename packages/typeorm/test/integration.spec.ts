@@ -42,16 +42,16 @@ describe("TypeORM integration", () => {
     const repository = PlatformTest.injector.get(UserRepository);
 
     expect(!!repository).to.equal(true);
-    service.should.instanceOf(UserService);
-    service.repo1.should.instanceOf(UserRepository);
-    service.repo1.manager.connection.name.should.equal("default");
+    expect(service).to.instanceOf(UserService);
+    expect(service.repo1).to.instanceOf(UserRepository);
+    expect(service.repo1.manager.connection.name).to.equal("default");
 
-    service.repo3.should.instanceOf(UserRepository);
-    service.repo3.manager.connection.name.should.equal("db2");
-    service.repo4.should.instanceOf(UserRepository);
-    service.repo4.manager.connection.name.should.equal("db2");
+    expect(service.repo3).to.instanceOf(UserRepository);
+    expect(service.repo3.manager.connection.name).to.equal("db2");
+    expect(service.repo4).to.instanceOf(UserRepository);
+    expect(service.repo4.manager.connection.name).to.equal("db2");
 
-    service.repo2.should.instanceOf(UserRepository);
-    service.repo2.manager.connection.name.should.equal("default");
+    expect(service.repo2).to.instanceOf(UserRepository);
+    expect(service.repo2.manager.connection.name).to.equal("default");
   });
 });

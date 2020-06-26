@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {decoratorArgs} from "@tsed/core";
 import * as Sinon from "sinon";
 import {Store} from "../../../../../core/src";
@@ -46,15 +47,15 @@ describe("UseAuth()", () => {
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
 
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [Guard]);
-      store.get("operation").should.deep.eq({
+      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [Guard]);
+      expect(store.get("operation")).to.deep.eq({
         security: [
           {
             auth: ["email"]
           }
         ]
       });
-      store.get("responses").should.deep.eq({
+      expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
         }
@@ -100,16 +101,16 @@ describe("UseAuth()", () => {
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
 
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [Guard]);
+      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [Guard]);
 
-      store.get("operation").should.deep.eq({
+      expect(store.get("operation")).to.deep.eq({
         security: [
           {
             auth: ["email"]
           }
         ]
       });
-      store.get("responses").should.deep.eq({
+      expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
         }
@@ -149,11 +150,11 @@ describe("UseAuth()", () => {
       const storeTest = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
 
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test", [Guard]);
-      EndpointRegistry.useBefore.should.be.calledWithExactly(prototypeOf(Test), "test2", [Guard]);
+      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [Guard]);
+      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test2", [Guard]);
 
-      storeTest.get(Guard).should.deep.eq({role: "test2", defaultRole: "test"});
-      storeTest2.get(Guard).should.deep.eq({defaultRole: "test"});
+      expect(storeTest.get(Guard)).to.deep.eq({role: "test2", defaultRole: "test"});
+      expect(storeTest2.get(Guard)).to.deep.eq({defaultRole: "test"});
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -185,8 +186,8 @@ describe("UseAuth()", () => {
       }
 
       // THEN
-      actualError.should.instanceOf(UnsupportedDecoratorType);
-      actualError.message.should.eq("UseAuth cannot be used as property.static decorator on Test.property");
+      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).to.eq("UseAuth cannot be used as property.static decorator on Test.property");
     });
   });
 });

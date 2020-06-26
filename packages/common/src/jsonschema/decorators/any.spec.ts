@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {Any, JsonSchema} from "../../../src/jsonschema";
 import {stubSchemaDecorator} from "./utils";
 
@@ -10,7 +11,7 @@ describe("Any", () => {
     // @ts-ignore
     decoratorStub.getCall(0).args[0](schema);
 
-    schema.type.should.deep.eq(["integer", "number", "string", "boolean", "array", "object", "null"]);
+    expect(schema.type).to.deep.eq(["integer", "number", "string", "boolean", "array", "object", "null"]);
     decoratorStub.restore();
   });
 });

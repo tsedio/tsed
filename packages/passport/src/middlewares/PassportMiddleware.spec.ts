@@ -35,7 +35,7 @@ describe("PassportMiddleware", () => {
     middleware.use(request, endpoint);
 
     // THEN
-    Passport.authenticate.should.have.been.calledWithExactly("local", {});
+    expect(Passport.authenticate).to.have.been.calledWithExactly("local", {});
   });
   it("should skip auth when user is authenticated", () => {
     // GIVEN
@@ -64,7 +64,7 @@ describe("PassportMiddleware", () => {
     middleware.use(request, endpoint);
 
     // THEN
-    return Passport.authenticate.should.not.have.been.called;
+    return expect(Passport.authenticate).to.not.have.been.called;
   });
 
   it("should call passport with defaults protocols", () => {
@@ -89,7 +89,7 @@ describe("PassportMiddleware", () => {
     middleware.use(request, endpoint);
 
     // THEN
-    Passport.authenticate.should.have.been.calledWithExactly(["local", "basic"], {});
+    expect(Passport.authenticate).to.have.been.calledWithExactly(["local", "basic"], {});
   });
   it("should call passport with :protocol", () => {
     // GIVEN
@@ -120,7 +120,7 @@ describe("PassportMiddleware", () => {
 
     // THEN
     expect(request.url).to.eq(request.originalUrl);
-    Passport.authenticate.should.have.been.calledWithExactly("basic", {});
+    expect(Passport.authenticate).to.have.been.calledWithExactly("basic", {});
   });
   it("should throw errors", () => {
     // GIVEN

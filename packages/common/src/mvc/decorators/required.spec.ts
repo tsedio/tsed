@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {prototypeOf} from "@tsed/core";
 import * as Sinon from "sinon";
 import {ParamRegistry} from "../../../src/mvc";
@@ -21,10 +22,10 @@ describe("Required", () => {
 
       const metadata = ParamRegistry.get(prototypeOf(Test), "test", 0);
       // THEN
-      metadata.required.should.be.eq(true);
+      expect(metadata.required).to.eq(true);
 
-      ParamRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
-      metadata.allowedRequiredValues.should.deep.eq([null]);
+      expect(ParamRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
+      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });
 
@@ -39,10 +40,10 @@ describe("Required", () => {
       const metadata = PropertyRegistry.get(prototypeOf(Test), "test");
 
       // THEN
-      metadata.required.should.be.eq(true);
+      expect(metadata.required).to.eq(true);
 
-      PropertyRegistry.get.should.have.been.calledWithExactly(prototypeOf(Test), "test");
-      metadata.allowedRequiredValues.should.deep.eq([null]);
+      expect(PropertyRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
+      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });
 
@@ -59,7 +60,7 @@ describe("Required", () => {
         actualError = er;
       }
 
-      actualError.message.should.deep.eq("Required cannot be used as class decorator on Test");
+      expect(actualError.message).to.deep.eq("Required cannot be used as class decorator on Test");
     });
   });
 });

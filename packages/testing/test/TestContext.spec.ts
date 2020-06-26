@@ -63,7 +63,7 @@ describe("TestContext", () => {
         const instance = await TestContext.invoke(FakeService, []);
         expect(instance).to.be.instanceOf(FakeService);
 
-        return instance.$onInit.should.have.been.called;
+        return expect(instance.$onInit).to.have.been.called;
       });
     });
 
@@ -80,7 +80,7 @@ describe("TestContext", () => {
         const instance = await TestContext.invoke(FakeService, []);
         expect(instance).to.be.instanceOf(FakeService);
 
-        return instance.$onInit.should.have.been.called;
+        return expect(instance.$onInit).to.have.been.called;
       });
     });
   });

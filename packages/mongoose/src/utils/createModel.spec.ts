@@ -22,7 +22,7 @@ describe("createModel()", () => {
     });
 
     it("should call mongoose.model", () => {
-      modelStub.should.have.been.calledWithExactly("name", schema, "collection", true);
+      expect(modelStub).to.have.been.calledWithExactly("name", schema, "collection", true);
     });
   });
 
@@ -41,7 +41,7 @@ describe("createModel()", () => {
     });
 
     it("should call mongoose.model", () => {
-      modelStub.should.have.been.calledWithExactly("Test", schema, undefined, undefined);
+      expect(modelStub).to.have.been.calledWithExactly("Test", schema, undefined, undefined);
     });
   });
 });

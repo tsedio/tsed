@@ -28,7 +28,7 @@ describe("ArrayConverter", () => {
     });
 
     it("should call the deserializer callback", () => {
-      deserializer.should.have.been.calledWithExactly(1, Number);
+      expect(deserializer).to.have.been.calledWithExactly(1, Number);
     });
   });
 });

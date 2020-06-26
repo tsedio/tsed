@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {createInjector, ServerSettingsService} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
@@ -19,10 +20,10 @@ describe("createInjector", () => {
 
     const injector = createInjector(settings);
 
-    injector.settings.should.instanceof(ServerSettingsService);
-    injector.settings.test.should.eq("test");
-    injector.logger.should.eq($log);
-    injector.logger.stop.should.have.been.calledWithExactly();
+    expect(injector.settings).to.be.instanceof(ServerSettingsService);
+    expect(injector.settings.test).to.eq("test");
+    expect(injector.logger).to.eq($log);
+    expect(injector.logger.stop).to.have.been.calledWithExactly();
   });
 
   it("should create injector", () => {
@@ -33,6 +34,6 @@ describe("createInjector", () => {
 
     const injector = createInjector(settings);
 
-    return injector.logger.stop.should.not.have.been.called;
+    return expect(injector.logger.stop).to.not.have.been.called;
   });
 });

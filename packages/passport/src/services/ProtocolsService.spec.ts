@@ -64,10 +64,10 @@ describe("ProtocolsService", () => {
       const result = protocolService.invoke(provider);
 
       // THEN
-      result.should.be.instanceOf(LocalProtocol);
-      result.$onInstall.should.have.been.calledWithExactly(protocolService.strategies.get("local"));
-      Passport.use.should.have.been.calledWithExactly("local", protocolService.strategies.get("local"));
-      Strategy.should.have.been.calledWithExactly(
+      expect(result).to.be.instanceof(LocalProtocol);
+      expect(result.$onInstall).to.have.been.calledWithExactly(protocolService.strategies.get("local"));
+      expect(Passport.use).to.have.been.calledWithExactly("local", protocolService.strategies.get("local"));
+      expect(Strategy).to.have.been.calledWithExactly(
         {
           passReqToCallback: true,
           prop1: "prop1",
@@ -97,7 +97,7 @@ describe("ProtocolsService", () => {
       });
 
       // THEN
-      result.$onVerify.should.have.been.calledWithExactly(req);
+      expect(result.$onVerify).to.have.been.calledWithExactly(req);
       expect(resultDone).to.deep.equal([null, {id: 0}]);
     })
   );
@@ -121,7 +121,7 @@ describe("ProtocolsService", () => {
       });
 
       // THEN
-      result.$onVerify.should.have.been.calledWithExactly(req);
+      expect(result.$onVerify).to.have.been.calledWithExactly(req);
       expect(resultDone).to.deep.equal([error, false, {message: "message"}]);
     })
   );

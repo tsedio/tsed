@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {RequestLogger} from "./RequestLogger";
 
@@ -33,42 +34,42 @@ describe("RequestLogger", () => {
     requestLogger.flush();
 
     // THEN
-    logger.info.should.have.been.calledWithExactly({
+    expect(logger.info).to.have.been.calledWithExactly({
       minimal: "minimal",
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.info.should.have.been.calledWithExactly({
+    expect(logger.info).to.have.been.calledWithExactly({
       minimal: "minimal",
       duration: 1,
       reqId: "id",
       message: "message",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.debug.should.have.been.calledWithExactly({
+    expect(logger.debug).to.have.been.calledWithExactly({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.warn.should.have.been.calledWithExactly({
+    expect(logger.warn).to.have.been.calledWithExactly({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.error.should.have.been.calledWithExactly({
+    expect(logger.error).to.have.been.calledWithExactly({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.trace.should.have.been.calledWithExactly({
+    expect(logger.trace).to.have.been.calledWithExactly({
       complete: "complete",
       duration: 1,
       reqId: "id",
@@ -105,37 +106,37 @@ describe("RequestLogger", () => {
     requestLogger.flush();
 
     // THEN
-    logger.info.should.have.been.calledWithExactly({
+    expect(logger.info).to.have.been.calledWithExactly({
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.info.should.have.been.calledWithExactly({
+    expect(logger.info).to.have.been.calledWithExactly({
       duration: 1,
       reqId: "id",
       message: "message",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.debug.should.have.been.calledWithExactly({
+    expect(logger.debug).to.have.been.calledWithExactly({
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.warn.should.have.been.calledWithExactly({
+    expect(logger.warn).to.have.been.calledWithExactly({
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.error.should.have.been.calledWithExactly({
+    expect(logger.error).to.have.been.calledWithExactly({
       duration: 1,
       reqId: "id",
       test: "test",
       time: Sinon.match.instanceOf(Date)
     });
-    logger.trace.should.have.been.calledWithExactly({
+    expect(logger.trace).to.have.been.calledWithExactly({
       duration: 1,
       reqId: "id",
       test: "test",
@@ -167,7 +168,7 @@ describe("RequestLogger", () => {
     requestLogger.flush();
 
     // THEN
-    return logger.info.should.not.have.been.called;
+    return expect(logger.info).to.not.have.been.called;
   });
   it("should create a new Context and flush log when maxStackSize is reached", () => {
     const logger = {
@@ -196,6 +197,6 @@ describe("RequestLogger", () => {
     requestLogger.info({test: "test"});
 
     // THEN
-    return logger.info.should.have.been.calledThrice;
+    return expect(logger.info).to.have.been.callCount(3);
   });
 });

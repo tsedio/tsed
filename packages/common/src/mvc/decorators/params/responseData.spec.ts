@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import {ParamRegistry, ParamTypes, ResponseData} from "../../../../src/mvc";
 
 describe("@ResponseData", () => {
@@ -7,6 +8,6 @@ describe("@ResponseData", () => {
     }
 
     const param = ParamRegistry.get(Ctrl, "test", 0);
-    param.paramType.should.eq(ParamTypes.RESPONSE_DATA);
+    expect(param.paramType).to.eq(ParamTypes.RESPONSE_DATA);
   });
 });

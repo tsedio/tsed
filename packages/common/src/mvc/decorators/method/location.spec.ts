@@ -10,7 +10,8 @@ const {Location} = Proxyquire.load("../../../../src/mvc/decorators/method/locati
   "./useAfter": {UseAfter: useAfterStub}
 });
 
-class Test {}
+class Test {
+}
 
 describe("Location", () => {
   const descriptor = {};
@@ -36,9 +37,9 @@ describe("Location", () => {
 
       middleware({}, response, nextSpy);
 
-      response.location.should.have.been.calledWithExactly(options);
+      expect(response.location).to.have.been.calledWithExactly(options);
 
-      return nextSpy.should.have.been.calledOnce;
+      return expect(nextSpy).to.have.been.calledOnceWithExactly();
     });
   });
 
@@ -53,7 +54,7 @@ describe("Location", () => {
 
       middleware({}, response, nextSpy);
 
-      return response.type.should.not.have.been.called && nextSpy.should.have.been.calledOnce;
+      expect(nextSpy).to.have.been.calledOnceWithExactly();
     });
   });
 });

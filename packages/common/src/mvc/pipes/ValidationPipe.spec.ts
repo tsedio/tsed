@@ -27,7 +27,7 @@ describe("ValidationPipe", () => {
     // WHEN
     expect(validator.transform("value", param)).to.deep.eq("value");
     // @ts-ignore
-    validate.should.have.been.calledWithExactly("value", String, Array);
+    expect(validate).to.have.been.calledWithExactly("value", String, Array);
   });
 
   it("should throw an error", async () => {

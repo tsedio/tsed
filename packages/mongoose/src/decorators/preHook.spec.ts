@@ -1,3 +1,4 @@
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {PreHook} from "../../src/decorators";
 import {schemaOptions} from "../../src/utils/schemaOptions";
@@ -17,7 +18,7 @@ describe("@PreHook()", () => {
       // THEN
       const options = schemaOptions(Test);
 
-      options.should.deep.eq({
+      expect(options).to.deep.eq({
         pre: [
           {
             method: "method",
@@ -44,10 +45,10 @@ describe("@PreHook()", () => {
         pre: [options]
       } = schemaOptions(Test);
 
-      options.method.should.eq("save");
-      options.parallel.should.eq(true);
-      options.fn.should.be.a("function");
-      options.errorCb.should.be.a("function");
+      expect(options.method).to.eq("save");
+      expect(options.parallel).to.eq(true);
+      expect(options.fn).to.be.a("function");
+      expect(options.errorCb).to.be.a("function");
     });
   });
 });

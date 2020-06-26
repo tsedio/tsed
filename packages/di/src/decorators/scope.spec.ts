@@ -1,28 +1,31 @@
 import {Store} from "@tsed/core";
+import {expect} from "chai";
 import {Scope} from "../../src";
 
-class Test {}
+class Test {
+}
 
 describe("Scope", () => {
   describe("when parameters is given", () => {
     it("should set metadata", () => {
       Scope("request")(Test);
 
-      Store.from(Test)
-        .get("scope")
-        .should.eq("request");
+      expect(Store.from(Test)
+        .get("scope"))
+        .to.eq("request");
     });
   });
 
   describe("when parameters is not given", () => {
-    before(() => {});
+    before(() => {
+    });
 
     it("should set metadata", () => {
       Scope()(Test);
 
-      Store.from(Test)
-        .get("scope")
-        .should.eq("request");
+      expect(Store.from(Test)
+        .get("scope"))
+        .to.eq("request");
     });
   });
 });
