@@ -1,7 +1,15 @@
-import {UseAfter} from "./useAfter";
 import {Next} from "../params/next";
 import {Req} from "../params/request";
 import {Res} from "../params/response";
+import {UseAfter} from "./useAfter";
+
+export const locationMiddleware = (location: string) =>
+  (request: Req, response: Res, next: Next) => {
+    response.location(location);
+
+    next();
+  };
+
 /**
  * Sets the response Location HTTP header to the specified path parameter.
  *
@@ -22,9 +30,5 @@ import {Res} from "../params/response";
  * @endpoint
  */
 export function Location(location: string): Function {
-  return UseAfter((request: Req, response: Res, next: Next) => {
-    response.location(location);
-
-    next();
-  });
+  return UseAfter(locationMiddleware(location));
 }

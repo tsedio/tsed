@@ -1,7 +1,13 @@
-import {UseAfter} from "./useAfter";
 import {Next} from "../params/next";
 import {Req} from "../params/request";
 import {Res} from "../params/response";
+import {UseAfter} from "./useAfter";
+
+export const redirectMiddleware = (status: string | number, url?: string) => (request: Req, response: Res, next: Next) => {
+  response.redirect(status as number, url!);
+  next();
+};
+
 /**
  * Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
  *
@@ -44,20 +50,14 @@ import {Res} from "../params/response";
  *  @Redirect('back');
  * ```
  *
- * @param status
- * @param location
  * @returns {Function}
  * @decorator
  * @endpoint
+ * @param url
+ * @param status
  */
-export function Redirect(status: string | number, location?: string): Function {
-  return UseAfter((request: Req, response: Res, next: Next) => {
-    /* istanbul ignore else */
-    if (typeof status === "string") {
-      response.redirect(status);
-    } else {
-      response.redirect(status as number, location!);
-    }
-    next();
-  });
+export function Redirect(url: string): Function;
+export function Redirect(status: number, url: string): Function;
+export function Redirect(status: string | number, url?: string): Function {
+  return UseAfter(redirectMiddleware(status, url));
 }

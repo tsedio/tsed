@@ -1,13 +1,9 @@
+import {All, Delete, EndpointRegistry, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
 import {expect} from "chai";
-import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 
 const middleware: any = Sinon.stub();
 const useStub: any = Sinon.stub().returns(middleware);
-
-const {All, Get, Post, Put, Delete, Head, Patch, Options} = Proxyquire.load("../../../../src/mvc/decorators/method/route", {
-  "./use": {Use: useStub}
-});
 
 describe("Route decorators", () => {
   afterEach(() => {
@@ -16,144 +12,181 @@ describe("Route decorators", () => {
   describe("All", () => {
     it("should register route and middleware (1)", () => {
       // WHEN
-      All("/", () => {});
+      class Test {
+        @All("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("all", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      All();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("all", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "all",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 
   describe("Get", () => {
     it("should register route and middleware (1)", () => {
       // WHEN
-      Get("/", () => {});
+      class Test {
+        @Get("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("get", "/", Sinon.match.func);
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "get",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
-
     it("should register route and middleware (2)", () => {
+      const middleware = () => {
+      };
+
       // WHEN
-      Get();
+      class Test {
+        @Get("/", middleware)
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("get", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "get",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.middlewares).to.deep.equal([middleware]);
     });
   });
 
   describe("Post", () => {
-    it("should register route and middleware (1)", () => {
+    it("should register route and middleware", () => {
       // WHEN
-      Post("/", () => {});
+      class Test {
+        @Post("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("post", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      Post();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("post", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "post",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 
   describe("Put", () => {
-    it("should register route and middleware (1)", () => {
+    it("should register route and middleware", () => {
       // WHEN
-      Put("/", () => {});
+      class Test {
+        @Put("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("put", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      Put();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("put", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "put",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 
   describe("Delete", () => {
-    it("should register route and middleware (1)", () => {
+    it("should register route and middleware", () => {
       // WHEN
-      Delete("/", () => {});
+      class Test {
+        @Delete("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("delete", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      Delete();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("delete", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "delete",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 
   describe("Head", () => {
-    it("should register route and middleware (1)", () => {
+    it("should register route and middleware", () => {
       // WHEN
-      Head("/", () => {});
+      class Test {
+        @Head("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("head", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      Head();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("head", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "head",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 
   describe("Patch", () => {
-    it("should register route and middleware (1)", () => {
+    it("should register route and middleware", () => {
       // WHEN
-      Patch("/", () => {});
+      class Test {
+        @Patch("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("patch", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      Patch();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("patch", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "patch",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 
   describe("Options", () => {
-    it("should register route and middleware (1)", () => {
+    it("should register route and middleware", () => {
       // WHEN
-      Options("/", () => {});
+      class Test {
+        @Options("/")
+        test() {
+        }
+      }
+
+      const endpoint = EndpointRegistry.get(Test, "test");
 
       // THEN
-      expect(useStub).to.have.been.calledWithExactly("options", "/", Sinon.match.func);
-    });
-
-    it("should register route and middleware (2)", () => {
-      // WHEN
-      Options();
-
-      // THEN
-      expect(useStub).to.have.been.calledWithExactly("options", "/");
+      expect(endpoint.pathsMethods).to.deep.eq([{
+        method: "options",
+        path: "/"
+      }]);
+      expect(endpoint.propertyKey).to.equal("test");
     });
   });
 });
