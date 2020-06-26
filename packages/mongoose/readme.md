@@ -30,13 +30,13 @@ npm install --save @tsed/mongoose
 npm install --save-dev @types/mongoose
 ```
 
-Then import `@tsed/mongoose` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+Then import `@tsed/mongoose` in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
-@ServerSettings({
+@Configuration({
  mongoose: [
    {
      id: "default",
@@ -45,7 +45,7 @@ import "@tsed/mongoose"; // import mongoose ts.ed module
    }
  ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```
@@ -56,10 +56,10 @@ The mongoose module of Ts.ED Mongoose allows to configure several basic connecti
 Here is an example configuration:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
-@ServerSettings({
+@Configuration({
  mongoose: [
    {
      id: "default",
@@ -73,7 +73,7 @@ import "@tsed/mongoose"; // import mongoose ts.ed module
    }
  ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

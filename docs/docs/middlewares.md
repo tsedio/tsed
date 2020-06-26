@@ -21,7 +21,7 @@ Then, create a new file in your middlewares folder. Create a new Class definitio
 
 You have different usecases to declare and use a middleware as following:
 
- * Global Middleware, this middleware can be used on @@ServerLoader@@,
+ * Global Middleware, this middleware can be used on the Server,
  * Endpoint Middleware, this middleware can be used on a controller method,
  * Error middleware, this middleware can be used to handle errors.
  
@@ -102,7 +102,7 @@ For example:
 
 According to the call sequence scheme, the stack calls will be there:
 
-- **Middlewares** added in ServerLoader (logger, express middleware, etc...),
+- **Middlewares** added in Server (logger, express middleware, etc...),
 - **MdlwCtrlBefore**,
 - **MdlwCtrlBeforeEach**
 - **MdlwBefore**,
@@ -116,7 +116,7 @@ According to the call sequence scheme, the stack calls will be there:
 - **MdlwAfter**,
 - **SendResponse**, send a response because endpointB returns data,
 - **MdlwCtrlAfter**, but this middleware will not be called because a response is sent.
-- **Middleware** added in ServerLoader (not called too).
+- **Middleware** added in Server (not called too).
 
 ## Handle error
 
@@ -173,13 +173,13 @@ By default, the server imports automatically your middlewares matching with this
 If not, just import your middleware in your server or edit the [componentScan configuration](/configuration.md).
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "./src/other/directory/CustomMiddleware";
 
-@ServerSettings({
+@Configuration({
     ...
 })
-export class Server extends ServerLoader {
+export class Server {
  
 }
 ```

@@ -25,7 +25,7 @@ Before using Socket.io, we need to install the [Socket.io](https://www.npmjs.com
 npm install --save socket.io @types/socket.io
 ```
 
-Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then add the following configuration in your server [Configuration](/configuration.md):
 
 <<< @/docs/tutorials/snippets/socketio/configuration.ts
 

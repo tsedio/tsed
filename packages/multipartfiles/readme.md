@@ -10,27 +10,26 @@ Before using the `@MultipartFile()` you must install [multer](https://github.com
 npm install --save @types/multer @tsed/multipartfiles
 ```
 
-Then import `@tsed/multipartfiles` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+Then import `@tsed/multipartfiles` in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import "@tsed/ajv"; // import ajv ts.ed module
+import {Configuration} from "@tsed/common";
 import Path = require("path");
 const rootDir = Path.resolve(__dirname);
 
-@ServerSettings({
+@Configuration({
    rootDir: __dirname,
    uploadDir: `${rootDir}/custom-dir`,                                    
    multer: {
       // see multer options
    }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```
 
-> By default the directory used is `${projetRoot}/uploads`. You can configure another directory on your `ServerLoader` settings.
+> By default the directory used is `${projetRoot}/uploads`. You can configure another directory on your `Server` settings.
 
 
 ## Options

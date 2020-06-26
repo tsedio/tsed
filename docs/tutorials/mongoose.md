@@ -43,7 +43,7 @@ npm install --save-dev @types/mongoose
 npm install --save-dev @tsed/testing-mongoose
 ```
 
-Then import `@tsed/mongoose` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then import `@tsed/mongoose` in your [Configuration](/configuration.md):
 
 <<< @/docs/tutorials/snippets/mongoose/configuration.ts
 

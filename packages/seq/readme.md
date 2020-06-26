@@ -17,19 +17,19 @@ Run npm command (or yarn):
 npm install --save @tsed/seq bunyan bunyan-seq @types/bunyan @types/bunyan-seq
 ```
 
-Then add the following configuration in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.md):
+Then add the following configuration in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/seq"; // import seq Ts.ED module
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   seq: {
     url: "http://localhost:5341"
   }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

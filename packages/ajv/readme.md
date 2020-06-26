@@ -11,16 +11,16 @@ npm install --save ajv
 npm install --save @tsed/ajv
 ```
 
-Then import `@tsed/ajv` in your [ServerLoader](http://tsed.io/api/common/server/components/ServerLoader.html):
+Then import `@tsed/ajv` in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
-@ServerSettings({
+@Configuration({
     rootDir: __dirname
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```
@@ -75,17 +75,17 @@ The AJV module allows a few settings to be added through the ServerSettings (all
 The error message could be changed like:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
-@ServerSettings({
+@Configuration({
     rootDir: __dirname,
      ajv: {
        errorFormatter: (error) => `At ${error.modelName}${error.dataPath}, value '${error.data}' ${error.message}`,
        options: {verbose: true}
     },
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

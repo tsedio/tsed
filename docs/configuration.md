@@ -210,7 +210,7 @@ Add providers or modules here. These modules or provider will be built before th
 
 - type: `string[]`
 
-List of glob patterns. Exclude all files which are matching with this list when ServerLoader scan all components with the `mount` or `scanComponents` options.
+List of glob patterns. Exclude all files which are matching with this list when the Server scans all components with the `mount` or `scanComponents` options.
 
 ### scopes
 
@@ -280,13 +280,13 @@ Configure the mimes accepted by default for each request by the server. Require 
 It's possible to change the HTTP and HTTPS server address as follows:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    httpPort: "127.0.0.1:8081",
    httpsPort: "127.0.0.2:8082",
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 
 ### Random port
@@ -294,47 +294,47 @@ export class Server extends ServerLoader {}
 Random port assignment can be enable with the value `0`. The port assignment will be delegated to the OS.
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    httpPort: "127.0.0.1:0",
    httpsPort: "127.0.0.2:0",
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 
 Or: 
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    httpPort: 0,
    httpsPort: 0,
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 
 ### Disable HTTP
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    httpPort: false
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 
 ### Disable HTTPS
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    httpsPort: false,
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 
 
@@ -411,14 +411,14 @@ A call with one of these methods will generate a log according to the `logger.re
 You can configure this output from configuration:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    logger: {
        requestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
    }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

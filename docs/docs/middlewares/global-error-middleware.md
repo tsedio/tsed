@@ -1,6 +1,6 @@
 # Global Error middleware
 
-`@MiddlewareError()` lets you handle all the errors when you add your middleware in your [ServerLoader](/api/common/server/components/ServerLoader.md).
+`@MiddlewareError()` lets you handle all the errors when you add your middleware in your Server.
 
 ::: tip
 You have two ways to handle errors (globally). The first (better) way is to override the default [Global Error Handler](/docs/middlewares/override/global-error-handler.md).
@@ -12,13 +12,12 @@ Create your middleware error:
 
 ```typescript
 import { NextFunction as ExpressNext, Request as ExpressRequest, Response as ExpressResponse } from "express";
-import { IMiddlewareError, MiddlewareError, Request, Response, Next, Err } from "@tsed/common";
+import { IMiddleware, Request, Response, Next, Err } from "@tsed/common";
 import { Exception } from "@tsed/exceptions";
 import { $log } from "@tsed/logger";
 
 @MiddlewareError()
-export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
-
+export class GlobalErrorHandlerMiddleware implements IMiddleware {
     use(
         @Err() error: any,
         @Request() request: ExpressRequest,
@@ -51,10 +50,17 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
 }
 ```
 
-Then, add your middleware in [`ServerLoader`](/api/common/server/components/ServerLoader.md):
+Then, add your middleware in Server:
 
 ```typescript
-@ServerSettings({
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import {GlobalErrorHandlerMiddleware} from "@tsed/platform-express";
+import {resolve} from "path";
+
+export const rootDir = resolve(__dirname);
+
+@Configuration({
    rootDir,
    mount: {
       '/rest': `${rootDir}/controllers/**/**.js`
@@ -64,9 +70,12 @@ Then, add your middleware in [`ServerLoader`](/api/common/server/components/Serv
        `${rootDir}/middlewares/**/**.js`
    ]
 })
-export class Server extends ServerLoader {
+export class Server {
+   @Inject()
+   app: PlatformApplication;
+   
    $afterRoutesInit() {
-       this.use(GlobalErrorHandlerMiddleware);
+       this.app.use(GlobalErrorHandlerMiddleware);
    }
 }       
 ```

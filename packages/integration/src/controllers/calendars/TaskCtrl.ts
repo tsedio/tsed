@@ -1,4 +1,5 @@
 import {Authenticated, Controller, Get, MergeParams, PathParams, QueryParams, UseBefore} from "@tsed/common";
+import {Operation} from "@tsed/swagger";
 import {Hidden} from "../../../../../packages/swagger/src";
 import {Test2Middleware} from "../../middlewares/middleware";
 
@@ -8,6 +9,7 @@ import {Test2Middleware} from "../../middlewares/middleware";
 @Authenticated({options: "options"})
 export class TaskCtrl {
   @Get("/")
+  @Operation({tags: ["api", "task"]})
   async get(@PathParams("test") value: string, @PathParams("eventId") id: string) {
     return {value, id};
   }
@@ -22,7 +24,7 @@ export class TaskCtrl {
   async getHiddenParams(
     @Hidden()
     @QueryParams("token")
-    t: string,
+      t: string,
     @QueryParams("q") q: string
   ) {
     return {};

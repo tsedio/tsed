@@ -8,7 +8,7 @@ Ts.ED emits different events during its initialization
 phase (lifecycle). These lifecycle hooks provide visibility into these key life moments and the ability to act
 when they occur.
 
-This schemes resume the order of hooks regarding to ServerLoader and Providers:
+This schema resume the order of hooks regard to Server and Providers:
 
 <figure><img src="./../assets/hooks-in-sequence.png" style="max-height: 500px; padding: 20px"></figure>
 
@@ -34,10 +34,10 @@ class Server implements BeforeInit {
   <Tab label="Legacy">
 
 ```typescript
-import {ServerLoader, ServerSettings, BeforeInit} from "@tsed/common";
+import {Configuration, BeforeInit} from "@tsed/common";
 
-@ServerSettings({})
-export class Server extends ServerLoader implements BeforeInit {
+@Configuration({})
+export class Server implements BeforeInit {
   async $beforeInit(): Promise<any>  {
     
   }

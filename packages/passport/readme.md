@@ -20,11 +20,11 @@ npm install --save-dev @types/passport
 
 Add this configuration to your server:
 ```typescript
-import {ServerSettings, ServerLoader} from "@tsed/common"
+import {Configuration} from "@tsed/common"
 
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
   componentsScan: [
      `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
   ],
@@ -32,7 +32,7 @@ const rootDir = __dirname;
     
   }
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 
 ## Create a new Protocol

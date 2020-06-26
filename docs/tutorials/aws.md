@@ -31,7 +31,7 @@ npm install --save aws-serverless-express
 
 You need to create three files:
 
- - One for the `ServerLoader` configuration,
+ - One for the `Server` configuration,
  - One for AWS, named `lambda.ts` (the entry point on AWS Lambda, which contains the function handler),
  - One for the local development, for example "index.js" (that you can use to run the app locally with `ts-node local.ts`)
 
@@ -45,13 +45,14 @@ Then create the lambda.ts:
 
 And finally create an index.ts to run your server in development mode:
 ```typescript
-import {$log, ServerLoader} from "@tsed/common";
+import {$log} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server";
 
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const server = await ServerLoader.bootstrap(Server);
+    const server = await PlatformExpress.bootstrap(Server);
 
     await server.listen();
     $log.debug("Server initialized");

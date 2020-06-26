@@ -21,7 +21,7 @@ Run this command to install required dependencies by `@tsed/swagger`:
 npm install --save @types/swagger-schema-official @tsed/swagger
 ```
 
-Then add the following configuration in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Then add the following configuration in your Server:
 
 <<< @/docs/tutorials/snippets/swagger/configuration.ts
 

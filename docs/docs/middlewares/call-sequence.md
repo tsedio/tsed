@@ -29,7 +29,7 @@ For example:
 
 According to the call sequence scheme, the stack calls will be there:
 
-- **Middlewares** added in ServerLoader (logger, express middleware, etc...),
+- **Middlewares** added in Server (logger, express middleware, etc...),
 - **MdlwCtrlBefore**,
 - **MdlwCtrlBeforeEach**
 - **MdlwBefore**,
@@ -43,5 +43,5 @@ According to the call sequence scheme, the stack calls will be there:
 - **MdlwAfter**,
 - **SendResponse**, send a response because endpointB return a data,
 - **MdlwCtrlAfter**, but this middleware will not be called because a response is sent.
-- **Middleware** added in ServerLoader (not called too).
+- **Middleware** added in Server (not called too).
 

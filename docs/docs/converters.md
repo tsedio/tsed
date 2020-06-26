@@ -124,16 +124,16 @@ your classes dedicated to converting types.
 
  
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
-import Path = require("path");
-const rootDir = Path.resolve(__dirname);
+import {Configuration} from "@tsed/common";
+import {resolve} from "path";
+const rootDir = resolve(__dirname);
 
-@ServerSettings({
+@Configuration({
    componentsScan: [
        `${rootDir}/converters/**/**.js`
    ]
 })
-export class Server extends ServerLoader {
+export class Server {
    
 }       
 ```

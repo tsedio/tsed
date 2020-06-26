@@ -19,21 +19,21 @@ Before using the Socket.io, we need to install the [Socket.io](https://www.npmjs
 npm install --save socket.io @types/socket.io @tsed/socketio
 ```
 
-Then add the following configuration in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+Then add the following configuration in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/socketio"; // import socketio Ts.ED module
-import Path = require("path");
-const rootDir = Path.resolve(__dirname)
+import {resolve} from "path";
+const rootDir = resolve(__dirname)
 
-@ServerSettings({
+@Configuration({
     rootDir,
     socketIO: {
         // ... see configuration
     }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

@@ -16,10 +16,11 @@ standard [JsonSchema](http://json-schema.org/) model.
 Validation is only available when you import `@tsed/ajv` package in your server.
 
 ```typescript
+import {Configuration} from "@tsed/common";
 import "@tsed/ajv";
 
-@ServerSettings()
-class Server extends ServerLoader {}
+@Configuration()
+class Server {}
 ```
 
 Without this package, decorators like @@Email@@ won't have any effect.

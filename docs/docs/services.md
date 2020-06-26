@@ -8,9 +8,9 @@ All services annotated with `@Service()` are constructed one time.
 You must add the `services` folder on `componentsScan` attribute in your server settings as follow :
  
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 
-@ServerSettings({
+@Configuration({
    rootDir: __dirname,
    mount: {
       '/rest': `./controllers/**/**.js`
@@ -20,8 +20,7 @@ import {ServerLoader, ServerSettings} from "@tsed/common";
    ],
    customServiceOptions: {}
 })
-export class Server extends ServerLoader {
-   
+export class Server {
 }       
 ```
 

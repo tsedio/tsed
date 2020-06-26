@@ -10,21 +10,21 @@ Before using the Swagger, we have to install the [swagger-ui-express](https://ww
 npm install --save @types/swagger-schema-official @tsed/swagger
 ```
 
-Then add the following configuration in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+Then add the following configuration in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/swagger"; // import swagger Ts.ED module
-import Path = require("path");
-const rootDir = Path.resolve(__dirname)
+import {resolve} from "path";
+const rootDir = resolve(__dirname)
 
-@ServerSettings({
+@Configuration({
   rootDir,
   swagger: [{
       path: "/api-docs"
   }]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```
@@ -59,10 +59,10 @@ operationIdFormat | `%c.%m` | Format of operationId field (`%c`: class name, `%m
 It also possible to create several swagger documentations with `doc` option:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   swagger: [
     {
@@ -75,7 +75,7 @@ import "@tsed/swagger"; // import swagger Ts.ED module
     }
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```
@@ -174,10 +174,10 @@ It possible to import a Javascript in the Swagger-ui documentation. This script 
 
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
-@ServerSettings({
+@Configuration({
   rootDir: __dirname,
   swagger: [
     {
@@ -186,7 +186,7 @@ import "@tsed/swagger"; // import swagger Ts.ED module
     }
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

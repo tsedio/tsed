@@ -19,7 +19,7 @@ Run this command to install required dependencies by `@tsed/seq`:
 npm install --save @tsed/seq bunyan bunyan-seq @types/bunyan @types/bunyan-seq
 ```
 
-Then add the following configuration in your @@ServerLoader@@:
+Then add the following configuration in your Server:
 
 ```typescript
 import {Configuration} from "@tsed/common";

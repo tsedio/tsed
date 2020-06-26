@@ -155,7 +155,7 @@ Just create a `server.ts` in your root project :
 
 Ts.ED provides a @@ServerLoader@@ class to configure your 
 Express application quickly. Just create a `server.ts` in your root project, declare 
-a new `Server` class that extends ServerLoader.
+a new `Server` class which inherit from ServerLoader.
 
 <<< @/docs/snippets/getting-started/server-legacy.ts
   

@@ -32,12 +32,12 @@ By default, the server imports automatically your middlewares matching with this
 If not, just import your middleware in your server or edit the [componentScan configuration](/configuration.md).
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "./src/other/directory/MySendResponseMiddleware";
 
-@ServerSettings({
+@Configuration({
     ...
 })
-export class Server extends ServerLoader {}
+export class Server {}
 ```
 :::

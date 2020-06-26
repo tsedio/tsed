@@ -255,7 +255,7 @@ The following decorators lets you add custom middleware on a method or on contro
 
 #### Middleware call sequence
 
-When a request is sent to the server all middlewares added on the ServerLoader, Controller or Endpoint
+When a request is sent to the server all middlewares added on the Server, Controller or Endpoint
  will be called while a response isn't sent by one of the middleware in the lifecycle.
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>

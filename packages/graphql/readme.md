@@ -33,20 +33,20 @@ npm install --save @tsed/graphql
 }
 ```
 
-Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import {IGraphQLSettings} from "@tsed/graphql"; 
 
-@ServerSettings({
+@Configuration({
    graphql: {
     'server1': {
       resolvers:[]
     }
   } as IGraphQLSettings
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

@@ -78,12 +78,11 @@ options in your `tsconfig.json` file.
 ## Quick start
 #### Create your express server
 
-TsExpressDecorators provide a [`ServerLoader`](https://tsed.io/docs/server-loader.html) class to configure your 
+Ts.ED provide a [`ServerLoader`](https://tsed.io/docs/server-loader.html) class to configure your 
 express quickly. Just create a `server.ts` in your root project, declare 
 a new `Server` class that extends [`ServerLoader`](https://tsed.io/docs/server-loader.html).
 
 ```typescript
-import * as Express from "express";
 import {ServerLoader, ServerSettings} from "@tsed/common";
 import Path = require("path");
 
@@ -129,7 +128,7 @@ export class Server extends ServerLoader {
 
 new Server().start();
 ```
-> By default ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
+> By default, ServerLoader load controllers in `${rootDir}/controllers` and mount it to `/rest` endpoint.
 
 To customize the server settings see [Configure server with decorator](https://tsed.io/configuration.html)
 

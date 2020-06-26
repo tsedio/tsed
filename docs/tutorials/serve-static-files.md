@@ -7,16 +7,16 @@
 Configure your server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 const rootDir = __dirname;
 
-@ServerSettings({
+@Configuration({
    rootDir,
    statics: {
       "/": `${rootDir}/webapp`
    }
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

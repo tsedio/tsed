@@ -23,13 +23,13 @@ npm install --save @tsed/typeorm
 npm install --save typeorm
 ```
 
-Then import `@tsed/typeorm` in your [ServerLoader](https://tsed.io/api/common/server/components/ServerLoader.html):
+Then import `@tsed/typeorm` in your Server:
 
 ```typescript
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import "@tsed/typeorm"; // import typeorm ts.ed module
 
-@ServerSettings({
+@Configuration({
    typeorm: [
     {
       name: 'default',
@@ -53,7 +53,7 @@ import "@tsed/typeorm"; // import typeorm ts.ed module
     }
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
 
 }
 ```

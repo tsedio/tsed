@@ -34,7 +34,7 @@ npm install --save @tsed/graphql
 }
 ```
 
-Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your [ServerLoader](/api/common/server/components/ServerLoader.md):
+Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Server:
 
 <<< @/docs/tutorials/snippets/graphql/server-configuration.ts
 
