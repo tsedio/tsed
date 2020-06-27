@@ -8,3 +8,4 @@ export * from "./getValue";
 export * from "./setValue";
 export * from "./cleanObject";
 export * from "./ObjectUtils";
+export * from "./uniq";
