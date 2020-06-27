@@ -1,81 +1,55 @@
+import {EndpointRegistry, Redirect} from "@tsed/common";
 import {expect} from "chai";
-import * as Proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";
 
-const middleware: any = Sinon.stub();
-const useAfterStub: any = Sinon.stub();
-
-const {Redirect} = Proxyquire.load("../../../../src/mvc/decorators/method/redirect", {
-  "./useAfter": {UseAfter: useAfterStub}
-});
-
-class Test {}
-
 describe("Redirect", () => {
-  beforeEach(() => {
-    useAfterStub.returns(middleware);
-  });
-  afterEach(() => useAfterStub.reset());
   describe("with one parameter", () => {
-    it("should create middleware", () => {
-      const descriptor = {};
-      const options = "test";
+    it("should call redirect", () => {
+      class Test {
+        @Redirect("test")
+        test() {
+        }
+      }
 
-      Redirect(options)(Test, "test", descriptor);
-
-      expect(useAfterStub.args[0][0]).to.be.a("function");
-      expect(middleware).to.have.been.calledWithExactly(Test, "test", descriptor);
-    });
-
-    it("should call response method", () => {
-      const descriptor = {};
       const nextSpy = Sinon.stub();
       const response = new FakeResponse();
-      const options = "test";
+      const endpoint = EndpointRegistry.get(Test, "test");
+      const middleware = endpoint.afterMiddlewares[0];
+
       Sinon.stub(response, "redirect");
 
-      Redirect(options)(Test, "test", descriptor);
-      const middleware = useAfterStub.args[0][0];
+      expect(middleware).to.be.a("function");
 
       middleware({}, response, nextSpy);
 
-      // @ts-ignore
-      expect(response.redirect).to.have.been.calledWithExactly("test");
-      expect(nextSpy).to.have.been.calledWithExactly();
-    });
+      expect(response.redirect).to.have.been.calledWithExactly("test", undefined);
 
-    it("should call response method", () => {
-      const descriptor = {};
-      const nextSpy = Sinon.stub();
-      const response = new FakeResponse();
-      const options = "test";
-
-      response.headersSent = true;
-      Sinon.stub(response, "type");
-
-      Redirect(options)(Test, "test", descriptor);
-      const middleware = useAfterStub.args[0][0];
-
-      middleware({}, response, nextSpy);
-      expect(nextSpy).to.have.been.calledWithExactly();
+      return expect(nextSpy).to.have.been.calledOnceWithExactly();
     });
   });
+  describe("with two parameter", () => {
+    it("should call redirect", () => {
+      class Test {
+        @Redirect(200, "test")
+        test() {
+        }
+      }
 
-  describe("with two parameters", () => {
-    it("should call response method", () => {
       const nextSpy = Sinon.stub();
       const response = new FakeResponse();
+      const endpoint = EndpointRegistry.get(Test, "test");
+      const middleware = endpoint.afterMiddlewares[0];
+
       Sinon.stub(response, "redirect");
 
-      const descriptor = {};
-      Redirect(200, "test2")(Test, "test", descriptor);
-      const middleware = useAfterStub.args[0][0];
+      expect(middleware).to.be.a("function");
 
       middleware({}, response, nextSpy);
-      // @ts-ignore
-      expect(response.redirect).to.have.been.calledWithExactly(200, "test2");
-      expect(nextSpy).to.have.been.calledWithExactly();
+
+      expect(response.redirect).to.have.been.calledWithExactly(200, "test");
+
+      return expect(nextSpy).to.have.been.calledOnceWithExactly();
     });
   });
 });
