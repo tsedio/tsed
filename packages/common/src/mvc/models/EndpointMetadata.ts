@@ -1,4 +1,17 @@
-import {deepExtends, Enumerable, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
+import {
+  deepExtends,
+  descriptorOf,
+  Enumerable,
+  getInheritedClass,
+  isArrayOrArrayClass,
+  isPromise,
+  Metadata,
+  NotEnumerable,
+  prototypeOf,
+  Storable,
+  Store,
+  Type
+} from "@tsed/core";
 import {EXPRESS_METHODS} from "../constants";
 import {IPathMethod} from "../interfaces/IPathMethod";
 import {IResponseOptions} from "../interfaces/IResponseOptions";
@@ -7,6 +20,7 @@ import {ParamRegistry} from "../registries/ParamRegistry";
 export interface EndpointConstructorOptions {
   target: Type<any>;
   propertyKey: string | symbol;
+  descriptor: PropertyDescriptor;
   beforeMiddlewares?: any[];
   middlewares?: any[];
   afterMiddlewares?: any[];
@@ -61,7 +75,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   readonly parent: EndpointMetadata | undefined;
 
   constructor(options: EndpointConstructorOptions) {
-    super(options.target, options.propertyKey, Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
+    super(options.target, options.propertyKey, options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
 
     const {
       target,
@@ -127,6 +141,137 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   }
 
   /**
+   * Return all endpoints from the given class. This method doesn't return the endpoints from the parent of the given class.
+   * @param {Type<any>} target
+   * @returns {any}
+   * @deprecated
+   */
+  static getOwnEndpoints(target: Type<any>) {
+    if (!this.hasEndpoints(target)) {
+      Metadata.set("endpoints", [], target);
+    }
+
+    return Metadata.getOwn("endpoints", target);
+  }
+
+  /**
+   * Get all endpoints from a given class and his parents.
+   * @param {Type<any>} target
+   * @returns {EndpointMetadata[]}
+   * @deprecated
+   */
+  static getEndpoints(target: Type<any>): EndpointMetadata[] {
+    return this.getOwnEndpoints(target).concat(this.inherit(target));
+  }
+
+  /**
+   * Gets a value indicating whether the target object or its prototype chain has endpoints.
+   * @param {Type<any>} target
+   * @returns {boolean}
+   * @deprecated
+   */
+  static hasEndpoints(target: Type<any>) {
+    return Metadata.hasOwn("endpoints", target);
+  }
+
+  /**
+   * Get an endpoint.
+   * @param target
+   * @param propertyKey
+   * @param descriptor
+   */
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): EndpointMetadata {
+    descriptor = descriptor === undefined ? descriptorOf(prototypeOf(target), "test") : descriptor;
+
+    if (!this.has(target, propertyKey)) {
+      const endpoint = new EndpointMetadata({target, propertyKey, descriptor});
+      this.getOwnEndpoints(target).push(endpoint);
+      Metadata.set("endpoints", endpoint, target, propertyKey);
+    }
+
+    return Metadata.getOwn("endpoints", target, propertyKey);
+  }
+
+  /**
+   * Gets a value indicating whether the target object or its prototype chain has already method registered.
+   * @param target
+   * @param method
+   */
+  static has(target: Type<any>, method: string | symbol): boolean {
+    return Metadata.hasOwn("endpoints", target, method);
+  }
+
+  /**
+   * Append mvc in the pool (before).
+   * @param target
+   * @param targetKey
+   * @param args
+   * @deprecated
+   */
+  static useBefore(target: Type<any>, targetKey: string | symbol, args: any[]) {
+    this.get(target, targetKey, descriptorOf(target, targetKey)).before(args);
+
+    return this;
+  }
+
+  /**
+   * Add middleware and configuration for the endpoint.
+   * @param target
+   * @param targetKey
+   * @param args
+   * @returns {Endpoint}
+   * @deprecated
+   */
+  static use(target: Type<any>, targetKey: string | symbol, args: any[]) {
+    this.get(target, targetKey, descriptorOf(target, targetKey)).use(args);
+
+    return this;
+  }
+
+  /**
+   * Append mvc in the pool (after).
+   * @param target
+   * @param targetKey
+   * @param args
+   * @deprecated
+   */
+  static useAfter(target: Type<any>, targetKey: string | symbol, args: any[]) {
+    this.get(target, targetKey, descriptorOf(target, targetKey)).after(args);
+
+    return this;
+  }
+
+  /**
+   * Store a data on store manager.
+   * @param target
+   * @param propertyKey
+   * @returns {any}
+   * @deprecated
+   */
+  static store(target: any, propertyKey: string): Store {
+    return Store.from(target, propertyKey, descriptorOf(target, propertyKey));
+  }
+
+  /**
+   * Retrieve all endpoints from inherited class and store it in the registry.
+   * @param {Type<any>} ctrlClass
+   */
+  private static inherit(ctrlClass: Type<any>) {
+    const endpoints: EndpointMetadata[] = [];
+    let inheritedClass = getInheritedClass(ctrlClass);
+
+    while (inheritedClass && EndpointMetadata.hasEndpoints(inheritedClass)) {
+      this.getOwnEndpoints(inheritedClass).forEach((endpoint: EndpointMetadata) => {
+        endpoints.push(inheritEndpoint(ctrlClass, endpoint));
+      });
+
+      inheritedClass = getInheritedClass(inheritedClass);
+    }
+
+    return endpoints;
+  }
+
+  /**
    * Find the a value at the controller level. Let this value be extended or overridden by the endpoint itself.
    *
    * @param key
@@ -188,6 +333,14 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * Store all arguments collected via Annotation.
    * @param args
    */
+  public use(args: any[]) {
+    return this.merge(args);
+  }
+
+  /**
+   * Store all arguments collected via Annotation.
+   * @param args
+   */
   public merge(args: any[]): this {
     const expressMethods: any = {};
 
@@ -215,4 +368,14 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
 
     return this;
   }
+}
+
+function inheritEndpoint(target: Type<any>, endpoint: EndpointMetadata): EndpointMetadata {
+  return new EndpointMetadata({
+    ...endpoint,
+    target,
+    descriptor: descriptorOf(target, endpoint.propertyKey),
+    type: endpoint.type,
+    parent: endpoint
+  });
 }

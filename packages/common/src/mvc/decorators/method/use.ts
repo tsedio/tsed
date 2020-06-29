@@ -1,5 +1,5 @@
-import {getDecoratorType, Store, Type} from "@tsed/core";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
+import {EndpointMetadata} from "@tsed/common";
+import {decoratorTypeOf, DecoratorTypes, Store, Type} from "@tsed/core";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -24,8 +24,8 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  */
 export function Use(...args: any[]): Function {
   return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
-    if (getDecoratorType([target, targetKey, descriptor]) === "method") {
-      EndpointRegistry.use(target, targetKey!, args);
+    if (decoratorTypeOf([target, targetKey, descriptor]) === DecoratorTypes.METHOD) {
+      EndpointMetadata.get(target, targetKey!).use(args);
 
       return descriptor;
     }

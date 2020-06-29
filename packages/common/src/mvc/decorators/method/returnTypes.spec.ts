@@ -1,10 +1,11 @@
 import {expect} from "chai";
-import {EndpointRegistry, ReturnType} from "../../../../src/mvc";
+import {EndpointMetadata, ReturnType} from "../../../../src/mvc";
 
 describe("ReturnType", () => {
   it("should store metadata (when code is given)", () => {
     // GIVEN
-    class TypeC {}
+    class TypeC {
+    }
 
     // WHEN
     class Test {
@@ -19,11 +20,12 @@ describe("ReturnType", () => {
           }
         }
       })
-      get() {}
+      get() {
+      }
     }
 
     // THEN
-    const endpoint = EndpointRegistry.get(Test, "get");
+    const endpoint = EndpointMetadata.get(Test, "get");
 
     expect(endpoint.statusCode).to.eq(200);
     expect(endpoint.responses.get(200)).to.deep.eq({
@@ -40,7 +42,8 @@ describe("ReturnType", () => {
   });
   it("should store metadata (when code is not given)", () => {
     // GIVEN
-    class TypeC {}
+    class TypeC {
+    }
 
     // WHEN
     class Test {
@@ -54,11 +57,12 @@ describe("ReturnType", () => {
           }
         }
       })
-      get() {}
+      get() {
+      }
     }
 
     // THEN
-    const endpoint = EndpointRegistry.get(Test, "get");
+    const endpoint = EndpointMetadata.get(Test, "get");
     expect(endpoint.statusCode).to.eq(200);
     expect(endpoint.responses.get(200)).to.deep.eq({
       code: 200,

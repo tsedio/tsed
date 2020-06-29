@@ -1,5 +1,5 @@
-import {DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
-import {EndpointRegistry} from "../../registries/EndpointRegistry";
+import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
+import {EndpointFn} from "./endpointFn";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -23,12 +23,14 @@ import {EndpointRegistry} from "../../registries/EndpointRegistry";
  */
 export function UseAfter(...args: any[]): Function {
   return <T>(...decoratorArgs: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
-    switch (getDecoratorType(decoratorArgs, true)) {
-      case "method":
-        EndpointRegistry.useAfter(decoratorArgs[0], decoratorArgs[1]!, args);
+    switch (decoratorTypeOf(decoratorArgs)) {
+      case DecoratorTypes.METHOD:
+        EndpointFn((endpoint) => {
+          endpoint.after(args);
+        })(...(decoratorArgs as [any, string, PropertyDescriptor]));
 
         return decoratorArgs[2] as any;
-      case "class":
+      case DecoratorTypes.CLASS:
         StoreMerge("middlewares", {useAfter: args})(...decoratorArgs);
         break;
       default:

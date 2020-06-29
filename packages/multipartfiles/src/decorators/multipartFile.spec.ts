@@ -1,4 +1,4 @@
-import {EndpointRegistry, ParamRegistry, ParamTypes} from "@tsed/common";
+import {ParamRegistry, ParamTypes} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -6,7 +6,8 @@ import {MultipartFile} from "../../src";
 import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
 
 class Test {
-  test() {}
+  test() {
+  }
 }
 
 describe("@MultipartFile()", () => {
@@ -14,7 +15,6 @@ describe("@MultipartFile()", () => {
   before(() => {
     sandbox.stub(Metadata, "getParamTypes");
     sandbox.stub(Store, "fromMethod");
-    sandbox.stub(EndpointRegistry, "useBefore");
   });
 
   after(() => {
@@ -54,10 +54,6 @@ describe("@MultipartFile()", () => {
         });
       });
 
-      it("should create middleware", () => {
-        expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
-      });
-
       it("should set params metadata", () => {
         const param = ParamRegistry.get(Test, "test", 0);
         expect(param.expression).to.eq("files.file1.0");
@@ -94,10 +90,6 @@ describe("@MultipartFile()", () => {
           ],
           options: undefined
         });
-      });
-
-      it("should create middleware", () => {
-        expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
       });
 
       it("should set params metadata", () => {
@@ -141,10 +133,6 @@ describe("@MultipartFile()", () => {
           });
         });
 
-        it("should create middleware", () => {
-          expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
-        });
-
         it("should set params metadata", () => {
           const param = ParamRegistry.get(Test, "test", 0);
           expect(param.expression).to.eq("files.0");
@@ -179,10 +167,6 @@ describe("@MultipartFile()", () => {
               options: "options"
             }
           });
-        });
-
-        it("should create middleware", () => {
-          expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(Test.prototype, "test", [MultipartFileMiddleware]);
         });
 
         it("should set params metadata", () => {

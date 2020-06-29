@@ -2,7 +2,7 @@ import {Metadata} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
-import {EndpointMetadata, EndpointRegistry} from "../../../src/mvc";
+import {EndpointMetadata, EndpointMetadata} from "../../../src/mvc";
 
 class Test {}
 
@@ -25,7 +25,7 @@ describe("EndpointMetadata", () => {
       endpointMetadata.before([() => {}]);
       endpointMetadata.after([() => {}]);
 
-      EndpointRegistry.store(Test, "method").set("test", "value");
+      EndpointMetadata.store(Test, "method").set("test", "value");
 
       Metadata.set("design:returntype", Object, Test, "method");
 

@@ -1,4 +1,4 @@
-import {EndpointRegistry} from "@tsed/common";
+import {EndpointMetadata, EndpointRegistry} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";
@@ -18,7 +18,7 @@ describe("Location", () => {
 
     const nextSpy = Sinon.stub();
     const response = new FakeResponse();
-    const endpoint = EndpointRegistry.get(Test, "test");
+    const endpoint = EndpointMetadata.get(Test, "test");
     const middleware = endpoint.afterMiddlewares[0];
 
     Sinon.stub(response, "location");
