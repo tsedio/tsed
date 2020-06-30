@@ -1,6 +1,6 @@
-import {PropertyMetadata} from "@tsed/common";
+import {PropertyMetadata} from "packages/common/lib";
 import {DecoratorParameters, getDecoratorType, Storable} from "@tsed/core";
-import {ParamMetadata} from "../../models/ParamMetadata";
+import {ParamMetadata} from "../models/ParamMetadata";
 
 export function getStorableMetadata(decoratorArgs: DecoratorParameters): Storable | undefined {
   switch (getDecoratorType(decoratorArgs, true)) {

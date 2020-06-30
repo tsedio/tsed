@@ -1,5 +1,5 @@
 import {isObject, isPrimitive} from "@tsed/core";
-import {IParamOptions} from "../../interfaces/IParamOptions";
+import {IParamOptions} from "../interfaces/IParamOptions";
 
 export function mapParamsOptions(args: any[]): IParamOptions<any> {
   if (args.length === 1) {

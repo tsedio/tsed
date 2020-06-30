@@ -2,7 +2,7 @@ import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseParam} from "./useParam";
-import {mapParamsOptions} from "../utils/mapParamsOptions";
+import {mapParamsOptions} from "../../utils/mapParamsOptions";
 
 /**
  * Session return the value from [request.session](http://expressjs.com/en/4x/api.html#req.session) object.

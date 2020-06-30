@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {mapParamsOptions} from "../../../../src/mvc/decorators/utils/mapParamsOptions";
+import {mapParamsOptions} from "./mapParamsOptions";
 
 class Test {
 }

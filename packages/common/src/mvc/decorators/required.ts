@@ -1,6 +1,6 @@
 import {applyDecorators, DecoratorParameters, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {Allow} from "./allow";
-import {getStorableMetadata} from "./utils/getStorableMetadata";
+import {getStorableMetadata} from "../utils/getStorableMetadata";
 
 /**
  * Add required annotation for a function argument.

@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
-import {mapParamsOptions} from "../utils/mapParamsOptions";
+import {mapParamsOptions} from "../../utils/mapParamsOptions";
 import {UseParam} from "./useParam";
 
 /**

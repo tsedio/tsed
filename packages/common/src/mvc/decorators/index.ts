@@ -52,5 +52,5 @@ export * from "./params/endpointInfo";
 export * from "./params/paramFn";
 
 // utils
-export * from "./utils/mapReturnedResponse";
-export * from "./utils/getStorableMetadata";
+export * from "../utils/mapReturnedResponse";
+export * from "../utils/getStorableMetadata";

@@ -1,7 +1,7 @@
 import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {RequestContext} from "../domain/RequestContext";
 import {UseParam} from "../../mvc/decorators/params/useParam";
-import {mapParamsOptions} from "../../mvc/decorators/utils/mapParamsOptions";
+import {mapParamsOptions} from "../../mvc/utils/mapParamsOptions";
 
 /**
  * Context decorator return the @@RequestContext@@ created by Ts.ED when request is handled by the server.

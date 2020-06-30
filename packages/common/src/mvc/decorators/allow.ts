@@ -1,7 +1,7 @@
 import {DecoratorParameters, getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonSchema} from "../../jsonschema/class/JsonSchema";
 import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFactory";
-import {getStorableMetadata} from "./utils/getStorableMetadata";
+import {getStorableMetadata} from "../utils/getStorableMetadata";
 
 /**
  * Add allowed values when the property or parameters is required.
