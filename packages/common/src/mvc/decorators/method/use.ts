@@ -46,18 +46,10 @@ function mapOptions(args: any[]) {
  * ```
  *
  * @returns {Function}
- * @param method
- * @param path
- * @param method
- * @param path
  * @param args
  * @decorator
  * @endpoint
  */
-export function Use(method: string, path: RegExp | string, ...args: Function[]): Function;
-export function Use(path: string, ...args: Function[]): Function;
-export function Use(path: string, ...args: Function[]): Function;
-export function Use(middleware: Function, ...args: Function[]): Function;
 export function Use(...args: any[]): Function {
   return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
     if (decoratorTypeOf([target, targetKey, descriptor]) === DecoratorTypes.METHOD) {
