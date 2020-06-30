@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ParamRegistry, ParamTypes} from "@tsed/common/src";
+import {ParamMetadata, ParamTypes} from "@tsed/common/src";
 import {Arg, Args} from "./args";
 
 describe("@Args", () => {
@@ -8,7 +8,7 @@ describe("@Args", () => {
       test(@Args() args: any[]) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("args");
     expect(param.paramType).to.eq(ParamTypes.REQUEST);
   });
@@ -20,7 +20,7 @@ describe("@Arg", () => {
       test(@Arg(0) args: any[]) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("args.0");
     expect(param.paramType).to.eq(ParamTypes.REQUEST);
   });

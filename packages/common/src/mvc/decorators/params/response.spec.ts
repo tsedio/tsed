@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ParamRegistry, ParamTypes, Res} from "../../../../src/mvc";
+import {ParamMetadata, ParamTypes, Res} from "../../../../src/mvc";
 
 describe("@Res", () => {
   it("should register a new ParamMetadata instance with the correct property", () => {
@@ -8,7 +8,7 @@ describe("@Res", () => {
       }
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.paramType).to.eq(ParamTypes.RESPONSE);
   });
 });

@@ -1,4 +1,4 @@
-import {ParamTypes, Req, UseBefore, UseParamType} from "@tsed/common";
+import {ParamTypes, Req, UseBefore, UseParamType, Use} from "@tsed/common";
 import {applyDecorators, descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
 import * as multer from "multer";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
@@ -76,7 +76,7 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
 
         if (!added) {
           // middleware is added
-          UseBefore(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
+          Use(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
         }
 
         if (name === undefined) {

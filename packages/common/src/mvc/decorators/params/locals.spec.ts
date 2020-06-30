@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Locals, ParamRegistry, ParamTypes} from "../../../../src/mvc";
+import {Locals, ParamMetadata, ParamTypes} from "../../../../src/mvc";
 
 describe("@Locals", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {
@@ -7,7 +7,7 @@ describe("@Locals", () => {
       test(@Locals("expression") test: any) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
     expect(param.paramType).to.eq(ParamTypes.LOCALS);
   });

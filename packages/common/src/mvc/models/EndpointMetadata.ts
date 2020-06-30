@@ -15,7 +15,7 @@ import {
 } from "@tsed/core";
 import {IPathMethod} from "../interfaces/IPathMethod";
 import {IResponseOptions} from "../interfaces/IResponseOptions";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamMetadata} from "./ParamMetadata";
 
 export interface EndpointConstructorOptions {
   target: Type<any>;
@@ -116,7 +116,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   }
 
   get params() {
-    return ParamRegistry.getParams(this.target, this.propertyKey);
+    return ParamMetadata.getParams(this.target, this.propertyKey);
   }
 
   get response() {

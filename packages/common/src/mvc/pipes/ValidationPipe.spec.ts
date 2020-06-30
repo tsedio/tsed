@@ -1,4 +1,4 @@
-import {ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
+import {ParamMetadata, ParamTypes} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -12,7 +12,8 @@ describe("ValidationPipe", () => {
       validate
     });
 
-    class Test {}
+    class Test {
+    }
 
     const param = new ParamMetadata({
       index: 0,
@@ -39,11 +40,12 @@ describe("ValidationPipe", () => {
     });
 
     class Test {
-      test(@QueryParams("param", String) param: string[]) {}
+      test(@QueryParams("param", String) param: string[]) {
+      }
     }
 
     // WHEN
-    const actualError = catchError(() => validator.transform("value", ParamRegistry.get(Test, "test", 0)));
+    const actualError = catchError(() => validator.transform("value", ParamMetadata.get(Test, "test", 0)));
     // @ts-ignore
     expect(actualError.message).to.eq("message");
   });

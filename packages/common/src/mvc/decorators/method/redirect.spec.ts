@@ -1,4 +1,4 @@
-import {EndpointMetadata, EndpointRegistry, Redirect} from "@tsed/common";
+import {EndpointMetadata, Redirect} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";

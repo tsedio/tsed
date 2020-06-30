@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {HeaderParams, ParamRegistry, ParamTypes} from "../../../../src/mvc";
+import {HeaderParams, ParamMetadata, ParamTypes} from "../../../../src/mvc";
 
 describe("@HeaderParams", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {
@@ -7,7 +7,7 @@ describe("@HeaderParams", () => {
       test(@HeaderParams("expression") header: string) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
     expect(param.paramType).to.eq(ParamTypes.HEADER);
   });

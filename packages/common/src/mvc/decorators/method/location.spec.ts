@@ -1,8 +1,8 @@
-import {EndpointMetadata, EndpointRegistry} from "@tsed/common";
+import {EndpointMetadata} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../../test/helper";
-import {Location} from "./Location";
+import {Location} from "./location";
 
 const middleware: any = Sinon.stub();
 const useAfterStub: any = Sinon.stub().returns(middleware);

@@ -1,4 +1,4 @@
-import {ParamRegistry, ParamTypes} from "@tsed/common";
+import {ParamMetadata, ParamTypes} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -55,7 +55,7 @@ describe("@MultipartFile()", () => {
       });
 
       it("should set params metadata", () => {
-        const param = ParamRegistry.get(Test, "test", 0);
+        const param = ParamMetadata.get(Test, "test", 0);
         expect(param.expression).to.eq("files.file1.0");
         expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
       });
@@ -93,7 +93,7 @@ describe("@MultipartFile()", () => {
       });
 
       it("should set params metadata", () => {
-        const param = ParamRegistry.get(Test, "test", 0);
+        const param = ParamMetadata.get(Test, "test", 0);
         expect(param.expression).to.eq("files.file1");
         expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
       });
@@ -134,7 +134,7 @@ describe("@MultipartFile()", () => {
         });
 
         it("should set params metadata", () => {
-          const param = ParamRegistry.get(Test, "test", 0);
+          const param = ParamMetadata.get(Test, "test", 0);
           expect(param.expression).to.eq("files.0");
           expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
         });
@@ -170,7 +170,7 @@ describe("@MultipartFile()", () => {
         });
 
         it("should set params metadata", () => {
-          const param = ParamRegistry.get(Test, "test", 0);
+          const param = ParamMetadata.get(Test, "test", 0);
           expect(param.expression).to.eq("files");
         });
       });

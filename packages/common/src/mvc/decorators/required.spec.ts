@@ -1,15 +1,15 @@
-import {expect} from "chai";
 import {prototypeOf} from "@tsed/core";
+import {expect} from "chai";
 import * as Sinon from "sinon";
-import {ParamRegistry} from "../../../src/mvc";
 import {PropertyRegistry} from "../../../src/jsonschema";
+import {ParamMetadata} from "../../../src/mvc";
 import {Required} from "../../../src/mvc/decorators";
 
 const sandbox = Sinon.createSandbox();
 describe("Required", () => {
   before(() => {
     sandbox.spy(PropertyRegistry, "get");
-    sandbox.spy(ParamRegistry, "get");
+    sandbox.spy(ParamMetadata, "get");
   });
   after(() => sandbox.restore());
 
@@ -17,14 +17,15 @@ describe("Required", () => {
     it("should called with the correct parameters", () => {
       // WHEN
       class Test {
-        test(@Required(null) test: string) {}
+        test(@Required(null) test: string) {
+        }
       }
 
-      const metadata = ParamRegistry.get(prototypeOf(Test), "test", 0);
+      const metadata = ParamMetadata.get(prototypeOf(Test), "test", 0);
       // THEN
       expect(metadata.required).to.eq(true);
 
-      expect(ParamRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
+      expect(ParamMetadata.get).to.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
       expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });
