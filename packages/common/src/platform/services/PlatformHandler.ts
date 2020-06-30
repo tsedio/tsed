@@ -26,7 +26,7 @@ export class PlatformHandler {
     let options: IHandlerConstructorOptions;
 
     if (obj instanceof EndpointMetadata) {
-      const provider = injector.getProvider(obj.target)!;
+      const provider = injector.getProvider(obj.provide)!;
 
       options = {
         token: provider.provide,

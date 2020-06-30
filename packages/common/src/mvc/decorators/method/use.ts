@@ -1,5 +1,33 @@
-import {EndpointMetadata} from "@tsed/common";
 import {decoratorTypeOf, DecoratorTypes, Store, Type} from "@tsed/core";
+import {HTTP_METHODS} from "../../constants/index";
+import {EndpointMetadata} from "../../models/EndpointMetadata";
+
+function mapOptions(args: any[]) {
+  let method: string | undefined = undefined;
+  let path: string | RegExp | undefined = undefined;
+
+  const middlewares = args.filter((arg: any) => {
+    if (typeof arg === "string" && HTTP_METHODS.includes(arg)) {
+      method = arg;
+
+      return false;
+    }
+
+    if (typeof arg === "string" || arg instanceof RegExp) {
+      path = arg;
+
+      return false;
+    }
+
+    return !!arg;
+  });
+
+  return {
+    path,
+    method,
+    middlewares
+  };
+}
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -18,14 +46,30 @@ import {decoratorTypeOf, DecoratorTypes, Store, Type} from "@tsed/core";
  * ```
  *
  * @returns {Function}
+ * @param method
+ * @param path
+ * @param method
+ * @param path
  * @param args
  * @decorator
  * @endpoint
  */
+export function Use(method: string, path: RegExp | string, ...args: Function[]): Function;
+export function Use(path: string, ...args: Function[]): Function;
+export function Use(path: string, ...args: Function[]): Function;
+export function Use(middleware: Function, ...args: Function[]): Function;
 export function Use(...args: any[]): Function {
   return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
     if (decoratorTypeOf([target, targetKey, descriptor]) === DecoratorTypes.METHOD) {
-      EndpointMetadata.get(target, targetKey!).use(args);
+      const options = mapOptions(args);
+      const endpoint = EndpointMetadata.get(target, targetKey!);
+
+      options.path && endpoint.pathsMethods.push({
+        method: options.method,
+        path: options.path!
+      });
+
+      endpoint.use(args);
 
       return descriptor;
     }
