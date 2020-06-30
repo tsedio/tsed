@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {EndpointRegistry} from "../../../../src/mvc";
+import {EndpointMetadata} from "../../../../src/mvc";
 import {Header, mapHeaders} from "./header";
 
 describe("mapHeaders", () => {
@@ -30,10 +30,11 @@ describe("Header", () => {
       it("should set Header", () => {
         class MyController {
           @Header({"Content-Type": "application/json"})
-          test() {}
+          test() {
+          }
         }
 
-        const endpoint = EndpointRegistry.get(MyController, "test");
+        const endpoint = EndpointMetadata.get(MyController, "test");
 
         expect(endpoint.response).to.deep.eq({
           code: 200,
@@ -50,10 +51,11 @@ describe("Header", () => {
       it("should set Header", () => {
         class MyController {
           @Header("Content-Type", "application/json")
-          test() {}
+          test() {
+          }
         }
 
-        const endpoint = EndpointRegistry.get(MyController, "test");
+        const endpoint = EndpointMetadata.get(MyController, "test");
 
         expect(endpoint.response).to.deep.eq({
           code: 200,
@@ -77,10 +79,11 @@ describe("Header", () => {
               description: "header description"
             }
           } as any)
-          test() {}
+          test() {
+          }
         }
 
-        const endpoint = EndpointRegistry.get(MyController, "test");
+        const endpoint = EndpointMetadata.get(MyController, "test");
 
         expect(endpoint.response).to.deep.eq({
           code: 200,

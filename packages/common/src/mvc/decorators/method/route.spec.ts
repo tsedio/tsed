@@ -1,4 +1,4 @@
-import {All, Delete, EndpointRegistry, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
+import {All, Delete, Get, Head, Options, Patch, Post, Put, EndpointMetadata} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 
@@ -18,7 +18,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -38,7 +38,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -58,7 +58,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -79,7 +79,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -99,7 +99,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -119,7 +119,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -139,7 +139,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -159,7 +159,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{
@@ -179,7 +179,7 @@ describe("Route decorators", () => {
         }
       }
 
-      const endpoint = EndpointRegistry.get(Test, "test");
+      const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
       expect(endpoint.pathsMethods).to.deep.eq([{

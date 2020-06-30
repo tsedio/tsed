@@ -3,7 +3,7 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
-import {EndpointRegistry} from "../../mvc/registries/EndpointRegistry";
+import {EndpointMetadata} from "../../mvc/registries/EndpointMetadata";
 import {ControllerProvider, Platform, PlatformApplication, PlatformHandler} from "../../platform";
 import {SendResponseMiddleware} from "../middlewares/SendResponseMiddleware";
 import {statusAndHeadersMiddleware} from "../middlewares/statusAndHeadersMiddleware";
@@ -66,7 +66,7 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
   }
 
   // @ts-ignore
-  EndpointRegistry.getEndpoints.returns([endpoint]);
+  EndpointMetadata.getEndpoints.returns([endpoint]);
 
   const controllerBuilder = new ControllerBuilder(provider);
 
@@ -79,7 +79,7 @@ describe("ControllerBuilder", () => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "createRawRouter");
     sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake(o => o);
-    sandbox.stub(EndpointRegistry, "getEndpoints");
+    sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {
     sandbox.restore();
@@ -198,7 +198,7 @@ describe("ControllerBuilder", () => {
     });
 
     // @ts-ignore
-    EndpointRegistry.getEndpoints.returns([endpointAll, endpoint]);
+    EndpointMetadata.getEndpoints.returns([endpointAll, endpoint]);
 
     // WHEN
     const result = controllerBuilder.build(injector);

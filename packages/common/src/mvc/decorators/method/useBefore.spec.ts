@@ -1,35 +1,21 @@
+import {Store, UnsupportedDecoratorType} from "@tsed/core";
 import {expect} from "chai";
-import {prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
-import * as Sinon from "sinon";
-import {EndpointRegistry, UseBefore} from "../../../../src/mvc";
+import {EndpointMetadata, UseBefore} from "../../../../src/mvc";
 
 class CustomMiddleware {
-  use() {}
+  use() {
+  }
 }
 
 describe("UseBefore()", () => {
   describe("when the decorator is use on a class", () => {
-    class Test {
-      test() {}
-    }
-
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
-      UseBefore(CustomMiddleware)(Test);
+      @UseBefore(CustomMiddleware)
+      class Test {
+        test() {
+        }
+      }
 
       // THEN
       const result = Store.from(Test).get("middlewares");
@@ -38,49 +24,24 @@ describe("UseBefore()", () => {
     });
   });
   describe("when the decorator is use on a method", () => {
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
       class Test {
         @UseBefore(CustomMiddleware)
-        test() {}
+        test() {
+        }
       }
 
+      const endpoint = EndpointMetadata.get(Test, "test");
       // THEN
-      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [CustomMiddleware]);
+      expect(endpoint.beforeMiddlewares).to.deep.eq([CustomMiddleware]);
     });
   });
   describe("when the decorator is use in another way", () => {
     class Test {
-      test() {}
+      test() {
+      }
     }
-
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
 
     it("should add the middleware on the use stack", () => {
       // WHEN

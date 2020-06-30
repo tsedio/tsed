@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {ParamRegistry, ParamTypes, PathParams, RawPathParams} from "../../../../src/mvc";
+import {ParamMetadata, ParamTypes, PathParams, RawPathParams} from "../../../../src/mvc";
 
 describe("@PathParams", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {
@@ -9,7 +9,7 @@ describe("@PathParams", () => {
       test(@PathParams("expression", Test) header: Test) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
     expect(param.paramType).to.eq(ParamTypes.PATH);
     expect(param.type).to.eq(Test);
@@ -19,7 +19,7 @@ describe("@PathParams", () => {
       test(@RawPathParams("expression") header: string) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
     expect(param.paramType).to.eq(ParamTypes.PATH);
   });

@@ -1,6 +1,15 @@
 import {Enumerable, NotEnumerable} from "../decorators";
 import {Type} from "../interfaces";
-import {getClass, isArrayOrArrayClass, isClass, isCollection, isDate, isObject, isPrimitiveOrPrimitiveClass, nameOf} from "../utils";
+import {
+  getClass,
+  isArrayOrArrayClass,
+  isClass,
+  isCollection,
+  isDate,
+  isObject,
+  isPrimitiveOrPrimitiveClass,
+  nameOf
+} from "../utils";
 import {Metadata} from "./Metadata";
 
 /**
@@ -17,6 +26,9 @@ export abstract class EntityDescription {
    */
   @NotEnumerable()
   public readonly index: number;
+
+  @NotEnumerable()
+  public readonly descriptor: PropertyDescriptor;
   /**
    *
    */
@@ -49,6 +61,8 @@ export abstract class EntityDescription {
   constructor(protected _target: Type<any>, propertyKey: string | symbol, index?: number | PropertyDescriptor) {
     if (typeof index === "number") {
       this.index = index;
+    } else if (index) {
+      this.descriptor = index;
     }
 
     this.propertyKey = propertyKey;

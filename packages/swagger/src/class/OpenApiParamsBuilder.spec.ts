@@ -1,4 +1,4 @@
-import {MinLength, ParamMetadata, ParamRegistry, ParamTypes, Property, Required} from "@tsed/common";
+import {MinLength, ParamMetadata, ParamTypes, Property, Required} from "@tsed/common";
 import {BodyParams} from "@tsed/common/src/mvc/decorators/params/bodyParams";
 import {QueryParams} from "@tsed/common/src/mvc/decorators/params/queryParams";
 import {MultipartFile} from "@tsed/multipartfiles/src";
@@ -122,7 +122,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       ];
 
-      this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+      this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
 
       this.builder = new OpenApiParamsBuilder(Ctrl, "test");
       Sinon.stub(this.builder, "addResponse400");
@@ -190,7 +190,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       ];
 
-      this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+      this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
 
       this.builder = new OpenApiParamsBuilder(Ctrl, "test", [
         {
@@ -262,7 +262,7 @@ describe("OpenApiParamsBuilder", () => {
         }
       ];
 
-      this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+      this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
 
       this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -364,7 +364,7 @@ describe("OpenApiParamsBuilder", () => {
           }
         ];
 
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns(this.params);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -410,7 +410,7 @@ describe("OpenApiParamsBuilder", () => {
   describe("createPropertiesFromExpression()", () => {
     describe("when the expression is given 't1.t2.t3'", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -448,7 +448,7 @@ describe("OpenApiParamsBuilder", () => {
 
     describe("when the expression is given 'event'", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
         this.result = this.builder.createSchemaFromExpression({expression: "event"});
@@ -472,7 +472,7 @@ describe("OpenApiParamsBuilder", () => {
 
     describe("when the expression is not given", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -494,7 +494,7 @@ describe("OpenApiParamsBuilder", () => {
   describe("createSchemaFromBodyParam()", () => {
     describe("when is a string", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -537,7 +537,7 @@ describe("OpenApiParamsBuilder", () => {
     describe("when is a string[]", () => {
       const sandbox = Sinon.createSandbox();
       before(() => {
-        sandbox.stub(ParamRegistry, "getParams");
+        sandbox.stub(ParamMetadata, "getParams");
       });
       after(() => {
         sandbox.restore();
@@ -550,7 +550,7 @@ describe("OpenApiParamsBuilder", () => {
         param0.collectionType = Array;
 
         // @ts-ignore
-        ParamRegistry.getParams.returns([param0]);
+        ParamMetadata.getParams.returns([param0]);
 
         const builder = new OpenApiParamsBuilder(Ctrl, "test");
         // @ts-ignore
@@ -577,7 +577,7 @@ describe("OpenApiParamsBuilder", () => {
       class Test {}
 
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -612,7 +612,7 @@ describe("OpenApiParamsBuilder", () => {
   describe("createSchemaFromQueryParam", () => {
     describe("when there is a string", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -638,7 +638,7 @@ describe("OpenApiParamsBuilder", () => {
 
     describe("when there is an array of string", () => {
       before(() => {
-        this.getParamsStub = Sinon.stub(ParamRegistry, "getParams").returns([param0]);
+        this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns([param0]);
 
         this.builder = new OpenApiParamsBuilder(Ctrl, "test");
 
@@ -668,14 +668,14 @@ describe("OpenApiParamsBuilder", () => {
 
     describe("when there is an object of string", () => {
       before(() => {
-        sandbox.stub(ParamRegistry, "getParams");
+        sandbox.stub(ParamMetadata, "getParams");
       });
       after(() => {
         sandbox.restore();
       });
       it("should return the right schema", () => {
         // @ts-ignore
-        ParamRegistry.getParams.returns([param0]);
+        ParamMetadata.getParams.returns([param0]);
 
         const builder = new OpenApiParamsBuilder(Ctrl, "test");
 

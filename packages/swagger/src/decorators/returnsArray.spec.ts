@@ -1,4 +1,4 @@
-import {EndpointRegistry} from "@tsed/common/src";
+import {EndpointMetadata} from "@tsed/common/src";
 import {expect} from "chai";
 import {ReturnsArray} from "../index";
 
@@ -14,7 +14,7 @@ describe("ReturnsArray()", () => {
         test() {}
       }
 
-      const endpoint = EndpointRegistry.get(Ctrl, "test");
+      const endpoint = EndpointMetadata.get(Ctrl, "test");
 
       expect(endpoint.response).to.deep.eq({
         code: 200,
@@ -33,7 +33,7 @@ describe("ReturnsArray()", () => {
         test() {}
       }
 
-      const endpoint = EndpointRegistry.get(Ctrl, "test");
+      const endpoint = EndpointMetadata.get(Ctrl, "test");
 
       expect(endpoint.response).to.deep.eq({
         code: 200,
@@ -60,7 +60,7 @@ describe("ReturnsArray()", () => {
         test() {}
       }
 
-      const endpoint = EndpointRegistry.get(Ctrl, "test");
+      const endpoint = EndpointMetadata.get(Ctrl, "test");
 
       expect(endpoint.response).to.deep.eq({
         code: 200,

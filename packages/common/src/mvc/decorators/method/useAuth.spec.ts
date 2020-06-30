@@ -1,37 +1,19 @@
-import {expect} from "chai";
 import {decoratorArgs} from "@tsed/core";
-import * as Sinon from "sinon";
+import {expect} from "chai";
 import {Store} from "../../../../../core/src";
 import {prototypeOf, UnsupportedDecoratorType} from "../../../../../core/src/utils";
-import {EndpointRegistry, UseAuth} from "../../../../src/mvc";
+import {EndpointMetadata, UseAuth} from "../../../../src/mvc";
 
 class Guard {
-  use() {}
+  use() {
+  }
 }
 
 describe("UseAuth()", () => {
   describe("when the decorator is use on a method", () => {
-    class Test {
-      test() {}
-    }
-
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
-      UseAuth(Guard, {
+      @UseAuth(Guard, {
         security: [
           {
             auth: ["email"]
@@ -42,12 +24,19 @@ describe("UseAuth()", () => {
             description: "Success"
           }
         }
-      })(...decoratorArgs(prototypeOf(Test), "test"));
+      })
+      class Test {
+        test() {
+        }
+      }
 
       // THEN
-      const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
+      const args = decoratorArgs(prototypeOf(Test), "test");
+      const store = Store.from(...args);
+      // @ts-ignore
+      const endpoint = EndpointMetadata.get(...args);
 
-      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [Guard]);
+      expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
@@ -65,27 +54,9 @@ describe("UseAuth()", () => {
     });
   });
   describe("when the decorator is use on a class", () => {
-    class Test {
-      test() {}
-    }
-
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
-      UseAuth(Guard, {
+      @UseAuth(Guard, {
         security: [
           {
             auth: ["email"]
@@ -96,12 +67,19 @@ describe("UseAuth()", () => {
             description: "Success"
           }
         }
-      })(Test);
+      })
+      class Test {
+        test() {
+        }
+      }
 
       // THEN
-      const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
+      const args = decoratorArgs(prototypeOf(Test), "test");
+      const store = Store.from(...args);
+      // @ts-ignore
+      const endpoint = EndpointMetadata.get(...args);
 
-      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [Guard]);
+      expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
 
       expect(store.get("operation")).to.deep.eq({
         security: [
@@ -121,65 +99,41 @@ describe("UseAuth()", () => {
     });
   });
   describe("when the decorator is use on a class and method", () => {
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
 
       @UseAuth(Guard, {defaultRole: "test"})
       class Test {
         @UseAuth(Guard, {role: "test2"})
-        test() {}
+        test() {
+        }
 
-        test2() {}
+        test2() {
+        }
       }
 
       // THEN
       const storeTest = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
+      // @ts-ignore
+      const endpoint = EndpointMetadata.get(Test, "test");
+      expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
 
-      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test", [Guard]);
-      expect(EndpointRegistry.useBefore).to.have.been.calledWithExactly(prototypeOf(Test), "test2", [Guard]);
+      const endpoint2 = EndpointMetadata.get(Test, "test2");
+      expect(endpoint2.beforeMiddlewares).to.deep.equal([Guard]);
 
       expect(storeTest.get(Guard)).to.deep.eq({role: "test2", defaultRole: "test"});
       expect(storeTest2.get(Guard)).to.deep.eq({defaultRole: "test"});
     });
   });
   describe("when the decorator is use in another way", () => {
-    class Test {
-      test() {}
-    }
-
-    before(() => {
-      Sinon.stub(EndpointRegistry, "useBefore");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.restore();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      EndpointRegistry.useBefore.resetHistory();
-    });
-
     it("should add the middleware on the use stack", () => {
       // WHEN
       let actualError;
       try {
+        class Test {
+        }
+
         UseAuth(Guard)(Test, "property");
       } catch (er) {
         actualError = er;

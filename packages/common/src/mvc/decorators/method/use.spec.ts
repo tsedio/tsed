@@ -1,38 +1,39 @@
-import {decoratorArgs, descriptorOf, Store} from "@tsed/core";
+import {Store} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
-import {EndpointRegistry, Use} from "../../../../src/mvc";
-
-class Test {
-  test() {}
-}
+import {EndpointMetadata} from "../../models/EndpointMetadata";
+import {Use} from "./use";
 
 describe("Use()", () => {
   describe("when the decorator is use on a method", () => {
-    before(() => {
-      Sinon.stub(EndpointRegistry, "use");
-    });
-
-    after(() => {
-      // @ts-ignore
-      EndpointRegistry.use.restore();
-    });
-
     it("should add the middleware on the use stack", () => {
-      const returns = Use(() => {})(...decoratorArgs(Test, "test"));
+      const middleware = () => {
+      };
 
-      expect(EndpointRegistry.use).to.have.been.calledWithExactly(Test, "test", [Sinon.match.func]);
-      expect(returns).to.deep.eq(descriptorOf(Test, "test"));
+      class Test {
+        @Use(middleware)
+        test() {
+        }
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "test");
+      expect(endpoint.middlewares).to.deep.eq([middleware]);
     });
   });
 
   describe("when the decorator is use on a class", () => {
     it("should add the middleware on the use stack", () => {
-      const returns = Use(() => {})(Test);
+      const middleware = () => {
+      };
+
+      @Use(middleware)
+      class Test {
+        test() {
+        }
+      }
 
       const store = Store.from(Test).get("middlewares");
       expect(store.use[0]).to.be.a("function");
-      expect(returns).to.eq(undefined);
+      expect(store.use[0]).to.deep.eq(middleware);
     });
   });
 });

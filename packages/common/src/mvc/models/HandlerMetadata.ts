@@ -1,8 +1,6 @@
-import {Metadata, Type} from "@tsed/core";
-import {PARAM_METADATA} from "../constants";
+import {Type} from "@tsed/core";
 import {HandlerType} from "../interfaces/HandlerType";
 import {ParamMetadata} from "../models/ParamMetadata";
-import {ParamRegistry} from "../registries/ParamRegistry";
 import {ParamTypes} from "./ParamTypes";
 
 export interface IHandlerConstructorOptions {
@@ -40,11 +38,9 @@ export class HandlerMetadata {
       this.target = target;
       this.token = token!;
       this.propertyKey = propertyKey;
-      this.methodClassName = String(propertyKey);
-      this.method = String(propertyKey);
       this.hasNextFunction = this.hasParamType(ParamTypes.NEXT_FN);
       this.hasErrorParam = this.hasParamType(ParamTypes.ERR);
-      this.injectable = (Metadata.get(PARAM_METADATA, target, propertyKey) || []).length > 0;
+      this.injectable = ParamMetadata.getParams(target as any, propertyKey).length > 0;
     }
 
     if (!this.injectable) {
@@ -95,7 +91,7 @@ export class HandlerMetadata {
   }
 
   public getParams() {
-    return ParamRegistry.getParams(this.target, this.propertyKey) || [];
+    return ParamMetadata.getParams(this.target, this.propertyKey) || [];
   }
 
   public hasParamType(paramType: any): boolean {

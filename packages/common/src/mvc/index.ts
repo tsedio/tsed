@@ -11,7 +11,6 @@ export * from "./models/ParamMetadata";
 export * from "./models/ParamTypes";
 
 // registries
-export * from "./registries/EndpointRegistry";
 export * from "./registries/MiddlewareRegistry";
 export * from "./registries/ParamRegistry";
 export * from "./registries/FilterRegistry";

@@ -1,6 +1,6 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
-import {EndpointMetadata, EndpointRegistry, IControllerMiddlewares} from "../../mvc";
+import {EndpointMetadata, IControllerMiddlewares} from "../../mvc";
 
 import {IPlatformDriver} from "../interfaces/IPlatformDriver";
 
@@ -34,7 +34,7 @@ export class ControllerProvider extends Provider<any> {
    * @returns {Endpoint[]}
    */
   get endpoints(): EndpointMetadata[] {
-    return EndpointRegistry.getEndpoints(this.provide);
+    return EndpointMetadata.getEndpoints(this.provide);
   }
 
   /**

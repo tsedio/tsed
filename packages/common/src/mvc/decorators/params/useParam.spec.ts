@@ -1,6 +1,6 @@
-import {expect} from "chai";
-import {ParamRegistry, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
+import {ParamMetadata, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
+import {expect} from "chai";
 import {IFilter} from "../../interfaces/IFilter";
 
 export class MyModel {
@@ -18,7 +18,8 @@ export class MyModel {
 describe("@UseParam", () => {
   describe("when filter is a class", () => {
     it("should create useParam", () => {
-      class Test {}
+      class Test {
+      }
 
       class Ctrl {
         test(
@@ -29,17 +30,19 @@ describe("@UseParam", () => {
             paramType: ParamTypes.BODY,
             useType: Test
           })
-          body: Test
-        ) {}
+            body: Test
+        ) {
+        }
       }
 
-      const param = ParamRegistry.get(Ctrl, "test", 0);
+      const param = ParamMetadata.get(Ctrl, "test", 0);
       expect(param.expression).to.eq("expression");
       expect(param.paramType).to.eq(ParamTypes.BODY);
       expect(param.type).to.eq(Test);
     });
     it("should create useFilter (withoutFilter)", () => {
-      class Test {}
+      class Test {
+      }
 
       class Ctrl {
         test(
@@ -50,17 +53,19 @@ describe("@UseParam", () => {
             paramType: ParamTypes.BODY,
             useType: Test
           })
-          body: Test
-        ) {}
+            body: Test
+        ) {
+        }
       }
 
-      const param = ParamRegistry.get(Ctrl, "test", 0);
+      const param = ParamMetadata.get(Ctrl, "test", 0);
       expect(param.expression).to.eq("expression");
       expect(param.paramType).to.eq(ParamTypes.BODY);
       expect(param.type).to.eq(Test);
     });
     it("should create useFilter (withFilter", () => {
-      class Test {}
+      class Test {
+      }
 
       class MyFilter implements IFilter {
         transform(expression: string, request: TsED.Request, response: TsED.Response): any {
@@ -77,11 +82,12 @@ describe("@UseParam", () => {
             paramType: ParamTypes.BODY,
             useType: Test
           })
-          body: Test
-        ) {}
+            body: Test
+        ) {
+        }
       }
 
-      const param = ParamRegistry.get(Ctrl, "test", 0);
+      const param = ParamMetadata.get(Ctrl, "test", 0);
       expect(param.expression).to.eq("expression");
       expect(param.paramType).to.eq(ParamTypes.BODY);
       expect(param.type).to.eq(Test);

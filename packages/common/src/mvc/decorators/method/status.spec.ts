@@ -1,6 +1,6 @@
 import "@tsed/swagger";
 import {expect} from "chai";
-import {EndpointRegistry, Status} from "../../../../src/mvc";
+import {EndpointMetadata, EndpointMetadata, Status} from "../../../../src/mvc";
 
 describe("Status", () => {
   it("should store metadata (200)", () => {
@@ -23,7 +23,7 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointRegistry.get(Test, "get");
+    const endpoint = EndpointMetadata.get(Test, "get");
 
     const response = {
       code: 200,
@@ -60,7 +60,7 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointRegistry.get(Test, "get");
+    const endpoint = EndpointMetadata.get(Test, "get");
 
     const response = {
       code: 204,
@@ -97,7 +97,7 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointRegistry.get(Test, "get");
+    const endpoint = EndpointMetadata.get(Test, "get");
 
     const response = {
       code: 201,
@@ -145,7 +145,7 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointRegistry.get(Test, "get");
+    const endpoint = EndpointMetadata.get(Test, "get");
     expect(endpoint.responses.get(404)).to.deep.eq({
       code: 404,
       description: "description",

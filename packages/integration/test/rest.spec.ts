@@ -1,6 +1,5 @@
 import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {FakeServer} from "./helpers/FakeServer";
 
@@ -40,7 +39,7 @@ describe("Rest", () => {
               throw err;
             }
 
-            const obj = JSON.parse(response.text);
+            const obj = response.body;
             expect(obj).to.be.an("object");
             expect(obj.id).to.equal("1");
             expect(obj.name).to.equal("test");

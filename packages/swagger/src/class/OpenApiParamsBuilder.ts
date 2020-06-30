@@ -1,6 +1,14 @@
-import {getJsonSchema, ParamMetadata, ParamRegistry, ParamTypes} from "@tsed/common";
+import {getJsonSchema, ParamMetadata, ParamTypes} from "@tsed/common";
 import {deepExtends, nameOf, Store, Type} from "@tsed/core";
-import {BodyParameter, FormDataParameter, HeaderParameter, Parameter, PathParameter, QueryParameter, Schema} from "swagger-schema-official";
+import {
+  BodyParameter,
+  FormDataParameter,
+  HeaderParameter,
+  Parameter,
+  PathParameter,
+  QueryParameter,
+  Schema
+} from "swagger-schema-official";
 import {swaggerType} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
@@ -27,7 +35,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     super(target);
     this.name = `${nameOf(target)}${methodClassName.charAt(0).toUpperCase() + methodClassName.slice(1)}`;
 
-    this.injectedParams = ParamRegistry.getParams(target, methodClassName).filter(param => {
+    this.injectedParams = ParamMetadata.getParams(target, methodClassName).filter(param => {
       if (param.paramType === ParamTypes.BODY) {
         this.hasBody = true;
       }

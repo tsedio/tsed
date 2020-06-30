@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Cookies, ParamRegistry, ParamTypes} from "../../../../src/mvc";
+import {Cookies, ParamMetadata, ParamTypes} from "../../../../src/mvc";
 
 describe("@Cookies", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {
@@ -9,7 +9,7 @@ describe("@Cookies", () => {
       test(@Cookies("expression", Test) body: Test) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
     expect(param.paramType).to.eq(ParamTypes.COOKIES);
     expect(param.type).to.eq(Test);

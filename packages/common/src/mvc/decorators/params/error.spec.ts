@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {EndpointInfo, Err, ParamRegistry, ParamTypes} from "../../../../src/mvc";
+import {EndpointInfo, Err, ParamMetadata, ParamTypes} from "../../../../src/mvc";
 
 describe("@Err", () => {
   it("should register a new ParamMetadata instance with the correct property", () => {
@@ -7,7 +7,7 @@ describe("@Err", () => {
       test(@Err() arg: EndpointInfo) {}
     }
 
-    const param = ParamRegistry.get(Ctrl, "test", 0);
+    const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.paramType).to.eq(ParamTypes.ERR);
   });
 });

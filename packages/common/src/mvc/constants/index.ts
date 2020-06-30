@@ -1,9 +1,5 @@
-/**
- * Express methods
- * @private
- * @type {string}
- */
-export const EXPRESS_METHODS = [
+
+export const HTTP_METHODS = [
   "all",
   "checkout",
   "connect",

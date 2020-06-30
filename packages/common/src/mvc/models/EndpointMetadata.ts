@@ -1,18 +1,31 @@
-import {deepExtends, Enumerable, isArrayOrArrayClass, isPromise, Metadata, NotEnumerable, Storable, Store, Type} from "@tsed/core";
-import {EXPRESS_METHODS} from "../constants";
+import {
+  ancestorsOf,
+  deepExtends,
+  descriptorOf,
+  Enumerable,
+  isArrayOrArrayClass,
+  isFunction,
+  isPromise,
+  Metadata,
+  nameOf,
+  prototypeOf,
+  Storable,
+  Store,
+  Type
+} from "@tsed/core";
 import {IPathMethod} from "../interfaces/IPathMethod";
 import {IResponseOptions} from "../interfaces/IResponseOptions";
-import {ParamRegistry} from "../registries/ParamRegistry";
+import {ParamMetadata} from "./ParamMetadata";
 
 export interface EndpointConstructorOptions {
   target: Type<any>;
   propertyKey: string | symbol;
-  beforeMiddlewares?: any[];
-  middlewares?: any[];
-  afterMiddlewares?: any[];
+  descriptor: PropertyDescriptor;
+  beforeMiddlewares?: Function[];
+  middlewares?: Function[];
+  afterMiddlewares?: Function[];
   pathsMethods?: IPathMethod[];
   type?: any;
-  parent?: EndpointMetadata;
   responses?: Map<number, IResponseOptions>;
   statusCode?: number;
 }
@@ -34,6 +47,7 @@ export interface EndpointConstructorOptions {
  *
  */
 export class EndpointMetadata extends Storable implements EndpointConstructorOptions {
+  provide: Type<any>;
   // LIFECYCLE
   @Enumerable()
   public beforeMiddlewares: any[] = [];
@@ -54,18 +68,12 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
 
   @Enumerable()
   public statusCode: number = 200;
-  /**
-   * Endpoint inherited from parent class.
-   */
-  @NotEnumerable()
-  readonly parent: EndpointMetadata | undefined;
 
   constructor(options: EndpointConstructorOptions) {
-    super(options.target, options.propertyKey, Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
+    super(options.target, options.propertyKey, options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey));
 
     const {
       target,
-      parent,
       statusCode,
       responses,
       propertyKey,
@@ -76,14 +84,14 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
       type
     } = options;
 
+    this.provide = target;
     this._type = Metadata.getReturnType(target, propertyKey);
+    this.after(afterMiddlewares);
+    this.before(beforeMiddlewares);
+    this.use(middlewares);
 
-    this.beforeMiddlewares = beforeMiddlewares;
-    this.middlewares = middlewares;
-    this.afterMiddlewares = afterMiddlewares;
     this.pathsMethods = pathsMethods;
     this.type = type;
-    this.parent = parent;
     statusCode && (this.statusCode = statusCode);
 
     if (responses) {
@@ -103,27 +111,115 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
     this._type = type;
   }
 
-  /**
-   * @deprecated
-   */
-  get methodClassName(): string {
-    return String(this.propertyKey);
-  }
-
-  /**
-   *
-   * @returns {Store}
-   */
-  get store(): Store {
-    return this.parent ? this.parent.store : this._store;
+  get targetName(): string {
+    return nameOf(this.provide);
   }
 
   get params() {
-    return ParamRegistry.getParams(this.target, this.propertyKey);
+    return ParamMetadata.getParams(this.target, this.propertyKey);
   }
 
   get response() {
     return this.responses.get(this.statusCode)!;
+  }
+
+  /**
+   * Get all endpoints from a given class and his parents.
+   * @param {Type<any>} target
+   * @returns {EndpointMetadata[]}
+   */
+  static getEndpoints(target: Type<any>): EndpointMetadata[] {
+    const map = new Map();
+
+    const set = (base: any) => {
+      const store = Store.from(base);
+      if (store.has("endpoints")) {
+        store.get("endpoints").forEach((endpoint: EndpointMetadata) => {
+          endpoint = endpoint.clone();
+          endpoint.provide = target;
+
+          map.set(endpoint.propertyKey, endpoint);
+        });
+      }
+    };
+
+    set(target);
+    ancestorsOf(target).forEach(set);
+
+    return Array.from(map.values());
+  }
+
+  /**
+   * Get an endpoint.
+   * @param target
+   * @param propertyKey
+   * @param descriptor
+   */
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): EndpointMetadata {
+    descriptor = descriptor === undefined ? descriptorOf(prototypeOf(target), "test") : descriptor;
+    const store = Store.from(target);
+    const endpoints = store.get("endpoints") || new Map();
+    store.set("endpoints", endpoints);
+
+    if (!endpoints.has(propertyKey)) {
+      endpoints.set(propertyKey, new EndpointMetadata({target, propertyKey, descriptor}));
+    }
+
+    return store.get("endpoints").get(propertyKey);
+  }
+
+  /**
+   * Gets a value indicating whether the target object or its prototype chain has already method registered.
+   * @param target
+   * @param method
+   * @deprecated
+   */
+  /* istanbul ignore next */
+  static has(target: Type<any>, method: string | symbol): boolean {
+    return Store.from(target).get("endpoints").has(method);
+  }
+
+  /**
+   * Append mvc in the pool (before).
+   * @param target
+   * @param targetKey
+   * @param args
+   * @deprecated
+   */
+  /* istanbul ignore next */
+  static useBefore(target: Type<any>, targetKey: string | symbol, args: any[]) {
+    this.get(target, targetKey, descriptorOf(target, targetKey)).before(args);
+
+    return this;
+  }
+
+  /**
+   * Add middleware and configuration for the endpoint.
+   * @param target
+   * @param targetKey
+   * @param args
+   * @returns {Endpoint}
+   * @deprecated
+   */
+  /* istanbul ignore next */
+  static use(target: Type<any>, targetKey: string | symbol, args: any[]) {
+    this.get(target, targetKey, descriptorOf(target, targetKey)).use(args);
+
+    return this;
+  }
+
+  /**
+   * Append mvc in the pool (after).
+   * @param target
+   * @param targetKey
+   * @param args
+   * @deprecated
+   */
+  /* istanbul ignore next */
+  static useAfter(target: Type<any>, targetKey: string | symbol, args: any[]) {
+    this.get(target, targetKey, descriptorOf(target, targetKey)).after(args);
+
+    return this;
   }
 
   /**
@@ -167,8 +263,8 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param args
    * @returns {EndpointMetadata}
    */
-  public before(args: any[]): this {
-    this.beforeMiddlewares = this.beforeMiddlewares.concat(args);
+  public before(args: Function[]): this {
+    this.beforeMiddlewares = this.beforeMiddlewares.concat(args).filter(isFunction);
 
     return this;
   }
@@ -178,8 +274,8 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param args
    * @returns {EndpointMetadata}
    */
-  public after(args: any[]): this {
-    this.afterMiddlewares = this.afterMiddlewares.concat(args);
+  public after(args: Function[]): this {
+    this.afterMiddlewares = this.afterMiddlewares.concat(args).filter(isFunction);
 
     return this;
   }
@@ -188,31 +284,34 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * Store all arguments collected via Annotation.
    * @param args
    */
-  public merge(args: any[]): this {
-    const expressMethods: any = {};
-
-    const filteredArg = args.filter((arg: any) => {
-      if (typeof arg === "string" && EXPRESS_METHODS.indexOf(arg) > -1) {
-        expressMethods.method = arg;
-
-        return false;
-      }
-
-      if (typeof arg === "string" || arg instanceof RegExp) {
-        expressMethods.path = arg;
-
-        return false;
-      }
-
-      return !!arg;
-    });
-
-    if (expressMethods.method || expressMethods.path) {
-      this.pathsMethods.push(expressMethods);
-    }
-
-    this.middlewares = this.middlewares.concat(filteredArg);
+  public use(args: Function[]) {
+    this.middlewares = this.middlewares.concat(args).filter(isFunction);
 
     return this;
+  }
+
+  /**
+   * Store all arguments collected via Annotation.
+   * @param args
+   * @deprecated
+   */
+  /* istanbul ignore next */
+  public merge(args: any[]): this {
+    return this.use(args);
+  }
+
+  public clone() {
+    return new EndpointMetadata({
+      target: this.target,
+      propertyKey: this.propertyKey,
+      descriptor: this.descriptor,
+      beforeMiddlewares: this.beforeMiddlewares,
+      middlewares: this.middlewares,
+      afterMiddlewares: this.afterMiddlewares,
+      pathsMethods: this.pathsMethods,
+      type: this.type,
+      responses: this.responses,
+      statusCode: this.statusCode
+    });
   }
 }
