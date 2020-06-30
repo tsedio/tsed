@@ -1,5 +1,5 @@
+import {PropertyMetadata} from "@tsed/common";
 import {expect} from "chai";
-import {PropertyRegistry} from "@tsed/common";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {buildMongooseSchema} from "../../src/utils/createSchema";
 
@@ -10,11 +10,11 @@ describe("buildMongooseSchema", () => {
     }
 
     it("should return schema", () => {
-      const propertyMetadata = PropertyRegistry.get(Test, "test");
+      const propertyMetadata = PropertyMetadata.get(Test, "test");
       propertyMetadata.type = String;
       propertyMetadata.store.set(MONGOOSE_SCHEMA, {});
 
-      PropertyRegistry.get(Test, "_id");
+      PropertyMetadata.get(Test, "_id");
       // WHEN
       const result = buildMongooseSchema(Test);
 
@@ -36,7 +36,7 @@ describe("buildMongooseSchema", () => {
     }
 
     it("should return schema", () => {
-      const propertyMetadata = PropertyRegistry.get(Test, "test");
+      const propertyMetadata = PropertyMetadata.get(Test, "test");
       propertyMetadata.type = String;
       propertyMetadata.store.set(MONGOOSE_SCHEMA, {
         ref: "ref",
@@ -44,7 +44,7 @@ describe("buildMongooseSchema", () => {
         foreignField: "foreignField"
       });
 
-      PropertyRegistry.get(Test, "_id");
+      PropertyMetadata.get(Test, "_id");
       // WHEN
       const result = buildMongooseSchema(Test);
 

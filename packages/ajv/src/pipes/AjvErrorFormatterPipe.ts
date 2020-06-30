@@ -1,4 +1,4 @@
-import {Constant, PropertyRegistry} from "@tsed/common";
+import {Constant, PropertyMetadata} from "@tsed/common";
 import {getValue, nameOf, setValue, Type} from "@tsed/core";
 import {Injectable} from "@tsed/di";
 import {ErrorObject} from "ajv";
@@ -52,7 +52,7 @@ export class AjvErrorFormatterPipe {
     const propertyKey = getValue("params.missingProperty", error);
 
     if (propertyKey) {
-      const prop = PropertyRegistry.get(targetType, propertyKey);
+      const prop = PropertyMetadata.get(targetType, propertyKey);
 
       if (prop) {
         setValue("params.missingProperty", error, prop.name || propertyKey);

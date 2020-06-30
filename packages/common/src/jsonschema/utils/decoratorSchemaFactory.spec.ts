@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {JsonSchemesRegistry, PropertyRegistry} from "../../../src/jsonschema";
+import {JsonSchemesRegistry, PropertyMetadata} from "../../../src/jsonschema";
 import {decoratorSchemaFactory} from "../../../src/jsonschema/utils/decoratorSchemaFactory";
 
 class Test {
@@ -11,20 +11,20 @@ describe("decoratorSchemaFactory()", () => {
   describe("when it's a property", () => {
     beforeEach(() => {
       // @ts-ignore
-      sandbox.stub(PropertyRegistry, "get").returns({schema: "schema"});
+      sandbox.stub(PropertyMetadata, "get").returns({schema: "schema"});
     });
     afterEach(() => {
       // @ts-ignore
       sandbox.restore();
     });
 
-    it("should call PropertyRegistry", () => {
+    it("should call PropertyMetadata", () => {
       const decoratorStub = Sinon.stub();
       const cbStub = Sinon.stub().returns(decoratorStub);
 
       decoratorSchemaFactory(cbStub)(Test, "test");
 
-      expect(PropertyRegistry.get).to.have.been.calledWithExactly(Test, "test");
+      expect(PropertyMetadata.get).to.have.been.calledWithExactly(Test, "test");
       expect(cbStub).to.have.been.calledWithExactly("schema", [Test, "test"]);
       expect(decoratorStub).to.have.been.calledWithExactly(Test, "test");
     });
@@ -40,7 +40,7 @@ describe("decoratorSchemaFactory()", () => {
       sandbox.restore();
     });
 
-    it("should call PropertyRegistry.get()", () => {
+    it("should call PropertyMetadata.get()", () => {
       const decoratorStub = Sinon.stub();
       const cbStub = Sinon.stub().returns(decoratorStub);
 

@@ -29,5 +29,3 @@ export const HTTP_METHODS = [
   "unlock",
   "unsuscribe"
 ];
-
-export const PARAM_METADATA = "tsed:params:metadata";

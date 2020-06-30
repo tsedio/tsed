@@ -1,3 +1,4 @@
+import {PropertyMetadata} from "@tsed/common";
 import {DecoratorParameters, getDecoratorType} from "@tsed/core";
 import {JsonSchema} from "../class/JsonSchema";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
@@ -14,7 +15,7 @@ export function decoratorSchemaFactory(fn: (schema: JsonSchema, parameters: Deco
 
     switch (getDecoratorType(parameters)) {
       case "property":
-        schema = PropertyRegistry.get(parameters[0], parameters[1]).schema;
+        schema = PropertyMetadata.get(parameters[0], parameters[1]).schema;
         break;
       case "class":
         schema = JsonSchemesRegistry.createIfNotExists(parameters[0]);

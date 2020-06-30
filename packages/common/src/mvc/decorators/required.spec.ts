@@ -1,14 +1,14 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {PropertyRegistry} from "../../../src/jsonschema";
+import {PropertyMetadata} from "../../../src/jsonschema";
 import {ParamMetadata} from "../../../src/mvc";
 import {Required} from "../../../src/mvc/decorators";
 
 const sandbox = Sinon.createSandbox();
 describe("Required", () => {
   before(() => {
-    sandbox.spy(PropertyRegistry, "get");
+    sandbox.spy(PropertyMetadata, "get");
     sandbox.spy(ParamMetadata, "get");
   });
   after(() => sandbox.restore());
@@ -38,12 +38,12 @@ describe("Required", () => {
         test: string;
       }
 
-      const metadata = PropertyRegistry.get(prototypeOf(Test), "test");
+      const metadata = PropertyMetadata.get(prototypeOf(Test), "test");
 
       // THEN
       expect(metadata.required).to.eq(true);
 
-      expect(PropertyRegistry.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
+      expect(PropertyMetadata.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
       expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });

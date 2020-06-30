@@ -1,4 +1,4 @@
-import {ConverterService, PropertyRegistry} from "@tsed/common/src";
+import {ConverterService, PropertyMetadata} from "@tsed/common/src";
 import {buildMongooseSchema, MongooseModel} from "@tsed/mongoose";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
@@ -21,7 +21,7 @@ describe("UserModel", () => {
     await user.save();
 
     // THEN
-    const properties = PropertyRegistry.getProperties(User, {withIgnoredProps: true});
+    const properties = PropertyMetadata.getProperties(User, {withIgnoredProps: true});
     const {schema} = buildMongooseSchema(User);
 
     expect(Array.from(properties.keys())).to.deep.eq(["name", "email", "password"]);

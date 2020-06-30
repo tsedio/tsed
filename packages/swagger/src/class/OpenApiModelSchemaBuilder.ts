@@ -1,4 +1,4 @@
-import {JsonSchema, JsonSchemesRegistry, PropertyMetadata, PropertyRegistry} from "@tsed/common";
+import {JsonSchema, JsonSchemesRegistry, PropertyMetadata} from "@tsed/common";
 import {isArrayOrArrayClass, isClass, isCollection, isObject, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Schema} from "swagger-schema-official";
 import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
@@ -13,7 +13,8 @@ export class OpenApiModelSchemaBuilder {
   protected _responses: OpenApiResponses = {};
   protected _schema: Schema;
 
-  constructor(private target: Type<any>) {}
+  constructor(private target: Type<any>) {
+  }
 
   public get schema(): Schema {
     return this._schema;
@@ -32,7 +33,7 @@ export class OpenApiModelSchemaBuilder {
    * @returns {OpenApiModelSchemaBuilder}
    */
   build(): this {
-    const properties = PropertyRegistry.getProperties(this.target);
+    const properties = PropertyMetadata.getProperties(this.target);
     const store = Store.from(this.target);
     const schema: Schema = this.getClassSchema();
     schema.type = "object";
@@ -67,10 +68,10 @@ export class OpenApiModelSchemaBuilder {
    * @returns {Schema}
    */
   protected createSchema({
-    schema = {},
-    type,
-    collectionType
-  }: {
+                           schema = {},
+                           type,
+                           collectionType
+                         }: {
     schema: Partial<Schema>;
     type: Type<any>;
     collectionType: Type<any> | undefined;
@@ -154,4 +155,5 @@ export class OpenApiModelSchemaBuilder {
 /**
  * @deprecated
  */
-export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {}
+export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {
+}

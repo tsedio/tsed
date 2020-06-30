@@ -1,9 +1,10 @@
-import {Store} from "@tsed/core";
+import {prototypeOf, Store} from "@tsed/core";
 import {expect} from "chai";
-import {IFilter, ParamMetadata, ParamTypes} from "../../../src/mvc";
+import {IFilter, ParamMetadata, ParamTypes, Req} from "../../../src/mvc";
 
 class Test {
-  method(arg1: any, arg2: any) {}
+  method(arg1: any, arg2: any) {
+  }
 }
 
 class TestFilter implements IFilter {
@@ -151,6 +152,25 @@ describe("ParamMetadata", () => {
       it("should return false (value undefined)", () => {
         expect(paramMetadata.isRequired(undefined)).to.be.false;
       });
+    });
+  });
+
+  describe("getParams", () => {
+    it("should returns params", () => {
+      // GIVEN
+      class Test {
+        test(@Req() req: any) {
+        }
+      }
+
+      // WHEN
+      const result = ParamMetadata.getParams(prototypeOf(Test), "test");
+
+      // THEN
+      const param1 = new ParamMetadata({target: prototypeOf(Test), propertyKey: "test", index: 0});
+      param1.paramType = ParamTypes.REQUEST;
+
+      expect(result).to.deep.eq([param1]);
     });
   });
 });

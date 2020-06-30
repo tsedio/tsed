@@ -1,9 +1,28 @@
 import {Store} from "@tsed/core";
 import {expect} from "chai";
-import {PropertyMetadata} from "../../../src/jsonschema";
+import {PropertyMetadata} from "./PropertyMetadata";
 
 class Test {
-  method(arg1: any, arg2: any) {}
+  method(arg1: any, arg2: any) {
+  }
+}
+
+class Parent {
+  id: string;
+  name: string;
+  categoryId: string;
+}
+
+class Children extends Parent {
+  id: string;
+  test: string;
+  categoryId: string;
+}
+
+class Children2 extends Parent {
+  id: string;
+  test: string;
+  categoryId: string;
 }
 
 describe("PropertyMetadata", () => {
@@ -123,6 +142,105 @@ describe("PropertyMetadata", () => {
       });
       it("should return false (value undefined)", () => {
         expect(propertyMetadata.isRequired(undefined)).to.be.false;
+      });
+    });
+  });
+  describe("get()", () => {
+    before(() => {
+    });
+
+    it("should return the propertyMetadata", () => {
+      const propertyMetadata = PropertyMetadata.get(Test, "test");
+      expect(propertyMetadata).to.be.an.instanceof(PropertyMetadata);
+    });
+  });
+  describe("getProperties()", () => {
+    before(() => {
+      PropertyMetadata.get(Children, "id");
+      PropertyMetadata.get(Children, "test");
+      PropertyMetadata.get(Children, "categoryId").ignoreProperty = true;
+      PropertyMetadata.get(Children2, "id");
+      PropertyMetadata.get(Children2, "test");
+      PropertyMetadata.get(Children2, "categoryId");
+      PropertyMetadata.get(Parent, "id");
+      PropertyMetadata.get(Parent, "name");
+      PropertyMetadata.get(Parent, "_id").ignoreProperty = true;
+      PropertyMetadata.get(Parent, "categoryId");
+    });
+
+    describe("when is the Children class", () => {
+      it("should have a property id metadata from Children class", () => {
+        const result = PropertyMetadata.getProperties(Children);
+        expect(result.get("id")!.targetName).to.eq("Children");
+      });
+
+      it("should have a property name metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Children);
+        expect(result.get("name")!.targetName).to.eq("Parent");
+      });
+
+      it("should have a property test metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Children);
+        expect(result.get("test")!.targetName).to.eq("Children");
+      });
+
+      it("should not have a property categoryId metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Children);
+        expect(result.has("categoryId"))!.to.eq(false);
+      });
+    });
+
+    describe("when is the Children2 class", () => {
+      it("should have a property id metadata from Children class", () => {
+        const result = PropertyMetadata.getProperties(Children2);
+        expect(result.get("id")!.targetName).to.eq("Children2");
+      });
+
+      it("should have a property name metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Children2);
+        expect(result.get("name")!.targetName).to.eq("Parent");
+      });
+
+      it("should have a property test metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Children2);
+        expect(result.get("test")!.targetName).to.eq("Children2");
+      });
+
+      it("should have a property categoryId metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Children2);
+        expect(result.get("categoryId")!.targetName).to.eq("Children2");
+      });
+    });
+
+    describe("when is the Parent class", () => {
+      before(() => {
+      });
+      it("should have a property name metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Parent);
+        expect(result.has("test")).to.eq(false);
+      });
+
+      it("should have a property id metadata from Children class", () => {
+        const result = PropertyMetadata.getProperties(Parent);
+
+        expect(result.get("id")!.targetName).to.eq("Parent");
+      });
+
+      it("should have a property name metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Parent);
+
+        expect(result.get("name")!.targetName).to.eq("Parent");
+      });
+
+      it("should not have a property _id metadata from Parent class (because ignoreProperty is used)", () => {
+        const result = PropertyMetadata.getProperties(Parent);
+
+        expect(result.has("_id")).to.eq(false);
+      });
+      it("should not have a property categoryId metadata from Parent class", () => {
+        const result = PropertyMetadata.getProperties(Parent);
+
+        expect(result.has("categoryId")).to.eq(true);
       });
     });
   });

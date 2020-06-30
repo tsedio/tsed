@@ -2,9 +2,15 @@ import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Met
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
-import {PropertyRegistry} from "../../jsonschema/registries/PropertyRegistry";
 import {getJsonSchema} from "../../jsonschema/utils/getJsonSchema";
-import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
+import {
+  ArrayConverter,
+  DateConverter,
+  MapConverter,
+  PrimitiveConverter,
+  SetConverter,
+  SymbolConverter
+} from "../components";
 import {CONVERTER} from "../constants/index";
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknownPropertyError} from "../errors/UnknownPropertyError";
@@ -101,7 +107,7 @@ export class ConverterService {
     const {checkRequiredValue = true, withIgnoredProps} = options;
 
     const plainObject: any = {};
-    const properties = PropertyRegistry.getProperties(options.type || obj, {withIgnoredProps});
+    const properties = PropertyMetadata.getProperties(options.type || obj, {withIgnoredProps});
     const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
 
     keys.forEach(propertyKey => {
@@ -178,7 +184,7 @@ export class ConverterService {
 
     // Default converter
     const instance = new targetType();
-    const properties = PropertyRegistry.getProperties(targetType);
+    const properties = PropertyMetadata.getProperties(targetType);
 
     Object.keys(obj).forEach((propertyName: string) => {
       const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);

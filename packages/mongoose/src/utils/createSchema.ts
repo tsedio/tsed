@@ -1,4 +1,4 @@
-import {ConverterService, IConverterOptions, JsonSchema, PropertyMetadata, PropertyRegistry} from "@tsed/common";
+import {ConverterService, IConverterOptions, JsonSchema, PropertyMetadata} from "@tsed/common";
 import {getClass, Store, Type} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
@@ -67,7 +67,7 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
  * @returns {MongooseSchema}
  */
 export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
-  const properties = PropertyRegistry.getProperties(target, {withIgnoredProps: true});
+  const properties = PropertyMetadata.getProperties(target, {withIgnoredProps: true});
   const schema: MongooseSchemaMetadata = {schema: {}, virtuals: new Map()};
 
   properties.forEach((propertyMetadata, key) => {
@@ -102,8 +102,8 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
   let schemaTypeOptions: SchemaTypeOpts<any> = {
     required: propertyMetadata.required
       ? function() {
-          return propertyMetadata.isRequired(this[key]);
-        }
+        return propertyMetadata.isRequired(this[key]);
+      }
       : false
   };
 
