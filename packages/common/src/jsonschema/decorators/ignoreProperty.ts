@@ -1,5 +1,5 @@
 import {PropertyFn} from "./property";
-import {PropertyMetadata} from "../class/PropertyMetadata";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 
 /**
  * Disable serialization for this property when the Converters service will render the JSON object.

@@ -1,4 +1,4 @@
-import {PropertyMetadata} from "../class/PropertyMetadata";
+import {PropertyMetadata} from "../models/PropertyMetadata";
 
 /**
  * @deprecated Use PropertyMetadata instead of.

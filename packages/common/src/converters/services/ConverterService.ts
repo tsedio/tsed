@@ -1,7 +1,7 @@
 import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Type} from "@tsed/core";
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
-import {PropertyMetadata} from "../../jsonschema/class/PropertyMetadata";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 import {getJsonSchema} from "../../jsonschema/utils/getJsonSchema";
 import {
   ArrayConverter,

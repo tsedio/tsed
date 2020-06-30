@@ -1,6 +1,7 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
-import {PropertyMetadata, PropertyType} from "../../../src/jsonschema";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
+import {PropertyType} from "./propertyType";
 
 describe("@PropertyType", () => {
   it("should create a propertyMetadata", () => {

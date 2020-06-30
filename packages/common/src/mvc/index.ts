@@ -9,11 +9,13 @@ export * from "./models/EndpointMetadata";
 export * from "./models/HandlerMetadata";
 export * from "./models/ParamMetadata";
 export * from "./models/ParamTypes";
+export * from "./models/PropertyMetadata";
 
 // registries
 export * from "./registries/MiddlewareRegistry";
 export * from "./registries/ParamRegistry";
 export * from "./registries/FilterRegistry";
+export * from "./registries/PropertyRegistry";
 
 // components
 export * from "./middlewares/AuthenticatedMiddleware";

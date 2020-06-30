@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {PropertyMetadata} from "../class/PropertyMetadata";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 import {PropertyFn} from "./property";
 
 /**

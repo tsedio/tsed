@@ -1,8 +1,7 @@
-import {PropertyMetadata} from "@tsed/common";
 import {DecoratorParameters, getDecoratorType} from "@tsed/core";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 import {JsonSchema} from "../class/JsonSchema";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
-import {PropertyRegistry} from "../registries/PropertyRegistry";
 
 /**
  *

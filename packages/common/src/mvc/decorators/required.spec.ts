@@ -1,8 +1,8 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {PropertyMetadata} from "../../../src/jsonschema";
-import {ParamMetadata} from "../../../src/mvc";
+import {PropertyMetadata} from "../models/PropertyMetadata";
+import {ParamMetadata} from "../models/ParamMetadata";
 import {Required} from "../../../src/mvc/decorators";
 
 const sandbox = Sinon.createSandbox();

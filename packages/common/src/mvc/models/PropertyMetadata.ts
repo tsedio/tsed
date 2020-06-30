@@ -1,7 +1,7 @@
 import {ancestorsOf, Enumerable, Storable, Store, Type} from "@tsed/core";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
-import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
-import {JsonSchema} from "./JsonSchema";
+import {JsonSchemesRegistry} from "../../jsonschema/registries/JsonSchemesRegistry";
+import {JsonSchema} from "../../jsonschema/class/JsonSchema";
 
 export class PropertyMetadata extends Storable implements IPropertyOptions {
   /**

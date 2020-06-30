@@ -1,7 +1,8 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {JsonSchemesRegistry, PropertyMetadata} from "../../../src/jsonschema";
-import {decoratorSchemaFactory} from "../../../src/jsonschema/utils/decoratorSchemaFactory";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
+import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
+import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 class Test {
 }

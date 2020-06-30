@@ -1,7 +1,7 @@
 import {DecoratorParameters, isEmpty, Type} from "@tsed/core";
 import * as util from "util";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
-import {PropertyMetadata} from "../class/PropertyMetadata";
+import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 
 /**
  * `@Property()` let you decorate an attribute that can be serialized or deserialized. By default, no parameters are required to use it.
