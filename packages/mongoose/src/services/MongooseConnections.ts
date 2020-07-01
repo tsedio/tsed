@@ -1,6 +1,5 @@
 import {Configuration, registerProvider} from "@tsed/common";
 import {isArray} from "@tsed/core";
-import * as Mongoose from "mongoose";
 import {IMDBOptions, MDBConnection} from "../interfaces";
 import {MongooseService} from "../services/MongooseService";
 
@@ -8,50 +7,66 @@ import {MongooseService} from "../services/MongooseService";
 export const MONGOOSE_CONNECTIONS = Symbol.for("MONGOOSE_CONNECTIONS");
 export type MONGOOSE_CONNECTIONS = MongooseService;
 
+function mapOptions(options: IMDBOptions | MDBConnection[]): MDBConnection[] {
+  if (!options) {
+    return [];
+  }
+
+  if (!isArray(options)) {
+    const {
+      url,
+      connectionOptions,
+      urls
+    } = options || {};
+
+    if (url) {
+      return [{
+        id: "default",
+        url,
+        connectionOptions
+      }];
+    }
+
+    if (urls) {
+      return Object.entries(urls).map(([id, options]) => {
+        return {
+          id: options.id || id,
+          ...options,
+          connectionOptions: options.connectionOptions
+        };
+      });
+    }
+  }
+
+  return (options as MDBConnection[]).map((settings) => {
+    return {
+      ...settings,
+      connectionOptions: settings.connectionOptions
+    };
+  });
+}
+
 registerProvider({
   provide: MONGOOSE_CONNECTIONS,
   injectable: false,
   deps: [Configuration, MongooseService],
   async useAsyncFactory(configuration: Configuration, mongooseService: MongooseService) {
-    const settings = configuration.get<IMDBOptions | MDBConnection[]>("mongoose");
-    const promises: Promise<Mongoose.Mongoose>[] = [];
+    const settings = mapOptions(configuration.get<IMDBOptions | MDBConnection[]>("mongoose"));
     let isDefault = true;
 
-    const addConnection = (id: string, url: string, connectionOptions: any) => {
-      promises.push(
-        mongooseService.connect(
-          id,
-          url,
-          connectionOptions || {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-          },
-          isDefault
-        )
+    for (const current of settings) {
+      await mongooseService.connect(
+        current.id,
+        current.url,
+        current.connectionOptions || {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        },
+        isDefault
       );
 
       isDefault = false;
-    };
-
-    if (!isArray(settings)) {
-      const {url, connectionOptions, urls} = settings || {};
-
-      if (url) {
-        addConnection("default", url, connectionOptions);
-      }
-
-      if (urls) {
-        Object.entries(urls).forEach(([id, current]) => {
-          addConnection(current.id || id, current.url, current.connectionOptions);
-        });
-      }
-    } else {
-      settings.forEach(current => {
-        addConnection(current.id!, current.url!, current.connectionOptions);
-      });
     }
-
-    await Promise.all(promises);
 
     return mongooseService;
   }

@@ -3,12 +3,8 @@ import * as Mongoose from "mongoose";
 
 @Service()
 export class MongooseService {
-  /**
-   *
-   * @type {Map<any, any>}
-   * @private
-   */
-  private _instances: Map<string, Mongoose.Mongoose> = new Map();
+  readonly connections: Map<string, Mongoose.Connection> = new Map();
+  private defaultConnection: string = "default";
 
   /**
    *
@@ -24,14 +20,14 @@ export class MongooseService {
     $log.debug(`options: ${JSON.stringify(connectionOptions)}`);
 
     try {
-      const mongoose = await Mongoose.connect(url, connectionOptions);
-      this._instances.set(id, mongoose);
+      const connection = await Mongoose.createConnection(url, connectionOptions);
+      this.connections.set(id, connection);
 
       if (id === "default" || isDefault) {
-        this._instances.set("default", mongoose);
+        this.defaultConnection = id;
       }
 
-      return mongoose;
+      return connection;
     } catch (er) {
       /* istanbul ignore next */
       $log.error(er);
@@ -44,8 +40,8 @@ export class MongooseService {
    *
    * @returns {"mongoose".Connection}
    */
-  get(id: string = "default"): Mongoose.Mongoose | undefined {
-    return this._instances.get(id);
+  get(id?: string): Mongoose.Connection | undefined {
+    return this.connections.get(id || this.defaultConnection);
   }
 
   /**
@@ -53,26 +49,14 @@ export class MongooseService {
    * @param {string} id
    * @returns {boolean}
    */
-  has(id: string = "default"): boolean {
-    return this._instances.has(id);
+  has(id?: string): boolean {
+    return this.connections.has(id || this.defaultConnection);
   }
 
   async closeConnections() {
-    for (const instance of this._instances.values()) {
-      /**
-       * Connection ready state
-       * 0 = disconnected
-       * 1 = connected
-       * 2 = connecting
-       * 3 = disconnecting
-       */
-      if (
-        instance != null &&
-        instance.connection != null &&
-        (instance.connection.readyState === 1 || instance.connection.readyState === 2)
-      ) {
-        await instance.disconnect();
-      }
+    for (const [id, connection] of this.connections.entries()) {
+      await connection.close();
+      this.connections.delete(id);
     }
   }
 }

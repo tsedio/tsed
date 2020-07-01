@@ -1,90 +1,78 @@
-import {ServerSettingsService, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Mongoose from "mongoose";
 import * as Sinon from "sinon";
 import {MongooseService} from "../../src";
 
-describe("MongooseService", () => {
-  describe("connect()", () => {
-    before(() => {
-      Sinon.stub(Mongoose, "connect");
+const sandbox = Sinon.createSandbox();
+describe("Mongoose", () => {
+  describe("MongooseService", () => {
+    beforeEach(async () => {
+      await PlatformTest.create({
+        logger: {
+          level: "off"
+        }
+      });
+      sandbox.stub(Mongoose, "createConnection");
     });
 
-    after(
-      PlatformTest.inject([ServerSettingsService], (serverSetttings: ServerSettingsService) => {
-        serverSetttings.set("mongoose", {
-          url: undefined,
-          connectionOptions: undefined,
-          urls: undefined
-        });
-
-        (Mongoose.connect as any).restore();
-      })
-    );
-
-    afterEach(() => {
-      (Mongoose.connect as any).reset();
+    afterEach(async () => {
+      await PlatformTest.reset();
+      sandbox.restore();
     });
 
-    it(
-      "should call mongoose.connect",
-      PlatformTest.inject([MongooseService], async (mongooseService: MongooseService) => {
-        // GIVEN
-        (Mongoose.connect as any).resolves("mongooseinstance" as any);
+    it("should call mongoose.connect", async () => {
+      const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
+      // GIVEN
+      const instance = {
+        readyState: 1,
+        close: Sinon.stub()
+      };
 
-        // WHEN
-        await mongooseService.connect("key", "mongodb://test", {options: "options"} as any);
+      (Mongoose.createConnection as any).resolves(instance);
 
-        const result = await mongooseService.connect("key", "mongodb://test", {options: "options"} as any);
+      // WHEN
+      await mongooseService.connect("key", "mongodb://test", {options: "options"} as any);
 
-        // THEN
-        expect(result).to.eq("mongooseinstance");
-        expect(Mongoose.connect).to.have.been.calledOnce.and.calledWithExactly("mongodb://test", {options: "options"});
-        expect(mongooseService.get()).to.eq(undefined);
-        expect(mongooseService.has()).to.eq(false);
-      })
-    );
+      const result = await mongooseService.connect("key", "mongodb://test", {options: "options"} as any);
 
-    it(
-      "should close connection (1)",
-      PlatformTest.inject([MongooseService], async (mongooseService: MongooseService) => {
-        // GIVEN
-        const instance = {
-          connection: {
-            readyState: 1
-          },
-          disconnect: Sinon.stub()
-        };
-        (Mongoose.connect as any).resolves(instance);
+      // THEN
+      expect(result).to.eq(instance);
+      expect(Mongoose.createConnection).to.have.been.calledOnce.and.calledWithExactly("mongodb://test", {options: "options"});
+      expect(mongooseService.get()).to.eq(undefined);
+      expect(mongooseService.has()).to.eq(false);
+    });
 
-        // WHEN
-        await mongooseService.connect("key1", "mongodb://test", {options: "options"} as any);
-        await mongooseService.closeConnections();
+    it("should close connection (1)", async () => {
+      const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
+      // GIVEN
+      const instance = {
+        close: Sinon.stub()
+      };
+      (Mongoose.createConnection as any).resolves(instance);
 
-        // THEN
-        expect(instance.disconnect).to.have.been.calledWithExactly();
-      })
-    );
+      // WHEN
+      await mongooseService.connect("key1", "mongodb://test", {options: "options"} as any);
+      await mongooseService.closeConnections();
 
-    it(
-      "should close connection (2)",
-      PlatformTest.inject([MongooseService], async (mongooseService: MongooseService) => {
-        // GIVEN
-        const instance = {
-          connection: {
-            readyState: 2
-          },
-          disconnect: Sinon.stub()
-        };
-        (Mongoose.connect as any).resolves(instance);
+      // THEN
+      expect(instance.close).to.have.been.calledWithExactly();
+    });
 
-        // WHEN
-        await mongooseService.connect("key2", "mongodb://test", {options: "options"} as any);
-        await mongooseService.closeConnections();
+    it("should close connection (2)", async () => {
+      const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
+      // GIVEN
+      const instance = {
+        close: Sinon.stub()
+      };
+      (Mongoose.createConnection as any).resolves(instance);
 
-        // THEN
-        expect(instance.disconnect).to.have.been.calledWithExactly();
-      })
-    );
+      // WHEN
+      await mongooseService.connect("key2", "mongodb://test", {options: "options"} as any);
+      await mongooseService.closeConnections();
+
+      // THEN
+      expect(instance.close).to.have.been.calledWithExactly();
+    });
   });
 });
