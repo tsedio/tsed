@@ -5,7 +5,7 @@ import {Authenticate} from "@tsed/passport";
 @Controller("/")
 export class PassportFacebookCtrl {
   @Get("/auth/facebook")
-  @Authenticate("facebook", {scope: "read_stream"})
+  @Authenticate("facebook", {scope: ["email"]})
   authenticated(@Req("user") user: Req) {
     // Facade
     return user;

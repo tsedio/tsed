@@ -9,7 +9,8 @@ import {AuthService} from "../services/auth/AuthService";
   settings: {
     clientID: "FACEBOOK_APP_ID",
     clientSecret: "FACEBOOK_APP_SECRET",
-    callbackURL: "http://www.example.com/auth/facebook/callback"
+    callbackURL: "http://www.example.com/auth/facebook/callback",
+    profileFields: ["id", "emails", "name"]
   }
 })
 export class FacebookProtocol implements OnVerify, OnInstall {
@@ -19,7 +20,7 @@ export class FacebookProtocol implements OnVerify, OnInstall {
   async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
     profile.refreshToken = refreshToken;
 
-    const user = await this.authService.findOne({discordId: profile.id});
+    const user = await this.authService.findOne({facebookId: profile.id});
 
     return user ? user : false;
   }
