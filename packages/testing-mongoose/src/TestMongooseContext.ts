@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
+import {MongooseService} from "@tsed/mongoose";
 import {MongoMemoryServer} from "mongodb-memory-server";
-import * as Mongoose from "mongoose";
 import {resolve} from "path";
 
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
@@ -56,12 +56,15 @@ export class TestMongooseContext extends PlatformTest {
    *
    */
   static async clearDatabase() {
-    const collections = Mongoose.connection.collections;
+    const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
+    const promises: any[] = [];
 
-    for (const key in collections) {
-      const collection = collections[key];
-      await collection.deleteMany({});
+    for (const connection of mongooseService.connections.values()) {
+      promises.push(...Object.values(connection.collections)
+        .map((collection) => collection.deleteMany({})));
     }
+
+    await Promise.all(promises);
   }
 
   static async getMongooseOptions() {

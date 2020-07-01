@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@tsed/common": "5.59.3",
-    "@tsed/core": "5.59.3"
+    "@tsed/core": "5.59.3",
+    "@tsed/mongoose": "5.59.3"
   }
 }
