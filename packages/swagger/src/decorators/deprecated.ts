@@ -1,4 +1,4 @@
-import {Operation} from "./operation";
+import {Deprecated as D} from "@tsed/schema";
 
 /**
  * Add deprecated metadata on the decorated element.
@@ -15,11 +15,11 @@ import {Operation} from "./operation";
  *
  * @returns {Function}
  * @decorator
- * @decorator
  * @swagger
  * @schema
  * @operation
+ * @deprecated Use @Deprecated from @tsed/schema
  */
 export function Deprecated(): Function {
-  return Operation({deprecated: true});
+  return D();
 }

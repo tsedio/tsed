@@ -15,6 +15,8 @@ declare global {
       headers?: {
         [key: string]: ResponseHeader;
       };
+
+      [key: string]: any;
     }
   }
 }

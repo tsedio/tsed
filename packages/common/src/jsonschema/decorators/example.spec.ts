@@ -1,6 +1,6 @@
-import {Example, getJsonSchema} from "@tsed/common";
+import {Example} from "@tsed/common";
+import {Property, getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {Property} from "./property";
 
 describe("@Example", () => {
   it("should declare description on property", () => {
@@ -13,7 +13,6 @@ describe("@Example", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         method: {
           examples: ["Examples"],
@@ -33,7 +32,6 @@ describe("@Example", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         method: {
           examples: [
@@ -57,7 +55,6 @@ describe("@Example", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         method: {
           examples: [
@@ -67,9 +64,6 @@ describe("@Example", () => {
               }
             ]
           ],
-          items: {
-            type: "object"
-          },
           type: "array"
         }
       },
@@ -87,7 +81,6 @@ describe("@Example", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       example: {
         method: "description"
       },

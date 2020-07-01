@@ -19,6 +19,16 @@ export interface IControllerOptions extends Partial<IProvider<any>> {
   middlewares?: Partial<IControllerMiddlewares>;
 }
 
+function mapOptions(options: any): IControllerOptions {
+  if (typeof options === "string" || options instanceof RegExp || isArrayOrArrayClass(options)) {
+    return {
+      path: options
+    };
+  }
+
+  return options;
+}
+
 /**
  * Declare a new controller with his Rest path. His methods annotated will be collected to build the routing list.
  * This routing listing will be built with the `express.Router` object.
@@ -48,20 +58,14 @@ export interface IControllerOptions extends Partial<IProvider<any>> {
  * @decorator
  * @classDecorator
  */
-export function Controller(options: PathParamsType | IControllerOptions, ...children: Type<any>[]): Function {
-  return (target: any): void => {
-    if (typeof options === "string" || options instanceof RegExp || isArrayOrArrayClass(options)) {
-      registerController({
-        provide: target,
-        path: options,
-        children
-      });
-    } else {
-      registerController({
-        provide: target,
-        children: (options as IControllerOptions).dependencies || (options as IControllerOptions).children,
-        ...options
-      });
-    }
+export function Controller(options: PathParamsType | IControllerOptions, ...children: Type<any>[]): ClassDecorator {
+  const opts = mapOptions(options);
+
+  return (target) => {
+    registerController({
+      provide: target,
+      ...opts,
+      children: (opts.children || []).concat(children)
+    });
   };
 }

@@ -1,4 +1,4 @@
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {Minimum as M} from "@tsed/schema";
 
 /**
  * The value of `minimum` MUST be a number, representing an inclusive upper limit for a numeric instance.
@@ -67,13 +67,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Use @Minimum decorator from @tsed/schema instead of.
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
-  return decoratorSchemaFactory(schema => {
-    if (exclusive) {
-      schema.mapper.exclusiveMinimum = minimum;
-    } else {
-      schema.mapper.minimum = minimum;
-    }
-  });
+  return M(minimum, exclusive);
 }

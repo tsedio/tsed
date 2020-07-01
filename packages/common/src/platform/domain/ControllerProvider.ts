@@ -1,5 +1,6 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
+import {JsonEntityStore} from "@tsed/schema";
 import {EndpointMetadata, IControllerMiddlewares} from "../../mvc";
 
 import {IPlatformDriver} from "../interfaces/IPlatformDriver";
@@ -11,11 +12,9 @@ export interface IChildrenController extends Type<any> {
 export class ControllerProvider extends Provider<any> {
   @NotEnumerable()
   public router: IPlatformDriver;
-  /**
-   * The path for the controller
-   */
-  @Enumerable()
-  public path: string;
+
+  @NotEnumerable()
+  readonly entity: JsonEntityStore;
   /**
    * Controllers that depend to this controller.
    * @type {Array}
@@ -27,6 +26,16 @@ export class ControllerProvider extends Provider<any> {
   constructor(provide: any) {
     super(provide);
     this.type = ProviderType.CONTROLLER;
+    this.entity = JsonEntityStore.from(provide);
+  }
+
+  get path() {
+    return this.entity.path;
+  }
+
+  @Enumerable()
+  set path(path: string) {
+    this.entity.path = path;
   }
 
   /**

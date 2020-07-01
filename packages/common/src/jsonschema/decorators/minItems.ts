@@ -1,5 +1,4 @@
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {MinItems as M} from "@tsed/schema";
 
 /**
  * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
@@ -48,13 +47,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @swagger
  * @schema
  * @collections
+ * @ignore
+ * @deprecated Use @MinItems decorator from @tsed/schema instead of.
  */
 export function MinItems(minItems: number) {
-  if (minItems < 0) {
-    throw new Error("The value of minItems MUST be a non-negative integer.");
-  }
-
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.minItems = minItems;
-  });
+  return M(minItems);
 }

@@ -1,18 +1,24 @@
-import {prototypeOf} from "@tsed/core";
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 import {CollectionOf} from "./propertyType";
 
 describe("@CollectionOf", () => {
   it("should create a propertyMetadata", () => {
-    class Test {
+    class Model {
       @CollectionOf(Number)
       test: number[];
     }
 
-    const propertyMetadata = PropertyMetadata.get(prototypeOf(Test), "test");
-
-    expect(propertyMetadata.type).to.eq(Number);
-    expect(propertyMetadata.isCollection).to.eq(true);
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        test: {
+          items: {
+            type: "number"
+          },
+          type: "array"
+        }
+      },
+      type: "object"
+    });
   });
 });

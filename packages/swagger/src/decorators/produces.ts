@@ -1,4 +1,4 @@
-import {Operation} from "./operation";
+import {Produces as P} from "@tsed/schema";
 
 /**
  * Add produces metadata on the decorated element.
@@ -19,7 +19,8 @@ import {Operation} from "./operation";
  * @classDecorator
  * @operation
  * @response
+ * @deprecated Use @Products from @tsed/schema
  */
 export function Produces(...produces: string[]): Function {
-  return Operation({produces});
+  return P(...produces);
 }

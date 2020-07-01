@@ -1,6 +1,4 @@
-import {Name as N} from "@tsed/common";
-import {getDecoratorType, Store} from "@tsed/core";
-import {BaseParameter} from "./baseParameter";
+import {Name as N} from "@tsed/schema";
 
 /**
  * Add a name metadata on the decorated element.
@@ -39,20 +37,8 @@ import {BaseParameter} from "./baseParameter";
  * @swagger
  * @class
  * @parameter
+ * @deprecated Use @Name from @tsed/schema
  */
-export function Name(name: string): Function {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args);
-    switch (type) {
-      case "property":
-        return (N(name) as any)(...args);
-      case "parameter":
-        return BaseParameter({name})(...args);
-      case "class":
-        Store.from(...args).set("name", name);
-        break;
-      default:
-        throw new Error("Name is only supported on property, parameters and class");
-    }
-  };
+export function Name(name: string) {
+  return N(name);
 }

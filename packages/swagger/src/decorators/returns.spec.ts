@@ -1,4 +1,5 @@
-import {EndpointMetadata} from "@tsed/common";
+import {Get} from "@tsed/common";
+import {getSpec} from "@tsed/schema";
 import {expect} from "chai";
 import {Returns} from "./returns";
 
@@ -6,20 +7,41 @@ class Test {}
 
 describe("Returns()", () => {
   describe("when status and configuration are given", () => {
-    before(() => {});
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @Returns(400, {
           description: "Bad Request"
         })
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
+      const spec = getSpec(Ctrl);
 
-      expect(endpoint.responses.get(400)).to.deep.eq({
-        code: 400,
-        description: "Bad Request"
+      expect(spec).to.deep.eq({
+        definitions: {},
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              responses: {
+                "400": {
+                  description: "Bad Request",
+                  schema: {
+                    type: "string"
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });
@@ -45,44 +67,94 @@ describe("Returns()", () => {
   describe("when a type and configuration are given", () => {
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @Returns(Test, {
           description: "Success"
         })
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
+      const spec = getSpec(Ctrl);
 
-      expect(endpoint.response).to.deep.eq({
-        code: 200,
-        description: "Success",
-        type: Test
+      expect(spec).to.deep.eq({
+        definitions: {
+          Test: {
+            type: "object"
+          }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              produces: ["text/json"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    $ref: "#/definitions/Test"
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });
 
   describe("when a type is given", () => {
-    before(() => {});
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @Returns(Test)
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
+      const spec = getSpec(Ctrl);
 
-      expect(endpoint.response).to.deep.eq({
-        code: 200,
-        description: "",
-        type: Test
+      expect(spec).to.deep.eq({
+        definitions: {
+          Test: {
+            type: "object"
+          }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              produces: ["text/json"],
+              responses: {
+                "200": {
+                  schema: {
+                    $ref: "#/definitions/Test"
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });
 
   describe("when a configuration is given", () => {
-    before(() => {});
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @Returns({
           description: "Success",
           type: Test,
@@ -95,17 +167,43 @@ describe("Returns()", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
+      const spec = getSpec(Ctrl);
 
-      expect(endpoint.response).to.deep.eq({
-        code: 200,
-        description: "Success",
-        type: Test,
-        headers: {
-          "Content-Type": {
-            type: "string"
+      expect(spec).to.deep.eq({
+        definitions: {
+          Test: {
+            type: "object"
           }
-        }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              produces: ["text/json"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  headers: {
+                    "Content-Type": {
+                      example: undefined,
+                      type: "string"
+                    }
+                  },
+                  schema: {
+                    $ref: "#/definitions/Test"
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });

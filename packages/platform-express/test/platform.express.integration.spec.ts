@@ -4,18 +4,19 @@ import {
   Controller,
   Get,
   Header,
+  HeaderParams,
   Inject,
   Location,
   PlatformApplication,
   PlatformTest,
   Post,
   Redirect,
+  Res,
   Status
 } from "@tsed/common";
-import {HeaderParams} from "@tsed/common/src/mvc/decorators/params/headerParams";
-import {Res} from "@tsed/common/src/mvc/decorators/params/response";
 import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
+import {getSpec} from "@tsed/schema";
 import * as bodyParser from "body-parser";
 import {expect} from "chai";
 import * as compress from "compression";
@@ -54,7 +55,7 @@ class TestController {
   }
 
   @Post("/scenario-3")
-  @Status(201)
+  @Status(201, {description: "description-from-status"})
   @Header("x-platform", "express")
   @AcceptMime("application/json")
   scenario3(@HeaderParams("Content-type") contentType: string,
@@ -122,6 +123,116 @@ describe("PlatformExpress", () => {
     request = SuperTest(PlatformTest.callback());
   });
   afterEach(PlatformTest.reset);
+
+  describe("spec", () => {
+    it("should generate a JSON", () => {
+      expect(getSpec(TestController)).to.deep.equal({
+        "definitions": {},
+        "paths": {
+          "/scenario-1": {
+            "get": {
+              "operationId": "testControllerScenario1",
+              "parameters": [],
+              "responses": {
+                "200": {
+                  "description": "Success"
+                }
+              },
+              "tags": [
+                "TestController"
+              ]
+            }
+          },
+          "/scenario-2": {
+            "get": {
+              "operationId": "testControllerScenario2",
+              "parameters": [],
+              "responses": {
+                "200": {
+                  "description": "Success"
+                }
+              },
+              "tags": [
+                "TestController"
+              ]
+            }
+          },
+          "/scenario-3": {
+            "post": {
+              "operationId": "testControllerScenario3",
+              "parameters": [
+                {
+                  "in": "header",
+                  "required": false,
+                  "name": "Content-type",
+                  "type": "string"
+                },
+                {
+                  "in": "body",
+                  "name": "body",
+                  "required": false,
+                  "type": "object"
+                }
+              ],
+              "consumes": [
+                "application/json"
+              ],
+              "responses": {
+                "201": {
+                  "description": "description-from-status",
+                  "headers": {
+                    "x-platform": {
+                      "example": "express",
+                      "type": "string"
+                    }
+                  },
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "tags": [
+                "TestController"
+              ]
+            }
+          },
+          "/scenario-4": {
+            "get": {
+              "operationId": "testControllerScenario4",
+              "parameters": [],
+              "responses": {
+                "200": {
+                  "description": "Success"
+                }
+              },
+              "tags": [
+                "TestController"
+              ]
+            }
+          },
+          "/scenario-5": {
+            "get": {
+              "operationId": "testControllerScenario5",
+              "parameters": [],
+              "responses": {
+                "200": {
+                  "description": "Success"
+                }
+              },
+              "tags": [
+                "TestController"
+              ]
+            }
+          }
+        },
+        "tags": [
+          {
+            "name": "TestController"
+          }
+        ]
+      });
+    });
+  });
 
   describe("statics()", () => {
     it("should return index HTML", async () => {

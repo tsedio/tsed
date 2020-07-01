@@ -5,6 +5,9 @@ declare global {
   namespace TsED {
     interface ResponseHeader extends Header {}
 
+    /**
+     * @deprecated
+     */
     interface ResponseOptions {
       description: string;
       schema?: Schema;

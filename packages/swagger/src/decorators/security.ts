@@ -1,4 +1,4 @@
-import {Operation} from "./operation";
+import {Security as S} from "@tsed/schema";
 
 /**
  * Add security metadata on the decorated method.
@@ -21,7 +21,8 @@ import {Operation} from "./operation";
  * @schema
  * @classDecorator
  * @operation
+ * @deprecated Use @Security from @tsed/schema
  */
 export function Security(securityDefinitionName: string, ...scopes: string[]): Function {
-  return Operation({security: [{[securityDefinitionName]: scopes}]});
+  return S(securityDefinitionName, ...scopes);
 }

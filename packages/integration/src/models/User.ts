@@ -1,4 +1,4 @@
-import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/common";
+import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
 import {Indexed, Model, Unique} from "../../../../packages/mongoose/src/decorators";
 

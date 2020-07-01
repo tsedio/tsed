@@ -46,6 +46,7 @@
     "@tsed/core": "6.0.0-alpha.1",
     "@tsed/di": "6.0.0-alpha.1",
     "@tsed/exceptions": "6.0.0-alpha.1",
+    "@tsed/schema": "6.0.0-alpha.1",
     "@tsed/logger": "5.5.3",
     "@types/json-schema": "7.0.5",
     "globby": "11.0.1",

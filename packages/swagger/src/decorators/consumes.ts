@@ -1,4 +1,4 @@
-import {Operation} from "./operation";
+import {Consumes as C} from "@tsed/schema";
 
 /**
  * Add consumes metadata on the decorated element.
@@ -18,7 +18,9 @@ import {Operation} from "./operation";
  * @swagger
  * @classDecorator
  * @operation
+ * @deprecated Use @Consumes from @tsed/schema
+ * @ignore
  */
 export function Consumes(...consumes: string[]): Function {
-  return Operation({consumes});
+  return C(...consumes);
 }

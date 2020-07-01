@@ -1,6 +1,5 @@
-import {deepMerge} from "@tsed/core";
+import {JsonHeader, JsonHeaders, Returns} from "@tsed/schema";
 import {IResponseHeader, IResponseHeaders} from "../../interfaces";
-import {EndpointFn} from "./endpointFn";
 
 export type IHeaderOptions = string | number | IResponseHeader;
 
@@ -80,15 +79,10 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
  * @operation
  * @response
  */
-export function Header(headerName: string | number | IHeadersOptions, headerValue?: IHeaderOptions): Function {
-  if (headerValue !== undefined) {
-    headerName = {[headerName as string]: headerValue};
+export function Header(headers: string | number | JsonHeaders, value?: string | number | JsonHeader): Function {
+  if (value !== undefined) {
+    headers = {[headers as string]: value};
   }
-  const headers: IResponseHeaders = mapHeaders(headerName as IHeadersOptions);
 
-  return EndpointFn(endpoint => {
-    const {response} = endpoint;
-
-    response.headers = deepMerge(response.headers || {}, headers);
-  });
+  return Returns().Headers(headers as JsonHeaders);
 }

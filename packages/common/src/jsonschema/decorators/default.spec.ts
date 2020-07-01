@@ -1,26 +1,24 @@
-import {Property, PropertyMetadata} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
 import {Default} from "../../../src/jsonschema";
 
 describe("Default", () => {
-  class Test {
-    @Property()
-    property: String;
-  }
-
   describe("value (0)", () => {
     it("should store data", () => {
-      Default(0)(Test, "property");
-      const schema = PropertyMetadata.get(Test, "property").schema;
-      expect(schema.default).to.eq(0);
-    });
-  });
+      class Model {
+        @Default(0)
+        property: number;
+      }
 
-  describe("value (false)", () => {
-    it("should store data", () => {
-      Default(false)(Test, "property");
-      const schema = PropertyMetadata.get(Test, "property").schema;
-      expect(schema.default).to.eq(false);
+      expect(getJsonSchema(Model)).to.deep.eq({
+        properties: {
+          property: {
+            default: 0,
+            type: "number"
+          }
+        },
+        type: "object"
+      });
     });
   });
 });

@@ -5,7 +5,11 @@ import {Authorize, PassportMiddleware} from "../index";
 describe("@Authorize", () => {
   it("should store data", () => {
     class Test {
-      @Authorize("local", {security: "security"})
+      @Authorize("local", {
+        security: {
+          test: ["scope"]
+        }
+      })
       test() {}
     }
 
@@ -14,7 +18,9 @@ describe("@Authorize", () => {
     expect(store.get(PassportMiddleware)).to.deep.equal({
       method: "authorize",
       options: {
-        security: "security"
+        security: {
+          test: ["scope"]
+        }
       },
       originalUrl: true,
       protocol: "local"
@@ -22,7 +28,12 @@ describe("@Authorize", () => {
   });
   it("should store data (without originalUrl)", () => {
     class Test {
-      @Authorize("local", {security: "security", originalUrl: false})
+      @Authorize("local", {
+        security: {
+          test: ["scope"]
+        },
+        originalUrl: false
+      })
       test() {}
     }
 
@@ -31,7 +42,9 @@ describe("@Authorize", () => {
     expect(store.get(PassportMiddleware)).to.deep.equal({
       method: "authorize",
       options: {
-        security: "security",
+        security: {
+          test: ["scope"]
+        },
         originalUrl: false
       },
       originalUrl: false,

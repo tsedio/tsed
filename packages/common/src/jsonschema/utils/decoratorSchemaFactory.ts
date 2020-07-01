@@ -1,32 +1,16 @@
-import {DecoratorParameters, getDecoratorType} from "@tsed/core";
-import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
+import {DecoratorParameters} from "@tsed/core";
+import {JsonEntityFn} from "@tsed/schema";
 import {JsonSchema} from "../class/JsonSchema";
-import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 
 /**
  * @ignore
  * @deprecated Will be remove in v6.
  * @param {(schema: JsonSchema, parameters: DecoratorParameters) => void} fn
  * @returns {(...parameters: any[]) => any}
+ * @deprecated Will be removed in v6
  */
 export function decoratorSchemaFactory(fn: (schema: JsonSchema, parameters: DecoratorParameters) => void) {
-  return (...parameters: any[]): any => {
-    let schema: JsonSchema;
-
-    switch (getDecoratorType(parameters)) {
-      case "property":
-        schema = PropertyMetadata.get(parameters[0], parameters[1]).schema;
-        break;
-      case "class":
-        schema = JsonSchemesRegistry.createIfNotExists(parameters[0]);
-        break;
-    }
-
-    const result: any = fn(schema!, parameters as DecoratorParameters);
-    if (typeof result === "function") {
-      result(...parameters);
-    }
-
-    return parameters[2];
-  };
+  return JsonEntityFn((entity, parameters) => {
+    return fn(entity.itemSchema as any, parameters);
+  });
 }

@@ -2,7 +2,8 @@ import {
   applyDecorators,
   decorateMethodsOf,
   DecoratorParameters,
-  getDecoratorType,
+  decoratorTypeOf,
+  DecoratorTypes,
   Store,
   StoreFn,
   Type,
@@ -33,8 +34,8 @@ import {UseBefore} from "./useBefore";
  */
 export function UseAuth(guardAuth: Type<any>, options: IAuthOptions = {}): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
-    switch (getDecoratorType(args, true)) {
-      case "method":
+    switch (decoratorTypeOf(args)) {
+      case DecoratorTypes.METHOD:
         return applyDecorators(
           StoreFn((store: Store) => {
             if (!store.has(guardAuth)) {
@@ -44,7 +45,7 @@ export function UseAuth(guardAuth: Type<any>, options: IAuthOptions = {}): Funct
           AuthOptions(guardAuth, options)
         )(...args);
 
-      case "class":
+      case DecoratorTypes.CLASS:
         decorateMethodsOf(args[0], UseAuth(guardAuth, options));
         break;
 

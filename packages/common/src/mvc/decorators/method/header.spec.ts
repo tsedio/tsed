@@ -1,5 +1,6 @@
+import {getSpec, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
-import {EndpointMetadata} from "../../../../src/mvc";
+import {Get} from "../../../../src/mvc";
 import {Header, mapHeaders} from "./header";
 
 describe("mapHeaders", () => {
@@ -30,47 +31,90 @@ describe("Header", () => {
       it("should set Header", () => {
         class MyController {
           @Header({"Content-Type": "application/json"})
-          test() {
-          }
+          @Get("/")
+          test() {}
         }
 
-        const endpoint = EndpointMetadata.get(MyController, "test");
+        const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-        expect(endpoint.response).to.deep.eq({
-          code: 200,
-          headers: {
-            "Content-Type": {
-              type: "string",
-              value: "application/json"
+        expect(spec).to.deep.eq({
+          definitions: {},
+          paths: {
+            "/": {
+              get: {
+                operationId: "myControllerTest",
+                parameters: [],
+                responses: {
+                  "200": {
+                    headers: {
+                      "Content-Type": {
+                        type: "string",
+                        example: "application/json"
+                      }
+                    },
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                tags: ["MyController"]
+              }
             }
-          }
+          },
+          tags: [
+            {
+              name: "MyController"
+            }
+          ]
         });
       });
     });
     describe("with two params has object", () => {
       it("should set Header", () => {
         class MyController {
+          @Get("/")
           @Header("Content-Type", "application/json")
-          test() {
-          }
+          test() {}
         }
 
-        const endpoint = EndpointMetadata.get(MyController, "test");
+        const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-        expect(endpoint.response).to.deep.eq({
-          code: 200,
-          headers: {
-            "Content-Type": {
-              type: "string",
-              value: "application/json"
+        expect(spec).to.deep.eq({
+          definitions: {},
+          paths: {
+            "/": {
+              get: {
+                operationId: "myControllerTest",
+                parameters: [],
+                responses: {
+                  "200": {
+                    headers: {
+                      "Content-Type": {
+                        type: "string",
+                        example: "application/json"
+                      }
+                    },
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                tags: ["MyController"]
+              }
             }
-          }
+          },
+          tags: [
+            {
+              name: "MyController"
+            }
+          ]
         });
       });
     });
     describe("with swagger params has object", () => {
       it("should set Header", () => {
         class MyController {
+          @Get("/")
           @Header({
             "Content-Type": "text/plain",
             "Content-Length": 123,
@@ -79,29 +123,49 @@ describe("Header", () => {
               description: "header description"
             }
           } as any)
-          test() {
-          }
+          test() {}
         }
 
-        const endpoint = EndpointMetadata.get(MyController, "test");
+        const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-        expect(endpoint.response).to.deep.eq({
-          code: 200,
-          headers: {
-            "Content-Length": {
-              type: "number",
-              value: 123
-            },
-            "Content-Type": {
-              type: "string",
-              value: "text/plain"
-            },
-            ETag: {
-              description: "header description",
-              type: "string",
-              value: "12345"
+        expect(spec).to.deep.eq({
+          definitions: {},
+          paths: {
+            "/": {
+              get: {
+                operationId: "myControllerTest",
+                parameters: [],
+                responses: {
+                  "200": {
+                    headers: {
+                      "Content-Length": {
+                        type: "number",
+                        example: 123
+                      },
+                      "Content-Type": {
+                        type: "string",
+                        example: "text/plain"
+                      },
+                      ETag: {
+                        description: "header description",
+                        type: "string",
+                        example: "12345"
+                      }
+                    },
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                tags: ["MyController"]
+              }
             }
-          }
+          },
+          tags: [
+            {
+              name: "MyController"
+            }
+          ]
         });
       });
     });

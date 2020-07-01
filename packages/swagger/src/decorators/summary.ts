@@ -1,5 +1,4 @@
-import {getDecoratorType} from "@tsed/core";
-import {Operation} from "./operation";
+import {Summary as S} from "@tsed/schema";
 
 /**
  * Add summary metadata on the decorated element.
@@ -19,7 +18,8 @@ import {Operation} from "./operation";
  * @swagger
  * @schema
  * @operation
+ * @deprecated Use @Summary from @tsed/schema. Will be removed in v7.
  */
 export function Summary(summary: string): Function {
-  return Operation({summary});
+  return S(summary);
 }

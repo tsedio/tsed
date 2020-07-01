@@ -1,5 +1,4 @@
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {MaxProperties as M} from "@tsed/schema";
 
 /**
  * An object instance is valid against `maxProperties` if its number of properties is less than, or equal to, the value of this keyword.
@@ -42,13 +41,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @swagger
  * @schema
  * @collections
+ * @ignore
+ * @deprecated Use @MaxProperties decorator from @tsed/schema instead of.
  */
 export function MaxProperties(maxProperties: number) {
-  if (maxProperties < 0) {
-    throw new Error("The value of maxProperties MUST be a non-negative integer.");
-  }
-
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.maxProperties = maxProperties;
-  });
+  return M(maxProperties);
 }

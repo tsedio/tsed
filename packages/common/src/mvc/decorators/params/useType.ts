@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+import {CollectionOf} from "@tsed/schema";
 import {ParamFn} from "./paramFn";
 
 /**
@@ -13,7 +14,5 @@ import {ParamFn} from "./paramFn";
  * @alias CollectionOf
  */
 export function UseType(type: any | Type<any>) {
-  return ParamFn(param => {
-    param.type = type;
-  });
+  return CollectionOf(type);
 }

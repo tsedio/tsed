@@ -1,4 +1,5 @@
-import {applyDecorators, StoreMerge} from "@tsed/core";
+import {applyDecorators} from "@tsed/core";
+import {Produces} from "@tsed/schema";
 import {Next} from "../params/next";
 import {Req} from "../params/request";
 import {Res} from "../params/response";
@@ -25,7 +26,7 @@ import {UseAfter} from "./useAfter";
  */
 export function ContentType(type: string) {
   return applyDecorators(
-    StoreMerge("produces", [type]),
+    Produces(type),
     UseAfter((request: Req, response: Res, next: Next) => {
       response.contentType(type);
       next();

@@ -1,4 +1,5 @@
-import {EndpointMetadata} from "@tsed/common/src";
+import {Get} from "@tsed/common";
+import {getSpec} from "@tsed/schema";
 import {expect} from "chai";
 import {ReturnsArray} from "../index";
 
@@ -8,46 +9,99 @@ describe("ReturnsArray()", () => {
   describe("when a type and configuration are given", () => {
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @ReturnsArray(Test, {
           description: "Success"
         })
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
-
-      expect(endpoint.response).to.deep.eq({
-        code: 200,
-        description: "Success",
-        type: Test,
-        collectionType: Array
+      const spec = getSpec(Ctrl);
+      expect(spec).to.deep.eq({
+        definitions: {
+          Test: {
+            type: "object"
+          }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              produces: ["text/json"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    type: "array",
+                    items: {
+                      $ref: "#/definitions/Test"
+                    }
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });
 
   describe("when a type is given", () => {
-    before(() => {});
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @ReturnsArray(Test)
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
+      const spec = getSpec(Ctrl);
 
-      expect(endpoint.response).to.deep.eq({
-        code: 200,
-        description: "",
-        type: Test,
-        collectionType: Array
+      expect(spec).to.deep.eq({
+        definitions: {
+          Test: {
+            type: "object"
+          }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              produces: ["text/json"],
+              responses: {
+                "200": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      $ref: "#/definitions/Test"
+                    }
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });
 
   describe("when a configuration is given", () => {
-    before(() => {});
     it("should set the responses", () => {
       class Ctrl {
+        @Get("/")
         @ReturnsArray({
           description: "Success",
           type: Test,
@@ -60,18 +114,46 @@ describe("ReturnsArray()", () => {
         test() {}
       }
 
-      const endpoint = EndpointMetadata.get(Ctrl, "test");
+      const spec = getSpec(Ctrl);
 
-      expect(endpoint.response).to.deep.eq({
-        code: 200,
-        description: "Success",
-        type: Test,
-        collectionType: Array,
-        headers: {
-          "Content-Type": {
-            type: "string"
+      expect(spec).to.deep.eq({
+        definitions: {
+          Test: {
+            type: "object"
           }
-        }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlTest",
+              parameters: [],
+              produces: ["text/json"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  headers: {
+                    "Content-Type": {
+                      example: undefined,
+                      type: "string"
+                    }
+                  },
+                  schema: {
+                    type: "array",
+                    items: {
+                      $ref: "#/definitions/Test"
+                    }
+                  }
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
       });
     });
   });

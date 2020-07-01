@@ -11,7 +11,6 @@ describe("Description", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         prop: {
           type: "string",

@@ -10,6 +10,8 @@ import {Schema} from "./schema";
  * @schema
  * @methodDecorator
  * @classDecorator
+ * @ignore
+ * @deprecated Use @ExclusiveMaximum decorator from @tsed/schema instead of.
  */
 export function Example(example: any): Function;
 export function Example(name: string | any, description: string): ClassDecorator;

@@ -1,4 +1,4 @@
-import {Description as D} from "@tsed/common";
+import {Description as D} from "@tsed/schema";
 
 /**
  * Add a description metadata on the decorated element.
@@ -50,7 +50,7 @@ import {Description as D} from "@tsed/common";
  * @classParameter
  * @classDecorator
  * @methodDecorator
- * @deprecated
+ * @deprecated Use @Description from @tsed/schema
  * @ignore
  */
 export function Description(description: string) {

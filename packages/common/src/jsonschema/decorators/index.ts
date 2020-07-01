@@ -22,7 +22,6 @@ export * from "./minProperties";
 export * from "./multipleOf";
 export * from "./pattern";
 export * from "./uniqueItems";
-export * from "./allowTypes";
 export * from "./any";
 export * from "./schema";
 export * from "./title";

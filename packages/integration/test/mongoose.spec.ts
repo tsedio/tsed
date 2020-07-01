@@ -24,8 +24,16 @@ describe("UserModel", () => {
     const properties = PropertyMetadata.getProperties(User, {withIgnoredProps: true});
     const {schema} = buildMongooseSchema(User);
 
-    expect(Array.from(properties.keys())).to.deep.eq(["name", "email", "password"]);
-    expect(Object.keys(schema)).to.deep.eq(["name", "email", "password"]);
+    expect(Array.from(properties.keys())).to.deep.eq([
+      "password",
+      "name",
+      "email"
+    ]);
+    expect(Object.keys(schema)).to.deep.eq([
+      "password",
+      "name",
+      "email"
+    ]);
 
     expect(user.email).to.equal("test@test.fr");
     expect(user.password).to.equal("test123456");

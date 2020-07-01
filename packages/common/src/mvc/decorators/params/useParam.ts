@@ -1,4 +1,5 @@
-import {applyDecorators, Type} from "@tsed/core";
+import {Type, useDecorators} from "@tsed/core";
+import {Name} from "@tsed/schema";
 import {IFilter} from "../../interfaces/IFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
@@ -17,6 +18,7 @@ function mapPipes(options: IParamOptions<any> = {}) {
   return [
     options.useType && UseType(options.useType),
     options.expression && UseParamExpression(options.expression),
+    options.expression && Name(options.expression),
     options.useValidation && UseValidation(),
     options.useConverter && UseDeserialization()
   ];
@@ -40,7 +42,7 @@ function mapPipes(options: IParamOptions<any> = {}) {
  * @pipe
  */
 export function UseParam(paramType: ParamTypes | string, options: IParamOptions<any> = {}): ParameterDecorator {
-  return applyDecorators(UseParamType(paramType), ...mapPipes(options)) as ParameterDecorator;
+  return useDecorators(UseParamType(paramType), ...mapPipes(options)) as ParameterDecorator;
 }
 
 /**
@@ -61,7 +63,7 @@ export function UseFilter(token: Type<IFilter> | ParamTypes | string, options: I
   }
 
   return require("util").deprecate(
-    applyDecorators(
+    useDecorators(
       filter &&
         ParamFn(param => {
           // deprecated

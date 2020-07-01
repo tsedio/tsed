@@ -91,6 +91,7 @@ import {Type} from "@tsed/core";
  * @swagger
  * @ignore
  * @deprecated Use @Returns decorator from @tsed/common.
+ * @deprecated Use @Returns from @tsed/schema
  */
 export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
 /**
@@ -214,6 +215,7 @@ export function Returns(...args: any[]) {
  * @swagger
  * @ignore
  * @deprecated Use @ReturnsArray decorator from @tsed/common.
+ * @deprecated Use @Returns from @tsed/schema
  */
 export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
 /**

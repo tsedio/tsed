@@ -1,4 +1,4 @@
-import {Default, Enum, Format, Ignore, Maximum, MaxLength, Minimum, MinLength, Pattern, Required} from "@tsed/common";
+import {Default, Enum, Format, Ignore, Maximum, MaxLength, Minimum, MinLength, Pattern, Required} from "@tsed/schema";
 import {Indexed, Model, ObjectID, Unique} from "@tsed/mongoose";
 
 enum Categories {

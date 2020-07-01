@@ -1,8 +1,10 @@
+// import "@tsed/common";
 import {
   CollectionOf,
   Email,
   GenericOf,
   Generics,
+  getSpec,
   Ignore,
   In,
   JsonEntityStore,

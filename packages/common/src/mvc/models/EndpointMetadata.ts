@@ -1,31 +1,11 @@
-import {
-  ancestorsOf,
-  deepExtends,
-  descriptorOf,
-  EntityOptions,
-  Enumerable,
-  isArrayOrArrayClass,
-  isFunction,
-  isPromise,
-  Metadata,
-  nameOf,
-  prototypeOf,
-  Storable,
-  Store,
-  Type
-} from "@tsed/core";
-import {IPathMethod} from "../interfaces/IPathMethod";
-import {IResponseOptions} from "../interfaces/IResponseOptions";
+import {classOf, DecoratorTypes, deepExtends, descriptorOf, Enumerable, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
+import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation, JsonResponse} from "@tsed/schema";
 import {ParamMetadata} from "./ParamMetadata";
 
-export interface EndpointConstructorOptions extends EntityOptions {
+export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
   beforeMiddlewares?: Function[];
   middlewares?: Function[];
   afterMiddlewares?: Function[];
-  pathsMethods?: IPathMethod[];
-  type?: any;
-  responses?: Map<number, IResponseOptions>;
-  statusCode?: number;
 }
 
 /**
@@ -44,8 +24,8 @@ export interface EndpointConstructorOptions extends EntityOptions {
  *    }
  *
  */
-export class EndpointMetadata extends Storable implements EndpointConstructorOptions {
-  provide: Type<any>;
+@JsonEntityComponent(DecoratorTypes.METHOD)
+export class EndpointMetadata extends JsonEntityStore implements EndpointConstructorOptions {
   // LIFECYCLE
   @Enumerable()
   public beforeMiddlewares: any[] = [];
@@ -55,74 +35,49 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
 
   @Enumerable()
   public afterMiddlewares: any[] = [];
-  /**
-   * Route strategy.
-   */
-  @Enumerable()
-  public pathsMethods: IPathMethod[] = [];
-
-  @Enumerable()
-  readonly responses: Map<number, IResponseOptions> = new Map();
 
   @Enumerable()
   public statusCode: number = 200;
 
   constructor(options: EndpointConstructorOptions) {
-    super(
-      options.target,
-      options.propertyKey!,
-      options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey!)
-    );
+    super({
+      store: Store.fromMethod(options.target, options.propertyKey!),
+      descriptor: descriptorOf(options.target, options.propertyKey!),
+      ...options
+    });
 
-    const {
-      target,
-      statusCode,
-      responses,
-      propertyKey,
-      beforeMiddlewares = [],
-      middlewares = [],
-      afterMiddlewares = [],
-      pathsMethods = [],
-      type
-    } = options;
+    const {beforeMiddlewares = [], middlewares = [], afterMiddlewares = []} = options;
 
-    this.provide = target;
-    this._type = Metadata.getReturnType(target, propertyKey);
     this.after(afterMiddlewares);
     this.before(beforeMiddlewares);
     this.use(middlewares);
-
-    this.pathsMethods = pathsMethods;
-    this.type = type;
-    statusCode && (this.statusCode = statusCode);
-
-    if (responses) {
-      this.responses = responses;
-    } else {
-      this.responses.set(this.statusCode, {
-        code: this.statusCode
-      } as any);
-    }
-  }
-
-  get type(): Type<any> {
-    return isPromise(this._type) || isArrayOrArrayClass(this._type) || this._type === Object ? undefined! : this._type;
-  }
-
-  set type(type: Type<any>) {
-    this._type = type;
   }
 
   get targetName(): string {
-    return nameOf(this.provide);
+    return nameOf(this.token);
   }
 
-  get params() {
-    return ParamMetadata.getParams(this.target, this.propertyKey);
+  get params(): ParamMetadata[] {
+    return Array.from(this.children.values()) as ParamMetadata[];
   }
 
   get response() {
-    return this.responses.get(this.statusCode)!;
+    return this.operation.response;
+  }
+
+  /**
+   * Return the JsonOperation
+   */
+  get operation(): JsonOperation {
+    return this._operation;
+  }
+
+  get operationPaths() {
+    return this.operation.operationPaths;
+  }
+
+  get responses(): Map<string, JsonResponse> {
+    return this.operation.get("responses");
   }
 
   /**
@@ -131,28 +86,14 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @returns {EndpointMetadata[]}
    */
   static getEndpoints(target: Type<any>): EndpointMetadata[] {
-    const map = new Map();
+    const operations = getOperationsStores<EndpointMetadata>(target);
 
-    const set = (base: any) => {
-      const store = Store.from(base);
+    return Array.from(operations.values()).map(endpoint => {
+      endpoint = endpoint.clone();
+      endpoint.token = classOf(target);
 
-      if (store.has("endpoints")) {
-        store.get("endpoints").forEach((endpoint: EndpointMetadata) => {
-          if (!map.has(endpoint.propertyKey)) {
-            endpoint = endpoint.clone();
-            endpoint.provide = target;
-
-            map.set(endpoint.propertyKey, endpoint);
-          }
-        });
-      }
-    };
-
-    ancestorsOf(target)
-      .reverse()
-      .forEach(set);
-
-    return Array.from(map.values());
+      return endpoint;
+    });
   }
 
   /**
@@ -162,76 +103,13 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param descriptor
    */
   static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): EndpointMetadata {
-    descriptor = descriptor === undefined ? descriptorOf(prototypeOf(target), "test") : descriptor;
-    const store = Store.from(target);
-    const endpoints = store.get("endpoints") || new Map();
-    store.set("endpoints", endpoints);
+    descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
 
-    if (!endpoints.has(propertyKey)) {
-      endpoints.set(propertyKey, new EndpointMetadata({target, propertyKey, descriptor}));
-    }
-
-    return store.get("endpoints").get(propertyKey);
+    return JsonEntityStore.from<EndpointMetadata>(prototypeOf(target), propertyKey, descriptor);
   }
 
-  /**
-   * Gets a value indicating whether the target object or its prototype chain has already method registered.
-   * @param target
-   * @param method
-   * @deprecated
-   */
-
-  /* istanbul ignore next */
-  static has(target: Type<any>, method: string | symbol): boolean {
-    return Store.from(target)
-      .get("endpoints")
-      .has(method);
-  }
-
-  /**
-   * Append mvc in the pool (before).
-   * @param target
-   * @param targetKey
-   * @param args
-   * @deprecated
-   */
-
-  /* istanbul ignore next */
-  static useBefore(target: Type<any>, targetKey: string | symbol, args: any[]) {
-    this.get(target, targetKey, descriptorOf(target, targetKey)).before(args);
-
-    return this;
-  }
-
-  /**
-   * Add middleware and configuration for the endpoint.
-   * @param target
-   * @param targetKey
-   * @param args
-   * @returns {Endpoint}
-   * @deprecated
-   */
-
-  /* istanbul ignore next */
-  static use(target: Type<any>, targetKey: string | symbol, args: any[]) {
-    this.get(target, targetKey, descriptorOf(target, targetKey)).use(args);
-
-    return this;
-  }
-
-  /**
-   * Append mvc in the pool (after).
-   * @param target
-   * @param targetKey
-   * @param args
-   * @deprecated
-   */
-
-  /* istanbul ignore next */
-  static useAfter(target: Type<any>, targetKey: string | symbol, args: any[]) {
-    this.get(target, targetKey, descriptorOf(target, targetKey)).after(args);
-
-    return this;
+  addOperationPath(method: string, path: string | RegExp, options: any = {}) {
+    return this.operation.addOperationPath(method, path, options);
   }
 
   /**
@@ -249,25 +127,6 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
     }
 
     return meta;
-  }
-
-  /**
-   * Change the type and the collection type from the status code.
-   * @param {string | number} code
-   * @deprecated Use endpoint.responses.get(code)
-   */
-  public statusResponse(code: string | number) {
-    if (code && this.responses.has(+code)) {
-      const {type, collectionType} = this.responses.get(+code)!;
-      this.type = type;
-      this.collectionType = collectionType;
-    } else {
-      const {type, collectionType} = this.responses.get(this.statusCode) || {};
-      this.type = type;
-      this.collectionType = collectionType;
-    }
-
-    return this.responses.get(+code) || {};
   }
 
   /**
@@ -314,17 +173,23 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   }
 
   public clone() {
-    return new EndpointMetadata({
+    const endpoint = new EndpointMetadata({
+      ...this,
       target: this.target,
       propertyKey: this.propertyKey,
       descriptor: this.descriptor,
-      beforeMiddlewares: this.beforeMiddlewares,
-      middlewares: this.middlewares,
-      afterMiddlewares: this.afterMiddlewares,
-      pathsMethods: this.pathsMethods,
-      type: this.type,
-      responses: this.responses,
-      statusCode: this.statusCode
+      store: this.store,
+      children: this.children
     });
+
+    endpoint.collectionType = this.collectionType;
+    endpoint._type = this._type;
+    endpoint._operation = this.operation;
+    endpoint._schema = this._schema;
+    endpoint.middlewares = [...this.middlewares];
+    endpoint.afterMiddlewares = [...this.afterMiddlewares];
+    endpoint.beforeMiddlewares = [...this.beforeMiddlewares];
+
+    return endpoint;
   }
 }

@@ -1,14 +1,33 @@
-import {decorateMethodsOf, DecoratorParameters, getDecoratorType, Store, StoreFn, Type, UnsupportedDecoratorType} from "@tsed/core";
+import {
+  decorateMethodsOf,
+  DecoratorMethodParameters,
+  DecoratorParameters,
+  decoratorTypeOf,
+  DecoratorTypes,
+  Type,
+  UnsupportedDecoratorType
+} from "@tsed/core";
+import {EndpointFn} from "./endpointFn";
 
 export interface IAuthOptions {
+  /**
+   * @deprecated Use @Returns from @tsed/schema
+   */
   responses?: {
     [statusCode: string]: {
       description: string;
     };
   };
-  security?: {
-    [securityName: string]: string[];
-  }[];
+  /**
+   * @deprecated Use @Security from @tsed/schema
+   */
+  security?:
+    | {
+        [securityName: string]: string[];
+      }[]
+    | {
+        [securityName: string]: string[];
+      };
 
   [key: string]: any;
 }
@@ -36,9 +55,11 @@ export interface IAuthOptions {
  */
 export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
-    switch (getDecoratorType(args, true)) {
-      case "method":
-        return StoreFn((store: Store) => {
+    switch (decoratorTypeOf(args)) {
+      case DecoratorTypes.METHOD:
+        return EndpointFn(endpoint => {
+          const store = endpoint.store;
+
           if (options.responses) {
             const {responses} = options;
             store.merge("responses", responses, true);
@@ -47,14 +68,19 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
 
           if (options.security) {
             const {security} = options;
-            store.merge("operation", {security}, true);
+            [].concat(security as any).forEach(security => {
+              Object.entries(security).forEach(([name, scopes]: [string, string[]]) => {
+                endpoint.operation.addSecurityScopes(name, scopes);
+              });
+            });
+
             delete options.security;
           }
 
           store.merge(guardAuth, options, true);
-        })(...args);
+        })(...(args as DecoratorMethodParameters));
 
-      case "class":
+      case DecoratorTypes.CLASS:
         decorateMethodsOf(args[0], AuthOptions(guardAuth, options));
         break;
 

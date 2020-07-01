@@ -22,10 +22,6 @@ export class ValidationPipe implements IPipe {
     return value;
   }
 
-  protected shouldValidate(param: ParamMetadata) {
-    return !!(param.type || param.collectionType);
-  }
-
   protected checkIsRequired(value: any, metadata: ParamMetadata) {
     if (metadata.isRequired(value)) {
       throw RequiredValidationError.from(metadata);

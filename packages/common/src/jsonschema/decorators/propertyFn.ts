@@ -1,4 +1,5 @@
 import {DecoratorParameters} from "@tsed/core";
+import {JsonEntityFn} from "@tsed/schema";
 import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 
 /**
@@ -7,11 +8,5 @@ import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
  * @schema
  */
 export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
-  return (...parameters: any[]): any => {
-    const propertyMetadata = PropertyMetadata.get(parameters[0], parameters[1]);
-    const result: any = fn(propertyMetadata, parameters as DecoratorParameters);
-    if (typeof result === "function") {
-      result(...parameters);
-    }
-  };
+  return JsonEntityFn(fn);
 }

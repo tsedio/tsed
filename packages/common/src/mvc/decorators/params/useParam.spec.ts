@@ -1,4 +1,5 @@
-import {Description, Example, Title, ParamMetadata, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
+import {ParamMetadata, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
+import {Description, Example, Title} from "@tsed/schema";
 import {expect} from "chai";
 import {IFilter} from "../../interfaces/IFilter";
 

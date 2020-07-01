@@ -1,4 +1,4 @@
-import {Title as T} from "@tsed/common";
+import {Title as T} from "@tsed/schema";
 
 /**
  * Add title metadata on the decorated element.
@@ -52,12 +52,10 @@ import {Title as T} from "@tsed/common";
  * @returns {(...args: any[]) => any}
  * @decorator
  * @swagger
- * @schema
- * @classDecorator
- * @parameterDecorator
- * @methodDecorator
- * @ignore
- * @deprecated
+ * @property
+ * @method
+ * @parameter
+ * @deprecated Use @Title from @tsed/schema
  */
 export function Title(title: string) {
   return T(title);

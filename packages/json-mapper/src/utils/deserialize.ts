@@ -144,7 +144,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
  */
 export function deserialize<T = any>(src: any, options: JsonDeserializerOptions = {}): T {
   options = buildOptions(options);
-
+  console.log(options);
   if (!isDeserializable(src, options)) {
     return src;
   }

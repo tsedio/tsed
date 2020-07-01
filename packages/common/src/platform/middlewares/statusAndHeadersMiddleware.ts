@@ -3,19 +3,18 @@ import {Req} from "../../mvc/decorators/params/request";
 import {Res} from "../../mvc/decorators/params/response";
 
 export function statusAndHeadersMiddleware(request: Req, response: Res, next: Next) {
-  const {
-    statusCode,
-    response: {headers = {}}
-  } = request.ctx.endpoint;
+  const operation = request.ctx.endpoint.operation;
 
   if (response.statusCode === 200) {
     // apply status only if the isn't already modified
-    response.status(statusCode);
+    response.status(operation.getStatus());
   }
 
-  // apply headers
+  const headers = operation.getHeadersOf(response.statusCode);
+
   Object.entries(headers).forEach(([key, schema]) => {
-    schema.value !== undefined && response.set(key, String(schema.value));
+    schema.example !== undefined && response.set(key, String(schema.example));
   });
+
   next();
 }

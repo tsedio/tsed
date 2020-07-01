@@ -53,4 +53,3 @@ export * from "./params/paramFn";
 
 // utils
 export * from "../utils/mapReturnedResponse";
-export * from "../utils/getStorableMetadata";

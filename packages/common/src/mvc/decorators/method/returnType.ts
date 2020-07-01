@@ -1,8 +1,5 @@
-import {cleanObject, deepMerge, Type} from "@tsed/core";
-import {IResponseOptions} from "../../interfaces/IResponseOptions";
-import {EndpointFn} from "./endpointFn";
-
-const isSuccessStatus = (code: number | undefined) => code && 200 <= code && code < 300;
+import {Type} from "@tsed/core";
+import {Returns as R, ReturnsChainedDecorators} from "@tsed/schema";
 
 /**
  * @ignore
@@ -53,26 +50,36 @@ function mapStatusResponseOptions(args: any[]): any {
  * @response
  * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
-  return EndpointFn(endpoint => {
-    const {responses, statusCode} = endpoint;
-    const code = response.code || statusCode; // implicit
+export function ReturnType(response: Partial<TsED.ResponseOptions> = {}): ReturnsChainedDecorators {
+  const {code = "default", collectionType, type, headers, description, examples, schema} = response;
 
-    if (isSuccessStatus(response.code)) {
-      const {response} = endpoint;
-      responses.delete(statusCode);
-      endpoint.statusCode = code;
-      endpoint.responses.set(code, response);
-    }
+  let decorator = R(code);
 
-    response = {
-      description: "",
-      ...deepMerge(endpoint.responses.get(code), cleanObject(response)),
-      code
-    };
+  if (collectionType || type) {
+    decorator.Type(collectionType || type);
+  }
 
-    endpoint.responses.set(response.code!, response as IResponseOptions);
-  });
+  if (collectionType) {
+    decorator = decorator.Of(type);
+  }
+
+  if (headers) {
+    decorator = decorator.Headers(headers);
+  }
+
+  if (description) {
+    decorator = decorator.Description(description);
+  }
+
+  if (examples) {
+    decorator = decorator.Examples(examples);
+  }
+
+  if (schema) {
+    decorator = decorator.Schema(schema as any);
+  }
+
+  return decorator;
 }
 
 /**
@@ -163,12 +170,25 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
  * @operation
  * @response
  * @decorator
+ * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
-export function Returns(statusCode: number, model: Type<any>): any;
-export function Returns(options: Partial<IResponseOptions>): any;
+export function Returns(statusCode: number, options: Partial<TsED.ResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
+export function Returns(options: Partial<TsED.ResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
 export function Returns(model: Type<any>): any;
-export function Returns(model: Type<any>, options: Partial<IResponseOptions>): any;
+export function Returns(statusCode: number, model: Type<any>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
+export function Returns(model: Type<any>, options: Partial<TsED.ResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
 export function Returns(...args: any[]) {
   return ReturnType(mapStatusResponseOptions(args));
 }
@@ -266,12 +286,25 @@ export function Returns(...args: any[]) {
  * @swagger
  * @operation
  * @response
+ * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
+export function ReturnsArray(statusCode: number, options: Partial<TsED.ResponseOptions>): any;
 export function ReturnsArray(statusCode: number, model: Type<any>): any;
-export function ReturnsArray(options: Partial<IResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(options: Partial<TsED.ResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
 export function ReturnsArray(model: Type<any>): any;
-export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(model: Type<any>, options: Partial<TsED.ResponseOptions>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
 export function ReturnsArray(...args: any[]) {
   return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});
 }
