@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@tsed/common": "5.59.3",
-    "@tsed/core": "5.59.3",
-    "@tsed/testing-mongoose": "5.59.3"
+    "@tsed/core": "5.59.3"
   }
 }

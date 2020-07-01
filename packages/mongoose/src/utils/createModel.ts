@@ -1,5 +1,6 @@
 import {nameOf} from "@tsed/core";
 import * as mongoose from "mongoose";
+import {Connection} from "mongoose";
 
 /**
  * Create an instance of mongoose.model from a class.
@@ -18,7 +19,12 @@ export function createModel<T>(
   name: string = nameOf(target),
   collection?: string,
   skipInit?: boolean,
-  connection = mongoose
+  connection?: Connection
 ) {
-  return connection.model(name, schema, collection, skipInit);
+  /* istanbul ignore else */
+  if (connection) {
+    return connection.model(name, schema, collection);
+  }
+
+  return mongoose.model(name, schema, collection, skipInit);
 }
