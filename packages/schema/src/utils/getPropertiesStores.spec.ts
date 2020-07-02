@@ -1,5 +1,5 @@
-import {Email, Property, Required} from "../index";
 import {expect} from "chai";
+import {Email, Property, Required} from "../index";
 import {getPropertiesStores} from "./getPropertiesStores";
 
 class Base {
@@ -21,8 +21,8 @@ class Child extends Base {
 describe("getProperties()", () => {
   it("should return properties", () => {
     const properties = getPropertiesStores(Child);
-    expect(Array.from(properties.keys())).to.deep.eq(["id", "email", "name"]);
+    expect(Array.from(properties.keys())).to.deep.eq(["id", "name", "email"]);
     const properties2 = getPropertiesStores(Child);
-    expect(Array.from(properties2.keys())).to.deep.eq(["id", "email", "name"]);
+    expect(Array.from(properties2.keys())).to.deep.eq(["id", "name", "email"]);
   });
 });

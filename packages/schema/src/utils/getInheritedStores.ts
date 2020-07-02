@@ -10,9 +10,11 @@ export function getInheritedStores(target: Type<any> | any): Map<Type<any>, Json
   const store: any = target.isStore ? target : getJsonEntityStore(target);
 
   if (!store.$inherited) {
-    store.$inherited = ancestorsOf(store.type).reduce((context, model) => {
-      return context.set(model, getJsonEntityStore(model));
-    }, new Map());
+    store.$inherited = ancestorsOf(store.type)
+      .reverse()
+      .reduce((context, model) => {
+        return context.set(model, getJsonEntityStore(model));
+      }, new Map());
   }
 
   return store.$inherited;
