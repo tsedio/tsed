@@ -3,7 +3,7 @@ import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSerializerOptions} from "../interfaces";
 import {buildPath} from "./buildPath";
-import {getOperationStores} from "./getOperationsStores";
+import {getOperationsStores} from "./getOperationsStores";
 import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
 
@@ -73,10 +73,10 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
 
     const specJson: any = {paths};
 
-    getOperationStores(model).forEach(operationStore => {
+    getOperationsStores(model).forEach(operationStore => {
       const operation = operationStore.operation!.toJSON({...options, spec, schemas});
 
-      operationStore.operation!.operationPaths.forEach(({path, method}: {path: string, method: string}) => {
+      operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {
         if (method) {
           mergeOperation(specJson, operation, {
             rootPath: buildPath(rootPath + ctrlPath),

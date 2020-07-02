@@ -1,7 +1,8 @@
 import {
   ancestorsOf,
   deepExtends,
-  descriptorOf, EntityOptions,
+  descriptorOf,
+  EntityOptions,
   Enumerable,
   isArrayOrArrayClass,
   isFunction,
@@ -67,7 +68,11 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   public statusCode: number = 200;
 
   constructor(options: EndpointConstructorOptions) {
-    super(options.target, options.propertyKey!, options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey!));
+    super(
+      options.target,
+      options.propertyKey!,
+      options.descriptor || Object.getOwnPropertyDescriptor(options.target, options.propertyKey!)
+    );
 
     const {
       target,
@@ -130,18 +135,22 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
 
     const set = (base: any) => {
       const store = Store.from(base);
+
       if (store.has("endpoints")) {
         store.get("endpoints").forEach((endpoint: EndpointMetadata) => {
-          endpoint = endpoint.clone();
-          endpoint.provide = target;
+          if (!map.has(endpoint.propertyKey)) {
+            endpoint = endpoint.clone();
+            endpoint.provide = target;
 
-          map.set(endpoint.propertyKey, endpoint);
+            map.set(endpoint.propertyKey, endpoint);
+          }
         });
       }
     };
 
-    set(target);
-    ancestorsOf(target).forEach(set);
+    ancestorsOf(target)
+      .reverse()
+      .forEach(set);
 
     return Array.from(map.values());
   }
@@ -171,9 +180,12 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param method
    * @deprecated
    */
+
   /* istanbul ignore next */
   static has(target: Type<any>, method: string | symbol): boolean {
-    return Store.from(target).get("endpoints").has(method);
+    return Store.from(target)
+      .get("endpoints")
+      .has(method);
   }
 
   /**
@@ -183,6 +195,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param args
    * @deprecated
    */
+
   /* istanbul ignore next */
   static useBefore(target: Type<any>, targetKey: string | symbol, args: any[]) {
     this.get(target, targetKey, descriptorOf(target, targetKey)).before(args);
@@ -198,6 +211,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @returns {Endpoint}
    * @deprecated
    */
+
   /* istanbul ignore next */
   static use(target: Type<any>, targetKey: string | symbol, args: any[]) {
     this.get(target, targetKey, descriptorOf(target, targetKey)).use(args);
@@ -212,6 +226,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param args
    * @deprecated
    */
+
   /* istanbul ignore next */
   static useAfter(target: Type<any>, targetKey: string | symbol, args: any[]) {
     this.get(target, targetKey, descriptorOf(target, targetKey)).after(args);
@@ -292,6 +307,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
    * @param args
    * @deprecated
    */
+
   /* istanbul ignore next */
   public merge(args: any[]): this {
     return this.use(args);
