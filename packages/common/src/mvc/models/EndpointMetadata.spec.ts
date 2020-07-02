@@ -1,5 +1,5 @@
 import {UseAfter, UseBefore} from "@tsed/common";
-import {nameOf, StoreSet} from "@tsed/core";
+import {StoreSet} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
@@ -10,20 +10,16 @@ describe("EndpointMetadata", () => {
   describe("endpoint declaration", () => {
     it("should return an endpoint metadata", () => {
       // GIVEN
-      const middleware1 = () => {
-      };
-      const middleware2 = () => {
-      };
-      const middleware3 = () => {
-      };
+      const middleware1 = () => {};
+      const middleware2 = () => {};
+      const middleware3 = () => {};
 
       class Test {
         @UseAfter(middleware1)
         @UseBefore(middleware2)
         @Use(middleware3)
         @StoreSet("test", "value")
-        method(): any {
-        }
+        method(): any {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "method");
@@ -48,13 +44,11 @@ describe("EndpointMetadata", () => {
     });
     it("should add endpoint with path", () => {
       // GIVEN
-      const middleware = () => {
-      };
+      const middleware = () => {};
 
       class Test {
         @Use("/", middleware)
-        method(): any {
-        }
+        method(): any {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "method");
@@ -64,23 +58,20 @@ describe("EndpointMetadata", () => {
         .to.be.an("array")
         .and.have.length(1);
 
-      expect(endpoint.pathsMethods)
-        .to.deep.equal([
+      expect(endpoint.pathsMethods).to.deep.equal([
         {
-          "method": undefined,
-          "path": "/"
+          method: undefined,
+          path: "/"
         }
       ]);
     });
     it("should add endpoint with path and method", () => {
       // GIVEN
-      const middleware = () => {
-      };
+      const middleware = () => {};
 
       class Test {
         @Use("get", "/", middleware)
-        method(): any {
-        }
+        method(): any {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "method");
@@ -90,11 +81,10 @@ describe("EndpointMetadata", () => {
         .to.be.an("array")
         .and.have.length(1);
 
-      expect(endpoint.pathsMethods)
-        .to.deep.equal([
+      expect(endpoint.pathsMethods).to.deep.equal([
         {
-          "method": "get",
-          "path": "/"
+          method: "get",
+          path: "/"
         }
       ]);
     });
@@ -102,25 +92,25 @@ describe("EndpointMetadata", () => {
   describe("getEndpoints()", () => {
     it("should return endpoints", () => {
       // GIVEN
-      const middleware1 = () => {
-      };
-      const middleware2 = () => {
-      };
-      const middleware3 = () => {
-      };
-      const middleware4 = () => {
-      };
+      const middleware1 = () => {};
+      const middleware2 = () => {};
+      const middleware3 = () => {};
+      const middleware4 = () => {};
 
-      class Test1 {
+      class Test2 {
+        @Use(middleware4)
+        @StoreSet("test", "Test2")
+        method1(): any {}
+      }
+
+      class Test1 extends Test2 {
         @Use(middleware4)
         @StoreSet("test", "Test1")
-        method(): any {
-        }
+        method(): any {}
 
         @Use(middleware4)
         @StoreSet("test", "Test1")
-        method2(): any {
-        }
+        method2(): any {}
       }
 
       class Test extends Test1 {
@@ -128,33 +118,30 @@ describe("EndpointMetadata", () => {
         @UseBefore(middleware2)
         @Use(middleware3)
         @StoreSet("test", "Test")
-        method(): any {
-        }
+        method(): any {}
 
         @Use(middleware3)
         @StoreSet("test", "Test")
-        method3() {
-
-        }
+        method3() {}
       }
 
       const endpoints = EndpointMetadata.getEndpoints(Test);
-      expect(endpoints.map(endpoint => endpoint.targetName + ":" + nameOf(endpoint.target) + ":" + String(endpoint.propertyKey))).to.deep.eq([
-        "Test:Test:method",
-        "Test:Test:method3",
-        "Test:Test1:method2"
-      ]);
+
+      expect(endpoints[0].propertyKey).to.equal("method");
+      expect(endpoints[1].propertyKey).to.equal("method3");
+      expect(endpoints[2].propertyKey).to.equal("method2");
+      expect(endpoints[3].propertyKey).to.equal("method1");
 
       expect(endpoints[0].store.get("test")).to.equal("Test");
       expect(endpoints[1].store.get("test")).to.equal("Test");
       expect(endpoints[2].store.get("test")).to.equal("Test1");
+      expect(endpoints[3].store.get("test")).to.equal("Test2");
     });
   });
   describe("statusResponse()", () => {
     describe("when haven't responses", () => {
       it("should haven't type, headers and collectionType", () => {
-        class Test {
-        }
+        class Test {}
 
         // GIVEN
         const endpointMetadata = EndpointMetadata.get(Test, "method");
@@ -180,8 +167,7 @@ describe("EndpointMetadata", () => {
 
     describe("when have empty responses", () => {
       it("should haven't type, headers and collectionType", () => {
-        class Test {
-        }
+        class Test {}
 
         // GIVEN
         const endpointMetadata = EndpointMetadata.get(Test, "method");
@@ -210,8 +196,7 @@ describe("EndpointMetadata", () => {
 
     describe("when have responses", () => {
       it("should have type and headers and haven't collectionType", () => {
-        class Test {
-        }
+        class Test {}
 
         // GIVEN
         const endpointMetadata = EndpointMetadata.get(Test, "method");

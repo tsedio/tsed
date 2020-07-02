@@ -1,6 +1,7 @@
 export * from "./utils/getJsonSchema";
 export * from "./utils/getJsonType";
 export * from "./utils/getPropertiesStores";
+export * from "./utils/getOperationsStores";
 export * from "./utils/getSpec";
 export * from "./utils/generics";
 export * from "./domain";
