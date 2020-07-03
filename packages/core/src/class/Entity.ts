@@ -1,6 +1,6 @@
 import {Type} from "../interfaces/Type";
 import {DecoratorTypes, getDecoratorType} from "../utils/DecoratorUtils";
-import {isArrayOrArrayClass, isClass, isDate, isObject, isPrimitiveOrPrimitiveClass, nameOf, nameOfClass} from "../utils/ObjectUtils";
+import {classOf, isArrayOrArrayClass, isClass, isDate, isObject, isPrimitiveOrPrimitiveClass, nameOf} from "../utils/ObjectUtils";
 
 export interface EntityOptions {
   target: Type<any>;
@@ -38,6 +38,7 @@ export abstract class Entity {
    * Type of the collection (Array, Map, Set, etc...)
    */
   public collectionType: Type<any>;
+  public token: Type<any>;
   /**
    *
    */
@@ -45,12 +46,13 @@ export abstract class Entity {
   protected _target: Type<any>;
 
   protected constructor({target, propertyKey, descriptor, index}: EntityOptions) {
+    this._target = target;
     this.propertyKey = propertyKey!;
     this.propertyName = String(propertyKey);
     this.descriptor = descriptor;
     this.index = index!;
     this.decoratorType = getDecoratorType([target, propertyKey, descriptor || index], true);
-    this._target = target;
+    this.token = target && classOf(target);
   }
 
   /**
@@ -63,10 +65,9 @@ export abstract class Entity {
   /**
    * Return the class name of the entity.
    * @returns {string}
-   * @todo should not be use in final API
    */
   get targetName(): string {
-    return nameOfClass(this.target);
+    return nameOf(this.token);
   }
 
   /**
