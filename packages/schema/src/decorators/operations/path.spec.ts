@@ -23,7 +23,7 @@ describe("Path", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]

@@ -2,13 +2,15 @@ import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 export enum OperationMethods {
+  ALL = "ALL", // special key
   GET = "GET",
   POST = "POST",
   PUT = "PUT",
   PATCH = "PATCH",
   HEAD = "HEAD",
   DELETE = "DELETE",
-  OPTIONS = "OPTIONS"
+  OPTIONS = "OPTIONS",
+  CUSTOM = "CUSTOM"
 }
 
 /**
@@ -24,6 +26,6 @@ export function OperationPath(method: OperationMethods | string, path: string | 
       throw new UnsupportedDecoratorType(OperationPath, args);
     }
 
-    store.operation!.addOperationPath(method, path);
+    store.operation!.addOperationPath(method.toUpperCase(), path);
   });
 }

@@ -5,8 +5,7 @@ describe("OperationPath", () => {
   it("should store metadata", () => {
     class MyController {
       @OperationPath(OperationMethods.OPTIONS, "/")
-      options() {
-      }
+      options() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -23,7 +22,7 @@ describe("OperationPath", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -35,8 +34,7 @@ describe("OperationPath", () => {
   it("should throw error for unsupported usage", () => {
     let actualError: any;
     try {
-      OperationPath("GET", "/")(class Test {
-      });
+      OperationPath("GET", "/")(class Test {});
     } catch (er) {
       actualError = er;
     }

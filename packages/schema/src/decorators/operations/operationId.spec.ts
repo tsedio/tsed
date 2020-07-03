@@ -6,8 +6,7 @@ describe("OperationId", () => {
     class MyController {
       @OperationPath("POST", "/")
       @OperationId("id")
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -24,7 +23,7 @@ describe("OperationId", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -36,8 +35,7 @@ describe("OperationId", () => {
   it("should throw error for unsupported usage", () => {
     let actualError: any;
     try {
-      OperationId("id")(class Test {
-      });
+      OperationId("id")(class Test {});
     } catch (er) {
       actualError = er;
     }

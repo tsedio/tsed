@@ -1,7 +1,7 @@
 import {EndpointMetadata, PathParamsType} from "@tsed/common";
 import {deepClone, deepExtends, getValue, isArrayOrArrayClass, isPromise, Store} from "@tsed/core";
 import {Operation, Path, Response} from "swagger-schema-official";
-import {HTTP_STATUS_MESSAGE} from "../constants/httpStatusMessages";
+import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
 import {parseSwaggerPath} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
@@ -118,7 +118,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
 
     const response = deepClone(obj);
 
-    response.description = response.description || HTTP_STATUS_MESSAGE[String(code)] || "";
+    response.description = response.description || HTTP_STATUS_MESSAGES[String(code)] || "";
 
     if (type) {
       response.schema = this.createSchema({

@@ -8,8 +8,7 @@ describe("@Description", () => {
   it("should declare description on class", () => {
     // WHEN
     @Description("Description")
-    class Model {
-    }
+    class Model {}
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
@@ -23,8 +22,7 @@ describe("@Description", () => {
     class Model {
       @OperationPath("GET", "/")
       @Description("Description")
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -38,16 +36,14 @@ describe("@Description", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["Model"]
           }
         }
       },
-      tags: [
-        {name: "Model"}
-      ]
+      tags: [{name: "Model"}]
     });
   });
   it("should declare description on property", () => {
@@ -74,8 +70,7 @@ describe("@Description", () => {
 
     class Model {
       @OperationPath("GET", "/")
-      method(@In("query") @Description("Description") query: string) {
-      }
+      method(@In("query") @Description("Description") query: string) {}
     }
 
     // THEN
@@ -83,7 +78,7 @@ describe("@Description", () => {
       definitions: {},
       tags: [
         {
-          "name": "Model"
+          name: "Model"
         }
       ],
       paths: {
@@ -100,7 +95,7 @@ describe("@Description", () => {
             ],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["Model"]
@@ -118,8 +113,7 @@ describe("@Description", () => {
 
     class MyController {
       @OperationPath("POST", "/")
-      method(@In("body") @Description("Description") payload: MyModel) {
-      }
+      method(@In("body") @Description("Description") payload: MyModel) {}
     }
 
     // THEN
@@ -156,7 +150,7 @@ describe("@Description", () => {
             ],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -174,8 +168,7 @@ describe("@Description", () => {
 
     class MyController {
       @OperationPath("POST", "/")
-      method(@In("body") @Description("Description") payload: MyModel) {
-      }
+      method(@In("body") @Description("Description") payload: MyModel) {}
     }
 
     // THEN
@@ -194,7 +187,7 @@ describe("@Description", () => {
       },
       tags: [
         {
-          "name": "MyController"
+          name: "MyController"
         }
       ],
       paths: {
@@ -215,7 +208,7 @@ describe("@Description", () => {
             },
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -229,8 +222,7 @@ describe("@Description", () => {
     let actualError: any;
     try {
       class Model {
-        constructor(@Description("Description") param: string) {
-        }
+        constructor(@Description("Description") param: string) {}
       }
     } catch (er) {
       actualError = er;

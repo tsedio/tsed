@@ -24,7 +24,7 @@ describe("Summary", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             summary: "summary",

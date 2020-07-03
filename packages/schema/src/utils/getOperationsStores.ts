@@ -12,7 +12,7 @@ export function getOperationsStores<T = JsonEntityStore>(target: Type<any> | any
 
     stores.forEach(currentStore => {
       currentStore.children.forEach(propStore => {
-        if (propStore.operation) {
+        if (propStore.operation && !store.$operations.has(propStore.propertyKey)) {
           store.$operations.set(propStore.propertyKey, propStore);
         }
       });

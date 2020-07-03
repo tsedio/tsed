@@ -1,14 +1,4 @@
-import {
-  decoratorTypeOf,
-  DecoratorTypes,
-  descriptorOf,
-  Entity,
-  EntityOptions,
-  isClass,
-  isCollection,
-  Store,
-  Type
-} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, descriptorOf, Entity, EntityOptions, isClass, isCollection, Store, Type} from "@tsed/core";
 import {JsonOperation} from "./JsonOperation";
 import {JsonParameter} from "./JsonParameter";
 import {JsonSchema} from "./JsonSchema";
@@ -57,6 +47,12 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
   constructor(options: JsonEntityStoreOptions) {
     super(options);
     this.store = options.store;
+
+    /* istanbul ignore next */
+    if (options.children) {
+      this.children = options.children;
+    }
+
     this.build();
   }
 
@@ -180,9 +176,9 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
    * Return a child store
    * @param key
    */
-  get(key: string | number) {
-    return this.children.get(key);
-  }
+  // get(key: string | number) {
+  //   return this.children.get(key);
+  // }
 
   protected build() {
     if (!this._type) {

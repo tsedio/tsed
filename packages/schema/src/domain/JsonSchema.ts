@@ -1,4 +1,4 @@
-import {classOf, Hooks, isArray, isClass, isFunction, nameOf, Type, uniq, ValueOf} from "@tsed/core";
+import {classOf, Hooks, isArray, isClass, isFunction, isPromise, nameOf, Type, uniq, ValueOf} from "@tsed/core";
 import {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
 import {JsonSerializerOptions} from "../interfaces";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
@@ -718,6 +718,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * the function will be called to get the right type.
    */
   getComputedType(): any {
+    if (isPromise(this._target)) {
+      return Object;
+    }
+
     if (isClass(this._target)) {
       return classOf(this._target);
     }

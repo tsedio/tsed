@@ -28,7 +28,7 @@ describe("In", () => {
       ],
       responses: {
         "200": {
-          description: ""
+          description: "Success"
         }
       }
     });

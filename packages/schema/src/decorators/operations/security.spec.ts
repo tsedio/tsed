@@ -24,7 +24,7 @@ describe("Security", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             security: {
@@ -61,7 +61,7 @@ describe("Security", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             security: {
@@ -74,7 +74,7 @@ describe("Security", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             security: {

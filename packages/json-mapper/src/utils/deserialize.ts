@@ -76,6 +76,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
   const {type, store = JsonEntityStore.from(type), ...next} = options;
   const propertiesMap = getPropertiesStores(store);
+
   let keys = Object.keys(src);
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
   const out: any = new type(src);
@@ -123,6 +124,8 @@ function buildOptions(options: JsonDeserializerOptions<any, any>) {
 
     options.type = options.store.computedType;
     options.collectionType = options.store.collectionType;
+
+    delete options.store;
   }
 
   return {

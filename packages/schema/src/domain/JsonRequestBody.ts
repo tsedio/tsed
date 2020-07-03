@@ -4,11 +4,11 @@ import {JsonMap} from "./JsonMap";
 import {JsonSchema} from "./JsonSchema";
 
 export interface JsonRequestBodyOptions {
-  description?: string;
+  description: string;
   content: {
     [media: string]: JsonSchema;
   };
-  required?: boolean;
+  required: boolean;
 }
 
 export class JsonRequestBody extends JsonMap<JsonRequestBodyOptions> {

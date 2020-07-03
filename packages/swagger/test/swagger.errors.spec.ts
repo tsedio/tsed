@@ -33,7 +33,7 @@ class ErrorsController {
   }
 }
 
-describe("QueryParams", () => {
+describe("ErrorsParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(PlatformTest.bootstrap(Server, {
     mount: {

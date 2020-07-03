@@ -8,8 +8,7 @@ describe("@Returns", () => {
     class Controller {
       @OperationPath("POST", "/")
       @(Returns(200, String).Description("description"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -41,6 +40,62 @@ describe("@Returns", () => {
       }
     });
   });
+  it("should declare a return type with headers", async () => {
+    // WHEN
+    class Controller {
+      @OperationPath("POST", "/")
+      @(Returns(200, String)
+        .Description("description")
+        .Header("x-token", "token")
+        .Header("x-header", {
+          value: ""
+        })
+        .Schema({
+          minLength: 3
+        }))
+      method() {}
+    }
+
+    // THEN
+    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+
+    expect(spec).to.deep.equal({
+      definitions: {},
+      tags: [
+        {
+          name: "Controller"
+        }
+      ],
+      paths: {
+        "/": {
+          post: {
+            operationId: "controllerMethod",
+            parameters: [],
+            responses: {
+              "200": {
+                description: "description",
+                headers: {
+                  "x-header": {
+                    example: "",
+                    type: "string"
+                  },
+                  "x-token": {
+                    example: "token",
+                    type: "string"
+                  }
+                },
+                schema: {
+                  type: "string",
+                  minLength: 3
+                }
+              }
+            },
+            tags: ["Controller"]
+          }
+        }
+      }
+    });
+  });
   it("should declare a return type with content-type", async () => {
     // WHEN
     class Controller {
@@ -48,8 +103,7 @@ describe("@Returns", () => {
       @(Returns(200, String)
         .Description("description")
         .ContentType("text/json"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -92,9 +146,9 @@ describe("@Returns", () => {
     class Controller {
       @OperationPath("POST", "/")
       @(Returns(400).Description("Bad request"))
+      @Returns(401)
       @(Returns(200).Description("Success"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -115,6 +169,12 @@ describe("@Returns", () => {
             responses: {
               "200": {
                 description: "Success",
+                schema: {
+                  type: "string"
+                }
+              },
+              "401": {
+                description: "Unauthorized",
                 schema: {
                   type: "string"
                 }
@@ -141,8 +201,7 @@ describe("@Returns", () => {
         @(Returns(200, String)
           .Of(Array)
           .Description("description"))
-        method() {
-        }
+        method() {}
       }
     } catch (er) {
       actualError = er;
@@ -159,8 +218,7 @@ describe("@Returns", () => {
         @(Returns(200, Array)
           .Nested(Set)
           .Description("description"))
-        method() {
-        }
+        method() {}
       }
     } catch (er) {
       actualError = er;
@@ -169,8 +227,7 @@ describe("@Returns", () => {
     actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
   });
   it("should throw an error when the decorator isn't correctly used", async () => {
-    class Test {
-    }
+    class Test {}
 
     // WHEN
     let actualError: any;
@@ -190,8 +247,7 @@ describe("@Returns", () => {
       @(Returns(200, Array)
         .Of(String)
         .Description("description"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -239,8 +295,7 @@ describe("@Returns", () => {
       @(Returns(200, Array)
         .Of(Model)
         .Description("description"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN

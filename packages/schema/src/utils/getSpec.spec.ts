@@ -1,14 +1,5 @@
 import * as SwaggerParser from "@apidevtools/swagger-parser";
-import {
-  CollectionOf,
-  Description,
-  GenericOf,
-  Generics,
-  getJsonSchema,
-  Property,
-  Returns,
-  SpecTypes
-} from "../index";
+import {CollectionOf, Description, GenericOf, Generics, getJsonSchema, Property, Returns, SpecTypes} from "../index";
 import {expect} from "chai";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import {Consumes, In, Min, Name, OperationPath, Required} from "../decorators";
@@ -60,8 +51,7 @@ describe("getSpec()", () => {
         // WHEN
         class Controller {
           @OperationPath("GET", "/")
-          method(@In("path") @Name("basic") basic: string) {
-          }
+          method(@In("path") @Name("basic") basic: string) {}
         }
 
         // THEN
@@ -74,8 +64,7 @@ describe("getSpec()", () => {
         // WHEN
         class Controller {
           @OperationPath("GET", "/:id?")
-          method(@In("path") @Name("id") id: string) {
-          }
+          method(@In("path") @Name("id") id: string) {}
         }
 
         // THEN
@@ -86,7 +75,7 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -96,12 +85,10 @@ describe("getSpec()", () => {
                 parameters: [],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 },
-                tags: [
-                  "Controller"
-                ]
+                tags: ["Controller"]
               }
             },
             "/{id}": {
@@ -117,12 +104,10 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 },
-                tags: [
-                  "Controller"
-                ]
+                tags: ["Controller"]
               }
             }
           }
@@ -132,8 +117,7 @@ describe("getSpec()", () => {
         // WHEN
         class Controller {
           @OperationPath("GET", "/:id?")
-          method(@In("path") id: string) {
-          }
+          method(@In("path") id: string) {}
         }
 
         // THEN
@@ -144,7 +128,7 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -155,7 +139,7 @@ describe("getSpec()", () => {
                 tags: ["Controller"],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -174,7 +158,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -188,8 +172,7 @@ describe("getSpec()", () => {
         // WHEN
         class Controller {
           @OperationPath("GET", "/:id")
-          method(@In("query") @Name("basic") basic: string) {
-          }
+          method(@In("query") @Name("basic") basic: string) {}
         }
 
         // THEN
@@ -199,16 +182,14 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
             "/{id}": {
               get: {
                 operationId: "controllerMethod",
-                tags: [
-                  "Controller"
-                ],
+                tags: ["Controller"],
                 parameters: [
                   {
                     in: "path",
@@ -225,7 +206,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -244,8 +225,7 @@ describe("getSpec()", () => {
         class Controller {
           @Consumes("application/json")
           @OperationPath("POST", "/")
-          method(@In("body") @Required() num: MyModel) {
-          }
+          method(@In("body") @Required() num: MyModel) {}
         }
 
         // THEN
@@ -264,7 +244,7 @@ describe("getSpec()", () => {
           },
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -284,12 +264,10 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 },
-                tags: [
-                  "Controller"
-                ]
+                tags: ["Controller"]
               }
             }
           }
@@ -304,8 +282,7 @@ describe("getSpec()", () => {
         class Controller {
           @Consumes("application/json")
           @OperationPath("POST", "/")
-          method(@In("body") @Required() num: MyModel) {
-          }
+          method(@In("body") @Required() num: MyModel) {}
         }
 
         // THEN
@@ -326,7 +303,7 @@ describe("getSpec()", () => {
           },
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -347,7 +324,7 @@ describe("getSpec()", () => {
                 tags: ["Controller"],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -383,9 +360,9 @@ describe("getSpec()", () => {
               type: "object"
             }
           },
-          "tags": [
+          tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -407,7 +384,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 },
                 tags: ["Controller"]
@@ -444,9 +421,9 @@ describe("getSpec()", () => {
               type: "object"
             }
           },
-          "tags": [
+          tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -469,7 +446,7 @@ describe("getSpec()", () => {
                 tags: ["Controller"],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -481,8 +458,7 @@ describe("getSpec()", () => {
         class Controller {
           @Consumes("application/json")
           @OperationPath("POST", "/")
-          method(@In("body") @Required() @Name("num") @Min(0) num: number, @In("body") @Required() @Name("test") @Min(0) num2: number) {
-          }
+          method(@In("body") @Required() @Name("num") @Min(0) num: number, @In("body") @Required() @Name("test") @Min(0) num2: number) {}
         }
 
         // THEN
@@ -492,7 +468,7 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -524,7 +500,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -539,8 +515,7 @@ describe("getSpec()", () => {
           method(
             @In("body") @Required() @Name("num") @CollectionOf(Number) @Min(0) num: number[],
             @In("body") @Required() @Name("test") @Min(0) num2: number
-          ) {
-          }
+          ) {}
         }
 
         // THEN
@@ -548,9 +523,9 @@ describe("getSpec()", () => {
         expect(await validate(spec)).to.eq(true);
         expect(spec).to.deep.equal({
           definitions: {},
-          "tags": [
+          tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -585,7 +560,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -600,8 +575,7 @@ describe("getSpec()", () => {
           method(
             @In("body") @Required() @Name("num") @CollectionOf(Number) @Min(0) num: number[],
             @In("body") @Required() @Name("test") @Min(0) num2: number
-          ) {
-          }
+          ) {}
         }
 
         // THEN
@@ -613,7 +587,7 @@ describe("getSpec()", () => {
           },
           tags: [
             {
-              "name": "Controller"
+              name: "Controller"
             }
           ],
           paths: {
@@ -647,7 +621,7 @@ describe("getSpec()", () => {
                 },
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 },
                 tags: ["Controller"]
@@ -719,7 +693,7 @@ describe("getSpec()", () => {
           },
           tags: [
             {
-              "name": "Controller1"
+              name: "Controller1"
             }
           ],
           paths: {
@@ -739,7 +713,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -770,7 +744,7 @@ describe("getSpec()", () => {
           },
           tags: [
             {
-              "name": "Controller2"
+              name: "Controller2"
             }
           ],
           paths: {
@@ -790,7 +764,7 @@ describe("getSpec()", () => {
                 ],
                 responses: {
                   "200": {
-                    description: ""
+                    description: "Success"
                   }
                 }
               }
@@ -809,8 +783,7 @@ describe("getSpec()", () => {
       class Controller {
         @OperationPath("POST", "/")
         @(Returns(200, String).Description("description"))
-        method() {
-        }
+        method() {}
       }
 
       // THEN
@@ -820,8 +793,8 @@ describe("getSpec()", () => {
         definitions: {},
         tags: [
           {
-            "name": "AliasController",
-            "description": "Class description"
+            name: "AliasController",
+            description: "Class description"
           }
         ],
         paths: {
@@ -848,8 +821,7 @@ describe("getSpec()", () => {
       class Controller {
         @OperationPath("POST", "/")
         @(Returns(200, String).Description("description"))
-        method() {
-        }
+        method() {}
       }
 
       // THEN
@@ -894,8 +866,7 @@ describe("getSpec()", () => {
         @(Returns(200, Array)
           .Of(String)
           .Description("description"))
-        method() {
-        }
+        method() {}
       }
 
       // THEN
@@ -938,8 +909,7 @@ describe("getSpec()", () => {
         @(Returns(200, Array)
           .Of(String)
           .Description("description"))
-        method() {
-        }
+        method() {}
       }
 
       // THEN

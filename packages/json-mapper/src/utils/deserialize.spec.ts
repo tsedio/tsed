@@ -348,7 +348,7 @@ describe("deserialize()", () => {
         }
       ]);
     });
-    xit("should transform object to class (array parameter)", () => {
+    it("should transform object to class (array parameter)", () => {
       // WHEN
       class Product {
         @Property()

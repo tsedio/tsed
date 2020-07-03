@@ -4,6 +4,8 @@ export * from "./utils/getPropertiesStores";
 export * from "./utils/getOperationsStores";
 export * from "./utils/getSpec";
 export * from "./utils/generics";
+export * from "./utils/mapHeaders";
+export * from "./utils/isSuccessStatus";
 export * from "./domain";
 export * from "./hooks/ignoreHook";
 export * from "./interfaces";

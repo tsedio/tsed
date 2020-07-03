@@ -336,7 +336,7 @@ describe("JsonSchema", () => {
     describe("Required", () => {
       // https://json-schema.org/understanding-json-schema/reference/object.html#required-properties
       it("should create a valid jsonchema (basic)", () => {
-        const schema = JsonSchema.from({
+        const jsonSchema = JsonSchema.from({
           type: "object",
           properties: {
             name: {type: "string"},
@@ -345,8 +345,10 @@ describe("JsonSchema", () => {
             telephone: {type: "string"}
           },
           required: ["name", "email", "email"]
-        }).toObject();
+        });
+        const schema = jsonSchema.toObject();
 
+        expect(jsonSchema.isRequired("name")).to.equal(true);
         expect(schema).to.deep.equal({
           type: "object",
           properties: {
@@ -1172,19 +1174,18 @@ describe("JsonSchema", () => {
         expect(validate(-5)).to.equal(false);
       });
     });
-
     describe("allOf", () => {
       // https://json-schema.org/understanding-json-schema/reference/combining.html#allof
       it("should create a new jsonSchema", () => {
         const schema = JsonSchema.from({
-          anyOf: [
+          allOf: [
             {type: "string", maxLength: 5},
             {type: "number", minimum: 0}
           ]
         }).toObject();
 
         expect(schema).to.deep.equal({
-          anyOf: [
+          allOf: [
             {type: "string", maxLength: 5},
             {type: "number", minimum: 0}
           ]
@@ -1192,7 +1193,7 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate("short")).to.equal(true);
+        expect(validate("short")).to.equal(false);
         expect(validate("too long")).to.equal(false);
       });
     });
@@ -1230,7 +1231,7 @@ describe("JsonSchema", () => {
   describe("Collection", () => {
     it("should create a new jsonSchema (Array)", () => {
       const result = JsonSchema.from({type: Array}).toObject();
-
+      expect(JsonSchema.from({type: Array}).isCollection).to.equal(true);
       expect(result).to.deep.equal({
         type: "array"
       });

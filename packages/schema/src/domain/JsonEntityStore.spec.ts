@@ -20,7 +20,7 @@ describe("JsonEntityStore", () => {
     expect(storeClass.parent).to.eq(storeClass);
 
     // PROPERTY
-    const storeProp = JsonEntityStore.from(Model).get("id");
+    const storeProp = JsonEntityStore.from(Model).children.get("id");
     expect(storeProp).to.be.instanceOf(JsonEntityStore);
     expect(storeProp?.decoratorType).to.eq("property");
     expect(storeProp?.propertyKey).to.eq("id");
@@ -32,7 +32,7 @@ describe("JsonEntityStore", () => {
     expect(storeProp?.parent).to.deep.eq(storeClass);
 
     // METHOD
-    const storeMethod = JsonEntityStore.from(Model).get("method");
+    const storeMethod = JsonEntityStore.from(Model).children.get("method");
     expect(storeMethod).to.be.instanceOf(JsonEntityStore);
     expect(storeMethod?.propertyKey).to.eq("method");
     expect(storeMethod?.propertyName).to.eq("method");
@@ -45,8 +45,8 @@ describe("JsonEntityStore", () => {
 
     // PARAMETERS
     const storeParam = JsonEntityStore.from(Model)
-      .get("method")
-      ?.get(0);
+      .children.get("method")
+      ?.children.get(0);
     expect(storeParam).to.be.instanceOf(JsonEntityStore);
     expect(storeParam?.propertyKey).to.eq("method");
     expect(storeParam?.propertyName).to.eq("method");

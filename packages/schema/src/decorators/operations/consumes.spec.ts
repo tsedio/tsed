@@ -6,8 +6,7 @@ describe("Consumes", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Consumes("text/json")
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -25,7 +24,7 @@ describe("Consumes", () => {
             consumes: ["text/json"],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -38,8 +37,7 @@ describe("Consumes", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Consumes("text/json")
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController, {spec: SpecTypes.OPENAPI})).to.deep.eq({
@@ -58,7 +56,7 @@ describe("Consumes", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -71,12 +69,10 @@ describe("Consumes", () => {
     @Consumes("text/json")
     class MyController {
       @OperationPath("GET", "/")
-      get() {
-      }
+      get() {}
 
       @OperationPath("POST", "/")
-      post() {
-      }
+      post() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -94,7 +90,7 @@ describe("Consumes", () => {
             consumes: ["text/json"],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -105,7 +101,7 @@ describe("Consumes", () => {
             consumes: ["text/json"],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -116,8 +112,7 @@ describe("Consumes", () => {
   });
   it("should throw error for unsupported usage", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     let actualError: any;

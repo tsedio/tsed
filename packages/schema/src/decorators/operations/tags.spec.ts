@@ -7,8 +7,7 @@ describe("Tags", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Tags("api")
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -21,7 +20,7 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["api"]
@@ -34,8 +33,7 @@ describe("Tags", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Tags({name: "api", description: "description"})
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -53,7 +51,7 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["api"]
@@ -66,13 +64,11 @@ describe("Tags", () => {
     @Tags("api")
     class MyController {
       @OperationPath("GET", "/")
-      get() {
-      }
+      get() {}
 
       @OperationPath("POST", "/")
       @Tags("allow")
-      post() {
-      }
+      post() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -85,7 +81,7 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["api"]
@@ -95,7 +91,7 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["allow", "api"]
@@ -106,8 +102,7 @@ describe("Tags", () => {
   });
   it("should throw error for unsupported usage", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     let actualError: any;

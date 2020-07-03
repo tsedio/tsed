@@ -6,8 +6,7 @@ describe("Deprecated", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Deprecated(true)
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -25,7 +24,7 @@ describe("Deprecated", () => {
             deprecated: true,
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -38,8 +37,7 @@ describe("Deprecated", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Deprecated()
-      get() {
-      }
+      get() {}
     }
 
     expect(getSpec(MyController, {spec: SpecTypes.OPENAPI})).to.deep.eq({
@@ -59,7 +57,7 @@ describe("Deprecated", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -72,12 +70,10 @@ describe("Deprecated", () => {
     @Deprecated()
     class MyController {
       @OperationPath("GET", "/")
-      get() {
-      }
+      get() {}
 
       @OperationPath("POST", "/")
-      post() {
-      }
+      post() {}
     }
 
     expect(getSpec(MyController)).to.deep.eq({
@@ -95,7 +91,7 @@ describe("Deprecated", () => {
             deprecated: true,
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -106,7 +102,7 @@ describe("Deprecated", () => {
             deprecated: true,
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]
@@ -117,8 +113,7 @@ describe("Deprecated", () => {
   });
   it("should throw error for unsupported usage", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     let actualError: any;

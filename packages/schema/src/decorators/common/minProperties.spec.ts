@@ -43,8 +43,7 @@ describe("@MinProperties", () => {
   it("should declare min value on class", () => {
     // WHEN
     @MinProperties(10)
-    class Model {
-    }
+    class Model {}
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
@@ -56,8 +55,7 @@ describe("@MinProperties", () => {
     // WHEN
     class MyController {
       @OperationPath("POST", "/")
-      method(@In("body") @MinProperties(10) test: any) {
-      }
+      method(@In("body") @MinProperties(10) test: any) {}
     }
 
     // THEN
@@ -85,7 +83,7 @@ describe("@MinProperties", () => {
             ],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["MyController"]

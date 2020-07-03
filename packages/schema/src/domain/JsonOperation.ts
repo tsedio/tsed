@@ -1,5 +1,7 @@
-import {uniq, uniqBy} from "@tsed/core";
-import {JsonExternalDocumentation, JsonSecurityRequirement, JsonSerializerOptions, JsonTag} from "../interfaces";
+import {deepExtends, uniq, uniqBy} from "@tsed/core";
+import {isSuccessStatus} from "../utils/isSuccessStatus";
+import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
+import {JsonExternalDocumentation, JsonHeader, JsonSecurityRequirement, JsonSerializerOptions, JsonTag} from "../interfaces";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
 import {JsonParameterTypes} from "./JsonParameterTypes";
@@ -11,6 +13,8 @@ import {SpecTypes} from "./SpecTypes";
 export interface JsonMethodPath {
   path: string | RegExp;
   method: string;
+
+  [key: string]: any;
 }
 
 export interface JsonOperationOptions {
@@ -31,10 +35,18 @@ export interface JsonOperationOptions {
 
 export class JsonOperation extends JsonMap<JsonOperationOptions> {
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
-  private _status: Number;
+  private _status: number;
 
   constructor(obj: Partial<JsonOperationOptions> = {}) {
     super({parameters: [], responses: new JsonMap(), ...obj});
+  }
+
+  get response(): JsonResponse | undefined {
+    return this.getResponses().get(this.getStatus().toString());
+  }
+
+  get status() {
+    return this._status;
   }
 
   tags(tags: JsonTag[]): this {
@@ -68,11 +80,50 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   defaultStatus(status: number) {
-    this._status = this._status || status;
+    this._status = status;
   }
 
-  addResponse(statusCode: number, response: JsonResponse) {
-    this.get("responses").set(statusCode, response);
+  getStatus() {
+    return this._status || 200;
+  }
+
+  addResponse(statusCode: string | number, response: JsonResponse) {
+    if (isSuccessStatus(statusCode) && !this._status) {
+      const res = this.getResponseOf(200);
+
+      this.getResponses()
+        .set(statusCode.toString(), res)
+        .delete("200");
+
+      this.defaultStatus(Number(statusCode));
+    }
+
+    const currentCode = statusCode === "default" ? this.getStatus().toString() : statusCode.toString();
+    const currentResponse = this.getResponses().get(currentCode);
+
+    if (!currentResponse) {
+      this.getResponses().set(currentCode, response);
+    } else {
+      response.forEach((value, key) => {
+        if (!["content"].includes(key)) {
+          currentResponse.set(key, deepExtends(currentResponse.get(key), value));
+        }
+      });
+    }
+
+    return this;
+  }
+
+  getResponses() {
+    return this.get("responses") as JsonMap<JsonResponse>;
+  }
+
+  getResponseOf(status: number | string): JsonResponse {
+    return (status === "default" ? this.response : this.getResponses().get(String(status))) || new JsonResponse();
+  }
+
+  getHeadersOf(status: number): {[key: string]: JsonHeader} {
+    return this.getResponseOf(status).get("headers") || {};
   }
 
   security(security: JsonSecurityRequirement): this {
@@ -128,8 +179,9 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     this.set("produces", produces);
   }
 
-  addOperationPath(method: string, path: string | RegExp) {
+  addOperationPath(method: string, path: string | RegExp, options: any = {}) {
     this.operationPaths.set(String(method) + String(path), {
+      ...options,
       method,
       path
     });
@@ -157,7 +209,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     if (this.get("responses").size === 0) {
       operation.responses = {
         "200": {
-          description: ""
+          description: HTTP_STATUS_MESSAGES[200]
         }
       };
     }

@@ -1,13 +1,19 @@
 import {
   DecoratorTypes,
+  deepExtends,
   getDecoratorType,
   isCollection,
   isPrimitiveOrPrimitiveClass,
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
+import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
+import {JsonSchema, JsonSchemaOptions} from "../../domain/JsonSchema";
+import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
+import {isSuccessStatus} from "../../utils/isSuccessStatus";
+import {mapHeaders} from "../../utils/mapHeaders";
 
 export interface ReturnsChainedDecorators extends MethodDecorator {
   /**
@@ -24,41 +30,72 @@ export interface ReturnsChainedDecorators extends MethodDecorator {
   Description(description: string): this;
 
   /**
+   * Add examples
+   * @param examples
+   */
+  Examples(examples: any): this;
+
+  /**
    * Add the nested types
    * @param generics
    */
   Of(...generics: (Type<any> | any)[]): this;
 
   /**
-   *
+   * Declare a nested generic models
    * @param generics
-   * @constructor
    */
   Nested(...generics: (Type<any> | any)[]): this;
+
+  /**
+   * Add header.
+   * @param key
+   * @param value
+   */
+  Header(key: string, value: number | string | (JsonHeader & {value?: string | number})): this;
+
+  /**
+   * Add headers
+   */
+  Headers(headers: JsonHeaders): this;
+
+  /**
+   * Assign partial schema
+   * @param schema
+   */
+  Schema(schema: Partial<JsonSchemaOptions>): this;
 
   [key: string]: any;
 }
 
 interface ReturnsActionContext {
   store: JsonEntityStore;
-  status: number;
+  status?: string | number;
   contentType: string;
   response: JsonResponse;
   model: Type<any> | any;
+  schema: any;
 }
 
 interface ReturnsActionHandler {
   (ctx: ReturnsActionContext): void;
 }
 
-function initSchemaAction({status, model, response, store}: ReturnsActionContext) {
-  store.type = model;
-
+function initSchemaAction(ctx: ReturnsActionContext) {
+  const {status, model, response, store, schema} = ctx;
   const operation = store.operation!;
-  operation.defaultStatus(status);
-  operation.addResponse(status, response);
+  const currentStatus = status || "default";
 
-  response.schema(store.schema);
+  ctx.response = operation.addResponse(currentStatus, response).getResponseOf(currentStatus);
+
+  if (isSuccessStatus(status) || currentStatus === "default") {
+    store.type = model;
+    ctx.response.$schema = ctx.response.$schema || store.schema;
+  } else {
+    ctx.response.$schema = new JsonSchema({type: model});
+  }
+
+  ctx.response.$schema.assign(schema || {});
 }
 
 function setContentTypeAction({contentType, model, response, store}: ReturnsActionContext) {
@@ -210,9 +247,14 @@ function checkCollection(model: any) {
  * @param status
  * @param model
  */
-export function Returns(status: number = 200, model: Type<any> | any = String): ReturnsChainedDecorators {
+export function Returns(status?: string | number, model: Type<any> | any = String): ReturnsChainedDecorators {
   const response = new JsonResponse();
+  const schema = {};
   let contentType: string;
+
+  if (status && HTTP_STATUS_MESSAGES[status]) {
+    response.description(HTTP_STATUS_MESSAGES[status]);
+  }
 
   const actions: ReturnsActionHandler[] = [initSchemaAction, setContentTypeAction];
 
@@ -223,7 +265,7 @@ export function Returns(status: number = 200, model: Type<any> | any = String): 
       const store = JsonEntityStore.from(...args);
 
       if (store.operation) {
-        const ctx: ReturnsActionContext = {status, contentType, response, model, store};
+        const ctx: ReturnsActionContext = {status, contentType, response, model, store, schema};
 
         actions.forEach((action: any) => {
           action(ctx);
@@ -232,6 +274,23 @@ export function Returns(status: number = 200, model: Type<any> | any = String): 
     } else {
       throw new UnsupportedDecoratorType(Returns, args);
     }
+  };
+
+  decorator.Headers = (headers: JsonHeaders) => {
+    response.headers({
+      ...(response.get("headers") || {}),
+      ...mapHeaders(headers)
+    });
+
+    return decorator;
+  };
+
+  decorator.Header = (key: string, value: string | JsonHeader) => {
+    decorator.Headers({
+      [key]: value
+    });
+
+    return decorator;
   };
 
   decorator.ContentType = (value: string) => {
@@ -246,11 +305,19 @@ export function Returns(status: number = 200, model: Type<any> | any = String): 
     return decorator;
   };
 
+  decorator.Examples = (examples: any) => {
+    response.set("examples", examples);
+
+    return decorator;
+  };
+
   decorator.Of = (...types: (Type<any> | any)[]) => {
     checkPrimitive(model);
 
+    // if (isSuccessStatus(status) || !status) {
     actions.push(ctx => {
       const {store} = ctx;
+
       if (isCollection(model)) {
         // @ts-ignore
         store._type = types[0];
@@ -259,6 +326,7 @@ export function Returns(status: number = 200, model: Type<any> | any = String): 
         store.nestedGenerics.push(types);
       }
     });
+    // }
 
     return decorator;
   };
@@ -271,6 +339,12 @@ export function Returns(status: number = 200, model: Type<any> | any = String): 
       const {store} = ctx;
       store.nestedGenerics.push(generics);
     });
+
+    return decorator;
+  };
+
+  decorator.Schema = (input: Partial<JsonSchemaOptions>) => {
+    deepExtends(schema, input);
 
     return decorator;
   };

@@ -1,4 +1,5 @@
 import {JsonHeader, JsonMediaType, JsonSerializerOptions} from "../interfaces";
+import {mapHeaders} from "../utils/mapHeaders";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";
@@ -23,14 +24,14 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     this.content(obj.content || ({} as any));
   }
 
-  schema(schema: JsonSchema) {
-    this.$schema = schema;
+  description(description: string): this {
+    this.set("description", description);
 
     return this;
   }
 
-  description(description: string): this {
-    this.set("description", description);
+  headers(headers: {[header: string]: string | JsonHeader}): this {
+    this.set("headers", mapHeaders(headers));
 
     return this;
   }

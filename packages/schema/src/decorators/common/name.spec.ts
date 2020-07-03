@@ -29,8 +29,7 @@ describe("@Name", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Consumes("text/json")
-      get() {
-      }
+      get() {}
     }
 
     // THEN
@@ -49,7 +48,7 @@ describe("@Name", () => {
             parameters: [],
             responses: {
               "200": {
-                description: ""
+                description: "Success"
               }
             },
             tags: ["AwesomeController"]

@@ -2,6 +2,10 @@ import {JsonSchema} from "../domain";
 
 export interface JsonHeader extends JsonParameterBase {}
 
+export interface JsonHeaders {
+  [key: string]: number | string | (JsonHeader & {value?: string | number});
+}
+
 export interface JsonExternalDocumentation {
   description?: string;
   url: string;
