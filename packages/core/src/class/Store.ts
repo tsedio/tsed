@@ -59,7 +59,7 @@ export class Store extends Metadata {
    * @param {string} propertyKey
    * @returns {Store}
    */
-  static fromMethod(target: any, propertyKey: string): Store {
+  static fromMethod(target: any, propertyKey: string | symbol): Store {
     return new Store([target, propertyKey, descriptorOf(target, propertyKey)]);
   }
 
