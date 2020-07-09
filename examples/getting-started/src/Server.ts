@@ -1,12 +1,13 @@
 import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
-import "@tsed/swagger";
 import "@tsed/platform-express";
+import "@tsed/swagger";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as methodOverride from "method-override";
 import {join} from "path";
+import {GlobalErrorHandlerMiddleware} from "./middlewares/GlobalErrorHandlerMiddleware";
 
 const rootDir = __dirname;
 
@@ -64,5 +65,9 @@ export class Server {
       }));
 
     return null;
+  }
+
+  $afterRoutesInit() {
+    this.app.use(GlobalErrorHandlerMiddleware);
   }
 }
