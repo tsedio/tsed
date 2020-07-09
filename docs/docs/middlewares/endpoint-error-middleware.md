@@ -1,20 +1,20 @@
 # Endpoint error middleware
 
-`@MiddlewareError()` lets you handle all errors when you add your middleware on an Endpoint.
+@@MiddlewareError@@ lets you handle all errors when you add your middleware on an Endpoint.
 
 Create your middleware error:
 ```typescript
-import {IMiddlewareError, MiddlewareError, Request, Response, Next, Err} from "@tsed/common";
+import {IMiddlewareError, Middleware, Request, Response, Next, Err} from "@tsed/common";
 import {$log} from "@tsed/logger";
 
-@MiddlewareError()
+@Middleware()
 export default class ErrorMiddleware implements IMiddlewareError {
 
     use(
         @Err() error: any,
-        @Request() request: Express.Request,
-        @Response() response: Express.Response,
-        @Next() next: Express.NextFunction
+        @Req() request: Req,
+        @Res() response: Res,
+        @Next() next: Next
     ): any {
 
         if (response.headersSent) {

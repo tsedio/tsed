@@ -125,6 +125,7 @@ Express allows you to handle any error when your middleware have 4 parameters li
 ```javascript
 function (error, req, res, next){}
 ```
+
 Ts.ED has the same mechanism with @@Err@@ decorator. The following example is the GlobalErrorHandlerMiddleware
 used by Ts.ED to handle all errors thrown by your application.
 
@@ -151,11 +152,12 @@ The decorator @@OverrideProvider@@ gives you the ability to override some intern
 Here are some examples to override the middleware provided by Ts.ED:
 
 * [Send response](/docs/middlewares/override/send-response.md)
-* [Authentication](/docs/middlewares/override/authentication.md)
 * [Response view](/docs/middlewares/override/response-view.md)
-* [Global error handler](/docs/middlewares/override/global-error-handler.md)
 
-> All middlewares provided by Ts.ED can be overridden. You can find the complete list [here](/api.md).
+::: tip
+Ts.ED have is own @@GlobalErrorHandlerMiddleware@@. Override this middleware is not necessary, since you can create you own middleware and
+register it, in your server before the original GlobalErrorHandlerMiddleware. For more details, see our [Exceptions](/docs/exceptions.md#handle-all-errors) documentation page.
+:::
 
 ::: tip
 By default, the server imports automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).

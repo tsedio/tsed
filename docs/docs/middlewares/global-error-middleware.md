@@ -1,6 +1,6 @@
 # Global Error middleware
 
-`@MiddlewareError()` lets you handle all the errors when you add your middleware in your Server.
+@@Middleware@@ lets you handle all the errors when you add your middleware in your Server.
 
 ::: tip
 You have two ways to handle errors (globally). The first (better) way is to override the default [Global Error Handler](/docs/middlewares/override/global-error-handler.md).
@@ -11,18 +11,17 @@ This method is useful if you want to keep Ts.ED error handler. Your error middle
 Create your middleware error:
 
 ```typescript
-import { NextFunction as ExpressNext, Request as ExpressRequest, Response as ExpressResponse } from "express";
-import { IMiddleware, Request, Response, Next, Err } from "@tsed/common";
+import { Middleware, IMiddleware, Req, Res, Next, Err } from "@tsed/common";
 import { Exception } from "@tsed/exceptions";
 import { $log } from "@tsed/logger";
 
-@MiddlewareError()
+@Middleware()
 export class GlobalErrorHandlerMiddleware implements IMiddleware {
     use(
         @Err() error: any,
-        @Request() request: ExpressRequest,
-        @Response() response: ExpressResponse,
-        @Next() next: ExpressNext
+        @Req() request: Req,
+        @Res() response: Res,
+        @Next() next: Next
     ): any {
 
         if (response.headersSent) {
@@ -77,5 +76,5 @@ export class Server {
    $afterRoutesInit() {
        this.app.use(GlobalErrorHandlerMiddleware);
    }
-}       
+}
 ```
