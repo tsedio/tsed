@@ -5,28 +5,27 @@
   "private": true,
   "scripts": {
     "postinstall": "node tasks/yarn/postinstall.js",
-    "semantic-release": "semantic-release",
-    "semantic-release:dry-run": "semantic-release --dry-run",
-    "clean": "gulp clean:workspace",
+    "clean": "monorepo clean workspace",
     "start": "lerna run start --scope=@tsed/integration --stream",
     "test": "yarn clean && yarn test:lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
     "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "test:lint": "tslint --project tsconfig.json -e examples",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
-    "travis:deploy-once": "travis-deploy-once",
-    "travis:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "build": "yarn gulp examples:build && gulp repo:build",
-    "publish:dryRun": "yarn build && gulp repo:publishDryRun",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "build": "monorepo build",
+    "sync:packages": "monorepo sync packages",
     "docs:serve": "yarn api:build && yarn vuepress:serve ",
-    "docs:build": "yarn api:build && yarn vuepress:build && gulp docs:cnameBuild",
-    "docs:publish": "yarn docs:build && gulp docs:publish",
-    "examples:build": "gulp examples:build",
-    "examples:publish": "gulp examples:publish",
+    "docs:build": "yarn api:build && yarn vuepress:build",
+    "docs:publish": "yarn docs:build && monorepo docs publish",
+    "examples:sync": "monorepo examples sync",
+    "examples:publish": "monorepo examples publish",
     "api:build": "lerna run build && ts-doc",
     "vuepress:build": "cross-env NODE_ENV=production vuepress build docs",
     "vuepress:serve": "vuepress dev docs",
-    "prettier": "prettier '{src,test}/**/*.ts' --write"
+    "prettier": "prettier '{src,test}/**/*.ts' --write",
+    "release": "semantic-release",
+    "release:dryRun": "semantic-release --dry-run"
   },
   "husky": {
     "hooks": {
@@ -82,7 +81,7 @@
     "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.3.3",
+    "@tsed/monorepo-utils": "1.7.0",
     "@typedproject/ts-doc": "4.0.8",
     "@types/chai": "4.2.10",
     "@types/chai-as-promised": "7.1.2",
@@ -120,16 +119,10 @@
     "cross-env": "7.0.2",
     "ejs": "3.0.1",
     "ejs-lint": "1.0.1",
-    "execa": "4.0.0",
     "express": "4.17.1",
     "express-session": "1.17.0",
-    "fancy-log": "1.3.3",
     "fs-extra": "9.0.0",
-    "gflow": "5.1.1",
     "graphql": "14.6.0",
-    "gulp": "4.0.2",
-    "gulp-exec": "4.0.0",
-    "gulp-load-plugins": "2.0.2",
     "husky": "4.2.3",
     "lint-staged": "10.0.8",
     "method-override": "3.0.0",
@@ -142,10 +135,7 @@
     "passport-strategy": "1.0.0",
     "prettier": "1.19.1",
     "proxyquire": "2.1.3",
-    "read-package-json": "2.1.1",
-    "require-dir": "1.2.0",
     "semantic-release": "^15.13.18",
-    "semver": "7.1.3",
     "sinon": "9.0.1",
     "sinon-chai": "3.5.0",
     "socket.io": "2.3.0",
@@ -175,5 +165,51 @@
   },
   "resolutions": {
     "watchpack": "1.6.1"
+  },
+  "monorepo": {
+    "doc": {
+      "dir": "./docs/.vuepress/dist",
+      "url": "https://github.com/TypedProject/tsed.git",
+      "branch": "gh-pages",
+      "cname": "tsed.io"
+    },
+    "exemples": {
+      "dir": "./examples",
+      "repositories": {
+        "getting-started": {
+          "url": "https://github.com/TypedProject/tsed-getting-started.git"
+        },
+        "aws": {
+          "url": "https://github.com/TypedProject/tsed-example-aws.git"
+        },
+        "mongoose": {
+          "url": "https://github.com/TypedProject/tsed-example-mongoose.git"
+        },
+        "multer": {
+          "url": "https://github.com/TypedProject/tsed-example-multer.git"
+        },
+        "passportjs": {
+          "url": "https://github.com/TypedProject/tsed-example-passportjs.git"
+        },
+        "typeorm": {
+          "url": "https://github.com/TypedProject/tsed-example-typeorm.git"
+        },
+        "session": {
+          "url": "https://github.com/TypedProject/tsed-example-session.git"
+        },
+        "socketio": {
+          "url": "https://github.com/TypedProject/tsed-example-socketio.git"
+        },
+        "passport-azure-ad": {
+          "url": "https://github.com/TypedProject/tsed-example-passport-azure-ad.git"
+        },
+        "vuejs": {
+          "url": "https://github.com/TypedProject/tsed-example-vuejs.git"
+        },
+        "react": {
+          "url": "https://github.com/TypedProject/tsed-example-react.git"
+        }
+      }
+    }
   }
 }
