@@ -1,5 +1,5 @@
 module.exports = {
-  branch: "production",
+  branch: require('./package.json').monorepo.productionBranch,
   verifyConditions: ["@semantic-release/github", "@semantic-release/npm", "@tsed/monorepo-utils/semantic-release"],
   analyzeCommits: ["@semantic-release/commit-analyzer"],
   verifyRelease: [],

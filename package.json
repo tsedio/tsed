@@ -81,7 +81,7 @@
     "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.7.0",
+    "@tsed/monorepo-utils": "1.7.1",
     "@typedproject/ts-doc": "4.0.8",
     "@types/chai": "4.2.10",
     "@types/chai-as-promised": "7.1.2",
@@ -167,6 +167,12 @@
     "watchpack": "1.6.1"
   },
   "monorepo": {
+    "productionBranch": "production",
+    "npmAccess": "public",
+    "ignoreSyncDependencies": [
+      "express",
+      "@types/express"
+    ],
     "doc": {
       "dir": "./docs/.vuepress/dist",
       "url": "https://github.com/TypedProject/tsed.git",
