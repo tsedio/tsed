@@ -17,9 +17,9 @@
     "sync:packages": "monorepo sync packages",
     "docs:serve": "yarn api:build && yarn vuepress:serve ",
     "docs:build": "yarn api:build && yarn vuepress:build",
-    "docs:publish": "yarn docs:build && monorepo docs publish",
-    "examples:sync": "monorepo examples sync",
-    "examples:publish": "monorepo examples publish",
+    "docs:publish": "yarn docs:build && monorepo publish ghpages",
+    "examples:sync": "monorepo sync examples",
+    "examples:publish": "monorepo publish examples",
     "api:build": "lerna run build && ts-doc",
     "vuepress:build": "cross-env NODE_ENV=production vuepress build docs",
     "vuepress:serve": "vuepress dev docs",
@@ -81,7 +81,7 @@
     "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.7.1",
+    "@tsed/monorepo-utils": "1.8.0",
     "@typedproject/ts-doc": "4.0.8",
     "@types/chai": "4.2.10",
     "@types/chai-as-promised": "7.1.2",
@@ -173,7 +173,7 @@
       "express",
       "@types/express"
     ],
-    "doc": {
+    "ghpages": {
       "dir": "./docs/.vuepress/dist",
       "url": "https://github.com/TypedProject/tsed.git",
       "branch": "gh-pages",
