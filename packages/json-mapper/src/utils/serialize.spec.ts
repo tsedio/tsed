@@ -264,4 +264,185 @@ describe("serialize()", () => {
       });
     });
   });
+  describe("Mongoose class", () => {
+    it("should serialize model", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnSerialize(value => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      const model = new Model();
+      // @ts-ignore
+      model["$toObject"] = () => {
+        return {
+          id: "id",
+          password: "hellopassword",
+          mappedProp: "hello"
+        };
+      };
+
+      expect(serialize(model, {type: Model})).to.deep.equal({
+        id: "id",
+        mapped_prop: "hellotest",
+        password: "hellopassword"
+      });
+
+      expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
+        id: "id",
+        mappedProp: "hello",
+        password: "hellopassword"
+      });
+    });
+    it("should serialize model Array", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnSerialize(value => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      const model = new Model();
+      model.id = "id";
+      model.password = "hellopassword";
+      model.mappedProp = "hello";
+      model.roles.set("olo", new Role({label: "label"}));
+
+      expect(serialize([model], {type: Model})).to.deep.equal([
+        {
+          id: "id",
+          password: "hellopassword",
+          mapped_prop: "hellotest",
+          roles: {
+            olo: {
+              label: "label"
+            }
+          }
+        }
+      ]);
+    });
+    it("should serialize model (inherited class)", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Base {
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      class Model extends Base {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnSerialize(value => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+      }
+
+      const model = new Model();
+      model.id = "id";
+      model.password = "hellopassword";
+      model.mappedProp = "hello";
+      model.roles.set("olo", new Role({label: "label"}));
+
+      expect(serialize(model)).to.deep.equal({
+        id: "id",
+        password: "hellopassword",
+        mapped_prop: "hellotest",
+        roles: {
+          olo: {
+            label: "label"
+          }
+        }
+      });
+
+      expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
+        id: "id",
+        mappedProp: "hellotest",
+        roles: {
+          olo: {
+            label: "label"
+          }
+        }
+      });
+    });
+    it("should serialize model (recursive class)", () => {
+      const post = new Post();
+      post.id = "id";
+      post.owner = new User();
+      post.owner.name = "name";
+      post.owner.posts = [new Post()];
+      post.owner.posts[0].id = "id";
+
+      const result = serialize(post);
+
+      expect(result).to.deep.eq({
+        id: "id",
+        owner: {
+          name: "name",
+          posts: [
+            {
+              id: "id"
+            }
+          ]
+        }
+      });
+    });
+  });
+
+  describe("Legacy serialize method", () => {
+    it("should use serialize method", () => {
+      expect(
+        serialize({
+          serialize() {
+            return {id: "id"};
+          }
+        })
+      ).to.deep.equal({id: "id"});
+    });
+  });
 });

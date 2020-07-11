@@ -6,11 +6,13 @@ import {
   getDecoratorType,
   Store,
   StoreFn,
-  UnsupportedDecoratorType
+  UnsupportedDecoratorType,
+  useDecorators,
+  useMethodDecorator,
+  useMethodDecorators
 } from "../../src";
 
-class Test {
-}
+class Test {}
 
 describe("DecoratorUtils", () => {
   describe("getDecoratorType()", () => {
@@ -33,8 +35,7 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              get: () => {
-              }
+              get: () => {}
             }
           ])
         ).to.equal("property");
@@ -46,8 +47,7 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              set: () => {
-              }
+              set: () => {}
             }
           ])
         ).to.equal("property");
@@ -59,8 +59,7 @@ describe("DecoratorUtils", () => {
             Test,
             "props",
             {
-              value: () => {
-              }
+              value: () => {}
             }
           ])
         ).to.equal("method");
@@ -72,8 +71,7 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              value: () => {
-              }
+              value: () => {}
             }
           ])
         ).to.equal("method");
@@ -111,8 +109,7 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                get: () => {
-                }
+                get: () => {}
               }
             ],
             true
@@ -127,8 +124,7 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                set: () => {
-                }
+                set: () => {}
               }
             ],
             true
@@ -143,8 +139,7 @@ describe("DecoratorUtils", () => {
               Test,
               "props",
               {
-                value: () => {
-                }
+                value: () => {}
               }
             ],
             true
@@ -159,8 +154,7 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                value: () => {
-                }
+                value: () => {}
               }
             ],
             true
@@ -205,8 +199,7 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            get: () => {
-            }
+            get: () => {}
           }
         ])
       ).to.equal("Decorator cannot be used as property decorator on Test.props");
@@ -218,8 +211,7 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            set: () => {
-            }
+            set: () => {}
           }
         ])
       ).to.equal("Decorator cannot be used as property decorator on Test.props");
@@ -231,8 +223,7 @@ describe("DecoratorUtils", () => {
           Test,
           "props",
           {
-            value: () => {
-            }
+            value: () => {}
           }
         ])
       ).to.equal("Decorator cannot be used as method.static decorator on Test.props");
@@ -244,8 +235,7 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            value: () => {
-            }
+            value: () => {}
           }
         ])
       ).to.equal("Decorator cannot be used as method decorator on Test.props");
@@ -283,8 +273,7 @@ describe("DecoratorUtils", () => {
       // WHEN
       @decorate()
       class Test extends TestParent {
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -316,16 +305,66 @@ describe("DecoratorUtils", () => {
     }
 
     @decorate()
-    class Test {
-    }
+    class Test {}
 
     it("should apply all decorators", () => {
-      expect(Store.from(Test)
-        .get("decorator1"))
-        .to.eq("test1");
-      expect(Store.from(Test)
-        .get("decorator2"))
-        .to.eq("test2");
+      expect(Store.from(Test).get("decorator1")).to.eq("test1");
+      expect(Store.from(Test).get("decorator2")).to.eq("test2");
+    });
+  });
+  describe("useDecorators", () => {
+    function decorator1(value: any) {
+      return StoreFn(store => {
+        store.set("decorator1", value);
+      });
+    }
+
+    function decorator2(value: any) {
+      return StoreFn(store => {
+        store.set("decorator2", value);
+      });
+    }
+
+    function decorate() {
+      return useDecorators(decorator1("test1"), decorator2("test2"));
+    }
+
+    @decorate()
+    class Test {}
+
+    it("should apply all decorators", () => {
+      expect(Store.from(Test).get("decorator1")).to.eq("test1");
+      expect(Store.from(Test).get("decorator2")).to.eq("test2");
+    });
+  });
+  describe("useMethodDecorators", () => {
+    it("should apply all decorators", () => {
+      function decorator1(value: any) {
+        return StoreFn(store => {
+          store.set("decorator1", value);
+        });
+      }
+
+      function decorator2(value: any) {
+        return StoreFn(store => {
+          store.set("decorator2", value);
+        });
+      }
+
+      function decorate() {
+        return useDecorators(useMethodDecorator(decorator2("test3")), useMethodDecorators(decorator1("test1")), decorator2("test2"));
+      }
+
+      class Test {
+        method(@decorate() param: string) {}
+      }
+
+      const method1 = Store.fromMethod(Test, "method").get("decorator1");
+      const method2 = Store.fromMethod(Test, "method").get("decorator2");
+      const param = Store.from(Test, "method", 0).get("decorator2");
+      expect(method1).to.eq("test1");
+      expect(method2).to.eq("test3");
+      expect(param).to.eq("test2");
     });
   });
 });
