@@ -390,7 +390,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "400": {
             "description": "Missing required parameter"
@@ -563,7 +563,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "400": {
             "description": "Missing required parameter"
