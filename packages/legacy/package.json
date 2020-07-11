@@ -1,6 +1,6 @@
 {
   "name": "ts-express-decorators",
-  "version": "5.60.5",
+  "version": "5.60.6",
   "description": "A TypeScript Framework on top of Express",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -43,9 +43,9 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/common": "5.60.5",
-    "@tsed/core": "5.60.5",
-    "@tsed/di": "5.60.5"
+    "@tsed/common": "5.60.6",
+    "@tsed/core": "5.60.6",
+    "@tsed/di": "5.60.6"
   },
   "directories": {
     "src": "src"
