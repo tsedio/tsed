@@ -1,4 +1,15 @@
-import {decoratorTypeOf, DecoratorTypes, descriptorOf, Entity, EntityOptions, isClass, isCollection, Store, Type} from "@tsed/core";
+import {
+  decoratorTypeOf,
+  DecoratorTypes,
+  descriptorOf,
+  Entity,
+  EntityOptions,
+  isClass,
+  isCollection,
+  isPromise,
+  Store,
+  Type
+} from "@tsed/core";
 import {JsonOperation} from "./JsonOperation";
 import {JsonParameter} from "./JsonParameter";
 import {JsonSchema} from "./JsonSchema";
@@ -172,14 +183,6 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     return this.from(target, propertyKey, descriptorOf(target, propertyKey));
   }
 
-  /**
-   * Return a child store
-   * @param key
-   */
-  // get(key: string | number) {
-  //   return this.children.get(key);
-  // }
-
   protected build() {
     if (!this._type) {
       let type: any;
@@ -196,6 +199,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
           break;
         case DecoratorTypes.METHOD:
           type = Store.getReturnType(this.target, this.propertyKey);
+          type = isPromise(type) ? undefined : type;
           break;
       }
 
@@ -289,15 +293,17 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     if (!parameter) {
       parameter = new JsonParameter();
       parentStore.children.set(this.index!, this);
+
+      this._schema = getSchema(this.collectionType || this.type);
+
+      parameter.schema(this._schema);
+
+      if (this.collectionType) {
+        this._schema.itemSchema(getSchema(this.type));
+      }
+
+      parentStore.operation?.addParameter(this.index as number, parameter);
     }
-
-    parameter.schema((this._schema = getSchema(this.collectionType || this.type)));
-
-    if (this.collectionType) {
-      this._schema.itemSchema(getSchema(this.type));
-    }
-
-    parentStore.operation?.addParameter(this.index as number, parameter);
 
     return parameter;
   }

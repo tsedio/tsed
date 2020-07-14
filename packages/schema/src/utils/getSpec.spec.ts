@@ -1,8 +1,8 @@
 import * as SwaggerParser from "@apidevtools/swagger-parser";
-import {CollectionOf, Description, GenericOf, Generics, getJsonSchema, Property, Returns, SpecTypes} from "../index";
 import {expect} from "chai";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import {Consumes, In, Min, Name, OperationPath, Required} from "../decorators";
+import {CollectionOf, Description, GenericOf, Generics, getJsonSchema, Property, Returns, SpecTypes} from "../index";
 import {getSpec} from "./getSpec";
 
 const validate = async (spec: any, version = SpecTypes.SWAGGER) => {
@@ -212,6 +212,340 @@ describe("getSpec()", () => {
               }
             }
           }
+        });
+      });
+      it("should declare all schema correctly (query - swagger2 - model)", async () => {
+        // WHEN
+        class QueryModel {
+          @Property()
+          id: string;
+
+          @Property()
+          name: string;
+        }
+
+        class Controller {
+          @OperationPath("GET", "/:id")
+          method(@In("query") basic: QueryModel) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+
+        expect(spec).to.deep.equal({
+          definitions: {},
+          tags: [
+            {
+              name: "Controller"
+            }
+          ],
+          paths: {
+            "/{id}": {
+              get: {
+                operationId: "controllerMethod",
+                tags: ["Controller"],
+                parameters: [
+                  {
+                    in: "path",
+                    name: "id",
+                    required: true,
+                    type: "string"
+                  },
+                  {
+                    in: "query",
+                    name: "id",
+                    required: false,
+                    type: "string"
+                  },
+                  {
+                    in: "query",
+                    name: "name",
+                    required: false,
+                    type: "string"
+                  }
+                ],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                }
+              }
+            }
+          }
+        });
+      });
+      it("should declare all schema correctly (query - openapi3 - model)", async () => {
+        // WHEN
+        class QueryModel {
+          @Property()
+          id: string;
+
+          @Property()
+          name: string;
+        }
+
+        class Controller {
+          @OperationPath("GET", "/:id")
+          method(@In("query") basic: QueryModel) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {spec: SpecTypes.OPENAPI});
+
+        expect(spec).to.deep.equal({
+          components: {
+            schemas: {
+              QueryModel: {
+                properties: {
+                  id: {
+                    type: "string"
+                  },
+                  name: {
+                    type: "string"
+                  }
+                },
+                type: "object"
+              }
+            }
+          },
+          paths: {
+            "/{id}": {
+              get: {
+                operationId: "controllerMethod",
+                parameters: [
+                  {
+                    in: "path",
+                    name: "id",
+                    required: true,
+                    type: "string"
+                  },
+                  {
+                    in: "query",
+                    required: false,
+                    schema: {
+                      $ref: "#/components/schemas/QueryModel"
+                    }
+                  }
+                ],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                },
+                tags: ["Controller"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "Controller"
+            }
+          ]
+        });
+      });
+      it("should declare all schema correctly (query - swagger2 - array string)", async () => {
+        // WHEN
+        class Controller {
+          @OperationPath("GET", "/:id")
+          method(@In("query") @Name("basic") basic: string[]) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+
+        expect(spec).to.deep.equal({
+          definitions: {},
+          tags: [
+            {
+              name: "Controller"
+            }
+          ],
+          paths: {
+            "/{id}": {
+              get: {
+                operationId: "controllerMethod",
+                tags: ["Controller"],
+                parameters: [
+                  {
+                    in: "path",
+                    name: "id",
+                    required: true,
+                    type: "string"
+                  },
+                  {
+                    collectionFormat: "multi",
+                    in: "query",
+                    items: {
+                      type: "string"
+                    },
+                    name: "basic",
+                    required: false,
+                    type: "array"
+                  }
+                ],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                }
+              }
+            }
+          }
+        });
+      });
+      it("should declare all schema correctly (query - openapi3 - array string)", async () => {
+        // WHEN
+        class Controller {
+          @OperationPath("GET", "/:id")
+          method(@In("query") @Name("basic") basic: string[]) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {spec: SpecTypes.OPENAPI});
+
+        expect(spec).to.deep.equal({
+          components: {
+            schemas: {}
+          },
+          paths: {
+            "/{id}": {
+              get: {
+                operationId: "controllerMethod",
+                parameters: [
+                  {
+                    in: "path",
+                    name: "id",
+                    required: true,
+                    type: "string"
+                  },
+                  {
+                    in: "query",
+                    name: "basic",
+                    required: false,
+                    schema: {
+                      items: {
+                        type: "object"
+                      },
+                      type: "array"
+                    }
+                  }
+                ],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                },
+                tags: ["Controller"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "Controller"
+            }
+          ]
+        });
+      });
+      it("should declare all schema correctly (query - swagger2 - Map)", async () => {
+        // WHEN
+        class Controller {
+          @OperationPath("GET", "/:id")
+          method(@In("query") @Name("basic") @CollectionOf(String) basic: Map<string, string>) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+
+        expect(spec).to.deep.equal({
+          definitions: {},
+          tags: [
+            {
+              name: "Controller"
+            }
+          ],
+          paths: {
+            "/{id}": {
+              get: {
+                operationId: "controllerMethod",
+                tags: ["Controller"],
+                parameters: [
+                  {
+                    in: "path",
+                    name: "id",
+                    required: true,
+                    type: "string"
+                  },
+                  {
+                    in: "query",
+                    name: "basic",
+                    required: false,
+                    type: "object",
+                    additionalProperties: {
+                      type: "string"
+                    }
+                  }
+                ],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                }
+              }
+            }
+          }
+        });
+      });
+      it("should declare all schema correctly (query - openapi3 - Map)", async () => {
+        // WHEN
+        class Controller {
+          @OperationPath("GET", "/:id")
+          method(@In("query") @Name("basic") @CollectionOf(String) basic: Map<string, string>) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {spec: SpecTypes.OPENAPI});
+
+        expect(spec).to.deep.equal({
+          components: {
+            schemas: {}
+          },
+          paths: {
+            "/{id}": {
+              get: {
+                operationId: "controllerMethod",
+                parameters: [
+                  {
+                    in: "path",
+                    name: "id",
+                    required: true,
+                    type: "string"
+                  },
+                  {
+                    in: "query",
+                    name: "basic",
+                    required: false,
+                    schema: {
+                      additionalProperties: {
+                        type: "string"
+                      },
+                      type: "object"
+                    }
+                  }
+                ],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                },
+                tags: ["Controller"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "Controller"
+            }
+          ]
         });
       });
     });

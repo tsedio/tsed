@@ -9,8 +9,7 @@ describe("@Example", () => {
     @Example({
       default: {id: "id"}
     })
-    class Model {
-    }
+    class Model {}
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
@@ -25,8 +24,7 @@ describe("@Example", () => {
   it("should declare description on class with description", () => {
     // WHEN
     @Example("name", "description")
-    class Model {
-    }
+    class Model {}
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
@@ -48,7 +46,7 @@ describe("@Example", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         method: {
-          examples: "Examples",
+          examples: ["Examples"],
           type: "string"
         }
       },
@@ -60,8 +58,7 @@ describe("@Example", () => {
     let actualError: any;
     try {
       class Test {
-        method() {
-        }
+        method() {}
       }
 
       Example("example")(Test.prototype, "method", descriptorOf(Test, "method"));

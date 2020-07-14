@@ -1,7 +1,6 @@
 import {applyDecorators, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn} from "./jsonEntityFn";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
-import {Property} from "./property";
+import {JsonEntityFn} from "./jsonEntityFn";
 
 function applyStringRule(store: JsonEntityStore, values: any[]) {
   if (store.type === String) {
@@ -62,11 +61,14 @@ function applyNullRule(store: JsonEntityStore, values: any[]) {
  */
 export function Allow(...values: any[]) {
   return applyDecorators(
-    Property(),
     JsonEntityFn((store, args) => {
       switch (store.decoratorType) {
         case DecoratorTypes.PARAM:
           store.parameter!.required(true);
+
+          applyStringRule(store, values);
+          applyNullRule(store, values);
+
           break;
         case DecoratorTypes.PROP:
           store.parentSchema.addRequired(store.propertyName);

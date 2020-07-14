@@ -4,6 +4,7 @@ import {
   getDecoratorType,
   isCollection,
   isPrimitiveOrPrimitiveClass,
+  isString,
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
@@ -306,7 +307,7 @@ export function Returns(status?: string | number, model: Type<any> | any = Strin
   };
 
   decorator.Examples = (examples: any) => {
-    response.set("examples", examples);
+    response.set("examples", isString(examples) ? [examples] : examples);
 
     return decorator;
   };

@@ -20,6 +20,9 @@ export function Example(name: string | any, description?: string) {
     example = {[name]: description};
   } else {
     example = name;
+    if (typeof name === "string") {
+      example = [].concat(example);
+    }
   }
 
   return JsonEntityFn((store: JsonEntityStore, args: DecoratorParameters) => {

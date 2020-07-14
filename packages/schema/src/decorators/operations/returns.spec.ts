@@ -50,6 +50,7 @@ describe("@Returns", () => {
         .Header("x-header", {
           value: ""
         })
+        .Examples({test: "Examples"})
         .Schema({
           minLength: 3
         }))
@@ -84,6 +85,7 @@ describe("@Returns", () => {
                     type: "string"
                   }
                 },
+                examples: {test: "Examples"},
                 schema: {
                   type: "string",
                   minLength: 3
@@ -102,7 +104,8 @@ describe("@Returns", () => {
       @OperationPath("POST", "/")
       @(Returns(200, String)
         .Description("description")
-        .ContentType("text/json"))
+        .ContentType("text/json")
+        .Examples("Examples"))
       method() {}
     }
 
@@ -132,7 +135,8 @@ describe("@Returns", () => {
                     }
                   }
                 },
-                description: "description"
+                description: "description",
+                examples: ["Examples"]
               }
             },
             tags: ["Controller"]

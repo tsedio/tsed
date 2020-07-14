@@ -7,3 +7,4 @@ export * from "./JsonSchema";
 export * from "./JsonFormatTypes";
 export * from "./SpecTypes";
 export * from "./JsonEntityStore";
+export * from "./JsonParameterTypes";
