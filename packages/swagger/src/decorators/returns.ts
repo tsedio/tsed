@@ -1,6 +1,49 @@
 import {IResponseOptions, Returns as R, ReturnsArray as RA} from "@tsed/common";
 import {Type} from "@tsed/core";
+import {ReturnsChainedDecorators} from "@tsed/schema";
 
+/**
+ * @deprecated
+ * @ignore
+ * @param args
+ */
+function mapStatusResponseOptions(args: any[]): any {
+  const configuration: any = {};
+
+  args.forEach((value: any) => {
+    configuration[typeof value] = value;
+  });
+
+  const {number: code, object: options = {} as any, function: type} = configuration;
+
+  if (type) {
+    options.type = type;
+  }
+
+  return {
+    ...options,
+    code,
+    type: options.type || options.use,
+    collectionType: options.collectionType || options.collection
+  };
+}
+
+/**
+ * @deprecated
+ */
+export function Returns(statusCode: number, options: Partial<IResponseOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated
+ */
+export function Returns(options: Partial<IResponseOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated
+ */
+export function Returns(model: Type<any>): ReturnsChainedDecorators;
+/**
+ * @deprecated
+ */
+export function Returns(model: Type<any>, options: Partial<IResponseOptions>): ReturnsChainedDecorators;
 /**
  * Add responses documentation for a specific status code.
  *
@@ -93,35 +136,25 @@ import {Type} from "@tsed/core";
  * @deprecated Use @Returns decorator from @tsed/common.
  * @deprecated Use @Returns from @tsed/schema
  */
-export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
+export function Returns(...args: any[]): ReturnsChainedDecorators {
+  return ReturnType(mapStatusResponseOptions(args));
+}
 /**
- * @ignore
  * @deprecated
  */
-export function Returns(statusCode: number, model: Type<any>): any;
+export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): ReturnsChainedDecorators;
 /**
- * @ignore
- * @deprecated Use @Returns decorator from @tsed/common.
+ * @deprecated
  */
-export function Returns(options: Partial<IResponseOptions>): any;
+export function ReturnsArray(options: Partial<IResponseOptions>): ReturnsChainedDecorators;
 /**
- * @ignore
- * @deprecated Use @Returns decorator from @tsed/common.
+ * @deprecated
  */
-export function Returns(model: Type<any>): any;
+export function ReturnsArray(model: Type<any>): ReturnsChainedDecorators;
 /**
- * @ignore
- * @deprecated Use @Returns decorator from @tsed/common.
+ * @deprecated
  */
-export function Returns(model: Type<any>, options: Partial<IResponseOptions>): any;
-/**
- * @ignore
- * @deprecated Use @Returns decorator from @tsed/common.
- */
-export function Returns(...args: any[]) {
-  return (R as any)(...args);
-}
-
+export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): ReturnsChainedDecorators;
 /**
  * Add responses documentation for a specific status code.
  *
@@ -217,31 +250,6 @@ export function Returns(...args: any[]) {
  * @deprecated Use @ReturnsArray decorator from @tsed/common.
  * @deprecated Use @Returns from @tsed/schema
  */
-export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
-/**
- * @ignore
- * @deprecated
- */
-export function ReturnsArray(statusCode: number, model: Type<any>): any;
-/**
- * @ignore
- * @deprecated Use @ReturnsArray decorator from @tsed/common.
- */
-export function ReturnsArray(options: Partial<IResponseOptions>): any;
-/**
- * @ignore
- * @deprecated Use @ReturnsArray decorator from @tsed/common.
- */
-export function ReturnsArray(model: Type<any>): any;
-/**
- * @ignore
- * @deprecated Use @ReturnsArray decorator from @tsed/common.
- */
-export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): any;
-/**
- * @ignore
- * @deprecated Use @ReturnsArray decorator from @tsed/common.
- */
-export function ReturnsArray(...args: any[]) {
-  return (RA as any)(...args);
+export function ReturnsArray(...args: any[]): ReturnsChainedDecorators {
+  return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});
 }

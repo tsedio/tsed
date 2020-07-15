@@ -177,6 +177,9 @@ describe("PlatformExpress", () => {
               "consumes": [
                 "application/json"
               ],
+              "produces": [
+                "text/json"
+              ],
               "responses": {
                 "201": {
                   "description": "description-from-status",
@@ -187,7 +190,7 @@ describe("PlatformExpress", () => {
                     }
                   },
                   "schema": {
-                    "type": "string"
+                    "type": "object"
                   }
                 }
               },

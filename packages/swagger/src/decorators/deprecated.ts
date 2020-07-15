@@ -18,6 +18,7 @@ import {Deprecated as D} from "@tsed/schema";
  * @swagger
  * @schema
  * @operation
+ * @ignore
  * @deprecated Use @Deprecated from @tsed/schema
  */
 export function Deprecated(): Function {

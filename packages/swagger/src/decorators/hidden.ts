@@ -1,7 +1,7 @@
 import {StoreSet} from "@tsed/core";
-
+// TODO ADD ignore on @tsed/schema level or implement something in tsed/swagger
 /**
- * Hide a route or all route under in the decorated controller from the documentation.
+ * Disable documentation for the class and his endpoint.
  *
  * ````typescript
  * @Controller('/')
@@ -36,7 +36,6 @@ import {StoreSet} from "@tsed/core";
  * }
  * ```
  *
- * @returns {Function}
  * @decorator
  * @swagger
  */

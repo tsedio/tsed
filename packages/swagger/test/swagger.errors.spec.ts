@@ -95,7 +95,11 @@ describe("ErrorsParams", () => {
       "paths": {
         "/rest/scenarios": {
           "get": {
-            "operationId": "ErrorsController.exampleControllerMethod",
+            "operationId": "errorsControllerExampleControllerMethod",
+            "parameters": [],
+            "produces": [
+              "text/json"
+            ],
             "responses": {
               "200": {
                 "description": "Success",

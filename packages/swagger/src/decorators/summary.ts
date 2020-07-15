@@ -18,6 +18,7 @@ import {Summary as S} from "@tsed/schema";
  * @swagger
  * @schema
  * @operation
+ * @ignore
  * @deprecated Use @Summary from @tsed/schema. Will be removed in v7.
  */
 export function Summary(summary: string): Function {

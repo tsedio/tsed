@@ -18,8 +18,8 @@ import {Consumes as C} from "@tsed/schema";
  * @swagger
  * @classDecorator
  * @operation
- * @deprecated Use @Consumes from @tsed/schema
  * @ignore
+ * @deprecated Use @Consumes from @tsed/schema
  */
 export function Consumes(...consumes: string[]): Function {
   return C(...consumes);

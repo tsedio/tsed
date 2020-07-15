@@ -9,8 +9,6 @@ import {join, resolve} from "path";
 import {ErrorsCtrl} from "./controllers/errors/ErrorsCtrl";
 import {SocketPageCtrl} from "./controllers/pages/SocketPageCtrl";
 import {PingCtrl} from "./controllers/ping/PingCtrl";
-import {ProductsCtrl} from "./controllers/products/ProductsCtrl";
-
 import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
 import {InitSessionMiddleware} from "./middlewares/InitSessionMiddleware";
 import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
@@ -29,7 +27,7 @@ const spec = require(`${rootDir}/spec/swagger.default.json`);
   },
   mount: {
     "/": [SocketPageCtrl],
-    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, ProductsCtrl, PingCtrl],
+    "/rest": ["${rootDir}/controllers/Base/**.ts", "${rootDir}/controllers/calendars/**.ts", ErrorsCtrl, PingCtrl],
     "/rest/v1": "${rootDir}/controllers/{calendars,users}/**.ts"
   },
 

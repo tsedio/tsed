@@ -37,6 +37,7 @@ import {Name as N} from "@tsed/schema";
  * @swagger
  * @class
  * @parameter
+ * @ignore
  * @deprecated Use @Name from @tsed/schema
  */
 export function Name(name: string) {

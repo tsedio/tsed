@@ -55,6 +55,7 @@ import {Title as T} from "@tsed/schema";
  * @property
  * @method
  * @parameter
+ * @ignore
  * @deprecated Use @Title from @tsed/schema
  */
 export function Title(title: string) {

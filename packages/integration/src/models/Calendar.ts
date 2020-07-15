@@ -1,7 +1,7 @@
-import {Description, Example, Property, Required, Title} from "@tsed/common";
+import {Property, Required, Description, Example, Title} from "@tsed/schema";
 
 export class CalendarModel {
-  @Title("iD")
+  @Title("ID")
   @Description("Description of calendar model id")
   @Example("Description example")
   @Property()

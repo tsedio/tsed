@@ -1,5 +1,5 @@
+import {BodyParams, Controller, PlatformTest, Post, Required} from "@tsed/common";
 import {expect} from "chai";
-import {Controller, Post, Required, PlatformTest, BodyParams} from "@tsed/common";
 import * as SuperTest from "supertest";
 import {TestServer} from "./helpers/TestServer";
 

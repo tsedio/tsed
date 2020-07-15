@@ -57,7 +57,8 @@
           }
         },
         "tags": [
-          "TaskCtrl"
+          "api",
+          "task"
         ]
       }
     },
@@ -162,9 +163,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "type": "string"
+            }
           }
         },
+        "produces": [
+          "text/json"
+        ],
         "tags": [
           "EventCtrl"
         ]
@@ -388,13 +401,20 @@
         "operationId": "calendarCtrlRemoveWithToken",
         "parameters": [
           {
+            "name": "Authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "required": true,
             "schema": {
               "properties": {
                 "id": {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1
                 }
               },
               "type": "object",
@@ -408,6 +428,18 @@
           "204": {
             "description": "No Content",
             "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
               "type": "string"
             }
           }
@@ -418,6 +450,9 @@
             "read:calendar"
           ]
         },
+        "produces": [
+          "text/json"
+        ],
         "tags": [
           "CalendarCtrl"
         ]
@@ -540,7 +575,8 @@
             "schema": {
               "properties": {
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1
                 }
               },
               "type": "object",
@@ -574,7 +610,8 @@
             "schema": {
               "properties": {
                 "id": {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1
                 }
               },
               "type": "object",
@@ -588,7 +625,7 @@
           "204": {
             "description": "No Content",
             "schema": {
-              "type": "string"
+              "type": "object"
             }
           }
         },
@@ -601,6 +638,9 @@
             "read:global"
           ]
         },
+        "produces": [
+          "text/json"
+        ],
         "tags": [
           "CalendarCtrl"
         ]
@@ -673,13 +713,14 @@
               }
             },
             "schema": {
-              "type": "string"
+              "type": "object"
             }
           }
         },
         "deprecated": true,
         "produces": [
-          "application/xml"
+          "application/xml",
+          "text/json"
         ],
         "tags": [
           "CalendarCtrl"
@@ -698,6 +739,9 @@
             }
           }
         },
+        "produces": [
+          "text/json"
+        ],
         "consumes": [
           "multipart/form-data"
         ],
@@ -718,6 +762,9 @@
             }
           }
         },
+        "produces": [
+          "text/json"
+        ],
         "consumes": [
           "multipart/form-data"
         ],
@@ -774,6 +821,12 @@
   },
   "tags": [
     {
+      "name": "api"
+    },
+    {
+      "name": "task"
+    },
+    {
       "name": "TaskCtrl"
     },
     {
@@ -790,7 +843,9 @@
       "properties": {
         "id": {
           "type": "string",
-          "examples": "1FDCHZKH",
+          "examples": [
+            "1FDCHZKH"
+          ],
           "description": "Description of event model id",
           "title": "iD"
         },
@@ -810,7 +865,7 @@
         "tasks": {
           "type": "array",
           "items": {
-            "type": "object"
+            "$ref": "#/definitions/Task"
           }
         },
         "mapAny": {
@@ -872,7 +927,7 @@
             "Description example"
           ],
           "description": "Description of calendar model id",
-          "title": "iD"
+          "title": "ID"
         },
         "name": {
           "type": "string",

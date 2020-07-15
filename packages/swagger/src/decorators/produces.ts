@@ -19,6 +19,7 @@ import {Produces as P} from "@tsed/schema";
  * @classDecorator
  * @operation
  * @response
+ * @ignore
  * @deprecated Use @Products from @tsed/schema
  */
 export function Produces(...produces: string[]): Function {

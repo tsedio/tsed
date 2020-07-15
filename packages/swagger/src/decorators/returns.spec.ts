@@ -25,6 +25,9 @@ describe("Returns()", () => {
             get: {
               operationId: "ctrlTest",
               parameters: [],
+              "produces": [
+                "text/json"
+              ],
               responses: {
                 "400": {
                   description: "Bad Request",

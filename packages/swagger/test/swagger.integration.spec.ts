@@ -50,12 +50,6 @@ describe("Swagger integration", () => {
       }
     ]);
     expect(response.body).to.deep.eq({
-      "swagger": "2.0",
-      "tags": [
-        {
-          "name": "CalendarsController"
-        }
-      ],
       "consumes": [
         "application/json"
       ],
@@ -66,6 +60,7 @@ describe("Swagger integration", () => {
               "type": "string"
             },
             "name": {
+              "minLength": 1,
               "type": "string"
             }
           },
@@ -84,7 +79,11 @@ describe("Swagger integration", () => {
       "paths": {
         "/rest/calendars": {
           "get": {
-            "operationId": "CalendarsController.getAll",
+            "operationId": "calendarsControllerGetAll",
+            "parameters": [],
+            "produces": [
+              "text/json"
+            ],
             "responses": {
               "200": {
                 "description": "Success",
@@ -103,7 +102,7 @@ describe("Swagger integration", () => {
         },
         "/rest/calendars/{id}": {
           "get": {
-            "operationId": "CalendarsController.get",
+            "operationId": "calendarsControllerGet",
             "parameters": [
               {
                 "in": "path",
@@ -111,6 +110,9 @@ describe("Swagger integration", () => {
                 "required": true,
                 "type": "string"
               }
+            ],
+            "produces": [
+              "text/json"
             ],
             "responses": {
               "200": {
@@ -129,7 +131,13 @@ describe("Swagger integration", () => {
       "produces": [
         "application/json"
       ],
-      "securityDefinitions": {}
+      "securityDefinitions": {},
+      "swagger": "2.0",
+      "tags": [
+        {
+          "name": "CalendarsController"
+        }
+      ]
     });
   });
 });

@@ -1,5 +1,5 @@
-import {Description, Get, PathParams} from "@tsed/common";
-import {Summary} from "@tsed/swagger";
+import {Get, PathParams} from "@tsed/common";
+import {Description, Summary} from "@tsed/schema";
 
 export class BaseController {
   constructor(protected entriesService: any) {}

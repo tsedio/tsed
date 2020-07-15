@@ -25,6 +25,7 @@ describe("UserModel", () => {
     const {schema} = buildMongooseSchema(User);
 
     expect(Array.from(properties.keys())).to.deep.eq([
+      "_id",
       "password",
       "name",
       "email"
@@ -37,9 +38,11 @@ describe("UserModel", () => {
 
     expect(user.email).to.equal("test@test.fr");
     expect(user.password).to.equal("test123456");
-    expect(converterService.serialize(user, {type: User, withIgnoredProps: false})).to.deep.eq({
-      name: "name",
-      email: "test@test.fr"
-    });
+
+    const result = converterService.serialize(user, {type: User, withIgnoredProps: false});
+
+    expect(result.name).to.eq("name");
+    expect(result.email).to.eq("test@test.fr");
+    expect(result.id).to.be.a("string");
   }));
 });

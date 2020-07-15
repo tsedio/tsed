@@ -21,6 +21,7 @@ import {Security as S} from "@tsed/schema";
  * @schema
  * @classDecorator
  * @operation
+ * @ignore
  * @deprecated Use @Security from @tsed/schema
  */
 export function Security(securityDefinitionName: string, ...scopes: string[]): Function {

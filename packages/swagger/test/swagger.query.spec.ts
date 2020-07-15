@@ -71,7 +71,7 @@ describe("QueryParams", () => {
       "paths": {
         "/rest/scenarios/1": {
           "get": {
-            "operationId": "QueryParamsSwaggerController.scenario1",
+            "operationId": "queryParamsSwaggerControllerScenario1",
             "parameters": [
               {
                 "in": "query",
@@ -92,7 +92,7 @@ describe("QueryParams", () => {
         },
         "/rest/scenarios/2": {
           "get": {
-            "operationId": "QueryParamsSwaggerController.scenario2",
+            "operationId": "queryParamsSwaggerControllerScenario2",
             "parameters": [
               {
                 "collectionFormat": "multi",
@@ -117,7 +117,7 @@ describe("QueryParams", () => {
         },
         "/rest/scenarios/3": {
           "get": {
-            "operationId": "QueryParamsSwaggerController.scenario3",
+            "operationId": "queryParamsSwaggerControllerScenario3",
             "parameters": [
               {
                 "additionalProperties": {
@@ -141,7 +141,7 @@ describe("QueryParams", () => {
         },
         "/rest/scenarios/4": {
           "get": {
-            "operationId": "QueryParamsSwaggerController.scenario4",
+            "operationId": "queryParamsSwaggerControllerScenario4",
             "parameters": [
               {
                 "in": "query",

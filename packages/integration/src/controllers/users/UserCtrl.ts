@@ -25,39 +25,6 @@ export class UserCtrl {
     return user;
   }
 
-  @Post("/")
-  @Status(201)
-  @Returns(User)
-  async createUser(@BodyParams() userData: UserCreation) {
-    return this.userService.create(userData);
-  }
-
-  @Get("/:user")
-  async testPerRequest(@PathParams("user") userId: string): Promise<any> {
-    this.userService.user = userId;
-    this.userId = userId;
-
-    return new Promise((resolve, reject) => {
-      if (userId === "0") {
-        setTimeout(() => {
-          resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
-        }, 500);
-      }
-
-      if (userId === "1") {
-        setTimeout(() => {
-          resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
-        }, 300);
-      }
-
-      if (userId === "2") {
-        setTimeout(() => {
-          resolve({userId, idSrv: this.userService.user, idCtrl: this.userId});
-        }, 150);
-      }
-    });
-  }
-
   @Post("/avatar/:username")
   test(
     @MultipartFile() myFile: Express.Multer.File,
