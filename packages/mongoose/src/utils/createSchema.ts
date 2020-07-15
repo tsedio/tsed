@@ -1,10 +1,11 @@
-import {ConverterService, IConverterOptions, JsonSchema, PropertyMetadata} from "@tsed/common";
+import {ConverterService, IConverterOptions, PropertyMetadata} from "@tsed/common";
 import {getClass, Store, Type} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 import {cleanProps} from "./cleanProps";
+import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
@@ -12,19 +13,6 @@ const MONGOOSE_RESERVED_KEYS = ["_id"];
 export interface MongooseSchemaMetadata {
   schema: SchemaDefinition;
   virtuals: Map<string, any>;
-}
-
-function setUpTarget(target: Type<any>) {
-  target.prototype.serialize = function(options: IConverterOptions, converter: ConverterService) {
-    const {checkRequiredValue, ignoreCallback, withIgnoredProps = true} = options;
-
-    return converter.serializeClass(this, {
-      type: getClass(target),
-      checkRequiredValue,
-      ignoreCallback,
-      withIgnoredProps
-    });
-  };
 }
 
 function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: mongoose.SchemaOptions) {
@@ -45,7 +33,6 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
   const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
 
   schemaOptions(target, options);
-  setUpTarget(target);
   schema.loadClass(target);
 
   return schema;
@@ -83,6 +70,8 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     }
 
     if (isVirtualRef(schemaTypeOptions)) {
+      schemaTypeOptions.ref = resolveRefType(schemaTypeOptions.ref);
+
       schemaTypeOptions.justOne = !propertyMetadata.isArray;
       schema.virtuals.set(key as string, schemaTypeOptions);
 
@@ -102,13 +91,13 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
   let schemaTypeOptions: SchemaTypeOpts<any> = {
     required: propertyMetadata.required
       ? function() {
-        return propertyMetadata.isRequired(this[key]);
-      }
+          return propertyMetadata.isRequired(this[key]);
+        }
       : false
   };
 
   if (!propertyMetadata.isClass) {
-    const jsonSchema: JsonSchema = propertyMetadata.store.get("schema") || {};
+    const jsonSchema = propertyMetadata.itemSchema.toJSON();
     const {minimum: min, maximum: max, minLength: minlength, maxLength: maxlength} = jsonSchema;
 
     let match: string | RegExp = jsonSchema.pattern;

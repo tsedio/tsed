@@ -1,7 +1,31 @@
-import {Property} from "@tsed/common";
-import {applyDecorators, Store, StoreMerge} from "@tsed/core";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
+import {StoreMerge, useDecorators} from "@tsed/core";
+import {Name, Property} from "@tsed/schema";
+import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
+
+function mapOptions(options: string | MongooseVirtualRefOptions, propertyKey: string, foreignField: string | undefined) {
+  let schema: any, type: any;
+
+  if (typeof options === "object") {
+    type = options.type;
+
+    schema = {
+      ref: type,
+      localField: options.localField || propertyKey,
+      foreignField: options.foreignField,
+      justOne: options.justOne || false,
+      options: options.options
+    };
+  } else {
+    schema = {
+      ref: options,
+      localField: propertyKey,
+      foreignField
+    };
+  }
+
+  return {schema, type};
+}
 
 /**
  * Define a property as mongoose virtual reference to other Model (decorated with @Model).
@@ -41,35 +65,14 @@ import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions
  * @mongoose
  * @property
  */
-export function VirtualRef(type: string, foreignField: string): Function;
-export function VirtualRef(options: MongooseVirtualRefOptions): Function;
-export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function;
+export function VirtualRef(type: string, foreignField: string): PropertyDecorator;
+export function VirtualRef(options: MongooseVirtualRefOptions): PropertyDecorator;
+export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): PropertyDecorator;
+export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): PropertyDecorator {
+  return (target: any, propertyKey: string) => {
+    const {schema, type} = mapOptions(options, propertyKey, foreignField);
 
-export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {
-  return (target: any, propertyKey: string, descriptor: any) => {
-    let schema: any, type: any;
-    if (typeof options === "object") {
-      type = options.type;
-      schema = {
-        ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME),
-        localField: options.localField || propertyKey,
-        foreignField: options.foreignField,
-        justOne: options.justOne || false,
-        options: options.options
-      };
-    } else {
-      schema = {
-        ref: options,
-        localField: propertyKey,
-        foreignField
-      };
-    }
-
-    return applyDecorators(Property({name: schema.localField, use: type}), StoreMerge(MONGOOSE_SCHEMA, schema))(
-      target,
-      propertyKey,
-      descriptor
-    );
+    return useDecorators(Property(type), Name(schema.localField), StoreMerge(MONGOOSE_SCHEMA, schema))(target, propertyKey);
   };
 }
 

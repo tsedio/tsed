@@ -1,5 +1,5 @@
-import {Property, Schema} from "@tsed/common";
-import {applyDecorators, Store, StoreFn, StoreMerge} from "@tsed/core";
+import {Store, StoreMerge, useDecorators} from "@tsed/core";
+import {Description, Example, Property} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
@@ -33,17 +33,11 @@ import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
  * @mongoose
  * @property
  */
-export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID) {
-  return applyDecorators(
+export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID): PropertyDecorator {
+  return useDecorators(
     Property(String),
-    Schema({
-      type: String,
-      example: "5ce7ad3028890bd71749d477",
-      description: "Mongoose Ref ObjectId"
-    }),
-    StoreFn((store: Store) => {
-      delete store.get("schema").$ref;
-    }),
+    Example("5ce7ad3028890bd71749d477"),
+    Description("Mongoose Ref ObjectId"),
     StoreMerge(MONGOOSE_SCHEMA, {
       type: MongooseSchema.Types[type],
       ref: typeof model === "string" ? model : Store.from(model).get(MONGOOSE_MODEL_NAME)

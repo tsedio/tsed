@@ -2,18 +2,18 @@ import {
   CollectionOf,
   Default,
   Enum,
+  getJsonSchema,
   Maximum,
   MaxLength,
   Minimum,
   MinLength,
+  Name,
   Pattern,
   Property,
-  Name,
   Required
-} from "@tsed/common";
+} from "@tsed/schema";
 import {expect} from "chai";
 import {Schema as SchemaMongoose} from "mongoose";
-import {OpenApiModelSchemaBuilder} from "../../../swagger/src/class/OpenApiModelSchemaBuilder";
 import {Model, ObjectID, Ref, Schema, VirtualRef} from "../../src/decorators";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 import {getSchema} from "../../src/utils/createSchema";
@@ -218,33 +218,41 @@ describe("createSchema", () => {
       }
     });
 
-    const result = new OpenApiModelSchemaBuilder(Test4).build();
-
-    expect(result).to.deep.eq({
-      _definitions: {
-        Test4: {
-          properties: {
-            test: {
-              description: "Mongoose Ref ObjectId",
-              example: "5ce7ad3028890bd71749d477",
-              type: "string"
-            }
-          },
-          type: "object"
+    expect(getJsonSchema(Test4)).to.deep.eq({
+      properties: {
+        test: {
+          description: "Mongoose Ref ObjectId",
+          examples: ["5ce7ad3028890bd71749d477"],
+          type: "string"
         }
       },
-      _responses: {},
-      _schema: {
-        properties: {
-          test: {
-            description: "Mongoose Ref ObjectId",
-            example: "5ce7ad3028890bd71749d477",
-            type: "string"
-          }
+      type: "object"
+    });
+    expect(getJsonSchema(Children)).to.deep.eq({
+      properties: {
+        enum: {
+          enum: ["v1", "v2"],
+          type: "string"
         },
-        type: "object"
+        id: {
+          description: "Mongoose ObjectId",
+          examples: ["5ce7ad3028890bd71749d477"],
+          type: "string"
+        },
+        name: {
+          default: "defaultValue",
+          maxLength: 100,
+          minLength: 0,
+          pattern: "pattern",
+          type: "string"
+        },
+        test: {
+          maximum: 10,
+          minimum: 0,
+          type: "number"
+        }
       },
-      target: Test4
+      type: "object"
     });
   });
   it("should create schema with virtual ref", () => {

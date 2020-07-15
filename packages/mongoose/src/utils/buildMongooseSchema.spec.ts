@@ -1,20 +1,20 @@
 import {PropertyMetadata} from "@tsed/common";
+import {Property} from "@tsed/schema";
 import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {buildMongooseSchema} from "../../src/utils/createSchema";
 
 describe("buildMongooseSchema", () => {
   describe("when mongoose schema hasn't ref", () => {
-    class Test {
-      test: String;
-    }
-
     it("should return schema", () => {
-      const propertyMetadata = PropertyMetadata.get(Test, "test");
-      propertyMetadata.type = String;
-      propertyMetadata.store.set(MONGOOSE_SCHEMA, {});
+      class Test {
+        @Property()
+        _id: string;
 
-      PropertyMetadata.get(Test, "_id");
+        @Property()
+        test: String;
+      }
+
       // WHEN
       const result = buildMongooseSchema(Test);
 
@@ -31,11 +31,11 @@ describe("buildMongooseSchema", () => {
   });
 
   describe("when mongoose schema has virtual ref", () => {
-    class Test {
-      test: String;
-    }
-
     it("should return schema", () => {
+      class Test {
+        test: String;
+      }
+
       const propertyMetadata = PropertyMetadata.get(Test, "test");
       propertyMetadata.type = String;
       propertyMetadata.store.set(MONGOOSE_SCHEMA, {
