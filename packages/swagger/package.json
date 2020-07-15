@@ -3,7 +3,7 @@
   "version": "5.60.6",
   "description": "Swagger package for Ts.ED framework",
   "main": "./lib/index.js",
-  "typings": "./lib/index.ts",
+  "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "build:doc": "tsc --build tsconfig.doc.json"
