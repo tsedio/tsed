@@ -1,6 +1,6 @@
 import {BadRequest} from "@tsed/exceptions";
 import {JsonMapper} from "../decorators/jsonMapper";
-import {JsonMapperMethods, JsonMapperCtx} from "../interfaces/JsonMapperMethods";
+import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
  * Converter component for the `String`, `Number` and `Boolean` Types.

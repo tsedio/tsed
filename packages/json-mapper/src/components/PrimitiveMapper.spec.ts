@@ -126,6 +126,7 @@ describe("PrimitiveMapper", () => {
       expect(mapper.deserialize("", ctx)).to.deep.eq(false);
       expect(mapper.deserialize("false", ctx)).to.deep.eq(false);
       expect(mapper.deserialize(false, ctx)).to.deep.eq(false);
+      expect(mapper.deserialize(undefined, ctx)).to.deep.eq(undefined);
     });
     it("should return value (null => boolean)", () => {
       const mapper = new PrimitiveMapper();

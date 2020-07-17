@@ -77,6 +77,17 @@ describe("deserialize()", () => {
       expect(deserialize("", options)).to.deep.equal([""]);
       expect(deserialize("1", options)).to.deep.equal(["1"]);
     });
+    it("should cast object to array", () => {
+      expect(
+        deserialize(
+          {},
+          {
+            collectionType: Array,
+            type: Object
+          }
+        )
+      ).to.deep.equal([{}]);
+    });
   });
   describe("Map<string, primitive>", () => {
     it("should transform value", () => {
@@ -287,8 +298,7 @@ describe("deserialize()", () => {
           name: "name",
           posts: [
             {
-              id: "id",
-              owner: undefined
+              id: "id"
             }
           ]
         }

@@ -143,6 +143,50 @@ describe("serialize()", () => {
         }
       });
     });
+    it("should serialize model Array", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnSerialize(value => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      const model = new Model();
+      model.id = "id";
+      model.password = "hellopassword";
+      model.mappedProp = "hello";
+      model.roles.set("olo", new Role({label: "label"}));
+
+      expect(serialize([model], {type: Model})).to.deep.equal([
+        {
+          id: "id",
+          password: "hellopassword",
+          mapped_prop: "hellotest",
+          roles: {
+            olo: {
+              label: "label"
+            }
+          }
+        }
+      ]);
+    });
     it("should serialize model (inherited class)", () => {
       class Role {
         @Property()
@@ -213,8 +257,7 @@ describe("serialize()", () => {
           name: "name",
           posts: [
             {
-              id: "id",
-              owner: undefined
+              id: "id"
             }
           ]
         }

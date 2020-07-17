@@ -1,4 +1,4 @@
-import {classOf, isEmpty, isFunction, isPlainObject, MetadataTypes, Type} from "@tsed/core";
+import {classOf, isClass, isCollection, isEmpty, isFunction, isPlainObject, MetadataTypes, Type} from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
@@ -31,17 +31,25 @@ function getObjectProperties(obj: any): [string, any][] {
 }
 
 export function classToPlainObject(obj: any, options: JsonSerializerOptions<any, any>) {
-  const {useAlias = true} = options;
-  const storedJson = JsonEntityStore.from(obj);
+  const {useAlias = true, type, ...props} = options;
 
-  return getSchemaProperties(storedJson).reduce((newObj, [key, propStore]) => {
+  const entity = JsonEntityStore.from(type || obj);
+
+  return getSchemaProperties(entity).reduce((newObj, [key, propStore]) => {
     const schema = propStore.schema;
 
-    if (alterIgnore(schema, {...options, self: obj})) {
+    if (alterIgnore(schema, {useAlias, ...props, self: obj})) {
       return newObj;
     }
 
-    const value = serialize(alterValue(schema, obj[key], {...options, self: obj}), options);
+    let value = alterValue(schema, obj[key], {useAlias, ...props, self: obj});
+
+    value = serialize(value, {useAlias, ...props});
+
+    if (value === undefined) {
+      return newObj;
+    }
+
     key = useAlias ? propStore.parent.schema.getAliasOf(key) || key : key;
 
     return {
@@ -68,6 +76,20 @@ export function serialize(obj: any, {type, collectionType, ...options}: JsonSeri
     return obj;
   }
 
+  if (obj.$toObject) {
+    // mongoose
+    return serialize(obj.$toObject(options, true), {type, collectionType, ...options});
+  }
+
+  if (type && isClass(type)) {
+    options.type = type;
+  }
+
+  if (isCollection(obj) && !options.collectionType) {
+    type = classOf(obj);
+    options.collectionType = type;
+  }
+
   type = classOf(type || obj);
 
   const context = new JsonMapperContext({
@@ -87,5 +109,10 @@ export function serialize(obj: any, {type, collectionType, ...options}: JsonSeri
     return obj.toJSON(context);
   }
 
-  return !isPlainObject(obj) ? classToPlainObject(obj, options) : toObject(obj, options);
+  if (typeof obj.serialize === "function") {
+    // serialize from serialize method
+    return obj.serialize(context);
+  }
+
+  return !isPlainObject(type) ? classToPlainObject(obj, options) : toObject(obj, options);
 }
