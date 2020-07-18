@@ -5,6 +5,7 @@ import {ErrorObject, Options} from "ajv";
  */
 export interface AjvErrorObject extends ErrorObject {
   modelName: string;
+  collectionName?: string;
 }
 
 /**
