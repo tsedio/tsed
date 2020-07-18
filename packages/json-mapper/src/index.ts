@@ -5,6 +5,5 @@ export * from "./decorators/onSerialize";
 export * from "./domain/JsonMapperContext";
 export * from "./domain/JsonMapperTypesContainer";
 export * from "./interfaces/JsonMapperMethods";
-export * from "./interfaces/JsonMapperOptions";
 export * from "./utils/deserialize";
 export * from "./utils/serialize";

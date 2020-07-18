@@ -39,12 +39,7 @@ export class ServerSettingsService extends DIConfiguration {
         "/rest": "${rootDir}/controllers/**/*.ts"
       },
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
-      componentsScan: [
-        "${rootDir}/mvc/**/*.ts",
-        "${rootDir}/services/**/*.ts",
-        "${rootDir}/middlewares/**/*.ts",
-        "${rootDir}/converters/**/*.ts"
-      ]
+      componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"]
     });
   }
 

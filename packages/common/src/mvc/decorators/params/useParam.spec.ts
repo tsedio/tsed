@@ -1,5 +1,5 @@
-import {ParamMetadata, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
-import {Description, Example, Title} from "@tsed/schema";
+import {Get, ParamMetadata, ParamTypes, QueryParams, UseFilter, UseParam} from "@tsed/common";
+import {Description, Example, getSpec, Property, Required, Title} from "@tsed/schema";
 import {expect} from "chai";
 import {IFilter} from "../../interfaces/IFilter";
 
@@ -86,6 +86,46 @@ describe("@UseParam", () => {
       expect(param.paramType).to.eq(ParamTypes.BODY);
       expect(param.type).to.eq(Test);
       expect(param.filter!).to.eq(MyFilter);
+    });
+  });
+  describe("when is a Query param with boolean", () => {
+    it("should return the right spec", () => {
+      class Ctrl {
+        @Get("/")
+        get(@QueryParams("test") value: boolean) {}
+      }
+
+      const spec = getSpec(Ctrl);
+
+      expect(spec).to.deep.equal({
+        definitions: {},
+        paths: {
+          "/": {
+            get: {
+              operationId: "ctrlGet",
+              parameters: [
+                {
+                  in: "query",
+                  name: "test",
+                  required: false,
+                  type: "boolean"
+                }
+              ],
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["Ctrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Ctrl"
+          }
+        ]
+      });
     });
   });
 });

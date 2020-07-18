@@ -1,5 +1,5 @@
-import {ReturnType} from "@tsed/common";
 import {applyDecorators} from "@tsed/core";
+import {ReturnType} from "./returnType";
 
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.

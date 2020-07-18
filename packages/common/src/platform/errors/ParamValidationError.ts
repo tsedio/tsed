@@ -1,5 +1,6 @@
 import {nameOf} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
+import {ValidationError} from "../../mvc/errors/ValidationError";
 import {ParamMetadata} from "../../mvc/models/ParamMetadata";
 
 export class ParamValidationError extends BadRequest {
@@ -8,17 +9,21 @@ export class ParamValidationError extends BadRequest {
   public requestType: string;
 
   static from(metadata: ParamMetadata, origin: any = {}) {
-    const name = nameOf(metadata.service)
-      .toLowerCase()
-      .replace(/parse|params|filter/gi, "");
-    const expression = metadata.expression;
-    const message = `Bad request on parameter "request.${name}${expression ? "." + expression : ""}".\n${origin.message}`.trim();
+    if (origin instanceof ValidationError || origin instanceof BadRequest) {
+      const name = nameOf(metadata.service)
+        .toLowerCase()
+        .replace(/parse|params|filter/gi, "");
+      const expression = metadata.expression;
+      const message = `Bad request on parameter "request.${name}${expression ? "." + expression : ""}".\n${origin.message}`.trim();
 
-    const error = new ParamValidationError(message);
-    error.dataPath = String(metadata.expression) || "";
-    error.requestType = nameOf(metadata.service);
-    error.origin = origin.origin || origin;
+      const error = new ParamValidationError(message);
+      error.dataPath = String(metadata.expression) || "";
+      error.requestType = nameOf(metadata.service);
+      error.origin = origin.origin || origin;
 
-    return error;
+      return error;
+    }
+
+    return origin;
   }
 }

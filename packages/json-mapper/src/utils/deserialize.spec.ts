@@ -4,7 +4,6 @@ import {
   Email,
   GenericOf,
   Generics,
-  getSpec,
   Ignore,
   In,
   JsonEntityStore,
@@ -89,6 +88,25 @@ describe("deserialize()", () => {
           }
         )
       ).to.deep.equal([{}]);
+    });
+    it("should deserialize with custom options", () => {
+      const types = new Map();
+      types.set(Map, {
+        deserialize(obj: any, options: any) {
+          options.next("1", options);
+
+          return "hello";
+        }
+      });
+      expect(
+        deserialize(
+          {test: "hello"},
+          {
+            types,
+            type: Map
+          }
+        )
+      ).to.deep.equal("hello");
     });
   });
   describe("Map<string, primitive>", () => {

@@ -1,5 +1,6 @@
+import {UseType} from "./useType";
 import {Type, useDecorators} from "@tsed/core";
-import {Name} from "@tsed/schema";
+import {Any, Name} from "@tsed/schema";
 import {IFilter} from "../../interfaces/IFilter";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
@@ -7,7 +8,6 @@ import {ParamFn} from "./paramFn";
 import {UseDeserialization} from "./useDeserialization";
 import {UseParamExpression} from "./useParamExpression";
 import {UseParamType} from "./useParamType";
-import {UseType} from "./useType";
 import {UseValidation} from "./useValidation";
 
 /**
@@ -15,12 +15,20 @@ import {UseValidation} from "./useValidation";
  * @param options
  */
 function mapPipes(options: IParamOptions<any> = {}) {
+  const {paramType, useType, expression, useValidation, useConverter, ...props} = options;
+
   return [
-    options.useType && UseType(options.useType),
-    options.expression && UseParamExpression(options.expression),
-    options.expression && Name(options.expression),
-    options.useValidation && UseValidation(),
-    options.useConverter && UseDeserialization()
+    useType
+      ? UseType(useType)
+      : ParamFn((entity, parameters) => {
+          if (entity.isCollection && entity.type === Object) {
+            Any()(...parameters);
+          }
+        }),
+    expression && UseParamExpression(expression),
+    expression && Name(expression),
+    useValidation && UseValidation(),
+    useConverter && UseDeserialization(props)
   ];
 }
 
@@ -42,7 +50,7 @@ function mapPipes(options: IParamOptions<any> = {}) {
  * @pipe
  */
 export function UseParam(paramType: ParamTypes | string, options: IParamOptions<any> = {}): ParameterDecorator {
-  return useDecorators(UseParamType(paramType), ...mapPipes(options)) as ParameterDecorator;
+  return useDecorators(UseParamType(paramType), ...mapPipes({paramType, ...options})) as ParameterDecorator;
 }
 
 /**

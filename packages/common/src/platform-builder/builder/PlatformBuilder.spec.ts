@@ -153,7 +153,6 @@ describe("PlatformBuilder", () => {
         join(process.cwd(), "mvc/**/*.ts"),
         join(process.cwd(), "services/**/*.ts"),
         join(process.cwd(), "middlewares/**/*.ts"),
-        join(process.cwd(), "converters/**/*.ts"),
         MyClass
       ]);
     });

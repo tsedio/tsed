@@ -209,7 +209,7 @@ export class PlatformHandler {
       try {
         return await cb();
       } catch (er) {
-        throw er instanceof ValidationError ? ParamValidationError.from(metadata, er) : er;
+        throw ParamValidationError.from(metadata, er);
       }
     };
 

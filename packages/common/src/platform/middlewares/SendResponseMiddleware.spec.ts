@@ -1,9 +1,9 @@
-import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
+import {Ignore, Property} from "@tsed/schema";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {ConverterService} from "../../../src/converters";
-import {Ignore, Property} from "../../../src/jsonschema/decorators";
+import {ConverterService} from "../../../src/mvc/services/ConverterService";
 import {SendResponseMiddleware} from "./SendResponseMiddleware";
 
 describe("SendResponseMiddleware", () => {

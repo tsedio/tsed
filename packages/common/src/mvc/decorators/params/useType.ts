@@ -1,6 +1,5 @@
 import {Type} from "@tsed/core";
 import {CollectionOf} from "@tsed/schema";
-import {ParamFn} from "./paramFn";
 
 /**
  * Set the type of the item colllection.

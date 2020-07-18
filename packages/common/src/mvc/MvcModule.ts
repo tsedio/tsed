@@ -1,9 +1,9 @@
 import {Module} from "@tsed/di";
-import {ConverterModule} from "../converters/ConverterModule";
+import {ConverterService} from "./services/ConverterService";
 import {ParseService} from "./services/ParseService";
 import {ValidationService} from "./services/ValidationService";
 
 @Module({
-  imports: [ConverterModule, ParseService, ValidationService]
+  imports: [ConverterService, ParseService, ValidationService]
 })
 export class MvcModule {}

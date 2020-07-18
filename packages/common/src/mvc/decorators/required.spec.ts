@@ -17,8 +17,7 @@ describe("Required", () => {
     it("should called with the correct parameters", () => {
       // WHEN
       class Test {
-        test(@Required(null) test: string) {
-        }
+        test(@Required(null) test: string) {}
       }
 
       const metadata = ParamMetadata.get(prototypeOf(Test), "test", 0);
@@ -61,7 +60,7 @@ describe("Required", () => {
         actualError = er;
       }
 
-      expect(actualError.message).to.deep.eq("Required cannot be used as class decorator on Test");
+      expect(actualError.message).to.deep.eq("Allow cannot be used as class decorator on Test");
     });
   });
 });

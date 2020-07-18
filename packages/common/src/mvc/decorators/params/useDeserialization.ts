@@ -9,6 +9,6 @@ import {UsePipe} from "./usePipe";
  * @input
  * @pipe
  */
-export function UseDeserialization() {
-  return UsePipe(DeserializerPipe, {});
+export function UseDeserialization(options: any = {}) {
+  return UsePipe(DeserializerPipe, options);
 }
