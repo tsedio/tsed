@@ -1,3 +1,4 @@
+import {getJsonSchema, In, MaxItems, MinItems, OperationPath, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionContains} from "./collectionContains";
@@ -24,6 +25,103 @@ describe("@CollectionOf", () => {
         }
       },
       type: "object"
+    });
+  });
+  it("should declare a collection (Array of Model)", () => {
+    // WHEN
+    class Nested {
+      @Property()
+      id: string;
+    }
+
+    class Model {
+      @MaxItems(10)
+      @CollectionOf(Nested)
+      @MinItems(1)
+      prop: Nested[];
+    }
+
+    // THEN
+    const entity = JsonEntityStore.from(Model, "prop");
+    const schema = getJsonSchema(Model);
+
+    expect(entity.schema["_target"]).to.deep.equal(Array);
+    expect(entity.schema.get("type")).to.deep.equal("array");
+    expect(entity.itemSchema.getComputedType()).to.deep.equal(Nested);
+    expect(entity.schema["_itemSchema"]).to.deep.equal(entity.itemSchema);
+
+    expect(schema).to.deep.equal({
+      definitions: {
+        Nested: {
+          properties: {
+            id: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      properties: {
+        prop: {
+          items: {
+            $ref: "#/definitions/Nested"
+          },
+          minItems: 1,
+          maxItems: 10,
+          type: "array"
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should declare a collection (Array of Model on param)", () => {
+    // WHEN
+    class Nested {
+      @Property()
+      id: string;
+    }
+
+    class Model {
+      @Property()
+      id: string;
+      @CollectionOf(Nested)
+      prop: Nested;
+    }
+
+    class Ctrl {
+      @OperationPath("POST", "/")
+      test(@In("body") @CollectionOf(Model) body: Model[]) {}
+    }
+
+    // THEN
+    const entity = JsonEntityStore.from(Ctrl.prototype, "test", 0);
+
+    expect(getJsonSchema(entity)).to.deep.equal({
+      definitions: {
+        Model: {
+          properties: {
+            id: {
+              type: "string"
+            },
+            prop: {
+              $ref: "#/definitions/Nested"
+            }
+          },
+          type: "object"
+        },
+        Nested: {
+          properties: {
+            id: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      items: {
+        $ref: "#/definitions/Model"
+      },
+      type: "array"
     });
   });
   it("should declare a collection (Map of)", () => {
@@ -135,6 +233,7 @@ describe("@ArrayOf", () => {
   interface ArrayList<T> extends Array<T> {
     pull(query: any): this;
   }
+
   it("should declare a collection (Array of)", () => {
     // WHEN
     class Model {
@@ -159,11 +258,11 @@ describe("@ArrayOf", () => {
   });
 });
 
-
 describe("@MapOf", () => {
   interface MapCollection<K, V> extends Map<K, V> {
     take(query: any): V;
   }
+
   it("should declare a collection (Map of)", () => {
     // WHEN
     class Model {

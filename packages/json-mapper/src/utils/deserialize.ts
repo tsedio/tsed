@@ -28,11 +28,11 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
 }
 
 function isDeserializable(obj: any, options: JsonDeserializerOptions) {
-  if (!!options.collectionType && isNil(obj)) {
+  if ((!!options.collectionType && isNil(obj)) || obj === undefined) {
     return false;
   }
 
-  return !(isEmpty(options.type) || options.type === Object);
+  return !(isEmpty(options.type) || (options.type === Object && !options.collectionType));
 }
 
 function alterValue(schema: JsonSchema, value: any, options: JsonHookContext) {
@@ -104,7 +104,9 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
       collectionType: propStore.collectionType
     });
 
-    out[propStore.propertyName] = value;
+    if (value !== undefined) {
+      out[propStore.propertyName] = value;
+    }
   });
 
   if (additionalProperties) {

@@ -4,34 +4,40 @@ import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSerializerOptions} from "../interfaces";
 import {serializeJsonSchema} from "./serializeJsonSchema";
 
-const caches: Map<Type<any>, Map<string, any>> = new Map();
+const CACHE_KEY = "$cache:schemes";
 
-function get(model: Type<any>, options: any, cb: any) {
-  if (!caches.has(model)) {
-    caches.set(model, new Map());
-  }
+function getKey(options: any) {
+  return JSON.stringify(options);
+}
 
-  const cache = caches.get(model)!;
-  const key = JSON.stringify(options);
+function get(entity: JsonEntityStore, options: any) {
+  const cache: Map<string, any> = entity.store.get(CACHE_KEY) || new Map();
+  const key = getKey(options);
 
   if (!cache.has(key)) {
-    cache.set(key, cb());
+    const schema = serializeJsonSchema(entity.schema, {...options, root: false});
+
+    if (Object.keys(options.schemas).length) {
+      schema.definitions = options.schemas;
+    }
+
+    cache.set(key, schema);
   }
+
+  entity.store.set(CACHE_KEY, cache);
 
   return cache.get(key);
 }
 
-export function getJsonSchema(model: Type<any>, options: JsonSerializerOptions = {}) {
+export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSerializerOptions = {}) {
   options = {
     ...options,
-    spec: options.spec || SpecTypes.JSON,
     root: true,
+    spec: options.spec || SpecTypes.JSON,
     schemas: {}
   };
 
-  const storedJson = JsonEntityStore.from(model);
+  const entity = model instanceof JsonEntityStore ? model : JsonEntityStore.from(model);
 
-  return get(model, options, () => {
-    return serializeJsonSchema(storedJson.schema, options);
-  });
+  return get(entity, options);
 }

@@ -35,7 +35,7 @@ export function CollectionOf(type: any, collectionType?: any) {
 
   const decorator = (...args: any) => {
     const store = JsonEntityStore.from(...args);
-    const itemSchema = store.itemSchema.toJSON();
+    // const itemSchema = store.itemSchema.toJSON();
 
     if (collectionType) {
       store.collectionType = collectionType;
@@ -43,7 +43,10 @@ export function CollectionOf(type: any, collectionType?: any) {
     }
 
     store.type = type;
-    store.itemSchema.assign({...itemSchema, type});
+    // console.log(type);
+    store.itemSchema.type(type);
+    // console.log(store.itemSchema.getComputedType(), schema);
+    // store.itemSchema.assign({...itemSchema, type});
     store.schema.assign(schema);
 
     if (store.isArray && contains) {

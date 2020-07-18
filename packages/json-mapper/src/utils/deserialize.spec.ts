@@ -5,8 +5,8 @@ import {
   Generics,
   Ignore,
   In,
-  JsonHookContext,
   JsonEntityStore,
+  JsonHookContext,
   MinLength,
   Name,
   OperationPath,
@@ -17,7 +17,7 @@ import {expect} from "chai";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import {OnDeserialize} from "../decorators/onDeserialize";
-import {deserialize} from "./deserialize";
+import {deserialize, plainObjectToClass} from "./deserialize";
 
 function mapToObject(value: any): any {
   expect(value).to.be.instanceOf(Map);
@@ -77,6 +77,17 @@ describe("deserialize()", () => {
       expect(deserialize("", options)).to.deep.equal([""]);
       expect(deserialize("1", options)).to.deep.equal(["1"]);
     });
+    it("should cast object to array", () => {
+      expect(
+        deserialize(
+          {},
+          {
+            collectionType: Array,
+            type: Object
+          }
+        )
+      ).to.deep.equal([{}]);
+    });
   });
   describe("Map<string, primitive>", () => {
     it("should transform value", () => {
@@ -115,6 +126,50 @@ describe("deserialize()", () => {
     });
   });
   describe("Model", () => {
+    it("should do nothing when a prop is undefined", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnDeserialize(value => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      const result = deserialize(
+        {
+          id: "id",
+          password: "string",
+          mapped_prop: "mappedProp",
+          roles: undefined,
+          add: true
+        },
+        {type: Model, additionalProperties: false}
+      );
+
+      expect(result).to.be.instanceOf(Model);
+      expect(result).to.deep.eq({
+        id: "id",
+        mappedProp: "mappedProptest",
+        password: "string",
+        roles: new Map()
+      });
+    });
     it("should transform object to class (additionalProperties = false)", () => {
       class Role {
         @Property()
@@ -287,8 +342,7 @@ describe("deserialize()", () => {
           name: "name",
           posts: [
             {
-              id: "id",
-              owner: undefined
+              id: "id"
             }
           ]
         }
@@ -520,6 +574,11 @@ describe("deserialize()", () => {
           }
         }
       });
+    });
+  });
+  describe("plainObjectToClass", () => {
+    it("should return undefined", () => {
+      expect(plainObjectToClass(undefined, {})).to.eq(undefined);
     });
   });
 });

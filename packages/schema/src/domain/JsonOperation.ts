@@ -1,10 +1,10 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
-import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
 import {JsonExternalDocumentation, JsonHeader, JsonSecurityRequirement, JsonSerializerOptions, JsonTag} from "../interfaces";
+import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
-import {JsonParameterTypes} from "./JsonParameterTypes";
+import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonRequestBody} from "./JsonRequestBody";
 import {JsonResponse} from "./JsonResponse";
 import {JsonSchema} from "./JsonSchema";
@@ -195,16 +195,18 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     const parameters: any[] = [];
 
     this.get("parameters").forEach((parameter: JsonParameter) => {
-      if (parameter.get("in")) {
-        if (parameter.get("in") === JsonParameterTypes.BODY) {
-          bodyParameters.push(parameter);
-        } else {
-          parameters.push(parameter.toJSON(options));
+      if (!isParameterType(this.get("in"))) {
+        if (parameter.get("in")) {
+          if (parameter.get("in") === JsonParameterTypes.BODY) {
+            bodyParameters.push(parameter);
+          } else {
+            parameters.push(...[].concat(parameter.toJSON(options)));
+          }
         }
       }
     });
 
-    operation.parameters = parameters;
+    operation.parameters = parameters.filter(Boolean);
 
     if (this.get("responses").size === 0) {
       operation.responses = {

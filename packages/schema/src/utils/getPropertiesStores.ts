@@ -7,7 +7,9 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
  * Return the list of properties including properties from inherited classes
  * @param target
  */
-export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>(target: Type<any> | any): Map<string | symbol | number, T> {
+export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>(
+  target: Type<any> | any
+): Map<string | symbol | number, T> {
   const store: any = target.isStore ? target : getJsonEntityStore(target);
 
   if (!store.$properties) {
@@ -16,7 +18,9 @@ export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>
 
     stores.forEach(currentStore => {
       currentStore.children.forEach(propStore => {
-        store.$properties.set(propStore.propertyKey, propStore);
+        if (!store.$properties.has(propStore.propertyKey)) {
+          store.$properties.set(propStore.propertyKey, propStore);
+        }
       });
     });
   }

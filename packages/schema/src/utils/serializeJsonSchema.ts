@@ -157,9 +157,9 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
 export function serializeJsonSchema(schema: JsonSchema, options: JsonSerializerOptions = {}): any {
   const {useAlias = true, schemas = {}, root = true, genericTypes} = options;
 
-  let obj: any = Array.from(schema.entries()).reduce((obj: any, [key, value]) => {
+  let obj: any = Array.from(schema.entries()).reduce((item: any, [key, value]) => {
     if (IGNORES.includes(key)) {
-      return obj;
+      return item;
     }
 
     if (key === "type") {
@@ -185,16 +185,16 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSerializerO
     }
 
     if (isEmptyProperties(key, value)) {
-      return obj;
+      return item;
     }
 
     if (shouldMapAlias(key, value, useAlias)) {
       value = mapAliasedProperties(value, schema.alias);
     }
 
-    obj[key] = value;
+    item[key] = value;
 
-    return obj;
+    return item;
   }, {});
 
   if (schema.isClass) {
@@ -205,10 +205,6 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSerializerO
 
   if (schema.$required.size) {
     obj.required = getRequired(schema, useAlias);
-  }
-
-  if (root && Object.keys(schemas).length) {
-    obj.definitions = schemas;
   }
 
   return obj;
