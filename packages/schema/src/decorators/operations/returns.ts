@@ -11,7 +11,7 @@ import {
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
-import {JsonSchema, JsonSchemaOptions} from "../../domain/JsonSchema";
+import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
 import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
@@ -37,10 +37,23 @@ export interface ReturnsChainedDecorators extends MethodDecorator {
   Examples(examples: any): this;
 
   /**
-   * Add the nested types
-   * @param generics
+   * Change the model type
+   * @param type
    */
-  Of(...generics: (Type<any> | any)[]): this;
+  Type(type: Type<any> | any): this;
+
+  /**
+   * Change the status
+   * @param status
+   * @constructor
+   */
+  Status(status: string | number): this;
+
+  /**
+   * Add the nested types
+   * @param types
+   */
+  Of(...types: (Type<any> | any)[]): this;
 
   /**
    * Declare a nested generic models
@@ -64,7 +77,7 @@ export interface ReturnsChainedDecorators extends MethodDecorator {
    * Assign partial schema
    * @param schema
    */
-  Schema(schema: Partial<JsonSchemaOptions>): this;
+  Schema(schema: Partial<JsonSchemaObject>): this;
 
   [key: string]: any;
 }
@@ -90,10 +103,13 @@ function initSchemaAction(ctx: ReturnsActionContext) {
   ctx.response = operation.addResponse(currentStatus, response).getResponseOf(currentStatus);
 
   if (isSuccessStatus(status) || currentStatus === "default") {
-    store.type = model;
+    if (model) {
+      store.type = model;
+    }
+
     ctx.response.$schema = ctx.response.$schema || store.schema;
   } else {
-    ctx.response.$schema = new JsonSchema({type: model});
+    ctx.response.$schema = new JsonSchema({type: model || String});
   }
 
   ctx.response.$schema.assign(schema || {});
@@ -248,7 +264,7 @@ function checkCollection(model: any) {
  * @param status
  * @param model
  */
-export function Returns(status?: string | number, model: Type<any> | any = String): ReturnsChainedDecorators {
+export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
   const response = new JsonResponse();
   const schema = {};
   let contentType: string;
@@ -312,10 +328,15 @@ export function Returns(status?: string | number, model: Type<any> | any = Strin
     return decorator;
   };
 
+  decorator.Type = (type: Type<any> | any) => {
+    model = type;
+
+    return decorator;
+  };
+
   decorator.Of = (...types: (Type<any> | any)[]) => {
     checkPrimitive(model);
 
-    // if (isSuccessStatus(status) || !status) {
     actions.push(ctx => {
       const {store} = ctx;
 
@@ -327,7 +348,6 @@ export function Returns(status?: string | number, model: Type<any> | any = Strin
         store.nestedGenerics.push(types);
       }
     });
-    // }
 
     return decorator;
   };
@@ -344,8 +364,14 @@ export function Returns(status?: string | number, model: Type<any> | any = Strin
     return decorator;
   };
 
-  decorator.Schema = (input: Partial<JsonSchemaOptions>) => {
+  decorator.Schema = (input: Partial<JsonSchemaObject>) => {
     deepExtends(schema, input);
+
+    return decorator;
+  };
+
+  decorator.Status = (code: string | number) => {
+    status = code;
 
     return decorator;
   };

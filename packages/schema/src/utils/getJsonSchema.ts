@@ -1,7 +1,7 @@
 import {Type} from "@tsed/core";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSerializerOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces";
 import {serializeJsonSchema} from "./serializeJsonSchema";
 
 const CACHE_KEY = "$cache:schemes";
@@ -29,7 +29,7 @@ function get(entity: JsonEntityStore, options: any) {
   return cache.get(key);
 }
 
-export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSerializerOptions = {}) {
+export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSchemaOptions = {}) {
   options = {
     ...options,
     root: true,

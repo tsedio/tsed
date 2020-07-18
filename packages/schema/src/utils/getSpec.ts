@@ -1,13 +1,13 @@
 import {cleanObject, Type, uniqBy} from "@tsed/core";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSerializerOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces";
 import {buildPath} from "./buildPath";
 import {getOperationsStores} from "./getOperationsStores";
 import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
 
-export interface SpecSerializerOptions extends JsonSerializerOptions {
+export interface SpecSerializerOptions extends JsonSchemaOptions {
   /**
    * Paths
    */

@@ -1,6 +1,6 @@
 import {SpecTypes} from "../domain/SpecTypes";
 
-export interface JsonSerializerOptions {
+export interface JsonSchemaOptions {
   useAlias?: boolean;
   schemas?: any;
   root?: any;

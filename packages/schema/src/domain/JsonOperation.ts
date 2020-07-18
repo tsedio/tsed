@@ -1,6 +1,6 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
-import {JsonExternalDocumentation, JsonHeader, JsonSecurityRequirement, JsonSerializerOptions, JsonTag} from "../interfaces";
+import {JsonExternalDocumentation, JsonHeader, JsonSecurityRequirement, JsonSchemaOptions, JsonTag} from "../interfaces";
 import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
@@ -189,7 +189,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this;
   }
 
-  toJSON(options: JsonSerializerOptions = {}): any {
+  toJSON(options: JsonSchemaOptions = {}): any {
     const operation = super.toJSON(options);
     const bodyParameters: JsonParameter[] = [];
     const parameters: any[] = [];

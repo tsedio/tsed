@@ -1,6 +1,6 @@
 import {classOf, Hooks, isArray, isClass, isFunction, nameOf, Type, uniq, ValueOf} from "@tsed/core";
 import {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
-import {JsonSerializerOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {NestedGenerics} from "../utils/generics";
 import {getComputedType} from "../utils/getComputedType";
@@ -10,7 +10,7 @@ import {toJsonRegex} from "../utils/toJsonRegex";
 import {AliasMap, AliasType} from "./JsonAliasMap";
 import {JsonFormatTypes} from "./JsonFormatTypes";
 
-export interface JsonSchemaOptions extends JSONSchema6 {
+export interface JsonSchemaObject extends JSONSchema6 {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
   additionalProperties?: boolean | JSONSchema6 | any;
   propertyNames?: boolean | JSONSchema6 | any;
@@ -48,7 +48,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   private _isGeneric: boolean = false;
   private _isCollection: boolean = false;
 
-  constructor(obj: JsonSchema | Partial<JsonSchemaOptions> = {}) {
+  constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     super();
 
     if (obj) {
@@ -109,11 +109,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this.getComputedType();
   }
 
-  static from(obj: Partial<JsonSchemaOptions> = {}) {
+  static from(obj: Partial<JsonSchemaObject> = {}) {
     return new JsonSchema(obj);
   }
 
-  itemSchema(obj: JsonSchemaOptions | JsonSchema | any = {}) {
+  itemSchema(obj: JsonSchemaObject | JsonSchema | any = {}) {
     this._itemSchema = this._itemSchema || mapToJsonSchema(obj);
     this._itemSchema.assign(obj);
 
@@ -215,7 +215,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Omitting this keyword has the same behavior as an empty schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.10
    */
-  additionalItems(additionalItems: boolean | JsonSchemaOptions) {
+  additionalItems(additionalItems: boolean | JsonSchemaObject) {
     super.set("additionalItems", mapToJsonSchema(additionalItems));
 
     return this;
@@ -246,7 +246,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Omitting this keyword has the same behavior as an empty schema.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.9
    */
-  items(items: JsonSchema | JsonSchemaOptions | (JsonSchemaOptions | JsonSchema)[]) {
+  items(items: JsonSchema | JsonSchemaObject | (JsonSchemaObject | JsonSchema)[]) {
     super.set("items", mapToJsonSchema(items));
 
     return this;
@@ -349,13 +349,13 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Omitting this keyword has the same behavior as an empty object.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.18
    */
-  properties(properties: JsonSchema | {[key: string]: JsonSchemaOptions}) {
+  properties(properties: JsonSchema | {[key: string]: JsonSchemaObject}) {
     super.set("properties", properties instanceof JsonSchema ? properties : mapProperties(properties));
 
     return this;
   }
 
-  addProperties(key: string, schema: JsonSchemaOptions | JsonSchema) {
+  addProperties(key: string, schema: JsonSchemaObject | JsonSchema) {
     const properties = this.get("properties") || {};
 
     properties[key] = schema;
@@ -371,7 +371,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Omitting this keyword has the same behavior as an empty object.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.19
    */
-  patternProperties(patternProperties: {[p: string]: JsonSchemaOptions | JsonSchema}) {
+  patternProperties(patternProperties: {[p: string]: JsonSchemaObject | JsonSchema}) {
     super.set("patternProperties", mapProperties(patternProperties));
 
     return this;
@@ -384,7 +384,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * The default value is an empty schema which allows any value for additional properties.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.20
    */
-  additionalProperties(additionalProperties: boolean | JsonSchemaOptions | JsonSchema) {
+  additionalProperties(additionalProperties: boolean | JsonSchemaObject | JsonSchema) {
     super.set("additionalProperties", mapToJsonSchema(additionalProperties));
 
     return this;
@@ -433,7 +433,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.1
    */
-  definitions(definitions: {[p: string]: JsonSchemaOptions | JsonSchema}) {
+  definitions(definitions: {[p: string]: JsonSchemaObject | JsonSchema}) {
     super.set("definitions", mapProperties(definitions));
 
     return this;
@@ -442,7 +442,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.26
    */
-  allOf(allOf: (JsonSchemaOptions | JsonSchema)[]) {
+  allOf(allOf: (JsonSchemaObject | JsonSchema)[]) {
     super.set("allOf", allOf.map(mapToJsonSchema));
 
     return this;
@@ -451,7 +451,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.27
    */
-  anyOf(anyOf: (JsonSchemaOptions | JsonSchema)[]) {
+  anyOf(anyOf: (JsonSchemaObject | JsonSchema)[]) {
     super.set("anyOf", anyOf.map(mapToJsonSchema));
 
     return this;
@@ -460,7 +460,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
    */
-  oneOf(oneOf: (JsonSchemaOptions | JsonSchema)[]) {
+  oneOf(oneOf: (JsonSchemaObject | JsonSchema)[]) {
     super.set("oneOf", oneOf.map(mapToJsonSchema));
 
     return this;
@@ -469,7 +469,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   /**
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.29
    */
-  not(not: JsonSchemaOptions | JsonSchema) {
+  not(not: JsonSchemaObject | JsonSchema) {
     super.set("not", mapToJsonSchema(not));
 
     return this;
@@ -683,15 +683,15 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this;
   }
 
-  toObject(options?: JsonSerializerOptions) {
+  toObject(options?: JsonSchemaOptions) {
     return this.toJSON(options);
   }
 
-  toJSON(options: JsonSerializerOptions = {}) {
+  toJSON(options: JsonSchemaOptions = {}) {
     return serializeJsonSchema(this, options);
   }
 
-  assign(obj: JsonSchema | Partial<JsonSchemaOptions> = {}) {
+  assign(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     if (obj instanceof JsonSchema) {
       obj = obj.toObject();
     }
