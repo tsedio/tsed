@@ -24,6 +24,7 @@ declare global {
  * > Note: TypeScript transform and store `ExpressApplication` as `Function` type in the metadata. So to inject a factory, you must use the `@Inject(type)` decorator.
  *
  * @type {symbol}
+ * @deprecated
  */
 export type ExpressApplication = Express.Application;
 

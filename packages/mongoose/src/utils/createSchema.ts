@@ -15,6 +15,9 @@ export interface MongooseSchemaMetadata {
   virtuals: Map<string, any>;
 }
 
+/**
+ * @ignore
+ */
 function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: mongoose.SchemaOptions) {
   const mongooseSchema = new mongoose.Schema(schema, options);
 
@@ -25,6 +28,9 @@ function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: mongo
   return mongooseSchema;
 }
 
+/**
+ * @ignore
+ */
 function isVirtualRef(options: SchemaTypeOpts<any>) {
   return options.ref && options.localField && options.foreignField;
 }
@@ -49,9 +55,7 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
 }
 
 /**
- *
- * @param target
- * @returns {MongooseSchema}
+ * @ignore
  */
 export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
   const properties = PropertyMetadata.getProperties(target, {withIgnoredProps: true});
@@ -84,6 +88,9 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
   return schema;
 }
 
+/**
+ * @ignore
+ */
 export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): SchemaTypeOpts<any> {
   const key = propertyMetadata.propertyKey;
   const rawMongooseSchema = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};

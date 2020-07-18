@@ -51,7 +51,6 @@ import {mapParamsOptions} from "../../mvc/utils/mapParamsOptions";
  * @decorator
  * @operation
  * @input
- * @returns {Function}
  */
 export function Context(expression: string): ParameterDecorator;
 export function Context(): ParameterDecorator;
