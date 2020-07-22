@@ -1,6 +1,6 @@
 {
   "name": "@tsed/common",
-  "version": "5.61.1",
+  "version": "5.61.2",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -44,9 +44,9 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "@tsed/core": "5.61.1",
-    "@tsed/di": "5.61.1",
-    "@tsed/exceptions": "5.61.1",
+    "@tsed/core": "5.61.2",
+    "@tsed/di": "5.61.2",
+    "@tsed/exceptions": "5.61.2",
     "@tsed/logger": "^5.5.0",
     "@types/json-schema": "^7.0.3",
     "globby": "11.0.0",
@@ -61,6 +61,5 @@
   "peerDependencies": {
     "@types/express": "^4",
     "express": "^4"
-  },
-  "devDependencies": {}
+  }
 }
