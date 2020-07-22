@@ -7,6 +7,7 @@ export interface ProxyMapSettings {
 
 /**
  * @private
+ * @deprecated
  */
 export abstract class ProxyMap<T, I> implements Map<T, I> {
   readonly [Symbol.toStringTag]: "Map" = "Map";
@@ -16,6 +17,47 @@ export abstract class ProxyMap<T, I> implements Map<T, I> {
       this.mapSettings.readonly = true;
       this.registry = this.copy();
     }
+  }
+
+  /**
+   * Return the size of the map.
+   * @returns {number}
+   */
+  get size() {
+    return this.registry.size;
+  }
+
+  /**
+   *
+   * @param value
+   * @param query
+   * @returns {boolean}
+   */
+  private static query(value: any, query: any): boolean {
+    /* istanbul ignore next */
+    if (!query) {
+      return true;
+    }
+
+    if (value === query) {
+      return true;
+    }
+
+    /* istanbul ignore else */
+    if (typeof value === "object") {
+      return !!Object.keys(query).find(key => {
+        /* istanbul ignore else */
+        if (value[key] && query[key]) {
+          return this.query(value[key], query[key]);
+        }
+
+        /* istanbul ignore next */
+        return false;
+      });
+    }
+
+    /* istanbul ignore next */
+    return false;
   }
 
   /**
@@ -144,46 +186,5 @@ export abstract class ProxyMap<T, I> implements Map<T, I> {
     });
 
     return map;
-  }
-
-  /**
-   * Return the size of the map.
-   * @returns {number}
-   */
-  get size() {
-    return this.registry.size;
-  }
-
-  /**
-   *
-   * @param value
-   * @param query
-   * @returns {boolean}
-   */
-  private static query(value: any, query: any): boolean {
-    /* istanbul ignore next */
-    if (!query) {
-      return true;
-    }
-
-    if (value === query) {
-      return true;
-    }
-
-    /* istanbul ignore else */
-    if (typeof value === "object") {
-      return !!Object.keys(query).find(key => {
-        /* istanbul ignore else */
-        if (value[key] && query[key]) {
-          return this.query(value[key], query[key]);
-        }
-
-        /* istanbul ignore next */
-        return false;
-      });
-    }
-
-    /* istanbul ignore next */
-    return false;
   }
 }

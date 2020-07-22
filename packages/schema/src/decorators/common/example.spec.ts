@@ -13,11 +13,11 @@ describe("@Example", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      examples: {
-        default: {
+      examples: [
+        {
           id: "id"
         }
-      },
+      ],
       type: "object"
     });
   });
@@ -28,9 +28,7 @@ describe("@Example", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      examples: {
-        name: "description"
-      },
+      examples: ["description"],
       type: "object"
     });
   });

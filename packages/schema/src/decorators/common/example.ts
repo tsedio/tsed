@@ -1,4 +1,4 @@
-import {DecoratorParameters, DecoratorTypes, getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorParameters, DecoratorTypes, getDecoratorType, isObject, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
 

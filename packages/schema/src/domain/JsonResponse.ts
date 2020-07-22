@@ -1,4 +1,4 @@
-import {JsonHeader, JsonMediaType, JsonSerializerOptions} from "../interfaces";
+import {JsonHeader, JsonMediaType, JsonSchemaOptions} from "../interfaces";
 import {mapHeaders} from "../utils/mapHeaders";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
@@ -53,7 +53,7 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     return this;
   }
 
-  toJSON(options: JsonSerializerOptions = {}): any {
+  toJSON(options: JsonSchemaOptions = {}): any {
     const response = super.toJSON(options);
 
     if (options.spec !== SpecTypes.OPENAPI) {

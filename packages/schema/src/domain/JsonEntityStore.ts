@@ -189,7 +189,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
 
       switch (this.decoratorType) {
         case DecoratorTypes.PARAM:
-          type = Store.getParamTypes(this.target, this.propertyKey)[this.index!] || Object;
+          type = Store.getParamTypes(this.target, this.propertyKey)[this.index!];
           break;
         case DecoratorTypes.CLASS:
           type = this.target;

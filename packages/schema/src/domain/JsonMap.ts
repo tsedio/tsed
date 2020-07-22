@@ -1,5 +1,5 @@
 import {isFunction} from "@tsed/core";
-import {JsonSerializerOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces";
 import {serializeMap} from "../utils/serializeJsonSchema";
 
 export class JsonMap<T> extends Map<string, any> {
@@ -23,7 +23,7 @@ export class JsonMap<T> extends Map<string, any> {
     return this;
   }
 
-  toJSON(options: JsonSerializerOptions = {}) {
+  toJSON(options: JsonSchemaOptions = {}) {
     return serializeMap(this, options);
   }
 }

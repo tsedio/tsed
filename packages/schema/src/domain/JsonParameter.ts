@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {JsonSerializerOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {JsonMap} from "./JsonMap";
@@ -50,7 +50,7 @@ export class JsonParameter extends JsonMap<JsonParameterOptions> implements Nest
     return this;
   }
 
-  toJSON(options: JsonSerializerOptions = {}) {
+  toJSON(options: JsonSchemaOptions = {}) {
     if (!isParameterType(this.get("in"))) {
       return null;
     }
@@ -93,7 +93,7 @@ export class JsonParameter extends JsonMap<JsonParameterOptions> implements Nest
     return parameter;
   }
 
-  private refToParameters(parameter: any, options: JsonSerializerOptions, schemas: any) {
+  private refToParameters(parameter: any, options: JsonSchemaOptions, schemas: any) {
     const schema = options.schemas[this.$schema.getName()];
 
     if (options.schemas[this.$schema.getName()] && !schemas[this.$schema.getName()]) {

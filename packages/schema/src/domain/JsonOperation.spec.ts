@@ -22,7 +22,7 @@ describe("JsonOperation", () => {
           "x-token2": {example: "token2", type: "string"},
           "x-token": {example: "token", type: "string"}
         },
-        schema: {type: "string"}
+        schema: {type: "object"}
       });
       expect(entity.operation?.getHeadersOf(200)).to.deep.equal({
         "x-token": {

@@ -4,6 +4,9 @@ import {Entity} from "./Entity";
 import {Metadata} from "./Metadata";
 import {Store} from "./Store";
 
+/**
+ * @deprecated Will be removed in v6
+ */
 export abstract class Storable extends Entity {
   /**
    * Required entity.

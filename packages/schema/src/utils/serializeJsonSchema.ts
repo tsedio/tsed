@@ -1,8 +1,9 @@
-import {classOf, deepExtends, isArray} from "@tsed/core";
+import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
+import {SpecTypes} from "@tsed/schema";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {alterIgnore} from "../hooks/ignoreHook";
-import {JsonSerializerOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces";
 import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
@@ -21,7 +22,7 @@ function getRequired(schema: any, useAlias: boolean) {
   return Array.from(schema.$required).map(key => (useAlias ? (schema.alias.get(key) as string) || key : key));
 }
 
-export function createRef(value: any, options: JsonSerializerOptions = {}) {
+export function createRef(value: any, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
   const name = store.schema.getName() || value.getName();
 
@@ -51,7 +52,7 @@ export function createRef(value: any, options: JsonSerializerOptions = {}) {
   };
 }
 
-export function serializeItem(value: any, options: JsonSerializerOptions) {
+export function serializeItem(value: any, options: JsonSchemaOptions) {
   if (value && value.isClass) {
     return createRef(value, {...options, root: false});
   }
@@ -59,7 +60,7 @@ export function serializeItem(value: any, options: JsonSerializerOptions) {
   return serializeAny(value, {...options, root: false});
 }
 
-export function serializeInherited(obj: any, target: any, options: JsonSerializerOptions = {}) {
+export function serializeInherited(obj: any, target: any, options: JsonSchemaOptions = {}) {
   const stores = Array.from(getInheritedStores(target).entries()).filter(([model]) => classOf(model) !== classOf(target));
 
   if (stores.length) {
@@ -78,7 +79,7 @@ export function serializeInherited(obj: any, target: any, options: JsonSerialize
  * @param input
  * @param options
  */
-export function serializeMap(input: Map<string, any>, options: JsonSerializerOptions = {}): any {
+export function serializeMap(input: Map<string, any>, options: JsonSchemaOptions = {}): any {
   options = mapGenericsOptions(options);
 
   return Array.from(input.entries()).reduce((obj: any, [key, value]) => {
@@ -93,7 +94,7 @@ export function serializeMap(input: Map<string, any>, options: JsonSerializerOpt
  * @param input
  * @param options
  */
-export function serializeObject(input: any, options: JsonSerializerOptions) {
+export function serializeObject(input: any, options: JsonSchemaOptions) {
   return Object.entries(input).reduce<any>(
     (obj, [key, value]: any[]) => {
       if (!alterIgnore(value, options)) {
@@ -106,7 +107,7 @@ export function serializeObject(input: any, options: JsonSerializerOptions) {
   );
 }
 
-export function serializeAny(input: any, options: JsonSerializerOptions = {}) {
+export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
   options.schemas = options.schemas || {};
 
   if (typeof input !== "object" || input === null) {
@@ -154,7 +155,7 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
  * @param schema
  * @param options
  */
-export function serializeJsonSchema(schema: JsonSchema, options: JsonSerializerOptions = {}): any {
+export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptions = {}): any {
   const {useAlias = true, schemas = {}, root = true, genericTypes} = options;
 
   let obj: any = Array.from(schema.entries()).reduce((item: any, [key, value]) => {
@@ -164,6 +165,10 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSerializerO
 
     if (key === "type") {
       value = schema.getJsonType();
+    }
+
+    if (key === "examples" && isObject(value) && options.spec !== SpecTypes.SWAGGER) {
+      value = Object.values(value);
     }
 
     if (!root && ["properties", "additionalProperties", "items"].includes(key) && value.isClass) {
