@@ -14,7 +14,7 @@ function mapOptions(args: any[]) {
     }
 
     if (typeof arg === "string" || arg instanceof RegExp) {
-      path = arg;
+      path = arg ? arg : "/";
 
       return false;
     }
