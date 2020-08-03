@@ -1,5 +1,5 @@
 import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
-import {SpecTypes} from "@tsed/schema";
+import {SpecTypes} from "../domain/SpecTypes";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {alterIgnore} from "../hooks/ignoreHook";
