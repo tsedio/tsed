@@ -1,6 +1,6 @@
 {
   "name": "@tsed/mongoose",
-  "version": "5.61.2",
+  "version": "5.61.3",
   "description": "Mongoose package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -21,7 +21,7 @@
     "src": "src"
   },
   "devDependencies": {
-    "@tsed/common": "5.61.2",
-    "@tsed/core": "5.61.2"
+    "@tsed/common": "5.61.3",
+    "@tsed/core": "5.61.3"
   }
 }
