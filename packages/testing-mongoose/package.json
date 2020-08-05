@@ -5,17 +5,16 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
     "mongodb-memory-server": "^6.3.3",
-    "tslib": "2.0.0"
+    "tslib": "1.11.0"
   },
   "private": false,
   "peerDependencies": {
-    "@types/mongoose": "^5.7.6",
-    "mongoose": "^5.9.4"
+    "@types/mongoose": "^5.7.34",
+    "mongoose": "^5.9.27"
   },
   "devDependencies": {
     "@tsed/common": "5.61.3",

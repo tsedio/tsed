@@ -5,15 +5,14 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "2.0.0"
+    "tslib": "1.11.0"
   },
   "peerDependencies": {
-    "@types/mongoose": "^5.7.6",
-    "mongoose": "^5.9.4"
+    "@types/mongoose": "^5.7.34",
+    "mongoose": "^5.9.27"
   },
   "private": false,
   "directories": {

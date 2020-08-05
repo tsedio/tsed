@@ -40,8 +40,7 @@
     "url": "git+https://github.com/TypedProject//tsed.git"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "peerDependencies": {
     "@types/express": "^4",

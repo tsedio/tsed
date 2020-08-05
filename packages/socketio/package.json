@@ -5,14 +5,13 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "2.0.0"
+    "tslib": "1.11.0"
   },
   "peerDependencies": {
-    "@types/socket.io": "^2.1.4",
+    "@types/socket.io": "^2.1.10",
     "socket.io": "^2.3.0"
   },
   "private": false,

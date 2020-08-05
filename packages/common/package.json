@@ -40,22 +40,21 @@
     "url": "git+https://github.com/TypedProject//tsed.git"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
     "@tsed/core": "5.61.3",
     "@tsed/di": "5.61.3",
     "@tsed/exceptions": "5.61.3",
-    "@tsed/logger": "^5.5.0",
-    "@types/json-schema": "^7.0.3",
-    "globby": "11.0.0",
+    "@tsed/logger": "5.5.3",
+    "@types/json-schema": "7.0.5",
+    "globby": "11.0.1",
     "json-schema": "^0.2.3",
     "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
     "rxjs": "^6.5.2",
-    "ts-log-debug": "^5.5.0",
-    "tslib": "2.0.0",
+    "ts-log-debug": "^5.5.3",
+    "tslib": "1.11.0",
     "uuid": "3.3.3"
   },
   "peerDependencies": {

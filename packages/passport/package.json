@@ -6,17 +6,16 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json",
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "tslib": "2.0.0"
+    "tslib": "1.11.0"
   },
   "devDependencies": {
     "@tsed/common": "5.61.3",
     "@tsed/core": "5.61.3",
     "@tsed/di": "5.61.3",
-    "@types/passport": "1.0.3",
+    "@types/passport": "1.0.4",
     "@types/passport-http": "0.3.8",
     "@types/passport-local": "1.0.33",
     "passport": "0.4.1",

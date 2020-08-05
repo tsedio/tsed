@@ -6,12 +6,11 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "reflect-metadata": "^0.1.13",
-    "source-map-support": "0.5.16",
-    "tslib": "2.0.0"
+    "source-map-support": "0.5.19",
+    "tslib": "1.11.0"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "private": false,
   "devDependencies": {},

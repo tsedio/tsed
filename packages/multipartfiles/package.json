@@ -6,15 +6,14 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json",
     "start": "ts-node -r tsconfig-paths/register test/helpers/index.ts"
   },
   "dependencies": {
     "multer": "^1.4.2",
-    "tslib": "2.0.0"
+    "tslib": "1.11.0"
   },
   "peerDependencies": {
-    "@types/multer": "^1.4.2"
+    "@types/multer": "^1.4.3"
   },
   "private": false,
   "devDependencies": {

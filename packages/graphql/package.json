@@ -5,20 +5,18 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "build:doc": "tsc --build tsconfig.doc.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "apollo-datasource": "^0.6.0",
-    "apollo-server-express": "2.14.2",
-    "tslib": "2.0.0",
+    "apollo-datasource": "^0.7.2",
+    "apollo-server-express": "2.16.1",
+    "tslib": "1.11.0",
     "type-graphql": "^0.17.6"
   },
-  "peerDependencies": {
-    "@types/graphql": "^14.5.0"
-  },
+  "peerDependencies": {},
   "private": false,
   "devDependencies": {
+    "graphql": "14.7.0",
     "@tsed/common": "5.61.3",
     "@tsed/core": "5.61.3"
   }
