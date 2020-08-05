@@ -81,7 +81,7 @@
     "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.8.3",
+    "@tsed/monorepo-utils": "1.8.5",
     "@typedproject/ts-doc": "4.0.8",
     "@types/chai": "4.2.10",
     "@types/chai-as-promised": "7.1.2",
@@ -142,10 +142,10 @@
     "socket.io-client": "2.3.0",
     "source-map-support": "0.5.16",
     "supertest": "4.0.2",
-    "swagger-ui-dist": "3.25.0",
+    "swagger-ui-dist": "3.31.1",
     "ts-node": "8.6.2",
     "tsconfig-paths": "3.9.0",
-    "tslib": "1.11.1",
+    "tslib": "2.0.0",
     "tslint": "6.1.0",
     "type-graphql": "0.17.6",
     "typeorm": "0.2.24",

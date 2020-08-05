@@ -6,7 +6,7 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "@tsed/core": "5.61.3",
-    "tslib": "1.11.1"
+    "tslib": "2.0.0"
   },
   "devDependencies": {
     "@tsed/schema": "5.61.3"

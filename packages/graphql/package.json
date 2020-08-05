@@ -11,7 +11,7 @@
   "dependencies": {
     "apollo-datasource": "^0.6.0",
     "apollo-server-express": "2.14.2",
-    "tslib": "1.11.1",
+    "tslib": "2.0.0",
     "type-graphql": "^0.17.6"
   },
   "peerDependencies": {

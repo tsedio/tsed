@@ -9,7 +9,7 @@
     "build:doc": "tsc --build tsconfig.doc.json"
   },
   "dependencies": {
-    "tslib": "1.11.1"
+    "tslib": "2.0.0"
   },
   "peerDependencies": {
     "@types/socket.io": "^2.1.4",

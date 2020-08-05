@@ -7,7 +7,7 @@
   "dependencies": {
     "@tsed/core": "5.61.3",
     "change-case": "4.1.1",
-    "tslib": "1.11.1"
+    "tslib": "2.0.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
