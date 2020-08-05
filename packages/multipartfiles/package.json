@@ -1,6 +1,6 @@
 {
   "name": "@tsed/multipartfiles",
-  "version": "5.61.3",
+  "version": "5.61.4",
   "description": "Multer package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -17,7 +17,7 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "5.61.3",
-    "@tsed/core": "5.61.3"
+    "@tsed/common": "5.61.4",
+    "@tsed/core": "5.61.4"
   }
 }
