@@ -8,6 +8,7 @@ import {Response} from "swagger-schema-official";
  * @returns {Function}
  * @decorator
  * @swagger
+ * @deprecated Use @Returns from @tsed/schema. Will be removed in v6.
  */
 export function Responses(status: string | number, response: Response): Function {
   return (...args: DecoratorParameters) => {
