@@ -39,11 +39,13 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * ```
  *
  * @param {boolean} uniqueItems
- * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
- * @property
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @model
  */
 export function UniqueItems(uniqueItems: boolean = true) {
   return JsonEntityFn((store: JsonEntityStore) => {

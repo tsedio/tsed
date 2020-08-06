@@ -2,9 +2,13 @@ import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
+ * Set a swagger operationId explicitly.
  *
- * @decorator
  * @param operationId
+ * @decorator
+ * @swagger
+ * @schema
+ * @operation
  */
 export function OperationId(operationId: string) {
   return JsonEntityFn((store, args) => {

@@ -100,12 +100,13 @@ const transformTsEnum = (enumValue: any) => {
  *
  * @param {string | number | boolean | {}} enumValue
  * @param enumValues
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @model
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
   return JsonEntityFn(store => {

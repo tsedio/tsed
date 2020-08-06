@@ -1,5 +1,8 @@
 import {Type} from "@tsed/core";
 
+/**
+ * @ignore
+ */
 export type GenericsMap = Map<string, Type<any>>;
 
 export interface GenericTypes {
@@ -25,7 +28,7 @@ export interface GenericsContext extends GenericTypes, GenericLabels, NestedGene
 }
 
 /**
- *
+ * @ignore
  * @param genericLabels
  * @param genericTypes
  */
@@ -34,7 +37,7 @@ export function getGenericsMap(genericLabels: string[], genericTypes: Type<any>[
 }
 
 /**
- *
+ * @ignore
  * @param options
  */
 export function mapGenericsOptions(options: Partial<GenericTypes & GenericLabels>) {
@@ -51,7 +54,7 @@ export function mapGenericsOptions(options: Partial<GenericTypes & GenericLabels
 }
 
 /**
- *
+ * @ignore
  * @param value
  */
 export function popGenerics(value: NestedGenerics): NestedGenerics & GenericTypes {

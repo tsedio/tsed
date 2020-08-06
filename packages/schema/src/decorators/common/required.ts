@@ -38,9 +38,13 @@ import {Property} from "./property";
  * }
  * ```
  *
- * @returns {Function}
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
 export function Required(required: boolean = true, ...allowedRequiredValues: any[]) {
   return applyDecorators(

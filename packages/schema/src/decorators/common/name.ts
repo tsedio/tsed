@@ -26,11 +26,14 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *
  * @param name
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @class
- * @method
- * @property
- * @parameter
+ * @input
+ * @classDecorator
+ * @operation
+ * @model
  */
 export function Name(name: any) {
   return JsonEntityFn((store: JsonEntityStore, args: DecoratorParameters) => {

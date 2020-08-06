@@ -1,6 +1,15 @@
 import {Type} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 
+export interface GenericOfChainedDecorators {
+  (...args: any): any;
+  /**
+   * Declare a nested generic models
+   * @param generics
+   */
+  Nested(...generics: (Type<any> | any)[]): this;
+}
+
 /**
  * Set the types of a Generic class.
  *
@@ -60,11 +69,15 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore";
  * ```
  *
  * @param {Type<any>[]} generics
- * @returns {Function}
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
-export function GenericOf(...generics: Type<any>[]) {
+export function GenericOf(...generics: Type<any>[]): GenericOfChainedDecorators {
   const nestedGenerics: Type<any>[][] = [generics];
 
   const decorator = (...args: any) => {

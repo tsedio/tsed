@@ -66,11 +66,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {number} minLength
- * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
+ * @swagger
  * @schema
- * @property
+ * @input
+ * @model
  */
 export function MinLength(minLength: number) {
   if (minLength < 0) {

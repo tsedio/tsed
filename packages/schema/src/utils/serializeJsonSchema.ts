@@ -22,6 +22,9 @@ function getRequired(schema: any, useAlias: boolean) {
   return Array.from(schema.$required).map(key => (useAlias ? (schema.alias.get(key) as string) || key : key));
 }
 
+/**
+ * @ignore
+ */
 export function createRef(value: any, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
   const name = store.schema.getName() || value.getName();
@@ -52,6 +55,9 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
   };
 }
 
+/**
+ * @ignore
+ */
 export function serializeItem(value: any, options: JsonSchemaOptions) {
   if (value && value.isClass) {
     return createRef(value, {...options, root: false});
@@ -60,6 +66,9 @@ export function serializeItem(value: any, options: JsonSchemaOptions) {
   return serializeAny(value, {...options, root: false});
 }
 
+/**
+ * @ignore
+ */
 export function serializeInherited(obj: any, target: any, options: JsonSchemaOptions = {}) {
   const stores = Array.from(getInheritedStores(target).entries()).filter(([model]) => classOf(model) !== classOf(target));
 
@@ -78,6 +87,7 @@ export function serializeInherited(obj: any, target: any, options: JsonSchemaOpt
  * Serialize class which inherit from Map like JsonMap, JsonOperation, JsonParameter.
  * @param input
  * @param options
+ * @ignore
  */
 export function serializeMap(input: Map<string, any>, options: JsonSchemaOptions = {}): any {
   options = mapGenericsOptions(options);
@@ -93,6 +103,7 @@ export function serializeMap(input: Map<string, any>, options: JsonSchemaOptions
  * Serialize Any object to a json schema
  * @param input
  * @param options
+ * @ignore
  */
 export function serializeObject(input: any, options: JsonSchemaOptions) {
   return Object.entries(input).reduce<any>(
@@ -107,6 +118,9 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
   );
 }
 
+/**
+ * @ignore
+ */
 export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
   options.schemas = options.schemas || {};
 
@@ -121,6 +135,9 @@ export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
   return serializeObject(input, options);
 }
 
+/**
+ * @ignore
+ */
 export function serializeGenerics(obj: any, options: GenericsContext) {
   const {generics} = options;
 
@@ -154,6 +171,7 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
  * Convert JsonSchema instance to plain json object
  * @param schema
  * @param options
+ * @ignore
  */
 export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptions = {}): any {
   const {useAlias = true, schemas = {}, root = true, genericTypes} = options;

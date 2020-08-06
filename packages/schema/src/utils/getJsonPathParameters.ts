@@ -8,6 +8,9 @@ function getVariable(subpath: string) {
   };
 }
 
+/**
+ * @ignore
+ */
 export function getJsonPathParameters(base: string, path: string | RegExp | (string | RegExp)[] = ""): {path: string; parameters: any[]}[] {
   if (path instanceof RegExp) {
     path = path

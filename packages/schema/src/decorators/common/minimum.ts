@@ -56,14 +56,15 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} minimum
+ * @param {number} minimum The minimum value allowed
  * @param {boolean} exclusive
- * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @input
+ * @model
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
   return JsonEntityFn(store => {
@@ -128,9 +129,14 @@ export function Minimum(minimum: number, exclusive: boolean = false) {
  * ```
  *
  * @alias Minimum
- * @param minimum
+ * @param minimum The minimum value allowed
  * @param exclusive
- * @constructor
+ * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
  */
 export function Min(minimum: number, exclusive: boolean = false) {
   return Minimum(minimum, exclusive);

@@ -58,6 +58,12 @@ function applyNullRule(store: JsonEntityStore, values: any[]) {
  *
  * @returns {Function}
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @model
  */
 export function Allow(...values: any[]) {
   return applyDecorators(

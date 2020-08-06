@@ -56,14 +56,15 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} maximum
- * @param {boolean} exclusive
- * @returns {Function}
+ * @param {number} maximum The maximum value allowed
+ * @param {boolean} exclusive Same effect as ExclusiveMaximum decorator.
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @input
+ * @model
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
   return JsonEntityFn(store => {

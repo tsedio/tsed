@@ -1,7 +1,6 @@
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
- *
  * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
  *
  * ::: warning
@@ -37,11 +36,13 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * ```
  *
  * @param {number} minItems
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @model
  */
 export function MinItems(minItems: number) {
   if (minItems < 0) {

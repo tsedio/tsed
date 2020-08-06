@@ -54,14 +54,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} multipleOf
- * @returns {Function}
+ * @param {number} multipleOf The multiple value allowed
  * @decorator
- * @ajv
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @property
- * @parameter
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @input
+ * @model
  */
 export function MultipleOf(multipleOf: number) {
   if (multipleOf <= 0) {

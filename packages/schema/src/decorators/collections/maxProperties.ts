@@ -1,9 +1,11 @@
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
  * An object instance is valid against `maxProperties` if its number of properties is less than, or equal to, the value of this keyword.
  *
- * !> The value of this keyword MUST be a non-negative integer.
+ * ::: warning
+ * The value of this keyword MUST be a non-negative integer.
+ * :::
  *
  * ## Example
  * ### On prop
@@ -54,12 +56,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} maxProperties
- * @returns {Function}
+ * @param {number} maxProperties The maximum properties allowed on the given object
  * @decorator
- * @property
- * @class
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
 export function MaxProperties(maxProperties: number) {
   if (maxProperties < 0) {

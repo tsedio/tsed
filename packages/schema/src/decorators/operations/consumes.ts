@@ -13,10 +13,12 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * }
  * ```
  *
- * @class
- * @method
- * @decorator
  * @param consumes
+ * @decorator
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @operation
  */
 export function Consumes(...consumes: string[]) {
   return JsonEntityFn((store, args) => {

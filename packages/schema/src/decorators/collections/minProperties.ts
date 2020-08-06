@@ -1,9 +1,11 @@
-import {JsonEntityFn} from "./jsonEntityFn";
+import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
  * An object instance is valid against `minProperties` if its number of properties is less than, or equal to, the value of this keyword.
  *
- * !> The value of this keyword MUST be a non-negative integer.
+ * ::: warning
+ * The value of this keyword MUST be a non-negative integer.
+ * :::
  *
  * ## Example
  * ### On prop
@@ -54,12 +56,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} minProperties
- * @returns {Function}
+ * @param {number} minProperties The minimum properties allowed on the object.
  * @decorator
- * @property
- * @class
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
 export function MinProperties(minProperties: number) {
   if (minProperties < 0) {

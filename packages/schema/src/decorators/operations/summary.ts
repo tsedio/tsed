@@ -14,9 +14,11 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * }
  * ```
  *
- * @decorator
- * @method
  * @param summary
+ * @decorator
+ * @swagger
+ * @schema
+ * @operation
  */
 export function Summary(summary: string) {
   return JsonEntityFn((store, args) => {

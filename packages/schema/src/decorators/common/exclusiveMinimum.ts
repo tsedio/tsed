@@ -58,12 +58,13 @@ import {Minimum} from "./minimum";
  *
  * @param minimum
  * @param {boolean} exclusiveMinimum
- * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @input
+ * @model
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
   return Minimum(minimum, exclusiveMinimum);

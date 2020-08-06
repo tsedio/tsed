@@ -70,10 +70,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string} format
- * @returns {Function}
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @property
+ * @input
  */
 export function Format(format: JsonFormatTypes | ValueOf<JsonFormatTypes>) {
   return JsonEntityFn(store => {
@@ -138,10 +140,11 @@ export function Format(format: JsonFormatTypes | ValueOf<JsonFormatTypes>) {
  * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
- * @ajv
- * @property
+ * @validation
  * @schema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @swagger
+ * @model
+ * @input
  */
 export function Email() {
   return Format(JsonFormatTypes.EMAIL);
@@ -204,7 +207,7 @@ export function Email() {
  * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
  * @property
  * @parameter
  * @schema
@@ -271,7 +274,7 @@ export function DateTime() {
  * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
  * @property
  * @parameter
  * @schema
@@ -338,7 +341,7 @@ export function DateFormat() {
  * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
  * @property
  * @parameter
  * @schema
@@ -405,7 +408,7 @@ export function TimeFormat() {
  * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
  * @property
  * @parameter
  * @schema

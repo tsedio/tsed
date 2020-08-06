@@ -58,12 +58,13 @@ import {Maximum} from "./maximum";
  *
  * @param maximum
  * @param {boolean} exclusiveMaximum
- * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @input
+ * @model
  */
 export function ExclusiveMaximum(maximum: number, exclusiveMaximum: boolean = true) {
   return Maximum(maximum, exclusiveMaximum);

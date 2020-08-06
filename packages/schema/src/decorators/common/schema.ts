@@ -31,10 +31,15 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @decorator
- * @property
  * @param partialSchema
- * @returns {Function}
+ * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @input
+ * @model
  */
 export function Schema(partialSchema: Partial<JSONSchema6>) {
   return JsonEntityFn((entity) => {

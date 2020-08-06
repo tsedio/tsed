@@ -7,9 +7,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * @returns {(...args: any[]) => any}
  * @decorator
- * @method
- * @property
- * @param examples
+ * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @methodDecorator
+ * @model
  */
 export function Example(examples: any): Function;
 export function Example(name: string, description: string): Function;

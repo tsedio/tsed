@@ -52,11 +52,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string | number | boolean } constValue
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @model
  */
 export function Const(constValue: JSONSchema6Type | any) {
   return JsonEntityFn(store => {

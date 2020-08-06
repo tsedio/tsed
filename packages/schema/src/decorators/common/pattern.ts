@@ -83,10 +83,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string} pattern
- * @returns {Function}
  * @decorator
- * @jsonschema
- * @property
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @model
  */
 export function Pattern(pattern: string | RegExp) {
   return JsonEntityFn((store: JsonEntityStore) => {

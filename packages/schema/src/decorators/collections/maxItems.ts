@@ -5,6 +5,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *
  * An array instance is valid against `maxItems` if its size is less than, or equal to, the value of this keyword.
  *
+ * :: warning
+ * The value `maxItems` MUST be a non-negative integer.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -30,11 +34,13 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * ```
  *
  * @param {number} maxItems
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
 export function MaxItems(maxItems: number) {
   if (maxItems < 0) {

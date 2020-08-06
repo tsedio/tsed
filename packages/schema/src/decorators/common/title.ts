@@ -27,8 +27,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string} title
- * @returns {(...args: any[]) => any}
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @input
+ * @model
  */
 export function Title(title: string) {
   return JsonEntityFn((entity) => {

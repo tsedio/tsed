@@ -12,7 +12,7 @@ import {CollectionOf} from "./collectionOf";
  * }
  * ```
  * ::: warning
- * You musn't use the `type Type = string | number` as parameters Type.
+ * You must'nt use the `type Type = string | number` as parameters Type.
  *
  * This example doesn't work:
  *
@@ -26,9 +26,13 @@ import {CollectionOf} from "./collectionOf";
  * :::
  *
  * @param {Type<any>} type
- * @returns {Function}
  * @decorator
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
 export function CollectionContains(type: any) {
   return CollectionOf(type).Contains();

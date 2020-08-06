@@ -30,11 +30,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string | number | boolean | {}} defaultValue
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
+ * @input
+ * @model
  */
 export function Default(defaultValue: string | number | boolean | {}) {
   return JsonEntityFn(store => {

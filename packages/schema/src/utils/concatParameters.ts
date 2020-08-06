@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export function concatParameters(parameters: any[], operation: any) {
   return parameters
     .map(param => {

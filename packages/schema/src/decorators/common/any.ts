@@ -32,8 +32,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * @returns {Function}
  * @decorator
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @jsonMapper
+ * @swagger
+ * @schema
+ * @input
+ * @model
  */
 export function Any(...types: (JSONSchema6TypeName | Type<any> | any)[]) {
   return JsonEntityFn(store => {

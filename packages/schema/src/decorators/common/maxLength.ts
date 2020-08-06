@@ -65,12 +65,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} maxLength
- * @returns {Function}
+ * @param {number} maxLength The maximum length allowed
  * @decorator
- * @ajv
+ * @validation
+ * @jsonMapper
+ * @swagger
  * @schema
- * @property
+ * @input
+ * @model
  */
 export function MaxLength(maxLength: number) {
   if (maxLength < 0) {
