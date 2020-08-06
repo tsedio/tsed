@@ -5,6 +5,10 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 /**
  * Set the type of the array items.
  *
+ * ::: warning
+ * For v6 user, use @@Any@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -27,14 +31,14 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * }
  * ```
  *
- * @returns {Function}
- * @param types
  * @decorator
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
+ * @input
  */
 export function Any(...types: JSONSchema6TypeName[]) {
   return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.mapper.type = ["integer", "number", "string", "boolean", "array", "object", "null"];
+    schema.mapper.type = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"];
   });
 }
