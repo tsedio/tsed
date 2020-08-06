@@ -111,14 +111,16 @@ const transformTsEnum = (enumValue: any) => {
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
   return JsonEntityFn(store => {
     const values = [enumValue].concat(enumValues).reduce((acc, value) => {
-      if (isObject(value)) {
+      if (isObject(value) && value !== null) {
         value = transformTsEnum(value);
       }
 
       return acc.concat(value);
     }, []);
 
-    const types = values.reduce((set: Set<any>, value: any) => set.add(typeof value), new Set());
+    const types = values.reduce((set: Set<any>, value: any) => {
+      return set.add(value === null ? "null" : typeof value);
+    }, new Set());
 
     store.itemSchema.enum(values).any(...types);
   });
