@@ -1,4 +1,4 @@
-import {Allow, Email, IgnoreProperty, MinLength, Property, Required} from "@tsed/common";
+import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
 import {Indexed, Model, Unique} from "../../../../packages/mongoose/src/decorators";
 
@@ -32,6 +32,6 @@ export class User extends UserCreation {
   @Required()
   @MinLength(6)
   @Allow(null)
-  @IgnoreProperty()
+  @Ignore()
   password: string;
 }

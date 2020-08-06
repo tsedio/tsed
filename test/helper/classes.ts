@@ -1,4 +1,4 @@
-import {CollectionOf, IgnoreProperty, Property} from "@tsed/common";
+import {CollectionOf, Ignore, Property} from "@tsed/common";
 import {MinLength} from "../../packages/common/src/jsonschema/decorators/minLength";
 import {PropertyName} from "../../packages/common/src/jsonschema/decorators/propertyName";
 import {Required} from "../../packages/common/src/mvc/decorators";
@@ -95,7 +95,7 @@ export class JsonFoo2 {
   @Property()
   ageModel: JsonAgeModel;
 
-  @IgnoreProperty()
+  @Ignore()
   password: string;
 
   method() {

@@ -1,15 +1,4 @@
-import {
-  Default,
-  Enum,
-  Format,
-  IgnoreProperty,
-  Maximum,
-  MaxLength,
-  Minimum,
-  MinLength,
-  Pattern,
-  Required
-} from "@tsed/common";
+import {Default, Enum, Format, Ignore, Maximum, MaxLength, Minimum, MinLength, Pattern, Required} from "@tsed/common";
 import {Indexed, Model, ObjectID, Unique} from "@tsed/mongoose";
 
 enum Categories {
@@ -19,7 +8,7 @@ enum Categories {
 
 @Model()
 export class MyModel {
-  @IgnoreProperty() // exclude _id from mongoose in the generated schema
+  @Ignore() // exclude _id from mongoose in the generated schema
   _id: string;
 
   @ObjectID("id") // Or rename _id by id (for response sent to the client)

@@ -92,7 +92,7 @@ Our serialized `User` object will be:
 ```
 > Non-annotated fields will not be copied into the final object.
 
-You can also explicitly tell the Converters service that the field should not be serialized with the decorator `@IgnoreProperty`.
+You can also explicitly tell the Converters service that the field should not be serialized with the decorator @@Ignore@@.
 
 <<< @/docs/docs/snippets/converters/model-ignore-props.ts
 

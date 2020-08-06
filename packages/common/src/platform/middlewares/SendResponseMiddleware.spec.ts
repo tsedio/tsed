@@ -3,7 +3,7 @@ import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {ConverterService} from "../../../src/converters";
-import {IgnoreProperty, Property} from "../../../src/jsonschema/decorators";
+import {Ignore, Property} from "../../../src/jsonschema/decorators";
 import {SendResponseMiddleware} from "./SendResponseMiddleware";
 
 describe("SendResponseMiddleware", () => {
@@ -181,7 +181,7 @@ describe("SendResponseMiddleware", () => {
           @Property()
           data: string;
 
-          @IgnoreProperty()
+          @Ignore()
           test: string;
         }
 
