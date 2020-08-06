@@ -34,7 +34,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```typescript
  * class Model {
  *    @Maximum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```

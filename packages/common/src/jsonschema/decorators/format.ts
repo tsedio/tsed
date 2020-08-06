@@ -45,7 +45,7 @@ import {Schema} from "./schema";
  * ```typescript
  * class Model {
  *    @Format("email")
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    property: string[];
  * }
  * ```

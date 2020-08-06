@@ -31,7 +31,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(number)
+ *    @CollectionOf(number)
  *    @MultipleOf(2)
  *    property: number[];
  * }

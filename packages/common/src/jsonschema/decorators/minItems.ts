@@ -17,7 +17,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    @MinItems(10)
  *    property: string[];
  * }

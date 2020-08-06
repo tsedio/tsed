@@ -57,7 +57,7 @@ Declaring a property that uses a collection is a bit different than declaring a 
 stores only the Array/Set/Map type when you declare the type of your property. The type used by the collection is lost.
 
 To tell Ts.ED (and other third party which uses JsonSchema) that a property uses a collection with a specific type, you must 
-use @@PropertyType@@ decorator as following:
+use @@CollectionOf@@ decorator as following:
 
 <<< @/docs/docs/snippets/model/collections.ts
 

@@ -34,7 +34,7 @@ import {Maximum} from "./maximum";
  * ```typescript
  * class Model {
  *    @ExclusiveMaximum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```

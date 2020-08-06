@@ -36,7 +36,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * ```typescript
  * class Model {
  *    @MaxLength(10)
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    property: string[];
  * }
  * ```

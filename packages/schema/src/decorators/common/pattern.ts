@@ -59,7 +59,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(string)
+ *    @CollectionOf(string)
  *    @Pattern(/^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$/)
  *    property: string[];
  * }

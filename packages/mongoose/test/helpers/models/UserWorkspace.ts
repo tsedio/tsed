@@ -1,4 +1,4 @@
-import {Property, PropertyType} from "@tsed/common";
+import {CollectionOf, Property, PropertyType} from "@tsed/common";
 import {Model, MongooseModel, ObjectID, Ref, Schema} from "@tsed/mongoose";
 import {Types} from "mongoose";
 
@@ -22,7 +22,7 @@ export class MyWorkspace {
 
 @Model()
 export class UserWorkspace {
-  @PropertyType(MyWorkspace)
+  @CollectionOf(MyWorkspace)
   workspaces: MyWorkspace[];
 }
 

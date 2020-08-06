@@ -1,13 +1,14 @@
-import {JsonSchemesRegistry, Property, PropertyName, PropertyType, Required} from "@tsed/common";
+import {CollectionOf, JsonSchemesRegistry, Property, PropertyName, Required} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "../../test/helpers/class/classes";
 import {Description} from "../index";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
-import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "../../test/helpers/class/classes";
 
 describe("OpenApiModelSchemaBuilder", () => {
   describe("integration", () => {
-    before(() => {});
+    before(() => {
+    });
 
     it("should not fail", () => {
       const builder = new OpenApiModelSchemaBuilder(SwaNoDecoModel);
@@ -355,7 +356,8 @@ describe("OpenApiModelSchemaBuilder", () => {
       });
     });
     describe("when the model is a primitive", () => {
-      before(() => {});
+      before(() => {
+      });
 
       it("should return the schema", () => {
         class Model {
@@ -419,7 +421,7 @@ describe("OpenApiModelSchemaBuilder", () => {
     describe("when the model is a collection (string[])", () => {
       it("should return the schema", () => {
         class Model {
-          @PropertyType(String)
+          @CollectionOf(String)
           test: string[];
         }
 
@@ -462,7 +464,7 @@ describe("OpenApiModelSchemaBuilder", () => {
         }
 
         class Model {
-          @PropertyType(Items)
+          @CollectionOf(Items)
           test: Items[];
         }
 

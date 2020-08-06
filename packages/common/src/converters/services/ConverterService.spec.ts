@@ -4,7 +4,7 @@ import {Configuration, InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService, ModelStrict} from "../../../src/converters";
-import {Default, PropertyDeserialize, PropertySerialize, PropertyType} from "../../../src/jsonschema/decorators";
+import {CollectionOf, Default, PropertyDeserialize, PropertySerialize} from "../../../src/jsonschema/decorators";
 import {Property} from "../../../src/jsonschema/decorators/property";
 
 class JsonFoo5 {
@@ -408,7 +408,7 @@ describe("ConverterService", () => {
       it("should convert model", () => {
         class Model {
           @Default("foo")
-          @PropertyType(String)
+          @CollectionOf(String)
           public readonly foo: string = "foo";
         }
 

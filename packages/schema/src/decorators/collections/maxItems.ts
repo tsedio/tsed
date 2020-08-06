@@ -13,7 +13,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    @MaxItems(10)
  *    property: string[];
  * }

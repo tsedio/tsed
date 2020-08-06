@@ -34,7 +34,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * ```typescript
  * class Model {
  *    @Minimum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```

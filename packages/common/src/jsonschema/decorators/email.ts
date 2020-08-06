@@ -32,7 +32,7 @@ import {Format} from "./format";
  * ```typescript
  * class Model {
  *    @Email()
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    property: string[];
  * }
  * ```

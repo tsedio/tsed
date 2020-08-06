@@ -12,7 +12,7 @@ import {PropertyFn} from "./property";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    property: string[];
  * }
  * ```

@@ -19,7 +19,9 @@ Here is our model:
 
 <<< @/docs/docs/snippets/converters/model-usage.ts
 
-> Note: @@PropertyType@@ allows to specify the type of a collection.
+::: tip
+@@CollectionOf@@ allows to specify the type of a collection.
+:::
 
 And its use on a controller:
 
@@ -153,14 +155,14 @@ It is therefore quite possible to replace all converters with your own classes (
 The Converters service provides some validation of a class model.
 It will check the consistency of the JSON object with the data model. For example :
 
-- If the JSON object contains one more field than expected in the model (`validationModelStrict` or `@ModelStrict`).
+- If the JSON object contains one more field than expected in the model (`validationModelStrict` or @@AdditionalProperties@@).
 - If the field is mandatory @@Required@@,
 - If the field is mandatory but can be `null` (`@Allow(null)`).
 
 Here is a complete example of a model:
 
 ```typescript
-import  {Required, PropertyName, Property, PropertyType, Allow} from "@tsed/common";
+import  {Required, PropertyName, Property, CollectionOf, Allow} from "@tsed/common";
 
 class EventModel {
     @Required()
@@ -172,7 +174,7 @@ class EventModel {
     @Property({name: 'end-date'})
     endDate: Date;
 
-    @PropertyType(TaskModel)
+    @CollectionOf(TaskModel)
     @Required()
     @Allow(null)
     tasks: TaskModel[];

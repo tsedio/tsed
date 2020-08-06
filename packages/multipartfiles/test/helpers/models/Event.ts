@@ -1,4 +1,4 @@
-import {Property, PropertyType, Required} from "@tsed/common";
+import {CollectionOf, Property, Required} from "@tsed/common";
 
 export class Task {
   @Property()
@@ -13,6 +13,6 @@ export class Event {
   @Required()
   id: string;
 
-  @PropertyType(Task)
+  @CollectionOf(Task)
   tasks: Task[];
 }

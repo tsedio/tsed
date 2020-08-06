@@ -1,4 +1,4 @@
-import {Any, IgnoreProperty, Property, PropertyName, PropertyType, Required} from "@tsed/common";
+import {Any, CollectionOf, IgnoreProperty, Property, PropertyName, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {
@@ -39,5 +39,5 @@ export class EventModel {
   @Property()
   public anyValue: any;
 
-  @PropertyType(Task) public tasksMap: Map<string, Task>;
+  @CollectionOf(Task) public tasksMap: Map<string, Task>;
 }

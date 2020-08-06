@@ -1,4 +1,4 @@
-import {Format, Property, PropertyType} from "@tsed/common";
+import {Format, Property, CollectionOf} from "@tsed/common";
 import {Task} from "./Task";
 
 export class EventCreation {
@@ -19,6 +19,6 @@ export class Event extends EventCreation {
   @Property()
   calendarId: string;
 
-  @PropertyType(Task)
+  @CollectionOf(Task)
   tasks: Task[] = [];
 }

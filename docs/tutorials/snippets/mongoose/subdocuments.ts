@@ -1,4 +1,4 @@
-import {Property, PropertyType} from "@tsed/common";
+import {CollectionOf, Property} from "@tsed/common";
 import {Model, ObjectID, Schema} from "@tsed/mongoose";
 
 @Schema()
@@ -18,6 +18,6 @@ export class MyModel {
   @Property()
   schema: MySchema;
 
-  @PropertyType(MySchema)
+  @CollectionOf(MySchema)
   schemes: MySchema[];
 }

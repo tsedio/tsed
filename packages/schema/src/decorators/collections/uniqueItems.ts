@@ -15,7 +15,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *
  *  * ```typescript
  * class Model {
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    @UniqueItems()
  *    property: string[];
  * }

@@ -23,7 +23,7 @@ import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
  *    @Format('date-time')
  *    endDate: Date;
  *
- *    @PropertyType(Task) // eq. @Property({use: Task})
+ *    @CollectionOf(Task) // eq. @Property({use: Task})
  *    tasks: TaskModel[];
  * }
  *
@@ -39,7 +39,7 @@ import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
  * > Theses ES6 collections can be used: Map and Set. Map will be serialized as an object and Set as an array.
  * By default Date, Array, Map and Set have a default custom Converter already embed. But you can override theses (see next part).
  *
- * For the Array, you must use the `@PropertyType` decorator.
+ * For the Array, you must use the @@CollectionOf@@ decorator.
  * `TypeClass` will be used to deserialize each item in the collection stored on the attribute source.
  *
  * According to the previous example, the JsonSchema generated will be as follow:
@@ -118,7 +118,7 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  *    @Format('date-time')
  *    endDate: Date;
  *
- *    @PropertyType(Task) // eq. @Property({use: Task})
+ *    @CollectionOf(Task) // eq. @Property({use: Task})
  *    tasks: TaskModel[];
  * }
  *
@@ -134,7 +134,7 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * > Theses ES6 collections can be used: Map and Set. Map will be serialized as an object and Set as an array.
  * By default Date, Array, Map and Set have a default custom Converter already embed. But you can override theses (see next part).
  *
- * For the Array, you must use the `@PropertyType` decorator.
+ * For the Array, you must use the @@CollectionOf@@ decorator.
  * `TypeClass` will be used to deserialize each item in the collection stored on the attribute source.
  *
  * According to the previous example, the JsonSchema generated will be as follow:

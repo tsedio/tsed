@@ -34,7 +34,7 @@ import {Minimum} from "./minimum";
  * ```typescript
  * class Model {
  *    @ExclusiveMinimum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```

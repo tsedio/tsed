@@ -1,14 +1,14 @@
-import {PropertyType} from "@tsed/common";
+import {CollectionOf} from "@tsed/common";
 import {Role} from "./Role";
 import {Security} from "./Security";
 
 class User {
-  @PropertyType(Role)
+  @CollectionOf(Role)
   roles: Role[];
 
-  @PropertyType(String)
+  @CollectionOf(String)
   securities: Map<string, Security>;
 
-  @PropertyType(String)
+  @CollectionOf(String)
   scopes: Set<string>;
 }
