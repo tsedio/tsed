@@ -1,7 +1,4 @@
-import {CollectionOf, Ignore, Property} from "@tsed/common";
-import {MinLength} from "../../packages/common/src/jsonschema/decorators/minLength";
-import {PropertyName} from "../../packages/common/src/jsonschema/decorators/propertyName";
-import {Required} from "../../packages/common/src/mvc/decorators";
+import {CollectionOf, Ignore, MinLength, Name, Property, Required} from "@tsed/common";
 
 export class JsonBaseModel {
   @Property()
@@ -55,7 +52,7 @@ export class JsonFoo2 {
   test: string;
 
   @Property()
-  @PropertyName("Name")
+  @Name("Name")
   @MinLength(3)
   name: string;
 

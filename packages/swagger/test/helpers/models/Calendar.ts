@@ -1,7 +1,7 @@
-import {PropertyName, Required} from "@tsed/common";
+import {Name, Required} from "@tsed/common";
 
 export class Calendar {
-  @PropertyName("id")
+  @Name("id")
   id: string;
 
   @Required()

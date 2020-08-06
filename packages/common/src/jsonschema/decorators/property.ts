@@ -11,19 +11,17 @@ import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
  *
  * ```typescript
  * class EventModel {
- *
  *    @Property()
  *    name: string;
  *
- *    @Property()
  *    @Format('date-time')
  *    startDate: Date;
  *
- *    @Property({name: 'end-date'}) // alias nam doesn't work with JsonSchema
+ *    @Name('end-date')
  *    @Format('date-time')
  *    endDate: Date;
  *
- *    @CollectionOf(Task) // eq. @Property({use: Task})
+ *    @CollectionOf(Task)
  *    tasks: TaskModel[];
  * }
  *
@@ -114,11 +112,11 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  *    @Format('date-time')
  *    startDate: Date;
  *
- *    @Property({name: 'end-date'})
+ *    @Name('end-date')
  *    @Format('date-time')
  *    endDate: Date;
  *
- *    @CollectionOf(Task) // eq. @Property({use: Task})
+ *    @CollectionOf(Task)
  *    tasks: TaskModel[];
  * }
  *

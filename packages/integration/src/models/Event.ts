@@ -1,4 +1,4 @@
-import {Any, CollectionOf, Ignore, Property, PropertyName, Required} from "@tsed/common";
+import {Any, CollectionOf, Ignore, Property, Name, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {
@@ -24,7 +24,7 @@ export class EventModel {
   // @Format("date")
   public endDate: Date;
 
-  @PropertyName("Name")
+  @Name("Name")
   @Required()
   public name: string;
 

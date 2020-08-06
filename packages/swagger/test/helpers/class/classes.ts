@@ -1,4 +1,4 @@
-import {Any, CollectionOf, Property, PropertyName, Required} from "@tsed/common";
+import {Any, CollectionOf, Property, Name, Required} from "@tsed/common";
 import {Description, Example, Title} from "../../../src";
 
 export class SwaNoDecoModel {
@@ -48,7 +48,7 @@ export class SwaFoo2 {
   @Required()
   test: string = "";
 
-  @PropertyName("Name")
+  @Name("Name")
   name: string;
 
   @Property()

@@ -8,7 +8,7 @@ import {
   MinLength,
   Pattern,
   Property,
-  PropertyName,
+  Name,
   Required
 } from "@tsed/common";
 import {expect} from "chai";
@@ -28,7 +28,7 @@ describe("createSchema", () => {
     // GIVEN
     @Model()
     class Test {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -94,7 +94,7 @@ describe("createSchema", () => {
 
     @Schema()
     class Children {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -256,7 +256,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children2 {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -301,7 +301,7 @@ describe("createSchema", () => {
 
     @Schema()
     class Children {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -369,7 +369,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children3 {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -415,7 +415,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children4 {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -461,7 +461,7 @@ describe("createSchema", () => {
 
     @Schema()
     class Children {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -532,7 +532,7 @@ describe("createSchema", () => {
     try {
       @Schema()
       class Children {
-        @PropertyName("id")
+        @Name("id")
         _id: string;
 
         @Minimum(0)

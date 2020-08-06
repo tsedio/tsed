@@ -1,4 +1,4 @@
-import {CollectionOf, JsonSchemesRegistry, Property, PropertyName, Required} from "@tsed/common";
+import {CollectionOf, JsonSchemesRegistry, Property, Name, Required} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "../../test/helpers/class/classes";
@@ -330,7 +330,7 @@ describe("OpenApiModelSchemaBuilder", () => {
       it("should return a schema", () => {
         @Description("description")
         class Model {
-          @PropertyName("name")
+          @Name("name")
           nameTest: string;
 
           @Property()

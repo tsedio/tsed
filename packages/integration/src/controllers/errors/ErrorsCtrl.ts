@@ -1,4 +1,4 @@
-import {BodyParams, Controller, ConverterService, Get, Post, PropertyName, Required} from "@tsed/common";
+import {BodyParams, Controller, ConverterService, Get, Post, Name, Required} from "@tsed/common";
 import {Description, Docs, Hidden, Responses, Summary} from "@tsed/swagger";
 import {CustomBadRequest} from "../../errors/CustomBadRequest";
 import {CustomInternalError} from "../../errors/CustomInternalError";
@@ -8,7 +8,7 @@ class CustomModel {
 }
 
 class CustomPropModel {
-  @PropertyName("role_item")
+  @Name("role_item")
   @Required()
   roleItem: string;
 }
