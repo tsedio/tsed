@@ -7,6 +7,7 @@ export * from "./propertyDeserialize";
 export * from "./default";
 export * from "./email";
 export * from "./enum";
+export * from "./integer";
 export * from "./exclusiveMaximum";
 export * from "./exclusiveMinimum";
 export * from "./format";

@@ -4,6 +4,8 @@ export * from "./collections/collectionOf";
 export * from "./collections/maxItems";
 export * from "./collections/minItems";
 export * from "./collections/uniqueItems";
+export * from "./collections/maxProperties";
+export * from "./collections/minProperties";
 
 // generics
 export * from "./generics/generics";
@@ -26,6 +28,7 @@ export * from "./operations/summary";
 export * from "./common/additionalProperties";
 export * from "./common/allow";
 export * from "./common/any";
+export * from "./common/integer";
 export * from "./common/const";
 export * from "./common/default";
 export * from "./common/description";
@@ -38,10 +41,8 @@ export * from "./common/pattern";
 export * from "./common/ignore";
 export * from "./common/maximum";
 export * from "./common/maxLength";
-export * from "./collections/maxProperties";
 export * from "./common/minimum";
 export * from "./common/minLength";
-export * from "./collections/minProperties";
 export * from "./common/multipleOf";
 export * from "./common/name";
 export * from "./common/required";
@@ -49,5 +50,4 @@ export * from "./common/property";
 export * from "./common/title";
 export * from "./common/schema";
 export * from "./common/jsonEntityFn";
-
 export * from "./config/jsonEntityComponent";
