@@ -1,11 +1,11 @@
-import {BodyParams, Controller, Get, Post, ReturnType} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, Returns, ReturnsArray} from "@tsed/common";
 import {Person} from "../models/Person";
 
 @Controller("/")
 export class PersonsCtrl {
 
   @Post("/")
-  @ReturnType({type: Person})
+  @Returns(Person)
   async save1(@BodyParams() person: Person): Promise<Person> {
     console.log(person instanceof Person); // true
 
@@ -14,7 +14,7 @@ export class PersonsCtrl {
 
 
   @Get("/")
-  @ReturnType({type: Person, collectionType: Array})
+  @ReturnsArray(Person)
   async getPersons(): Promise<Person[]> {
     return [
       new Person()

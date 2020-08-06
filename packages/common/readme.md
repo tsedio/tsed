@@ -122,8 +122,8 @@ This is a simple controller to expose user resource. It use decorators to build 
 
 ```typescript
 import {Inject} from "@tsed/di";
-import {Summary, Returns, ReturnsArray} from "@tsed/swagger";
-import {Controller, Get, QueryParams, PathParams, Delete, Post, Required, BodyParams, Status, Put} from "@tsed/common";
+import {Summary} from "@tsed/swagger";
+import {Returns, ReturnsArray, Controller, Get, QueryParams, PathParams, Delete, Post, Required, BodyParams, Status, Put} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {UsersService} from "../services/UsersService";
 import {User} from "../models/User"; 

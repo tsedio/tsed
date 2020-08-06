@@ -1,5 +1,5 @@
-import {BodyParams, Controller, Get, Post, QueryParams} from "@tsed/common";
-import {Deprecated, Description, Returns, ReturnsArray, Security, Summary} from "@tsed/swagger";
+import {BodyParams, Controller, Get, Post, QueryParams, Returns, ReturnsArray} from "@tsed/common";
+import {Deprecated, Description, Security, Summary} from "@tsed/swagger";
 import {CalendarModel} from "./models/Calendar";
 
 @Controller("/calendars")

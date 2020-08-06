@@ -1,6 +1,6 @@
-import {BodyParams, Controller, Get, Post, Req, Status} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, Req, Status, Returns} from "@tsed/common";
 import {Authenticate, Authorize} from "@tsed/passport";
-import {Responses, Returns} from "@tsed/swagger";
+import {Responses} from "@tsed/swagger";
 import {Credentials} from "../../models/Credentials";
 import {User} from "../../models/User";
 import {UserCreation} from "../../models/UserCreation";
