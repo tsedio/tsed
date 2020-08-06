@@ -3,7 +3,6 @@ import {applyDecorators, Store, StoreFn, StoreMerge} from "@tsed/core";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 
-export type DynamicRef<T> = T | string;
 /**
  * Define a property as mongoose reference to other Model (decorated with @Model).
  *
@@ -52,3 +51,5 @@ export function DynamicRef(refPath: string) {
     })
   );
 }
+
+export type DynamicRef<T> = T | string;

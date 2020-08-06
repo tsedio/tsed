@@ -1,0 +1,32 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop1": {
+      "enum": [
+        "red",
+        "amber",
+        "green"
+      ],
+      "type": "string"
+    },
+    "prop2": {
+      "enum": [
+        "red",
+        "amber",
+        "green"
+      ],
+      "type": "string"
+    },
+    "prop3": {
+      "enum": [
+        "red",
+        "amber",
+        "green",
+        42,
+        null
+      ],
+      "type": "object"
+    }
+  },
+  "type": "object"
+}

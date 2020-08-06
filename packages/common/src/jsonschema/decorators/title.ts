@@ -3,6 +3,11 @@ import {Schema} from "./schema";
 /**
  * Add title metadata on the decorated element.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Title@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -27,10 +32,12 @@ import {Schema} from "./schema";
  * ```
  *
  * @param {string} title
- * @returns {(...args: any[]) => any}
  * @decorator
- * @jsonschema
- * @property
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @propertyDecorator
+ * @input
  */
 export function Title(title: string) {
   return Schema({title});

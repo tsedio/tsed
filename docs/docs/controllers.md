@@ -28,9 +28,15 @@ In the following example we'll use the @@Controller@@ decorator which is require
 The @@Get@@ decorator before the `findAll()` method tells Ts.ED to create an endpoint for this particular route path and 
 map every corresponding request to this handler. Since we've declared a prefix for every route (`/calendars`), Ts.ED will map every `GET /calendars` request to this method.
 
-Ts.ED provides a decorator for each HTTP verb which can be use to handle a request:
+### Decorators
 
-<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Options'].indexOf(symbolName) > -1" />
+Ts.ED provides a decorator for each HTTP verb which can be used to handle a request:
+
+<ApiList query="status.includes('decorator') && status.includes('httpMethod')" />
+
+Other decorators are provided to describe your route with OpenSpec, adding middlewares, adding some constraints or adding headers:
+
+<ApiList query="status.includes('decorator') && status.includes('operation') && !status.includes('input') && !status.includes('httpMethod')" />
 
 ### Configuration
 
@@ -92,6 +98,10 @@ See the following example:
 In order to avoid such side-effects, simply move `findAll()` method above `findOne()`.
 
 ## Request
+### Decorators
+
+<ApiList query="status.includes('decorator') && status.includes('operation') && status.includes('input')" />
+
 ### Input parameters
 
 Getting parameters from Express Request can be done by using the following decorators:
@@ -148,7 +158,8 @@ For the session, cookies, locals or context data attached on the request, it wor
 
 ### Decorators
 
-<ApiList query="['All', 'Get', 'Post', 'Patch', 'Put', 'Head', 'Delete', 'Options', 'Use', 'UseAfter', 'UseBefore', 'UseBeforeEach'].indexOf(symbolName) === -1 && path.indexOf('mvc/decorators/method') > -1" />
+<ApiList query="status.includes('decorator') && status.includes('operation') && status.includes('response')" />
+
 
 ### Status
 
@@ -339,4 +350,4 @@ Then, on your child controller:
 
 ## Decorators
 
-<ApiList query="module == '@tsed/common' && symbolType === 'decorator' && (path.indexOf('common/mvc') > -1 || path.indexOf('common/filters') > -1)" />
+<ApiList query="status.includes('decorator') && (status.includes('operation') || status.includes('controller'))" />

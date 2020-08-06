@@ -21,8 +21,8 @@ import {PropertyFn} from "./property";
  * @param {Function} fn
  * @returns {Function}
  * @decorator
- * @converters
- * @jsonschema
+ * @jsonMapper
+ * @schema
  * @property
  * @deprecated Use OnDeserialize instead. Will be removed in v6.
  */
@@ -47,8 +47,8 @@ export function PropertyDeserialize(fn: (value: any) => any) {
  * @param {Function} fn
  * @returns {Function}
  * @decorator
- * @converters
- * @jsonschema
+ * @jsonMapper
+ * @schema
  * @property
  * @alias PropertyDeserialize
  */

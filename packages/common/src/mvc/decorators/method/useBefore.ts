@@ -19,7 +19,7 @@ import {EndpointFn} from "./endpointFn";
  * @returns {function(any, any, any): *}
  * @param args
  * @decorator
- * @endpoint
+ * @operation
  */
 export function UseBefore(...args: any[]): Function {
   return <T>(...decoratorArgs: DecoratorParameters): TypedPropertyDescriptor<T> | void => {

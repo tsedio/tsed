@@ -7,6 +7,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * The value of this keyword MUST be a non-negative integer.
  * :::
  *
+ * ::: warning
+ * For v6 user, use @@MinProperties@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### On prop
  * ```typescript
@@ -59,11 +63,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @param {number} minProperties The minimum properties allowed on the object.
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @collections
  */
 export function MinProperties(minProperties: number) {
   if (minProperties < 0) {

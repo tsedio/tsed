@@ -4,6 +4,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * The pattern and Pattern Properties keywords use regular expressions to express constraints.
  * The regular expression syntax used is from JavaScript (ECMA 262, specifically). However, that complete syntax is not widely supported, therefore it is recommended that you stick to the subset of that syntax described below.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Pattern@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * A single unicode character (other than the special characters below) matches itself.
  *
  * * `^`: Matches only at the beginning of the string.
@@ -82,14 +87,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * ```
  *
  * @param {string} pattern
- * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
  */
-
 export function Pattern(pattern: string | RegExp) {
   return decoratorSchemaFactory(schema => {
     if (typeof pattern === "object") {

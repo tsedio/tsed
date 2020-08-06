@@ -5,9 +5,10 @@ import {ParamTypes} from "../../models/ParamTypes";
 export type EndpointInfo = EndpointMetadata;
 
 /**
- *
- * @returns {Function}
+ * Get the current endpoint metadata.
  * @decorator
+ * @operation
+ * @input
  */
 export function EndpointInfo(): Function {
   return UseParam(ParamTypes.ENDPOINT_INFO, {

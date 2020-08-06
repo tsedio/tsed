@@ -48,7 +48,7 @@ function mapOptions(args: any[]) {
  * @returns {Function}
  * @param args
  * @decorator
- * @endpoint
+ * @operation
  */
 export function Use(...args: any[]): Function {
   return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {

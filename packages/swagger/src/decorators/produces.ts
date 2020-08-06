@@ -12,11 +12,13 @@ import {Operation} from "./operation";
  *    id: string;
  * }
  * ```
- *
- * @returns {Function}
+ * @param produces
  * @decorator
  * @swagger
- * @param produces
+ * @methodDecorator
+ * @classDecorator
+ * @operation
+ * @response
  */
 export function Produces(...produces: string[]): Function {
   return Operation({produces});

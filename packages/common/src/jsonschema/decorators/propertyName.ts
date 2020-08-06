@@ -21,8 +21,8 @@ import {PropertyFn} from "./property";
  * @param {string} name
  * @returns {Function}
  * @decorator
- * @converters
- * @jsonschema
+ * @jsonMapper
+ * @schema
  * @property
  * @deprecated Use @Name decorator instead. Will be removed in v6.
  */
@@ -51,8 +51,8 @@ export function PropertyName(name: string) {
  * @param {string} name
  * @returns {Function}
  * @decorator
- * @converters
- * @jsonschema
+ * @jsonMapper
+ * @schema
  * @property
  */
 export function Name(name: string): PropertyDecorator {

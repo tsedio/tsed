@@ -26,5 +26,7 @@ export * from "./allowTypes";
 export * from "./any";
 export * from "./schema";
 export * from "./title";
+export * from "./description";
+export * from "./example";
 export * from "./ignoreProperty";
 export * from "./const";

@@ -33,7 +33,8 @@ import {mapParamsOptions} from "../../utils/mapParamsOptions";
  * @param expression The path of the property to get.
  * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
- * @returns {ParameterDecorator}
+ * @operation
+ * @input
  */
 export function CookiesParams(expression: string | any, useType: any): ParameterDecorator;
 export function CookiesParams(): ParameterDecorator;
@@ -85,7 +86,8 @@ export function CookiesParams(...args: any[]): ParameterDecorator {
  * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
  * @aliasof CookiesParams
- * @returns {ParameterDecorator}
+ * @operation
+ * @input
  */
 export function Cookies(expression: string, useType: Type<any>): ParameterDecorator;
 export function Cookies(expression: string): ParameterDecorator;

@@ -1,0 +1,24 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop1": {
+      "type": "string"
+    },
+    "prop2": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "prop3": {
+      "minimum": 1,
+      "type": "number"
+    }
+  },
+  "required": [
+    "prop1",
+    "prop2",
+    "prop3"
+  ],
+  "type": "object"
+}

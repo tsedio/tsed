@@ -1,11 +1,22 @@
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
- * A string instance is valid against this keyword if its length is less than, or equal to, the value of this keyword.
+ * A string instance is valid against this keyword if its length is greater than, or equal to, the value of this keyword.
  *
  * The length of a string instance is defined as the number of its characters as defined by [RFC 7159](http://json-schema.org/latest/json-schema-validation.html#RFC7159).
  *
- * !> The value of `maxLength` MUST be a non-negative integer.
+ * ::: warning
+ * The value of maxLength MUST be a non-negative integer.
+ * :::
+ *
+ * ::: tip
+ * Omitting this keyword has the same behavior as a value of 0.
+ * :::
+ *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@MaxLength@@ from @tsed/schema instead of @tsed/common.
+ * :::
  *
  * ## Example
  * ### With primitive type
@@ -58,13 +69,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * }
  * ```
  *
- * @param {number} maxLength
- * @returns {Function}
+ * @param {number} maxLength The maximum length allowed
  * @decorator
- * @ajv
- * @property
- * @jsonschema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
  */
 export function MaxLength(maxLength: number) {
   if (maxLength < 0) {

@@ -1,0 +1,13 @@
+{
+  "definitions": {},
+  "additionalProperties": {
+    "definitions": {},
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "type": "object"
+}

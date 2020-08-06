@@ -31,7 +31,8 @@ export interface IAuthOptions {
  * @param options {Object} Object passed to the customer auth strategy
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @decorator
+ * @operation
  */
 export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {

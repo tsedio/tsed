@@ -7,6 +7,11 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * The value of this keyword MUST be a non-negative integer.
  * :::
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@MaxProperties@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### On prop
  * ```typescript
@@ -59,11 +64,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @param {number} maxProperties The maximum properties allowed on the given object
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @collections
  */
 export function MaxProperties(maxProperties: number) {
   if (maxProperties < 0) {

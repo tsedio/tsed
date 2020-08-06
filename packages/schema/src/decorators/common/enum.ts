@@ -20,6 +20,10 @@ const transformTsEnum = (enumValue: any) => {
  *
  * Elements in the array might be of any value, including null.
  *
+ * ::: warning
+ * For v6 user, use @@Enum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -102,11 +106,9 @@ const transformTsEnum = (enumValue: any) => {
  * @param enumValues
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
   return JsonEntityFn(store => {

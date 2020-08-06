@@ -1,0 +1,12 @@
+{
+  "definitions": {},
+  "properties": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": {
+    "type": "string"
+  },
+  "type": "object"
+}

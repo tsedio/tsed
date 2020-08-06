@@ -1,8 +1,8 @@
 import {
   decorateMethodsOf,
-  DecoratorParameters, decoratorTypeOf,
+  DecoratorParameters,
+  decoratorTypeOf,
   DecoratorTypes,
-  getDecoratorType,
   UnsupportedDecoratorType
 } from "@tsed/core";
 import {UseBefore} from "./useBefore";
@@ -25,7 +25,7 @@ import {UseBefore} from "./useBefore";
  * @returns {Function}
  * @param args
  * @decorator
- * @endpoint
+ * @operation
  */
 export function UseBeforeEach(...args: any[]): Function {
   return <T>(...decoratorArgs: DecoratorParameters): TypedPropertyDescriptor<T> | void => {

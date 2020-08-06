@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Role"
+      }
+    },
+    "securities": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Security"
+      }
+    },
+    "scopes": {
+      "type": "array",
+      "items:": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "Security": {
+      "type": "object"
+    },
+    "Role": {
+      "type": "object"
+    }
+  }
+}

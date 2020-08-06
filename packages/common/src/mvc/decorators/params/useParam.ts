@@ -9,6 +9,10 @@ import {UseParamType} from "./useParamType";
 import {UseType} from "./useType";
 import {UseValidation} from "./useValidation";
 
+/**
+ * @ignore
+ * @param options
+ */
 function mapPipes(options: IParamOptions<any> = {}) {
   return [
     options.useType && UseType(options.useType),
@@ -31,6 +35,9 @@ function mapPipes(options: IParamOptions<any> = {}) {
  * @param paramType
  * @param options
  * @decorator
+ * @operation
+ * @input
+ * @pipe
  */
 export function UseParam(paramType: ParamTypes | string, options: IParamOptions<any> = {}): ParameterDecorator {
   return applyDecorators(UseParamType(paramType), ...mapPipes(options)) as ParameterDecorator;
@@ -41,6 +48,8 @@ export function UseParam(paramType: ParamTypes | string, options: IParamOptions<
  * @param token
  * @param options
  * @decorator
+ * @operation
+ * @input
  * @deprecated Use UseParam instead
  */
 export function UseFilter(token: Type<IFilter> | ParamTypes | string, options: IParamOptions<any> = {}): ParameterDecorator {

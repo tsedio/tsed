@@ -2,7 +2,6 @@ import {JsonSchema} from "../class/JsonSchema";
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
- *
  * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
  *
  * ::: warning
@@ -11,6 +10,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *
  * ::: tip
  * Omitting this keyword has the same behavior as a value of 0.
+ * :::
+ *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@MinItems@@ from @tsed/schema instead of @tsed/common.
  * :::
  *
  * ## Example
@@ -30,7 +34,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *   "type": "object",
  *   "properties": {
  *     "property": {
- *       "type": "number",
+ *       "type": "string",
  *       "minItems": 10
  *     }
  *   }
@@ -40,9 +44,10 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @param {number} minItems
  * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
+ * @validation
+ * @swagger
+ * @schema
+ * @collections
  */
 export function MinItems(minItems: number) {
   if (minItems < 0) {

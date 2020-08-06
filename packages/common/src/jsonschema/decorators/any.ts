@@ -1,6 +1,8 @@
+import {Type} from "@tsed/core";
 import {JSONSchema6TypeName} from "json-schema";
 import {JsonSchema} from "../class/JsonSchema";
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {getJsonType} from "../utils/getJsonType";
 
 /**
  * Set the type of the array items.
@@ -35,10 +37,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
- * @input
  */
-export function Any(...types: JSONSchema6TypeName[]) {
+export function Any(...types: (JSONSchema6TypeName | Type<any> | null)[]) {
   return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.mapper.type = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"];
+    types = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"];
+    types = types.map(getJsonType) as any[];
+    schema.mapper.type = (types.length === 1 ? types[0] : types) as any;
   });
 }

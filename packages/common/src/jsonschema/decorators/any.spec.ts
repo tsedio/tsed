@@ -1,17 +1,86 @@
+import {getJsonSchema} from "@tsed/common";
 import {expect} from "chai";
-import {Any, JsonSchema} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {Any} from "../../../src/jsonschema";
 
 describe("Any", () => {
-  it("should store data", () => {
-    const decoratorStub = stubSchemaDecorator();
-    const schema = new JsonSchema();
-    Any();
+  it("should declare any prop", () => {
+    // WHEN
+    class Model {
+      @Any()
+      prop: any;
+    }
 
-    // @ts-ignore
-    decoratorStub.getCall(0).args[0](schema);
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      definitions: {},
+      properties: {
+        prop: {
+          type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should declare any prop (uniq type)", () => {
+    // WHEN
+    class Model {
+      @Any(String)
+      prop: any;
+    }
 
-    expect(schema.type).to.deep.eq(["integer", "number", "string", "boolean", "array", "object", "null"]);
-    decoratorStub.restore();
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      definitions: {},
+      properties: {
+        prop: {
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should declare any prop (with list)", () => {
+    // WHEN
+    class Model {
+      @Any(String, Number, Boolean, null)
+      num: any;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      "definitions": {},
+      "properties": {
+        "num": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    });
+  });
+  it("should declare any prop (with string, list)", () => {
+    // WHEN
+    class Model {
+      @Any("string", "null")
+      num: any;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      "definitions": {},
+      "properties": {
+        "num": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    });
   });
 });

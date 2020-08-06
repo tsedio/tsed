@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Any, getJsonSchema} from "../../../src/jsonschema";
+import {getJsonSchema, Schema} from "../../../src/jsonschema";
 import {Integer} from "./integer";
 
 describe("Integer", () => {

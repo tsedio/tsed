@@ -1,0 +1,15 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop1": {
+      "type": "string"
+    },
+    "prop2": {
+      "default": 0,
+      "maximum": 100,
+      "minimum": 0,
+      "type": "number"
+    }
+  },
+  "type": "object"
+}

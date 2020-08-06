@@ -71,11 +71,10 @@ export interface GenericOfChainedDecorators {
  * @param {Type<any>[]} generics
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @generics
  */
 export function GenericOf(...generics: Type<any>[]): GenericOfChainedDecorators {
   const nestedGenerics: Type<any>[][] = [generics];

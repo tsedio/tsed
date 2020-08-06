@@ -12,7 +12,8 @@ import {Use} from "./use";
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function All(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["all", path].concat(args));
@@ -30,7 +31,8 @@ export function All(path: string | RegExp | any = "/", ...args: any[]): Function
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Get(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["get", path].concat(args));
@@ -48,7 +50,8 @@ export function Get(path: string | RegExp | any = "/", ...args: any[]): Function
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Post(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["post", path].concat(args));
@@ -66,7 +69,8 @@ export function Post(path: string | RegExp | any = "/", ...args: any[]): Functio
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Put(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["put", path].concat(args));
@@ -84,7 +88,8 @@ export function Put(path: string | RegExp | any = "/", ...args: any[]): Function
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Delete(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["delete", path].concat(args));
@@ -102,7 +107,8 @@ export function Delete(path: string | RegExp | any = "/", ...args: any[]): Funct
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Head(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["head", path].concat(args));
@@ -120,7 +126,8 @@ export function Head(path: string | RegExp | any = "/", ...args: any[]): Functio
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Patch(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["patch", path].concat(args));
@@ -138,7 +145,8 @@ export function Patch(path: string | RegExp | any = "/", ...args: any[]): Functi
  * @param args
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @httpMethod
  */
 export function Options(path: string | RegExp | any = "/", ...args: any[]): Function {
   return Use(...["options", path].concat(args));

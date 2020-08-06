@@ -3,10 +3,14 @@ import {IPipe} from "../../models/ParamMetadata";
 import {ParamFn} from "./paramFn";
 
 /**
- * Add a pipe to the current param
+ * Register a Pipe to be used with the current decorated param.
+ *
  * @param token
  * @param options
  * @decorator
+ * @operation
+ * @input
+ * @pipe
  */
 export function UsePipe(token: Type<IPipe>, options: any = {}) {
   return ParamFn(param => {

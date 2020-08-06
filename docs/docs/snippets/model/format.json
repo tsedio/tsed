@@ -1,0 +1,14 @@
+{
+  "definitions": {},
+  "properties": {
+    "email": {
+      "format": "email",
+      "type": "string"
+    },
+    "dateCreation": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

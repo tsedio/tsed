@@ -49,6 +49,8 @@ import {mapParamsOptions} from "../../mvc/utils/mapParamsOptions";
  *
  * @param expression The path of the property to get.
  * @decorator
+ * @operation
+ * @input
  * @returns {Function}
  */
 export function Context(expression: string): ParameterDecorator;

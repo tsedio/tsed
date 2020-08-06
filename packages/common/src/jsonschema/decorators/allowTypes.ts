@@ -1,9 +1,13 @@
 import {JSONSchema6TypeName} from "json-schema";
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {Any} from "./any";
 
 /**
  * Set the type of the array items.
+ *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Any@@ from @tsed/schema instead of @@AllowTypes@@ from @tsed/common.
+ * :::
  *
  * ## Example
  * ### With multiple types
@@ -57,12 +61,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @param type
  * @param types
  * @decorator
- * @property
- * @jsonschema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @schema
+ * @swagger
+ * @validation
+ * @deprecated Use @Any decorator instead of. Will be removed in v6.
  */
 export function AllowTypes(type: JSONSchema6TypeName, ...types: JSONSchema6TypeName[]) {
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.mapper.type = [type].concat(types);
-  });
+  return Any(type, ...types);
 }

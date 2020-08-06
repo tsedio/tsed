@@ -20,9 +20,10 @@ import {ResponseViewMiddleware} from "../middlewares/ResponseViewMiddleware";
  *
  * @param viewPath
  * @param viewOptions
- * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @response
+ * @methodDecorator
  */
 export function ResponseView(viewPath: string, viewOptions?: Object): Function {
   return applyDecorators(StoreSet(ResponseViewMiddleware, {viewPath, viewOptions}), UseAfter(ResponseViewMiddleware));
@@ -46,9 +47,10 @@ export function ResponseView(viewPath: string, viewOptions?: Object): Function {
  *
  * @param viewPath
  * @param viewOptions
- * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @response
+ * @methodDecorator
  * @alias ResponseView
  */
 export function Render(viewPath: string, viewOptions?: Object): Function {

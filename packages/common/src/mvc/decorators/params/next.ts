@@ -1,18 +1,12 @@
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseParam} from "./useParam";
 
-declare global {
-  namespace TsED {
-    export interface NextFunction extends Function {}
-  }
-}
-
-export type Next = TsED.NextFunction;
-
 /**
+ * Get the Next function (for express application and middleware).
  *
- * @returns {function(Function, (string|symbol), number): void}
  * @decorator
+ * @operation
+ * @input
  */
 export function Next(): ParameterDecorator {
   return UseParam(ParamTypes.NEXT_FN, {
@@ -20,3 +14,17 @@ export function Next(): ParameterDecorator {
     useValidation: false
   });
 }
+
+declare global {
+  namespace TsED {
+    export interface NextFunction extends Function {}
+  }
+}
+/**
+ * Get the Next function (for express application and middleware).
+ *
+ * @decorator
+ * @operation
+ * @input
+ */
+export type Next = TsED.NextFunction;

@@ -48,9 +48,10 @@ import {PropertyFn} from "./property";
  * @param {Type<any>} type
  * @returns {Function}
  * @decorator
- * @converters
- * @jsonschema
+ * @jsonMapper
+ * @schema
  * @property
+ * @collections
  * @deprecated Use CollectionOf instead. Will be removed in v6.
  */
 export function PropertyType(type: Type<any>) {
@@ -100,9 +101,11 @@ export function PropertyType(type: Type<any>) {
  * @param {Type<any>} type
  * @returns {Function}
  * @decorator
- * @converters
- * @jsonschema
+ * @validation
+ * @jsonMapper
+ * @schema
  * @property
+ * @collections
  * @alias PropertyType
  */
 export function CollectionOf(type: Type<any>) {

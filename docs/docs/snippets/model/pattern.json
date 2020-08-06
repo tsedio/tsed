@@ -1,0 +1,10 @@
+{
+  "definitions": {},
+  "properties": {
+    "phone": {
+      "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

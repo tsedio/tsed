@@ -21,7 +21,6 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @param produces
  * @decorator
  * @swagger
- * @schema
  * @methodDecorator
  * @classDecorator
  * @operation

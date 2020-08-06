@@ -2,7 +2,7 @@ import {JsonSchema} from "../class/JsonSchema";
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
- * An object instance is valid against `minProperties` if its number of properties is greater than, or equal to, the value of this keyword.
+ * An object instance is valid against `minProperties` if its number of properties is less than, or equal to, the value of this keyword.
  *
  * ::: warning
  * The value of this keyword MUST be a non-negative integer.
@@ -12,8 +12,13 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * Omitting this keyword has the same behavior as a value of 0.
  * :::
  *
- * ## Example
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@MinProperties@@ from @tsed/schema instead of @tsed/common.
+ * :::
  *
+ * ## Example
+ * ### On prop
  * ```typescript
  * class Model {
  *    @Any()
@@ -36,12 +41,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * }
  * ```
  *
- * @param {number} minProperties
- * @returns {Function}
- * @decorator
- * @ajv
- * @property
- * @jsonschema
+ * @param {number} minProperties The minimum properties allowed on the object.
+ * @validation
+ * @swagger
+ * @schema
+ * @collections
  */
 export function MinProperties(minProperties: number) {
   if (minProperties < 0) {

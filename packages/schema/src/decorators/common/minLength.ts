@@ -14,6 +14,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * Omitting this keyword has the same behavior as a value of 0.
  * :::
  *
+ * ::: warning
+ * For v6 user, use @@MinLength@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -71,7 +75,6 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
- * @model
  */
 export function MinLength(minLength: number) {
   if (minLength < 0) {

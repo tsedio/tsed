@@ -46,13 +46,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @param {string} description
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
  * @classDecorator
  * @methodDecorator
- * @model
+ * @propertyDecorator
+ * @parameterDecorator
  */
 export function Description(description: any) {
   return JsonEntityFn((store: JsonEntityStore, args: DecoratorParameters) => {

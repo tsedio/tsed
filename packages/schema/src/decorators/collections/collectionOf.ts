@@ -94,11 +94,10 @@ export interface CollectionOfChainedDecorators extends MapOfChainedDecorators, A
  * @param collectionType
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @collections
  */
 export function CollectionOf(type: any, collectionType?: any): CollectionOfChainedDecorators {
   const schema: any = {};

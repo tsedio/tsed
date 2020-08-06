@@ -64,7 +64,8 @@ import {PropertyFn} from "./property";
  *
  * @returns {Function}
  * @decorator
- * @converters
+ * @jsonMapper
+ * @schema
  * @deprecated Use IgnoreProperty instead. Will be removed in v6.
  */
 export function IgnoreProperty() {
@@ -129,9 +130,9 @@ export function IgnoreProperty() {
  * }
  * ```
  *
- * @returns {Function}
  * @decorator
- * @converters
+ * @jsonMapper
+ * @schema
  * @alias IgnoreProperty
  */
 export function Ignore() {

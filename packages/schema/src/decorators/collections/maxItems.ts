@@ -9,6 +9,11 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * The value `maxItems` MUST be a non-negative integer.
  * :::
  *
+ * :: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@MaxItems@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -36,11 +41,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @param {number} maxItems
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @collections
  */
 export function MaxItems(maxItems: number) {
   if (maxItems < 0) {

@@ -4,7 +4,11 @@ import {expect} from "chai";
 import {Name} from "../index";
 
 class Test {
-  test(a: any) {}
+  @Name("name")
+  props: string;
+
+  test(a: any) {
+  }
 }
 
 describe("Name()", () => {

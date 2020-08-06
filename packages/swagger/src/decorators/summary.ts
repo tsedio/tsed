@@ -15,9 +15,10 @@ import {Operation} from "./operation";
  * ```
  *
  * @param {string} summary
- * @returns {Function}
  * @decorator
  * @swagger
+ * @schema
+ * @operation
  */
 export function Summary(summary: string): Function {
   return Operation({summary});

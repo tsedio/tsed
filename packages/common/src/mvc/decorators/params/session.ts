@@ -33,7 +33,8 @@ import {mapParamsOptions} from "../../utils/mapParamsOptions";
  *
  * @param expression The path of the property to get.
  * @decorator
- * @returns {Function}
+ * @operation
+ * @input
  */
 export function Session(expression: string): ParameterDecorator;
 export function Session(options: IParamOptions<any>): ParameterDecorator;

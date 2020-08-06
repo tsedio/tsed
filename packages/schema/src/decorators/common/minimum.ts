@@ -5,6 +5,11 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * If the instance is a number, then this keyword validates only if the instance is greater than or exactly equal to `minimum`.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Minimum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -60,11 +65,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @param {boolean} exclusive
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
   return JsonEntityFn(store => {
@@ -133,7 +136,6 @@ export function Minimum(minimum: number, exclusive: boolean = false) {
  * @param exclusive
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input

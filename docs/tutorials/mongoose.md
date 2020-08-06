@@ -69,7 +69,11 @@ export class MyService {
 
 Ts.ED gives some decorators and services to write your code:
 
-<ApiList query="labels.indexOf('mongoose') > -1 || module === '@tsed/mongoose' && symbolType === 'decorator'" />
+<ApiList query="status.includes('decorator') && status.includes('mongoose')" />
+
+You can also use the common decorators to describe model (See [models](/docs/model.html) documentation):
+
+<ApiList query="status.includes('decorator') && status.includes('schema')" />
 
 ## Declaring a Mongoose object (schema or model)
 ### Declaring a Model

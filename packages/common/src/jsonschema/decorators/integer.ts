@@ -1,4 +1,4 @@
-import {JsonSchema} from "@tsed/common";
+import {JsonSchema} from "../class/JsonSchema";
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
@@ -60,7 +60,6 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
- * @input
  */
 export function Integer() {
   return decoratorSchemaFactory((schema: JsonSchema) => {

@@ -15,11 +15,10 @@ import {CollectionOf} from "./collectionOf";
  * @param {Type<any>} type
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @collections
  */
 export function CollectionContains(type: any) {
   return CollectionOf(type).Contains();

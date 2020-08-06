@@ -3,6 +3,10 @@ import {Req} from "../params/request";
 import {Res} from "../params/response";
 import {UseAfter} from "./useAfter";
 
+/**
+ * @ignore
+ * @param location
+ */
 export const locationMiddleware = (location: string) =>
   (request: Req, response: Res, next: Next) => {
     response.location(location);
@@ -27,7 +31,7 @@ export const locationMiddleware = (location: string) =>
  * @param location
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
  */
 export function Location(location: string): Function {
   return UseAfter(locationMiddleware(location));

@@ -5,6 +5,10 @@ import {Minimum} from "./minimum";
  *
  * If the instance is a number, then the instance is valid only if it has a value strictly greater than (not equal to) `exclusiveMinimum`.
  *
+ * ::: warning
+ * For v6 user, use @@ExclusiveMinimum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -60,11 +64,9 @@ import {Minimum} from "./minimum";
  * @param {boolean} exclusiveMinimum
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
   return Minimum(minimum, exclusiveMinimum);

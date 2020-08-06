@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "@tsed/schema";
+import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
  * Set integer type.

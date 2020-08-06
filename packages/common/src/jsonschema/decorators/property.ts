@@ -83,12 +83,11 @@ import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
  * ```
  *
  * @returns {Function}
- * @decorator
  * @param options
  * @decorator
- * @converters
- * @jsonschema
- * @property
+ * @validation
+ * @swagger
+ * @schema
  * @deprecated Use Property decorator instead
  */
 // istanbul ignore next
@@ -180,9 +179,9 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * @returns {Function}
  * @param options
  * @decorator
- * @converters
- * @jsonschema
- * @property
+ * @validation
+ * @swagger
+ * @schema
  */
 export function Property(options?: IPropertyOptions | string): Function {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {
@@ -204,9 +203,7 @@ export function Property(options?: IPropertyOptions | string): Function {
 /**
  * Decorator builder. Call your function with `propertyMetadata` and `DecoratorParameters` a input parameters
  * @decorator
- * @converters
- * @jsonschema
- * @property
+ * @schema
  */
 export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
   return (...parameters: any[]): any => {

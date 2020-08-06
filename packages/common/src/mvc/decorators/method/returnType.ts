@@ -49,8 +49,9 @@ function mapStatusResponseOptions(args: any[]): any {
  * @returns {Function}
  * @param response
  * @decorator
- * @endpoint
- * @deprecated
+ * @operation
+ * @response
+ * @deprecated Use @Returns decorator from @tsed/schema
  */
 export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
   return EndpointFn(endpoint => {
@@ -159,7 +160,8 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
  * ```
  * @param statusCode Code status
  * @param options Swagger responses documentations
- * @returns {Function}
+ * @operation
+ * @response
  * @decorator
  */
 export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
@@ -261,7 +263,8 @@ export function Returns(...args: any[]) {
  * @returns {Function}
  * @decorator
  * @swagger
- * @ignore
+ * @operation
+ * @response
  */
 export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
 export function ReturnsArray(options: Partial<IResponseOptions>): any;

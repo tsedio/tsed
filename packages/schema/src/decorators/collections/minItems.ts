@@ -11,6 +11,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * Omitting this keyword has the same behavior as a value of 0.
  * :::
  *
+ * ::: warning
+ * For v6 user, use @@MinItems@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -38,11 +42,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @param {number} minItems
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
+ * @collections
  */
 export function MinItems(minItems: number) {
   if (minItems < 0) {

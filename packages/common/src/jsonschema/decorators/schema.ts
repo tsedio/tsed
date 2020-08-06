@@ -4,6 +4,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 /**
  * Write data formatted to JsonSchema.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Schema@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -31,13 +36,13 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * }
  * ```
  *
- * @decorator
- * @jsonschema
- * @ajv
- * @swagger
- * @property
  * @param partialSchema
- * @returns {Function}
+ * @decorator
+ * @validation
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @input
  */
 export function Schema(partialSchema: Partial<JsonSchema>) {
   return decoratorSchemaFactory((schema: JsonSchema) => {

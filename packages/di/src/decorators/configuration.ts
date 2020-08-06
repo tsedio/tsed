@@ -4,6 +4,11 @@ import {DIConfiguration} from "../services/DIConfiguration";
 
 export type Configuration = TsED.Configuration & DIConfiguration;
 
+/**
+ * Get or set Configuration on a class.
+ *
+ * @decorator
+ */
 export function Configuration(configuration: Partial<TsED.Configuration> = {}): Function {
   return (...args: DecoratorParameters) => {
     switch (getDecoratorType(args, true)) {

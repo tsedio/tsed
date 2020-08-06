@@ -27,6 +27,10 @@ import {getStorableMetadata} from "../utils/getStorableMetadata";
  *
  * @returns {Function}
  * @decorator
+ * @operation
+ * @input
+ * @schema
+ * @validation
  */
 export function Allow(...allowedRequiredValues: any[]): any {
   const allowNullInSchema = decoratorSchemaFactory((schema: JsonSchema) => {

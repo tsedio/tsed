@@ -44,8 +44,9 @@ export interface IControllerOptions extends Partial<IProvider<any>> {
  *
  * @param options
  * @param children
- * @returns {Function}
+ * @controller
  * @decorator
+ * @classDecorator
  */
 export function Controller(options: PathParamsType | IControllerOptions, ...children: Type<any>[]): Function {
   return (target: any): void => {

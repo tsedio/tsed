@@ -3,7 +3,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * A numeric instance is valid only if division by this keyword's value results in an integer.
  *
- * !> The value of `multipleOf` MUST be a number, strictly greater than 0.
+ * ::: warning
+ * The value of `multipleOf` MUST be a number, strictly greater than 0.
+ * :::
+ *
+ * ::: warning
+ * For v6 user, use @@MultipleOf@@ from @tsed/schema instead of @tsed/common.
+ * :::
  *
  * ## Example
  * ### With primitive type
@@ -57,11 +63,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @param {number} multipleOf The multiple value allowed
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @input
- * @model
  */
 export function MultipleOf(multipleOf: number) {
   if (multipleOf <= 0) {

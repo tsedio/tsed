@@ -6,10 +6,8 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @param type
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
- * @model
  */
 export function Property(type?: any) {
   return JsonEntityFn(store => {

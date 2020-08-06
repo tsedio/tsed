@@ -4,6 +4,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * Write data formatted to JsonSchema.
  *
+ * ::: warning
+ * For v6 user, use @@Schema@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -34,12 +38,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @param partialSchema
  * @decorator
  * @validation
- * @jsonMapper
  * @swagger
  * @schema
  * @classDecorator
  * @input
- * @model
  */
 export function Schema(partialSchema: Partial<JSONSchema6>) {
   return JsonEntityFn((entity) => {

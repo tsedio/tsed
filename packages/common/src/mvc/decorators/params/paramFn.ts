@@ -2,9 +2,12 @@ import {DecoratorParameters, getDecoratorType, Type} from "@tsed/core";
 import {ParamMetadata} from "../../models/ParamMetadata";
 
 /**
- * Return the paramMetadata
+ * Get the Param metdata. Use this decorator to compose your own decorator.
+ *
  * @param fn
  * @decorator
+ * @operation
+ * @input
  */
 export function ParamFn(fn: (param: ParamMetadata, parameters: DecoratorParameters) => void) {
   return <T>(target: Type<any>, propertyKey: string, index: number): void => {

@@ -15,7 +15,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["0", "1"],
-            type: ["string"]
+            type: "string"
           }
         },
         type: "object"
@@ -83,7 +83,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["enum1", "enum2"],
-            type: ["string"]
+            type: "string"
           }
         },
         type: "object"
@@ -108,7 +108,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: [0, 1],
-            type: ["number"]
+            type: "number"
           }
         },
         type: "object"

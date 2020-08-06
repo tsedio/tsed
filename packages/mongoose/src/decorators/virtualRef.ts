@@ -3,9 +3,6 @@ import {applyDecorators, Store, StoreMerge} from "@tsed/core";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 
-export type VirtualRef<T> = T | null;
-export type VirtualRefs<T> = T[];
-
 /**
  * Define a property as mongoose virtual reference to other Model (decorated with @Model).
  *
@@ -75,3 +72,6 @@ export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignF
     );
   };
 }
+
+export type VirtualRef<T> = T | null;
+export type VirtualRefs<T> = T[];

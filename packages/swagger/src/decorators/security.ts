@@ -16,9 +16,11 @@ import {Operation} from "./operation";
  *
  * @param {string} securityDefinitionName
  * @param {string} scopes
- * @returns {(...args: any[]) => any}
  * @decorator
  * @swagger
+ * @schema
+ * @classDecorator
+ * @operation
  */
 export function Security(securityDefinitionName: string, ...scopes: string[]): Function {
   return Operation({security: [{[securityDefinitionName]: scopes}]});

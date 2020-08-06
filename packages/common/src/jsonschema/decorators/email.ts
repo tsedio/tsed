@@ -3,6 +3,11 @@ import {Format} from "./format";
 /**
  * Apply an email validation on property.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Format@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -57,10 +62,8 @@ import {Format} from "./format";
  * > See [Format](api/common/jsonschema/schema) decorator.
  * @returns {Function}
  * @decorator
- * @ajv
+ * @validation
  * @property
- * @jsonschema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function Email() {
   return Format("email");

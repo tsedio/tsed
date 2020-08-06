@@ -5,6 +5,11 @@ import {Minimum} from "./minimum";
  *
  * If the instance is a number, then the instance is valid only if it has a value strictly greater than (not equal to) `exclusiveMinimum`.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@ExclusiveMinimum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -60,10 +65,8 @@ import {Minimum} from "./minimum";
  * @param {boolean} exclusiveMinimum
  * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
+ * @validation
  * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
   return Minimum(minimum, exclusiveMinimum);
