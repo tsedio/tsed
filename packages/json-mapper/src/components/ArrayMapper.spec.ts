@@ -1,15 +1,17 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {ArrayMapper} from "./ArrayMapper";
 
 describe("ArrayMapper", () => {
   describe("deserialize()", () => {
     it("should return value", () => {
-      const ctx = {
+      const ctx = new JsonMapperContext({
         type: String,
         collectionType: Array,
-        next: Sinon.stub().callsFake(o => String("testMap"))
-      };
+        next: Sinon.stub().callsFake(o => String("testMap")),
+        options: {}
+      });
 
       const arrayMapper = new ArrayMapper();
 
@@ -20,11 +22,12 @@ describe("ArrayMapper", () => {
   });
   describe("serialize()", () => {
     it("should return value", () => {
-      const ctx = {
+      const ctx = new JsonMapperContext({
         type: String,
         collectionType: Array,
-        next: Sinon.stub().callsFake(o => String("testMap"))
-      };
+        next: Sinon.stub().callsFake(o => String("testMap")),
+        options: {}
+      });
 
       const arrayMapper = new ArrayMapper();
 

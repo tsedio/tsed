@@ -118,7 +118,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   return out;
 }
 
-function buildOptions(options: JsonDeserializerOptions<any, any>) {
+function buildOptions(options: JsonDeserializerOptions<any, any>): any {
   if (options.store instanceof JsonEntityStore) {
     if (options.store.parameter && options.store.parameter.nestedGenerics.length) {
       options.nestedGenerics = options.store.parameter.nestedGenerics;

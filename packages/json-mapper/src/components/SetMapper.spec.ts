@@ -1,15 +1,17 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {SetMapper} from "./SetMapper";
 
 describe("SetMapper", () => {
   describe("deserialize()", () => {
     it("should return value", () => {
-      const ctx = {
+      const ctx = new JsonMapperContext({
         type: String,
         collectionType: Set,
-        next: Sinon.stub().callsFake(o => String("testMap"))
-      };
+        next: Sinon.stub().callsFake(o => String("testMap")),
+        options: {}
+      });
 
       const mapper = new SetMapper();
 

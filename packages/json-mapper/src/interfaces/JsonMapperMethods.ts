@@ -3,10 +3,10 @@ import {Type} from "@tsed/core";
 export interface JsonMapperCtx<T = any, C = any> {
   collectionType: Type<C> | undefined;
   type: Type<T> | T;
-  next: IJsonMapperNext;
+  next: JsonMapperNext;
 }
 
-export interface IJsonMapperNext {
+export interface JsonMapperNext {
   (obj: any): any;
 }
 
@@ -14,7 +14,7 @@ export interface JsonMapperMethods {
   /**
    *
    * @param obj
-   * @param {IJsonMapperNext} ctx
+   * @param {JsonMapperNext} ctx
    * @returns {any}
    */
   deserialize<T = any, C = any>(obj: any, ctx: JsonMapperCtx<T, C>): any;

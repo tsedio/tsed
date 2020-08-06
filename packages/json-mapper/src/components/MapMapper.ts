@@ -1,5 +1,6 @@
 import {JsonMapper} from "../decorators/jsonMapper";
-import {JsonMapperMethods, JsonMapperCtx} from "../interfaces/JsonMapperMethods";
+import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
+import {mapDeserializeOptions, mapSerializeOptions} from "../utils/mapLegacyOptions";
 
 /**
  * Converter component for the `Map` Type.
@@ -9,7 +10,13 @@ import {JsonMapperMethods, JsonMapperCtx} from "../interfaces/JsonMapperMethods"
  */
 @JsonMapper(Map)
 export class MapMapper implements JsonMapperMethods {
-  deserialize<T = any, C = Map<string, T>>(data: {[key: string]: any}, ctx: JsonMapperCtx<T, C>): Map<string, T> {
+  /**
+   * @deprecated
+   */
+  deserialize<T>(data: any, target: any, baseType: T, deserializer: Function): Map<string, T>;
+  deserialize<T = any, C = Map<string, T>>(data: {[key: string]: any}, ctx: JsonMapperCtx<T, C>): Map<string, T>;
+  deserialize<T = any, C = Map<string, T>>(data: {[key: string]: any}, ...args: any[]): Map<string, T> {
+    const ctx = mapSerializeOptions(args);
     const obj = new Map<string, T>();
 
     Object.keys(data).forEach(key => {
@@ -20,11 +27,12 @@ export class MapMapper implements JsonMapperMethods {
   }
 
   /**
-   *
-   * @param data
-   * @param ctx
+   * @deprecated
    */
-  serialize<T>(data: Map<string, T>, ctx: JsonMapperCtx): any {
+  serialize<T>(data: Map<string, T>, serializer: Function): any;
+  serialize<T>(data: Map<string, T>, ctx: JsonMapperCtx): any;
+  serialize<T>(data: Map<string, T>, ...args: any[]): any {
+    const ctx: JsonMapperCtx = mapDeserializeOptions(args);
     const obj: any = {};
 
     data.forEach((value: T, key: string) => (obj[key] = ctx.next(value)));
