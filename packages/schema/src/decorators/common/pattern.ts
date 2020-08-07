@@ -5,6 +5,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * The pattern and Pattern Properties keywords use regular expressions to express constraints.
  * The regular expression syntax used is from JavaScript (ECMA 262, specifically). However, that complete syntax is not widely supported, therefore it is recommended that you stick to the subset of that syntax described below.
  *
+ * ::: warning
+ * For v6 user, use @@Pattern@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * A single unicode character (other than the special characters below) matches itself.
  *
  * * `^`: Matches only at the beginning of the string.
@@ -59,7 +63,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * ```typescript
  * class Model {
- *    @PropertyType(string)
+ *    @CollectionOf(string)
  *    @Pattern(/^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$/)
  *    property: string[];
  * }
@@ -83,10 +87,11 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string} pattern
- * @returns {Function}
  * @decorator
- * @jsonschema
- * @property
+ * @validation
+ * @swagger
+ * @schema
+ * @input
  */
 export function Pattern(pattern: string | RegExp) {
   return JsonEntityFn((store: JsonEntityStore) => {

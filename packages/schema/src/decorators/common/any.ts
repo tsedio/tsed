@@ -5,6 +5,11 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * Set the type of the array items.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Any@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -32,8 +37,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * @returns {Function}
  * @decorator
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
+ * @input
  */
 export function Any(...types: (JSONSchema6TypeName | Type<any> | any)[]) {
   return JsonEntityFn(store => {

@@ -4,6 +4,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * The const keyword is used to restrict a value to a fixed value.
  *
+ * ::: warning
+ * For v6 user, use @@Const@@ from @tsed/schema instead of @tsed/common.
+ * :::
  *
  * ## Example
  * ### With a string
@@ -52,10 +55,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string | number | boolean } constValue
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @swagger
  * @schema
  */
 export function Const(constValue: JSONSchema6Type | any) {

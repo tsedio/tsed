@@ -1,4 +1,4 @@
-import {Any, IgnoreProperty, Property, PropertyName, PropertyType, Required} from "@tsed/common";
+import {Any, CollectionOf, Ignore, Property, Name, Required} from "@tsed/common";
 import {Description, Example, Title} from "@tsed/swagger";
 
 export class Task {
@@ -24,14 +24,14 @@ export class EventModel {
   // @Format("date")
   public endDate: Date;
 
-  @PropertyName("Name")
+  @Name("Name")
   @Required()
   public name: string;
 
   @Property({use: Task})
   public tasks: Task[];
 
-  @IgnoreProperty() public _id: string;
+  @Ignore() public _id: string;
 
   @Any() public mapAny: Map<string, any>;
 
@@ -39,5 +39,5 @@ export class EventModel {
   @Property()
   public anyValue: any;
 
-  @PropertyType(Task) public tasksMap: Map<string, Task>;
+  @CollectionOf(Task) public tasksMap: Map<string, Task>;
 }

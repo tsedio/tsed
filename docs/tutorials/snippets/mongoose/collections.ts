@@ -1,11 +1,11 @@
-import {PropertyType} from "@tsed/common";
+import {CollectionOf} from "@tsed/common";
 import {Model} from "@tsed/mongoose";
 
 @Model()
 export class MyModel {
-  @PropertyType(String)
+  @CollectionOf(String)
   list: string[];
 
-  @PropertyType(String)
+  @CollectionOf(String)
   map: Map<string, string>; // key must be a string.
 }

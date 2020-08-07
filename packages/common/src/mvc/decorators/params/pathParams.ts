@@ -33,7 +33,8 @@ import {UseParam} from "./useParam";
  * @param expression The path of the property to get.
  * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
- * @returns {ParameterDecorator}
+ * @operation
+ * @input
  */
 export function PathParams(expression: string, useType: Type<any>): ParameterDecorator;
 export function PathParams(expression: string): ParameterDecorator;
@@ -76,7 +77,8 @@ export function PathParams(...args: any[]): ParameterDecorator {
  *
  * @param expression The path of the property to get.
  * @decorator
- * @returns {ParameterDecorator}
+ * @operation
+ * @input
  */
 export function RawPathParams(expression: string) {
   return UseParam(ParamTypes.PATH, {expression});

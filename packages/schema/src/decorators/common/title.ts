@@ -3,6 +3,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * Add title metadata on the decorated element.
  *
+ * ::: warning
+ * For v6 user, use @@Title@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -27,8 +31,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string} title
- * @returns {(...args: any[]) => any}
  * @decorator
+ * @validation
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @input
  */
 export function Title(title: string) {
   return JsonEntityFn((entity) => {

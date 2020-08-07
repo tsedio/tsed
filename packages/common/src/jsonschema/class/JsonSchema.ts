@@ -25,6 +25,15 @@ function AutoMapKey(target: any, propertyKey: string): any {
   return descriptor;
 }
 
+/**
+ * Class to store JsonSchema metadata
+ *
+ * ::: warning
+ * This class will be removed in v6. Don't use this class to manipulate the json schema.
+ * :::
+ *
+ * @deprecated Will be removed in v6.
+ */
 export class JsonSchema implements JSONSchema6 {
   /**
    *

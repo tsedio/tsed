@@ -38,7 +38,9 @@ import {mapParamsOptions} from "../../utils/mapParamsOptions";
  *
  * @param expression The path of the property to get.
  * @decorator
- * @returns {Function}
+ * @operation
+ * @input
+ * @response
  */
 export function Locals(expression: string): ParameterDecorator;
 export function Locals(): ParameterDecorator;

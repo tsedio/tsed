@@ -3,6 +3,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * There are no restrictions placed on the value of this keyword.
  *
+ * ::: warning
+ * For v6 user, use @@Default@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * This keyword can be used to supply a default JSON value associated with a particular schema.
  * It is RECOMMENDED that a default value be valid against the associated schema.
  *
@@ -30,11 +34,11 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```
  *
  * @param {string | number | boolean | {}} defaultValue
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @swagger
  * @schema
+ * @input
  */
 export function Default(defaultValue: string | number | boolean | {}) {
   return JsonEntityFn(store => {

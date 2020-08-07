@@ -57,9 +57,10 @@ const originalTitleDecorator = mod.Title;
  * @returns {(...args: any[]) => any}
  * @decorator
  * @swagger
- * @property
- * @method
- * @parameter
+ * @schema
+ * @classDecorator
+ * @parameterDecorator
+ * @methodDecorator
  */
 function Title(title: string) {
   return (...args: any[]) => {

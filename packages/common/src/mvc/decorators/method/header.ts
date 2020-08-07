@@ -8,6 +8,9 @@ export interface IHeadersOptions {
   [key: string]: IHeaderOptions;
 }
 
+/**
+ * @ignore
+ */
 export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
   return Object.keys(headers).reduce<IResponseHeaders>((newHeaders: IResponseHeaders, key: string, index: number, array: string[]) => {
     const value: any = headers[key];
@@ -72,11 +75,10 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
  * }
  * ```
  *
- * @param headerName
- * @param headerValue
- * @returns {Function}
+ * @deprecated Use @Returns(200).Header("header", "value")
  * @decorator
- * @endpoint
+ * @operation
+ * @response
  */
 export function Header(headerName: string | number | IHeadersOptions, headerValue?: IHeaderOptions): Function {
   if (headerValue !== undefined) {

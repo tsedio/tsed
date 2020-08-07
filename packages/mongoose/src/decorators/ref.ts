@@ -4,8 +4,6 @@ import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
 
-export type Ref<T> = T | string;
-
 /**
  * Define a property as mongoose reference to other Model (decorated with @Model).
  *
@@ -52,3 +50,5 @@ export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSch
     })
   );
 }
+
+export type Ref<T> = T | string;

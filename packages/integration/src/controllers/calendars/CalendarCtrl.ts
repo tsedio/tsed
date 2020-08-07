@@ -22,10 +22,11 @@ import {
   Response,
   Status,
   Use,
-  UseAfter
+  UseAfter,
+  Returns
 } from "@tsed/common";
 import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
-import {Deprecated, Description, Returns, Security} from "@tsed/swagger";
+import {Deprecated, Description, Security} from "@tsed/swagger";
 import * as Express from "express";
 import {OAuth} from "../../decorators/oauth";
 import {CalendarModel} from "../../models/Calendar";

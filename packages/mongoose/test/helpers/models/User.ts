@@ -1,4 +1,4 @@
-import {Allow, IgnoreProperty, MinLength, Property, Required} from "@tsed/common";
+import {Allow, Ignore, MinLength, Property, Required} from "@tsed/common";
 import {Model, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorators";
 
 
@@ -29,7 +29,7 @@ export class TestUserCreation {
   next();
 })
 export class TestUser extends TestUserCreation {
-  @IgnoreProperty()
+  @Ignore()
   password: string;
 
   @Property()

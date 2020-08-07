@@ -4,7 +4,11 @@ A package of Ts.ED framework. See website: https://tsed.io/
 
 Package to declare JsonSchema and OpenAPI.
 
-# Installation
+## Documentation
+
+Documentation is available on [https://tsed.io](https://tsed.io/docs/model.html)
+
+## Installation
 
 You can get the latest release and the type definitions using npm:
 

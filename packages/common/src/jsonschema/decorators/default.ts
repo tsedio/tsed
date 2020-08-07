@@ -3,6 +3,11 @@ import {Schema} from "./schema";
 /**
  * There are no restrictions placed on the value of this keyword.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Default@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * This keyword can be used to supply a default JSON value associated with a particular schema.
  * It is RECOMMENDED that a default value be valid against the associated schema.
  *
@@ -30,11 +35,10 @@ import {Schema} from "./schema";
  * ```
  *
  * @param {string | number | boolean | {}} defaultValue
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
+ * @validation
+ * @swagger
+ * @schema
  */
 export function Default(defaultValue: string | number | boolean | {}) {
   return Schema({default: defaultValue});

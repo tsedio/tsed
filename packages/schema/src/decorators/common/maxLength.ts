@@ -1,7 +1,6 @@
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
- *
  * A string instance is valid against this keyword if its length is greater than, or equal to, the value of this keyword.
  *
  * The length of a string instance is defined as the number of its characters as defined by [RFC 7159](http://json-schema.org/latest/json-schema-validation.html#RFC7159).
@@ -12,6 +11,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * ::: tip
  * Omitting this keyword has the same behavior as a value of 0.
+ * :::
+ *
+ * ::: warning
+ * For v6 user, use @@MaxLength@@ from @tsed/schema instead of @tsed/common.
  * :::
  *
  * ## Example
@@ -65,12 +68,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} maxLength
- * @returns {Function}
+ * @param {number} maxLength The maximum length allowed
  * @decorator
- * @ajv
+ * @validation
+ * @swagger
  * @schema
- * @property
+ * @input
  */
 export function MaxLength(maxLength: number) {
   if (maxLength < 0) {

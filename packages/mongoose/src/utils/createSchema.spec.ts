@@ -1,10 +1,22 @@
+import {
+  CollectionOf,
+  Default,
+  Enum,
+  Maximum,
+  MaxLength,
+  Minimum,
+  MinLength,
+  Pattern,
+  Property,
+  Name,
+  Required
+} from "@tsed/common";
 import {expect} from "chai";
-import {Default, Enum, Maximum, MaxLength, Minimum, MinLength, Pattern, Property, PropertyName, PropertyType, Required} from "@tsed/common";
 import {Schema as SchemaMongoose} from "mongoose";
 import {OpenApiModelSchemaBuilder} from "../../../swagger/src/class/OpenApiModelSchemaBuilder";
 import {Model, ObjectID, Ref, Schema, VirtualRef} from "../../src/decorators";
-import {createSchema, getSchema} from "../../src/utils/createSchema";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
+import {getSchema} from "../../src/utils/createSchema";
 
 describe("createSchema", () => {
   it("should create schema", () => {
@@ -16,7 +28,7 @@ describe("createSchema", () => {
     // GIVEN
     @Model()
     class Test {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -82,7 +94,7 @@ describe("createSchema", () => {
 
     @Schema()
     class Children {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -244,7 +256,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children2 {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -289,7 +301,7 @@ describe("createSchema", () => {
 
     @Schema()
     class Children {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -308,7 +320,7 @@ describe("createSchema", () => {
 
     @Model()
     class Test6 {
-      @PropertyType(Children)
+      @CollectionOf(Children)
       tests: Children[];
     }
 
@@ -357,7 +369,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children3 {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -403,7 +415,7 @@ describe("createSchema", () => {
 
     @Model()
     class Children4 {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -449,7 +461,7 @@ describe("createSchema", () => {
 
     @Schema()
     class Children {
-      @PropertyName("id")
+      @Name("id")
       _id: string;
 
       @Minimum(0)
@@ -468,7 +480,7 @@ describe("createSchema", () => {
 
     @Model()
     class Test9 {
-      @PropertyType(Children)
+      @CollectionOf(Children)
       tests: Map<string, Children>;
     }
 
@@ -520,7 +532,7 @@ describe("createSchema", () => {
     try {
       @Schema()
       class Children {
-        @PropertyName("id")
+        @Name("id")
         _id: string;
 
         @Minimum(0)
@@ -539,7 +551,7 @@ describe("createSchema", () => {
 
       @Model()
       class Test9 {
-        @PropertyType(Children)
+        @CollectionOf(Children)
         tests: Set<Children>;
       }
     } catch (er) {

@@ -16,9 +16,9 @@ import {UseBefore} from "./useBefore";
  * ```
  *
  * @param mimes
- * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @response
  */
 export function AcceptMime(...mimes: string[]): Function {
   return applyDecorators(StoreSet(AcceptMimesMiddleware, mimes), UseBefore(AcceptMimesMiddleware));

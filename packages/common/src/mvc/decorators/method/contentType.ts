@@ -18,9 +18,10 @@ import {UseAfter} from "./useAfter";
  * ```
  *
  * @param type
- * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @response
+ * @headers
  */
 export function ContentType(type: string) {
   return applyDecorators(

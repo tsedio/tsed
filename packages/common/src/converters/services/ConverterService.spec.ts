@@ -4,7 +4,7 @@ import {Configuration, InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3, JsonFoo4} from "../../../../../test/helper/classes";
 import {ConverterService, ModelStrict} from "../../../src/converters";
-import {Default, PropertyDeserialize, PropertySerialize, PropertyType} from "../../../src/jsonschema/decorators";
+import {CollectionOf, Default, OnDeserialize, OnSerialize} from "../../../src/jsonschema/decorators";
 import {Property} from "../../../src/jsonschema/decorators/property";
 
 class JsonFoo5 {
@@ -183,7 +183,7 @@ describe("ConverterService", () => {
       "should use function onDeserialize to Deserialize property",
       PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
         class Test {
-          @PropertyDeserialize(v => v + "to")
+          @OnDeserialize(v => v + "to")
           test: string;
         }
 
@@ -408,7 +408,7 @@ describe("ConverterService", () => {
       it("should convert model", () => {
         class Model {
           @Default("foo")
-          @PropertyType(String)
+          @CollectionOf(String)
           public readonly foo: string = "foo";
         }
 
@@ -581,12 +581,12 @@ describe("ConverterService", () => {
         expect(converterService.serialize(new JsonFoo3())).to.be.an("object");
       });
     });
-    describe("@PropertySerialize", () => {
+    describe("@OnSerialize", () => {
       it("should use function to Deserialize property", async () => {
         const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
         class Test {
-          @PropertySerialize(v => v + "to")
+          @OnSerialize(v => v + "to")
           test: string;
         }
 

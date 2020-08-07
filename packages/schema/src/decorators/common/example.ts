@@ -5,11 +5,12 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * Add a example metadata on the decorated element.
  *
- * @returns {(...args: any[]) => any}
  * @decorator
- * @method
- * @property
- * @param examples
+ * @swagger
+ * @schema
+ * @input
+ * @methodDecorator
+ * @classDecorator
  */
 export function Example(examples: any): Function;
 export function Example(name: string, description: string): Function;

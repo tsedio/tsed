@@ -11,6 +11,15 @@ export interface GetSchemaOptions {
   definitions: {[p: string]: JSONSchema6};
 }
 
+/**
+ * Registry to store all schemes.
+ *
+ * ::: warning
+ * This class will be removed in v6
+ * :::
+ *
+ * @deprecated
+ */
 export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
   /**
    *
@@ -186,5 +195,8 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
   }
 }
 
+/**
+ * @deprecated Will be removed in v6.
+ */
 // tslint:disable-next-line: variable-name
 export const JsonSchemesRegistry = new JsonSchemaRegistry(JsonSchema);

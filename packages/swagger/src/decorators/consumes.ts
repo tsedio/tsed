@@ -16,7 +16,8 @@ import {Operation} from "./operation";
  * @returns {Function}
  * @decorator
  * @swagger
- * @param consumes
+ * @classDecorator
+ * @operation
  */
 export function Consumes(...consumes: string[]): Function {
   return Operation({consumes});

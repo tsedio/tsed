@@ -1,12 +1,21 @@
-import {decorateMethodsOf, DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
+import {
+  decorateMethodsOf,
+  DecoratorParameters,
+  getDecoratorType,
+  StoreMerge,
+  UnsupportedDecoratorType
+} from "@tsed/core";
 import {Operation as IOperation} from "swagger-schema-official";
 
 /**
  *
  * @param {Operation | any} operation
- * @returns {Function}
  * @decorator
+ * @ignore
  * @swagger
+ * @operation
+ * @swagger
+ * @deprecated Will be removed in v6
  */
 export function Operation(operation: IOperation | any): Function {
   return (...args: DecoratorParameters) => {

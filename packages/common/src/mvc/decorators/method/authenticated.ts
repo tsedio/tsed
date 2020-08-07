@@ -22,7 +22,7 @@ import {UseAuth} from "./useAuth";
  * @param options
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
  * @deprecated See [Authentication page](https://tsed.io/docs/authentication.html#usage).
  */
 export function Authenticated(options: IAuthOptions = {}): Function {

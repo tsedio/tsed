@@ -12,7 +12,7 @@ meta:
 
 # Configuration
 
-@@ServerSettings@@ lets you configure quickly your server via decorator. This decorator takes your configuration and merges it with the default server configuration.
+@@Configuration@@ lets you configure quickly your server via decorator. This decorator takes your configuration and merges it with the default server configuration.
 
 The default configuration is as following:
 

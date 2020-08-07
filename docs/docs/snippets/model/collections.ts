@@ -1,14 +1,17 @@
-import {PropertyType} from "@tsed/common";
+import {CollectionOf, getJsonSchema} from "@tsed/common";
+import {Model} from "./primitives";
 import {Role} from "./Role";
 import {Security} from "./Security";
 
 class User {
-  @PropertyType(Role)
+  @CollectionOf(Role)
   roles: Role[];
 
-  @PropertyType(String)
+  @CollectionOf(String)
   securities: Map<string, Security>;
 
-  @PropertyType(String)
+  @CollectionOf(String)
   scopes: Set<string>;
 }
+
+console.log(getJsonSchema(Model));

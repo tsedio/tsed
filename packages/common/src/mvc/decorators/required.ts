@@ -42,7 +42,11 @@ import {getStorableMetadata} from "../utils/getStorableMetadata";
  *
  * @returns {Function}
  * @decorator
- * @converters
+ * @decorator
+ * @operation
+ * @input
+ * @schema
+ * @validation
  */
 export function Required(...allowedRequiredValues: any[]): any {
   return applyDecorators(

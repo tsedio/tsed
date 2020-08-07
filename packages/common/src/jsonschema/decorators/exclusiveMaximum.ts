@@ -5,6 +5,11 @@ import {Maximum} from "./maximum";
  *
  * If the instance is a number, then the instance is valid only if it has a value strictly less than (not equal to) `exclusiveMaximum`.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@ExclusiveMaximum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -34,7 +39,7 @@ import {Maximum} from "./maximum";
  * ```typescript
  * class Model {
  *    @ExclusiveMaximum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```
@@ -58,12 +63,10 @@ import {Maximum} from "./maximum";
  *
  * @param maximum
  * @param {boolean} exclusiveMaximum
- * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
  */
 export function ExclusiveMaximum(maximum: number, exclusiveMaximum: boolean = true) {
   return Maximum(maximum, exclusiveMaximum);

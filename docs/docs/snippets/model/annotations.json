@@ -1,0 +1,15 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop": {
+      "default": "default",
+      "description": "Description",
+      "examples": [
+        "example"
+      ],
+      "title": "title",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

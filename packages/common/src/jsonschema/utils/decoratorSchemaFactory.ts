@@ -4,7 +4,8 @@ import {JsonSchema} from "../class/JsonSchema";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 
 /**
- *
+ * @ignore
+ * @deprecated Will be remove in v6.
  * @param {(schema: JsonSchema, parameters: DecoratorParameters) => void} fn
  * @returns {(...parameters: any[]) => any}
  */

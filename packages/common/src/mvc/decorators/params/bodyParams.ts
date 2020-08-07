@@ -38,7 +38,8 @@ import {mapParamsOptions} from "../../utils/mapParamsOptions";
  * @param expression The path of the property to get.
  * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
- * @returns {Function}
+ * @operation
+ * @input
  */
 export function BodyParams(expression: string, useType: Type<any>): ParameterDecorator;
 export function BodyParams(expression: string): ParameterDecorator;

@@ -1,4 +1,4 @@
-import {IgnoreProperty, ModelStrict, Property, Required} from "@tsed/common";
+import {Ignore, ModelStrict, Property, Required} from "@tsed/common";
 
 class Product {
   @Property()
@@ -16,7 +16,7 @@ export class UserProductPostModel extends Product {
   @Required()
   name: string;
 
-  @IgnoreProperty()
+  @Ignore()
   categoryId: number;
 
   @Property()

@@ -1,29 +1,13 @@
-import {IResponseOptions, ReturnType} from "@tsed/common";
+import {IResponseOptions, Returns as R, ReturnsArray as RA} from "@tsed/common";
 import {Type} from "@tsed/core";
-
-function mapStatusResponseOptions(args: any[]): any {
-  const configuration: any = {};
-
-  args.forEach((value: any) => {
-    configuration[typeof value] = value;
-  });
-
-  const {number: code, object: options = {} as any, function: type} = configuration;
-
-  if (type) {
-    options.type = type;
-  }
-
-  return {
-    ...options,
-    code,
-    type: options.type || options.use,
-    collectionType: options.collectionType || options.collection
-  };
-}
 
 /**
  * Add responses documentation for a specific status code.
+ *
+ * ::: warning
+ * This decorator will be removed in v6 in favor of @@Returns@@ from @tsed/schema.
+ * For v5 user, use @@Returns@@ decorator from @tsed/common then in v6 switch to @tsed/schema.
+ * :::
  *
  * ## Examples
  * ## With status code
@@ -105,17 +89,40 @@ function mapStatusResponseOptions(args: any[]): any {
  * @returns {Function}
  * @decorator
  * @swagger
+ * @ignore
+ * @deprecated Use @Returns decorator from @tsed/common.
  */
 export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated Use @Returns decorator from @tsed/common.
+ */
 export function Returns(options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated Use @Returns decorator from @tsed/common.
+ */
 export function Returns(model: Type<any>): any;
+/**
+ * @ignore
+ * @deprecated Use @Returns decorator from @tsed/common.
+ */
 export function Returns(model: Type<any>, options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated Use @Returns decorator from @tsed/common.
+ */
 export function Returns(...args: any[]) {
-  return ReturnType(mapStatusResponseOptions(args));
+  return (R as any)(...args);
 }
 
 /**
  * Add responses documentation for a specific status code.
+ *
+ * ::: warning
+ * This decorator will be removed in v6 in favor of @@Returns@@ from @tsed/schema.
+ * For v5 user, use @@ReturnsArray@@ decorator from @tsed/common then in v6 switch to `@Returns(Array).Of(User)` from @tsed/schema.
+ * :::
  *
  * ## Examples
  * ## With status code
@@ -200,11 +207,29 @@ export function Returns(...args: any[]) {
  * @returns {Function}
  * @decorator
  * @swagger
+ * @ignore
+ * @deprecated Use @ReturnsArray decorator from @tsed/common.
  */
 export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated Use @ReturnsArray decorator from @tsed/common.
+ */
 export function ReturnsArray(options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated Use @ReturnsArray decorator from @tsed/common.
+ */
 export function ReturnsArray(model: Type<any>): any;
+/**
+ * @ignore
+ * @deprecated Use @ReturnsArray decorator from @tsed/common.
+ */
 export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated Use @ReturnsArray decorator from @tsed/common.
+ */
 export function ReturnsArray(...args: any[]) {
-  return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});
+  return (RA as any)(...args);
 }

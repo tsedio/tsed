@@ -141,13 +141,13 @@ function checkCollection(model: any) {
 /**
  * Add responses documentation for a specific status code.
  *
- * ::: tip
- * Returns decorator API in v5 is completely different. If you are on Ts.ED v5 checkout our v5 documentation instead.
- * :::
- *
  * ## Usage
  *
- * Ts.ED v6 API introducing the chaining decorator concept. Now a decorator like Returns can be used with another decorators like Description.
+ * Ts.ED v5/v6 API introducing the chaining decorator concept. Now a decorator like Returns can be used with another decorators like Description.
+ *
+ * ::: warning
+ * v5 has a basic support of the chaining decorator to facilitate the migration to v6!
+ * :::
  *
  * ```typescript
  *  @Returns(404, String).Description("Not Found")
@@ -158,7 +158,7 @@ function checkCollection(model: any) {
  * ```
  *
  * ::: tip
- * TypeScript and you IDE will discover automatically the chained decorators. But for more details you can look on @@ReturnsChainedDecorators@@, to now
+ * TypeScript and your IDE will discover automatically the chained decorators. But for more details you can look on @@ReturnsChainedDecorators@@ interface, to know
  * what chained decorators are available under Returns decorator.
  * :::
  *
@@ -181,23 +181,29 @@ function checkCollection(model: any) {
  *
  * ## Declaring an Array
  *
- * The array declaration change in v6. Use chained decorators to declare an array with model.
+ * Use chained decorators to declare an array with model as following:
  *
  * ```typescript
- *  @Returns(200, Array).Of(Model).Description("Success")
- *  async myMethod(): Promise<Model>  {
+ * import {Returns} from "@tsed/schema";
  *
- *  }
+ * @Controller("/models")
+ * class ModelCtrl {
+ *   @Get("/")
+ *   @Returns(200, Array).Of(Model).Description("Success")
+ *   async myMethod(): Promise<Model>  {
+ *   }
+ * }
  * ```
  *
- * ### Declaring a generic model
  *
- * Something, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is why we need to
+ * ### Declaring a generic model <Badge text="6+"/>
+ *
+ * Sometime, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is why we need to
  * declare explicitly the generic models with the decorators.
  *
- * One of the generic's usage, can be a list pagination. With Ts.ED v6 it's now possible to declare generic and generate the appropriate Open Spec.
+ * One of the generic's usage, can be a paginated list. With Returns decorator it's now possible to declare generic type and generate the appropriate OpenSpec documentation.
  *
- * Starting with the pagination model. By using @@Generics@@ and @@CollectionOf@@.
+ * Starting with the pagination model, by using @@Generics@@ and @@CollectionOf@@:
  *
  * ```typescript
  * @Generics("T")
@@ -210,7 +216,7 @@ function checkCollection(model: any) {
  * }
  * ```
  *
- * Now, we need a model to use it with the generic Pagination model:
+ * Now, we need a model to be used with the generic Pagination model:
  *
  * ```typescript
  * class Product {
@@ -234,13 +240,16 @@ function checkCollection(model: any) {
  * }
  * ```
  *
- * ### Declaring a nested generics models
+ * ### Declaring a nested generics models <Badge text="6+"/>
  *
- * It's also possible to declare a nested generics models in order to have `Pagination<Submission<Product>>`:
+ * It's also possible to declare a nested generics models in order to have this type `Pagination<Submission<Product>>`:
  *
  * ```typescript
+ * import {Generics, Property, Returns} from "@tsed/schema";
+ * import {Post} from "@tsed/common";
+ *
  * class Controller {
- *   @OperationPath("POST", "/")
+ *   @Post("/")
  *   @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
  *   async method(): Promise<Pagination<Submission<Product>> | null> {
  *     return null;
@@ -251,6 +260,8 @@ function checkCollection(model: any) {
  * And here is the Submission model:
  *
  * ```typescript
+ * import {Generics, Property} from "@tsed/schema";
+ *
  * @Generics("T")
  * class Submission<T> {
  *   @Property()
@@ -260,9 +271,13 @@ function checkCollection(model: any) {
  * }
  * ```
  *
- * @decorator
  * @param status
  * @param model
+ * @decorator
+ * @swagger
+ * @schema
+ * @response
+ * @operation
  */
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
   const response = new JsonResponse();

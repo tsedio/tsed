@@ -1,4 +1,4 @@
-import {EndpointMetadata} from "@tsed/common/src";
+import {EndpointMetadata} from "@tsed/common";
 import {expect} from "chai";
 import {Returns} from "../index";
 

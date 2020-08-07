@@ -41,7 +41,8 @@ import {ReturnType} from "./returnType";
  * @param options
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
+ * @response
  */
 export function Status(code: number, options: Partial<TsED.ResponseOptions> = {}) {
   const {use, collection} = options as any;

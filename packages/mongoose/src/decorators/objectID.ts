@@ -1,4 +1,4 @@
-import {Property, Schema} from "@tsed/common";
+import {Description, Example, Name} from "@tsed/common";
 import {applyDecorators} from "@tsed/core";
 
 /**
@@ -15,14 +15,12 @@ import {applyDecorators} from "@tsed/core";
  * @param name
  * @decorator
  * @mongoose
- * @property
+ * @schema
  */
 export function ObjectID(name?: string) {
   return applyDecorators(
-    Property({name, use: String}),
-    Schema({
-      description: "Mongoose ObjectId",
-      example: "5ce7ad3028890bd71749d477"
-    })
+    name && Name(name),
+    Description("Mongoose ObjectId"),
+    Example("5ce7ad3028890bd71749d477")
   );
 }

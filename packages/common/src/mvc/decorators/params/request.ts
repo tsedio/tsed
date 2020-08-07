@@ -4,22 +4,12 @@ import {ParamTypes} from "../../models/ParamTypes";
 import {mapParamsOptions} from "../../utils/mapParamsOptions";
 import {UseParam} from "./useParam";
 
-declare global {
-  namespace TsED {
-    export interface Request {
-      aborted: boolean;
-    }
-  }
-}
-
-export interface Request extends TsED.Request {}
-
-export interface Req extends TsED.Request {}
-
 /**
  * Request service.
- * @returns {function(Function, (string|symbol), number): void}
+ *
  * @decorator
+ * @operation
+ * @input
  */
 export function Request(expression: string, useType: Type<any>): ParameterDecorator;
 export function Request(expression: string): ParameterDecorator;
@@ -33,9 +23,11 @@ export function Request(...args: any[]): ParameterDecorator {
 
 /**
  * Request service.
- * @returns {function(Function, (string|symbol), number): void}
- * @decorator
+ *
  * @alias Request
+ * @decorator
+ * @operation
+ * @input
  */
 export function Req(expression: string, useType: Type<any>): ParameterDecorator;
 export function Req(expression: string): ParameterDecorator;
@@ -52,3 +44,28 @@ export function Req(...args: any[]): ParameterDecorator {
     useValidation
   });
 }
+
+declare global {
+  namespace TsED {
+    export interface Request {
+      aborted: boolean;
+    }
+  }
+}
+/**
+ * Request service.
+ *
+ * @decorator
+ * @operation
+ * @input
+ */
+export interface Request extends TsED.Request {}
+/**
+ * Request service.
+ *
+ * @alias Request
+ * @decorator
+ * @operation
+ * @input
+ */
+export interface Req extends TsED.Request {}

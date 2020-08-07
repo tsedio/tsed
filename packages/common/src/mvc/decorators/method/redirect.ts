@@ -3,6 +3,9 @@ import {Req} from "../params/request";
 import {Res} from "../params/response";
 import {UseAfter} from "./useAfter";
 
+/**
+ * @ignore
+ */
 export const redirectMiddleware = (status: string | number, url?: string) => (request: Req, response: Res, next: Next) => {
   response.redirect(status as number, url!);
   next();
@@ -50,11 +53,12 @@ export const redirectMiddleware = (status: string | number, url?: string) => (re
  *  @Redirect('back');
  * ```
  *
- * @returns {Function}
- * @decorator
- * @endpoint
  * @param url
  * @param status
+ * @decorator
+ * @operation
+ * @response
+ * @headers
  */
 export function Redirect(url: string): Function;
 export function Redirect(status: number, url: string): Function;

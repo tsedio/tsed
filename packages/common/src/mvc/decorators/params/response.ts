@@ -1,6 +1,32 @@
 import {ParamTypes} from "../../models/ParamTypes";
 import {UseParam} from "./useParam";
 
+/**
+ * Response service.
+ *
+ * @decorator
+ * @operation
+ * @input
+ * @response
+ */
+export function Response(): ParameterDecorator;
+export function Response(): ParameterDecorator {
+  return Res();
+}
+
+/**
+ * Request service.
+ *
+ * @alias Response
+ * @decorator
+ * @operation
+ * @input
+ * @response
+ */
+export function Res(): ParameterDecorator;
+export function Res(): ParameterDecorator {
+  return UseParam(ParamTypes.RESPONSE);
+}
 declare global {
   namespace TsED {
     export interface Response {
@@ -8,6 +34,7 @@ declare global {
       writableEnded: boolean;
       writableFinished: boolean;
       statusCode: number;
+
       /**
        * Set header `field` to `val`, or pass
        * an object of header fields.
@@ -21,13 +48,18 @@ declare global {
        * Aliased as `res.header()`.
        */
       set(key: string, value: any): any;
+
       set(headers: {[key: string]: any}): any;
+
       /**
        * Set status `code`.
        */
       status(code: number): any;
+
       pipe(pipe: any): any;
+
       send(body?: any): any;
+
       /**
        * Send JSON response.
        *
@@ -39,6 +71,7 @@ declare global {
        *     res.status(404).json('I dont have that');
        */
       json(obj: any): any;
+
       /**
        * Set _Content-Type_ response header with `type` through `mime.lookup()`
        * when it does not contain "/", or set the Content-Type to `type` otherwise.
@@ -52,6 +85,7 @@ declare global {
        *     res.type('png');
        */
       contentType(type: string): this;
+
       /**
        * Set the location header to `url`.
        *
@@ -79,6 +113,7 @@ declare global {
        *      res.location('/login');
        */
       location(url: string): this;
+
       /**
        * Redirect to the given `url` with optional response `status`
        * defaulting to 302.
@@ -96,33 +131,31 @@ declare global {
        *    res.redirect('../login'); // /blog/post/1 -> /blog/login
        */
       redirect(url: string): void;
+
       redirect(status: number, url: string): void;
+
       redirect(url: string, status: number): void;
     }
   }
 }
-
-export interface Response extends TsED.Response {}
-
-export interface Res extends TsED.Response {}
-
 /**
  * Response service.
- * @returns {function(Function, (string|symbol), number): void}
+ *
  * @decorator
+ * @operation
+ * @input
+ * @response
  */
-export function Response(): ParameterDecorator;
-export function Response(): ParameterDecorator {
-  return Res();
+export interface Response extends TsED.Response {
 }
-
 /**
- * Request service.
- * @returns {function(Function, (string|symbol), number): void}
+ * Response service.
+ *
+ * @alias Response
  * @decorator
- * @alias Request
+ * @operation
+ * @input
+ * @response
  */
-export function Res(): ParameterDecorator;
-export function Res(): ParameterDecorator {
-  return UseParam(ParamTypes.RESPONSE);
+export interface Res extends TsED.Response {
 }

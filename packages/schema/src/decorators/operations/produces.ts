@@ -18,10 +18,13 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * For openspec v3 prefer `@Returns().ContentType()` usage (see @@Returns@@).
  * :::
  *
- * @class
- * @method
- * @decorator
  * @param produces
+ * @decorator
+ * @swagger
+ * @methodDecorator
+ * @classDecorator
+ * @operation
+ * @response
  */
 export function Produces(...produces: string[]) {
   return JsonEntityFn((store, args) => {

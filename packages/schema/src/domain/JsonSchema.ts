@@ -1,5 +1,11 @@
 import {classOf, Hooks, isArray, isClass, isFunction, nameOf, Type, uniq, ValueOf} from "@tsed/core";
-import {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
+import {
+  JSONSchema6,
+  JSONSchema6Definition,
+  JSONSchema6Type,
+  JSONSchema6TypeName,
+  JSONSchema6Version
+} from "json-schema";
 import {JsonSchemaOptions} from "../interfaces";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {NestedGenerics} from "../utils/generics";
@@ -658,7 +664,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   any(...types: any[]) {
     types = uniq(types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"]).map(getJsonType);
 
-    this.type(types);
+    this.type(types.length === 1 ? types[0] : types);
 
     delete this._target;
 

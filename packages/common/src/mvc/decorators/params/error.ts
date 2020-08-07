@@ -4,7 +4,9 @@ import {UseParam} from "./useParam";
 /**
  *
  * @returns {Function}
- * @decorators
+ * @decorator
+ * @operation
+ * @input
  */
 export function Err(): Function {
   return UseParam(ParamTypes.ERR, {

@@ -55,11 +55,11 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *  "lastName": "Doe"
  * }
  * ```
- *
- * @returns {Function}
- * @decorator
- * @schema
  * @param cb Callback to know if the property must be ignored
+ * @decorator
+ * @validation
+ * @swagger
+ * @schema
  */
 export function Ignore(cb: boolean | IgnoreCallback = () => true) {
   return JsonEntityFn(store => {

@@ -1,3 +1,4 @@
+import {Name as N} from "@tsed/common";
 import {getDecoratorType, Store} from "@tsed/core";
 import {BaseParameter} from "./baseParameter";
 
@@ -13,7 +14,16 @@ import {BaseParameter} from "./baseParameter";
  * }
  * ```
  *
- * ### On parameters
+ * ### On property
+ *
+ * ```typescript
+ * class Model {
+ *   @Name("propAlias")
+ *   prop1: string;
+ * }
+ * ```
+ *
+ * ### On Class
  *
  * ```typescript
  * @Name("AliasName")
@@ -30,17 +40,19 @@ import {BaseParameter} from "./baseParameter";
  * @class
  * @parameter
  */
-export function Name(name: string) {
+export function Name(name: string): Function {
   return (...args: any[]) => {
     const type = getDecoratorType(args);
     switch (type) {
+      case "property":
+        return (N(name) as any)(...args);
       case "parameter":
         return BaseParameter({name})(...args);
       case "class":
         Store.from(...args).set("name", name);
         break;
       default:
-        throw new Error("Name is only supported on parameters and class");
+        throw new Error("Name is only supported on property, parameters and class");
     }
   };
 }

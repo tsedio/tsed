@@ -1,0 +1,10 @@
+{
+  "definitions": {},
+  "properties": {
+    "country": {
+      "const": "United States of America",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

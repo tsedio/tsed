@@ -1,0 +1,12 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop": {
+      "contains": {
+        "type": "string"
+      },
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

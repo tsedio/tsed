@@ -5,6 +5,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *
  * If the instance is a number, then this keyword validates only if the instance is greater than or exactly equal to `minimum`.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Minimum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -34,7 +39,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * ```typescript
  * class Model {
  *    @Minimum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```
@@ -56,14 +61,12 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * }
  * ```
  *
- * @param {number} minimum
+ * @param {number} minimum The minimum value allowed
  * @param {boolean} exclusive
- * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
   return decoratorSchemaFactory(schema => {

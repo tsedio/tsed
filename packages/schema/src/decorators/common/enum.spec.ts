@@ -15,7 +15,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["0", "1"],
-            type: ["string"]
+            type: "string"
           }
         },
         type: "object"
@@ -38,6 +38,32 @@ describe("@Enum", () => {
         type: "object"
       });
     });
+    it("should declare prop (mixed type and null)", () => {
+      // WHEN
+      class Model {
+        @Enum("0", "1", 10, null)
+        num: string | number;
+      }
+
+      expect(getJsonSchema(Model)).to.deep.equal({
+        "properties": {
+          "num": {
+            "enum": [
+              "0",
+              "1",
+              10,
+              null
+            ],
+            "type": [
+              "string",
+              "number",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      });
+    });
   });
 
   describe("when is a typescript enum (string)", () => {
@@ -57,7 +83,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["enum1", "enum2"],
-            type: ["string"]
+            type: "string"
           }
         },
         type: "object"
@@ -82,7 +108,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: [0, 1],
-            type: ["number"]
+            type: "number"
           }
         },
         type: "object"

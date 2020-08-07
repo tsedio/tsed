@@ -15,11 +15,13 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * }
  * ```
  *
- * @decorator
- * @class
- * @method
  * @param name
  * @param scopes
+ * @decorator
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @operation
  */
 export function Security(name: string, ...scopes: string[]) {
   return JsonEntityFn((store, args) => {

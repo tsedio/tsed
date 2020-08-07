@@ -9,10 +9,11 @@ import {
   QueryParams,
   Req,
   Required,
-  Status
+  Status,
+  Returns
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
-import {Responses, Returns} from "@tsed/swagger";
+import {Responses} from "@tsed/swagger";
 import {NotFound} from "@tsed/exceptions";
 import {Calendar, CalendarCreation} from "../../models/Calendar";
 import {User} from "../../models/User";

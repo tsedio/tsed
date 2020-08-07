@@ -1,4 +1,4 @@
-import {Minimum, Property, PropertyType} from "@tsed/common";
+import {CollectionOf, Minimum, Property} from "@tsed/common";
 import {Description} from "@tsed/swagger";
 
 export class Person {
@@ -12,6 +12,6 @@ export class Person {
   @Minimum(0)
   age: number;
 
-  @PropertyType(String)
+  @CollectionOf(String)
   skills: string[];
 }

@@ -1,0 +1,11 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop": {
+      "exclusiveMaximum": 100,
+      "minimum": 0,
+      "type": "number"
+    }
+  },
+  "type": "object"
+}

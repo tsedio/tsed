@@ -7,6 +7,11 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore";
  *
  * @param generics
  * @decorator
+ * @validation
+ * @swagger
+ * @schema
+ * @input
+ * @generics
  */
 export function Generics(...generics: string[]) {
   return (target: any) => {

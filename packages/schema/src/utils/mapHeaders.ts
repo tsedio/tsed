@@ -3,6 +3,7 @@ import {JsonHeader, JsonHeaders} from "../interfaces/JsonOpenSpec";
 /**
  * Map input header to a standard open spec header
  * @param headers
+ * @ignore
  */
 export function mapHeaders(headers: JsonHeaders): {[key: string]: JsonHeader} {
   return Object.keys(headers).reduce((newHeaders: {[key: string]: JsonHeader}, key: string) => {

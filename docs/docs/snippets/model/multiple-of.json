@@ -1,0 +1,10 @@
+{
+  "definitions": {},
+  "properties": {
+    "prop": {
+      "multipleOf": 10,
+      "type": "number"
+    }
+  },
+  "type": "object"
+}

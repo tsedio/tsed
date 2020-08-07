@@ -1,8 +1,4 @@
-import {IgnoreProperty, Property} from "@tsed/common";
-import {MinLength} from "../../packages/common/src/jsonschema/decorators/minLength";
-import {PropertyName} from "../../packages/common/src/jsonschema/decorators/propertyName";
-import {PropertyType} from "../../packages/common/src/jsonschema/decorators/propertyType";
-import {Required} from "../../packages/common/src/mvc/decorators";
+import {CollectionOf, Ignore, MinLength, Name, Property, Required} from "@tsed/common";
 
 export class JsonBaseModel {
   @Property()
@@ -56,7 +52,7 @@ export class JsonFoo2 {
   test: string;
 
   @Property()
-  @PropertyName("Name")
+  @Name("Name")
   @MinLength(3)
   name: string;
 
@@ -72,22 +68,22 @@ export class JsonFoo2 {
   @Required()
   foo: JsonFoo;
 
-  @PropertyType(JsonFoo)
+  @CollectionOf(JsonFoo)
   foos: JsonFoo[];
 
-  @PropertyType(JsonFoo1)
+  @CollectionOf(JsonFoo1)
   foos2: JsonFoo1[];
 
-  @PropertyType(JsonFoo1)
+  @CollectionOf(JsonFoo1)
   theMap: Map<string, JsonFoo1>;
 
-  @PropertyType(JsonFoo1)
+  @CollectionOf(JsonFoo1)
   theSet: Set<JsonFoo1>;
 
-  @PropertyType(String)
+  @CollectionOf(String)
   mapOfString: Map<string, string>;
 
-  @PropertyType(String)
+  @CollectionOf(String)
   arrayOfString: string[];
 
   @Property()
@@ -96,7 +92,7 @@ export class JsonFoo2 {
   @Property()
   ageModel: JsonAgeModel;
 
-  @IgnoreProperty()
+  @Ignore()
   password: string;
 
   method() {
@@ -150,4 +146,4 @@ export class IndirectCircular {
   parent: Dependency;
 }
 
-PropertyType(IndirectCircular)(Dependency, "dep");
+CollectionOf(IndirectCircular)(Dependency, "dep");

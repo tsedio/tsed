@@ -1,7 +1,7 @@
-import {IgnoreProperty, Property} from "@tsed/common";
+import {Ignore, Property} from "@tsed/common";
 
 export class User {
-  @IgnoreProperty()
+  @Ignore()
   _id: string;
 
   @Property()
@@ -10,6 +10,6 @@ export class User {
   @Property()
   lastName: string;
 
-  @IgnoreProperty()
+  @Ignore()
   password: string;
 }

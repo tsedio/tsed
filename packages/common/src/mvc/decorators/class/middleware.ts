@@ -1,10 +1,11 @@
 import {registerMiddleware} from "../../registries/MiddlewareRegistry";
 
 /**
+ * Register a new Middleware class.
  *
- * @returns {(target:any)=>void}
  * @decorator
+ * @classDecorator
  */
-export function Middleware(): Function {
+export function Middleware(): ClassDecorator {
   return registerMiddleware;
 }

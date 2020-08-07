@@ -4,6 +4,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
 /**
  * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.
  *
+ * ::: warning
+ * For v6 user, use @@UniqueItems@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  *
  * ```typescript
@@ -15,7 +19,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *
  *  * ```typescript
  * class Model {
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    @UniqueItems()
  *    property: string[];
  * }
@@ -39,11 +43,12 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * ```
  *
  * @param {boolean} uniqueItems
- * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
- * @property
+ * @validation
+ * @swagger
+ * @schema
+ * @input
+ * @collections
  */
 export function UniqueItems(uniqueItems: boolean = true) {
   return JsonEntityFn((store: JsonEntityStore) => {

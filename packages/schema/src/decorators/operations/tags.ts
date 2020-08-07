@@ -28,10 +28,12 @@ function mapTags(tags: (string | JsonTag)[]) {
  * }
  * ```
  *
- * @decorator
- * @method
- * @class
  * @param tags
+ * @decorator
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @operation
  */
 export function Tags(...tags: (string | JsonTag)[]) {
   return JsonEntityFn((store, args) => {

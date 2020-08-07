@@ -15,10 +15,22 @@ export enum OperationMethods {
 
 /**
  * Declare new Operation with his path and http method.
+ *
+ * ::: warning
+ * Don't use decorator with Ts.ED application.
+ *
+ * Use theses decorators instead:
+ *
+ * <ApiList query="status.includes('decorator') && status.includes('httpMethod')" />
+ *
+ * :::
+ *
  * @param method
  * @param path
  * @decorator
- * @method
+ * @swagger
+ * @schema
+ * @operation
  */
 export function OperationPath(method: OperationMethods | string, path: string | RegExp = "/") {
   return JsonEntityFn((store, args) => {

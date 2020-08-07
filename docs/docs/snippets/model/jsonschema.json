@@ -1,0 +1,18 @@
+{
+  "definitions": {},
+  "properties": {
+    "firstName": {
+      "minLength": 3,
+      "type": "string"
+    },
+    "lastName": {
+      "minLength": 3,
+      "type": "string"
+    }
+  },
+  "required": [
+    "firstName",
+    "lastName"
+  ],
+  "type": "object"
+}

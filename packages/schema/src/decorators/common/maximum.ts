@@ -5,6 +5,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  *
  * If the instance is a number, then this keyword validates only if the instance is less than or exactly equal to `maximum`.
  *
+ * ::: warning
+ * For v6 user, use @@Maximum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -34,7 +38,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * ```typescript
  * class Model {
  *    @Maximum(10)
- *    @PropertyType(Number)
+ *    @CollectionOf(Number)
  *    property: number[];
  * }
  * ```
@@ -56,21 +60,87 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * }
  * ```
  *
- * @param {number} maximum
- * @param {boolean} exclusive
- * @returns {Function}
+ * @param {number} maximum The maximum value allowed
+ * @param {boolean} exclusive Same effect as ExclusiveMaximum decorator.
  * @decorator
- * @ajv
- * @property
+ * @validation
+ * @swagger
  * @schema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @input
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
   return JsonEntityFn(store => {
     exclusive ? store.itemSchema.exclusiveMaximum(maximum) : store.itemSchema.maximum(maximum);
   });
 }
-
+/**
+ * The value of `maximum` MUST be a number, representing an inclusive upper limit for a numeric instance.
+ *
+ * If the instance is a number, then this keyword validates only if the instance is less than or exactly equal to `maximum`.
+ *
+ * ::: warning
+ * For v6 user, use @@Maximum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
+ * ## Example
+ * ### With primitive type
+ *
+ * ```typescript
+ * class Model {
+ *    @Max(10)
+ *    property: number;
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "number",
+ *       "maximum": 10
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With array type
+ *
+ * ```typescript
+ * class Model {
+ *    @Max(10)
+ *    @CollectionOf(Number)
+ *    property: number[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "items": {
+ *          "type": "number",
+ *          "maximum": 10
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @param {number} maximum The maximum value allowed
+ * @param {boolean} exclusive Same effect as ExclusiveMaximum decorator.
+ * @decorator
+ * @validation
+ * @swagger
+ * @schema
+ * @input
+ */
 export function Max(maximum: number, exclusive: boolean = false) {
   return Maximum(maximum, exclusive);
 }

@@ -29,7 +29,7 @@ import {UseBefore} from "./useBefore";
  * @param options {Object} Object passed to the customer auth strategy
  * @returns {Function}
  * @decorator
- * @endpoint
+ * @operation
  */
 export function UseAuth(guardAuth: Type<any>, options: IAuthOptions = {}): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {

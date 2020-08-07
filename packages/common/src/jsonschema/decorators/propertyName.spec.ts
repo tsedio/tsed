@@ -1,12 +1,12 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
-import {PropertyName} from "./propertyName";
+import {Name} from "./propertyName";
 import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 
-describe("@PropertyName", () => {
+describe("@Name", () => {
   it("should create a propertyMetadata", () => {
     class Test {
-      @PropertyName("name")
+      @Name("name")
       test: string;
     }
 

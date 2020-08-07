@@ -1,12 +1,12 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
 import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
-import {PropertyType} from "./propertyType";
+import {CollectionOf} from "./propertyType";
 
-describe("@PropertyType", () => {
+describe("@CollectionOf", () => {
   it("should create a propertyMetadata", () => {
     class Test {
-      @PropertyType(Number)
+      @CollectionOf(Number)
       test: number[];
     }
 

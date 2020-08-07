@@ -1,4 +1,4 @@
-import {Controller, Delete, Get, Post, Put, Required, ReturnType, Status} from "@tsed/common";
+import {Controller, Delete, Get, Post, Put, Required, ReturnsArray, Status, Returns} from "@tsed/common";
 import {BodyParams} from "@tsed/common/src/mvc/decorators/params/bodyParams";
 import {PathParams} from "@tsed/common/src/mvc/decorators/params/pathParams";
 import {NotFound} from "@tsed/exceptions";
@@ -9,7 +9,7 @@ export class ResourcesCtrl {
   protected resources: Resource[] = [{id: "1", name: "Test"}];
 
   @Get("/:id")
-  @ReturnType({type: Resource})
+  @Returns(Resource)
   async get(@PathParams("id") @Required() id: string): Promise<Resource> {
     const resource = this.resources.find(resource => resource.id === id);
 
@@ -22,7 +22,7 @@ export class ResourcesCtrl {
 
   @Post("/")
   @Status(201)
-  @ReturnType({type: Resource})
+  @Returns(Resource)
   async post(@BodyParams() resource: Resource) {
     resource.id = require("uuid/v4")();
     this.resources.push(resource);
@@ -31,7 +31,7 @@ export class ResourcesCtrl {
   }
 
   @Put("/:id")
-  @ReturnType({type: Resource})
+  @Returns(Resource)
   async put(@PathParams("id") @Required() id: string, @BodyParams() resource: Resource) {
     await this.get(id);
 
@@ -47,7 +47,7 @@ export class ResourcesCtrl {
   }
 
   @Get("/")
-  @ReturnType({type: Resource, collectionType: Array})
+  @ReturnsArray(Resource)
   async getAll(): Promise<Resource[]> {
     return this.resources;
   }

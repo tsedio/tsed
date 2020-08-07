@@ -1,4 +1,4 @@
-import {Any, Property, PropertyName, PropertyType, Required} from "@tsed/common";
+import {Any, CollectionOf, Property, Name, Required} from "@tsed/common";
 import {Description, Example, Title} from "../../../src";
 
 export class SwaNoDecoModel {
@@ -35,7 +35,8 @@ export class SwaFoo {
   @Description("Description.foo")
   foo: any;
 
-  method() {}
+  method() {
+  }
 }
 
 @Title("SwaFoo2")
@@ -47,7 +48,7 @@ export class SwaFoo2 {
   @Required()
   test: string = "";
 
-  @PropertyName("Name")
+  @Name("Name")
   name: string;
 
   @Property()
@@ -61,7 +62,7 @@ export class SwaFoo2 {
   @Property()
   foo: SwaFoo;
 
-  @PropertyType(SwaFoo)
+  @CollectionOf(SwaFoo)
   @Title("SwaFoo2.foos")
   @Description("SwaFoo2.foos description")
   @Example("TODO")
@@ -69,7 +70,7 @@ export class SwaFoo2 {
 
   @Title("SwaFoo2.theMap")
   @Description("SwaFoo2.theMap description")
-  @PropertyType(SwaFoo)
+  @CollectionOf(SwaFoo)
   theMap: Map<string, SwaFoo>;
 
   @Title("SwaFoo2.theSet")
@@ -94,10 +95,12 @@ export class SwaFoo2 {
   @Any()
   anyValue: any;
 
-  method() {}
+  method() {
+  }
 }
 
-export class Ctrl {}
+export class Ctrl {
+}
 
 export class ParentModel {
   @Required()

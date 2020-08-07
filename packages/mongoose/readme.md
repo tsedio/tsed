@@ -109,7 +109,7 @@ Here a model example:
 import {
     Minimum, Maximum, MaxLength, MinLength, 
     Enum, Pattern, Required, 
-    PropertyType
+    CollectionOf
 } from "@tsed/common";
 import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose"
 
@@ -143,7 +143,7 @@ export class MyModel {
     @Pattern(/[a-z]/) // equivalent of match field in mongoose 
     pattern: String;
     
-    @PropertyType(String)
+    @CollectionOf(String)
     arrayOf: string[];
     
     @Ref(OtherModel)

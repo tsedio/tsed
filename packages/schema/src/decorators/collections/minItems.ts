@@ -1,7 +1,6 @@
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
- *
  * An array instance is valid against `minItems` if its size is greater than, or equal to, the value of this keyword.
  *
  * ::: warning
@@ -10,6 +9,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *
  * ::: tip
  * Omitting this keyword has the same behavior as a value of 0.
+ * :::
+ *
+ * ::: warning
+ * For v6 user, use @@MinItems@@ from @tsed/schema instead of @tsed/common.
  * :::
  *
  * ## Example
@@ -37,11 +40,12 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * ```
  *
  * @param {number} minItems
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
+ * @validation
+ * @swagger
+ * @schema
+ * @input
+ * @collections
  */
 export function MinItems(minItems: number) {
   if (minItems < 0) {

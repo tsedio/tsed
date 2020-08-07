@@ -14,7 +14,7 @@ export interface PreHookOptions {
  * define the hook function like you normally would in Mongoose.
  *
  * ```typescript
- * import {IgnoreProperty, Required} from "@tsed/common";
+ * import {Ignore, Required} from "@tsed/common";
  * import {PreHook, Model} from "@tsed/mongoose";
  *
  * @Model()
@@ -26,7 +26,7 @@ export interface PreHookOptions {
  *})
  * export class CarModel {
  *
- *    @IgnoreProperty()
+ *    @Ignore()
  *    _id: string;
  *
  *    @Required()

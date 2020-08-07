@@ -10,10 +10,11 @@ import {
   Put,
   Required,
   Status,
-  UseBefore
+  UseBefore,
+  Returns
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
-import {Responses, Returns} from "@tsed/swagger";
+import {Responses} from "@tsed/swagger";
 import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {CalendarCreation} from "../../models/Calendar";

@@ -5,18 +5,23 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * Add deprecated metadata on the decorated element.
  *
  * ## Examples
- * ### On method
  *
  * ```typescript
- * class Model {
- *    @Deprecated()
- *    id: string;
+ *
+ * @Deprecated()
+ * class MyCtrl {
+ *   @Deprecated()
+ *   @Get("/")
+ *   method(){
+ *   }
  * }
  * ```
- * @class
- * @method
- * @decorator
+ *
  * @param deprecated
+ * @decorator
+ * @swagger
+ * @schema
+ * @operation
  */
 export function Deprecated(deprecated: boolean = true) {
   return JsonEntityFn((store, args) => {

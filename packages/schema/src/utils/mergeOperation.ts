@@ -1,6 +1,9 @@
 import {concatParameters} from "./concatParameters";
 import {getJsonPathParameters} from "./getJsonPathParameters";
 
+/**
+ * @ignore
+ */
 export function mergeOperation(obj: any, operation: any, {rootPath, operationId, defaultTags, tags, path, method}: any) {
   return getJsonPathParameters(rootPath, path).reduce((obj, {path, parameters}) => {
     parameters = concatParameters(parameters, operation);

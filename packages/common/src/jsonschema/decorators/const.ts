@@ -4,6 +4,10 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 /**
  * The const keyword is used to restrict a value to a fixed value.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@Const@@ from @tsed/schema instead of @tsed/common.
+ * :::
  *
  * ## Example
  * ### With a string
@@ -52,12 +56,10 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * ```
  *
  * @param {string | number | boolean } constValue
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
  */
 export function Const(constValue: JSONSchema6Type | any) {
   return decoratorSchemaFactory(schema => {

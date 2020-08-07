@@ -2,8 +2,12 @@ import {ValidationPipe} from "../../pipes/ValidationPipe";
 import {ParamFn} from "./paramFn";
 
 /**
+ * Enable validation on the decoratored parameter.
  *
- * @constructor
+ * @decorator
+ * @operation
+ * @input
+ * @pipe
  */
 export function UseValidation() {
   return ParamFn(param => {

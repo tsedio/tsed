@@ -1,18 +1,18 @@
-import {Property, PropertyName, Required} from "@tsed/common";
+import {Property, Name, Required} from "@tsed/common";
 import {Model, Ref} from "@tsed/mongoose";
 import {Description} from "@tsed/swagger";
 import {Calendar} from "../calendars/Calendar";
 
 @Model()
 export class CalendarEvent {
-  @PropertyName("id")
+  @Name("id")
   _id: string;
 
   @Ref(Calendar)
   @Description("Calendar ID")
   calendarId: Ref<Calendar>;
 
-  @PropertyName("name")
+  @Name("name")
   @Description("The name of the event")
   name: string;
 

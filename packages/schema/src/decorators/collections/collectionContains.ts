@@ -11,24 +11,14 @@ import {CollectionOf} from "./collectionOf";
  *    property: string[];
  * }
  * ```
- * ::: warning
- * You musn't use the `type Type = string | number` as parameters Type.
- *
- * This example doesn't work:
- *
- * ```typescript
- * type Type = "string" | "number"
- * class Model {
- *    @PropertyType(Type)
- *    property: Type[];
- * }
- * ```
- * :::
  *
  * @param {Type<any>} type
- * @returns {Function}
  * @decorator
+ * @validation
+ * @swagger
  * @schema
+ * @input
+ * @collections
  */
 export function CollectionContains(type: any) {
   return CollectionOf(type).Contains();

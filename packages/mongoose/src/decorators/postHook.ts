@@ -7,7 +7,7 @@ import {schemaOptions} from "../utils/schemaOptions";
  * define the hook function like you normally would in Mongoose.
  *
  * ```typescript
- * import {IgnoreProperty, Required} from "@tsed/common";
+ * import {Ignore, Required} from "@tsed/common";
  * import {PostHook, Model} from "@tsed/mongoose";
  *
  * @Model()
@@ -17,7 +17,7 @@ import {schemaOptions} from "../utils/schemaOptions";
  *    }
  * })
  * export class CarModel {
- *    @IgnoreProperty()
+ *    @Ignore()
  *    _id: string;
  *
  *    @Required()

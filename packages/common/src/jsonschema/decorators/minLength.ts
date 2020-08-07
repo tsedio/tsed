@@ -14,6 +14,11 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * Omitting this keyword has the same behavior as a value of 0.
  * :::
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ * For v6 user, use @@MinLength@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -43,7 +48,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * ```typescript
  * class Model {
  *    @MinLength(10)
- *    @PropertyType(String)
+ *    @CollectionOf(String)
  *    property: string[];
  * }
  * ```
@@ -64,15 +69,12 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  *   }
  * }
  * ```
-
  *
  * @param {number} minLength
- * @returns {Function}
  * @decorator
- * @ajv
- * @jsonschema
- * @property
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
  */
 export function MinLength(minLength: number) {
   if (minLength < 0) {

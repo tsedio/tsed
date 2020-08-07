@@ -20,6 +20,10 @@ const transformTsEnum = (enumValue: any) => {
  *
  * Elements in the array might be of any value, including null.
  *
+ * ::: warning
+ * For v6 user, use @@Enum@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Example
  * ### With primitive type
  *
@@ -100,24 +104,25 @@ const transformTsEnum = (enumValue: any) => {
  *
  * @param {string | number | boolean | {}} enumValue
  * @param enumValues
- * @returns {Function}
  * @decorator
- * @ajv
- * @property
- * @jsonschema
- * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @validation
+ * @swagger
+ * @schema
+ * @input
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
   return JsonEntityFn(store => {
     const values = [enumValue].concat(enumValues).reduce((acc, value) => {
-      if (isObject(value)) {
+      if (isObject(value) && value !== null) {
         value = transformTsEnum(value);
       }
 
       return acc.concat(value);
     }, []);
 
-    const types = values.reduce((set: Set<any>, value: any) => set.add(typeof value), new Set());
+    const types = values.reduce((set: Set<any>, value: any) => {
+      return set.add(value === null ? "null" : typeof value);
+    }, new Set());
 
     store.itemSchema.enum(values).any(...types);
   });

@@ -15,7 +15,10 @@ import {Operation} from "./operation";
  *
  * @returns {Function}
  * @decorator
+ * @decorator
  * @swagger
+ * @schema
+ * @operation
  */
 export function Deprecated(): Function {
   return Operation({deprecated: true});

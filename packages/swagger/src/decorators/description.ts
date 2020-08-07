@@ -1,4 +1,4 @@
-import {Schema} from "@tsed/common";
+import {Description as D} from "@tsed/common";
 import {getDecoratorType, Store} from "@tsed/core";
 import {BaseParameter} from "./baseParameter";
 import {Operation} from "./operation";
@@ -48,11 +48,11 @@ import {Operation} from "./operation";
  * @returns {Function}
  * @decorator
  * @swagger
- * @jsonschema
- * @property
- * @class
- * @method
- * @parameter
+ * @schema
+ * @operation
+ * @classParameter
+ * @classDecorator
+ * @methodDecorator
  */
 export function Description(description: string) {
   return (...args: any[]) => {
@@ -65,7 +65,7 @@ export function Description(description: string) {
       case "class":
         Store.from(...args).set("description", description);
       default:
-        Schema({description})(...args);
+        D(description)(...args);
     }
   };
 }

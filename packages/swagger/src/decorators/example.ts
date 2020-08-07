@@ -3,14 +3,15 @@ import {Schema} from "@tsed/common";
 /**
  * Add a example metadata on the decorated element.
  *
- * @param {string} name
- * @param {string} description
- * @returns {(...args: any[]) => any}
  * @decorator
  * @swagger
- * @jsonschema
- * @property
+ * @schema
+ * @input
+ * @methodDecorator
+ * @classDecorator
  */
+export function Example(examples: any): Function;
+export function Example(name: string, description: string): Function;
 export function Example(name: string | any, description?: string) {
   return (...args: any[]) => {
     let example;
