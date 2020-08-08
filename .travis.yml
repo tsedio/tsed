@@ -17,12 +17,24 @@ script: yarn test && (yarn coveralls || true)
 
 jobs:
   include:
-    - stage: deploy
+    - stage: deploy-npm
       name: 'Deploy packages'
       node_js: 12
       if: (NOT type IN (pull_request)) AND (branch = production)
-      script: yarn release && yarn docs:publish && yarn examples:publish
+      script: yarn release
+    - stage: deploy-artifacts
+      name: 'Deploy github pages'
+      if: (NOT type IN (pull_request)) AND (branch = production)
+      script: monorepo ci configure && git fetch --quiet && git rebase origin/production && yarn docs:publish
+    - stage: deploy-artifacts
+      name: 'Deploy examples'
+      if: (NOT type IN (pull_request)) AND (branch = production)
+      script: monorepo ci configure && git fetch --quiet && git rebase origin/production && yarn examples:publish
 
+stages:
+  - test
+  - deploy-npm
+  - deploy-artifacts
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

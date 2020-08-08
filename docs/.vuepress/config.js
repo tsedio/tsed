@@ -9,18 +9,23 @@ module.exports = {
   head: [
     ["link", {canonical: url}],
     ["link", {rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon"}],
-    ["link", {rel: "icon", href: "/favicon.ico", type: "image/x-icon"}],
+    ["link", {rel: "icon", href: "/favicon.ico", type: "apple-touch-icon"}],
+    ["link", {rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180"}],
+    ["link", {rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32"}],
+    ["link", {rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16"}],
+    ["link", {rel: "manifest", href: "/site.webmanifest"}],
     ["meta", {property: "og:url", content: url}],
     ["meta", {property: "og:type", content: "website"}],
     ["meta", {property: "og:site_name", content: title}],
     ["meta", {property: "og:title", content: title}],
     ["meta", {property: "og:description", content: description}],
-    // ["meta", {property: "og:image", content: "https://nestjs.com/img/nest-og.png"}],
-    // ["meta", {property: "og:image:width", content: "1200"}],
-    // ["meta", {property: "og:image:height", content: "650"}],
+    ["meta", {property: "og:image", content: "https://tsed.io/tsed-og.png"}],
+    ["meta", {property: "og:image:width", content: "1024"}],
+    ["meta", {property: "og:image:height", content: "1024"}],
     ["meta", {name: "twitter:title", content: title}],
     ["meta", {name: "twitter:description", content: description}],
     ["meta", {name: "twitter:card", content: "summary"}]
+
     // ["script", {
     //   type: "text/javascript",
     //   src: "https://platform-api.sharethis.com/js/sharethis.js#property=5e294abd381cb7001234a73b&product=inline-share-buttons&cms=website",
