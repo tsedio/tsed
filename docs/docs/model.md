@@ -76,7 +76,7 @@ Ts.ED will get the type from Typescript metadata and transform this type to a va
   </Tab>
 </Tabs>
 
-## Integer
+## Integer <Badge text="v5.62.0+" />
 
 The @@Integer@@ decorator is used to set integer type for integral numbers.
 
@@ -95,7 +95,7 @@ The @@Integer@@ decorator is used to set integer type for integral numbers.
 
 ## Any types
 
-The @@Any@@ decorator is used to set one or more types on property. Use this method when you when to set explicitly the json type
+The @@Any@@ (before v5.62.0, use @@AllowTypes@@) decorator is used to set one or more types on property. Use this method when you when to set explicitly the json type
 or when you use a mixed TypeScript types.
 
 <Tabs class="-code">
@@ -129,7 +129,6 @@ See [Regular Expressions](https://json-schema.org/understanding-json-schema/refe
   
   </Tab>
 </Tabs>
-
 
 ## Format
 
@@ -243,7 +242,7 @@ Declaring a property that uses a collection is a bit different than declaring a 
 stores only the Array/Set/Map type when you declare the type of your property. The type used by the collection is lost.
 
 To tell Ts.ED (and other third party which uses JsonSchema) that a property uses a collection with a specific type, you must 
-use @@CollectionOf@@ decorator as following:
+use @@CollectionOf@@ (before v5.62.0, use @@PropertyType@@) decorator as following:
 
 <Tabs class="-code">
   <Tab label="Model">
@@ -321,7 +320,7 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 
 JSON Schema includes a few keywords and Ts.ED provide also theses corresponding decorators like @@Title@@, @@Description@@, @@Default@@, @@Examples@@ that aren’t strictly used for validation, but are used to describe parts of a schema.
 
-None of these “annotation” keywords are required, but they are encouraged for good practice, and can make your schema “self-documenting”.
+None of these `annotation` keywords are required, but they are encouraged for good practice, and can make your schema `self-documenting`.
 
 <Tabs class="-code">
   <Tab label="Model">

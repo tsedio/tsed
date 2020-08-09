@@ -1,6 +1,7 @@
 {
   "name": "Ts.ED",
   "short_name": "Ts.ED",
+  "description": "A Node.js and TypeScript Framework on top of Express. It provides a lot of decorators and guidelines to write your code.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,7 +14,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#0074d9",
-  "background_color": "#0074d9",
+  "theme_color": "#0074D9",
+  "background_color": "white",
   "display": "standalone"
 }
