@@ -75,13 +75,13 @@ export class SwaFoo2 {
 
   @Title("SwaFoo2.theSet")
   @Description("SwaFoo2.theSet description")
-  @Property({use: SwaFoo})
+  @Property(SwaFoo)
   theSet: Set<SwaFoo>;
 
-  @Property({use: String})
+  @Property(String)
   mapOfString: Map<string, string>;
 
-  @Property({use: String})
+  @Property(String)
   arrayOfString: string[];
 
   @Property()

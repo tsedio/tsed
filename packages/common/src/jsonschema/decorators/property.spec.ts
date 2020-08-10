@@ -2,11 +2,66 @@ import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {JsonFoo2} from "../../../../../test/helper/classes";
-import {JsonSchemesRegistry, PropertyFn} from "../../../src/jsonschema";
+import {getJsonSchema, PropertyFn} from "../../../src/jsonschema";
+import {Property} from "./property";
 
 describe("Property()", () => {
+  it("should create schema from options", () => {
+    class Model {
+      @Property({use: String, name: "test"})
+      test: string[];
+    }
+
+    expect(getJsonSchema(Model)).to.deep.eq({
+      "definitions": {},
+      "properties": {
+        "test": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    });
+  });
+  it("should create schema from Name", () => {
+    class Model {
+      @Property("test")
+      test: string;
+    }
+
+    expect(getJsonSchema(Model)).to.deep.eq({
+      "definitions": {},
+      "properties": {
+        "test": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    });
+  });
+  it("should create schema from Class", () => {
+    class Model {
+      @Property(String)
+      test: string[];
+    }
+
+    expect(getJsonSchema(Model)).to.deep.eq({
+      "definitions": {},
+      "properties": {
+        "test": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    });
+  });
   it("should create a schema", () => {
-    expect(JsonSchemesRegistry.getSchemaDefinition(JsonFoo2)).to.deep.eq({
+    expect(getJsonSchema(JsonFoo2)).to.deep.eq({
       definitions: {
         JsonAgeModel: {
           properties: {

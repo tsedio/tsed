@@ -1,5 +1,6 @@
 import {Description, Example, Name} from "@tsed/common";
 import {applyDecorators} from "@tsed/core";
+import {Types} from "mongoose";
 
 /**
  * Tell Mongoose whether to define an ObjectId property.
@@ -24,3 +25,5 @@ export function ObjectID(name?: string) {
     Example("5ce7ad3028890bd71749d477")
   );
 }
+
+export type ObjectID = Types.ObjectId;

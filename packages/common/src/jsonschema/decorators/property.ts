@@ -1,7 +1,8 @@
-import {DecoratorParameters, isEmpty, Type} from "@tsed/core";
+import {isEmpty, isPlainObject, Type} from "@tsed/core";
 import * as util from "util";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
 import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
+import {PropertyFn} from "./propertyFn";
 
 /**
  * `@Property()` let you decorate an attribute that can be serialized or deserialized. By default, no parameters are required to use it.
@@ -177,20 +178,33 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * ```
  *
  * @returns {Function}
- * @param options
  * @decorator
  * @validation
  * @swagger
  * @schema
  */
-export function Property(options?: IPropertyOptions | string): Function {
+export function Property(options?: IPropertyOptions | string | Type<any>): Function;
+export function Property(type: Type<any>): PropertyDecorator;
+/**
+ * @deprecated
+ */
+export function Property(options: IPropertyOptions): PropertyDecorator;
+/**
+ * @deprecated
+ */
+export function Property(name: string): PropertyDecorator;
+export function Property(options?: IPropertyOptions | string | Type<any>): Function {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {
     /* istanbul ignore next */
     if (typeof options === "string") {
       util.deprecate(() => {
-      }, "@Property(name: string) are deprecated. Use @Property(options:  IPropertyOptions) instead")();
+      }, "@Property(name: string) are deprecated. Use @Name() instead")();
       propertyMetadata.name = options as string;
+    } else if (options && !isPlainObject(options)) {
+      propertyMetadata.type = options as any;
     } else if (typeof options === "object") {
+      util.deprecate(() => {
+      }, "@Property(options) is deprecated. Use @Name() or/and @CollectionOf() instead")();
       propertyMetadata.name = options.name as string;
 
       if (!isEmpty((options as IPropertyOptions).use)) {
@@ -200,17 +214,4 @@ export function Property(options?: IPropertyOptions | string): Function {
   });
 }
 
-/**
- * Decorator builder. Call your function with `propertyMetadata` and `DecoratorParameters` a input parameters
- * @decorator
- * @schema
- */
-export function PropertyFn(fn: (propertyMetadata: PropertyMetadata, parameters: DecoratorParameters) => void): Function {
-  return (...parameters: any[]): any => {
-    const propertyMetadata = PropertyMetadata.get(parameters[0], parameters[1]);
-    const result: any = fn(propertyMetadata, parameters as DecoratorParameters);
-    if (typeof result === "function") {
-      result(...parameters);
-    }
-  };
-}
+export * from "./propertyFn";

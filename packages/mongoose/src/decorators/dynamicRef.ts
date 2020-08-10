@@ -36,7 +36,7 @@ import {MONGOOSE_SCHEMA} from "../constants";
  */
 export function DynamicRef(refPath: string) {
   return applyDecorators(
-    Property({use: String}),
+    Property(String),
     Schema({
       type: String,
       example: "5ce7ad3028890bd71749d477",

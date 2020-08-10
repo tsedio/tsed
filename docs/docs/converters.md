@@ -162,16 +162,16 @@ It will check the consistency of the JSON object with the data model. For exampl
 Here is a complete example of a model:
 
 ```typescript
-import  {Required, PropertyName, Property, CollectionOf, Allow} from "@tsed/common";
+import  {Required, Name, Property, CollectionOf, Allow} from "@tsed/common";
 
 class EventModel {
     @Required()
     name: string;
      
-    @PropertyName('startDate')
+    @Name('startDate')
     startDate: Date;
 
-    @Property({name: 'end-date'})
+    @Name('end-date')
     endDate: Date;
 
     @CollectionOf(TaskModel)

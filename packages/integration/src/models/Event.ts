@@ -28,7 +28,7 @@ export class EventModel {
   @Required()
   public name: string;
 
-  @Property({use: Task})
+  @Property(Task)
   public tasks: Task[];
 
   @Ignore() public _id: string;
