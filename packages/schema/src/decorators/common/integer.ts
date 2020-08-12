@@ -4,7 +4,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * Set integer type.
  *
  * ::: warning
- * For v6 user, use @@Integer@@ from @tsed/schema instead of @@AllowTypes@@ from @tsed/common.
+ * For v6 user, use @@Integer@@ from @tsed/schema instead of @@Integer@@ from @tsed/common.
  * :::
  *
  * ## Example

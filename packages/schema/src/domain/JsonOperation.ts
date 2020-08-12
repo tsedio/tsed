@@ -1,6 +1,12 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
-import {JsonExternalDocumentation, JsonHeader, JsonSecurityRequirement, JsonSchemaOptions, JsonTag} from "../interfaces";
+import {
+  JsonExternalDocumentation,
+  JsonHeader,
+  JsonSchemaOptions,
+  JsonSecurityRequirement,
+  JsonTag
+} from "../interfaces";
 import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
@@ -158,6 +164,9 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   addParameter(index: number, parameter: JsonParameter) {
+    if (index === -1) {
+      index = this.get("parameters").length;
+    }
     this.get("parameters")[index] = parameter;
   }
 
