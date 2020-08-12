@@ -12,7 +12,8 @@ export class SwaggerService {
     private injectorService: InjectorService,
     private platform: Platform,
     @Configuration() private configuration: Configuration
-  ) {}
+  ) {
+  }
 
   /**
    *
@@ -22,7 +23,7 @@ export class SwaggerService {
     const defaultSpec = this.getDefaultSpec(conf);
     const doc = conf.doc;
     const finalSpec = {};
-    // const getOperationId = this.createOperationIdFormatter(conf);
+
     const options = {
       paths: {},
       tags: [],
@@ -52,7 +53,6 @@ export class SwaggerService {
 
   /**
    * Return the global api information.
-   * @returns {Info}
    */
   public getDefaultSpec(conf: Partial<SwaggerSettings>): Spec {
     const {version} = this.configuration;
@@ -73,7 +73,7 @@ export class SwaggerService {
 
     /* istanbul ignore next */
     const {title = "Api documentation", description = "", version: versionInfo, termsOfService = "", contact, license} =
-      spec.info || ({} as any);
+    spec.info || ({} as any);
 
     return deepExtends(
       {
@@ -131,11 +131,6 @@ export class SwaggerService {
     return getSpec(ctrl.token, options);
   }
 
-  /**
-   *
-   * @param {SwaggerSettings} conf
-   * @returns {(targetName: string, methodName: string) => (any | string)}
-   */
   // private createOperationIdFormatter = (conf: ISwaggerSettings) => {
   //   const OPERATION_IDS: any = {};
   //

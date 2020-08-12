@@ -1,4 +1,14 @@
-import {BodyParameter, ExternalDocs, Info, Path, QueryParameter, Response, Schema, Security, Tag} from "swagger-schema-official";
+import {
+  BodyParameter,
+  ExternalDocs,
+  Info,
+  Path,
+  QueryParameter,
+  Response,
+  Schema,
+  Security,
+  Tag
+} from "swagger-schema-official";
 
 export interface SwaggerUIOptions {
   configUrl?: string;
