@@ -1,11 +1,6 @@
 import {PlatformTest, ServerSettingsService} from "@tsed/common";
-import {Store} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
 import {SwaggerService} from "../index";
-
-class Test {}
 
 describe("SwaggerService", () => {
   let swaggerService: SwaggerService;
@@ -101,65 +96,6 @@ describe("SwaggerService", () => {
       });
     });
   });
-
-  // describe("buildTags()", () => {
-  //   describe("when name is undefined", () => {
-  //     before(() => {
-  //       Sinon.stub(Store, "from");
-  //     });
-  //     after(() => {
-  //       stub(Store.from).restore();
-  //     });
-  //
-  //     it("should return an array with tags", () => {
-  //       // GIVEN
-  //       const store = {
-  //         get: Sinon.stub()
-  //       };
-  //
-  //       stub(Store.from).returns(store);
-  //
-  //       store.get.withArgs("description").returns("description");
-  //       store.get.withArgs("name").returns(undefined);
-  //       store.get.withArgs("tag").returns({test: "tag"});
-  //
-  //       // WHEN
-  //       // @ts-ignore
-  //       const result = swaggerService.buildTags({useClass: Test});
-  //
-  //       // THEN
-  //       expect(result).to.deep.eq({description: "description", name: "Test", test: "tag"});
-  //     });
-  //   });
-  //   describe("when name is defined", () => {
-  //     before(() => {
-  //       Sinon.stub(Store, "from");
-  //     });
-  //     after(() => {
-  //       stub(Store.from).restore();
-  //     });
-  //
-  //     it("should return an array with tags", () => {
-  //       // GIVEN
-  //       const store = {
-  //         get: Sinon.stub()
-  //       };
-  //
-  //       stub(Store.from).returns(store);
-  //
-  //       store.get.withArgs("description").returns("description");
-  //       store.get.withArgs("name").returns("name");
-  //       store.get.withArgs("tag").returns({test: "tag"});
-  //
-  //       // WHEN
-  //       // @ts-ignore
-  //       const result = swaggerService.buildTags({useClass: Test});
-  //
-  //       expect(result).to.deep.eq({description: "description", name: "name", test: "tag"});
-  //     });
-  //   });
-  // });
-
   describe("readSpecPath", () => {
     it("should return an empty object", () => {
       // @ts-ignore

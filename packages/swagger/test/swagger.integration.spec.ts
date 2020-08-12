@@ -1,20 +1,20 @@
-import {Controller, PlatformTest, Get, PathParams} from "@tsed/common";
+import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Returns, ReturnsArray} from "../src";
 import {Calendar} from "./helpers/models/Calendar";
 import {Server} from "./helpers/Server";
 
 @Controller("/calendars")
 export class CalendarsController {
   @Get("/:id")
-  @Returns(200, {type: Calendar})
+  @Returns(200, Calendar)
   async get(@PathParams("id") id: string): Promise<Calendar> {
     return new Calendar({id, name: "test"});
   }
 
   @Get("/")
-  @ReturnsArray(200, {type: Calendar})
+  @Returns(200, Array).Of(Calendar)
   async getAll(): Promise<Calendar[]> {
     return [
       new Calendar({id: 1, name: "name"}),
