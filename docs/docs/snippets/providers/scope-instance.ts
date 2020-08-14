@@ -1,7 +1,7 @@
 import {Controller, Get, ProviderScope, Scope, Service} from "@tsed/common";
 
 @Service()
-@Scope(ProviderScope.INSTANCE)  // OPTIONAL, leaving this annotation a the same behavior
+@Scope(ProviderScope.INSTANCE)
 export class MyInstanceService {
   private rand = Math.random() * 100;
 
@@ -12,7 +12,7 @@ export class MyInstanceService {
 }
 
 @Controller("/")
-@Scope(ProviderScope.SINGLETON)  // OPTIONAL, leaving this annotation a the same behavior
+@Scope(ProviderScope.SINGLETON)
 export class MyController {
   constructor(instance1: MyInstanceService, instance2: MyInstanceService) {
     console.log("IsSame", instance1 === instance2);
