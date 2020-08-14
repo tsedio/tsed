@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest, ProviderScope, Scope} from "@tsed/common";
 import {descriptorOf} from "@tsed/core";
 import {Inject, Injectable, Opts, UseOpts} from "@tsed/di";
 import {expect} from "chai";
@@ -36,6 +36,27 @@ describe("UseOpts", () => {
     expect(service.service1.source).to.equal("test1");
 
     expect(service.service2).to.instanceof(MyProvider);
+  });
+  it("should invoke a service which use a configurable provider", async () => {
+    @Injectable()
+    class MyProvider {
+      source: any;
+
+      constructor(@Opts options: Partial<any> = {}) {
+        this.source = options.source;
+      }
+    }
+
+    @Injectable()
+    class MyService {
+      constructor(@UseOpts({source: "test2"}) public service2: MyProvider) {}
+    }
+
+    @Injectable()
+    @Scope(ProviderScope.SINGLETON)
+    class MyRepoService extends MyProvider {}
+
+    await PlatformTest.invoke<MyRepoService>(MyRepoService);
   });
   it("should store metadata", () => {
     // GIVEN

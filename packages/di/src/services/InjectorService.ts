@@ -203,35 +203,43 @@ export class InjectorService extends Container {
     !locals.has(Configuration) && locals.set(Configuration, this.settings);
 
     if (locals.has(token)) {
-      instance = locals.get(token);
-    } else if (!provider || options.rebuild) {
+      return locals.get(token);
+    }
+
+    if (token === DI_PARAM_OPTIONS) {
+      return {} as T;
+    }
+
+    if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
       this.hasProvider(token) && (this.getProvider(token)!.instance = instance);
-    } else {
-      switch (this.scopeOf(provider)) {
-        case ProviderScope.SINGLETON:
-          if (!this.has(token)) {
-            provider.instance = this.resolve(token, locals, options);
 
-            if (provider.isAsync()) {
-              provider.instance.then((instance: any) => {
-                provider.instance = instance;
-              });
-            }
+      return instance;
+    }
+
+    switch (this.scopeOf(provider)) {
+      case ProviderScope.SINGLETON:
+        if (!this.has(token)) {
+          provider.instance = this.resolve(token, locals, options);
+
+          if (provider.isAsync()) {
+            provider.instance.then((instance: any) => {
+              provider.instance = instance;
+            });
           }
+        }
 
-          instance = this.get<T>(token)!;
-          break;
+        instance = this.get<T>(token)!;
+        break;
 
-        case ProviderScope.REQUEST:
-          instance = this.resolve(token, locals, options);
-          locals.set(token, instance);
-          break;
+      case ProviderScope.REQUEST:
+        instance = this.resolve(token, locals, options);
+        locals.set(token, instance);
+        break;
 
-        case ProviderScope.INSTANCE:
-          instance = this.resolve(provider.provide, locals, options);
-          break;
-      }
+      case ProviderScope.INSTANCE:
+        instance = this.resolve(provider.provide, locals, options);
+        break;
     }
 
     return instance;
