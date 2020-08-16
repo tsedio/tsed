@@ -1,45 +1,73 @@
-import {Store} from "@tsed/core";
+import {getJsonSchema, Property} from "@tsed/common";
 import {expect} from "chai";
-import {Example} from "../index";
+import {Example} from "./example";
 
-class Test {
-  test() {}
-}
+describe("@Example", () => {
+  it("should declare description on property", () => {
+    // WHEN
 
-describe("Example()", () => {
-  describe("string type", () => {
-    before(() => {
-      Example("name", "description")(Test, "test");
-      this.store = Store.from(Test, "test");
-    });
-    it("should set the schema", () => {
-      expect(this.store.get("schema").toObject()).to.deep.eq({
-        example: {
-          name: "description"
+    class Model {
+      @Example("Examples")
+      method: string;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      definitions: {},
+      properties: {
+        method: {
+          examples: ["Examples"],
+          type: "string"
         }
-      });
+      },
+      type: "object"
     });
   });
-  describe("array type", () => {
-    before(() => {
-      Example(["s1", "s2"])(Test, "test2");
-      this.store = Store.from(Test, "test2");
-    });
-    it("should set the schema", () => {
-      expect(this.store.get("schema").toObject()).to.deep.eq({
-        example: ["s1", "s2"]
-      });
+  it("should declare description on property (with obj)", () => {
+    // WHEN
+
+    class Model {
+      @Example({id: "id"})
+      method: any;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      definitions: {},
+      properties: {
+        method: {
+          examples: [
+            {
+              id: "id"
+            }
+          ],
+          type: "object"
+        }
+      },
+      type: "object"
     });
   });
-  describe("object type", () => {
-    before(() => {
-      Example({k1: {k2: "vaue"}})(Test, "test3");
-      this.store = Store.from(Test, "test3");
-    });
-    it("should set the schema", () => {
-      expect(this.store.get("schema").toObject()).to.deep.eq({
-        example: {k1: {k2: "vaue"}}
-      });
+  it("should declare description on property (with two params on class)", () => {
+    // WHEN
+
+    @Example("method", "description")
+    class Model {
+      @Property()
+      method: string;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      definitions: {},
+      example: {
+        method: "description"
+      },
+      properties: {
+        method: {
+          type: "string"
+        }
+      },
+      type: "object"
     });
   });
 });

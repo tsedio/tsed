@@ -1,5 +1,4 @@
-import {Required} from "@tsed/common";
-import {Description} from "@tsed/swagger";
+import {Required, Description} from "@tsed/common";
 import {Credentials} from "./Credentials";
 
 export class UserCreation extends Credentials {

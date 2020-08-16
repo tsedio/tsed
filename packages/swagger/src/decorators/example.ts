@@ -1,4 +1,4 @@
-import {Schema} from "@tsed/common";
+import {Example as E} from "@tsed/common";
 
 /**
  * Add a example metadata on the decorated element.
@@ -9,18 +9,12 @@ import {Schema} from "@tsed/common";
  * @input
  * @methodDecorator
  * @classDecorator
+ * @ignore
+ * @deprecated
  */
-export function Example(examples: any): Function;
-export function Example(name: string, description: string): Function;
-export function Example(name: string | any, description?: string) {
-  return (...args: any[]) => {
-    let example;
-    if (description) {
-      example = {[name]: description};
-    } else {
-      example = name;
-    }
-
-    return Schema({example: example as any})(...args);
-  };
+export function Example(example: any): Function;
+export function Example(name: string, description: string): ClassDecorator;
+export function Example(...args: any[]): Function {
+  // @ts-ignore
+  return E(...args);
 }

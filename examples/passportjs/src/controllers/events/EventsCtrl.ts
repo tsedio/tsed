@@ -14,7 +14,6 @@ import {
   Returns
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
-import {Responses} from "@tsed/swagger";
 import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {CalendarCreation} from "../../models/Calendar";
@@ -31,8 +30,8 @@ export class EventsCtrl {
   }
 
   @Get("/:id")
-  @Returns(Event)
-  @Responses(404, {description: "Event not found"})
+  @Returns(200, Event)
+  @Returns(404, {description: "Event not found"})
   @Authorize("*")
   async get(@Required() @PathParams("calendarId") calendarId: string,
             @PathParams("id") id: string): Promise<Event> {
@@ -56,7 +55,6 @@ export class EventsCtrl {
 
   @Put("/")
   @Returns(201, {type: Event})
-  @Returns(Event)
   @Authorize("*")
   async create(@Required() @PathParams("calendarId") calendarId: string,
                @BodyParams() event: EventCreation): Promise<Event> {

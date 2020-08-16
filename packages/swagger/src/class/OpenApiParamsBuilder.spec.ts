@@ -1,11 +1,9 @@
-import {MinLength, ParamMetadata, ParamTypes, Property, Required} from "@tsed/common";
-import {BodyParams} from "@tsed/common/src/mvc/decorators/params/bodyParams";
-import {QueryParams} from "@tsed/common/src/mvc/decorators/params/queryParams";
-import {MultipartFile} from "@tsed/multipartfiles/src";
+import {BodyParams, Description, MinLength, ParamMetadata, ParamTypes, Property, QueryParams, Required} from "@tsed/common";
+import {MultipartFile} from "@tsed/multipartfiles";
+import {Consumes} from "@tsed/swagger";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {Ctrl, SwaFoo2} from "../../test/helpers/class/classes";
-import {Consumes, Description} from "../index";
 import {OpenApiParamsBuilder} from "./OpenApiParamsBuilder";
 
 const param0 = new ParamMetadata({target: Ctrl, propertyKey: "test", index: 0});
@@ -774,7 +772,7 @@ describe("OpenApiParamsBuilder", () => {
             },
             foos: {
               description: "SwaFoo2.foos description",
-              example: "TODO",
+              examples: ["TODO"],
               items: {
                 $ref: "#/definitions/SwaFoo"
               },

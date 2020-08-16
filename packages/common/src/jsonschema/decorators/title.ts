@@ -1,3 +1,4 @@
+import {decoratorTypeOf, DecoratorTypes, StoreMerge} from "@tsed/core";
 import {Schema} from "./schema";
 
 /**
@@ -39,6 +40,17 @@ import {Schema} from "./schema";
  * @propertyDecorator
  * @input
  */
-export function Title(title: string) {
-  return Schema({title});
+export function Title(title: string): Function {
+  return (...args: any[]) => {
+    const type = decoratorTypeOf(args);
+
+    switch (type) {
+      case DecoratorTypes.METHOD:
+        return StoreMerge("operation", {title})(...args);
+      case DecoratorTypes.PARAM:
+        return StoreMerge("baseParameter", {title})(...args);
+      default:
+        return Schema({title})(...args);
+    }
+  };
 }

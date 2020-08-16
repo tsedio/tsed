@@ -1,4 +1,4 @@
-import {classOf, Hooks, isArray, isClass, isFunction, nameOf, Type, uniq, ValueOf} from "@tsed/core";
+import {classOf, Hooks, isArray, isClass, isFunction, MetadataTypes, nameOf, Type, uniq, ValueOf} from "@tsed/core";
 import {
   JSONSchema6,
   JSONSchema6Definition,

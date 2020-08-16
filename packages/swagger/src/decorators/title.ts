@@ -1,9 +1,4 @@
-import * as mod from "@tsed/common";
-import {getDecoratorType} from "@tsed/core";
-import {BaseParameter} from "./baseParameter";
-import {Operation} from "./operation";
-
-const originalTitleDecorator = mod.Title;
+import {Title as T} from "@tsed/common";
 
 /**
  * Add title metadata on the decorated element.
@@ -61,21 +56,9 @@ const originalTitleDecorator = mod.Title;
  * @classDecorator
  * @parameterDecorator
  * @methodDecorator
+ * @ignore
+ * @deprecated
  */
-function Title(title: string) {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args);
-    switch (type) {
-      case "method":
-        return Operation({title})(...args);
-      case "parameter":
-        return BaseParameter({title})(...args);
-      default:
-        originalTitleDecorator(title)(...args);
-    }
-  };
+export function Title(title: string) {
+  return T(title);
 }
-
-(mod as any).Title = Title;
-
-export {Title};

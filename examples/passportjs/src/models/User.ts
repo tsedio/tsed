@@ -1,5 +1,4 @@
-import {Ignore} from "@tsed/common";
-import {Description} from "@tsed/swagger";
+import {Description, Ignore} from "@tsed/common";
 import {UserCreation} from "./UserCreation";
 
 export class User extends UserCreation {

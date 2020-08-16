@@ -1,5 +1,4 @@
-import {Format, Required} from "@tsed/common";
-import {Description, Example} from "@tsed/swagger";
+import {Format, Required, Description, Example} from "@tsed/common";
 import {Column} from "typeorm";
 
 export class Credentials {

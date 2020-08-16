@@ -1,5 +1,4 @@
-import {Minimum, Required} from "@tsed/common";
-import {Description, Example} from "@tsed/swagger";
+import {Description, Example, Minimum, Required} from "@tsed/common";
 import {Column} from "typeorm";
 import {Credentials} from "./Credentials";
 

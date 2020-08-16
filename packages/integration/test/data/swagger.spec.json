@@ -779,15 +779,17 @@
     "EventModel": {
       "properties": {
         "id": {
-          "example": "1FDCHZKH",
+          "examples": [
+            "1FDCHZKH"
+          ],
           "description": "Description of event model id",
           "title": "iD",
           "type": "string"
         },
         "startDate": {
-          "example": {
-            "example1": "2017-10-15T17:05:58.106Z"
-          },
+          "examples": [
+            "2017-10-15T17:05:58.106Z"
+          ],
           "type": "string"
         },
         "endDate": {
@@ -880,9 +882,9 @@
     "CalendarModel": {
       "properties": {
         "id": {
-          "example": {
-            "example1": "Description example"
-          },
+          "examples": [
+            "Description example"
+          ],
           "description": "Description of calendar model id",
           "title": "iD",
           "type": "string"

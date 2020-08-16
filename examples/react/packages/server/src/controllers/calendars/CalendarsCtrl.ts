@@ -8,8 +8,9 @@ import {
   Put,
   Required,
   Status,
+  Returns,
+  ReturnsArray
 } from "@tsed/common";
-import { Returns, ReturnsArray } from "@tsed/swagger";
 import { NotFound } from "@tsed/exceptions";
 import { Calendar, CreateCalendar } from "../../models/Calendar";
 import { CalendarsService } from "../../services/calendars/CalendarsService";

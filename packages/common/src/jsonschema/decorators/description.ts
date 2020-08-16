@@ -1,3 +1,13 @@
+import {
+  decorateMethodsOf,
+  DecoratorParameters,
+  decoratorTypeOf,
+  DecoratorTypes,
+  getDecoratorType,
+  Store,
+  StoreMerge,
+  UnsupportedDecoratorType
+} from "@tsed/core";
 import {Schema} from "./schema";
 
 /**
@@ -37,5 +47,18 @@ import {Schema} from "./schema";
  * @schema
  */
 export function Description(description: string) {
-  return Schema({description});
+  return (...args: any[]) => {
+    const type = decoratorTypeOf(args);
+    switch (type) {
+      case DecoratorTypes.METHOD:
+        return StoreMerge("operation", {description})(...args);
+      case DecoratorTypes.PARAM:
+        return StoreMerge("baseParameter", {description})(...args);
+      case DecoratorTypes.CLASS:
+        Store.from(...args).set("description", description);
+
+      default:
+        Schema({description})(...args);
+    }
+  };
 }

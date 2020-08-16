@@ -3,7 +3,7 @@ import {deepExtends, nameOf, Store} from "@tsed/core";
 import * as Fs from "fs";
 import {Schema, Spec, Tag} from "swagger-schema-official";
 import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
-import {ISwaggerPaths, ISwaggerSettings, SwaggerSpec} from "../interfaces";
+import {ISwaggerPaths, SwaggerSettings, SwaggerSpec} from "../interfaces";
 import {getReducers} from "../utils";
 
 @Service()
@@ -18,7 +18,7 @@ export class SwaggerService {
    *
    * @returns {Spec}
    */
-  public getOpenAPISpec(conf: ISwaggerSettings): Spec {
+  public getOpenAPISpec(conf: SwaggerSettings): Spec {
     const defaultSpec = this.getDefaultSpec(conf);
     const paths: ISwaggerPaths = {};
     const definitions = {};
@@ -53,7 +53,7 @@ export class SwaggerService {
    * Return the global api information.
    * @returns {Info}
    */
-  public getDefaultSpec(conf: Partial<ISwaggerSettings>): Spec {
+  public getDefaultSpec(conf: Partial<SwaggerSettings>): Spec {
     const {version} = this.configuration;
     const spec: SwaggerSpec =
       conf.spec ||
@@ -169,10 +169,10 @@ export class SwaggerService {
 
   /**
    *
-   * @param {ISwaggerSettings} conf
+   * @param {SwaggerSettings} conf
    * @returns {(targetName: string, methodName: string) => (any | string)}
    */
-  private createOperationIdFormatter = (conf: ISwaggerSettings) => {
+  private createOperationIdFormatter = (conf: SwaggerSettings) => {
     const OPERATION_IDS: any = {};
 
     return (targetName: string, methodName: string) => {

@@ -1,5 +1,4 @@
-import {CollectionOf, Minimum, Property} from "@tsed/common";
-import {Description} from "@tsed/swagger";
+import {CollectionOf, Minimum, Property, Description} from "@tsed/common";
 
 export class Person {
   @Property()

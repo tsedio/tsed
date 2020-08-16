@@ -1,10 +1,11 @@
-import {applyDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
+import {Returns} from "@tsed/common";
 import {Authenticate} from "@tsed/passport";
-import {Operation, Responses, Security} from "@tsed/swagger";
+import {Operation, Security} from "@tsed/swagger";
 import {OAuthHead} from "./OAuthHead";
 
 export function OAuthBearer(options: any = {}): Function {
-  return applyDecorators(
+  return useDecorators(
     Authenticate("azure-bearer", {session: false, ...options}),
     // Metadata for swagger
     Security("oauth", ...(options.scopes || [])),
@@ -18,8 +19,8 @@ export function OAuthBearer(options: any = {}): Function {
         }
       ]
     }),
-    Responses(401, {description: "Unauthorized"}),
-    Responses(403, {description: "Forbidden"}),
+    Returns(401, {description: "Unauthorized"}),
+    Returns(403, {description: "Forbidden"}),
     OAuthHead()
   );
 }

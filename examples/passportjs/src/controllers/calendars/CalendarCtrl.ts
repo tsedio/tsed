@@ -13,7 +13,6 @@ import {
   Returns
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
-import {Responses} from "@tsed/swagger";
 import {NotFound} from "@tsed/exceptions";
 import {Calendar, CalendarCreation} from "../../models/Calendar";
 import {User} from "../../models/User";
@@ -57,7 +56,7 @@ export class CalendarCtrl {
 
   @Post("/:id")
   @Returns(200, {type: Calendar})
-  @Responses(404, {description: "Calendar not found"})
+  @Returns(404, {description: "Calendar not found"})
   @Authorize("basic")
   async update(@Req("user") user: User,
                @PathParams("id") @Required() id: string,
@@ -69,7 +68,7 @@ export class CalendarCtrl {
 
   @Delete("/")
   @Status(204)
-  @Responses(404, {description: "Calendar not found"})
+  @Returns(404, {description: "Calendar not found"})
   @Authorize("basic")
   async remove(@Req("user") user: User,
                @BodyParams("id") @Required() id: string): Promise<void> {

@@ -1,6 +1,6 @@
 import {EndpointMetadata} from "@tsed/common";
 import {expect} from "chai";
-import {Returns} from "../index";
+import {Returns} from "./returns";
 
 class Test {}
 
@@ -20,6 +20,24 @@ describe("Returns()", () => {
       expect(endpoint.responses.get(400)).to.deep.eq({
         code: 400,
         description: "Bad Request"
+      });
+    });
+  });
+
+  describe("when status and model are given", () => {
+    before(() => {});
+    it("should set the responses", () => {
+      class Ctrl {
+        @Returns(200, Test)
+        test() {}
+      }
+
+      const endpoint = EndpointMetadata.get(Ctrl, "test");
+
+      expect(endpoint.responses.get(200)).to.deep.eq({
+        code: 200,
+        description: "",
+        type: Test
       });
     });
   });

@@ -1,5 +1,5 @@
 import {Description, Example, Name} from "@tsed/common";
-import {applyDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
 import {Types} from "mongoose";
 
 /**
@@ -19,11 +19,7 @@ import {Types} from "mongoose";
  * @schema
  */
 export function ObjectID(name?: string) {
-  return applyDecorators(
-    name && Name(name),
-    Description("Mongoose ObjectId"),
-    Example("5ce7ad3028890bd71749d477")
-  );
+  return useDecorators(name && Name(name), Description("Mongoose ObjectId"), Example("5ce7ad3028890bd71749d477"));
 }
 
 export type ObjectID = Types.ObjectId;
