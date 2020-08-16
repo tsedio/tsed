@@ -165,6 +165,7 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
  * @decorator
  */
 export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
+export function Returns(statusCode: number, model: Type<any>): any;
 export function Returns(options: Partial<IResponseOptions>): any;
 export function Returns(model: Type<any>): any;
 export function Returns(model: Type<any>, options: Partial<IResponseOptions>): any;
@@ -267,6 +268,7 @@ export function Returns(...args: any[]) {
  * @response
  */
 export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
+export function ReturnsArray(statusCode: number, model: Type<any>): any;
 export function ReturnsArray(options: Partial<IResponseOptions>): any;
 export function ReturnsArray(model: Type<any>): any;
 export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): any;

@@ -1,5 +1,4 @@
-import {ParamMetadata, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
-import {Description, Example, Title} from "@tsed/swagger";
+import {Description, Example, Title, ParamMetadata, ParamTypes, Property, Required, UseFilter, UseParam} from "@tsed/common";
 import {expect} from "chai";
 import {IFilter} from "../../interfaces/IFilter";
 
@@ -18,8 +17,7 @@ export class MyModel {
 describe("@UseParam", () => {
   describe("when filter is a class", () => {
     it("should create useParam", () => {
-      class Test {
-      }
+      class Test {}
 
       class Ctrl {
         test(
@@ -30,9 +28,8 @@ describe("@UseParam", () => {
             paramType: ParamTypes.BODY,
             useType: Test
           })
-            body: Test
-        ) {
-        }
+          body: Test
+        ) {}
       }
 
       const param = ParamMetadata.get(Ctrl, "test", 0);
@@ -41,8 +38,7 @@ describe("@UseParam", () => {
       expect(param.type).to.eq(Test);
     });
     it("should create useFilter (withoutFilter)", () => {
-      class Test {
-      }
+      class Test {}
 
       class Ctrl {
         test(
@@ -53,9 +49,8 @@ describe("@UseParam", () => {
             paramType: ParamTypes.BODY,
             useType: Test
           })
-            body: Test
-        ) {
-        }
+          body: Test
+        ) {}
       }
 
       const param = ParamMetadata.get(Ctrl, "test", 0);
@@ -64,8 +59,7 @@ describe("@UseParam", () => {
       expect(param.type).to.eq(Test);
     });
     it("should create useFilter (withFilter", () => {
-      class Test {
-      }
+      class Test {}
 
       class MyFilter implements IFilter {
         transform(expression: string, request: TsED.Request, response: TsED.Response): any {
@@ -82,9 +76,8 @@ describe("@UseParam", () => {
             paramType: ParamTypes.BODY,
             useType: Test
           })
-            body: Test
-        ) {
-        }
+          body: Test
+        ) {}
       }
 
       const param = ParamMetadata.get(Ctrl, "test", 0);

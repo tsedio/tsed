@@ -95,6 +95,11 @@ import {Type} from "@tsed/core";
 export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
 /**
  * @ignore
+ * @deprecated
+ */
+export function Returns(statusCode: number, model: Type<any>): any;
+/**
+ * @ignore
  * @deprecated Use @Returns decorator from @tsed/common.
  */
 export function Returns(options: Partial<IResponseOptions>): any;
@@ -211,6 +216,11 @@ export function Returns(...args: any[]) {
  * @deprecated Use @ReturnsArray decorator from @tsed/common.
  */
 export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
+/**
+ * @ignore
+ * @deprecated
+ */
+export function ReturnsArray(statusCode: number, model: Type<any>): any;
 /**
  * @ignore
  * @deprecated Use @ReturnsArray decorator from @tsed/common.
