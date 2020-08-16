@@ -1,7 +1,4 @@
 import {Description as D} from "@tsed/common";
-import {getDecoratorType, Store} from "@tsed/core";
-import {BaseParameter} from "./baseParameter";
-import {Operation} from "./operation";
 
 /**
  * Add a description metadata on the decorated element.
@@ -53,19 +50,9 @@ import {Operation} from "./operation";
  * @classParameter
  * @classDecorator
  * @methodDecorator
+ * @deprecated
+ * @ignore
  */
 export function Description(description: string) {
-  return (...args: any[]) => {
-    const type = getDecoratorType(args);
-    switch (type) {
-      case "parameter":
-        return BaseParameter({description})(...args);
-      case "method":
-        return Operation({description})(...args);
-      case "class":
-        Store.from(...args).set("description", description);
-      default:
-        D(description)(...args);
-    }
-  };
+  return D(description);
 }

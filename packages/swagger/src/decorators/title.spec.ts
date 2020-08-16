@@ -1,17 +1,17 @@
 import {descriptorOf, Store} from "@tsed/core";
 import {expect} from "chai";
-import {Title} from "../index";
+import {Title} from "./title";
 
-describe("Title()", () => {
+describe("@Title", () => {
   describe("when title is used as method decorator", () => {
     it("should set the schema", () => {
       class Test {
         @Title("title")
-        test() {
-        }
+        test() {}
       }
 
       const store = Store.from(Test, "test", descriptorOf(Test, "test"));
+
       expect(store.get("operation")).to.deep.eq({title: "title"});
     });
   });
@@ -31,8 +31,7 @@ describe("Title()", () => {
   describe("when title is used as parameters decorator", () => {
     it("should set the schema", () => {
       class Test {
-        test(@Title("title") param: string) {
-        }
+        test(@Title("title") param: string) {}
       }
 
       const store = Store.from(Test, "test", 0);

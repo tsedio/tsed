@@ -1,29 +1,33 @@
+import {decoratorTypeOf, DecoratorTypes, isArray} from "@tsed/core";
 import {Schema} from "./schema";
 
 /**
  * Add a example metadata on the decorated element.
  *
- * @param {string} name
- * @param {string} description
+ * @param {string} example
  * @decorator
  * @swagger
  * @schema
  * @methodDecorator
  * @classDecorator
  */
-export function Example(name: string | any, description?: string) {
-  let example: any;
-
-  if (description) {
-    example = {[name]: description};
-  } else {
-    example = name;
-    if (typeof name === "string") {
-      example = [].concat(example);
-    }
-  }
+export function Example(example: any): Function;
+export function Example(name: string | any, description: string): ClassDecorator;
+export function Example(...args: any[]): Function {
+  const [name, description] = args;
 
   return (...args: any[]) => {
-    return Schema({examples: example as any})(...args);
+    const type = decoratorTypeOf(args);
+    switch (type) {
+      case DecoratorTypes.CLASS:
+        return Schema({example: typeof name === "object" ? name : {[name]: description}})(...args);
+
+      case DecoratorTypes.PARAM:
+      case DecoratorTypes.PROP:
+      case DecoratorTypes.METHOD:
+        return Schema({
+          examples: isArray(name) ? [name] : [].concat(name)
+        })(...args);
+    }
   };
 }
