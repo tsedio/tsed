@@ -1,5 +1,4 @@
-import {BodyParams, Controller, Get, Post} from "@tsed/common";
-import {Returns, ReturnsArray} from "@tsed/swagger";
+import {BodyParams, Controller, Get, Post, Returns, ReturnsArray} from "@tsed/common";
 import {Person} from "../models/Person";
 
 @Controller("/")

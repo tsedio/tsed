@@ -1,4 +1,4 @@
-import {Description} from "@tsed/swagger";
+import {Description} from "@tsed/common";
 
 export class CalendarCreation {
   @Description("Calendar name")

@@ -47,6 +47,35 @@ describe("@Example", () => {
       type: "object"
     });
   });
+  it("should declare description on property (with array)", () => {
+    // WHEN
+
+    class Model {
+      @Example([{id: "id"}])
+      method: any[];
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      definitions: {},
+      properties: {
+        method: {
+          examples: [
+            [
+              {
+                id: "id"
+              }
+            ]
+          ],
+          items: {
+            type: "object"
+          },
+          type: "array"
+        }
+      },
+      type: "object"
+    });
+  });
   it("should declare description on property (with two params on class)", () => {
     // WHEN
 

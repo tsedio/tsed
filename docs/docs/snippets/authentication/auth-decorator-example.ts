@@ -1,18 +1,18 @@
-import {IUseAuthOptions, UseAuth} from "@tsed/common";
-import {applyDecorators} from "@tsed/core";
-import {Responses, Security} from "@tsed/swagger";
+import {IAuthOptions, Returns, UseAuth} from "@tsed/common";
+import {useDecorators} from "@tsed/core";
+import {Security} from "@tsed/swagger";
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
 
-export interface ICustomAuthOptions extends IUseAuthOptions {
+export interface ICustomAuthOptions extends IAuthOptions {
   role?: string;
   scopes?: string[];
 }
 
 export function CustomAuth(options: ICustomAuthOptions = {}): Function {
-  return applyDecorators(
+  return useDecorators(
     UseAuth(CustomAuthMiddleware, options),
     Security("oauth", ...(options.scopes || [])),
-    Responses(401, {description: "Unauthorized"}),
-    Responses(403, {description: "Forbidden"})
+    Returns(401, {description: "Unauthorized"}),
+    Returns(403, {description: "Forbidden"})
   );
 }

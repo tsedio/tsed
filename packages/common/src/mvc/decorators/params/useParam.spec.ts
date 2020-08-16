@@ -5,7 +5,7 @@ import {IFilter} from "../../interfaces/IFilter";
 export class MyModel {
   @Title("iD")
   @Description("Description of calendar model id")
-  @Example("example1", "Description example")
+  @Example("Description example")
   @Property()
   public id: string;
 

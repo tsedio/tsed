@@ -9,6 +9,8 @@ import {Example as E} from "@tsed/common";
  * @input
  * @methodDecorator
  * @classDecorator
+ * @ignore
+ * @deprecated
  */
 export function Example(example: any): Function;
 export function Example(name: string, description: string): ClassDecorator;

@@ -1,10 +1,9 @@
-import {Property} from "@tsed/common";
-import {Description, Example, Title} from "@tsed/swagger";
+import {Description, Example, Property, Title} from "@tsed/common";
 
 export class CalendarModel {
   @Title("iD")
   @Description("Description of calendar model id")
-  @Example("example1", "Description example")
+  @Example("Description example")
   @Property()
   public id: string;
 

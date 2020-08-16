@@ -23,10 +23,11 @@ import {
   Status,
   Use,
   UseAfter,
-  Returns
+  Returns,
+  Description
 } from "@tsed/common";
 import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
-import {Deprecated, Description, Security} from "@tsed/swagger";
+import {Deprecated, Security} from "@tsed/swagger";
 import * as Express from "express";
 import {OAuth} from "../../decorators/oauth";
 import {CalendarModel} from "../../models/Calendar";

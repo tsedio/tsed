@@ -1,14 +1,12 @@
-import {CollectionOf, JsonSchemesRegistry, Property, Name, Required} from "@tsed/common";
+import {CollectionOf, Description, JsonSchemesRegistry, Name, Property, Required} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {ChildModelB, SwaFoo2, SwaNoDecoModel} from "../../test/helpers/class/classes";
-import {Description} from "../index";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
 describe("OpenApiModelSchemaBuilder", () => {
   describe("integration", () => {
-    before(() => {
-    });
+    before(() => {});
 
     it("should not fail", () => {
       const builder = new OpenApiModelSchemaBuilder(SwaNoDecoModel);
@@ -46,7 +44,7 @@ describe("OpenApiModelSchemaBuilder", () => {
           },
           foos: {
             description: "SwaFoo2.foos description",
-            example: "TODO",
+            examples: ["TODO"],
             items: {
               $ref: "#/definitions/SwaFoo"
             },
@@ -177,7 +175,7 @@ describe("OpenApiModelSchemaBuilder", () => {
             },
             foos: {
               description: "SwaFoo2.foos description",
-              example: "TODO",
+              examples: ["TODO"],
               items: {
                 $ref: "#/definitions/SwaFoo"
               },
@@ -356,8 +354,7 @@ describe("OpenApiModelSchemaBuilder", () => {
       });
     });
     describe("when the model is a primitive", () => {
-      before(() => {
-      });
+      before(() => {});
 
       it("should return the schema", () => {
         class Model {

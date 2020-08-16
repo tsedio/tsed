@@ -1,5 +1,4 @@
-import {Format, Required} from "@tsed/common";
-import {Description, Example} from "@tsed/swagger";
+import {Description, Example, Format, Required} from "@tsed/common";
 
 export class Credentials {
   @Description("User password")

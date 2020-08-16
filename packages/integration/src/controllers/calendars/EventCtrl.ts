@@ -11,9 +11,11 @@ import {
   Put,
   QueryParams,
   Required,
-  Response
+  Response,
+  Title,
+  ReturnsArray,
+  Returns
 } from "@tsed/common";
-import {Responses, Returns, Title, ReturnsArray} from "@tsed/swagger";
 import {NotFound} from "@tsed/exceptions";
 import {EventModel} from "../../models/Event";
 import {BaseController} from "../base/BaseController";
@@ -36,7 +38,7 @@ export class EventCtrl extends BaseController {
    * @returns {string}
    */
   @Patch("/:id")
-  @Responses("404", {description: "Not found"})
+  @Returns(404, {description: "Not found"})
   patch(
     @Title("Title event")
     @Required()

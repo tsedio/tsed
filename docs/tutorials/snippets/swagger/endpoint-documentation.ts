@@ -1,5 +1,5 @@
-import {BodyParams, Controller, Get, Post, QueryParams, Returns, ReturnsArray} from "@tsed/common";
-import {Deprecated, Description, Security, Summary} from "@tsed/swagger";
+import {Description, BodyParams, Controller, Get, Post, QueryParams, Returns, ReturnsArray} from "@tsed/common";
+import {Deprecated, Security, Summary} from "@tsed/swagger";
 import {CalendarModel} from "./models/Calendar";
 
 @Controller("/calendars")
@@ -25,7 +25,7 @@ export class Calendar {
   @Description("Deprecated route, use /rest/calendars/:id instead of.")
   @Returns(CalendarModel)
   @Returns(404, {description: "Not found"})
-  getCalendarDeprecated(@QueryParams('id') id: string): Promise<CalendarModel> {
+  getCalendarDeprecated(@QueryParams("id") id: string): Promise<CalendarModel> {
     return {};
   }
 

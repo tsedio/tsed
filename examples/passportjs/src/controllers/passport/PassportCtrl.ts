@@ -1,6 +1,5 @@
 import {BodyParams, Controller, Get, Post, Req, Status, Returns} from "@tsed/common";
 import {Authenticate, Authorize} from "@tsed/passport";
-import {Responses} from "@tsed/swagger";
 import {Credentials} from "../../models/Credentials";
 import {User} from "../../models/User";
 import {UserCreation} from "../../models/UserCreation";
@@ -12,17 +11,16 @@ export class PassportCtrl {
 
   @Post("/login")
   @Authenticate("login", {failWithError: false})
-  @Returns(User)
-  @Responses(400, {description: "Validation error"})
+  @Returns(200, User)
+  @Returns(400, {description: "Validation error"})
   login(@Req() req: Req, @BodyParams() credentials: Credentials) {
     // FACADE
     return req.user;
   }
 
   @Post("/signup")
-  @Status(201)
+  @Returns(201, User)
   @Authenticate("signup")
-  @Returns(User)
   signup(@Req() req: Req, @BodyParams() user: UserCreation) {
     // FACADE
     return req.user;
@@ -30,7 +28,7 @@ export class PassportCtrl {
 
   @Get("/userinfo")
   @Authenticate("basic", {security: ["auth:basic"]})
-  @Returns(User)
+  @Returns(200, User)
   getUserInfo(@Req() req: Req): any {
     // FACADE
     return req.user;
@@ -44,7 +42,7 @@ export class PassportCtrl {
 
   @Get("/connect/:protocol")
   @Authorize(":protocol")
-  @Returns(User)
+  @Returns(200, User)
   connectProtocol(@Req() req: Req): any {
     // FACADE
     return req.user;
@@ -53,7 +51,7 @@ export class PassportCtrl {
 
   @Get("/connect/:protocol/callback")
   @Authorize(":protocol")
-  @Returns(User)
+  @Returns(200, User)
   connectProtocolCallback(@Req() req: Req): any {
     // FACADE
     return req.user;

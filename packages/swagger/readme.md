@@ -107,13 +107,12 @@ JSON Object (see [converters section](https://tsed.io/docs/components/converters
 This model can used on a method controller along with [@BodyParams](https://tsed.io/api/common/filters/decorators/BodyParams.html) or other decorators.
 
 ```typescript
-import {JsonProperty} from "@tsed/common";
-import {Title, Description, Example} from "@tsed/swagger";
+import {JsonProperty, Title, Description, Example} from "@tsed/common";
 
 export class CalendarModel {
   @Title("iD")
   @Description("Description of calendar model id")
-  @Example("example1", "Description example")
+  @Example("Example value")
   @JsonProperty()
   public id: string;
 
@@ -125,18 +124,17 @@ export class CalendarModel {
 #### Endpoint documentation
 
 ```typescript
-import {BodyParams, Controller, Get, Post, QueryParams} from "@tsed/common";
-import {Summary, Description, Deprecated, Security} from "@tsed/swagger";
-import {Returns, ReturnsArray} from "@tsed/swagger";
+import {BodyParams, Controller, Get, Post, QueryParams, Returns, ReturnsArray, Description} from "@tsed/common";
+import {Summary, Deprecated, Security} from "@tsed/swagger";
+import {CalendarModel} from "../models/CalendarModel";
 
 @Controller('/calendars')
 export class Calendar {
-    
     @Get('/:id')
     @Summary("Summary of this route")
     @Description("Description of this route")
     @Returns(CalendarModel)
-    @Returns("404", {description: "Not found"})
+    @Returns(404, {description: "Not found"})
     async getCalendar(@QueryParams('id') id: string): Promise<CalendarModel> {
       //...
     }
@@ -145,7 +143,7 @@ export class Calendar {
     @Deprecated()
     @Description("Deprecated route, use /rest/calendars/:id instead of.")
     @Returns(CalendarModel)
-    @Returns("404", {description: "Not found"})
+    @Returns(404, {description: "Not found"})
     getCalendarDeprecated(@QueryParams('id') id: string): Promise<CalendarModel> {
       //...
     }
