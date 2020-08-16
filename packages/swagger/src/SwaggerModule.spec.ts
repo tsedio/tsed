@@ -5,6 +5,7 @@ import * as Fs from "fs";
 import * as Sinon from "sinon";
 import {SwaggerModule} from "./index";
 
+const sandbox = Sinon.createSandbox();
 describe("SwaggerModule", () => {
   let swaggerModule: any;
   let settingsService: any;
@@ -236,84 +237,26 @@ describe("SwaggerModule", () => {
       return expect(settingsService.getHttpsPort).to.have.been.calledWithExactly();
     });
   });
-  describe("mapSwaggerUIConfig()", () => {
-    const sandbox = Sinon.createSandbox();
-
-    beforeEach(() => {
-      sandbox.stub(swaggerModule.swaggerService, "getOpenAPISpec");
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it("should create spec", () => {
-      // GIVEN
-      const config = {
-        path: "/doc2",
-        doc: "doc2",
-        options: "options",
-        outFile: null,
-        showExplorer: false,
-        cssPath: "cssPath",
-        jsPath: "jsPath",
-        hidden: true
-      };
-
-      swaggerModule.swaggerService.getOpenAPISpec.returns({spec: "spec"});
-
-      // WHEN
-      const result = swaggerModule.mapSwaggerUIConfig(config, ["/urls"]);
-
-      // THEN
-      expect(swaggerModule.swaggerService.getOpenAPISpec).to.have.been.calledWithExactly(config);
-      expect(result).to.deep.eq({
-        cssPath: "cssPath",
-        jsPath: "jsPath",
-        showExplorer: false,
-        spec: {
-          spec: "spec"
-        },
-        swaggerOptions: "options",
-        url: "/doc2/swagger.json",
-        urls: ["/urls"]
-      });
-    });
-  });
   describe("createRouter()", () => {
-    let routerInstance: any;
-    let routerStub: any;
-    let staticStub: any;
-    let middelwareIndexStub: any;
-    let middelwareCsstub: any;
-    let middelwareJstub: any;
+    const routerInstance = {get: sandbox.stub(), use: sandbox.stub()};
     before(() => {
-      routerInstance = {get: Sinon.stub(), use: Sinon.stub()};
-      routerStub = Sinon.stub(Express, "Router").returns(routerInstance);
-      staticStub = Sinon.stub(Express, "static").returns(() => "static");
-      middelwareIndexStub = Sinon.stub(swaggerModule, "middlewareIndex").returns("indexMdlw");
-      middelwareCsstub = Sinon.stub(swaggerModule, "middlewareCss").returns("cssMdlw");
-      middelwareJstub = Sinon.stub(swaggerModule, "middlewareJs").returns("jsMdlw");
-
+      sandbox.stub(Express, "Router").returns(routerInstance as any);
+      sandbox.stub(Express, "static").returns(() => "static");
       swaggerModule.createRouter({cssPath: "cssPath", jsPath: "jsPath", viewPath: "viewPath"}, {scope: "scope"});
     });
     after(() => {
-      routerStub.restore();
-      staticStub.restore();
-      middelwareIndexStub.restore();
-      middelwareCsstub.restore();
-      middelwareJstub.restore();
+      sandbox.restore();
     });
 
     it("should call Express.Router", () => {
-      return expect(routerStub).to.have.been.calledWithExactly();
+      return expect(Express.Router).to.have.been.calledWithExactly();
     });
 
     it("should call router.get", () => {
       expect(routerInstance.get).to.have.been.calledWithExactly("/swagger.json", Sinon.match.func);
-      expect(routerInstance.get).to.have.been.calledWithExactly("/", "indexMdlw");
-      expect(routerInstance.get).to.have.been.calledWithExactly("/main.js", "jsMdlw");
-      expect(routerInstance.get).to.have.been.calledWithExactly("/main.css", "cssMdlw");
+      expect(routerInstance.get).to.have.been.calledWithExactly("/", Sinon.match.func);
+      expect(routerInstance.get).to.have.been.calledWithExactly("/main.js", Sinon.match.func);
+      expect(routerInstance.get).to.have.been.calledWithExactly("/main.css", Sinon.match.func);
     });
 
     it("should call router.use", () => {
@@ -321,24 +264,7 @@ describe("SwaggerModule", () => {
     });
 
     it("should call Express.use", () => {
-      expect(staticStub).to.have.been.calledWithExactly(Sinon.match("swagger-ui-dist"));
-    });
-
-    it("should call middlewareIndex", () => {
-      expect(middelwareIndexStub).to.have.been.calledWithExactly(
-        {
-          cssPath: "cssPath",
-          viewPath: "viewPath",
-          jsPath: "jsPath"
-        },
-        {scope: "scope"}
-      );
-    });
-    it("should call middlewareCss", () => {
-      expect(middelwareCsstub).to.have.been.calledWithExactly("cssPath");
-    });
-    it("should call middlewareJs", () => {
-      expect(middelwareJstub).to.have.been.calledWithExactly("jsPath");
+      expect(Express.static).to.have.been.calledWithExactly(Sinon.match("swagger-ui-dist"));
     });
   });
   describe("middlewareSwaggerJson()", () => {
@@ -379,24 +305,6 @@ describe("SwaggerModule", () => {
       expect(swaggerModule.swaggerService.getOpenAPISpec).to.have.been.calledWithExactly(config);
       expect(res.status).to.have.been.calledWithExactly(200);
       expect(res.json).to.have.been.calledWithExactly({spec: "spec"});
-    });
-  });
-  describe("middlewareIndex()", () => {
-    it("should return a function", () => {
-      const result = swaggerModule.middlewareIndex({cssPath: "cssPath", jsPath: "jsPath"}, {scope: "scope"});
-      expect(result).to.be.a("function");
-    });
-  });
-  describe("middlewareJs()", () => {
-    it("should return a function", () => {
-      const result = swaggerModule.middlewareJs("pathJs");
-      expect(result).to.be.a("function");
-    });
-  });
-  describe("middlewareCss()", () => {
-    it("should return a function", () => {
-      const result = swaggerModule.middlewareJs("pathCss");
-      expect(result).to.be.a("function");
     });
   });
 });

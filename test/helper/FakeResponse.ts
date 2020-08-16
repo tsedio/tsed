@@ -21,6 +21,7 @@ export class FakeResponse {
       sandbox.stub(this, "write").returns(this);
       sandbox.stub(this, "once").returns(this);
       sandbox.stub(this, "emit").returns(this);
+      sandbox.stub(this, "render").returns(this);
       sandbox.stub(this, "json").callsFake((o: any) => {
         this.send(JSON.stringify(o));
 

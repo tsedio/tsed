@@ -10,6 +10,7 @@
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
+    "packages/swagger/src/decorators/{title,description,example}.ts",
     "**/interfaces/**",
     "**/legacy/**",
     "**/index.ts"

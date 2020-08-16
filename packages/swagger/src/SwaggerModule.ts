@@ -1,8 +1,11 @@
-import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication, redirectMiddleware} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
-import {join, resolve} from "path";
-import {ISwaggerSettings} from "./interfaces";
+import {join} from "path";
+import {SwaggerSettings} from "./interfaces";
+import {cssMiddleware} from "./middlewares/cssMiddleware";
+import {indexMiddleware} from "./middlewares/indexMiddleware";
+import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
@@ -18,6 +21,10 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     private platformApplication: PlatformApplication
   ) {}
 
+  get settings() {
+    return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter(o => !!o);
+  }
+
   /**
    *
    */
@@ -26,30 +33,20 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       return;
     }
 
-    const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
+    const urls: any[] = this.getUrls();
 
-    const urls: any[] = swagger.reduce((acc: any[], conf) => {
-      const {path = "/", doc, hidden} = conf;
-      if (!hidden) {
-        acc.push({url: `${path}/swagger.json`, name: doc || path});
-      }
-
-      return acc;
-    }, []);
-
-    swagger.forEach((conf: ISwaggerSettings) => {
+    this.settings.forEach((conf: SwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.platformApplication.get(path, this.middlewareRedirect(path));
+      this.platformApplication.get(path, redirectMiddleware(path));
       this.platformApplication.use(path, this.createRouter(conf, urls));
     });
+
     this.loaded = true;
   }
 
   $onRoutesInit() {
-    const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
-
-    swagger.forEach((conf: ISwaggerSettings) => {
+    this.settings.forEach(conf => {
       const {outFile} = conf;
       const spec = this.swaggerService.getOpenAPISpec(conf);
 
@@ -60,9 +57,10 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   $onReady() {
+    const {httpsPort, httpPort} = this.configuration;
+
     const displayLog = (host: any) => {
-      const swagger: ISwaggerSettings[] = [].concat(this.configuration.get("swagger")).filter(o => !!o);
-      swagger.forEach((conf: ISwaggerSettings) => {
+      this.settings.forEach(conf => {
         const {path = "/", doc} = conf;
         const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
@@ -71,21 +69,32 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       });
     };
 
-    if (this.configuration.httpsPort) {
+    if (httpsPort) {
       const host = this.configuration.getHttpsPort();
       displayLog({protocol: "https", ...host});
-    } else if (this.configuration.httpPort) {
+    } else if (httpPort) {
       const host = this.configuration.getHttpPort();
       displayLog({protocol: "http", ...host});
     }
   }
 
+  private getUrls() {
+    return this.settings.reduce((acc: any[], conf) => {
+      const {path = "/", fileName = "swagger.json", doc, hidden} = conf;
+      if (!hidden) {
+        acc.push({url: `${path}/${fileName}`, name: doc || path});
+      }
+
+      return acc;
+    }, []);
+  }
+
   /**
    *
-   * @param {ISwaggerSettings} conf
+   * @param conf
    * @param urls
    */
-  private createRouter(conf: ISwaggerSettings, urls: string[]) {
+  private createRouter(conf: SwaggerSettings, urls: string[]) {
     const {cssPath, jsPath, viewPath = join(__dirname, "../views/index.ejs")} = conf;
     const router = Express.Router();
 
@@ -93,89 +102,23 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
 
     if (viewPath) {
       if (cssPath) {
-        router.get("/main.css", this.middlewareCss(cssPath));
+        router.get("/main.css", cssMiddleware(cssPath));
       }
 
       if (jsPath) {
-        router.get("/main.js", this.middlewareJs(jsPath));
+        router.get("/main.js", jsMiddleware(jsPath));
       }
 
-      router.get("/", this.middlewareIndex({...conf, viewPath}, urls));
+      router.get("/", indexMiddleware(viewPath, {urls, ...conf}));
       router.use(Express.static(swaggerUiPath));
     }
 
     return router;
   }
 
-  private middlewareSwaggerJson(conf: ISwaggerSettings) {
+  private middlewareSwaggerJson(conf: SwaggerSettings) {
     return (req: any, res: any) => {
       res.status(200).json(this.swaggerService.getOpenAPISpec(conf));
-    };
-  }
-
-  private mapSwaggerUIConfig(conf: ISwaggerSettings, urls: string[]) {
-    const {path = "/", options = {}, showExplorer, cssPath, jsPath} = conf;
-    const spec = this.swaggerService.getOpenAPISpec(conf);
-
-    return {
-      spec,
-      url: `${path}/swagger.json`,
-      urls,
-      showExplorer,
-      cssPath,
-      jsPath,
-      swaggerOptions: options
-    };
-  }
-
-  private middlewareRedirect(path: string) {
-    /* istanbul ignore next */
-    return (req: any, res: any, next: any) => {
-      if (req.url === path && !req.url.match(/\/$/)) {
-        res.redirect(`${path}/`);
-      } else {
-        next();
-      }
-    };
-  }
-
-  /**
-   *
-   * @returns {(req: any, res: any) => any}
-   * @param conf
-   * @param urls
-   */
-  private middlewareIndex(conf: ISwaggerSettings, urls: string[]) {
-    /* istanbul ignore next */
-    return (req: any, res: any) => {
-      const data = this.mapSwaggerUIConfig(conf, urls);
-      res.render(conf.viewPath, data);
-    };
-  }
-
-  /**
-   *
-   * @param {string} path
-   */
-  private middlewareCss(path: string) {
-    /* istanbul ignore next */
-    return (req: any, res: any) => {
-      const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});
-      res.set("Content-Type", "text/css");
-      res.status(200).send(content);
-    };
-  }
-
-  /**
-   *
-   * @param {string} path
-   */
-  private middlewareJs(path: string) {
-    /* istanbul ignore next */
-    return (req: any, res: any) => {
-      const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});
-      res.set("Content-Type", "application/javascript");
-      res.status(200).send(content);
     };
   }
 }
