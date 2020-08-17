@@ -1,5 +1,5 @@
-import {ConverterService, IConverterOptions, PropertyMetadata} from "@tsed/common";
-import {getClass, Store, Type} from "@tsed/core";
+import {PropertyMetadata} from "@tsed/common";
+import {Store, Type} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";

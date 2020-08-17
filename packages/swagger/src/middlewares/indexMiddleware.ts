@@ -1,4 +1,4 @@
-import {SwaggerSettings} from "../interfaces/ISwaggerSettings";
+import {SwaggerSettings} from "../interfaces/SwaggerSettings";
 
 export function indexMiddleware(viewPath: string, conf: SwaggerSettings & {urls: string[]}) {
   return (req: any, res: any) => {
