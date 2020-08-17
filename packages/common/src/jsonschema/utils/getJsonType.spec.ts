@@ -1,4 +1,4 @@
-import {deleteSchema, getJsonType} from "@tsed/common";
+import {getJsonType} from "@tsed/common";
 import {expect} from "chai";
 
 describe("getJsonType()", () => {
@@ -41,6 +41,5 @@ describe("getJsonType()", () => {
     class Test {}
 
     getJsonType(Test);
-    deleteSchema(Test);
   });
 });

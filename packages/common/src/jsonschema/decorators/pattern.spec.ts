@@ -1,29 +1,28 @@
+import {JsonEntityStore} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, Pattern} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {Pattern} from "./pattern";
 
 describe("Pattern", () => {
   describe("with string pattern", () => {
     it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      Pattern("patternValue");
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-      expect(schema.pattern).to.eq("patternValue");
-      decorateStub.restore();
-    });
-  });
-  describe("with regexp pattern", () => {
-    it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      Pattern(/abc/);
+      // WHEN
+      class Model {
+        @Pattern(/(a|b)/)
+        num: string;
+      }
 
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-      expect(schema.pattern).to.eq("abc");
-      decorateStub.restore();
+      // THEN
+      const classSchema = JsonEntityStore.from(Model);
+
+      expect(classSchema.schema.toJSON()).to.deep.equal({
+        properties: {
+          num: {
+            pattern: "(a|b)",
+            type: "string"
+          }
+        },
+        type: "object"
+      });
     });
   });
 });

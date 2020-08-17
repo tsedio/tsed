@@ -1,5 +1,6 @@
-import {Returns, Description, BodyParams, Controller, ConverterService, Get, Post, Name, Required} from "@tsed/common";
-import {Docs, Hidden, Summary} from "@tsed/swagger";
+import {BodyParams, Controller, ConverterService, Get, Post} from "@tsed/common";
+import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
+import {Docs, Hidden, Responses} from "@tsed/swagger";
 import {CustomBadRequest} from "../../errors/CustomBadRequest";
 import {CustomInternalError} from "../../errors/CustomInternalError";
 
@@ -17,12 +18,10 @@ class CustomPropModel {
 @Docs("errors")
 @Hidden()
 export class ErrorsCtrl {
-  constructor(private converterService: ConverterService) {}
-
   @Get("/custom-bad-request")
   @Summary("Throw a CustomBadRequestError")
   @Description(`Return a custom error with "errors" and "x-header-error" headers`)
-  @Returns(400, {description: "Custom Bad Request"})
+  @Returns(500).Description("Custom Bad Request")
   public customBadRequest() {
     throw new CustomBadRequest("Custom Bad Request");
   }
@@ -30,7 +29,7 @@ export class ErrorsCtrl {
   @Get("/error")
   @Summary("Throw a classic Error")
   @Description(`Return an Internal Server Error. The error is logged on server.`)
-  @Returns(500, {description: "Internal Server Error"})
+  @Returns(500).Description("Internal Server Error")
   public error() {
     throw new Error("My error");
   }
@@ -38,7 +37,7 @@ export class ErrorsCtrl {
   @Get("/custom-internal-error")
   @Summary("Throw a CustomInternalError")
   @Description(`Return a custom error with "errors" and "x-header-error" headers`)
-  @Returns(500, {description: "My custom error"})
+  @Returns(400).Description("Bad request")
   public customInternalError() {
     throw new CustomInternalError("My custom error");
   }
@@ -46,11 +45,11 @@ export class ErrorsCtrl {
   @Post("/required-param")
   @Summary("Throw a Required param if the parameters isn't given")
   @Description(`Return a required error`)
-  @Returns(400, {description: "Bad request"})
+  @Returns(400).Description("Bad request")
   public requiredParam(
     @Required()
     @BodyParams("name")
-    name: string
+      name: string
   ) {
     return name;
   }
@@ -58,31 +57,23 @@ export class ErrorsCtrl {
   @Post("/required-model")
   @Summary("Throw a Required model if the parameters isn't given")
   @Description(`Return a required error`)
-  @Returns(400, {description: "Bad request"})
+  @Returns(400).Description("Bad request")
   public requiredModel(
     @Required()
     @BodyParams()
-    model: CustomModel
+      model: CustomModel
   ) {
     return model;
-  }
-
-  @Post("/required-model-2")
-  @Summary("Throw a Required model if the parameters isn't given")
-  @Description(`Return a required error`)
-  @Returns(400, {description: "Bad request"})
-  public requiredModel2(@BodyParams() model: any) {
-    return this.converterService.deserialize(model, CustomModel);
   }
 
   @Post("/required-prop-name")
   @Summary("Throw a Required prop if prop name is required")
   @Description(`Return a required error`)
-  @Returns(400, {description: "Bad request"})
+  @Returns(400).Description("Bad request")
   public requiredPropName(
     @Required()
     @BodyParams()
-    model: CustomPropModel
+      model: CustomPropModel
   ) {
     return model;
   }

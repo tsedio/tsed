@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export const createFakeRawDriver = () => {
   // istanbul ignore next
   function FakeRawDriver() {

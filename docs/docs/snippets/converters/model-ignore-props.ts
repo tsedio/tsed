@@ -1,4 +1,4 @@
-import {Ignore, Property} from "@tsed/common";
+import {Ignore, Property} from "@tsed/schema";
 
 export class User {
   @Ignore()

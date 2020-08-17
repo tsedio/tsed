@@ -1,9 +1,12 @@
-import {ParamMetadata, ParamTypes, PlatformTest} from "@tsed/common";
+import {ParamMetadata, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {BodyParams} from "../decorators/params/bodyParams";
+import {QueryParams} from "../decorators/params/queryParams";
 import {DeserializerPipe} from "./DeserializerPipe";
 
 const sandbox = Sinon.createSandbox();
+
 describe("DeserializerPipe", () => {
   beforeEach(PlatformTest.create);
   beforeEach(PlatformTest.reset);
@@ -14,48 +17,48 @@ describe("DeserializerPipe", () => {
     "should transform an object to a model",
     PlatformTest.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
       // @ts-ignore
-      sandbox.stub(pipe.converterService, "deserialize").returns({});
+      sandbox.spy(pipe.converterService, "deserialize");
 
-      class Test {}
+      class Test {
+        test(@BodyParams(String) input: string[]) {}
+      }
 
-      const param = new ParamMetadata({
-        index: 0,
-        target: Test,
-        propertyKey: "test",
-        paramType: ParamTypes.REQUEST
-      });
-      // @ts-ignore
-      param._type = String;
-      param.collectionType = Array;
+      const param = ParamMetadata.get(Test, "test", 0);
+
       // WHEN
-      expect(pipe.transform({}, param)).to.deep.eq({});
+      const result = pipe.transform(["test"], param);
+
+      expect(result).to.deep.eq(["test"]);
 
       // @ts-ignore
-      expect(pipe.converterService.deserialize).to.have.been.calledWithExactly({}, Array, String, {additionalProperties: undefined});
+      expect(pipe.converterService.deserialize).to.have.been.calledWithExactly(["test"], {
+        collectionType: Array,
+        type: String
+      });
     })
   );
   it(
     "should transform an object to a model (Query)",
     PlatformTest.inject([DeserializerPipe], (pipe: DeserializerPipe) => {
       // @ts-ignore
-      sandbox.stub(pipe.converterService, "deserialize").returns({});
+      sandbox.spy(pipe.converterService, "deserialize");
 
-      class Test {}
+      class Test {
+        test(@QueryParams("test", String) input: string[]) {}
+      }
 
-      const param = new ParamMetadata({
-        index: 0,
-        target: Test,
-        propertyKey: "test",
-        paramType: ParamTypes.QUERY
-      });
-      // @ts-ignore
-      param._type = String;
-      param.collectionType = Array;
+      const param = ParamMetadata.get(Test, "test", 0);
+
       // WHEN
-      expect(pipe.transform({}, param)).to.deep.eq({});
+      const result = pipe.transform(["test"], param);
+
+      expect(result).to.deep.eq(["test"]);
 
       // @ts-ignore
-      expect(pipe.converterService.deserialize).to.have.been.calledWithExactly({}, Array, String, {additionalProperties: "ignore"});
+      expect(pipe.converterService.deserialize).to.have.been.calledWithExactly(["test"], {
+        collectionType: Array,
+        type: String
+      });
     })
   );
 });

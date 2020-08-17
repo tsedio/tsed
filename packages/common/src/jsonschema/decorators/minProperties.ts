@@ -1,5 +1,4 @@
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {MinProperties as M} from "@tsed/schema";
 
 /**
  * An object instance is valid against `minProperties` if its number of properties is less than, or equal to, the value of this keyword.
@@ -46,13 +45,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @swagger
  * @schema
  * @collections
+ * @ignore
+ * @deprecated Use @MinProperties decorator from @tsed/schema instead of.
  */
 export function MinProperties(minProperties: number) {
-  if (minProperties < 0) {
-    throw new Error("The value of minProperties MUST be a non-negative integer.");
-  }
-
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.minProperties = minProperties;
-  });
+  return M(minProperties);
 }

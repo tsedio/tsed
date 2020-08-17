@@ -3,7 +3,7 @@ import {AuthenticateOptions} from "passport";
 import {PassportMiddleware} from "../middlewares/PassportMiddleware";
 
 export interface AuthorizeOptions extends AuthenticateOptions {
-  security?: any;
+  security?: {[key: string]: string[]};
   originalUrl?: boolean;
 }
 

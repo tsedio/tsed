@@ -16,8 +16,7 @@ import {Configuration, IModuleOptions} from "@tsed/di";
  * },
  * "componentsScan": [
  *     "${rootDir}/middlewares/**\/*.js",
- *     "${rootDir}/services/**\/*.js",
- *     "${rootDir}/converters/**\/*.js"
+ *     "${rootDir}/services/**\/*.js"
  *   ]
  * }
  * ```

@@ -59,6 +59,8 @@ export class HandlerMetadata {
     if (this.hasErrorParam) {
       parameters.push(
         new ParamMetadata({
+          target: this.target,
+          propertyKey: this.propertyKey,
           index: 0,
           paramType: ParamTypes.ERR
         })
@@ -67,12 +69,16 @@ export class HandlerMetadata {
 
     parameters.push(
       new ParamMetadata({
+        target: this.target,
+        propertyKey: this.propertyKey,
         index: parameters.length,
         paramType: ParamTypes.REQUEST
       })
     );
     parameters.push(
       new ParamMetadata({
+        target: this.target,
+        propertyKey: this.propertyKey,
         index: parameters.length,
         paramType: ParamTypes.RESPONSE
       })
@@ -81,6 +87,8 @@ export class HandlerMetadata {
     if (this.hasNextFunction) {
       parameters.push(
         new ParamMetadata({
+          target: this.target,
+          propertyKey: this.propertyKey,
           index: parameters.length,
           paramType: ParamTypes.NEXT_FN
         })

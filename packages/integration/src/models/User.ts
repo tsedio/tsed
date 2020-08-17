@@ -1,6 +1,6 @@
-import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/common";
+import {Allow, Email, Ignore, MinLength, Property, Required} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
-import {Indexed, Model, Unique} from "../../../../packages/mongoose/src/decorators";
+import {Indexed, Model, ObjectID, Unique} from "@tsed/mongoose";
 
 export interface IUser {
   name: string;
@@ -29,6 +29,9 @@ export class UserCreation {
 @Hidden()
 @Model()
 export class User extends UserCreation {
+  @ObjectID("id")
+  _id: ObjectID;
+
   @Required()
   @MinLength(6)
   @Allow(null)

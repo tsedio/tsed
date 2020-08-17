@@ -3,15 +3,18 @@ import {expect} from "chai";
 import {ParamValidationError} from "./ParamValidationError";
 
 describe("ParseExpressionError", () => {
-  before(() => {});
-
+  it("should return error without transformation", () => {
+    expect(ParamValidationError.from({} as any, new Error("error")).message).to.eq("error");
+  });
   it("should return error", () => {
+    const validationError = new ValidationError("message");
+
     const error = ParamValidationError.from(
       {
         service: "name",
         expression: "expression"
       } as any,
-      {message: "message"}
+      validationError
     );
     expect(error.message).to.equal("Bad request on parameter \"request.name.expression\".\nmessage");
     expect(error.name).to.equal("PARAM_VALIDATION_ERROR");
@@ -25,7 +28,11 @@ describe("ParseExpressionError", () => {
       status: 400,
       type: "HTTP_EXCEPTION",
       origin: {
-        message: "message"
+        errors: [],
+        headers: {},
+        name: "VALIDATION_ERROR",
+        status: 400,
+        type: "HTTP_EXCEPTION"
       }
     });
   });

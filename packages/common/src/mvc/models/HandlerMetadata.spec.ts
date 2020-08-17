@@ -1,34 +1,19 @@
-import {Store} from "@tsed/core";
+import {Controller, Err, Get, Middleware, Next, ParamMetadata, ParamTypes, Req} from "@tsed/common";
 import {expect} from "chai";
-import {IHandlerConstructorOptions, ParamMetadata, ParamTypes} from "../../../src/mvc";
 import {HandlerType} from "../../../src/mvc/interfaces/HandlerType";
 import {HandlerMetadata} from "../../../src/mvc/models/HandlerMetadata";
-
-class Test {
-  use(req: any, res: any, next: any) {
-  }
-
-  test(req: any, res: any, next: any) {
-  }
-}
-
-class Test2 {
-  use(err: any, req: any, res: any, next: any) {
-  }
-}
 
 describe("HandlerMetadata", () => {
   describe("from function", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
       const options = {
-        target(req: any, res: any, next: any) {
-        }
+        target(req: any, res: any, next: any) {}
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
-      // THEN
 
+      // THEN
       expect(handlerMetadata.injectable).to.eq(false);
       expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
       expect(handlerMetadata.hasNextFunction).to.eq(true);
@@ -41,8 +26,7 @@ describe("HandlerMetadata", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
       const options = {
-        target(err: any, req: any, res: any, next: any) {
-        }
+        target(err: any, req: any, res: any, next: any) {}
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
@@ -58,19 +42,19 @@ describe("HandlerMetadata", () => {
         new ParamMetadata({
           index: 0,
           paramType: ParamTypes.ERR
-        }),
+        } as any),
         new ParamMetadata({
           index: 1,
           paramType: ParamTypes.REQUEST
-        }),
+        } as any),
         new ParamMetadata({
           index: 2,
           paramType: ParamTypes.RESPONSE
-        }),
+        } as any),
         new ParamMetadata({
           index: 3,
           paramType: ParamTypes.NEXT_FN
-        })
+        } as any)
       ]);
     });
   });
@@ -79,8 +63,7 @@ describe("HandlerMetadata", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
       const options = {
-        target(req: any, res: any) {
-        }
+        target(req: any, res: any) {}
       };
 
       // WHEN
@@ -98,7 +81,13 @@ describe("HandlerMetadata", () => {
   describe("from endpoint/middleware without injection", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
-      const options: IHandlerConstructorOptions = {
+      @Controller("/")
+      class Test {
+        @Get("/")
+        test(req: any, res: any, next: any) {}
+      }
+
+      const options = {
         target: Test,
         propertyKey: "test",
         type: HandlerType.CONTROLLER
@@ -107,10 +96,10 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false, "is injectable");
+      expect(handlerMetadata.injectable).to.eq(false);
       expect(handlerMetadata.type).to.eq(HandlerType.CONTROLLER);
-      expect(handlerMetadata.hasNextFunction).to.eq(true, "hasn't a next function");
-      expect(handlerMetadata.hasErrorParam).to.eq(false, "has an error param");
+      expect(handlerMetadata.hasNextFunction).to.eq(true);
+      expect(handlerMetadata.hasErrorParam).to.eq(false);
       expect(handlerMetadata.propertyKey).to.eq("test");
     });
   });
@@ -118,7 +107,11 @@ describe("HandlerMetadata", () => {
   describe("from endpoint/middleware with injection", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
-      Store.fromMethod(Test, "test").set("params", [{paramType: ParamTypes.NEXT_FN}]);
+      @Controller("/")
+      class Test {
+        @Get("/")
+        test(@Req() req: Req, @Next() next: Next) {}
+      }
 
       const options = {
         target: Test,
@@ -135,15 +128,21 @@ describe("HandlerMetadata", () => {
       expect(handlerMetadata.hasErrorParam).to.eq(false);
       expect(handlerMetadata.propertyKey).to.eq("test");
 
-      Store.fromMethod(Test, "test").delete("params");
+      expect(handlerMetadata.getParams()[0].paramType).to.deep.eq("REQUEST");
+      expect(handlerMetadata.getParams()[1].paramType).to.deep.eq("NEXT_FN");
     });
   });
 
   describe("from middleware without injection and error", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
+      @Middleware()
+      class Test {
+        use(error: any, req: any, res: any, next: any) {}
+      }
+
       const options = {
-        target: Test2,
+        target: Test,
         propertyKey: "use",
         type: HandlerType.MIDDLEWARE
       };
@@ -161,10 +160,14 @@ describe("HandlerMetadata", () => {
 
   describe("from middleware with injection and error", () => {
     it("should create a new handlerMetadata with right metadata", () => {
-      // GIVEN
-      Store.fromMethod(Test2, "use").set("params", [{paramType: ParamTypes.NEXT_FN}, {paramType: ParamTypes.ERR}]);
+      // WHEN
+      @Middleware()
+      class Test {
+        use(@Err() error: any, @Next() next: Next) {}
+      }
+
       const options = {
-        target: Test2,
+        target: Test,
         propertyKey: "use",
         type: HandlerType.MIDDLEWARE
       };
@@ -177,8 +180,6 @@ describe("HandlerMetadata", () => {
       expect(handlerMetadata.hasNextFunction).to.eq(true);
       expect(handlerMetadata.hasErrorParam).to.eq(true);
       expect(handlerMetadata.propertyKey).to.eq("use");
-
-      Store.fromMethod(Test, "use").delete("params");
     });
   });
 });

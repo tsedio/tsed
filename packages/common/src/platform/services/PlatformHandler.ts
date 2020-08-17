@@ -26,10 +26,10 @@ export class PlatformHandler {
     let options: IHandlerConstructorOptions;
 
     if (obj instanceof EndpointMetadata) {
-      const provider = injector.getProvider(obj.provide)!;
+      const provider = injector.getProvider(obj.token)!;
 
       options = {
-        token: provider.provide,
+        token: provider.token,
         target: provider.useClass,
         type: HandlerType.CONTROLLER,
         propertyKey: obj.propertyKey
@@ -39,7 +39,7 @@ export class PlatformHandler {
 
       if (provider) {
         options = {
-          token: provider.provide,
+          token: provider.token,
           target: provider.useClass,
           type: HandlerType.MIDDLEWARE,
           propertyKey: "use"
@@ -154,7 +154,14 @@ export class PlatformHandler {
           })
         );
     } else {
-      return (request: any, response: any, next: any) => this.onRequest(this.mapHandlerContext(metadata, {request, response, next}));
+      return (request: any, response: any, next: any) =>
+        this.onRequest(
+          this.mapHandlerContext(metadata, {
+            request,
+            response,
+            next
+          })
+        );
     }
   }
 
@@ -202,7 +209,7 @@ export class PlatformHandler {
       try {
         return await cb();
       } catch (er) {
-        throw er instanceof ValidationError ? ParamValidationError.from(metadata, er) : er;
+        throw ParamValidationError.from(metadata, er);
       }
     };
 

@@ -1,84 +1,66 @@
-import {ConverterService, getJsonSchema, Inject, IPipe, OverrideProvider, ParamMetadata, ParamTypes, ValidationPipe} from "@tsed/common";
-import {isEmpty} from "@tsed/core";
+import {Inject, IPipe, OverrideProvider, ParamMetadata, ValidationPipe} from "@tsed/common";
+import {deserialize} from "@tsed/json-mapper";
+import {getJsonSchema} from "@tsed/schema";
 import {AJV} from "../services/Ajv";
 import {AjvErrorFormatterPipe} from "./AjvErrorFormatterPipe";
 
 @OverrideProvider(ValidationPipe)
 export class AjvValidationPipe extends ValidationPipe implements IPipe {
   @Inject()
-  converterService: ConverterService; // FIXME remove mapping when the new schema lib will be released
-
-  @Inject()
   formatter: AjvErrorFormatterPipe;
 
   @Inject(AJV)
   ajv: AJV;
 
+  coerceTypes(value: any, metadata: ParamMetadata) {
+    if (value === undefined) {
+      return value;
+    }
+
+    if (value === "null") {
+      return null;
+    }
+
+    if (metadata.isPrimitive) {
+      try {
+        return deserialize(value, {
+          type: metadata.type
+        });
+      } catch (er) {
+        return value;
+      }
+    }
+
+    if (metadata.isArray) {
+      return [].concat(value);
+    }
+
+    return value;
+  }
+
   transform(value: any, metadata: ParamMetadata): any {
+    value = this.coerceTypes(value, metadata);
+
     this.checkIsRequired(value, metadata);
 
-    const {schema} = metadata.store.get(AjvValidationPipe) || {};
+    if (value === undefined) {
+      return value;
+    }
+
+    const schema = getJsonSchema(metadata);
 
     if (schema) {
-      this.validate(schema, value);
-    } else if (metadata.isPrimitive) {
-      this.validateFromPrimitive(value, metadata);
-    } else if (this.shouldValidate(metadata) && value !== undefined) {
-      this.validateFromModel(value, metadata);
-    }
+      const valid = this.ajv.validate(schema, value);
 
-    return value;
-  }
-
-  protected validate(schema: any, value: any, options: any = {}) {
-    const valid = this.ajv.validate(schema, value);
-
-    if (!valid) {
-      throw this.formatter.transform(this.ajv.errors!, options);
-    }
-  }
-
-  protected validateFromPrimitive(value: any, metadata: ParamMetadata) {
-    value = this.converterService.deserialize(value, metadata.collectionType || metadata.type, metadata.type);
-
-    if (isEmpty(value)) {
-      if (this.checkIsRequired(value, metadata)) {
-        return true;
-      }
-    }
-
-    const schema = getJsonSchema(metadata.type);
-
-    if (!metadata.isCollection) {
-      this.validate(schema, value, {});
-    } else {
-      Object.entries(value).forEach(([key, item]) => {
-        this.validate(schema, item, {index: key});
-      });
-    }
-
-    return value;
-  }
-
-  private validateFromModel(value: any, metadata: ParamMetadata) {
-    const schema = getJsonSchema(metadata.type);
-
-    const options = {
-      ignoreCallback: (obj: any, type: any) => type === Date,
-      checkRequiredValue: false,
-      additionalProperties: metadata.paramType === ParamTypes.QUERY ? "ignore" : undefined
-    };
-
-    if (metadata.isCollection) {
-      if (value) {
-        Object.entries(value).forEach(([key, item]) => {
-          item = this.converterService.deserialize(item, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
-          this.validate(schema, item, {type: metadata.type, index: key});
+      if (!valid) {
+        throw this.formatter.transform(this.ajv.errors!, {
+          type: metadata.isClass ? metadata.type : undefined,
+          collectionType: metadata.collectionType,
+          value
         });
       }
-    } else {
-      value = this.converterService.deserialize(value, metadata.type, undefined, options as any); // FIXME REMOVE THIS when @tsed/schema is out
-      this.validate(schema, value, {type: metadata.type});
     }
+
+    return value;
   }
 }

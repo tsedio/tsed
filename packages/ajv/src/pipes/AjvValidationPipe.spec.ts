@@ -5,12 +5,12 @@ import {
   ParamTypes,
   ParamValidationError,
   PlatformTest,
-  Property,
+  Post,
   QueryParams,
-  Required,
   UseParam,
   ValidationError
 } from "@tsed/common";
+import {getJsonSchema, Property, Required} from "@tsed/schema";
 import {expect} from "chai";
 import {AjvValidationPipe} from "./AjvValidationPipe";
 
@@ -41,8 +41,7 @@ describe("AjvValidationPipe", () => {
   describe("With raw json schema", () => {
     it("should validate object", async () => {
       class Ctrl {
-        get(@BodyParams() @UseSchema({type: "object"}) value: any) {
-        }
+        get(@BodyParams() @UseSchema({type: "object"}) value: any) {}
       }
 
       const value = {};
@@ -50,15 +49,19 @@ describe("AjvValidationPipe", () => {
 
       expect(result).to.deep.equal(value);
     });
+
     it("should throw an error", async () => {
       class Ctrl {
-        get(@BodyParams() @UseSchema({type: "object"}) value: any) {
-        }
+        get(@BodyParams() @UseSchema({type: "object"}) value: any) {}
       }
 
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
       const value: any[] = [];
+      const error = await validate(value, metadata);
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        type: "object"
+      });
 
       expect(error?.message).to.deep.equal("Bad request on parameter \"request.body\".\nValue should be object. Given value: []");
       expect(error?.origin?.errors).to.deep.equal([
@@ -82,8 +85,7 @@ describe("AjvValidationPipe", () => {
   describe("With String", () => {
     it("should validate value", async () => {
       class Ctrl {
-        get(@BodyParams() value: string) {
-        }
+        get(@BodyParams() value: string) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -91,25 +93,32 @@ describe("AjvValidationPipe", () => {
     });
     it("should validate value (array)", async () => {
       class Ctrl {
-        get(@BodyParams({useType: String}) value: string[]) {
-        }
+        get(@BodyParams({useType: String}) value: string[]) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
+
+      expect(getJsonSchema(metadata, {useAlias: true})).to.deep.eq({
+        type: "array",
+        items: {
+          type: "string"
+        }
+      });
+
       expect(await validate(["test"], metadata)).to.deep.equal(["test"]);
     });
   });
   describe("With QueryParam with boolean", () => {
     it("should validate value", async () => {
       class Ctrl {
-        get(@QueryParams("test") value: boolean) {
-        }
+        get(@QueryParams("test") value: boolean) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
 
-      expect(await validate("true", metadata)).to.deep.equal("true");
-      expect(await validate("null", metadata)).to.deep.equal("null");
+      expect(await validate("true", metadata)).to.deep.equal(true);
+      expect(await validate("false", metadata)).to.deep.equal(false);
+      expect(await validate("null", metadata)).to.deep.equal(null);
       expect(await validate(undefined, metadata)).to.deep.equal(undefined);
     });
   });
@@ -122,8 +131,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {
-        }
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
       }
 
       const value = {
@@ -135,19 +143,30 @@ describe("AjvValidationPipe", () => {
     });
     it("should throw an error", async () => {
       class Model {
-        @Property()
         @Required()
         id: string;
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {
-        }
+        @Post("/")
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
       }
 
       const value: any = {};
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const error = await validate(value, metadata);
+
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        type: "object",
+        properties: {
+          id: {
+            minLength: 1,
+            type: "string"
+          }
+        },
+        required: ["id"]
+      });
 
       expect(error?.message).to.deep.equal(
         "Bad request on parameter \"request.body\".\nModel should have required property 'id'. Given value: {}"
@@ -163,9 +182,9 @@ describe("AjvValidationPipe", () => {
             missingProperty: "id"
           },
           parentSchema: {
-            definitions: {},
             properties: {
               id: {
+                minLength: 1,
                 type: "string"
               }
             },
@@ -174,6 +193,7 @@ describe("AjvValidationPipe", () => {
           },
           schema: {
             id: {
+              minLength: 1,
               type: "string"
             }
           },
@@ -196,8 +216,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {
-        }
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
       }
 
       const value: any = {
@@ -221,8 +240,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
       }
 
       const value = [
@@ -242,16 +260,33 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
       }
 
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
       const value: any = [{}];
+      const error = await validate(value, metadata);
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
-
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        definitions: {
+          Model: {
+            properties: {
+              id: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["id"],
+            type: "object"
+          }
+        },
+        items: {
+          $ref: "#/definitions/Model"
+        },
+        type: "array"
+      });
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\n[0]Model should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nModel[0] should have required property 'id'. Given value: {}"
       );
     });
     it("should throw an error (deep property)", async () => {
@@ -269,10 +304,11 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
-        }
+        @Post("/")
+        get(@BodyParams(Model) value: Model[]) {}
       }
 
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
       const value: any = [
         {
           id: "id",
@@ -280,10 +316,42 @@ describe("AjvValidationPipe", () => {
         }
       ];
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        definitions: {
+          Model: {
+            properties: {
+              id: {
+                minLength: 1,
+                type: "string"
+              },
+              user: {
+                $ref: "#/definitions/UserModel"
+              }
+            },
+            required: ["id", "user"],
+            type: "object"
+          },
+          UserModel: {
+            properties: {
+              id: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["id"],
+            type: "object"
+          }
+        },
+        items: {
+          $ref: "#/definitions/Model"
+        },
+        type: "array"
+      });
+
+      const error = await validate(value, metadata);
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\n[0]Model.user should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nModel[0].user should have required property 'id'. Given value: {}"
       );
     });
   });
@@ -296,8 +364,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
       }
 
       const value = {
@@ -317,8 +384,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
       }
 
       const value: any = {key1: {}};
@@ -326,7 +392,7 @@ describe("AjvValidationPipe", () => {
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nkey1.Model should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nMap<key1, Model> should have required property 'id'. Given value: {}"
       );
     });
     it("should throw an error (deep property)", async () => {
@@ -344,8 +410,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
       }
 
       const value: any = {
@@ -355,10 +420,137 @@ describe("AjvValidationPipe", () => {
         }
       };
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const error = await validate(value, metadata);
+
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        additionalProperties: {
+          $ref: "#/definitions/Model"
+        },
+        definitions: {
+          Model: {
+            properties: {
+              id: {
+                minLength: 1,
+                type: "string"
+              },
+              user: {
+                $ref: "#/definitions/UserModel"
+              }
+            },
+            required: ["id", "user"],
+            type: "object"
+          },
+          UserModel: {
+            properties: {
+              id: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["id"],
+            type: "object"
+          }
+        },
+        type: "object"
+      });
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nkey1.Model.user should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nMap<key1, Model>.user should have required property 'id'. Given value: {}"
+      );
+    });
+  });
+  describe("With Set of model", () => {
+    it("should validate object", async () => {
+      class Model {
+        @Property()
+        @Required()
+        id: string;
+      }
+
+      class Ctrl {
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {}
+      }
+
+      const value = [
+        {
+          id: "hello"
+        }
+      ];
+
+      const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+
+      expect(result).to.deep.equal(value);
+    });
+    it("should throw an error", async () => {
+      class Model {
+        @Property()
+        @Required()
+        id: string;
+      }
+
+      class Ctrl {
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {}
+      }
+
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const value: any = [{}];
+      const error = await validate(value, metadata);
+
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        definitions: {
+          Model: {
+            properties: {
+              id: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["id"],
+            type: "object"
+          }
+        },
+        items: {
+          $ref: "#/definitions/Model"
+        },
+        type: "array",
+        uniqueItems: true
+      });
+
+      expect(error?.message).to.deep.equal(
+        "Bad request on parameter \"request.body\".\nSet<0, Model> should have required property 'id'. Given value: {}"
+      );
+    });
+    it("should throw an error (deep property)", async () => {
+      class UserModel {
+        @Required()
+        id: string;
+      }
+
+      class Model {
+        @Required()
+        id: string;
+
+        @Required()
+        user: UserModel;
+      }
+
+      class Ctrl {
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {}
+      }
+
+      const value: any = [
+        {
+          id: "id",
+          user: {}
+        }
+      ];
+
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const error = await validate(value, metadata);
+
+      expect(error?.message).to.deep.equal(
+        "Bad request on parameter \"request.body\".\nSet<0, Model>.user should have required property 'id'. Given value: {}"
       );
     });
   });

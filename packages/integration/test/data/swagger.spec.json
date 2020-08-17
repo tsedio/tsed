@@ -1,5 +1,4 @@
 {
-  "swagger": "2.0",
   "info": {
     "version": "1.0.0",
     "title": "Swagger Petstore",
@@ -33,32 +32,39 @@
       }
     }
   },
+  "swagger": "2.0",
   "consumes": [
     "application/json"
   ],
   "produces": [
     "application/json"
   ],
-  "tags": [
-    {
-      "name": "CalendarCtrl",
-      "description": "Controller description"
-    },
-    {
-      "name": "EventCtrl"
-    },
-    {
-      "name": "TaskCtrl"
-    }
-  ],
   "paths": {
-    "/rest/calendars/events/{eventId}/tasks": {
+    "/rest/events/{eventId}/tasks/{eventId}/tasks": {
       "get": {
-        "operationId": "TaskCtrl.get",
+        "operationId": "taskCtrlGet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
         "tags": [
           "api",
           "task"
-        ],
+        ]
+      }
+    },
+    "/rest/events/{eventId}/tasks/{eventId}/tasks/hidden": {
+      "get": {
+        "operationId": "taskCtrlGetHidden",
         "parameters": [
           {
             "in": "path",
@@ -70,25 +76,28 @@
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
-        }
-      }
-    },
-    "/rest/calendars/events/{eventId}/tasks/hiddenparam": {
-      "get": {
-        "operationId": "TaskCtrl.getHiddenParams",
+        },
         "tags": [
           "TaskCtrl"
-        ],
+        ]
+      }
+    },
+    "/rest/events/{eventId}/tasks/{eventId}/tasks/hiddenparam": {
+      "get": {
+        "operationId": "taskCtrlGetHiddenParams",
         "parameters": [
           {
             "in": "path",
             "name": "eventId",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "required": false,
+            "type": "string"
           },
           {
             "in": "query",
@@ -101,39 +110,41 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "TaskCtrl"
+        ]
       }
     },
-    "/rest/calendars/events": {
+    "/rest/events/events": {
       "head": {
-        "operationId": "EventCtrl.head",
-        "tags": [
-          "EventCtrl"
-        ],
+        "operationId": "eventCtrlHead",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
       },
       "get": {
-        "operationId": "EventCtrl.query",
-        "tags": [
-          "EventCtrl"
-        ],
+        "operationId": "eventCtrlQuery",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
-      }
-    },
-    "/rest/calendars/events/{id}": {
-      "patch": {
-        "operationId": "EventCtrl.patch",
+        },
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      }
+    },
+    "/rest/events/events/{id}": {
+      "patch": {
+        "operationId": "eventCtrlPatch",
         "parameters": [
           {
             "in": "path",
@@ -142,7 +153,6 @@
             "required": true
           },
           {
-            "title": "Title event",
             "in": "body",
             "name": "body",
             "required": true,
@@ -153,21 +163,27 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Missing required parameter"
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
           },
           "404": {
-            "description": "Not found"
+            "description": "Not found",
+            "schema": {
+              "type": "string"
+            }
           }
-        }
-      },
-      "get": {
-        "operationId": "EventCtrl.find",
+        },
+        "produces": [
+          "text/json"
+        ],
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      },
+      "get": {
+        "operationId": "eventCtrlFind",
         "parameters": [
           {
             "in": "path",
@@ -180,13 +196,13 @@
           "200": {
             "description": "Success"
           }
-        }
-      },
-      "put": {
-        "operationId": "EventCtrl.save",
+        },
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      },
+      "put": {
+        "operationId": "eventCtrlSave",
         "parameters": [
           {
             "in": "path",
@@ -206,17 +222,14 @@
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "400": {
-            "description": "Missing required parameter"
           }
-        }
-      },
-      "delete": {
-        "operationId": "EventCtrl.remove",
+        },
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      },
+      "delete": {
+        "operationId": "eventCtrlRemove",
         "parameters": [
           {
             "in": "path",
@@ -229,22 +242,30 @@
           "200": {
             "description": "Success"
           }
-        }
-      }
-    },
-    "/rest/calendars/events/list": {
-      "post": {
-        "operationId": "EventCtrl.update",
+        },
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      }
+    },
+    "/rest/events/events/list": {
+      "post": {
+        "operationId": "eventCtrlUpdate",
         "parameters": [
           {
             "in": "body",
             "name": "body",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/EventCtrlUpdatePayload"
+              "properties": {
+                "event": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/EventModel"
+                  }
+                }
+              },
+              "type": "object"
             }
           }
         ],
@@ -257,34 +278,32 @@
                 "$ref": "#/definitions/EventModel"
               }
             }
-          },
-          "400": {
-            "description": "Missing required parameter"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
-        }
-      },
-      "get": {
-        "operationId": "EventCtrl.index",
+        },
+        "produces": [
+          "text/json"
+        ],
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      },
+      "get": {
+        "operationId": "baseControllerIndex",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
           }
         },
-        "summary": "Return all elements from a service"
-      }
-    },
-    "/rest/calendars/events/status": {
-      "get": {
-        "operationId": "EventCtrl.byStatus",
+        "summary": "Return all elements from a service",
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      }
+    },
+    "/rest/events/events/status": {
+      "get": {
+        "operationId": "eventCtrlByStatus",
         "parameters": [
           {
             "in": "query",
@@ -301,29 +320,29 @@
           "200": {
             "description": "Success"
           }
-        }
-      }
-    },
-    "/rest/calendars/events/{resources}/test/{id}": {
-      "get": {
-        "operationId": "EventCtrl.getTest",
+        },
         "tags": [
           "EventCtrl"
-        ],
+        ]
+      }
+    },
+    "/rest/events/events/{resources}/test/{id}": {
+      "get": {
+        "operationId": "baseControllerGetTest",
         "parameters": [
           {
             "in": "path",
             "name": "resources",
-            "type": "string",
+            "description": "The resource",
             "required": true,
-            "description": "The resource"
+            "type": "string"
           },
           {
             "in": "path",
             "name": "id",
-            "type": "string",
+            "description": "Id of the resource",
             "required": true,
-            "description": "Id of the resource"
+            "type": "string"
           }
         ],
         "responses": {
@@ -331,15 +350,15 @@
             "description": "Success"
           }
         },
-        "summary": "Return an element by his resource"
+        "summary": "Return an element by his resource",
+        "tags": [
+          "EventCtrl"
+        ]
       }
     },
     "/rest/calendars/classic/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findClassic",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlFindClassic",
         "parameters": [
           {
             "in": "path",
@@ -352,157 +371,181 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/token": {
       "get": {
-        "operationId": "CalendarCtrl.getToken",
-        "tags": [
-          "CalendarCtrl"
+        "operationId": "calendarCtrlGetToken",
+        "parameters": [
+          {
+            "in": "cookies",
+            "name": "authorization",
+            "required": false,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
-      },
-      "delete": {
-        "operationId": "CalendarCtrl.removeWithToken",
+        },
         "tags": [
           "CalendarCtrl"
-        ],
+        ]
+      },
+      "delete": {
+        "operationId": "calendarCtrlRemoveWithToken",
         "parameters": [
+          {
+            "name": "Authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CalendarCtrlRemoveWithTokenPayload"
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "type": "object",
+              "required": [
+                "id"
+              ]
             }
-          },
-          {
-            "in": "header",
-            "name": "Authorization",
-            "type": "string",
-            "required": true
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Missing required parameter"
+            "description": "No Content",
+            "schema": {
+              "type": "object"
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string"
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "schema": {
+              "type": "string"
+            }
           }
         },
-        "security": [
-          {
-            "global_auth": [
-              "write:calendar",
-              "read:calendar"
-            ]
-          }
+        "security": {
+          "global_auth": [
+            "write:calendar",
+            "read:calendar"
+          ]
+        },
+        "produces": [
+          "text/json"
+        ],
+        "tags": [
+          "CalendarCtrl"
         ]
       }
     },
     "/rest/calendars/token/{token}": {
       "get": {
-        "operationId": "CalendarCtrl.updateToken",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlUpdateToken",
         "parameters": [
           {
+            "description": "Token required to update token",
             "in": "path",
             "name": "token",
-            "type": "string",
             "required": true,
-            "description": "Token required to update token"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/annotation/test/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findWithAnnotation",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlFindWithAnnotation",
         "parameters": [
           {
+            "required": true,
             "in": "path",
             "name": "id",
-            "type": "string",
-            "required": true
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/annotation/promised/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findWithPromise",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlFindWithPromise",
         "parameters": [
           {
             "in": "path",
             "name": "id",
-            "type": "string",
-            "required": true
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/annotation/status/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.findAndChangeStatusCode",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlFindAndChangeStatusCode",
         "parameters": [
           {
             "in": "path",
             "name": "id",
-            "type": "string",
-            "required": true
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/query": {
       "get": {
-        "operationId": "CalendarCtrl.getQuery",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlGetQuery",
         "parameters": [
           {
             "in": "query",
@@ -515,230 +558,238 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars": {
       "put": {
-        "operationId": "CalendarCtrl.save",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlSave",
         "parameters": [
           {
             "in": "body",
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CalendarCtrlSavePayload"
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "type": "object",
+              "required": [
+                "name"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
             "schema": {
               "$ref": "#/definitions/CalendarModel"
             }
-          },
-          "400": {
-            "description": "Missing required parameter"
           }
-        }
-      },
-      "delete": {
-        "operationId": "CalendarCtrl.remove",
+        },
+        "produces": [
+          "text/json"
+        ],
         "tags": [
           "CalendarCtrl"
-        ],
+        ]
+      },
+      "delete": {
+        "operationId": "calendarCtrlRemove",
         "parameters": [
           {
             "in": "body",
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CalendarCtrlRemovePayload"
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "type": "object",
+              "required": [
+                "id"
+              ]
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Missing required parameter"
-          },
-          "401": {
-            "description": "Unauthorized"
+            "description": "No Content",
+            "schema": {
+              "type": "object"
+            }
           }
         },
-        "security": [
-          {
-            "calendar_auth": [
-              "write:calendar",
-              "read:calendar"
-            ]
-          },
-          {
-            "global_auth": [
-              "read:global"
-            ]
-          }
+        "security": {
+          "calendar_auth": [
+            "write:calendar",
+            "read:calendar"
+          ],
+          "global_auth": [
+            "read:global"
+          ]
+        },
+        "produces": [
+          "text/json"
+        ],
+        "tags": [
+          "CalendarCtrl"
         ]
       }
     },
     "/rest/calendars/middleware": {
       "get": {
-        "operationId": "CalendarCtrl.getWithMiddleware",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlGetWithMiddleware",
         "parameters": [
           {
             "in": "header",
             "name": "authorization",
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/mvc": {
       "get": {
-        "operationId": "CalendarCtrl.testStackMiddlewares",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlTestStackMiddlewares",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/middlewares2": {
       "get": {
-        "operationId": "CalendarCtrl.testUseAfter",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlTestUseAfter",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
-        }
+        },
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/headers": {
       "get": {
-        "operationId": "CalendarCtrl.testResponseHeader",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "calendarCtrlTestResponseHeader",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success",
             "headers": {
-              "x-token-test": {
+              "x-token-test-2": {
+                "example": "test2",
                 "type": "string"
               },
-              "x-token-test-2": {
+              "x-token-test": {
+                "example": "test",
                 "type": "string"
               }
+            },
+            "schema": {
+              "type": "object"
             }
           }
         },
+        "deprecated": true,
         "produces": [
-          "application/xml"
+          "application/xml",
+          "text/json"
         ],
-        "deprecated": true
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/documents": {
       "post": {
-        "operationId": "CalendarCtrl.testMultipart",
-        "tags": [
-          "CalendarCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "files",
-            "required": false,
-            "type": "file"
+        "operationId": "calendarCtrlTestMultipart",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
+            "schema": {
+              "type": "string"
+            }
           }
+        },
+        "produces": [
+          "text/json"
         ],
         "consumes": [
           "multipart/form-data"
         ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]\n                            Example: File too long file1"
-          }
-        }
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/documents/1": {
       "post": {
-        "operationId": "CalendarCtrl.testMultipart2",
-        "tags": [
-          "CalendarCtrl"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "file1",
-            "required": false,
-            "type": "file"
+        "operationId": "calendarCtrlTestMultipart2",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
+            "schema": {
+              "type": "string"
+            }
           }
+        },
+        "produces": [
+          "text/json"
         ],
         "consumes": [
           "multipart/form-data"
         ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]\n                            Example: File too long file1"
-          }
-        }
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/{resources}/test/{id}": {
       "get": {
-        "operationId": "CalendarCtrl.getTest",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "baseControllerGetTest",
         "parameters": [
           {
             "in": "path",
             "name": "resources",
-            "type": "string",
+            "description": "The resource",
             "required": true,
-            "description": "The resource"
+            "type": "string"
           },
           {
             "in": "path",
             "name": "id",
-            "type": "string",
+            "description": "Id of the resource",
             "required": true,
-            "description": "Id of the resource"
+            "type": "string"
           }
         ],
         "responses": {
@@ -746,26 +797,118 @@
             "description": "Success"
           }
         },
-        "summary": "Return an element by his resource"
+        "summary": "Return an element by his resource",
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     },
     "/rest/calendars/list": {
       "get": {
-        "operationId": "CalendarCtrl.index",
-        "tags": [
-          "CalendarCtrl"
-        ],
+        "operationId": "baseControllerIndex",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
           }
         },
-        "summary": "Return all elements from a service"
+        "summary": "Return all elements from a service",
+        "tags": [
+          "CalendarCtrl"
+        ]
       }
     }
   },
+  "tags": [
+    {
+      "name": "api"
+    },
+    {
+      "name": "task"
+    },
+    {
+      "name": "TaskCtrl"
+    },
+    {
+      "name": "EventCtrl"
+    },
+    {
+      "name": "CalendarCtrl",
+      "description": "Controller description"
+    }
+  ],
   "definitions": {
+    "EventModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "1FDCHZKH"
+          ],
+          "description": "Description of event model id",
+          "title": "iD"
+        },
+        "startDate": {
+          "type": "string",
+          "examples": [
+            "2017-10-15T17:05:58.106Z"
+          ]
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        },
+        "mapAny": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "integer",
+              "number",
+              "string",
+              "boolean",
+              "array",
+              "object",
+              "null"
+            ]
+          }
+        },
+        "anyValue": {
+          "type": [
+            "integer",
+            "number",
+            "string",
+            "boolean",
+            "array",
+            "object",
+            "null"
+          ]
+        },
+        "tasksMap": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      },
+      "title": "Title event",
+      "required": [
+        "startDate",
+        "endDate",
+        "Name"
+      ]
+    },
     "Task": {
+      "type": "object",
       "properties": {
         "name": {
           "type": "string"
@@ -773,162 +916,26 @@
         "percent": {
           "type": "number"
         }
-      },
-      "type": "object"
-    },
-    "EventModel": {
-      "properties": {
-        "id": {
-          "examples": [
-            "1FDCHZKH"
-          ],
-          "description": "Description of event model id",
-          "title": "iD",
-          "type": "string"
-        },
-        "startDate": {
-          "examples": [
-            "2017-10-15T17:05:58.106Z"
-          ],
-          "type": "string"
-        },
-        "endDate": {
-          "type": "string"
-        },
-        "Name": {
-          "type": "string"
-        },
-        "tasks": {
-          "items": {
-            "$ref": "#/definitions/Task"
-          },
-          "type": "array"
-        },
-        "mapAny": {
-          "additionalProperties": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "array"
-              },
-              {
-                "type": "object"
-              }
-            ]
-          },
-          "type": "object"
-        },
-        "anyValue": {
-          "nullable": true,
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "array"
-            },
-            {
-              "type": "object"
-            }
-          ]
-        },
-        "tasksMap": {
-          "additionalProperties": {
-            "$ref": "#/definitions/Task"
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "startDate",
-        "endDate",
-        "name"
-      ],
-      "title": "EventModel Title",
-      "type": "object"
-    },
-    "EventCtrlUpdatePayload": {
-      "type": "object",
-      "properties": {
-        "event": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EventModel"
-          }
-        }
       }
     },
     "CalendarModel": {
+      "type": "object",
       "properties": {
         "id": {
+          "type": "string",
           "examples": [
             "Description example"
           ],
           "description": "Description of calendar model id",
-          "title": "iD",
-          "type": "string"
+          "title": "ID"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       },
       "required": [
         "name"
-      ],
-      "type": "object"
-    },
-    "CalendarCtrlSavePayload": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "CalendarCtrlRemovePayload": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id"
-      ]
-    },
-    "CalendarCtrlRemoveWithTokenPayload": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id"
       ]
     }
   }

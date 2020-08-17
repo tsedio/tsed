@@ -8,7 +8,7 @@ import {
   MinLength,
   Pattern,
   Required
-} from "@tsed/common";
+} from "@tsed/schema";
 
 enum Categories {
   CAT1 = "cat1",

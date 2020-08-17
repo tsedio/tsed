@@ -1,4 +1,4 @@
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {MultipleOf as M} from "@tsed/schema";
 
 /**
  * A numeric instance is valid only if division by this keyword's value results in an integer.
@@ -66,13 +66,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Use @MultipleOf decorator from @tsed/schema instead of.
  */
 export function MultipleOf(multipleOf: number) {
-  if (multipleOf <= 0) {
-    throw new Error("The value of multipleOf MUST be a number, strictly greater than 0.");
-  }
-
-  return decoratorSchemaFactory(schema => {
-    schema.mapper.multipleOf = multipleOf;
-  });
+  return M(multipleOf);
 }

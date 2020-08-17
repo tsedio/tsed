@@ -1,6 +1,8 @@
-import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
+import {getSpec} from "@tsed/schema/src";
+import {expect} from "chai";
 import * as SuperTest from "supertest";
+import {EventCtrl} from "../src/controllers/calendars/EventCtrl";
 import {FakeServer} from "./helpers/FakeServer";
 
 describe("Rest", () => {
@@ -11,6 +13,12 @@ describe("Rest", () => {
   });
   after(PlatformTest.reset);
   describe("integration", () => {
+    describe("spec", () => {
+      it("should have the right spec", () => {
+        // require("fs").writeFileSync(__dirname + "/data/event-ctrl.spec.json", JSON.stringify(getSpec(EventCtrl), null, 2), "utf8");
+        expect(getSpec(EventCtrl)).to.deep.eq(require("./data/event-ctrl.spec.json"));
+      });
+    });
     describe("GET /rest/calendars", () => {
       it("should return an object (without annotation)", done => {
         request
@@ -263,257 +271,6 @@ describe("Rest", () => {
 
         expect(response.status).to.eq(200);
       });
-    });
-
-    describe("POST /rest/user/", () => {
-      it("should allow creation", async () => {
-        const response = await request
-          .post(`/rest/user/`)
-          .send({name: "test", email: null, password: null})
-          .expect(201);
-
-        expect(response.body).to.deep.eq({
-          name: "test",
-          email: null
-        });
-      });
-
-      it("should return an error when email is empty", async () => {
-        const response = await request
-          .post(`/rest/user/`)
-          .send({name: "test", email: ""})
-          .expect(400);
-
-        // @ts-ignore
-        expect(JSON.parse(response.headers.errors)).to.deep.eq([
-          {
-            dataPath: ".email",
-            keyword: "format",
-            message: "should match format \"email\"",
-            modelName: "UserCreation",
-            params: {
-              format: "email"
-            },
-            schemaPath: "#/properties/email/format"
-          }
-        ]);
-
-        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />UserCreation.email should match format \"email\". Given value: \"undefined\"");
-      });
-
-      it("should return an error when password is empty", async () => {
-        const [response]: any[] = await Promise.all([
-          request
-            .post(`/rest/user/`)
-            .send({name: "test", email: "test@test.fr", password: ""})
-            .expect(400),
-          request
-            .post(`/rest/user/`)
-            .send({name: "test", email: "test@test.fr", password: ""})
-            .expect(400)
-        ]);
-
-        expect(response.text).to.eq(
-          "Bad request on parameter \"request.body\".<br />UserCreation.password should NOT be shorter than 6 characters. Given value: \"undefined\""
-        );
-
-        expect(JSON.parse(response.headers.errors)).to.deep.eq([
-          {
-            keyword: "minLength",
-            dataPath: ".password",
-            schemaPath: "#/properties/password/minLength",
-            params: {limit: 6},
-            message: "should NOT be shorter than 6 characters",
-            modelName: "UserCreation"
-          }
-        ]);
-      });
-
-      it("should allow creation with data", async () => {
-        const response = await request
-          .post(`/rest/user/`)
-          .send({name: "test", email: "test@test.fr", password: "test1267"})
-          .expect(201);
-
-        expect(JSON.parse(response.text)).to.deep.eq({name: "test", email: "test@test.fr"});
-      });
-    });
-
-    describe("GET /rest/user/:id", () => {
-      const send = (id: string) =>
-        new Promise((resolve, reject) => {
-          request
-            .get(`/rest/user/${id}`)
-            .expect(200)
-            .end((err: any, response: any) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve({id, ...JSON.parse(response.text)});
-              }
-            });
-        });
-
-      it("should respond with the right userid", () => {
-        const promises = [];
-
-        promises.push(send("0"));
-        promises.push(send("1"));
-        promises.push(send("2"));
-
-        return Promise.all(promises).then(responses => {
-          expect(responses).to.deep.eq([
-            {
-              id: "0",
-              idCtrl: "0",
-              idSrv: "0",
-              userId: "0"
-            },
-            {
-              id: "1",
-              idCtrl: "1",
-              idSrv: "1",
-              userId: "1"
-            },
-            {
-              id: "2",
-              idCtrl: "2",
-              idSrv: "2",
-              userId: "2"
-            }
-          ]);
-        });
-      });
-    });
-  });
-
-  describe("GET /rest/products", () => {
-    it("should respond with the right userid", done => {
-      request
-        .get(`/rest/products`)
-        .expect(200)
-        .end((err: any, response: any) => {
-          expect(JSON.parse(response.text)).to.deep.eq([{id: "1", name: "test"}]);
-          done();
-        });
-    });
-  });
-
-  describe("Errors", () => {
-    it("GET /rest/errors/custom-bad-request", done => {
-      request
-        .get("/rest/errors/custom-bad-request")
-        .expect(400)
-        .end((err: any, response: any) => {
-          expect(response.headers.errors).to.eq("[\"test\"]");
-          expect(response.headers["x-header-error"]).to.eq("deny");
-          expect(response.text).to.eq("Custom Bad Request");
-          done();
-        });
-    });
-
-    it("POST /rest/errors/required-param", done => {
-      request
-        .post("/rest/errors/required-param")
-        .expect(400)
-        .end((err: any, response: any) => {
-          expect(response.text).to.eq("Bad request on parameter \"request.body.name\".<br />It should have required parameter 'name'");
-
-          expect(JSON.parse(response.headers.errors)).to.deep.eq([
-            {
-              dataPath: "",
-              keyword: "required",
-              message: "It should have required parameter 'name'",
-              modelName: "body",
-              params: {
-                missingProperty: "name"
-              },
-              schemaPath: "#/required"
-            }
-          ]);
-          done();
-        });
-    });
-
-    it("POST /rest/errors/required-model", done => {
-      request
-        .post("/rest/errors/required-model")
-        .expect(400)
-        .end((err: any, response: any) => {
-          expect(response.text).to.eq(
-            "Bad request on parameter \"request.body\".<br />CustomModel should have required property 'name'. Given value: \"undefined\""
-          );
-
-          expect(JSON.parse(response.headers.errors)).to.deep.eq([
-            {
-              dataPath: "",
-              keyword: "required",
-              message: "should have required property 'name'",
-              modelName: "CustomModel",
-              params: {
-                missingProperty: "name"
-              },
-              schemaPath: "#/required"
-            }
-          ]);
-          done();
-        });
-    });
-
-    it("POST /rest/errors/required-model-2", done => {
-      request
-        .post("/rest/errors/required-model-2")
-        .expect(400)
-        .end((err: any, response: any) => {
-          expect(response.text).to.eq("Property name on class CustomModel is required. Given value: undefined");
-
-          expect(JSON.parse(response.headers.errors)).to.deep.eq([
-            {
-              dataPath: "",
-              keyword: "required",
-              message: "should have required property 'name'",
-              modelName: "CustomModel",
-              params: {
-                missingProperty: "name"
-              },
-              schemaPath: "#/required"
-            }
-          ]);
-          done();
-        });
-    });
-
-    it("POST /rest/errors/required-prop-name", done => {
-      request
-        .post(`/rest/errors/required-prop-name`)
-        .send({})
-        .expect(400)
-        .end((err: any, response: any) => {
-          expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />CustomPropModel should have required property 'role_item'. Given value: \"undefined\"");
-          done();
-        });
-    });
-
-    it("GET /rest/errors/error (original error is not displayed", done => {
-      request
-        .get("/rest/errors/error")
-        .expect(500)
-        .end((err: any, response: any) => {
-          expect(response.text).to.eq("Internal Error");
-          done();
-        });
-    });
-
-    it("GET /rest/errors/custom-internal-error", done => {
-      request
-        .get("/rest/errors/custom-internal-error")
-        .expect(500)
-        .end((err: any, response: any) => {
-          expect(response.headers.errors).to.eq("[\"test\"]");
-          expect(response.headers["x-header-error"]).to.eq("deny");
-          expect(response.text).to.eq("My custom error");
-          done();
-        });
     });
   });
 });

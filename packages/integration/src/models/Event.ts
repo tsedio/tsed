@@ -1,4 +1,4 @@
-import {Any, CollectionOf, Description, Example, Ignore, Name, Property, Required, Title} from "@tsed/common";
+import {Any, Ignore, Property, Name, CollectionOf, Required, Description, Example, Title} from "@tsed/schema";
 
 export class Task {
   @Property() public name: string = "";

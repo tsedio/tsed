@@ -1,33 +1,24 @@
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {ExclusiveMinimum, JsonSchema} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {ExclusiveMinimum} from "../../../src/jsonschema";
 
 describe("ExclusiveMinimum", () => {
   describe("without explicit parameter", () => {
     it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      ExclusiveMinimum(10, true);
+      class Model {
+        @ExclusiveMinimum(0)
+        property: number;
+      }
 
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-
-      expect(schema.exclusiveMinimum).to.eq(10);
-
-      decorateStub.restore();
-    });
-  });
-  describe("without explicit parameter", () => {
-    it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      ExclusiveMinimum(10);
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-
-      expect(schema.exclusiveMinimum).to.eq(10);
-
-      decorateStub.restore();
+      expect(getJsonSchema(Model)).to.deep.eq({
+        properties: {
+          property: {
+            exclusiveMinimum: 0,
+            type: "number"
+          }
+        },
+        type: "object"
+      });
     });
   });
 });

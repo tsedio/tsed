@@ -29,8 +29,7 @@ const rootDir = __dirname;
   componentsScan: [
     "${rootDir}/mvc/**/*.ts",
     "${rootDir}/services/**/*.ts",
-    "${rootDir}/middlewares/**/*.ts",
-    "${rootDir}/converters/**/*.ts"
+    "${rootDir}/middlewares/**/*.ts"
   ],
   swagger: [
     {

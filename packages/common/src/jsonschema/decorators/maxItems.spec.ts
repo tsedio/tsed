@@ -1,28 +1,28 @@
+import {CollectionOf, getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, MaxItems} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {MaxItems} from "./maxItems";
 
-describe("MaxItems", () => {
-  it("should store data", () => {
-    const decorateStub = stubSchemaDecorator();
-    const schema = new JsonSchema();
-
-    MaxItems(10);
-    // @ts-ignore
-    decorateStub.getCall(0).args[0](schema);
-
-    expect(schema.maxItems).to.eq(10);
-
-    decorateStub.restore();
-  });
-
-  it("should throw an error when the given parameters is as negative integer", () => {
-    let error: any;
-    try {
-      MaxItems(-10);
-    } catch (er) {
-      error = er;
+describe("@MaxItems", () => {
+  it("should declare a prop", () => {
+    // WHEN
+    class Model {
+      @CollectionOf(Number)
+      @MaxItems(10)
+      num: number[];
     }
-    expect(error.message).to.deep.equal("The value of maxItems MUST be a non-negative integer.");
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        num: {
+          items: {
+            type: "number"
+          },
+          maxItems: 10,
+          type: "array"
+        }
+      },
+      type: "object"
+    });
   });
 });

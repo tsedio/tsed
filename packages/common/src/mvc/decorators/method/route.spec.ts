@@ -1,4 +1,5 @@
-import {All, Delete, Get, Head, Options, Patch, Post, Put, EndpointMetadata} from "@tsed/common";
+import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
+import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 
@@ -14,17 +15,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @All("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "all",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.ALL,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });
@@ -34,37 +36,38 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Get("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "get",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.GET,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
     it("should register route and middleware (2)", () => {
-      const middleware = () => {
-      };
+      const middleware = () => {};
 
       // WHEN
       class Test {
         @Get("/", middleware)
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "get",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.GET,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
       expect(endpoint.middlewares).to.deep.equal([middleware]);
     });
@@ -75,17 +78,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Post("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "post",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.POST,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });
@@ -95,17 +99,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Put("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "put",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.PUT,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });
@@ -115,17 +120,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Delete("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "delete",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.DELETE,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });
@@ -135,17 +141,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Head("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "head",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.HEAD,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });
@@ -155,17 +162,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Patch("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "patch",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.PATCH,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });
@@ -175,17 +183,18 @@ describe("Route decorators", () => {
       // WHEN
       class Test {
         @Options("/")
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([{
-        method: "options",
-        path: "/"
-      }]);
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+        {
+          method: OperationMethods.OPTIONS,
+          path: "/"
+        }
+      ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
   });

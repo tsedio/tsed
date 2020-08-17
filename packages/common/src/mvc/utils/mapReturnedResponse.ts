@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export function mapReturnedResponse({use, collection, ...options}: any): any {
   return {
     ...options,

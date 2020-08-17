@@ -122,6 +122,9 @@ Finally, @@BodyParams@@ accepts to give a @@IParamOptions@@ object as parameter 
 Since v5.51.0+, @@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
 
 ```typescript
+import {Controller, Get, QueryParams} from "@tsed/common";
+import {Required, MinLength, Property} from "@tsed/schema";
+
 class QueryParamsModel {
   @Required()
   @MinLength(1)
@@ -141,7 +144,7 @@ class QueryController {
 
 ### Headers
 
-@@HeaderParams@@ decorator provides you a quick access to the `Express.request.get()`
+@@HeaderParams@@ decorator provides you quick access to the `Express.request.get()`
 
 <<< @/docs/docs/snippets/controllers/request-headers.ts
 

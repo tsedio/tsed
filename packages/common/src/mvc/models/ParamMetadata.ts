@@ -1,11 +1,13 @@
-import {Enumerable, Storable, Store, Type} from "@tsed/core";
+import {DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/core";
+import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
 import {IFilter} from "../interfaces/IFilter";
+import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {ParamTypes} from "./ParamTypes";
 
-export interface IParamConstructorOptions {
-  target?: Type<any>;
-  propertyKey?: string | symbol;
-  index: number;
+export interface ParamConstructorOptions extends JsonEntityStoreOptions {
+  /**
+   * @deprecated
+   */
   required?: boolean;
   expression?: string;
   useType?: Type<any>;
@@ -21,7 +23,8 @@ export interface IPipe<T = any, R = any> {
   transform(value: T, metadata: ParamMetadata): R;
 }
 
-export class ParamMetadata extends Storable implements IParamConstructorOptions {
+@JsonEntityComponent(DecoratorTypes.PARAM)
+export class ParamMetadata extends JsonEntityStore implements ParamConstructorOptions {
   /**
    *
    */
@@ -39,8 +42,8 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
   @Enumerable()
   filter?: Type<IFilter>;
 
-  constructor(options: IParamConstructorOptions) {
-    super(options.target as Type<any>, options.propertyKey!, options.index);
+  constructor(options: ParamConstructorOptions) {
+    super(options);
 
     const {expression, paramType, filter, pipes} = options;
 
@@ -48,6 +51,13 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
     this.paramType = paramType || this.paramType;
     this.filter = filter;
     this.pipes = pipes || [];
+  }
+
+  /**
+   * Return the JsonOperation
+   */
+  get parameter(): JsonParameter {
+    return this._parameter;
   }
 
   get service(): string | Type<any> | ParamTypes {
@@ -62,30 +72,41 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
     }
   }
 
+  get required(): boolean {
+    return this.parameter.get("required");
+  }
+
+  set required(bool: boolean) {
+    this.parameter.required(bool);
+  }
+
+  get allowedRequiredValues() {
+    const schema = this.parameter.$schema;
+    const type: string | string[] = schema.get("type") || "";
+
+    return mapAllowedRequiredValues(type, schema.toJSON());
+  }
+
   static get(target: Type<any>, propertyKey: string | symbol, index: number): ParamMetadata {
-    const params = this.getParams(target, propertyKey);
-
-    if (!this.has(target, propertyKey, index)) {
-      params[index] = new ParamMetadata({target, propertyKey, index});
-      this.set(target, propertyKey, index, params[index]);
-    }
-
-    return params[index];
-  }
-
-  static has(target: Type<any>, propertyKey: string | symbol, index: number) {
-    return !!this.getParams(target, propertyKey)[index];
-  }
-
-  static set(target: Type<any>, propertyKey: string | symbol, index: number, paramMetadata: ParamMetadata): void {
-    const params = this.getParams(target, propertyKey);
-
-    params[index] = paramMetadata;
-
-    Store.fromMethod(target, String(propertyKey)).set("params", params);
+    return JsonEntityStore.from<ParamMetadata>(prototypeOf(target), propertyKey, index);
   }
 
   static getParams(target: Type<any>, propertyKey: string | symbol): ParamMetadata[] {
-    return Store.fromMethod(target, String(propertyKey)).get<ParamMetadata[]>("params") || [];
+    const params: ParamMetadata[] = [];
+
+    JsonEntityStore.fromMethod(target, propertyKey).children.forEach((param: ParamMetadata, index) => {
+      params[+index] = param;
+    });
+
+    return params;
+  }
+
+  /**
+   * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
+   * @param value
+   * @returns {boolean}
+   */
+  isRequired(value: any): boolean {
+    return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 }

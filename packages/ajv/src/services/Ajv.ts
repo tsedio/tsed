@@ -15,6 +15,7 @@ registerProvider({
 
     return new Ajv({
       verbose: false,
+      coerceTypes: true,
       ...props,
       ...options
     });

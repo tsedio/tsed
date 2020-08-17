@@ -1,5 +1,17 @@
-import {ParamTypes, Req, UseBefore, UseParamType, Use} from "@tsed/common";
-import {applyDecorators, descriptorOf, getDecoratorType, Metadata, Store} from "@tsed/core";
+import {ParamTypes, Req, Use, UseParamType} from "@tsed/common";
+import {
+  DecoratorParameters,
+  decoratorTypeOf,
+  DecoratorTypes,
+  Metadata,
+  Store,
+  StoreMerge,
+  StoreSet,
+  UnsupportedDecoratorType,
+  useDecorators,
+  useMethodDecorators
+} from "@tsed/core";
+import {Consumes, Returns} from "@tsed/schema";
 import * as multer from "multer";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
 
@@ -48,57 +60,54 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @multer
  */
 export function MultipartFile(name?: string | multer.Options, maxCount?: number): Function {
-  return (target: any, propertyKey: string | symbol, index: number): void => {
-    const type = getDecoratorType([target, propertyKey, index], true);
+  const options = typeof name === "object" ? name : undefined;
 
-    switch (type) {
+  return (...args: DecoratorParameters): void => {
+    switch (decoratorTypeOf(args)) {
       default:
-        throw new Error("MultipartFile is only supported on parameters");
+        throw new UnsupportedDecoratorType(MultipartFile, args);
 
-      case "parameter":
+      case DecoratorTypes.PARAM:
+        const [target, propertyKey, index] = args;
         const store = Store.fromMethod(target, String(propertyKey));
-        const multiple = Metadata.getParamTypes(target, propertyKey)[index] === Array;
-        const options = typeof name === "object" ? name : undefined;
+        const multiple = Metadata.getParamTypes(target, propertyKey)[index as number] === Array;
         const added = store.has("multipartAdded");
 
         name = (typeof name === "object" ? undefined : name)!;
 
-        // create endpoint metadata
-        store.merge("consumes", ["multipart/form-data"]).set("multipartAdded", true);
-        store
-          .merge("responses", {
-            "400": {
-              description: `<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]
-                            Example: File too long file1`
-            }
-          })
-          .set("multipartAdded", true);
-
-        if (!added) {
-          // middleware is added
-          Use(MultipartFileMiddleware)(target, propertyKey, descriptorOf(target, propertyKey));
-        }
-
-        if (name === undefined) {
-          store.merge(MultipartFileMiddleware, {
-            options,
-            any: true
-          });
-        } else {
-          store.merge(MultipartFileMiddleware, {
-            fields: [
-              {
-                name,
-                maxCount
-              }
-            ],
-            options
-          });
-        }
-
         const expression = ["files", name, !multiple && "0"].filter(Boolean).join(".");
 
-        applyDecorators(Req(expression), UseParamType(ParamTypes.FORM_DATA))(target, propertyKey, index);
+        const decorators = useDecorators(
+          useMethodDecorators(
+            Returns(400).Description(
+              `<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1`
+            ),
+            Consumes("multipart/form-data"),
+            StoreSet("multipartAdded", true),
+            !added && Use(MultipartFileMiddleware),
+            StoreMerge(
+              MultipartFileMiddleware,
+              name === undefined
+                ? {
+                    options,
+                    any: true
+                  }
+                : {
+                    fields: [
+                      {
+                        name,
+                        maxCount
+                      }
+                    ],
+                    options
+                  }
+            )
+          ),
+          Req(expression),
+          UseParamType(ParamTypes.FORM_DATA)
+        );
+
+        decorators(...args);
 
         break;
     }

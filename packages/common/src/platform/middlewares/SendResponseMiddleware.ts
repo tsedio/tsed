@@ -1,9 +1,9 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {ConverterService} from "../../converters";
 import {Middleware} from "../../mvc/decorators/class/middleware";
 import {Req} from "../../mvc/decorators/params/request";
 import {Res} from "../../mvc/decorators/params/response";
 import {IMiddleware} from "../../mvc/interfaces";
+import {ConverterService} from "../../mvc/services/ConverterService";
 
 /**
  * See example to override SendResponseMiddleware [here](/docs/middlewares/override/send-response.md).

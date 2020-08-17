@@ -1,0 +1,331 @@
+{
+  "paths": {
+    "/events": {
+      "head": {
+        "operationId": "eventCtrlHead",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      },
+      "get": {
+        "operationId": "eventCtrlQuery",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      }
+    },
+    "/events/{id}": {
+      "patch": {
+        "operationId": "eventCtrlPatch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "produces": [
+          "text/json"
+        ],
+        "tags": [
+          "EventCtrl"
+        ]
+      },
+      "get": {
+        "operationId": "eventCtrlFind",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      },
+      "put": {
+        "operationId": "eventCtrlSave",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EventModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      },
+      "delete": {
+        "operationId": "eventCtrlRemove",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      }
+    },
+    "/events/list": {
+      "post": {
+        "operationId": "eventCtrlUpdate",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "event": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/EventModel"
+                  }
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EventModel"
+              }
+            }
+          }
+        },
+        "produces": [
+          "text/json"
+        ],
+        "tags": [
+          "EventCtrl"
+        ]
+      },
+      "get": {
+        "operationId": "baseControllerIndex",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "Return all elements from a service",
+        "tags": [
+          "EventCtrl"
+        ]
+      }
+    },
+    "/events/status": {
+      "get": {
+        "operationId": "eventCtrlByStatus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "EventCtrl"
+        ]
+      }
+    },
+    "/events/{resources}/test/{id}": {
+      "get": {
+        "operationId": "baseControllerGetTest",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resources",
+            "description": "The resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id of the resource",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "Return an element by his resource",
+        "tags": [
+          "EventCtrl"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "EventCtrl"
+    }
+  ],
+  "definitions": {
+    "EventModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "1FDCHZKH"
+          ],
+          "description": "Description of event model id",
+          "title": "iD"
+        },
+        "startDate": {
+          "type": "string",
+          "examples": [
+            "2017-10-15T17:05:58.106Z"
+          ]
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        },
+        "mapAny": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "integer",
+              "number",
+              "string",
+              "boolean",
+              "array",
+              "object",
+              "null"
+            ]
+          }
+        },
+        "anyValue": {
+          "type": [
+            "integer",
+            "number",
+            "string",
+            "boolean",
+            "array",
+            "object",
+            "null"
+          ]
+        },
+        "tasksMap": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      },
+      "title": "Title event",
+      "required": [
+        "startDate",
+        "endDate",
+        "Name"
+      ]
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "percent": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

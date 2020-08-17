@@ -3,7 +3,7 @@ import {AuthenticateOptions as PassportAuthenticateOptions} from "passport";
 import {PassportMiddleware} from "../middlewares/PassportMiddleware";
 
 export interface AuthenticateOptions extends PassportAuthenticateOptions {
-  security?: any;
+  security?: {[key: string]: string[]};
   originalUrl?: boolean;
 }
 

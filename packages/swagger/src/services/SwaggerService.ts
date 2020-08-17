@@ -1,9 +1,9 @@
-import {Configuration, ControllerProvider, EndpointMetadata, InjectorService, Platform, Service} from "@tsed/common";
-import {deepExtends, nameOf, Store} from "@tsed/core";
+import {Configuration, ControllerProvider, InjectorService, Platform, Service} from "@tsed/common";
+import {deepExtends} from "@tsed/core";
+import {getSpec, SpecSerializerOptions, SpecTypes} from "@tsed/schema";
 import * as Fs from "fs";
-import {Schema, Spec, Tag} from "swagger-schema-official";
-import {OpenApiEndpointBuilder} from "../class/OpenApiEndpointBuilder";
-import {ISwaggerPaths, SwaggerSettings, SwaggerSpec} from "../interfaces";
+import {Spec, Tag} from "swagger-schema-official";
+import {SwaggerSettings, SwaggerSpec} from "../interfaces";
 import {getReducers} from "../utils";
 
 @Service()
@@ -12,7 +12,8 @@ export class SwaggerService {
     private injectorService: InjectorService,
     private platform: Platform,
     @Configuration() private configuration: Configuration
-  ) {}
+  ) {
+  }
 
   /**
    *
@@ -20,38 +21,38 @@ export class SwaggerService {
    */
   public getOpenAPISpec(conf: SwaggerSettings): Spec {
     const defaultSpec = this.getDefaultSpec(conf);
-    const paths: ISwaggerPaths = {};
-    const definitions = {};
     const doc = conf.doc;
-    let tags: Tag[] = [];
+    const finalSpec = {};
 
-    const getOperationId = this.createOperationIdFormatter(conf);
+    const options = {
+      paths: {},
+      tags: [],
+      schemas: {},
+      spec: SpecTypes.SWAGGER,
+      append(spec: any) {
+        deepExtends(finalSpec, spec, getReducers());
+      }
+    };
 
     this.platform.routes.forEach(({provider, route}) => {
       const hidden = provider.store.get("hidden");
       const docs = provider.store.get("docs") || [];
 
       if ((!doc && !hidden) || (doc && docs.indexOf(doc) > -1)) {
-        tags = tags.concat(this.buildRoutes(paths, definitions, provider, route, getOperationId));
+        const spec = this.buildRoutes(provider, {
+          ...options,
+          rootPath: route.replace(provider.path, "")
+        });
+
+        options.append(spec);
       }
     });
 
-    tags = tags.sort((a: Tag, b: Tag) => (a.name < b.name ? -1 : 1));
-
-    return deepExtends(
-      defaultSpec,
-      {
-        tags,
-        paths,
-        definitions
-      },
-      getReducers()
-    );
+    return deepExtends(defaultSpec, finalSpec, getReducers());
   }
 
   /**
    * Return the global api information.
-   * @returns {Info}
    */
   public getDefaultSpec(conf: Partial<SwaggerSettings>): Spec {
     const {version} = this.configuration;
@@ -72,12 +73,12 @@ export class SwaggerService {
 
     /* istanbul ignore next */
     const {title = "Api documentation", description = "", version: versionInfo, termsOfService = "", contact, license} =
-      spec.info || ({} as any);
+    spec.info || ({} as any);
 
     return deepExtends(
       {
-        swagger: "2.0",
         ...spec,
+        swagger: "2.0",
         info: {
           version: versionInfo || version,
           title,
@@ -110,88 +111,46 @@ export class SwaggerService {
 
   /**
    *
-   * @param paths
-   * @param definitions
    * @param ctrl
-   * @param endpointUrl
-   * @param getOperationId
+   * @param options
    */
-  private buildRoutes(
-    paths: ISwaggerPaths,
-    definitions: {[key: string]: Schema},
-    ctrl: ControllerProvider,
-    endpointUrl: string,
-    getOperationId: (targetName: string, methodName: string) => string
-  ): Tag[] {
-    let tags: Tag[] = [];
-
+  private buildRoutes(ctrl: ControllerProvider, options: SpecSerializerOptions): Tag[] {
     ctrl.children
       .map(ctrl => this.injectorService.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         if (!provider.store.get("hidden")) {
-          tags = tags.concat(this.buildRoutes(paths, definitions, provider, `${endpointUrl}${provider.path}`, getOperationId));
+          const spec = this.buildRoutes(provider, {
+            ...options,
+            rootPath: `${options.rootPath}${provider.path}`
+          });
+
+          options.append(spec);
         }
       });
 
-    ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      if (endpoint.store.get("hidden")) {
-        return;
-      }
-
-      endpoint.pathsMethods.forEach(pathMethod => {
-        /* istanbul ignore else */
-        if (!!pathMethod.method) {
-          const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod, getOperationId).build();
-
-          deepExtends(paths, builder.paths);
-          deepExtends(definitions, builder.definitions);
-        }
-      });
-    });
-
-    return ctrl.endpoints.length ? tags.concat(this.buildTags(ctrl)) : tags;
+    return getSpec(ctrl.token, options);
   }
 
-  /**
-   *
-   * @param ctrl
-   */
-  private buildTags(ctrl: ControllerProvider): Tag {
-    const clazz = ctrl.useClass;
-    const ctrlStore = Store.from(clazz);
-
-    return {
-      name: ctrlStore.get("name") || nameOf(clazz),
-      description: ctrlStore.get("description"),
-      ...(ctrlStore.get("tag") || {})
-    };
-  }
-
-  /**
-   *
-   * @param {SwaggerSettings} conf
-   * @returns {(targetName: string, methodName: string) => (any | string)}
-   */
-  private createOperationIdFormatter = (conf: SwaggerSettings) => {
-    const OPERATION_IDS: any = {};
-
-    return (targetName: string, methodName: string) => {
-      const {operationIdFormat = "%c.%m"} = conf || {};
-
-      const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
-      const operationKey = targetName + methodName;
-
-      if (OPERATION_IDS[operationKey] === undefined) {
-        OPERATION_IDS[operationKey] = 0;
-
-        return operationId;
-      }
-
-      const id = OPERATION_IDS[operationKey] + 1;
-
-      OPERATION_IDS[operationKey] = id;
-
-      return operationId + "_" + id;
-    };
-  };
+  // private createOperationIdFormatter = (conf: ISwaggerSettings) => {
+  //   const OPERATION_IDS: any = {};
+  //
+  //   return (targetName: string, methodName: string) => {
+  //     const {operationIdFormat = "%c.%m"} = conf || {};
+  //
+  //     const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
+  //     const operationKey = targetName + methodName;
+  //
+  //     if (OPERATION_IDS[operationKey] === undefined) {
+  //       OPERATION_IDS[operationKey] = 0;
+  //
+  //       return operationId;
+  //     }
+  //
+  //     const id = OPERATION_IDS[operationKey] + 1;
+  //
+  //     OPERATION_IDS[operationKey] = id;
+  //
+  //     return `${operationId}_${id}`;
+  //   };
+  // };
 }

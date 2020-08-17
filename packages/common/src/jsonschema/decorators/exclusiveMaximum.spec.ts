@@ -1,37 +1,22 @@
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {ExclusiveMaximum, JsonSchema} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {ExclusiveMaximum} from "../../../src/jsonschema";
 
 describe("ExclusiveMaximum", () => {
-  describe("with explicit parameter", () => {
-    it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      ExclusiveMaximum(10, true);
+  it("should store data", () => {
+    class Model {
+      @ExclusiveMaximum(10)
+      property: number;
+    }
 
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-
-      expect(schema.exclusiveMaximum).to.eq(10);
-      decorateStub.restore();
-    });
-  });
-
-  describe("without explicit parameter", () => {
-    before(() => {
-    });
-    after(() => {
-    });
-
-    it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      ExclusiveMaximum(10);
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-
-      expect(schema.exclusiveMaximum).to.eq(10);
-      decorateStub.restore();
+    expect(getJsonSchema(Model)).to.deep.eq({
+      properties: {
+        property: {
+          exclusiveMaximum: 10,
+          type: "number"
+        }
+      },
+      type: "object"
     });
   });
 });

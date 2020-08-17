@@ -1,5 +1,6 @@
+import {Store} from "@tsed/core";
+import {getJsonSchema, Property} from "@tsed/schema";
 import {expect} from "chai";
-import {descriptorOf, Store} from "@tsed/core";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {VirtualRef} from "../../src/decorators";
 
@@ -7,17 +8,34 @@ describe("@VirtualRef()", () => {
   describe("when type and foreign value are given", () => {
     it("should set metadata", () => {
       // GIVEN
-      class Test {}
+      class RefTest {}
 
-      const store = Store.from(Test, "test", descriptorOf(Test, "test"));
-      // WHEN
-      VirtualRef("RefTest", "foreign")(Test, "test", descriptorOf(Test, "test"));
+      class Test {
+        @VirtualRef("RefTest", "foreign")
+        @Property(() => RefTest)
+        test: VirtualRef<RefTest>;
+      }
 
       // THEN
+      const store = Store.from(Test, "test");
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
         foreignField: "foreign",
         localField: "test"
+      });
+
+      expect(getJsonSchema(Test)).to.deep.eq({
+        definitions: {
+          RefTest: {
+            type: "object"
+          }
+        },
+        properties: {
+          test: {
+            $ref: "#/definitions/RefTest"
+          }
+        },
+        type: "object"
       });
     });
   });
@@ -25,20 +43,36 @@ describe("@VirtualRef()", () => {
   describe("when options is given with minimal fields", () => {
     it("should set metadata", () => {
       // GIVEN
-      class Test {}
+      class RefTest {}
 
-      const store = Store.from(Test, "test", descriptorOf(Test, "test"));
-      const options = {type: "RefTest", foreignField: "foreign"};
-      // WHEN
-      VirtualRef(options)(Test, "test", descriptorOf(Test, "test"));
+      const type = () => RefTest;
+
+      class Test {
+        @VirtualRef({type, foreignField: "foreign"})
+        test: VirtualRef<RefTest>;
+      }
 
       // THEN
+      const store = Store.from(Test, "test");
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-        ref: "RefTest",
+        ref: type,
         localField: "test",
         foreignField: "foreign",
         justOne: false,
         options: undefined
+      });
+      expect(getJsonSchema(Test)).to.deep.eq({
+        definitions: {
+          RefTest: {
+            type: "object"
+          }
+        },
+        properties: {
+          test: {
+            $ref: "#/definitions/RefTest"
+          }
+        },
+        type: "object"
       });
     });
   });
@@ -46,26 +80,41 @@ describe("@VirtualRef()", () => {
   describe("when options is given with all fields", () => {
     it("should set metadata", () => {
       // GIVEN
-      class Test {}
+      class RefTest {}
 
-      const store = Store.from(Test, "test", descriptorOf(Test, "test"));
-      const options = {
-        type: "RefTest",
-        foreignField: "foreign",
-        localField: "test_2",
-        justOne: true,
-        options: {}
-      };
-      // WHEN
-      VirtualRef(options)(Test, "test", descriptorOf(Test, "test"));
+      class Test {
+        @VirtualRef({
+          type: "RefTest",
+          foreignField: "foreign",
+          localField: "test_2",
+          justOne: true,
+          options: {}
+        })
+        test: VirtualRef<RefTest>;
+      }
 
       // THEN
+      const store = Store.from(Test, "test");
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
         localField: "test_2",
         foreignField: "foreign",
         justOne: true,
         options: {}
+      });
+
+      expect(getJsonSchema(Test)).to.deep.eq({
+        definitions: {
+          VirtualRef: {
+            type: "object"
+          }
+        },
+        properties: {
+          test_2: {
+            $ref: "#/definitions/VirtualRef"
+          }
+        },
+        type: "object"
       });
     });
   });

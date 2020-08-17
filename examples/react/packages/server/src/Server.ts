@@ -38,7 +38,6 @@ const clientDir = path.join(rootDir, "../../client/build");
   componentsScan: [
     "${rootDir}/middlewares/**/*.ts",
     "${rootDir}/services/**/*.ts",
-    "${rootDir}/converters/**/*.ts",
     "${rootDir}/repositories/**/*.ts"
   ],
   swagger: [

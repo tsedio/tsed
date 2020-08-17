@@ -1,5 +1,4 @@
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {UniqueItems as U} from "@tsed/schema";
 
 /**
  * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.
@@ -49,10 +48,10 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @swagger
  * @schema
  * @input
+ * @ignore
  * @collections
+ * @deprecated Use @UniqueItems decorator from @tsed/schema instead of.
  */
 export function UniqueItems(uniqueItems: boolean = true) {
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.uniqueItems = uniqueItems;
-  });
+  return U(uniqueItems);
 }

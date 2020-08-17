@@ -9,13 +9,10 @@ class Test {
 
 describe("@MulterOptions()", () => {
   describe("when success", () => {
-    before(() => {
-      MulterOptions({dest: "/"})(Test.prototype, "test", descriptorOf(Test.prototype, "test"));
-      this.store = Store.fromMethod(Test.prototype, "test");
-    });
-
     it("should store metadata", () => {
-      expect(this.store.get(MultipartFileMiddleware)).to.deep.equal({
+      MulterOptions({dest: "/"})(Test.prototype, "test", descriptorOf(Test.prototype, "test"));
+      const store = Store.fromMethod(Test.prototype, "test");
+      expect(store.get(MultipartFileMiddleware)).to.deep.equal({
         options: {
           dest: "/"
         }
@@ -24,16 +21,14 @@ describe("@MulterOptions()", () => {
   });
 
   describe("when error", () => {
-    before(() => {
+    it("should store metadata", () => {
+      let actualError: any;
       try {
         MulterOptions({dest: "/"})(Test, "test", {});
       } catch (er) {
-        this.error = er;
+        actualError = er;
       }
-    });
-
-    it("should store metadata", () => {
-      expect(this.error.message).to.eq("MulterOptions is only supported on method");
+      expect(actualError.message).to.eq("MulterOptions cannot be used as class decorator on Test.test");
     });
   });
 });

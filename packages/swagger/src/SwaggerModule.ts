@@ -1,4 +1,4 @@
-import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication, redirectMiddleware} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import {join} from "path";
@@ -6,6 +6,7 @@ import {SwaggerSettings} from "./interfaces";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
+import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
@@ -19,10 +20,13 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     private swaggerService: SwaggerService,
     @Configuration() private configuration: Configuration,
     private platformApplication: PlatformApplication
-  ) {}
+  ) {
+  }
 
   get settings() {
-    return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter(o => !!o);
+    return ([] as SwaggerSettings[])
+      .concat(this.configuration.get<SwaggerSettings[]>("swagger"))
+      .filter(o => !!o);
   }
 
   /**
@@ -46,7 +50,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   $onRoutesInit() {
-    this.settings.forEach(conf => {
+    this.settings.forEach((conf) => {
       const {outFile} = conf;
       const spec = this.swaggerService.getOpenAPISpec(conf);
 
@@ -60,7 +64,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     const {httpsPort, httpPort} = this.configuration;
 
     const displayLog = (host: any) => {
-      this.settings.forEach(conf => {
+      this.settings.forEach((conf) => {
         const {path = "/", doc} = conf;
         const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 

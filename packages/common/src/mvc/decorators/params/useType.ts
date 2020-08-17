@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {ParamFn} from "./paramFn";
+import {CollectionOf} from "@tsed/schema";
 
 /**
  * Set the type of the item colllection.
@@ -13,7 +13,5 @@ import {ParamFn} from "./paramFn";
  * @alias CollectionOf
  */
 export function UseType(type: any | Type<any>) {
-  return ParamFn(param => {
-    param.type = type;
-  });
+  return CollectionOf(type);
 }

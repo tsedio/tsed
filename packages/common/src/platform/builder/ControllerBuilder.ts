@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {IPathMethod} from "../../mvc/interfaces/IPathMethod";
+import {JsonMethodPath, OperationMethods} from "@tsed/schema";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {IPlatformDriver} from "../interfaces/IPlatformDriver";
@@ -8,6 +8,10 @@ import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {SendResponseMiddleware} from "../middlewares/SendResponseMiddleware";
 import {statusAndHeadersMiddleware} from "../middlewares/statusAndHeadersMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
+
+function formatMethod(method: string | undefined) {
+  return (method === OperationMethods.CUSTOM ? "use" : method || "use").toLowerCase();
+}
 
 export class ControllerBuilder {
   constructor(private provider: ControllerProvider) {}
@@ -34,29 +38,28 @@ export class ControllerBuilder {
 
   private buildEndpoints() {
     const {endpoints} = this.provider;
-    const pathsMethodsMap: Map<string, IPathMethod> = new Map();
+    const operationPaths: Map<string, JsonMethodPath> = new Map();
     const getKey = (method: string, path: any) => `${method}-${path}`;
 
     const updateFinalRouteState = (key: string) => {
-      if (pathsMethodsMap.has(key)) {
-        pathsMethodsMap.get(key)!.isFinal = false;
+      if (operationPaths.has(key)) {
+        operationPaths.get(key)!.isFinal = false;
       }
     };
 
-    const setFinalRoute = (key: string, pathMethod: IPathMethod) => {
-      pathsMethodsMap.set(key, pathMethod);
-      pathMethod.isFinal = true;
+    const setFinalRoute = (key: string, operationPath: JsonMethodPath) => {
+      operationPaths.set(key, operationPath);
+      operationPath.isFinal = true;
     };
-    endpoints.forEach(({pathsMethods}) => {
-      pathsMethods.forEach(pathMethod => {
-        pathMethod.method = pathMethod.method || "use";
 
-        if (pathMethod.method !== "use") {
-          const key = getKey(pathMethod.method, pathMethod.path);
+    endpoints.forEach(({operation}) => {
+      operation?.operationPaths.forEach(operationPath => {
+        if (operationPath.method !== OperationMethods.CUSTOM) {
+          const key = getKey(operationPath.method, operationPath.path);
           updateFinalRouteState(key);
-          updateFinalRouteState(getKey("all", pathMethod.path));
+          updateFinalRouteState(getKey(OperationMethods.ALL, operationPath.path));
 
-          setFinalRoute(key, pathMethod);
+          setFinalRoute(key, operationPath);
         }
       });
     });
@@ -69,7 +72,7 @@ export class ControllerBuilder {
   }
 
   private buildEndpoint(endpoint: EndpointMetadata) {
-    const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, pathsMethods} = endpoint;
+    const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, operation} = endpoint;
     const {
       router,
       middlewares: {use}
@@ -88,13 +91,12 @@ export class ControllerBuilder {
       .filter((item: any) => !!item);
 
     // Add handlers to the router
-    pathsMethods.forEach(({path, method, isFinal}) => {
+    operation?.operationPaths.forEach(({path, method, isFinal}) => {
       const localHandlers = isFinal ? handlers.concat(SendResponseMiddleware) : handlers;
-
-      router.addRoute({method: method!, path, handlers: localHandlers});
+      router.addRoute({method: formatMethod(method), path, handlers: localHandlers});
     });
 
-    if (!pathsMethods.length) {
+    if (!operation?.operationPaths.size) {
       router.use(...handlers);
     }
   }

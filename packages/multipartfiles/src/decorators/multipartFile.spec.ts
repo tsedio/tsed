@@ -1,48 +1,30 @@
-import {ParamMetadata, ParamTypes} from "@tsed/common";
+import {ParamMetadata, ParamTypes, Post} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
+import {getSpec} from "@tsed/schema";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {MultipartFile} from "../../src";
 import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
 
 class Test {
-  test() {
-  }
+  test() {}
 }
 
 describe("@MultipartFile()", () => {
   const sandbox = Sinon.createSandbox();
-  before(() => {
-    sandbox.stub(Metadata, "getParamTypes");
-    sandbox.stub(Store, "fromMethod");
-  });
-
-  after(() => {
-    sandbox.restore();
-  });
 
   describe("new version", () => {
     describe("one file", () => {
-      let store: Store;
-      before(() => {
-        store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
-        store.delete("multipartAdded");
-        // @ts-ignore
-        store.delete(MultipartFileMiddleware);
-
-        // @ts-ignore
-        Store.fromMethod.returns(store);
-        // @ts-ignore
-        Metadata.getParamTypes.returns([Object]);
-
-        MultipartFile("file1", 1)(Test.prototype, "test", 0);
-      });
-
-      after(() => {
-        sandbox.reset();
-      });
-
       it("should set endpoint metadata", () => {
+        // WHEN
+        class TestController {
+          @Post("/")
+          test(@MultipartFile("file1", 1) file: any) {}
+        }
+
+        // THEN
+        const store = Store.fromMethod(TestController, "test");
+
         expect(store.get(MultipartFileMiddleware)).to.deep.eq({
           fields: [
             {
@@ -52,15 +34,53 @@ describe("@MultipartFile()", () => {
           ],
           options: undefined
         });
-      });
 
-      it("should set params metadata", () => {
-        const param = ParamMetadata.get(Test, "test", 0);
+        const param = ParamMetadata.get(TestController, "test", 0);
         expect(param.expression).to.eq("files.file1.0");
         expect(param.paramType).to.eq(ParamTypes.FORM_DATA);
+
+        expect(getSpec(TestController)).to.deep.eq({
+          definitions: {},
+          paths: {
+            "/": {
+              post: {
+                consumes: ["multipart/form-data"],
+                operationId: "testControllerTest",
+                parameters: [],
+                produces: [
+                  "text/json"
+                ],
+                responses: {
+                  "400": {
+                    description:
+                      "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                tags: ["TestController"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "TestController"
+            }
+          ]
+        });
       });
     });
     describe("multiple files", () => {
+      before(() => {
+        sandbox.stub(Metadata, "getParamTypes");
+        sandbox.stub(Store, "fromMethod");
+      });
+
+      after(() => {
+        sandbox.restore();
+      });
+
       let store: Store;
       before(() => {
         store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
@@ -101,6 +121,15 @@ describe("@MultipartFile()", () => {
   });
 
   describe("legacy", () => {
+    before(() => {
+      sandbox.stub(Metadata, "getParamTypes");
+      sandbox.stub(Store, "fromMethod");
+    });
+
+    after(() => {
+      sandbox.restore();
+    });
+
     describe("as parameter decorator", () => {
       describe("one file", () => {
         let store: Store;
@@ -188,7 +217,7 @@ describe("@MultipartFile()", () => {
     });
 
     it("should store metadata", () => {
-      expect(error.message).to.eq("MultipartFile is only supported on parameters");
+      expect(error.message).to.eq("MultipartFile cannot be used as class decorator on Test.test");
     });
   });
 });

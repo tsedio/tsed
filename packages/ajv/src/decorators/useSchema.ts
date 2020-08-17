@@ -1,12 +1,11 @@
-import {StoreMerge} from "@tsed/core";
+import {Schema} from "@tsed/schema";
 import {JSONSchema6} from "json-schema";
-import {AjvValidationPipe} from "../pipes/AjvValidationPipe";
 
 /**
  * Use raw JsonSchema to validate parameter.
  * @param schema
- * @constructor
+ * @deprecated Use @Schema from @tsed/schema
  */
 export function UseSchema(schema: JSONSchema6) {
-  return StoreMerge(AjvValidationPipe, {schema});
+  return Schema(schema);
 }

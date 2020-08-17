@@ -1,3 +1,4 @@
+import {applyDecorators} from "@tsed/core";
 import {ReturnType} from "./returnType";
 
 /**
@@ -45,12 +46,12 @@ import {ReturnType} from "./returnType";
  * @response
  */
 export function Status(code: number, options: Partial<TsED.ResponseOptions> = {}) {
-  const {use, collection} = options as any;
-
-  return ReturnType({
-    ...options,
-    code,
-    type: options.type || use,
-    collectionType: options.collectionType || collection
-  });
+  return applyDecorators(
+    ReturnType({
+      ...options,
+      code,
+      collectionType: (options as any).collection || options.collectionType,
+      type: (options as any).use || options.type
+    })
+  );
 }

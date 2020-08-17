@@ -1,5 +1,4 @@
-import {decoratorTypeOf, DecoratorTypes, StoreMerge} from "@tsed/core";
-import {Schema} from "./schema";
+import {Title as T} from "@tsed/schema";
 
 /**
  * Add title metadata on the decorated element.
@@ -39,18 +38,9 @@ import {Schema} from "./schema";
  * @classDecorator
  * @propertyDecorator
  * @input
+ * @ignore
+ * @deprecated Use @Title decorator from @tsed/schema instead of.
  */
-export function Title(title: string): Function {
-  return (...args: any[]) => {
-    const type = decoratorTypeOf(args);
-
-    switch (type) {
-      case DecoratorTypes.METHOD:
-        return StoreMerge("operation", {title})(...args);
-      case DecoratorTypes.PARAM:
-        return StoreMerge("baseParameter", {title})(...args);
-      default:
-        return Schema({title})(...args);
-    }
-  };
+export function Title(title: string) {
+  return T(title);
 }

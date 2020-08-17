@@ -13,9 +13,7 @@ export * from "./models/PropertyMetadata";
 
 // registries
 export * from "./registries/MiddlewareRegistry";
-export * from "./registries/ParamRegistry";
 export * from "./registries/FilterRegistry";
-export * from "./registries/PropertyRegistry";
 
 // components
 export * from "./middlewares/AuthenticatedMiddleware";
@@ -29,6 +27,7 @@ export * from "./pipes/DeserializerPipe";
 // services
 export * from "./services/ParseService";
 export * from "./services/ValidationService";
+export * from "./services/ConverterService";
 
 // errors
 export * from "./errors/TemplateRenderingError";

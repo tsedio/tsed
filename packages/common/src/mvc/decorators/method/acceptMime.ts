@@ -1,4 +1,5 @@
 import {applyDecorators, StoreSet} from "@tsed/core";
+import {Consumes} from "@tsed/schema";
 import {AcceptMimesMiddleware} from "../../middlewares/AcceptMimesMiddleware";
 import {UseBefore} from "./useBefore";
 
@@ -21,5 +22,5 @@ import {UseBefore} from "./useBefore";
  * @response
  */
 export function AcceptMime(...mimes: string[]): Function {
-  return applyDecorators(StoreSet(AcceptMimesMiddleware, mimes), UseBefore(AcceptMimesMiddleware));
+  return applyDecorators(Consumes(...mimes), StoreSet(AcceptMimesMiddleware, mimes), UseBefore(AcceptMimesMiddleware));
 }

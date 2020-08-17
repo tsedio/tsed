@@ -133,8 +133,7 @@ describe("Query spec", () => {
     });
     it("should throw bad request", async () => {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
-      // FIXME REMOVE THIS when @tsed/schema is out
-      expect(response.text).to.deep.equal("Bad request on parameter \"request.query.test\".<br />Cast error. Expression value is not a number.");
+      expect(response.text).to.deep.equal("Bad request on parameter \"request.query.test\".<br />Value should be number. Given value: \"error\"");
     });
     it("should return undefined when query is empty", async () => {
       const response = await request.get(`${endpoint}?test=null`).expect(200);

@@ -20,14 +20,13 @@ import {
   Required,
   Res,
   Response,
+  Returns,
   Status,
   Use,
-  UseAfter,
-  Returns,
-  Description
+  UseAfter
 } from "@tsed/common";
 import {MulterFileSize, MultipartFile} from "@tsed/multipartfiles";
-import {Deprecated, Security} from "@tsed/swagger";
+import {Deprecated, Description, Security} from "@tsed/schema";
 import * as Express from "express";
 import {OAuth} from "../../decorators/oauth";
 import {CalendarModel} from "../../models/Calendar";
@@ -117,7 +116,7 @@ export class CalendarCtrl extends BaseController {
   public updateToken(
     @PathParams("token")
     @Description("Token required to update token")
-    token: string
+      token: string
   ): string {
     this.tokenService.token(token);
 
@@ -143,7 +142,7 @@ export class CalendarCtrl extends BaseController {
     @Response() response: Express.Response,
     @PathParams("id")
     @Required()
-    id: string
+      id: string
   ): void {
     const model = new CalendarModel();
     model.id = "1";
@@ -215,7 +214,7 @@ export class CalendarCtrl extends BaseController {
   public save(
     @BodyParams("name")
     @Required()
-    name: string
+      name: string
   ): CalendarModel {
     const model = new CalendarModel();
     model.id = "2";
@@ -232,7 +231,7 @@ export class CalendarCtrl extends BaseController {
   public remove(
     @BodyParams("id")
     @Required()
-    id: string
+      id: string
   ): void {
     return undefined;
   }

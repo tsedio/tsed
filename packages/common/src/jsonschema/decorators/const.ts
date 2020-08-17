@@ -1,5 +1,5 @@
+import {Const as C} from "@tsed/schema";
 import {JSONSchema6Type} from "json-schema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * The const keyword is used to restrict a value to a fixed value.
@@ -60,9 +60,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Use @Const decorator from @tsed/schema instead of.
  */
 export function Const(constValue: JSONSchema6Type | any) {
-  return decoratorSchemaFactory(schema => {
-    schema.mapper.const = constValue;
-  });
+  return C(constValue);
 }

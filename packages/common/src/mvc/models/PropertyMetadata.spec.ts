@@ -1,87 +1,47 @@
-import {Store} from "@tsed/core";
+import {Allow, Ignore, Property, Required} from "@tsed/schema";
 import {expect} from "chai";
 import {PropertyMetadata} from "./PropertyMetadata";
 
-class Test {
-  method(arg1: any, arg2: any) {
-  }
-}
-
-class Parent {
-  id: string;
-  name: string;
-  categoryId: string;
-}
-
-class Children extends Parent {
-  id: string;
-  test: string;
-  categoryId: string;
-}
-
-class Children2 extends Parent {
-  id: string;
-  test: string;
-  categoryId: string;
-}
-
 describe("PropertyMetadata", () => {
-  describe("getter / setter", () => {
-    let propertyMetadata: PropertyMetadata;
+  describe("required() and allowRequiredValues", () => {
+    it("should return the required value", () => {
+      class Test {
+        @Required(true)
+        @Allow(null, "")
+        test: string;
+      }
 
-    before(() => {
-      propertyMetadata = new PropertyMetadata(Test, "test");
+      const propertyMetadata = PropertyMetadata.get(Test, "test");
       propertyMetadata.required = true;
       propertyMetadata.type = Test;
-      propertyMetadata.allowedRequiredValues = [null, ""];
-    });
 
-    it("should return the required value", () => {
       expect(propertyMetadata.required)
         .to.be.a("boolean")
         .and.to.eq(true);
-    });
 
-    it("should return collectionType", () => {
       expect(propertyMetadata.collectionType).to.eq(undefined);
-    });
-
-    it("should return type", () => {
       expect(propertyMetadata.type).to.eq(Test);
-    });
-
-    it("should return collectionName", () => {
       expect(propertyMetadata.collectionName).to.eq("");
-    });
-
-    it("should return typeName", () => {
       expect(propertyMetadata.typeName).to.eq("Test");
-    });
-
-    it("should return isCollection", () => {
       expect(propertyMetadata.isCollection).to.eq(false);
-    });
+      expect(propertyMetadata.ignoreProperty).to.eq(false);
 
-    it("should return allowedRequiredValues", () => {
-      expect(propertyMetadata.allowedRequiredValues).to.deep.eq([null, ""]);
-    });
-
-    it("should return a Store", () => {
-      expect(propertyMetadata.store).to.be.an.instanceOf(Store);
-    });
-
-    it("should return schema", () => {
-      expect(propertyMetadata.schema.toJSON()).to.deep.eq({$ref: "#/definitions/Test"});
+      propertyMetadata.ignoreProperty = true;
+      expect(propertyMetadata.ignoreProperty).to.eq(true);
     });
   });
 
   describe("isRequired", () => {
     describe("when property is required", () => {
+      class Test {
+        @Required(true)
+        test: string;
+      }
+
       let propertyMetadata: PropertyMetadata;
 
       before(() => {
-        propertyMetadata = new PropertyMetadata(Test, "test");
-        propertyMetadata.allowedRequiredValues = [];
+        propertyMetadata = PropertyMetadata.get(Test, "test");
         propertyMetadata.required = true;
       });
       it("should return false (value 0)", () => {
@@ -100,73 +60,120 @@ describe("PropertyMetadata", () => {
     });
 
     describe("when property is required and have allowed values", () => {
-      let propertyMetadata: PropertyMetadata;
+      it("should validate the required values", () => {
+        class Test {
+          @Required()
+          @Allow(null)
+          test: string;
+        }
 
-      before(() => {
-        propertyMetadata = new PropertyMetadata(Test, "test");
-        propertyMetadata.allowedRequiredValues = [null];
-        propertyMetadata.required = true;
-      });
-      it("should return false (value 0)", () => {
+        let propertyMetadata: PropertyMetadata;
+        propertyMetadata = PropertyMetadata.get(Test, "test");
+
+        expect(propertyMetadata.allowedRequiredValues).to.deep.eq([null]);
         expect(propertyMetadata.isRequired(0)).to.be.false;
+        expect(propertyMetadata.isRequired("")).to.be.true;
+        expect(propertyMetadata.isRequired(null)).to.be.false;
+        expect(propertyMetadata.isRequired(undefined)).to.be.true;
       });
 
-      it("should return true (value '')", () => {
-        expect(propertyMetadata.isRequired("")).to.be.true;
+      it("should validate the required values (2)", () => {
+        class Test {
+          @Allow("")
+          test: string;
+        }
+
+        let propertyMetadata: PropertyMetadata;
+        propertyMetadata = PropertyMetadata.get(Test, "test");
+
+        expect(propertyMetadata.allowedRequiredValues).to.deep.eq([""]);
+        expect(propertyMetadata.isRequired(0)).to.be.false;
+        expect(propertyMetadata.isRequired("")).to.be.false;
+        expect(propertyMetadata.isRequired(null)).to.be.true;
+        expect(propertyMetadata.isRequired(undefined)).to.be.true;
       });
-      it("should return false (value null)", () => {
-        expect(propertyMetadata.isRequired(null)).to.be.false;
-      });
-      it("should return true (value undefined)", () => {
+
+      it("should validate the required values (3)", () => {
+        class Test {
+          @Allow("")
+          test: string;
+        }
+
+        let propertyMetadata: PropertyMetadata;
+        propertyMetadata = PropertyMetadata.get(Test, "test");
+
+        expect(propertyMetadata.allowedRequiredValues).to.deep.eq([""]);
+        expect(propertyMetadata.isRequired(0)).to.be.false;
+        expect(propertyMetadata.isRequired("")).to.be.false;
+        expect(propertyMetadata.isRequired(null)).to.be.true;
         expect(propertyMetadata.isRequired(undefined)).to.be.true;
       });
     });
 
     describe("when property is not required", () => {
-      let propertyMetadata: PropertyMetadata;
+      it("should validate values", () => {
+        class Test {
+          @Required(false)
+          test: string;
+        }
 
-      before(() => {
-        propertyMetadata = new PropertyMetadata(Test, "test");
-        propertyMetadata.allowedRequiredValues = [];
+        const propertyMetadata = PropertyMetadata.get(Test, "test");
         propertyMetadata.required = false;
-      });
-      it("should return false (value 0)", () => {
         expect(propertyMetadata.isRequired(0)).to.be.false;
-      });
-
-      it("should return false (value '')", () => {
         expect(propertyMetadata.isRequired("")).to.be.false;
-      });
-      it("should return false (value null)", () => {
         expect(propertyMetadata.isRequired(null)).to.be.false;
-      });
-      it("should return false (value undefined)", () => {
         expect(propertyMetadata.isRequired(undefined)).to.be.false;
       });
     });
   });
+
   describe("get()", () => {
-    before(() => {
-    });
+    class Test {
+      test: string;
+    }
 
     it("should return the propertyMetadata", () => {
       const propertyMetadata = PropertyMetadata.get(Test, "test");
       expect(propertyMetadata).to.be.an.instanceof(PropertyMetadata);
     });
   });
+
   describe("getProperties()", () => {
-    before(() => {
-      PropertyMetadata.get(Children, "id");
-      PropertyMetadata.get(Children, "test");
-      PropertyMetadata.get(Children, "categoryId").ignoreProperty = true;
-      PropertyMetadata.get(Children2, "id");
-      PropertyMetadata.get(Children2, "test");
-      PropertyMetadata.get(Children2, "categoryId");
-      PropertyMetadata.get(Parent, "id");
-      PropertyMetadata.get(Parent, "name");
-      PropertyMetadata.get(Parent, "_id").ignoreProperty = true;
-      PropertyMetadata.get(Parent, "categoryId");
-    });
+    class Parent {
+      @Ignore()
+      _id: string;
+
+      @Property()
+      id: string;
+
+      @Property()
+      name: string;
+
+      @Property()
+      categoryId: string;
+    }
+
+    class Children extends Parent {
+      @Property()
+      id: string;
+
+      @Property()
+      test: string;
+
+      @Ignore()
+      categoryId: string;
+    }
+
+    class Children2 extends Parent {
+      @Property()
+      id: string;
+
+      @Property()
+      test: string;
+
+      @Property()
+      categoryId: string;
+    }
 
     describe("when is the Children class", () => {
       it("should have a property id metadata from Children class", () => {
@@ -213,8 +220,6 @@ describe("PropertyMetadata", () => {
     });
 
     describe("when is the Parent class", () => {
-      before(() => {
-      });
       it("should have a property name metadata from Parent class", () => {
         const result = PropertyMetadata.getProperties(Parent);
         expect(result.has("test")).to.eq(false);

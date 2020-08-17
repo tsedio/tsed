@@ -31,20 +31,11 @@ describe("AuthOptions()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-
-      expect(store.get("operation")).to.deep.eq({
-        security: [
-          {
-            auth: ["email"]
-          }
-        ]
-      });
       expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
         }
       });
-      store.set("operation", {});
       store.set("responses", {});
     });
   });
@@ -70,21 +61,12 @@ describe("AuthOptions()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-
-      expect(store.get("operation")).to.deep.eq({
-        security: [
-          {
-            auth: ["email"]
-          }
-        ]
-      });
       expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
         }
       });
 
-      store.set("operation", {});
       store.set("responses", {});
     });
   });

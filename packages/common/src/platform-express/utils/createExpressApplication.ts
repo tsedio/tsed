@@ -1,7 +1,9 @@
 import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 import {ExpressApplication} from "../decorators/expressApplication";
-
+/**
+ * @ignore
+ */
 export function createExpressApplication(injector: InjectorService): void {
   injector.forkProvider(ExpressApplication);
 }

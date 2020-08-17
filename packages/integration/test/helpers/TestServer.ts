@@ -1,11 +1,6 @@
 import "@tsed/ajv";
-import {
-  Configuration,
-  GlobalAcceptMimesMiddleware,
-  PlatformApplication,
-  Inject
-} from "@tsed/common";
-import "@tsed/platform-express"
+import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
 
 const cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),

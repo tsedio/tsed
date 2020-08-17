@@ -1,15 +1,22 @@
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, Schema} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {Schema} from "./schema";
 
 describe("Schema()", () => {
   it("should store data", () => {
-    const decorateStub = stubSchemaDecorator();
-    const schema = new JsonSchema();
-    Schema({description: "description"});
-    // @ts-ignore
-    decorateStub.getCall(0).args[0](schema);
-    expect(schema.description).to.eq("description");
-    decorateStub.restore();
+    class Model {
+      @Schema({description: "description"})
+      test: number[];
+    }
+
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        test: {
+          description: "description",
+          type: "array"
+        }
+      },
+      type: "object"
+    });
   });
 });

@@ -1,17 +1,23 @@
-import {prototypeOf} from "@tsed/core";
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
 import {Name} from "./propertyName";
-import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 
 describe("@Name", () => {
   it("should create a propertyMetadata", () => {
-    class Test {
-      @Name("name")
-      test: string;
+    // WHEN
+    class Model {
+      @Name("num2")
+      num: number;
     }
 
-    const propertyMetadata = PropertyMetadata.get(prototypeOf(Test), "test");
-
-    expect(propertyMetadata.name).to.deep.eq("name");
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        num2: {
+          type: "number"
+        }
+      },
+      type: "object"
+    });
   });
 });

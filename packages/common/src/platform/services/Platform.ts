@@ -121,9 +121,9 @@ export class Platform {
       });
 
     ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      const {pathsMethods, params, targetName, propertyKey} = endpoint;
+      const {operationPaths, params, targetName, propertyKey} = endpoint;
 
-      pathsMethods.forEach(({path, method}) => {
+      operationPaths.forEach(({path, method}) => {
         if (!!method) {
           routes.push({
             method,

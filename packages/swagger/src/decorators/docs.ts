@@ -1,8 +1,10 @@
 import {StoreMerge} from "@tsed/core";
 
 /**
+ * Set the type documentation for this class.
  *
- * @returns {Function}
+ * See [swagger documentation](/tutorials/swagger.html)
+ *
  * @decorator
  * @swagger
  * @param docs

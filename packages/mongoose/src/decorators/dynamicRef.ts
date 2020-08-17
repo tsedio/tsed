@@ -1,5 +1,5 @@
-import {Property, Schema} from "@tsed/common";
-import {applyDecorators, Store, StoreFn, StoreMerge} from "@tsed/core";
+import {StoreMerge, useDecorators} from "@tsed/core";
+import {Description, Example, Property} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 
@@ -34,17 +34,11 @@ import {MONGOOSE_SCHEMA} from "../constants";
  * @mongoose
  * @property
  */
-export function DynamicRef(refPath: string) {
-  return applyDecorators(
+export function DynamicRef(refPath: string): PropertyDecorator {
+  return useDecorators(
     Property(String),
-    Schema({
-      type: String,
-      example: "5ce7ad3028890bd71749d477",
-      description: "Mongoose Ref ObjectId"
-    }),
-    StoreFn((store: Store) => {
-      delete store.get("schema").$ref;
-    }),
+    Example("5ce7ad3028890bd71749d477"),
+    Description("Mongoose Ref ObjectId"),
     StoreMerge(MONGOOSE_SCHEMA, {
       type: MongooseSchema.Types.ObjectId,
       refPath
