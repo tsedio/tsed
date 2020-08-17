@@ -1,6 +1,6 @@
 {
   "name": "@tsed/integration",
-  "version": "6.0.0-alpha.3",
+  "version": "6.0.0-alpha.4",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,19 +8,21 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
-    "@tsed/ajv": "6.0.0-alpha.3",
-    "@tsed/common": "6.0.0-alpha.3",
-    "@tsed/core": "6.0.0-alpha.3",
-    "@tsed/di": "6.0.0-alpha.3",
-    "@tsed/graphql": "6.0.0-alpha.3",
-    "@tsed/mongoose": "6.0.0-alpha.3",
-    "@tsed/multipartfiles": "6.0.0-alpha.3",
-    "@tsed/passport": "6.0.0-alpha.3",
-    "@tsed/seq": "6.0.0-alpha.3",
-    "@tsed/servestatic": "6.0.0-alpha.3",
-    "@tsed/swagger": "6.0.0-alpha.3",
-    "@tsed/testing-mongoose": "6.0.0-alpha.3",
-    "@tsed/typeorm": "6.0.0-alpha.3"
+    "@tsed/ajv": "6.0.0-alpha.4",
+    "@tsed/common": "6.0.0-alpha.4",
+    "@tsed/core": "6.0.0-alpha.4",
+    "@tsed/di": "6.0.0-alpha.4",
+    "@tsed/graphql": "6.0.0-alpha.4",
+    "@tsed/mongoose": "6.0.0-alpha.4",
+    "@tsed/multipartfiles": "6.0.0-alpha.4",
+    "@tsed/passport": "6.0.0-alpha.4",
+    "@tsed/seq": "6.0.0-alpha.4",
+    "@tsed/servestatic": "6.0.0-alpha.4",
+    "@tsed/swagger": "6.0.0-alpha.4",
+    "@tsed/testing-mongoose": "6.0.0-alpha.4",
+    "@tsed/typeorm": "6.0.0-alpha.4"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {},
+  "peerDependencies": {}
 }
