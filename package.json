@@ -170,6 +170,7 @@
   },
   "monorepo": {
     "productionBranch": "alpha",
+    "developBranch": "alpha",
     "npmAccess": "public",
     "npmDistTag": "alpha",
     "ignoreSyncDependencies": [
