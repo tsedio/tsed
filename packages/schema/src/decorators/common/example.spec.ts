@@ -6,9 +6,7 @@ import {Example} from "./example";
 describe("@Example", () => {
   it("should declare description on class", () => {
     // WHEN
-    @Example({
-      default: {id: "id"}
-    })
+    @Example({id: "id"})
     class Model {}
 
     // THEN
@@ -23,12 +21,12 @@ describe("@Example", () => {
   });
   it("should declare description on class with description", () => {
     // WHEN
-    @Example("name", "description")
+    @Example({id: "id"})
     class Model {}
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      examples: ["description"],
+      examples: [{id: "id"}],
       type: "object"
     });
   });
@@ -59,12 +57,12 @@ describe("@Example", () => {
         method() {}
       }
 
-      Example("example")(Test.prototype, "method", descriptorOf(Test, "method"));
+      Example("example")(Test, "method", descriptorOf(Test, "method"));
     } catch (er) {
       actualError = er;
     }
 
     // THEN
-    expect(actualError.message).to.deep.equal("Example cannot be used as method decorator on Test.method");
+    expect(actualError.message).to.deep.equal("Example cannot be used as method.static decorator on Test.method");
   });
 });

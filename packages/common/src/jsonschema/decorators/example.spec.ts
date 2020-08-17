@@ -70,26 +70,4 @@ describe("@Example", () => {
       type: "object"
     });
   });
-  it("should declare description on property (with two params on class)", () => {
-    // WHEN
-
-    @Example("method", "description")
-    class Model {
-      @Property()
-      method: string;
-    }
-
-    // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
-      example: {
-        method: "description"
-      },
-      properties: {
-        method: {
-          type: "string"
-        }
-      },
-      type: "object"
-    });
-  });
 });
