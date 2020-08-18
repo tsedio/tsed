@@ -33,7 +33,6 @@ export * from "./services/PlatformDriver";
 export * from "./services/PlatformHandler";
 export * from "./services/PlatformRouter";
 export * from "./services/PlatformApplication";
-export * from "./services/RouteService";
 
 // registries
 export * from "./registries/ControllerRegistry";

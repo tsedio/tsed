@@ -1,4 +1,4 @@
-import {CollectionOf, Property} from "@tsed/common";
+import {CollectionOf, Property} from "@tsed/schema";
 import {Model, ObjectID, Schema} from "@tsed/mongoose";
 
 @Schema()

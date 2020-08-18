@@ -23,8 +23,6 @@ export * from "./pipes/ParseExpressionPipe";
 export * from "./pipes/DeserializerPipe";
 
 // services
-export * from "./services/ParseService";
-export * from "./services/ValidationService";
 export * from "./services/ConverterService";
 
 // errors
@@ -34,6 +32,3 @@ export * from "./errors/ValidationError";
 
 // decorators
 export * from "./decorators";
-
-// Module
-export * from "./MvcModule";

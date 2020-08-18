@@ -1,5 +1,3 @@
-import "./registries/ControllerRegistry";
-
 export * from "./interfaces";
 export * from "./components/ServerLoader";
 export * from "./middlewares/GlobalAcceptMimesMiddleware";
@@ -11,7 +9,6 @@ export * from "./middlewares/ResponseViewMiddleware";
 export * from "./decorators/responseView";
 export * from "./decorators/serverSettings";
 export * from "./decorators/expressApplication";
-export * from "./decorators/ExpressRouter";
 export * from "./decorators/routerSettings";
 export * from "./decorators/mergeParams";
 export * from "./decorators/strict";

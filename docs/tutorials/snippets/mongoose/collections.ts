@@ -1,4 +1,4 @@
-import {CollectionOf} from "@tsed/common";
+import {CollectionOf} from "@tsed/schema";
 import {Model} from "@tsed/mongoose";
 
 @Model()
