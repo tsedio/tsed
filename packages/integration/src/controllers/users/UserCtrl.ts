@@ -1,8 +1,8 @@
-import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Required, Scope, Session, Status} from "@tsed/common";
-import {Returns} from "@tsed/swagger/src/decorators/returns";
-import {MultipartFile} from "../../../../../packages/multipartfiles/src";
-import {Docs, Hidden} from "../../../../../packages/swagger/src";
-import {IUser, User, UserCreation} from "../../models/User";
+import {BodyParams, Controller, Get, PathParams, Post, ProviderScope, Scope, Session, Status} from "@tsed/common";
+import {MultipartFile} from "@tsed/multipartfiles";
+import {Required} from "@tsed/schema";
+import {Docs, Hidden} from "@tsed/swagger";
+import {IUser, User} from "../../models/User";
 import {UserService} from "../../services/UserService";
 
 @Controller("/user")
