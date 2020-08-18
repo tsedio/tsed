@@ -130,8 +130,17 @@ module.exports = {
             ]
           },
           {
-            text: "4.x",
-            link: "http://v4.tsed.io"
+            text: "Versions",
+            items: [
+              {
+                text: "v4 (obsolete)",
+                link: "http://v4.tsed.io"
+              },
+              {
+                text: "v5 (current)",
+                link: "http://tsed.io"
+              }
+            ]
           }
         ],
         sidebar: {
