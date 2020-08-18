@@ -5,6 +5,7 @@ export function indexMiddleware(viewPath: string, conf: SwaggerSettings & {urls:
     const {path = "/", options = {}, showExplorer, cssPath, jsPath, urls} = conf;
 
     res.render(viewPath, {
+      spec: {},
       url: `${path}/swagger.json`,
       urls,
       showExplorer,

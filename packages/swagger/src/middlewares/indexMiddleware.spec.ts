@@ -21,6 +21,7 @@ describe("indexMiddleware and redirect", () => {
     indexMiddleware(viewPath, conf)(req as any, res as any);
 
     expect(res.render).to.have.been.calledWithExactly(viewPath, {
+      spec: {},
       cssPath: "/path.css",
       jsPath: "/path.js",
       showExplorer: false,

@@ -1,9 +1,9 @@
-import {ISwaggerSettings} from "./ISwaggerSettings";
+import {SwaggerSettings} from "./ISwaggerSettings";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      swagger: ISwaggerSettings | ISwaggerSettings[];
+      swagger: SwaggerSettings | SwaggerSettings[];
     }
   }
 }
