@@ -22,8 +22,6 @@ export * from "./allow";
 // class
 export * from "./class/controller";
 export * from "./class/middleware";
-export * from "./class/middlewareError";
-export * from "./class/overrideMiddleware";
 
 // Params
 export * from "./params/usePipe";

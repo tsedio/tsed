@@ -14,9 +14,5 @@ namespace Express {
   export interface Request {
     id: string;
     ctx: RequestContext;
-    /**
-     * @deprecated
-     */
-    log: RequestLogger;
   }
 }

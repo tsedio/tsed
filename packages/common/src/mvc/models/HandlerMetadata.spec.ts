@@ -18,7 +18,6 @@ describe("HandlerMetadata", () => {
       expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
       expect(handlerMetadata.hasNextFunction).to.eq(true);
       expect(handlerMetadata.hasErrorParam).to.eq(false);
-      expect(handlerMetadata.method).to.eq(undefined);
     });
   });
 
