@@ -1,17 +1,16 @@
-import {Controller, Get} from "@tsed/common";
-import {Req} from "@tsed/common/src/mvc/decorators/params/request";
+import {Controller, Get, Req} from "@tsed/common";
 import {Authenticate} from "@tsed/passport";
 
-@Controller("/")
-export class PassportFacebookCtrl {
-  @Get("/auth/facebook")
+@Controller("/auth")
+export class AuthCtrl {
+  @Get("/:provider")
   @Authenticate("facebook", {scope: ["email"]})
   authenticated(@Req("user") user: Req) {
     // Facade
     return user;
   }
 
-  @Get("/auth/facebook/callback")
+  @Get("/:provider/callback")
   @Authenticate("facebook")
   callback(@Req("user") user: Req) {
     // Facade
