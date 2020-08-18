@@ -150,11 +150,14 @@ function checkCollection(model: any) {
  * :::
  *
  * ```typescript
- *  @Returns(404, String).Description("Not Found")
- *  @Returns(200, Model).Description("Success")
- *  async myMethod(): Promise<Model>  {
+ * import {Returns} from "@tsed/schema";
  *
- *  }
+ * @Controller("/")
+ * class MyController {
+ *   @Returns(404, String).Description("Not Found")
+ *   @Returns(200, Model).Description("Success")
+ *   async myMethod(): Promise<Model> {}
+ * }
  * ```
  *
  * ::: tip
@@ -195,6 +198,18 @@ function checkCollection(model: any) {
  * }
  * ```
  *
+ * Deprecated version:
+ *
+ * ```typescript
+ * import {ReturnsArray} from "@tsed/common";
+ * import {Returns} from "@tsed/schema";
+ *
+ * @Controller("/")
+ * class MyController {
+ *   @ReturnsArray(200, Model) // deprecated
+ *   async myMethod(): Promise<Model> {}
+ * }
+ * ```
  *
  * ### Declaring a generic model <Badge text="6+"/>
  *

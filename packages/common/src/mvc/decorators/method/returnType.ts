@@ -117,77 +117,38 @@ export function ReturnType(response: Partial<TsED.ResponseOptions> = {}): Return
  * }
  * ```
  *
- * ### Without status code
- *
- * Returns can be use without status code. In this case, the response will be added to the default status code
- * (200 or the status code seated with `@Status`).
- *
- * ```typescript
- *  @Returns({description: "Description"})
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description"
- *     }
- *   }
- * }
- * ```
- *
- * ### With type schema
- *
- * Returns accept another signature with a type.
- *
- * ```typescript
- *  @Returns(Model, {description: "Description"}) //OR
- *  @Returns(Model)
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description",
- *       "schema": {"schemaOfModel": "..."}
- *     }
- *   }
- * }
- * ```
  * @param statusCode Code status
  * @param options Swagger responses documentations
  * @operation
  * @response
  * @decorator
  * @deprecated Use @Returns decorator from @tsed/schema
+ * @ignore
  */
 export function Returns(statusCode: number, options: Partial<TsED.ResponseOptions>): any;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
+ * @ignore
  */
 export function Returns(options: Partial<TsED.ResponseOptions>): any;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
+ * @ignore
  */
 export function Returns(model: Type<any>): any;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ * @ignore
+ */
 export function Returns(statusCode: number, model: Type<any>): any;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
+ * @ignore
  */
 export function Returns(model: Type<any>, options: Partial<TsED.ResponseOptions>): any;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
+ * @ignore
  */
 export function Returns(...args: any[]) {
   return ReturnType(mapStatusResponseOptions(args));
@@ -205,77 +166,16 @@ export function Returns(...args: any[]) {
  * ## With status code
  *
  * ```typescript
- *  @ReturnsArray(200, {description: "OK", type: Model})
- *  async myMethod(): Promise<Model>  {
+ * import {ReturnsArray} from "@tsed/common";
+ * import {Returns} from "@tsed/schema";
  *
- *  }
- * ```
+ * @Controller("/")
+ * class MyController {
+ *   @ReturnsArray(200, Model) // deprecated
+ *   async myMethod(): Promise<Model> {}
  *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "2OO": {
- *       "description": "Description",
- *       "schema": {"type": "array"}
- *     }
- *   }
- * }
- * ```
- *
- * ### Without status code
- *
- * ReturnsArray can be use without status code. In this case, the response will be added to the default status code
- * (200 or the status code seated with `@Status`).
- *
- * ```typescript
- *  @ReturnsArray({description: "Description"})
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description",
- *       "schema": {"type": "array"}
- *     }
- *   }
- * }
- * ```
- *
- * ### With type schema
- *
- * ReturnsArray accept another signature with a type.
- *
- * ```typescript
- *  @ReturnsArray(Model, {description: "Description"}) //OR
- *  @ReturnsArray(Model)
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description",
- *       "schema": {
- *         "type": "array",
- *         "items": {
- *           $ref: "Model"
- *         }
- *       }
- *     }
- *   }
+ *   @Returns(200, Array).Of(Model).Description('description')
+ *   async myMethod(): Promise<Model> {}
  * }
  * ```
  *

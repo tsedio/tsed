@@ -3,8 +3,7 @@ import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
- * Converter component for the `String`, `Number` and `Boolean` Types.
- * @converters
+ * Mapper for the `String`, `Number` and `Boolean` types.
  * @jsonmapper
  * @component
  */

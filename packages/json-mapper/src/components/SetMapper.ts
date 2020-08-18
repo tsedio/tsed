@@ -2,8 +2,7 @@ import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
- * Converter component for the `Set` Type.
- * @converters
+ * Mapper for the `Set` Type.
  * @jsonmapper
  * @component
  */

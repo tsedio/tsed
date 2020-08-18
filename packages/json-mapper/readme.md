@@ -1,10 +1,20 @@
-# @tsed/schema
+# @tsed/json-mapper
 
 A package of Ts.ED framework. See website: https://tsed.io/
 
-Package to declare JsonSchema and OpenAPI.
+The `@tsed/json-mapper` package is responsible to map a plain object to a model and a model to a plain object.
 
-# Installation
+It provides two functions `serialize` and `deserialize` to transform object depending on which operation you want to perform.
+It uses all decorators from `@tsed/schema` package and TypeScript metadata to work.
+
+Ts.ED use this package to transform any input parameters sent by your consumer to a class and transform returned value by your endpoint
+to a plain javascript object to your consumer.
+
+## Documentation
+
+Documentation is available on [v6.tsed.io/docs/converters.html](https://v6.tsed.io/docs/converters.html)
+
+## Installation
 
 You can get the latest release and the type definitions using npm:
 

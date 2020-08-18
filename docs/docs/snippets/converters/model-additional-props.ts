@@ -1,5 +1,6 @@
-import {CollectionOf, Minimum, Property, Description} from "@tsed/schema";
+import {AdditionalProperties, CollectionOf, Description, Minimum, Property} from "@tsed/schema";
 
+@AdditionalProperties(true)
 export class Person {
   @Property()
   firstName: string;
@@ -13,4 +14,6 @@ export class Person {
 
   @CollectionOf(String)
   skills: string[];
+
+  [type: string]: any;
 }

@@ -82,7 +82,7 @@ module.exports = {
                   {link: "/docs/controllers.html", text: "Controllers", items: []},
                   {link: "/docs/providers.html", text: "Providers"},
                   {link: "/docs/model.html", text: "Models"},
-                  {link: "/docs/converters.html", text: "Converters"},
+                  {link: "/docs/converters.html", text: "JsonMapper"},
                   {link: "/docs/middlewares.html", text: "Middlewares"},
                   {link: "/docs/pipes.html", text: "Pipes"},
                   {link: "/docs/interceptors.html", text: "Interceptors"},

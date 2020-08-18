@@ -1,11 +1,11 @@
-import {BodyParams, Controller, Get, Post, Returns, ReturnsArray} from "@tsed/common";
+import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {Returns} from "@tsed/schema";
 import {Person} from "../models/Person";
 
 @Controller("/")
 export class PersonsCtrl {
-
   @Post("/")
-  @Returns(Person) // tell to swagger that the endpoint return a Person
+  @Returns(200, Person)
   async save1(@BodyParams() person: Person): Promise<Person> {
     console.log(person instanceof Person); // true
 
@@ -14,7 +14,7 @@ export class PersonsCtrl {
 
   // OR
   @Post("/")
-  @Returns(Person) // tell to swagger that the endpoint return a Person
+  @Returns(200, Person)
   async save2(@BodyParams("person") person: Person): Promise<Person> {
     console.log(person instanceof Person); // true
 
@@ -22,7 +22,7 @@ export class PersonsCtrl {
   }
 
   @Get("/")
-  @ReturnsArray(Person) // tell to swagger that the endpoint return an array of Person[]
+  @Returns(200, Array).Of(Person) // Add the correct json schema for swagger essentially.
   async getPersons(): Promise<Person[]> {
     return [
       new Person()

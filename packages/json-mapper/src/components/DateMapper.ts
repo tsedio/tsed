@@ -2,9 +2,8 @@ import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
- * Converter component for the `Date` Type.
+ * Mapper for `Date` type.
  * @jsonmapper
- * @converter
  * @component
  */
 @JsonMapper(Date)
