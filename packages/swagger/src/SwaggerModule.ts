@@ -1,4 +1,4 @@
-import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication, redirectMiddleware} from "@tsed/common";
+import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication} from "@tsed/common";
 import * as Express from "express";
 import * as Fs from "fs";
 import {join} from "path";
@@ -6,6 +6,7 @@ import {SwaggerSettings} from "./interfaces";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
+import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
