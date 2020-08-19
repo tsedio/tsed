@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "6.0.0-alpha.8",
+  "version": "6.0.0-alpha.9",
   "description": "Socket.io package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -16,6 +16,6 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.0.0-alpha.8"
+    "@tsed/common": "6.0.0-alpha.9"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typeorm",
-  "version": "6.0.0-alpha.8",
+  "version": "6.0.0-alpha.9",
   "description": "TypeORM package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -13,8 +13,8 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.0.0-alpha.8",
-    "@tsed/core": "6.0.0-alpha.8"
+    "@tsed/common": "6.0.0-alpha.9",
+    "@tsed/core": "6.0.0-alpha.9"
   },
   "peerDependencies": {}
 }
