@@ -79,7 +79,7 @@
     "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.9.0",
+    "@tsed/monorepo-utils": "1.9.1",
     "@typedproject/ts-doc": "4.0.9",
     "@types/bunyan": "1.8.6",
     "@types/bunyan-seq": "0.2.2",
