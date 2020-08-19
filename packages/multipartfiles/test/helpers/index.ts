@@ -1,8 +1,8 @@
-import {ServerLoader} from "@tsed/common";
 import {Server} from "./Server";
+import {PlatformExpress} from "@tsed/platform-express";
 
 async function bootstrap() {
-  const server = await ServerLoader.bootstrap(Server);
+  const server = await PlatformExpress.bootstrap(Server);
 
   return server.listen();
 }

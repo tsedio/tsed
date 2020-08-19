@@ -7,7 +7,6 @@ export * from "./BeforeRoutesInit";
 export * from "./AfterRoutesInit";
 export * from "./OnRoutesInit";
 export * from "./OnReady";
-export * from "./OnServerReady";
 export * from "./OnRequest";
 export * from "./OnResponse";
 export * from "./IHooks";

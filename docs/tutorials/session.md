@@ -70,11 +70,6 @@ Here is an example of Rest API test:
 <<< @/docs/tutorials/snippets/session/example-test.mocha.ts
 
 </Tab>
-<Tab label="Legacy">
-
-<<< @/docs/tutorials/snippets/session/example-test.legacy.ts
-
-</Tab>
 </Tabs>
 
 ::: tip

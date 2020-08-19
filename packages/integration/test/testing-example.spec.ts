@@ -1,4 +1,4 @@
-import {AcceptMimesMiddleware, Controller, Get, InjectorService, PlatformTest, Service} from "@tsed/common";
+import {PlatformTest, AcceptMimesMiddleware, Controller, Get, InjectorService, PlatformTest, Service} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
 import {expect} from "chai";
 import * as Sinon from "sinon";

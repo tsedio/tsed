@@ -23,7 +23,8 @@ They make it possible to:
 ## Interceptor class
 
 To create an interceptor class you need to implement the `IInterceptor` interface and implement the
-`aroundInvoke(ctx: IInterceptorContext)` method, and use the `@Interceptor()` annotation to register your interceptor class. Inside your `src/interceptors/MyInterceptor.ts` folder, create the following simple interceptor.
+`intercept(context: IInterceptorContext<any>, next?: IInterceptorNextHandler)` method, and use the `@Interceptor()` annotation to register your interceptor class.
+Inside your `src/interceptors/MyInterceptor.ts` folder, create the following simple interceptor.
 
 <<< @/docs/docs/snippets/interceptors/interceptor-example.ts
 

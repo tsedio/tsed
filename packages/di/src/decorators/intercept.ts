@@ -1,6 +1,6 @@
 import {Store, Type} from "@tsed/core";
 import {INJECTABLE_PROP} from "../constants";
-import {IInjectableProperties, InjectablePropertyType, IInterceptor} from "../interfaces";
+import {IInjectableProperties, InjectablePropertyType, InterceptorMethods} from "../interfaces";
 
 /**
  * Attaches interceptor to method call and executes the before and after methods
@@ -9,7 +9,7 @@ import {IInjectableProperties, InjectablePropertyType, IInterceptor} from "../in
  * @param options
  * @decorator
  */
-export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?: any): Function {
+export function Intercept<T extends InterceptorMethods>(interceptor: Type<T>, options?: any): Function {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     Store.from(target).merge(INJECTABLE_PROP, {
       [propertyKey]: {

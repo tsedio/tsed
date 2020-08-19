@@ -2,7 +2,7 @@ import {IRoute, PlatformBuilder} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {GlobalAcceptMimesMiddleware, GlobalErrorHandlerMiddleware, LogIncomingRequestMiddleware} from "../middlewares";
 import {PlatformExpressStatics} from "../services";
-import {createExpressApplication, createHttpServer, createHttpsServer} from "../utils";
+import {createHttpServer, createHttpsServer} from "../utils";
 
 export class PlatformExpress extends PlatformBuilder {
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
@@ -26,7 +26,6 @@ export class PlatformExpress extends PlatformBuilder {
 
   protected createInjector(module: Type<any>, settings: any) {
     super.createInjector(module, settings);
-    createExpressApplication(this.injector);
     createHttpsServer(this.injector);
     createHttpServer(this.injector);
   }

@@ -84,4 +84,3 @@ declare global {
 export * from "./IErrorSettings";
 export * from "./ILoggerSettings";
 export * from "./IServerMountDirectories";
-export * from "./IServerSettings";

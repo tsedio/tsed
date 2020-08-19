@@ -3,7 +3,6 @@ import {RequestContext} from "../../platform";
 import {IRouterSettings} from "./IRouterSettings";
 import "./Express";
 
-export * from "./IServerLifeCycle";
 export * from "./IRouterSettings";
 
 declare global {

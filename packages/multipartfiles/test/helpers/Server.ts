@@ -1,5 +1,6 @@
-import {ServerLoader, ServerSettings} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/swagger";
+import "@tsed/platform-express"
 import * as Path from "path";
 import "../../src";
 import {ArchiveController} from "./controllers/ArchiveController";
@@ -11,7 +12,7 @@ const cookieParser = require("cookie-parser"),
 
 const rootDir = Path.resolve(__dirname);
 
-@ServerSettings({
+@Configuration({
   rootDir,
   port: 8001,
   httpsPort: false,
@@ -31,9 +32,13 @@ const rootDir = Path.resolve(__dirname);
     }
   ]
 })
-export class Server extends ServerLoader {
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
   public $beforeRoutesInit(): void {
     this
+      .app
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({

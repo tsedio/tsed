@@ -11,8 +11,6 @@ import {
   prototypeOf,
   Store
 } from "@tsed/core";
-
-import * as util from "util";
 import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
 import {Provider} from "../class/Provider";
@@ -26,10 +24,10 @@ import {
   IInjectableProperties,
   IInjectablePropertyService,
   IInjectablePropertyValue,
-  IInterceptor,
-  IInterceptorContext,
-  IInvokeOptions,
   InjectablePropertyType,
+  InterceptorContext,
+  InterceptorMethods,
+  InvokeOptions,
   ProviderScope,
   TokenProvider
 } from "../interfaces";
@@ -195,7 +193,7 @@ export class InjectorService extends Container {
   public invoke<T>(
     token: TokenProvider,
     locals: Map<TokenProvider, any> = new LocalsContainer(),
-    options: Partial<IInvokeOptions<T>> = {}
+    options: Partial<InvokeOptions<T>> = {}
   ): T {
     const provider = this.ensureProvider(token);
     let instance: any;
@@ -340,7 +338,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions>) {
+  public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>) {
     const properties: IInjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
       const store = Store.from(target);
 
@@ -400,7 +398,7 @@ export class InjectorService extends Container {
     instance: any,
     {propertyKey, useType, options}: IInjectablePropertyService,
     locals: Map<TokenProvider, any>,
-    invokeOptions: Partial<IInvokeOptions>
+    invokeOptions: Partial<InvokeOptions>
   ) {
     invokeOptions = {...invokeOptions};
     locals.set(DI_PARAM_OPTIONS, {...options});
@@ -476,26 +474,15 @@ export class InjectorService extends Container {
         throw err;
       };
 
-      const context: IInterceptorContext<any> = {
+      const context: InterceptorContext<any> = {
         target,
-        method: propertyKey,
         propertyKey,
         args,
         options,
-        proceed: util.deprecate(next, "context.proceed() is deprecated. Use context.next() or next() parameters instead."),
         next
       };
 
-      const interceptor = this.get<IInterceptor>(useType)!;
-
-      if (interceptor.aroundInvoke) {
-        interceptor.aroundInvoke = util.deprecate(
-          interceptor.aroundInvoke.bind(interceptor),
-          "interceptor.aroundInvoke is deprecated. Use interceptor.intercept instead."
-        );
-
-        return interceptor.aroundInvoke!(context, options);
-      }
+      const interceptor = this.get<InterceptorMethods>(useType)!;
 
       return interceptor.intercept!(
         {
@@ -532,7 +519,7 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<T>> = {}): Promise<T> {
+  private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): Promise<T> {
     const {token, deps, construct, isBindable, imports, provider} = this.mapInvokeOptions(target, locals, options);
 
     if (provider) {
@@ -595,7 +582,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<IInvokeOptions<any>>): InvokeSettings {
+  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<any>>): InvokeSettings {
     let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
