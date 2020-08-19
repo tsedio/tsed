@@ -3,6 +3,14 @@ import {Description as D} from "@tsed/common";
 /**
  * Add a description metadata on the decorated element.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ *
+ * For v5 user, use @@Description@@ from @tsed/common instead of @tsed/swagger.
+ *
+ * For v6 user, use @@Description@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Examples
  * ### On class
  *
@@ -50,7 +58,7 @@ import {Description as D} from "@tsed/common";
  * @classParameter
  * @classDecorator
  * @methodDecorator
- * @deprecated
+ * @deprecated Use @Description from @tsed/common instead.
  * @ignore
  */
 export function Description(description: string) {

@@ -6,7 +6,10 @@ import {Type} from "@tsed/core";
  *
  * ::: warning
  * This decorator will be removed in v6 in favor of @@Returns@@ from @tsed/schema.
- * For v5 user, use @@Returns@@ decorator from @tsed/common then in v6 switch to @tsed/schema.
+ *
+ * For v5 user, use @@Returns@@ decorator from @tsed/common.
+ *
+ * For v6 user, use @@Returns@@ decorator from @tsed/schema.
  * :::
  *
  * ## Examples
@@ -126,6 +129,7 @@ export function Returns(...args: any[]) {
  *
  * ::: warning
  * This decorator will be removed in v6 in favor of @@Returns@@ from @tsed/schema.
+ *
  * For v5 user, use @@ReturnsArray@@ decorator from @tsed/common then in v6 switch to `@Returns(Array).Of(User)` from @tsed/schema.
  * :::
  *
