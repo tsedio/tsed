@@ -6,6 +6,9 @@ import {Schema} from "./schema";
  *
  * ::: warning
  * This decorator will be removed in v7.
+ *
+ * For v5 user, use @@Title@@ from @tsed/common instead of @tsed/swagger.
+ *
  * For v6 user, use @@Title@@ from @tsed/schema instead of @tsed/common.
  * :::
  *

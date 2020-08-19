@@ -3,6 +3,14 @@ import {Title as T} from "@tsed/common";
 /**
  * Add title metadata on the decorated element.
  *
+ * ::: warning
+ * This decorator will be removed in v7.
+ *
+ * For v5 user, use @@Title@@ from @tsed/common instead of @tsed/swagger.
+ *
+ * For v6 user, use @@Title@@ from @tsed/schema instead of @tsed/common.
+ * :::
+ *
  * ## Examples
  * ### On parameter
  *
@@ -57,7 +65,7 @@ import {Title as T} from "@tsed/common";
  * @parameterDecorator
  * @methodDecorator
  * @ignore
- * @deprecated
+ * @deprecated Use @Title from @tsed/common instead.
  */
 export function Title(title: string) {
   return T(title);
