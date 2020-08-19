@@ -1,13 +1,13 @@
 import {expect} from "chai";
 import {Store} from "@tsed/core";
-import {IInterceptor, IInterceptorContext, InjectablePropertyType, Intercept} from "../../src";
+import {InterceptorMethods, InterceptorContext, InjectablePropertyType, Intercept} from "../../src";
 import {INJECTABLE_PROP} from "../constants";
 
 describe("@Intercept", () => {
   it("should store metadata", () => {
     // GIVEN
-    class TestInterceptor implements IInterceptor {
-      intercept(ctx: IInterceptorContext<any>) {
+    class TestInterceptor implements InterceptorMethods {
+      intercept(ctx: InterceptorContext<any>) {
         return "";
       }
     }

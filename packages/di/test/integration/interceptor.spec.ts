@@ -3,7 +3,7 @@ import {
   Container,
   GlobalProviders,
   IInterceptor,
-  IInterceptorContext,
+  InterceptorContext,
   InjectorService,
   Intercept,
   Interceptor,
@@ -17,7 +17,7 @@ describe("DI Interceptor", () => {
       // do some logic
     }
 
-    intercept(context: IInterceptorContext<any>) {
+    intercept(context: InterceptorContext<any>) {
       const r = typeof context.args[0] === "string" ? undefined : new Error(`Error message`);
       const retValue = context.next(r);
 
