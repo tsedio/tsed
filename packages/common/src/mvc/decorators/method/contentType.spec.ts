@@ -6,12 +6,11 @@ describe("ContentType", () => {
   it("should create middleware", () => {
     class Test {
       @ContentType("application/json")
-      test() {
-      }
+      test() {}
     }
 
     const store = Store.fromMethod(Test, "test");
     expect(store.get("produces")).to.deep.eq(["application/json"]);
-    expect(EndpointMetadata.get(Test, "test").afterMiddlewares.length).to.eq(1);
+    expect(EndpointMetadata.get(Test, "test").contentType).to.eq("application/json");
   });
 });

@@ -13,6 +13,7 @@ export * from "./method/authenticated";
 export * from "./method/authOptions";
 export * from "./method/contentType";
 export * from "./method/returnType";
+export * from "./method/view";
 export * from "./method/endpointFn";
 
 // Shared

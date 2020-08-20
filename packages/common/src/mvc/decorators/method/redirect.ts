@@ -1,15 +1,6 @@
-import {Next} from "../params/next";
-import {Req} from "../params/request";
-import {Res} from "../params/response";
-import {UseAfter} from "./useAfter";
-
-/**
- * @ignore
- */
-export const redirectMiddleware = (status: string | number, url?: string) => (request: Req, response: Res, next: Next) => {
-  response.redirect(status as number, url!);
-  next();
-};
+import {useDecorators} from "@tsed/core";
+import {Status} from "./status";
+import {EndpointFn} from "./endpointFn";
 
 /**
  * Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
@@ -54,7 +45,6 @@ export const redirectMiddleware = (status: string | number, url?: string) => (re
  * ```
  *
  * @param url
- * @param status
  * @decorator
  * @operation
  * @response
@@ -63,5 +53,13 @@ export const redirectMiddleware = (status: string | number, url?: string) => (re
 export function Redirect(url: string): Function;
 export function Redirect(status: number, url: string): Function;
 export function Redirect(status: string | number, url?: string): Function {
-  return UseAfter(redirectMiddleware(status, url));
+  url = (!url ? status : url) as string;
+  status = typeof status === "number" ? status : 302;
+
+  return useDecorators(
+    Status(status),
+    EndpointFn(endpoint => {
+      endpoint.redirect = {status: +status, url: url!};
+    })
+  );
 }
