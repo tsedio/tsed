@@ -1,12 +1,12 @@
-import {IGraphQLSettings} from "./IGraphQLSettings";
+import {GraphQLSettings} from "./GraphQLSettings";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      graphql: {[key: string]: IGraphQLSettings};
+      graphql: {[key: string]: GraphQLSettings};
     }
   }
 }
 
-export * from "./IGraphQLServer";
-export * from "./IGraphQLSettings";
+export * from "./GraphQLServer";
+export * from "./GraphQLSettings";

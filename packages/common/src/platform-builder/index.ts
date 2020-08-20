@@ -8,7 +8,7 @@ export * from "./interfaces";
 export * from "./builder/PlatformBuilder";
 
 // middlewares
-export * from "./middlewares/ContextMiddleware";
+export * from "../platform/middlewares/PlatformContextMiddleware";
 
 // utils
 export * from "./utils";

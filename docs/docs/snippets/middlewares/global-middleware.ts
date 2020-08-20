@@ -7,11 +7,8 @@ export default class GlobalAcceptMimesMiddleware implements IMiddleware {
   acceptMimes: string[];
 
   use(@Req() request: Req) {
-    this.acceptMimes
-      .forEach((mime) => {
-        if (!request.accepts(mime)) {
-          throw new NotAcceptable(mime);
-        }
-      });
+    if (!request.accepts(this.acceptMimes)) {
+      throw new NotAcceptable("Accepted mimes are: " + this.acceptMimes.join(", "));
+    }
   }
 }

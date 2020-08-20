@@ -1,5 +1,8 @@
 import {IHooks} from "../../platform-builder";
 
+/**
+ * @deprecated
+ */
 export interface IServerLifecycle extends IHooks {
   version: any;
 

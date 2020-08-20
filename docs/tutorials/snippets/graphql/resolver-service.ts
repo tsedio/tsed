@@ -1,17 +1,19 @@
+import {Inject} from "@tsed/di/src";
 import {ResolverService} from "@tsed/graphql";
 import {Arg, Args, Query} from "type-graphql";
 import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
-import {RecipeService} from "../services/RecipeService";
+import {RecipesService} from "../services/RecipesService";
 import {Recipe} from "../types/Recipe";
+import {RecipesArgs} from "../types/RecipesArgs";
 
 @ResolverService(Recipe)
 export class RecipeResolver {
-  constructor(private recipeService: RecipeService) {
-  }
+  @Inject()
+  private recipesService: RecipesService;
 
   @Query(returns => Recipe)
   async recipe(@Arg("id") id: string) {
-    const recipe = await this.recipeService.findById(id);
+    const recipe = await this.recipesService.findById(id);
     if (recipe === undefined) {
       throw new RecipeNotFoundError(id);
     }
@@ -21,6 +23,6 @@ export class RecipeResolver {
 
   @Query(returns => [Recipe])
   recipes(@Args() {skip, take}: RecipesArgs) {
-    return this.recipeService.findAll({skip, take});
+    return this.recipesService.findAll({skip, take});
   }
 }

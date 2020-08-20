@@ -1,9 +1,9 @@
-import {applyDecorators, StoreSet} from "@tsed/core";
+import {StoreSet, useDecorators} from "@tsed/core";
 import {AcceptMimesMiddleware} from "../../middlewares/AcceptMimesMiddleware";
 import {UseBefore} from "./useBefore";
 
 /**
- * Set a mime list which are acceptable and compare it with request Content-Type.
+ * Set a mime list which are acceptable and checks if the specified content types are acceptable, based on the request’s Accept HTTP header field.
  *
  * ```typescript
  *  @Controller('/mypath')
@@ -21,5 +21,5 @@ import {UseBefore} from "./useBefore";
  * @response
  */
 export function AcceptMime(...mimes: string[]): Function {
-  return applyDecorators(StoreSet(AcceptMimesMiddleware, mimes), UseBefore(AcceptMimesMiddleware));
+  return useDecorators(StoreSet(AcceptMimesMiddleware, mimes), UseBefore(AcceptMimesMiddleware));
 }

@@ -1,4 +1,4 @@
-import {Authenticated, BodyParams, Controller, Delete, Get, Post, Render, Required} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, Post, Required, View} from "@tsed/common";
 
 export interface Calendar {
   id: string;
@@ -8,13 +8,12 @@ export interface Calendar {
 @Controller("/calendars")
 export class CalendarCtrl {
   @Get("/")
-  @Render("calendars/index")
-  async renderCalendars(): Promise<Array<Calendar>> {
+  @View("calendars/index")
+  async renderCalendars(): Promise<Calendar[]> {
     return [{id: "1", name: "test"}];
   }
 
   @Post("/")
-  @Authenticated()
   async post(
     @Required() @BodyParams("calendar") calendar: Calendar
   ): Promise<Calendar> {
@@ -24,7 +23,6 @@ export class CalendarCtrl {
   }
 
   @Delete("/")
-  @Authenticated()
   async deleteItem(
     @BodyParams("calendar.id") @Required() id: string
   ): Promise<Calendar> {

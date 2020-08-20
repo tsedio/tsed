@@ -12,6 +12,7 @@ module.exports = {
     "!<rootDir>/packages/integration-express",
     "!<rootDir>/packages/schema",
     "!<rootDir>/packages/json-mapper",
+    "!<rootDir>/packages/platform-test-utils",
     "!<rootDir>/packages/common/mvc/utils",
     "!<rootDir>/packages/common/mvc/constants",
     "!<rootDir>/packages/common/converters/constants",

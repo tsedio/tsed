@@ -1,12 +1,11 @@
+import {RequestContext} from "@tsed/common/src/platform/domain/RequestContext";
 import * as Sinon from "sinon";
 import {SinonStub} from "sinon";
-import {RequestContext} from "@tsed/common/src/platform/domain/RequestContext";
 
 export class FakeRequest {
   public url = "/";
   public method: string;
   public path: string;
-  public mime: string;
   public id: number;
   /**
    *
@@ -56,18 +55,17 @@ export class FakeRequest {
   };
 
   public headers: any = {
-    "content-type": "application/json"
+    "content-type": "application/json",
+    "accept": "application/json"
   };
 
   public ctx: RequestContext;
   public log: {[key: string]: SinonStub};
   public isAuthenticated: SinonStub;
-  public accepts: SinonStub;
-  public get: SinonStub;
 
   [key: string]: any;
 
-  constructor({logger, data, endpoint, sandbox = Sinon}: any = {}) {
+  constructor({logger, data, endpoint, sandbox = Sinon, headers, params, session, cookies, query, body, id, url}: any = {}) {
     logger = logger || {
       debug: sandbox.stub(),
       info: sandbox.stub(),
@@ -78,19 +76,35 @@ export class FakeRequest {
     };
 
     this.ctx = new RequestContext({
-      id: "id",
-      url: "url",
+      id: id || "id",
+      url: url || "url",
       logger
     });
+
     this.ctx.data = data;
     this.ctx.endpoint = endpoint;
-
     this.log = logger;
 
     this.isAuthenticated = sandbox.stub();
-    this.accepts = sandbox.stub().callsFake((mime: string) => this.mime === mime);
-    this.get = sandbox.stub().callsFake((value: any) => {
-      return value ? (this.headers[value.toLowerCase()] || "headerValue") : this.headers;
-    });
+
+    this.headers = headers || this.headers;
+    this.body = body || this.body;
+    this.query = query || this.query;
+    this.params = params || this.params;
+    this.session = session || this.session;
+    this.cookies = cookies || this.cookies;
+
+    sandbox.spy(this, "accepts");
+    sandbox.spy(this, "get");
+  }
+
+  get(value?: any) {
+    return value ? (this.headers[value.toLowerCase()] || "headerValue") : this.headers;
+  }
+
+  accepts(mime?: string | string[]) {
+    mime = ([].concat(mime as any) as string[]);
+
+    return mime.find((m: string) => m === this.headers.accept);
   }
 }

@@ -1,21 +1,18 @@
-import {descriptorOf, Store} from "@tsed/core";
+import {Store} from "@tsed/core";
+import {MulterOptions, MultipartFileMiddleware} from "@tsed/multipartfiles";
 import {expect} from "chai";
-import {MulterOptions} from "../../src";
-import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
-
-class Test {
-  test() {}
-}
 
 describe("@MulterOptions()", () => {
   describe("when success", () => {
-    before(() => {
-      MulterOptions({dest: "/"})(Test.prototype, "test", descriptorOf(Test.prototype, "test"));
-      this.store = Store.fromMethod(Test.prototype, "test");
-    });
-
     it("should store metadata", () => {
-      expect(this.store.get(MultipartFileMiddleware)).to.deep.equal({
+      class Test {
+        @MulterOptions({dest: "/"})
+        test() {}
+      }
+
+      const store = Store.fromMethod(Test.prototype, "test");
+
+      expect(store.get(MultipartFileMiddleware)).to.deep.equal({
         options: {
           dest: "/"
         }
@@ -24,16 +21,18 @@ describe("@MulterOptions()", () => {
   });
 
   describe("when error", () => {
-    before(() => {
-      try {
-        MulterOptions({dest: "/"})(Test, "test", {});
-      } catch (er) {
-        this.error = er;
-      }
-    });
-
     it("should store metadata", () => {
-      expect(this.error.message).to.eq("MulterOptions is only supported on method");
+      let actualError: any;
+      try {
+        class Test {
+          // @ts-ignore
+          test(@MulterOptions({dest: "/"}) test: sting) {}
+        }
+      } catch (er) {
+        actualError = er;
+      }
+
+      expect(actualError.message).to.eq("MulterOptions is only supported on method");
     });
   });
 });

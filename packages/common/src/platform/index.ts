@@ -2,7 +2,7 @@
 export * from "./PlatformModule";
 
 // builder
-export * from "./builder/ControllerBuilder";
+export * from "./builder/PlatformControllerBuilder";
 
 // decorators
 export * from "./decorators/context";
@@ -14,9 +14,11 @@ export * from "./interfaces/IPlatformDriver";
 
 // middlewares
 export * from "./middlewares/SendResponseMiddleware";
+export * from "./middlewares/PlatformResponseMiddleware";
+export * from "./middlewares/PlatformHeadersMiddleware";
 export * from "./middlewares/bindEndpointMiddleware";
-export * from "./middlewares/statusAndHeadersMiddleware";
-
+export * from "./middlewares/GlobalAcceptMimesMiddleware";
+export * from "./middlewares/ResponseViewMiddleware";
 // domain
 export * from "./domain/HandlerContext";
 export * from "./domain/RequestContext";
@@ -34,6 +36,8 @@ export * from "./services/PlatformDriver";
 export * from "./services/PlatformHandler";
 export * from "./services/PlatformRouter";
 export * from "./services/PlatformApplication";
+export * from "./services/PlatformResponse";
+export * from "./services/PlatformRequest";
 export * from "./services/RouteService";
 
 // registries

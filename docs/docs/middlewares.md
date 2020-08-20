@@ -32,38 +32,50 @@ can retrieve endpoint information that is executed.
 
 ## Global middleware 
 
-Global middleware are generally used to handle requests before or after controllers. For example the GlobalAcceptMimesMiddleware
+Global middlewares are generally used to handle requests before or after controllers. For example the GlobalAcceptMimesMiddleware
 is used to check the mime type set in the request headers and throw an error when the mime don't match with server configuration.
 
 <<< @/docs/docs/snippets/middlewares/global-middleware.ts
 
-::: tip 
-You can register your global middleware on server level:
+Then add your middleware on the Server by using the right hook:
 
 <<< @/docs/docs/snippets/middlewares/global-middleware-configuration.ts
-
-:::
 
 ## Endpoint middleware 
 
 Endpoint middleware is not really different from global middleware, but its goal is to handle a request before or after endpoint.
-It knows which endpoint is executed by using the @@EndpointInfo@@ decorator. 
+It knows which endpoint is executed by using the @@EndpointInfo@@ decorator.
 
+The following example, show you how to implement the middleware and use it with a custom decorator.
+
+<Tabs class="-code">
+  <Tab label="AcceptMimesMiddleware.ts">
+  
 <<< @/docs/docs/snippets/middlewares/endpoint-middleware.ts
 
-::: tip
-Endpoint middleware must be used on class controller or endpoint method with the following decorators:
+  </Tab>
+  <Tab label="accept.ts">
+    
+<<< @/docs/docs/snippets/middlewares/endpoint-middleware-decorator.ts
+   
+  </Tab>
+  <Tab label="Usage">
+
+<<< @/docs/docs/snippets/middlewares/endpoint-middleware-usage.ts
+  
+  </Tab>
+</Tabs>
+  
+Middleware can be used on a class controller or endpoint method with the following decorators:
 
 - @@UseBefore@@
 - @@Use@@
 - @@UseAfter@@
 - or routes decorators: @@Get@@, @@Post@@, @@Delete@@, @@Put@@ and @@Patch@@
 
-<<< @/docs/docs/snippets/middlewares/endpoint-middleware-usage.ts
+<<< @/docs/docs/snippets/middlewares/endpoint-use-decorator-usage.ts
 
-:::
-
-## call sequences
+## Call sequences
 
 As you see in the previous section, a middleware can be used on different contexts:
 
@@ -79,12 +91,8 @@ When a request is sent to the server all middlewares added in the Server, [Contr
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
-::: tip Note (1) 
-Render middleware is called only when the @@Render@@ decorator is used on the endpoint.
-:::
-
-::: tip Note (2) 
-SendResponse middleware send a response only when data is returned by the endpoint method or if the endpoint is the latest called endpoint for the resolved route. 
+::: tip Note
+@@PlatformResponseMiddleware@@ send a response only when data is returned by the endpoint method or if the endpoint is the latest called endpoint for the resolved route. 
 :::
 
 ::: tip
@@ -129,19 +137,17 @@ function (error, req, res, next){}
 Ts.ED has the same mechanism with @@Err@@ decorator. The following example is the GlobalErrorHandlerMiddleware
 used by Ts.ED to handle all errors thrown by your application.
 
-
 <<< @/docs/docs/snippets/middlewares/global-middleware-error.ts
-
 
 ## Specifics parameters decorators
 
-In addition, you have this specifics parameters decorators for the middlewares:
+In addition, you have these specifics parameters decorators for the middlewares:
 
-Signature | Example | Description
---- | --- | --- | ---
-@@Err@@ | `useMethod(@Err() err: any) {}` | Inject the `Express.Err` service. (Decorator for middleware).
-@@ResponseData@@ | `useMethod(@ResponseData() data: any)` | Provide the data returned by the previous middlewares.
-@@EndpointInfo@@ | `useMethod(@EndpointInfo() endpoint: Endpoint)` | Provide the endpoint settings.
+Signature | Description
+--- | --- | ---
+@@Err@@ | Inject the `Express.Err` service. (Decorator for middleware).
+@@ResponseData@@ | Provide the data returned by the previous middlewares.
+@@EndpointInfo@@ | Provide the endpoint settings.
 
 ## Override existing middlewares
 
@@ -149,14 +155,26 @@ The decorator @@OverrideProvider@@ gives you the ability to override some intern
 
 <<< @/docs/docs/snippets/middlewares/override-middleware.ts
 
-Here are some examples to override the middleware provided by Ts.ED:
+Since v5.63.0, Ts.ED provide a PlatformResponseMiddleware (it replaces @@SendResponseMiddleware@@ and @@ResponseViewMiddleware@@),
+to render a view and send the appropriate response to your consumer according to the executed endpoint.
 
-* [Send response](/docs/middlewares/override/send-response.md)
-* [Response view](/docs/middlewares/override/response-view.md)
+You are able to override this middleware to change the initial behavior of this middleware.
 
-::: tip
+<<< @/docs/docs/snippets/middlewares/override-platform-response-middleware.ts
+
+Here we use the new Platform API to write our middleware. By using @@Context@@ decorator and @@RequestContext@@ class we can get
+some information:
+
+- The data returned by the last executed endpoint,
+- The @@EndpointMetadata@@ itself,
+- The @@PlatformRequest@@ and @@PlatformResponse@@ classes abstraction.
+
+
+these classes allow better code abstraction by exposing methods that are agnostic to Express.js.
+
+::: warning
 Ts.ED have is own @@GlobalErrorHandlerMiddleware@@. Override this middleware is not necessary, since you can create you own middleware and
-register it, in your server before the original GlobalErrorHandlerMiddleware. For more details, see our [Exceptions](/docs/exceptions.md#handle-all-errors) documentation page.
+register it in your server before the original GlobalErrorHandlerMiddleware. For more details, see our [Exceptions](/docs/exceptions.md#handle-all-errors) documentation page.
 :::
 
 ::: tip

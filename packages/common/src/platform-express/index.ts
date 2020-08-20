@@ -2,13 +2,10 @@ import "./registries/ControllerRegistry";
 
 export * from "./interfaces";
 export * from "./components/ServerLoader";
-export * from "./middlewares/GlobalAcceptMimesMiddleware";
 export * from "./middlewares/GlobalErrorHandlerMiddleware";
 export * from "./middlewares/LogIncomingRequestMiddleware";
-export * from "./middlewares/ResponseViewMiddleware";
 
 // DECORATORS
-export * from "./decorators/responseView";
 export * from "./decorators/serverSettings";
 export * from "./decorators/expressApplication";
 export * from "./decorators/ExpressRouter";
@@ -22,6 +19,7 @@ export * from "./services/ServeStaticService";
 export * from "./services/PlatformExpressApplication";
 export * from "./services/PlatformExpressRouter";
 export * from "./services/PlatformExpressHandler";
+export * from "./services/PlatformExpressResponse";
 
 // UTILS
 export * from "./utils";
