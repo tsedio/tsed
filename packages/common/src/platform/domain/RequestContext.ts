@@ -77,9 +77,13 @@ export class RequestContext extends Map<any, any> {
   async destroy() {
     await this.container.destroy();
     this.logger.destroy();
+    // @ts-ignore
     delete this.container;
+    // @ts-ignore
     delete this.logger;
+    // @ts-ignore
     delete this.injector;
+    // @ts-ignore
     delete this.endpoint;
   }
 

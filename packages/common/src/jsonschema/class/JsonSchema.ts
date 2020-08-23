@@ -157,7 +157,9 @@ export class JsonSchema implements JSONSchema6 {
       this._refName = nameOf(value);
       this._type = getJsonType(value);
     } else {
+      // @ts-ignore
       delete this._refName;
+      // @ts-ignore
       delete this._type;
     }
   }
@@ -254,6 +256,7 @@ export class JsonSchema implements JSONSchema6 {
     } else {
       this.additionalProperties = new JsonSchema();
       this.additionalProperties.type = this._type;
+      // @ts-ignore
       delete this._type;
 
       this.forwardKeysTo(this, "additionalProperties");

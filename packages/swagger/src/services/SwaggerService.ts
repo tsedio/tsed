@@ -160,11 +160,13 @@ export class SwaggerService {
     const clazz = ctrl.useClass;
     const ctrlStore = Store.from(clazz);
 
-    return {
-      name: ctrlStore.get("name") || nameOf(clazz),
-      description: ctrlStore.get("description"),
-      ...(ctrlStore.get("tag") || {})
-    };
+    return Object.assign(
+      {
+        name: ctrlStore.get("name") || nameOf(clazz),
+        description: ctrlStore.get("description")
+      },
+      ctrlStore.get("tag") || {}
+    );
   }
 
   /**

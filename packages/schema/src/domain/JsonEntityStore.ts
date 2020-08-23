@@ -270,6 +270,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
 
     if (isCollection(this._type)) {
       this.collectionType = this._type;
+      // @ts-ignore
       delete this._type;
     }
 

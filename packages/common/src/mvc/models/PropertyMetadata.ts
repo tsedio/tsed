@@ -1,7 +1,7 @@
 import {ancestorsOf, Enumerable, Storable, Store, Type} from "@tsed/core";
 import {IPropertyOptions} from "../../converters/interfaces/IPropertyOptions";
-import {JsonSchemesRegistry} from "../../jsonschema/registries/JsonSchemesRegistry";
 import {JsonSchema} from "../../jsonschema/class/JsonSchema";
+import {JsonSchemesRegistry} from "../../jsonschema/registries/JsonSchemesRegistry";
 
 export class PropertyMetadata extends Storable implements IPropertyOptions {
   /**
@@ -139,6 +139,15 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
     const properties = this.getOwnProperties(target);
 
     properties.set(propertyKey, property);
+  }
+
+  /**
+   * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
+   * @param value
+   * @returns {boolean}
+   */
+  isRequired(value: any): boolean {
+    return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 
   private createJsonSchema() {
