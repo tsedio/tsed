@@ -49,6 +49,7 @@ export class TestMongooseContext extends PlatformTest {
   static async reset() {
     await PlatformTest.reset();
     await TestMongooseContext.mongod.stop();
+    // @ts-ignore
     delete TestMongooseContext.mongod;
   }
 
@@ -60,8 +61,7 @@ export class TestMongooseContext extends PlatformTest {
     const promises: any[] = [];
 
     for (const connection of mongooseService.connections.values()) {
-      promises.push(...Object.values(connection.collections)
-        .map((collection) => collection.deleteMany({})));
+      promises.push(...Object.values(connection.collections).map(collection => collection.deleteMany({})));
     }
 
     await Promise.all(promises);

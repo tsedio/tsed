@@ -83,7 +83,9 @@ export class RequestLogger {
     this.flush();
     delete this.logger;
     delete this.stack;
+    // @ts-ignore
     delete this.minimalRequestPicker;
+    // @ts-ignore
     delete this.completeRequestPicker;
   }
 

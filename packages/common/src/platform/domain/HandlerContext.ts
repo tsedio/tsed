@@ -151,11 +151,16 @@ export class HandlerContext {
   }
 
   destroy() {
+    // @ts-ignore
     delete this.request;
+    // @ts-ignore
     delete this.response;
+    // @ts-ignore
     delete this.args;
     delete this._next;
+    // @ts-ignore
     delete this.metadata;
+    // @ts-ignore
     delete this.injector;
     delete this.err;
     this._isDone = true;

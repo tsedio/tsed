@@ -13,24 +13,23 @@ function mapOptions(options: IMDBOptions | MDBConnection[]): MDBConnection[] {
   }
 
   if (!isArray(options)) {
-    const {
-      url,
-      connectionOptions,
-      urls
-    } = options || {};
+    const {url, connectionOptions, urls} = options || {};
 
     if (url) {
-      return [{
-        id: "default",
-        url,
-        connectionOptions
-      }];
+      return [
+        {
+          id: "default",
+          url,
+          connectionOptions
+        }
+      ];
     }
 
     if (urls) {
       return Object.entries(urls).map(([id, options]) => {
+        options.id = options.id || id;
+
         return {
-          id: options.id || id,
           ...options,
           connectionOptions: options.connectionOptions
         };
@@ -38,7 +37,7 @@ function mapOptions(options: IMDBOptions | MDBConnection[]): MDBConnection[] {
     }
   }
 
-  return (options as MDBConnection[]).map((settings) => {
+  return (options as MDBConnection[]).map(settings => {
     return {
       ...settings,
       connectionOptions: settings.connectionOptions

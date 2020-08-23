@@ -23,6 +23,15 @@ export interface IPipe<T = any, R = any> {
 
 export class ParamMetadata extends Storable implements IParamConstructorOptions {
   /**
+   * Allowed value when the entity is required.
+   * @type {Array}
+   */
+  public allowedRequiredValues: any[] = [];
+  /**
+   * Required entity.
+   */
+  public required: boolean = false;
+  /**
    *
    */
   @Enumerable()
@@ -87,5 +96,14 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
 
   static getParams(target: Type<any>, propertyKey: string | symbol): ParamMetadata[] {
     return Store.fromMethod(target, String(propertyKey)).get<ParamMetadata[]>("params") || [];
+  }
+
+  /**
+   * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
+   * @param value
+   * @returns {boolean}
+   */
+  isRequired(value: any): boolean {
+    return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 }

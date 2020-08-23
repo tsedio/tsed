@@ -13,8 +13,7 @@ export class OpenApiModelSchemaBuilder {
   protected _responses: OpenApiResponses = {};
   protected _schema: Schema;
 
-  constructor(private target: Type<any>) {
-  }
+  constructor(private target: Type<any>) {}
 
   public get schema(): Schema {
     return this._schema;
@@ -68,11 +67,11 @@ export class OpenApiModelSchemaBuilder {
    * @returns {Schema}
    */
   protected createSchema({
-                           schema = {},
-                           type,
-                           collectionType
-                         }: {
-    schema: Partial<Schema>;
+    schema = {},
+    type,
+    collectionType
+  }: {
+    schema: Partial<Schema> | any;
     type: Type<any>;
     collectionType: Type<any> | undefined;
   }): Schema {
@@ -155,5 +154,4 @@ export class OpenApiModelSchemaBuilder {
 /**
  * @deprecated
  */
-export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {
-}
+export class OpenApiPropertiesBuilder extends OpenApiModelSchemaBuilder {}

@@ -9,15 +9,6 @@ import {Store} from "./Store";
  */
 export abstract class Storable extends Entity {
   /**
-   * Required entity.
-   */
-  public required: boolean = false;
-  /**
-   * Allowed value when the entity is required.
-   * @type {Array}
-   */
-  public allowedRequiredValues: any[] = [];
-  /**
    * Custom name.
    */
   public name: string;
@@ -69,15 +60,6 @@ export abstract class Storable extends Entity {
    */
   public get store(): Store {
     return this._store;
-  }
-
-  /**
-   * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
-   * @param value
-   * @returns {boolean}
-   */
-  isRequired(value: any): boolean {
-    return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 
   protected build(target: Type<any>) {

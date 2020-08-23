@@ -1,11 +1,5 @@
 import {classOf, Hooks, isArray, isClass, isFunction, MetadataTypes, nameOf, Type, uniq, ValueOf} from "@tsed/core";
-import {
-  JSONSchema6,
-  JSONSchema6Definition,
-  JSONSchema6Type,
-  JSONSchema6TypeName,
-  JSONSchema6Version
-} from "json-schema";
+import {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
 import {JsonSchemaOptions} from "../interfaces";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {NestedGenerics} from "../utils/generics";
@@ -658,6 +652,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     types = uniq(types).map(getJsonType);
 
     this.type(types);
+    // @ts-ignore
     delete this._target;
   }
 
@@ -666,6 +661,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     this.type(types.length === 1 ? types[0] : types);
 
+    // @ts-ignore
     delete this._target;
 
     return this;
